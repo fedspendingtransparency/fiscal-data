@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          timezoneLinux: "America/Chicago"
       - name: Setup Node.js environment
         uses: actions/setup-node@v3.8.1
         with:
@@ -20,7 +18,7 @@ jobs:
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm install --legacy-peer-deps
+        run: npm install
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
@@ -37,7 +35,7 @@ jobs:
       - name: Cypress install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm install --legacy-peer-deps
+        run: npm install
       - name: Cypress run
         uses: cypress-io/github-action@v5
         env:

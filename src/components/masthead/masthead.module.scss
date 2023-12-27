@@ -10,6 +10,10 @@
   padding: 1rem 0;
 }
 
+.bannerCalloutContainer {
+  padding-top: 0.5rem;
+}
+
 .pageTitle {
   @include pageTitle;
   padding-bottom: 1rem;

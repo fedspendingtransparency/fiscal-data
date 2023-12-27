@@ -39,20 +39,6 @@ const DetailPills = ({ techSpecs, dictionary }) => {
           <span className="pillText">Last Updated {lastUpdated}</span>
         </span>
       )}
-      <span className={styles.pill}>
-        <FontAwesomeIcon icon={faFileCode} size="1x" className={styles.icon} data-test-id="page-icon" />
-        <span className="pillText">CSV, JSON, XML</span>
-      </span>
-      <span className={styles.pill}>
-        <FontAwesomeIcon
-          icon={dictionary ? faCheckCircle : faTimesCircle}
-          size="1x"
-          className={styles.icon}
-          alt={dataDictionaryText}
-          data-test-id="dictionary-icon"
-        />
-        <span className="pillText">Data Dictionary</span>
-      </span>
     </div>
   );
 };

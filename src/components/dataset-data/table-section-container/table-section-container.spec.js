@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import TableSectionContainer from './table-section-container';
 import DtgTable from '../../dtg-table/dtg-table';
 import PivotToggle from './pivot-toggle/pivot-toggle';
-import * as styles from './table-section-container.module.scss';
+import { active } from './table-section-container.module.scss';
 import {
   mockConfig,
   mockDateRange,
@@ -22,9 +22,8 @@ import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
 import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, getByTestId } from '@testing-library/react';
 import NotShownMessage from './not-shown-message/not-shown-message';
-import userEvent from '@testing-library/user-event';
 import { RecoilRoot } from 'recoil';
 
 describe('TableSectionContainer initial state', () => {
@@ -37,7 +36,7 @@ describe('TableSectionContainer initial state', () => {
         <TableSectionContainer
           selectedTable={selectedTableLessFields}
           dateRange={mockDateRange}
-          apiData={mockApiData}
+          apiData={{}}
           setSelectedPivot={mockSetSelectedPivot}
           config={mockConfig}
         />
@@ -218,7 +217,7 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </RecoilRoot>
     );
-    expect(getByTestId('pivotOptionsDrawer').className).toContain(styles.active);
+    expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
   });
 
   it('shows no aggregation notice when the selected pivot is not aggregated', () => {
@@ -241,9 +240,9 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </RecoilRoot>
     );
-    expect(getByTestId('pivotOptionsDrawer').className).toContain(styles.active);
+    expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
     fireEvent.click(getByTestId('pivotToggle'));
-    expect(getByTestId('pivotOptionsDrawer').className).not.toContain(styles.active);
+    expect(getByTestId('pivotOptionsDrawer').className).not.toContain(active);
   });
 
   it('relays an endpoint value when it receives it in the serverSidePagination prop', async () => {
@@ -511,78 +510,5 @@ describe('TableSectionContainer with Pivot Options', () => {
     datasetChart = tableSectionContainer.root.findByType(DatasetChart);
     // Expect legend to still be invisible after change to tablet
     expect(datasetChart.props.legend).toBeFalsy();
-  });
-});
-
-describe('TableSectionContainer with Select Column', () => {
-  const mockSetSelectedPivot = jest.fn();
-  const selectedTable = selectedTableLessFields;
-  const selectColMockConfig = {
-    name: 'my name',
-    slug: 'mock/slug/here',
-    apis: [selectedTableLessFields, mockTableWithNoChartAvailable, mockTableWithPivot],
-    selectColumns: ['facility_desc', 'book_value_amt'],
-  };
-
-  it('should show select column panel when select column is toggled on', async () => {
-    const { getByRole, getByTestId } = render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={selectColMockConfig}
-          dateRange={mockDateRange}
-          selectedTable={selectedTable}
-          selectedTab={0}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
-      </RecoilRoot>
-    );
-
-    const selectColumns = getByTestId('selectColumnsMainContainer');
-    expect(selectColumns).toHaveClass('selectColumnPanel');
-
-    const selectColToggle = getByRole('button', { name: 'Select Columns' });
-    userEvent.click(selectColToggle);
-
-    await waitFor(() => {
-      expect(selectColumns).toHaveClass('selectColumnPanelActive');
-    });
-  });
-
-  it('should hide select column panel when select column is toggled off', async () => {
-    const { getByRole, getByTestId } = render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={selectColMockConfig}
-          dateRange={mockDateRange}
-          selectedTable={selectedTable}
-          selectedTab={0}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
-      </RecoilRoot>
-    );
-
-    const selectColumns = getByTestId('selectColumnsMainContainer');
-    expect(selectColumns).toHaveClass('selectColumnPanel');
-
-    const selectColToggle = getByRole('button', { name: 'Select Columns' });
-    userEvent.click(selectColToggle);
-
-    await waitFor(() => {
-      expect(selectColumns).toHaveClass('selectColumnPanelActive');
-    });
-
-    userEvent.click(selectColToggle);
-
-    await waitFor(() => {
-      expect(selectColumns).toHaveClass('selectColumnPanel');
-    });
   });
 });

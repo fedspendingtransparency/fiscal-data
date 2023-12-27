@@ -13,7 +13,6 @@ import { chartBorder, tabBorder, tabIcon } from './chart-table-toggle.module.scs
 import { getMessageForUnmatchedUserFilter } from '../../filter-download-container/user-filter/user-filter';
 import { faSlidersH, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import ResetTableSection from '../../data-table/reset-table-section/reset-table-section';
-import Experimental from '../../experimental/experimental';
 
 export const allTablesSelectedBody = 'With the current "All Data Tables" selection, we are unable to render a Table or Chart at this time.';
 export const emptyDataMessageBody = 'With the current Date Range selected we are unable to render a preview at this time.';
@@ -95,6 +94,7 @@ const ChartTableToggle = ({
   userFilterUnmatchedForDateRange,
   filtersActive,
   setResetFilters,
+  textFilteringDisabled,
 }) => {
   const [tabState, setTabState] = React.useState(currentTab);
 
@@ -161,9 +161,7 @@ const ChartTableToggle = ({
         </AntTabs>
       </div>
       {selectedTab === 0 && (
-        <Experimental featureId="react-table-poc">
-          <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} />
-        </Experimental>
+          <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} textFilteringDisabled={textFilteringDisabled} />
       )}
       <TabPanel index={0} value={tabState}>
         {emptyDataMessage ? emptyDataMessage : table}

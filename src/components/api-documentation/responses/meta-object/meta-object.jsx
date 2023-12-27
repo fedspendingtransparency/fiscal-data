@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionContent from '../../section-content/section-content';
 import beautify from 'js-beautify';
-import * as apiStyles from '../../../../pages/api-documentation/api.module.scss';
+import { beautified } from '../../../../pages/api-documentation/api.module.scss';
 
 const MetaObject = () => (
   <SectionContent id="responses-meta-object" headingLevel={3} title="Meta Object">
@@ -29,7 +29,7 @@ const MetaObject = () => (
     <p>
       <strong>Example Meta Object:</strong>
     </p>
-    <code className={`large ${apiStyles.beautified}`}>
+    <code className={`large ${beautified}`}>
       <pre>
         {beautify(
           `"meta":{

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -12,16 +12,13 @@ import NotShownMessage from '../dataset-data/table-section-container/not-shown-m
 
 import * as styles from './dtg-table.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
-import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
-import Experimental from '../experimental/experimental';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState, reactTableSortingState } from '../../recoil/reactTableFilteredState';
 import moment from 'moment/moment';
+import { ErrorBoundary } from 'react-error-boundary';
 
-const defaultRowsPerPage = 5;
-const selectColumnRowsPerPage = 10;
-
+const defaultRowsPerPage = 10;
 export default function DtgTable({
   tableProps,
   perPage,
@@ -34,6 +31,12 @@ export default function DtgTable({
   setFiltersActive,
   tableMeta,
   tableColumnSortData,
+  manualPagination,
+  setManualPagination,
+  pivotSelected,
+  reactTable,
+  rawDataTable,
+  allowColumnWrap,
 }) {
   const {
     dePaginated,
@@ -55,11 +58,11 @@ export default function DtgTable({
   } = tableProps;
 
   const [reactTableData, setReactTableData] = useState(null);
-
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(
-    perPage ? perPage : selectColumns ? selectColumnRowsPerPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
+    perPage ? perPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
   );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
@@ -70,11 +73,6 @@ export default function DtgTable({
   const [rows, setRows] = useState([]);
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
-  const [columnSelectValues, setColumnSelectValues] = useState([]);
-  const [activeColumns, setActiveColumns] = useState([]);
-  const [isReset, setIsReset] = useState(false);
-  const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
-  const [manualPagination, setManualPagination] = useState(false);
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   const sorting = useRecoilValue(reactTableSortingState);
 
@@ -104,15 +102,6 @@ export default function DtgTable({
     excluded: getAllExcludedCols(),
   };
   const columns = setColumns(dataProperties, columnConfig);
-
-  const changeTableWidth = col => {
-    if (selectColumns) {
-      const colCount = col ? col.length : 0;
-      const curWidth = colCount > 5 ? colCount * 200 : '100%';
-      setSelectColumnsTableWidth(curWidth ? (isNaN(curWidth) ? curWidth : `${curWidth}px`) : 'auto');
-      setActiveColumns(col);
-    }
-  };
 
   const handlePerPageChange = numRows => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
@@ -167,7 +156,6 @@ export default function DtgTable({
                 />
               );
             }
-
             const totalCount = res.meta['total-count'];
             const start = startPage === 1 ? 0 : (startPage - 1) * itemsPerPage;
             const rowsToShow = start + itemsPerPage;
@@ -236,63 +224,8 @@ export default function DtgTable({
     }
   };
 
-  const setDefaultColumnsToSelect = () => {
-    const selectColArray = [];
-    const activeColArray = [];
-
-    setIsReset(true);
-
-    columns.forEach(col => {
-      const colDefault = selectColumns ? selectColumns.includes(col.property) : false;
-      const selectCol = Object.assign({ label: col.name }, { field: col.property }, { active: colDefault }, { default: colDefault });
-      if (colDefault === true) {
-        activeColArray.push(col);
-      }
-
-      selectColArray.push(selectCol);
-    });
-
-    setColumnSelectValues(selectColArray);
-    populateRows(activeColArray);
-    changeTableWidth(activeColArray);
-  };
-
-  const columnSelectChangeHandler = update => {
-    const selectColArray = [];
-    const activeColArray = [];
-
-    setIsReset(false);
-
-    columnSelectValues.forEach(col => {
-      const currentCol = col;
-      if (update.find(updatedCol => updatedCol.field === col.field)) {
-        activeColArray.push(columns.find(column => column.property === col.field));
-        currentCol.active = true;
-      } else {
-        currentCol.active = false;
-      }
-
-      selectColArray.push(currentCol);
-    });
-
-    setColumnSelectValues(selectColArray);
-    populateRows(activeColArray);
-    changeTableWidth(activeColArray);
-  };
-
-  useEffect(() => {
-    updateSmallFractionDataType();
-    setCurrentPage(1);
-    setApiError(false);
-    const ssp = tableProps.serverSidePagination;
-    ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
-    return () => {
-      loadCanceled = true;
-    };
-  }, [selectedTable, dateRange]);
-
-  useEffect(() => {
-    if (tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+  useMemo(() => {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       updateSmallFractionDataType();
       setCurrentPage(1);
       setApiError(false);
@@ -302,26 +235,27 @@ export default function DtgTable({
         loadCanceled = true;
       };
     }
-  }, [sorting, filteredDateRange]);
+  }, [sorting, filteredDateRange, selectedTable, dateRange]);
 
-  useEffect(() => {
-    setApiError(false);
-    const ssp = tableProps.serverSidePagination;
-    ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
-    return () => {
-      loadCanceled = true;
-    };
-  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage]);
-
-  useEffect(() => {
-    if (selectColumns && activeColumns) {
-      populateRows(activeColumns);
-    } else {
-      populateRows(columns);
+  useMemo(() => {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
+      //prevent hook from triggering twice on pivot selection
+      if ((pivotSelected?.pivotValue && !tableProps.serverSidePagination) || !pivotSelected?.pivotValue) {
+        setApiError(false);
+        const ssp = tableProps.serverSidePagination;
+        ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
+        return () => {
+          loadCanceled = true;
+        };
+      }
     }
+  }, [tableProps.serverSidePagination, itemsPerPage, currentPage]);
+
+  useEffect(() => {
+    populateRows(columns);
   }, [tableData]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (data && data.length) {
       setMaxRows(apiError ? 0 : data.length);
     }
@@ -331,7 +265,6 @@ export default function DtgTable({
     if (!tableProps.data) {
       setCurrentPage(1);
     }
-    setDefaultColumnsToSelect();
   }, [tableProps.data]);
 
   useEffect(() => {
@@ -352,37 +285,75 @@ export default function DtgTable({
     maxRows,
   };
 
-  useEffect(() => {
-    if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      if (dePaginated !== null && !rawData?.pivotApplied) {
+  useMemo(() => {
+    if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
+      if (dePaginated !== null && dePaginated !== undefined) {
+        // large dataset tables <= 20000 rows
         setReactTableData(dePaginated);
         setManualPagination(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-        setManualPagination(false);
         setReactTableData(rawData);
+        setManualPagination(false);
       }
+    } else if (data && !rawDataTable) {
+      setReactTableData({ data: data });
     }
   }, [rawData, dePaginated]);
 
-  useEffect(() => {
-    if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      if (tableProps && tableProps.data !== undefined && tableProps.data?.length > 0 && tableProps.rawData) {
-        setManualPagination(false);
+  const activePivot = (data, pivot) => {
+    return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
+  };
+
+  const updatedData = (newData, currentData) => {
+    return JSON.stringify(newData) !== JSON.stringify(currentData);
+  };
+
+  useMemo(() => {
+    if (tableProps) {
+      // Pivot data
+      if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
         setReactTableData(rawData);
-      } else if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-        setReactTableData(dePaginated);
-        setManualPagination(false);
-      } else {
-        setReactTableData({ data: tableData, meta: tableMeta });
-        setManualPagination(true);
+        if (setManualPagination) {
+          setManualPagination(false);
+        }
+      } else if (data && !rawDataTable) {
+        setReactTableData({ data: data });
       }
     }
-  }, [tableData, tableMeta]);
+  }, [pivotSelected, rawData]);
+
+  useMemo(() => {
+    if (
+      tableData.length > 0 &&
+      tableMeta &&
+      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
+      !pivotSelected?.pivotValue &&
+      !rawData?.pivotApplied
+    ) {
+      if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+        // data with current date range < 20000
+        if (rawData) {
+          setReactTableData(rawData);
+          setManualPagination(false);
+        } else if (dePaginated) {
+          setReactTableData(dePaginated);
+          setManualPagination(false);
+        }
+      } else {
+        if (!(reactTableData?.pivotApplied && !updatedData(tableData, reactTableData?.data.slice(0, itemsPerPage)))) {
+          setReactTableData({ data: tableData, meta: tableMeta });
+          setManualPagination(true);
+        }
+      }
+    } else if (data && !rawDataTable && !rawData) {
+      setReactTableData({ data: data });
+    }
+  }, [tableData, tableMeta, rawData, dePaginated]);
 
   return (
     <div className={styles.overlayContainer}>
       {/* Loading Indicator */}
-      {isLoading && (
+      {(isLoading || (reactTable && !reactTableData)) && (
         <>
           <div data-test-id="loading-overlay" className={styles.overlay} />
           <div className={styles.loadingIcon}>
@@ -390,7 +361,7 @@ export default function DtgTable({
           </div>
         </>
       )}
-      <Experimental exclude featureId="react-table-poc">
+      {reactTable && reactTableData?.data && (
         <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
@@ -407,83 +378,81 @@ export default function DtgTable({
               </div>
             </>
           )}
-
-          <div className={styles.selectColumnsWrapper}>
-            {/* Table Wrapper */}
-            <div className={noBorder ? [styles.wrapper, styles.noBorder].join(' ') : styles.wrapper}>
-              {/* Empty Data Message */}
-              {emptyDataMessage && emptyDataMessage}
-
-              {/* Table */}
-              {!emptyDataMessage && !selectColumns ? (
-                <table {...tableProps.aria} style={{ width: tableWidth }}>
-                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-                  <DtgTableHeading columns={columns} />
-                  <tbody>{rows}</tbody>
-                </table>
-              ) : (
-                <table {...tableProps.aria} style={{ width: selectColumnsTableWidth }}>
-                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-                  <DtgTableHeading columns={activeColumns} />
-                  <tbody>{rows}</tbody>
-                </table>
-              )}
-            </div>
-
-            <div
-              data-testid="selectColumnsMainContainer"
-              className={selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel}
-              style={{ height: `${itemsPerPage * 41 + 48.4}px` }}
-            >
-              {selectColumns && (
-                <DtgTableColumnSelector
-                  isVisible={true}
-                  fields={columnSelectValues}
-                  changeHandler={update => columnSelectChangeHandler(update)}
-                  resetToDefault={setDefaultColumnsToSelect}
-                  setSelectColumnPanel={setSelectColumnPanel}
-                  isReset={isReset}
-                />
-              )}
-            </div>
-          </div>
+          <ErrorBoundary FallbackComponent={() => <></>}>
+            <DataTable
+              rawData={reactTableData}
+              nonRawDataColumns={!rawDataTable ? columnConfig : null}
+              defaultSelectedColumns={selectColumns}
+              setTableColumnSortData={setTableColumnSortData}
+              hideCellLinks={true}
+              shouldPage={shouldPage}
+              pagingProps={pagingProps}
+              showPaginationControls={showPaginationControls}
+              hasPublishedReports={hasPublishedReports}
+              publishedReports={publishedReports}
+              setSelectColumnPanel={setSelectColumnPanel}
+              selectColumnPanel={selectColumnPanel}
+              resetFilters={resetFilters}
+              setResetFilters={setResetFilters}
+              setFiltersActive={setFiltersActive}
+              hideColumns={hideColumns}
+              tableName={tableName}
+              manualPagination={manualPagination}
+              maxRows={maxRows}
+              rowsShowing={rowsShowing}
+              columnConfig={columnConfig}
+              allowColumnWrap={allowColumnWrap}
+              aria={tableProps.aria}
+            />
+          </ErrorBoundary>
         </div>
-        {/* Table Footer */}
-        {shouldPage && (
-          <div data-test-id="table-footer" className={styles.tableFooter}>
-            <div data-test-id="rows-showing" className={styles.rowsShowing}>
-              {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
+      )}
+      {!reactTable && (
+        <>
+          <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
+            {/* API Error Message */}
+            {(apiError || tableProps.apiError) && !emptyDataMessage && (
+              <>
+                <div data-test-id="error-overlay" className={styles.overlay} />
+                <div data-test-id="api-error" className={styles.apiError}>
+                  <p>
+                    <strong>Table failed to load.</strong>
+                  </p>
+                  <p>
+                    There was an error with our API and we are unable to load this table. Please try your request again or{' '}
+                    <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">contact us</CustomLink> for assistance.
+                  </p>
+                </div>
+              </>
+            )}
+
+            <div className={styles.selectColumnsWrapper}>
+              {/* Table Wrapper */}
+              <div className={noBorder ? [styles.wrapper, styles.noBorder].join(' ') : styles.wrapper}>
+                {/* Empty Data Message */}
+                {emptyDataMessage && emptyDataMessage}
+                {/* Table */}
+                {!emptyDataMessage && (
+                  <table {...tableProps.aria} style={{ width: tableWidth }}>
+                    {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                    <DtgTableHeading columns={columns} />
+                    <tbody>{rows}</tbody>
+                  </table>
+                )}
+              </div>
             </div>
-            {showPaginationControls && <PaginationControls pagingProps={pagingProps} />}
           </div>
-        )}
-      </Experimental>
-      <Experimental featureId="react-table-poc">
-        {reactTableData && (
-          <DataTable
-            rawData={reactTableData}
-            defaultSelectedColumns={selectColumns}
-            setTableColumnSortData={setTableColumnSortData}
-            hideCellLinks={true}
-            shouldPage={shouldPage}
-            pagingProps={pagingProps}
-            showPaginationControls={showPaginationControls}
-            hasPublishedReports={hasPublishedReports}
-            publishedReports={publishedReports}
-            setSelectColumnPanel={setSelectColumnPanel}
-            selectColumnPanel={selectColumnPanel}
-            resetFilters={resetFilters}
-            setResetFilters={setResetFilters}
-            setFiltersActive={setFiltersActive}
-            hideColumns={hideColumns}
-            tableName={tableName}
-            manualPagination={manualPagination}
-            maxRows={maxRows}
-            rowsShowing={rowsShowing}
-            columnConfig={columnConfig}
-          />
-        )}
-      </Experimental>
+          {/* Table Footer */}
+          {shouldPage && (
+            <div data-test-id="table-footer" className={styles.tableFooter}>
+              <div data-test-id="rows-showing" className={styles.rowsShowing}>
+                {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
+              </div>
+              {showPaginationControls && <PaginationControls pagingProps={pagingProps} />}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

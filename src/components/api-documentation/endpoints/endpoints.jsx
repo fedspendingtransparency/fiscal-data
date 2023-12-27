@@ -2,8 +2,8 @@ import React from 'react';
 import SectionContent from '../section-content/section-content';
 import { Link as ScrollLink } from 'react-scroll';
 import { graphql, useStaticQuery } from 'gatsby';
-import * as apiStyles from '../../../pages/api-documentation/api.module.scss';
-import * as styles from './endpoints.module.scss';
+import { code, sectionBreak } from '../../../pages/api-documentation/api.module.scss';
+import { endpointTableSpacing, listOfEndpointsTable } from './endpoints.module.scss';
 import DtgTable from '../../../components/dtg-table/dtg-table';
 import GLOBALS from '../../../helpers/constants';
 import CustomLink from '../../links/custom-link/custom-link';
@@ -119,7 +119,7 @@ const Endpoints = () => {
   };
 
   return (
-    <div className={apiStyles.sectionBreak}>
+    <div className={sectionBreak}>
       <SectionContent id="endpoints" headingLevel={2} title="Endpoints">
         <p>
           Many datasets are associated with only one data table, and thus, one API endpoint. There are some datasets comprised of more than one data
@@ -137,13 +137,13 @@ const Endpoints = () => {
         </p>
         <p>Note that every API URL begins with the base URL:</p>
         <p>
-          <code className={apiStyles.code}>{apiBaseUrl}</code>
+          <code className={code}>{apiBaseUrl}</code>
         </p>
         <p>Thus, the full API request URL would be the Base URL + Endpoint. For example:</p>
-        <p className={styles.endpointTableSpacing}>
-          <code className={apiStyles.code}>{apiBaseUrl}/v2/accounting/od/avg_interest_rates</code>
+        <p className={endpointTableSpacing}>
+          <code className={code}>{apiBaseUrl}/v2/accounting/od/avg_interest_rates</code>
         </p>
-        <div className={styles.listOfEndpointsTable} id="list-of-endpoints-table">
+        <div className={listOfEndpointsTable} id="list-of-endpoints-table">
           <DtgTable tableProps={tableProps} perPage={rowsPerPage} />
         </div>
       </SectionContent>

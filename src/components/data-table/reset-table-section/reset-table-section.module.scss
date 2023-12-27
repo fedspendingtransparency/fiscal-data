@@ -2,11 +2,16 @@
 
 .sectionBorder {
   border-bottom: #dddddd solid 1px;
-  border-right: #dddddd solid 1px;
-  border-left: #dddddd solid 1px;
   padding: 0.5rem 1rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+  min-height: 1.75rem;
+}
+
+.sectionSideBorder {
+  border-right: #dddddd solid 1px;
+  border-left: #dddddd solid 1px;
 }
 
 .resetButton {
@@ -21,6 +26,8 @@
   display: flex;
   align-items: center;
   border-radius: 3px;
+  white-space: nowrap;
+
   &.activeButton {
     background-color: $primary;
     color: white;
@@ -37,4 +44,26 @@
 .arrowIcon {
   color: $font-body-copy;
   margin-right: 0.5rem;
+}
+
+@media screen and (min-width: $breakpoint-md) {
+  .resetButtonContainer {
+    position: absolute;
+    right: 1rem;
+    width: fit-content;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md - 1) {
+  .sectionBorder {
+    flex-direction: column;
+    .bannerContainer {
+      margin-bottom: 0.5rem;
+    }
+    .resetButtonContainer {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+    }
+  }
 }

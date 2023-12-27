@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
-import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +8,7 @@ import * as styles from './info-tip.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
+import Button from '@material-ui/core/Button';
 
 const style = {
   button: {
@@ -47,7 +47,7 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click',
 };
 
-const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle, hover, children }) => {
+const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, children }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
 
@@ -81,11 +81,13 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
   }, [scrollPosition]);
 
   const { button, primarySvgColor, secondarySvgColor, popOver, popupContainer } = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
   let timeout;
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
+    setOpen(true);
     if (clickEvent) {
       clickEvent();
     }
@@ -97,9 +99,9 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
 
   const handleClose = () => {
     setAnchorEl(null);
+    setOpen(false);
   };
 
-  const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const label = `More information about ${title}.`;
 
@@ -127,7 +129,6 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
         aria-describedby={id}
         aria-label={title ? label : null}
         data-testid="infoTipButton"
-        variant="contained"
         className={`${button} ${styles.infoIcon} infoTipIcon`}
         onClick={handleClick}
         onMouseLeave={handleMouseLeave}
@@ -150,6 +151,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
           vertical: 'top',
           horizontal: 'center',
         }}
+        disableRestoreFocus
       >
         <div className={`${popupContainer} ${styles.popupContainer}`} data-testid="popupContainer" onMouseLeave={handleClose} role={'presentation'}>
           {getHeader()}

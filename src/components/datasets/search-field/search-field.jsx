@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import * as styles from './search-field.module.scss';
+import { searchInput, searchInput_textField, noButton, searchInput_iconButton } from './search-field.module.scss';
 import { faSearch, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -113,14 +113,14 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
 
   return (
     <>
-      <div className={styles.searchInput}>
+      <div className={searchInput}>
         <input
           type="text"
           value={localText}
           name="components.search"
           placeholder="Search for Datasets by Keyword..."
           onChange={processInput}
-          className={classNames([styles.searchInput_textField, styles.noButton])}
+          className={classNames([searchInput_textField, noButton])}
           data-testid="keyword-search"
           ref={searchField}
           aria-label="Enter search terms"
@@ -128,7 +128,7 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
         />
         <button
           data-test-id="search-button"
-          className={styles.searchInput_iconButton}
+          className={searchInput_iconButton}
           onClick={clear}
           disabled={searchIsEmpty}
           aria-hidden={searchIsEmpty}

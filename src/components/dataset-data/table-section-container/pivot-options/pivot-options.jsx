@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as styles from './pivot-options.module.scss';
+import { containerBar, formControl, selectLabel, dropdownContainer } from './pivot-options.module.scss';
 import SelectControl from '../../../select-control/select-control';
 
 const PivotOptions = ({ table, pivotSelection, setSelectedPivot, pivotsUpdated }) => {
@@ -60,12 +60,12 @@ const PivotOptions = ({ table, pivotSelection, setSelectedPivot, pivotsUpdated }
   return (
     <>
       {table && table.dataDisplays && table.dataDisplays.length > 1 && pivotSelection && pivotOptions && (
-        <div className={styles.containerBar} data-testid="pivotOptionsBar">
-          <span className={styles.formControl}>
-            <span className={styles.selectLabel} data-testid="pivotSelectLabel">
+        <div className={containerBar} data-testid="pivotOptionsBar">
+          <span className={formControl}>
+            <span className={selectLabel} data-testid="pivotSelectLabel">
               Pivot View:
             </span>
-            <span className={styles.dropdownContainer}>
+            <span className={dropdownContainer}>
               <SelectControl
                 data-testid="pivot-options-view"
                 options={table.dataDisplays}
@@ -76,11 +76,11 @@ const PivotOptions = ({ table, pivotSelection, setSelectedPivot, pivotsUpdated }
               />
             </span>
           </span>
-          <span className={styles.formControl}>
-            <span className={styles.selectLabel} data-testid="pivotSelectLabel">
+          <span className={formControl}>
+            <span className={selectLabel} data-testid="pivotSelectLabel">
               Pivot Value:
             </span>
-            <span className={styles.dropdownContainer}>
+            <span className={dropdownContainer}>
               <SelectControl
                 options={pivotOptions}
                 optionLabelKey="prettyName"

@@ -32,6 +32,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
   const [reportGroups, setReportGroups] = useState({});
   const [selectedReportGroup, setSelectedReportGroup] = useState();
   const [currentReport, setCurrentReport] = useState();
+  const [activeState, setActiveState] = useState(1); // latest report
 
   const previousSelectedGroupId = useRef();
   const currentlySelectedGroupIndex = useRef(0);
@@ -249,7 +250,6 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
       setSelectedReportGroup(updatedReport);
     }
   };
-
   useEffect(() => {
     // called on page initialization and when reports updates
     if (reportGroups[currentlySelectedGroupIndex.current]) {
@@ -278,7 +278,12 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
       currentlySelectedGroupIndex.current = reportGroups.findIndex(reportGroup => reportGroup.id === selectedReportGroup.id);
       previousSelectedGroupId.current = selectedReportGroup.id;
       recalibrateYMD(selectedReportGroup.value);
-      smartLoadFile(newSelectedGroup);
+      if (activeState === 1) {
+        smartLoadFile(newSelectedGroup);
+      } else {
+        const resetIfNoMatch = true;
+        smartLoadFile(null, resetIfNoMatch);
+      }
     }
   }, [selectedReportGroup]);
 
@@ -354,7 +359,13 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
           <h3 data-testid="filterHeader" className={filterHeader}>
             Select Report Date:
           </h3>
-          <CurrentReportToggle reports={selectedReportGroup} onChange={toggleCurrentReport} filteredByDateSelection={filtered} />
+          <CurrentReportToggle
+            reports={selectedReportGroup}
+            onChange={toggleCurrentReport}
+            filteredByDateSelection={filtered}
+            activeState={activeState}
+            setActiveState={setActiveState}
+          />
 
           <div className={showFilters ? '' : hiddenFilters} data-testid="filterCollapsible">
             <div className={`${filterContainer} ${selectedReportGroup?.daily ? dailyReport : ''}`}>

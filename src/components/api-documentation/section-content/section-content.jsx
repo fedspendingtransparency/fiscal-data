@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as styles from './section-content.module.scss';
+import { sectionContainer } from './section-content.module.scss';
 
 const SectionContent = ({ id, children, className, headingLevel, title }) => {
   const [header, setHeader] = useState(null);
@@ -27,7 +27,7 @@ const SectionContent = ({ id, children, className, headingLevel, title }) => {
   }, []);
 
   return (
-    <section id={id} className={`${styles.sectionContainer} ${className || ''}`}>
+    <section id={id} className={`${sectionContainer} ${className || ''}`}>
       {header}
       {children}
     </section>

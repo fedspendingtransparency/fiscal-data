@@ -29,28 +29,6 @@ describe('Detail-Pills component', () => {
     expect(pills[2].findByProps({ className: 'pillText' }).props.children[0]).toBe('Last Updated ');
     expect(pills[2].findByProps({ className: 'pillText' }).props.children[1]).toBe('04/11/2020');
   });
-
-  it('displays a pill containing a page icon and a fileTypes label', () => {
-    pills[3].findByProps({ 'data-test-id': 'page-icon' });
-    expect(pills[3].findByProps({ className: 'pillText' }).props.children).toEqual('CSV, JSON, XML');
-  });
-
-  it('displays a pill containing a times-circle icon next to the Data Dictionary label when the Data dictionary is incomplete.', () => {
-    const icon = pills[4].findByProps({ 'data-test-id': 'dictionary-icon' });
-    expect(icon.props.icon.iconName).toBe('circle-xmark');
-    expect(icon.props.alt).toBe('data dictionary incomplete');
-    expect(pills[4].findByProps({ className: 'pillText' }).props.children).toEqual('Data Dictionary');
-  });
-
-  it('displays a pill containing a check-circle icon next to the Data Dictionary label when the Data dictionary is complete.', () => {
-    const pills = renderer.create(<DetailPills techSpecs={profilerConfigMockData.dataJson.datasets[0].techSpecs} dictionary={true} />);
-    const pillsInstance = pills.root;
-    const dictionaryPill = pillsInstance.findAllByProps({ className: styles.pill })[4];
-    const icon = dictionaryPill.findByProps({ 'data-test-id': 'dictionary-icon' });
-    expect(icon.props.icon.iconName).toBe('circle-check');
-    expect(icon.props.alt).toBe('data dictionary complete');
-    expect(dictionaryPill.findByProps({ className: 'pillText' }).props.children).toEqual('Data Dictionary');
-  });
 });
 
 describe('DetailPills component with a dataset with a latestDate in the future', () => {
@@ -62,7 +40,6 @@ describe('DetailPills component with a dataset with a latestDate in the future',
       latestDate: tomorrowString,
       earliestDate: '10/03/2005',
       lastUpdated: '04/11/2020',
-      fileFormat: 'JSON, CSV, XML',
       updateFrequency: 'Updated Daily',
     },
   };

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { container, menu, activeMenu, desktopLinks, content, hoverMenu } from './dataset-detail-nav.module.scss';
-import { Link } from 'react-scroll';
+import { Link, scroller } from 'react-scroll';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import globalConstants from '../../helpers/constants';
-import { scroller } from 'react-scroll';
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
 const scrollDuration = globalConstants.config.smooth_scroll.duration;
 
@@ -18,6 +17,10 @@ const scrollOptions = {
 const DDNav = () => {
   const [hover, setHover] = useState(null);
   const [scrollToId, setScrollToId] = useState(null);
+  const [activeSection, setActiveSection] = useState(null);
+  const [isClickInitiatedScroll, setIsClickInitiatedScroll] = useState(false);
+  const navRef = useRef(null);
+
   const linksArr = [
     {
       title: 'Introduction',
@@ -41,30 +44,61 @@ const DDNav = () => {
     },
   ];
 
+
   const handleInteraction = (e, id) => {
     //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;
     }
-
+    
     if (id) {
       updateAddressPath(id, window.location);
       setHover(null);
+      setIsClickInitiatedScroll(true);
       setScrollToId(id);
     }
   };
 
-  useEffect(() => {
-    if (scrollToId) {
-      const targetId = scrollToId;
-      setScrollToId(null);
-      scroller.scrollTo(targetId, scrollOptions);
+  const onSetActive = (id) => {
+    if (!isClickInitiatedScroll){
+      setActiveSection(id);
     }
-  }, [scrollToId]);
+
+  };
+
+  const updateScrollBarPosition = () => {
+    if (navRef.current && activeSection) {
+      const activeLink = navRef.current.querySelector(`.${desktopLinks}.${activeMenu}`);
+      if (activeLink) {
+        const scrollPosition = activeLink.offsetLeft;
+        navRef.current.scrollLeft = scrollPosition;
+      }
+    }
+  };
+
+  useEffect(() => {
+    updateScrollBarPosition();
+  }, [activeSection]); 
+
+  useEffect(() => {
+    if(!activeSection && navRef.current){
+      setActiveSection(null);
+      navRef.current.scrollLeft = 0;
+    }
+  }, [activeSection]); 
+
+  useEffect(() => {
+    if (scrollToId && isClickInitiatedScroll) {
+      scroller.scrollTo(scrollToId, scrollOptions);
+      setIsClickInitiatedScroll(false);
+    }
+  }, [scrollToId, isClickInitiatedScroll]);
+
+
 
   return (
     <section id={container}>
-      <div className={content}>
+      <div className={content} ref={navRef}>
         <div data-testid="DDNavMenu" className={menu}>
           {linksArr.map((d, i) => {
             return (
@@ -74,6 +108,7 @@ const DDNav = () => {
                 data-testid={`DDNavDesktopLink${i}`}
                 aria-label={`Jump to ${d.title} section`}
                 to={d.id}
+                onSetActive={onSetActive}
                 activeClass={activeMenu}
                 onClick={() => handleInteraction(null, d.id)}
                 onKeyDown={e => handleInteraction(e, d.id)}

@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionContent from '../../section-content/section-content';
-import * as apiStyles from '../../../../pages/api-documentation/api.module.scss';
-import * as styles from './pagination.module.scss';
+import { marginBottom, code } from '../../../../pages/api-documentation/api.module.scss';
+import { list } from './pagination.module.scss';
 import GLOBALS from '../../../../helpers/constants';
 
 const Pagination = () => {
@@ -30,7 +30,7 @@ const Pagination = () => {
       <p>
         <strong>Notes:</strong> When no page number or page size parameter is specified, the default response is
       </p>
-      <ul className={styles.list}>
+      <ul className={list}>
         <li>Page number: 1</li>
         <li>Page size: 100</li>
       </ul>
@@ -39,7 +39,7 @@ const Pagination = () => {
         <strong>Example:</strong>
       </p>
       <p>From the Treasury Offset Program dataset, return data with 50 records per page, and return the 10th page of data.</p>
-      <code className={`${apiStyles.code} ${apiStyles.marginBottom}`}>{baseApiUrl}/v1/debt/top/top_state?page[number]=10&page[size]=50</code>
+      <code className={`${code} ${marginBottom}`}>{baseApiUrl}/v1/debt/top/top_state?page[number]=10&page[size]=50</code>
     </SectionContent>
   );
 };

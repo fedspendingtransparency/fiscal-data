@@ -1,0 +1,40 @@
+.rdp-cell:has(.rdp-day_range_start:not(.rdp-day_range_end)) {
+  background: linear-gradient(to left, #e8f5ff 0%, white 65%);
+}
+
+.rdp-cell:has(.rdp-day_range_end:not(.rdp-day_range_start)) {
+  background: linear-gradient(to right, #e8f5ff 0%, white 65%);
+}
+
+.rdp:not([dir='rtl']) .rdp-day_range_start:not(.rdp-day_range_end) {
+  border-bottom-right-radius: 100%;
+  border-top-right-radius: 100%;
+}
+
+.rdp:not([dir='rtl']) .rdp-day_range_end:not(.rdp-day_range_start) {
+  border-top-left-radius: 100%;
+  border-bottom-left-radius: 100%;
+}
+
+.rdp-cell:has([class*="date-range-filter-module--datePickerRangeMiddle"]):has(.rdp-day_today) {
+  background-color: #e8f5ff;
+}
+
+.rdp-day_today:not(.rdp-day_outside) {
+  border-style: solid;
+  border-color: #0071BC;
+  border-radius: 100%;
+  color: #555555;
+  font-weight: normal;
+}
+
+.rdp {
+  --rdp-background-color: #e8f5ff;
+}
+
+@media(hover: none) {
+  .rdp-button:hover:not([disabled]):not(.rdp-day_selected):not(.rdp-nav_button) {
+    background-color: #0071bc;
+    color: white;
+  }
+}

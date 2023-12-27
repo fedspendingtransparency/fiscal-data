@@ -35,7 +35,13 @@ const RevenueKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
             allQuartersForGivenYear.forEach(quarter => {
               totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ''));
             });
-            const averageGDP = (totalGDP / 4) * 1000000;
+            const totalQuarters =
+              allQuartersForGivenYear.find(entry => entry.TimePeriod.includes(fiscalYear.toString() + 'Q2')) &&
+              !allQuartersForGivenYear.find(entry => entry.TimePeriod.includes(fiscalYear.toString() + 'Q3'))
+                ? 3
+                : 4;
+            const averageGDP = (totalGDP / totalQuarters) * 1000000;
+
             setRevenuePercentGDP(Math.round((res.data[0].current_fytd_net_rcpt_amt / averageGDP) * 100));
             setTotalGDP((averageGDP / 1000000000000).toFixed(2));
           }

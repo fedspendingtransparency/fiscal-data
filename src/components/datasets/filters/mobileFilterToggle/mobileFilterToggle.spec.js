@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import MobileFilterToggle from './mobileFilterToggle';
-import * as styles from './mobileFilterToggle.module.scss';
+import { resetButton } from './mobileFilterToggle.module.scss';
 jest.useFakeTimers();
 describe('Mobile Filter Toggle', () => {
   let component = renderer.create();
@@ -47,7 +47,7 @@ describe('Mobile Filter Toggle', () => {
       );
     });
     instance = component.root;
-    const resetFiltersButton = instance.findByProps({ className: styles.resetButton });
+    const resetFiltersButton = instance.findByProps({ className: resetButton });
     expect(resetFiltersButton).toBeDefined();
   });
 });

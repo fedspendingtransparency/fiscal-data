@@ -12,8 +12,8 @@ import FilterTimeRange, { timeRangeCompleteAnalyticsObject } from './filterTimeR
 import SearchFilterSummary from './searchFilterSummary/searchFilterSummary';
 import MobileFilterToggle from './mobileFilterToggle/mobileFilterToggle';
 import Analytics from '../../../utils/analytics/analytics';
-import * as layoutStyles from './search-layout.module.scss';
-import * as styles from './filters.module.scss';
+import { searchLayout, searchLayoutSection, searchLayoutFilters, searchLayoutMain } from './search-layout.module.scss';
+import { title, filterWrapper, filterSectionHeader, filterSectionTitle, filterSectionDivider } from './filters.module.scss';
 
 export const lastUpdatedAnalyticsObject = {
   category: 'Dataset Search Page',
@@ -308,14 +308,14 @@ const FilterSection = ({
         activeFilters={activeFilters}
         allFilters={availableFilters}
       />
-      <div className={layoutStyles.searchLayout} ref={scrollRef}>
+      <div className={searchLayout} ref={scrollRef}>
         {(!isHandheld || (isHandheld && !datasetsView)) && (
-          <div className={`${layoutStyles.searchLayoutSection} ${layoutStyles.searchLayoutFilters}`}>
+          <div className={`${searchLayoutSection} ${searchLayoutFilters}`}>
             <section>
-              <h1 className={styles.title}>Filter Your Results</h1>
-              <div className={styles.filterWrapper}>
-                <div className={styles.filterSectionHeader}>
-                  <h2 className={styles.filterSectionTitle} data-testid="last-updated-title">
+              <h1 className={title}>Filter Your Results</h1>
+              <div className={filterWrapper}>
+                <div className={filterSectionHeader}>
+                  <h2 className={filterSectionTitle} data-testid="last-updated-title">
                     Last Updated
                   </h2>
                   <InfoTip
@@ -342,10 +342,10 @@ const FilterSection = ({
                   analyticsObject={lastUpdatedAnalyticsObject}
                 />
               </div>
-              <hr className={styles.filterSectionDivider} />
-              <div className={styles.filterWrapper}>
-                <div className={styles.filterSectionHeader}>
-                  <h2 className={styles.filterSectionTitle} data-testid="date-range-title">
+              <hr className={filterSectionDivider} />
+              <div className={filterWrapper}>
+                <div className={filterSectionHeader}>
+                  <h2 className={filterSectionTitle} data-testid="date-range-title">
                     Date Range
                   </h2>
                   <InfoTip data-testid="date-range-tip" title={tips.dateRange.title} clickEvent={() => handleInfoTipClick(tips.dateRange.title)}>
@@ -378,10 +378,10 @@ const FilterSection = ({
                   }
                 />
               </div>
-              <hr className={styles.filterSectionDivider} />
-              <div className={styles.filterWrapper}>
-                <div className={styles.filterSectionHeader}>
-                  <h2 className={styles.filterSectionTitle} data-testid="publisher-title">
+              <hr className={filterSectionDivider} />
+              <div className={filterWrapper}>
+                <div className={filterSectionHeader}>
+                  <h2 className={filterSectionTitle} data-testid="publisher-title">
                     Dataset Publisher
                   </h2>
                   <InfoTip data-testid="publisher-tip" title={tips.publisher.title} clickEvent={() => handleInfoTipClick(tips.publisher.title)}>
@@ -406,10 +406,10 @@ const FilterSection = ({
                   />
                 </FilterPublisher>
               </div>
-              <hr className={styles.filterSectionDivider} />
-              <div className={styles.filterWrapper}>
-                <div className={styles.filterSectionHeader}>
-                  <h2 className={styles.filterSectionTitle} data-testid="data-format-title">
+              <hr className={filterSectionDivider} />
+              <div className={filterWrapper}>
+                <div className={filterSectionHeader}>
+                  <h2 className={filterSectionTitle} data-testid="data-format-title">
                     Data Format
                   </h2>
                   <InfoTip data-testid="data-format-tip" title={tips.dataFormat.title} clickEvent={() => handleInfoTipClick(tips.dataFormat.title)}>
@@ -436,7 +436,7 @@ const FilterSection = ({
           </div>
         )}
         {(!isHandheld || (isHandheld && datasetsView)) && (
-          <div className={`${layoutStyles.searchLayoutSection} ${layoutStyles.searchLayoutMain}`}>
+          <div className={`${searchLayoutSection} ${searchLayoutMain}`}>
             <Topics
               data-testid="topics-group"
               activeFilters={activeFilters}

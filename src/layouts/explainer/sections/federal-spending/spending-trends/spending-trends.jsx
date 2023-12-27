@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TotalSpendingChart from './total-spending-chart/total-spending-chart';
 import useBeaGDP from '../../../../../hooks/useBeaGDP';
 export const SpendingTrends = ({ cpiDataByYear }) => {
-  const beaGDPData = useBeaGDP(cpiDataByYear, true);
+  const beaGDPData = useBeaGDP(cpiDataByYear, true, 'mts5');
 
   const [spendingTotal, setSpendingTotal] = useState(null);
   const [fiscalYear, setFiscalYear] = useState(null);

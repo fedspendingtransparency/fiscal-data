@@ -4,11 +4,12 @@ import FilterSection from './filter-section';
 import { dailyReports, reports, largeSetReports } from '../test-helper';
 import SelectControl from '../../select-control/select-control';
 import CurrentReportToggle from '../../dataset-data/current-report-toggle/current-report-toggle';
-import * as styles from './filter-section.module.scss';
+import { hiddenFilters } from './filter-section.module.scss';
 import ComboSelect from '../../combo-select/combo-select';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 import { fireEvent, waitFor, render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { mockReportGroup } from '../../dataset-data/current-report-toggle/current-report-toggle.spec';
 
 jest.useFakeTimers();
 
@@ -139,21 +140,21 @@ describe('Filter Section', () => {
   it(`reveals the filter dropdowns when the current report is deselected through the
   toggle changeHandler`, () => {
     // collapsed at initial render
-    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).toContain(styles.hiddenFilters);
+    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).toContain(hiddenFilters);
     renderer.act(toggleCurrentReport);
-    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).not.toContain(styles.hiddenFilters);
+    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).not.toContain(hiddenFilters);
   });
 
   it(`hides the filter dropdowns when a current report is selected through the
   toggle changeHandler`, () => {
     // first make the filters visible
     renderer.act(toggleCurrentReport);
-    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).not.toContain(styles.hiddenFilters);
+    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).not.toContain(hiddenFilters);
 
     renderer.act(() => {
       toggleCurrentReport(reports[0]);
     });
-    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).toContain(styles.hiddenFilters);
+    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).toContain(hiddenFilters);
   });
 
   it(`uses the ComboSelect component for year selection when more than ten year options are
@@ -213,6 +214,7 @@ describe('Filter Section', () => {
 
     // sets the selected report file when a valid day is chosen
     expect(dailyReports[0].daily).toBeFalsy();
+
     renderer.act(() => {
       daySelector.props.changeHandler(daySelector.props.options[1]);
     });
@@ -287,5 +289,68 @@ describe('Filter Section', () => {
     await waitFor(() => {
       expect(queryByTestId('selectorList')).not.toBeInTheDocument();
     });
+  });
+
+  it('shows filters when report group changes while on previous reports', async () => {
+    const { getByTestId, queryByTestId, getByRole } = render(<FilterSection reports={largeSetReports} setSelectedFile={selectedFileMock} />);
+
+    const previousToggle = getByRole('radio', { name: 'Previous' });
+    fireEvent.click(previousToggle);
+
+    expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+
+    const reportSelector = getByTestId('dropdownToggle');
+
+    userEvent.click(reportSelector);
+    const reportDropDownList = await getByTestId('dropdown-container');
+    userEvent.click(within(reportDropDownList).getAllByRole('button')[1]);
+    const yearInput = getByRole('spinbutton', { name: 'Enter a year' });
+
+    expect(yearInput).toBeInTheDocument();
+  });
+
+  it('updates the selected button when the radio button is toggled', () => {
+    const { getAllByRole } = render(<FilterSection reports={largeSetReports} setSelectedFile={selectedFileMock} />);
+    const allRadioButtons = getAllByRole('radio');
+
+    fireEvent.click(allRadioButtons[1]);
+
+    expect(allRadioButtons[0]).not.toBeChecked();
+    expect(allRadioButtons[1]).toBeChecked();
+  });
+
+  it(`retains the checked state on the "Previous" button when the reports groups is
+   updated if the user-selected report is not the latest for the report group`, async () => {
+    const mockReports = {
+      id: 100,
+      value: mockReportGroup,
+    };
+    const { getByRole, rerender } = render(<FilterSection reports={mockReports.value} setSelectedFile={selectedFileMock} />);
+    let previous = getByRole('radio', { name: 'Previous' });
+    let current = getByRole('radio', { name: 'Jul 2020' });
+
+    fireEvent.click(previous);
+    expect(previous).toBeChecked();
+    expect(current).not.toBeChecked();
+
+    const updatedReports = {
+      id: 101,
+      value: [
+        ...mockReportGroup,
+        {
+          path: '/downloads/mts_reports/mts0820.pdf',
+          report_group_desc: 'Monthly Treasury Statement',
+          report_date: new Date(2020, 7, 31),
+          filesize: '1921283',
+          report_group_id: 1,
+        },
+      ],
+    };
+    await rerender(<FilterSection reports={updatedReports.value} setSelectedFile={selectedFileMock} />);
+
+    previous = getByRole('radio', { name: 'Previous' });
+    current = getByRole('radio', { name: 'Aug 2020' });
+    expect(current).not.toBeChecked();
+    expect(previous).toBeChecked();
   });
 });

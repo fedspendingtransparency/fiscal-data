@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as styles from './filterRow.module.scss';
+import { row, checkbox_wrapper, labelCheckmarkContainer, labelCheckmarkText } from './filterRow.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import FilterCount from './filterCount/filterCount';
@@ -45,12 +45,12 @@ const FilterRow = ({ onChange, filterKey, filterTally, children, currentState, t
   }, []);
 
   return (
-    <div className={styles.row}>
+    <div className={row}>
       <label>
-        <div className={styles.checkbox_wrapper}>
+        <div className={checkbox_wrapper}>
           <input type="checkbox" title={title} checked={checked} onChange={handleClick} />
-          <span className={styles.labelCheckmarkContainer}>
-            <span className={styles.labelCheckmarkText}>
+          <span className={labelCheckmarkContainer}>
+            <span className={labelCheckmarkText}>
               <FontAwesomeIcon icon={faCheck} size="sm" />
             </span>
           </span>

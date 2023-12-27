@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import * as styles from './datepickers.module.scss';
+import { time_range_filter, time_range_filter_datePicker } from './datepickers.module.scss';
 import { isBefore, isValid } from 'date-fns';
 import { MuiThemeProvider } from '@material-ui/core';
 import { theme } from '../../../theme';
@@ -82,8 +82,8 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
   return (
     <MuiThemeProvider theme={theme}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <div className={styles.time_range_filter} data-testid="time-range-filter">
-          <div className={styles.time_range_filter_datePicker}>
+        <div className={time_range_filter} data-testid="time-range-filter">
+          <div className={time_range_filter_datePicker}>
             <label htmlFor="date-picker-from">
               From:
               <KeyboardDatePicker
@@ -117,7 +117,7 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
               />
             </label>
           </div>
-          <div className={styles.time_range_filter_datePicker}>
+          <div className={time_range_filter_datePicker}>
             <label htmlFor="date-picker-to">
               To:
               <KeyboardDatePicker

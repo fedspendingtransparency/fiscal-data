@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
-import * as SectionStyles from '../section-content/section-content.module.scss';
-import * as styles from './parameters.module.scss';
+import { listHeading } from '../section-content/section-content.module.scss';
+import { list } from './parameters.module.scss';
 import Fields from '../fields/fields';
 import Filters from '../filters/filters';
 import Sorting from './sorting/sorting';
@@ -15,10 +15,10 @@ const Parameters = () => (
         <strong>Parameters</strong> can be included in an API request by modifying the URL. This will specify the criteria to determine which records
         will be returned, as well as the ordering and format of the data returned. More information about each parameter can be found below.
       </p>
-      <p className={SectionStyles.listHeading}>
+      <p className={listHeading}>
         <strong>Available parameters</strong> include:
       </p>
-      <ul className={styles.list}>
+      <ul className={list}>
         <li>Fields</li>
         <li>Filters</li>
         <li>Sorting</li>

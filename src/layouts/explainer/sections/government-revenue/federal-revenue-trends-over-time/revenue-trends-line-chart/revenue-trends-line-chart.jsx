@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, fontSize_10, fontSize_14 } from '../../../../../../variables.module.scss';
+import { breakpointLg, fontSize_14 } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,26 +13,13 @@ import {
   exciseRect,
   miscRect,
   legendText,
-  corpRectTooltip,
-  customsRectTooltip,
   container,
   customsRect,
-  estateRectTooltip,
-  tooltipItem,
-  exciseRectTooltip,
-  indvRectTooltip,
   legendContainer,
   legendColumn,
   legendElement,
-  miscRectTooltip,
   socialSecRect,
-  tooltipColumn,
-  tooltipItemCategory,
-  socialSecRectTooltip,
   lineChart,
-  tooltipContainer,
-  tooltipItemText,
-  tooltipYearHeader,
 } from './revenue-trends-line-chart.module.scss';
 import { Line } from '@nivo/line';
 import { fontSize_16 } from '../../../../explainer.module.scss';
@@ -42,7 +29,14 @@ import { colors, sum } from './revenue-trends-line-chart-helpers';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import { useTooltip } from '@nivo/tooltip';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import { addInnerChartAriaLabel, applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling,
+  formatCurrency,
+  getChartTheme,
+  nivoCommonLineChartProps,
+} from '../../../../explainer-helpers/explainer-charting-helper';
+import CustomTooltip from './custom-tooltip/custom-tooltip';
 
 let gaTimerRevenueTrends;
 let ga4Timer;
@@ -240,16 +234,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     );
   };
 
-  const formatCurrency = v => {
-    if (parseFloat(v) < 0) {
-      return `$${Math.abs(v)} T`;
-    } else if (parseFloat(v) > 0) {
-      return `$${v} T`;
-    } else {
-      return `$${v}`;
-    }
-  };
-
   const name = 'Monthly Treasury Statement (MTS)';
   const slug = `/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`;
   const mts = (
@@ -265,102 +249,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
       <p></p>
     </div>
   );
-
-  const chartTheme = {
-    fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    fontColor: '#666666',
-    axis: {
-      domain: {
-        line: {
-          strokeWidth: 1,
-          stroke: '#666666',
-        },
-      },
-    },
-    crosshair: {
-      line: {
-        stroke: '#555555',
-        strokeWidth: 2,
-      },
-    },
-  };
-
-  const getPercentofTotalRevByYear = (value, year) => {
-    const match = totalRevByYear.find(element => element.year === year.toString());
-    const percent = (value / match.value) * 100;
-    if (percent < 0.5) {
-      return '<1';
-    } else {
-      return Math.round((value / match.value) * 100);
-    }
-  };
-
-  const determineIfZeroNeeded = value => {
-    if (value.toString().split('.')[1].length < 2) {
-      return `${value}0`;
-    }
-    return value;
-  };
-
-  const customTooltip = slice => {
-    return (
-      <div className={tooltipContainer}>
-        <p className={tooltipYearHeader}>{slice.slice.points[0].data.x}</p>
-        <div className={tooltipColumn}>
-          <div className={tooltipItem}>
-            <div className={estateRectTooltip} />
-            <div className={tooltipItemText}>
-              <div className={tooltipItemCategory}> {slice.slice.points[0].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[0].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[0].data.raw, slice.slice.points[0].data.x)}%)
-            </div>
-          </div>
-          <div className={tooltipItem}>
-            <div className={customsRectTooltip} />
-            <div className={tooltipItemText}>
-              <div className={tooltipItemCategory}> {slice.slice.points[1].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[1].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[1].data.raw, slice.slice.points[1].data.x)}%)
-            </div>
-          </div>
-          <div className={tooltipItem}>
-            <div className={exciseRectTooltip} />
-            <div className={tooltipItemText}>
-              <div className={tooltipItemCategory}> {slice.slice.points[2].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[2].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[2].data.raw, slice.slice.points[2].data.x)}%)
-            </div>
-          </div>
-          <div className={tooltipItem}>
-            <div className={miscRectTooltip} />
-            <div className={tooltipItemText}>
-              <div className={tooltipItemCategory}> {slice.slice.points[3].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[3].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[3].data.raw, slice.slice.points[3].data.x)}%)
-            </div>
-          </div>
-          <div className={tooltipItem}>
-            <div className={corpRectTooltip} />
-            <div className={tooltipItemText}>
-              <div className={tooltipItemCategory}> {slice.slice.points[4].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[4].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[4].data.raw, slice.slice.points[4].data.x)}%)
-            </div>
-          </div>
-          <div className={tooltipItem}>
-            <div className={socialSecRectTooltip} />
-            <div className={tooltipItemText}>
-              <div className={tooltipItemCategory}> {slice.slice.points[5].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[5].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[5].data.raw, slice.slice.points[5].data.x)}%)
-            </div>
-          </div>
-          <div className={tooltipItem}>
-            <div className={indvRectTooltip} />
-            <div className={tooltipItemText}>
-              <div className={tooltipItemCategory}> {slice.slice.points[6].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[6].data.y.toFixed(2))}T (
-              {getPercentofTotalRevByYear(slice.slice.points[6].data.raw, slice.slice.points[6].data.x)}%)
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <>
@@ -384,6 +272,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
               onMouseLeave={handleChartMouseLeave}
             >
               <Line
+                {...nivoCommonLineChartProps}
                 data={chartData}
                 layers={['grid', 'markers', 'axes', 'areas', 'lines', 'points', CustomSlices, 'crosshair', 'mesh', 'legends']}
                 colors={d => d.color}
@@ -402,14 +291,10 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                   stacked: true,
                   reverse: false,
                 }}
-                theme={chartTheme}
+                theme={getChartTheme(width)}
                 enableArea={true}
                 areaOpacity={1}
-                enableGridY={false}
-                enableGridX={false}
                 yFormat=" >-.2f"
-                axisTop={null}
-                axisRight={null}
                 axisBottom={{
                   orient: 'bottom',
                   tickSize: 6,
@@ -425,15 +310,8 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                   tickRotation: 0,
                   tickValues: 6,
                 }}
-                pointSize={0}
                 pointLabelYOffset={-12}
-                useMesh={true}
-                enablePoints={true}
-                sliceTooltip={slice => customTooltip(slice)}
-                enableCrosshair={true}
-                isInteractive={true}
-                enableSlices="x"
-                animate={false}
+                sliceTooltip={slice => CustomTooltip(slice, totalRevByYear)}
               />
               <div className={legendContainer}>
                 <div className={legendColumn}>

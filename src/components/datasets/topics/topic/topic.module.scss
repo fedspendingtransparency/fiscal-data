@@ -10,7 +10,7 @@
   transform: translateY(0);
   transition: transform 0.2s ease;
 
-  label {
+  .topicLabel {
     color: $font-title;
     outline: 1px transparent;
     transition: outline 0.2s ease, color 0.2s ease;
@@ -48,7 +48,7 @@
   transition: 0.2s ease background-color;
 }
 
-.label {
+.topicLabel {
   width: 90px;
   display: block;
   text-align: center;
@@ -62,7 +62,7 @@
   height: 100%;
 }
 
-.active {
+.topicActive {
   background-color: $primary;
 
   .icon_image {
@@ -74,7 +74,7 @@
   .button_container {
     margin-right: 0;
 
-    .label {
+    .topicLabel {
       font-weight: $semi-bold-weight;
       font-size: 1.125rem;
     }

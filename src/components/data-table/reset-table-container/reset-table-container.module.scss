@@ -1,0 +1,13 @@
+@import '../../../variables.module';
+$borderRadius: 5px;
+.sectionContainer {
+  position: relative;
+
+}
+
+.buttonContainer {
+  border: 1px solid $dd-border-color;
+  border-bottom: 0;
+  border-top-left-radius: $borderRadius;
+  border-top-right-radius: $borderRadius;
+}

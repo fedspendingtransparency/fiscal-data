@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
-import * as apiStyles from '../../../pages/api-documentation/api.module.scss';
-import * as styles from './getting-started.module.scss';
+import { sectionBreak, code, marginBottom } from '../../../pages/api-documentation/api.module.scss';
+import { apiEndpointFirstParagraph, pills, codeTitle, pill, pillSpacing, paragraphList } from './getting-started.module.scss';
 import { Link } from 'gatsby';
 import GLOBALS from '../../../helpers/constants';
 import CustomLink from '../../links/custom-link/custom-link';
@@ -10,7 +10,7 @@ const GettingStarted = () => {
   const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
 
   return (
-    <div className={apiStyles.sectionBreak}>
+    <div className={sectionBreak}>
       <SectionContent id="getting-started" headingLevel={2} title="Getting Started">
         <p>
           The U.S. Department of the Treasury is building a suite of open-source tools to deliver standardized information about federal finances to
@@ -29,7 +29,7 @@ const GettingStarted = () => {
           API stands for <strong>Application Programming Interface</strong>. APIs make it easy for computer programs to request and receive
           information in a useable format.
         </p>
-        <p className={styles.paragraphList}>
+        <p className={paragraphList}>
           If you're looking for federal financial data that's designed to be read by humans rather than computers, head to{' '}
           <Link className="primary" to="/">
             our website
@@ -56,30 +56,28 @@ const GettingStarted = () => {
         </p>
       </SectionContent>
       <SectionContent id="api-endpoint-url-structure" headingLevel={3} title="API Endpoint URL structure">
-        <p className={styles.apiEndpointFirstParagraph}>
+        <p className={apiEndpointFirstParagraph}>
           For simplicity and consistency, endpoint URLs are formatted with all lower-case characters. Underscores are used as word separators.
           Endpoints use names in singular case.
         </p>
         <div>
           The components that make up a <strong>full API request</strong> are below.
         </div>
-        <div className={styles.pills}>
-          <span className={styles.pill}>Base URL</span>
-          <span className={styles.pillSpacing}>+</span>
-          <span className={styles.pill}>Endpoint</span>
-          <span className={styles.pillSpacing}>+</span>
-          <span className={styles.pill}>Parameters and Filters (optional)</span>
+        <div className={pills}>
+          <span className={pill}>Base URL</span>
+          <span className={pillSpacing}>+</span>
+          <span className={pill}>Endpoint</span>
+          <span className={pillSpacing}>+</span>
+          <span className={pill}>Parameters and Filters (optional)</span>
         </div>
-        <div className={styles.codeTitle}>BASE URL EXAMPLE:</div>
-        <code className={`${apiStyles.code} ${apiStyles.marginBottom}`}>{baseApiUrl}</code>
-        <div className={styles.codeTitle}>ENDPOINT EXAMPLE:</div>
-        <code className={`${apiStyles.code} ${apiStyles.marginBottom}`}>/v1/accounting/od/rates_of_exchange</code>
-        <div className={styles.codeTitle}>PARAMETERS AND FILTERS EXAMPLE:</div>
-        <code className={`${apiStyles.code} ${apiStyles.marginBottom}`}>
-          ?fields=country_currency_desc,exchange_rate,record_date&filter=record_date:gte:2015-01-01
-        </code>
-        <div className={styles.codeTitle}>FULL API REQUEST EXAMPLE:</div>
-        <code className={apiStyles.code}>
+        <div className={codeTitle}>BASE URL EXAMPLE:</div>
+        <code className={`${code} ${marginBottom}`}>{baseApiUrl}</code>
+        <div className={codeTitle}>ENDPOINT EXAMPLE:</div>
+        <code className={`${code} ${marginBottom}`}>/v1/accounting/od/rates_of_exchange</code>
+        <div className={codeTitle}>PARAMETERS AND FILTERS EXAMPLE:</div>
+        <code className={`${code} ${marginBottom}`}>?fields=country_currency_desc,exchange_rate,record_date&filter=record_date:gte:2015-01-01</code>
+        <div className={codeTitle}>FULL API REQUEST EXAMPLE:</div>
+        <code className={code}>
           {baseApiUrl}
           /v1/accounting/od/rates_of_exchange?fields=country_currency_desc,exchange_rate, record_date&filter=record_date:gte:2015-01-01
         </code>
@@ -90,14 +88,14 @@ const GettingStarted = () => {
           request below directly into a web browser (or script in a data analysis tool), which will return a JSON-formatted response. You can also
           request CSV- or XML-formatted data by using the format filter.
         </p>
-        <div className={styles.codeTitle}>EXAMPLE REQUEST:</div>
-        <code className={apiStyles.code}>
+        <div className={codeTitle}>EXAMPLE REQUEST:</div>
+        <code className={code}>
           {baseApiUrl}
           /v1/accounting/od/rates_of_exchange?fields=country_currency_desc,
           exchange_rate,record_date&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso), record_date:gte:2020-01-01
         </code>
-        <div className={styles.codeTitle}>EXAMPLE RESPONSE:</div>
-        <code className={apiStyles.code}>
+        <div className={codeTitle}>EXAMPLE RESPONSE:</div>
+        <code className={code}>
           {`{"data":[{"country_currency_desc":"Canada-Dollar",`}
           <br />
           {`"exchange_rate":"1.426","record_date":"2020-03-31"},`}

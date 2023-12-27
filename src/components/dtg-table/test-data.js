@@ -50,6 +50,86 @@ export const TestData = [
   },
 ];
 
+export const MoreTestData = [
+  {
+    first: 'Brennah',
+    age: 14,
+    middle: 'McRae',
+    last: 'Francis',
+    birthplace: 'Ft. Collins, CO',
+  },
+  {
+    first: 'Corinne',
+    age: 10,
+    middle: 'Kennedy',
+    last: 'Francis',
+    birthplace: 'North Kansas City, MO',
+  },
+  {
+    first: 'Avelyn',
+    age: 9,
+    middle: 'Reeves',
+    last: 'Francis',
+    birthplace: 'North Kansas City, MO',
+  },
+  {
+    first: 'Frodo',
+    age: 50,
+    middle: 'unknown',
+    last: 'Baggins',
+    birthplace: 'Hobbiton, Shire',
+  },
+  {
+    first: 'Samwise',
+    age: 32,
+    middle: 'unknown',
+    last: 'Gamgee',
+    birthplace: 'Hobbiton, Shire',
+  },
+  {
+    first: 'Peregrin',
+    age: 30,
+    middle: 'unknown',
+    last: 'Took',
+    birthplace: 'Tuckborough, Buckland',
+  },
+  {
+    first: 'Meriadoc',
+    age: 30,
+    middle: 'unknown',
+    last: 'Brandybuck',
+    birthplace: 'Brandy Hall, Buckland',
+  },
+  {
+    first: 'Meriadoc',
+    age: 30,
+    middle: 'unknown',
+    last: 'Brandybuck',
+    birthplace: 'Brandy Hall, Buckland',
+  },
+  {
+    first: 'Meriadoc',
+    age: 30,
+    middle: 'unknown',
+    last: 'Brandybuck',
+    birthplace: 'Brandy Hall, Buckland',
+  },
+  {
+    first: 'Meriadoc',
+    age: 30,
+    middle: 'unknown',
+    last: 'Brandybuck',
+    birthplace: 'Brandy Hall, Buckland',
+  },
+  {
+    first: 'Meriadoc',
+    age: 30,
+    middle: 'unknown',
+    last: 'Brandybuck',
+    birthplace: 'Brandy Hall, Buckland',
+  },
+];
+
 export const testDataForUserFiltering = [
   {
     facility_desc: 'Room',
@@ -245,9 +325,39 @@ export const longerPaginatedDataResponse = {
       close_today_bal: '1639728',
       open_fiscal_year_bal: '1781679',
     },
+    {
+      record_date: '2021-01-21',
+      account_type: 'Federal Reserve Account',
+      close_today_bal: '1639728',
+      open_fiscal_year_bal: '1781679',
+    },
+    {
+      record_date: '2021-01-21',
+      account_type: 'Federal Reserve Account',
+      close_today_bal: '1639728',
+      open_fiscal_year_bal: '1781679',
+    },
+    {
+      record_date: '2021-01-21',
+      account_type: 'Federal Reserve Account',
+      close_today_bal: '1639728',
+      open_fiscal_year_bal: '1781679',
+    },
+    {
+      record_date: '2021-01-21',
+      account_type: 'Federal Reserve Account',
+      close_today_bal: '1639728',
+      open_fiscal_year_bal: '1781679',
+    },
+    {
+      record_date: '2021-01-21',
+      account_type: 'Federal Reserve Account',
+      close_today_bal: '1639728',
+      open_fiscal_year_bal: '1781679',
+    },
   ],
   meta: {
-    'total-count': 6,
+    'total-count': 11,
     'total-pages': 1,
   },
 };
@@ -263,6 +373,68 @@ export const mockPaginatedTableProps = {
     to: new Date(2021, 0, 21),
   },
   serverSidePagination: 'v1/accounting/dts/dts_table_1',
+  shouldPage: true,
+};
+export const mockReactTableProps_rawData = {
+  data: TestData,
+  rawData: { data: TestData },
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_1',
+    rowCount: 20001,
+  },
+  dateRange: {
+    from: new Date(2021, 0, 21),
+    to: new Date(2021, 0, 21),
+  },
+  serverSidePagination: null,
+  shouldPage: true,
+};
+
+export const mockReactTableProps_rawData_smallTable = {
+  data: TestData,
+  rawData: { data: TestData },
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_1',
+    rowCount: 1000,
+  },
+  dateRange: {
+    from: new Date(2021, 0, 21),
+    to: new Date(2021, 0, 21),
+  },
+  dePagianted: null,
+  serverSidePagination: null,
+  shouldPage: true,
+};
+export const mockReactTableProps_depaginated = {
+  data: TestData,
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_1',
+    rowCount: 20001,
+  },
+  dePaginated: longerPaginatedDataResponse,
+  dateRange: {
+    from: new Date(2021, 0, 21),
+    to: new Date(2021, 0, 21),
+  },
+  serverSidePagination: null,
+  shouldPage: true,
+};
+export const mockReactTableProps_depaginated_smallTable = {
+  data: TestData,
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_1',
+    rowCount: 18000,
+  },
+  dePaginated: longerPaginatedDataResponse,
+  dateRange: {
+    from: new Date(2021, 0, 21),
+    to: new Date(2021, 0, 21),
+  },
+  serverSidePagination: null,
   shouldPage: true,
 };
 

@@ -11,26 +11,19 @@ Clone this project using this command:
 `git clone https://github.com/fedspendingtransparency/fiscal-data.git`
 
 Install dependencies:
-`npm install --legacy-peer-deps`
+`npm install`
 
 Start the project on a local server:
-`npm start`
+`npm run develop-dev`
 
 You can run unit tests with:
 `npm run test`
 
 You can run unit tests with _coverage_ via: 
-`npm run tst`
+`npm run test:coverage`
 
 Update the snapshots used in the unit tests with:
 `npm run updateSnapshots`
-
-## Post-Build Tests
-Post build (integration) tests can be run for any environment once you've run a 
-build (for any environment). The post-build test uses Puppeteer and 
-defaults to port `9898`. If you have difficulty with using that port,
-you can `npm config set post_build_test_port=<port>`. 
-
 
 
 ## Troubleshoot Issues

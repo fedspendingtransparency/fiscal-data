@@ -8,7 +8,7 @@ import Methods from '../../components/api-documentation/methods/methods';
 import Fields from '../../components/api-documentation/fields/fields';
 import Aggregation from '../../components/api-documentation/aggregation/aggregation';
 import Examples from '../../components/api-documentation/examples/examples';
-import * as styles from './api.module.scss';
+import { toc } from './api.module.scss';
 import TOCButton from '../../components/table-of-contents/toc-button/toc-button';
 import * as addressBar from '../../helpers/address-bar/address-bar';
 import { animateScroll } from 'react-scroll';
@@ -82,8 +82,8 @@ describe('ApiDocumentationPage', () => {
   });
 
   it('expects links to exist within the toc', () => {
-    const toc = instance.findByProps({ id: styles.toc });
-    const links = toc.findAllByType('a');
+    const tocInstance = instance.findByProps({ id: toc });
+    const links = tocInstance.findAllByType('a');
     expect(links.length).toBeGreaterThan(0);
   });
 

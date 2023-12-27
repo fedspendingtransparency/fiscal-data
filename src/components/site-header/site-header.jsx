@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
-import * as styles from './site-header.module.scss';
 import MobileMenu from './mobile-menu/mobile-menu';
 import { withWindowSize } from 'react-fns';
 import PageNotice from '../page-notice/page-notice';
@@ -14,6 +13,7 @@ import DesktopMenu from './desktop-menu/desktop-menu';
 import AnnouncementBanner from '../announcement-banner/announcement-banner';
 import { NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } from 'gatsby-env-variables';
 import CustomLink from '../links/custom-link/custom-link';
+import { bannerHeading, bannerContent, container, content, logo } from './site-header.module.scss';
 
 const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [openGlossary, setOpenGlossary] = useState(false);
@@ -72,8 +72,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     <>
       {displayBanner() && (
         <AnnouncementBanner closable={false}>
-          <div className={styles.bannerHeading}> Content Temporarily Unavailable:</div>
-          <div className={styles.bannerContent}>
+          <div className={bannerHeading}> Content Temporarily Unavailable:</div>
+          <div className={bannerContent}>
             The Fiscal Data team is working diligently to address the current issue with this page. Please check back later or contact us{' '}
             <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">via email</CustomLink> for further assistance. Thank you.
           </div>
@@ -81,14 +81,14 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       )}
       <header>
         <OfficialBanner data-testid="officialBanner" />
-        <div className={styles.container}>
-          <div className={styles.content}>
+        <div className={container}>
+          <div className={content}>
             <Link
               role="img"
               title="Return to home page"
               alt="Fiscal Data Homepage"
               data-testid="logo"
-              className={styles.logo}
+              className={logo}
               aria-label="Fiscal Data logo - return to home page"
               to="/"
               onClick={() => clickHandler('Logo')}

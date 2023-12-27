@@ -10,7 +10,8 @@ import {
 } from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
 import {
-  tableContainer,
+  rawDataTableContainer,
+  nonRawDataTableContainer,
   tableStyle,
   overlayContainerNoFooter,
   selectColumnPanelActive,
@@ -44,9 +45,10 @@ type DataTableProps = {
   hideColumns?: string[];
   pagingProps;
   manualPagination: boolean;
-  maxRows: number;
   rowsShowing: { begin: number; end: number };
   columnConfig?;
+  allowColumnWrap?: string[];
+  aria;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -68,9 +70,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   hideColumns,
   pagingProps,
   manualPagination,
-  maxRows,
   rowsShowing,
   columnConfig,
+  allowColumnWrap,
+  aria,
 }) => {
   const allColumns = nonRawDataColumns
     ? columnsConstructorGeneric(nonRawDataColumns)
@@ -234,18 +237,18 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             )}
           </div>
           <div className={tableStyle}>
-            <div data-test-id="table-content" className={tableContainer}>
-              <table>
+            <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
+              <table {...aria}>
                 <DataTableHeader
                   table={table}
                   dataTypes={dataTypes}
                   resetFilters={resetFilters}
                   setFiltersActive={setFiltersActive}
-                  maxRows={maxRows}
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
+                  manualPagination={manualPagination}
                 />
-                <DataTableBody table={table} dataTypes={dataTypes} />
+                <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
               </table>
             </div>
           </div>
@@ -257,7 +260,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           showPaginationControls={showPaginationControls}
           pagingProps={pagingProps}
           manualPagination={manualPagination}
-          maxRows={maxRows}
           rowsShowing={rowsShowing}
         />
       )}

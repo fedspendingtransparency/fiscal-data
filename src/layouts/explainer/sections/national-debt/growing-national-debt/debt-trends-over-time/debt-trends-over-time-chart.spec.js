@@ -6,15 +6,15 @@ import { determineBEAFetchResponse } from '../../../../../../utils/mock-utils';
 import { mockBeaGDPData, mockExplainerPageResponse } from '../../../../explainer-test-helper';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { DebtTrendsOverTimeChart } from './debt-trends-over-time-chart';
-import globalConstants from '../../../../../../helpers/constants';
 import { animationCrosshair } from './debt-trends-over-time-chart.module.scss';
 import renderer from 'react-test-renderer';
 import { Line } from '@nivo/line';
 import { RecoilRoot } from 'recoil';
+import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 
 jest.useFakeTimers();
 
-describe('The Growing National Debt', () => {
+describe('Debt Trends Over Time Chart', () => {
   const sectionId = nationalDebtSectionIds[3];
 
   beforeEach(() => {
@@ -56,7 +56,7 @@ describe('The Growing National Debt', () => {
     expect(lineChart.props.crosshairType).toStrictEqual('x');
   });
 
-  it('Renders the initial chart point and crosshair for onScroll animation', async () => {
+  it('Renders the initial chart point for onScroll animation', async () => {
     const { findByTestId, getByTestId } = render(
       <RecoilRoot>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
@@ -64,10 +64,8 @@ describe('The Growing National Debt', () => {
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
-    const chartPoint = await getByTestId('debtTrendsChart').querySelector('div > div > svg > g > g > circle:nth-child(1)');
-    expect(chartPoint).toBeInTheDocument();
-    const chartCrosshair = await getByTestId('debtTrendsChart').querySelector(`div > div > svg > g > line.${animationCrosshair}`);
-    expect(chartCrosshair).toBeInTheDocument();
+    expect(await getByTestId('customPoints')).toBeInTheDocument();
+    expect((await getByTestId('customPoints').querySelector('circle')?.length) === 2);
   });
 
   it('Renders the chart slices', async () => {
@@ -89,12 +87,19 @@ describe('The Growing National Debt', () => {
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
       </RecoilRoot>
     );
+    // explicitly declare that the chart is not scrolled into view
+    mockAllIsIntersecting(false);
 
-    const dateComponents = await findAllByText('2011');
-    expect(dateComponents[0]).toBeInTheDocument();
+    const latestDateComponents = await findAllByText('2021');
+    expect(latestDateComponents[0]).toBeInTheDocument();
 
-    const valueComponent = await findAllByText('80%');
-    expect(valueComponent[0]).toBeInTheDocument();
+    await act(async () => {
+      mockAllIsIntersecting(true);
+      const dateComponents = await findAllByText('2011');
+      expect(dateComponents[0]).toBeInTheDocument();
+      const valueComponent = await findAllByText('80%');
+      expect(valueComponent[0]).toBeInTheDocument();
+    });
   });
 
   it('calls the appropriate analytics event when links are clicked on', async () => {
