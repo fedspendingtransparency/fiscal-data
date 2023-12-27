@@ -24,6 +24,7 @@ import {
   breadCrumbLinks,
   socialCopy,
   publishedDateInfoIcon,
+  currencySelectionInfoIcon,
   effectiveDateEndpoint,
   countDecimals,
   enforceTrailingZero,
@@ -365,15 +366,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         <BreadCrumbs links={breadCrumbLinks} />
       </div>
       <ExchangeRatesBanner text="Currency Exchange Rates Converter" copy={socialCopy} />
-      <div className={container}>
+      <div className={container} onBlur={handleInfoTipClose} role="presentation">
         <span className={title}>Check foreign currency rates against the U.S. Dollar.</span>
-          <span
-            data-testid="foreign-currency-info-tip"
-            onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr')}
-            onBlur={handleInfoTipClose}
-            role="presentation"
-          >
-          </span>
         {nonUSCurrency !== null && (
           <div data-testid="box-container">
             <div>
@@ -409,6 +403,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               testId="non-us-box"
               header="FOREIGN CURRENCY"
               tooltipDiplay={true}
+              tooltip={currencySelectionInfoIcon.body}
               />
             <CurrencyEntryBox
               defaultCurrency="U.S. Dollar"
@@ -416,6 +411,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               onCurrencyValueChange={useHandleChangeUSDollar}
               testId="us-box"
               header="U.S. DOLLAR"
+              tooltipDiplay={false}
+              tooltip={""}
             />
               </div>
           </div>

@@ -1,5 +1,6 @@
 import { BASE_URL } from 'gatsby-env-variables';
 import InfoTip from '../../components/info-tip/info-tip';
+import { leftAline } from './currency-exchange-rates-converter.module.scss';
 import React from 'react';
 
 export const quarterNumToTerm = num => {

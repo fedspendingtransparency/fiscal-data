@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classNames from 'classnames';
 import { labelIcon } from '../../../layouts/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
-import { currencySelectionInfoIcon } from '../../../layouts/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
+
 
 interface ICurrencyEntryBox {
   defaultCurrency: string;
@@ -29,6 +29,7 @@ interface ICurrencyEntryBox {
   testId: string;
   header: string;
   tooltipDiplay: boolean;
+  tooltip: any;
 }
 
 const noNonNumericChar = event => {
@@ -46,7 +47,8 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
   selectedCurrency,
   testId,
   header,
-  tooltipDiplay = false
+  tooltipDiplay = false,
+  tooltip
 }) => {
   const [active, setActive] = useState(false);
   const ariaLabelValue = header === 'U.S. DOLLAR' ? 'U.S. Dollar' : selectedCurrency?.label;
@@ -78,7 +80,7 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
             />
           )}
         </div>
-        <div className={boxLabel}>{labelIcon('Current Currency', currencySelectionInfoIcon.body, tooltipDiplay)}</div>
+        <div className={boxLabel}>{labelIcon('Current Currency', tooltip, tooltipDiplay)}</div>
         {dropdown && options ? (
           <div className={comboCurrencySelection}>
             <ComboCurrencySelect
