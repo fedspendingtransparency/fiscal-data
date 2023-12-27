@@ -1,49 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { loadingIcon, mainContainer, dropdownContainer, dropdown, entriesContainer, pagination } from './calendar-entries.module.scss';
 import SelectControl from '../select-control/select-control';
 import PageButtons from '../pagination/page-buttons';
 import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
-import { useReleaseCalendarEntriesUpdater } from './use-release-calendar-entries-updater-hook';
 import { sortOptions } from './calendar-helpers';
 import Analytics from '../../utils/analytics/analytics';
+import { basicFetch } from '../../utils/api-utils';
 
 export const maxEntriesPerPage = 25;
 export const releaseCalendarSortEvent = {
   category: 'Release Calendar',
   action: 'Sort By Click',
 };
+const releaseCalendarUrl = `https://api.fiscaldata.treasury.gov/services/calendar/release`;
+const metadataUrl = `https://api.fiscaldata.treasury.gov/services/dtg/metadata/`;
 
 const CalendarEntriesList = () => {
-  const { allReleases } = useStaticQuery(
-    graphql`
-      query {
-        allReleases {
-          releases: nodes {
-            datasetId
-            date
-            dataset: parent {
-              ... on Datasets {
-                name
-                slug
-              }
-            }
-            released
-            time
-          }
-        }
-      }
-    `
-  );
-
-  const releases = useReleaseCalendarEntriesUpdater(allReleases.releases).filter(d => d.dataset);
-  const earliestDate = releases[0].date;
   const [loading, setLoading] = useState(true);
-  const [entries, setEntries] = useState(releases);
+  const [apiData, setApiData] = useState(null);
+  const [entries, setEntries] = useState(null);
+  const [maxPage, setMaxPage] = useState(null);
+  const [metaData, setMetaData] = useState(null);
+  const [earliestDate, setEarliestDate] = useState(null);
   const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(async () => {
+    const getMetaData = async () => {
+      return new Promise(resolve => {
+        fetch(metadataUrl).then(res => {
+          resolve(res.json());
+        });
+      });
+    };
+    const data = await getMetaData();
+    setMetaData(data);
+  }, []);
+
+  useEffect(async () => {
+    if (metaData) {
+      const res = await basicFetch(releaseCalendarUrl);
+      res.forEach((element, index) => {
+        const datasetMetaData = metaData.find(d => d.dataset_id === element.datasetId);
+        if (datasetMetaData) {
+          res[index] = {
+            ...element,
+            dataset: {
+              name: datasetMetaData.title,
+              slug: `/${datasetMetaData.dataset_path}/`,
+            },
+          };
+        }
+      });
+      setApiData(sortByDate(res));
+      setEntries(sortByDate(res));
+    }
+  }, [metaData]);
+
+  useEffect(() => {
+    if (entries) {
+      setLoading(false);
+      setMaxPage(Math.ceil(entries.length / maxEntriesPerPage));
+      setEarliestDate(entries[0].date);
+    }
+  }, [entries]);
 
   const sortByName = e => {
     return e.sort((a, b) => {
@@ -74,7 +96,8 @@ const CalendarEntriesList = () => {
     if (option.id === 'name') {
       // if entries are sorted by name, only the next release date for each dataset should be shown
       const releasesMap = new Map();
-      releases.forEach(r => {
+
+      entries.forEach(r => {
         if (!releasesMap.has(r.datasetId)) {
           releasesMap.set(r.datasetId, r);
         }
@@ -83,7 +106,7 @@ const CalendarEntriesList = () => {
       const filteredReleases = [...releasesMap.values()];
       setEntries(sortByName(filteredReleases));
     } else {
-      setEntries(sortByDate(releases));
+      setEntries(apiData);
     }
 
     Analytics.event({
@@ -97,13 +120,6 @@ const CalendarEntriesList = () => {
       eventLabel: option.label,
     });
   };
-
-  useEffect(() => {
-    setEntries(sortByDate(releases));
-    setLoading(false);
-  }, []);
-
-  const maxPage = Math.ceil(entries.length / maxEntriesPerPage);
 
   const pagesArray = [];
   for (let i = 1; i <= maxPage; i++) {

@@ -25,6 +25,9 @@ export const separateEntriesByDate = entries => {
   const separators = {};
 
   for (const entry of entries) {
+    if (entry.time[2] === ':') {
+      entry.time = entry.time.replace(':', '');
+    }
     const date = format(new Date(convertDateAndTimeToDateTime(entry.date, entry.time)), 'EEEE MMMM d, yyyy');
 
     if (separators[date]) {

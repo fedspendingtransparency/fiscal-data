@@ -21,19 +21,23 @@ const CalendarEntryPages = ({ entries, activePage, selectedOption, entriesPerPag
       calendarEntries.push(
         <div className={entriesGroup}>
           <div className={separatorStyle}>{separator}</div>
-          {separatedEntries[separator].map(d => (
-            <CalendarEntry
-              key={`${d.dataset.name}${d.date}${d.time}`}
-              dataset={{
-                name: d.dataset.name,
-                date: d.date,
-                time: d.time,
-                url: d.dataset.slug,
-                released: `${d.released}` === 'true',
-              }}
-              earliestDate={earliestDate}
-            />
-          ))}
+          {separatedEntries[separator].map(d => {
+            if (d !== undefined) {
+              return (
+                <CalendarEntry
+                  key={`${d.dataset?.name}${d.date}${d.time}`}
+                  dataset={{
+                    name: d.dataset?.name,
+                    date: d.date,
+                    time: d.time,
+                    url: d.dataset?.slug,
+                    released: `${d.released}` === 'true',
+                  }}
+                  earliestDate={earliestDate}
+                />
+              );
+            }
+          })}
         </div>
       );
     }
