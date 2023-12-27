@@ -7,14 +7,11 @@ import {
   container,
   currencyBoxContainer,
   footer,
-  selectText,
   breadCrumbsContainer,
-  selectorContainer,
-  effectiveDateContainer,
-  effectiveDateText,
   selector,
   box,
   legalDisclaimer,
+
 } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
 import CurrencyEntryBox from '../../components/exchange-rates-converter/currency-entry-box/currency-entry-box';
@@ -26,7 +23,6 @@ import {
   apiEndpoint,
   breadCrumbLinks,
   socialCopy,
-  currencySelectionInfoIcon,
   effectiveDateInfoIcon,
   effectiveDateEndpoint,
   countDecimals,
@@ -55,6 +51,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [nonUSCurrencyDecimalPlaces, setNonUSCurrencyDecimalPLaces] = useState(0);
   const [inputWarning, setInputWarning] = useState(false);
   const [selectedDate, setSelectedDate] = useState<DropdownOption | null>(null);
+  const [groupedDateOptions, setGroupedDateOptions] = useState<DropdownOption[]>([]);
+  const [selectedDateOption, setSelectedDateOption] = useState<DropdownOption | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   
   type CurrencyYearQuarter = {
     effectiveDate: string;
@@ -254,20 +253,15 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           gaCurrencyTimer = setTimeout(() => {
             analyticsHandler('Foreign Currency Value Entered', event.target.value);
           }, 3000);
-
           quotient = (Math.round((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(2);
         }
         if (!isNaN(quotient)) {
-          setUSDollarValue(quotient.toString());
-        }
+          setUSDollarValue(quotient.toString());}
       }
     },
     [nonUSCurrencyExchangeValue, nonUSCurrency]
   );
-  const [groupedDateOptions, setGroupedDateOptions] = useState<DropdownOption[]>([]);
-  const [selectedDateOption, setSelectedDateOption] = useState<DropdownOption | null>(null);
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-
+  
   const formatDate = (dateStr: string): string => {
     const date = new Date(dateStr);
     return dateStringConverter(date); 
@@ -352,6 +346,26 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   };
 
+  const labelIcon = (labelName, iconName) => {
+    return  (
+      <div style= {{fontSize: '14px', fontWeight: '400'}}>
+        <span>
+          {labelName}
+        </span>
+        <InfoTip
+          hover
+          iconStyle={{
+            color: '#666666',
+            width: '14px',
+            height: '14px',
+          }}
+        >
+          {iconName}
+        </InfoTip>
+      </div>
+    )
+  }
+
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -373,14 +387,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       <ExchangeRatesBanner text="Currency Exchange Rates Converter" copy={socialCopy} />
       <div className={container}>
         <span className={title}>Check foreign currency rates against the U.S. Dollar.</span>
-
           <span
             data-testid="foreign-currency-info-tip"
             onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr')}
             onBlur={handleInfoTipClose}
             role="presentation"
           >
-
           </span>
         {nonUSCurrency !== null && (
           <div data-testid="box-container">
@@ -390,7 +402,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 <div className={selector} data-testid="year-selector">
                 <NestSelectControl
                   ariaLabel={'quater selector'}
-                  label="Published Date"
+                  label={labelIcon('Published Date', effectiveDateInfoIcon.body)}
                   className={box}
                   options={groupedDateOptions}
                   selectedOption={selectedDate}
