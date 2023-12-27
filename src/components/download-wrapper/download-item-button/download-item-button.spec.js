@@ -1,9 +1,9 @@
 import renderer from 'react-test-renderer';
 import DownloadItemButton, { downloadFileEventStr } from './download-item-button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome/index';
-import { faTable } from '@fortawesome/free-solid-svg-icons/index';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTable } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
-import * as styles from './download-item-button.module.scss';
+import { optionIcon } from './download-item-button.module.scss';
 import Analytics from '../../../utils/analytics/analytics';
 
 jest.useFakeTimers();
@@ -28,7 +28,7 @@ describe('DownloadItemButton for static file', () => {
     expect(anchor.props.download).toBe(downloadStr);
   });
   it('sets the icon as provided', () => {
-    expect(anchor.findByProps({ className: styles.optionIcon }).findByProps({ 'data-test-id': 'table-icon' })).toBeDefined();
+    expect(anchor.findByProps({ className: optionIcon }).findByProps({ 'data-test-id': 'table-icon' })).toBeDefined();
   });
   it('sets the label as provided', () => {
     expect(

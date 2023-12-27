@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as styles from './sticky-footer.module.scss';
+import { stickyFooterContainer, closingStyle, stickyFooterContent, floatingNavSpacer } from './sticky-footer.module.scss';
 import LocationAware from '../location-aware/location-aware';
 
 // slow slide down transition, so the user can interrupt
@@ -96,7 +96,7 @@ export const StickyFooterComponent = ({ children, hideAfterTime, hidden, locatio
   // only render component with multiple event handlers when hideAfterTime is present
   return hidden || !children ? null : hideAfterTime ? (
     <div
-      className={`${styles.stickyFooterContainer} ${closing ? styles.closing : ''}`}
+      className={`${stickyFooterContainer} ${closing ? closingStyle : ''}`}
       style={closing && !hovered ? closingTransition : {}}
       data-testid="sticky-footer-container"
       role="button"
@@ -112,17 +112,17 @@ export const StickyFooterComponent = ({ children, hideAfterTime, hidden, locatio
         setHovered(false);
       }}
     >
-      <div className={styles.stickyFooterContent} data-testid="sticky-footer-content">
+      <div className={stickyFooterContent} data-testid="sticky-footer-content">
         {children}
       </div>
-      {navSpacer && <div className={styles.floatingNavSpacer}>&nbsp;</div>}
+      {navSpacer && <div className={floatingNavSpacer}>&nbsp;</div>}
     </div>
   ) : (
-    <div className={styles.stickyFooterContainer} data-testid="sticky-footer-container">
-      <div className={styles.stickyFooterContent} data-testid="sticky-footer-content">
+    <div className={stickyFooterContainer} data-testid="sticky-footer-container">
+      <div className={stickyFooterContent} data-testid="sticky-footer-content">
         {children}
       </div>
-      {navSpacer && <div className={styles.floatingNavSpacer}>&nbsp;</div>}
+      {navSpacer && <div className={floatingNavSpacer}>&nbsp;</div>}
     </div>
   );
 };
