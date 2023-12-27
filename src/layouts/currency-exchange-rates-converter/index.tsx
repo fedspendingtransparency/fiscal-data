@@ -373,7 +373,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             <div>
             {data && (
               <div className={currencyBoxContainer}>
-                <div className={selector} data-testid="year-selector">
+                <div className={selector}>
                 <NestSelectControl
                   ariaLabel={'quater selector'}
                   label={labelIcon('Published Date', publishedDateInfoIcon.body, true)}
@@ -401,6 +401,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               onCurrencyChange={handleCurrencyChange}
               onCurrencyValueChange={handleChangeNonUSCurrency}
               testId="non-us-box"
+              data-testId="currency-dropdown"
               header="FOREIGN CURRENCY"
               tooltipDiplay={true}
               tooltip={currencySelectionInfoIcon.body}
