@@ -3,7 +3,6 @@ import React from 'react';
 import fetchMock from 'fetch-mock';
 import CurrencyExchangeRatesConverter from './index';
 import { labelIcon } from './currency-exchange-rates-converter-helper';
-import InfoTip from '../../components/info-tip/info-tip';
 import { fireEvent } from '@testing-library/dom';
 import Analytics from '../../utils/analytics/analytics';
 import { XRMockData } from './currency-exchange-rates-converter-test-helper';

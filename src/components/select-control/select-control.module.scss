@@ -30,6 +30,7 @@
 }
 .selector_container {
   position: relative;
+  max-height: 400px;
 }
 
 .selector_list {
@@ -40,10 +41,12 @@
   border-radius: 0.1rem;
   position: absolute;
   width: 100%;
+  max-height: 315px;
   box-sizing: border-box;
   background-color: $content-section-background;
   white-space: normal;
   z-index: $select-control;
+  overflow-y: scroll;
   &.scrollableList {
     max-height: 315px;
     overflow-y: scroll;
