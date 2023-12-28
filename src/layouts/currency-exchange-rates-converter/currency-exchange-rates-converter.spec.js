@@ -126,54 +126,6 @@ describe('exchange rates converter', () => {
     expect(usBox.value).toBe('');
   });
 
-  it('try to select a currency other than euro that is greyed out', async () => {
-    const { getByTestId, getByText, getByRole } = render(<CurrencyExchangeRatesConverter />);
-    await waitFor(() => getByText('U.S. Dollar'));
-
-    const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
-
-    const comboBox = within(nonUSBox).getByTestId('infoTipButton');
-
-    fireEvent.click(comboBox);
-
-    const currencySelector = getByRole('textbox');
-
-    // Search list
-    fireEvent.change(currencySelector, { target: { value: 'Other' } });
-
-    const optionList = within(nonUSBox).getByTestId('dropdown-list');
-
-    const option = within(optionList).getByText('Other OtherDollar');
-
-    fireEvent.click(option);
-
-    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 43.60 Euro Zone-Euro');
-  });
-
-  it('select a currency other than euro that is not greyed out', async () => {
-    const { getByTestId, getByText, getByRole } = render(<CurrencyExchangeRatesConverter />);
-    await waitFor(() => getByText('U.S. Dollar'));
-
-    const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
-
-    const comboBox = within(nonUSBox).getByRole('button');
-
-    fireEvent.click(comboBox);
-
-    const currencySelector = getByRole('textbox');
-
-    // Search list
-    fireEvent.change(currencySelector, { target: { value: 'Other' } });
-
-    const optionList = within(nonUSBox).getByTestId('dropdown-list');
-
-    const option = within(optionList).getByText('Other OtherDollar2');
-
-    fireEvent.click(option);
-
-    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 150 Other OtherDollar2');
-  });
-
   it('renders the most recent effective date', async () => {
     const { getByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));

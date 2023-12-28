@@ -5,9 +5,9 @@ import {
   selector_optionSelected, 
   selector_optionButton,
   selector_container,
-  selector_button,
+  nested_selector_button,
   labels,
-  selector_list,
+  nested_selector_list,
   icon,
   yearTitle
  } from './select-control.module.scss';
@@ -100,7 +100,7 @@ const NestSelectControl = ({ label, options, selectedOption, ariaLabel, changeHa
         <button
           name="dropdownToggle"
           data-testid="toggle-button"
-          className={selector_button}
+          className={nested_selector_button}
           aria-haspopup="true"
           aria-expanded={droppedDown}
           aria-label={selectedOption ? `Change ${label} from ${selectedOption.label}` : `Select ${label}`}
@@ -112,7 +112,7 @@ const NestSelectControl = ({ label, options, selectedOption, ariaLabel, changeHa
           <FontAwesomeIcon icon={faChevronDown} size="sm" className={icon} />
         </button>
         {droppedDown && (
-          <ul className={`${selector_list} selectControlList`} data-testid="selectorList">
+          <ul className={`${nested_selector_list} selectControlList`} data-testid="selectorList">
             {options.map(option => (
               <React.Fragment key={option.value}>
                 {renderOption(option, true)}

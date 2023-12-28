@@ -198,12 +198,16 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const updateCurrencyDropdownOptions = (selQuarter, selYear) => {
     const selectedYearQuarter = `${selYear.value}Q${selQuarter.value}`;
-    setDropdownOptions(
-      sortedCurrencies.map(currency => ({
+
+    const newOptions = sortedCurrencies.map(currency => {
+    const isAvilable = currency.yearQuarterMap[selectedYearQuarter];
+      return {
         label: currency.label,
         value: currency.yearQuarterMap[selectedYearQuarter] ? currency.yearQuarterMap[selectedYearQuarter].data : null,
-      }))
-    );
+        isDisabled: !isAvilable,
+      }
+    });
+    setDropdownOptions(newOptions);
   };
 
   useEffect(() => {
@@ -319,34 +323,32 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const fetchExchangeRate = (country, date) => {
     const relevantCurrencyDate = data.find(record =>
-      record.country_currency_desc === country &&record.effective_date === date
+      record.country_currency_desc === country && record.effective_date === date
     );
     if(relevantCurrencyDate){
       setNonUSCurrency(relevantCurrencyDate);
       setNonUSCurrencyExchangeValue(relevantCurrencyDate.exchange_rate);
       setNonUSCurrencyDecimalPLaces(countDecimals(relevantCurrencyDate.exchange_rate));
-
       setUSDollarValue('1.00');
       setInputWarning(false);
     }
   };
-
-  const handleCurrencyChange = (selectedCurrency) => {
-    setSelectedCountry(selectedCurrency);
-
-    if (selectedDateOption) {
-      fetchExchangeRate(selectedCurrency.label, selectedDateOption.value);
-    }
-    setSelectedCountry(selectedCurrency.label);
-  };
-
   const handleDateChange = (selectedDateOption) => {
+    setSelectedDate(selectedDateOption);
     setSelectedDateOption(selectedDateOption);
     const selectedDate = selectedDateOption.value;
     if (selectedCountry) {
+      console.log(selectedDateOption)
       fetchExchangeRate(selectedCountry, selectedDate);
     }
   };
+  const handleCurrencyChange = (selectedCurrency) => {
+    setSelectedCountry(selectedCurrency.label);
+    if (selectedDateOption) {
+      fetchExchangeRate(selectedCurrency.label, selectedDateOption.value);
+    }
+  };
+
 
   return (
     <SiteLayout isPreProd={false}>
