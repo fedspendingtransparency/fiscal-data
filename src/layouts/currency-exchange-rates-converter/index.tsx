@@ -333,12 +333,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setInputWarning(false);
     }
   };
+
   const handleDateChange = (selectedDateOption) => {
     setSelectedDate(selectedDateOption);
     setSelectedDateOption(selectedDateOption);
+
     const selectedDate = selectedDateOption.value;
     if (selectedCountry) {
-      console.log(selectedDateOption)
       fetchExchangeRate(selectedCountry, selectedDate);
     }
   };
