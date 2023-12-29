@@ -53,8 +53,8 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
     setDroppedDown(!droppedDown);
   };
 
-  const handleMouseEnter = (option) => {
-    setHighlightedOption(option);
+  const handleMouseEnter = () => {
+    setHighlightedOption('');
   }
   const handleMouseLeave = () => {
     setHighlightedOption(selectedOption);
@@ -84,12 +84,7 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
       const isSelectedOption = option === optionSelected || (colName && optionSelected.columnName && colName === optionSelected.columnName);
       const isHighLighted = option === highlightedOption;
       return (
-        <li 
-          key={option.value} 
-          className={`${selector_nestedOption} ${isHighLighted ? highlighted : ''} ${isYear ? yearTitle : ''}`}
-          onMouseEnter={() => handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          role="presentation"
+        <li key={option.value} className={`${selector_nestedOption} ${isHighLighted ? highlighted : ''} ${isYear ? yearTitle : ''}`}
         >
           <button
             className={`${selector_optionButton} ${isSelectedOption ? selector_optionSelected : ''} `}
@@ -127,7 +122,13 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
           <FontAwesomeIcon icon={droppedDown ? faChevronUp : faChevronDown} size="sm" className={icon} />
         </button>
         {droppedDown && (
-          <ul className={`${nested_selector_list} selectControlList`} data-testid="selectorList">
+          <ul 
+            className={`${nested_selector_list} selectControlList`} 
+            data-testid="selectorList" 
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            role='presentation'
+          >
             {options.map(option => (
               <React.Fragment key={option.value}>
                 {renderOption(option, true)}
