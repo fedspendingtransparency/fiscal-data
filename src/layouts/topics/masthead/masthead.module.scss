@@ -7,12 +7,12 @@
 .relatedTopics {
   margin-top: 1rem;
 
-  .title,
+  .titleStyle,
   .topic {
     display: inline-block;
     margin: 1rem 2rem 0 0;
   }
-  .title {
+  .titleStyle {
     @include headingStyle6;
   }
   .topic {

@@ -4,7 +4,7 @@ import Analytics from '../../utils/analytics/analytics';
 import * as Gatsby from 'gatsby';
 
 import DatasetCard from './dataset-card';
-import * as datasetStyles from './dataset-card.module.scss';
+import { card } from './dataset-card.module.scss';
 import { render, fireEvent } from '@testing-library/react';
 
 describe('DatasetCard', () => {
@@ -46,7 +46,7 @@ describe('DatasetCard', () => {
 
   it('entire card, when clicked, links to relevant dataset detail page', () => {
     const spy = jest.spyOn(Gatsby, 'navigate');
-    const thisCard = instance.findAllByProps({ className: datasetStyles.card });
+    const thisCard = instance.findAllByProps({ className: card });
 
     renderer.act(() => thisCard[0].props.onClick());
 
@@ -62,7 +62,7 @@ describe('DatasetCard', () => {
   it('tracks when dataset card is click', () => {
     const spy = jest.spyOn(Analytics, 'event');
 
-    const thisCard = instance.findAllByProps({ className: datasetStyles.card });
+    const thisCard = instance.findAllByProps({ className: card });
     renderer.act(() => thisCard[0].props.onClick());
 
     expect(spy).toHaveBeenCalledTimes(1);

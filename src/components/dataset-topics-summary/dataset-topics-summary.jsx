@@ -1,5 +1,5 @@
 import React from 'react';
-import * as styles from './dataset-topics-summary.module.scss';
+import { topicsHeading, topics, emptyDiv } from './dataset-topics-summary.module.scss';
 import Truncator from '../truncate/truncate';
 
 export default function datasetTopicsSummary(props) {
@@ -7,15 +7,15 @@ export default function datasetTopicsSummary(props) {
     <>
       {props.relatedTopics && props.relatedTopics.length ? (
         <>
-          <div className={styles.topicsHeading} data-test-id={'topics-heading'}>
+          <div className={topicsHeading} data-test-id={'topics-heading'}>
             TOPICS:
           </div>
-          <p className={styles.topics} data-test-id={'related-topics'}>
+          <p className={topics} data-test-id={'related-topics'}>
             <Truncator numberOfLines={1}>{props.relatedTopics.join(', ')}</Truncator>
           </p>
         </>
       ) : (
-        <div className={styles.emptyDiv} data-test-id={'topics-empty-div'} />
+        <div className={emptyDiv} data-test-id={'topics-empty-div'} />
       )}
     </>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import * as styles from './dataset-stats.module.scss';
+import { list, icon, futureDateIconStyle, dictionary_yes, dictionary_no } from './dataset-stats.module.scss';
 import { isAfter } from 'date-fns';
 import futureDateIcon from '../../images/futureDateIcon.svg';
 
@@ -22,32 +22,32 @@ export default function DatasetStats(props) {
   const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0, 0, 0), new Date());
 
   return (
-    <ul className={styles.list}>
+    <ul className={list}>
       <li data-test-id="dateRange-li" aria-label={'Date Range: ' + dateRange}>
         {dateRange && useFutureIcon ? (
-          <img src={futureDateIcon} className={styles.futureDateIcon} data-test-id={'futureDateIcon'} alt={'future date icon'} aria-hidden={'true'} />
+          <img src={futureDateIcon} className={futureDateIconStyle} data-test-id={'futureDateIcon'} alt={'future date icon'} aria-hidden={'true'} />
         ) : (
-          <FontAwesomeIcon icon={faCalendarWeek} size="1x" className={styles.icon} data-test-id="calendar-week-icon" />
+          <FontAwesomeIcon icon={faCalendarWeek} size="1x" className={icon} data-test-id="calendar-week-icon" />
         )}
         {dateRange}
       </li>
       <li data-testid="updateFrequency-li" aria-label={frequency}>
-        <FontAwesomeIcon icon={faSyncAlt} size="1x" className={styles.icon} data-testid="sync-alt-icon" />
+        <FontAwesomeIcon icon={faSyncAlt} size="1x" className={icon} data-testid="sync-alt-icon" />
         {frequency}
       </li>
       <li data-test-id={'lastUpdated'} aria-label={'last updated' + lastUpdated}>
-        <FontAwesomeIcon icon={faCalendarCheck} size="1x" className={styles.icon} data-test-id={'calendarCheckIcon'} />
+        <FontAwesomeIcon icon={faCalendarCheck} size="1x" className={icon} data-test-id={'calendarCheckIcon'} />
         {'Last Updated ' + lastUpdated}
       </li>
       <li data-testid="fileType-li" aria-label={'CSV, JSON, XML'}>
-        <FontAwesomeIcon icon={faFileCode} size="1x" className={styles.icon} data-testid="page-icon" />
+        <FontAwesomeIcon icon={faFileCode} size="1x" className={icon} data-testid="page-icon" />
         CSV, JSON, XML
       </li>
       <li data-testid="dictionary-li" aria-label={dataDictionaryText}>
         <FontAwesomeIcon
           icon={dataDictionaryPresent ? faCheckCircle : faTimesCircle}
           size="1x"
-          className={`${styles.icon} ${dataDictionaryPresent ? styles.dictionary_yes : styles.dictionary_no}`}
+          className={`${icon} ${dataDictionaryPresent ? dictionary_yes : dictionary_no}`}
           data-testid="dictionary-icon"
         />
         Data Dictionary
