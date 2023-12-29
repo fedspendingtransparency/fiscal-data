@@ -26,12 +26,12 @@
 .nested_selector_button {
   position: relative;
   display: inline-block;
-  font-size: $font-size-15;
+  font-size: $font-size-16;
   width: 100%;
   height: 100%;
   background-color: $content-section-background;
   border: 1px solid $border-color;
-  border-radius: 0.2rem;
+  border-radius: .125rem;
   padding: 0.75rem 1rem;
   text-align: left;
   line-height: unset;
@@ -56,11 +56,24 @@
   position: relative;
   max-height: 400px;
 }
+
+.nested_selector_container {
+  position: relative;
+  max-height: 400px;
+  &.dropdown_open{
+    border: 1px solid $primary;
+    border-radius: .125rem;
+    box-shadow: 0px 0px 0px 4px $primary-blue;
+  }
+  
+}
 .nested_selector_list {
   list-style: none;
-  padding: 0 0.6rem;
-  border: 1px solid $border-color;
-  border-radius: 0.1rem;
+  margin-top: .313rem;
+  padding: 0 0 .5rem 0;
+  border: 0px solid $border-color;
+  box-shadow: 0px 4px 16px  rgba( 0,0,0, .15);
+  border-radius: 0.5rem;
   position: absolute;
   width: 100%;
   box-sizing: border-box;
@@ -131,41 +144,51 @@
   text-overflow: ellipsis;
 }
 .yearTitle{
-margin: .5rem;
+  margin: .5rem 1rem;
+  font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
 }
 
 .selector_nestedOption {
-  font-size: $font-size-15;
-  padding-left: 1rem;
+  font-size: $font-size-16;
+  padding-left: 0;
   font-weight: normal;
   display: block;
+  height: 2.25rem;
 
-  + .selector_option {
+  .selector_option {
     border-top: 1px solid $border-color;
   }
 
   .selector_optionButton {
-    font-size: $font-size-15;
-    width: 100%;
+    font-size: $font-size-16;
     background-color: transparent;
     border: none;
+    padding-left: 2rem;
     text-align: left;
     line-height: 2;
     color: $font-body-copy;
     cursor: pointer;
-
     &:hover {
-      background-color: $body-background;
+      color: $primary;
       transition: background-color 0.2s ease;
     }
+  }
+  &:hover, &.highlighted {
+    background-color: $primary-blue;
+    transition: background-color 0.2s ease;
+  }
+  &:hover {
+    background-color: $primary-blue;
+    color: $primary;
+    transition: background-color 0.2s ease;
+  }
 
-    &:disabled {
-      cursor: default;
-      &:hover {
-        background-color: $content-section-background;
-      }
+  &:disabled {
+    cursor: default;
+    &:hover {
+      background-color: $content-section-background;
     }
-
   }
 }
 
@@ -177,7 +200,7 @@ margin: .5rem;
   width: 100%;
   background-color: $content-section-background;
   border: 1px solid $border-color;
-  border-radius: 0.2rem;
+  border-radius: 0.13rem;
   padding-left: 0.5rem;
   text-align: left;
   line-height: 2.125rem;

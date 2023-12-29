@@ -11,7 +11,6 @@ import {
   selector,
   box,
   legalDisclaimer,
-  effectiveDateText,
 
 } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
@@ -25,7 +24,6 @@ import {
   breadCrumbLinks,
   socialCopy,
   publishedDateInfoIcon,
-  effectiveDateInfoIcon,
   currencySelectionInfoIcon,
   effectiveDateEndpoint,
   countDecimals,
@@ -111,7 +109,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   useEffect(() => {
     basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then(res => {
       if (res.data) {
-        const date = new Date(res.data[0].effective_date);
+        const date = new Date(res.data[0].record_date);
         setDatasetDate(dateStringConverter(date));
       }
     });
@@ -130,17 +128,17 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }
         if (!currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)]) {
           currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
-            effectiveDate: record.effective_date,
+            effectiveDate: record.record_date,
             rate: record.exchange_rate,
             data: record,
           };
         } else if (currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)]) {
           if (
             new Date(currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)].effectiveDate) <
-            new Date(record.effective_date)
+            new Date(record.record_date)
           ) {
             currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
-              effectiveDate: record.effective_date,
+              effectiveDate: record.record_Date,
               rate: record.exchange_rate,
               data: record,
             };
@@ -387,7 +385,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 >
                 <NestSelectControl
                   ariaLabel={'quater selector'}
-                  label={labelIcon('Published Date', effectiveDateInfoIcon.body, 'effective-date-info-tip', true)}
+                  label={labelIcon('Published Date', publishedDateInfoIcon.body, 'effective-date-info-tip', true)}
                   className={box}
                   options={groupedDateOptions}
                   selectedOption={selectedDate}
