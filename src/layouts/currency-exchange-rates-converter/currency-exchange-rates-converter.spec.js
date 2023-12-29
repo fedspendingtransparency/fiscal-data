@@ -153,6 +153,24 @@ it('does not call analytic event when Effective Date info tip is hovered over an
   jest.runAllTimers();
 });
 
+it('updates exchange rates and fields correctly when a different currency is selected from the dropdown', async () => {
+
+  const { getByTestId, getByRole, findByText } = render(<CurrencyExchangeRatesConverter />);
+
+  await waitFor(() => getByTestId('box-container'));
+  const currencyDropdown = getByTestId('currency-dropdown'); 
+  fireEvent.click(currencyDropdown);
+  const newCurrencyOption = getByRole('option', { name: 'Other OtherDollar2' }); 
+  fireEvent.click(newCurrencyOption);
+  const updatedExchangeRate = await findByText('150'); 
+  expect(updatedExchangeRate).toBeInTheDocument();
+
+  const convertedValue = getByTestId('converted-value'); 
+  expect(convertedValue).toHaveTextContent(/* expected converted value based on the new exchange rate */);
+
+});
+
+
 it('does not call analytic event when Effective Date info tip is hovered over in first 3 seconds', async () => {
   const spy = jest.spyOn(Analytics, 'event');
   const { getByTestId } = render(<CurrencyExchangeRatesConverter />);

@@ -280,22 +280,22 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       let mostRecentEuroRecord;
 
       data.forEach(record => {
-        const year = new Date(record.effective_date).getFullYear().toString();
-        const formattedDate = formatDate(record.effective_date);
+        const year = new Date(record.record_date).getFullYear().toString();
+        const formattedDate = formatDate(record.record_date);
 
         if (!dateGroups[year]) {
           dateGroups[year] = [];
         }
 
-        if (!dateGroups[year].some(option => option.value === record.effective_date)) {
+        if (!dateGroups[year].some(option => option.value === record.record_date)) {
           dateGroups[year].push({
             label: formattedDate,
-            value: record.effective_date,
+            value: record.record_date,
           });
         }
 
         if (record.country_currency_desc === 'Euro Zone-Euro'){
-          if (!mostRecentEuroRecord || new Date(record.effective_date) > new Date(mostRecentEuroRecord.effective_date)){
+          if (!mostRecentEuroRecord || new Date(record.record_date) > new Date(mostRecentEuroRecord.record_date)){
             mostRecentEuroRecord = record;
           }
         }
@@ -315,7 +315,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         setNonUSCurrencyExchangeValue(mostRecentEuroRecord.exchange_rate);
         setNonUSCurrencyDecimalPLaces(countDecimals(mostRecentEuroRecord.exchange_rate));
         setSelectedCountry(mostRecentEuroRecord.country_currency_desc)
-        setSelectedDate({ label: dateStringConverter(new Date(mostRecentEuroRecord.effective_date)), value: mostRecentEuroRecord.effective_date});
+        setSelectedDate({ label: dateStringConverter(new Date(mostRecentEuroRecord.record_date)), value: mostRecentEuroRecord.record_date});
       }
       setData(res.data);
     });
@@ -323,7 +323,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const fetchExchangeRate = (country, date) => {
     const relevantCurrencyDate = data.find(record =>
-      record.country_currency_desc === country && record.effective_date === date
+      record.country_currency_desc === country && record.record_date === date
     );
     if(relevantCurrencyDate){
       setNonUSCurrency(relevantCurrencyDate);
