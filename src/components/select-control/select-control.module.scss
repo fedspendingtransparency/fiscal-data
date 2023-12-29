@@ -41,7 +41,7 @@
   .icon {
     display: block;
     position: absolute;
-    right: 0.6rem;
+    right: 1rem;
     top: 0.7875rem;
     width: 1rem;
     height: 1rem;
@@ -155,7 +155,13 @@
   font-weight: normal;
   display: block;
   height: 2.25rem;
-
+  &.highlighted {
+    background-color: $primary-blue;
+    transition: background-color 0.2s ease;
+    .selector_optionButton {
+      color: $primary;
+  }
+}
   .selector_option {
     border-top: 1px solid $border-color;
   }
@@ -164,6 +170,7 @@
     font-size: $font-size-16;
     background-color: transparent;
     border: none;
+    width: 100%;
     padding-left: 2rem;
     text-align: left;
     line-height: 2;
@@ -174,10 +181,7 @@
       transition: background-color 0.2s ease;
     }
   }
-  &:hover, &.highlighted {
-    background-color: $primary-blue;
-    transition: background-color 0.2s ease;
-  }
+
   &:hover {
     background-color: $primary-blue;
     color: $primary;

@@ -11,7 +11,7 @@ import {
   icon,
   yearTitle,
   dropdown_open,
-  highlighted
+  highlighted,
  } from './select-control.module.scss';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -53,7 +53,7 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
     setDroppedDown(!droppedDown);
   };
 
-  const handleMouseEnter = option => {
+  const handleMouseEnter = (option) => {
     setHighlightedOption(option);
   }
   const handleMouseLeave = () => {
@@ -84,12 +84,16 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
       const isSelectedOption = option === optionSelected || (colName && optionSelected.columnName && colName === optionSelected.columnName);
       const isHighLighted = option === highlightedOption;
       return (
-        <li key={option.value} className={classNames({ [selector_nestedOption]: true })}>
+        <li 
+          key={option.value} 
+          className={`${selector_nestedOption} ${isHighLighted ? highlighted : ''} ${isYear ? yearTitle : ''}`}
+          onMouseEnter={() => handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          role="presentation"
+        >
           <button
-            className={classNames([selector_optionButton, {highlighted : isHighLighted}, {'selector_optionSelected' : isSelectedOption}])}
+            className={`${selector_optionButton} ${isSelectedOption ? selector_optionSelected : ''} `}
             onClick={() => updateSelection(option)}
-            onMouseEnter={() => handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
           >
             {option.label}
           </button>
