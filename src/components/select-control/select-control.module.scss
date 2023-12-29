@@ -62,7 +62,6 @@
   max-height: 400px;
   &.dropdown_open{
     border: 1px solid $primary;
-    border-radius: .125rem;
     box-shadow: 0px 0px 0px 4px $primary-blue;
   }
   
@@ -145,7 +144,7 @@
 }
 .yearTitle{
   margin: .5rem 1rem;
-  font-size: $font-size-16;
+  font-size: $font-size-14;
   font-weight: $semi-bold-weight;
 }
 

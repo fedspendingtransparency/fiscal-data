@@ -312,7 +312,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         setNonUSCurrency(mostRecentEuroRecord);
         setNonUSCurrencyExchangeValue(mostRecentEuroRecord.exchange_rate);
         setNonUSCurrencyDecimalPLaces(countDecimals(mostRecentEuroRecord.exchange_rate));
-        setSelectedCountry(mostRecentEuroRecord.country_currency_desc)
+
         setSelectedDate({ label: dateStringConverter(new Date(mostRecentEuroRecord.record_date)), value: mostRecentEuroRecord.record_date});
       }
       setData(res.data);
@@ -335,7 +335,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const handleDateChange = (selectedDateOption) => {
     setSelectedDate(selectedDateOption);
     setSelectedDateOption(selectedDateOption);
-
     const selectedDate = selectedDateOption.value;
     if (selectedCountry) {
       fetchExchangeRate(selectedCountry, selectedDate);
