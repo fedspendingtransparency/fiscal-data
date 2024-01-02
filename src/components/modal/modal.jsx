@@ -1,6 +1,6 @@
 import React from 'react';
 import { Backdrop, Fade, Modal } from '@material-ui/core';
-import * as styles from './modal.module.scss';
+import { modal, content, slideIn, slideOut } from './modal.module.scss';
 
 /**
  *
@@ -15,7 +15,7 @@ const ModalComponent = ({ open = false, onClose, disableBackdropClick, disableEs
   <Modal
     open={open}
     onClose={onClose}
-    className={styles.modal}
+    className={modal}
     data-testid="modal"
     disableBackdropClick={disableBackdropClick}
     disableEscapeKeyDown={disableEscapeKey}
@@ -27,7 +27,7 @@ const ModalComponent = ({ open = false, onClose, disableBackdropClick, disableEs
     closeAfterTransition
   >
     <Fade in={open} timeout={500}>
-      <div className={`${styles.content} ${contentClass} ${open ? styles.slideIn : styles.slideOut}`} data-testid="content">
+      <div className={`${content} ${contentClass} ${open ? slideIn : slideOut}`} data-testid="content">
         {children}
       </div>
     </Fade>

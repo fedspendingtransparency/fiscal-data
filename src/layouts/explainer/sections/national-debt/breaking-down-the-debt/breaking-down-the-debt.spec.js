@@ -126,7 +126,6 @@ describe('Breaking Down the Debt', () => {
     await waitFor(() => {
       elem = getByTestId('interest-and-debt-chart-header');
       Object.entries(mockInterestToDebtChartHeaderSummary).forEach(([label, value]) => {
-        console.log('label', label);
         expect(elem).toHaveTextContent(label);
         expect(elem).toHaveTextContent(value);
       });

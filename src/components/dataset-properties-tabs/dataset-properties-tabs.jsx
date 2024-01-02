@@ -15,6 +15,8 @@ import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 
 const DatasetPropertiesTabs = ({ config, test, width }) => {
+  const [dictionaryPerPage, setDictionaryPerPage] = useState(5);
+
   const TabPanel = ({ children, value, index, ...other }) => (
     <Typography
       component="div"
@@ -67,7 +69,7 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
   const tabs = [
     {
       label: 'Data Dictionary',
-      content: <DataDictionary datasetName={config.name} apis={config.apis} />,
+      content: <DataDictionary datasetName={config.name} apis={config.apis} perPage={dictionaryPerPage} setPerPage={setDictionaryPerPage} />,
     },
     {
       label: 'Data Tables',

@@ -1,11 +1,11 @@
 import React from 'react';
 import Topic from './topic/topic';
-import * as styles from './topics.module.scss';
+import { topicTitle, topicsLayout } from './topics.module.scss';
 import FilterGroupReset from '../filters/filterGroupReset/filterGroupReset';
 
 const Topics = ({ activeFilters, groupId, onChange, onGroupReset, availableFilters, topicIcons }) => (
   <>
-    <h2 className={styles.topicTitle} data-testid="topics-title">
+    <h2 className={topicTitle} data-testid="topics-title">
       Topics
     </h2>
     <FilterGroupReset
@@ -15,7 +15,7 @@ const Topics = ({ activeFilters, groupId, onChange, onGroupReset, availableFilte
       filters={availableFilters}
       onGroupReset={onGroupReset}
     />
-    <div className={styles.topicsLayout}>
+    <div className={topicsLayout}>
       {availableFilters
         .filter(filter => filter.groupId === groupId)
         .map(filter => {

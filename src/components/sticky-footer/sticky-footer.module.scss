@@ -12,7 +12,7 @@
   transition: max-height 0.2s linear, visibility 0s linear;
   visibility: visible;
   box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
-  &.closing {
+  &.closingStyle {
     max-height: 0;
     visibility: hidden;
     &:hover {

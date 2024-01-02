@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionContent from '../../section-content/section-content';
-import * as apiStyles from '../../../../pages/api-documentation/api.module.scss';
+import { marginBottom, code } from '../../../../pages/api-documentation/api.module.scss';
 import GLOBALS from '../../../../helpers/constants';
 
 const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
@@ -36,9 +36,9 @@ const Sorting = () => (
       <code className="inline">?sort=-record_date</code>
     </p>
     <p>Sort the Treasury Report on Receivables dataset by the Funding Type ID field in ascending order i.e., least to greatest.</p>
-    <code className={`${apiStyles.code} ${apiStyles.marginBottom}`}>{baseApiUrl}/v2/debt/tror?sort=funding_type_id</code>
+    <code className={`${code} ${marginBottom}`}>{baseApiUrl}/v2/debt/tror?sort=funding_type_id</code>
     <p>Nested sorting (year, then month).</p>
-    <code className={`${apiStyles.code} ${apiStyles.marginBottom}`}>
+    <code className={`${code} ${marginBottom}`}>
       {baseApiUrl}/v2/accounting/od/debt_to_penny?fields=record_calendar_year,record_calendar_month&sort=-record_calendar_year,-record_calendar_month
     </code>
   </SectionContent>

@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import TableSectionContainer from './table-section-container';
 import DtgTable from '../../dtg-table/dtg-table';
 import PivotToggle from './pivot-toggle/pivot-toggle';
-import * as styles from './table-section-container.module.scss';
+import { active } from './table-section-container.module.scss';
 import {
   mockConfig,
   mockDateRange,
@@ -22,7 +22,7 @@ import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
 import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, getByTestId } from '@testing-library/react';
 import NotShownMessage from './not-shown-message/not-shown-message';
 import { RecoilRoot } from 'recoil';
 
@@ -36,7 +36,7 @@ describe('TableSectionContainer initial state', () => {
         <TableSectionContainer
           selectedTable={selectedTableLessFields}
           dateRange={mockDateRange}
-          apiData={mockApiData}
+          apiData={{}}
           setSelectedPivot={mockSetSelectedPivot}
           config={mockConfig}
         />
@@ -217,7 +217,7 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </RecoilRoot>
     );
-    expect(getByTestId('pivotOptionsDrawer').className).toContain(styles.active);
+    expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
   });
 
   it('shows no aggregation notice when the selected pivot is not aggregated', () => {
@@ -240,9 +240,9 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </RecoilRoot>
     );
-    expect(getByTestId('pivotOptionsDrawer').className).toContain(styles.active);
+    expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
     fireEvent.click(getByTestId('pivotToggle'));
-    expect(getByTestId('pivotOptionsDrawer').className).not.toContain(styles.active);
+    expect(getByTestId('pivotOptionsDrawer').className).not.toContain(active);
   });
 
   it('relays an endpoint value when it receives it in the serverSidePagination prop', async () => {

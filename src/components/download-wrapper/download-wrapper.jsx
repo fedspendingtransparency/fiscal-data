@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import * as styles from './download-wrapper.module.scss';
+import { wrapper, downloadDescription, describer, dateStringStyle } from './download-wrapper.module.scss';
 import Truncator from '../truncate/truncate';
 import DownloadItemButton from './download-item-button/download-item-button';
 import Analytics from '../../utils/analytics/analytics';
@@ -174,10 +174,10 @@ const DownloadWrapper = ({
   }, [datasetDownloadInProgress]);
 
   return (
-    <div className={styles.wrapper} data-test-id="wrapper">
+    <div className={wrapper} data-test-id="wrapper">
       <DownloadModal open={open} onClose={onClose} downloadsPrepared={downloadsPrepared} setCancelDownloadRequest={handleCancelRequest} />
-      <div className={styles.downloadDescription}>
-        <div data-test-id="tableName" className={styles.describer}>
+      <div className={downloadDescription}>
+        <div data-test-id="tableName" className={describer}>
           <strong>Data Table:</strong>
           <div>
             <Truncator>
@@ -185,23 +185,23 @@ const DownloadWrapper = ({
             </Truncator>
           </div>
         </div>
-        <div className={styles.describer}>
+        <div className={describer}>
           <strong>Date Range:</strong>
           {!isFiltered && (
-            <span data-test-id="allString" className={styles.dateString}>
+            <span data-test-id="allString" className={dateStringStyle}>
               {' '}
               {allString}
             </span>
           )}
-          <div data-test-id="dateString" className={styles.dateString}>
+          <div data-test-id="dateString" className={dateStringStyle}>
             {' '}
             {dateString}
           </div>
         </div>
         {selectedTable?.userFilter && (
-          <div className={styles.describer}>
+          <div className={describer}>
             <strong data-testid="userFilterLabel">{selectedTable.userFilter.label}:</strong>
-            <div data-testid="userFilterValue" className={styles.dateString}>
+            <div data-testid="userFilterValue" className={dateStringStyle}>
               {selectedUserFilter && selectedUserFilter.value ? selectedUserFilter.label : '(None selected)'}
             </div>
           </div>

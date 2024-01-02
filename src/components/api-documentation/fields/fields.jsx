@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
-import * as apiStyles from '../../../pages/api-documentation/api.module.scss';
+import { code, marginBottom } from '../../../pages/api-documentation/api.module.scss';
 import CustomLink from '../../links/custom-link/custom-link';
 import GLOBALS from '../../../helpers/constants';
 
@@ -35,12 +35,12 @@ const Fields = () => (
       <p>
         Only return the following fields from a dataset: <code className="inline">country_currency_desc, exchange_rate, and record_date.</code>
       </p>
-      <code className={`${apiStyles.code} ${apiStyles.marginBottom}`}>?fields=country_currency_desc,exchange_rate,record_date</code>
+      <code className={`${code} ${marginBottom}`}>?fields=country_currency_desc,exchange_rate,record_date</code>
       <p>
         Return the following fields from the Treasury Reporting Rates of Exchange dataset:{' '}
         <code className="inline">country_currency_desc, exchange_rate, and record_date.</code>
       </p>
-      <code className={apiStyles.code}>
+      <code className={code}>
         {baseApiUrl}
         /v1/accounting/od/rates_of_exchange?fields=country_currency_desc,exchange_rate,record_date
       </code>

@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
 import CustomLink from '../../links/custom-link/custom-link';
-import * as styles from '../../dtg-table/dtg-table.module.scss';
+import { wrapper } from '../../dtg-table/dtg-table.module.scss';
 import MetaObject from './meta-object/meta-object';
 import LinksObject from './links-object/links-object';
 import DataObject from './data-object/data-object';
@@ -54,7 +54,7 @@ const Responses = () => {
       </SectionContent>
       <SectionContent id="responses-response-codes" headingLevel={3} title="Response Codes">
         <p id="response-codes-id">The following response codes may be returned:</p>
-        <div className={styles.wrapper}>
+        <div className={wrapper}>
           <table aria-describedby="response-codes-id">
             <caption className="sr-only">Table of response codes with two columns: response code and description.</caption>
             <tbody>

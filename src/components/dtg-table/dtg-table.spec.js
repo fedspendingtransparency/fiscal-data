@@ -8,13 +8,11 @@ import {
   TestData,
   TestDataOneRow,
   MoreTestData,
-  mockReactTableProps,
 } from './test-data';
 import PaginationControls from '../pagination/pagination-controls';
 import * as ApiUtils from '../../utils/api-utils';
 import * as helpers from './dtg-table-helper';
 import { RecoilRoot } from 'recoil';
-import { render } from '@testing-library/react';
 
 describe('DTG table component', () => {
   jest.useFakeTimers();

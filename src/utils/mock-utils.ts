@@ -475,6 +475,164 @@ export const determineBEAFetchResponse = (
     });
   }) as (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 };
+
+export const determineBEANoQ3FetchResponse = (
+  jest: { fn: (unknown) => unknown },
+  jsonResponse: Record<string, unknown> | [Record<string, unknown>]
+): void => {
+  global.fetch = jest.fn(url => {
+    if (url.startsWith('https://apps.bea.gov/api/')) {
+      return Promise.resolve({
+        ok: true,
+        ready: true,
+        json: () => {
+          return Promise.resolve({
+            BEAAPI: {
+              Request: {
+                RequestParam: {
+                  ParameterName: 'FREQUENCY',
+                  ParameterValue: 'Q',
+                },
+              },
+              Results: {
+                Data: [
+                  {
+                    TableName: 'T10105',
+                    SeriesCode: 'A191RC',
+                    LineNumber: '1',
+                    LineDescription: 'Gross domestic product',
+                    TimePeriod: '2014Q1',
+                    METRIC_NAME: 'Current Dollars',
+                    CL_UNIT: 'Level',
+                    UNIT_MULT: '6',
+                    DataValue: '10,144,281',
+                    NoteRef: 'T10105',
+                  },
+                  {
+                    TableName: 'T10105',
+                    SeriesCode: 'A191RC',
+                    LineNumber: '1',
+                    LineDescription: 'Gross domestic product',
+                    TimePeriod: '2014Q2',
+                    METRIC_NAME: 'Current Dollars',
+                    CL_UNIT: 'Level',
+                    UNIT_MULT: '6',
+                    DataValue: '10,462,703',
+                    NoteRef: 'T10105',
+                  },
+                  {
+                    TableName: 'T10105',
+                    SeriesCode: 'A191RC',
+                    LineNumber: '1',
+                    LineDescription: 'Gross domestic product',
+                    TimePeriod: '2014Q3',
+                    METRIC_NAME: 'Current Dollars',
+                    CL_UNIT: 'Level',
+                    UNIT_MULT: '6',
+                    DataValue: '10,743,227',
+                    NoteRef: 'T10105',
+                  },
+                  {
+                    TableName: 'T10105',
+                    SeriesCode: 'A191RC',
+                    LineNumber: '1',
+                    LineDescription: 'Gross domestic product',
+                    TimePeriod: '2014Q4',
+                    METRIC_NAME: 'Current Dollars',
+                    CL_UNIT: 'Level',
+                    UNIT_MULT: '6',
+                    DataValue: '10,852,540',
+                    NoteRef: 'T10105',
+                  },
+                  {
+                    TableName: 'T10105',
+                    SeriesCode: 'A191RC',
+                    LineNumber: '1',
+                    LineDescription: 'Gross domestic product',
+                    TimePeriod: '2015Q1',
+                    METRIC_NAME: 'Current Dollars',
+                    CL_UNIT: 'Level',
+                    UNIT_MULT: '6',
+                    DataValue: '10,991,348',
+                    NoteRef: 'T10105',
+                  },
+                  {
+                    TableName: 'T10105',
+                    SeriesCode: 'A191RC',
+                    LineNumber: '1',
+                    LineDescription: 'Gross domestic product',
+                    TimePeriod: '2015Q2',
+                    METRIC_NAME: 'Current Dollars',
+                    CL_UNIT: 'Level',
+                    UNIT_MULT: '6',
+                    DataValue: '11,193,707',
+                    NoteRef: 'T10105',
+                  },
+                  {
+                    TableName: 'T10105',
+                    SeriesCode: 'A191RC',
+                    LineNumber: '1',
+                    LineDescription: 'Gross domestic product',
+                    TimePeriod: '2015Q3',
+                    METRIC_NAME: 'Current Dollars',
+                    CL_UNIT: 'Level',
+                    UNIT_MULT: '6',
+                    DataValue: '11,306,960',
+                    NoteRef: 'T10105',
+                  },
+                  {
+                    TableName: 'T10105',
+                    SeriesCode: 'A191RC',
+                    LineNumber: '1',
+                    LineDescription: 'Gross domestic product',
+                    TimePeriod: '2015Q4',
+                    METRIC_NAME: 'Current Dollars',
+                    CL_UNIT: 'Level',
+                    UNIT_MULT: '6',
+                    DataValue: '11,332,079',
+                    NoteRef: 'T10105',
+                  },
+                  {
+                    TableName: 'T10105',
+                    SeriesCode: 'A191RC',
+                    LineNumber: '1',
+                    LineDescription: 'Gross domestic product',
+                    TimePeriod: '2016Q1',
+                    METRIC_NAME: 'Current Dollars',
+                    CL_UNIT: 'Level',
+                    UNIT_MULT: '6',
+                    DataValue: '11,425,306',
+                    NoteRef: 'T10105',
+                  },
+                  {
+                    TableName: 'T10105',
+                    SeriesCode: 'A191RC',
+                    LineNumber: '1',
+                    LineDescription: 'Gross domestic product',
+                    TimePeriod: '2016Q2',
+                    METRIC_NAME: 'Current Dollars',
+                    CL_UNIT: 'Level',
+                    UNIT_MULT: '6',
+                    DataValue: '11,611,617',
+                    NoteRef: 'T10105',
+                  },
+                ],
+              },
+            },
+          });
+        },
+      });
+    }
+    return Promise.resolve({
+      ok: true,
+      ready: true,
+      json: () => {
+        return Promise.resolve(jsonResponse);
+      },
+    });
+  }) as (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+};
+
 export type ResponseMapEntry = {
   matcher: (url: string) => boolean;
   jsonResponse: Record<string, unknown>;

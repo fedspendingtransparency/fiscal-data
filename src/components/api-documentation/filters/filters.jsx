@@ -1,8 +1,8 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
-import * as apiStyles from '../../../pages/api-documentation/api.module.scss';
-import * as sectionStyles from '../section-content/section-content.module.scss';
-import * as styles from './filters.module.scss';
+import { sectionBreak, code, marginBottom } from '../../../pages/api-documentation/api.module.scss';
+import { listHeading } from '../section-content/section-content.module.scss';
+import { list } from './filters.module.scss';
 import GLOBALS from '../../../helpers/constants';
 
 const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
@@ -11,7 +11,7 @@ const urlFieldParam = '?fields=country_currency_desc,exchange_rate,record_date';
 const urlFilterParam = '&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso),record_date:gte:2020-01-01';
 
 const Filters = () => (
-  <div className={apiStyles.sectionBreak}>
+  <div className={sectionBreak}>
     <SectionContent id="filters" headingLevel={3} title="Filters">
       <p>
         <strong>Parameter:</strong> <code className="inline">filter=</code>
@@ -32,10 +32,10 @@ const Filters = () => (
       <p>
         <strong>Default:</strong> When no filters are provided, the default response <strong>will return all fields and all data.</strong>
       </p>
-      <p className={sectionStyles.listHeading}>
+      <p className={listHeading}>
         The filter parameter <strong>accepts the following filters:</strong>
       </p>
-      <ul className={styles.list}>
+      <ul className={list}>
         <li>
           <code className="inline">lt=</code> Less than
         </li>
@@ -59,16 +59,16 @@ const Filters = () => (
         <strong>Examples:</strong>
       </p>
       <p>Return data if the fiscal year falls between 2007-2010.</p>
-      <code className={`${apiStyles.code} ${apiStyles.marginBottom}`}>?filter=reporting_fiscal_year:in:(2007,2008,2009,2010)</code>
+      <code className={`${code} ${marginBottom}`}>?filter=reporting_fiscal_year:in:(2007,2008,2009,2010)</code>
       <p>Return data if the funding type ID is 202.</p>
-      <code className={`${apiStyles.code} ${apiStyles.marginBottom}`}>?filter=funding_type_id:eq:202</code>
-      <p className={sectionStyles.listHeading}>From the Treasury Reporting Rates of Exchange dataset,</p>
-      <ul className={styles.list}>
+      <code className={`${code} ${marginBottom}`}>?filter=funding_type_id:eq:202</code>
+      <p className={listHeading}>From the Treasury Reporting Rates of Exchange dataset,</p>
+      <ul className={list}>
         <li>only return specific fields (country_currency_desc, exchange_rate, record_date),</li>
         <li>only return data on the Canadian Dollar and Mexican Peso, and</li>
         <li>only return data that falls between January 1, 2020 and the present.</li>
       </ul>
-      <code className={apiStyles.code}>{`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}</code>
+      <code className={code}>{`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}</code>
     </SectionContent>
   </div>
 );

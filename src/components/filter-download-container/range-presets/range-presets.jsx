@@ -19,6 +19,7 @@ const RangePresets = ({
   allTablesSelected,
   datasetDateRange,
   finalDatesNotFound,
+  setResetFilters,
 }) => {
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
@@ -262,7 +263,9 @@ const RangePresets = ({
       {activePresetKey === customPreset.key && (
         <DatePickers selectedDateRange={dateRange} availableDateRange={pickerDateRange} setSelectedDates={updateDateRange} />
       )}
-      {selectedTable.userFilter && <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} />}
+      {selectedTable.userFilter && (
+        <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} setResetFilters={setResetFilters} />
+      )}
     </>
   );
 };

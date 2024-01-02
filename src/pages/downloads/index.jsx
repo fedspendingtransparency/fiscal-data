@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import * as styles from './downloads.module.scss';
+import { content, logo, graphic, error, errorGraphic, text, textContent, header } from './downloads.module.scss';
 import { Link } from 'gatsby';
 import LocationAware from '../../components/location-aware/location-aware';
 import downloadService from '../../helpers/download-service/download-service';
@@ -83,25 +83,21 @@ export const DownloadsPage = ({ location }) => {
         description="Check the status of a download request and download that data."
         keywords=""
       />
-      <div className={styles.content}>
+      <div className={content}>
         <Link
           role="img"
           title="Return to home page"
           alt="Fiscal Data Homepage"
           to="/"
           data-testid="logo"
-          className={styles.logo}
+          className={logo}
           aria-label="Fiscal Data logo - return to home page"
         />
-        <div
-          data-testid="image-container"
-          className={[`${styles.graphic}`, `${downloadError ? styles.errorGraphic : ''}`].join(' ')}
-          aria-label="Image"
-        >
+        <div data-testid="image-container" className={[`${graphic}`, `${downloadError ? errorGraphic : ''}`].join(' ')} aria-label="Image">
           &nbsp;
         </div>
-        <div className={styles.textContent}>
-          <div className={[`${styles.header}`, `${downloadError ? styles.error : ''}`].join(' ')}>
+        <div className={textContent}>
+          <div className={[`${header}`, `${downloadError ? error : ''}`].join(' ')}>
             <h1 data-testid="header">
               {downloadError
                 ? downloadPageTextContent.dlErrorHeader
@@ -112,7 +108,7 @@ export const DownloadsPage = ({ location }) => {
                 : downloadPageTextContent.dlReadyHeader}
             </h1>
           </div>
-          <div className={styles.text} data-testid="full-message">
+          <div className={text} data-testid="full-message">
             {downloadError
               ? downloadPageTextContent.dlErrorText
               : checking

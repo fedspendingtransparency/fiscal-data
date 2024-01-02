@@ -4,7 +4,7 @@ import dates from '../../helpers/datasets/dates';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import * as styles from './datasets.module.scss';
+import { searchContainer, page_title } from './datasets.module.scss';
 import FilterSection from '../../components/datasets/filters/filters';
 import SearchField from '../../components/datasets/search-field/search-field';
 import { DatasetSearch } from '../../components/datasets/searchEngine/searchEngine';
@@ -149,9 +149,9 @@ const DatasetsPage = ({ pageContext }) => {
       />
       <MuiThemeProvider theme={dsTheme}>
         <div className="searchBodyBackground">
-          <div className={styles.searchContainer}>
+          <div className={searchContainer}>
             <BreadCrumbs links={breadCrumbLinks} />
-            <h1 data-testid="page-title" className={styles.page_title}>
+            <h1 data-testid="page-title" className={page_title}>
               Datasets
             </h1>
             <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} />

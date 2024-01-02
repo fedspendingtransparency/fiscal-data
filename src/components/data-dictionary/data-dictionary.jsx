@@ -7,7 +7,7 @@ const addTableName = (fields, table) => {
   return fields;
 };
 
-const DataDictionary = ({ apis, datasetName }) => {
+const DataDictionary = ({ apis, datasetName, perPage, setPerPage }) => {
   const flat = apis.reduce((flattened, current, i) => {
     if (current.fields) {
       return flattened.concat(addTableName(current.fields, current.tableName));
@@ -15,8 +15,6 @@ const DataDictionary = ({ apis, datasetName }) => {
       return flattened;
     }
   }, []);
-
-  const rowsPerPage = 5;
 
   const columnConfig = [
     {
@@ -66,7 +64,7 @@ const DataDictionary = ({ apis, datasetName }) => {
     aria: { 'aria-label': `${datasetName} data dictionary` },
   };
 
-  return <ResetTableContainer tableProps={tableProps} rowsPerPage={rowsPerPage} />;
+  return <ResetTableContainer tableProps={tableProps} perPage={perPage} setPerPage={setPerPage} />;
 };
 
 export default DataDictionary;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import SectionContent from '../../../components/api-documentation/section-content/section-content';
 import '../../../styles.scss';
-import { list, noBullets, title, section } from '../about-us.module.scss';
+import { list, noBullets, title, section, customTop } from '../about-us.module.scss';
 import GLOBALS from '../../../helpers/constants';
 import CustomLink from '../../../components/links/custom-link/custom-link';
 
@@ -65,10 +65,15 @@ const FAQ = ({ triggerHighlight = 0 }) => {
       <h2 id="faq" className={title}>
         FAQs
       </h2>
-      <SectionContent id="how-often-is-the-data-updated" headingLevel={commonSectionHeadingLevel} title="How often is the data updated?">
+      <SectionContent
+        id="how-often-is-the-data-updated"
+        headingLevel={commonSectionHeadingLevel}
+        title="How often is the data updated?"
+        className={customTop}
+      >
         <p>
-          The answer varies by dataset. To determine the update frequency, refer to the <strong>Metadata</strong>
-          tab in the <strong>Dataset Properties</strong> section for a particular dataset. You can also filter the datasets in our{' '}
+          The answer varies by dataset. To determine the update frequency, refer to the <strong>Metadata</strong> tab in the{' '}
+          <strong>Dataset Properties</strong> section for a particular dataset. You can also filter the datasets in our{' '}
           <CustomLink url="/datasets/">Dataset Search</CustomLink> based on when the data was last updated.
         </p>
       </SectionContent>

@@ -1,7 +1,34 @@
 import React, { useContext, useEffect, useState } from 'react';
 import StickyFooter from '../sticky-footer/sticky-footer';
 import DownloadPercentageStatus from '../download-percentage-status/download-percentage-status';
-import * as styles from './download-sticky.module.scss';
+import {
+  completeStyle,
+  minimizedStyle,
+  resumedSpinner,
+  collapseToggle,
+  toggleIcon,
+  downloadLink,
+  toggleTab,
+  downloadContent,
+  mainRow,
+  downloadStatusContainer,
+  progressIndicatorContainer,
+  downloadStatus,
+  statusHeading,
+  filename,
+  downloadNoticeContainer,
+  rightSegment,
+  queueRow,
+  status,
+  noticeButtonContainer,
+  progress,
+  noticeButton,
+  noticeText,
+  downloadNotice,
+  collapsed,
+  expandedSection,
+  completed,
+} from './download-sticky.module.scss';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
 import { faAngleDoubleDown, faAngleDoubleUp, faCheckCircle, faMinus, faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -63,9 +90,12 @@ const DownloadSticky = () => {
   const [allDownloadsCompleted, setAllDownloadsCompleted] = useState(
     downloadsInProgress &&
       downloadsInProgress.length === 0 &&
-      downloadQueue && downloadQueue.length === 0 &&
-      downloadsPrepared && downloadsPrepared.length > 0 &&
-      resumedDownloads && resumedDownloads.length === 0
+      downloadQueue &&
+      downloadQueue.length === 0 &&
+      downloadsPrepared &&
+      downloadsPrepared.length > 0 &&
+      resumedDownloads &&
+      resumedDownloads.length === 0
   );
   const [allInProgress, setAllInProgress] = useState([]);
   const [inProgress, setInProgress] = useState(false);
@@ -91,9 +121,12 @@ const DownloadSticky = () => {
     const allComplete =
       downloadsInProgress &&
       downloadsInProgress.length === 0 &&
-      downloadQueue && downloadQueue.length === 0 &&
-      downloadsPrepared && downloadsPrepared.length > 0 &&
-      resumedDownloads && resumedDownloads.filter(dnl => dnl.status === 'started').length === 0;
+      downloadQueue &&
+      downloadQueue.length === 0 &&
+      downloadsPrepared &&
+      downloadsPrepared.length > 0 &&
+      resumedDownloads &&
+      resumedDownloads.filter(dnl => dnl.status === 'started').length === 0;
     setAllDownloadsCompleted(allComplete);
     if (downloadsInProgress && downloadsInProgress.length > 0) {
       setAllInProgress(downloadsInProgress);
@@ -156,12 +189,12 @@ const DownloadSticky = () => {
       return <DownloadPercentageStatus sticky percentage={pctg} minimized={mini} />;
     } else if (showWorking && !complete) {
       return (
-        <div className={[`${styles.complete}`, `${styles.resumedSpinner}`, minimized ? `${styles.minimized}` : ''].join(' ')}>
+        <div className={[`${completeStyle}`, `${resumedSpinner}`, minimized ? `${minimizedStyle}` : ''].join(' ')}>
           <FontAwesomeIcon data-testid="spinner-icon" icon={faSpinner} spin pulse />
         </div>
       );
     } else if (complete) {
-      return <FontAwesomeIcon className={[`${styles.complete}`, minimized ? `${styles.minimized}` : ''].join(' ')} icon={faCheckCircle} />;
+      return <FontAwesomeIcon className={[`${completeStyle}`, minimized ? `${minimizedStyle}` : ''].join(' ')} icon={faCheckCircle} />;
     }
   };
 
@@ -194,17 +227,17 @@ const DownloadSticky = () => {
   const renderExpandDetailsButton = () => {
     return (
       <button
-        className={[`${styles.collapseToggle}`, expanded ? 'hideDownloadDetails' : 'showDownloadDetails'].join(' ')}
+        className={[`${collapseToggle}`, expanded ? 'hideDownloadDetails' : 'showDownloadDetails'].join(' ')}
         onClick={toggleDetailsEvent}
         data-testid="collapse-toggle"
       >
         {expanded ? (
           <span>
-            {dsTextContent.hideLabel} <FontAwesomeIcon icon={faMinus} size="sm" className={styles.toggleIcon} />
+            {dsTextContent.hideLabel} <FontAwesomeIcon icon={faMinus} size="sm" className={toggleIcon} />
           </span>
         ) : (
           <span>
-            {dsTextContent.showLabel} <FontAwesomeIcon icon={faPlus} size="sm" className={styles.toggleIcon} />
+            {dsTextContent.showLabel} <FontAwesomeIcon icon={faPlus} size="sm" className={toggleIcon} />
           </span>
         )}
       </button>
@@ -214,7 +247,7 @@ const DownloadSticky = () => {
   const renderDownloadLink = download => {
     return (
       <>
-        <a href={download.fullFileUrl} className={styles.downloadLink}>
+        <a href={download.fullFileUrl} className={downloadLink}>
           {dsTextContent.finishedNoteLinkLabel}
         </a>
         {dsTextContent.finishedNoteEnding}
@@ -242,7 +275,7 @@ const DownloadSticky = () => {
   return (
     <StickyFooter hideAfterTime={closing ? closingTimeout : null} onClosed={closing ? () => setTriggerCleanupAfterClose(1) : false}>
       <button
-        className={styles.toggleTab}
+        className={toggleTab}
         onClick={toggleMinimizeEvent}
         data-testid={'minimize-toggle'}
         aria-label="Toggle minimized state for download notification."
@@ -253,10 +286,10 @@ const DownloadSticky = () => {
           <FontAwesomeIcon className="minimizeDownloadNotification" icon={faAngleDoubleDown} data-testid={'minimize-symbol'} />
         )}
       </button>
-      <div className={[`${styles.downloadContent}`, minimized ? `${styles.minimized}` : ''].join(' ')} data-testid="download-sticky-content">
-        <div className={styles.mainRow}>
-          <div className={styles.downloadStatusContainer}>
-            <div className={[`${styles.progressIndicatorContainer}`, allDownloadsCompleted ? `${styles.completed}` : ''].join(' ')}>
+      <div className={[`${downloadContent}`, minimized ? `${minimizedStyle}` : ''].join(' ')} data-testid="download-sticky-content">
+        <div className={mainRow}>
+          <div className={downloadStatusContainer}>
+            <div className={[`${progressIndicatorContainer}`, allDownloadsCompleted ? `${completed}` : ''].join(' ')}>
               {renderProgress(
                 downloadsInProgress && downloadsInProgress.length > 0,
                 resumedInProgress && resumedInProgress.length > 0,
@@ -265,8 +298,8 @@ const DownloadSticky = () => {
                 percentage
               )}
             </div>
-            <div className={styles.downloadStatus}>
-              <h5 className={[styles.statusHeading, minimized ? `${styles.minimized}` : ''].join(' ')}>{displayText(!inProgress)}</h5>
+            <div className={downloadStatus}>
+              <h5 className={[statusHeading, minimized ? `${minimizedStyle}` : ''].join(' ')}>{displayText(!inProgress)}</h5>
               {!minimized && !allDownloadsCompleted && (
                 <>
                   {multipleDownloads ? (
@@ -274,7 +307,7 @@ const DownloadSticky = () => {
                   ) : (
                     <>
                       {inProgress && allInProgress[0] ? (
-                        <div className={styles.filename}>{allInProgress[0].filename}</div>
+                        <div className={filename}>{allInProgress[0].filename}</div>
                       ) : (
                         <>
                           {allPrepared && allPrepared[0] && (
@@ -300,19 +333,19 @@ const DownloadSticky = () => {
                   {allPrepared &&
                     allPrepared.length > 0 &&
                     (allPrepared.length === 1 ? (
-                      <div className={styles.completed}>
+                      <div className={completed}>
                         <div data-testid={'finished-downloading-notice-single'}>
                           {dsTextContent.finishedNote}
                           {renderDownloadLink(allPrepared[0])}
                         </div>
                       </div>
                     ) : (
-                      <div className={styles.completed}>
+                      <div className={completed}>
                         <div data-testid={'finished-downloading-notice-multiple'}>{dsTextContent.finishedMultipleNote}</div>
                         <ul>
                           {allPrepared.map((download, index) => (
                             <li key={index}>
-                              <a href={download.fullFileUrl} className={styles.downloadLink}>
+                              <a href={download.fullFileUrl} className={downloadLink}>
                                 {download.filename}
                               </a>
                             </li>
@@ -327,12 +360,12 @@ const DownloadSticky = () => {
           {!minimized && !allDownloadsCompleted && (
             <>
               {inProgress && (
-                <div className={styles.downloadNoticeContainer}>
+                <div className={downloadNoticeContainer}>
                   {allInProgress.some(ip => ip.statusPath && ip.statusPath.length) && (
-                    <div className={styles.downloadNotice}>
-                      <div className={styles.noticeText}>{multipleDownloads ? dsTextContent.planToLeaveMulti : dsTextContent.planToLeaveSingle}</div>
+                    <div className={downloadNotice}>
+                      <div className={noticeText}>{multipleDownloads ? dsTextContent.planToLeaveMulti : dsTextContent.planToLeaveSingle}</div>
                       {!multipleDownloads && (
-                        <div className={`${styles.noticeButtonContainer} copyLinkButton`}>
+                        <div className={`${noticeButtonContainer} copyLinkButton`}>
                           {buttons.copyToClipboardButton(allInProgress[0].statusPath, dsTextContent.copyLinkLabel)}
                         </div>
                       )}
@@ -346,17 +379,17 @@ const DownloadSticky = () => {
         {!minimized && !allDownloadsCompleted && (
           <>
             {multipleDownloads && (
-              <div className={`${styles.expandedSection} ${expanded ? '' : styles.collapsed}`} data-testid="downloads-list">
+              <div className={`${expandedSection} ${expanded ? '' : collapsed}`} data-testid="downloads-list">
                 {allPrepared.map((download, index) => (
-                  <div className={styles.queueRow} key={index}>
-                    <div className={styles.progress}>
+                  <div className={queueRow} key={index}>
+                    <div className={progress}>
                       {dsTextContent.doneStatus}
                       <> </>
                       <FontAwesomeIcon icon={faCheckCircle} size="sm" />
                     </div>
-                    <div className={styles.rightSegment}>
-                      <div className={styles.filename}>{fileFromPath(download)}</div>
-                      <a href={download.fullFileUrl} className={styles.noticeButton} rel={globalConstants.EXTERNAL_LINK_REL}>
+                    <div className={rightSegment}>
+                      <div className={filename}>{fileFromPath(download)}</div>
+                      <a href={download.fullFileUrl} className={noticeButton} rel={globalConstants.EXTERNAL_LINK_REL}>
                         {dsTextContent.downloadFileButtonLabel}
                       </a>
                     </div>
@@ -364,14 +397,14 @@ const DownloadSticky = () => {
                 ))}
                 {resumedInProgress &&
                   resumedInProgress.map((resumedDownload, index) => (
-                    <div className={styles.queueRow} key={index}>
-                      <div className={styles.progress}>
+                    <div className={queueRow} key={index}>
+                      <div className={progress}>
                         <FontAwesomeIcon data-testid="spinner-icon" icon={faSpinner} spin pulse />
                       </div>
-                      <div className={styles.rightSegment}>
-                        <div className={styles.filename}>{resumedDownload.filename}</div>
+                      <div className={rightSegment}>
+                        <div className={filename}>{resumedDownload.filename}</div>
                         {resumedDownload.statusPath && (
-                          <div className={`${styles.noticeButtonContainer} copyLinkButton`}>
+                          <div className={`${noticeButtonContainer} copyLinkButton`}>
                             {buttons.copyToClipboardButton(resumedDownload.statusPath, dsTextContent.copyLinkLabel)}
                           </div>
                         )}
@@ -379,12 +412,12 @@ const DownloadSticky = () => {
                     </div>
                   ))}
                 {downloadsInProgress.map((downloadInProgress, index) => (
-                  <div className={styles.queueRow} key={index}>
-                    <div className={styles.progress}>{downloadInProgress.progressPct > 99 ? 99 : downloadInProgress.progressPct}%</div>
-                    <div className={styles.rightSegment}>
-                      <div className={styles.filename}>{downloadInProgress.filename}</div>
+                  <div className={queueRow} key={index}>
+                    <div className={progress}>{downloadInProgress.progressPct > 99 ? 99 : downloadInProgress.progressPct}%</div>
+                    <div className={rightSegment}>
+                      <div className={filename}>{downloadInProgress.filename}</div>
                       {downloadInProgress.statusPath && (
-                        <div className={`${styles.noticeButtonContainer} copyLinkButton`}>
+                        <div className={`${noticeButtonContainer} copyLinkButton`}>
                           {buttons.copyToClipboardButton(downloadInProgress.statusPath, dsTextContent.copyLinkLabel)}
                         </div>
                       )}
@@ -392,10 +425,10 @@ const DownloadSticky = () => {
                   </div>
                 ))}
                 {downloadQueue.map((download, index) => (
-                  <div className={styles.queueRow} key={index}>
-                    <div className={styles.status}>{dsTextContent.queuedStatus}</div>
-                    <div className={styles.rightSegment}>
-                      <div className={styles.filename}>{download.filename}</div>
+                  <div className={queueRow} key={index}>
+                    <div className={status}>{dsTextContent.queuedStatus}</div>
+                    <div className={rightSegment}>
+                      <div className={filename}>{download.filename}</div>
                     </div>
                   </div>
                 ))}

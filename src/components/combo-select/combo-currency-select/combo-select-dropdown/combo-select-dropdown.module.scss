@@ -2,7 +2,6 @@
 @import '../../../../zIndex.module';
 
 .dropdownContainer {
-  height: 17.5rem;
   position: absolute;
   box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
   border-radius: 0.125rem;
@@ -17,7 +16,6 @@
   .dropdownList {
     padding: 0;
     margin: 0;
-    height: 11.875rem;
 
     .dropdownListItem {
       display: block;

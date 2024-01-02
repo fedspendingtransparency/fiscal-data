@@ -3,7 +3,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import * as styles from './pagination-controls.module.scss';
+import { ellipsis, active, pagingButtons, arrow, pageButtons } from './pagination-controls.module.scss';
 
 const PageButtons = ({ pageButtonProps }) => {
   const { maxPage, tableName, currentPage, handleJump, pagesArray } = pageButtonProps;
@@ -72,17 +72,17 @@ const PageButtons = ({ pageButtonProps }) => {
         <button
           key={`${tableName}-ellipsis${index}`}
           id={`${tableName}-ellipsis${index}`}
-          className={styles.ellipsis}
+          className={ellipsis}
           aria-label="Page number overflow ellipsis"
         >
-          <FontAwesomeIcon icon={faEllipsisH} className={styles.ellipsis} />
+          <FontAwesomeIcon icon={faEllipsisH} className={ellipsis} />
         </button>
       ) : (
         <button
           key={`${tableName}-page${page}`}
           id={`${tableName}-page${page}`}
           onClick={() => handlePageClick(page)}
-          className={current === page ? styles.active : {}}
+          className={current === page ? active : {}}
         >
           {page}
         </button>
@@ -91,22 +91,16 @@ const PageButtons = ({ pageButtonProps }) => {
   };
 
   return (
-    <div className={styles.pagingButtons}>
-      <button
-        id={`${tableName}-page-prev`}
-        onClick={() => handlePrev()}
-        disabled={currentPage - 1 <= 0}
-        className={styles.arrow}
-        aria-label="Previous page"
-      >
+    <div className={pagingButtons}>
+      <button id={`${tableName}-page-prev`} onClick={() => handlePrev()} disabled={currentPage - 1 <= 0} className={arrow} aria-label="Previous page">
         <ChevronLeftIcon variant="outlined" size="small" />
       </button>
-      <span className={styles.pageButtons}>{renderPageButtons()}</span>
+      <span className={pageButtons}>{renderPageButtons()}</span>
       <button
         id={`${tableName}-page-next`}
         onClick={() => handleNext()}
         disabled={currentPage + 1 > maxPage}
-        className={styles.arrow}
+        className={arrow}
         data-testid={'page-next-button'}
         aria-label="Next page"
       >

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -58,7 +58,6 @@ export default function DtgTable({
   } = tableProps;
 
   const [reactTableData, setReactTableData] = useState(null);
-
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -225,19 +224,8 @@ export default function DtgTable({
     }
   };
 
-  useEffect(() => {
-    updateSmallFractionDataType();
-    setCurrentPage(1);
-    setApiError(false);
-    const ssp = tableProps.serverSidePagination;
-    ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
-    return () => {
-      loadCanceled = true;
-    };
-  }, [selectedTable, dateRange]);
-
-  useEffect(() => {
-    if (tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+  useMemo(() => {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       updateSmallFractionDataType();
       setCurrentPage(1);
       setApiError(false);
@@ -247,22 +235,27 @@ export default function DtgTable({
         loadCanceled = true;
       };
     }
-  }, [sorting, filteredDateRange]);
+  }, [sorting, filteredDateRange, selectedTable, dateRange]);
 
-  useEffect(() => {
-    setApiError(false);
-    const ssp = tableProps.serverSidePagination;
-    ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
-    return () => {
-      loadCanceled = true;
-    };
-  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage]);
+  useMemo(() => {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
+      //prevent hook from triggering twice on pivot selection
+      if ((pivotSelected?.pivotValue && !tableProps.serverSidePagination) || !pivotSelected?.pivotValue) {
+        setApiError(false);
+        const ssp = tableProps.serverSidePagination;
+        ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
+        return () => {
+          loadCanceled = true;
+        };
+      }
+    }
+  }, [tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
   useEffect(() => {
     populateRows(columns);
   }, [tableData]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (data && data.length) {
       setMaxRows(apiError ? 0 : data.length);
     }
@@ -292,61 +285,83 @@ export default function DtgTable({
     maxRows,
   };
 
-  useEffect(() => {
-    if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      if (dePaginated !== null && !rawData?.pivotApplied && !pivotSelected?.pivotValue) {
+  useMemo(() => {
+    if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
+      if (dePaginated !== null && dePaginated !== undefined) {
+        // large dataset tables <= 20000 rows
         setReactTableData(dePaginated);
         setManualPagination(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-        if (
-          !pivotSelected?.pivotValue ||
-          (rawData?.pivotApplied?.includes(pivotSelected.pivotValue?.columnName) && rawData?.pivotApplied?.includes(pivotSelected.pivotView?.title))
-        ) {
-          setReactTableData(rawData);
-          setManualPagination(false);
-          setIsLoading(false);
-        }
+        setReactTableData(rawData);
+        setManualPagination(false);
       }
-    } else if (tableProps.data) {
+    } else if (data && !rawDataTable) {
       setReactTableData({ data: data });
     }
-  }, [rawData, dePaginated, pivotSelected]);
+  }, [rawData, dePaginated]);
 
-  useEffect(() => {
-    if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      if (tableProps && tableProps.data !== undefined && tableProps.data?.length > 0 && tableProps.rawData) {
-        if (
-          !pivotSelected?.pivotValue ||
-          (rawData?.pivotApplied?.includes(pivotSelected.pivotValue?.columnName) && rawData?.pivotApplied?.includes(pivotSelected.pivotView?.title))
-        ) {
-          setReactTableData(rawData);
+  const activePivot = (data, pivot) => {
+    return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
+  };
+
+  const updatedData = (newData, currentData) => {
+    return JSON.stringify(newData) !== JSON.stringify(currentData);
+  };
+
+  useMemo(() => {
+    if (tableProps) {
+      // Pivot data
+      if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
+        setReactTableData(rawData);
+        if (setManualPagination) {
           setManualPagination(false);
         }
-      } else if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
-        setReactTableData(dePaginated);
-        setManualPagination(false);
-      } else if (tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-        setReactTableData({ data: tableData, meta: tableMeta });
-        setManualPagination(true);
-      } else {
-        setReactTableData(data);
-        setManualPagination(false);
+      } else if (data && !rawDataTable) {
+        setReactTableData({ data: data });
       }
     }
-  }, [tableData, tableMeta]);
+  }, [pivotSelected, rawData]);
+
+  useMemo(() => {
+    if (
+      tableData.length > 0 &&
+      tableMeta &&
+      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
+      !pivotSelected?.pivotValue &&
+      !rawData?.pivotApplied
+    ) {
+      if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+        // data with current date range < 20000
+        if (rawData) {
+          setReactTableData(rawData);
+          setManualPagination(false);
+        } else if (dePaginated) {
+          setReactTableData(dePaginated);
+          setManualPagination(false);
+        }
+      } else {
+        if (!(reactTableData?.pivotApplied && !updatedData(tableData, reactTableData?.data.slice(0, itemsPerPage)))) {
+          setReactTableData({ data: tableData, meta: tableMeta });
+          setManualPagination(true);
+        }
+      }
+    } else if (data && !rawDataTable && !rawData) {
+      setReactTableData({ data: data });
+    }
+  }, [tableData, tableMeta, rawData, dePaginated]);
 
   return (
     <div className={styles.overlayContainer}>
       {/* Loading Indicator */}
       {(isLoading || (reactTable && !reactTableData)) && (
-        <div className={reactTable ? styles.overlayContainerReactTableHeight : undefined}>
+        <>
           <div data-test-id="loading-overlay" className={styles.overlay} />
           <div className={styles.loadingIcon}>
             <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
           </div>
-        </div>
+        </>
       )}
-      {reactTable && reactTableData && (
+      {reactTable && reactTableData?.data && (
         <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (

@@ -9,7 +9,7 @@ import { spendingLink } from '../../../explainer-helpers/national-debt/national-
 import { VisualizingTheDebtAccordion } from './debt-accordion/visualizing-the-debt-accordion';
 
 export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary, cpiDataByYear, glossaryClickHandler, width }) => {
-  const beaGDPData = useBeaGDP(cpiDataByYear);
+  const beaGDPData = useBeaGDP(cpiDataByYear, false, 'debtOutstanding');
   const gdp = (
     <GlossaryPopoverDefinition
       term="Gross Domestic Product (GDP)"
