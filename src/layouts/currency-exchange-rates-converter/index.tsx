@@ -11,7 +11,6 @@ import {
   selector,
   box,
   legalDisclaimer,
-
 } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
 import CurrencyEntryBox from '../../components/exchange-rates-converter/currency-entry-box/currency-entry-box';
@@ -26,7 +25,7 @@ import {
   currencySelectionInfoIcon,
   countDecimals,
   enforceTrailingZero,
-  labelIcon
+  labelIcon,
 } from './currency-exchange-rates-converter-helper';
 import CustomLink from '../../components/links/custom-link/custom-link';
 import Analytics from '../../utils/analytics/analytics';
@@ -41,10 +40,10 @@ let ga4Timer;
 type CurrencyRate = {
   label: string;
   rates: Record<string, string>;
-}
+};
 type CurrencyMap = {
   [key: string]: CurrencyRate;
-}
+};
 
 type DropdownOption = {
   label: string;
@@ -52,7 +51,7 @@ type DropdownOption = {
   data?: number;
   isLable?: boolean;
   children?: DropdownOption[];
-}
+};
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [data, setData] = useState(null);
@@ -112,8 +111,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         const year = new Date(record.record_date).getFullYear().toString();
         const formattedDate = dateStringConverter(new Date(record.record_date));
 
-        if(!currencyMap[currency]){
-          currencyMap[currency] = {label: currency, rates: {}};
+        if (!currencyMap[currency]) {
+          currencyMap[currency] = { label: currency, rates: {} };
         }
         currencyMap[currency].rates[date] = record.exchange_rate;
 
@@ -130,8 +129,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         const sorted = Object.values(currencyMap).sort((a, b) => a.label.localeCompare(b.label));
         setSortedCurrencies(sorted);
 
-        if (record.country_currency_desc === 'Euro Zone-Euro'){
-          if (!mostRecentEuroRecord || new Date(record.record_date) > new Date(mostRecentEuroRecord.record_date)){
+        if (record.country_currency_desc === 'Euro Zone-Euro') {
+          if (!mostRecentEuroRecord || new Date(record.record_date) > new Date(mostRecentEuroRecord.record_date)) {
             mostRecentEuroRecord = record;
           }
         }
@@ -152,7 +151,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setGroupedDateOptions(nestedOptions);
 
       if (mostRecentEuroRecord) {
-        setSelectedDate({ label: dateStringConverter(new Date(mostRecentEuroRecord.record_date)), value: mostRecentEuroRecord.record_date});
+        setSelectedDate({
+          label: dateStringConverter(new Date(mostRecentEuroRecord.record_date)),
+          value: mostRecentEuroRecord.record_date,
+        });
         setNonUSCurrency(mostRecentEuroRecord);
         setNonUSCurrencyExchangeValue(mostRecentEuroRecord.exchange_rate);
         setNonUSCurrencyDecimalPlaces(countDecimals(mostRecentEuroRecord.exchange_rate));
@@ -176,34 +178,32 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, [selectedDate, sortedCurrencies, data]);
 
-    const useHandleChangeUSDollar = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (!selectedDate){
-        setInputWarning(true);
-        return;
-      }
-      else {
-        setInputWarning(false);
-      }
-      clearTimeout(gaCurrencyTimer);
-      let product: number | string;
-      if (event.target.value === '') {
-        setNonUSCurrencyExchangeValue('');
-      }
-      setUSDollarValue(event.target.value)
-  
-      if (!isNaN(parseFloat(event.target.value))) {
-        gaCurrencyTimer = window.setTimeout(() => {
-          analyticsHandler('USD Value Entered', event.target.value);
-        }, 1000);
-  
-        product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
-        product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
-      }
-      if (!isNaN(product as number)) {
-        setNonUSCurrencyExchangeValue(product.toString());
-      }
-    };
-  
+  const useHandleChangeUSDollar = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!selectedDate) {
+      setInputWarning(true);
+      return;
+    } else {
+      setInputWarning(false);
+    }
+    clearTimeout(gaCurrencyTimer);
+    let product: number | string;
+    if (event.target.value === '') {
+      setNonUSCurrencyExchangeValue('');
+    }
+    setUSDollarValue(event.target.value);
+
+    if (!isNaN(parseFloat(event.target.value))) {
+      gaCurrencyTimer = window.setTimeout(() => {
+        analyticsHandler('USD Value Entered', event.target.value);
+      }, 1000);
+
+      product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
+      product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
+    }
+    if (!isNaN(product as number)) {
+      setNonUSCurrencyExchangeValue(product.toString());
+    }
+  };
 
   const handleChangeNonUSCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
     clearTimeout(gaCurrencyTimer);
@@ -227,31 +227,31 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const handleDateChange = (selectedDateOption: DropdownOption) => {
     setSelectedDate(selectedDateOption);
     if (selectedDateOption) {
-      const newCurrency = data.find(record => record.country_currency_desc === nonUSCurrency.country_currency_desc && record.record_date === selectedDateOption.value);
+      const newCurrency = data.find(
+        record => record.country_currency_desc === nonUSCurrency.country_currency_desc && record.record_date === selectedDateOption.value
+      );
       console.log('newcurr Date  ', newCurrency);
       if (newCurrency) {
         setNonUSCurrency(newCurrency);
-        setUSDollarValue('1.00')
+        setUSDollarValue('1.00');
         setNonUSCurrencyExchangeValue(newCurrency.exchange_rate);
         setNonUSCurrencyDecimalPlaces(countDecimals(newCurrency.exchange_rate));
         setInputWarning(false);
-      }
-      else {
+      } else {
         setNonUSCurrencyExchangeValue('--');
         setUSDollarValue('--');
         setInputWarning(true);
       }
     }
   };
-  
-  const handleCurrencyChange = (selectedCurrency: DropdownOption) => {
 
+  const handleCurrencyChange = (selectedCurrency: DropdownOption) => {
     const newCurrency = data.find(record => record.country_currency_desc === selectedCurrency.label && record.record_date === selectedDate?.value);
     console.log('newcurr  ', newCurrency);
     if (newCurrency) {
       setNonUSCurrency(newCurrency);
       setInputWarning(false);
-      setUSDollarValue('1.00')
+      setUSDollarValue('1.00');
       setNonUSCurrencyExchangeValue(newCurrency.exchange_rate);
       setNonUSCurrencyDecimalPlaces(countDecimals(newCurrency.exchange_rate));
     }
@@ -281,60 +281,60 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {nonUSCurrency !== null && (
           <div data-testid="box-container">
             <div>
-            {data && (
-              <div className={currencyBoxContainer}>
-                <div 
-                  className={selector}
-                  onMouseEnter={() => {
-                    handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date');
-                  }}
-                  onBlur={handleInfoTipClose}
-                  role="presentation"
-                >
-                <NestSelectControl
-                  label={labelIcon('Published Date', publishedDateInfoIcon.body, 'effective-date-info-tip', true)}
-                  className={box}
-                  options={groupDateOption}
-                  selectedOption={selectedDate}
-                  changeHandler={handleDateChange}
-                />
+              {data && (
+                <div className={currencyBoxContainer}>
+                  <div
+                    className={selector}
+                    onMouseEnter={() => {
+                      handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date');
+                    }}
+                    onBlur={handleInfoTipClose}
+                    role="presentation"
+                  >
+                    <NestSelectControl
+                      label={labelIcon('Published Date', publishedDateInfoIcon.body, 'effective-date-info-tip', true)}
+                      className={box}
+                      options={groupDateOption}
+                      selectedOption={selectedDate}
+                      changeHandler={handleDateChange}
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             </div>
-              <div 
-                className={currencyBoxContainer} 
-                data-testid="foreign-currency-info-tip"
-                onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr')}
-                onBlur={handleInfoTipClose}
-                role="presentation"
-              >
+            <div
+              className={currencyBoxContainer}
+              data-testid="foreign-currency-info-tip"
+              onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr')}
+              onBlur={handleInfoTipClose}
+              role="presentation"
+            >
               <CurrencyEntryBox
-              selectedCurrency={{
-                label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
-                value: nonUSCurrency,
-              }}
-              defaultCurrency={nonUSCurrency.country_currency_desc}
-              currencyValue={nonUSCurrencyExchangeValue}
-              dropdown
-              options={dropdownOptions}
-              onCurrencyChange={handleCurrencyChange}
-              onCurrencyValueChange={handleChangeNonUSCurrency}
-              testId="non-us-box"
-              header="FOREIGN CURRENCY"
-              tooltipDiplay={true}
-              tooltip={currencySelectionInfoIcon.body}
+                selectedCurrency={{
+                  label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
+                  value: nonUSCurrency,
+                }}
+                defaultCurrency={nonUSCurrency.country_currency_desc}
+                currencyValue={nonUSCurrencyExchangeValue}
+                dropdown
+                options={dropdownOptions}
+                onCurrencyChange={handleCurrencyChange}
+                onCurrencyValueChange={handleChangeNonUSCurrency}
+                testId="non-us-box"
+                header="FOREIGN CURRENCY"
+                tooltipDiplay={true}
+                tooltip={currencySelectionInfoIcon.body}
               />
-            <CurrencyEntryBox
-              defaultCurrency="U.S. Dollar"
-              currencyValue={usDollarValue}
-              onCurrencyValueChange={useHandleChangeUSDollar}
-              testId="us-box"
-              header="U.S. DOLLAR"
-              tooltipDiplay={false}
-              tooltip={""}
-            />
-              </div>
+              <CurrencyEntryBox
+                defaultCurrency="U.S. Dollar"
+                currencyValue={usDollarValue}
+                onCurrencyValueChange={useHandleChangeUSDollar}
+                testId="us-box"
+                header="U.S. DOLLAR"
+                tooltipDiplay={false}
+                tooltip=""
+              />
+            </div>
           </div>
         )}
         {nonUSCurrency !== null && nonUSCurrency.exchange_rate && !inputWarning && (
