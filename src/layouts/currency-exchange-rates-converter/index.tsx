@@ -182,33 +182,32 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, [selectedDate, sortedCurrencies, data]);
 
-    const useHandleChangeUSDollar = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (!selectedDate){
-        setInputWarning(true);
-        return;
-      }
-      else {
-        setInputWarning(false);
-      }
-      clearTimeout(gaCurrencyTimer);
-      let product: number | string;
-      if (event.target.value === '') {
-        setNonUSCurrencyExchangeValue('');
-      }
-      setUSDollarValue(event.target.value)
-  
-      if (!isNaN(parseFloat(event.target.value))) {
-        gaCurrencyTimer = setTimeout(() => {
-          analyticsHandler('USD Value Entered', event.target.value);
-        }, 3000);
-  
-        product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
-        product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
-      }
-      if (!isNaN(product as number)) {
-        setNonUSCurrencyExchangeValue(product.toString());
-      }
-    };
+  const useHandleChangeUSDollar = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!selectedDate) {
+      setInputWarning(true);
+      return;
+    } else {
+      setInputWarning(false);
+    }
+    clearTimeout(gaCurrencyTimer);
+    let product: number | string;
+    if (event.target.value === '') {
+      setNonUSCurrencyExchangeValue('');
+    }
+    setUSDollarValue(event.target.value);
+
+    if (!isNaN(parseFloat(event.target.value))) {
+      gaCurrencyTimer = setTimeout(() => {
+        analyticsHandler('USD Value Entered', event.target.value);
+      }, 3000);
+
+      product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
+      product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
+    }
+    if (!isNaN(product as number)) {
+      setNonUSCurrencyExchangeValue(product.toString());
+    }
+  };
 
   const handleChangeNonUSCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
     clearTimeout(gaCurrencyTimer);
@@ -290,7 +289,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {nonUSCurrency !== null && (
           <div data-testid="box-container" className={boxWidth}>
             {data && (
-              <div className={currencyBoxContainer} >
+              <div className={currencyBoxContainer}>
                 <div className={selector}>
                   <NestSelectControl
                     label={labelIcon(
@@ -309,7 +308,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 </div>
               </div>
             )}
-            <div className={currencyBoxContainer} >
+            <div className={currencyBoxContainer}>
               <CurrencyEntryBox
                 selectedCurrency={{
                   label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
