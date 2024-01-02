@@ -3,21 +3,6 @@ import InfoTip from '../../components/info-tip/info-tip';
 import { leftAline } from './currency-exchange-rates-converter.module.scss';
 import React from 'react';
 
-export const quarterNumToTerm = num => {
-  switch (num) {
-    case 1:
-      return 'Janurary';
-    case 2:
-      return 'April';
-    case 3:
-      return 'July';
-    case 4:
-      return 'October';
-    default:
-      return;
-  }
-};
-
 export const dateStringConverter = date => {
   if (isNaN(date)) {
     return '';
@@ -48,39 +33,33 @@ export const enforceTrailingZero = (number, decimalPlaces) => {
   return num;
 };
 
-
 export const labelIcon = (labelName, iconName, dataTestID, isIcon = false, handleMouseEnter, handleTooltipClose, testid) => {
-  if (!isIcon){
+  if (!isIcon) {
     return (
-      <div style= {{fontSize: '14px', fontWeight: '400'}} data-testid={testid}>
-        <span>
-          {labelName}
-        </span>
+      <div style={{ fontSize: '14px', fontWeight: '400' }} data-testid={testid}>
+        <span>{labelName}</span>
       </div>
-    )
+    );
   } else {
-    return  (
-      <div style= {{fontSize: '14px', fontWeight: '400'}}>
-        <span>
-          {labelName}
-        </span>
-        <span data-testid={dataTestID} onMouseEnter={handleMouseEnter} onBlur={handleTooltipClose} role='presentation'>
-        <InfoTip
-          hover
-          iconStyle={{
-            color: '#666666',
-            width: '14px',
-            height: '14px',
-          }}
-        >
-          {iconName}
-        </InfoTip>
+    return (
+      <div style={{ fontSize: '14px', fontWeight: '400' }}>
+        <span>{labelName}</span>
+        <span data-testid={dataTestID} onMouseEnter={handleMouseEnter} onBlur={handleTooltipClose} role="presentation">
+          <InfoTip
+            hover
+            iconStyle={{
+              color: '#666666',
+              width: '14px',
+              height: '14px',
+            }}
+          >
+            {iconName}
+          </InfoTip>
         </span>
       </div>
-    )
+    );
   }
-
-}
+};
 
 export const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000';
 
@@ -116,9 +95,10 @@ export const socialCopy = {
 export const publishedDateInfoIcon = {
   body: (
     <>
-      Please select the relevant Published Date in the desired year for your exchange rate. Each date available represents the closing date of each 
-      quarter of the respective calendar year. Please note: sometimes Treasury issues amendments to published exchange rates. To see amended 
-      exchange rates, please visit the <a href="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange">Treasury Reporting Rates of Exchange</a> dataset.
+      Please select the relevant Published Date in the desired year for your exchange rate. Each date available represents the closing date of each
+      quarter of the respective calendar year. Please note: sometimes Treasury issues amendments to published exchange rates. To see amended exchange
+      rates, please visit the{' '}
+      <a href="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange">Treasury Reporting Rates of Exchange</a> dataset.
     </>
   ),
 };

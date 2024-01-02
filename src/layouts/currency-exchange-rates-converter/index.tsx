@@ -290,7 +290,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {nonUSCurrency !== null && (
           <div data-testid="box-container" className={boxWidth}>
             {data && (
-              <div className={currencyBoxContainer} >
+              <div className={currencyBoxContainer}>
                 <div className={selector}>
                   <NestSelectControl
                     label={labelIcon(
@@ -309,7 +309,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 </div>
               </div>
             )}
-            <div className={currencyBoxContainer} >
+            <div className={currencyBoxContainer}>
               <CurrencyEntryBox
                 selectedCurrency={{
                   label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,

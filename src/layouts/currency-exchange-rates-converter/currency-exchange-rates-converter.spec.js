@@ -1,4 +1,4 @@
-import { render, cleanup, waitFor, within, getByTestId } from '@testing-library/react';
+import { render, cleanup, waitFor, within } from '@testing-library/react';
 import React from 'react';
 import fetchMock from 'fetch-mock';
 import CurrencyExchangeRatesConverter from './index';
@@ -12,7 +12,7 @@ jest.useFakeTimers();
 describe('labelIcon', () => {
   it('returns onlyLable when icon is not provided', () => {
     const label = 'Test Label;';
-    const {queryByText, container } = render(labelIcon(label, '', '', false));
+    const { queryByText, container } = render(labelIcon(label, '', '', false));
 
     expect(queryByText(label)).toBeTruthy();
     expect(container.querySelector('InfoTip')).toBeNull();
@@ -20,15 +20,13 @@ describe('labelIcon', () => {
 
   it('returns correct JSX when an icon is provided', () => {
     const label = 'Test Label;';
-    const iconName = 'test-icon'
+    const iconName = 'test-icon';
     const { getByTestId } = render(labelIcon(label, iconName, '', true));
 
     fireEvent.click(getByTestId('infoTipButton'));
     expect(getByTestId('popupContainer')).toBeTruthy();
   });
-
 });
-
 
 describe('exchange rates converter', () => {
   beforeEach(() => {
@@ -55,8 +53,6 @@ describe('exchange rates converter', () => {
 
     expect(getAllByText('Currency Exchange Rates Converter').length).toBeGreaterThan(0);
   });
-
-
 
   it('input boxes do not allow letters', async () => {
     const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />);
@@ -127,10 +123,49 @@ describe('exchange rates converter', () => {
   });
 
   it('renders the most recent effective date', async () => {
-    const { getByText } = render(<CurrencyExchangeRatesConverter />);
+    const { getByText, getByTestId } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));
+    const dropdown = getByTestId('nested-dropdown');
+    const dropdownButton = within(dropdown).getByTestId('toggle-button');
+    expect(within(dropdownButton).getByText('December 31, 2023')).toBeInTheDocument();
 
-    expect(getByText('December 31, 2022 to December 31, 2023', { exact: false })).toBeInTheDocument();
+    fireEvent.click(dropdownButton);
+
+    const dateButtonDec2022 = within(dropdown).getByRole('button', { name: 'December 31, 2022' });
+
+    fireEvent.click(dateButtonDec2022);
+
+    expect(getByText('December 31, 2022 to September 30, 2024', { exact: false })).toBeInTheDocument();
+  });
+  it('displays -- when the selected currency is not available for a given date', async () => {
+    const { getByText, getByTestId, getAllByText } = render(<CurrencyExchangeRatesConverter />);
+    await waitFor(() => getByText('U.S. Dollar'));
+    const dropdown = getByTestId('dropdown-button-container');
+    let dropdownButton = within(dropdown).getByTestId('dropdownToggle');
+    expect(within(dropdownButton).getByText('Euro Zone-Euro')).toBeInTheDocument();
+
+    fireEvent.click(dropdownButton);
+    const dropdownList = getByTestId('dropdown-container');
+
+    const newCurrency = within(dropdownList).getByRole('button', { name: 'Other OtherDollar2' });
+
+    fireEvent.click(newCurrency);
+    dropdownButton = within(dropdown).getByTestId('dropdownToggle');
+
+    expect(within(dropdownButton).getByText('Other OtherDollar2')).toBeInTheDocument();
+
+    const dateDropdown = getByTestId('nested-dropdown');
+    const dateDropdownButton = within(dateDropdown).getByTestId('toggle-button');
+    expect(within(dateDropdownButton).getByText('December 31, 2023')).toBeInTheDocument();
+
+    fireEvent.click(dateDropdownButton);
+
+    const dateButtonDec2022 = within(dateDropdown).getByRole('button', { name: 'December 31, 2022' });
+
+    fireEvent.click(dateButtonDec2022);
+
+    expect(getAllByText('--').length).toBe(2);
+    expect(getByText('No exchange rate available', { exact: false })).toBeInTheDocument();
   });
 });
 
@@ -152,8 +187,6 @@ it('does not call analytic event when Effective Date info tip is hovered over an
   });
   jest.runAllTimers();
 });
-
-
 
 it('does not call analytic event when Effective Date info tip is hovered over in first 3 seconds', async () => {
   const spy = jest.spyOn(Analytics, 'event');

@@ -81,6 +81,7 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
         onBlur={onBlurHandler}
         onFocus={onFocusHandler}
         role="presentation"
+        data-testid="nested-dropdown"
       >
         <button
           name="dropdownToggle"
