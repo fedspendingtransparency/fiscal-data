@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  selector_label, 
-  selector_nestedOption, 
-  selector_optionSelected, 
+import {
+  selector_label,
+  selector_nestedOption,
+  selector_optionSelected,
   selector_optionButton,
   nested_selector_container,
   nested_selector_button,
@@ -11,8 +11,7 @@ import {
   icon,
   yearTitle,
   dropdown_open,
-  highlighted,
- } from './select-control.module.scss';
+} from './select-control.module.scss';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -24,41 +23,22 @@ export const ariaLabeler = (selectedOptionLabel, ariaLabel, label) => {
 };
 
 const NestSelectControl = ({ label, options, selectedOption, changeHandler, className }) => {
-  const initializeSelectedOption = () => {
-    if (options && options.length > 0) {
-      const firstOption = options[0];
-      if (firstOption.children && firstOption.children.length > 0) {
-        return firstOption.children[0];
-      }
-      return firstOption;
-    }
-    return null;
-  };
   const [droppedDown, setDroppedDown] = useState(false);
-  const [highlightedOption, setHighlightedOption] = useState(initializeSelectedOption());
-  const [optionSelected, setOptionSelected] = useState(selectedOption || initializeSelectedOption());
-  
+  const [optionSelected, setOptionSelected] = useState(selectedOption);
+
   useEffect(() => {
-    setOptionSelected(selectedOption || initializeSelectedOption());
+    setOptionSelected(selectedOption);
   }, [options, selectedOption]);
 
   const updateSelection = selection => {
     setDroppedDown(false);
     setOptionSelected(selection);
-    setHighlightedOption(selection)
     changeHandler(selection);
   };
 
   const toggleDropdown = () => {
     setDroppedDown(!droppedDown);
   };
-
-  const handleMouseEnter = () => {
-    setHighlightedOption('');
-  }
-  const handleMouseLeave = () => {
-    setHighlightedOption(selectedOption);
-  }
 
   let timeOutId;
   const onBlurHandler = () => {
@@ -77,17 +57,13 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
         <li key={option.value} className={yearTitle}>
           {option.label}
         </li>
-      )
-    }
-    else {
-      const colName = option.columnName;
-      const isSelectedOption = option === optionSelected || (colName && optionSelected.columnName && colName === optionSelected.columnName);
-      const isHighLighted = option === highlightedOption;
+      );
+    } else {
+      const isSelectedOption = option.label === optionSelected.label && option.value === optionSelected.value;
       return (
-        <li key={option.value} className={`${selector_nestedOption} ${isHighLighted ? highlighted : ''} ${isYear ? yearTitle : ''}`}
-        >
+        <li key={option.value} className={`${selector_nestedOption} ${isYear ? yearTitle : ''} ${isSelectedOption ? selector_optionSelected : ''}`}>
           <button
-            className={`${selector_optionButton} ${isSelectedOption ? selector_optionSelected : ''} `}
+            className={classNames([selector_optionButton, isSelectedOption ? selector_optionSelected : ''])}
             onClick={() => updateSelection(option)}
           >
             {option.label}
@@ -95,14 +71,13 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
         </li>
       );
     }
-    };
-
+  };
 
   return (
     <>
       {label && <label className={selector_label}>{label}</label>}
       <div
-        className={`${nested_selector_container} ${className ? className : ''} ${droppedDown ? dropdown_open : ''}`}
+        className={`${nested_selector_container} ${className ? className : ''}`}
         onBlur={onBlurHandler}
         onFocus={onFocusHandler}
         role="presentation"
@@ -110,7 +85,7 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
         <button
           name="dropdownToggle"
           data-testid="toggle-button"
-          className={nested_selector_button}
+          className={classNames([nested_selector_button, droppedDown ? dropdown_open : ''])}
           aria-haspopup="true"
           aria-expanded={droppedDown}
           aria-label={selectedOption ? `Select ${selectedOption.label}` : `Select ${optionSelected.label}`}
@@ -122,13 +97,7 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
           <FontAwesomeIcon icon={droppedDown ? faChevronUp : faChevronDown} size="sm" className={icon} />
         </button>
         {droppedDown && (
-          <ul 
-            className={`${nested_selector_list} selectControlList`} 
-            data-testid="selectorList" 
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            role='presentation'
-          >
+          <ul className={`${nested_selector_list} selectControlList`} data-testid="selectorList" role="presentation">
             {options.map(option => (
               <React.Fragment key={option.value}>
                 {renderOption(option, true)}
@@ -140,6 +109,5 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
       </div>
     </>
   );
-
 };
 export default NestSelectControl;
