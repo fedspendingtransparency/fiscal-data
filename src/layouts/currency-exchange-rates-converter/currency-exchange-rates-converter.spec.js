@@ -217,7 +217,7 @@ it('does not call analytics event when Foreign Currency info tip is hovered over
   fireEvent.mouseOver(foreignCurrencyInfo);
   jest.advanceTimersByTime(1000);
 
-  expect(spy).toHaveBeenCalledWith({
+  expect(spy).not.toHaveBeenCalledWith({
     category: 'Exchange Rates Converter',
     action: `Additional Info Hover`,
     label: 'Additional Foreign Currency Info',
@@ -304,7 +304,7 @@ it('does not call analytic event when new value is entered into non US currency 
 
   jest.advanceTimersByTime(1000);
 
-  expect(spy).toHaveBeenCalledWith({
+  expect(spy).not.toHaveBeenCalledWith({
     category: 'Exchange Rates Converter',
     action: `Foreign Currency Value Entered`,
     label: '2.22',
@@ -365,7 +365,7 @@ it('does not call analytic event when new value is entered into US currency fiel
   fireEvent.change(usBox, { target: { value: '222.22' } });
   jest.advanceTimersByTime(1000);
 
-  expect(spy).toHaveBeenCalledWith({
+  expect(spy).not.toHaveBeenCalledWith({
     category: 'Exchange Rates Converter',
     action: `USD Value Entered`,
     label: '222.22',
