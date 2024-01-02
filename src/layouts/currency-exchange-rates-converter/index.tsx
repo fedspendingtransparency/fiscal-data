@@ -136,7 +136,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         const sorted = Object.values(currencyMap).sort((a, b) => a.label.localeCompare(b.label));
         setSortedCurrencies(sorted);
 
-        if (record.country_currency_desc === 'Euro Zone-Euro') {
+        if (record.country_currency_desc === 'Euro Zone-Euro' && record.record_calendar_quarter === '4') {
           if (!mostRecentEuroRecord || new Date(record.record_date) > new Date(mostRecentEuroRecord.record_date)) {
             mostRecentEuroRecord = record;
           }
@@ -146,8 +146,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       if (mostRecentDate) {
         setDatasetDate(dateStringConverter(mostRecentDate));
       }
-
-      console.log('datasetDate', datasetDate);
 
       const nestedOptions: DropdownOption[] = Object.keys(dateGroups)
         .sort((a, b) => Number(b) - Number(a))
@@ -211,7 +209,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         setNonUSCurrencyExchangeValue(product.toString());
       }
     };
-  console.log('gaCurrencyTimer', gaCurrencyTimer)
 
   const handleChangeNonUSCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
     clearTimeout(gaCurrencyTimer);
@@ -238,7 +235,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const newCurrency = data.find(
         record => record.country_currency_desc === nonUSCurrency.country_currency_desc && record.record_date === selectedDateOption.value
       );
-      console.log('newcurr Date  ', newCurrency);
+
       if (newCurrency) {
         setNonUSCurrency(newCurrency);
         setUSDollarValue('1.00');
@@ -259,7 +256,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       return;
     }
     const newCurrency = data.find(record => record.country_currency_desc === selectedCurrency.label && record.record_date === selectedDate?.value);
-    console.log('newcurr  ', newCurrency);
     if (newCurrency) {
       setNonUSCurrency(newCurrency);
       setInputWarning(false);
