@@ -147,8 +147,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         setDatasetDate(dateStringConverter(mostRecentDate));
       }
 
-      console.log('datasetDate', datasetDate);
-
       const nestedOptions: DropdownOption[] = Object.keys(dateGroups)
         .sort((a, b) => Number(b) - Number(a))
         .map(year => ({
@@ -236,7 +234,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const newCurrency = data.find(
         record => record.country_currency_desc === nonUSCurrency.country_currency_desc && record.record_date === selectedDateOption.value
       );
-      console.log('newcurr Date  ', newCurrency);
       if (newCurrency) {
         setNonUSCurrency(newCurrency);
         setUSDollarValue('1.00');
@@ -257,7 +254,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       return;
     }
     const newCurrency = data.find(record => record.country_currency_desc === selectedCurrency.label && record.record_date === selectedDate?.value);
-    console.log('newcurr  ', newCurrency);
     if (newCurrency) {
       setNonUSCurrency(newCurrency);
       setInputWarning(false);
@@ -289,7 +285,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       <div className={container} onBlur={handleInfoTipClose} role="presentation">
         <span className={title}>Check foreign currency rates against the U.S. Dollar.</span>
         {nonUSCurrency !== null && (
-          <div data-testid="box-container">
+          <div className={boxWidth} data-testid="box-container">
             <div>
             {data && (
               <div className={currencyBoxContainer} >
@@ -305,8 +301,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               </div>
             )}
             </div>
-              <div className={currencyBoxContainer} data-testid="foreign-currency-info-tip"
-              >
+              <div className={currencyBoxContainer} data-testid="foreign-currency-info-tip">
               <CurrencyEntryBox
               selectedCurrency={{
                 label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
