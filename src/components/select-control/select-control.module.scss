@@ -37,6 +37,9 @@
   line-height: unset;
   color: $font-body-copy;
   cursor: pointer;
+ :hover {
+  pointer-events: none;
+ }
 
   .icon {
     display: block;
@@ -60,26 +63,66 @@
 .nested_selector_container {
   position: relative;
   max-height: 400px;
+  border: 1px solid white;
+  box-shadow: 0px 0px 0px 4px white;
+
   &.dropdown_open{
     border: 1px solid $primary;
     box-shadow: 0px 0px 0px 4px $primary-blue;
   }
-  
+
 }
 .nested_selector_list {
   list-style: none;
-  margin-top: .313rem;
+  margin-top: 0.33rem;
   padding: 0 0 .5rem 0;
   border: 0px solid $border-color;
   box-shadow: 0px 4px 16px  rgba( 0,0,0, .15);
-  border-radius: 0.5rem;
+  border-radius: 0.125rem;
+  background-color: white;
   position: absolute;
   width: 100%;
   box-sizing: border-box;
   background-color: $content-section-background;
   white-space: normal;
-  z-index: $select-control;
+  z-index: $combo-select-dropdown;
+  .selector_option {
+    font-weight: normal;
+    display: block;
+
+    + .selector_option {
+      border-top: 1px solid $border-color;
+    }
+
+    .selector_optionButton {
+      font-size: $font-size-15;
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      text-align: left;
+      line-height: 2;
+      color: $font-body-copy;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $body-background;
+        transition: background-color 0.2s ease;
+      }
+
+      &:disabled {
+        cursor: default;
+        &:hover {
+          background-color: $content-section-background;
+        }
+      }
+
+      &.selector_optionSelected {
+        background-color: $dropdown-active-background;
+      }
+    }
+  }
 }
+
 
 .selector_list {
   list-style: none;

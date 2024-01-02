@@ -49,8 +49,10 @@ type CurrencyMap = {
 
 type DropdownOption = {
   label: string;
-  value: string;
+  value?: string;
   data?: number;
+  isLable?: boolean;
+  children?: DropdownOption[];
 }
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
@@ -85,12 +87,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const handleMouseEnterInfoTip = (label, ga4ID) => {
     gaInfoTipTimer = setTimeout(() => {
       analyticsHandler('Additional Info Hover', label);
-    }, 3000);
+    }, 1000);
     ga4Timer = setTimeout(() => {
       ga4DataLayerPush({
         event: `additional-info-hover-${ga4ID}`,
       });
-    }, 3000);
+    }, 1000);
   };
 
   const handleInfoTipClose = () => {
@@ -136,12 +138,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }
       });
 
-      const nestedOptions = Object.keys(dateGroups)
+      const nestedOptions: DropdownOption[] = Object.keys(dateGroups)
         .sort((a, b) => Number(b) - Number(a))
         .map(year => ({
           label: year,
-          value: year,
-          children: dateGroups[year].sort((a, b) => new Date(b.value) - new Date(a.value)),
+          isLable: true,
+          children: dateGroups[year].sort((a, b) => new Date(b.value).getTime() - new Date(a.value).getTime()),
         }));
 
       setGroupedDateOptions(nestedOptions);
@@ -182,7 +184,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       if (!isNaN(parseFloat(event.target.value))) {
         gaCurrencyTimer = window.setTimeout(() => {
           analyticsHandler('USD Value Entered', event.target.value);
-        }, 3000);
+        }, 1000);
   
         product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
         product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
@@ -203,7 +205,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     if (!isNaN(parseFloat(event.target.value))) {
       gaCurrencyTimer = window.setTimeout(() => {
         analyticsHandler('Foreign Currency Value Entered', event.target.value);
-      }, 3000);
+      }, 1000);
       quotient = parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate);
       quotient = quotient.toFixed(2);
     }
