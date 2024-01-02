@@ -196,12 +196,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         setNonUSCurrencyExchangeValue('');
       }
       setUSDollarValue(event.target.value)
-  
+
       if (!isNaN(parseFloat(event.target.value))) {
         gaCurrencyTimer = setTimeout(() => {
           analyticsHandler('USD Value Entered', event.target.value);
         }, 3000);
-  
+
         product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
         product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
       }

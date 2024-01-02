@@ -106,7 +106,9 @@ $border-color: #d9d9d9;
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .currencyBox {
-    margin: 1.5rem 0 0;
     width: 100%;
+    &:first-child {
+      margin-bottom: 2rem;
+    }
   }
 }
