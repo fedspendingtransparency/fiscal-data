@@ -199,9 +199,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setUSDollarValue(event.target.value)
   
       if (!isNaN(parseFloat(event.target.value))) {
-        gaCurrencyTimer = window.setTimeout(() => {
+        gaCurrencyTimer = setTimeout(() => {
           analyticsHandler('USD Value Entered', event.target.value);
-        }, 1000);
+        }, 3000);
   
         product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
         product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
@@ -210,7 +210,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         setNonUSCurrencyExchangeValue(product.toString());
       }
     };
-  
+  console.log('gaCurrencyTimer', gaCurrencyTimer)
 
   const handleChangeNonUSCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
     clearTimeout(gaCurrencyTimer);
@@ -222,7 +222,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     if (!isNaN(parseFloat(event.target.value))) {
       gaCurrencyTimer = window.setTimeout(() => {
         analyticsHandler('Foreign Currency Value Entered', event.target.value);
-      }, 1000);
+      }, 3000);
       quotient = parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate);
       quotient = quotient.toFixed(2);
     }
@@ -290,49 +290,48 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       <div className={container} onBlur={handleInfoTipClose} role="presentation">
         <span className={title}>Check foreign currency rates against the U.S. Dollar.</span>
         {nonUSCurrency !== null && (
-          <div data-testid="box-container">
+          <div>
             <div>
             {data && (
-              <div className={currencyBoxContainer}>
+              <div className={currencyBoxContainer} >
                 <div className={selector}>
-                <NestSelectControl
-                  label={labelIcon('Published Date', publishedDateInfoIcon.body, 'effective-date-info-tip', true, () => handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date'), handleInfoTipClose)}
-                  className={box}
-                  options={groupDateOption}
-                  selectedOption={selectedDate}
-                  changeHandler={handleDateChange}
-                />
+                  <NestSelectControl
+                    label={labelIcon('Published Date', publishedDateInfoIcon.body, 'effective-date-info-tip', true, () => handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date'), handleInfoTipClose)}
+                    className={box}
+                    options={groupDateOption}
+                    selectedOption={selectedDate}
+                    changeHandler={handleDateChange}
+                  />
                 </div>
               </div>
             )}
             </div>
-              <div className={currencyBoxContainer} data-testid="foreign-currency-info-tip"
-              >
+              <div className={currencyBoxContainer}  data-testid="box-container">
+                <CurrencyEntryBox
+                  selectedCurrency={{
+                    label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
+                    value: nonUSCurrency,
+                  }}
+                  defaultCurrency={nonUSCurrency.country_currency_desc}
+                  currencyValue={nonUSCurrencyExchangeValue}
+                  dropdown
+                  options={dropdownOptions}
+                  onCurrencyChange={handleCurrencyChange}
+                  onCurrencyValueChange={handleChangeNonUSCurrency}
+                  testId="non-us-box"
+                  header="FOREIGN CURRENCY"
+                  tooltipDiplay={true}
+                  tooltip={currencySelectionInfoIcon.body}
+                />
               <CurrencyEntryBox
-              selectedCurrency={{
-                label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
-                value: nonUSCurrency,
-              }}
-              defaultCurrency={nonUSCurrency.country_currency_desc}
-              currencyValue={nonUSCurrencyExchangeValue}
-              dropdown
-              options={dropdownOptions}
-              onCurrencyChange={handleCurrencyChange}
-              onCurrencyValueChange={handleChangeNonUSCurrency}
-              testId="non-us-box"
-              header="FOREIGN CURRENCY"
-              tooltipDiplay={true}
-              tooltip={currencySelectionInfoIcon.body}
+                defaultCurrency="U.S. Dollar"
+                currencyValue={usDollarValue}
+                onCurrencyValueChange={useHandleChangeUSDollar}
+                testId="us-box"
+                header="U.S. DOLLAR"
+                tooltipDiplay={false}
+                tooltip={""}
               />
-            <CurrencyEntryBox
-              defaultCurrency="U.S. Dollar"
-              currencyValue={usDollarValue}
-              onCurrencyValueChange={useHandleChangeUSDollar}
-              testId="us-box"
-              header="U.S. DOLLAR"
-              tooltipDiplay={false}
-              tooltip={""}
-            />
               </div>
           </div>
         )}

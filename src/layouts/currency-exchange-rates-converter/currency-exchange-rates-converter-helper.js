@@ -49,10 +49,10 @@ export const enforceTrailingZero = (number, decimalPlaces) => {
 };
 
 
-export const labelIcon = (labelName, iconName, dataTestID, isIcon = false, handleMouseEnter, handleTooltipClose) => {
+export const labelIcon = (labelName, iconName, dataTestID, isIcon = false, handleMouseEnter, handleTooltipClose, testid) => {
   if (!isIcon){
     return (
-      <div style= {{fontSize: '14px', fontWeight: '400'}}>
+      <div style= {{fontSize: '14px', fontWeight: '400'}} data-testid={testid}>
         <span>
           {labelName}
         </span>
