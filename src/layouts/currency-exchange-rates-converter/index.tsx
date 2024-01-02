@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
@@ -18,14 +18,12 @@ import CurrencyEntryBox from '../../components/exchange-rates-converter/currency
 import NestSelectControl from '../../components/select-control/nest-select-control';
 import { apiPrefix, basicFetch } from '../../utils/api-utils';
 import {
-  quarterNumToTerm,
   dateStringConverter,
   apiEndpoint,
   breadCrumbLinks,
   socialCopy,
   publishedDateInfoIcon,
   currencySelectionInfoIcon,
-  effectiveDateEndpoint,
   countDecimals,
   enforceTrailingZero,
   labelIcon
@@ -34,6 +32,7 @@ import CustomLink from '../../components/links/custom-link/custom-link';
 import Analytics from '../../utils/analytics/analytics';
 import BannerCallout from '../../components/banner-callout/banner-callout';
 import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
+import { selected } from '../../components/download-wrapper/download-toggle/download-toggle.module.scss';
 
 let gaInfoTipTimer;
 let gaCurrencyTimer;
@@ -87,12 +86,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const handleMouseEnterInfoTip = (label, ga4ID) => {
     gaInfoTipTimer = setTimeout(() => {
       analyticsHandler('Additional Info Hover', label);
-    }, 1000);
+    }, 3000);
     ga4Timer = setTimeout(() => {
       ga4DataLayerPush({
         event: `additional-info-hover-${ga4ID}`,
       });
-    }, 1000);
+    }, 3000);
   };
 
   const handleInfoTipClose = () => {
@@ -137,7 +136,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           }
         }
       });
-
+      if (res.data) {
+        const date = new Date(res.data[0].record_Date);
+        setDatasetDate(dateStringConverter(date));
+      }
+      console.log('datasetDate', datasetDate);
       const nestedOptions: DropdownOption[] = Object.keys(dateGroups)
         .sort((a, b) => Number(b) - Number(a))
         .map(year => ({
@@ -174,6 +177,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [selectedDate, sortedCurrencies, data]);
 
     const useHandleChangeUSDollar = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (!selectedDate){
+        setInputWarning(true);
+        return;
+      }
+      else {
+        setInputWarning(false);
+      }
       clearTimeout(gaCurrencyTimer);
       let product: number | string;
       if (event.target.value === '') {
@@ -218,18 +228,30 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     setSelectedDate(selectedDateOption);
     if (selectedDateOption) {
       const newCurrency = data.find(record => record.country_currency_desc === nonUSCurrency.country_currency_desc && record.record_date === selectedDateOption.value);
+      console.log('newcurr Date  ', newCurrency);
       if (newCurrency) {
         setNonUSCurrency(newCurrency);
+        setUSDollarValue('1.00')
         setNonUSCurrencyExchangeValue(newCurrency.exchange_rate);
         setNonUSCurrencyDecimalPlaces(countDecimals(newCurrency.exchange_rate));
+        setInputWarning(false);
+      }
+      else {
+        setNonUSCurrencyExchangeValue('--');
+        setUSDollarValue('--');
+        setInputWarning(true);
       }
     }
   };
   
   const handleCurrencyChange = (selectedCurrency: DropdownOption) => {
+
     const newCurrency = data.find(record => record.country_currency_desc === selectedCurrency.label && record.record_date === selectedDate?.value);
+    console.log('newcurr  ', newCurrency);
     if (newCurrency) {
       setNonUSCurrency(newCurrency);
+      setInputWarning(false);
+      setUSDollarValue('1.00')
       setNonUSCurrencyExchangeValue(newCurrency.exchange_rate);
       setNonUSCurrencyDecimalPlaces(countDecimals(newCurrency.exchange_rate));
     }

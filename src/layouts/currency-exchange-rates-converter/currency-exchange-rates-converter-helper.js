@@ -137,7 +137,7 @@ export const currencySelectionInfoIcon = {
   body: (
     <>
       Currencies listed in grey do not have available data for the date range selected. Please ensure that the desired currency does not appear by
-      another name, or change the dates selected for available results.
+      another name, or change the date selected for available results.
     </>
   ),
 };
