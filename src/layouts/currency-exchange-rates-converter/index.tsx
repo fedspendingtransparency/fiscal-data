@@ -49,7 +49,7 @@ type DropdownOption = {
   label: string;
   value?: string;
   data?: number;
-  isLable?: boolean;
+  isLabel?: boolean;
   children?: DropdownOption[];
 };
 
@@ -114,12 +114,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         const year = new Date(record.record_date).getFullYear().toString();
         const formattedDate = dateStringConverter(new Date(record.record_date));
 
-        if (mostRecentDate === null || parsedDate > mostRecentDate){
+        if (mostRecentDate === null || parsedDate > mostRecentDate) {
           mostRecentDate = parsedDate;
         }
 
-        if(!currencyMap[currency]){
-          currencyMap[currency] = {label: currency, rates: {}};
+        if (!currencyMap[currency]) {
+          currencyMap[currency] = { label: currency, rates: {} };
         }
         currencyMap[currency].rates[date] = record.exchange_rate;
 
@@ -153,7 +153,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         .sort((a, b) => Number(b) - Number(a))
         .map(year => ({
           label: year,
-          isLable: true,
+          isLabel: true,
           children: dateGroups[year].sort((a, b) => new Date(b.value).getTime() - new Date(a.value).getTime()),
         }));
 
@@ -252,7 +252,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   };
 
   const handleCurrencyChange = (selectedCurrency: DropdownOption | null) => {
-
     if (!selectedCurrency || !selectedCurrency.label) {
       setInputWarning(false);
       return;
@@ -295,7 +294,14 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <div className={currencyBoxContainer}>
                 <div className={selector}>
                   <NestSelectControl
-                    label={labelIcon('Published Date', publishedDateInfoIcon.body, 'effective-date-info-tip', true, () => handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date'), handleInfoTipClose)}
+                    label={labelIcon(
+                      'Published Date',
+                      publishedDateInfoIcon.body,
+                      'effective-date-info-tip',
+                      true,
+                      () => handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date'),
+                      handleInfoTipClose
+                    )}
                     className={box}
                     options={groupDateOption}
                     selectedOption={selectedDate}
@@ -304,7 +310,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 </div>
               </div>
             )}
-              <div className={currencyBoxContainer} data-testid="foreign-currency-info-tip">
+            <div className={currencyBoxContainer} data-testid="foreign-currency-info-tip">
               <CurrencyEntryBox
                 selectedCurrency={{
                   label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
