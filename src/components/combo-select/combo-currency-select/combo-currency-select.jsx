@@ -54,6 +54,7 @@ const ComboCurrencySelect = ({
   const [inputRef, setInputFocus] = useFocus();
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
   const [searchBarActive, setSearchBarActive] = useState(false);
+  
 
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {

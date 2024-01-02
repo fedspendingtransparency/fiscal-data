@@ -15,8 +15,13 @@ import { faDollarSign, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classNames from 'classnames';
+import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper'
 import { labelIcon } from '../../../layouts/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
+import Analytics from '../../../utils/analytics/analytics';
 
+let gaInfoTipTimer;
+let gaCurrencyTimer;
+let ga4Timer;
 
 interface ICurrencyEntryBox {
   defaultCurrency: string;
@@ -52,7 +57,35 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
 }) => {
   const [active, setActive] = useState(false);
   const ariaLabelValue = header === 'U.S. DOLLAR' ? 'U.S. Dollar' : selectedCurrency?.label;
+  const analyticsHandler = (action, label) => {
+    if (action && label) {
+      Analytics.event({
+        category: 'Exchange Rates Converter',
+        action: action,
+        label: label,
+      });
+      ga4DataLayerPush({
+        event: action,
+        eventLabel: label,
+      });
+    }
+  };
 
+  const handleMouseEnterInfoTip = (label, ga4ID) => {
+    gaInfoTipTimer = setTimeout(() => {
+      analyticsHandler('Additional Info Hover', label);
+    }, 3000);
+    ga4Timer = setTimeout(() => {
+      ga4DataLayerPush({
+        event: `additional-info-hover-${ga4ID}`,
+      });
+    }, 3000);
+  };
+
+  const handleInfoTipClose = () => {
+    clearTimeout(gaInfoTipTimer);
+    clearTimeout(ga4Timer);
+  };
   return (
     <>
       <div className={currencyBox} data-testid={testId}>
@@ -80,7 +113,7 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
             />
           )}
         </div>
-        <div className={boxLabel}>{labelIcon('Current Currency', tooltip, null, tooltipDiplay)}</div>
+        <div className={boxLabel}>{labelIcon('Current Currency', tooltip, null, tooltipDiplay, () => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr'), handleInfoTipClose)}</div>
         {dropdown && options ? (
           <div className={comboCurrencySelection}>
             <ComboCurrencySelect

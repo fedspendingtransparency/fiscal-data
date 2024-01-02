@@ -49,7 +49,7 @@ export const enforceTrailingZero = (number, decimalPlaces) => {
 };
 
 
-export const labelIcon = (labelName, iconName, dataTestID, isIcon = false) => {
+export const labelIcon = (labelName, iconName, dataTestID, isIcon = false, handleMouseEnter, handleTooltipClose) => {
   if (!isIcon){
     return (
       <div style= {{fontSize: '14px', fontWeight: '400'}}>
@@ -64,7 +64,7 @@ export const labelIcon = (labelName, iconName, dataTestID, isIcon = false) => {
         <span>
           {labelName}
         </span>
-        <span data-testid={dataTestID}>
+        <span data-testid={dataTestID} onMouseEnter={handleMouseEnter} onBlur={handleTooltipClose} role='presentation'>
         <InfoTip
           hover
           iconStyle={{
@@ -76,7 +76,6 @@ export const labelIcon = (labelName, iconName, dataTestID, isIcon = false) => {
           {iconName}
         </InfoTip>
         </span>
-
       </div>
     )
   }
