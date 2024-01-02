@@ -104,15 +104,22 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const dateGroups = {};
       const data = res.data;
       let mostRecentEuroRecord = null;
+      let mostRecentDate: Date | null = null;
 
       data.forEach(record => {
         const currency = record.country_currency_desc;
         const date = record.record_date;
+        const rawDate = record.record_date;
+        const parsedDate = new Date(rawDate);
         const year = new Date(record.record_date).getFullYear().toString();
         const formattedDate = dateStringConverter(new Date(record.record_date));
 
-        if (!currencyMap[currency]) {
-          currencyMap[currency] = { label: currency, rates: {} };
+        if (mostRecentDate === null || parsedDate > mostRecentDate){
+          mostRecentDate = parsedDate;
+        }
+
+        if(!currencyMap[currency]){
+          currencyMap[currency] = {label: currency, rates: {}};
         }
         currencyMap[currency].rates[date] = record.exchange_rate;
 
@@ -135,11 +142,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           }
         }
       });
-      if (res.data) {
-        const date = new Date(res.data[0].record_Date);
-        setDatasetDate(dateStringConverter(date));
+
+      if (mostRecentDate) {
+        setDatasetDate(dateStringConverter(mostRecentDate));
       }
+
       console.log('datasetDate', datasetDate);
+
       const nestedOptions: DropdownOption[] = Object.keys(dateGroups)
         .sort((a, b) => Number(b) - Number(a))
         .map(year => ({
@@ -242,7 +251,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   };
 
-  const handleCurrencyChange = (selectedCurrency: DropdownOption) => {
+  const handleCurrencyChange = (selectedCurrency: DropdownOption | null) => {
+
+    if (!selectedCurrency || !selectedCurrency.label) {
+      setInputWarning(false);
+      return;
+    }
     const newCurrency = data.find(record => record.country_currency_desc === selectedCurrency.label && record.record_date === selectedDate?.value);
     console.log('newcurr  ', newCurrency);
     if (newCurrency) {
@@ -279,16 +293,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           <div data-testid="box-container" className={boxWidth}>
             {data && (
               <div className={currencyBoxContainer}>
-                <div
-                  className={selector}
-                  onMouseEnter={() => {
-                    handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date');
-                  }}
-                  onBlur={handleInfoTipClose}
-                  role="presentation"
-                >
+                <div className={selector}>
                   <NestSelectControl
-                    label={labelIcon('Published Date', publishedDateInfoIcon.body, 'effective-date-info-tip', true)}
+                    label={labelIcon('Published Date', publishedDateInfoIcon.body, 'effective-date-info-tip', true, () => handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date'), handleInfoTipClose)}
                     className={box}
                     options={groupDateOption}
                     selectedOption={selectedDate}
@@ -297,13 +304,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 </div>
               </div>
             )}
-            <div
-              className={currencyBoxContainer}
-              data-testid="foreign-currency-info-tip"
-              onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr')}
-              onBlur={handleInfoTipClose}
-              role="presentation"
-            >
+              <div className={currencyBoxContainer} data-testid="foreign-currency-info-tip">
               <CurrencyEntryBox
                 selectedCurrency={{
                   label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
@@ -327,7 +328,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 testId="us-box"
                 header="U.S. DOLLAR"
                 tooltipDiplay={false}
-                tooltip={''}
+                tooltip=""
               />
             </div>
           </div>
