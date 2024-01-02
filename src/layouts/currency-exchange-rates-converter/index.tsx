@@ -105,7 +105,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const data = res.data;
       let mostRecentEuroRecord = null;
       let mostRecentDate: Date | null = null;
-
+      console.log(res.data);
       data.forEach(record => {
         const currency = record.country_currency_desc;
         const date = record.record_date;
@@ -137,7 +137,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         setSortedCurrencies(sorted);
 
         if (record.country_currency_desc === 'Euro Zone-Euro') {
-          if (!mostRecentEuroRecord || new Date(record.record_date) > new Date(mostRecentEuroRecord.record_date)) {
+          if (record.country_currency_desc === 'Euro Zone-Euro' && record.record_calendar_quarter === '4') {
             mostRecentEuroRecord = record;
           }
         }
