@@ -39,38 +39,32 @@ let gaInfoTipTimer;
 let gaCurrencyTimer;
 let ga4Timer;
 
+type CurrencyRate = {
+  label: string;
+  rates: Record<string, string>;
+}
+type CurrencyMap = {
+  [key: string]: CurrencyRate;
+}
+
+type DropdownOption = {
+  label: string;
+  value: string;
+  data?: number;
+}
+
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [data, setData] = useState(null);
-  const [sortedCurrencies, setSortedCurrencies] = useState(null as Currency[]);
+  const [sortedCurrencies, setSortedCurrencies] = useState(null);
   const [dropdownOptions, setDropdownOptions] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(null);
-  const [selectedQuarter, setSelectedQuarter] = useState(null);
   const [nonUSCurrency, setNonUSCurrency] = useState(null);
   const [usDollarValue, setUSDollarValue] = useState('1.00');
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
   const [datasetDate, setDatasetDate] = useState(null);
-  const [nonUSCurrencyDecimalPlaces, setNonUSCurrencyDecimalPLaces] = useState(0);
+  const [nonUSCurrencyDecimalPlaces, setNonUSCurrencyDecimalPlaces] = useState(0);
   const [inputWarning, setInputWarning] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<DropdownOption | null>(null);
-  const [groupedDateOptions, setGroupedDateOptions] = useState<DropdownOption[]>([]);
-  const [selectedDateOption, setSelectedDateOption] = useState<DropdownOption | null>(null);
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  
-  type CurrencyYearQuarter = {
-    effectiveDate: string;
-    rate: string;
-    data: Record<string, string>;
-  };
-  type DropdownOption = {
-    label: string;
-    value: string;
-    data?: number; 
-  }
-
-  type Currency = {
-    label: string;
-    yearQuarterMap: Record<string, CurrencyYearQuarter>;
-  };
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [groupDateOption, setGroupedDateOptions] = useState<DropdownOption[]>([]);
 
   const XRWarningBanner = { banner: 'XRPageWarning' };
 
@@ -88,7 +82,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   };
 
-  const handleMouseEnterInfoTip = (label, ga4ID) => {    
+  const handleMouseEnterInfoTip = (label, ga4ID) => {
     gaInfoTipTimer = setTimeout(() => {
       analyticsHandler('Additional Info Hover', label);
     }, 3000);
@@ -104,182 +98,23 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     clearTimeout(ga4Timer);
   };
 
-  const yearQuarterParse = (dataRecord: Record<string, string>): string => `${dataRecord.record_calendar_year}Q${dataRecord.record_calendar_quarter}`;
-
-  useEffect(() => {
-    basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then(res => {
-      if (res.data) {
-        const date = new Date(res.data[0].record_date);
-        setDatasetDate(dateStringConverter(date));
-      }
-    });
-  }, []);
-
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
-      const yearToQuartersMapLocal = {} as Record<string, number[]>;
-      const currencyMapLocal: Record<string, Currency> = {};
-      res.data.forEach(record => {
-        if (!currencyMapLocal[record.country_currency_desc]) {
-          currencyMapLocal[record.country_currency_desc] = {
-            label: record.country_currency_desc,
-            yearQuarterMap: {} as Record<string, CurrencyYearQuarter>,
-          } as Currency;
-        }
-        if (!currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)]) {
-          currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
-            effectiveDate: record.record_date,
-            rate: record.exchange_rate,
-            data: record,
-          };
-        } else if (currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)]) {
-          if (
-            new Date(currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)].effectiveDate) <
-            new Date(record.record_date)
-          ) {
-            currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
-              effectiveDate: record.record_Date,
-              rate: record.exchange_rate,
-              data: record,
-            };
-          }
-        }
-        if (!yearToQuartersMapLocal[record.record_calendar_year]) {
-          yearToQuartersMapLocal[record.record_calendar_year] = [];
-        }
-        if (!yearToQuartersMapLocal[record.record_calendar_year].includes(parseInt(record.record_calendar_quarter))) {
-          yearToQuartersMapLocal[record.record_calendar_year].push(parseInt(record.record_calendar_quarter));
-        }
-      });
-      Object.values(yearToQuartersMapLocal).forEach(quarters => {
-        quarters = quarters.sort((a, b) => a - b);
-      });
-      setSortedCurrencies(Object.values(currencyMapLocal).sort((a, b) => a.label.localeCompare(b.label)));
-
-      const listOfYearOptions = Object.keys(yearToQuartersMapLocal)
-        .sort((a, b) => b.localeCompare(a))
-        .map(year => ({ label: year, value: parseInt(year) }));
-      const mostRecentYear = Math.max(...listOfYearOptions.map(entry => entry.value));
-      const newestQuarter = yearToQuartersMapLocal[mostRecentYear][yearToQuartersMapLocal[mostRecentYear].length - 1];
-      // Setting default values based on default non US currency (Euro)
-      const euro = currencyMapLocal['Euro Zone-Euro'].yearQuarterMap[`${mostRecentYear}Q${newestQuarter}`].data;
-      setNonUSCurrency(euro);
-      setNonUSCurrencyExchangeValue(euro.exchange_rate);
-      setNonUSCurrencyDecimalPLaces(countDecimals(euro.exchange_rate));
-
-      const recordQuartersSet = [
-        ...new Set(
-          res.data
-            .filter(entry => entry.country_currency_desc === euro.country_currency_desc && entry.record_calendar_year === euro.record_calendar_year)
-            .map(entry => parseInt(entry.record_calendar_quarter))
-        ),
-      ];
-      recordQuartersSet.sort((a: number, b: number) => {
-        return a - b;
-      });
-      const listOfQuarterOptions = recordQuartersSet.map(quarter => ({
-        label: quarterNumToTerm(quarter),
-        value: quarter,
-      }));
-      const mostRecentQuarter = Math.max(...listOfQuarterOptions.map(entry => Number(entry.value)));
-      setSelectedYear({
-        label: mostRecentYear.toString(),
-        value: mostRecentYear,
-      });
-      setSelectedQuarter({
-        label: quarterNumToTerm(mostRecentQuarter),
-        value: mostRecentQuarter,
-      });
-
-    });
-  }, []);
-
-  const updateCurrencyDropdownOptions = (selQuarter, selYear) => {
-    const selectedYearQuarter = `${selYear.value}Q${selQuarter.value}`;
-
-    const newOptions = sortedCurrencies.map(currency => {
-    const isAvilable = currency.yearQuarterMap[selectedYearQuarter];
-      return {
-        label: currency.label,
-        value: currency.yearQuarterMap[selectedYearQuarter] ? currency.yearQuarterMap[selectedYearQuarter].data : null,
-        isDisabled: !isAvilable,
-      }
-    });
-    setDropdownOptions(newOptions);
-  };
-
-  useEffect(() => {
-    if (selectedQuarter && selectedYear) {
-      updateCurrencyDropdownOptions(selectedQuarter, selectedYear);
-    }
-  }, [selectedQuarter, selectedYear]);
-
-  const useHandleChangeUSDollar = useCallback(
-    event => {
-      clearTimeout(gaCurrencyTimer);
-
-      let product;
-      if (event.target.value === '') {
-        setNonUSCurrencyExchangeValue('');
-      }
-      setUSDollarValue(event.target.value);
-      if (!isNaN(parseFloat(event.target.value))) {
-        gaCurrencyTimer = setTimeout(() => {
-          analyticsHandler('USD Value Entered', event.target.value);
-        }, 3000);
-
-        if (nonUSCurrencyDecimalPlaces === 1) {
-          product = Math.round(parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate) * 10) / 10;
-        } else if (nonUSCurrencyDecimalPlaces === 2) {
-          product = Math.round(parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate) * 100) / 100;
-        } else {
-          product = Math.round(parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate) * 1000) / 1000;
-        }
-        product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
-      }
-      if (!isNaN(product)) {
-        setNonUSCurrencyExchangeValue(product);
-      }
-    },
-    [usDollarValue, nonUSCurrency, ]
-  );
-
-  const handleChangeNonUSCurrency = useCallback(
-    event => {
-      clearTimeout(gaCurrencyTimer);
-      let quotient;
-      if (event !== null) {
-        if (event.target.value === '') {
-          setUSDollarValue('');
-        }
-        setNonUSCurrencyExchangeValue(event.target.value);
-        if (!isNaN(parseFloat(event.target.value))) {
-          gaCurrencyTimer = setTimeout(() => {
-            analyticsHandler('Foreign Currency Value Entered', event.target.value);
-          }, 3000);
-          quotient = (Math.round((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(2);
-        }
-        if (!isNaN(quotient)) {
-          setUSDollarValue(quotient.toString());}
-      }
-    },
-    [nonUSCurrencyExchangeValue, nonUSCurrency]
-  );
-  
-  const formatDate = (dateStr: string): string => {
-    const date = new Date(dateStr);
-    return dateStringConverter(date); 
-  };
-
-  useEffect(() => {
-    basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
+      const currencyMap: CurrencyMap = {};
+      const dateGroups = {};
       const data = res.data;
-      const dateGroups: Record<string, DropdownOption[]> = {};
-      let mostRecentEuroRecord;
+      let mostRecentEuroRecord = null;
 
       data.forEach(record => {
+        const currency = record.country_currency_desc;
+        const date = record.record_date;
         const year = new Date(record.record_date).getFullYear().toString();
-        const formattedDate = formatDate(record.record_date);
+        const formattedDate = dateStringConverter(new Date(record.record_date));
+
+        if(!currencyMap[currency]){
+          currencyMap[currency] = {label: currency, rates: {}};
+        }
+        currencyMap[currency].rates[date] = record.exchange_rate;
 
         if (!dateGroups[year]) {
           dateGroups[year] = [];
@@ -291,6 +126,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             value: record.record_date,
           });
         }
+        const sorted = Object.values(currencyMap).sort((a, b) => a.label.localeCompare(b.label));
+        setSortedCurrencies(sorted);
 
         if (record.country_currency_desc === 'Euro Zone-Euro'){
           if (!mostRecentEuroRecord || new Date(record.record_date) > new Date(mostRecentEuroRecord.record_date)){
@@ -308,45 +145,93 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }));
 
       setGroupedDateOptions(nestedOptions);
-      if (mostRecentEuroRecord && selectedCountry === null) {
+
+      if (mostRecentEuroRecord) {
+        setSelectedDate({ label: dateStringConverter(new Date(mostRecentEuroRecord.record_date)), value: mostRecentEuroRecord.record_date});
         setNonUSCurrency(mostRecentEuroRecord);
         setNonUSCurrencyExchangeValue(mostRecentEuroRecord.exchange_rate);
-        setNonUSCurrencyDecimalPLaces(countDecimals(mostRecentEuroRecord.exchange_rate));
-
-        setSelectedDate({ label: dateStringConverter(new Date(mostRecentEuroRecord.record_date)), value: mostRecentEuroRecord.record_date});
+        setNonUSCurrencyDecimalPlaces(countDecimals(mostRecentEuroRecord.exchange_rate));
       }
+
       setData(res.data);
     });
-  }, [selectedCountry]);
+  }, []);
 
-  const fetchExchangeRate = (country, date) => {
-    const relevantCurrencyDate = data.find(record =>
-      record.country_currency_desc === country && record.record_date === date
-    );
-    if(relevantCurrencyDate){
-      setNonUSCurrency(relevantCurrencyDate);
-      setNonUSCurrencyExchangeValue(relevantCurrencyDate.exchange_rate);
-      setNonUSCurrencyDecimalPLaces(countDecimals(relevantCurrencyDate.exchange_rate));
-      setUSDollarValue('1.00');
-      setInputWarning(false);
+  useEffect(() => {
+    if (data && sortedCurrencies.length > 0 && selectedDate) {
+      const currencyOptions = sortedCurrencies.map(currency => {
+        const rate = currency.rates[selectedDate.value];
+        return {
+          label: currency.label,
+          value: rate ? rate : '',
+          isDisabled: !rate,
+        };
+      });
+      setDropdownOptions(currencyOptions);
+    }
+  }, [selectedDate, sortedCurrencies, data]);
+
+    const useHandleChangeUSDollar = (event: React.ChangeEvent<HTMLInputElement>) => {
+      clearTimeout(gaCurrencyTimer);
+      let product: number | string;
+      if (event.target.value === '') {
+        setNonUSCurrencyExchangeValue('');
+      }
+      setUSDollarValue(event.target.value)
+  
+      if (!isNaN(parseFloat(event.target.value))) {
+        gaCurrencyTimer = window.setTimeout(() => {
+          analyticsHandler('USD Value Entered', event.target.value);
+        }, 3000);
+  
+        product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
+        product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
+      }
+      if (!isNaN(product as number)) {
+        setNonUSCurrencyExchangeValue(product.toString());
+      }
+    };
+  
+
+  const handleChangeNonUSCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
+    clearTimeout(gaCurrencyTimer);
+    let quotient: number | string;
+    if (event.target.value === '') {
+      setUSDollarValue('');
+    }
+    setNonUSCurrencyExchangeValue(event.target.value);
+    if (!isNaN(parseFloat(event.target.value))) {
+      gaCurrencyTimer = window.setTimeout(() => {
+        analyticsHandler('Foreign Currency Value Entered', event.target.value);
+      }, 3000);
+      quotient = parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate);
+      quotient = quotient.toFixed(2);
+    }
+    if (!isNaN(quotient as number)) {
+      setUSDollarValue(quotient.toString());
     }
   };
 
-  const handleDateChange = (selectedDateOption) => {
+  const handleDateChange = (selectedDateOption: DropdownOption) => {
     setSelectedDate(selectedDateOption);
-    setSelectedDateOption(selectedDateOption);
-    const selectedDate = selectedDateOption.value;
-    if (selectedCountry) {
-      fetchExchangeRate(selectedCountry, selectedDate);
-    }
-  };
-  const handleCurrencyChange = (selectedCurrency) => {
-    setSelectedCountry(selectedCurrency.label);
     if (selectedDateOption) {
-      fetchExchangeRate(selectedCurrency.label, selectedDateOption.value);
+      const newCurrency = data.find(record => record.country_currency_desc === nonUSCurrency.country_currency_desc && record.record_date === selectedDateOption.value);
+      if (newCurrency) {
+        setNonUSCurrency(newCurrency);
+        setNonUSCurrencyExchangeValue(newCurrency.exchange_rate);
+        setNonUSCurrencyDecimalPlaces(countDecimals(newCurrency.exchange_rate));
+      }
     }
   };
-
+  
+  const handleCurrencyChange = (selectedCurrency: DropdownOption) => {
+    const newCurrency = data.find(record => record.country_currency_desc === selectedCurrency.label && record.record_date === selectedDate?.value);
+    if (newCurrency) {
+      setNonUSCurrency(newCurrency);
+      setNonUSCurrencyExchangeValue(newCurrency.exchange_rate);
+      setNonUSCurrencyDecimalPlaces(countDecimals(newCurrency.exchange_rate));
+    }
+  };
 
   return (
     <SiteLayout isPreProd={false}>
@@ -383,10 +268,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                   role="presentation"
                 >
                 <NestSelectControl
-                  ariaLabel={'quater selector'}
                   label={labelIcon('Published Date', publishedDateInfoIcon.body, 'effective-date-info-tip', true)}
                   className={box}
-                  options={groupedDateOptions}
+                  options={groupDateOption}
                   selectedOption={selectedDate}
                   changeHandler={handleDateChange}
                 />
