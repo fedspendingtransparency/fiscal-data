@@ -256,6 +256,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       return;
     }
     const newCurrency = data.find(record => record.country_currency_desc === selectedCurrency.label && record.record_date === selectedDate?.value);
+
     if (newCurrency) {
       setNonUSCurrency(newCurrency);
       setInputWarning(false);
