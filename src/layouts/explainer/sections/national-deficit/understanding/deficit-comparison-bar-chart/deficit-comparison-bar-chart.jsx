@@ -145,7 +145,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
     } else if (deficitValue < deficitChangeValue) {
       setDeficitChangeLabel(`a decrease of ${deficitDifferenceText}`);
     } else {
-      setDeficitChangeLabel('not changed');
+      setDeficitChangeLabel('remaning unchanged');
     }
 
     setData([
