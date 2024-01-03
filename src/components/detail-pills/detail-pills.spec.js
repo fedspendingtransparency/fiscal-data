@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import DetailPills from './detail-pills';
-import * as styles from './detail-pills.module.scss';
+import { pill } from './detail-pills.module.scss';
 import { add, format } from 'date-fns';
 
 describe('Detail-Pills component', () => {
@@ -11,7 +11,7 @@ describe('Detail-Pills component', () => {
   beforeAll(() => {
     const component = renderer.create(<DetailPills techSpecs={profilerConfigMockData.dataJson.datasets[0].techSpecs} dictionary={false} />);
     const instance = component.root;
-    pills = instance.findAllByProps({ className: styles.pill });
+    pills = instance.findAllByProps({ className: pill });
   });
 
   it('displays a date range pill containing a calendar-week icon and a MM/DD/YYYY — MM/DD/YYYY label', () => {
@@ -47,7 +47,7 @@ describe('DetailPills component with a dataset with a latestDate in the future',
   beforeAll(() => {
     const component2 = renderer.create(<DetailPills techSpecs={mockData.techSpecs} dictionary={false} />);
     const instance2 = component2.root;
-    pills = instance2.findAllByProps({ className: styles.pill });
+    pills = instance2.findAllByProps({ className: pill });
   });
 
   it('shows the futureDateIcon when the latestDate is in the future', () => {
