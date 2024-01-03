@@ -39,6 +39,7 @@ const SelectAll = ({ table, resetToDefault, defaultColumns }) => {
                 onChange={onButtonClick}
                 type="checkbox"
                 checked={checked()}
+                style={{ minWidth: '1rem', minHeight: '1rem', opacity: '1', right: '3.95rem' }}
               />
               <span className={styles.labelCheckmarkContainer}>
                 <span className={styles.checkmarkText}>
