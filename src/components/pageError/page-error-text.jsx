@@ -85,9 +85,8 @@ const PageErrorText = ({ fallback }) => (
     <Header>Oops... there's been a glitch in the data.</Header>
     {fallback ? <FallbackText /> : <NotFoundText />}
     <PTag>
-      Want to get in touch or send in general comments about the site? Send a message{' '}
-      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">via email</CustomLink>, and our team will respond at our earliest
-      opportunity.
+      Want to get in touch or send in general comments about the site? Contact us via email at{' '}
+      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">fiscaldata@fiscal.treasury.gov</CustomLink> for further assistance. Thank you!
     </PTag>
     <NotFoundGraphicHolder />
   </Wrapper>
