@@ -66,7 +66,7 @@ export const XRMockData = {
       currency: 'OtherDollar2',
       country_currency_desc: 'Other OtherDollar2',
       exchange_rate: '150',
-      effective_date: '2023-21-31',
+      effective_date: '2023-12-31',
       src_line_nbr: '1',
       record_fiscal_year: '2023',
       record_fiscal_quarter: '1',
