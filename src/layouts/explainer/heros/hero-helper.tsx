@@ -1,10 +1,10 @@
-import { pillDataContainer, pillDataValue, pillDataPercent, explainerArrow } from '../hero-image/hero-image.module.scss';
+import { pillDataContainer, pillDataValue, pillDataPercent, explainerArrow, dashes } from '../hero-image/hero-image.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { getShortForm } from '../../../utils/rounding-utils';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { divvyUpFilters } from '../../../components/dataset-data/dataset-data-api-helper/dataset-data-api-helper';
+
 
 export const getFootNotesDateRange = (priorFY: string, currentFY: string, currentRecordMonth: string): string => {
   const date = new Date();
@@ -29,29 +29,21 @@ export const getPillData = (
   const valueLength = displayValue.length + 1;
   const percentLength = displayPercent.length + 1;
   const getPillWidth = displayValueLength => (displayValueLength > 4 ? (displayValueLength - 4) / 2 + 4 : 4);
-
+ 
+  const doubleDash ='/images/double-dash.svg';
   const iconChange = (labelChanger) => {
     if (labelChanger === 'increased') {
-      return (
-      <div className={explainerArrow}>
-        <FontAwesomeIcon icon={faUpLong as IconProp} title="up arrow" />
-      </div>
-      )
+      return <FontAwesomeIcon icon={faUpLong as IconProp} title="up arrow" />
     }
     else if(labelChanger === 'decreased') {
-      return (
-      <div className={explainerArrow}>
-        <FontAwesomeIcon icon={faDownLong as IconProp} title="down arrow" />
-      </div>
-      )
+      return <FontAwesomeIcon icon={faDownLong as IconProp} title="down arrow" />
     }
     else {
       return (
-      <div className={explainerArrow}>
-        <FontAwesomeIcon icon={faDownLong as IconProp} title="down arrow" />
-      </div>
-      )
-
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <img src={doubleDash} alt="An open book with a coin above the pages." className={dashes} />
+        </div>
+      ) 
     }
   }
   return (
@@ -59,7 +51,9 @@ export const getPillData = (
       <div className={pillDataValue} title={leftPillTooltipText} style={{ background: color, width: `${getPillWidth(valueLength)}rem` }}>
         ${displayValue}
       </div>
-      {iconChange(changeLabel)}
+      <div className={explainerArrow}>
+        {iconChange(changeLabel)}
+      </div>
       <div className={pillDataPercent} title={rightPillTooltipText} style={{ background: color, width: `${getPillWidth(percentLength)}rem` }}>
         {displayPercent}%
       </div>
