@@ -100,6 +100,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
+      console.log(res.data);
       const currencyMap: CurrencyMap = {};
       const dateGroups = {};
       const data = res.data;
@@ -196,12 +197,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         setNonUSCurrencyExchangeValue('');
       }
       setUSDollarValue(event.target.value)
-
+  
       if (!isNaN(parseFloat(event.target.value))) {
         gaCurrencyTimer = setTimeout(() => {
           analyticsHandler('USD Value Entered', event.target.value);
         }, 3000);
-
+  
         product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
         product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
       }
@@ -233,7 +234,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     setSelectedDate(selectedDateOption);
     if (selectedDateOption) {
       const newCurrency = data.find(
-        record => record.country_currency_desc === nonUSCurrency.country_currency_desc && record.record_date === selectedDateOption.value
+        record => record.country_currency_desc === nonUSCurrency.country_currency_desc 
+        && record.record_date === selectedDateOption.value && record.record_date === record.effective_date
       );
 
       if (newCurrency) {
@@ -255,7 +257,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setInputWarning(false);
       return;
     }
-    const newCurrency = data.find(record => record.country_currency_desc === selectedCurrency.label && record.record_date === selectedDate?.value);
+    const newCurrency = data.find(record => record.country_currency_desc === selectedCurrency.label 
+      && record.record_date === selectedDate?.value && record.record_date === record.effective_date);
 
     if (newCurrency) {
       setNonUSCurrency(newCurrency);
@@ -290,7 +293,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {nonUSCurrency !== null && (
           <div data-testid="box-container" className={boxWidth}>
             {data && (
-              <div className={currencyBoxContainer}>
+              <div className={currencyBoxContainer} >
                 <div className={selector}>
                   <NestSelectControl
                     label={labelIcon(
@@ -309,7 +312,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 </div>
               </div>
             )}
-            <div className={currencyBoxContainer}>
+            <div className={currencyBoxContainer} >
               <CurrencyEntryBox
                 selectedCurrency={{
                   label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
