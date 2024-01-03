@@ -72,7 +72,9 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   return (
     <>
       {displayBanner() && (
-        {ContentUnavailable}
+        <AnnouncementBanner closable={false}>
+          <ContentUnavailable />
+        </AnnouncementBanner>
       )}
       <header>
         <OfficialBanner data-testid="officialBanner" />

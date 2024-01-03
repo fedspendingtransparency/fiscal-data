@@ -12,8 +12,9 @@ import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from 'recharts';
 import { totalDebtData } from './experimental-helper';
-import ContentUnavailable from '../../components/site-header/banner-types/content-unavailable';
-import DatasetUnavailable from '../../components/site-header/banner-types/dataset-unavailable';
+import AnnouncementBanner from '../../components/announcement-banner/announcement-banner';
+import * as styles from '../../components/site-header/site-header.module.scss';
+
 const fallbackComponent = () => {
   return <div className={fallback}>Something went wrong. Please refresh the page to try again.</div>;
 };
@@ -81,8 +82,13 @@ const ExperimentalPage = () => {
 
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}>
-            <DatasetUnavailable datasetPageName={'Trash Can'} />
-            <ContentUnavailable />
+      <AnnouncementBanner>
+        <div className={styles.bannerHeading}> Content Temporarily Unavailable: </div>
+        <div className={styles.bannerContent}>
+          The Fiscal Data team is working diligently to address the current issue with this page. Please check back later or contact us{' '}
+          <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">via email</CustomLink> for further assistance. Thank you.
+        </div>
+      </AnnouncementBanner>
       <SiteLayout>
         <h2>FootNote Paragraph</h2>
         <p>
