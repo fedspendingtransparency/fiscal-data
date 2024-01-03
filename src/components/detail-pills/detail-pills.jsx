@@ -1,6 +1,6 @@
 import React from 'react';
 import * as styles from './detail-pills.module.scss';
-import { faCalendarWeek, faCheckCircle, faFileCode, faSyncAlt, faTimesCircle, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarWeek, faRepeat, faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { isAfter } from 'date-fns';
 import futureDateIcon from '../../images/futureDateIcon.svg';
@@ -30,12 +30,12 @@ const DetailPills = ({ techSpecs, dictionary }) => {
         </span>
       )}
       <span className={styles.pill}>
-        <FontAwesomeIcon icon={faSyncAlt} size="1x" className={styles.icon} data-test-id="sync-alt-icon" />
+        <FontAwesomeIcon icon={faRepeat} size="1x" className={styles.icon} data-test-id="repeat-icon" />
         <span className="pillText">{frequency}</span>
       </span>
       {lastUpdated && (
         <span className={styles.pill}>
-          <FontAwesomeIcon icon={faCalendarCheck} size="1x" className={styles.icon} data-test-id="lastUpdatedIcon" />
+          <FontAwesomeIcon icon={faPen} size="1x" className={styles.icon} data-test-id="lastUpdatedIcon" />
           <span className="pillText">Last Updated {lastUpdated}</span>
         </span>
       )}
