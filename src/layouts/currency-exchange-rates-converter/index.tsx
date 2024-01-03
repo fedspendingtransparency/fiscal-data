@@ -100,6 +100,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
+      console.log(res.data);
       const currencyMap: CurrencyMap = {};
       const dateGroups = {};
       const data = res.data;
