@@ -81,7 +81,8 @@ const ExperimentalPage = () => {
 
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}>
-            <DatasetUnavailable />
+            <DatasetUnavailable datasetPageName={'Trash Can'} />
+            <ContentUnavailable />
       <SiteLayout>
         <h2>FootNote Paragraph</h2>
         <p>
