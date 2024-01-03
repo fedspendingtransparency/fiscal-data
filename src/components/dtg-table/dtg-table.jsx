@@ -10,7 +10,18 @@ import PaginationControls, { defaultPerPageOptions } from '../pagination/paginat
 import { pagedDatatableRequest, formatDateForApi, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 
-import * as styles from './dtg-table.module.scss';
+import {
+  overlayContainer,
+  overlay,
+  loadingIcon,
+  overlayContainerNoFooter,
+  apiErrorStyle,
+  selectColumnsWrapper,
+  wrapper,
+  noBorderStyle,
+  tableFooter,
+  rowsShowingStyle,
+} from './dtg-table.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
 import DataTable from '../data-table/data-table';
 import { useRecoilValue } from 'recoil';
@@ -351,23 +362,23 @@ export default function DtgTable({
   }, [tableData, tableMeta, rawData, dePaginated]);
 
   return (
-    <div className={styles.overlayContainer}>
+    <div className={overlayContainer}>
       {/* Loading Indicator */}
       {(isLoading || (reactTable && !reactTableData)) && (
         <>
-          <div data-test-id="loading-overlay" className={styles.overlay} />
-          <div className={styles.loadingIcon}>
+          <div data-test-id="loading-overlay" className={overlay} />
+          <div className={loadingIcon}>
             <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
           </div>
         </>
       )}
       {reactTable && reactTableData?.data && (
-        <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
+        <div data-test-id="table-content" className={overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
             <>
-              <div data-test-id="error-overlay" className={styles.overlay} />
-              <div data-test-id="api-error" className={styles.apiError}>
+              <div data-test-id="error-overlay" className={overlay} />
+              <div data-test-id="api-error" className={apiErrorStyle}>
                 <p>
                   <strong>Table failed to load.</strong>
                 </p>
@@ -409,12 +420,12 @@ export default function DtgTable({
       )}
       {!reactTable && (
         <>
-          <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
+          <div data-test-id="table-content" className={overlayContainerNoFooter}>
             {/* API Error Message */}
             {(apiError || tableProps.apiError) && !emptyDataMessage && (
               <>
-                <div data-test-id="error-overlay" className={styles.overlay} />
-                <div data-test-id="api-error" className={styles.apiError}>
+                <div data-test-id="error-overlay" className={overlay} />
+                <div data-test-id="api-error" className={apiErrorStyle}>
                   <p>
                     <strong>Table failed to load.</strong>
                   </p>
@@ -426,9 +437,9 @@ export default function DtgTable({
               </>
             )}
 
-            <div className={styles.selectColumnsWrapper}>
+            <div className={selectColumnsWrapper}>
               {/* Table Wrapper */}
-              <div className={noBorder ? [styles.wrapper, styles.noBorder].join(' ') : styles.wrapper}>
+              <div className={noBorder ? [wrapper, noBorderStyle].join(' ') : wrapper}>
                 {/* Empty Data Message */}
                 {emptyDataMessage && emptyDataMessage}
                 {/* Table */}
@@ -444,8 +455,8 @@ export default function DtgTable({
           </div>
           {/* Table Footer */}
           {shouldPage && (
-            <div data-test-id="table-footer" className={styles.tableFooter}>
-              <div data-test-id="rows-showing" className={styles.rowsShowing}>
+            <div data-test-id="table-footer" className={tableFooter}>
+              <div data-test-id="rows-showing" className={rowsShowingStyle}>
                 {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
               </div>
               {showPaginationControls && <PaginationControls pagingProps={pagingProps} />}
