@@ -11,11 +11,6 @@ export const baseCollapsedStyle = {
   overflow: 'hidden',
 };
 
-export const cardWidthRem = 16.25; /* Todo - Tied to the value seen in the scss. These need to
-                                       be kept in sync until a better solution is realized. */
-export const baseFontSize = 16; /* The first useEffect checks the user's root font size, so this
-                                    is just a placeholder. */
-
 const HomeHighlightCards = () => {
   // Get datasets
   // TODO: for continuity create page context using the highlighted-datasets.json to populate filter array
