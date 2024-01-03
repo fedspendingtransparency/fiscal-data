@@ -171,7 +171,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   useEffect(() => {
     if (data && sortedCurrencies.length > 0 && selectedDate) {
       const currencyOptions = sortedCurrencies.map(currency => {
-        const rate = currency.rates[selectedDate.value];
+        const rate = data.find(record => 
+          record.country_currency_desc === currency.label
+          && record.record_date === selectedDate.value
+          && record.record_date === record.effective_date);
         return {
           label: currency.label,
           value: rate ? rate : '',
