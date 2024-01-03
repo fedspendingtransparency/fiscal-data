@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as styles from './page-notice.module.scss';
+import { basicWarning, pageNotice, active } from './page-notice.module.scss';
 
 /**
  *
@@ -14,12 +14,12 @@ const PageNotice = ({ children, warningLevel }) => {
   let warningClass = '';
   if (warningLevel) {
     if (warningLevel === 1) {
-      warningClass = styles.basicWarning;
+      warningClass = basicWarning;
     }
   }
   useEffect(() => setPageReady(true), []);
   return (
-    <div className={`${styles.pageNotice} ${warningClass} ${pageReady && !warningClass ? styles.active : ''}`} data-testid="pageNoticeContent">
+    <div className={`${pageNotice} ${warningClass} ${pageReady && !warningClass ? active : ''}`} data-testid="pageNoticeContent">
       {children}
     </div>
   );
