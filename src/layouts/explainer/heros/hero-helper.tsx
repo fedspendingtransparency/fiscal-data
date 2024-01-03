@@ -29,16 +29,16 @@ export const getPillData = (
   const valueLength = displayValue.length + 1;
   const percentLength = displayPercent.length + 1;
   const getPillWidth = displayValueLength => (displayValueLength > 4 ? (displayValueLength - 4) / 2 + 4 : 4);
-  
-  const iconChange = (changeLabel) => {
-    if (changeLabel === 'increased') {
+
+  const iconChange = (labelChanger) => {
+    if (labelChanger === 'increased') {
       return (
       <div className={explainerArrow}>
         <FontAwesomeIcon icon={faUpLong as IconProp} title="up arrow" />
       </div>
       )
     }
-    else if(changeLabel === 'decreased') {
+    else if(labelChanger === 'decreased') {
       return (
       <div className={explainerArrow}>
         <FontAwesomeIcon icon={faDownLong as IconProp} title="down arrow" />
@@ -59,7 +59,7 @@ export const getPillData = (
       <div className={pillDataValue} title={leftPillTooltipText} style={{ background: color, width: `${getPillWidth(valueLength)}rem` }}>
         ${displayValue}
       </div>
-      {iconChange}
+      {iconChange(changeLabel)}
       <div className={pillDataPercent} title={rightPillTooltipText} style={{ background: color, width: `${getPillWidth(percentLength)}rem` }}>
         {displayPercent}%
       </div>
