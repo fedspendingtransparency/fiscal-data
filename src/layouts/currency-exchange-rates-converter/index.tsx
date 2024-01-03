@@ -100,7 +100,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
-  
       const currencyMap: CurrencyMap = {};
       const dateGroups = {};
       const data = res.data;
@@ -197,12 +196,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         setNonUSCurrencyExchangeValue('');
       }
       setUSDollarValue(event.target.value)
-  
       if (!isNaN(parseFloat(event.target.value))) {
         gaCurrencyTimer = setTimeout(() => {
           analyticsHandler('USD Value Entered', event.target.value);
         }, 3000);
-  
         product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
         product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
       }
@@ -293,7 +290,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {nonUSCurrency !== null && (
           <div data-testid="box-container" className={boxWidth}>
             {data && (
-              <div className={currencyBoxContainer} >
+              <div className={currencyBoxContainer}>
                 <div className={selector}>
                   <NestSelectControl
                     label={labelIcon(
@@ -312,7 +309,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 </div>
               </div>
             )}
-            <div className={currencyBoxContainer} >
+            <div className={currencyBoxContainer}>
               <CurrencyEntryBox
                 selectedCurrency={{
                   label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
