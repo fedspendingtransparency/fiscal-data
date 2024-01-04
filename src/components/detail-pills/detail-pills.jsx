@@ -31,7 +31,7 @@ const DetailPills = ({ techSpecs, dictionary }) => {
       )}
       <span className={styles.pill}>
         <FontAwesomeIcon icon={faRepeat} size="1x" className={styles.icon} data-test-id="repeat-icon" />
-        <span className="pillText">{frequency}</span>
+        <span className="pillText">Released {frequency}</span>
       </span>
       {lastUpdated && (
         <span className={styles.pill}>
