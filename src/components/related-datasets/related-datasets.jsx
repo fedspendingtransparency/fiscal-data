@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import DatasetCard from '../dataset-card/dataset-card';
-import * as styles from './related-datasets.module.scss';
+import { paddingAdjust, cardWrapper } from './related-datasets.module.scss';
 
 export const title = 'Related Datasets';
 export const context = 'Related Dataset';
@@ -27,9 +27,9 @@ const RelatedDatasets = ({ datasets, referrer }) => {
 
   return (
     <DatasetSectionContainer id="related-datasets" data-testid="section-container" title={title}>
-      <div className={styles.paddingAdjust}>
+      <div className={paddingAdjust}>
         {sortedDatasets.map((dataset, i) => (
-          <div data-testid="cardWrapper" className={styles.cardWrapper} key={i}>
+          <div data-testid="cardWrapper" className={cardWrapper} key={i}>
             <DatasetCard dataset={dataset} context={context} referrer={referrer} />
           </div>
         ))}
