@@ -66,6 +66,7 @@ const SelectAll = ({ fields, onUpdateFields, isVisible, resetToFalse }) => {
             type="checkbox"
             ref={inputRef}
             checked={allSelected && allFieldsChecked}
+            className={styles.selectAll}
           />
           <span className={styles.labelCheckmarkContainer}>
             <span className={styles.checkmarkText}>

@@ -68,6 +68,10 @@
     color: $slate-blue;
   }
 
+  .selectAll {
+    right: 3.95rem;
+  }
+
   [type='checkbox'] {
     position: absolute;
     display: inline-block;
@@ -75,7 +79,7 @@
     min-height: 1rem;
     margin-right: 1px;
     overflow: hidden;
-    opacity: 0;
+    opacity: 1;
   }
 
   [type='checkbox']:checked + span {
