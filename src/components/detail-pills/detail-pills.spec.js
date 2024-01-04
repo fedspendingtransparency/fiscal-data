@@ -20,7 +20,7 @@ describe('Detail-Pills component', () => {
   });
 
   it('displays a pill containing a sync-alt icon and a Frequency label', () => {
-    pills[1].findByProps({ 'data-test-id': 'sync-alt-icon' });
+    pills[1].findByProps({ 'data-test-id': 'repeat-icon' });
     expect(pills[1].findByProps({ className: 'pillText' }).props.children).toEqual('Updated Daily');
   });
 
