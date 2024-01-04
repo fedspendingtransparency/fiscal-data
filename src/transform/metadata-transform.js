@@ -109,6 +109,7 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.datePreset = mappedDataset && mappedDataset.datePreset ? mappedDataset.datePreset : null;
       dataset.customRangePreset = mappedDataset && mappedDataset.customRangePreset ? mappedDataset.customRangePreset : null;
       dataset.bannerCallout = mappedDataset && mappedDataset.bannerCallout ? mappedDataset.bannerCallout : null;
+      dataset.datatableBanner = mappedDataset && mappedDataset.datatableBanner ? mappedDataset.datatableBanner : null;
       dataset.selectColumns = mappedDataset && mappedDataset.selectColumns ? mappedDataset.selectColumns : null;
       dataset.hideColumns = mappedDataset && mappedDataset.hideColumns ? mappedDataset.hideColumns : null;
 

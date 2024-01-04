@@ -7,6 +7,7 @@ export interface IDatasetConfig {
   datePreset: string | null;
   customRangePreset: string | null;
   bannerCallout: Record<string, string> | null;
+  datatableBanner: string | null;
   selectColumns: string[] | null;
   hideColumns: string[] | null;
   dataFormats: string[] | Record<string, unknown>[];
