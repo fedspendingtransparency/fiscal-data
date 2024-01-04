@@ -12,8 +12,8 @@ type DatatableBannerProps = {
 const infoCirclePropIcon = faInfoCircle as IconProp;
 const DatatableBanner: FunctionComponent<DatatableBannerProps> = ({ bannerNotice }) => {
   return (
-    <div className={`${infoContainer}`}>
-      <div className={info} data-testid="datatableBanner">
+    <div className={infoContainer}>
+      <div className={info} data-testid="datatable-banner">
         <FontAwesomeIcon className={icon} icon={infoCirclePropIcon} />
         {bannerNotice}
       </div>
