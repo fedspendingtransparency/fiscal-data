@@ -1,6 +1,6 @@
 import React from 'react';
 import Accordion from './accordion';
-import * as styles from './accordion.module.scss';
+import { open } from './accordion.module.scss';
 import { fireEvent, render } from '@testing-library/react';
 
 describe('Accordion', () => {
@@ -26,8 +26,8 @@ describe('Accordion', () => {
   it('expects the accordion to toggle the "open" class when the heading is clicked', async () => {
     const { getByTestId } = render(<Accordion title={titleText}>{bodyText}</Accordion>);
     const accordion = getByTestId('section');
-    expect(accordion).not.toHaveClass(styles.open);
+    expect(accordion).not.toHaveClass(open);
     getByTestId('heading').click();
-    expect(accordion).toHaveClass(styles.open);
+    expect(accordion).toHaveClass(open);
   });
 });

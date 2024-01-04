@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ENV_ID } from 'gatsby-env-variables';
 import { FormControlLabel, Switch } from '@material-ui/core';
-import * as styles from './experimental-switch.module.scss';
+import { switchContainer, label } from './experimental-switch.module.scss';
 import { siteContext } from '../../persist/persist';
 
 const ExperimentalSwitch = () => {
@@ -15,8 +15,8 @@ const ExperimentalSwitch = () => {
   const switchComponent = <Switch size="small" checked={showExperimentalFeatures} onChange={handleChange} data-testid="switch" />;
 
   return isLowerEnvironment ? (
-    <div data-testid="experimental-switch" className={styles.switchContainer}>
-      <FormControlLabel className={styles.label} control={switchComponent} label="Toggle experimental features" />
+    <div data-testid="experimental-switch" className={switchContainer}>
+      <FormControlLabel className={label} control={switchComponent} label="Toggle experimental features" />
     </div>
   ) : (
     <div>&nbsp;</div> // used for spacing in header in production environment

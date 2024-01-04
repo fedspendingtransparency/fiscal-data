@@ -19,7 +19,7 @@ $borderRadius: 5px;
   min-height: 521px;
 }
 
-.wrapper.noBorder {
+.wrapper.noBorderStyle {
   border-top: none;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -79,7 +79,7 @@ $borderRadius: 5px;
   }
 }
 
-.apiError {
+.apiErrorStyle {
   padding: 1.25rem;
   z-index: $dtg-api-error;
   position: absolute;
@@ -96,7 +96,7 @@ $borderRadius: 5px;
   margin-top: 1rem;
 }
 
-.rowsShowing {
+.rowsShowingStyle {
   margin-bottom: 0.5rem;
 }
 
@@ -162,7 +162,7 @@ $borderRadius: 5px;
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-  .rowsShowing {
+  .rowsShowingStyle {
     margin-right: 2rem;
   }
 }
