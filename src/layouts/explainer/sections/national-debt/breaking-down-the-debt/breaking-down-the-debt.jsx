@@ -57,7 +57,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width 
   const [interestExpenseEndYear, setInterestExpenseEndYear] = useState('');
   const [shortenedDebtExpense, setShortenedDebtExpense] = useState('0');
   const [debtExpensePercent, setDebtExpensePercent] = useState('0%');
-
+  const [currentFiscalYear, setCurrentFiscalYear] = useState('');
   const glossaryTerms = {
     debtHeldByThePublic: (
       <GlossaryPopoverDefinition term="Debt Held by the Public" page="Debt explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
@@ -248,6 +248,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width 
             const percent = ((maintainDebtExpense / parseFloat(fytdNet)) * 100).toFixed(2);
             setDebtExpensePercent(`${parseFloat(percent).toFixed()}%`);
             setShortenedDebtExpense((maintainDebtExpense / 1000000000).toFixed().toString());
+            setCurrentFiscalYear(response.data[0].record_fiscal_year);
           }
         });
       }
@@ -308,7 +309,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width 
         >
           <p>
             As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs ${shortenedDebtExpense} billion to maintain the debt, which is{' '}
-            {debtExpensePercent} of the total {spendingLink('federal spending')}.
+            {debtExpensePercent} of the total {spendingLink('federal spending')} in fiscal year {currentFiscalYear}.
           </p>
         </QuoteBox>
         <p>
