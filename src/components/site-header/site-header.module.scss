@@ -1,4 +1,11 @@
 @import '../../variables.module.scss';
+@import '../../zIndex.module';
+
+.stickyHeader {
+  position: sticky;
+  top: -2.5rem;
+  z-index: $sticky-header;
+}
 
 .bannerHeading {
   font-size: $font-size-16;
@@ -15,7 +22,8 @@
 .container {
   border-bottom: 1px solid $slate-blue;
   background-color: white;
-  padding: 0.5rem 0.75rem;
+  padding: 0 0.75rem 0.5rem;
+  margin-top: 0.5rem
 }
 
 .content {
@@ -26,11 +34,6 @@
   margin: 0 auto;
 }
 
-.logo {
-  width: 8.25rem;
-  height: 35px;
-}
-
 @media screen and (min-width: $breakpoint-sm) {
   .container {
     padding: 0.5rem 2rem;
@@ -39,14 +42,9 @@
 
 @media screen and (min-width: $breakpoint-lg) {
   .content {
-    height: 70px;
+    //height: 70px;
   }
   .container {
-    padding: 0 2rem;
-  }
-
-  .logo {
-    width: 12rem;
-    height: 55px;
+    //padding: 0 2rem;
   }
 }

@@ -63,6 +63,7 @@ $select-control: $above + $table-loading-icon;
 $menu-dropdown: $above + $dataset-detail-nav;
 $mobile-menu: $above + $main-sticky-footer; // main-sticky-footer was highest on site before ... $mobile-menu is now z-index: 7
 $mobile-menu-overlay: $below + $backdrop;
+$sticky-header: $above + $dataset-detail-nav;
 
 // glossary
 $glossary: $above + $mobile-menu;

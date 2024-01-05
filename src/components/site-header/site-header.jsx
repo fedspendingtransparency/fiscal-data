@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import MobileMenu from './mobile-menu/mobile-menu';
 import { withWindowSize } from 'react-fns';
@@ -13,12 +13,14 @@ import DesktopMenu from './desktop-menu/desktop-menu';
 import AnnouncementBanner from '../announcement-banner/announcement-banner';
 import { NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } from 'gatsby-env-variables';
 import CustomLink from '../links/custom-link/custom-link';
-import { bannerHeading, bannerContent, container, content, logo } from './site-header.module.scss';
+import { bannerHeading, bannerContent, container, content, logo, stickyHeader } from './site-header.module.scss';
 
 const SiteHeader = ({ lowerEnvMsg, location }) => {
+  const defaultLogoSize = 192;
+  const reducedImageSize = 130;
   const [openGlossary, setOpenGlossary] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
-
+  const [imageWidth, setImageWidth] = useState(defaultLogoSize);
   const displayBanner = () => {
     let display = false;
     display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location.pathname);
@@ -68,6 +70,28 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     });
   };
 
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    const newWidth = defaultLogoSize - (position + position * 0.125);
+    if (newWidth > reducedImageSize) {
+      console.log('newWidth', newWidth, 'position', position);
+      setImageWidth(newWidth);
+    } else if (imageWidth !== reducedImageSize) {
+      console.log('set to 130', newWidth, 'position', position, 'imageWidth', imageWidth);
+      setImageWidth(reducedImageSize);
+    }
+  };
+  useEffect(() => {
+    console.log('updated image width', imageWidth);
+  }, [imageWidth]);
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <>
       {displayBanner() && (
@@ -79,23 +103,25 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
           </div>
         </AnnouncementBanner>
       )}
-      <header>
+      <header className={stickyHeader}>
         <OfficialBanner data-testid="officialBanner" />
         <div className={container}>
           <div className={content}>
-            <Link
-              role="img"
-              title="Return to home page"
-              alt="Fiscal Data Homepage"
-              data-testid="logo"
-              className={logo}
-              aria-label="Fiscal Data logo - return to home page"
-              to="/"
-              onClick={() => clickHandler('Logo')}
-              onFocus={() => setActiveDropdown(null)}
-            >
-              <StaticImage src="../../images/logos/fd-logo.svg" loading="eager" placeholder="none" alt="Fiscal Data logo" height={55} width={192} />
-            </Link>
+            <div style={{ width: imageWidth + 'px', transition: '0.5s' }}>
+              <Link
+                role="img"
+                title="Return to home page"
+                alt="Fiscal Data Homepage"
+                data-testid="logo"
+                className={logo}
+                aria-label="Fiscal Data logo - return to home page"
+                to="/"
+                onClick={() => clickHandler('Logo')}
+                onFocus={() => setActiveDropdown(null)}
+              >
+                <StaticImage src="../../images/logos/fd-logo.svg" loading="eager" placeholder="none" alt="Fiscal Data logo" height={55} width={192} />
+              </Link>
+            </div>
             <DesktopMenu
               location={location}
               glossaryClickHandler={setOpenGlossary}
