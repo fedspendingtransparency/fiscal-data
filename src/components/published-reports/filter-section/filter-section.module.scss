@@ -26,6 +26,10 @@
   padding: 0.3rem 0;
 }
 
+.reportSelectWrapper {
+  margin-bottom: 0.5rem;
+}
+
 .selectWrapper {
   padding-right: 1rem;
   margin-bottom: 0.5rem;
@@ -63,6 +67,12 @@
 @media screen and (min-width: $breakpoint-md) {
   .filterContainer {
     display: flex;
+    position: relative;
+  }
+
+  .reportSelectWrapper {
+    width: 100%;
+    margin-bottom: 0;
   }
 
   .selectWrapper {
