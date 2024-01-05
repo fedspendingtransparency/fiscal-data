@@ -19,12 +19,12 @@ describe('Detail-Pills component', () => {
     expect(pills[0].findByProps({ className: 'pillText' }).props.children).toEqual('10/03/2005 — 04/09/2020');
   });
 
-  it('displays a pill containing a sync-alt icon and a Frequency label', () => {
+  it('displays a pill containing a repeat icon and a Frequency label', () => {
     pills[1].findByProps({ 'data-test-id': 'repeat-icon' });
-    expect(pills[1].findByProps({ className: 'pillText' }).props.children).toEqual('Updated Daily');
+    expect(pills[1].findByProps({ className: 'pillText' }).props.children).toEqual(['Released ', 'Daily']);
   });
 
-  it('displays a pill containing the calendar-check icon, the text "Last Updated ", and the lastUpdated string', () => {
+  it('displays a pill containing the pen icon, the text "Last Updated ", and the lastUpdated string', () => {
     pills[2].findByProps({ 'data-test-id': 'lastUpdatedIcon' });
     expect(pills[2].findByProps({ className: 'pillText' }).props.children[0]).toBe('Last Updated ');
     expect(pills[2].findByProps({ className: 'pillText' }).props.children[1]).toBe('04/11/2020');
