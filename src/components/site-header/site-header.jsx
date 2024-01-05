@@ -10,6 +10,7 @@ import Analytics from '../../utils/analytics/analytics';
 import LocationAware from '../location-aware/location-aware';
 import Glossary from '../glossary/glossary';
 import DesktopMenu from './desktop-menu/desktop-menu';
+import ContentUnavailable from './banner-types/content-unavailable';
 import AnnouncementBanner from '../announcement-banner/announcement-banner';
 import { NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } from 'gatsby-env-variables';
 import CustomLink from '../links/custom-link/custom-link';
@@ -72,11 +73,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     <>
       {displayBanner() && (
         <AnnouncementBanner closable={false}>
-          <div className={bannerHeading}> Content Temporarily Unavailable:</div>
-          <div className={bannerContent}>
-            The Fiscal Data team is working diligently to address the current issue with this page. Please check back later or contact us{' '}
-            <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">via email</CustomLink> for further assistance. Thank you.
-          </div>
+          <ContentUnavailable />
         </AnnouncementBanner>
       )}
       <header>

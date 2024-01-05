@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { selectAll, container, row, labelCheckmarkContainer, checkmarkText } from './select-all.module.scss';
+import { container, row, labelCheckmarkContainer, checkmarkText, selectAll } from './select-all.module.scss';
 import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
