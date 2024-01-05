@@ -7,7 +7,7 @@
     align-items: center;
     overflow: hidden;
     transform: translateX(2rem);
-    padding: 3px 0 1px;
+    //padding: 3px 0 8px;
     margin-right: 2rem;
     border-top-style: none;
     border-right-style: none;
@@ -17,7 +17,7 @@
     border-bottom: 2px solid transparent;
     font-size: 1rem;
     color: #666666;
-    height: 37px;
+    height: 100%;
   }
 
   .dropdown {

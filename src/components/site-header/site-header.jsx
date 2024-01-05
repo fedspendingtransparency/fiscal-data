@@ -32,6 +32,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     return display;
   };
 
+  const getButtonHeight = imgWidth => (55 * imgWidth) / 192 + 8;
+
   const glossaryCsv = useStaticQuery(
     graphql`
       query {
@@ -107,13 +109,12 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
         <OfficialBanner data-testid="officialBanner" />
         <div className={container}>
           <div className={content}>
-            <div style={{ width: imageWidth + 'px', transition: '0.5s' }}>
+            <div style={{ width: imageWidth + 'px', transition: '0.5s' }} className={logo}>
               <Link
                 role="img"
                 title="Return to home page"
                 alt="Fiscal Data Homepage"
                 data-testid="logo"
-                className={logo}
                 aria-label="Fiscal Data logo - return to home page"
                 to="/"
                 onClick={() => clickHandler('Logo')}
@@ -128,6 +129,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               clickHandler={clickHandler}
               activeDropdown={activeDropdown}
               setActiveDropdown={setActiveDropdown}
+              buttonHeight={getButtonHeight(imageWidth)}
             />
           </div>
           <Glossary termList={glossaryData} activeState={openGlossary} setActiveState={setOpenGlossary} />

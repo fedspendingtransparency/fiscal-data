@@ -12,9 +12,9 @@ import {
   pageLinkButtonActive,
 } from './desktop-menu.module.scss';
 
-const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropdown, setActiveDropdown }) => {
+const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropdown, setActiveDropdown, buttonHeight }) => {
   return (
-    <div className={pageLinks} data-testid="pageLinks">
+    <div className={pageLinks} data-testid="pageLinks" style={{ height: buttonHeight + 'px', transition: '0.5s' }}>
       {menuSections.map((pageLink, index) => {
         if (pageLink.isExperimental) {
           return (
@@ -46,26 +46,24 @@ const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropd
         }
 
         return (
-          <div className={pageLinkButtonContainer} key={pageLink.title}>
-            <div className={pageLinkButtonContent} style={{ minWidth: `${pageLink.title.length * 7.5 + 16}px` }}>
-              {pageLink.to === location?.pathname ? (
-                <button className={`${pageLinkButton} ${pageLinkButtonActive}`} disabled>
-                  <span>{pageLink.title}</span>
-                </button>
-              ) : (
-                <button className={pageLinkButton} onMouseEnter={() => setActiveDropdown(pageLink.title)}>
-                  <Link
-                    key={pageLink.title}
-                    to={pageLink.to}
-                    activeClassName={activeLink}
-                    data-testid={pageLink.testId}
-                    onClick={() => clickHandler(pageLink.title)}
-                  >
-                    {pageLink.title}
-                  </Link>
-                </button>
-              )}
-            </div>
+          <div className={pageLinkButtonContainer} style={{ minWidth: `${pageLink.title.length * 7.5 + 16}px` }} key={pageLink.title}>
+            {pageLink.to === location?.pathname ? (
+              <button className={`${pageLinkButton} ${pageLinkButtonActive}`} disabled>
+                <span>{pageLink.title}</span>
+              </button>
+            ) : (
+              <button className={pageLinkButton} onMouseEnter={() => setActiveDropdown(pageLink.title)}>
+                <Link
+                  key={pageLink.title}
+                  to={pageLink.to}
+                  activeClassName={activeLink}
+                  data-testid={pageLink.testId}
+                  onClick={() => clickHandler(pageLink.title)}
+                >
+                  {pageLink.title}
+                </Link>
+              </button>
+            )}
           </div>
         );
       })}
