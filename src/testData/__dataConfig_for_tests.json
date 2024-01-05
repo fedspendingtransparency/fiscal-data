@@ -260,7 +260,7 @@
         "earliestDate": "10/03/2005",
         "lastUpdated": "04/11/2020",
         "fileFormat": "JSON, CSV, XML",
-        "updateFrequency": "Updated Daily"
+        "updateFrequency": "Daily"
       }
     },
     {
@@ -365,7 +365,7 @@
         "earliestDate": "01/31/2001",
         "lastUpdated": "04/07/2020",
         "fileFormat": "JSON, CSV, XML",
-        "updateFrequency": "Updated Daily"
+        "updateFrequency": "Daily"
       }
     },
     {
@@ -1023,7 +1023,7 @@
         "earliestDate": "10/03/2005",
         "lastUpdated": "04/13/2020",
         "fileFormat": "JSON, CSV, XML",
-        "updateFrequency": "Updated Daily"
+        "updateFrequency": "Daily"
       }
     },
     {
@@ -1065,7 +1065,7 @@
         "earliestDate": "12/31/2009",
         "lastUpdated": "12/31/2019",
         "fileFormat": "JSON, CSV, XML",
-        "updateFrequency": "Updated Daily"
+        "updateFrequency": "Daily"
       }
     },
     {
@@ -1099,7 +1099,7 @@
         "earliestDate": "12/31/2009",
         "lastUpdated": "12/31/2019",
         "fileFormat": "JSON, CSV, XML",
-        "updateFrequency": "Updated Monthly"
+        "updateFrequency": "Monthly"
       }
     },
     {
@@ -1231,7 +1231,7 @@
         "earliestDate": "09/30/1998",
         "lastUpdated": "03/18/2020",
         "fileFormat": "JSON, CSV, XML",
-        "updateFrequency": "Updated Monthly"
+        "updateFrequency": "Monthly"
       }
     },
     {
