@@ -414,6 +414,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             startDate
             endDate
           }
+          datatableBanner
           selectColumns
           hideColumns
           relatedTopics

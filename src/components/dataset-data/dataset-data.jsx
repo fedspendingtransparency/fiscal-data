@@ -219,6 +219,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 }}
                 finalDatesNotFound={finalDatesNotFound}
                 setResetFilters={setResetFilters}
+                datatableBanner={config.datatableBanner}
               />
             )}
           </FilterAndDownload>
