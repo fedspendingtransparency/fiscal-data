@@ -171,9 +171,9 @@ const TopicSection = ({ fiscalYear, width }) => {
 
               const difference = Number(data.tot_pub_debt_out_amt) - Number(priorData.tot_pub_debt_out_amt);
 
-              if (difference < 0) {
+              if (difference > 0) {
                 setDebtDirection('increased');
-              } else if (difference > 0) {
+              } else if (difference < 0) {
                 setDebtDirection('decreased');
               } else if (difference === 0) {
                 setDebtDirection('did not change');
