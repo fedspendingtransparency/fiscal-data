@@ -77,18 +77,19 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   const handleScroll = () => {
     // TODO decide when to start shrinking the image , make sure it resets properly, shaking height ?
     const position = window.pageYOffset;
-    const newWidth = defaultLogoWidth - position;
-    console.log('position', position, 'newWidth', newWidth);
+    const newWidth = defaultLogoWidth - position + 31;
     if (position > 31) {
-      if (newWidth > reducedImageSize) {
-        setImageWidth(newWidth);
-      } else if (imageWidth !== reducedImageSize) {
-        setImageWidth(reducedImageSize);
-      }
+      // console.log(newWidth > reducedImageSize ? 'newWidth ' + newWidth : 'reducedImageSize ' + reducedImageSize);
+      setImageWidth(newWidth > reducedImageSize ? newWidth : reducedImageSize);
     } else {
-      setImageWidth(defaultLogoWidth);
+      setImageWidth(192);
+      // console.log('here', position);
     }
   };
+
+  useEffect(() => {
+    console.log('imageWidth', imageWidth);
+  }, [imageWidth]);
 
   useLayoutEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -113,7 +114,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
         <OfficialBanner data-testid="officialBanner" />
         <div className={container}>
           <div className={content}>
-            <div style={{ width: imageWidth + 'px', transition: '0.25s' }} className={logo}>
+            <div style={{ width: imageWidth + 'px', transition: '0.5s' }} className={logo}>
               <Link
                 role="img"
                 title="Return to home page"

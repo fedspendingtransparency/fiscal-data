@@ -5,11 +5,15 @@
 }
 
 .pageLinkButton {
+  display: flex;
+  align-items: center;
   border-top-style: none;
   border-right-style: none;
   border-left-style: none;
   border-bottom: 2px solid transparent;
   padding: 0;
+  margin-top: -2px;
+  width: fit-content;
 }
 
 @media screen and (min-width: $breakpoint-lg) {
@@ -18,6 +22,7 @@
     padding-right: 1rem;
     .pageLinkButton {
       height: 100%;
+
       background-color: inherit;
       font-size: 1rem;
       border-bottom: 2px solid transparent;
