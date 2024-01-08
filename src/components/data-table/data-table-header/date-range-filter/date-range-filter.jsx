@@ -26,7 +26,7 @@ import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
 let mouseOverDropdown = null;
-const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters }) => {
+const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
   const textHighlighted = { 'background-color': '#E8F5FF' };
   const noTextHighLight = { 'background-color': '' };
 
@@ -189,6 +189,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         {active && (
           <div
             className={dropdown}
+            style={isLastColumn ? { left: '-80px' } : {}}
             onMouseOver={() => {
               mouseOverDropdown = true;
             }}
