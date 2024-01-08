@@ -22,7 +22,7 @@
 .container {
   border-bottom: 1px solid $slate-blue;
   background-color: white;
-  padding: 0 0.75rem;
+  padding: 0.25rem 0.75rem 0;
   margin-top: 0.5rem
 }
 
@@ -35,12 +35,12 @@
 }
 
 .logo {
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
 }
 
 @media screen and (min-width: $breakpoint-sm) {
   .container {
-    padding: 0.5rem 2rem 0;
+    //padding: 1rem 2rem 0;
   }
 }
 
@@ -49,6 +49,6 @@
     //height: 70px;
   }
   .container {
-    //padding: 0 2rem;
+    //padding: 1rem 2rem 0;
   }
 }

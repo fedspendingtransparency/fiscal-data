@@ -18,7 +18,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'gatsby';
 import Analytics from '../../../utils/analytics/analytics';
 
-const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClickHandler, analyticsClickHandler }) => {
+const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClickHandler, analyticsClickHandler, buttonHeight }) => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [isExpanded, setExpanded] = useState(false);
 

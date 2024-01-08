@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import MobileMenu from './mobile-menu/mobile-menu';
 import { withWindowSize } from 'react-fns';
@@ -16,11 +16,13 @@ import CustomLink from '../links/custom-link/custom-link';
 import { bannerHeading, bannerContent, container, content, logo, stickyHeader } from './site-header.module.scss';
 
 const SiteHeader = ({ lowerEnvMsg, location }) => {
-  const defaultLogoSize = 192;
+  const defaultLogoWidth = 192;
+  const defaultLogoHeight = 55;
   const reducedImageSize = 130;
+
   const [openGlossary, setOpenGlossary] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [imageWidth, setImageWidth] = useState(defaultLogoSize);
+  const [imageWidth, setImageWidth] = useState(defaultLogoWidth);
   const displayBanner = () => {
     let display = false;
     display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location.pathname);
@@ -32,7 +34,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     return display;
   };
 
-  const getButtonHeight = imgWidth => (55 * imgWidth) / 192 + 8;
+  const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth + 4;
 
   const glossaryCsv = useStaticQuery(
     graphql`
@@ -73,20 +75,22 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   };
 
   const handleScroll = () => {
+    // TODO decide when to start shrinking the image , make sure it resets properly, shaking height ?
     const position = window.pageYOffset;
-    const newWidth = defaultLogoSize - (position + position * 0.125);
-    if (newWidth > reducedImageSize) {
-      console.log('newWidth', newWidth, 'position', position);
-      setImageWidth(newWidth);
-    } else if (imageWidth !== reducedImageSize) {
-      console.log('set to 130', newWidth, 'position', position, 'imageWidth', imageWidth);
-      setImageWidth(reducedImageSize);
+    const newWidth = defaultLogoWidth - position;
+    console.log('position', position, 'newWidth', newWidth);
+    if (position > 31) {
+      if (newWidth > reducedImageSize) {
+        setImageWidth(newWidth);
+      } else if (imageWidth !== reducedImageSize) {
+        setImageWidth(reducedImageSize);
+      }
+    } else {
+      setImageWidth(defaultLogoWidth);
     }
   };
-  useEffect(() => {
-    console.log('updated image width', imageWidth);
-  }, [imageWidth]);
-  useEffect(() => {
+
+  useLayoutEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
@@ -109,7 +113,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
         <OfficialBanner data-testid="officialBanner" />
         <div className={container}>
           <div className={content}>
-            <div style={{ width: imageWidth + 'px', transition: '0.5s' }} className={logo}>
+            <div style={{ width: imageWidth + 'px', transition: '0.25s' }} className={logo}>
               <Link
                 role="img"
                 title="Return to home page"
@@ -120,7 +124,14 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                 onClick={() => clickHandler('Logo')}
                 onFocus={() => setActiveDropdown(null)}
               >
-                <StaticImage src="../../images/logos/fd-logo.svg" loading="eager" placeholder="none" alt="Fiscal Data logo" height={55} width={192} />
+                <StaticImage
+                  src="../../images/logos/fd-logo.svg"
+                  loading="eager"
+                  placeholder="none"
+                  alt="Fiscal Data logo"
+                  height={defaultLogoHeight}
+                  width={defaultLogoWidth}
+                />
               </Link>
             </div>
             <DesktopMenu
