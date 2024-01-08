@@ -189,7 +189,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         {active && (
           <div
             className={dropdown}
-            style={isLastColumn ? { left: '-80px' } : {}}
+            style={isLastColumn && { left: '-80px' }}
             onMouseOver={() => {
               mouseOverDropdown = true;
             }}
