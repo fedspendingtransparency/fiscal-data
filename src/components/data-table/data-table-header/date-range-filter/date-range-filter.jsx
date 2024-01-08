@@ -18,6 +18,7 @@ import {
   datePickerRangeMiddle,
   dateDivider,
   glow,
+  lastColumn,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
@@ -188,8 +189,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
         {active && (
           <div
-            className={dropdown}
-            style={isLastColumn && { left: '-80px' }}
+            className={`${dropdown} ${isLastColumn && lastColumn}`}
             onMouseOver={() => {
               mouseOverDropdown = true;
             }}
