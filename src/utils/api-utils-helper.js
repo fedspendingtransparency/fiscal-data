@@ -53,8 +53,11 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
           tableColumnSort += `-${column.id}`;
         }
       }
-      if (column.filterValue && column.downloadFilter) {
-        tableColumnFilter += `,${column.id}:in:(${[...new Set(column.rowValues)].join(',')})`;
+
+      const inFilterValues = [...new Set(column.rowValues)];
+
+      if (column.filterValue && column.downloadFilter && inFilterValues.length > 0) {
+        tableColumnFilter += `,${column.id}:in:(${inFilterValues.join(',')})`;
       }
     });
     // If the user has engaged the column select, apply the default sort params to the applicable selected columns
@@ -72,14 +75,30 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     }
   }
 
+  let sortValue;
+
+  if (tableColumnSort !== '') {
+    sortValue = tableColumnSort;
+  } else {
+    if (tableColumnFields !== '&fields=') {
+      sortValue = defaultParamsWithColumnSelect;
+    } else {
+      sortValue = apiSortParams;
+    }
+  }
+
+  console.log(
+    `?filter=${apiDateField}:gte:${dateRange.from},` +
+      `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
+      `&sort=${sortValue}&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`
+  );
+
   return {
     apiId: apiId,
     params:
       `?filter=${apiDateField}:gte:${dateRange.from},` +
       `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
-      `&sort=${
-        tableColumnSort ? tableColumnSort : tableColumnFields !== '&fields=' ? defaultParamsWithColumnSelect : apiSortParams
-      }&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`,
+      `&sort=${sortValue}&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`,
   };
 };
 
