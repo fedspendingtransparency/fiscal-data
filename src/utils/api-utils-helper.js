@@ -87,12 +87,6 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     }
   }
 
-  console.log(
-    `?filter=${apiDateField}:gte:${dateRange.from},` +
-      `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
-      `&sort=${sortValue}&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`
-  );
-
   return {
     apiId: apiId,
     params:
