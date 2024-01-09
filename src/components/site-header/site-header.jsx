@@ -23,6 +23,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [openGlossary, setOpenGlossary] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [imageWidth, setImageWidth] = useState(defaultLogoWidth);
+
   const displayBanner = () => {
     let display = false;
     display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location.pathname);
@@ -34,7 +35,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     return display;
   };
 
-  const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth + 4;
+  const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth;
 
   const glossaryCsv = useStaticQuery(
     graphql`
@@ -77,18 +78,16 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   const handleScroll = () => {
     // TODO decide when to start shrinking the image , make sure it resets properly, shaking height ?
     const position = window.pageYOffset;
-    const newWidth = defaultLogoWidth - position + 31;
-    if (position > 31) {
-      // console.log(newWidth > reducedImageSize ? 'newWidth ' + newWidth : 'reducedImageSize ' + reducedImageSize);
+    const newWidth = defaultLogoWidth - position + 16;
+    if (position > 16) {
       setImageWidth(newWidth > reducedImageSize ? newWidth : reducedImageSize);
     } else {
       setImageWidth(192);
-      // console.log('here', position);
     }
   };
 
   useEffect(() => {
-    console.log('imageWidth', imageWidth);
+    console.log('imageWidth', imageWidth, window.pageYOffset, window);
   }, [imageWidth]);
 
   useLayoutEffect(() => {
@@ -114,7 +113,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
         <OfficialBanner data-testid="officialBanner" />
         <div className={container}>
           <div className={content}>
-            <div style={{ width: imageWidth + 'px', transition: '0.5s' }} className={logo}>
+            <div style={{ width: imageWidth + 8 + 'px', transition: '0.5s' }} className={logo}>
               <Link
                 role="img"
                 title="Return to home page"
@@ -141,7 +140,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               clickHandler={clickHandler}
               activeDropdown={activeDropdown}
               setActiveDropdown={setActiveDropdown}
-              buttonHeight={getButtonHeight(imageWidth)}
+              buttonHeight={getButtonHeight(imageWidth) + 4}
             />
           </div>
           <Glossary termList={glossaryData} activeState={openGlossary} setActiveState={setOpenGlossary} />

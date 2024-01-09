@@ -14,7 +14,7 @@ import {
 
 const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropdown, setActiveDropdown, buttonHeight }) => {
   return (
-    <div className={pageLinks} data-testid="pageLinks" style={{ height: buttonHeight + 'px', transition: '0.25s' }}>
+    <div className={pageLinks} data-testid="pageLinks" style={{ height: buttonHeight + 'px', transition: '0.5s' }}>
       {menuSections.map((pageLink, index) => {
         if (pageLink.isExperimental) {
           return (

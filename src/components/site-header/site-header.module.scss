@@ -3,7 +3,7 @@
 
 .stickyHeader {
   position: sticky;
-  top: -2.5rem;
+  top: -3.25rem;
   z-index: $sticky-header;
 }
 
@@ -23,18 +23,21 @@
   border-bottom: 1px solid $slate-blue;
   background-color: white;
   padding: 0.25rem 0.75rem 0;
-  margin-top: 0.5rem
+  margin-top: 0.5rem;
+  height: 59px;
 }
 
 .content {
   display: flex;
   justify-content: space-between;
   max-width: $main-width;
-  align-items: center;
+  align-items: flex-end;
   margin: 0 auto;
+  height: 100%;
 }
 
 .logo {
+  transition: 0.5s;
   padding-bottom: 0.25rem;
 }
 

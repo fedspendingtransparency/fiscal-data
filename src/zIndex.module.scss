@@ -22,7 +22,7 @@ $illustration-whiteout: $above + $tab-edge-selected;
 $mobile-menu-list: $above + $backdrop;
 $mobile-menu-sticky: $above + $mobile-menu-list;
 // desktop sub nav
-$desktop-menu-sticky: $above + $backdrop;
+$desktop-menu-sticky: $above + $illustration-whiteout;
 
 // dataset detail
 // table
