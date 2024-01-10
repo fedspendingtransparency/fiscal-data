@@ -51,7 +51,7 @@ describe('Fallback for Error Boundary', () => {
   it('includes fallback header', () => {
     const h2 = instance.findByType('h2');
     expect(h2).toBeDefined();
-    expect(h2.props.children.props.children).toBe('This content is currently unavailable.');
+    expect(h2.props.children.props.children).toBe('We will be back shortly.');
   });
 
   it('includes the not found graphic', () => {

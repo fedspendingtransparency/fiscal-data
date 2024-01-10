@@ -42,6 +42,7 @@ export const Wrapper = ({ children }) => {
 const NotFoundText = () => {
   return (
     <>
+      <Header>Oops... there's been a glitch in the data.</Header>
       <Header2>404: Page not found</Header2>
       <p className={pText}>
         We're sorry, we can't seem to find that page. This may be due to a broken link or a typo in the URL. Try retyping the URL or checking out some
@@ -64,6 +65,12 @@ const NotFoundText = () => {
           </CustomLink>
         </li>
       </UlTag>
+      <PTag>
+        Want to get in touch or send in general comments about the site? Contact us via email at{' '}
+        <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">fiscaldata@fiscal.treasury.gov</CustomLink>
+        {' '}for further assistance. Thank you!
+      </PTag>
+      <NotFoundGraphicHolder />
     </>
   );
 };
@@ -71,24 +78,23 @@ const NotFoundText = () => {
 const FallbackText = () => {
   return (
     <>
-      <Header2>This content is currently unavailable.</Header2>
-      <p className={pText}>
-        Something didn't go quite right on our end while loading this page. Try refreshing the page or check back in a bit as we work to resolve the
-        issue.
-      </p>
+      <Header>This content is currently unavailable.</Header>
+      <Header2>We will be back shortly.</Header2>
+      <PTag className={pText}>
+        Our team is working diligently to address the issue. Please check back later or contact us
+        via email at{' '}<CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">fiscaldata@fiscal.treasury.gov</CustomLink>{' '}for further assistance. 
+        Thank you! 
+      </PTag>
+      <NotFoundGraphicHolder />
     </>
   );
 };
 
+
+
 const PageErrorText = ({ fallback }) => (
   <Wrapper>
-    <Header>Oops... there's been a glitch in the data.</Header>
     {fallback ? <FallbackText /> : <NotFoundText />}
-    <PTag>
-      Want to get in touch or send in general comments about the site? Contact us via email at{' '}
-      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">fiscaldata@fiscal.treasury.gov</CustomLink> for further assistance. Thank you!
-    </PTag>
-    <NotFoundGraphicHolder />
   </Wrapper>
 );
 
