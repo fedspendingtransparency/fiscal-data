@@ -59,9 +59,9 @@ const NationalDeficitHero = (): ReactElement => {
         setDeficitDifPill(Math.abs(priorYearDeficit - currentDeficit));
         setDeficitDifPercent(parseFloat((((currentDeficit - priorYearDeficit) / priorYearDeficit) * 100).toFixed()));
         if (currentDeficit > priorYearDeficit) {
-          setDeficitStatus('increased by $');
+          setDeficitStatus('increased');
         } else if (currentDeficit < priorYearDeficit) {
-          setDeficitStatus('decreased by $');
+          setDeficitStatus('decreased');
         } else if (currentDeficit === priorYearDeficit){
           setDeficitDif('not changed')
         }
@@ -90,11 +90,24 @@ const NationalDeficitHero = (): ReactElement => {
   );
 
   const changeNationalDeficitFooter = (
-    <p>
+    <>
+    {deficitDif !== 'not changed' ? (
+      <p>
       Compared to the national deficit of ${desktopPriorDeficit} for the same period last year {' '}
-      {getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}, our national deficit has {deficitStatus}
+      {getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}, our national deficit has {deficitStatus} by $
       {deficitDif}.
     </p>
+    )
+      :
+      (
+      <p>
+        Compared to the national deficit of ${desktopPriorDeficit} for the same period last year {' '}
+        {getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}, our national deficit has {deficitStatus} by.
+      </p>
+    )}
+
+    </>
+
   );
 
   return (

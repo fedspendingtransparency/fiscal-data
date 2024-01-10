@@ -32,17 +32,16 @@ export const getPillData = (
  
   const doubleDash ='/images/double-dash.svg';
   const iconChange = (labelChanger) => {
-    if (labelChanger === 'increased by $') {
+    if (labelChanger === 'increased') {
       return <FontAwesomeIcon icon={faUpLong as IconProp} title="up arrow" />
-
     }
-    else if(labelChanger === 'decreased by $') {
+    else if(labelChanger === 'decreased') {
       return <FontAwesomeIcon icon={faDownLong as IconProp} title="down arrow" />
     }
     else {
       return (
-        <div className={doubleDashs} >
-          <img src={doubleDash} alt="Double Dash indicating no change" className={dashes} />
+        <div className={doubleDashs}>
+          <img src={doubleDash} alt="An open book with a coin above the pages." className={dashes} />
         </div>
       ) 
     }
