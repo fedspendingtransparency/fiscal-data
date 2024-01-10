@@ -49,22 +49,21 @@ const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropd
         return (
           <div className={pageLinkButtonContainer} style={{ minWidth: `${pageLink.title.length * 7.5 + 16}px` }} key={pageLink.title} tabIndex={-1}>
             {pageLink.to === location?.pathname ? (
-              <div className={`${pageLinkButton} ${pageLinkButtonActive}`}>
+              <button className={`${pageLinkButton} ${pageLinkButtonActive}`} disabled>
                 <span>{pageLink.title}</span>
-              </div>
+              </button>
             ) : (
-              <div className={pageLinkButton}>
+              <button className={pageLinkButton} onMouseEnter={() => setActiveDropdown(pageLink.title)}>
                 <Link
                   key={pageLink.title}
                   to={pageLink.to}
                   activeClassName={activeLink}
                   data-testid={pageLink.testId}
                   onClick={() => clickHandler(pageLink.title)}
-                  onMouseEnter={() => setActiveDropdown(pageLink.title)}
                 >
                   {pageLink.title}
                 </Link>
-              </div>
+              </button>
             )}
           </div>
         );

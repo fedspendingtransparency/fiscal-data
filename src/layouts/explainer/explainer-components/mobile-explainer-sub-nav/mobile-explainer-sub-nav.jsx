@@ -139,7 +139,6 @@ const MobileExplainerSubNav = ({ hidePosition, pageName = '' }) => {
         <button
           aria-controls="customized-menu"
           aria-haspopup="true"
-          // variant="contained" //TODO: Look into warning around this
           color="#0a2f5a"
           onClick={handleClick}
           onKeyDown={handleClick}
