@@ -17,7 +17,8 @@ import { bannerHeading, bannerContent, container, content, logo, stickyHeader } 
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 
-const SiteHeader = ({ lowerEnvMsg, location, width }) => {
+//exports here for testability
+export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
   const reducedImageSize = 130;
@@ -28,12 +29,14 @@ const SiteHeader = ({ lowerEnvMsg, location, width }) => {
 
   const displayBanner = () => {
     let display = false;
-    display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location.pathname);
-    NOTIFICATION_BANNER_DISPLAY_PATHS?.forEach(path => {
-      if (location.pathname.includes(path)) {
-        display = true;
-      }
-    });
+    if (location) {
+      display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location?.pathname);
+      NOTIFICATION_BANNER_DISPLAY_PATHS?.forEach(path => {
+        if (location?.pathname.includes(path)) {
+          display = true;
+        }
+      });
+    }
     return display;
   };
 
@@ -106,7 +109,7 @@ const SiteHeader = ({ lowerEnvMsg, location, width }) => {
         <OfficialBanner data-testid="officialBanner" />
         <div className={container}>
           <div className={content}>
-            <div style={width > pxToNumber(breakpointLg) ? { width: imageWidth + 8 + 'px' } : null} className={logo}>
+            <div style={width > pxToNumber(breakpointLg) ? { width: imageWidth + 'px' } : null} className={logo} data-testid="logoContainer">
               <Link
                 role="img"
                 title="Return to home page"
