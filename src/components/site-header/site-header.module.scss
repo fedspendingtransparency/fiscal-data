@@ -24,7 +24,7 @@
   background-color: white;
   padding: 0.25rem 0.75rem 0;
   margin-top: 0.5rem;
-  height: 59px;
+  height: 3.6875rem;
 }
 
 .content {
@@ -43,7 +43,7 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .logo {
-    width: 132px;
+    width: 8.25rem;
     padding-bottom: .5rem;
   }
   .stickyHeader {

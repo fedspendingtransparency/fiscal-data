@@ -7,33 +7,33 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    margin-top: -2px;
+    margin-top: -0.125rem;
     margin-right: 2rem;
     border-top-style: none;
     border-right-style: none;
     border-left-style: none;
     outline: none;
     background-color: inherit;
-    border-bottom: 2px solid transparent;
-    font-size: 1rem;
+    border-bottom: 0.125rem solid transparent;
+    font-size: $font-size-16;
     color: #666666;
     height: 100%;
   }
 
   .dropdown {
     transition: opacity 1s ease;
-    padding-top: 2px;
+    padding-top: 0.125rem;
   }
 
   .dropdownButtonExpanded {
     color: $primary !important;
     font-weight: $semi-bold-weight;
-    border-bottom: 2px solid $primary !important;
+    border-bottom: 0.125rem solid $primary !important;
   }
 
   .caret {
     padding-left: 1rem;
-    min-width: 10px;
+    min-width: 0.625rem;
   }
 
   .dropdownContent {
@@ -46,7 +46,7 @@
     width: 100%;
     margin-top: 1px;
     left: 0;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2);
     z-index: $menu-dropdown;
 
     link {
@@ -77,7 +77,7 @@
       border: none;
       cursor: pointer;
       color: #666666;
-      font-size: 1rem;
+      font-size: $font-size-16;
     }
   }
 
@@ -115,11 +115,11 @@
     font-weight: $semi-bold-weight;
     white-space: nowrap;
     margin-bottom: 1rem;
-    font-size: 14px;
+    font-size: $font-size-14;
   }
 
   .dropdownListItem {
     margin-bottom: 0.5rem;
-    font-size: 1rem;
+    font-size: $font-size-16;
   }
 }
