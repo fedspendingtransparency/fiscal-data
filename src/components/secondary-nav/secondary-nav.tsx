@@ -193,12 +193,6 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
               headingClass = headingLevel3;
             }
 
-            // console.log(s.id === 'federal-revenue-trends-and-the-us-economy');
-
-            // if (s.id === 'spending-categories' || s.id === 'key-takeaways') {
-            //   s.target = true;
-            // }
-
             return (
               <div key={s.index}>
                 {s.comingSoon ? (
