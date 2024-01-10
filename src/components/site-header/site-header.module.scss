@@ -41,17 +41,17 @@
   padding-bottom: 0.25rem;
 }
 
-@media screen and (min-width: $breakpoint-sm) {
-  .container {
-    //padding: 1rem 2rem 0;
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .logo {
+    width: 132px;
+    padding-bottom: .5rem;
   }
-}
-
-@media screen and (min-width: $breakpoint-lg) {
-  .content {
-    //height: 70px;
+  .stickyHeader {
+    top: -2rem;
   }
   .container {
-    //padding: 1rem 2rem 0;
+    margin: 0;
+    height: 52px;
+    padding-top: 0.5rem;
   }
 }

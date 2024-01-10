@@ -14,8 +14,10 @@ import AnnouncementBanner from '../announcement-banner/announcement-banner';
 import { NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } from 'gatsby-env-variables';
 import CustomLink from '../links/custom-link/custom-link';
 import { bannerHeading, bannerContent, container, content, logo, stickyHeader } from './site-header.module.scss';
+import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../variables.module.scss';
 
-const SiteHeader = ({ lowerEnvMsg, location }) => {
+const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
   const reducedImageSize = 130;
@@ -76,7 +78,6 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   };
 
   const handleScroll = () => {
-    // TODO decide when to start shrinking the image , make sure it resets properly, shaking height ?
     const position = window.pageYOffset;
     const newWidth = defaultLogoWidth - position + 16;
     if (position > 16) {
@@ -85,10 +86,6 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       setImageWidth(192);
     }
   };
-
-  useEffect(() => {
-    console.log('imageWidth', imageWidth, window.pageYOffset, window);
-  }, [imageWidth]);
 
   useLayoutEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -113,7 +110,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
         <OfficialBanner data-testid="officialBanner" />
         <div className={container}>
           <div className={content}>
-            <div style={{ width: imageWidth + 8 + 'px', transition: '0.5s' }} className={logo}>
+            <div style={width > pxToNumber(breakpointLg) ? { width: imageWidth + 8 + 'px', transition: '0.5s' } : null} className={logo}>
               <Link
                 role="img"
                 title="Return to home page"

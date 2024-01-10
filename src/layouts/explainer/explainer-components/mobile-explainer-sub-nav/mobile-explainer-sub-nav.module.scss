@@ -8,10 +8,7 @@
   width: 18rem;
   text-align: right;
   z-index: $mobile-menu-list;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  padding: 0 !important;
 }
 
 @mixin afg-menu-item($backgroundColor) {
@@ -23,11 +20,11 @@
   line-height: 0.5rem;
   margin-top: 0.063rem !important;
   margin-bottom: 0.063rem !important;
-  font-family: 'Source Sans Pro' !important;
+  font-family: 'Source Sans Pro', sans-serif;
 
   span {
     line-height: 2.25rem !important;
-    font-family: 'Source Sans Pro' !important;
+    font-family: 'Source Sans Pro', sans-serif;
   }
 }
 
@@ -50,7 +47,7 @@
 .buttonOverview {
   border-radius: 1rem;
   background-color: #0071bc;
-  border-color: white;
+  //border-color: white;
   color: white;
   width: 21.25rem;
   height: 2rem;
@@ -67,7 +64,7 @@
 }
 .activeMenu span {
   font-weight: $semi-bold-weight !important;
-  font-family: 'Source Sans Pro' !important;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 .mainContainer {
   display: flex;
@@ -80,7 +77,7 @@
 }
 .mainContainerSticky {
   position: fixed;
-  top: 0;
+  top: 1.5rem;
   z-index: $mobile-menu-sticky;
   margin-top: 2rem !important;
 }
@@ -99,8 +96,9 @@
 .faHouse {
   padding-right: 0.5rem;
 }
+
 .overview {
-  margin: 1.5rem 0rem;
+  margin: 1.5rem 0;
 }
 
 .stylingStyledMenu {
