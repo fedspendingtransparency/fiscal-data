@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import MobileMenu from './mobile-menu/mobile-menu';
 import { withWindowSize } from 'react-fns';
@@ -79,15 +79,11 @@ const SiteHeader = ({ lowerEnvMsg, location, width }) => {
 
   const handleScroll = () => {
     const position = window.pageYOffset;
-    const newWidth = defaultLogoWidth - position + 16;
-    if (position > 16) {
-      setImageWidth(newWidth > reducedImageSize ? newWidth : reducedImageSize);
-    } else {
-      setImageWidth(192);
-    }
+    const newWidth = defaultLogoWidth - position;
+    setImageWidth(newWidth > reducedImageSize ? newWidth : reducedImageSize);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
@@ -110,7 +106,7 @@ const SiteHeader = ({ lowerEnvMsg, location, width }) => {
         <OfficialBanner data-testid="officialBanner" />
         <div className={container}>
           <div className={content}>
-            <div style={width > pxToNumber(breakpointLg) ? { width: imageWidth + 8 + 'px', transition: '0.5s' } : null} className={logo}>
+            <div style={width > pxToNumber(breakpointLg) ? { width: imageWidth + 8 + 'px' } : null} className={logo}>
               <Link
                 role="img"
                 title="Return to home page"
