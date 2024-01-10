@@ -77,6 +77,12 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
       analyticsClickHandler(title);
     }
 
+    sections.forEach(s => {
+      s.target = false;
+    });
+
+    const section = sections.find(s => s.title === title);
+    section.target = true;
     // only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;
@@ -180,9 +186,9 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
 
             // console.log(s.id === 'federal-revenue-trends-and-the-us-economy');
 
-            if (s.id === 'spending-categories' || s.id === 'key-takeaways') {
-              s.target = true;
-            }
+            // if (s.id === 'spending-categories' || s.id === 'key-takeaways') {
+            //   s.target = true;
+            // }
 
             return (
               <div key={s.index}>
@@ -193,7 +199,6 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                 ) : (
                   undefined
                 )}
-                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                 <div
                   role="button"
                   tabIndex={-1}
