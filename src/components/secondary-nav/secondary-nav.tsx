@@ -134,9 +134,18 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
 
   useEffect(() => {
     // This is for mobile usage, when switching between toc and page content.
+
     if (scrollToId) {
       const targetId = scrollToId; // local variable not impacted by state change
       setScrollToId(null);
+
+      setTimeout(
+        () =>
+          sections.forEach(section => {
+            section.target = true;
+          }),
+        1000
+      );
 
       if (scrollToId === 'table-of-contents') {
         // configure instant scroll for opening TOC
