@@ -1,4 +1,4 @@
-import { pillDataContainer, pillDataValue, pillDataPercent, explainerArrow, dashes, doubleDash } from '../hero-image/hero-image.module.scss';
+import { pillDataContainer, pillDataValue, pillDataPercent, explainerArrow, dashes, doubleDashs } from '../hero-image/hero-image.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
@@ -33,12 +33,12 @@ export const getPillData = (
   const doubleDash ='/images/double-dash.svg';
   const iconChange = (labelChanger) => {
     if (labelChanger === 'increased by $') {
-      // return <FontAwesomeIcon icon={faUpLong as IconProp} title="up arrow" />
-      return (
-        <div className={doubleDash} style={{display: 'flex', justifyContent: 'center'}}>
-          <img src={doubleDash} alt="Double Dash indicating no change" className={dashes} />
-        </div>
-      ) 
+    //  return <FontAwesomeIcon icon={faUpLong as IconProp} title="up arrow" />
+    return (
+      <div className={doubleDashs} >
+        <img src={doubleDash} alt="Double Dash indicating no change" className={dashes} />
+      </div>
+    ) 
     }
     else if(labelChanger === 'decreased by $') {
       return <FontAwesomeIcon icon={faDownLong as IconProp} title="down arrow" />

@@ -105,9 +105,9 @@
     margin-bottom: 2rem;
     justify-content: center;
   }
-  .doubleDash{
-    display: 'flex';
-    justify-content: 'center';
+  .doubleDashs{
+    display: flex;
+    justify-content: center;
     width: 1rem;
     height: 1rem;
   }
@@ -122,7 +122,7 @@
   .dashes{
     position: relative;
     display: inline-flex;
-    top: 8px;
+    top: 2px;
   }
 
   .pillDataContainer {
