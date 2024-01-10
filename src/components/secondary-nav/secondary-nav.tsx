@@ -178,6 +178,12 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
               headingClass = headingLevel3;
             }
 
+            // console.log(s.id === 'federal-revenue-trends-and-the-us-economy');
+
+            if (s.id === 'spending-categories' || s.id === 'key-takeaways') {
+              s.target = true;
+            }
+
             return (
               <div key={s.index}>
                 {s.comingSoon ? (
@@ -187,6 +193,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                 ) : (
                   undefined
                 )}
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                 <div
                   role="button"
                   tabIndex={-1}
@@ -198,11 +205,11 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                     className={`${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
                     ${s.comingSoon ? comingSoonLink : undefined}`}
                     title={s.title}
-                    activeClass={activeClass}
+                    activeClass={s.target ? activeClass : ''}
                     tabIndex={0}
                     to={s.id}
                     smooth
-                    spy
+                    spy={true}
                     duration={scrollDuration}
                     delay={scrollDelay}
                     onClick={() => handleInteraction(null, s.id, s.title)}
