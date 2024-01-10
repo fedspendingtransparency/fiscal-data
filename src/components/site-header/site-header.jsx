@@ -17,7 +17,7 @@ import { bannerHeading, bannerContent, container, content, logo, stickyHeader } 
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 
-//exports here for testability
+//Additional export for page width testability
 export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
