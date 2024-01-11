@@ -56,6 +56,7 @@ const DDNav = () => {
 
     const link = linksArr.find(l => l.title === title);
     link.target = true;
+    link.current = true;
 
     //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
@@ -103,6 +104,9 @@ const DDNav = () => {
         () =>
           linksArr.forEach(link => {
             link.target = true;
+            if (link.current) {
+              link.current = false;
+            }
           }),
         1000
       );
@@ -121,7 +125,7 @@ const DDNav = () => {
           {linksArr.map((d, i) => {
             return (
               <Link
-                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''}`}
+                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''} ${d.target && d.current && activeMenu}`}
                 key={`DDNavDesktopLink${i}`}
                 data-testid={`DDNavDesktopLink${i}`}
                 aria-label={`Jump to ${d.title} section`}
