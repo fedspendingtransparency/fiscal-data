@@ -85,6 +85,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
 
     const section = sections.find(s => s.title === title);
     section.target = true;
+    section.current = true;
     // only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;
@@ -145,6 +146,9 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
         () =>
           sections.forEach(section => {
             section.target = true;
+            if (section.current) {
+              section.current = false;
+            }
           }),
         1000
       );
@@ -213,7 +217,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                 >
                   <Link
                     className={`${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
-                    ${s.comingSoon ? comingSoonLink : undefined}`}
+                    ${s.comingSoon ? comingSoonLink : undefined} ${s.target && s.current && activeClass}`}
                     title={s.title}
                     activeClass={s.target ? activeClass : ''}
                     tabIndex={0}
