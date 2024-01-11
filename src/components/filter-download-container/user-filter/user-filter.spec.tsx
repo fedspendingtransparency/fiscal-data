@@ -10,7 +10,7 @@ describe('UserFilter Component', () => {
   it('sends expected properties to combo-select control and displays notice', async () => {
     const { getByTestId } = render(<UserFilter selectedTable={mockTable} onUserFilter={jest.fn()} apiData={mockData} />);
 
-    expect(getByTestId('userFilterNotice')).toHaveTextContent(mockTable.userFilter.notice);
+    expect(getByTestId('datatable-banner')).toHaveTextContent(mockTable.userFilter.notice);
     const comboSelectProps = comboSelectSpy.mock.calls[0][0];
 
     expect(comboSelectProps['label']).toEqual(`${mockTable.userFilter.label}:`);

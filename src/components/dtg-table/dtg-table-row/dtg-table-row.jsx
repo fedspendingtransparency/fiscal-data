@@ -1,6 +1,6 @@
 import React from 'react';
 import { currencyFormatter, numberFormatter, dateFormatter } from '../../../helpers/text-format/text-format';
-import * as styles from '../dtg-table.module.scss';
+import { formattedCell } from '../dtg-table.module.scss';
 
 const dataTypes = ['CURRENCY', 'NUMBER', 'DATE', 'PERCENTAGE', 'CURRENCY3'];
 
@@ -52,7 +52,7 @@ export default function DtgTableRow({ columns, data, tableName }) {
     }
 
     cells.push(
-      <td key={index} className={dataTypes.includes(type) ? styles.formattedCell : ''}>
+      <td key={index} className={dataTypes.includes(type) ? formattedCell : ''}>
         {formattedData}
       </td>
     );

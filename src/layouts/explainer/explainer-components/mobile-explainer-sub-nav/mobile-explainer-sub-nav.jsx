@@ -58,7 +58,7 @@ const StyledMenuItem = withStyles(() => ({
   },
 }))(MenuItem);
 
-export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
+const MobileExplainerSubNav = ({ hidePosition, pageName = '' }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [navBlockStyle, setNavBlockStyle] = useState(mainContainerShow);
   const [isRevenue, setIsRevenue] = useState(false);
@@ -139,10 +139,9 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
         <button
           aria-controls="customized-menu"
           aria-haspopup="true"
-          variant="contained" //TODO: Look into warning around this
           color="#0a2f5a"
           onClick={handleClick}
-          onKeyPress={handleClick}
+          onKeyDown={handleClick}
           className={`${isOverview ? [buttonOverview, activeMenu].join(' ') : buttonOverview}`}
           data-testid="mobileSubNavBlockButton"
         >
@@ -151,7 +150,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
               analyticsEvent('Overview');
               navigate('/americas-finance-guide/');
             }}
-            onKeyPress={() => {
+            onKeyDown={() => {
               analyticsEvent('Overview');
               navigate('/americas-finance-guide/');
             }}
@@ -182,6 +181,10 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
                 analyticsEvent('Revenue');
                 navigate('/americas-finance-guide/government-revenue/');
               }}
+              onKeyDown={() => {
+                analyticsEvent('Revenue');
+                navigate('/americas-finance-guide/government-revenue/');
+              }}
               primary="Revenue"
               data-testid="revenueButton"
             />
@@ -190,6 +193,10 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
             <ListItemText
               className={`${isSpending ? [spending, activeMenu].join(' ') : spending}`}
               onClick={() => {
+                analyticsEvent('Spending');
+                navigate('/americas-finance-guide/federal-spending/');
+              }}
+              onKeyDown={() => {
                 analyticsEvent('Spending');
                 navigate('/americas-finance-guide/federal-spending/');
               }}
@@ -204,6 +211,10 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
                 analyticsEvent('Deficit');
                 navigate('/americas-finance-guide/national-deficit/');
               }}
+              onKeyDown={() => {
+                analyticsEvent('Deficit');
+                navigate('/americas-finance-guide/national-deficit/');
+              }}
               primary="Deficit"
               data-testid="deficitButton"
             />
@@ -215,6 +226,10 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
                 analyticsEvent('Debt');
                 navigate('/americas-finance-guide/national-debt/');
               }}
+              onKeyDown={() => {
+                analyticsEvent('Debt');
+                navigate('/americas-finance-guide/national-debt/');
+              }}
               primary="Debt"
               data-testid="debtButton"
             />
@@ -223,4 +238,6 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
       </div>
     </div>
   );
-}
+};
+
+export default MobileExplainerSubNav;

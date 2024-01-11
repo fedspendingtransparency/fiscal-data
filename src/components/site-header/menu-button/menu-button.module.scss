@@ -5,7 +5,7 @@ $buttonWidth: 57px;
 .button {
   position: absolute;
   left: -$buttonWidth;
-  top: 0;
+  top: -0.5rem;
   width: $buttonWidth;
   background-color: white;
   border: none;

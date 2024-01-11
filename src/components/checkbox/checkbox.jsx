@@ -1,5 +1,15 @@
 import React from 'react';
-import * as styles from './checkbox.module.scss';
+import {
+  checkbox_container,
+  checkbox_label,
+  checkbox_wrapper,
+  sectionHeading,
+  additionalSection,
+  optionCheckbox,
+  label_checkmark_container,
+  label_checkmark_text,
+  label_text,
+} from './checkbox.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
@@ -33,27 +43,23 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
   };
 
   return (
-    <div className={styles.checkbox_container}>
-      {defaultData.length ? <div className={styles.sectionHeading}>DEFAULTS</div> : ''}
+    <div className={checkbox_container}>
+      {defaultData.length ? <div className={sectionHeading}>DEFAULTS</div> : ''}
 
       {currentCheckboxData.map((obj, index) => (
         <>
-          {defaultData.length && defaultData.length === index ? (
-            <div className={[styles.sectionHeading, styles.additionalSection].join(' ')}>ADDITIONAL</div>
-          ) : (
-            ''
-          )}
+          {defaultData.length && defaultData.length === index ? <div className={[sectionHeading, additionalSection].join(' ')}>ADDITIONAL</div> : ''}
           <React.Fragment key={index}>
             <label
-              className={styles.checkbox_label}
+              className={checkbox_label}
               data-testid="checkbox-label-element"
               onMouseEnter={() => handleHover(true, obj)}
               onMouseLeave={() => handleHover(false, obj)}
               role={'presentation'}
             >
-              <div className={styles.checkbox_wrapper}>
+              <div className={checkbox_wrapper}>
                 <input
-                  className={styles.optionCheckbox}
+                  className={optionCheckbox}
                   type="checkbox"
                   name={obj.label}
                   value={index}
@@ -62,13 +68,13 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
                   data-testid="checkbox-input-element"
                   checked={obj.active}
                 />
-                <span className={styles.label_checkmark_container}>
-                  <span className={styles.label_checkmark_text}>
+                <span className={label_checkmark_container}>
+                  <span className={label_checkmark_text}>
                     <FontAwesomeIcon icon={faCheck} size="sm" />
                   </span>
                 </span>
               </div>
-              <div className={styles.label_text} data-testid="optionLabelText">
+              <div className={label_text} data-testid="optionLabelText">
                 {obj.label}
               </div>
             </label>

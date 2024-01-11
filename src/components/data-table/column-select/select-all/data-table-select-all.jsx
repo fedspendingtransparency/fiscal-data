@@ -2,7 +2,7 @@ import * as styles from '../../../select-all/select-all.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faMinus, faUndo } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
-import { resetIcon, reset, selectAllContainer } from '../data-table-column-selector.module.scss';
+import { resetIcon, reset, selectAllContainer, selectAll } from '../data-table-column-selector.module.scss';
 
 const SelectAll = ({ table, resetToDefault, defaultColumns }) => {
   const defaultState = () => {
@@ -39,6 +39,7 @@ const SelectAll = ({ table, resetToDefault, defaultColumns }) => {
                 onChange={onButtonClick}
                 type="checkbox"
                 checked={checked()}
+                className={selectAll}
               />
               <span className={styles.labelCheckmarkContainer}>
                 <span className={styles.checkmarkText}>
