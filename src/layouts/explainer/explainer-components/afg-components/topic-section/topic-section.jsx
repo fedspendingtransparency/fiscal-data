@@ -110,12 +110,20 @@ const TopicSection = ({ fiscalYear, width }) => {
       basicFetch(priorDeficitRequest.getUrl()).then(res => {
         if (res.data) {
           const data = res.data[0];
+          // This is the deficit amount from 1 FY ago
           const deficitAmount = Number(data.current_fytd_net_outly_amt);
+          // This is the deficit amount from 2 FYs ago
           const priorDeficitAmount = Number(data.prior_fytd_net_outly_amt);
           const formattedAmount = getShortForm(Math.abs(deficitAmount).toString(), false);
           setPriorFyDeficit(formattedAmount);
           const difference = deficitAmount - priorDeficitAmount;
-          setDeficitDirection(difference < 0 ? 'increased' : 'decreased');
+          if (difference < 0) {
+            setDeficitDirection('increased');
+          } else if (difference > 0) {
+            setDeficitDirection('decreased');
+          } else if (difference === 0) {
+            setDeficitDirection('has not changed');
+          }
           const formattedChange = getShortForm(Math.abs(difference).toString(), false);
           setDeficitChange(formattedChange);
         }
@@ -163,7 +171,13 @@ const TopicSection = ({ fiscalYear, width }) => {
 
               const difference = Number(data.tot_pub_debt_out_amt) - Number(priorData.tot_pub_debt_out_amt);
 
-              setDebtDirection(difference > 0 ? 'increased' : 'decreased');
+              if (difference > 0) {
+                setDebtDirection('increased');
+              } else if (difference < 0) {
+                setDebtDirection('decreased');
+              } else if (difference === 0) {
+                setDebtDirection('did not change');
+              }
               setDebtChange(getShortForm(Math.abs(difference).toString(), false));
             }
           });
@@ -235,10 +249,17 @@ const TopicSection = ({ fiscalYear, width }) => {
   const deficitBody = (
     <>
       <p>A budget deficit occurs when the money spent exceeds the money collected for a given period.</p>
-      <p>
-        In {priorFiscalYear}, the federal government spent ${priorFyDeficit} more than it collected, resulting in a deficit. Compared to{' '}
-        {priorPriorYear}, the national deficit {deficitDirection} by ${deficitChange} in {priorFiscalYear}.
-      </p>
+      {deficitDirection !== 'has not changed' ? (
+        <p>
+          In {priorFiscalYear}, the federal government spent ${priorFyDeficit} more than it collected, resulting in a deficit. Compared to{' '}
+          {priorPriorYear}, the national deficit {deficitDirection} by ${deficitChange} in {priorFiscalYear}.
+        </p>
+      ) : (
+        <p>
+          In {priorFiscalYear}, the federal government spent ${priorFyDeficit} more than it collected, resulting in a deficit. Compared to{' '}
+          {priorPriorYear}, the national deficit {deficitDirection}, remaining at ${priorFyDeficit} in {priorFiscalYear}.
+        </p>
+      )}
     </>
   );
   const debtBody = (
@@ -249,10 +270,17 @@ const TopicSection = ({ fiscalYear, width }) => {
         debt, such as changes in the Treasury’s operating cash account and federal student loans. The total debt for the U.S. through{' '}
         {debtToPennyDate} is ${debt}.
       </p>
-      <p>
-        At the end of {priorFiscalYear} the government had ${priorFyDebt} in federal debt. In {priorFiscalYear}, the national debt {debtDirection} by
-        ${debtChange} compared to {priorPriorYear}.
-      </p>
+      {debtDirection !== 'did not change' ? (
+        <p>
+          At the end of {priorFiscalYear} the government had ${priorFyDebt} in federal debt. In {priorFiscalYear}, the national debt {debtDirection}{' '}
+          by ${debtChange} compared to {priorPriorYear}.
+        </p>
+      ) : (
+        <p>
+          At the end of {priorFiscalYear} the government had ${priorFyDebt} in federal debt. In {priorFiscalYear}, the national debt {debtDirection},{' '}
+          remaining at ${priorFyDebt} in {priorPriorYear}.
+        </p>
+      )}
     </>
   );
   const topicSectionMap = [

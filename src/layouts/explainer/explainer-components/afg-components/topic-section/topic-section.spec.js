@@ -1,10 +1,9 @@
 import React from 'react';
 import TopicSection from '../topic-section/topic-section';
-import { act, render, RenderResult, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { useStaticQuery } from 'gatsby';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
 import { mockEndpointResponseMap, mockEndpointResponseMapAltDates } from '../../../explainer-helpers/afg-overview-test-helper';
-import AmericasFinanceGuide from '../../../../../pages/americas-finance-guide';
 describe('Compare Section Component', () => {
   class ResizeObserver {
     observe() {}
@@ -67,6 +66,15 @@ describe('Compare Section Component', () => {
       expect(getAllByText('2022', { exact: false }).length).toBe(5);
       expect(getAllByText('2021', { exact: false }).length).toBe(4);
       expect(getAllByText('2020', { exact: false }).length).toBeGreaterThan(1);
+    });
+  });
+
+  it('correct language displays when previous FY deficit and debt is equal to 2 years prior FY deficit and debt', async () => {
+    const { getByText } = render(<TopicSection glossary={[]} fiscalYear={2016} setGlossaryClickEvent={jest.fn()} />);
+    await waitFor(() => {
+      getByText('government spent $2.77 trillion more than it collected', { exact: false });
+      getByText('the national deficit has not changed', { exact: false });
+      getByText('the national debt did not change', { exact: false });
     });
   });
 });

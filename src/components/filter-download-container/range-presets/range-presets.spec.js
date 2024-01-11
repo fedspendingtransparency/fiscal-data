@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import RangePresets from './range-presets';
 import { monthNames } from '../../../utils/api-utils';
@@ -514,5 +515,44 @@ describe('Current report button available', () => {
       await radioBtn.props.onChange();
     });
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({ label: 'All' }));
+  });
+});
+
+describe('Range Presets Component - datatable banner', () => {
+  const selectedTable = {
+    earliestDate: '2002-01-01',
+    latestDate: '2020-01-01',
+    dateField: 'column A',
+    fields: [{ columnName: 'column A', prettyName: 'Column A' }],
+  };
+
+  const setDateRangeMock = jest.fn();
+  const setIsFilteredMock = jest.fn();
+  const setIsCustomDateRangeMock = jest.fn();
+
+  it(`renders the datatable banner when datatableBanner exists`, () => {
+    const bannerText = 'This is a test';
+    const { getByTestId } = render(
+      <RangePresets
+        selectedTable={selectedTable}
+        setIsFiltered={setIsFilteredMock}
+        setDateRange={setDateRangeMock}
+        setIsCustomDateRange={setIsCustomDateRangeMock}
+        datatableBanner={bannerText}
+      />
+    );
+    expect(getByTestId('datatable-banner')).toHaveTextContent(bannerText);
+  });
+
+  it(`does not render the datatable banner when no datatableBanner is passed in`, () => {
+    const { queryByTestId } = render(
+      <RangePresets
+        selectedTable={selectedTable}
+        setIsFiltered={setIsFilteredMock}
+        setDateRange={setDateRangeMock}
+        setIsCustomDateRange={setIsCustomDateRangeMock}
+      />
+    );
+    expect(queryByTestId('datatable-banner')).not.toBeInTheDocument();
   });
 });

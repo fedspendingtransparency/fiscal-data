@@ -79,9 +79,13 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
       {table.getHeaderGroups().map(headerGroup => {
         return (
           <tr key={headerGroup.id} data-testid="header-row" className={stickyHeader}>
-            {headerGroup.headers.map(header => {
+            {headerGroup.headers.map((header, index) => {
+              let isLastColumn = false;
               const columnDataType = dataTypes[header.id];
               const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
+              if (!headerGroup.headers[index + 1]) {
+                isLastColumn = true;
+              }
               return (
                 <th
                   key={header.id}
@@ -143,7 +147,8 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           setFiltersActive,
                           allActiveFilters,
                           setAllActiveFilters,
-                          manualPagination
+                          manualPagination,
+                          isLastColumn
                         )}
                       </div>
                     </>

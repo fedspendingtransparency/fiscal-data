@@ -2,21 +2,6 @@ import { BASE_URL } from 'gatsby-env-variables';
 import InfoTip from '../../components/info-tip/info-tip';
 import React from 'react';
 
-export const quarterNumToTerm = num => {
-  switch (num) {
-    case 1:
-      return 'Janurary';
-    case 2:
-      return 'April';
-    case 3:
-      return 'July';
-    case 4:
-      return 'October';
-    default:
-      return;
-  }
-};
-
 export const dateStringConverter = date => {
   if (isNaN(date)) {
     return '';

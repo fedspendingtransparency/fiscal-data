@@ -283,6 +283,20 @@ export const mockEndpointResponseMap = [
   },
   {
     matcher: (url: string): boolean => {
+      const priorDeficitRequest = new ApiRequest(deficitRequest).forEndOfFiscalYear('2015');
+      return url === priorDeficitRequest.getUrl();
+    },
+    jsonResponse: {
+      data: [
+        {
+          current_fytd_net_outly_amt: '-2772178788289.42',
+          prior_fytd_net_outly_amt: '-2772178788289.42',
+        },
+      ],
+    },
+  },
+  {
+    matcher: (url: string): boolean => {
       const priorDebtRequest = new ApiRequest(debtRequest).forEndOfFiscalYear('2021');
       return url === priorDebtRequest.getUrl();
     },
@@ -303,6 +317,86 @@ export const mockEndpointResponseMap = [
       data: [
         {
           tot_pub_debt_out_amt: '26945391194615.15',
+        },
+      ],
+    },
+  },
+  {
+    matcher: (url: string): boolean => {
+      const priorRevenueRequest = new ApiRequest(revenueRequest).forEndOfFiscalYear('2015');
+      return url === priorRevenueRequest.getUrl();
+    },
+    jsonResponse: {
+      data: [
+        {
+          current_fytd_net_rcpt_amt: '4045978858727.41',
+          record_calendar_month: '09',
+        },
+      ],
+    },
+  },
+  {
+    matcher: (url: string): boolean => {
+      const priorRevenueCategoryRequest = new ApiRequest(revenueCategoryRequest).forEndOfFiscalYear('2015');
+      return url === priorRevenueCategoryRequest.getUrl();
+    },
+    jsonResponse: {
+      data: [
+        {
+          classification_desc: 'Individual Income Taxes',
+          record_calendar_month: '09',
+        },
+      ],
+    },
+  },
+  {
+    matcher: (url: string): boolean => {
+      const priorSpendingRequest = new ApiRequest(spendingRequest).forEndOfFiscalYear('2015');
+      return url === priorSpendingRequest.getUrl();
+    },
+    jsonResponse: {
+      data: [
+        {
+          current_fytd_net_outly_amt: '6818157647016.83',
+        },
+      ],
+    },
+  },
+  {
+    matcher: (url: string): boolean => {
+      const priorSpendingCategoryRequest = new ApiRequest(spendingCategoryRequest).forEndOfFiscalYear('2015');
+      return url === priorSpendingCategoryRequest.getUrl();
+    },
+    jsonResponse: {
+      data: [
+        {
+          classification_desc: 'Income Security',
+        },
+      ],
+    },
+  },
+  {
+    matcher: (url: string): boolean => {
+      const priorDebtRequest = new ApiRequest(debtRequest).forEndOfFiscalYear('2015');
+      return url === priorDebtRequest.getUrl();
+    },
+    jsonResponse: {
+      data: [
+        {
+          tot_pub_debt_out_amt: '28428918570048.68',
+        },
+      ],
+    },
+  },
+  {
+    matcher: (url: string): boolean => {
+      const priorPriorDebtRequest = new ApiRequest(debtRequest).forEndOfFiscalYear('2014');
+      return url === priorPriorDebtRequest.getUrl();
+    },
+    jsonResponse: {
+      data: [
+        {
+          tot_pub_debt_out_amt: '28428918570048.68',
         },
       ],
     },

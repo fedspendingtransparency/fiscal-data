@@ -1,11 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { userFilterWrapper, filterLabel, infoContainer } from './user-filter.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { info, icon } from '../../dataset-data/dataset-chart/dataset-chart.module.scss';
+import { userFilterWrapper, filterLabel } from './user-filter.module.scss';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
+import DatatableBanner from '../datatable-banner/datatable-banner';
 
 type UserFilterProps = {
   selectedTable?: {
@@ -25,8 +22,6 @@ type UserFilterProps = {
   setResetFilters?: (x: boolean) => void;
 };
 
-// hopefully this TS workaround will no longer be needed with newer versions of FontAwesome
-const infoCirclePropIcon = faInfoCircle as IconProp;
 const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserFilter, apiData, setResetFilters }) => {
   const defaultSelection = { label: '(None selected)', value: null };
 
@@ -70,14 +65,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
           />
         </div>
       )}
-      {selectedTable?.userFilter?.notice && (
-        <div className={infoContainer}>
-          <div className={info} data-testid="userFilterNotice">
-            <FontAwesomeIcon className={icon} icon={infoCirclePropIcon} />
-            {selectedTable.userFilter.notice}
-          </div>
-        </div>
-      )}
+      {selectedTable?.userFilter?.notice && <DatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
     </>
   );
 };

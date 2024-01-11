@@ -4,7 +4,7 @@ import Popover from '@material-ui/core/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import * as styles from './info-tip.module.scss';
+import { mobileFA, header, infoIcon, svgStyle, popupContainerStyle, popoverContents } from './info-tip.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
@@ -111,12 +111,12 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
         <>
           {width < pxToNumber(breakpointLg) ? (
             <span>
-              <FontAwesomeIcon className={styles.mobileFA} icon={faXmark} onClick={handleClose} />
-              <h6 className={styles.header}>{title}</h6>
+              <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} />
+              <h6 className={header}>{title}</h6>
             </span>
           ) : (
             <div>
-              <h6 className={styles.header}>{title}</h6>
+              <h6 className={header}>{title}</h6>
             </div>
           )}
         </>
@@ -129,12 +129,12 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
         aria-describedby={id}
         aria-label={title ? label : null}
         data-testid="infoTipButton"
-        className={`${button} ${styles.infoIcon} infoTipIcon`}
+        className={`${button} ${infoIcon} infoTipIcon`}
         onClick={handleClick}
         onMouseLeave={handleMouseLeave}
         onMouseEnter={hover ? handleClick : null}
       >
-        <FontAwesomeIcon icon={faInfoCircle} className={`${styles.svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`} style={iconStyle} />
+        <FontAwesomeIcon icon={faInfoCircle} className={`${svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`} style={iconStyle} />
       </Button>
       <Popover
         id={id}
@@ -153,9 +153,9 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
         }}
         disableRestoreFocus
       >
-        <div className={`${popupContainer} ${styles.popupContainer}`} data-testid="popupContainer" onMouseLeave={handleClose} role={'presentation'}>
+        <div className={`${popupContainer} ${popupContainerStyle}`} data-testid="popupContainer" onMouseLeave={handleClose} role={'presentation'}>
           {getHeader()}
-          <div className={`${styles.popoverContents} infoTipPopoverContents`}>{children}</div>
+          <div className={`${popoverContents} infoTipPopoverContents`}>{children}</div>
         </div>
       </Popover>
     </span>

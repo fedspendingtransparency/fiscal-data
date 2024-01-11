@@ -5,6 +5,7 @@ import { addDays, subQuarters, differenceInYears } from 'date-fns';
 import determineDateRange, { generateAnalyticsEvent, generateFormattedDate, prepAvailableDates } from './helpers/helper';
 import DatePickers from '../datepickers/datepickers';
 import UserFilter from '../user-filter/user-filter';
+import DatatableBanner from '../datatable-banner/datatable-banner';
 
 const RangePresets = ({
   currentDateButton,
@@ -20,6 +21,7 @@ const RangePresets = ({
   datasetDateRange,
   finalDatesNotFound,
   setResetFilters,
+  datatableBanner,
 }) => {
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
@@ -266,6 +268,7 @@ const RangePresets = ({
       {selectedTable.userFilter && (
         <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} setResetFilters={setResetFilters} />
       )}
+      {datatableBanner && <DatatableBanner bannerNotice={datatableBanner} />}
     </>
   );
 };
