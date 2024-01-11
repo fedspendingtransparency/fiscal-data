@@ -28,6 +28,7 @@
 
 .reportSelectWrapper {
   margin-bottom: 0.5rem;
+  position: relative;
 }
 
 .selectWrapper {
@@ -67,7 +68,6 @@
 @media screen and (min-width: $breakpoint-md) {
   .filterContainer {
     display: flex;
-    position: relative;
   }
 
   .reportSelectWrapper {
