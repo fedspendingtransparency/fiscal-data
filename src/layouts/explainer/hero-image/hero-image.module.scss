@@ -27,7 +27,6 @@
       margin: 0 0 1rem 0;
     }
   }
-
   .calloutContainer {
     max-width: 71.25rem;
   }
@@ -106,7 +105,10 @@
     margin-bottom: 2rem;
     justify-content: center;
   }
-
+  .doubleDashs{
+    display: flex;
+    justify-content: center;
+  }
   .explainerArrow {
     width: 1rem;
     height: 1.5rem;
@@ -114,6 +116,13 @@
     padding-top: 0.25rem;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
+  }
+  .dashes{
+    position: relative;
+    display: inline-flex;
+    top: 2px;
+    width: 1rem;
+    height: 1rem;
   }
 
   .pillDataContainer {

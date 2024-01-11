@@ -538,6 +538,26 @@ export const mockDeficitHeroData = {
       record_calendar_year: '2021',
       record_fiscal_year: '2021',
     },
+    {
+      prior_fytd_net_outly_amt: '4511067070149.23',
+      current_fytd_net_outly_amt: '4511067070149.23',
+      record_calendar_month: '06',
+      record_calendar_year: '2022',
+      record_date: '2022-06-30',
+      record_fiscal_year: '2022',
+    },
+  ],
+};
+export const mockDeficitHeroData_noChange = {
+  data: [
+    {
+      prior_fytd_net_outly_amt: '4511067070149.23',
+      current_fytd_net_outly_amt: '4511067070149.23',
+      record_calendar_month: '06',
+      record_calendar_year: '2022',
+      record_date: '2022-06-30',
+      record_fiscal_year: '2022',
+    },
   ],
 };
 export const mockDeficitHeroDataOct = {
@@ -601,7 +621,6 @@ export const mockSpendingHeroData_decrease = {
     },
   ],
 };
-
 export const mockRevenueHeroData = {
   data: [
     {
