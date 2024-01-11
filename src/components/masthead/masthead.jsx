@@ -1,9 +1,11 @@
-import React from 'react';
-import { bannerCalloutContainer, pageHeader, mainWidth, pageTitle } from './masthead.module.scss';
+import React, { useEffect, useState } from 'react';
+import { bannerCalloutContainer, pageHeader, mainWidth, pageTitle, stickyHeader, stickyMainWidth } from './masthead.module.scss';
 import BreadCrumbs from '../breadcrumbs/breadcrumbs';
 import BannerCallout from '../banner-callout/banner-callout';
 
 const Masthead = ({ title, bannerCallout }) => {
+  const [stickyView, setStickyView] = useState(false);
+
   const breadCrumbLinks = [
     {
       name: title,
@@ -18,11 +20,25 @@ const Masthead = ({ title, bannerCallout }) => {
     },
   ];
 
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setStickyView(position > 100);
+    console.log(position);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <section className={pageHeader}>
-      <div className={mainWidth}>
+      <div className={`${mainWidth} ${stickyView ? stickyMainWidth : undefined}`}>
         <BreadCrumbs links={breadCrumbLinks} />
-        <h1 className={pageTitle}>{title}</h1>
+        <h1 className={`${pageTitle} ${stickyView ? stickyHeader : undefined}`}>{title}</h1>
         {bannerCallout && (
           <div className={bannerCalloutContainer} data-testid="callout">
             <BannerCallout

@@ -2,12 +2,20 @@
 
 .pageHeader {
   background-color: #f6f6f6;
+  position: sticky;
+  top: 1rem;
+  z-index: $dataset-detail-nav;
 }
+
 
 .mainWidth {
   max-width: $main-width;
   margin: 0 auto;
   padding: 1rem 0;
+
+  &.stickyMainWidth {
+    padding-bottom: 0;
+  }
 }
 
 .bannerCalloutContainer {
@@ -17,6 +25,13 @@
 .pageTitle {
   @include pageTitle;
   padding-bottom: 1rem;
+  transition: 0.25s;
+
+  &.stickyHeader {
+    font-size: $font-size-16;
+    padding: 0.5rem 0;
+    font-weight: normal;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
