@@ -84,6 +84,9 @@ const ApiDocumentationPage = ({ location }) => {
         () =>
           tocList.forEach(section => {
             section.target = true;
+            if (section.current) {
+              section.current = false;
+            }
           }),
         1000
       );
@@ -107,6 +110,7 @@ const ApiDocumentationPage = ({ location }) => {
 
     const section = tocList.find(s => s.title === title);
     section.target = true;
+    section.current = true;
     setLastScrollPosition(scrollPosition);
     setTocIsOpen(!tocIsOpen);
   }
@@ -135,7 +139,7 @@ const ApiDocumentationPage = ({ location }) => {
               return (
                 <div key={`toc${i}`}>
                   <Link
-                    className={`${link} ${d.headingLevel}`}
+                    className={`${link} ${d.headingLevel} ${d.target && d.current && activeLink}`}
                     data-test-id={`tocLink${i}`}
                     tabIndex={0}
                     activeClass={d.target ? activeLink : ''}
