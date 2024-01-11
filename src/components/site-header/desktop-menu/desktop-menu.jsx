@@ -19,14 +19,12 @@ const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropd
         if (pageLink.isExperimental) {
           return (
             <Experimental featureId={pageLink.featureId} key={pageLink.title}>
-              <div className={pageLinkButtonContainer}>
-                <div className={pageLinkButtonContent} style={{ minWidth: `${pageLink.title.length * 8 + 16}px` }}>
-                  <button className={pageLinkButton}>
-                    <Link to={pageLink.to} activeClassName={activeLink} data-testid={pageLink.testId}>
-                      {pageLink.title}
-                    </Link>
-                  </button>
-                </div>
+              <div className={pageLinkButtonContainer} style={{ minWidth: `${pageLink.title.length * 8 + 16}px` }}>
+                <button className={pageLinkButton}>
+                  <Link to={pageLink.to} activeClassName={activeLink} data-testid={pageLink.testId}>
+                    {pageLink.title}
+                  </Link>
+                </button>
               </div>
             </Experimental>
           );

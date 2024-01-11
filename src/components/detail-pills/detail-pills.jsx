@@ -1,6 +1,6 @@
 import React from 'react';
 import * as styles from './detail-pills.module.scss';
-import { faCalendarWeek, faCheckCircle, faFileCode, faSyncAlt, faTimesCircle, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarWeek, faSyncAlt, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { isAfter } from 'date-fns';
 import futureDateIcon from '../../images/futureDateIcon.svg';
@@ -10,7 +10,6 @@ const DetailPills = ({ techSpecs, dictionary }) => {
   const latestDate = techSpecs?.latestDate;
   const dateRange = earliestDate && latestDate ? `${earliestDate} — ${latestDate}` : undefined;
   const frequency = techSpecs?.updateFrequency || 'no frequency available';
-  const dataDictionaryText = dictionary ? 'data dictionary complete' : 'data dictionary incomplete';
   const lastUpdated = techSpecs?.lastUpdated || null;
   const latestDateParts = latestDate ? latestDate.split('/') : ['', '', ''];
   const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0, 0, 0), new Date());

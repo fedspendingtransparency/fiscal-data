@@ -15,12 +15,11 @@ import { faDollarSign, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classNames from 'classnames';
-import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper'
+import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 import { labelIcon } from '../../../layouts/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import Analytics from '../../../utils/analytics/analytics';
 
 let gaInfoTipTimer;
-let gaCurrencyTimer;
 let ga4Timer;
 
 interface ICurrencyEntryBox {
@@ -34,7 +33,7 @@ interface ICurrencyEntryBox {
   testId: string;
   header: string;
   tooltipDiplay: boolean;
-  tooltip: any;
+  tooltip;
 }
 
 const noNonNumericChar = event => {
@@ -113,7 +112,16 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
             />
           )}
         </div>
-        <div className={boxLabel}>{labelIcon('Current Currency', tooltip, "foreign-currency-info-tip", tooltipDiplay, () => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr'), handleInfoTipClose)}</div>
+        <div className={boxLabel}>
+          {labelIcon(
+            'Current Currency',
+            tooltip,
+            'foreign-currency-info-tip',
+            tooltipDiplay,
+            () => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr'),
+            handleInfoTipClose
+          )}
+        </div>
         {dropdown && options ? (
           <div className={comboCurrencySelection}>
             <ComboCurrencySelect

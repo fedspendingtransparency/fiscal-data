@@ -32,6 +32,7 @@ export const scrollOptions = {
   spy: false,
   duration: 0,
   delay: 0,
+  offset: 64,
 };
 
 export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
