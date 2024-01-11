@@ -78,7 +78,19 @@ const ApiDocumentationPage = ({ location }) => {
     }
   }, [tocIsOpen]);
 
-  function handleToggle(e, id) {
+  useEffect(() => {
+    if (scrollToId) {
+      setTimeout(
+        () =>
+          tocList.forEach(section => {
+            section.target = true;
+          }),
+        1000
+      );
+    }
+  }, [scrollToId]);
+
+  function handleToggle(e, id, title) {
     if (id) {
       setScrollToId(id);
       updateAddressPath(id, location);
@@ -89,6 +101,12 @@ const ApiDocumentationPage = ({ location }) => {
         Scroll.animateScroll.scrollTo(lastScrollPosition, scrollOptionsSmooth);
       }
     }
+    tocList.forEach(s => {
+      s.target = false;
+    });
+
+    const section = tocList.find(s => s.title === title);
+    section.target = true;
     setLastScrollPosition(scrollPosition);
     setTocIsOpen(!tocIsOpen);
   }
@@ -120,14 +138,14 @@ const ApiDocumentationPage = ({ location }) => {
                     className={`${link} ${d.headingLevel}`}
                     data-test-id={`tocLink${i}`}
                     tabIndex={0}
-                    activeClass={activeLink}
+                    activeClass={d.target ? activeLink : ''}
                     to={d.id}
                     smooth={true}
                     spy={true}
                     duration={600}
                     delay={200}
                     onClick={e => {
-                      handleToggle(e, d.id);
+                      handleToggle(e, d.id, d.title);
                     }}
                     offset={globalNavOffset}
                   >
