@@ -1,23 +1,23 @@
 /* istanbul ignore file */
 import React from 'react';
-import * as sectionStyles from '../../api-documentation/section-content/section-content.module.scss';
-import * as styles from '../../../pages/about-us/about-us.module.scss';
+import { sectionContainer } from '../../api-documentation/section-content/section-content.module.scss';
+import { title, list, noBullets, lastChild } from '../../../pages/about-us/about-us.module.scss';
 
 export const aboutUsComponents = {
   section: ({ children, sectionTitle, noList, ...props }) => (
-    <section className={`${sectionTitle ? styles.title : sectionStyles.sectionContainer} ${noList === true ? '' : styles.list}`} {...props}>
+    <section className={`${sectionTitle ? title : sectionContainer} ${noList === true ? '' : list}`} {...props}>
       {children}
     </section>
   ),
 };
 
 export const additionalContactsComponents = {
-  ul: ({ children }) => <ul className={styles.noBullets}>{children}</ul>,
+  ul: ({ children }) => <ul className={noBullets}>{children}</ul>,
 };
 
 export const subscribeComponents = {
   section: ({ children, ...props }) => (
-    <section className={`${sectionStyles.sectionContainer} ${styles.lastChild}`} {...props}>
+    <section className={`${sectionContainer} ${lastChild}`} {...props}>
       {children}
     </section>
   ),

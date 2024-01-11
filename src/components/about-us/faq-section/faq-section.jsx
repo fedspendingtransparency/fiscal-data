@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import React, { useEffect, useState } from 'react';
 import '../../../styles.scss';
-import * as styles from '../../../pages/about-us/about-us.module.scss';
+import { section, noBullets } from '../../../pages/about-us/about-us.module.scss';
 import GLOBALS from '../../../helpers/constants';
 import { graphql, useStaticQuery } from 'gatsby';
 import { MDXProvider } from '@mdx-js/react';
@@ -36,7 +36,7 @@ const FAQ = ({ triggerHighlight = 0 }) => {
   }, [triggerHighlight]);
 
   return (
-    <div className={`${styles.section} ${styles.noBullets}`}>
+    <div className={`${section} ${noBullets}`}>
       {faqMDX && faqMDX.mdx && faqMDX.mdx.body && (
         <FDGMdxProvider>
           <MDXProvider components={aboutUsComponents}>
