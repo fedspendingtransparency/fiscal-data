@@ -79,13 +79,14 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
       analyticsClickHandler(title);
     }
 
-    sections.forEach(s => {
-      s.target = false;
-    });
-
-    const section = sections.find(s => s.title === title);
-    section.target = true;
-    section.current = true;
+    if (title) {
+      sections.forEach(s => {
+        s.target = false;
+      });
+      const section = sections.find(s => s.title === title);
+      section.target = true;
+      section.current = true;
+    }
     // only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;

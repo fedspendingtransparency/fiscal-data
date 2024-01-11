@@ -20,8 +20,7 @@ import DataRegistry from '../../components/api-documentation/data-registry/data-
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import { scrollOptionsSmooth } from '../../utils/scroll-config';
 import { globalNavOffset } from '../../components/secondary-nav/secondary-nav';
-import { SecondaryNav } from '../../components/secondary-nav/secondary-nav';
-import { tocList } from './api-documentation-sections';
+import { tocList } from '../../helpers/api-documentation-sections';
 
 const ApiDocumentationPage = ({ location }) => {
   const breadCrumbLinks = [
@@ -108,9 +107,11 @@ const ApiDocumentationPage = ({ location }) => {
       s.target = false;
     });
 
-    const section = tocList.find(s => s.title === title);
-    section.target = true;
-    section.current = true;
+    if (title) {
+      const section = tocList.find(s => s.title === title);
+      section.target = true;
+      section.current = true;
+    }
     setLastScrollPosition(scrollPosition);
     setTocIsOpen(!tocIsOpen);
   }

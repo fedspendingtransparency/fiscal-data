@@ -54,9 +54,11 @@ const DDNav = () => {
       link.target = false;
     });
 
-    const link = linksArr.find(l => l.title === title);
-    link.target = true;
-    link.current = true;
+    if (title) {
+      const link = linksArr.find(l => l.title === title);
+      link.target = true;
+      link.current = true;
+    }
 
     //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {

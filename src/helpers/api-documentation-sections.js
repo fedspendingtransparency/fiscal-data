@@ -1,4 +1,4 @@
-import { headingLevel2, headingLevel3, headingLevel4 } from './api.module.scss';
+import { headingLevel2, headingLevel3, headingLevel4 } from '../pages/api-documentation/api.module.scss';
 export const tocList = [
   {
     index: 0,
