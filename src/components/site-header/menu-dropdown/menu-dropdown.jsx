@@ -153,7 +153,7 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
   };
 
   return (
-    <div className={dropdown} key={title} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} role={'button'} tabIndex={0}>
+    <div className={dropdown} key={title} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} role="button" tabIndex={0}>
       <div className={`${isExpanded ? dropdownButtonExpanded : null} ${dropdownButton}`} style={{ minWidth: `${title.length * 7.5 + 28}px` }}>
         {title}
         <FontAwesomeIcon icon={isExpanded ? faCaretDown : faCaretRight} className={caret} />
@@ -161,10 +161,10 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
       {isExpanded && (
         <div
           className={`${dropdownContent} ${toggleDropdown ? dropdownHidden : ''}`}
-          data-testid={'dropdownContent'}
+          data-testid="dropdownContent"
           onMouseLeave={handleMouseLeave}
           onBlur={e => handleBlur(e)}
-          role={'presentation'}
+          role="presentation"
         >
           {childLayout()}
         </div>

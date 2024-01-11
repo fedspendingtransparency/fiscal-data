@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import MobileMenu from './mobile-menu/mobile-menu';
 import { withWindowSize } from 'react-fns';
@@ -14,22 +14,34 @@ import ContentUnavailable from './banner-types/content-unavailable';
 import AnnouncementBanner from '../announcement-banner/announcement-banner';
 import { NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } from 'gatsby-env-variables';
 import CustomLink from '../links/custom-link/custom-link';
-import { bannerHeading, bannerContent, container, content, logo } from './site-header.module.scss';
+import { bannerHeading, bannerContent, container, content, logo, stickyHeader } from './site-header.module.scss';
+import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../variables.module.scss';
 
-const SiteHeader = ({ lowerEnvMsg, location }) => {
+//Additional export for page width testability
+export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
+  const defaultLogoWidth = 192;
+  const defaultLogoHeight = 55;
+  const reducedImageSize = 130;
+
   const [openGlossary, setOpenGlossary] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [imageWidth, setImageWidth] = useState(defaultLogoWidth);
 
   const displayBanner = () => {
     let display = false;
-    display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location.pathname);
-    NOTIFICATION_BANNER_DISPLAY_PATHS?.forEach(path => {
-      if (location.pathname.includes(path)) {
-        display = true;
-      }
-    });
+    if (location) {
+      display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location?.pathname);
+      NOTIFICATION_BANNER_DISPLAY_PATHS?.forEach(path => {
+        if (location?.pathname.includes(path)) {
+          display = true;
+        }
+      });
+    }
     return display;
   };
+
+  const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth;
 
   const glossaryCsv = useStaticQuery(
     graphql`
@@ -69,6 +81,20 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     });
   };
 
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    const newWidth = defaultLogoWidth - position;
+    setImageWidth(newWidth > reducedImageSize ? newWidth : reducedImageSize);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <>
       {displayBanner() && (
@@ -76,29 +102,38 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
           <ContentUnavailable />
         </AnnouncementBanner>
       )}
-      <header>
+      <header className={stickyHeader}>
         <OfficialBanner data-testid="officialBanner" />
         <div className={container}>
           <div className={content}>
-            <Link
-              role="img"
-              title="Return to home page"
-              alt="Fiscal Data Homepage"
-              data-testid="logo"
-              className={logo}
-              aria-label="Fiscal Data logo - return to home page"
-              to="/"
-              onClick={() => clickHandler('Logo')}
-              onFocus={() => setActiveDropdown(null)}
-            >
-              <StaticImage src="../../images/logos/fd-logo.svg" loading="eager" placeholder="none" alt="Fiscal Data logo" height={55} width={192} />
-            </Link>
+            <div style={width > pxToNumber(breakpointLg) ? { width: imageWidth + 'px' } : null} className={logo} data-testid="logoContainer">
+              <Link
+                role="img"
+                title="Return to home page"
+                alt="Fiscal Data Homepage"
+                data-testid="logo"
+                aria-label="Fiscal Data logo - return to home page"
+                to="/"
+                onClick={() => clickHandler('Logo')}
+                onFocus={() => setActiveDropdown(null)}
+              >
+                <StaticImage
+                  src="../../images/logos/fd-logo.svg"
+                  loading="eager"
+                  placeholder="none"
+                  alt="Fiscal Data logo"
+                  height={defaultLogoHeight}
+                  width={defaultLogoWidth}
+                />
+              </Link>
+            </div>
             <DesktopMenu
               location={location}
               glossaryClickHandler={setOpenGlossary}
               clickHandler={clickHandler}
               activeDropdown={activeDropdown}
               setActiveDropdown={setActiveDropdown}
+              buttonHeight={getButtonHeight(imageWidth) + 4}
             />
           </div>
           <Glossary termList={glossaryData} activeState={openGlossary} setActiveState={setOpenGlossary} />

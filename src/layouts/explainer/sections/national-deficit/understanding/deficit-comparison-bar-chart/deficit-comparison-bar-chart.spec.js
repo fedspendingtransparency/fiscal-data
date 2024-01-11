@@ -76,7 +76,7 @@ describe('Callout text', () => {
 
     const { getByText } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
     await waitFor(() => {
-      expect(getByText('not changed', { exact: false })).toBeInTheDocument();
+      expect(getByText('remaning unchanged', { exact: false })).toBeInTheDocument();
     });
   });
 });

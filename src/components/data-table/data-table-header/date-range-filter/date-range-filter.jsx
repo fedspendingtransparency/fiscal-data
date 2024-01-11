@@ -14,7 +14,6 @@ import {
   buttonContainer,
   datePickerButton,
   datePickerSelected,
-  datePickerToday,
   datePickerRangeMiddle,
   dateDivider,
   glow,

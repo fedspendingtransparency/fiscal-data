@@ -19,6 +19,7 @@ import { toc, content, link, activeLink, tocOpen, tocClosed, apiPageWrapper } fr
 import DataRegistry from '../../components/api-documentation/data-registry/data-registry';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import { scrollOptionsSmooth } from '../../utils/scroll-config';
+import { globalNavOffset } from '../../components/secondary-nav/secondary-nav';
 import { SecondaryNav } from '../../components/secondary-nav/secondary-nav';
 import { tocList } from './api-documentation-sections';
 
@@ -71,6 +72,7 @@ const ApiDocumentationPage = ({ location }) => {
         spy: true,
         duration: 600,
         delay: 200,
+        offset: globalNavOffset,
       });
       setScrollToId(null);
     }
@@ -127,6 +129,7 @@ const ApiDocumentationPage = ({ location }) => {
                     onClick={e => {
                       handleToggle(e, d.id);
                     }}
+                    offset={globalNavOffset}
                   >
                     {d.title}
                   </Link>

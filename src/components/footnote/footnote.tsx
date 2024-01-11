@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import * as styles from './footnote.module.scss';
+import { footnoteHeading, footnoteBody, footnoteContainer } from './footnote.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
 
 type FootnoteProps = {
@@ -19,12 +19,12 @@ type FootnoteProps = {
 
 const Footnote: FunctionComponent<FootnoteProps> = ({ footnotes, width = '80%' }): JSX.Element => {
   return (
-    <div className={styles.footnoteContainer} id="footnote" data-testid="footnote-section">
-      <h6 className={styles.footnoteHeading}>Footnotes</h6>
+    <div className={footnoteContainer} id="footnote" data-testid="footnote-section">
+      <h6 className={footnoteHeading}>Footnotes</h6>
       {footnotes &&
         footnotes.map((footnote, idx) => {
           return (
-            <div className={styles.footnoteBody} style={{ width: width }} key={idx} data-testid="footnote-item">
+            <div className={footnoteBody} style={{ width: width }} key={idx} data-testid="footnote-item">
               {footnote.anchors.map((anchor, index) => (
                 <sup>
                   <CustomLink url={`#${anchor.link}`} href={`#${anchor.link}`} key={index}>

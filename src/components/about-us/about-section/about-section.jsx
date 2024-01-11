@@ -2,7 +2,7 @@
 import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import '../../../styles.scss';
-import * as styles from '../../../pages/about-us/about-us.module.scss';
+import { section } from '../../../pages/about-us/about-us.module.scss';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import FDGMdxProvider from '../../../components/mdx/FDGMdxProvider';
 import { MDXProvider } from '@mdx-js/react';
@@ -20,7 +20,7 @@ const AboutUs = () => {
   return (
     <>
       {aboutSection && aboutSection.mdx && aboutSection.mdx.body && (
-        <section className={styles.section}>
+        <section className={section}>
           <FDGMdxProvider>
             <MDXProvider components={aboutUsComponents}>
               <MDXRenderer children={aboutSection.mdx.body} />
