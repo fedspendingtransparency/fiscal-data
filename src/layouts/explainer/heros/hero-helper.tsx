@@ -41,7 +41,7 @@ export const getPillData = (
     else {
       return (
         <div className={doubleDashs}>
-          <img src={doubleDash} alt="An open book with a coin above the pages." className={dashes} />
+          <img src={doubleDash} alt="double dash" className={dashes} />
         </div>
       ) 
     }
