@@ -51,6 +51,7 @@
 
     link {
       color: #0071bc;
+
       &:hover {
         font-weight: $semi-bold-weight;
       }
@@ -94,9 +95,11 @@
     flex-flow: row nowrap;
     justify-content: center;
     gap: 6rem;
-  }
 
-  .resourcesDropDown {
+    button {
+      margin-bottom: 0.5rem;
+      padding: 0;
+    }
   }
 
   .dropdownColumnOne {
@@ -121,5 +124,7 @@
   .dropdownListItem {
     margin-bottom: 0.5rem;
     font-size: $font-size-16;
+    display: flex;
+    align-items: center;
   }
 }
