@@ -219,7 +219,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                     tabIndex={0}
                     to={s.id}
                     smooth
-                    spy={true}
+                    spy
                     duration={scrollDuration}
                     delay={scrollDelay}
                     onClick={() => handleInteraction(null, s.id, s.title)}

@@ -14,6 +14,34 @@ const scrollOptions = {
   offset: -36,
 };
 
+const linksArr = [
+  {
+    title: 'Introduction',
+    id: 'introduction',
+    target: true,
+  },
+  {
+    title: 'Preview & Download',
+    id: 'preview-and-download',
+    target: true,
+  },
+  {
+    title: 'Dataset Properties',
+    id: 'dataset-properties',
+    target: true,
+  },
+  {
+    title: 'API Quick Guide',
+    id: 'api-quick-guide',
+    target: true,
+  },
+  {
+    title: 'Related Datasets',
+    id: 'related-datasets',
+    target: true,
+  },
+];
+
 const DDNav = () => {
   const [hover, setHover] = useState(null);
   const [scrollToId, setScrollToId] = useState(null);
@@ -21,36 +49,19 @@ const DDNav = () => {
   const [isClickInitiatedScroll, setIsClickInitiatedScroll] = useState(false);
   const navRef = useRef(null);
 
-  const linksArr = [
-    {
-      title: 'Introduction',
-      id: 'introduction',
-    },
-    {
-      title: 'Preview & Download',
-      id: 'preview-and-download',
-    },
-    {
-      title: 'Dataset Properties',
-      id: 'dataset-properties',
-    },
-    {
-      title: 'API Quick Guide',
-      id: 'api-quick-guide',
-    },
-    {
-      title: 'Related Datasets',
-      id: 'related-datasets',
-    },
-  ];
+  const handleInteraction = (e, id, title) => {
+    linksArr.forEach(link => {
+      link.target = false;
+    });
 
+    const link = linksArr.find(l => l.title === title);
+    link.target = true;
 
-  const handleInteraction = (e, id) => {
     //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;
     }
-    
+
     if (id) {
       updateAddressPath(id, window.location);
       setHover(null);
@@ -59,11 +70,10 @@ const DDNav = () => {
     }
   };
 
-  const onSetActive = (id) => {
-    if (!isClickInitiatedScroll){
+  const onSetActive = id => {
+    if (!isClickInitiatedScroll) {
       setActiveSection(id);
     }
-
   };
 
   const updateScrollBarPosition = () => {
@@ -78,23 +88,31 @@ const DDNav = () => {
 
   useEffect(() => {
     updateScrollBarPosition();
-  }, [activeSection]); 
+  }, [activeSection]);
 
   useEffect(() => {
-    if(!activeSection && navRef.current){
+    if (!activeSection && navRef.current) {
       setActiveSection(null);
       navRef.current.scrollLeft = 0;
     }
-  }, [activeSection]); 
+  }, [activeSection]);
 
   useEffect(() => {
+    if (scrollToId) {
+      setTimeout(
+        () =>
+          linksArr.forEach(link => {
+            link.target = true;
+          }),
+        1000
+      );
+    }
+
     if (scrollToId && isClickInitiatedScroll) {
       scroller.scrollTo(scrollToId, scrollOptions);
       setIsClickInitiatedScroll(false);
     }
   }, [scrollToId, isClickInitiatedScroll]);
-
-
 
   return (
     <section id={container}>
@@ -109,9 +127,9 @@ const DDNav = () => {
                 aria-label={`Jump to ${d.title} section`}
                 to={d.id}
                 onSetActive={onSetActive}
-                activeClass={activeMenu}
-                onClick={() => handleInteraction(null, d.id)}
-                onKeyDown={e => handleInteraction(e, d.id)}
+                activeClass={d.target ? activeMenu : ''}
+                onClick={() => handleInteraction(null, d.id, d.title)}
+                onKeyDown={e => handleInteraction(e, d.id, d.title)}
                 tabIndex={0}
                 onMouseEnter={() => setHover(d.id)}
                 onMouseLeave={() => setHover(null)}
