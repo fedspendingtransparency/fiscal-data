@@ -18,7 +18,7 @@ export const SetNoChartMessage = (
   if (allTablesSelected) {
     return <NotShownMessage heading='With the current "All Data Tables" selection, we are unable to render a Table or Chart at this time.' />;
   } else if (dataDisplays && dataDisplays.every(dd => dd.chartType === 'none')) {
-    if (customNotShownMessage) {
+    if (customNotShownMessage && selectedTable.apiId !== 141) {
       const copy = (
         <>
           The Fiscal Data team is working to address an issue with the charts for this dataset. Please check back later or contact us via email at{' '}

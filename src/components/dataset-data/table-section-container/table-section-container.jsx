@@ -191,7 +191,6 @@ const TableSectionContainer = ({
   const pivotToggler = () => {
     setShowPivotBar(!showPivotBar);
   };
-
   const getDateFieldForChart = () => {
     if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn && selectedPivot.pivotView.aggregateOn.length) {
       return 'CHART_DATE'; // aggregation cases in pivoted data this only for charting calculation
@@ -214,10 +213,10 @@ const TableSectionContainer = ({
         allTablesSelected,
         userFilterSelection,
         userFilterUnmatched,
-        config.customNoChartMessage
+        config?.customNoChartMessage
       )
     );
-  }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData]);
+  }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData, config?.customNoChartMessage]);
 
   return (
     <div data-test-id="table-container">
