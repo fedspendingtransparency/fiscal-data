@@ -2,6 +2,7 @@ import NotShownMessage from './not-shown-message/not-shown-message';
 import { differenceInHours } from 'date-fns';
 import React from 'react';
 import { getMessageForUnmatchedUserFilter } from '../../filter-download-container/user-filter/user-filter';
+import CustomLink from '../../links/custom-link/custom-link';
 
 export const SetNoChartMessage = (
   selectedTable,
@@ -9,14 +10,25 @@ export const SetNoChartMessage = (
   dateRange,
   allTablesSelected,
   userFilterSelection,
-  userFilterUnmatchedForDateRange
+  userFilterUnmatchedForDateRange,
+  customNotShownMessage
 ) => {
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
   if (allTablesSelected) {
     return <NotShownMessage heading='With the current "All Data Tables" selection, we are unable to render a Table or Chart at this time.' />;
   } else if (dataDisplays && dataDisplays.every(dd => dd.chartType === 'none')) {
-    return <NotShownMessage heading="There are no charts for this Data Table." />;
+    if (customNotShownMessage && selectedTable.apiId !== 141) {
+      const copy = (
+        <>
+          The Fiscal Data team is working to address an issue with the charts for this dataset. Please check back later or contact us via email at{' '}
+          <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">fiscaldata@fiscal.treasury.gov</CustomLink> with questions.
+        </>
+      );
+      return <NotShownMessage heading="This chart is undergoing updates" bodyText={copy} />;
+    } else {
+      return <NotShownMessage heading="There are no charts for this Data Table." />;
+    }
   } else if (selectedPivot && pivotView && pivotView.chartType === 'none') {
     return (
       <NotShownMessage

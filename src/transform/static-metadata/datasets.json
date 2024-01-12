@@ -136,7 +136,8 @@
       "015-BFS-2014Q1-03",
       "015-BFS-2014Q3-065"
     ],
-    "currentDateButton": "byMonth"
+    "currentDateButton": "byMonth",
+    "customNoChartMessage": true
   },
   "015-BFS-2014Q1-13": {
     "slug": "/monthly-treasury-statement/",
@@ -190,7 +191,8 @@
       "015-BFS-2014Q1-11",
       "015-BFS-2014Q1-13"
     ],
-    "currentDateButton": "byMonth"
+    "currentDateButton": "byMonth",
+    "customNoChartMessage": true
   },
   "015-BFS-2014Q1-04": {
     "slug": "/treasury-reporting-rates-exchange/",
