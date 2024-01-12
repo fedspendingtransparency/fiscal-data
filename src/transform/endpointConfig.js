@@ -7,6 +7,7 @@ const endpointConfig = {
       {
         title: 'By Security Type',
         dimensionField: 'security_type_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_type_desc',
@@ -26,6 +27,7 @@ const endpointConfig = {
       {
         title: 'By Marketable',
         dimensionField: 'security_type_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_type_desc',
@@ -56,6 +58,7 @@ const endpointConfig = {
       {
         title: 'By Nonmarketable',
         dimensionField: 'security_type_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_type_desc',
@@ -257,6 +260,7 @@ const endpointConfig = {
       {
         title: 'By Debt Limit Class 1',
         dimensionField: 'debt_limit_class1_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'debt_limit_class1_desc',
@@ -620,6 +624,7 @@ const endpointConfig = {
       {
         title: 'By Security Class',
         dimensionField: 'security_class_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class_desc',
@@ -639,6 +644,7 @@ const endpointConfig = {
       {
         title: 'By Security Class',
         dimensionField: 'security_class1_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class2_desc',
@@ -735,6 +741,7 @@ const endpointConfig = {
       {
         title: 'Total Increases and Decreases',
         dimensionField: 'debt_holder_type',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class2_desc',
@@ -746,6 +753,7 @@ const endpointConfig = {
       {
         title: 'Debt Held by the Public Increases',
         dimensionField: 'security_class2_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'debt_holder_type',
@@ -762,6 +770,7 @@ const endpointConfig = {
       {
         title: 'Intragovernmental Debt Holdings Increases',
         dimensionField: 'security_class2_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'debt_holder_type',
@@ -778,6 +787,7 @@ const endpointConfig = {
       {
         title: 'Debt Held by the Public Decreases',
         dimensionField: 'security_class2_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'debt_holder_type',
@@ -794,6 +804,7 @@ const endpointConfig = {
       {
         title: 'Intragovernmental Debt Holdings Decreases',
         dimensionField: 'security_class2_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'debt_holder_type',
@@ -818,6 +829,7 @@ const endpointConfig = {
       {
         title: 'By Security Class',
         dimensionField: 'security_class1_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class2_desc',
@@ -838,6 +850,7 @@ const endpointConfig = {
       {
         title: 'Bonds by Maturity',
         dimensionField: 'security_class2_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class2_desc',
@@ -849,6 +862,7 @@ const endpointConfig = {
       {
         title: 'Inflation-Protected Securities by Class',
         dimensionField: 'security_class2_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class2_desc',
@@ -862,6 +876,7 @@ const endpointConfig = {
       {
         title: 'Notes by Maturity',
         dimensionField: 'security_class2_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class2_desc',
@@ -881,6 +896,7 @@ const endpointConfig = {
       {
         title: 'By Security Class',
         dimensionField: 'security_class1_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class1_desc',
@@ -905,6 +921,7 @@ const endpointConfig = {
       {
         title: 'Zero-coupon Treasury Bonds by Series',
         dimensionField: 'security_class1_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class2_desc',
@@ -929,6 +946,7 @@ const endpointConfig = {
       {
         title: 'Foreign Series Bills',
         dimensionField: 'security_class1_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class1_desc',
@@ -951,6 +969,7 @@ const endpointConfig = {
       {
         title: 'Government Account Series',
         dimensionField: 'security_class2_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class1_desc',
@@ -982,6 +1001,7 @@ const endpointConfig = {
       {
         title: 'Other Debt Not Subject to Limit',
         dimensionField: 'security_class3_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class1_desc',
@@ -1003,6 +1023,7 @@ const endpointConfig = {
       {
         title: 'Other Debt Subject to Limit',
         dimensionField: 'security_class3_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class1_desc',
@@ -1024,6 +1045,7 @@ const endpointConfig = {
       {
         title: 'State and Local Government Series',
         dimensionField: 'security_class2_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class1_desc',
@@ -1052,6 +1074,7 @@ const endpointConfig = {
       {
         title: 'U.S. Savings Securities by Class',
         dimensionField: 'security_class2_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class1_desc',
@@ -1078,6 +1101,7 @@ const endpointConfig = {
       {
         title: 'U.S. Savings Securities by Maturity',
         dimensionField: 'security_class1_desc',
+        chartType: 'none',
         filters: [
           {
             key: 'security_class1_desc',
