@@ -20,10 +20,10 @@ export const SetNoChartMessage = (
   } else if (dataDisplays && dataDisplays.every(dd => dd.chartType === 'none')) {
     if (customNotShownMessage) {
       const copy = (
-        <div>
+        <>
           The Fiscal Data team is working to address an issue with the charts for this dataset. Please check back later or contact us via email at{' '}
           <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">fiscaldata@fiscal.treasury.gov</CustomLink> with questions.
-        </div>
+        </>
       );
       return <NotShownMessage bodyText={copy} />;
     } else {
