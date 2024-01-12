@@ -19,6 +19,7 @@ describe('setNoChartMessage helper', () => {
     expect(notShownMessage.props.bodyText.props.children[0]).toContain(
       'The Fiscal Data team is working to address an issue with the charts for this dataset.'
     );
+    expect(notShownMessage.props.heading).toEqual('This chart is undergoing updates');
   });
 
   it('returns a date range too narrow message when the selected date range spans no more than a day', async () => {
