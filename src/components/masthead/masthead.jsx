@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { breadCrumb, pageHeader, mainWidth, pageTitle, stickyHeader, stickyMainWidth } from './masthead.module.scss';
+import { breadCrumb, pageHeader, mainWidth, pageTitle, stickyHeader, breadCrumbBackground, stickyMainWidth } from './masthead.module.scss';
 import BreadCrumbs from '../breadcrumbs/breadcrumbs';
 
 const Masthead = ({ title }) => {
@@ -35,8 +35,10 @@ const Masthead = ({ title }) => {
 
   return (
     <>
-      <div className={breadCrumb}>
-        <BreadCrumbs links={breadCrumbLinks} />
+      <div className={breadCrumbBackground}>
+        <div className={breadCrumb}>
+          <BreadCrumbs links={breadCrumbLinks} />
+        </div>
       </div>
       <section className={pageHeader}>
         <div className={`${mainWidth} ${stickyView ? stickyMainWidth : undefined}`}>
