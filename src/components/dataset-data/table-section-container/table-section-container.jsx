@@ -206,7 +206,17 @@ const TableSectionContainer = ({
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
 
-    setNoChartMessage(SetNoChartMessage(selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilterUnmatched));
+    setNoChartMessage(
+      SetNoChartMessage(
+        selectedTable,
+        selectedPivot,
+        dateRange,
+        allTablesSelected,
+        userFilterSelection,
+        userFilterUnmatched,
+        config.customNoChartMessage
+      )
+    );
   }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData]);
 
   return (
