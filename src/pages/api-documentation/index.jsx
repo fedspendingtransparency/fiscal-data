@@ -92,7 +92,7 @@ const ApiDocumentationPage = ({ location }) => {
     }
   }, [scrollToId]);
 
-  function handleToggle(e, id, title) {
+  function handleToggle(e, id) {
     if (id) {
       setScrollToId(id);
       updateAddressPath(id, location);
@@ -107,8 +107,8 @@ const ApiDocumentationPage = ({ location }) => {
       s.target = false;
     });
 
-    if (title) {
-      const section = tocList.find(s => s.title === title);
+    if (id) {
+      const section = tocList.find(s => s.id === id);
       section.target = true;
       section.current = true;
     }
@@ -150,7 +150,7 @@ const ApiDocumentationPage = ({ location }) => {
                     duration={600}
                     delay={200}
                     onClick={e => {
-                      handleToggle(e, d.id, d.title);
+                      handleToggle(e, d.id);
                     }}
                     offset={globalNavOffset}
                   >
@@ -159,7 +159,6 @@ const ApiDocumentationPage = ({ location }) => {
                 </div>
               );
             })}
-            {/*<SecondaryNav sections={tocList} activeClass={activeLink} />*/}
           </div>
         </div>
         <div id={content} className={toggleStyles}>

@@ -49,23 +49,19 @@ const DDNav = () => {
   const [isClickInitiatedScroll, setIsClickInitiatedScroll] = useState(false);
   const navRef = useRef(null);
 
-  const handleInteraction = (e, id, title) => {
-    linksArr.forEach(link => {
-      link.target = false;
-    });
-
-    if (title) {
-      const link = linksArr.find(l => l.title === title);
-      link.target = true;
-      link.current = true;
-    }
-
+  const handleInteraction = (e, id) => {
     //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;
     }
 
     if (id) {
+      linksArr.forEach(link => {
+        link.target = false;
+      });
+      const link = linksArr.find(l => l.id === id);
+      link.target = true;
+      link.current = true;
       updateAddressPath(id, window.location);
       setHover(null);
       setIsClickInitiatedScroll(true);
@@ -134,8 +130,8 @@ const DDNav = () => {
                 to={d.id}
                 onSetActive={onSetActive}
                 activeClass={d.target ? activeMenu : ''}
-                onClick={() => handleInteraction(null, d.id, d.title)}
-                onKeyDown={e => handleInteraction(e, d.id, d.title)}
+                onClick={() => handleInteraction(null, d.id)}
+                onKeyDown={e => handleInteraction(e, d.id)}
                 tabIndex={0}
                 onMouseEnter={() => setHover(d.id)}
                 onMouseLeave={() => setHover(null)}
