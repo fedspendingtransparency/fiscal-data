@@ -22,7 +22,7 @@ const Masthead = ({ title, bannerCallout }) => {
 
   const handleScroll = () => {
     const position = window.pageYOffset;
-    setStickyView(position > 100);
+    setStickyView(position > 120);
     console.log(position);
   };
 

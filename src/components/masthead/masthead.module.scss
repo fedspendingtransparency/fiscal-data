@@ -5,6 +5,8 @@
   position: sticky;
   top: 1rem;
   z-index: $dataset-detail-nav;
+  height: 142px;
+
 }
 
 
@@ -12,7 +14,6 @@
   max-width: $main-width;
   margin: 0 auto;
   padding: 1rem 0;
-
   &.stickyMainWidth {
     padding-bottom: 0;
   }
