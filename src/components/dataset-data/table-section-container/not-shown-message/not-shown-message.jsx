@@ -11,11 +11,9 @@ const NotShownMessage = ({ heading, bodyText }) => {
           <FontAwesomeIcon icon={faInfoCircle} />
         </div>
         <div>
-          {heading && (
-            <div className={notShownHeading} data-testid="heading">
-              {heading}
-            </div>
-          )}
+          <div className={notShownHeading} data-testid="heading">
+            {heading}
+          </div>
           <div className={notShownBodyText} data-testid="bodyText">
             {bodyText}
           </div>

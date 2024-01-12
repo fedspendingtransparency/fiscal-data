@@ -25,7 +25,7 @@ export const SetNoChartMessage = (
           <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">fiscaldata@fiscal.treasury.gov</CustomLink> with questions.
         </>
       );
-      return <NotShownMessage bodyText={copy} />;
+      return <NotShownMessage heading="This chart is undergoing updates" bodyText={copy} />;
     } else {
       return <NotShownMessage heading="There are no charts for this Data Table." />;
     }
