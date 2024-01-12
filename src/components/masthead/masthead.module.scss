@@ -4,12 +4,15 @@
   position: sticky;
   top: -.25rem;
   z-index: $dataset-detail-nav;
-  height: 92px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   background-color: #f6f6f6;
   margin: 0 auto;
+}
+
+.stickyHeight {
+  height: 92px;
 }
 
 .breadCrumb {
@@ -49,11 +52,14 @@
   &.stickyHeader {
     font-size: $font-size-16;
     font-weight: normal;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
   }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .mainWidth {
-    padding: 1rem;
+    padding: 1rem 0;
   }
 }
