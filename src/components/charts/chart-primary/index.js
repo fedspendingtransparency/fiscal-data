@@ -244,14 +244,14 @@ const onFieldUpdates = fieldList => {
   container.selectAll('.domain').raise();
 };
 
-const onUpdateChartWidth = (ref, _fields, _visibleFields) => {
+const onUpdateChartWidth = (ref, _visibleFields) => {
   el = ref;
   setContainer();
-  scales = setScales(_fields);
+  scales = setScales(fields);
   y = setAxes(container, scales, chartDimensions, dataType);
-  draw(container, scales, _fields, _visibleFields);
+  draw(container, scales, fields, _visibleFields);
   setTooltips();
-};
+}
 
 const setContainer = () => {
   const parentSelection = d3.select(el);

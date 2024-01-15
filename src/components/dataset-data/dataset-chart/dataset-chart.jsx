@@ -20,8 +20,8 @@ import {
 
 export let chartHooks;
 export const callbacks = {
-  onHover: (on, item) => {
-    if (chartHooks.onHover) {
+  onHover: (on, item, hasUpdates) => {
+    if (hasUpdates) {
       chartHooks.onHover(on, item.field);
     }
   },
@@ -73,6 +73,7 @@ export const dataTableChartNotesText =
 const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPivot, dateField, dateRange }) => {
   const [chartFields, setChartFields] = useState([]);
   const [chartNotes, setChartNotes] = useState(null);
+  const [hasUpdate, setHasUpdate] = useState(true);
 
   const viz = useRef();
 
@@ -149,6 +150,11 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
     }
   }, [isVisible, data]);
 
+  const hanldeLableChange = update => {
+    setHasUpdate(update.length > 0);
+    callbacks.onLabelChange(update, chartFields, setChartFields);
+  }
+
   const getVisibleChartFields = arr => arr.filter(f => f.active).map(ff => ff.field);
 
   const getActiveChartFields = arr => arr.filter(f => f.active);
@@ -171,8 +177,8 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
               isVisible={isVisible}
               fields={chartFields}
               // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
-              onHover={(on, item) => callbacks.onHover(on, item)}
-              onLabelChange={update => callbacks.onLabelChange(update, chartFields, setChartFields)}
+              onHover={(on, item) => callbacks.onHover(on, item, hasUpdate)}
+              onLabelChange={hanldeLableChange}
             />
           </div>
         </div>
