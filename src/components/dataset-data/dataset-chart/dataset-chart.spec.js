@@ -10,13 +10,9 @@ jest.mock('../../charts/chart-primary', () => () => {
     __esModule: true,
     default: jest.fn(),
     onUpdateChartWidth: jest.fn(),
-    chartHooks: {
-      onHover: jest.fn()
-    }
   };
 });
 jest.useFakeTimers();
-
 
 const mockDateField = 'reporting_date';
 

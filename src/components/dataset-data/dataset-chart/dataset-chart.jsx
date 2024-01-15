@@ -21,7 +21,7 @@ import {
 export let chartHooks;
 export const callbacks = {
   onHover: (on, item, hasUpdates) => {
-    if (hasUpdates) {
+    if (chartHooks.onHover && hasUpdates) {
       chartHooks.onHover(on, item.field);
     }
   },
