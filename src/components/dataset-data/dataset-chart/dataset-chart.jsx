@@ -111,19 +111,23 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
       setChartNotes(null);
     }
   }, []);
-
+  const getVisibleChartFields = arr => arr.filter(f => f.active).map(ff => ff.field);
+  const getActiveChartFields = arr => arr.filter(f => f.active);
+  const activeChartFields = getActiveChartFields(chartFields);
   useEffect(() => {
     if (chartHooks && isVisible) {
-      chartHooks.onUpdateChartWidth(viz.current, getVisibleChartFields(chartFields));
+      chartHooks.onUpdateChartWidth(viz.current, activeChartFields, getVisibleChartFields(chartFields));
     }
   }, [legend, window.innerWidth]);
 
   useEffect(() => {
     if (chartHooks && isVisible) {
-      const activeChartFields = getActiveChartFields(chartFields);
+
+      const nonActiveChartFields = getVisibleChartFields(chartFields);
+      console.log('fieldsss ',activeChartFields, nonActiveChartFields)
       chartHooks.onUpdateChartWidth(
         viz.current,
-        chartFields.map(f => f.field),
+        nonActiveChartFields.map(f => f.field),
         activeChartFields.map(f => f.field)
       );
       callbacks.onLabelChange(activeChartFields, chartFields, setChartFields);
@@ -154,10 +158,6 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
     setHasUpdate(update.length > 0);
     callbacks.onLabelChange(update, chartFields, setChartFields);
   }
-
-  const getVisibleChartFields = arr => arr.filter(f => f.active).map(ff => ff.field);
-
-  const getActiveChartFields = arr => arr.filter(f => f.active);
 
   return (
     <div className={`${chartArea} ${legend ? legendActive : ''}`}>

@@ -8,6 +8,7 @@ import { line } from 'd3-shape';
 import { interpolateNumber } from 'd3-interpolate';
 import setAxes from './setAxes';
 import initTooltip from './tooltip';
+import { fieldOption } from '../../dataset-data/table-section-container/dynamic-config/dynamicConfig.module.scss';
 
 const d3 = {
   select,
@@ -244,10 +245,10 @@ const onFieldUpdates = fieldList => {
   container.selectAll('.domain').raise();
 };
 
-const onUpdateChartWidth = (ref, _visibleFields) => {
+const onUpdateChartWidth = (ref, _fields, _visibleFields) => {
   el = ref;
   setContainer();
-  scales = setScales(fields);
+  scales = setScales(_fields);
   y = setAxes(container, scales, chartDimensions, dataType);
   draw(container, scales, fields, _visibleFields);
   setTooltips();
