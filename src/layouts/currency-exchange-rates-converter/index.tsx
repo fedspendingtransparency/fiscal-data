@@ -171,10 +171,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   useEffect(() => {
     if (data && sortedCurrencies.length > 0 && selectedDate) {
       const currencyOptions = sortedCurrencies.map(currency => {
-        const rate = data.find(record => 
-          record.country_currency_desc === currency.label
-          && record.record_date === selectedDate.value
-          && record.record_date === record.effective_date);
+        const rate = data.find(
+          record =>
+            record.country_currency_desc === currency.label &&
+            record.record_date === selectedDate.value &&
+            record.record_date === record.effective_date
+        );
         return {
           label: currency.label,
           value: rate ? rate : '',
@@ -185,33 +187,32 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, [selectedDate, sortedCurrencies, data]);
 
-    const useHandleChangeUSDollar = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (!selectedDate){
-        setInputWarning(true);
-        return;
-      }
-      else {
-        setInputWarning(false);
-      }
-      clearTimeout(gaCurrencyTimer);
-      let product: number | string;
-      if (event.target.value === '') {
-        setNonUSCurrencyExchangeValue('');
-      }
-      setUSDollarValue(event.target.value)
+  const useHandleChangeUSDollar = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!selectedDate) {
+      setInputWarning(true);
+      return;
+    } else {
+      setInputWarning(false);
+    }
+    clearTimeout(gaCurrencyTimer);
+    let product: number | string;
+    if (event.target.value === '') {
+      setNonUSCurrencyExchangeValue('');
+    }
+    setUSDollarValue(event.target.value);
 
-      if (!isNaN(parseFloat(event.target.value))) {
-        gaCurrencyTimer = setTimeout(() => {
-          analyticsHandler('USD Value Entered', event.target.value);
-        }, 3000);
+    if (!isNaN(parseFloat(event.target.value))) {
+      gaCurrencyTimer = setTimeout(() => {
+        analyticsHandler('USD Value Entered', event.target.value);
+      }, 3000);
 
-        product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
-        product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
-      }
-      if (!isNaN(product as number)) {
-        setNonUSCurrencyExchangeValue(product.toString());
-      }
-    };
+      product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
+      product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
+    }
+    if (!isNaN(product as number)) {
+      setNonUSCurrencyExchangeValue(product.toString());
+    }
+  };
 
   const handleChangeNonUSCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
     clearTimeout(gaCurrencyTimer);
@@ -236,8 +237,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     setSelectedDate(selectedDateOption);
     if (selectedDateOption) {
       const newCurrency = data.find(
-        record => record.country_currency_desc === nonUSCurrency.country_currency_desc 
-        && record.record_date === selectedDateOption.value && record.record_date === record.effective_date
+        record =>
+          record.country_currency_desc === nonUSCurrency.country_currency_desc &&
+          record.record_date === selectedDateOption.value &&
+          record.record_date === record.effective_date
       );
 
       if (newCurrency) {
@@ -259,8 +262,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setInputWarning(false);
       return;
     }
-    const newCurrency = data.find(record => record.country_currency_desc === selectedCurrency.label 
-      && record.record_date === selectedDate?.value && record.record_date === record.effective_date);
+    const newCurrency = data.find(
+      record =>
+        record.country_currency_desc === selectedCurrency.label &&
+        record.record_date === selectedDate?.value &&
+        record.record_date === record.effective_date
+    );
 
     if (newCurrency) {
       setNonUSCurrency(newCurrency);
@@ -348,7 +355,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             1.00 U.S. Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
           </span>
         )}
-        {inputWarning && <BannerCallout bannerCallout={XRWarningBanner} bannerType="warning" />}
+        {inputWarning && <BannerCallout bannerCallout={XRWarningBanner} bannerType="warningXR" />}
         <span className={footer}>
           The Currency Exchange Rates Converter tool is powered by the{' '}
           <CustomLink
