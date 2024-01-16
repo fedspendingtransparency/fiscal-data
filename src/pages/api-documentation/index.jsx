@@ -61,12 +61,7 @@ const ApiDocumentationPage = ({ location }) => {
     };
   }, []);
 
-  // The below useEffect block handles the active section scroll interaction.
-  // When the user clicks on a section to scroll to in the nav, all sections save for the selected one have target set to false.
-  // This ensures that the active class is only applied to the selected section. The current selected section is also tracked via the 'current'
-  // property. This property ensures the active styling can be applied to the section BEFORE the scroll to that section has completed.
-  // Finally, on scroll end the target property is set to true for all sections, ensuring the active class is properly applied when the
-  // user scrolls normally.
+  // For more info on the below useEffect, refer to comments made in secondary-nav.tsx
   useEffect(() => {
     Events.scrollEvent.register('begin', to => {
       tocList.forEach(s => {

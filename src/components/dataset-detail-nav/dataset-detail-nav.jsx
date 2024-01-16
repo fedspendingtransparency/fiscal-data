@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { container, menu, activeMenu, desktopLinks, content, hoverMenu } from './dataset-detail-nav.module.scss';
-import { Link, scroller } from 'react-scroll';
+import { Link, scrollSpy, Events, animateScroll, scroller } from 'react-scroll';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import globalConstants from '../../helpers/constants';
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
@@ -49,6 +49,41 @@ const DDNav = () => {
   const [isClickInitiatedScroll, setIsClickInitiatedScroll] = useState(false);
   const navRef = useRef(null);
 
+  // For more info on the below useEffect, refer to comments made in secondary-nav.tsx
+  useEffect(() => {
+    Events.scrollEvent.register('begin', to => {
+      linksArr.forEach(s => {
+        s.target = false;
+      });
+
+      if (to) {
+        const section = linksArr.find(s => s.id === to);
+        section.target = true;
+        section.current = true;
+      }
+    });
+
+    Events.scrollEvent.register('end', () => {
+      setTimeout(() => {
+        linksArr.forEach(section => {
+          if (!section.target) {
+            section.target = true;
+          }
+          if (section.current) {
+            section.current = false;
+          }
+        });
+      }, 100);
+    });
+
+    scrollSpy.update();
+
+    return () => {
+      Events.scrollEvent.remove('begin');
+      Events.scrollEvent.remove('end');
+    };
+  }, []);
+
   const handleInteraction = (e, id) => {
     //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
@@ -56,12 +91,6 @@ const DDNav = () => {
     }
 
     if (id) {
-      linksArr.forEach(link => {
-        link.target = false;
-      });
-      const link = linksArr.find(l => l.id === id);
-      link.target = true;
-      link.current = true;
       updateAddressPath(id, window.location);
       setHover(null);
       setIsClickInitiatedScroll(true);
@@ -97,19 +126,6 @@ const DDNav = () => {
   }, [activeSection]);
 
   useEffect(() => {
-    if (scrollToId) {
-      setTimeout(
-        () =>
-          linksArr.forEach(link => {
-            link.target = true;
-            if (link.current) {
-              link.current = false;
-            }
-          }),
-        1000
-      );
-    }
-
     if (scrollToId && isClickInitiatedScroll) {
       scroller.scrollTo(scrollToId, scrollOptions);
       setIsClickInitiatedScroll(false);

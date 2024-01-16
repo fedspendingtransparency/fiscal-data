@@ -22,7 +22,6 @@ import {
 } from './secondary-nav.module.scss';
 import globalConstants from '../../helpers/constants';
 import Analytics from '../../utils/analytics/analytics';
-import { tocList } from '../../helpers/api-documentation-sections';
 
 export const scrollDelay: number = globalConstants.config.smooth_scroll.delay;
 export const scrollDuration: number = globalConstants.config.smooth_scroll.duration;
