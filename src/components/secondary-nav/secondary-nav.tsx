@@ -141,8 +141,10 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
 
       if (to) {
         const section = sections.find(s => s.id === to);
-        section.target = true;
-        section.current = true;
+        if (section) {
+          section.target = true;
+          section.current = true;
+        }
       }
     });
 

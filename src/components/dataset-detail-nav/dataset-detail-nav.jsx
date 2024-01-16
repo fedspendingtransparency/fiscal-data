@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { container, menu, activeMenu, desktopLinks, content, hoverMenu } from './dataset-detail-nav.module.scss';
-import { Link, scrollSpy, Events, animateScroll, scroller } from 'react-scroll';
+import { Link, scrollSpy, Events, scroller } from 'react-scroll';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import globalConstants from '../../helpers/constants';
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
