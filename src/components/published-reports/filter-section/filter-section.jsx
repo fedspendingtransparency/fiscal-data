@@ -3,6 +3,7 @@ import {
   filterHeader,
   filterContainer,
   selectWrapper,
+  reportSelectWrapper,
   extraMarginBottom,
   hiddenFilters,
   publishReportTip,
@@ -340,7 +341,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
                 Choose Report:
               </h3>
               <div className={filterContainer}>
-                <div className={selectWrapper}>
+                <div className={reportSelectWrapper}>
                   <ComboCurrencySelect
                     changeHandler={changeHandler}
                     label="Report "

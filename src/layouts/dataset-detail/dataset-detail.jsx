@@ -11,6 +11,8 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import LocationAware from '../../components/location-aware/location-aware';
 import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
 import DatasetIntroduction from '../../components/dataset-introduction/dataset-introduction';
+import BannerCallout from '../../components/banner-callout/banner-callout';
+import { bannerCalloutContainer } from '../../components/masthead/masthead.module.scss';
 
 export const query = graphql`
   query relatedDatasets($relatedDatasets: [String]) {
@@ -46,6 +48,8 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
 
   const canonical = `/datasets${pageContext.config.slug}`;
 
+  const bannerCallout = pageContext.config.bannerCallout;
+
   useEffect(() => {
     setPageConfig(updatedPageConfig.config);
     setFinalDatesNotFound(false);
@@ -63,6 +67,14 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
       <Masthead title={pageContext.config.name} bannerCallout={pageContext?.config.bannerCallout} />
       <DDNav />
       <div className="ddpBodyBackground">
+        {bannerCallout && (
+          <div className={bannerCalloutContainer} data-testid="callout">
+            <BannerCallout
+              bannerCallout={bannerCallout}
+              bannerType={bannerCallout.banner === 'SavingsBondsDelay' || bannerCallout.banner === 'TreasuryDirectDelay' ? 'warning' : 'info'}
+            />
+          </div>
+        )}
         <DatasetIntroduction
           summaryText={pageContext.config.summaryText}
           techSpecs={pageConfig.techSpecs}

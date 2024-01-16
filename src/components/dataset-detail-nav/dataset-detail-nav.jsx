@@ -11,7 +11,7 @@ const scrollOptions = {
   spy: true,
   duration: scrollDuration,
   delay: scrollDelay,
-  offset: -36,
+  offset: -112,
 };
 
 const linksArr = [
@@ -151,6 +151,7 @@ const DDNav = () => {
                 tabIndex={0}
                 onMouseEnter={() => setHover(d.id)}
                 onMouseLeave={() => setHover(null)}
+                offset={scrollOptions.offset + 4}
                 {...scrollOptions}
               >
                 {d.title}

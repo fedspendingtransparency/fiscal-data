@@ -1,8 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { render } from '@testing-library/react';
 import Masthead from './masthead';
-import DetailPills from '../detail-pills/detail-pills';
 
 describe('Masthead component', () => {
   let instance;
@@ -15,65 +13,5 @@ describe('Masthead component', () => {
   it('displays the dataset name in an H1 element', () => {
     const titleDisplayed = instance.findByType('h1'); // will fail if not exactly 1 <h1 />
     expect(titleDisplayed.props.children).toEqual('Debt to the Nickel');
-  });
-});
-
-describe('Masthead - banner callout', () => {
-  const testBanner = {
-    banner: 'XRCallout',
-  };
-
-  const savingsBondsDelayBanner = {
-    banner: 'SavingsBondsDelay',
-  };
-
-  const treasuryDirectDelayBanner = {
-    banner: 'SavingsBondsDelay',
-  };
-
-  it('renders callout when specified', () => {
-    const { queryByTestId } = render(
-      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout="Text for Callout" />
-    );
-
-    expect(queryByTestId('callout')).not.toBeNull();
-  });
-
-  it('renders warning callout when SavingsBondsDelay banner specified', () => {
-    const { queryByTestId } = render(
-      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={savingsBondsDelayBanner} />
-    );
-
-    expect(queryByTestId('callout')).not.toBeNull();
-  });
-
-  it('renders warning callout when TreasuryDirectDelay banner specified', () => {
-    const { queryByTestId } = render(
-      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={treasuryDirectDelayBanner} />
-    );
-
-    expect(queryByTestId('callout')).not.toBeNull();
-  });
-
-  it('renders warning callout when not SavingsBondsDelay or TreasuryDirectDelay banner specified', () => {
-    const { queryByTestId } = render(
-      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={testBanner} />
-    );
-
-    expect(queryByTestId('callout')).not.toBeNull();
-  });
-
-  it('does not render callout when callout is null', () => {
-    const { queryByTestId } = render(
-      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={null} />
-    );
-
-    expect(queryByTestId('callout')).toBeNull();
-  });
-
-  it('does not render callout when not specified', () => {
-    const { queryByTestId } = render(<Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." />);
-
-    expect(queryByTestId('callout')).toBeNull();
   });
 });

@@ -14,6 +14,7 @@ import { useStaticQuery } from 'gatsby';
 import metadataHelper from '../../helpers/metadata/metadata';
 import { RecoilRoot } from 'recoil';
 import DatasetIntroduction from '../../components/dataset-introduction/dataset-introduction';
+import { render } from '@testing-library/react';
 
 export const datasetPageSampleConfig = {
   datasetId: '015-BFS-2014Q1-11',
@@ -366,5 +367,115 @@ describe('Dataset detail - helper updateDates', () => {
     expect(newMockTechSpecs.lastUpdated).toEqual(mockMaxDates.lastUpdatedTechSpecs);
     expect(newMockAPIs[0].lastUpdated).toEqual(mockMaxDates.lastUpdated);
     expect(newMockAPIs[1].latestDate).toEqual(mockMaxDates.latestDate);
+  });
+});
+
+describe('Dataset - banner callout', () => {
+  beforeAll(async () => {
+    await renderer.act(async () => {
+      useStaticQuery.mockReturnValue({
+        site: {
+          siteMetadata: {
+            siteUrl: `https://fiscalData.treasury.gov`,
+          },
+        },
+      });
+    });
+  });
+
+  const testBanner = {
+    banner: 'XRCallout',
+  };
+
+  const savingsBondsDelayBanner = {
+    banner: 'SavingsBondsDelay',
+  };
+
+  const treasuryDirectDelayBanner = {
+    banner: 'TreasuryDirectDelay',
+  };
+
+  it('renders callout when specified', () => {
+    const { queryByTestId } = render(
+      <RecoilRoot>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: { ...datasetPageSampleConfig, bannerCallout: { banner: 'Test banner' } },
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </RecoilRoot>
+    );
+
+    expect(queryByTestId('callout')).not.toBeNull();
+  });
+
+  it('renders warning callout when SavingsBondsDelay banner specified', () => {
+    const { queryByTestId } = render(
+      <RecoilRoot>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: { ...datasetPageSampleConfig, bannerCallout: { banner: savingsBondsDelayBanner } },
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </RecoilRoot>
+    );
+
+    expect(queryByTestId('callout')).not.toBeNull();
+  });
+
+  it('renders warning callout when TreasuryDirectDelay banner specified', () => {
+    const { queryByTestId } = render(
+      <RecoilRoot>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: { ...datasetPageSampleConfig, bannerCallout: { banner: treasuryDirectDelayBanner } },
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </RecoilRoot>
+    );
+
+    expect(queryByTestId('callout')).not.toBeNull();
+  });
+
+  it('renders warning callout when not SavingsBondsDelay or TreasuryDirectDelay banner specified', () => {
+    const { queryByTestId } = render(
+      <RecoilRoot>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: { ...datasetPageSampleConfig, bannerCallout: { banner: testBanner } },
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </RecoilRoot>
+    );
+
+    expect(queryByTestId('callout')).not.toBeNull();
+  });
+
+  it('does not render callout when not specified', () => {
+    const { queryByTestId } = render(
+      <RecoilRoot>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: { ...datasetPageSampleConfig },
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </RecoilRoot>
+    );
+    expect(queryByTestId('callout')).toBeNull();
   });
 });

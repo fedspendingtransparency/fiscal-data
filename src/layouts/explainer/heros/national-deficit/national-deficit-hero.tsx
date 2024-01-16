@@ -93,8 +93,8 @@ const NationalDeficitHero = (): ReactElement => {
     <>
     {deficitStatus !== 'not changed' ? (
       <p>
-        Compared to the national deficit of ${desktopPriorDeficit} for the same period last year {' '}
-        {getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}, our national deficit has {deficitStatus} by $
+        Compared to the national deficit of ${desktopPriorDeficit} for the same period last year (
+        {getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}), our national deficit has {deficitStatus} by $
         {deficitDif}.
       </p>
     )
