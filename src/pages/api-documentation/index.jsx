@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import * as Scroll from 'react-scroll';
-import { Link } from 'react-scroll';
+import { Link, scrollSpy, Events, scroller, animateScroll } from 'react-scroll';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import GettingStarted from '../../components/api-documentation/getting-started/getting-started';
@@ -34,7 +33,6 @@ const ApiDocumentationPage = ({ location }) => {
   ];
 
   const [tocIsOpen, setTocIsOpen] = useState(false);
-  const [scrollToId, setScrollToId] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
 
@@ -49,14 +47,13 @@ const ApiDocumentationPage = ({ location }) => {
     }
   };
 
-  const handleScroll = () => {
+  const handleScroll = event => {
     setScrollPosition(window.pageYOffset);
   };
 
   useEffect(() => {
     // Capture keyboard events on the TOC
     window.addEventListener('keyup', handleSelectLink);
-
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -65,53 +62,50 @@ const ApiDocumentationPage = ({ location }) => {
   }, []);
 
   useEffect(() => {
-    if (scrollToId) {
-      Scroll.scroller.scrollTo(scrollToId, {
-        smooth: true,
-        spy: true,
-        duration: 600,
-        delay: 200,
-        offset: globalNavOffset,
+    Events.scrollEvent.register('begin', to => {
+      tocList.forEach(s => {
+        s.target = false;
       });
-      setScrollToId(null);
-    }
-  }, [tocIsOpen]);
 
-  useEffect(() => {
-    if (scrollToId) {
-      setTimeout(
-        () =>
-          tocList.forEach(section => {
+      if (to) {
+        const section = tocList.find(s => s.id === to);
+        section.target = true;
+        section.current = true;
+      }
+    });
+
+    Events.scrollEvent.register('end', () => {
+      setTimeout(() => {
+        tocList.forEach(section => {
+          if (!section.target) {
             section.target = true;
-            if (section.current) {
-              section.current = false;
-            }
-          }),
-        1000
-      );
-    }
-  }, [scrollToId]);
+          }
+          if (section.current) {
+            section.current = false;
+          }
+        });
+      }, 100);
+    });
+
+    scrollSpy.update();
+
+    return () => {
+      Events.scrollEvent.remove('begin');
+      Events.scrollEvent.remove('end');
+    };
+  }, []);
 
   function handleToggle(e, id) {
     if (id) {
-      setScrollToId(id);
       updateAddressPath(id, location);
     } else {
       if (!tocIsOpen) {
-        Scroll.animateScroll.scrollToTop(scrollOptionsSmooth);
+        animateScroll.scrollToTop(scrollOptionsSmooth);
       } else {
-        Scroll.animateScroll.scrollTo(lastScrollPosition, scrollOptionsSmooth);
+        animateScroll.scrollTo(lastScrollPosition, scrollOptionsSmooth);
       }
     }
-    tocList.forEach(s => {
-      s.target = false;
-    });
 
-    if (id) {
-      const section = tocList.find(s => s.id === id);
-      section.target = true;
-      section.current = true;
-    }
     setLastScrollPosition(scrollPosition);
     setTocIsOpen(!tocIsOpen);
   }
