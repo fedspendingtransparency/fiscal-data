@@ -27,6 +27,10 @@
 
 .warningBanner {
   background-color: #faf3d1;
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 100%;
+  box-sizing: border-box;
   .sideTab {
     background-color: #ffbe2e;
   }
