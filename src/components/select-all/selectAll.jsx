@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as styles from './select-all.module.scss';
+import { container, row, labelCheckmarkContainer, checkmarkText, selectAll } from './select-all.module.scss';
 import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
@@ -54,8 +54,8 @@ const SelectAll = ({ fields, onUpdateFields, isVisible, resetToFalse }) => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.row}>
+    <div className={container}>
+      <div className={row}>
         <label>
           <input
             name="selectAll"
@@ -66,9 +66,10 @@ const SelectAll = ({ fields, onUpdateFields, isVisible, resetToFalse }) => {
             type="checkbox"
             ref={inputRef}
             checked={allSelected && allFieldsChecked}
+            className={selectAll}
           />
-          <span className={styles.labelCheckmarkContainer}>
-            <span className={styles.checkmarkText}>
+          <span className={labelCheckmarkContainer}>
+            <span className={checkmarkText}>
               <FontAwesomeIcon icon={indeterminate ? faMinus : faCheck} size="sm" />
             </span>
           </span>

@@ -34,6 +34,8 @@ export const scrollOptions = {
   delay: 0,
 };
 
+export const globalNavOffset = -48;
+
 export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   sections,
   activeClass,
@@ -154,6 +156,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
           spy: true,
           duration: scrollDuration,
           delay: scrollDelay,
+          offset: globalNavOffset,
         });
         setTocIsOpen(false);
       }
@@ -206,6 +209,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                     delay={scrollDelay}
                     onClick={() => handleInteraction(null, s.id, s.title)}
                     onKeyPress={e => handleInteraction(e, s.id, s.title)}
+                    offset={globalNavOffset}
                   >
                     {s.title}
                   </Link>

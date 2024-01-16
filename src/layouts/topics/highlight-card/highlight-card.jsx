@@ -5,7 +5,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import { MuiThemeProvider } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { theme } from '../../../theme';
-import * as datasetStyles from '../../../components/dataset-card/dataset-card.module.scss';
+import { card, card_headerLink } from '../../../components/dataset-card/dataset-card.module.scss';
 
 const cardStyles = {
   root: {
@@ -22,9 +22,9 @@ const HighlightCard = ({ classes, dataset }) => {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Card className={datasetStyles.card} onClick={() => clickHandler()} data-test-id="highlight-card">
+      <Card className={card} onClick={() => clickHandler()} data-test-id="highlight-card">
         <CardActionArea classes={{ root: classes.root }}>
-          <p className={datasetStyles.card_headerLink}>What is the average interest rate on the Federal Debt?</p>
+          <p className={card_headerLink}>What is the average interest rate on the Federal Debt?</p>
         </CardActionArea>
       </Card>
     </MuiThemeProvider>

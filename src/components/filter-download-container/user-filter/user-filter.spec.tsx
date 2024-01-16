@@ -1,6 +1,7 @@
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import React from 'react';
 import UserFilter, { determineUserFilterUnmatchedForDateRange } from './user-filter';
+import { fireEvent } from '@testing-library/dom';
 
 describe('UserFilter Component', () => {
   const ComboCurrencySelect = jest.requireActual('../../combo-select/combo-currency-select/combo-currency-select');
@@ -9,7 +10,7 @@ describe('UserFilter Component', () => {
   it('sends expected properties to combo-select control and displays notice', async () => {
     const { getByTestId } = render(<UserFilter selectedTable={mockTable} onUserFilter={jest.fn()} apiData={mockData} />);
 
-    expect(getByTestId('userFilterNotice')).toHaveTextContent(mockTable.userFilter.notice);
+    expect(getByTestId('datatable-banner')).toHaveTextContent(mockTable.userFilter.notice);
     const comboSelectProps = comboSelectSpy.mock.calls[0][0];
 
     expect(comboSelectProps['label']).toEqual(`${mockTable.userFilter.label}:`);
@@ -41,6 +42,20 @@ describe('UserFilter Component', () => {
     // data rows are present after filtering, so false
     result = determineUserFilterUnmatchedForDateRange(mockTable, { label: 'Denmark', value: 'Denmark' }, { data: [mockData.data[5]] });
     expect(result).toBeFalsy();
+  });
+
+  it('calls reset filter function when the user filter changes ', () => {
+    const resetFilterSpy = jest.fn();
+    const { getByRole, getByTestId } = render(
+      <UserFilter selectedTable={mockTable} onUserFilter={jest.fn()} apiData={mockData} setResetFilters={resetFilterSpy} />
+    );
+    const dropdown = getByRole('button');
+    fireEvent.click(dropdown);
+    const list = getByTestId('dropdown-list');
+    const button = within(list).getAllByRole('button')[0];
+    fireEvent.click(button);
+
+    expect(resetFilterSpy).toHaveBeenCalledWith(true);
   });
 
   const mockTable = {

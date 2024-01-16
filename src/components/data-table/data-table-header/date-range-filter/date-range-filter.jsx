@@ -14,10 +14,10 @@ import {
   buttonContainer,
   datePickerButton,
   datePickerSelected,
-  datePickerToday,
   datePickerRangeMiddle,
   dateDivider,
   glow,
+  lastColumn,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
@@ -26,7 +26,7 @@ import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
 let mouseOverDropdown = null;
-const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters }) => {
+const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
   const textHighlighted = { 'background-color': '#E8F5FF' };
   const noTextHighLight = { 'background-color': '' };
 
@@ -188,7 +188,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
         {active && (
           <div
-            className={dropdown}
+            className={`${dropdown} ${isLastColumn && lastColumn}`}
             onMouseOver={() => {
               mouseOverDropdown = true;
             }}

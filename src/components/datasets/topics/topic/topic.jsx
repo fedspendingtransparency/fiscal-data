@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as styles from './topic.module.scss';
+import { button_container, button_contents, oval, topicActive, topicLabel } from './topic.module.scss';
 import classNames from 'classnames';
 import Analytics from '../../../../utils/analytics/analytics';
 import { getImage, GatsbyImage } from 'gatsby-plugin-image';
@@ -45,12 +45,12 @@ const Topic = ({ active, filterKey, label, onChange, image }) => {
   }, [active]);
 
   return (
-    <button className={styles.button_container} name={label} value={filterKey} onClick={handleClick}>
-      <div className={styles.button_contents}>
-        <div className={classNames([styles.oval, selected ? styles.active : ''])} data-testid="topic-selector-button">
+    <button className={button_container} name={label} value={filterKey} onClick={handleClick}>
+      <div className={button_contents}>
+        <div className={classNames([oval, selected ? topicActive : ''])} data-testid="topic-selector-button">
           <GatsbyImage image={icon} alt={image?.name} />
         </div>
-        <label className={styles.label} data-testid="topic-selector-label">
+        <label className={topicLabel} data-testid="topic-selector-label">
           {label}
         </label>
       </div>

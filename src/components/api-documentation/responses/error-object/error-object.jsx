@@ -1,7 +1,7 @@
 import React from 'react';
 import beautify from 'js-beautify';
 import SectionContent from '../../section-content/section-content';
-import * as apiStyles from '../../../../pages/api-documentation/api.module.scss';
+import { beautified } from '../../../../pages/api-documentation/api.module.scss';
 
 const ErrorObject = () => (
   <SectionContent id="responses-error-object" headingLevel={3} title="Error Object">
@@ -22,7 +22,7 @@ const ErrorObject = () => (
     <p>
       <strong>Example Error Object:</strong>
     </p>
-    <code className={`large ${apiStyles.beautified}`}>
+    <code className={`large ${beautified}`}>
       <pre>
         {beautify(
           `{

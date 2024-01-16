@@ -142,7 +142,7 @@ const ComboSelectDropdown = ({
                 No match for <span className={unmatchedTerm}>'{filterValue}'</span>. Please revise your search and try again.
               </div>
             ) : (
-              <ul className={dropdownList} data-testid="dropdown-list">
+              <ul className={dropdownList} data-testid="dropdown-list" style={{ height: filteredOptions.length > 5 ? '11.875rem' : '' }}>
                 {filteredOptions.map((option, index) => {
                   return (
                     <React.Fragment key={index}>

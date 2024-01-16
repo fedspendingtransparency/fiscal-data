@@ -1,7 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import Checkbox from './checkbox';
-import * as styles from './checkbox.module.scss';
 
 describe('Checkbox component', () => {
   const mockCheckboxData = [

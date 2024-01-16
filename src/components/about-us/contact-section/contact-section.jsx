@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import React from 'react';
-import * as aboutUsStyles from '../../../pages/about-us/about-us.module.scss';
-import * as styles from './contact-section.module.scss';
+import { section } from '../../../pages/about-us/about-us.module.scss';
+import { container } from './contact-section.module.scss';
 import { graphql, useStaticQuery } from 'gatsby';
 import FDGMdxProvider from '../../../components/mdx/FDGMdxProvider';
 import { MDXProvider } from '@mdx-js/react';
@@ -25,7 +25,7 @@ const Contact = ({ onUnsupportedSubject = () => {} }) => {
   };
 
   return (
-    <div className={`${aboutUsStyles.section} ${styles.container}`}>
+    <div className={`${section} ${container}`}>
       {contactMDX && contactMDX.mdx && contactMDX.mdx.body && (
         <FDGMdxProvider>
           <MDXProvider components={Object.assign({}, aboutUsComponents, contactComponents)}>

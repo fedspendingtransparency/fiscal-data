@@ -2,7 +2,7 @@ import { act, fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import React from 'react';
 import { StickyFooterComponent } from './sticky-footer';
-import * as styles from './sticky-footer.module.scss';
+import { closingStyle, stickyFooterContainer } from './sticky-footer.module.scss';
 
 describe('StickyFooter component', () => {
   jest.useFakeTimers();
@@ -16,13 +16,13 @@ describe('StickyFooter component', () => {
       </StickyFooterComponent>
     );
     expect(getByTestId('sticky-footer-container')).toBeInTheDocument();
-    expect(getByTestId('sticky-footer-container')).toHaveClass(styles.stickyFooterContainer);
+    expect(getByTestId('sticky-footer-container')).toHaveClass(stickyFooterContainer);
     expect(getByTestId('footer-childSpan')).toBeInTheDocument();
     expect(getByTestId('footer-childDiv')).toBeInTheDocument();
 
     // No hide after time is specified, so no closing transition or class is applied.
     expect(getByTestId('sticky-footer-container')).not.toHaveStyle('transition: max-height 2000ms linear 4500ms, visibility 0ms linear 6500ms');
-    expect(getByTestId('sticky-footer-container')).not.toHaveClass(styles.closing);
+    expect(getByTestId('sticky-footer-container')).not.toHaveClass(closingStyle);
   });
 
   it('does not render if no children are present', () => {
@@ -102,7 +102,7 @@ describe('StickyFooter component', () => {
     });
     // closing should be in progress from point of initial render
     expect(component.getByTestId('sticky-footer-container')).toHaveStyle(footerStyle);
-    expect(component.getByTestId('sticky-footer-container')).toHaveClass(styles.closing);
+    expect(component.getByTestId('sticky-footer-container')).toHaveClass(closingStyle);
 
     // interact (here using click, but component assigns same action to keyPress, touch and
     // focus events)
@@ -116,13 +116,13 @@ describe('StickyFooter component', () => {
 
     // closing momentarily no longer in progress
     expect(component.getByTestId('sticky-footer-container')).not.toHaveStyle(footerStyle);
-    expect(component.getByTestId('sticky-footer-container')).not.toHaveClass(styles.closing);
+    expect(component.getByTestId('sticky-footer-container')).not.toHaveClass(closingStyle);
 
     // after a half second, the closing class and transition with delay have been reapplied
     act(() => {
       jest.advanceTimersByTime(1000);
     });
     expect(component.getByTestId('sticky-footer-container')).toHaveStyle(footerStyle);
-    expect(component.getByTestId('sticky-footer-container')).toHaveClass(styles.closing);
+    expect(component.getByTestId('sticky-footer-container')).toHaveClass(closingStyle);
   });
 });

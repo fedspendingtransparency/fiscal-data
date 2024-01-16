@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, waitFor, render, within, act } from '@testing-library/react';
-import SiteHeader from './site-header';
+import { SiteHeader } from './site-header';
+import SiteHeaderComponent from './site-header';
 import * as rdd from 'react-device-detect';
 import SiteLayout from '../siteLayout/siteLayout';
 import Analytics from '../../utils/analytics/analytics';
@@ -9,6 +10,7 @@ import { mockUseStaticGlossaryData } from '../glossary/test-helper';
 import { createHistory, createMemorySource, LocationProvider } from '@gatsbyjs/reach-router';
 import 'gatsby-env-variables';
 import '@testing-library/jest-dom/extend-expect';
+import GLOBALS from '../../helpers/constants';
 
 jest.useFakeTimers();
 
@@ -37,13 +39,18 @@ describe('SiteHeader', () => {
     });
   });
 
-  it('displays the the logo', async () => {
-    const { getByTestId } = render(<SiteHeader />);
-    expect(getByTestId('logo')).toBeDefined();
+  it('displays the the logo, and resizes on page scroll', async () => {
+    const { getByTestId } = render(<SiteHeader width={GLOBALS.breakpoints.large + 50} />);
+    const logoContainer = getByTestId('logoContainer');
+    const logo = getByTestId('logo');
+    expect(logo).toBeDefined();
+    expect(logoContainer).toHaveStyle({ width: '192px' });
+    fireEvent.scroll(window, { target: { pageYOffset: 400 } });
+    expect(logoContainer).toHaveStyle({ width: '130px' });
   });
 
   it("contains the site's official banner", () => {
-    const { getByTestId } = render(<SiteHeader />);
+    const { getByTestId } = render(<SiteHeaderComponent />);
     expect(getByTestId('officialBanner')).toBeDefined();
   });
 
@@ -53,7 +60,7 @@ describe('SiteHeader', () => {
 
   //logo
   it('contains the logo with title text', () => {
-    const { getByTestId, getByTitle } = render(<SiteHeader />);
+    const { getByTestId, getByTitle } = render(<SiteHeaderComponent />);
     const logo = getByTestId('logo');
     expect(logo).toBeDefined();
     expect(getByTitle('Return to home page')).toBeDefined();
@@ -61,12 +68,12 @@ describe('SiteHeader', () => {
 
   it('displays the lowerEnvMessage when sent in props', () => {
     const message = 'Message';
-    const { getByText } = render(<SiteHeader lowerEnvMsg={message} />);
+    const { getByText } = render(<SiteHeaderComponent lowerEnvMsg={message} />);
     expect(getByText(message)).toBeDefined();
   });
 
   it('does not show browser notice if browser is not IE', () => {
-    const { queryAllByTestId } = render(<SiteHeader />);
+    const { queryAllByTestId } = render(<SiteHeaderComponent />);
     expect(queryAllByTestId('ieDetected').length).toEqual(0);
   });
 
@@ -79,7 +86,7 @@ describe('SiteHeader', () => {
   it('calls the appropriate analytics event when links are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     const pageTitle = 'test page title';
-    const { getByTestId, getByText, getByRole } = render(<SiteHeader />);
+    const { getByTestId, getByText, getByRole } = render(<SiteHeaderComponent />);
     document.title = pageTitle;
 
     const logo = getByTestId('logo');
@@ -140,14 +147,14 @@ describe('SiteHeader', () => {
   });
 
   it('displays announcement banner for specified pages', () => {
-    const { getByText } = renderWithRouter(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />, '/datasets/');
+    const { getByText } = renderWithRouter(<SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />, '/datasets/');
 
     expect(getByText('Content Temporarily Unavailable:', { exact: false })).toBeInTheDocument();
   });
 
   it('displays announcement banner for specified paths', () => {
     const { getByText } = renderWithRouter(
-      <SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />,
+      <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />,
       '/americas-finance-guide/national-debt/'
     );
 
@@ -155,7 +162,7 @@ describe('SiteHeader', () => {
   });
 
   it('opens the glossary menu when selected', async () => {
-    const { getByRole, getByTestId } = render(<SiteHeader />);
+    const { getByRole, getByTestId } = render(<SiteHeaderComponent />);
 
     act(() => {
       fireEvent.mouseEnter(getByRole('button', { name: 'Resources' }));
@@ -171,7 +178,7 @@ describe('SiteHeader', () => {
   });
 
   it('glossary menu closes when overlay is clicked', async () => {
-    const { getByRole, getByTestId, queryByTestId } = render(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />);
+    const { getByRole, getByTestId, queryByTestId } = render(<SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />);
 
     act(() => {
       fireEvent.mouseEnter(getByRole('button', { name: 'Resources' }));

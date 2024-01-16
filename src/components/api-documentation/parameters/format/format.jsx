@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionContent from '../../section-content/section-content';
-import * as apiStyles from '../../../../pages/api-documentation/api.module.scss';
+import { code, marginBottom } from '../../../../pages/api-documentation/api.module.scss';
 import GLOBALS from '../../../../helpers/constants';
 
 const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
@@ -27,7 +27,7 @@ const Format = () => (
       <strong>Example:</strong>
     </p>
     <p>Return all of the data from the Debt to the Penny dataset in a JSON format.</p>
-    <code className={`${apiStyles.code} ${apiStyles.marginBottom}`}>{baseApiUrl}/v2/accounting/od/debt_to_penny?format=json</code>
+    <code className={`${code} ${marginBottom}`}>{baseApiUrl}/v2/accounting/od/debt_to_penny?format=json</code>
   </SectionContent>
 );
 

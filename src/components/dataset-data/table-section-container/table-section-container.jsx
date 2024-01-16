@@ -48,6 +48,8 @@ const TableSectionContainer = ({
   setTableColumnSortData,
   hasPublishedReports,
   publishedReports,
+  resetFilters,
+  setResetFilters,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -61,8 +63,8 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
-  const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
+
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
@@ -189,7 +191,6 @@ const TableSectionContainer = ({
   const pivotToggler = () => {
     setShowPivotBar(!showPivotBar);
   };
-
   const getDateFieldForChart = () => {
     if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn && selectedPivot.pivotView.aggregateOn.length) {
       return 'CHART_DATE'; // aggregation cases in pivoted data this only for charting calculation
@@ -204,8 +205,18 @@ const TableSectionContainer = ({
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
 
-    setNoChartMessage(SetNoChartMessage(selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilterUnmatched));
-  }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData]);
+    setNoChartMessage(
+      SetNoChartMessage(
+        selectedTable,
+        selectedPivot,
+        dateRange,
+        allTablesSelected,
+        userFilterSelection,
+        userFilterUnmatched,
+        config?.customNoChartMessage
+      )
+    );
+  }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData, config?.customNoChartMessage]);
 
   return (
     <div data-test-id="table-container">

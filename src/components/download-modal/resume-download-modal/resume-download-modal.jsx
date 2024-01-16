@@ -1,8 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Modal from '../../modal/modal';
-import * as parentStyles from '../download-modal.module.scss';
-import * as styles from './resume-download-modal.module.scss';
-import * as itemStyles from '../download-modal-item/download-modal-item.module.scss';
+import { container, title, downloadItemsContainer, closeButton, subText } from '../download-modal.module.scss';
+import {
+  preparedSingleContainer,
+  resumeHeaderMain,
+  resumeSubtitle,
+  buttonSet,
+  cancelButton,
+  buttonRow,
+  downloadButton,
+  withItems,
+} from './resume-download-modal.module.scss';
+import { cancelDownloadButton } from '../download-modal-item/download-modal-item.module.scss';
 import DownloadModalItem from '../download-modal-item/download-modal-item';
 import { downloadsContext } from '../../persist/download-persist/downloads-persist';
 import buttons from '../../buttons/buttons';
@@ -65,27 +74,24 @@ const ResumeDownloadModal = () => {
     <>
       {resumedDownloadsCount > 0 && !!resumeDownloadModalIsOpen && (
         <>
-          <Modal open={true} onClose={() => setResumeDownloadModalIsOpen(false)} contentClass={parentStyles.container}>
+          <Modal open={true} onClose={() => setResumeDownloadModalIsOpen(false)} contentClass={container}>
             {resumedDownloadsCount === 1 ? (
               <>
                 {resumedPrepared.length === 1 ? (
-                  <div className={styles.preparedSingleContainer}>
-                    <div className={styles.resumeHeaderMain} data-testid="download-modal-title">
+                  <div className={preparedSingleContainer}>
+                    <div className={resumeHeaderMain} data-testid="download-modal-title">
                       {resumeCompletedDownloadTitle}
                     </div>
-                    <div className={styles.resumeSubtitle}>{resumeCompletedDownloadSubtitle}</div>
-                    <div className={styles.buttonSet}>
-                      <div
-                        className={`${itemStyles.cancelDownloadButton} ${styles.cancelButton} ${styles.buttonRow}`}
-                        data-testid="direct-cancel-button"
-                      >
+                    <div className={resumeSubtitle}>{resumeCompletedDownloadSubtitle}</div>
+                    <div className={buttonSet}>
+                      <div className={`${cancelDownloadButton} ${cancelButton} ${buttonRow}`} data-testid="direct-cancel-button">
                         {buttons.cancelButton(resumedPrepared[0], cancelAndClose)}
                       </div>
-                      <div className={styles.buttonRow}>
+                      <div className={buttonRow}>
                         <a
                           href={resumedPrepared[0].fullFileUrl}
                           data-testid="direct-download-button"
-                          className={styles.downloadButton}
+                          className={downloadButton}
                           onClick={() => setResumeDownloadModalIsOpen(false)}
                         >
                           Download File
@@ -97,17 +103,17 @@ const ResumeDownloadModal = () => {
                   <>
                     {resumedInProgress.length === 1 && (
                       <>
-                        <div className={parentStyles.title} data-testid="download-modal-title">
+                        <div className={title} data-testid="download-modal-title">
                           {resumeDownloadTitle}
                         </div>
-                        <div className={`${styles.resumeSubtitle} ${styles.withItems}`}>{resumeDownloadSubtitle}</div>
-                        <div className={parentStyles.downloadItemsContainer} data-testid="download-items-container">
+                        <div className={`${resumeSubtitle} ${withItems}`}>{resumeDownloadSubtitle}</div>
+                        <div className={downloadItemsContainer} data-testid="download-items-container">
                           <DownloadModalItem download={resumedInProgress[0]} cancelDownloadRequest={setCancelDownloadRequest} resumed />
                         </div>
-                        <button onClick={onClose} className={parentStyles.closeButton} data-testid="download-modal-close-button" aria-label="Close">
+                        <button onClick={onClose} className={closeButton} data-testid="download-modal-close-button" aria-label="Close">
                           Close
                         </button>
-                        <div className={parentStyles.subText} data-testid="download-modal-subtext">
+                        <div className={subText} data-testid="download-modal-subtext">
                           {downloadModalSubText}
                         </div>
                       </>
@@ -117,11 +123,11 @@ const ResumeDownloadModal = () => {
               </>
             ) : (
               <>
-                <div className={parentStyles.title} data-testid="download-modal-title">
+                <div className={title} data-testid="download-modal-title">
                   {resumeDownloadTitleMulti}
                 </div>
-                <div className={`${styles.resumeSubtitle} ${styles.withItems}`}>{resumeDownloadSubtitleMulti}</div>
-                <div className={parentStyles.downloadItemsContainer} data-testid="download-items-container">
+                <div className={`${resumeSubtitle} ${withItems}`}>{resumeDownloadSubtitleMulti}</div>
+                <div className={downloadItemsContainer} data-testid="download-items-container">
                   {resumedPrepared.map((download, index) => (
                     <DownloadModalItem key={index} download={download} cancelDownloadRequest={setCancelDownloadRequest} resumed />
                   ))}
@@ -133,10 +139,10 @@ const ResumeDownloadModal = () => {
                       <DownloadModalItem key={index} download={download} cancelDownloadRequest={setCancelDownloadRequest} resumed />
                     ))}
                 </div>
-                <button onClick={onClose} className={parentStyles.closeButton} data-testid="download-modal-close-button" aria-label="Close">
+                <button onClick={onClose} className={closeButton} data-testid="download-modal-close-button" aria-label="Close">
                   Close
                 </button>
-                <div className={parentStyles.subText} data-testid="download-modal-subtext">
+                <div className={subText} data-testid="download-modal-subtext">
                   {downloadModalSubText}
                 </div>
               </>

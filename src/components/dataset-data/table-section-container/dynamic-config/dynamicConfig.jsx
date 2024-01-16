@@ -3,7 +3,20 @@
  * This code is used internally, so the coverage isn't "AS" important with this file.
  */
 import React, { useEffect, useState } from 'react';
-import * as styles from './dynamicConfig.module.scss';
+import {
+  dropzone,
+  fieldOption,
+  edit,
+  pivotViewOnly,
+  editButton,
+  snapshotToggler,
+  filtersContainer,
+  configButton,
+  modal,
+  pivotDnd,
+  successfulMessage,
+  unsuccessfulMessage,
+} from './dynamicConfig.module.scss';
 import { Modal, Popover } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { createJSONOutput, placeTablePivots } from './helper';
@@ -122,7 +135,7 @@ const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated,
   const createDropzone = (sourceList, type) => (
     <div
       data-test-id={`dropzone_${type.toLowerCase()}`}
-      className={`${styles.dropzone} ${type.toLowerCase()}`}
+      className={`${dropzone} ${type.toLowerCase()}`}
       onDragOver={e => e.preventDefault()}
       onDragEnter={highlightDropzone}
       onDragLeave={removeDropzoneHighlight}
@@ -190,12 +203,12 @@ const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated,
         role={'button'}
         tabIndex={0}
         key={`configField-${i}`}
-        className={`${styles.fieldOption} ${fieldInEditMode === field ? styles.edit : ''}`}
+        className={`${fieldOption} ${fieldInEditMode === field ? edit : ''}`}
         draggable
         onDragStart={() => initiateDragStart(field, i)}
       >
         {field.columnName}
-        <span className={styles.pivotViewOnly}>
+        <span className={pivotViewOnly}>
           {' '}
           |{' '}
           {fieldInEditMode === field ? (
@@ -205,7 +218,7 @@ const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated,
           ) : (
             <>
               <span data-testid="pivotViewTitle">{field.title}</span>
-              <button className={styles.editButton} data-testid={`editButton-${field.title}`} onClick={() => setFieldInEditMode(field)}>
+              <button className={editButton} data-testid={`editButton-${field.title}`} onClick={() => setFieldInEditMode(field)}>
                 <FontAwesomeIcon icon={faEdit} />
               </button>
             </>
@@ -213,12 +226,12 @@ const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated,
         </span>
         {fieldInEditMode === field && (
           <>
-            <span className={styles.snapshotToggler}>
+            <span className={snapshotToggler}>
               Use last row snapshot for values?
               <input type="checkbox" onChange={() => updateLastSavedSnapshot(field)} defaultChecked={field.lastRowSnapshot} />
             </span>
 
-            <div className={styles.filtersContainer} data-testid="filterEditor">
+            <div className={filtersContainer} data-testid="filterEditor">
               <FilterEditor filters={filtersInEdit} columnNames={selectedTable.fields.map(f => f.columnName)} onUpdate={setFiltersInEdit} />
             </div>
             <hr />
@@ -343,7 +356,7 @@ const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated,
 
   return (
     <>
-      <button data-testid="launchConfigModal" aria-label="Configure Chart" className={styles.configButton} onClick={launchConfig}>
+      <button data-testid="launchConfigModal" aria-label="Configure Chart" className={configButton} onClick={launchConfig}>
         Configure Chart
       </button>
       <label>
@@ -359,7 +372,7 @@ const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated,
         {
           // TODO - Move the children of Modal into a new component along with any resulting logic
           // and unit test this separately from the modal
-          <div data-testid="configModal" id={styles.modal} style={modalStyle} className={classes.paper}>
+          <div data-testid="configModal" id={modal} style={modalStyle} className={classes.paper}>
             <header>
               <h1>Configure Chart</h1>
             </header>
@@ -368,7 +381,7 @@ const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated,
               <h2>Field Bank</h2>
               {createDropzone(configFields, 'PIVOT_BANK')}
             </section>
-            <article className={styles.pivotDnd}>
+            <article className={pivotDnd}>
               <section>
                 <h2>Pivot Views</h2>
                 {createDropzone(pivotViews, 'VIEW')}
@@ -392,14 +405,14 @@ const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated,
                 open={showSuccessMessage}
                 anchorEl={successMessageAnchor}
               >
-                <div className={isCopySuccessful ? styles.successfulMessage : styles.unsuccessfulMessage}>
+                <div className={isCopySuccessful ? successfulMessage : unsuccessfulMessage}>
                   {isCopySuccessful ? 'Success' : 'Something went wrong, please try again.'}
                 </div>
               </Popover>
-              <button className={styles.configButton} onClick={copyToClipboard}>
+              <button className={configButton} onClick={copyToClipboard}>
                 Copy JSON to Clipboard
               </button>
-              <button data-test-id="closeConfigModal" className={styles.configButton} onClick={closeConfig}>
+              <button data-test-id="closeConfigModal" className={configButton} onClick={closeConfig}>
                 Close
               </button>
             </footer>

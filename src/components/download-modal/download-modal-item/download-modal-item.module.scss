@@ -24,7 +24,7 @@
           .fileInfo {
             display: flex;
 
-            .fileName {
+            .fileNameStyle {
               word-break: break-word;
             }
 
@@ -120,7 +120,7 @@
         min-width: 150px;
         margin-right: 48px;
 
-        &.resumed {
+        &.resumedStyle {
           width: 3rem;
           min-width: 3rem;
           margin-right: 2rem;
@@ -144,7 +144,7 @@
           .fileInfo {
             align-items: center;
 
-            .fileName {
+            .fileNameStyle {
               @include headingStyle6;
             }
 
@@ -198,7 +198,7 @@
         width: 50px;
         min-width: 50px;
         margin: 0 10px;
-        &.resumed {
+        &.resumedStyle {
           margin-right: 1.5rem;
         }
       }
@@ -211,7 +211,7 @@
             flex-direction: column;
             align-items: flex-start;
 
-            .fileName {
+            .fileNameStyle {
               font-size: $font-size-14;
               color: $font-title;
               font-weight: 600;

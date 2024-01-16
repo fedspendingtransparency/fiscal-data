@@ -45,7 +45,8 @@
       "banner": "DTSAPIUpdate",
       "startDate": "8/24/2023",
       "endDate": "9/14/2023"
-    }
+    },
+    "datatableBanner": "For important information regarding any new or altered footnotes, review the footnotes in the PDF file found on the Published Reports tab."
   },
   "015-BFS-2014Q3-096": {
     "slug": "/savings-bonds-issues-redemptions-maturities-by-series/",
@@ -90,7 +91,8 @@
     },
     "topics": ["debt", "financial-summaries", "interest-exchange-rates", "savings-bonds"],
     "relatedDatasets": ["015-BFS-2014Q3-056", "015-BFS-2014Q1-03", "015-BFS-2014Q3-065"],
-    "currentDateButton": "byMonth"
+    "currentDateButton": "byMonth",
+    "customNoChartMessage": true
   },
   "015-BFS-2014Q1-13": {
     "slug": "/monthly-treasury-statement/",
@@ -100,11 +102,7 @@
       "keywords": "federal government, surplus, deficit, Treasury, US Treasury, outlays, receipts, monthly treasury statement, mts"
     },
     "topics": ["debt", "revenue", "spending", "financial-summaries"],
-    "relatedDatasets": [
-      "015-BFS-2014Q1-03",
-      "015-BFS-2014Q3-065",
-      "015-BFS-2014Q1-11"
-    ],
+    "relatedDatasets": ["015-BFS-2014Q1-03", "015-BFS-2014Q3-065", "015-BFS-2014Q1-11"],
     "currentDateButton": "byMonth"
   },
   "015-BFS-2014Q1-09": {
@@ -115,9 +113,7 @@
       "keywords": "fort knox, US mint gold, gold reserve, treasury gold, troy ounce, value of gold reserves, gold bullion, gold book value, NY Vault"
     },
     "topics": ["financial-summaries"],
-    "relatedDatasets": [
-      "015-BFS-2014Q1-13"
-    ],
+    "relatedDatasets": ["015-BFS-2014Q1-13"],
     "currentDateButton": "byMonth"
   },
   "015-BFS-2014Q3-076": {
@@ -128,13 +124,9 @@
       "keywords": "debt, US debt, federal debt, accrued interest on the debt, interest on the debt, intragovernmental holdings"
     },
     "topics": ["debt", "financial-summaries"],
-    "relatedDatasets": [
-      "015-BFS-2014Q1-03",
-      "015-BFS-2014Q3-065",
-      "015-BFS-2014Q1-11",
-      "015-BFS-2014Q1-13"
-    ],
-    "currentDateButton": "byMonth"
+    "relatedDatasets": ["015-BFS-2014Q1-03", "015-BFS-2014Q3-065", "015-BFS-2014Q1-11", "015-BFS-2014Q1-13"],
+    "currentDateButton": "byMonth",
+    "customNoChartMessage": true
   },
   "015-BFS-2014Q1-04": {
     "slug": "/treasury-reporting-rates-exchange/",
@@ -174,6 +166,7 @@
   "015-BFS-2014Q1-14": {
     "slug": "/record-setting-auction-data/",
     "seoConfig": {
+      "pageTitle": "Record-Setting Treasury Securities Auction Data",
       "keywords": "treasury securities, treasury auctions, treasury bills, treasury notes, treasury bonds, TIPS, FRNs, CMBs, treasury rates, treasury offerings"
     },
     "topics": ["auctions", "interest-exchange-rates"],
@@ -525,11 +518,18 @@
       "keywords": "Debt, Savings Bonds, Auctions"
     },
     "topics": ["auctions", "debt", "savings-bonds"],
-    "relatedDatasets": [
-      "015-BFS-2014Q1-14",
-      "015-BFS-2014Q3-045",
-      "015-BFS-2014Q3-048"
-    ],
+    "relatedDatasets": ["015-BFS-2014Q1-14", "015-BFS-2014Q3-045", "015-BFS-2014Q3-048"],
     "currentDateButton": "byDay"
+  },
+  "015-BFS-2014Q3-047": {
+    "slug": "/treasury-bulletin-trust-funds/",
+    "seoConfig": {
+      "pageTitle": "Treasury Bulletin Trust Fund Reports",
+      "description": "Machine readable data of the Treasury Bulletin Trust Fund Reports.",
+      "keywords": "Trust Fund, Financial Summaries"
+    },
+    "topics": ["financial-summaries"],
+    "relatedDatasets": ["015-BFS-2014Q3-046"],
+    "currentDateButton": "byMonth"
   }
 }

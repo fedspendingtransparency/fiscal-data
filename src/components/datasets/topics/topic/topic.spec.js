@@ -1,7 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import Topic, { topicIconAnalyticsEvent } from './topic';
-import * as styles from './topic.module.scss';
 import Analytics from '../../../../utils/analytics/analytics';
 
 jest.useFakeTimers();
@@ -30,7 +29,7 @@ describe('Topics component', () => {
 
   it('adds the active class when button is selected', () => {
     const imageDiv = instance.findByProps({ 'data-testid': 'topic-selector-button' });
-    expect(imageDiv.props.className).toContain(styles.active);
+    expect(imageDiv.props.className).toContain('topicActive');
   });
 
   it('does not provide the active class when the button is not selected', () => {
@@ -41,7 +40,7 @@ describe('Topics component', () => {
     instance = component.root;
 
     const imageDiv = instance.findByProps({ 'data-testid': 'topic-selector-button' });
-    expect(imageDiv.props.className).not.toContain(styles.active);
+    expect(imageDiv.props.className).not.toContain('topicActive');
   });
 
   it('calls the onChange event with the expected parameters when the button is clicked', async () => {

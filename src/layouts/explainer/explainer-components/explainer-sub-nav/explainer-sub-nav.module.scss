@@ -49,8 +49,8 @@ ul.navBlock {
   align-items: stretch;
   width: 100%;
   margin: 1.5rem 0;
-  font-size: 1rem;
-  padding-inline-start: 0px;
+  font-size: $font-size-16;
+  padding-inline-start: 0;
 }
 
 ul.navBlockSticky {
@@ -61,16 +61,16 @@ ul.navBlockSticky {
   justify-content: center;
   align-items: stretch;
   width: 100%;
-  font-size: 1rem;
+  font-size: $font-size-16;
   position: fixed;
-  top: 0;
+  top: 2.875rem;
   z-index: $desktop-menu-sticky;
 }
 
 li.navItem {
   background-color: #767676;
   color: white;
-  font-size: 1rem;
+  font-size: $font-size-16;
   display: flex;
   flex-grow: 1;
   max-width: 8rem;
@@ -88,7 +88,7 @@ li.navItem {
     height: 100%;
 
     .navIcon {
-      margin-right: 10px;
+      margin-right: 0.625rem;
       color: #fff;
     }
   }
@@ -107,16 +107,16 @@ li.navItem:first-child {
 }
 
 li.frontChevron {
-  width: 0px;
-  height: 0px;
+  width: 0;
+  height: 0;
   border-top: $chevronHeight solid white;
   border-bottom: $chevronHeight solid white;
   justify-items: end;
 }
 
 li.backChevron {
-  width: 0px;
-  height: 0px;
+  width: 0;
+  height: 0;
   border-left: $chevronWidth solid white;
 }
 

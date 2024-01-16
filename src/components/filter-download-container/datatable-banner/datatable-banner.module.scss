@@ -1,0 +1,11 @@
+@import '../../../variables.module.scss';
+
+.infoContainer {
+  margin-top: 1rem;
+}
+
+@media (min-width: $breakpoint-sm) {
+  .infoContainer {
+    margin-right: 2.5rem;
+  }
+}

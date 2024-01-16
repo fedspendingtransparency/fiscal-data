@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomLink from '../../../../../../../components/links/custom-link/custom-link';
-import * as styles from './total-revenue-chart.module.scss';
+import { headerData, dataLabel, headerContainer, dataValue, dataElement } from './total-revenue-chart.module.scss';
 import { breakpointLg, fontSize_10, fontSize_14, semiBoldWeight } from '../../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
 import { formatCurrency, formatPercentage } from '../../../../../explainer-helpers/explainer-charting-helper';
@@ -79,30 +79,30 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
         }}
         chartId="revenue-chart-toggle"
       />
-      <div className={styles.headerContainer}>
-        <div className={styles.headerData}>
-          <div className={styles.dataElement}>
-            <div className={styles.dataValue}>{fiscalYear}</div>
-            <span className={styles.dataLabel}>Fiscal Year</span>
+      <div className={headerContainer}>
+        <div className={headerData}>
+          <div className={dataElement}>
+            <div className={dataValue}>{fiscalYear}</div>
+            <span className={dataLabel}>Fiscal Year</span>
           </div>
           {selectedChartView !== 'percentageGdp' && (
-            <div className={styles.dataElement}>
-              <div className={styles.dataValue}>${totalRevenue}</div>
-              <span className={styles.dataLabel}>Total Revenue</span>
+            <div className={dataElement}>
+              <div className={dataValue}>${totalRevenue}</div>
+              <span className={dataLabel}>Total Revenue</span>
             </div>
           )}
 
           {selectedChartView !== 'percentageGdp' && (
-            <div className={styles.dataElement}>
-              <div className={styles.dataValue}>${gdp}</div>
-              <span className={styles.dataLabel}>GDP</span>
+            <div className={dataElement}>
+              <div className={dataValue}>${gdp}</div>
+              <span className={dataLabel}>GDP</span>
             </div>
           )}
 
           {selectedChartView === 'percentageGdp' && (
-            <div className={styles.dataElement}>
-              <div className={styles.dataValue}>{gdpRatio}</div>
-              <span className={styles.dataLabel}>GDP Ratio</span>
+            <div className={dataElement}>
+              <div className={dataValue}>{gdpRatio}</div>
+              <span className={dataLabel}>GDP Ratio</span>
             </div>
           )}
         </div>

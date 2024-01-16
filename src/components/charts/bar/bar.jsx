@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
-import * as styles from './bar.module.scss';
+import { barDiv } from './bar.module.scss';
 import CustomBarComponent from './bar-component/bar-component';
 import helpers from './helpers/helpers';
 
@@ -98,7 +98,7 @@ const BarGraph = ({
     isValidChart && (
       <div
         data-testid="barGraph"
-        className={divClass || styles.barDiv}
+        className={divClass || barDiv}
         onMouseLeave={() => helpers.mouseLeaveEvent(cardId, resetValue)}
         onMouseEnter={() => onMouseEnter(cardId)}
         role={'presentation'}

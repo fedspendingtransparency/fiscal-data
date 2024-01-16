@@ -1,20 +1,20 @@
 import React from 'react';
-import * as styles from './not-shown-message.module.scss';
+import { container, info, icon, notShownHeading, notShownBodyText } from './not-shown-message.module.scss';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const NotShownMessage = ({ heading, bodyText }) => {
   return (
-    <div className={styles.container} data-testid="container">
-      <div className={styles.info}>
-        <div className={styles.icon}>
+    <div className={container} data-testid="container">
+      <div className={info}>
+        <div className={icon}>
           <FontAwesomeIcon icon={faInfoCircle} />
         </div>
         <div>
-          <div className={styles.heading} data-testid="heading">
+          <div className={notShownHeading} data-testid="heading">
             {heading}
           </div>
-          <div className={styles.bodyText} data-testid="bodyText">
+          <div className={notShownBodyText} data-testid="bodyText">
             {bodyText}
           </div>
         </div>

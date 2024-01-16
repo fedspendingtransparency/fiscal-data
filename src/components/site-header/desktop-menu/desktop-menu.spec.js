@@ -1,8 +1,8 @@
 import { StaticQuery, useStaticQuery } from 'gatsby';
 import { mockUseStaticGlossaryData } from '../../glossary/test-helper';
-import { act, fireEvent, render, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
-import * as styles from '../site-header.module.scss';
+import { activeLink } from '../site-header.module.scss';
 import DesktopMenu from './desktop-menu';
 
 jest.useFakeTimers();
@@ -98,7 +98,7 @@ describe('Desktop Menu', () => {
       <DesktopMenu glossaryClickHandler={glossaryClickHandler} clickHandler={clickHandler} setActiveDropdown={setActiveDropdown} />
     );
 
-    expect(container.getElementsByClassName(`${styles.activeLink}`).length).toBe(0);
+    expect(container.getElementsByClassName(`${activeLink}`).length).toBe(0);
   });
 
   it('collapses the dropdown when tab is not focused on or within dropdown', async () => {

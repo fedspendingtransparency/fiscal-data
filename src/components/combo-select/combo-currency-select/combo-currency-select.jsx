@@ -143,6 +143,7 @@ const ComboCurrencySelect = ({
               className={classNames([dropdownInput, !isExchangeTool ? dropdownInputWeight : null])}
               onClick={toggleDropdown}
               data-testid="dropdownToggle"
+              title={selectedOption[optionLabelKey]}
             >
               <div className={selectedText}>{selectedOption[optionLabelKey]}</div>
               <div className={dropdownIcon}>

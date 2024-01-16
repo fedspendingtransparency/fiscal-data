@@ -3,7 +3,7 @@ import { act, render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import DownloadSticky, { dsTextContent } from './download-sticky';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
-import * as styles from './download-sticky.module.scss';
+import { minimizedStyle, collapsed } from './download-sticky.module.scss';
 import '@testing-library/jest-dom';
 import { StickyFooterComponent } from '../sticky-footer/sticky-footer';
 import * as gaHelper from '../../layouts/dataset-detail/helper';
@@ -178,7 +178,7 @@ describe('DownloadSticky component', () => {
     );
     jest.runAllTimers();
 
-    expect(getByTestId('download-sticky-content')).not.toHaveClass(styles.minimized);
+    expect(getByTestId('download-sticky-content')).not.toHaveClass(minimizedStyle);
     expect(queryByTestId('minimize-symbol')).toBeTruthy();
     expect(queryByTestId('maximize-symbol')).not.toBeTruthy();
 
@@ -189,7 +189,7 @@ describe('DownloadSticky component', () => {
     });
 
     expect(gaSpy).toHaveBeenCalledWith(dsTextContent.gaMinimizeSticky);
-    expect(getByTestId('download-sticky-content')).toHaveClass(styles.minimized);
+    expect(getByTestId('download-sticky-content')).toHaveClass(minimizedStyle);
     expect(queryByTestId('minimize-symbol')).not.toBeTruthy();
     expect(queryByTestId('maximize-symbol')).toBeTruthy();
 
@@ -390,7 +390,7 @@ describe('DownloadSticky component', () => {
 
     expect(queryByText(dsTextContent.hideLabel)).not.toBeTruthy();
     expect(queryByText(dsTextContent.showLabel)).toBeTruthy();
-    expect(getByTestId('downloads-list')).toHaveClass(styles.collapsed);
+    expect(getByTestId('downloads-list')).toHaveClass(collapsed);
 
     act(() => {
       collapseToggleButton.click();
@@ -400,14 +400,14 @@ describe('DownloadSticky component', () => {
     expect(queryByText(dsTextContent.hideLabel)).toBeTruthy();
     expect(queryByText(dsTextContent.showLabel)).not.toBeTruthy();
     expect(queryAllByText(dsTextContent.queuedStatus).length).toEqual(2);
-    expect(getByTestId('downloads-list')).not.toHaveClass(styles.collapsed);
+    expect(getByTestId('downloads-list')).not.toHaveClass(collapsed);
 
     act(() => {
       collapseToggleButton.click();
     });
     jest.runAllTimers();
 
-    expect(getByTestId('downloads-list')).toHaveClass(styles.collapsed);
+    expect(getByTestId('downloads-list')).toHaveClass(collapsed);
     expect(gaSpy).toHaveBeenCalledWith(dsTextContent.gaHideDetails);
   });
 

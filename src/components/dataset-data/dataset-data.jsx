@@ -45,6 +45,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [userFilterSelection, setUserFilterSelection] = useState(null);
   const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const [tableCaches] = useState({});
+  const [resetFilters, setResetFilters] = useState(false);
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;
@@ -217,6 +218,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                   latestDate: config.techSpecs.latestDate,
                 }}
                 finalDatesNotFound={finalDatesNotFound}
+                setResetFilters={setResetFilters}
+                datatableBanner={config.datatableBanner}
               />
             )}
           </FilterAndDownload>
@@ -242,6 +245,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             setTableColumnSortData={setTableColumnSortData}
             hasPublishedReports={!!publishedReports}
             publishedReports={publishedReports}
+            resetFilters={resetFilters}
+            setResetFilters={setResetFilters}
           />
         )}
       </div>

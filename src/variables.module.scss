@@ -37,6 +37,7 @@ $deep-blue: #2a328c;
 $near-black: #212121;
 $link-color: #2272ce;
 $primary: #0071bc;
+$primary-blue: #E8F5FF;
 $primary-darker: #205493;
 $primary-inactive: rgba(8, 114, 185, 0.4);
 $primary-glass: rgba(0, 113, 188, 0.3);
@@ -273,7 +274,7 @@ $pale-bg: #f8f8f8;
     }
   }
 
-  @media screen and (min-width: $breakpoint-md) {
+  @media screen and (min-width: $breakpoint-md + 100) {
     .toggleButton {
       margin: 0;
       border-radius: 0;

@@ -2,35 +2,36 @@
 
 .pageLinks {
   display: none;
+ transition: 0.125s;
 }
 
 .pageLinkButton {
+  display: flex;
+  align-items: center;
   border-top-style: none;
   border-right-style: none;
   border-left-style: none;
-  border-bottom: 2px solid transparent;
-  padding: 3px 0 1px;
+  border-bottom: 0.125rem solid transparent;
+  padding: 0;
+  width: fit-content;
 }
 
 @media screen and (min-width: $breakpoint-lg) {
   .pageLinkButtonContainer {
-    padding-right: 1rem;
-  }
-  .pageLinkButtonContent {
     transform: translateX(2rem);
+    padding-right: 1rem;
     .pageLinkButton {
-      padding-top: 3px;
+      height: 100%;
       background-color: inherit;
       font-size: 1rem;
-      height: 55px;
-      border-bottom: 2px solid transparent;
+      border-bottom: 0.125rem solid transparent;
 
       &.pageLinkButtonActive {
-        border-bottom: 2px solid #555555;
-        color: #555555;
+        border-bottom: 0.125rem solid $font-title;
+        color: $font-title;
         font-weight: $semi-bold-weight;
         &:hover {
-          border-bottom: 2px solid #555555;
+          border-bottom: 0.125rem solid $font-title;
         }
       }
 
@@ -39,7 +40,7 @@
           color: $primary;
           font-weight: $semi-bold-weight;
         }
-        border-bottom: 2px solid $primary;
+        border-bottom: 0.125rem solid $primary;
       }
     }
   }
@@ -47,14 +48,12 @@
   .pageLinks {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding-top: 15px;
 
     a {
       display: block;
       margin-right: 3rem;
       text-decoration: none;
-      color: #666666;
+      color: $font-body-copy;
       white-space: nowrap;
 
       &:last-child {
@@ -67,12 +66,12 @@
       }
 
       &.activeLink {
-        color: #555555;
+        color: $font-title;
         font-weight: $semi-bold-weight;
       }
     }
     &.activeLink {
-      border-bottom: 2px solid #555555;
+      border-bottom: 0.125rem solid $font-title;
     }
   }
 }
