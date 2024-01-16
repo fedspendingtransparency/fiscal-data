@@ -122,9 +122,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
 
   useEffect(() => {
     if (chartHooks && isVisible) {
-
       const nonActiveChartFields = getVisibleChartFields(chartFields);
-      console.log('fieldsss ',activeChartFields, nonActiveChartFields)
       chartHooks.onUpdateChartWidth(
         viz.current,
         nonActiveChartFields.map(f => f.field),
