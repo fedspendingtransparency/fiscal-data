@@ -17,30 +17,35 @@ describe('Secondary Nav', () => {
       index: 0,
       title: 'section 0',
       headingTitle: 'section 0 heading',
+      target: true,
     },
     {
       id: 'section-1',
       index: 1,
       title: 'section 1',
       headingTitle: 'section 1 heading',
+      target: true,
     },
     {
       id: 'section-2',
       index: 2,
       title: 'section 2',
       headingTitle: 'section 2 heading',
+      target: true,
     },
     {
       id: 'section-3',
       index: 3,
       title: 'section 3',
       headingTitle: 'section 3 heading',
+      target: true,
     },
     {
       id: 'section-4',
       index: 4,
       title: 'section 4',
       headingTitle: 'section 4 heading',
+      target: true,
     },
   ];
   const comingSoonSections = [
@@ -50,6 +55,7 @@ describe('Secondary Nav', () => {
       title: 'section 4',
       comingSoon: true,
       headingTitle: 'section 4 heading',
+      target: true,
     },
   ];
   const largeWidth = 1000;
