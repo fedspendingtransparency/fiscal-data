@@ -13,8 +13,7 @@ import DesktopMenu from './desktop-menu/desktop-menu';
 import ContentUnavailable from './banner-types/content-unavailable';
 import AnnouncementBanner from '../announcement-banner/announcement-banner';
 import { NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } from 'gatsby-env-variables';
-import CustomLink from '../links/custom-link/custom-link';
-import { bannerHeading, bannerContent, container, content, logo, stickyHeader } from './site-header.module.scss';
+import { container, content, logo, stickyHeader } from './site-header.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 

@@ -11,7 +11,7 @@ const scrollOptions = {
   spy: true,
   duration: scrollDuration,
   delay: scrollDelay,
-  offset: -36,
+  offset: -112,
 };
 
 const DDNav = () => {
@@ -44,13 +44,12 @@ const DDNav = () => {
     },
   ];
 
-
   const handleInteraction = (e, id) => {
     //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;
     }
-    
+
     if (id) {
       updateAddressPath(id, window.location);
       setHover(null);
@@ -59,11 +58,10 @@ const DDNav = () => {
     }
   };
 
-  const onSetActive = (id) => {
-    if (!isClickInitiatedScroll){
+  const onSetActive = id => {
+    if (!isClickInitiatedScroll) {
       setActiveSection(id);
     }
-
   };
 
   const updateScrollBarPosition = () => {
@@ -78,14 +76,14 @@ const DDNav = () => {
 
   useEffect(() => {
     updateScrollBarPosition();
-  }, [activeSection]); 
+  }, [activeSection]);
 
   useEffect(() => {
-    if(!activeSection && navRef.current){
+    if (!activeSection && navRef.current) {
       setActiveSection(null);
       navRef.current.scrollLeft = 0;
     }
-  }, [activeSection]); 
+  }, [activeSection]);
 
   useEffect(() => {
     if (scrollToId && isClickInitiatedScroll) {
@@ -93,8 +91,6 @@ const DDNav = () => {
       setIsClickInitiatedScroll(false);
     }
   }, [scrollToId, isClickInitiatedScroll]);
-
-
 
   return (
     <section id={container}>
@@ -115,6 +111,7 @@ const DDNav = () => {
                 tabIndex={0}
                 onMouseEnter={() => setHover(d.id)}
                 onMouseLeave={() => setHover(null)}
+                offset={scrollOptions.offset + 4}
                 {...scrollOptions}
               >
                 {d.title}
