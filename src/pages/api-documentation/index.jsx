@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import { Link, scrollSpy, Events, animateScroll } from 'react-scroll';
+import { Link, scrollSpy, Events, animateScroll, scroller } from 'react-scroll';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import GettingStarted from '../../components/api-documentation/getting-started/getting-started';
@@ -20,8 +20,11 @@ import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import { scrollOptionsSmooth } from '../../utils/scroll-config';
 import { globalNavOffset } from '../../components/secondary-nav/secondary-nav';
 import { tocList } from '../../helpers/api-documentation-sections';
+import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../variables.module.scss';
+import { withWindowSize } from 'react-fns';
 
-const ApiDocumentationPage = ({ location }) => {
+const ApiDocumentationPage = ({ location, width }) => {
   const breadCrumbLinks = [
     {
       name: 'API Documentation',
@@ -33,6 +36,7 @@ const ApiDocumentationPage = ({ location }) => {
   ];
 
   const [tocIsOpen, setTocIsOpen] = useState(false);
+  const [scrollToId, setScrollToId] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
 
@@ -96,8 +100,22 @@ const ApiDocumentationPage = ({ location }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (scrollToId && width < pxToNumber(breakpointLg)) {
+      scroller.scrollTo(scrollToId, {
+        smooth: true,
+        spy: true,
+        duration: 600,
+        delay: 200,
+        offset: globalNavOffset,
+      });
+      setScrollToId(null);
+    }
+  }, [tocIsOpen]);
+
   function handleToggle(e, id) {
     if (id) {
+      setScrollToId(id);
       updateAddressPath(id, location);
     } else {
       if (!tocIsOpen) {
@@ -172,4 +190,4 @@ const ApiDocumentationPage = ({ location }) => {
   );
 };
 
-export default ApiDocumentationPage;
+export default withWindowSize(ApiDocumentationPage);

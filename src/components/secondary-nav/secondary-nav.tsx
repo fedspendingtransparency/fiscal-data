@@ -172,7 +172,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   useEffect(() => {
     // This is for mobile usage, when switching between toc and page content.
 
-    if (scrollToId) {
+    if (scrollToId && width < pxToNumber(breakpointLg)) {
       const targetId = scrollToId; // local variable not impacted by state change
       setScrollToId(null);
 
