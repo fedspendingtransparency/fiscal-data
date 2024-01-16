@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import { Link, scrollSpy, Events, scroller, animateScroll } from 'react-scroll';
+import { Link, scrollSpy, Events, animateScroll } from 'react-scroll';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import GettingStarted from '../../components/api-documentation/getting-started/getting-started';
