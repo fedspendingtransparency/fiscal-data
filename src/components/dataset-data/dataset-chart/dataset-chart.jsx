@@ -20,9 +20,10 @@ import {
 
 export let chartHooks;
 export const callbacks = {
-  onHover: (on, item, hasUpdates) => {
-    if (chartHooks.onHover && hasUpdates) {
-      chartHooks.onHover(on, item.field);
+  onHover: (on, item, hasUpdates, chartFields) => {
+    const isActiveField = chartFields.some(field => field.field === item.field && field.active);
+    if (isActiveField && chartHooks.onHover && hasUpdates) {
+      chartHooks.onHover(on,item.field);
     }
   },
   onLabelChange: (update, chartFields, setChartFields) => {
@@ -49,7 +50,6 @@ const setFieldsToChart = (fields, pivot) => {
   const filteredChartFields = Object.keys(fields).filter(
     f => whiteList.indexOf(fields[f].toLowerCase()) !== -1 && blackList.indexOf(f.toLowerCase()) === -1
   );
-
   // pivot has synthetic columns, so order them alphabetically for display in the legend
   if (pivot && pivot.pivotView && pivot.pivotView.dimensionField) {
     return filteredChartFields.sort((a, b) => a.localeCompare(b));
@@ -177,7 +177,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
               isVisible={isVisible}
               fields={chartFields}
               // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
-              onHover={(on, item) => callbacks.onHover(on, item, hasUpdate)}
+              onHover={(on, item) => callbacks.onHover(on, item, hasUpdate, chartFields)}
               onLabelChange={hanldeLableChange}
             />
           </div>
