@@ -15,6 +15,10 @@
 
 .infoBanner {
   background-color: #e0f3f8;
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 100%;
+  box-sizing: border-box;
 
   .sideTab {
     background-color: #00bde3;
@@ -22,6 +26,17 @@
 }
 
 .warningBanner {
+  background-color: #faf3d1;
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 100%;
+  box-sizing: border-box;
+  .sideTab {
+    background-color: #ffbe2e;
+  }
+}
+
+.warningBannerXR {
   background-color: #faf3d1;
   .sideTab {
     background-color: #ffbe2e;
@@ -65,6 +80,14 @@
 @media screen and (max-width: $breakpoint-lg - 1) {
   .sideTab {
     margin-right: 0.875rem;
+  }
+
+  .infoBanner {
+    margin-top: 1rem;
+  }
+
+  .warningBanner {
+    margin-top: 1rem;
   }
 
   .calloutText {

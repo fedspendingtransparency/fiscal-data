@@ -1,3 +1,5 @@
+@import '../../variables.module.scss';
+
 .container {
   display: flex;
   white-space: nowrap;
@@ -16,4 +18,10 @@
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .container {
+    margin-left: 1rem;
+  }
 }

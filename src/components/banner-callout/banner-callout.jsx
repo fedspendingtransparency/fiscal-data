@@ -1,5 +1,5 @@
 import React from 'react';
-import { banner, infoBanner, warningBanner, sideTab, calloutText, icon } from './banner-callout.module.scss';
+import { banner, infoBanner, warningBanner, warningBannerXR, sideTab, calloutText, icon } from './banner-callout.module.scss';
 import { faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -22,6 +22,10 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
     },
     warning: {
       classname: warningBanner,
+      icon: faTriangleExclamation,
+    },
+    warningXR: {
+      classname: warningBannerXR,
       icon: faTriangleExclamation,
     },
   };
