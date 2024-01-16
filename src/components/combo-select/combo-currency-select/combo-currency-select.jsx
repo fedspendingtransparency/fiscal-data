@@ -54,7 +54,6 @@ const ComboCurrencySelect = ({
   const [inputRef, setInputFocus] = useFocus();
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
   const [searchBarActive, setSearchBarActive] = useState(false);
-  
 
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
@@ -144,6 +143,7 @@ const ComboCurrencySelect = ({
               className={classNames([dropdownInput, !isExchangeTool ? dropdownInputWeight : null])}
               onClick={toggleDropdown}
               data-testid="dropdownToggle"
+              title={selectedOption[optionLabelKey]}
             >
               <div className={selectedText}>{selectedOption[optionLabelKey]}</div>
               <div className={dropdownIcon}>

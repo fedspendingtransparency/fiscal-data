@@ -41,7 +41,7 @@ export const calloutConfig = {
   SavingsBondsDelay: {
     copy: (
       <>
-        We're experiencing delays with publishing paper savings bonds redemption data for November 2023 due to system issues. We're working on a
+        We're experiencing delays with publishing paper savings bonds redemption data for December 2023 due to system issues. We're working on a
         resolution and will publish the data as soon as possible.
       </>
     ),
@@ -49,7 +49,7 @@ export const calloutConfig = {
   TreasuryDirectDelay: {
     copy: (
       <>
-        We're experiencing delays with publishing paper savings bonds data which affects the Incoming Transfers in this dataset for November 2023.
+        We're experiencing delays with publishing paper savings bonds data which affects the Incoming Transfers in this dataset for December 2023.
         We're working on a resolution, and will publish the data as soon as possible.
       </>
     ),

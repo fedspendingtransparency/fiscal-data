@@ -6,13 +6,13 @@
   color: #ffffff;
   box-sizing: border-box;
   position: sticky;
-  top: 0;
+  top: 5.5rem;
   z-index: $dataset-detail-nav;
   -webkit-tap-highlight-color: transparent;
 }
 
 .content {
-  max-width: 1140px;
+  max-width: 71.25rem;
   margin: 0 auto;
   display: flex;
   white-space: nowrap;
@@ -55,8 +55,8 @@
 }
 
 .mobileIcon {
-  border: 2px solid #ffffff;
-  border-radius: 100px;
+  border: 0.125rem solid #ffffff;
+  border-radius: 6.25rem;
   padding: 0.2rem 0.285rem;
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import SelectControl from '../../../../components/select-control/select-control';
-import * as styles from './contact-form.module.scss';
+import { submit, errorIcon } from './contact-form.module.scss';
 import { scroller } from 'react-scroll';
 import Contact from './contact-form';
 import { ReCAPTCHA } from 'react-google-recaptcha';
@@ -41,7 +41,7 @@ describe('About Us - Contact Form', () => {
     const nameInput = instance.findByProps({ id: nameId });
     const emailInput = instance.findByProps({ id: emailId });
     const commentInput = instance.findByProps({ id: commentId });
-    const submitButton = instance.findByProps({ className: styles.submit });
+    const submitButton = instance.findByProps({ className: submit });
 
     const testString = 'testing';
 
@@ -122,7 +122,7 @@ describe('About Us - Contact Form', () => {
     });
 
     it('provides the error validations upon user input+blur', () => {
-      expect(instance.findAllByProps({ className: styles.errorIcon }).length).toBe(0);
+      expect(instance.findAllByProps({ className: errorIcon }).length).toBe(0);
 
       // Both inputs have errors
       renderer.act(() => {
@@ -147,7 +147,7 @@ describe('About Us - Contact Form', () => {
       });
       jest.runAllTimers();
 
-      expect(instance.findAllByProps({ className: styles.errorIcon }).length).toBe(2);
+      expect(instance.findAllByProps({ className: errorIcon }).length).toBe(2);
     });
 
     it('calls the environment specific API for Contact Us', async () => {
@@ -231,7 +231,7 @@ describe('recaptcha component', () => {
     });
   });
 
-  const submitButton = instance.findByProps({ className: styles.submit });
+  const submitButton = instance.findByProps({ className: submit });
 
   it('activates the submit button when the recaptcha quest is successful', () => {
     const recaptchaElement = instance.findByType(ReCAPTCHA);

@@ -1,8 +1,8 @@
 import React from 'react';
 import DDNav from './dataset-detail-nav';
-import { fireEvent, render, waitFor  } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import * as Scroll from 'react-scroll';
-import {activeMenu, desktopLinks} from './dataset-detail-nav.module.scss';
+import { activeMenu, desktopLinks } from './dataset-detail-nav.module.scss';
 
 jest.useFakeTimers();
 describe('DDNav', () => {
@@ -43,7 +43,7 @@ describe('DDNav', () => {
     const link = getByText('Introduction');
 
     fireEvent.keyDown(link, { key: 'Enter' });
-    expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true, offset: -36 });
+    expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true, offset: -112 });
     spy.mockClear();
     fireEvent.keyDown(link, { key: 'Tab' });
     expect(spy).not.toHaveBeenCalled();
@@ -56,9 +56,8 @@ describe('DDNav', () => {
     const link = getByText('Introduction');
 
     fireEvent.click(link);
-    expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true, offset: -36 });
+    expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true, offset: -112 });
     spy.mockClear();
-
   });
 
   it(`sets active link correctly`, () => {
@@ -66,16 +65,15 @@ describe('DDNav', () => {
     const link = getByTestId('DDNavDesktopLink0');
     fireEvent.click(link);
     expect(link).toHaveClass(desktopLinks);
-    
   });
 
   const mockNavRef = {
     current: {
       querySelector: jest.fn().mockImplementation(selector => {
         if (selector === `.${desktopLinks}.${activeMenu}`) {
-          return {offsetLeft: 100}
+          return { offsetLeft: 100 };
         }
-        return null
+        return null;
       }),
       scrollLeft: 100,
     },
@@ -95,7 +93,7 @@ describe('DDNav', () => {
     const { getByText } = render(<DDNav />);
 
     const introductionLink = getByText('Introduction');
-    fireEvent.scroll(introductionLink)
+    fireEvent.scroll(introductionLink);
     expect(introductionLink).toHaveClass(desktopLinks);
   });
 
@@ -103,8 +101,7 @@ describe('DDNav', () => {
     const { getByText } = render(<DDNav />);
 
     const introductionLink = getByText('Introduction');
-    fireEvent.click(introductionLink)
+    fireEvent.click(introductionLink);
     expect(introductionLink).toHaveClass(desktopLinks);
   });
-  
 });

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
-import * as Scroll from 'react-scroll';
-import { Link } from 'react-scroll';
+import { Link, scrollSpy, Events, animateScroll, Element, scroller } from 'react-scroll';
 import { withWindowSize } from 'react-fns';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import TOCButton from '../table-of-contents/toc-button/toc-button';
@@ -34,6 +33,8 @@ export const scrollOptions = {
   delay: 0,
 };
 
+export const globalNavOffset = -48;
+
 export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   sections,
   activeClass,
@@ -53,7 +54,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [lastScrollPosition, setLastScrollPosition] = useState<number>(0);
 
-  const ScrollTarget = Scroll.Element;
+  const ScrollTarget = Element;
   const scrollToTop = tocScrollOffset === undefined; // no offset, so scroll to TOP for TOC
 
   const analyticsClickHandler = section => {
@@ -76,7 +77,6 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     if (analytics) {
       analyticsClickHandler(title);
     }
-
     // only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;
@@ -95,12 +95,12 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
       } else {
         // no TOC target element so just scroll to top of page
         setTocIsOpen(true);
-        Scroll.animateScroll.scrollToTop(scrollOptions);
+        animateScroll.scrollToTop(scrollOptions);
       }
     } else {
       // no target ID and TOC is open so cancel and return to last position
       setTocIsOpen(false);
-      Scroll.animateScroll.scrollTo(lastScrollPosition, scrollOptions);
+      animateScroll.scrollTo(lastScrollPosition, scrollOptions);
     }
     setLastScrollPosition(scrollPosition);
   };
@@ -126,15 +126,60 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     };
   }, []);
 
+  // The below useEffect block handles the active section scroll interaction.
+  // When the user clicks on a section to scroll to in the nav, all sections save for the selected one have target set to false.
+  // This ensures that the active class is only applied to the selected section. The current selected section is also tracked via the 'current'
+  // property. This property ensures the active styling can be applied to the section BEFORE the scroll to that section has completed.
+  // Finally, on scroll end the target property is set to true for all sections, ensuring the active class is properly applied when the
+  // user scrolls normally.
+  // TODO: Turn the below code into a custom hook?
+  useEffect(() => {
+    Events.scrollEvent.register('begin', to => {
+      sections.forEach(s => {
+        s.target = false;
+      });
+
+      if (to) {
+        const section = sections.find(s => s.id === to);
+        if (section) {
+          section.target = true;
+          section.current = true;
+        }
+      }
+    });
+
+    Events.scrollEvent.register('end', () => {
+      setTimeout(() => {
+        sections.forEach(section => {
+          if (!section.target) {
+            section.target = true;
+          }
+          if (section.current) {
+            section.current = false;
+          }
+        });
+      }, 100);
+    });
+
+    scrollSpy.update();
+
+    return () => {
+      Events.scrollEvent.remove('begin');
+      Events.scrollEvent.remove('end');
+    };
+  }, []);
+
   useEffect(() => {
     // This is for mobile usage, when switching between toc and page content.
-    if (scrollToId) {
+
+    if (scrollToId && width < pxToNumber(breakpointLg)) {
       const targetId = scrollToId; // local variable not impacted by state change
       setScrollToId(null);
 
+      //TODO: Find out if this conditional block is needed (if we are calling scrollTo when we don't need to)
       if (scrollToId === 'table-of-contents') {
         // configure instant scroll for opening TOC
-        Scroll.scroller.scrollTo(targetId, {
+        scroller.scrollTo(targetId, {
           offset: tocScrollOffset - 5,
           ...scrollOptions,
         });
@@ -144,17 +189,17 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
         });
         // set a minimal delay then scroll down to clear scroll-up-sticky that gets in the way
         setTimeout(() => {
-          const scroll = Scroll.animateScroll;
+          const scroll = animateScroll;
           scroll.scrollMore(5);
         }, 10);
       } else {
         // scroll with animation duration to navigate away from TOC
-        Scroll.scroller.scrollTo(targetId, {
+        scroller.scrollTo(targetId, {
           smooth: true,
           spy: true,
           duration: scrollDuration,
           delay: scrollDelay,
-          offset: 2,
+          offset: globalNavOffset,
         });
         setTocIsOpen(false);
       }
@@ -196,9 +241,9 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                 >
                   <Link
                     className={`${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
-                    ${s.comingSoon ? comingSoonLink : undefined}`}
+                    ${s.comingSoon ? comingSoonLink : undefined} ${s.target && s.current && activeClass}`}
                     title={s.title}
-                    activeClass={activeClass}
+                    activeClass={s.target ? activeClass : ''}
                     tabIndex={0}
                     to={s.id}
                     smooth
@@ -207,6 +252,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                     delay={scrollDelay}
                     onClick={() => handleInteraction(null, s.id, s.title)}
                     onKeyPress={e => handleInteraction(e, s.id, s.title)}
+                    offset={globalNavOffset}
                   >
                     {s.title}
                   </Link>

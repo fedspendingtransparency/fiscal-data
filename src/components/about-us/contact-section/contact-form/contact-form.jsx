@@ -1,7 +1,26 @@
 import React, { useState } from 'react';
 import { scroller } from 'react-scroll';
 import { API_BASE_URL } from 'gatsby-env-variables';
-import * as styles from './contact-form.module.scss';
+import {
+  contactUsForm,
+  comment,
+  textInput,
+  loading,
+  label,
+  error,
+  errorMsg,
+  errorIcon,
+  required,
+  formElement,
+  submit,
+  responseIcon,
+  responseBody,
+  responseTitle,
+  responseMessage,
+  success,
+  recaptcha,
+  commentBoxSpacing,
+} from './contact-form.module.scss';
 import SelectControl from '../../../select-control/select-control';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
@@ -176,8 +195,8 @@ const ContactForm = ({ onUnsupportedSubject = () => {} }) => {
   };
 
   return (
-    <div className={styles.contactUsForm}>
-      <div className={styles.formElement}>
+    <div className={contactUsForm}>
+      <div className={formElement}>
         <SelectControl
           options={dropdownOptions}
           label="Subject"
@@ -186,19 +205,19 @@ const ContactForm = ({ onUnsupportedSubject = () => {} }) => {
           changeHandler={subjectValueChange}
         />
       </div>
-      <div className={styles.formElement}>
-        <label htmlFor="contactUsName" className={styles.label}>
+      <div className={formElement}>
+        <label htmlFor="contactUsName" className={label}>
           Name
         </label>
-        <input id="contactUsName" type="text" placeholder="Name" className={styles.textInput} disabled={disabled ? 'disabled' : ''} />
+        <input id="contactUsName" type="text" placeholder="Name" className={textInput} disabled={disabled ? 'disabled' : ''} />
       </div>
       <form name="contactUsForm" noValidate>
-        <div className={styles.commentBoxSpacing}>
-          <label htmlFor="contactUsEmail" className={styles.label}>
-            Email <span className={styles.required}>*</span>
+        <div className={commentBoxSpacing}>
+          <label htmlFor="contactUsEmail" className={label}>
+            Email <span className={required}>*</span>
           </label>
           {emailError && (
-            <div className={styles.errorIcon}>
+            <div className={errorIcon}>
               <FontAwesomeIcon icon={faExclamationCircle} />
             </div>
           )}
@@ -210,20 +229,20 @@ const ContactForm = ({ onUnsupportedSubject = () => {} }) => {
             type="email"
             placeholder="Email"
             disabled={disabled ? 'disabled' : ''}
-            className={`${styles.textInput} ${emailError ? styles.error : ''}`}
+            className={`${textInput} ${emailError ? error : ''}`}
           />
           {emailError && (
-            <div className={styles.errorMsg}>
-              <span className={styles.required}>*</span> {emailErrorMsg}
+            <div className={errorMsg}>
+              <span className={required}>*</span> {emailErrorMsg}
             </div>
           )}
         </div>
-        <div className={styles.commentBoxSpacing}>
-          <label htmlFor="contactUsComment" className={styles.label}>
-            Comment <span className={styles.required}>*</span>
+        <div className={commentBoxSpacing}>
+          <label htmlFor="contactUsComment" className={label}>
+            Comment <span className={required}>*</span>
           </label>
           {commentError && (
-            <div className={styles.errorIcon}>
+            <div className={errorIcon}>
               <FontAwesomeIcon icon={faExclamationCircle} />
             </div>
           )}
@@ -233,45 +252,45 @@ const ContactForm = ({ onUnsupportedSubject = () => {} }) => {
             required
             id="contactUsComment"
             disabled={disabled ? 'disabled' : ''}
-            className={`${styles.textInput} ${styles.comment} ${commentError ? styles.error : ''}`}
+            className={`${textInput} ${comment} ${commentError ? error : ''}`}
           />
           {commentError && (
-            <div className={styles.errorMsg}>
-              <span className={styles.required}>*</span> Required Field
+            <div className={errorMsg}>
+              <span className={required}>*</span> Required Field
             </div>
           )}
         </div>
-        <ReCAPTCHA sitekey="6LdyvrEZAAAAAPtSTHjmXgJ2oU8tVhBfpuMzHqa4" className={styles.recaptcha} ref={recaptchaRef} onChange={onChange} />
+        <ReCAPTCHA sitekey="6LdyvrEZAAAAAPtSTHjmXgJ2oU8tVhBfpuMzHqa4" className={recaptcha} ref={recaptchaRef} onChange={onChange} />
         {!isCallingAPI &&
           showResponseMessage &&
           (isResponseSuccessful ? (
-            <div data-test-id="successfulResponse" className={`${styles.responseMessage} ${styles.success}`}>
+            <div data-test-id="successfulResponse" className={`${responseMessage} ${success}`}>
               <div>
-                <FontAwesomeIcon icon={faCheckCircle} className={styles.responseIcon} />
-                <div className={styles.responseTitle}>Thank you!</div>
+                <FontAwesomeIcon icon={faCheckCircle} className={responseIcon} />
+                <div className={responseTitle}>Thank you!</div>
               </div>
-              <div className={styles.responseBody}>
+              <div className={responseBody}>
                 Your message has been received and will be reviewed. We appreciate your input, but please know that we may not be able to respond to
                 every submission.
               </div>
             </div>
           ) : (
-            <div data-test-id="failedResponse" className={`${styles.responseMessage} ${styles.error}`}>
+            <div data-test-id="failedResponse" className={`${responseMessage} ${error}`}>
               <div>
-                <FontAwesomeIcon icon={faExclamationCircle} className={styles.responseIcon} />
-                <div className={styles.responseTitle}>Unable to Send Message</div>
+                <FontAwesomeIcon icon={faExclamationCircle} className={responseIcon} />
+                <div className={responseTitle}>Unable to Send Message</div>
               </div>
-              <div className={styles.responseBody}>
+              <div className={responseBody}>
                 Your message could not be sent at this time. Please ensure that all required fields have been filled out and try again.
               </div>
             </div>
           ))}
         {!isLongResponse ? (
-          <button disabled={!isValid || isCallingAPI || !recaptchaValue || disabled} className={styles.submit} onClick={submitFeedback}>
+          <button disabled={!isValid || isCallingAPI || !recaptchaValue || disabled} className={submit} onClick={submitFeedback}>
             Submit
           </button>
         ) : (
-          <button disabled={true} className={`${styles.submit} ${styles.loading}`}>
+          <button disabled={true} className={`${submit} ${loading}`}>
             <CircularProgress size={17} />
           </button>
         )}

@@ -1,4 +1,4 @@
-import * as styles from '../../../select-all/select-all.module.scss';
+import { container, row, checkmarkText, labelCheckmarkContainer } from '../../../select-all/select-all.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faMinus, faUndo } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
@@ -30,8 +30,8 @@ const SelectAll = ({ table, resetToDefault, defaultColumns }) => {
   return (
     <>
       <div className={selectAllContainer}>
-        <div className={styles.container}>
-          <div className={styles.row}>
+        <div className={container}>
+          <div className={row}>
             <label>
               <input
                 name="selectAll"
@@ -41,8 +41,8 @@ const SelectAll = ({ table, resetToDefault, defaultColumns }) => {
                 checked={checked()}
                 className={selectAll}
               />
-              <span className={styles.labelCheckmarkContainer}>
-                <span className={styles.checkmarkText}>
+              <span className={labelCheckmarkContainer}>
+                <span className={checkmarkText}>
                   <FontAwesomeIcon
                     icon={!table.getIsAllColumnsVisible() && table.getIsSomeColumnsVisible() && !defaultState() ? faMinus : faCheck}
                     size="sm"

@@ -12,21 +12,19 @@ import {
   pageLinkButtonActive,
 } from './desktop-menu.module.scss';
 
-const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropdown, setActiveDropdown }) => {
+const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropdown, setActiveDropdown, buttonHeight }) => {
   return (
-    <div className={pageLinks} data-testid="pageLinks">
+    <div className={pageLinks} data-testid="pageLinks" style={{ height: buttonHeight + 'px' }}>
       {menuSections.map((pageLink, index) => {
         if (pageLink.isExperimental) {
           return (
             <Experimental featureId={pageLink.featureId} key={pageLink.title}>
-              <div className={pageLinkButtonContainer}>
-                <div className={pageLinkButtonContent} style={{ minWidth: `${pageLink.title.length * 8 + 16}px` }}>
-                  <button className={pageLinkButton}>
-                    <Link to={pageLink.to} activeClassName={activeLink} data-testid={pageLink.testId}>
-                      {pageLink.title}
-                    </Link>
-                  </button>
-                </div>
+              <div className={pageLinkButtonContainer} style={{ minWidth: `${pageLink.title.length * 8 + 16}px` }}>
+                <button className={pageLinkButton}>
+                  <Link to={pageLink.to} activeClassName={activeLink} data-testid={pageLink.testId}>
+                    {pageLink.title}
+                  </Link>
+                </button>
               </div>
             </Experimental>
           );
@@ -41,31 +39,30 @@ const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropd
               glossaryClickHandler={glossaryClickHandler}
               key={index}
               analyticsClickHandler={clickHandler}
+              buttonHeight={buttonHeight - 2}
             />
           );
         }
 
         return (
-          <div className={pageLinkButtonContainer} key={pageLink.title}>
-            <div className={pageLinkButtonContent} style={{ minWidth: `${pageLink.title.length * 7.5 + 16}px` }}>
-              {pageLink.to === location?.pathname ? (
-                <button className={`${pageLinkButton} ${pageLinkButtonActive}`} disabled>
-                  <span>{pageLink.title}</span>
-                </button>
-              ) : (
-                <button className={pageLinkButton} onMouseEnter={() => setActiveDropdown(pageLink.title)}>
-                  <Link
-                    key={pageLink.title}
-                    to={pageLink.to}
-                    activeClassName={activeLink}
-                    data-testid={pageLink.testId}
-                    onClick={() => clickHandler(pageLink.title)}
-                  >
-                    {pageLink.title}
-                  </Link>
-                </button>
-              )}
-            </div>
+          <div className={pageLinkButtonContainer} style={{ minWidth: `${pageLink.title.length * 7.5 + 16}px` }} key={pageLink.title} tabIndex={-1}>
+            {pageLink.to === location?.pathname ? (
+              <button className={`${pageLinkButton} ${pageLinkButtonActive}`} disabled>
+                <span>{pageLink.title}</span>
+              </button>
+            ) : (
+              <button className={pageLinkButton} onMouseEnter={() => setActiveDropdown(pageLink.title)}>
+                <Link
+                  key={pageLink.title}
+                  to={pageLink.to}
+                  activeClassName={activeLink}
+                  data-testid={pageLink.testId}
+                  onClick={() => clickHandler(pageLink.title)}
+                >
+                  {pageLink.title}
+                </Link>
+              </button>
+            )}
           </div>
         );
       })}

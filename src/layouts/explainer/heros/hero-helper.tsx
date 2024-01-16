@@ -1,9 +1,10 @@
-import { pillDataContainer, pillDataValue, pillDataPercent, explainerArrow } from '../hero-image/hero-image.module.scss';
+import { pillDataContainer, pillDataValue, pillDataPercent, explainerArrow, dashes, doubleDashs } from '../hero-image/hero-image.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { getShortForm } from '../../../utils/rounding-utils';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
 
 export const getFootNotesDateRange = (priorFY: string, currentFY: string, currentRecordMonth: string): string => {
   const date = new Date();
@@ -28,21 +29,31 @@ export const getPillData = (
   const valueLength = displayValue.length + 1;
   const percentLength = displayPercent.length + 1;
   const getPillWidth = displayValueLength => (displayValueLength > 4 ? (displayValueLength - 4) / 2 + 4 : 4);
-
+ 
+  const doubleDash ='/images/double-dash.svg';
+  const iconChange = (labelChanger) => {
+    if (labelChanger === 'increased') {
+      return <FontAwesomeIcon icon={faUpLong as IconProp} title="up arrow" />
+    }
+    else if(labelChanger === 'decreased') {
+      return <FontAwesomeIcon icon={faDownLong as IconProp} title="down arrow" />
+    }
+    else {
+      return (
+        <div className={doubleDashs}>
+          <img src={doubleDash} alt="double dash" className={dashes} />
+        </div>
+      ) 
+    }
+  }
   return (
     <div className={pillDataContainer}>
       <div className={pillDataValue} title={leftPillTooltipText} style={{ background: color, width: `${getPillWidth(valueLength)}rem` }}>
         ${displayValue}
       </div>
-      {changeLabel === 'increased' ? (
-        <div className={explainerArrow}>
-          <FontAwesomeIcon icon={faUpLong as IconProp} title="up arrow" />
-        </div>
-      ) : (
-        <div className={explainerArrow}>
-          <FontAwesomeIcon icon={faDownLong as IconProp} title="down arrow" />
-        </div>
-      )}
+      <div className={explainerArrow}>
+        {iconChange(changeLabel)}
+      </div>
       <div className={pillDataPercent} title={rightPillTooltipText} style={{ background: color, width: `${getPillWidth(percentLength)}rem` }}>
         {displayPercent}%
       </div>
