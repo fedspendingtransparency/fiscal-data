@@ -136,7 +136,7 @@ const DDNav = () => {
 
   return (
     <section id={container}>
-      <div className={content}>
+      <div className={content} ref={navRef}>
         <div data-testid="DDNavMenu" className={menu}>
           {sections.map((d, i) => {
             return (
