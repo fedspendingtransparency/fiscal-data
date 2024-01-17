@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { container, menu, activeMenu, desktopLinks, content, hoverMenu } from './dataset-detail-nav.module.scss';
-import { Link, scrollSpy, Events, scroller } from 'react-scroll';
+import React, { useEffect, useRef, useState } from 'react';
+import { activeMenu, container, content, desktopLinks, hoverMenu, menu } from './dataset-detail-nav.module.scss';
+import { Events, Link, scroller, scrollSpy } from 'react-scroll';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import globalConstants from '../../helpers/constants';
+
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
 const scrollDuration = globalConstants.config.smooth_scroll.duration;
 
@@ -19,26 +20,31 @@ const linksArr = [
     title: 'Introduction',
     id: 'introduction',
     target: true,
+    current: false,
   },
   {
     title: 'Preview & Download',
     id: 'preview-and-download',
     target: true,
+    current: false,
   },
   {
     title: 'Dataset Properties',
     id: 'dataset-properties',
     target: true,
+    current: false,
   },
   {
     title: 'API Quick Guide',
     id: 'api-quick-guide',
     target: true,
+    current: false,
   },
   {
     title: 'Related Datasets',
     id: 'related-datasets',
     target: true,
+    current: false,
   },
 ];
 
@@ -48,32 +54,27 @@ const DDNav = () => {
   const [activeSection, setActiveSection] = useState(null);
   const [isClickInitiatedScroll, setIsClickInitiatedScroll] = useState(false);
   const navRef = useRef(null);
+  const [sections, setSections] = useState(linksArr);
 
   // For more info on the below useEffect, refer to comments made in secondary-nav.tsx
   useEffect(() => {
     Events.scrollEvent.register('begin', to => {
-      linksArr.forEach(s => {
-        s.target = false;
-      });
-
       if (to) {
-        const section = linksArr.find(s => s.id === to);
-        section.target = true;
-        section.current = true;
+        const newArr = linksArr.map(s => (s.id === to ? { ...s, target: true, current: true } : { ...s, target: false, current: false }));
+        setSections(newArr);
       }
-      console.log(linksArr);
     });
 
     Events.scrollEvent.register('end', () => {
       setTimeout(() => {
-        linksArr.forEach(section => {
-          if (!section.target) {
-            section.target = true;
-          }
-          if (section.current) {
-            section.current = false;
-          }
+        const newArr = linksArr.map(section => {
+          return {
+            ...section,
+            target: !section.target ? true : section.target,
+          };
         });
+
+        setSections(newArr);
       }, 100);
     });
 
@@ -135,9 +136,9 @@ const DDNav = () => {
 
   return (
     <section id={container}>
-      <div className={content} ref={navRef}>
+      <div className={content}>
         <div data-testid="DDNavMenu" className={menu}>
-          {linksArr.map((d, i) => {
+          {sections.map((d, i) => {
             return (
               <Link
                 className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''} ${d.target && d.current && activeMenu}`}
