@@ -61,6 +61,7 @@ const DDNav = () => {
         section.target = true;
         section.current = true;
       }
+      console.log(linksArr);
     });
 
     Events.scrollEvent.register('end', () => {
