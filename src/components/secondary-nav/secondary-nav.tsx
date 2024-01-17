@@ -107,9 +107,9 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
 
   useEffect(() => {
     const handleSelectLink: (e) => void = e => {
-      const { target, key, className } = e.target;
-      if (target && key === 'Enter' && className.includes(sectionLink)) {
-        target.click();
+      const { className } = e.target;
+      if (e.target && e.key === 'Enter' && className.includes('sectionLink')) {
+        e.target.click();
       }
     };
 
