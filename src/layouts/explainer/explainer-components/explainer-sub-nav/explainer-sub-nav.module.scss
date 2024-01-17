@@ -40,7 +40,8 @@ ul.navBlockHidden {
   display: none;
 }
 
-ul.navBlock {
+ul.navBlock, ul.navBlockSticky {
+  margin: 1.5rem 0;
   list-style: none;
   display: flex;
   flex-direction: row;
@@ -48,23 +49,19 @@ ul.navBlock {
   justify-content: center;
   align-items: stretch;
   width: 100%;
-  margin: 1.5rem 0;
   font-size: $font-size-16;
+}
+
+ul.navBlock {
   padding-inline-start: 0;
 }
 
+
 ul.navBlockSticky {
-  list-style: none;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: stretch;
-  width: 100%;
-  font-size: $font-size-16;
   position: fixed;
-  top: 2.875rem;
+  top: 3.25rem;
   z-index: $desktop-menu-sticky;
+
 }
 
 li.navItem {
