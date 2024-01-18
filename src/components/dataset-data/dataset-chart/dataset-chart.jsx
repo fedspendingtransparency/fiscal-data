@@ -43,7 +43,7 @@ export const callbacks = {
 
 const getYear = date => date.getUTCFullYear();
 
-const setFieldsToChart = (fields, pivot) => {
+export const setFieldsToChart = (fields, pivot) => {
   const whiteList = ['currency', 'number', 'percentage'];
   const blackList = ['src_line_nbr', 'table_nbr', 'total_incoming_transfers_cnt', 'from_legacy_system_cnt', 'from_commercial_book_entry_cnt'];
   const filteredChartFields = Object.keys(fields).filter(
@@ -62,7 +62,7 @@ const setFieldsToChart = (fields, pivot) => {
 
 export const determineFormat = (fields, dataTypes) => {
   const isPercentage = fields.every(f => dataTypes[f].toLowerCase() === 'percentage');
-  const isCurrency = fields.every(f => dataTypes[f].toLowerCase() === 'currency');
+  const isCurrency = fields.every(f => dataTypes[f].toLowerCase() === 'currency' || dataTypes[f].substring(0, 8).toLowerCase() === 'currency');
   return isPercentage ? 'RATE' : isCurrency;
 };
 
