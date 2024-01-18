@@ -9,6 +9,7 @@
   justify-content: flex-end;
   background-color: #f6f6f6;
   margin: 0 auto;
+  padding: 0.25rem 0.75rem 0;
 }
 
 .stickyHeight {
@@ -25,8 +26,7 @@
 
 .breadCrumbBackground {
   background-color: #f6f6f6;
-  width: 100%;
-
+  padding: 0.25rem 0.75rem 0;
 }
 
 .mainWidth {
@@ -61,8 +61,5 @@
 @media screen and (max-width: $breakpoint-lg - 1) {
   .mainWidth {
     padding: 1rem 0;
-  }
-  .pageTitle {
-    margin-left: 1rem;
   }
 }
