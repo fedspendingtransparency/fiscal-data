@@ -68,28 +68,14 @@ const ApiDocumentationPage = ({ location, width }) => {
   // For more info on the below useEffect, refer to comments made in secondary-nav.tsx
   useEffect(() => {
     Events.scrollEvent.register('begin', to => {
-      tocList.forEach(s => {
-        s.target = false;
-      });
-
       if (to) {
+        tocList.forEach(s => {
+          s.target = false;
+        });
         const section = tocList.find(s => s.id === to);
         section.target = true;
         section.current = true;
       }
-    });
-
-    Events.scrollEvent.register('end', () => {
-      setTimeout(() => {
-        tocList.forEach(section => {
-          if (!section.target) {
-            section.target = true;
-          }
-          if (section.current) {
-            section.current = false;
-          }
-        });
-      }, 100);
     });
 
     scrollSpy.update();

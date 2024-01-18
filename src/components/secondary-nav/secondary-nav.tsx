@@ -105,14 +105,14 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     setLastScrollPosition(scrollPosition);
   };
 
-  useEffect(() => {
-    const handleSelectLink: (e) => void = e => {
-      const { className } = e.target;
-      if (e.target && e.key === 'Enter' && className.includes('sectionLink')) {
-        e.target.click();
-      }
-    };
+  const handleSelectLink: (e) => void = e => {
+    const { className } = e.target;
+    if (e.target && e.key === 'Enter' && className.includes('sectionLink')) {
+      e.target.click();
+    }
+  };
 
+  useEffect(() => {
     const handleScroll: () => void = () => {
       setScrollPosition(window.pageYOffset);
     };
@@ -135,30 +135,16 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   // TODO: Turn the below code into a custom hook?
   useEffect(() => {
     Events.scrollEvent.register('begin', to => {
-      sections.forEach(s => {
-        s.target = false;
-      });
-
       if (to) {
+        sections.forEach(s => {
+          s.target = false;
+        });
         const section = sections.find(s => s.id === to);
         if (section) {
           section.target = true;
           section.current = true;
         }
       }
-    });
-
-    Events.scrollEvent.register('end', () => {
-      setTimeout(() => {
-        sections.forEach(section => {
-          if (!section.target) {
-            section.target = true;
-          }
-          if (section.current) {
-            section.current = false;
-          }
-        });
-      }, 100);
     });
 
     scrollSpy.update();
