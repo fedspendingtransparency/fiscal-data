@@ -151,7 +151,6 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
 
     return () => {
       Events.scrollEvent.remove('begin');
-      Events.scrollEvent.remove('end');
     };
   }, []);
 
@@ -191,6 +190,20 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
       }
     }
   }, [scrollToId]);
+
+  const handleActive = to => {
+    const destination = sections.find(s => s.current === true);
+    if (destination) {
+      if (to === destination.id) {
+        sections.forEach(section => {
+          if (!section.target) {
+            section.target = true;
+          }
+          section.current = false;
+        });
+      }
+    }
+  };
 
   const shouldTocShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && tocIsOpen);
   const shouldContentShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && !tocIsOpen);
@@ -234,6 +247,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                     to={s.id}
                     smooth
                     spy
+                    onSetActive={to => handleActive(to)}
                     duration={scrollDuration}
                     delay={scrollDelay}
                     onClick={() => handleInteraction(null, s.id, s.title)}
