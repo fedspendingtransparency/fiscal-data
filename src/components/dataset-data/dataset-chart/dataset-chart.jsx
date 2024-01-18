@@ -23,7 +23,7 @@ export const callbacks = {
   onHover: (on, item, hasUpdates, chartFields) => {
     const isActiveField = chartFields.some(field => field.field === item.field && field.active);
     if (isActiveField && chartHooks.onHover && hasUpdates) {
-      chartHooks.onHover(on,item.field);
+      chartHooks.onHover(on, item.field);
     }
   },
   onLabelChange: (update, chartFields, setChartFields) => {
@@ -48,7 +48,9 @@ const setFieldsToChart = (fields, pivot) => {
   const whiteList = ['currency', 'number', 'percentage'];
   const blackList = ['src_line_nbr', 'table_nbr', 'total_incoming_transfers_cnt', 'from_legacy_system_cnt', 'from_commercial_book_entry_cnt'];
   const filteredChartFields = Object.keys(fields).filter(
-    f => whiteList.indexOf(fields[f].toLowerCase()) !== -1 && blackList.indexOf(f.toLowerCase()) === -1
+    f =>
+      (whiteList.indexOf(fields[f].toLowerCase()) !== -1 || whiteList.indexOf(fields[f].substring(0, 8).toLowerCase()) !== -1) &&
+      blackList.indexOf(f.toLowerCase()) === -1
   );
   // pivot has synthetic columns, so order them alphabetically for display in the legend
   if (pivot && pivot.pivotView && pivot.pivotView.dimensionField) {
@@ -155,7 +157,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
   const handleLabelChange = update => {
     setHasUpdate(update.length > 0);
     callbacks.onLabelChange(update, chartFields, setChartFields);
-  }
+  };
 
   return (
     <div className={`${chartArea} ${legend ? legendActive : ''}`}>
