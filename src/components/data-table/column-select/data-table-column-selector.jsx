@@ -38,6 +38,8 @@ const DataTableColumnSelector = ({
   dataTableRef,
   selectColumnPanel,
 }) => {
+  const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
+  console.log(defaultSelectedColumns, defaultSelectedColumns.length > 0);
   const CheckBoxList = columnList => (
     <>
       {columnList.map(({ id, getIsVisible, toggleVisibility, getToggleVisibilityHandler, columnDef }) => {
@@ -93,9 +95,13 @@ const DataTableColumnSelector = ({
           {table.getVisibleFlatColumns().length} selected of {fields?.length}
         </div>
       </div>
-      <DataTableSelectAll table={table} resetToDefault={resetToDefault} defaultColumns={defaultSelectedColumns} />
+      <DataTableSelectAll
+        table={table}
+        resetToDefault={resetToDefault}
+        defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns}
+      />
       <div className={buttonContainer}>
-        {defaultSelectedColumns ? (
+        {displayDefault ? (
           <div>
             <div className={sectionContainer}>
               <span className={sectionHeading}>DEFAULTS</span>

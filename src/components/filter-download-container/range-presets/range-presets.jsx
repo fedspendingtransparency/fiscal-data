@@ -23,6 +23,7 @@ const RangePresets = ({
   setResetFilters,
   datatableBanner,
 }) => {
+  console.log(selectedTable);
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
   const [pickerDateRange, setPickerDateRange] = useState(null);
@@ -197,7 +198,8 @@ const RangePresets = ({
       setPresets(curPresets);
     }
   }, [selectedTable, allTablesSelected, finalDatesNotFound]);
-
+  console.log(selectedTable.fields);
+  console.log(selectedTable.fields.find(field => field.columnName === selectedTable.dateField));
   const label =
     selectedTable && selectedTable.fields
       ? ` (${selectedTable.fields.find(field => field.columnName === selectedTable.dateField).prettyName})`

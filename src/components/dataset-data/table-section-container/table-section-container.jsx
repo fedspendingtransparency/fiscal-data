@@ -52,6 +52,7 @@ const TableSectionContainer = ({
   setResetFilters,
 }) => {
   const tableName = selectedTable.tableName;
+  console.log(selectedTable);
   const [showPivotBar, setShowPivotBar] = useState(true);
   const [tableProps, setTableProps] = useState();
   const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
@@ -146,7 +147,7 @@ const TableSectionContainer = ({
       selectedPivot,
       dateRange,
       apiError: apiErrorState,
-      selectColumns: config.selectColumns,
+      selectColumns: selectedTable.selectColumns,
       hideColumns: config.hideColumns,
       excludeCols: ['CHART_DATE'],
       aria: { 'aria-labelledby': 'main-data-table-title' },
@@ -261,7 +262,7 @@ const TableSectionContainer = ({
             legend={legend}
             selectedTab={selectedTab}
             showToggleChart={!noChartMessage}
-            showToggleTable={config.selectColumns}
+            showToggleTable={selectedTable.selectColumns}
             userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
             onToggleLegend={legendToggler}
             emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
