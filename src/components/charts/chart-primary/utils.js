@@ -1,6 +1,14 @@
 import simplifyNumber from '../../../helpers/simplify-number/simplifyNumber';
 
-export const formatForDataType = (d, dataType) => {
+export const formatForDataType = (d, dataType, displayRealValues) => {
   const sign = dataType === 'RATE' ? ' %' : '';
-  return simplifyNumber(Number(d), dataType === 'CURRENCY', true) + sign;
+  if (displayRealValues) {
+    if (dataType === 'CURRENCY') {
+      return `$${Number(d).toLocaleString()}`;
+    } else {
+      return simplifyNumber(Number(d), dataType === 'CURRENCY', true) + sign;
+    }
+  } else {
+    return simplifyNumber(Number(d), dataType === 'CURRENCY', true) + sign;
+  }
 };

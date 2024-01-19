@@ -221,7 +221,8 @@
     },
     "topics": ["debt", "interest-exchange-rates"],
     "relatedDatasets": ["015-BFS-2014Q1-11", "015-BFS-2014Q3-093", "015-BFS-2014Q1-03", "015-BFS-2014Q1-13"],
-    "currentDateButton": "byDay"
+    "currentDateButton": "byDay",
+    "displayRealChartValues": true
   },
   "015-BFS-2014Q3-093": {
     "seoConfig": {

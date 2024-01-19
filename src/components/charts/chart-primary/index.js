@@ -21,6 +21,9 @@ const d3 = {
   transition,
   interpolateNumber,
 };
+let w, data, options, el, dateField, fields, lines, y, container, dataType, labels, scales, previousExtent, toolTipDateKey, svgDefs, displayRawValues;
+
+// const baseYAxisWidth = displayRawValues ? 140 : 66;
 
 const baseYAxisWidth = 66;
 
@@ -33,8 +36,6 @@ const chartDimensions = {
 };
 const duration = 1000;
 const parseTime = d3.timeParse('%Y-%m-%d');
-
-let w, data, options, el, dateField, fields, lines, y, container, dataType, labels, scales, previousExtent, toolTipDateKey, svgDefs;
 
 const setWidth = selection => {
   w = selection.node().getBoundingClientRect().width;
@@ -252,7 +253,7 @@ const onUpdateChartWidth = (ref, _fields, _visibleFields) => {
   y = setAxes(container, scales, chartDimensions, dataType);
   draw(container, scales, fields, _visibleFields);
   setTooltips();
-}
+};
 
 const setContainer = () => {
   const parentSelection = d3.select(el);
@@ -290,11 +291,12 @@ const setTooltips = (fieldsToShow, currentScales) => {
       labels,
       dataType,
       toolTipDateKey,
+      displayRawValues,
     });
   }
 };
 
-const initChart = (_data, _el, _dateField, _fields, _labels, _options = {}) => {
+const initChart = (_data, _el, _dateField, _fields, _labels, _displayRawValues, _options = {}) => {
   data = _data;
   el = _el;
   dateField = _dateField;
@@ -303,15 +305,16 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _options = {}) => {
   dataType = options.format === true ? 'CURRENCY' : options.format;
   labels = _labels;
   markers = [_data[0]];
+  displayRawValues = _displayRawValues;
   toolTipDateKey = options.toolTipDateKey;
   chartDimensions.height = options.forceHeight || chartDimensions.height;
-  chartDimensions.yAxisWidth = options.forceYAxisWidth || baseYAxisWidth;
+  chartDimensions.yAxisWidth = displayRawValues ? 140 : options.forceYAxisWidth || baseYAxisWidth;
 
   setContainer();
 
   if (data) {
     scales = setScales(fields);
-    y = setAxes(container, scales, chartDimensions, dataType, options);
+    y = setAxes(container, scales, chartDimensions, dataType, options, displayRawValues);
     draw(container, scales, fields);
   }
 

@@ -23,7 +23,7 @@ export const callbacks = {
   onHover: (on, item, hasUpdates, chartFields) => {
     const isActiveField = chartFields.some(field => field.field === item.field && field.active);
     if (isActiveField && chartHooks.onHover && hasUpdates) {
-      chartHooks.onHover(on,item.field);
+      chartHooks.onHover(on, item.field);
     }
   },
   onLabelChange: (update, chartFields, setChartFields) => {
@@ -70,7 +70,7 @@ export const dataTableChartNotesText =
   ' of data points for this date range can be found under the Table tab and are available through' +
   ' the API endpoint for this data table.';
 
-const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPivot, dateField, dateRange }) => {
+const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPivot, dateField, dateRange, displayRawValues }) => {
   const [chartFields, setChartFields] = useState([]);
   const [chartNotes, setChartNotes] = useState(null);
   const [hasUpdate, setHasUpdate] = useState(true);
@@ -144,7 +144,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
       const chartData = thinDataAsNeededForChart(data.data, slug, dateField, currentTable);
 
       if (chartData.length > 0) {
-        chartHooks = drawChart(chartData, viz.current, dateField, localChartFields, data.meta.labels, {
+        chartHooks = drawChart(chartData, viz.current, dateField, localChartFields, data.meta.labels, displayRawValues, {
           format: determineFormat(localChartFields, data.meta.dataTypes),
           toolTipDateKey: aggFieldName || false,
         });
@@ -155,7 +155,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
   const handleLabelChange = update => {
     setHasUpdate(update.length > 0);
     callbacks.onLabelChange(update, chartFields, setChartFields);
-  }
+  };
 
   return (
     <div className={`${chartArea} ${legend ? legendActive : ''}`}>

@@ -6,6 +6,7 @@ let container,
   scales,
   chartDimensions,
   dataType,
+  displayRawValues,
   options = {};
 const y = {};
 
@@ -78,12 +79,12 @@ const setXAxis = () => {
   }
 };
 
-const setYAxis = () => {
+const setYAxis = displayRawValues => {
   y.yAxis = axisLeft(scales.y)
     .ticks(options.yAxisTickNumber || 10)
     .tickSizeInner(0 - chartDimensions.width)
     .tickFormat(d => {
-      return formatForDataType(d, dataType);
+      return formatForDataType(d, dataType, displayRawValues);
     })
     .tickSizeOuter(0);
 
@@ -131,10 +132,11 @@ const createShaders = noShaders => {
   }
 };
 
-const setAxes = (_container, _scales, _chartDimensions, _dataType, _options = {}) => {
+const setAxes = (_container, _scales, _chartDimensions, _dataType, _displayRawValues, _options = {}) => {
   container = _container;
   scales = _scales;
   chartDimensions = _chartDimensions;
+  displayRawValues = _displayRawValues;
   dataType = _dataType;
   options = _options;
 
@@ -142,7 +144,7 @@ const setAxes = (_container, _scales, _chartDimensions, _dataType, _options = {}
     setXAxis();
   }
   if (!options.excludeYAxis) {
-    setYAxis();
+    setYAxis(displayRawValues);
   }
 
   createShaders(options.noShaders);

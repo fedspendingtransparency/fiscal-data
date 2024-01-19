@@ -31,8 +31,7 @@ export default function simplifyNumber(n, currency, ignoreDecimal) {
     rounded = n.toFixed(2);
   }
 
-  console.log(n);
-  return `${negativeSign}${dollarSign}${n}`;
+  return `${negativeSign}${dollarSign}${rounded}`;
 }
 
 export const numberWithCommas = x => {
