@@ -6,12 +6,17 @@ import globalConstants from '../../helpers/constants';
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
 const scrollDuration = globalConstants.config.smooth_scroll.duration;
 
+const scrollOffset = -112;
 const scrollOptions = {
   smooth: true,
   spy: true,
   duration: scrollDuration,
   delay: scrollDelay,
-  offset: -112,
+};
+
+const scrollOptionsOffset = {
+  ...scrollOptions,
+  offset: scrollOffset,
 };
 
 const DDNav = () => {
@@ -87,7 +92,7 @@ const DDNav = () => {
 
   useEffect(() => {
     if (scrollToId && isClickInitiatedScroll) {
-      scroller.scrollTo(scrollToId, scrollOptions);
+      scroller.scrollTo(scrollToId, scrollOptionsOffset);
       setIsClickInitiatedScroll(false);
     }
   }, [scrollToId, isClickInitiatedScroll]);
@@ -111,7 +116,7 @@ const DDNav = () => {
                 tabIndex={0}
                 onMouseEnter={() => setHover(d.id)}
                 onMouseLeave={() => setHover(null)}
-                offset={scrollOptions.offset + 4}
+                offset={scrollOffset - 4}
                 {...scrollOptions}
               >
                 {d.title}
