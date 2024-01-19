@@ -31,7 +31,6 @@ const Masthead = ({ title, width }) => {
     },
   ];
 
-  // Commenting this out resolved DDP sub nav scroll issue
   const handleScroll = () => {
     const position = window.pageYOffset;
     const breakpoint = width >= pxToNumber(breakpointLg) ? 120 : 90;
