@@ -2,8 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import SurplusIllustration from './surplus-illustration';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
-import { renderHook } from '@testing-library/react-hooks';
+import { mockIsIntersecting } from 'react-intersection-observer/test-utils';
 
 describe('Surplus Illustration', () => {
   const glossary = [];
@@ -35,8 +34,20 @@ describe('Surplus Illustration', () => {
     expect(getByTestId('deficit-image')).toBeInTheDocument();
   });
 
+  it('adds the bounce class for the animation', async () => {
+    jest.useFakeTimers();
+    const { findByTestId } = render(<SurplusIllustration glossary={glossary} />);
+    const illustration = findByTestId('surplus-illustration');
+    mockIsIntersecting(await illustration, true);
+    const budgetTab = await findByTestId('budget-tab');
+    const deficitTab = await findByTestId('deficit-tab');
+    jest.advanceTimersByTime(2000);
+    expect(budgetTab).toHaveClass('bounce');
+    expect(deficitTab).toHaveClass('bounceDeficit');
+  });
+
   it('calls the appropriate analytics when a tab is clicked', () => {
-    const { getByTestId, getByText, debug } = render(<SurplusIllustration glossary={glossary} />);
+    const { getByTestId } = render(<SurplusIllustration glossary={glossary} />);
     const spy = jest.spyOn(Analytics, 'event');
     const surplusTab = getByTestId('surplus-tab');
     const budgetTab = getByTestId('budget-tab');
