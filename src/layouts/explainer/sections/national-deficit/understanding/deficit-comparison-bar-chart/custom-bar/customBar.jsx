@@ -6,8 +6,6 @@ import { getShortForm } from '../../../../../../../utils/rounding-utils';
 const CustomBar = ({ bar: { x, y, width, height, color, key, data }, inView }) => {
   const [pauseAnimation, setPauseAnimation] = useState(true);
   const [opacity, setOpacity] = useState(0);
-  console.log(inView);
-  // const { x, y, width, height, color, key, data } = bar;
   // 80 is bar width for desktop
   const desktop = width >= 80;
 
