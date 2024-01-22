@@ -35,13 +35,11 @@ describe('Surplus Illustration', () => {
   });
 
   it('adds the bounce class for the animation', async () => {
-    jest.useFakeTimers();
-    const { findByTestId } = render(<SurplusIllustration glossary={glossary} />);
-    const illustration = findByTestId('surplus-illustration');
-    mockIsIntersecting(await illustration, true);
-    const budgetTab = await findByTestId('budget-tab');
-    const deficitTab = await findByTestId('deficit-tab');
-    jest.advanceTimersByTime(2000);
+    const { getByTestId } = render(<SurplusIllustration glossary={glossary} />);
+    const illustration = await getByTestId('surplus-illustration');
+    mockIsIntersecting(illustration, true);
+    const budgetTab = await getByTestId('budget-tab');
+    const deficitTab = await getByTestId('deficit-tab');
     expect(budgetTab).toHaveClass('bounce');
     expect(deficitTab).toHaveClass('bounceDeficit');
   });
