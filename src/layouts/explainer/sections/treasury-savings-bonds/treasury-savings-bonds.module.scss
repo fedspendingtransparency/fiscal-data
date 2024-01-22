@@ -1,0 +1,11 @@
+@import '../../../../variables.module.scss';
+
+$savings-bonds-explainer-primary: #3b005b;
+$savings-bonds-explainer-secondary: #b04abd;
+$savings-bonds-explainer-light-secondary: #f8f0f9;
+
+:export {
+  savingsBondsExplainerPrimary: $savings-bonds-explainer-primary;
+  savingsBondsExplainerSecondary: $savings-bonds-explainer-secondary;
+  savingsBondsExplainerLightSecondary: $savings-bonds-explainer-light-secondary;
+}

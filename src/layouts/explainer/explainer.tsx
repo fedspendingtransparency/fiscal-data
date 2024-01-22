@@ -35,7 +35,7 @@ import DeskTopSubNav from './explainer-components/explainer-sub-nav/explainer-su
 import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
-const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
+const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
   const { pageName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear } = pageContext;
 
   return (
@@ -50,12 +50,17 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
           canonical=""
           datasetDetails=""
         />
-        <div className={mobileSubNav}>
-          <MobileSubNav hidePosition={160} pageName={pageName} />
-        </div>
-        <div className={desktopSubNav}>
-          <DeskTopSubNav hidePosition={160} />
-        </div>
+        {path.includes('americas-finance-guide') && (
+          <>
+            <div className={mobileSubNav}>
+              <MobileSubNav hidePosition={160} pageName={pageName} />
+            </div>
+            <div className={desktopSubNav}>
+              <DeskTopSubNav hidePosition={160} />
+            </div>
+          </>
+        )}
+
         <div className={mainContainer}>
           <HeroImage
             heading={heroImage.heading}
