@@ -62,8 +62,8 @@ module.exports = {
     '264': {
       endpoint: 'v1/accounting/od/tips_cpi_data_summary',
       downloadName: 'TIPSandCPIdata_Summary',
-      dateField: 'original_auction_date',
-      alwaysSortWith: ['-original_auction_date'],
+      dateField: 'original_issue_date',
+      alwaysSortWith: ['-original_issue_date'],
       selectColumns: [],
     },
     '300': {
