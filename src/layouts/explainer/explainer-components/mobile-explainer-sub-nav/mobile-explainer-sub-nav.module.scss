@@ -69,7 +69,10 @@
 .mainContainer {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+}
+.mainContainer, .mainContainerSticky {
+  margin-top: 2.5rem;
+
 }
 .mainContainerShow {
   display: flex;
@@ -77,9 +80,8 @@
 }
 .mainContainerSticky {
   position: fixed;
-  top: 1.5rem;
+  top: 3.25rem;
   z-index: $mobile-menu-sticky;
-  margin-top: 2rem !important;
 }
 .mainContainerHidden {
   display: none;

@@ -1,13 +1,43 @@
 @import '../../variables.module.scss';
 
 .pageHeader {
+  position: sticky;
+  top: -.25rem;
+  z-index: $dataset-detail-nav;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   background-color: #f6f6f6;
+  margin: 0 auto;
+}
+
+.stickyHeight {
+  height: 92px;
+}
+
+.breadCrumb {
+  z-index: $dataset-detail-nav;
+  padding-top: 1rem;
+  max-width: $main-width;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.breadCrumbBackground {
+  background-color: #f6f6f6;
+  width: 100%;
+
 }
 
 .mainWidth {
   max-width: $main-width;
+  width: 100%;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding: 1.5rem 0 1rem;
+
+  &.stickyMainWidth {
+    padding: 0.5rem 0;
+  }
 }
 
 .bannerCalloutContainer {
@@ -16,11 +46,23 @@
 
 .pageTitle {
   @include pageTitle;
-  padding-bottom: 1rem;
+  transition: 0.25s;
+  padding: 0;
+
+  &.stickyHeader {
+    font-size: $font-size-16;
+    font-weight: normal;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .mainWidth {
-    padding: 1rem;
+    padding: 1rem 0;
+  }
+  .pageTitle {
+    margin-left: 1rem;
   }
 }
