@@ -13,18 +13,12 @@ export const toTitleCase = text => {
     .trim();
 };
 
-const getText = (takeaway, glossary, glossaryClickHandler) => {
+const getText = takeaway => {
   const { hasGlossaryTerm, page, glossaryRegex, text, glossaryString, glossaryTerm } = takeaway;
   if (hasGlossaryTerm) {
     return reactStringReplace(text, glossaryRegex || glossaryString, (match, i) => {
       return (
-        <GlossaryPopoverDefinition
-          term={toTitleCase(glossaryTerm ? glossaryTerm : match)}
-          page={page}
-          glossary={glossary}
-          glossaryClickHandler={glossaryClickHandler}
-          key={i}
-        >
+        <GlossaryPopoverDefinition term={toTitleCase(glossaryTerm ? glossaryTerm : match)} page={page} key={i}>
           {match}
         </GlossaryPopoverDefinition>
       );
@@ -34,7 +28,7 @@ const getText = (takeaway, glossary, glossaryClickHandler) => {
 };
 
 //TODO: Replace below icon with afg-icon component
-const KeyTakeawaysSection = ({ takeaways, primaryColor, secondaryColor, glossary, glossaryClickHandler }) => (
+const KeyTakeawaysSection = ({ takeaways, primaryColor, secondaryColor }) => (
   <>
     {takeaways.map(takeaway => (
       <div className={keyTakeawaysContent} key={takeaway.text}>
@@ -42,7 +36,7 @@ const KeyTakeawaysSection = ({ takeaways, primaryColor, secondaryColor, glossary
           <FontAwesomeIcon icon={takeaway.icon} className={icon} />
           <FontAwesomeIcon icon={takeaway.icon} className={offsetIcon} style={{ color: primaryColor }} />
         </div>
-        <p>{getText(takeaway, glossary, glossaryClickHandler)}</p>
+        <p>{getText(takeaway)}</p>
       </div>
     ))}
   </>

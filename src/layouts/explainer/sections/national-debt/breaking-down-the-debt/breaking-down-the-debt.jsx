@@ -60,27 +60,22 @@ const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width 
   const [currentFiscalYear, setCurrentFiscalYear] = useState('');
   const glossaryTerms = {
     debtHeldByThePublic: (
-      <GlossaryPopoverDefinition term="Debt Held by the Public" page="Debt explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+      <GlossaryPopoverDefinition term="Debt Held by the Public" page="Debt explainer">
         debt held by the public
       </GlossaryPopoverDefinition>
     ),
     intragovernmental: (
-      <GlossaryPopoverDefinition
-        term="Intragovernmental Holdings"
-        page="Debt explainer"
-        glossary={glossary}
-        glossaryClickHandler={glossaryClickHandler}
-      >
+      <GlossaryPopoverDefinition term="Intragovernmental Holdings" page="Debt explainer">
         intragovernmental
       </GlossaryPopoverDefinition>
     ),
     calendarYear: (
-      <GlossaryPopoverDefinition term="Calendar Year" page="Debt explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+      <GlossaryPopoverDefinition term="Calendar Year" page="Debt explainer">
         calendar year
       </GlossaryPopoverDefinition>
     ),
     interestRates: (
-      <GlossaryPopoverDefinition term="Interest Rates" page="Debt explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+      <GlossaryPopoverDefinition term="Interest Rates" page="Debt explainer">
         interest rates
       </GlossaryPopoverDefinition>
     ),

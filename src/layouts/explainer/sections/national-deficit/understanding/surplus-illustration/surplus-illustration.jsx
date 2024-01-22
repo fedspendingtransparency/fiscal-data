@@ -27,7 +27,7 @@ import Analytics from '../../../../../../utils/analytics/analytics';
 import { useInView } from 'react-intersection-observer';
 import { chartInViewProps } from '../../../../explainer-helpers/explainer-charting-helper';
 
-const SurplusIllustration = ({ glossary, width, glossaryClickHandler }) => {
+const SurplusIllustration = ({ width }) => {
   const { getGAEvent } = useGAEventTracking(null, 'Deficit');
 
   const edgeBreakPoint = pxToNumber(1188);
@@ -99,7 +99,7 @@ const SurplusIllustration = ({ glossary, width, glossaryClickHandler }) => {
   const tabStyle = width < pxToNumber(1128) ? tabStyleMobile : tabStyleDesktop;
 
   const balancedBudgetGlossary = (
-    <GlossaryPopoverDefinition term="Balanced Budget" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Balanced Budget" page="Deficit Explainer">
       balanced budget
     </GlossaryPopoverDefinition>
   );

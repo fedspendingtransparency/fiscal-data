@@ -8,7 +8,7 @@ import QuoteBox from '../../../quote-box/quote-box';
 import { faFlagUsa } from '@fortawesome/free-solid-svg-icons';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
-export const SpendingOverview = ({ glossary, glossaryClickHandler }) => {
+export const SpendingOverview = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
   const [priorYearSpending, setPriorYearSpending] = useState(null);
   const [spendingChange, setSpendingChange] = useState(null);
@@ -26,30 +26,30 @@ export const SpendingOverview = ({ glossary, glossaryClickHandler }) => {
   );
 
   const objectClass = (
-    <GlossaryPopoverDefinition term="Object Class" page="Spending explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Object Class" page="Spending explainer">
       object class
     </GlossaryPopoverDefinition>
   );
 
   const budgetFunctions = (
-    <GlossaryPopoverDefinition term="Budget Function" page="Spending explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Budget Function" page="Spending explainer">
       budget functions
     </GlossaryPopoverDefinition>
   );
   const revenue = (
-    <GlossaryPopoverDefinition term="Revenue" page="Deficit & Spending explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Revenue" page="Deficit & Spending explainer">
       revenue
     </GlossaryPopoverDefinition>
   );
 
   const agency = (
-    <GlossaryPopoverDefinition term="Agency" page="Spending explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Agency" page="Spending explainer">
       agency
     </GlossaryPopoverDefinition>
   );
 
   const federalDebt = (
-    <GlossaryPopoverDefinition term="Federal Debt" page="Spending Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Federal Debt" page="Spending Explainer">
       federal debt
     </GlossaryPopoverDefinition>
   );

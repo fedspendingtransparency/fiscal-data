@@ -150,6 +150,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         action: 'Chart Hover',
         label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
       });
+      console.log('ga');
     }, 3000);
     ga4Timer = setTimeout(() => {
       window.dataLayer = window.dataLayer || [];
