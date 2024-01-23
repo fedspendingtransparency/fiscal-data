@@ -13,13 +13,9 @@ jest.mock('../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
 });
 
-// test for savings bonds
-// test no afg sub nav in savings bonds
-
 const afgPath = '/americas-finance-guide/test/';
 const nonAfgPath = '/not-afg/test/';
 
-// having issue with allGlossaryCsv being undefined
 const glossaryMock = {
   allGlossaryCsv: {
     glossaryCsv: [
@@ -69,7 +65,6 @@ describe('Deficit explainer', () => {
     glossary,
   };
 
-  // passing in path
   it('renders the deficit explainer page', async () => {
     const pageName = 'national-deficit';
     const deficitPageContext = {
@@ -330,7 +325,6 @@ describe('Savings Bonds explainer', () => {
   });
   afterEach(() => {
     jest.resetModules();
-    global.fetch.mockReset();
   });
 
   const cpiDataByYear = {
