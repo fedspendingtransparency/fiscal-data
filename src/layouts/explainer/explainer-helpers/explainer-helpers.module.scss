@@ -55,10 +55,11 @@
   border-left-color: $treasury-savings-bonds-explainer-secondary !important;
   color: $treasury-savings-bonds-explainer-primary !important;
   font-weight: bold;
-  padding-right: 0 !important;
+  padding-right: 5px !important;
 }
 
 .treasurySavingsBondsHover {
   color: $treasury-savings-bonds-explainer-secondary !important;
   font-weight: bold;
+  padding-right: 5px;
 }
