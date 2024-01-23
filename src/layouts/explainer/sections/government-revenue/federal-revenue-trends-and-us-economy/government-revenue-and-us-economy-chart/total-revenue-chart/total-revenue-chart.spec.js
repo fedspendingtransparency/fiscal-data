@@ -54,8 +54,8 @@ describe('Total Revenue Chart', () => {
       <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getAllByText('Total Revenue')).toHaveLength(3);
-    expect(await getAllByText('GDP')).toHaveLength(2);
+    expect(getAllByText('Total Revenue')).toHaveLength(3);
+    expect(getAllByText('GDP')).toHaveLength(2);
     expect(await getByText('Fiscal Year')).toBeInTheDocument();
   });
 
@@ -64,7 +64,7 @@ describe('Total Revenue Chart', () => {
     const { getByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId('customPoints')).toBeInTheDocument();
-    expect((await getByTestId('customPoints').querySelector('circle')?.length) == 4);
+    expect((await getByTestId('customPoints').querySelector('circle')?.length) === 4);
   });
 
   it('renders the CustomSlices layer', async () => {
@@ -72,7 +72,7 @@ describe('Total Revenue Chart', () => {
     const { getByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId('customSlices')).toBeInTheDocument();
-    expect((await getByTestId('customSlices')?.querySelector('rect')?.length) == 8);
+    expect((await getByTestId('customSlices')?.querySelector('rect')?.length) === 8);
   });
 
   it('renders the chart headers', async () => {
