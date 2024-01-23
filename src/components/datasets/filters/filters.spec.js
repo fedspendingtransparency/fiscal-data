@@ -147,40 +147,63 @@ describe('Filter Main', () => {
   });
 
   it('places the topics filter group', () => {
-    const topics = instance.findByProps({ 'data-testid': 'topics-group' }),
-      title = instance.findByProps({ 'data-testid': 'topics-title' });
+    const { getByTestId } = render(component);
 
-    expect(topics).toBeDefined();
-    expect(title.props.children).toContain('Topics');
-    expect(topics.props.availableFilters).toBeDefined();
+    const topicsTitle = getByTestId('topics-title');
+    expect(topicsTitle).toBeDefined();
+    expect(within(topicsTitle).getByText('Topics')).toBeDefined();
   });
 
-  it('places the last updated reset control', () => {
-    const control = instance.findByProps({ 'data-testid': 'last-updated-reset' });
-    expect(control.props.groupId).toBe('lastUpdated');
-    expect(typeof control.props.activeFilters.length).toBeDefined();
-    expect(typeof control.props.onGroupReset).toBe('function');
+  it('places the last updated reset control after a last updated filter has been selected', () => {
+    const { getByTestId, getByLabelText } = render(component);
+
+    const lastYearLabel = getByLabelText('lastYear');
+    expect(lastYearLabel).toBeDefined();
+
+    fireEvent.click(lastYearLabel);
+
+    const control = getByTestId('lastUpdatedReset');
+    expect(control).toBeDefined();
   });
 
-  it('places the file type reset control', () => {
-    const control = instance.findByProps({ 'data-testid': 'data-format-reset' });
-    expect(control.props.groupId).toBe('dataFormat');
-    expect(typeof control.props.activeFilters.length).toBeDefined();
-    expect(typeof control.props.onGroupReset).toBe('function');
+  it('places the file type reset control after a file type filter has been selected', () => {
+    const { getByTestId, getByLabelText } = render(component);
+
+    const APILabel = getByLabelText('api');
+    expect(APILabel).toBeDefined();
+
+    fireEvent.click(APILabel);
+
+    const control = getByTestId('dataFormatReset');
+    expect(control).toBeDefined();
   });
 
-  it('places the publisher reset control', () => {
-    const control = instance.findByProps({ 'data-testid': 'publisher-reset' });
-    expect(control.props.groupId).toBe('publisher');
-    expect(typeof control.props.activeFilters.length).toBeDefined();
-    expect(typeof control.props.onGroupReset).toBe('function');
+  it('places the publisher reset control after a publisher filter has been selected', () => {
+    const { getByTestId, getByLabelText } = render(component);
+
+    const pubLabel = getByLabelText('adminResourceCenter');
+    expect(pubLabel).toBeDefined();
+
+    fireEvent.click(pubLabel);
+
+    const control = getByTestId('publisherReset');
+    expect(control).toBeDefined();
   });
 
-  it('places the topics reset control', () => {
-    const control = instance.findByProps({ 'data-testid': 'topics-reset' });
-    expect(control.props.groupId).toBe('topics');
-    expect(typeof control.props.activeFilters.length).toBeDefined();
-    expect(typeof control.props.onGroupReset).toBe('function');
+  it('places the topics reset control after a topics filter has been selected', () => {
+    const { getByTestId } = render(component);
+
+    const searchLayout = getByTestId('search-layout');
+
+    expect(searchLayout).toBeInTheDocument();
+
+    const debtLabel = within(searchLayout).getByLabelText('savingsBonds');
+    expect(debtLabel).toBeDefined();
+
+    fireEvent.click(debtLabel);
+
+    const control = getByTestId('topicsReset');
+    expect(control).toBeDefined();
   });
 
   it('pushes updates when group resets are called', () => {

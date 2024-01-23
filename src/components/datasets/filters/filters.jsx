@@ -375,13 +375,7 @@ const FilterSection = ({
                   <InfoTip data-testid="publisher-tip" title={tips.publisher.title} clickEvent={() => handleInfoTipClick(tips.publisher.title)}>
                     {tips.publisher.body}
                   </InfoTip>
-                  <FilterGroupReset
-                    data-testid="publisher-reset"
-                    groupId="publisher"
-                    activeFilters={activeFilters}
-                    filters={availableFilters}
-                    onGroupReset={onGroupReset}
-                  />
+                  <FilterGroupReset groupId="publisher" activeFilters={activeFilters} filters={availableFilters} onGroupReset={onGroupReset} />
                 </div>
                 <FilterPublisher filterList={filterList}>
                   <FilterGroup
@@ -402,13 +396,7 @@ const FilterSection = ({
                   <InfoTip data-testid="data-format-tip" title={tips.dataFormat.title} clickEvent={() => handleInfoTipClick(tips.dataFormat.title)}>
                     {tips.dataFormat.body}
                   </InfoTip>
-                  <FilterGroupReset
-                    data-testid="data-format-reset"
-                    groupId="dataFormat"
-                    activeFilters={activeFilters}
-                    filters={availableFilters}
-                    onGroupReset={onGroupReset}
-                  />
+                  <FilterGroupReset groupId="dataFormat" activeFilters={activeFilters} filters={availableFilters} onGroupReset={onGroupReset} />
                 </div>
                 <FilterGroup
                   groupId="dataFormat"
@@ -422,9 +410,8 @@ const FilterSection = ({
           </div>
         )}
         {(!isHandheld || (isHandheld && datasetsView)) && (
-          <div className={`${searchLayoutSection} ${searchLayoutMain}`}>
+          <div className={`${searchLayoutSection} ${searchLayoutMain}`} data-testid={'search-layout'}>
             <Topics
-              data-testid="topics-group"
               activeFilters={activeFilters}
               availableFilters={availableFilters}
               groupId="topics"

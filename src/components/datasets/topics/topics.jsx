@@ -8,13 +8,7 @@ const Topics = ({ activeFilters, groupId, onChange, onGroupReset, availableFilte
     <h2 className={topicTitle} data-testid="topics-title">
       Topics
     </h2>
-    <FilterGroupReset
-      data-testid="topics-reset"
-      groupId={groupId}
-      activeFilters={activeFilters}
-      filters={availableFilters}
-      onGroupReset={onGroupReset}
-    />
+    <FilterGroupReset groupId={groupId} activeFilters={activeFilters} filters={availableFilters} onGroupReset={onGroupReset} />
     <div className={topicsLayout}>
       {availableFilters
         .filter(filter => filter.groupId === groupId)
