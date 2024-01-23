@@ -62,9 +62,32 @@ describe('Filter Main', () => {
     searchResults = instance.findByType(SearchResults);
   });
 
-  it('displays the page title', () => {
-    const title = instance.find(e => e.type === 'h1');
-    expect(title.props.children).toBe('Filter Your Results');
+  it('The page title renders', () => {
+    const { getByText } = render(
+      <siteContext.Provider
+        value={{
+          beginDate: new Date(2019, 9, 1),
+          setBeginDate: setBeginDateSpy,
+          endDate: new Date(2021, 10, 1),
+          setEndDate: setEndDateSpy,
+          exactRange: true,
+          setExactRange: setExactRangeSpy,
+          dateRangeTab: 1,
+          setDateRangeTab: setDateRangeTabSpy,
+        }}
+      >
+        <FilterSection
+          searchResults={mockDatasets}
+          allDatasets={mockDatasets}
+          topicIcons={[]}
+          availableFilters={filters}
+          searchIsActive={true}
+          searchQuery={[]}
+          isHandheld={isHandheld}
+        />
+      </siteContext.Provider>
+    );
+    expect(getByText('Filter Your Results')).toBeInTheDocument();
   });
 
   it('places the searchFilterSummary with expected filter objects', () => {
