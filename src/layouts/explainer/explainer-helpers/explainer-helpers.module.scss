@@ -51,14 +51,14 @@
   font-weight: bold;
 }
 
-.savingsBondsActive {
-  border-left-color: $savings-bonds-explainer-secondary !important;
-  color: $savings-bonds-explainer-primary !important;
+.treasurySavingsBondsActive {
+  border-left-color: $treasury-savings-bonds-explainer-secondary !important;
+  color: $treasury-savings-bonds-explainer-primary !important;
   font-weight: bold;
   padding-right: 0 !important;
 }
 
-.savingsBondsHover {
-  color: $savings-bonds-explainer-secondary !important;
+.treasurySavingsBondsHover {
+  color: $treasury-savings-bonds-explainer-secondary !important;
   font-weight: bold;
 }

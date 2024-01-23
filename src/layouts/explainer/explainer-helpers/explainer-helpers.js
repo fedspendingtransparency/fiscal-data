@@ -9,8 +9,8 @@ import {
   federalSpendingHover,
   revenueActive,
   revenueHover,
-  savingsBondsActive,
-  savingsBondsHover,
+  treasurySavingsBondsActive,
+  treasurySavingsBondsHover,
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from '../heros/national-debt/national-debt-hero';
 import {
@@ -30,9 +30,10 @@ import {
   revenueExplainerLightSecondary,
 } from '../sections/government-revenue/revenue.module.scss';
 import {
-  savingsBondsExplainerPrimary,
-  savingsBondsExplainerSecondary,
-  savingsBondsExplainerLightSecondary,
+  treasurySavingsBondsExplainerPrimary,
+  treasurySavingsBondsExplainerSecondary,
+  treasurySavingsBondsExplainerLightSecondary,
+  treasurySavingsBondsExplainerHero,
 } from '../sections/treasury-savings-bonds/treasury-savings-bonds.module.scss';
 import FederalSpendingHero from '../heros/federal-spending/federal-spending-hero';
 import GovernmentRevenueHero from '../heros/government-revenue/government-revenue-hero';
@@ -57,26 +58,31 @@ export const explainerColorMap = {
     primary: debtExplainerPrimary,
     secondary: debtExplainerSecondary,
     secondaryLight: debtExplainerLightSecondary,
+    hero: debtExplainerLightSecondary,
   },
   'national-deficit': {
     primary: deficitExplainerPrimary,
     secondary: deficitExplainerSecondary,
     secondaryLight: deficitExplainerLightSecondary,
+    hero: deficitExplainerLightSecondary,
   },
   'federal-spending': {
     primary: spendingExplainerPrimary,
     secondary: spendingExplainerSecondary,
     secondaryLight: spendingExplainerLightSecondary,
+    hero: spendingExplainerLightSecondary,
   },
   'government-revenue': {
     primary: revenueExplainerPrimary,
     secondary: revenueExplainerSecondary,
     secondaryLight: revenueExplainerLightSecondary,
+    hero: revenueExplainerLightSecondary,
   },
   'treasury-savings-bonds': {
-    primary: savingsBondsExplainerPrimary,
-    secondary: savingsBondsExplainerSecondary,
-    secondaryLight: savingsBondsExplainerLightSecondary,
+    primary: treasurySavingsBondsExplainerPrimary,
+    secondary: treasurySavingsBondsExplainerSecondary,
+    secondaryLight: treasurySavingsBondsExplainerLightSecondary,
+    hero: treasurySavingsBondsExplainerHero,
   },
 };
 
@@ -98,8 +104,8 @@ export const explainerClassMap = {
     hover: revenueHover,
   },
   'treasury-savings-bonds': {
-    active: savingsBondsActive,
-    hover: savingsBondsHover,
+    active: treasurySavingsBondsActive,
+    hover: treasurySavingsBondsHover,
   },
 };
 
