@@ -313,28 +313,17 @@ const FilterSection = ({
           <div className={`${searchLayoutSection} ${searchLayoutFilters}`}>
             <section>
               <h1 className={title}>Filter Your Results</h1>
-              <div className={filterWrapper}>
+              <div className={filterWrapper} data-testid={'filter-wrapper'}>
                 <div className={filterSectionHeader}>
                   <h2 className={filterSectionTitle} data-testid="last-updated-title">
                     Last Updated
                   </h2>
-                  <InfoTip
-                    data-testid="last-updated-tip"
-                    title={tips.lastUpdated.title}
-                    clickEvent={() => handleInfoTipClick(tips.lastUpdated.title)}
-                  >
+                  <InfoTip title={tips.lastUpdated.title} clickEvent={() => handleInfoTipClick(tips.lastUpdated.title)}>
                     {tips.lastUpdated.body}
                   </InfoTip>
-                  <FilterGroupReset
-                    data-testid="last-updated-reset"
-                    groupId="lastUpdated"
-                    activeFilters={activeFilters}
-                    filters={availableFilters}
-                    onGroupReset={onGroupReset}
-                  />
+                  <FilterGroupReset groupId="lastUpdated" activeFilters={activeFilters} filters={availableFilters} onGroupReset={onGroupReset} />
                 </div>
                 <FilterGroup
-                  data-testid="last-updated-group"
                   groupId="lastUpdated"
                   onChange={onChange}
                   currentFilters={filterList}
@@ -365,7 +354,6 @@ const FilterSection = ({
                   onGroupReset={onGroupReset}
                   startDateComponent={
                     <FilterGroup
-                      data-testid="start-date-group"
                       groupId="startDate"
                       onChange={onChange}
                       currentFilters={filterList}
@@ -424,7 +412,6 @@ const FilterSection = ({
                   />
                 </div>
                 <FilterGroup
-                  data-testid="data-format-group"
                   groupId="dataFormat"
                   onChange={onChange}
                   currentFilters={filterList}

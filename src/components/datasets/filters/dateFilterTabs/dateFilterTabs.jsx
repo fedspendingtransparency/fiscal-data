@@ -5,6 +5,7 @@ import Analytics from '../../../../utils/analytics/analytics';
 export const a11yProps = index => ({
   id: `filter-tab-${index}`,
   'aria-controls': `filter-tabpanel-${index}`,
+  'data-testid': `filter-tab-${index}`,
 });
 
 export const startDateToggleClickAnalyticsObject = {
@@ -32,7 +33,7 @@ const DateFilterTabs = ({ selectedTab, setSelectedTab, onGroupReset, startDateCo
 
   return (
     <>
-      <Tabs value={selectedTab} onChange={handleSelectTab} indicatorColor="primary" className="dateFilterTabs">
+      <Tabs value={selectedTab} onChange={handleSelectTab} indicatorColor="primary" className="dateFilterTabs" data-testid={'date-filter-tabs'}>
         <Tab label="Start Date" {...a11yProps(0)} />
         <Tab label="Time Range" {...a11yProps(1)} />
       </Tabs>

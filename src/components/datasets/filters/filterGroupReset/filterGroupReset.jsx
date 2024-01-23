@@ -14,7 +14,7 @@ const FilterGroupReset = ({ groupId, activeFilters, onGroupReset, filters }) => 
   return (
     <>
       {count > 0 && (
-        <button className={filterReset} onClick={handleClick}>
+        <button className={filterReset} onClick={handleClick} data-testid="group-reset">
           <span data-testid="count">{count}</span>
           <FontAwesomeIcon icon={faUndo} className={icon} />
         </button>

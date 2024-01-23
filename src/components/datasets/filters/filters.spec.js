@@ -10,8 +10,7 @@ import Analytics from '../../../utils/analytics/analytics';
 import DateFilterTabs from './dateFilterTabs/dateFilterTabs';
 import Tabs from '@material-ui/core/Tabs';
 import { siteContext } from '../../persist/persist';
-import SearchFilterSummary from './searchFilterSummary/searchFilterSummary';
-import { render, fireEvent, getAllByTestId } from '@testing-library/react';
+import { render, fireEvent, getAllByTestId, within } from '@testing-library/react';
 
 jest.mock('../../../components/truncate/truncate.jsx', () => () => 'Truncator');
 
@@ -32,34 +31,34 @@ describe('Filter Main', () => {
 
   beforeEach(() => {
     filters = mockFilters;
-    ({ instance, renderer } = renderHelper(
-      <siteContext.Provider
-        value={{
-          beginDate: new Date(2019, 9, 1),
-          setBeginDate: setBeginDateSpy,
-          endDate: new Date(2021, 10, 1),
-          setEndDate: setEndDateSpy,
-          exactRange: true,
-          setExactRange: setExactRangeSpy,
-          dateRangeTab: 1,
-          setDateRangeTab: setDateRangeTabSpy,
-        }}
-      >
-        <FilterSection
-          searchResults={mockDatasets}
-          allDatasets={mockDatasets}
-          topicIcons={[]}
-          availableFilters={filters}
-          searchIsActive={true}
-          searchQuery={[]}
-          isHandheld={isHandheld}
-        />
-      </siteContext.Provider>
-    ));
-
-    lastUpdatedGroup = !instance.props.isHandheld ? instance.findByProps({ 'data-testid': 'last-updated-group' }) : undefined;
-    fileTypeGroup = !instance.props.isHandheld ? instance.findByProps({ 'data-testid': 'data-format-group' }) : undefined;
-    searchResults = instance.findByType(SearchResults);
+    // ({ instance, renderer } = renderHelper(
+    //   <siteContext.Provider
+    //     value={{
+    //       beginDate: new Date(2019, 9, 1),
+    //       setBeginDate: setBeginDateSpy,
+    //       endDate: new Date(2021, 10, 1),
+    //       setEndDate: setEndDateSpy,
+    //       exactRange: true,
+    //       setExactRange: setExactRangeSpy,
+    //       dateRangeTab: 1,
+    //       setDateRangeTab: setDateRangeTabSpy,
+    //     }}
+    //   >
+    //     <FilterSection
+    //       searchResults={mockDatasets}
+    //       allDatasets={mockDatasets}
+    //       topicIcons={[]}
+    //       availableFilters={filters}
+    //       searchIsActive={true}
+    //       searchQuery={[]}
+    //       isHandheld={isHandheld}
+    //     />
+    //   </siteContext.Provider>
+    // ));
+    //
+    // lastUpdatedGroup = !instance.props.isHandheld ? instance.findByProps({ 'data-testid': 'last-updated-group' }) : undefined;
+    // fileTypeGroup = !instance.props.isHandheld ? instance.findByProps({ 'data-testid': 'data-format-group' }) : undefined;
+    // searchResults = instance.findByType(SearchResults);
   });
 
   it('The page title renders', () => {
@@ -90,54 +89,141 @@ describe('Filter Main', () => {
     expect(getByText('Filter Your Results')).toBeInTheDocument();
   });
 
-  it('places the searchFilterSummary with expected filter objects', () => {
-    const summary = instance.findByType(SearchFilterSummary);
-    expect(summary.props.activeFilters).toStrictEqual(['customDateRange']);
-    expect(summary.props.allFilters).toStrictEqual(filters);
+  it('Applied custom date filter renders in filter summary', () => {
+    const { getByLabelText } = render(
+      <siteContext.Provider
+        value={{
+          beginDate: new Date(2019, 9, 1),
+          setBeginDate: setBeginDateSpy,
+          endDate: new Date(2021, 10, 1),
+          setEndDate: setEndDateSpy,
+          exactRange: true,
+          setExactRange: setExactRangeSpy,
+          dateRangeTab: 1,
+          setDateRangeTab: setDateRangeTabSpy,
+        }}
+      >
+        <FilterSection
+          searchResults={mockDatasets}
+          allDatasets={mockDatasets}
+          topicIcons={[]}
+          availableFilters={filters}
+          searchIsActive={true}
+          searchQuery={[]}
+          isHandheld={isHandheld}
+        />
+      </siteContext.Provider>
+    );
+    expect(getByLabelText('10/01/2019 - 11/01/2021')).toBeInTheDocument();
   });
 
   it('places the last updated filter group', () => {
-    const lastUpdated = instance.findByProps({ 'data-testid': 'last-updated-group' }),
-      title = instance.findByProps({ 'data-testid': 'last-updated-title' }),
-      tip = instance.findByProps({ 'data-testid': 'last-updated-tip' });
+    const { getByTestId } = render(
+      <siteContext.Provider
+        value={{
+          beginDate: new Date(2019, 9, 1),
+          setBeginDate: setBeginDateSpy,
+          endDate: new Date(2021, 10, 1),
+          setEndDate: setEndDateSpy,
+          exactRange: true,
+          setExactRange: setExactRangeSpy,
+          dateRangeTab: 1,
+          setDateRangeTab: setDateRangeTabSpy,
+        }}
+      >
+        <FilterSection
+          searchResults={mockDatasets}
+          allDatasets={mockDatasets}
+          topicIcons={[]}
+          availableFilters={filters}
+          searchIsActive={true}
+          searchQuery={[]}
+          isHandheld={isHandheld}
+        />
+      </siteContext.Provider>
+    );
 
+    const filterWrapper = getByTestId('filter-wrapper');
+    const lastUpdated = getByTestId('lastUpdatedFilter');
+    const title = getByTestId('last-updated-title');
+
+    expect(filterWrapper).toBeDefined();
     expect(lastUpdated).toBeDefined();
-    expect(title.props.children).toContain('Last Updated');
-    expect(tip).toBeDefined();
-    expect(lastUpdated.props.filterTally).toBeDefined();
-    expect(lastUpdated.props.currentFilters).toBeDefined();
+    expect(within(title).getByText('Last Updated')).toBeDefined();
   });
 
   it('places the file type filter group', () => {
-    const lastUpdated = instance.findByProps({ 'data-testid': 'data-format-group' }),
-      title = instance.findByProps({ 'data-testid': 'data-format-title' });
+    const { getByTestId } = render(
+      <siteContext.Provider
+        value={{
+          beginDate: new Date(2019, 9, 1),
+          setBeginDate: setBeginDateSpy,
+          endDate: new Date(2021, 10, 1),
+          setEndDate: setEndDateSpy,
+          exactRange: true,
+          setExactRange: setExactRangeSpy,
+          dateRangeTab: 1,
+          setDateRangeTab: setDateRangeTabSpy,
+        }}
+      >
+        <FilterSection
+          searchResults={mockDatasets}
+          allDatasets={mockDatasets}
+          topicIcons={[]}
+          availableFilters={filters}
+          searchIsActive={true}
+          searchQuery={[]}
+          isHandheld={isHandheld}
+        />
+      </siteContext.Provider>
+    );
 
+    const lastUpdated = getByTestId('dataFormatFilter');
+    const title = getByTestId('data-format-title');
+    expect(within(title).getByText('Data Format')).toBeDefined();
     expect(lastUpdated).toBeDefined();
-    expect(title.props.children).toContain('Data Format');
-    expect(lastUpdated.props.filterTally).toBeDefined();
-    expect(lastUpdated.props.currentFilters).toBeDefined();
   });
 
   it('places the start date filter group and the custom date range filter each under their tabs', () => {
-    const title = instance.findByProps({ 'data-testid': 'date-range-title' });
+    const { getByTestId } = render(
+      <siteContext.Provider
+        value={{
+          beginDate: new Date(2019, 9, 1),
+          setBeginDate: setBeginDateSpy,
+          endDate: new Date(2021, 10, 1),
+          setEndDate: setEndDateSpy,
+          exactRange: true,
+          setExactRange: setExactRangeSpy,
+          dateRangeTab: 1,
+          setDateRangeTab: setDateRangeTabSpy,
+        }}
+      >
+        <FilterSection
+          searchResults={mockDatasets}
+          allDatasets={mockDatasets}
+          topicIcons={[]}
+          availableFilters={filters}
+          searchIsActive={true}
+          searchQuery={[]}
+          isHandheld={isHandheld}
+        />
+      </siteContext.Provider>
+    );
 
+    const title = getByTestId('date-range-title');
+    expect(title).toBeDefined();
     // first find custom date range filter since it's selected through persisted context
-    instance.findByProps({ 'data-testid': 'time-range-filter' });
-
+    const timeRangeFilter = getByTestId('time-range-filter');
+    expect(timeRangeFilter).toBeDefined();
     // then switch tabs
-    const dateFilterTabs = instance.findByType(DateFilterTabs);
-    const tabs = dateFilterTabs.findByType(Tabs);
-    renderer.act(() => {
-      tabs.props.onChange({}, 0);
-    });
-
+    const dateFilterTabs = getByTestId('date-filter-tabs');
+    expect(dateFilterTabs).toBeDefined();
+    const filterTab = getByTestId('filter-tab-0');
+    fireEvent.click(filterTab);
     // then find the start-date filter group
-    const lastUpdated = instance.findByProps({ 'data-testid': 'start-date-group' });
-
+    const lastUpdated = getByTestId('startDateFilter');
     expect(lastUpdated).toBeDefined();
-    expect(title.props.children).toContain('Date Range');
-    expect(lastUpdated.props.filterTally).toBeDefined();
-    expect(lastUpdated.props.currentFilters).toBeDefined();
+    expect(within(title).getByText('Date Range')).toBeDefined();
   });
 
   it('places the publisher filter group', () => {
