@@ -20,6 +20,22 @@
   }
 }
 
+.dropdownButton {
+  background: none;
+  border: none;
+  color: #005ea2;
+  text-decoration: underline;
+}
+
+.dropdownContainer {
+  display: flex;
+}
+
+.dropdownContent {
+  width: 100%;
+  margin: 2.4rem 1.2rem;
+}
+
 .text {
   display: flex;
   justify-self: flex-end;
@@ -28,7 +44,7 @@
 
   .flag {
     height: 11px;
-    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 }
 
