@@ -385,7 +385,6 @@ const FilterSection = ({
                 </div>
                 <FilterPublisher filterList={filterList}>
                   <FilterGroup
-                    data-testid="publisher-group"
                     groupId="publisher"
                     onChange={onChange}
                     currentFilters={filterList}

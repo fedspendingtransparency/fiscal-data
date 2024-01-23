@@ -23,6 +23,7 @@ describe('Filter Main', () => {
 
   let instance,
     renderer,
+    component,
     lastUpdatedGroup,
     fileTypeGroup,
     searchResults,
@@ -31,6 +32,30 @@ describe('Filter Main', () => {
 
   beforeEach(() => {
     filters = mockFilters;
+    component = (
+      <siteContext.Provider
+        value={{
+          beginDate: new Date(2019, 9, 1),
+          setBeginDate: setBeginDateSpy,
+          endDate: new Date(2021, 10, 1),
+          setEndDate: setEndDateSpy,
+          exactRange: true,
+          setExactRange: setExactRangeSpy,
+          dateRangeTab: 1,
+          setDateRangeTab: setDateRangeTabSpy,
+        }}
+      >
+        <FilterSection
+          searchResults={mockDatasets}
+          allDatasets={mockDatasets}
+          topicIcons={[]}
+          availableFilters={filters}
+          searchIsActive={true}
+          searchQuery={[]}
+          isHandheld={isHandheld}
+        />
+      </siteContext.Provider>
+    );
     // ({ instance, renderer } = renderHelper(
     //   <siteContext.Provider
     //     value={{
@@ -62,86 +87,17 @@ describe('Filter Main', () => {
   });
 
   it('The page title renders', () => {
-    const { getByText } = render(
-      <siteContext.Provider
-        value={{
-          beginDate: new Date(2019, 9, 1),
-          setBeginDate: setBeginDateSpy,
-          endDate: new Date(2021, 10, 1),
-          setEndDate: setEndDateSpy,
-          exactRange: true,
-          setExactRange: setExactRangeSpy,
-          dateRangeTab: 1,
-          setDateRangeTab: setDateRangeTabSpy,
-        }}
-      >
-        <FilterSection
-          searchResults={mockDatasets}
-          allDatasets={mockDatasets}
-          topicIcons={[]}
-          availableFilters={filters}
-          searchIsActive={true}
-          searchQuery={[]}
-          isHandheld={isHandheld}
-        />
-      </siteContext.Provider>
-    );
+    const { getByText } = render(component);
     expect(getByText('Filter Your Results')).toBeInTheDocument();
   });
 
   it('Applied custom date filter renders in filter summary', () => {
-    const { getByLabelText } = render(
-      <siteContext.Provider
-        value={{
-          beginDate: new Date(2019, 9, 1),
-          setBeginDate: setBeginDateSpy,
-          endDate: new Date(2021, 10, 1),
-          setEndDate: setEndDateSpy,
-          exactRange: true,
-          setExactRange: setExactRangeSpy,
-          dateRangeTab: 1,
-          setDateRangeTab: setDateRangeTabSpy,
-        }}
-      >
-        <FilterSection
-          searchResults={mockDatasets}
-          allDatasets={mockDatasets}
-          topicIcons={[]}
-          availableFilters={filters}
-          searchIsActive={true}
-          searchQuery={[]}
-          isHandheld={isHandheld}
-        />
-      </siteContext.Provider>
-    );
+    const { getByLabelText } = render(component);
     expect(getByLabelText('10/01/2019 - 11/01/2021')).toBeInTheDocument();
   });
 
   it('places the last updated filter group', () => {
-    const { getByTestId } = render(
-      <siteContext.Provider
-        value={{
-          beginDate: new Date(2019, 9, 1),
-          setBeginDate: setBeginDateSpy,
-          endDate: new Date(2021, 10, 1),
-          setEndDate: setEndDateSpy,
-          exactRange: true,
-          setExactRange: setExactRangeSpy,
-          dateRangeTab: 1,
-          setDateRangeTab: setDateRangeTabSpy,
-        }}
-      >
-        <FilterSection
-          searchResults={mockDatasets}
-          allDatasets={mockDatasets}
-          topicIcons={[]}
-          availableFilters={filters}
-          searchIsActive={true}
-          searchQuery={[]}
-          isHandheld={isHandheld}
-        />
-      </siteContext.Provider>
-    );
+    const { getByTestId } = render(component);
 
     const filterWrapper = getByTestId('filter-wrapper');
     const lastUpdated = getByTestId('lastUpdatedFilter');
@@ -153,30 +109,7 @@ describe('Filter Main', () => {
   });
 
   it('places the file type filter group', () => {
-    const { getByTestId } = render(
-      <siteContext.Provider
-        value={{
-          beginDate: new Date(2019, 9, 1),
-          setBeginDate: setBeginDateSpy,
-          endDate: new Date(2021, 10, 1),
-          setEndDate: setEndDateSpy,
-          exactRange: true,
-          setExactRange: setExactRangeSpy,
-          dateRangeTab: 1,
-          setDateRangeTab: setDateRangeTabSpy,
-        }}
-      >
-        <FilterSection
-          searchResults={mockDatasets}
-          allDatasets={mockDatasets}
-          topicIcons={[]}
-          availableFilters={filters}
-          searchIsActive={true}
-          searchQuery={[]}
-          isHandheld={isHandheld}
-        />
-      </siteContext.Provider>
-    );
+    const { getByTestId } = render(component);
 
     const lastUpdated = getByTestId('dataFormatFilter');
     const title = getByTestId('data-format-title');
@@ -185,30 +118,7 @@ describe('Filter Main', () => {
   });
 
   it('places the start date filter group and the custom date range filter each under their tabs', () => {
-    const { getByTestId } = render(
-      <siteContext.Provider
-        value={{
-          beginDate: new Date(2019, 9, 1),
-          setBeginDate: setBeginDateSpy,
-          endDate: new Date(2021, 10, 1),
-          setEndDate: setEndDateSpy,
-          exactRange: true,
-          setExactRange: setExactRangeSpy,
-          dateRangeTab: 1,
-          setDateRangeTab: setDateRangeTabSpy,
-        }}
-      >
-        <FilterSection
-          searchResults={mockDatasets}
-          allDatasets={mockDatasets}
-          topicIcons={[]}
-          availableFilters={filters}
-          searchIsActive={true}
-          searchQuery={[]}
-          isHandheld={isHandheld}
-        />
-      </siteContext.Provider>
-    );
+    const { getByTestId } = render(component);
 
     const title = getByTestId('date-range-title');
     expect(title).toBeDefined();
@@ -227,13 +137,13 @@ describe('Filter Main', () => {
   });
 
   it('places the publisher filter group', () => {
-    const lastUpdated = instance.findByProps({ 'data-testid': 'publisher-group' }),
-      title = instance.findByProps({ 'data-testid': 'publisher-title' });
+    const { getByTestId } = render(component);
 
+    const lastUpdated = getByTestId('publisherFilter');
     expect(lastUpdated).toBeDefined();
-    expect(title.props.children).toContain('Dataset Publisher');
-    expect(lastUpdated.props.filterTally).toBeDefined();
-    expect(lastUpdated.props.currentFilters).toBeDefined();
+    const title = getByTestId('publisher-title');
+    expect(title).toBeDefined();
+    expect(within(title).getByText('Dataset Publisher')).toBeDefined();
   });
 
   it('places the topics filter group', () => {
