@@ -13,9 +13,6 @@ jest.mock('../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
 });
 
-const afgPath = '/americas-finance-guide/test/';
-const nonAfgPath = '/not-afg/test/';
-
 const glossaryMock = {
   allGlossaryCsv: {
     glossaryCsv: [
@@ -58,11 +55,14 @@ describe('Deficit explainer', () => {
     subHeading: 'mock subheading',
   };
   const glossary = [];
+  const isAFG = true;
+
   const mockPageContext = {
     breadCrumbLinkName,
     seoConfig,
     heroImage,
     glossary,
+    isAFG,
   };
 
   it('renders the deficit explainer page', async () => {
@@ -74,7 +74,7 @@ describe('Deficit explainer', () => {
 
     const { findAllByTestId, findByText, findByTestId } = render(
       <RecoilRoot>
-        <ExplainerPageLayout path={afgPath} pageContext={deficitPageContext} />
+        <ExplainerPageLayout pageContext={deficitPageContext} />
       </RecoilRoot>
     );
 
@@ -156,12 +156,15 @@ describe('Spending explainer', () => {
     '2022': '296.808',
   };
   const glossary = [];
+  const isAFG = true;
+
   const mockPageContext = {
     breadCrumbLinkName,
     seoConfig,
     heroImage,
     glossary,
     cpiDataByYear,
+    isAFG,
   };
 
   it('renders the spending explainer page', async () => {
@@ -173,7 +176,7 @@ describe('Spending explainer', () => {
 
     const { findAllByTestId, findByText, findByTestId } = render(
       <RecoilRoot>
-        <ExplainerPageLayout path={afgPath} pageContext={spendingPageContext} />
+        <ExplainerPageLayout pageContext={spendingPageContext} />
       </RecoilRoot>
     );
 
@@ -219,12 +222,14 @@ describe('Revenue explainer', () => {
     subHeading: 'mock subheading',
   };
   const glossary = [];
+  const isAFG = true;
   const mockPageContext = {
     breadCrumbLinkName,
     seoConfig,
     heroImage,
     glossary,
     cpiDataByYear,
+    isAFG,
   };
 
   it('renders the revenue explainer page', async () => {
@@ -236,7 +241,7 @@ describe('Revenue explainer', () => {
 
     const { findAllByTestId, findByText, findByTestId } = render(
       <RecoilRoot>
-        <ExplainerPageLayout path={afgPath} pageContext={spendingPageContext} />
+        <ExplainerPageLayout pageContext={spendingPageContext} />
       </RecoilRoot>
     );
 
@@ -263,6 +268,7 @@ describe('Explainer Page Layout', () => {
     subHeading: 'mock subheading',
   };
   const glossary = [];
+  const isAFG = true;
 
   const mockPageContext = {
     pageName,
@@ -270,6 +276,7 @@ describe('Explainer Page Layout', () => {
     seoConfig,
     heroImage,
     glossary,
+    isAFG,
   };
 
   beforeAll(() => {
@@ -301,7 +308,7 @@ describe('Explainer Page Layout', () => {
   it('renders the debt explainer page', async () => {
     const { findAllByTestId, findByText, findByTestId } = render(
       <RecoilRoot>
-        <ExplainerPageLayout path={afgPath} pageContext={mockPageContext} />
+        <ExplainerPageLayout pageContext={mockPageContext} />
       </RecoilRoot>
     );
 
@@ -344,24 +351,27 @@ describe('Savings Bonds explainer', () => {
     subHeading: 'mock subheading',
   };
   const glossary = [];
+  const isAFG = false;
   const mockPageContext = {
     breadCrumbLinkName,
     seoConfig,
     heroImage,
     glossary,
     cpiDataByYear,
+    isAFG,
   };
 
   it('renders the savings bonds explainer page', async () => {
     const pageName = 'treasury-savings-bonds';
-    const spendingPageContext = {
+
+    const savingsBondsPageContext = {
       pageName,
       ...mockPageContext,
     };
 
     const { findAllByTestId, findByText, queryByTestId } = render(
       <RecoilRoot>
-        <ExplainerPageLayout path={nonAfgPath} pageContext={spendingPageContext} />
+        <ExplainerPageLayout pageContext={savingsBondsPageContext} />
       </RecoilRoot>
     );
 
