@@ -47,6 +47,7 @@ const CustomSlices = ({
     >
       {slices.map((slice, index) => (
         <rect
+          data-testid="customSlice"
           key={index}
           x={slice.x0}
           y={slice.y0}
