@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import TotalSpendingChart from './total-spending-chart';
 import fetchMock from 'fetch-mock';
@@ -11,6 +11,7 @@ import {
   mockSpendingData_decreased,
   mockSpendingData_NoChange,
 } from '../../../../explainer-helpers/federal-spending/federal-spending-test-helper';
+import Analytics from '../../../../../../utils/analytics/analytics';
 
 describe('Total Spending Chart', () => {
   const mockPageFunction = () => {
@@ -64,7 +65,7 @@ describe('Total Spending Chart', () => {
     const { getByTestId } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId('customPoints')).toBeInTheDocument();
-    expect((await getByTestId('customPoints').querySelector('circle').length) === 4);
+    expect(getByTestId('customPoints').querySelector('circle').length === 4);
   });
 
   it('renders the CustomSlices layer', async () => {
@@ -81,6 +82,53 @@ describe('Total Spending Chart', () => {
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByText('Government Spending and the U.S. Economy (GDP), FY 2015 – 2022', { exact: false })).toBeInTheDocument();
     expect(await getByText('Inflation Adjusted - 2022 Dollars', { exact: false })).toBeInTheDocument();
+  });
+
+  it('calls ga events', async () => {
+    jest.useFakeTimers();
+    window.dataLayer = window.dataLayer || [];
+    const gaSpy = jest.spyOn(Analytics, 'event');
+    const ga4Spy = jest.spyOn(window.dataLayer, 'push');
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByTestId } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    const chart = getByTestId('chartParent');
+    fireEvent.mouseEnter(chart);
+
+    jest.runAllTimers();
+    expect(gaSpy).toHaveBeenCalled();
+    expect(ga4Spy).toHaveBeenCalledWith({ event: 'chart-hover-total-spending' });
+    jest.useRealTimers();
+  });
+
+  it('fires the mouse events for Total Spending view', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByTestId, getByRole } = render(
+      <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+    );
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    const slices = await getByTestId('customSlices');
+    const spendingButton = getByRole('button', { name: 'Total Spending' });
+    fireEvent.click(spendingButton);
+    expect(slices).toBeInTheDocument();
+    const slice = slices?.querySelector('rect');
+    fireEvent.mouseOver(slice);
+    fireEvent.mouseMove(slice);
+  });
+
+  it('fires the mouse events for GDP view', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByTestId, getByRole } = render(
+      <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+    );
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    const gdpButton = getByRole('button', { name: 'Percentage of GDP' });
+    fireEvent.click(gdpButton);
+    const slices = await getByTestId('customSlices');
+    expect(slices).toBeInTheDocument();
+    const slice = slices?.querySelector('rect');
+    fireEvent.mouseOver(slice);
+    fireEvent.mouseMove(slice);
   });
 });
 
