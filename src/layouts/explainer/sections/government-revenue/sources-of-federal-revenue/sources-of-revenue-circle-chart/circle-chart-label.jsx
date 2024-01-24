@@ -30,44 +30,44 @@ const labelFormatTable = {
   },
   'Miscellaneous Income': {
     desktop: {
-      lines: ['Misc. Income'],
+      lines: [''],
       horizontalOffset: 16,
     },
     mobile: {
-      lines: ['Misc. Income'],
+      lines: [''],
       horizontalOffset: 15,
     },
     external: true,
   },
   'Customs Duties': {
     desktop: {
-      lines: ['Customs Duties'],
+      lines: [''],
       horizontalOffset: 16,
     },
     mobile: {
-      lines: ['Customs Duties'],
+      lines: [''],
       horizontalOffset: 8,
     },
     external: true,
   },
   'Estate & Gift Taxes': {
     desktop: {
-      lines: ['Estate & Gift Taxes'],
+      lines: [''],
       horizontalOffset: 30,
     },
     mobile: {
-      lines: ['Estate & Gift Taxes'],
+      lines: [''],
       horizontalOffset: 20,
     },
     external: true,
   },
   'Excise Taxes': {
     desktop: {
-      lines: ['Excise Taxes'],
+      lines: [''],
       horizontalOffset: 8,
     },
     mobile: {
-      lines: ['Excise Taxes'],
+      lines: [''],
       horizontalOffset: 6,
     },
     external: true,
