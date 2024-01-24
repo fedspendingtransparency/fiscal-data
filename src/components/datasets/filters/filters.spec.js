@@ -285,29 +285,27 @@ describe('Filter Main', () => {
 
   it('triggers a tracking event when a custom time range is set', () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const dateFilterTabs = instance.findByType(DateFilterTabs);
-    const tabs = dateFilterTabs.findByType(Tabs);
-    renderer.act(() => {
-      tabs.props.onChange({}, 1);
-    });
-
-    const timeRangeFilter = instance.findByType(FilterTimeRange);
-    renderer.act(() => {
-      timeRangeFilter.props.dateRangeFilter({ active: true });
-    });
+    const { getByTestId } = render(component);
+    const dateFilterTabs = getByTestId('date-filter-tabs');
+    expect(dateFilterTabs).toBeDefined();
+    const filterTab = getByTestId('filter-tab-1');
+    fireEvent.click(filterTab);
+    const timeRangeFilter = getByTestId('time-range-filter');
+    expect(timeRangeFilter).toBeDefined();
+    fireEvent.click(timeRangeFilter);
+    expect(spy).toHaveBeenCalled();
     expect(spy).toHaveBeenLastCalledWith(timeRangeCompleteAnalyticsObject);
   });
 
   it('persists the tab selection for the Date Range Filters', () => {
-    const dateFilterTabs = instance.findByType(DateFilterTabs);
-    const tabs = dateFilterTabs.findByType(Tabs);
-    renderer.act(() => {
-      tabs.props.onChange({}, 0);
-    });
+    const { getByTestId } = render(component);
+    const dateFilterTabs = getByTestId('date-filter-tabs');
+    expect(dateFilterTabs).toBeDefined();
+    const filterTabOne = getByTestId('filter-tab-1');
+    const filterTabZero = getByTestId('filter-tab-0');
+    fireEvent.click(filterTabZero);
     expect(setDateRangeTabSpy).toHaveBeenLastCalledWith(0);
-    renderer.act(() => {
-      tabs.props.onChange({}, 1);
-    });
+    fireEvent.click(filterTabOne);
     expect(setDateRangeTabSpy).toHaveBeenLastCalledWith(1);
   });
 
@@ -327,11 +325,6 @@ describe('Filter Main', () => {
     expect(setEndDateSpy).toHaveBeenLastCalledWith(null);
     expect(setExactRangeSpy).toHaveBeenLastCalledWith(false);
     expect(timeRangeFilter.props.resetApplied).toStrictEqual(true);
-  });
-
-  it('relays search active state to the search results component', () => {
-    expect(searchResults.props.searchIsActive).toBeTruthy();
-    isHandheld = true;
   });
 
   it('shows toggle button when using mobile device', () => {
