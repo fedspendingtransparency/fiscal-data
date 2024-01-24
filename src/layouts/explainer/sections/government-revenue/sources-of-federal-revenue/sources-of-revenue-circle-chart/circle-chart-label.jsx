@@ -37,7 +37,7 @@ const labelFormatTable = {
       lines: [''],
       horizontalOffset: 15,
     },
-    external: true,
+    external: false,
   },
   'Customs Duties': {
     desktop: {
@@ -48,7 +48,7 @@ const labelFormatTable = {
       lines: [''],
       horizontalOffset: 8,
     },
-    external: true,
+    external: false,
   },
   'Estate & Gift Taxes': {
     desktop: {
@@ -59,7 +59,7 @@ const labelFormatTable = {
       lines: [''],
       horizontalOffset: 20,
     },
-    external: true,
+    external: false,
   },
   'Excise Taxes': {
     desktop: {
@@ -70,7 +70,7 @@ const labelFormatTable = {
       lines: [''],
       horizontalOffset: 6,
     },
-    external: true,
+    external: false,
   },
 };
 
