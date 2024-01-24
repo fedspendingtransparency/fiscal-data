@@ -209,7 +209,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                     delay={scrollDelay}
                     onClick={() => handleInteraction(null, s.id, s.title)}
                     onKeyPress={e => handleInteraction(e, s.id, s.title)}
-                    offset={globalNavOffset}
+                    offset={globalNavOffset - 4}
                   >
                     {s.title}
                   </Link>
