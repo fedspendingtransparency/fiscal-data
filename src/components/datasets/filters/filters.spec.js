@@ -10,7 +10,7 @@ import Analytics from '../../../utils/analytics/analytics';
 import DateFilterTabs from './dateFilterTabs/dateFilterTabs';
 import Tabs from '@material-ui/core/Tabs';
 import { siteContext } from '../../persist/persist';
-import { render, fireEvent, getAllByTestId, within } from '@testing-library/react';
+import { render, fireEvent, getAllByTestId, within, cleanup } from '@testing-library/react';
 
 jest.mock('../../../components/truncate/truncate.jsx', () => () => 'Truncator');
 
@@ -84,6 +84,10 @@ describe('Filter Main', () => {
     // lastUpdatedGroup = !instance.props.isHandheld ? instance.findByProps({ 'data-testid': 'last-updated-group' }) : undefined;
     // fileTypeGroup = !instance.props.isHandheld ? instance.findByProps({ 'data-testid': 'data-format-group' }) : undefined;
     // searchResults = instance.findByType(SearchResults);
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('The page title renders', () => {
@@ -206,18 +210,27 @@ describe('Filter Main', () => {
     expect(control).toBeDefined();
   });
 
-  it('pushes updates when group resets are called', () => {
-    const control = instance.findByProps({ 'data-testid': 'last-updated-reset' });
+  it('group filter is removed when group reset is called', () => {
+    const { getByTestId, getByLabelText, getByText } = render(component);
 
-    renderer.act(() => {
-      //first clear away the persisted context initialized dateRange filter
-      control.props.onGroupReset('dateRange');
-      lastUpdatedGroup.props.onChange({ key: 'ninetyDays', value: true });
-      lastUpdatedGroup.props.onChange({ key: 'sevenDays', value: true });
-      control.props.onGroupReset('lastUpdated');
-    });
+    const reset = getByText('Clear All Filters');
 
-    expect(control.props.activeFilters.length).toBe(0);
+    fireEvent.click(reset);
+
+    const lastYearLabel = getByLabelText('lastYear');
+    expect(lastYearLabel).toBeDefined();
+
+    fireEvent.click(lastYearLabel);
+
+    const filter = getByText('Last Updated:');
+
+    expect(filter).toBeInTheDocument();
+
+    const control = getByTestId('lastUpdatedReset');
+
+    fireEvent.click(control);
+
+    expect(filter).not.toBeInTheDocument();
   });
 
   it('passes search results and allDatasets through to the search results component on page load', () => {
