@@ -419,14 +419,7 @@ const FilterSection = ({
               onGroupReset={onGroupReset}
               topicIcons={topicIcons}
             />
-            {filteredDatasets && (
-              <SearchResults
-                data-testid="search-results"
-                filteredDatasets={filteredDatasets}
-                allDatasets={updatedDatasets}
-                searchIsActive={searchIsActive}
-              />
-            )}
+            {filteredDatasets && <SearchResults filteredDatasets={filteredDatasets} allDatasets={updatedDatasets} searchIsActive={searchIsActive} />}
           </div>
         )}
       </div>
