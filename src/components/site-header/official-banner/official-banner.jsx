@@ -3,7 +3,7 @@ import { container, officialBanner, text, flag, dropdownButton, dropdownContaine
 import ExperimentalSwitch from '../../experimental/experimental-switch/experimental-switch';
 import { StaticImage } from 'gatsby-plugin-image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown, faLock } from '@fortawesome/free-solid-svg-icons';
 
 const OfficialBanner = () => {
   const [bannerToggle, setBannerToggle] = useState(false);
@@ -29,11 +29,17 @@ const OfficialBanner = () => {
       {bannerToggle && (
         <div className={dropdownContainer}>
           <div className={dropdownContent}>
-            <b>Official websites use .gov</b> A <b>.gov</b> website belongs to an official government organization in the United States.
+            <StaticImage src="../../../images/official-banner-icons/icon-dot-gov.svg" title="" alt="" placeholder="blurred" data-testid="dot-gov" />
+            <span>
+              <b>Official websites use .gov</b> A <b>.gov</b> website belongs to an official government organization in the United States.
+            </span>
           </div>
           <div className={dropdownContent}>
-            <b>Secure .gov websites use HTTPS</b> A <b>lock</b>( ) or <b>https://</b> means you’ve safely connected to the .gov website. Share
-            sensitive information only on official, secure websites.
+            <StaticImage src="../../../images/official-banner-icons/icon-https.svg" title="" alt="" placeholder="blurred" data-testid="https" />
+            <span>
+              <b>Secure .gov websites use HTTPS</b> A <b>lock</b>(<FontAwesomeIcon icon={faLock} />) or <b>https://</b> means you’ve safely connected
+              to the .gov website. Share sensitive information only on official, secure websites.
+            </span>
           </div>
         </div>
       )}
