@@ -58,6 +58,20 @@ const explainerPagesSource = {
     },
     relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-04', '015-BFS-2020Q4-yy', '015-BFS-2014Q1-07'],
   },
+  'treasury-savings-bonds': {
+    slug: '/treasury-savings-bonds/',
+    breadCrumbLinkName: 'Treasury Savings Bonds Explained',
+    seoConfig: {
+      pageTitle: 'Treasury Savings Bonds Explained ',
+      description: `Learn how U.S. government savings bonds work, including types of savings bonds, and how you might have a savings bond ready to redeem.`,
+    },
+    prodReady: false,
+    heroImage: {
+      heading: 'How much has been invested in savings bonds this year?',
+      subHeading: '',
+    },
+    relatedDatasets: [],
+  },
 };
 
 const freshExplainerPages = () => {

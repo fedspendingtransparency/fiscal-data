@@ -19,9 +19,3 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-@media screen and (max-width: $breakpoint-lg - 1) {
-  .container {
-    margin-left: 1rem;
-  }
-}
