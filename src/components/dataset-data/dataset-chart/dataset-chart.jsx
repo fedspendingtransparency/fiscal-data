@@ -170,6 +170,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
               {selectedPivot && selectedPivot.pivotView ? ` | ${selectedPivot.pivotView.title}` : ''}
             </h4>
             <h5 style={{ marginTop: '-2.5rem' }}>{selectedPivot ? selectedPivot.pivotView.subtitle : ''}</h5>
+            <div style={{ transform: 'rotate(-90deg)', position: 'absolute', bottom: '22rem' }}>Millions</div>
             <div id="viz" ref={viz} />
             <ChartCitation slug={slug} currentTableName={currentTable.tableName} />
           </div>

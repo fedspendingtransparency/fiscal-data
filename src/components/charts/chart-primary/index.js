@@ -315,6 +315,7 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _displayRawValues, 
   if (data) {
     scales = setScales(fields);
     y = setAxes(container, scales, chartDimensions, dataType, options, displayRawValues);
+
     draw(container, scales, fields);
   }
 
