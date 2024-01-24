@@ -341,7 +341,6 @@ const FilterSection = ({
                     {tips.dateRange.body}
                   </InfoTip>
                   <FilterGroupReset
-                    data-testid="start-date-reset"
                     groupId={selectedTab === 1 ? 'dateRange' : 'startDate'}
                     activeFilters={activeFilters}
                     filters={availableFilters}
@@ -425,7 +424,6 @@ const FilterSection = ({
       </div>
       {isHandheld && (
         <MobileFilterToggle
-          data-testid="mobile-filter-toggle"
           datasetsCount={filteredDatasets ? filteredDatasets.length : 0}
           datasetsView={datasetsView}
           filterCnt={activeFilters.length}

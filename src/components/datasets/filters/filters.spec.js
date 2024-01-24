@@ -2,11 +2,8 @@ import React from 'react';
 import FilterSection from './filters';
 import { mockDatasets } from '../mockData/mockDatasets';
 import { mockFilters } from '../mockData/mockFilters';
-import MobileFilterToggle from './mobileFilterToggle/mobileFilterToggle';
-import FilterTimeRange, { timeRangeCompleteAnalyticsObject } from './filterTimeRange/filterTimeRange';
+import { timeRangeCompleteAnalyticsObject } from './filterTimeRange/filterTimeRange';
 import Analytics from '../../../utils/analytics/analytics';
-import DateFilterTabs from './dateFilterTabs/dateFilterTabs';
-import Tabs from '@material-ui/core/Tabs';
 import { siteContext } from '../../persist/persist';
 import { render, fireEvent, within, cleanup } from '@testing-library/react';
 
@@ -19,10 +16,7 @@ describe('Filter Main', () => {
   const setExactRangeSpy = jest.fn();
   const setDateRangeTabSpy = jest.fn();
 
-  let instance,
-    renderer,
-    component,
-    searchResults,
+  let component,
     filters,
     isHandheld = false;
 
@@ -52,34 +46,6 @@ describe('Filter Main', () => {
         />
       </siteContext.Provider>
     );
-    // ({ instance, renderer } = renderHelper(
-    //   <siteContext.Provider
-    //     value={{
-    //       beginDate: new Date(2019, 9, 1),
-    //       setBeginDate: setBeginDateSpy,
-    //       endDate: new Date(2021, 10, 1),
-    //       setEndDate: setEndDateSpy,
-    //       exactRange: true,
-    //       setExactRange: setExactRangeSpy,
-    //       dateRangeTab: 1,
-    //       setDateRangeTab: setDateRangeTabSpy,
-    //     }}
-    //   >
-    //     <FilterSection
-    //       searchResults={mockDatasets}
-    //       allDatasets={mockDatasets}
-    //       topicIcons={[]}
-    //       availableFilters={filters}
-    //       searchIsActive={true}
-    //       searchQuery={[]}
-    //       isHandheld={isHandheld}
-    //     />
-    //   </siteContext.Provider>
-    // ));
-    //
-    // lastUpdatedGroup = !instance.props.isHandheld ? instance.findByProps({ 'data-testid': 'last-updated-group' }) : undefined;
-    // fileTypeGroup = !instance.props.isHandheld ? instance.findByProps({ 'data-testid': 'data-format-group' }) : undefined;
-    // searchResults = instance.findByType(SearchResults);
   });
 
   afterEach(() => {
@@ -311,26 +277,56 @@ describe('Filter Main', () => {
 
   it(`persists state of the custom date range filter when it is reset and informs the
     child control accordingly`, () => {
-    const timeRangeFilter = instance.findByType(FilterTimeRange);
-    renderer.act(() => {
-      timeRangeFilter.props.dateRangeFilter({ active: true, beginDate: new Date(2019, 9, 2), endDate: new Date(2020, 10, 2), exactRange: true });
-    });
-    expect(timeRangeFilter.props.resetApplied).toStrictEqual(false);
-    const control = instance.findByProps({ 'data-testid': 'start-date-reset' });
-    expect(control.props.groupId).toBe('dateRange');
-    renderer.act(() => {
-      control.props.onGroupReset('dateRange');
-    });
+    const { getByTestId, getByLabelText } = render(component);
+    const timeRangeFilter = getByTestId('time-range-filter');
+    expect(timeRangeFilter).toBeDefined();
+    const fromDateInput = getByLabelText('From Date');
+    expect(fromDateInput).toBeInTheDocument();
+    const toDateInput = getByLabelText('To Date');
+    expect(toDateInput).toBeInTheDocument();
+
+    fireEvent.change(fromDateInput, { target: { value: '09/02/2019' } });
+    fireEvent.change(toDateInput, { target: { value: '10/02/2020' } });
+
+    const control = getByTestId('dateRangeReset');
+
+    expect(control).toBeInTheDocument();
+
+    fireEvent.click(control);
+
     expect(setBeginDateSpy).toHaveBeenLastCalledWith(null);
     expect(setEndDateSpy).toHaveBeenLastCalledWith(null);
     expect(setExactRangeSpy).toHaveBeenLastCalledWith(false);
-    expect(timeRangeFilter.props.resetApplied).toStrictEqual(true);
+    expect(control).not.toBeInTheDocument();
   });
 
   it('shows toggle button when using mobile device', () => {
-    //switched in test above
-    expect(instance.props.isHandheld).toEqual(true);
-    const mobileToggle = instance.findByType(MobileFilterToggle);
+    component = (
+      <siteContext.Provider
+        value={{
+          beginDate: new Date(2019, 9, 1),
+          setBeginDate: setBeginDateSpy,
+          endDate: new Date(2021, 10, 1),
+          setEndDate: setEndDateSpy,
+          exactRange: true,
+          setExactRange: setExactRangeSpy,
+          dateRangeTab: 1,
+          setDateRangeTab: setDateRangeTabSpy,
+        }}
+      >
+        <FilterSection
+          searchResults={mockDatasets}
+          allDatasets={mockDatasets}
+          topicIcons={[]}
+          availableFilters={filters}
+          searchIsActive={true}
+          searchQuery={[]}
+          isHandheld={true}
+        />
+      </siteContext.Provider>
+    );
+    const { getByTestId } = render(component);
+    const mobileToggle = getByTestId('mobile-filter-toggle');
     expect(mobileToggle).toBeDefined();
   });
 });

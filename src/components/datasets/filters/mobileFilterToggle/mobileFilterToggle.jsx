@@ -6,7 +6,7 @@ import { faUndo } from '@fortawesome/free-solid-svg-icons/index';
 export default function MobileFilterToggle({ filterCnt, datasetsView, toggleDatasetView, datasetsCount, filterReset }) {
   const showFilterButton = !datasetsView && filterCnt > 0;
   return (
-    <section className={floatingToggle}>
+    <section className={floatingToggle} data-testid="mobile-filter-toggle">
       <div className={container}>
         {showFilterButton && (
           <button className={resetButton} onClick={filterReset}>
