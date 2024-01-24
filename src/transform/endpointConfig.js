@@ -1904,6 +1904,7 @@ const endpointConfig = {
     dataDisplays: [
       {
         title: 'By Type of Account',
+        subtitle: 'Values shown in millions of U.S. dollars',
         dimensionField: 'account_type',
 
         lastRowSnapshot: true,

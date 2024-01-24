@@ -169,6 +169,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
               {data && `${getYear(dateRange.from)} - ${getYear(dateRange.to)}`}
               {selectedPivot && selectedPivot.pivotView ? ` | ${selectedPivot.pivotView.title}` : ''}
             </h4>
+            <h5 style={{ marginTop: '-2.5rem' }}>{selectedPivot ? selectedPivot.pivotView.subtitle : ''}</h5>
             <div id="viz" ref={viz} />
             <ChartCitation slug={slug} currentTableName={currentTable.tableName} />
           </div>

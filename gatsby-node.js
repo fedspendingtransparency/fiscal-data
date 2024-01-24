@@ -460,6 +460,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 operator
               }
               title
+              subtitle
               aggregateOn {
                 field
                 type
