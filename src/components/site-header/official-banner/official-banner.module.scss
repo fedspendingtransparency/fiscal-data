@@ -14,28 +14,65 @@
   > div {
     margin: 0.1rem;
 
-    &:first-child {
+    &:last-child {
       display: none;
     }
   }
 }
 
-.dropdownButton {
+.accordionToggle {
+  display: flex;
+  align-items: center;
   background: none;
   border: none;
   color: #005ea2;
   text-decoration: underline;
+  margin-left: 0.5rem;
+  padding: 0;
+  cursor: pointer;
+
+  .chevronIcon {
+    width: 10.92px;
+    margin-left: 0.25rem;
+  }
+
 }
 
-.dropdownContainer {
+.usaAccordion {
   display: flex;
+  max-width: 1140px;
+  margin: 0 auto;
 }
 
-.dropdownContent {
+.usaAccordionContainer {
+  display: flex;
+  max-width: 1000px;
+}
+
+.usaAccordionContent {
   width: 100%;
   display: flex;
   align-items: flex-start;
-  margin: 2.4rem 1.2rem;
+  margin: 1.5rem 1.5rem 1.5rem 0;
+}
+
+
+.usaBannerGuidance {
+  margin: 0 0 0 0.5rem;
+  max-width: 416px;
+
+  .usaBannerIconContainer {
+    width: fit-content;
+
+    .usaBannerIcon {
+      height: 40px;
+      width: 40px;
+    }
+  }
+
+  .lockIcon {
+    width: 9.5px;
+  }
 }
 
 .text {
