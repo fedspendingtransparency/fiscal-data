@@ -58,7 +58,7 @@ const OfficialBanner = () => {
                 <StaticImage
                   src="../../../images/official-banner-icons/icon-dot-gov.svg"
                   title=""
-                  alt=""
+                  alt="Dot gov"
                   placeholder="blurred"
                   data-testid="dot-gov"
                   className={usaBannerIcon}
@@ -73,8 +73,7 @@ const OfficialBanner = () => {
               <div className={usaBannerIconContainer}>
                 <StaticImage
                   src="../../../images/official-banner-icons/icon-https.svg"
-                  title=""
-                  alt=""
+                  alt="Https"
                   placeholder="blurred"
                   data-testid="https"
                   className={usaBannerIcon}
