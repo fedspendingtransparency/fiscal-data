@@ -39,14 +39,19 @@ describe('OfficialBanner', () => {
     expect(getByText('Official websites use .gov')).toBeInTheDocument();
     expect(getByText('Secure .gov websites use HTTPS')).toBeInTheDocument();
   });
+
   it('"Here\'s how you know" dropdown is keyboard accessible', () => {
     const { getByRole, getAllByRole, getByText } = render(<OfficialBanner />);
     const dropdownButton = getByRole('button', { name: "Here's how you know" });
     expect(dropdownButton).toBeInTheDocument();
     expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-down');
-    fireEvent.keyDown(dropdownButton, { key: 'enter' });
+    fireEvent.keyDown(dropdownButton, { key: 'Enter', code: 'Enter', charCode: 13 });
     expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-up');
     expect(getByText('Official websites use .gov')).toBeInTheDocument();
     expect(getByText('Secure .gov websites use HTTPS')).toBeInTheDocument();
+
+    //Event will not fire with an invalid key entry
+    fireEvent.keyDown(dropdownButton, { key: 'Shift' });
+    expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-up');
   });
 });
