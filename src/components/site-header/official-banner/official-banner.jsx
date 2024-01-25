@@ -4,8 +4,7 @@ import {
   officialBanner,
   text,
   flag,
-  dropdownText,
-  imageContainer,
+  bannerContent,
   lockIcon,
   usaAccordion,
   usaAccordionContent,
@@ -28,15 +27,17 @@ const OfficialBanner = () => {
   return (
     <div className={container}>
       <div className={officialBanner} data-testid="officialBanner">
-        <div className={text} data-testid="bannerText">
+        <div className={bannerContent}>
           <div className={flag} data-testid="bannerImage">
             <StaticImage src="../../../images/us_flag_small.png" title="small flag" alt="Small U.S. flag" placeholder="blurred" data-testid="flag" />
           </div>
-          {officialBannerText}
-          <button onClick={() => setBannerToggle(!bannerToggle)} className={usaAccordionToggle}>
-            {bannerDropdownText}
-            <FontAwesomeIcon icon={bannerToggle ? faChevronUp : faChevronDown} className={chevronIcon} />
-          </button>
+          <div className={text} data-testid="bannerText">
+            {officialBannerText}
+            <button onClick={() => setBannerToggle(!bannerToggle)} className={usaAccordionToggle}>
+              {bannerDropdownText}
+              <FontAwesomeIcon icon={bannerToggle ? faChevronUp : faChevronDown} className={chevronIcon} />
+            </button>
+          </div>
         </div>
         <div className="empty">
           <ExperimentalSwitch />

@@ -1,7 +1,7 @@
 @import '../../../variables.module.scss';
 
 .container {
-  padding: 0.5rem 0.75rem 0 0;
+  padding: 0.5rem 0.75rem 0;
 }
 
 .officialBanner {
@@ -19,6 +19,7 @@
     }
   }
 }
+
 
 .usaAccordionToggle {
   display: flex;
@@ -76,16 +77,15 @@
   }
 }
 
-.text {
+.bannerContent {
   display: flex;
-  justify-self: flex-end;
-  justify-content: flex-end;
-  align-items: center;
 
   .flag {
     height: 11px;
     margin-right: 0.5rem;
   }
+
+
 }
 
 @media screen and (min-width: $breakpoint-lg) {
@@ -102,16 +102,34 @@
       margin: 0;
       min-width: 33%;
 
-      &:first-child {
+      &:last-child {
         display: flex;
+        justify-content: flex-end;
       }
     }
   }
 }
 
-@media screen and (max-width: $breakpoint-lg - 1){
- .usaAccordionContainer {
-   flex-direction: column;
-   padding: 0.25rem 0.75rem 0;
- }
+@media screen and (min-width: $breakpoint-sm) {
+  .text {
+    display: flex;
+    justify-self: flex-end;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm - 1){
+  .usaAccordionContainer {
+    flex-direction: column;
+    padding: 0.25rem 0.75rem 0;
+  }
+  .text {
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 0.5rem;
+  }
+  .usaAccordionToggle {
+    margin-left: 0;
+  }
 }
