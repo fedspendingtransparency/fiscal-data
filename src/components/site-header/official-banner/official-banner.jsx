@@ -4,12 +4,7 @@ import {
   officialBanner,
   text,
   flag,
-  dropdownButton,
-  dropdownContainer,
-  dropdownContent,
-  dropdownIcon,
   dropdownText,
-  dropdownImage,
   imageContainer,
   lockIcon,
   usaAccordion,
@@ -19,6 +14,7 @@ import {
   usaBannerIconContainer,
   usaBannerIcon,
   chevronIcon,
+  usaAccordionToggle,
 } from './official-banner.module.scss';
 import ExperimentalSwitch from '../../experimental/experimental-switch/experimental-switch';
 import { StaticImage } from 'gatsby-plugin-image';
@@ -37,7 +33,7 @@ const OfficialBanner = () => {
             <StaticImage src="../../../images/us_flag_small.png" title="small flag" alt="Small U.S. flag" placeholder="blurred" data-testid="flag" />
           </div>
           {officialBannerText}
-          <button onClick={() => setBannerToggle(!bannerToggle)} className={accordionToggle}>
+          <button onClick={() => setBannerToggle(!bannerToggle)} className={usaAccordionToggle}>
             {bannerDropdownText}
             <FontAwesomeIcon icon={bannerToggle ? faChevronUp : faChevronDown} className={chevronIcon} />
           </button>
@@ -49,7 +45,7 @@ const OfficialBanner = () => {
       {bannerToggle && (
         <div className={usaAccordion}>
           <div className={usaAccordionContainer}>
-            <div className={usaBannerGuidance}>
+            <div className={usaAccordionContent}>
               <div className={usaBannerIconContainer}>
                 <StaticImage
                   src="../../../images/official-banner-icons/icon-dot-gov.svg"
@@ -60,12 +56,12 @@ const OfficialBanner = () => {
                   className={usaBannerIcon}
                 />
               </div>
-              <p className={dropdownText}>
+              <p className={usaBannerGuidance}>
                 <strong>Official websites use .gov</strong> <br />A <strong>.gov</strong> website belongs to an official government organization in
                 the United States.
               </p>
             </div>
-            <div className={usaBannerGuidance}>
+            <div className={usaAccordionContent}>
               <div className={usaBannerIconContainer}>
                 <StaticImage
                   src="../../../images/official-banner-icons/icon-https.svg"
@@ -76,7 +72,7 @@ const OfficialBanner = () => {
                   className={usaBannerIcon}
                 />
               </div>
-              <p className={dropdownText}>
+              <p className={usaBannerGuidance}>
                 <strong>Secure .gov websites use HTTPS</strong> <br />
                 <span>
                   A <strong>lock</strong>(<FontAwesomeIcon icon={faLock} className={lockIcon} />) or <strong>https://</strong> means you’ve safely

@@ -20,7 +20,7 @@
   }
 }
 
-.accordionToggle {
+.usaAccordionToggle {
   display: flex;
   align-items: center;
   background: none;
@@ -49,6 +49,16 @@
   max-width: 1000px;
 }
 
+
+.usaBannerIconContainer {
+  width: fit-content;
+
+  .usaBannerIcon {
+    height: 40px;
+    width: 40px;
+  }
+}
+
 .usaAccordionContent {
   width: 100%;
   display: flex;
@@ -56,19 +66,10 @@
   margin: 1.5rem 1.5rem 1.5rem 0;
 }
 
-
 .usaBannerGuidance {
   margin: 0 0 0 0.5rem;
   max-width: 416px;
 
-  .usaBannerIconContainer {
-    width: fit-content;
-
-    .usaBannerIcon {
-      height: 40px;
-      width: 40px;
-    }
-  }
 
   .lockIcon {
     width: 9.5px;
@@ -106,4 +107,11 @@
       }
     }
   }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1){
+ .usaAccordionContainer {
+   flex-direction: column;
+   padding: 0.25rem 0.75rem 0;
+ }
 }
