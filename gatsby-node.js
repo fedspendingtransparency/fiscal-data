@@ -523,6 +523,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             subHeading
           }
           relatedDatasets
+          isAFG
         }
       }
       allCpi100Csv {
@@ -635,6 +636,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           seoConfig: explainer.seoConfig,
           heroImage: explainer.heroImage,
           relatedDatasets: explainerRelatedDatasets,
+          isAFG: explainer.isAFG,
           cpiDataByYear: cpiYearMap,
           glossary: glossaryData,
         },

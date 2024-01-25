@@ -35,8 +35,8 @@ import DeskTopSubNav from './explainer-components/explainer-sub-nav/explainer-su
 import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
-const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
-  const { pageName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear } = pageContext;
+const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
+  const { pageName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear, isAFG } = pageContext;
 
   return (
     <GlossaryProvider>
@@ -50,7 +50,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
           canonical=""
           datasetDetails=""
         />
-        {path.includes('americas-finance-guide') && (
+        {isAFG && (
           <>
             <div className={mobileSubNav}>
               <MobileSubNav hidePosition={160} pageName={pageName} />
