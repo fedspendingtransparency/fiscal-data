@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import OfficialBanner from './official-banner';
+import userEvent from '@testing-library/user-event';
 
 describe('OfficialBanner', () => {
   const officialText = 'An official website of the U.S. government';
@@ -44,14 +45,19 @@ describe('OfficialBanner', () => {
     const { getByRole, getAllByRole, getByText } = render(<OfficialBanner />);
     const dropdownButton = getByRole('button', { name: "Here's how you know" });
     expect(dropdownButton).toBeInTheDocument();
+
+    //chevron defaults to down
     expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-down');
-    fireEvent.keyDown(dropdownButton, { key: 'Enter', code: 'Enter', charCode: 13 });
+
+    //Enter key will toggle the dropdown
+    dropdownButton.focus();
+    userEvent.keyboard('{Enter}');
     expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-up');
     expect(getByText('Official websites use .gov')).toBeInTheDocument();
     expect(getByText('Secure .gov websites use HTTPS')).toBeInTheDocument();
 
-    //Event will not fire with an invalid key entry
-    fireEvent.keyDown(dropdownButton, { key: 'Shift' });
-    expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-up');
+    //Space key will toggle the dropdown
+    userEvent.keyboard(' ');
+    expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-down');
   });
 });

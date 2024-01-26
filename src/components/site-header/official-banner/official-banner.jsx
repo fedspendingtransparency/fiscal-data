@@ -25,12 +25,6 @@ const OfficialBanner = () => {
   const officialBannerText = 'An official website of the U.S. government';
   const bannerDropdownText = "Here's how you know";
 
-  const handleToggle = e => {
-    if (e?.key && e.key !== 'Enter') {
-      return;
-    }
-    setBannerToggle(!bannerToggle);
-  };
   return (
     <div className={container}>
       <div className={officialBanner} data-testid="officialBanner">
@@ -40,7 +34,7 @@ const OfficialBanner = () => {
           </div>
           <div className={text} data-testid="bannerText">
             {officialBannerText}
-            <button onClick={() => handleToggle()} className={usaAccordionToggle} onKeyDown={e => handleToggle(e)}>
+            <button onClick={() => setBannerToggle(!bannerToggle)} className={usaAccordionToggle}>
               {bannerDropdownText}
               <FontAwesomeIcon icon={bannerToggle ? faChevronUp : faChevronDown} className={chevronIcon} />
             </button>
