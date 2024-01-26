@@ -2,6 +2,7 @@
 @import '../sections/national-deficit/national-deficit.module';
 @import '../sections/federal-spending/federal-spending.module';
 @import 'src/layouts/explainer/sections/government-revenue/revenue.module';
+@import '../sections/treasury-savings-bonds/treasury-savings-bonds.module.scss';
 
 .nationalDebtActive {
   border-left-color: $debt-explainer-secondary !important;
@@ -47,5 +48,17 @@
 
 .revenueHover {
   color: $revenue-explainer-secondary !important;
+  font-weight: bold;
+}
+
+.treasurySavingsBondsActive {
+  border-left-color: $treasury-savings-bonds-explainer-secondary !important;
+  color: $treasury-savings-bonds-explainer-primary !important;
+  font-weight: bold;
+  padding-right: 0 !important;
+}
+
+.treasurySavingsBondsHover {
+  color: $treasury-savings-bonds-explainer-secondary !important;
   font-weight: bold;
 }

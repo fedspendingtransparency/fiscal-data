@@ -15,8 +15,9 @@ import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { nationalDeficitSectionConfigs } from '../../national-deficit';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
-import { addInnerChartAriaLabel } from '../../../../explainer-helpers/explainer-charting-helper';
+import { addInnerChartAriaLabel, chartInViewProps } from '../../../../explainer-helpers/explainer-charting-helper';
 import CustomBar from './custom-bar/customBar';
+import { useInView } from 'react-intersection-observer';
 
 const DeficitComparisonBarChart = ({ sectionId, width }) => {
   const [date, setDate] = useState(new Date());
@@ -145,7 +146,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
     } else if (deficitValue < deficitChangeValue) {
       setDeficitChangeLabel(`a decrease of ${deficitDifferenceText}`);
     } else {
-      setDeficitChangeLabel('remaning unchanged');
+      setDeficitChangeLabel('remaining unchanged');
     }
 
     setData([
@@ -160,6 +161,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
       },
     ]);
   }
+  const { ref, inView } = useInView(chartInViewProps);
 
   return (
     <div className={visWithCallout}>
@@ -177,9 +179,9 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
               footer={chartCopy.footer}
               date={date}
             >
-              <div className={barChart} data-testid="chartParentDiv">
+              <div className={barChart} data-testid="chartParentDiv" ref={ref}>
                 <Bar
-                  barComponent={CustomBar}
+                  barComponent={props => CustomBar({ ...props, inView })}
                   width={desktop ? 408 : 304}
                   height={desktop ? desktopHeight : mobileHeight}
                   axisTop={null}

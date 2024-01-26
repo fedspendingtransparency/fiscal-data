@@ -101,8 +101,8 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
           <ContentUnavailable />
         </AnnouncementBanner>
       )}
+      <OfficialBanner data-testid="officialBanner" />
       <header className={stickyHeader}>
-        <OfficialBanner data-testid="officialBanner" />
         <div className={container}>
           <div className={content}>
             <div style={width > pxToNumber(breakpointLg) ? { width: imageWidth + 'px' } : null} className={logo} data-testid="logoContainer">

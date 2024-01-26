@@ -1,6 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import OfficialBanner from './official-banner';
+import userEvent from '@testing-library/user-event';
 
 describe('OfficialBanner', () => {
   const officialText = 'An official website of the U.S. government';
@@ -21,5 +22,42 @@ describe('OfficialBanner', () => {
     const { getByTestId, getByTitle } = render(<OfficialBanner />);
     expect(getByTestId('bannerImage')).toBeDefined();
     expect(getByTitle('small flag')).toBeDefined();
+  });
+
+  it('renders the "Here\'s how you know" dropdown button', () => {
+    const { getByRole } = render(<OfficialBanner />);
+    const dropdownButton = getByRole('button', { name: "Here's how you know" });
+    expect(dropdownButton).toBeInTheDocument();
+  });
+
+  it('renders the "Here\'s how you know" dropdown', () => {
+    const { getByRole, getAllByRole, getByText } = render(<OfficialBanner />);
+    const dropdownButton = getByRole('button', { name: "Here's how you know" });
+    expect(dropdownButton).toBeInTheDocument();
+    expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-down');
+    fireEvent.click(dropdownButton);
+    expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-up');
+    expect(getByText('Official websites use .gov')).toBeInTheDocument();
+    expect(getByText('Secure .gov websites use HTTPS')).toBeInTheDocument();
+  });
+
+  it('"Here\'s how you know" dropdown is keyboard accessible', () => {
+    const { getByRole, getAllByRole, getByText } = render(<OfficialBanner />);
+    const dropdownButton = getByRole('button', { name: "Here's how you know" });
+    expect(dropdownButton).toBeInTheDocument();
+
+    //chevron defaults to down
+    expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-down');
+
+    //Enter key will toggle the dropdown
+    dropdownButton.focus();
+    userEvent.keyboard('{Enter}');
+    expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-up');
+    expect(getByText('Official websites use .gov')).toBeInTheDocument();
+    expect(getByText('Secure .gov websites use HTTPS')).toBeInTheDocument();
+
+    //Space key will toggle the dropdown
+    userEvent.keyboard(' ');
+    expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-down');
   });
 });

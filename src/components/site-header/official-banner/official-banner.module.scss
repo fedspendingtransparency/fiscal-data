@@ -1,7 +1,7 @@
 @import '../../../variables.module.scss';
 
 .container {
-  padding: 0.5rem 0.75rem 0 0;
+  padding: 0.5rem 0.75rem;
 }
 
 .officialBanner {
@@ -14,41 +14,122 @@
   > div {
     margin: 0.1rem;
 
-    &:first-child {
+    &:last-child {
       display: none;
     }
   }
 }
 
-.text {
-  display: flex;
-  justify-self: flex-end;
-  justify-content: flex-end;
-  align-items: center;
 
+.usaAccordionToggle {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #005ea2;
+  text-decoration: underline;
+  margin-left: 0.5rem;
+  padding: 0;
+  cursor: pointer;
+
+  .chevronIcon {
+    width: 10.92px;
+    margin-left: 0.25rem;
+  }
+
+}
+
+.usaAccordion {
+  display: flex;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.usaAccordionContainer {
+  display: flex;
+  max-width: 1000px;
+}
+
+
+.usaBannerIconContainer {
+  width: fit-content;
+
+  .usaBannerIcon {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.usaAccordionContent {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  margin: 1.5rem 1.5rem 1.5rem 0;
+}
+
+.usaBannerGuidance {
+  margin: 0 0 0 0.5rem;
+  max-width: 416px;
+
+
+  .lockIcon {
+    width: 9.5px;
+  }
+}
+
+.bannerContent {
+  display: flex;
+  align-items: center;
   .flag {
     height: 11px;
-    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
+
+
 }
 
 @media screen and (min-width: $breakpoint-lg) {
   .container {
-    padding: 0.5rem 2rem 0;
+    padding: 0.5rem 2rem;
   }
   .officialBanner {
     justify-content: space-between;
     flex-direction: row;
-    margin: 0.5rem auto 0;
+    margin: 0 auto;
     max-width: $main-width;
 
     > div {
       margin: 0;
       min-width: 33%;
 
-      &:first-child {
+      &:last-child {
         display: flex;
+        justify-content: flex-end;
       }
     }
+  }
+}
+
+@media screen and (min-width: $breakpoint-sm) {
+  .text {
+    display: flex;
+    justify-self: flex-end;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm - 1) {
+  .usaAccordionContainer {
+    flex-direction: column;
+    padding: 0.25rem 0.75rem 0;
+  }
+  .text {
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 0.5rem;
+  }
+  .usaAccordionToggle {
+    margin-left: 0;
   }
 }

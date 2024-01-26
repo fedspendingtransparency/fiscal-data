@@ -1,5 +1,5 @@
 import React from 'react';
-import DatasetChart, { determineFormat, dataTableChartNotesText, callbacks, chartHooks } from './dataset-chart';
+import DatasetChart, { determineFormat, dataTableChartNotesText, callbacks, chartHooks, setFieldsToChart } from './dataset-chart';
 import globalConstants from '../../../helpers/constants';
 import { chartCitationText } from './chart-citation/chart-citation';
 import * as Helpers from '../dataset-data-helper/dataset-data-helper';
@@ -34,6 +34,7 @@ const mockData = {
       b: 2,
       c: 3,
       d: 4,
+      e: 5,
     },
     {
       reporting_date: `${mockYears.to}-01-01`,
@@ -41,6 +42,7 @@ const mockData = {
       b: 12,
       c: 13,
       d: 14,
+      e: 15,
     },
   ],
   meta: {
@@ -49,12 +51,14 @@ const mockData = {
       b: 'not currency',
       c: 'NUMBER',
       d: 'PERCENTAGE',
+      e: 'CURRENCY0',
     },
     labels: {
       a: 'A',
       b: 'B',
       c: 'C',
       d: 'D',
+      e: 'E',
     },
   },
 };
@@ -63,7 +67,7 @@ const mockConfig = {
   name: 'my name',
 };
 
-const mockPivot = { pivotView: { title: 'my selection' } };
+const mockPivot = { pivotView: { title: 'my selection', dimensionField: 'test' } };
 
 const mockSlug = 'mock/slug/here';
 
@@ -89,6 +93,12 @@ describe('Dataset Chart', () => {
     const { title } = mockPivot.pivotView;
 
     expect(getByText(`${from} - ${to} | ${title}`)).toBeInTheDocument();
+  });
+
+  it('sets chart fields correctly', () => {
+    const fields = { E: 'CURRENCY0', B: 'NOT CURRENCY', A: 'CURRENCY' };
+
+    expect(setFieldsToChart(fields, mockPivot)).toStrictEqual(['A', 'E']);
   });
 
   it('calls the onHover and onLabelChange functions when hovered or clicked', async () => {
@@ -128,6 +138,8 @@ describe('Dataset Chart', () => {
     expect(determineFormat(['c'], mockData.meta.dataTypes)).toBe(false);
     // 'RATE' when dataType is 'PERCENTAGE'
     expect(determineFormat(['d'], mockData.meta.dataTypes)).toBe('RATE');
+    // true when dataType is 'CURRENCY0 ( or any CURRENCY# )'
+    expect(determineFormat(['e'], mockData.meta.dataTypes)).toBe(true);
   });
 
   it('contains a ChartCitation component and passes slug and currentTableName props to it', () => {

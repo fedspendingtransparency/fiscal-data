@@ -10,27 +10,27 @@ import GlossaryPopoverDefinition from '../../../../../components/glossary/glossa
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { nationalDeficitSectionConfigs } from '../national-deficit';
 
-const UnderstandingDeficit = ({ sectionId, glossary, glossaryClickHandler }) => {
+const UnderstandingDeficit = ({ sectionId }) => {
   const spending = (
-    <GlossaryPopoverDefinition term="spending" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="spending" page="Deficit Explainer">
       spending
     </GlossaryPopoverDefinition>
   );
 
   const revenue = (
-    <GlossaryPopoverDefinition term="revenue" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="revenue" page="Deficit Explainer">
       revenue
     </GlossaryPopoverDefinition>
   );
 
   const surplus = (
-    <GlossaryPopoverDefinition term="surplus" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="surplus" page="Deficit Explainer">
       surplus
     </GlossaryPopoverDefinition>
   );
 
   const balanced = (
-    <GlossaryPopoverDefinition term="Balanced Budget" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Balanced Budget" page="Deficit Explainer">
       balanced
     </GlossaryPopoverDefinition>
   );
@@ -96,7 +96,7 @@ const UnderstandingDeficit = ({ sectionId, glossary, glossaryClickHandler }) => 
           </p>
         </VisualizationCallout>
       </div>
-      <SurplusIllustration glossary={glossary} glossaryClickHandler={glossaryClickHandler} />
+      <SurplusIllustration />
       <p>The chart below shows a breakdown of how the U.S. deficit compares to the corresponding revenue and spending.</p>
       <DeficitComparisonBarChart sectionId={sectionId} />
     </div>

@@ -26,6 +26,7 @@ import {
   getChartTheme,
   LineChartCustomPoints_GDP,
   nivoCommonLineChartProps,
+  applyTextScaling,
 } from '../../../../explainer-helpers/explainer-charting-helper';
 import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { useInView } from 'react-intersection-observer';
@@ -102,20 +103,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   ];
 
   const [chartData, setChartData] = useState(totalData);
-
-  const applyTextScaling = () => {
-    const svgChart = document.querySelector('[data-testid="chartParent"] svg');
-    if (svgChart) {
-      if (width < pxToNumber(breakpointLg)) {
-        const containerWidth = document.querySelector('[data-testid="chartParent"]').offsetWidth;
-        const ratio = 550 / containerWidth;
-        const textElements = document.querySelectorAll('[data-testid="chartParent"] text');
-        [...textElements].forEach(text => {
-          text.style.fontSize = `${parseFloat(fontSize_10) * ratio - 0.06}rem`;
-        });
-      }
-    }
-  };
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
@@ -239,7 +226,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   };
 
   useEffect(() => {
-    applyTextScaling();
+    applyTextScaling(chartParent, chartWidth, width, fontSize_10);
   }, [width, chartToggleConfig]);
 
   useEffect(() => {
