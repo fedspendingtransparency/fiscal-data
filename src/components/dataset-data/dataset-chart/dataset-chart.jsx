@@ -146,10 +146,19 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
       const chartData = thinDataAsNeededForChart(data.data, slug, dateField, currentTable);
 
       if (chartData.length > 0) {
-        chartHooks = drawChart(chartData, viz.current, dateField, localChartFields, data.meta.labels, displayRawValues, {
-          format: determineFormat(localChartFields, data.meta.dataTypes),
-          toolTipDateKey: aggFieldName || false,
-        });
+        chartHooks = drawChart(
+          chartData,
+          viz.current,
+          dateField,
+          localChartFields,
+          data.meta.labels,
+          displayRawValues,
+          selectedPivot.pivotView.roundingDenomination,
+          {
+            format: determineFormat(localChartFields, data.meta.dataTypes),
+            toolTipDateKey: aggFieldName || false,
+          }
+        );
       }
     }
   }, [isVisible, data]);
@@ -169,7 +178,9 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
               {data && `${getYear(dateRange.from)} - ${getYear(dateRange.to)}`}
               {selectedPivot && selectedPivot.pivotView ? ` | ${selectedPivot.pivotView.title}` : ''}
             </h4>
-            <h5 style={{ marginTop: '-2.5rem' }}>{selectedPivot ? selectedPivot.pivotView.subtitle : ''}</h5>
+            <h5 style={{ marginTop: '-2.5rem' }}>
+              {selectedPivot ? `Values shown in ${selectedPivot.pivotView.roundingDenomination} of U.S dollars` : ''}
+            </h5>
             <div style={{ transform: 'rotate(-90deg)', position: 'absolute', bottom: '22rem' }}>Millions</div>
             <div id="viz" ref={viz} />
             <ChartCitation slug={slug} currentTableName={currentTable.tableName} />

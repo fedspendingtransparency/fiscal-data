@@ -34,6 +34,7 @@ const initTooltip = ({
   dataType,
   toolTipDateKey,
   displayRawValues,
+  roundingDenomination,
 }) => {
   const mapData = () =>
     data
@@ -117,7 +118,7 @@ const initTooltip = ({
     tooltipG
       .append('text')
       .text(() => {
-        return formatForDataType(d.value, dataType, displayRawValues);
+        return formatForDataType(d.value, dataType, displayRawValues, roundingDenomination);
       })
       .attr('data-testid', 'value')
       .attr('font-size', 16)

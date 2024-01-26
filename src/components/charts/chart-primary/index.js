@@ -21,7 +21,23 @@ const d3 = {
   transition,
   interpolateNumber,
 };
-let w, data, options, el, dateField, fields, lines, y, container, dataType, labels, scales, previousExtent, toolTipDateKey, svgDefs, displayRawValues;
+let w,
+  data,
+  options,
+  el,
+  dateField,
+  fields,
+  lines,
+  y,
+  container,
+  dataType,
+  labels,
+  scales,
+  previousExtent,
+  toolTipDateKey,
+  svgDefs,
+  displayRawValues,
+  roundingDenomination;
 
 // const baseYAxisWidth = displayRawValues ? 140 : 66;
 
@@ -292,11 +308,12 @@ const setTooltips = (fieldsToShow, currentScales) => {
       dataType,
       toolTipDateKey,
       displayRawValues,
+      roundingDenomination,
     });
   }
 };
 
-const initChart = (_data, _el, _dateField, _fields, _labels, _displayRawValues, _options = {}) => {
+const initChart = (_data, _el, _dateField, _fields, _labels, _displayRawValues, _roundingDenomination, _options = {}) => {
   data = _data;
   el = _el;
   dateField = _dateField;
@@ -306,6 +323,7 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _displayRawValues, 
   labels = _labels;
   markers = [_data[0]];
   displayRawValues = _displayRawValues;
+  roundingDenomination = _roundingDenomination;
   toolTipDateKey = options.toolTipDateKey;
   chartDimensions.height = options.forceHeight || chartDimensions.height;
   chartDimensions.yAxisWidth = displayRawValues ? 140 : options.forceYAxisWidth || baseYAxisWidth;
