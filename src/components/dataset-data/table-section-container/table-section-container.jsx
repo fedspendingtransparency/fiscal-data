@@ -52,7 +52,6 @@ const TableSectionContainer = ({
   setResetFilters,
 }) => {
   const tableName = selectedTable.tableName;
-  console.log(selectedTable);
   const [showPivotBar, setShowPivotBar] = useState(true);
   const [tableProps, setTableProps] = useState();
   const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
