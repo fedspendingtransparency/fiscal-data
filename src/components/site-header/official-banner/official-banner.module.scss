@@ -1,7 +1,7 @@
 @import '../../../variables.module.scss';
 
 .container {
-  padding: 0.5rem 0.75rem 0;
+  padding: 0.5rem 0.75rem;
 }
 
 .officialBanner {
@@ -95,7 +95,7 @@
   .officialBanner {
     justify-content: space-between;
     flex-direction: row;
-    margin: 0.5rem auto 0;
+    margin: 0 auto;
     max-width: $main-width;
 
     > div {
