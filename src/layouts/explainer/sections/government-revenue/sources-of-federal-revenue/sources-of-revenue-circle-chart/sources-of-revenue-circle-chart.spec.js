@@ -1,4 +1,4 @@
-import { render, waitFor, within } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import SourcesOfRevenueCircleChart from './sources-of-revenue-circle-chart';
 import userEvent from '@testing-library/user-event';
