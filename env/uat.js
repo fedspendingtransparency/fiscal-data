@@ -66,12 +66,5 @@ module.exports = {
       alwaysSortWith: ['-original_issue_date'],
       selectColumns: [],
     },
-    '300': {
-      endpoint: 'v1/accounting/od/tips_cpi_data_details',
-      downloadName: 'TIPSandCPIdata_Details',
-      dateField: 'index_date',
-      alwaysSortWith: ['-index_date'],
-      selectColumns: [],
-    },
   },
 };
