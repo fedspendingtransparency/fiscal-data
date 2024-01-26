@@ -163,7 +163,6 @@ describe('date range filter', () => {
     expect(dropdown).not.toBeInTheDocument();
   });
   it('adjusts dates entered based on keyboard entry, complete valid range', () => {
-
     const expectedValue = { from: '2022-12-01T06:00:00.000Z', to: '2024-12-10T06:00:00.000Z' };
     const { getByRole, getAllByText } = render(
       <RecoilRoot>
@@ -186,5 +185,17 @@ describe('date range filter', () => {
     fireEvent.change(dateRangeEntry[1], { target: { value: '12/10/2022' } });
 
     expect(mockSetFilteredDateRange).toHaveBeenCalledWith(expectedValue);
+  });
+
+  it('adjusts dates entered based on keyboard entry, complete valid start date', () => {
+    // look for class on day picker dot
+  });
+
+  it('displays error message on invalid start date entry', () => {
+    // 20/20/2020
+  });
+
+  it('displays error message on invalid end date entry', () => {
+    // 1/2/2022 - 13/13/2020
   });
 });

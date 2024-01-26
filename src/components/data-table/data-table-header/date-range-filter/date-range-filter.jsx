@@ -37,8 +37,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     from: undefined,
     to: undefined,
   });
-  const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState('mm/dd/yyyy');
-  const [filterDisplayEndDate, setFilterDisplayEndDate] = useState('mm/dd/yyyy');
+  const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState();
+  const [filterDisplayEndDate, setFilterDisplayEndDate] = useState();
   const [beginTextStyle, setBeginTextStyle] = useState(noTextHighLight);
   const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
@@ -53,8 +53,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         setAllActiveFilters([...allActiveFilters, column.id]);
       }
     } else {
-      setFilterDisplayBeginDate('mm/dd/yyyy');
-      setFilterDisplayEndDate('mm/dd/yyyy');
+      setFilterDisplayBeginDate();
+      setFilterDisplayEndDate();
       if (allActiveFilters?.includes(column.id)) {
         const currentFilters = allActiveFilters.filter(value => value !== column.id);
         setAllActiveFilters(currentFilters);
@@ -113,6 +113,24 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
+  // onChange sends back dates with only 3 digits of year input
+  const handleKeyboardBeginDate = beginDate => {
+    console.log('beginDate', beginDate);
+    let completeDate = false;
+    if (completeDate) {
+      setSelected({ from: beginDate, to: selected?.to });
+    }
+  };
+
+  const handleKeyboardEndDate = endDate => {
+    console.log('endDate', endDate);
+
+    let completeDate = false;
+    if (completeDate) {
+      setSelected({ from: selected?.from, to: endDate });
+    }
+  };
+
   // used to close dropdown when clicking outside
   useEffect(() => {
     if (active) {
@@ -121,7 +139,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     } else {
       setBeginTextStyle(noTextHighLight);
       setEndTextStyle(noTextHighLight);
-      if (filterDisplayBeginDate && filterDisplayEndDate === 'mm/dd/yyyy') {
+      // took out default for date so looking for undefined now ***********
+      if (filterDisplayBeginDate && !filterDisplayEndDate) {
         setSelected(undefined);
         onFilterChange(undefined);
       }
@@ -175,15 +194,64 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateField
               value={filterDisplayBeginDate}
+              slotProps={{ textField: { placeholder: 'mm/dd/yyyy' } }}
+              onChange={value => handleKeyboardBeginDate(value.toDate())}
               //className={dateTextBegin}
-              //style={beginTextStyle}
+              style={beginTextStyle}
               sx={{
-                '.MuiInputBase-input': {},
+                '.MuiInputBase-input': {
+                  fontSize: '14px',
+                  padding: '0px',
+                  lineHeight: '16px',
+                  margin: '0px 10px',
+                },
+                '.MuiOutlinedInput-notchedOutline': {
+                  border: 'none',
+                },
               }}
             />
             <div className={dateDivider}> - </div>
-            <DateField value={filterDisplayEndDate} className={dateTextEnd} style={endTextStyle} />
+            <DateField
+              value={filterDisplayEndDate}
+              slotProps={{ textField: { placeholder: 'mm/dd/yyyy' } }}
+              //className={dateTextEnd}
+              onChange={value => handleKeyboardEndDate(value.toDate())}
+              style={endTextStyle}
+              sx={{
+                '.MuiInputBase-input': {
+                  fontSize: '14px',
+                  padding: '0px',
+                  lineHeight: '16px',
+                  margin: '0px 10px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                },
+                '.MuiOutlinedInput-notchedOutline': {
+                  border: 'none',
+                },
+              }}
+            />
           </LocalizationProvider>
+          {/* <input
+            type="text"
+            id="beginDate"
+            pattern="\d{1,2}/\d{1,2}/\d{4}"
+            placeholder={filterDisplayBeginDate}
+            size="8"
+            className={dateTextBegin}
+            style={beginTextStyle}
+          />
+
+          <div className={dateDivider}> - </div>
+          <input
+            type="text"
+            id="beginDate"
+            pattern="\d{1,2}/\d{1,2}/\d{4}"
+            placeholder={filterDisplayEndDate}
+            size="8"
+            className={dateTextEnd}
+            style={endTextStyle}
+          /> */}
 
           {selected ? (
             <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role={'button'} aria-label={'Clear dates'}>
