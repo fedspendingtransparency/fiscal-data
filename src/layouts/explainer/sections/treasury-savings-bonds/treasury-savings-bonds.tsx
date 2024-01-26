@@ -25,7 +25,7 @@ const treasurySavingsBondsSections = [
   {
     index: 2,
     id: treasurySavingsBondsSectionIds[2],
-    title: 'How Do Savings Bonds Finance the Federal Government?',
+    title: 'How Do Savings Bonds Help Finance the Federal Government?',
     component: cpiDataByYear => <div />,
   },
   {
