@@ -45,12 +45,12 @@ const Topic = ({ active, filterKey, label, onChange, image }) => {
   }, [active]);
 
   return (
-    <button className={button_container} name={label} value={filterKey} onClick={handleClick}>
+    <button className={button_container} name={label} value={filterKey} onClick={handleClick} id={`${label}Button`}>
       <div className={button_contents}>
         <div className={classNames([oval, selected ? topicActive : ''])} data-testid="topic-selector-button">
           <GatsbyImage image={icon} alt={image?.name} />
         </div>
-        <label className={topicLabel} data-testid="topic-selector-label">
+        <label className={topicLabel} data-testid="topic-selector-label" aria-labelledby={`${label}Button`}>
           {label}
         </label>
       </div>

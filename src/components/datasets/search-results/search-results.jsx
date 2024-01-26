@@ -90,7 +90,7 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
 
   return (
     <>
-      <div className={datasetHeader}>
+      <div className={datasetHeader} data-testid="search-results">
         <div>
           <h3 className={datasetsSubtitle}>{resultsHeaderText}</h3>
           <SearchResultCount
