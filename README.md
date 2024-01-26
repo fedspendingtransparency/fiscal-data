@@ -11,7 +11,7 @@ Clone this project using this command:
 `git clone https://github.com/fedspendingtransparency/fiscal-data.git`
 
 Install dependencies:
-`npm install`
+`npm install --legacy-peer-deps`
 
 Start the project on a local server:
 `npm run develop-dev`
