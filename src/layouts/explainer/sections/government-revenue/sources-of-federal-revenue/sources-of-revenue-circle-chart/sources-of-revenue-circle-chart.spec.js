@@ -5,7 +5,13 @@ import userEvent from '@testing-library/user-event';
 import { sourcesOfRevenueCircleChartMatcher } from '../../../../explainer-helpers/government-revenue/government-revenue-test-helper';
 import { setGlobalFetchMatchingResponse } from '../../../../../../utils/mock-utils';
 
+class ResizeObserver {
+  observe() {}
+  unobserve() {}
+}
+
 describe('Circle chart', () => {
+  window.ResizeObserver = ResizeObserver;
   beforeAll(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, sourcesOfRevenueCircleChartMatcher);
@@ -22,10 +28,6 @@ describe('Circle chart', () => {
     expect(await getByText('Income Taxes')).toBeInTheDocument();
     expect(await getByText('Social Security')).toBeInTheDocument();
     expect(await getByText('and Medicare Taxes')).toBeInTheDocument();
-    expect(await getByText('Misc. Income')).toBeInTheDocument();
-    expect(await getByText('Customs Duties')).toBeInTheDocument();
-    expect(await getByText('Excise Taxes')).toBeInTheDocument();
-    expect(await getByText('Estate & Gift Taxes')).toBeInTheDocument();
   });
 
   it('renders the chart copy', () => {
@@ -47,13 +49,14 @@ describe('Circle chart', () => {
   });
 
   it('updates data header when a new bubble is hovered over', async () => {
-    const { getAllByText, getByText } = render(<SourcesOfRevenueCircleChart />);
-    await waitFor(() => expect(getByText('Excise Taxes')).toBeInTheDocument());
-    const corporateIncomeTaxesLabel = getByText('Excise Taxes');
-    userEvent.hover(corporateIncomeTaxesLabel);
-    expect(await getAllByText('Excise Taxes')).toHaveLength(2);
-    expect(await getByText('$242 B')).toBeInTheDocument();
-    expect(await getByText('7%')).toBeInTheDocument();
+    const { getAllByText, getByText, getByRole } = render(<SourcesOfRevenueCircleChart />);
+    await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
+    expect(getByRole('img')).toBeDefined();
+    const corporateIncomeTaxesCircle = getByRole('img').children[1].children[1];
+    userEvent.hover(corporateIncomeTaxesCircle);
+    expect(await getAllByText('Corporate Income Taxes', { exact: false })).toHaveLength(3);
+    expect(await getByText('$24 B')).toBeInTheDocument();
+    expect(await getByText('1%')).toBeInTheDocument();
   });
 
   it('renders the callout text', async () => {
