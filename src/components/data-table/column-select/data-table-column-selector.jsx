@@ -39,7 +39,6 @@ const DataTableColumnSelector = ({
   selectColumnPanel,
 }) => {
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
-  console.log(defaultSelectedColumns, defaultSelectedColumns.length > 0);
   const CheckBoxList = columnList => (
     <>
       {columnList.map(({ id, getIsVisible, toggleVisibility, getToggleVisibilityHandler, columnDef }) => {

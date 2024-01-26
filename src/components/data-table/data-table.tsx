@@ -113,7 +113,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [sorting, setSorting] = useState<SortingState>([]);
   const setTableSorting = useSetRecoilState(reactTableSortingState);
   const defaultInvisibleColumns = {};
-  const [columnVisibility, setColumnVisibility] = useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
+  const [columnVisibility, setColumnVisibility] = useState(
+    defaultSelectedColumns && defaultSelectedColumns.length > 0 ? defaultInvisibleColumns : {}
+  );
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
@@ -227,7 +229,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                 dataTableRef={selectColumnsRef}
                 selectColumnPanel={selectColumnPanel}
                 fields={allColumns}
-                resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
+                resetToDefault={() => setColumnVisibility(defaultSelectedColumns?.length > 0 ? defaultInvisibleColumns : {})}
                 setSelectColumnPanel={setSelectColumnPanel}
                 defaultSelectedColumns={defaultSelectedColumns}
                 table={table}
