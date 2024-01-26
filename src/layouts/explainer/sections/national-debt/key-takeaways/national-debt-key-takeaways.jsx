@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine, faMoneyCheckDollar, faPeopleCarry } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 
-export const KeyTakeawaysSection = ({ glossary, glossaryClickHandler }) => {
+export const KeyTakeawaysSection = () => {
   const nonMarketableSecurities = (
-    <GlossaryPopoverDefinition term="Non-Marketable Securities" page="Debt explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Non-Marketable Securities" page="Debt explainer">
       non-marketable
     </GlossaryPopoverDefinition>
   );
   const marketableSecurities = (
-    <GlossaryPopoverDefinition term="Marketable Securities" page="Debt explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Marketable Securities" page="Debt explainer">
       marketable
     </GlossaryPopoverDefinition>
   );

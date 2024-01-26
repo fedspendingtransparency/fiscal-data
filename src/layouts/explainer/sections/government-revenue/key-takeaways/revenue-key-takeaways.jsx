@@ -5,7 +5,7 @@ import { revenueExplainerPrimary, revenueExplainerLightSecondary } from '../reve
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import reactStringReplace from 'react-string-replace';
-const RevenueKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
+const RevenueKeyTakeaways = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(0);
   const [revenuePercentGDP, setRevenuePercentGDP] = useState(0);
   const [totalGDP, setTotalGDP] = useState('');
@@ -56,12 +56,7 @@ const RevenueKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
 
   const firstTakeawayTextWithGlossaryTerm = reactStringReplace(firstTakeawayText, 'fiscal year (FY)', match => {
     return (
-      <GlossaryPopoverDefinition
-        term="fiscal year"
-        page="Debt, Revenue & Spending explainer"
-        glossary={glossary}
-        glossaryClickHandler={glossaryClickHandler}
-      >
+      <GlossaryPopoverDefinition term="fiscal year" page="Debt, Revenue & Spending explainer">
         {match}
       </GlossaryPopoverDefinition>
     );
@@ -89,14 +84,7 @@ const RevenueKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
     },
   ];
 
-  return (
-    <KeyTakeawaysSection
-      takeaways={takeaways}
-      primaryColor={revenueExplainerPrimary}
-      secondaryColor={revenueExplainerLightSecondary}
-      glossary={glossary}
-    />
-  );
+  return <KeyTakeawaysSection takeaways={takeaways} primaryColor={revenueExplainerPrimary} secondaryColor={revenueExplainerLightSecondary} />;
 };
 
 export default RevenueKeyTakeaways;

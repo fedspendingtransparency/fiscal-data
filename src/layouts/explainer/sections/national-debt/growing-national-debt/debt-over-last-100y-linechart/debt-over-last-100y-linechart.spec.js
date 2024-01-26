@@ -1,4 +1,4 @@
-import { act, render, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import DebtOverLast100y from './debt-over-last-100y-linechart';
 import fetchMock from 'fetch-mock';
@@ -6,6 +6,7 @@ import { determineBEAFetchResponse } from '../../../../../../utils/mock-utils';
 import { mockTotalDebt100YData, mockCpiDataset } from '../../../../explainer-test-helper';
 import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 import { RecoilRoot } from 'recoil';
+import Analytics from '../../../../../../utils/analytics/analytics';
 
 describe('National Debt Over the Last 100 Years Chart', () => {
   beforeAll(() => {
@@ -153,5 +154,32 @@ describe('National Debt Over the Last 100 Years Chart', () => {
       expect(yearHeader.textContent).toContain('2022');
       expect(debtAmountHeader.textContent).toContain('$30.93 T');
     });
+  });
+
+  it('calls the appropriate GA events', async () => {
+    jest.useFakeTimers();
+    window.dataLayer = window.dataLayer || [];
+    const gaSpy = jest.spyOn(Analytics, 'event');
+    const ga4Spy = jest.spyOn(window.dataLayer, 'push');
+
+    // make sure data is loaded (from mock) and chart layers are rendered
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
+      </RecoilRoot>
+    );
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    const chart = await getByTestId('totalDebtChartParent');
+    fireEvent.mouseEnter(chart);
+
+    jest.advanceTimersByTime(3001);
+    expect(gaSpy).toHaveBeenCalledWith({
+      action: 'Chart Hover',
+      category: 'Explainers',
+      label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
+    });
+    expect(ga4Spy).toHaveBeenCalledWith({ event: 'chart-hover-debt-100y' });
+    jest.useRealTimers();
   });
 });

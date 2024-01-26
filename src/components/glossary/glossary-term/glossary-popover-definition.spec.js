@@ -142,12 +142,13 @@ describe('glossary term', () => {
     const testPage = 'Another Test Page';
 
     window.history.pushState = jest.fn();
-    const clickHandler = jest.fn();
 
     const { getByRole, queryByRole } = render(
-      <GlossaryPopoverDefinition term={termText} page={testPage} glossary={testGlossary} glossaryClickHandler={clickHandler}>
-        {termText}
-      </GlossaryPopoverDefinition>
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
+        <GlossaryPopoverDefinition term={termText} page={testPage}>
+          {termText}
+        </GlossaryPopoverDefinition>
+      </GlossaryContext.Provider>
     );
 
     const glossaryTermButton = getByRole('button', { name: termText });

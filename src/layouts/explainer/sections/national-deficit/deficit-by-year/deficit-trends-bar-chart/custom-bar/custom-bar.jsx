@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-const CustomBar = ({ bar: { x, y, width, height, color, key, data }, onMouseEnter, onMouseLeave }) => {
+const CustomBar = ({ bar: { x, y, width, height, color, data }, onMouseEnter, onMouseLeave }) => {
   const [pauseAnimation, setPauseAnimation] = useState(true);
 
   useEffect(() => {
