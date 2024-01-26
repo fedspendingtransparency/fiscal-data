@@ -24,6 +24,9 @@ import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
+import { DateField } from '@mui/x-date-pickers/DateField';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
@@ -73,8 +76,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         from: Date.now(),
         to: Date.now(),
       });
-      const start = moment(Date.now()).format('M/DD/YYYY');
-      const end = moment(Date.now()).format('M/DD/YYYY');
+      const start = moment(Date.now());
+      const end = moment(Date.now());
       onFilterChange(`${start} - ${end}`);
       setFilterDisplayBeginDate(start);
       setFilterDisplayEndDate(end);
@@ -134,9 +137,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       const end = moment(selected?.to);
       setFilteredDateRange({ from: start, to: end });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
-      onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
-      setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
-      setFilterDisplayEndDate(end.format('M/DD/YYYY'));
+      onFilterChange(`${start} - ${end}`);
+      setFilterDisplayBeginDate(start);
+      setFilterDisplayEndDate(end);
       setEndTextStyle(noTextHighLight);
       setActive(false);
     } else {
@@ -148,7 +151,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       const start = moment(selected?.from);
       setEndTextStyle(textHighlighted);
       setBeginTextStyle(noTextHighLight);
-      setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
+      setFilterDisplayBeginDate(start);
     }
   }, [selected]);
 
@@ -169,13 +172,19 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
-          <div className={dateTextBegin} style={beginTextStyle}>
-            {filterDisplayBeginDate}
-          </div>
-          <div className={dateDivider}> - </div>
-          <div className={dateTextEnd} style={endTextStyle}>
-            {filterDisplayEndDate}
-          </div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateField
+              value={filterDisplayBeginDate}
+              //className={dateTextBegin}
+              //style={beginTextStyle}
+              sx={{
+                '.MuiInputBase-input': {},
+              }}
+            />
+            <div className={dateDivider}> - </div>
+            <DateField value={filterDisplayEndDate} className={dateTextEnd} style={endTextStyle} />
+          </LocalizationProvider>
+
           {selected ? (
             <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role={'button'} aria-label={'Clear dates'}>
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />

@@ -1,16 +1,24 @@
 import { fireEvent, render } from '@testing-library/react';
 import DateRangeFilter from './date-range-filter';
-import React from 'react';
-import { RecoilRoot } from 'recoil';
+import React, { useEffect } from 'react';
+import { RecoilRoot, useRecoilValue } from 'recoil';
+import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
+
+const RecoilObserver = ({ node, onChange }) => {
+  const value = useRecoilValue(node);
+  useEffect(() => onChange(value), [onChange, value]);
+  return null;
+};
 
 describe('date range filter', () => {
   Date.now = jest.fn(() => new Date('2023-01-02 12:00:00 GMT-0600'));
-  const mockColumn = { setFilterValue: jest.fn() };
+  const mockColumn = { id: 'testId', setFilterValue: jest.fn() };
   const mockTable = {};
   const mockSetFiltersActive = jest.fn();
   const mockResetFilters = jest.fn();
   const mockAllActiveFilters = [];
   const mockSetAllActiveFilters = jest.fn();
+  const mockSetFilteredDateRange = jest.fn();
 
   it('renders the filter', () => {
     const { getByRole } = render(
@@ -153,5 +161,30 @@ describe('date range filter', () => {
     fireEvent.mouseLeave(dropdown);
     dateRangeButton.click();
     expect(dropdown).not.toBeInTheDocument();
+  });
+  it('adjusts dates entered based on keyboard entry, complete valid range', () => {
+
+    const expectedValue = { from: '2022-12-01T06:00:00.000Z', to: '2024-12-10T06:00:00.000Z' };
+    const { getByRole, getAllByText } = render(
+      <RecoilRoot>
+        <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+    const dateRangeEntry = getAllByText('mm/dd/yyyy');
+    dateRangeEntry[0].click();
+
+    fireEvent.change(dateRangeEntry[0], { target: { value: '12/01/2022' } });
+    fireEvent.change(dateRangeEntry[1], { target: { value: '12/10/2022' } });
+
+    expect(mockSetFilteredDateRange).toHaveBeenCalledWith(expectedValue);
   });
 });
