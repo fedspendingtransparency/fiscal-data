@@ -27,22 +27,24 @@ import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableF
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import DateRangeTextInput from './date-input';
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
-  const textHighlighted = { 'background-color': '#E8F5FF' };
-  const noTextHighLight = { 'background-color': '' };
+  const textHighlighted = { backgroundColor: '#E8F5FF', border: 'none' };
+  const noTextHighLight = { backgroundColor: '', border: 'none' };
 
   const [selected, setSelected] = useState({
     from: undefined,
     to: undefined,
   });
-  const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState();
-  const [filterDisplayEndDate, setFilterDisplayEndDate] = useState();
+  const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState('');
+  const [filterDisplayEndDate, setFilterDisplayEndDate] = useState('');
   const [beginTextStyle, setBeginTextStyle] = useState(noTextHighLight);
   const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
+  const [clearTextEntry, setClearTextEntry] = useState(false);
 
   const dropdownRef = useRef();
   const displayRef = useRef();
@@ -88,6 +90,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (!e.key || e.key === 'Enter') {
       setSelected(undefined);
       onFilterChange(undefined);
+      setClearTextEntry(true);
     }
   };
 
@@ -116,7 +119,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   // onChange sends back dates with only 3 digits of year input
   const handleKeyboardBeginDate = beginDate => {
     console.log('beginDate', beginDate);
-    let completeDate = false;
+    const completeDate = false;
     if (completeDate) {
       setSelected({ from: beginDate, to: selected?.to });
     }
@@ -125,7 +128,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const handleKeyboardEndDate = endDate => {
     console.log('endDate', endDate);
 
-    let completeDate = false;
+    const completeDate = false;
     if (completeDate) {
       setSelected({ from: selected?.from, to: endDate });
     }
@@ -157,6 +160,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setFilteredDateRange({ from: start, to: end });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start} - ${end}`);
+      console.log(start, selected);
       setFilterDisplayBeginDate(start);
       setFilterDisplayEndDate(end);
       setEndTextStyle(noTextHighLight);
@@ -175,9 +179,25 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   }, [selected]);
 
   useEffect(() => {
+    console.log(selected);
+  }, [selected]);
+
+  useEffect(() => {
     setSelected(undefined);
     setActive(false);
   }, [resetFilters]);
+
+  const [textStart, setTextStart] = useState();
+
+  const handleChangeStart = e => {
+    // Once there is input, change calendar icon to x
+    //Once input is a valid date, mark date on calendar, move input to next date field
+    const startDate = e.target.value;
+    if (Number(startDate.substring(0, 1)) !== 0) {
+      setTextStart(e.target.value);
+      console.log(e.target.value);
+    }
+  };
 
   return (
     <>
@@ -191,68 +211,13 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateField
-              value={filterDisplayBeginDate}
-              slotProps={{ textField: { placeholder: 'mm/dd/yyyy' } }}
-              onChange={value => handleKeyboardBeginDate(value.toDate())}
-              //className={dateTextBegin}
-              style={beginTextStyle}
-              sx={{
-                '.MuiInputBase-input': {
-                  fontSize: '14px',
-                  padding: '0px',
-                  lineHeight: '16px',
-                  margin: '0px 10px',
-                },
-                '.MuiOutlinedInput-notchedOutline': {
-                  border: 'none',
-                },
-              }}
-            />
-            <div className={dateDivider}> - </div>
-            <DateField
-              value={filterDisplayEndDate}
-              slotProps={{ textField: { placeholder: 'mm/dd/yyyy' } }}
-              //className={dateTextEnd}
-              onChange={value => handleKeyboardEndDate(value.toDate())}
-              style={endTextStyle}
-              sx={{
-                '.MuiInputBase-input': {
-                  fontSize: '14px',
-                  padding: '0px',
-                  lineHeight: '16px',
-                  margin: '0px 10px',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                },
-                '.MuiOutlinedInput-notchedOutline': {
-                  border: 'none',
-                },
-              }}
-            />
-          </LocalizationProvider>
-          {/* <input
-            type="text"
-            id="beginDate"
-            pattern="\d{1,2}/\d{1,2}/\d{4}"
-            placeholder={filterDisplayBeginDate}
-            size="8"
-            className={dateTextBegin}
-            style={beginTextStyle}
+          <DateRangeTextInput
+            setStartDate={setFilterDisplayBeginDate}
+            setEndDate={setFilterDisplayEndDate}
+            setSelected={setSelected}
+            clearTextEntry={clearTextEntry}
+            setClearTextEntry={setClearTextEntry}
           />
-
-          <div className={dateDivider}> - </div>
-          <input
-            type="text"
-            id="beginDate"
-            pattern="\d{1,2}/\d{1,2}/\d{4}"
-            placeholder={filterDisplayEndDate}
-            size="8"
-            className={dateTextEnd}
-            style={endTextStyle}
-          /> */}
-
           {selected ? (
             <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role={'button'} aria-label={'Clear dates'}>
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />

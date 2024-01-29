@@ -22,17 +22,26 @@
   white-space: nowrap;
   margin-top: 0.25rem;
 
+  input::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+  input[type="date"]::-webkit-input-placeholder {
+    visibility: hidden !important;
+  }
+
   .dateTextEnd {
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .dateTextBegin, .dateTextEnd {
     margin-bottom: 10.5px;
     margin-top: 10.5px;
+    border: none;
   }
 
   .dateTextBegin {
     margin-left: 10px;
-    margin-bottom: 10.5px;
-    margin-top: 10.5px;
   }
 
   .dateDivider {
