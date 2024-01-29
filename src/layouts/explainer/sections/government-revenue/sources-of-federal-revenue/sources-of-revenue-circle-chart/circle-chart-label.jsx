@@ -30,47 +30,47 @@ const labelFormatTable = {
   },
   'Miscellaneous Income': {
     desktop: {
-      lines: [''],
+      lines: ['Miscellaneous', 'Income'],
       horizontalOffset: 16,
     },
     mobile: {
-      lines: [''],
+      lines: ['Miscellaneous', 'Income'],
       horizontalOffset: 15,
     },
-    external: false,
+    hide: true,
   },
   'Customs Duties': {
     desktop: {
-      lines: [''],
+      lines: ['Customs', 'Duties'],
       horizontalOffset: 16,
     },
     mobile: {
-      lines: [''],
+      lines: ['Customs', 'Duties'],
       horizontalOffset: 8,
     },
-    external: false,
+    hide: true,
   },
   'Estate & Gift Taxes': {
     desktop: {
-      lines: [''],
+      lines: ['Estate', '& Gift Taxes'],
       horizontalOffset: 30,
     },
     mobile: {
-      lines: [''],
+      lines: ['Estate', '& Gift Taxes'],
       horizontalOffset: 20,
     },
-    external: false,
+    hide: true,
   },
   'Excise Taxes': {
     desktop: {
-      lines: [''],
+      lines: ['Excise', 'Taxes'],
       horizontalOffset: 8,
     },
     mobile: {
-      lines: [''],
+      lines: ['Excise', 'Taxes'],
       horizontalOffset: 6,
     },
-    external: false,
+    hide: true,
   },
 };
 
@@ -133,12 +133,8 @@ const LabelComponent = ({ node, label, width, HandleClick, HandleMouseEnter, Han
       >
         {lines.map((line, index) => (
           <React.Fragment key={index}>
-            {labelFormatTable[label].external ? (
-              <tspan
-                x={node.x + flipLabel * (node.radius * xOffsetMultiplier) + flipLabel * labelFormat.horizontalOffset}
-                y={yStartPoint + flipLabel * (lineSpaceOffset * index - node.radius * yOffsetMultiplier()) - 2}
-                fill="#666666"
-              >
+            {labelFormatTable[label].hide ? (
+              <tspan x={node.x} y={yStartPoint + lineSpaceOffset * index} style={{ opacity: 0 }}>
                 {line}
               </tspan>
             ) : (
