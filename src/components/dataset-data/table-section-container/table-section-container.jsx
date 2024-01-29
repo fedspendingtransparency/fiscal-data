@@ -146,7 +146,7 @@ const TableSectionContainer = ({
       selectedPivot,
       dateRange,
       apiError: apiErrorState,
-      selectColumns: config.selectColumns,
+      selectColumns: selectedTable.selectColumns,
       hideColumns: config.hideColumns,
       excludeCols: ['CHART_DATE'],
       aria: { 'aria-labelledby': 'main-data-table-title' },
@@ -261,7 +261,7 @@ const TableSectionContainer = ({
             legend={legend}
             selectedTab={selectedTab}
             showToggleChart={!noChartMessage}
-            showToggleTable={config.selectColumns}
+            showToggleTable={selectedTable.selectColumns}
             userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
             onToggleLegend={legendToggler}
             emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
