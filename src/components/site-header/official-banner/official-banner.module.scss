@@ -7,7 +7,6 @@
 .officialBanner {
   display: flex;
   flex-direction: column;
-  align-items: center;
   font-size: $font-size-12;
   color: $card-body;
 
@@ -79,10 +78,11 @@
 
 .bannerContent {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   .flag {
     height: 11px;
     margin-right: 0.5rem;
+    margin-top: 3px;
   }
 
 
