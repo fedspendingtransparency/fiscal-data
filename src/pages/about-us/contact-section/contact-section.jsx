@@ -11,11 +11,11 @@ const Contact = () => {
       <SectionContent id="contact-us" headingLevel={2} title="Contact Us" className={mainSection}>
         <p>
           Have a question about Fiscal Data? The{' '}
-          <Link to="about-fiscal-data" className="primary" smooth={true} duration={600} delay={200}>
+          <Link tabIndex={0} to="about-fiscal-data" className="primary" smooth={true} duration={600} delay={200}>
             About Us
           </Link>{' '}
           and{' '}
-          <Link to="faq" className="primary" smooth={true} duration={600} delay={200}>
+          <Link tabIndex={0} to="faq" className="primary" smooth={true} duration={600} delay={200}>
             FAQ
           </Link>{' '}
           are the quickest ways to get an answer, but if you can’t find what you’re looking for there or would like to make a suggestion, please
