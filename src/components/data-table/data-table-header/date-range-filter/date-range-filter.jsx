@@ -18,15 +18,13 @@ import {
   dateDivider,
   glow,
   lastColumn,
+  invalidDateText,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
-import { DateField } from '@mui/x-date-pickers/DateField';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import DateRangeTextInput from './date-input';
 
 let mouseOverDropdown = null;
@@ -44,7 +42,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
-  const [clearTextEntry, setClearTextEntry] = useState(false);
+  const [textEntry, setTextEntry] = useState('');
+  const [invalidDate, setInvalidDate] = useState(false);
 
   const dropdownRef = useRef();
   const displayRef = useRef();
@@ -90,7 +89,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (!e.key || e.key === 'Enter') {
       setSelected(undefined);
       onFilterChange(undefined);
-      setClearTextEntry(true);
+      // setClearTextEntry(true);
+      setTextEntry('');
     }
   };
 
@@ -113,24 +113,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const handleEventListener = e => {
     if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
       setActive(false);
-    }
-  };
-
-  // onChange sends back dates with only 3 digits of year input
-  const handleKeyboardBeginDate = beginDate => {
-    console.log('beginDate', beginDate);
-    const completeDate = false;
-    if (completeDate) {
-      setSelected({ from: beginDate, to: selected?.to });
-    }
-  };
-
-  const handleKeyboardEndDate = endDate => {
-    console.log('endDate', endDate);
-
-    const completeDate = false;
-    if (completeDate) {
-      setSelected({ from: selected?.from, to: endDate });
     }
   };
 
@@ -160,7 +142,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setFilteredDateRange({ from: start, to: end });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start} - ${end}`);
-      console.log(start, selected);
       setFilterDisplayBeginDate(start);
       setFilterDisplayEndDate(end);
       setEndTextStyle(noTextHighLight);
@@ -179,25 +160,10 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   }, [selected]);
 
   useEffect(() => {
-    console.log(selected);
-  }, [selected]);
-
-  useEffect(() => {
     setSelected(undefined);
     setActive(false);
+    setTextEntry('');
   }, [resetFilters]);
-
-  const [textStart, setTextStart] = useState();
-
-  const handleChangeStart = e => {
-    // Once there is input, change calendar icon to x
-    //Once input is a valid date, mark date on calendar, move input to next date field
-    const startDate = e.target.value;
-    if (Number(startDate.substring(0, 1)) !== 0) {
-      setTextStart(e.target.value);
-      console.log(e.target.value);
-    }
-  };
 
   return (
     <>
@@ -212,17 +178,16 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           ref={displayRef}
         >
           <DateRangeTextInput
-            startDate={filterDisplayBeginDate}
             setStartDate={setFilterDisplayBeginDate}
-            endDate={filterDisplayEndDate}
             setEndDate={setFilterDisplayEndDate}
             selected={selected}
             setSelected={setSelected}
-            clearTextEntry={clearTextEntry}
-            setClearTextEntry={setClearTextEntry}
+            setText={setTextEntry}
+            text={textEntry}
+            setInvalidDate={setInvalidDate}
           />
-          {selected ? (
-            <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role={'button'} aria-label={'Clear dates'}>
+          {textEntry.length > 0 ? (
+            <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
             </span>
           ) : (
@@ -246,28 +211,48 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             role="presentation"
             data-testid="Date Picker Dropdown"
           >
-            <div className={datePickerContainer}>
-              <DayPicker
-                mode="range"
-                selected={selected}
-                onSelect={setSelected}
-                modifiersClassNames={{
-                  selected: datePickerSelected,
-                  range_middle: datePickerRangeMiddle,
-                }}
-                fromYear={1900}
-                toYear={2099}
-                captionLayout="dropdown-buttons"
-              />
-            </div>
-            <div className={buttonContainer}>
-              <div role="button" onClick={todayOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Today">
-                Today
-              </div>
-              <div role="button" onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Clear">
-                Clear
-              </div>
-            </div>
+            {invalidDate ? (
+              <div className={invalidDateText}>Invalid date range. Please check the entered dates and try again</div>
+            ) : (
+              <>
+                <div className={datePickerContainer}>
+                  <DayPicker
+                    mode="range"
+                    selected={selected}
+                    onSelect={setSelected}
+                    modifiersClassNames={{
+                      selected: datePickerSelected,
+                      range_middle: datePickerRangeMiddle,
+                    }}
+                    fromYear={1900}
+                    toYear={2099}
+                    captionLayout="dropdown-buttons"
+                  />
+                </div>
+                <div className={buttonContainer}>
+                  <div
+                    role="button"
+                    onClick={todayOnClick}
+                    onKeyDown={e => todayOnClick(e)}
+                    tabIndex={0}
+                    className={datePickerButton}
+                    aria-label="Today"
+                  >
+                    Today
+                  </div>
+                  <div
+                    role="button"
+                    onClick={clearOnClick}
+                    onKeyDown={e => clearOnClick(e)}
+                    tabIndex={0}
+                    className={datePickerButton}
+                    aria-label="Clear"
+                  >
+                    Clear
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>

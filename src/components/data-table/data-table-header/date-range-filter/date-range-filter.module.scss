@@ -21,7 +21,7 @@
   font-weight: normal;
   white-space: nowrap;
   margin-top: 0.25rem;
-  padding-left: 0.5rem;
+  color: $font-body-copy;
 
   input::-webkit-calendar-picker-indicator {
     display: none;
@@ -32,6 +32,15 @@
   input {
     border: none;
     font-size: $font-size-14;
+    color: $font-body-copy;
+    height: 100%;
+    width: 100%;
+    padding-left: 0.5rem;
+    background: transparent;
+    &:focus {
+      border: 0;
+      outline: none;
+    }
   }
 
   .dateTextEnd {
@@ -83,6 +92,11 @@
   border-radius: 0;
 }
 
+  .invalidDateText {
+    padding: 0.5rem 1rem;
+    align-items: flex-start;
+  }
+
 .dropdown {
   position: absolute;
   overflow: hidden;
@@ -93,6 +107,7 @@
   border-radius: 4px;
   padding: 0.5rem 0 1rem;
   margin-top: 0.5rem;
+
 
   .datePickerContainer {
     td,

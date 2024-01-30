@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { dateEntryBox } from './date-range-filter.module.scss';
 import { inputAddOn, inputValidation } from './date-range-helper';
 import { format, isValid } from 'date-fns';
 import moment from 'moment';
 
-const DateRangeTextInput = ({ startDate, setStartDate, endDate, setEndDate, selected, setSelected, clearTextEntry, setClearTextEntry }) => {
+const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, setText, text, setInvalidDate }) => {
   const [textEntry, setTextEntry] = useState('');
-  const [invalidDate, setInvalidDate] = useState(false);
 
   const change = e => {
     const prevLength = textEntry.length; //TODO: if length is decreasing, correctly remove slashes
@@ -48,11 +46,14 @@ const DateRangeTextInput = ({ startDate, setStartDate, endDate, setEndDate, sele
   };
 
   useEffect(() => {
-    if (clearTextEntry) {
+    setText(textEntry);
+  }, [textEntry]);
+
+  useEffect(() => {
+    if (text.length === 0) {
       setTextEntry('');
-      setClearTextEntry(false);
     }
-  }, [clearTextEntry]);
+  }, [text]);
 
   useEffect(() => {
     if (!!selected?.from) {
@@ -61,7 +62,6 @@ const DateRangeTextInput = ({ startDate, setStartDate, endDate, setEndDate, sele
       } else {
         setTextEntry(format(selected?.from, 'MM/dd/yyyy') + ' - ');
       }
-      console.log('start', selected?.from, format(selected?.from, 'yyyy-mm-dd'));
     }
   }, [selected]);
 
@@ -73,7 +73,7 @@ const DateRangeTextInput = ({ startDate, setStartDate, endDate, setEndDate, sele
 
   return (
     <>
-      <input value={textEntry} onChange={change} size={23} placeholder="mm/dd/yyyy - mm/dd/yyyy" />
+      <input value={textEntry} onChange={change} placeholder="mm/dd/yyyy - mm/dd/yyyy" />
     </>
   );
 };
