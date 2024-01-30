@@ -1,10 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { inputAddOn, inputValidation } from './date-range-helper';
 import { format, isValid } from 'date-fns';
+import { useIMask, IMask } from 'react-imask';
 import moment from 'moment';
 
 const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, setText, text, setInvalidDate }) => {
   const [textEntry, setTextEntry] = useState('');
+
+  const [opts] = useState({
+    mask: 'mm/dd/yyyy - mm/dd/yyyy',
+    autofix: true,
+    lazy: false,
+    parse: str => {
+      console.log(str);
+    },
+    blocks: {
+      dd: { mask: IMask.MaskedRange, placeholderChar: 'd', from: 1, to: 31, maxLength: 2 },
+      mm: { mask: IMask.MaskedRange, placeholderChar: 'm', from: 1, to: 12, maxLength: 2 },
+      yyyy: { mask: IMask.MaskedRange, placeholderChar: 'y', from: 1900, to: 2999, maxLength: 4 },
+    },
+    overwrite: true,
+  });
+  const { ref } = useIMask(opts);
 
   const change = e => {
     const prevLength = textEntry.length; //TODO: if length is decreasing, correctly remove slashes
@@ -73,7 +90,7 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, s
 
   return (
     <>
-      <input value={textEntry} onChange={change} placeholder="mm/dd/yyyy - mm/dd/yyyy" />
+      <input ref={ref} />
     </>
   );
 };
