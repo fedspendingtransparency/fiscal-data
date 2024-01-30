@@ -185,6 +185,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             setText={setTextEntry}
             text={textEntry}
             setInvalidDate={setInvalidDate}
+            invalidDate={invalidDate}
           />
           {textEntry.length > 0 ? (
             <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
@@ -198,7 +199,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
         {active && (
           <div
-            className={`${dropdown} ${isLastColumn && lastColumn}`}
+            className={`${dropdown} ${isLastColumn && lastColumn} ${invalidDateText}`}
             onMouseOver={() => {
               mouseOverDropdown = true;
             }}
@@ -212,7 +213,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             data-testid="Date Picker Dropdown"
           >
             {invalidDate ? (
-              <div className={invalidDateText}>Invalid date range. Please check the entered dates and try again</div>
+              <div>Invalid date range. Please check the entered dates and try again</div>
             ) : (
               <>
                 <div className={datePickerContainer}>

@@ -3,6 +3,7 @@
 .glow {
   box-shadow: 0 0 0 0.25rem #e8f5ff;
   border-radius: 0.125rem;
+
   .dateEntryBox {
     border: 1px solid $primary;
   }
@@ -26,9 +27,11 @@
   input::-webkit-calendar-picker-indicator {
     display: none;
   }
+
   input[type="date"]::-webkit-input-placeholder {
     visibility: hidden !important;
   }
+
   input {
     border: none;
     font-size: $font-size-14;
@@ -37,6 +40,7 @@
     width: 100%;
     padding-left: 0.5rem;
     background: transparent;
+
     &:focus {
       border: 0;
       outline: none;
@@ -92,11 +96,6 @@
   border-radius: 0;
 }
 
-  .invalidDateText {
-    padding: 0.5rem 1rem;
-    align-items: flex-start;
-  }
-
 .dropdown {
   position: absolute;
   overflow: hidden;
@@ -108,6 +107,11 @@
   padding: 0.5rem 0 1rem;
   margin-top: 0.5rem;
 
+  &.invalidDateText {
+    margin-top: 0;
+    padding: 1rem;
+    text-align: start;
+  }
 
   .datePickerContainer {
     td,
@@ -119,9 +123,11 @@
   .buttonContainer {
     display: flex;
     justify-content: center;
+
     :first-child {
       margin-right: 2rem;
     }
+
     .datePickerButton {
       color: $primary;
       text-decoration: underline;

@@ -3,16 +3,16 @@ import { inputAddOn, inputValidation } from './date-range-helper';
 import { format, isValid } from 'date-fns';
 import moment from 'moment';
 
-const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, setText, text, setInvalidDate }) => {
-  const [textEntry, setTextEntry] = useState('');
+const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, setText, text, setInvalidDate, invalidDate }) => {
+  const [inputText, setInputText] = useState('');
 
   const change = e => {
-    const prevLength = textEntry.length; //TODO: if length is decreasing, correctly remove slashes
+    const prevLength = inputText.length; //TODO: if length is decreasing, correctly remove slashes
     const input = e.target.value;
     const length = input.length;
 
     if (length <= 23 && inputValidation[length]?.test(input)) {
-      if (length === 10) {
+      if (length === 10 && length > prevLength) {
         const from = new Date(input);
         if (isValid(from)) {
           setStartDate(moment(from));
@@ -20,6 +20,8 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, s
         } else {
           setInvalidDate(true);
         }
+      } else if ((length === 9 || length === 22) && prevLength > length) {
+        setInvalidDate(false);
       } else if (length === 23) {
         const from = new Date(input.substring(0, 10));
         const to = new Date(input.substring(13));
@@ -32,48 +34,48 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, s
       }
 
       if (length === 1 && Number(input) > 1 && length > prevLength) {
-        setTextEntry('0' + input + '/');
+        setInputText('0' + input + '/');
       } else if (length === 14 && Number(input.substring(13)) > 1) {
-        setTextEntry(input.substring(0, 13) + 0 + input.substring(13) + '/');
+        setInputText(input.substring(0, 13) + 0 + input.substring(13) + '/');
       } else if (inputAddOn[length] && length > prevLength) {
-        setTextEntry(input + inputAddOn[length]);
+        setInputText(input + inputAddOn[length]);
       } else {
-        setTextEntry(input);
+        setInputText(input);
       }
     } else if (length === 0) {
-      setTextEntry('');
+      setInputText('');
     }
   };
 
   useEffect(() => {
-    setText(textEntry);
-  }, [textEntry]);
+    setText(inputText);
+  }, [inputText]);
 
   useEffect(() => {
     if (text.length === 0) {
-      setTextEntry('');
+      setInputText('');
     }
   }, [text]);
 
   useEffect(() => {
     if (!!selected?.from) {
       if (!!selected?.to) {
-        setTextEntry(format(selected?.from, 'MM/dd/yyyy') + ' - ' + format(selected?.to, 'MM/dd/yyyy'));
+        setInputText(format(selected?.from, 'MM/dd/yyyy') + ' - ' + format(selected?.to, 'MM/dd/yyyy'));
       } else {
-        setTextEntry(format(selected?.from, 'MM/dd/yyyy') + ' - ');
+        setInputText(format(selected?.from, 'MM/dd/yyyy') + ' - ');
       }
     }
   }, [selected]);
 
   useEffect(() => {
     if (!!selected?.to) {
-      setTextEntry(format(selected?.from, 'MM/dd/yyyy') + ' - ' + format(selected?.to, 'MM/dd/yyyy'));
+      setInputText(format(selected?.from, 'MM/dd/yyyy') + ' - ' + format(selected?.to, 'MM/dd/yyyy'));
     }
   }, [selected?.to]);
 
   return (
     <>
-      <input value={textEntry} onChange={change} placeholder="mm/dd/yyyy - mm/dd/yyyy" />
+      <input value={inputText} onChange={change} placeholder="mm/dd/yyyy - mm/dd/yyyy" />
     </>
   );
 };
