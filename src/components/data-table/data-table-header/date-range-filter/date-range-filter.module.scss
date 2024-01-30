@@ -21,12 +21,17 @@
   font-weight: normal;
   white-space: nowrap;
   margin-top: 0.25rem;
+  padding-left: 0.5rem;
 
   input::-webkit-calendar-picker-indicator {
     display: none;
   }
   input[type="date"]::-webkit-input-placeholder {
     visibility: hidden !important;
+  }
+  input {
+    border: none;
+    font-size: $font-size-14;
   }
 
   .dateTextEnd {

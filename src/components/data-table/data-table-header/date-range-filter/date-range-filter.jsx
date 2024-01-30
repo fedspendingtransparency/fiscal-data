@@ -212,8 +212,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           ref={displayRef}
         >
           <DateRangeTextInput
+            startDate={filterDisplayBeginDate}
             setStartDate={setFilterDisplayBeginDate}
+            endDate={filterDisplayEndDate}
             setEndDate={setFilterDisplayEndDate}
+            selected={selected}
             setSelected={setSelected}
             clearTextEntry={clearTextEntry}
             setClearTextEntry={setClearTextEntry}

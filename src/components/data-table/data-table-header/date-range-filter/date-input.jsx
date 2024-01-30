@@ -4,7 +4,7 @@ import { inputAddOn, inputValidation } from './date-range-helper';
 import { format, isValid } from 'date-fns';
 import moment from 'moment';
 
-const DateRangeTextInput = ({ setStartDate, setEndDate, setSelected, clearTextEntry, setClearTextEntry }) => {
+const DateRangeTextInput = ({ startDate, setStartDate, endDate, setEndDate, selected, setSelected, clearTextEntry, setClearTextEntry }) => {
   const [textEntry, setTextEntry] = useState('');
   const [invalidDate, setInvalidDate] = useState(false);
 
@@ -48,17 +48,33 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, setSelected, clearTextEn
   };
 
   useEffect(() => {
-    console.log('clear', clearTextEntry);
     if (clearTextEntry) {
       setTextEntry('');
       setClearTextEntry(false);
     }
   }, [clearTextEntry]);
 
+  useEffect(() => {
+    if (!!selected?.from) {
+      if (!!selected?.to) {
+        setTextEntry(format(selected?.from, 'MM/dd/yyyy') + ' - ' + format(selected?.to, 'MM/dd/yyyy'));
+      } else {
+        setTextEntry(format(selected?.from, 'MM/dd/yyyy') + ' - ');
+      }
+      console.log('start', selected?.from, format(selected?.from, 'yyyy-mm-dd'));
+    }
+  }, [selected]);
+
+  useEffect(() => {
+    if (!!selected?.to) {
+      setTextEntry(format(selected?.from, 'MM/dd/yyyy') + ' - ' + format(selected?.to, 'MM/dd/yyyy'));
+    }
+  }, [selected?.to]);
+
   return (
-    <div className={dateEntryBox} style={{ maxWidth: '360px' }}>
+    <>
       <input value={textEntry} onChange={change} size={23} placeholder="mm/dd/yyyy - mm/dd/yyyy" />
-    </div>
+    </>
   );
 };
 
