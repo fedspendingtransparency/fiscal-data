@@ -59,7 +59,7 @@ module.exports = {
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
     },
-    '264': {
+    '301': {
       endpoint: 'v1/accounting/od/tips_cpi_data_summary',
       downloadName: 'TIPSandCPIdata_Summary',
       dateField: 'original_issue_date',
