@@ -3,15 +3,20 @@ import { completeDate } from './date-range-helper';
 import { format, isValid, isAfter } from 'date-fns';
 import moment from 'moment';
 import { useIMask, IMask } from 'react-imask';
+import { inputDisplayContainer, inputDisplay, inputBox, currentDate } from './date-range-filter.module.scss';
 
 const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, setText, text, setInvalidDate, invalidDate }) => {
   const [inputText, setInputText] = useState('mm/dd/yyyy - mm/dd/yyyy');
+  const [display, setDisplay] = useState(['mm/dd/yyyy', 'mm/dd/yyyy']);
+  const [highlight, setHighlight] = useState('from');
 
   const [opts] = useState({
     mask: 'mm/dd/yyyy - mm/dd/yyyy',
     lazy: false,
     parse: str => {
       const dateRange = str.split(' - ');
+      setDisplay(dateRange);
+      setText(str);
       parseDates(dateRange);
     },
     blocks: {
@@ -19,11 +24,8 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, s
       mm: { mask: IMask.MaskedRange, placeholderChar: 'm', from: 1, to: 12, maxLength: 2, autofix: 'pad' },
       yyyy: { mask: IMask.MaskedRange, placeholderChar: 'y', from: 1900, to: 2999, maxLength: 4 },
     },
-    // overwrite: true,
   });
   const { ref } = useIMask(opts);
-
-  let dateInvalid = '';
 
   const parseDates = dateRange => {
     const fromInput = dateRange[0];
@@ -34,41 +36,25 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, s
       if (isValid(from)) {
         setStartDate(moment(from));
         setInvalidDate(false);
-        if (isValid(to)) {
-          setSelected({ from: from, to: to });
-        } else {
-          setSelected({ from: from, to: undefined });
-        }
+        setSelected({ from: from, to: undefined });
+        setHighlight('to');
       } else {
-        console.log('invalid from');
-        dateInvalid = 'from';
         setInvalidDate(true);
       }
-    } else if (dateInvalid === 'from') {
-      console.log('reset from');
-      // setInvalidDate(false);
-      // dateInvalid = '';
     }
     if (completeDate(toInput)) {
       if (isValid(to) && (isAfter(to, from) || toInput === fromInput)) {
         setEndDate(to);
         setInvalidDate(false);
         setSelected({ from: from, to: to });
+        setHighlight(null);
       } else {
-        dateInvalid = 'to';
-        console.log('invalid to');
-
         setInvalidDate(true);
       }
-    } else if (dateInvalid === 'to') {
-      // setInvalidDate(false);
-      console.log('reset to');
-      // dateInvalid = '';
     }
   };
 
   useEffect(() => {
-    console.log('text', inputText, 'ref', ref.current.value);
     ref.current.value = inputText;
     setText(inputText);
   }, [inputText]);
@@ -76,6 +62,8 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, s
   useEffect(() => {
     if (text.length === 0) {
       setInputText('mm/dd/yyyy - mm/dd/yyyy');
+      setDisplay(['mm/dd/yyyy', 'mm/dd/yyyy']);
+      setHighlight('from');
       setInvalidDate(false);
     }
   }, [text]);
@@ -96,7 +84,16 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, s
     }
   }, [selected?.to]);
 
-  return <input ref={ref} spellCheck={false} />;
+  return (
+    <div className={inputDisplayContainer}>
+      <input ref={ref} spellCheck={false} className={inputBox} aria-hidden={true} />
+      <div className={inputDisplay}>
+        <span className={highlight === 'from' ? currentDate : undefined}>{display[0]}</span>
+        {' - '}
+        <span className={highlight === 'to' ? currentDate : undefined}>{display[1]}</span>
+      </div>
+    </div>
+  );
 };
 
 export default DateRangeTextInput;

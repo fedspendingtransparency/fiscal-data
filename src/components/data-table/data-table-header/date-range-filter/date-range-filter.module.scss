@@ -24,28 +24,7 @@
   margin-top: 0.25rem;
   color: $font-body-copy;
 
-  input::-webkit-calendar-picker-indicator {
-    display: none;
-  }
 
-  input[type="date"]::-webkit-input-placeholder {
-    visibility: hidden !important;
-  }
-
-  input {
-    border: none;
-    font-size: $font-size-14;
-    color: $font-body-copy;
-    height: 100%;
-    width: 100%;
-    padding-left: 0.5rem;
-    background: transparent;
-
-    &:focus {
-      border: 0;
-      outline: none;
-    }
-  }
 
   .dateTextEnd {
     overflow: hidden;
@@ -138,3 +117,56 @@
 .lastColumn {
   left: -80px;
 }
+
+.inputDisplayContainer {
+  position: relative;
+    font-size: $font-size-14;
+    color: $font-body-copy;
+
+  input::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+
+  input[type="date"]::-webkit-input-placeholder {
+    visibility: hidden !important;
+  }
+
+  input {
+    border: none;
+    height: 100%;
+    width: 100%;
+    padding: 0 0 0 0.5rem;
+    background: transparent;
+    font-size: $font-size-14;
+    letter-spacing: normal;
+    line-height: $font-size-16;
+
+    &:focus {
+      border: 0;
+      outline: none;
+    }
+  }
+
+  .inputDisplay {
+    pointer-events: none;
+    margin-left: 0.5rem;
+    font-size: $font-size-14;
+    line-height: $font-size-16;
+
+    color: $font-body-copy;
+    letter-spacing: normal;
+  }
+
+  .inputBox {
+    //opacity: 0;
+    color: transparent;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  .currentDate {
+    background: #e8f5ff;
+  }
+}
+
