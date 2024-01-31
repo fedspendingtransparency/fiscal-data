@@ -199,7 +199,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
         {active && (
           <div
-            className={`${dropdown} ${isLastColumn && lastColumn} ${invalidDateText}`}
+            className={`${dropdown} ${isLastColumn && lastColumn} ${invalidDate ? invalidDateText : undefined}`}
             onMouseOver={() => {
               mouseOverDropdown = true;
             }}

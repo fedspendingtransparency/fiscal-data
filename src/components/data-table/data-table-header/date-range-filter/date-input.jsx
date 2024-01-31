@@ -96,7 +96,7 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, s
     }
   }, [selected?.to]);
 
-  return <input ref={ref} />;
+  return <input ref={ref} spellCheck={false} />;
 };
 
 export default DateRangeTextInput;
