@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { completeDate } from './date-range-helper';
+import { completeDate, dateFilterMaxYear, dateFilterMinYear } from '../date-range-helper';
 import { format, isValid, isAfter } from 'date-fns';
 import { useIMask, IMask } from 'react-imask';
-import { inputDisplayContainer, inputTextDisplay, inputBox, currentDate } from './date-range-filter.module.scss';
+import { inputDisplayContainer, inputTextDisplay, inputBox, currentDate } from './date-range-text-input.module.scss';
+import { dateFormat, dateRangePlaceholder, datePlaceholder } from '../date-range-helper';
 
 const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDisplay, setInvalidDate, active }) => {
-  // const [inputDisplay, setInputDisplay] = useState(['mm/dd/yyyy', 'mm/dd/yyyy']);
   const [highlight, setHighlight] = useState('from');
 
   const [opts] = useState({
-    mask: 'mm/dd/yyyy - mm/dd/yyyy',
+    mask: dateRangePlaceholder,
     lazy: false,
     parse: str => {
       const dateRange = str.split(' - ');
-      console.log(str, dateRange);
       setInputDisplay(dateRange);
-      // setText(str);
       parseDates(dateRange);
     },
     blocks: {
       dd: { mask: IMask.MaskedRange, placeholderChar: 'd', from: 1, to: 31, maxLength: 2, autofix: 'pad' },
       mm: { mask: IMask.MaskedRange, placeholderChar: 'm', from: 1, to: 12, maxLength: 2, autofix: 'pad' },
-      yyyy: { mask: IMask.MaskedRange, placeholderChar: 'y', from: 1900, to: 2999, maxLength: 4 },
+      yyyy: { mask: IMask.MaskedRange, placeholderChar: 'y', from: dateFilterMinYear, to: dateFilterMaxYear, maxLength: 4 },
     },
   });
   const { ref } = useIMask(opts);
@@ -40,7 +38,6 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
         setInvalidDate(true);
       }
     } else {
-      console.log(4);
       setSelected(undefined);
     }
     if (completeDate(toInput)) {
@@ -57,21 +54,24 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
   useEffect(() => {
     if (!!selected?.from) {
       if (!!selected?.to) {
-        console.log(1);
-        setInputDisplay([format(selected?.from, 'MM/dd/yyyy'), format(selected?.to, 'MM/dd/yyyy')]);
-      } else if (format(selected.from, 'MM/dd/yyyy') !== inputDisplay[0]) {
-        console.log(2, selected.from, inputDisplay[0]);
-
-        setInputDisplay([format(selected?.from, 'MM/dd/yyyy'), 'mm/dd/yyyy']);
+        setInputDisplay([format(selected?.from, dateFormat), format(selected?.to, dateFormat)]);
+      } else if (format(selected.from, dateFormat) !== inputDisplay[0]) {
+        setInputDisplay([format(selected?.from, dateFormat), datePlaceholder]);
       }
     } else if (!selected) {
-      console.log(3);
-      ref.current.value = 'mm/dd/yyyy - mm/dd/yyyy';
-      setInputDisplay(['mm/dd/yyyy', 'mm/dd/yyyy']);
+      ref.current.value = dateRangePlaceholder;
+      setInputDisplay([datePlaceholder, datePlaceholder]);
       setHighlight('from');
       setInvalidDate(false);
     }
   }, [selected]);
+
+  useEffect(() => {
+    const currentInputRange = ref.current?.value?.split(' - ');
+    if (inputDisplay !== currentInputRange) {
+      ref.current.value = inputDisplay[0] + ' - ' + inputDisplay[1];
+    }
+  }, [inputDisplay]);
 
   return (
     <div className={inputDisplayContainer}>

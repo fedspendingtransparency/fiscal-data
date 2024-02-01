@@ -9,13 +9,10 @@ import {
   datePickerContainer,
   calendarIcon,
   xIcon,
-  dateTextEnd,
-  dateTextBegin,
   buttonContainer,
   datePickerButton,
   datePickerSelected,
   datePickerRangeMiddle,
-  dateDivider,
   glow,
   lastColumn,
   invalidDateText,
@@ -25,8 +22,8 @@ import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
-import DateRangeTextInput from './date-input';
-import { format } from 'date-fns';
+import DateRangeTextInput from './date-range-text-input/date-range-text-input';
+import { dateFilterMaxYear, dateFilterMinYear, datePlaceholder } from './date-range-helper';
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
@@ -34,13 +31,10 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     from: undefined,
     to: undefined,
   });
-  const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState('');
-  const [filterDisplayEndDate, setFilterDisplayEndDate] = useState('');
   const [active, setActive] = useState(false);
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
-  const [textEntry, setTextEntry] = useState('');
   const [invalidDate, setInvalidDate] = useState(false);
-  const [inputDisplay, setInputDisplay] = useState(['mm/dd/yyyy', 'mm/dd/yyyy']);
+  const [inputDisplay, setInputDisplay] = useState([datePlaceholder, datePlaceholder]);
 
   const dropdownRef = useRef();
   const displayRef = useRef();
@@ -51,8 +45,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         setAllActiveFilters([...allActiveFilters, column.id]);
       }
     } else {
-      setFilterDisplayBeginDate();
-      setFilterDisplayEndDate();
       if (allActiveFilters?.includes(column.id)) {
         const currentFilters = allActiveFilters.filter(value => value !== column.id);
         setAllActiveFilters(currentFilters);
@@ -77,8 +69,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       const start = moment(Date.now());
       const end = moment(Date.now());
       onFilterChange(`${start} - ${end}`);
-      setFilterDisplayBeginDate(start);
-      setFilterDisplayEndDate(end);
     }
   };
 
@@ -86,7 +76,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (!e.key || e.key === 'Enter') {
       setSelected(undefined);
       onFilterChange(undefined);
-      setInputDisplay(['mm/dd/yyyy', 'mm/dd/yyyy']);
+      setInputDisplay([datePlaceholder, datePlaceholder]);
+      setActive(false);
     }
   };
 
@@ -117,10 +108,10 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (active) {
       document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
     } else {
-      // took out default for date so looking for undefined now ***********
-      if (filterDisplayBeginDate && !filterDisplayEndDate) {
+      if (!selected?.to) {
         setSelected(undefined);
         onFilterChange(undefined);
+        setInputDisplay([datePlaceholder, datePlaceholder]);
       }
     }
     return () => {
@@ -135,24 +126,18 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setFilteredDateRange({ from: start, to: end });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start} - ${end}`);
-      setFilterDisplayBeginDate(start);
-      setFilterDisplayEndDate(end);
       setActive(false);
     } else {
       column.setFilterValue([]);
       setFilteredDateRange(null);
       onFilterChange('');
     }
-    if (selected?.from && !selected?.to) {
-      const start = moment(selected?.from);
-      setFilterDisplayBeginDate(start);
-    }
   }, [selected]);
 
   useEffect(() => {
     setSelected(undefined);
     setActive(false);
-    setInputDisplay(['mm/dd/yyyy', 'mm/dd/yyyy']);
+    setInputDisplay([datePlaceholder, datePlaceholder]);
   }, [resetFilters]);
 
   return (
@@ -176,8 +161,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             invalidDate={invalidDate}
             active={active}
           />
-          {inputDisplay[0] !== 'mm/dd/yyyy' ? (
-            <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
+          {inputDisplay[0] !== datePlaceholder ? (
+            <span onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
             </span>
           ) : (
@@ -214,8 +199,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
                       selected: datePickerSelected,
                       range_middle: datePickerRangeMiddle,
                     }}
-                    fromYear={1900}
-                    toYear={2099}
+                    fromYear={dateFilterMinYear}
+                    toYear={dateFilterMaxYear}
                     captionLayout="dropdown-buttons"
                   />
                 </div>
