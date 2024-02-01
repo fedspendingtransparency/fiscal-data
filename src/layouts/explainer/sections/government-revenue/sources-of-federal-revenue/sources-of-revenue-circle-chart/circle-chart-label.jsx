@@ -30,47 +30,47 @@ const labelFormatTable = {
   },
   'Miscellaneous Income': {
     desktop: {
-      lines: ['Misc. Income'],
+      lines: ['Miscellaneous', 'Income'],
       horizontalOffset: 16,
     },
     mobile: {
-      lines: ['Misc. Income'],
+      lines: ['Miscellaneous', 'Income'],
       horizontalOffset: 15,
     },
-    external: true,
+    hide: true,
   },
   'Customs Duties': {
     desktop: {
-      lines: ['Customs Duties'],
+      lines: ['Customs', 'Duties'],
       horizontalOffset: 16,
     },
     mobile: {
-      lines: ['Customs Duties'],
+      lines: ['Customs', 'Duties'],
       horizontalOffset: 8,
     },
-    external: true,
+    hide: true,
   },
   'Estate & Gift Taxes': {
     desktop: {
-      lines: ['Estate & Gift Taxes'],
+      lines: ['Estate', '& Gift Taxes'],
       horizontalOffset: 30,
     },
     mobile: {
-      lines: ['Estate & Gift Taxes'],
+      lines: ['Estate', '& Gift Taxes'],
       horizontalOffset: 20,
     },
-    external: true,
+    hide: true,
   },
   'Excise Taxes': {
     desktop: {
-      lines: ['Excise Taxes'],
+      lines: ['Excise', 'Taxes'],
       horizontalOffset: 8,
     },
     mobile: {
-      lines: ['Excise Taxes'],
+      lines: ['Excise', 'Taxes'],
       horizontalOffset: 6,
     },
-    external: true,
+    hide: true,
   },
 };
 
@@ -133,12 +133,8 @@ const LabelComponent = ({ node, label, width, HandleClick, HandleMouseEnter, Han
       >
         {lines.map((line, index) => (
           <React.Fragment key={index}>
-            {labelFormatTable[label].external ? (
-              <tspan
-                x={node.x + flipLabel * (node.radius * xOffsetMultiplier) + flipLabel * labelFormat.horizontalOffset}
-                y={yStartPoint + flipLabel * (lineSpaceOffset * index - node.radius * yOffsetMultiplier()) - 2}
-                fill="#666666"
-              >
+            {labelFormatTable[label].hide ? (
+              <tspan x={node.x} y={yStartPoint + lineSpaceOffset * index} style={{ opacity: 0 }}>
                 {line}
               </tspan>
             ) : (

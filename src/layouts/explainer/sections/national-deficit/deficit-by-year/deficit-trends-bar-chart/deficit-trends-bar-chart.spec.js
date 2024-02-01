@@ -83,7 +83,7 @@ describe('Deficit Trends Bar Chart', () => {
 
     let yearHeader = await getByTestId('deficitFiscalYearHeader');
     let deficitAmountHeader = await getByTestId('deficitTotalHeader');
-    let customBars = getAllByTestId('customBar');
+    const customBars = getAllByTestId('customBar');
 
     await act(async () => {
       mockAllIsIntersecting(true);

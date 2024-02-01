@@ -176,4 +176,10 @@ export const mockFilters = [
     groupId: 'topics',
     active: false,
   },
+  {
+    id: 'adminResourceCenter',
+    label: 'adminResourceCenter',
+    groupId: 'publisher',
+    active: false,
+  },
 ];

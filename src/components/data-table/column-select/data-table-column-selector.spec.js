@@ -34,7 +34,7 @@ describe('Column Selector', () => {
 
   const mockTable = {
     getVisibleFlatColumns: () => ['test'],
-    getAllLeafColumns: () => mockDefaultColumns,
+    getAllLeafColumns: () => [...mockDefaultColumns, ...mockAdditionalColumns],
     getIsAllColumnsVisible: () => true,
   };
 
@@ -87,6 +87,22 @@ describe('Column Selector', () => {
 
     expect(getByRole('checkbox', { name: 'test default column name' })).toBeInTheDocument();
     expect(getByRole('checkbox', { name: 'test default column name 2' })).toBeInTheDocument();
+    expect(getByRole('checkbox', { name: 'test additional column name' })).toBeInTheDocument();
+  });
+
+  it('renders no default columns when none are specified', () => {
+    const { getByRole, queryByText } = render(
+      <DataTableColumnSelector
+        table={mockTable}
+        resetToDefault={jest.fn()}
+        setSelectColumnPanel={jest.fn()}
+        defaultSelectedColumns={true}
+        defaultColumns={[]}
+        additionalColumns={mockAdditionalColumns}
+      />
+    );
+
+    expect(queryByText('DEFAULTS')).not.toBeInTheDocument();
     expect(getByRole('checkbox', { name: 'test additional column name' })).toBeInTheDocument();
   });
 });

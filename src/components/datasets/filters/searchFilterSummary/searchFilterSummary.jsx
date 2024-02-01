@@ -69,13 +69,22 @@ export default function SearchFilterSummary({ searchQuery, activeFilters, allFil
                   {filterConfig.options
                     .filter(obj => obj.active)
                     .map((option, index) => (
-                      <button type="button" className={filter_summary_button} key={index} onClick={clickHandler(option, filterConfig)}>
+                      <button
+                        type="button"
+                        className={filter_summary_button}
+                        key={index}
+                        onClick={clickHandler(option, filterConfig)}
+                        id={'filter-label'}
+                      >
                         {option.active.active &&
                         option.active.startDate &&
                         isValid(option.active.startDate) &&
                         option.active.endDate &&
                         isValid(option.active.endDate) ? (
-                          <label>{`${format(option.active.startDate, ['MM/dd/yyyy'])} - ${format(option.active.endDate, ['MM/dd/yyyy'])}`}</label>
+                          <label aria-labelledby={'filter-label'}>{`${format(option.active.startDate, ['MM/dd/yyyy'])} - ${format(
+                            option.active.endDate,
+                            ['MM/dd/yyyy']
+                          )}`}</label>
                         ) : (
                           <label>{option.label}</label>
                         )}

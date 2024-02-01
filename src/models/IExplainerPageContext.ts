@@ -10,6 +10,7 @@ export interface IExplainerPageContext {
   seoConfig: ISEOConfig;
   heroImage: IHeroImage;
   relatedDatasets: IDataset[];
+  isAFG: boolean;
   glossary: IGlossaryTerm[];
   cpiDataByYear: ICpiDataMap;
 }
