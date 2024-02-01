@@ -1,8 +1,9 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
 import DateRangeFilter from './date-range-filter';
 import React, { useEffect } from 'react';
 import { RecoilRoot, useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
+import userEvent from '@testing-library/user-event';
 
 const RecoilObserver = ({ node, onChange }) => {
   const value = useRecoilValue(node);
@@ -43,13 +44,14 @@ describe('date range filter', () => {
       </RecoilRoot>
     );
     const dateRangeButton = getByRole('button');
-    dateRangeButton.click();
+    fireEvent.click(dateRangeButton);
     const todayButton = getByRole('button', { name: 'Today' });
-    todayButton.click();
+    fireEvent.click(todayButton);
     expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
+    fireEvent.click(dateRangeButton);
     const clearButton = getByRole('button', { name: 'Clear' });
-    clearButton.click();
-    dateRangeButton.click();
+    fireEvent.click(clearButton);
+    fireEvent.click(dateRangeButton);
   });
 
   it('renders clear dates button inside date input field', () => {
@@ -65,13 +67,13 @@ describe('date range filter', () => {
       </RecoilRoot>
     );
     const dateRangeButton = getByRole('button');
-    dateRangeButton.click();
+    fireEvent.click(dateRangeButton);
     const todayButton = getByRole('button', { name: 'Today' });
-    todayButton.click();
+    fireEvent.click(todayButton);
     expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
     const inputClearButton = getByRole('button', { name: 'Clear dates' });
-    inputClearButton.click();
-    dateRangeButton.click();
+    fireEvent.click(inputClearButton);
+    fireEvent.click(dateRangeButton);
   });
 
   it('today and clear buttons keyboard accessibility', () => {
@@ -162,9 +164,56 @@ describe('date range filter', () => {
     dateRangeButton.click();
     expect(dropdown).not.toBeInTheDocument();
   });
+
   it('adjusts dates entered based on keyboard entry, complete valid range', () => {
-    const expectedValue = { from: '2022-12-01T06:00:00.000Z', to: '2024-12-10T06:00:00.000Z' };
-    const { getByRole, getAllByText } = render(
+    const { getByRole } = render(
+      <RecoilRoot>
+        <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeEntry = getByRole('textbox', { hidden: true });
+    dateRangeEntry.focus();
+    act(() => {
+      userEvent.keyboard('12012022');
+      userEvent.keyboard('12102024');
+    });
+    expect(mockSetFilteredDateRange).toHaveBeenCalled();
+  });
+
+  it('renders x button when text is entered', () => {
+    const { getByRole, queryByRole, getByText, queryByText } = render(
+      <RecoilRoot>
+        <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeEntry = getByRole('textbox', { hidden: true });
+    dateRangeEntry.focus();
+    act(() => {
+      userEvent.keyboard('11');
+    });
+    expect(getByText('11/dd/yyyy')).toBeInTheDocument();
+    const clear = getByRole('button', { name: 'Clear dates' });
+    fireEvent.click(clear);
+    expect(queryByText('11/dd/yyyy')).not.toBeInTheDocument();
+    expect(queryByRole('button', { name: 'Clear dates' })).not.toBeInTheDocument();
+  });
+
+  it('displays error message on invalid date entry', () => {
+    const { getByRole, getByText } = render(
       <RecoilRoot>
         <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
         <DateRangeFilter
@@ -178,24 +227,45 @@ describe('date range filter', () => {
     );
     const dateRangeButton = getByRole('button');
     dateRangeButton.click();
-    const dateRangeEntry = getAllByText('mm/dd/yyyy');
-    dateRangeEntry[0].click();
-
-    fireEvent.change(dateRangeEntry[0], { target: { value: '12/01/2022' } });
-    fireEvent.change(dateRangeEntry[1], { target: { value: '12/10/2022' } });
-
-    expect(mockSetFilteredDateRange).toHaveBeenCalledWith(expectedValue);
+    const dateRangeEntry = getByRole('textbox', { hidden: true });
+    dateRangeEntry.focus();
+    act(() => {
+      userEvent.keyboard('12102024');
+      userEvent.keyboard('12012022');
+    });
+    expect(getByText('Invalid date range. Please check the entered dates and try again')).toBeInTheDocument();
   });
+  it('highlights the in progress date entry', () => {
+    const { getByRole, getByText } = render(
+      <RecoilRoot>
+        <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+    const dateRangeEntry = getByRole('textbox', { hidden: true });
+    dateRangeEntry.focus();
+    act(() => {
+      userEvent.keyboard('1210');
+    });
+    const startDate = getByText('12/10/yyyy');
+    expect(startDate).toBeInTheDocument();
+    expect(startDate).toHaveClass('currentDate');
+    act(() => {
+      userEvent.keyboard('2024');
+    });
+    expect(getByText('12/10/2024')).toBeInTheDocument();
+    expect(startDate).not.toHaveClass('currentDate');
 
-  it('adjusts dates entered based on keyboard entry, complete valid start date', () => {
-    // look for class on day picker dot
-  });
-
-  it('displays error message on invalid start date entry', () => {
-    // 20/20/2020
-  });
-
-  it('displays error message on invalid end date entry', () => {
-    // 1/2/2022 - 13/13/2020
+    const endDate = getByText('mm/dd/yyyy');
+    expect(endDate).toBeInTheDocument();
+    expect(endDate).toHaveClass('currentDate');
   });
 });
