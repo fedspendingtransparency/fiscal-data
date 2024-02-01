@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { completeDate } from './date-range-helper';
 import { format, isValid, isAfter } from 'date-fns';
-import moment from 'moment';
 import { useIMask, IMask } from 'react-imask';
-import { inputDisplayContainer, inputDisplay, inputBox, currentDate } from './date-range-filter.module.scss';
+import { inputDisplayContainer, inputTextDisplay, inputBox, currentDate } from './date-range-filter.module.scss';
 
-const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, setText, text, setInvalidDate, invalidDate }) => {
-  const [inputText, setInputText] = useState('mm/dd/yyyy - mm/dd/yyyy');
-  const [display, setDisplay] = useState(['mm/dd/yyyy', 'mm/dd/yyyy']);
+const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDisplay, setInvalidDate, active }) => {
+  // const [inputDisplay, setInputDisplay] = useState(['mm/dd/yyyy', 'mm/dd/yyyy']);
   const [highlight, setHighlight] = useState('from');
 
   const [opts] = useState({
@@ -15,8 +13,9 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, s
     lazy: false,
     parse: str => {
       const dateRange = str.split(' - ');
-      setDisplay(dateRange);
-      setText(str);
+      console.log(str, dateRange);
+      setInputDisplay(dateRange);
+      // setText(str);
       parseDates(dateRange);
     },
     blocks: {
@@ -34,17 +33,18 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, s
     const to = new Date(toInput);
     if (completeDate(fromInput)) {
       if (isValid(from)) {
-        setStartDate(moment(from));
         setInvalidDate(false);
         setSelected({ from: from, to: undefined });
         setHighlight('to');
       } else {
         setInvalidDate(true);
       }
+    } else {
+      console.log(4);
+      setSelected(undefined);
     }
     if (completeDate(toInput)) {
       if (isValid(to) && (isAfter(to, from) || toInput === fromInput)) {
-        setEndDate(to);
         setInvalidDate(false);
         setSelected({ from: from, to: to });
         setHighlight(null);
@@ -55,42 +55,31 @@ const DateRangeTextInput = ({ setStartDate, setEndDate, selected, setSelected, s
   };
 
   useEffect(() => {
-    ref.current.value = inputText;
-    setText(inputText);
-  }, [inputText]);
+    if (!!selected?.from) {
+      if (!!selected?.to) {
+        console.log(1);
+        setInputDisplay([format(selected?.from, 'MM/dd/yyyy'), format(selected?.to, 'MM/dd/yyyy')]);
+      } else if (format(selected.from, 'MM/dd/yyyy') !== inputDisplay[0]) {
+        console.log(2, selected.from, inputDisplay[0]);
 
-  useEffect(() => {
-    if (text.length === 0) {
-      setInputText('mm/dd/yyyy - mm/dd/yyyy');
-      setDisplay(['mm/dd/yyyy', 'mm/dd/yyyy']);
+        setInputDisplay([format(selected?.from, 'MM/dd/yyyy'), 'mm/dd/yyyy']);
+      }
+    } else if (!selected) {
+      console.log(3);
+      ref.current.value = 'mm/dd/yyyy - mm/dd/yyyy';
+      setInputDisplay(['mm/dd/yyyy', 'mm/dd/yyyy']);
       setHighlight('from');
       setInvalidDate(false);
     }
-  }, [text]);
-
-  useEffect(() => {
-    if (!!selected?.from) {
-      if (!!selected?.to) {
-        setInputText(format(selected?.from, 'MM/dd/yyyy') + ' - ' + format(selected?.to, 'MM/dd/yyyy'));
-      } else {
-        setInputText(format(selected?.from, 'MM/dd/yyyy') + ' - mm/dd/yyyy');
-      }
-    }
   }, [selected]);
-
-  useEffect(() => {
-    if (!!selected?.to) {
-      setInputText(format(selected?.from, 'MM/dd/yyyy') + ' - ' + format(selected?.to, 'MM/dd/yyyy'));
-    }
-  }, [selected?.to]);
 
   return (
     <div className={inputDisplayContainer}>
       <input ref={ref} spellCheck={false} className={inputBox} aria-hidden={true} />
-      <div className={inputDisplay}>
-        <span className={highlight === 'from' ? currentDate : undefined}>{display[0]}</span>
+      <div className={inputTextDisplay}>
+        <span className={active && highlight === 'from' ? currentDate : undefined}>{inputDisplay[0]}</span>
         {' - '}
-        <span className={highlight === 'to' ? currentDate : undefined}>{display[1]}</span>
+        <span className={active && highlight === 'to' ? currentDate : undefined}>{inputDisplay[1]}</span>
       </div>
     </div>
   );

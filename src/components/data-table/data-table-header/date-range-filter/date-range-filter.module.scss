@@ -25,7 +25,6 @@
   color: $font-body-copy;
 
 
-
   .dateTextEnd {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -120,8 +119,11 @@
 
 .inputDisplayContainer {
   position: relative;
-    font-size: $font-size-14;
-    color: $font-body-copy;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  font-size: $font-size-14;
+  color: $font-body-copy;
 
   input::-webkit-calendar-picker-indicator {
     display: none;
@@ -134,7 +136,7 @@
   input {
     border: none;
     height: 100%;
-    width: 100%;
+    width: 96%;
     padding: 0 0 0 0.5rem;
     background: transparent;
     font-size: $font-size-14;
@@ -147,18 +149,17 @@
     }
   }
 
-  .inputDisplay {
+  .inputTextDisplay {
     pointer-events: none;
     margin-left: 0.5rem;
     font-size: $font-size-14;
     line-height: $font-size-16;
-
+    padding: 6px 0;
     color: $font-body-copy;
     letter-spacing: normal;
   }
 
   .inputBox {
-    //opacity: 0;
     color: transparent;
     position: absolute;
     bottom: 0;

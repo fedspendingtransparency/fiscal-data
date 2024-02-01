@@ -26,24 +26,21 @@ import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-d
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 import DateRangeTextInput from './date-input';
+import { format } from 'date-fns';
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
-  const textHighlighted = { backgroundColor: '#E8F5FF', border: 'none' };
-  const noTextHighLight = { backgroundColor: '', border: 'none' };
-
   const [selected, setSelected] = useState({
     from: undefined,
     to: undefined,
   });
   const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState('');
   const [filterDisplayEndDate, setFilterDisplayEndDate] = useState('');
-  const [beginTextStyle, setBeginTextStyle] = useState(noTextHighLight);
-  const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
   const [textEntry, setTextEntry] = useState('');
   const [invalidDate, setInvalidDate] = useState(false);
+  const [inputDisplay, setInputDisplay] = useState(['mm/dd/yyyy', 'mm/dd/yyyy']);
 
   const dropdownRef = useRef();
   const displayRef = useRef();
@@ -89,8 +86,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (!e.key || e.key === 'Enter') {
       setSelected(undefined);
       onFilterChange(undefined);
-      // setClearTextEntry(true);
-      setTextEntry('');
+      setInputDisplay(['mm/dd/yyyy', 'mm/dd/yyyy']);
     }
   };
 
@@ -120,10 +116,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   useEffect(() => {
     if (active) {
       document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
-      setBeginTextStyle(textHighlighted);
     } else {
-      setBeginTextStyle(noTextHighLight);
-      setEndTextStyle(noTextHighLight);
       // took out default for date so looking for undefined now ***********
       if (filterDisplayBeginDate && !filterDisplayEndDate) {
         setSelected(undefined);
@@ -144,7 +137,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       onFilterChange(`${start} - ${end}`);
       setFilterDisplayBeginDate(start);
       setFilterDisplayEndDate(end);
-      setEndTextStyle(noTextHighLight);
       setActive(false);
     } else {
       column.setFilterValue([]);
@@ -153,8 +145,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
     if (selected?.from && !selected?.to) {
       const start = moment(selected?.from);
-      setEndTextStyle(textHighlighted);
-      setBeginTextStyle(noTextHighLight);
       setFilterDisplayBeginDate(start);
     }
   }, [selected]);
@@ -162,7 +152,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   useEffect(() => {
     setSelected(undefined);
     setActive(false);
-    setTextEntry('');
+    setInputDisplay(['mm/dd/yyyy', 'mm/dd/yyyy']);
   }, [resetFilters]);
 
   return (
@@ -178,16 +168,15 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           ref={displayRef}
         >
           <DateRangeTextInput
-            setStartDate={setFilterDisplayBeginDate}
-            setEndDate={setFilterDisplayEndDate}
             selected={selected}
             setSelected={setSelected}
-            setText={setTextEntry}
-            text={textEntry}
+            inputDisplay={inputDisplay}
+            setInputDisplay={setInputDisplay}
             setInvalidDate={setInvalidDate}
             invalidDate={invalidDate}
+            active={active}
           />
-          {textEntry.length > 0 ? (
+          {inputDisplay[0] !== 'mm/dd/yyyy' ? (
             <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
             </span>
