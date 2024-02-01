@@ -66,5 +66,17 @@ module.exports = {
       alwaysSortWith: ['-original_issue_date'],
       selectColumns: [],
     },
+    '267': {
+      endpoint: 'v1/accounting/od/uranium_enrichment_decontamination_decommissioning_fund_results',
+      dateField: 'record_date',
+      downloadName: 'TB_UraniumEnrichmentResults',
+      alwaysSortWith: ['-record_date', '-src_line_nbr'],
+    },
+    // '268': {
+    //   endpoint: 'v1/accounting/od/uranium_enrichment_decontamination_decommissioning_fund_expected',
+    //   dateField: 'record_date',
+    //   downloadName: 'TB_UraniumEnrichmentExpected',
+    //   alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
+    // },
   },
 };
