@@ -4,7 +4,10 @@ export const formatForDataType = (d, dataType, displayRealValues, roundingDenomi
   const sign = dataType === 'RATE' ? ' %' : '';
   if (displayRealValues && roundingDenomination) {
     if (dataType === 'CURRENCY') {
-      return `$${Number(d).toLocaleString()} ${(roundingDenomination.charAt(0).toUpperCase() + roundingDenomination.slice(1)).slice(0, -1)}`;
+      if (roundingDenomination) {
+        return `$${Number(d).toLocaleString()} ${(roundingDenomination.charAt(0).toUpperCase() + roundingDenomination.slice(1)).slice(0, -1)}`;
+      }
+      return `$${Number(d).toLocaleString()}`;
     } else {
       return simplifyNumber(Number(d), dataType === 'CURRENCY', true) + sign;
     }
