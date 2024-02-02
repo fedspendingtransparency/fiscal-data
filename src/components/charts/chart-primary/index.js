@@ -326,7 +326,7 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _displayRawValues, 
   roundingDenomination = _roundingDenomination;
   toolTipDateKey = options.toolTipDateKey;
   chartDimensions.height = options.forceHeight || chartDimensions.height;
-  chartDimensions.yAxisWidth = displayRawValues ? 140 : options.forceYAxisWidth || baseYAxisWidth;
+  chartDimensions.yAxisWidth = displayRawValues ? 130 : options.forceYAxisWidth || baseYAxisWidth;
 
   setContainer();
 

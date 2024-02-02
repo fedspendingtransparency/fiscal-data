@@ -46,8 +46,7 @@
       "startDate": "8/24/2023",
       "endDate": "9/14/2023"
     },
-    "datatableBanner": "For important information regarding any new or altered footnotes, review the footnotes in the PDF file found on the Published Reports tab.",
-    "displayRealChartValues": true
+    "datatableBanner": "For important information regarding any new or altered footnotes, review the footnotes in the PDF file found on the Published Reports tab."
   },
   "015-BFS-2014Q3-096": {
     "slug": "/savings-bonds-issues-redemptions-maturities-by-series/",
@@ -127,7 +126,7 @@
     "topics": ["debt", "financial-summaries"],
     "relatedDatasets": ["015-BFS-2014Q1-03", "015-BFS-2014Q3-065", "015-BFS-2014Q1-11", "015-BFS-2014Q1-13"],
     "currentDateButton": "byMonth",
-    "customNoChartMessage": true
+    "displayRealChartValues": true
   },
   "015-BFS-2014Q1-04": {
     "slug": "/treasury-reporting-rates-exchange/",

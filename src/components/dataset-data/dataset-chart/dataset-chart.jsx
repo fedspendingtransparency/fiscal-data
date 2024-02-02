@@ -16,6 +16,9 @@ import {
   viz as vizClass,
   datasetStats,
   legend as legendClass,
+  yAxisLabel,
+  labelContainer,
+  subTitle,
 } from './dataset-chart.module.scss';
 
 export let chartHooks;
@@ -168,6 +171,8 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
     callbacks.onLabelChange(update, chartFields, setChartFields);
   };
 
+  const capitalized = selectedPivot.pivotView.roundingDenomination.charAt(0).toUpperCase() + selectedPivot.pivotView.roundingDenomination.slice(1);
+
   return (
     <div className={`${chartArea} ${legend ? legendActive : ''}`}>
       <div className={chartPane}>
@@ -178,10 +183,12 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
               {data && `${getYear(dateRange.from)} - ${getYear(dateRange.to)}`}
               {selectedPivot && selectedPivot.pivotView ? ` | ${selectedPivot.pivotView.title}` : ''}
             </h4>
-            <h5 style={{ marginTop: '-2.5rem' }}>
-              {selectedPivot ? `Values shown in ${selectedPivot.pivotView.roundingDenomination} of U.S dollars` : ''}
-            </h5>
-            <div style={{ transform: 'rotate(-90deg)', position: 'absolute', bottom: '22rem' }}>Millions</div>
+            {selectedPivot && selectedPivot.pivotView.roundingDenomination && (
+              <h5 className={subTitle}>Values shown in {selectedPivot.pivotView.roundingDenomination} of U.S dollars</h5>
+            )}
+            <div className={labelContainer}>
+              <div className={yAxisLabel}>{capitalized}</div>
+            </div>
             <div id="viz" ref={viz} />
             <ChartCitation slug={slug} currentTableName={currentTable.tableName} />
           </div>

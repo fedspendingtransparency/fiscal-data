@@ -738,89 +738,89 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/schedules_fed_debt',
     dateField: 'record_date',
     downloadName: 'SFD_SchedFedDebtMo',
-    // dataDisplays: [
-    //   {
-    //     title: 'Total Increases and Decreases',
-    //     dimensionField: 'debt_holder_type',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'in',
-    //         value: 'Total Increases,Total Decreases',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Debt Held by the Public Increases',
-    //     dimensionField: 'security_class2_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'debt_holder_type',
-    //         operator: 'eq',
-    //         value: 'Held by the Public',
-    //       },
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'in',
-    //         value: 'Borrowings from the Public,Accrued Interest',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Intragovernmental Debt Holdings Increases',
-    //     dimensionField: 'security_class2_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'debt_holder_type',
-    //         operator: 'eq',
-    //         value: 'Intragovernmental Debt Holdings',
-    //       },
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'in',
-    //         value: 'Net Increase in Intragovernmental Debt Holdings,Accrued Interest',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Debt Held by the Public Decreases',
-    //     dimensionField: 'security_class2_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'debt_holder_type',
-    //         operator: 'eq',
-    //         value: 'Held by the Public',
-    //       },
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'in',
-    //         value: 'Repayments of Debt Held by the Public,Interest Paid,Net Amortization',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Intragovernmental Debt Holdings Decreases',
-    //     dimensionField: 'security_class2_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'debt_holder_type',
-    //         operator: 'eq',
-    //         value: 'Intragovernmental Debt Holdings',
-    //       },
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'in',
-    //         value: 'Net Decrease in Intragovernmental Debt Holdings,Interest Paid,Net Amortization',
-    //       },
-    //     ],
-    //   },
-    // ],
-    // valueFieldOptions: ['principal_mil_amt', 'accrued_int_payable_mil_amt', 'net_unamortized_mil_amt'],
+    dataDisplays: [
+      {
+        title: 'Total Increases and Decreases',
+        dimensionField: 'debt_holder_type',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class2_desc',
+            operator: 'in',
+            value: 'Total Increases,Total Decreases',
+          },
+        ],
+      },
+      {
+        title: 'Debt Held by the Public Increases',
+        dimensionField: 'security_class2_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'debt_holder_type',
+            operator: 'eq',
+            value: 'Held by the Public',
+          },
+          {
+            key: 'security_class2_desc',
+            operator: 'in',
+            value: 'Borrowings from the Public,Accrued Interest',
+          },
+        ],
+      },
+      {
+        title: 'Intragovernmental Debt Holdings Increases',
+        dimensionField: 'security_class2_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'debt_holder_type',
+            operator: 'eq',
+            value: 'Intragovernmental Debt Holdings',
+          },
+          {
+            key: 'security_class2_desc',
+            operator: 'in',
+            value: 'Net Increase in Intragovernmental Debt Holdings,Accrued Interest',
+          },
+        ],
+      },
+      {
+        title: 'Debt Held by the Public Decreases',
+        dimensionField: 'security_class2_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'debt_holder_type',
+            operator: 'eq',
+            value: 'Held by the Public',
+          },
+          {
+            key: 'security_class2_desc',
+            operator: 'in',
+            value: 'Repayments of Debt Held by the Public,Interest Paid,Net Amortization',
+          },
+        ],
+      },
+      {
+        title: 'Intragovernmental Debt Holdings Decreases',
+        dimensionField: 'security_class2_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'debt_holder_type',
+            operator: 'eq',
+            value: 'Intragovernmental Debt Holdings',
+          },
+          {
+            key: 'security_class2_desc',
+            operator: 'in',
+            value: 'Net Decrease in Intragovernmental Debt Holdings,Interest Paid,Net Amortization',
+          },
+        ],
+      },
+    ],
+    valueFieldOptions: ['principal_mil_amt', 'accrued_int_payable_mil_amt', 'net_unamortized_mil_amt'],
   },
   '139': {
     endpoint: 'v1/debt/mspd/mspd_table_3_market',
@@ -1906,7 +1906,6 @@ const endpointConfig = {
     dataDisplays: [
       {
         title: 'By Type of Account',
-        roundingDenomination: 'millions',
         dimensionField: 'account_type',
 
         lastRowSnapshot: true,
