@@ -77,9 +77,51 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   allowColumnWrap,
   aria,
 }) => {
-  const allColumns = nonRawDataColumns
-    ? columnsConstructorGeneric(nonRawDataColumns)
-    : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
+
+  const apiEndpoint: string = 'v1/accounting/od/tips_cpi_data_detail';
+  const [newData, setNewData] = useState<any | null>(null);
+  const [selectedCusip, newSelectedCusip] = useState<string | null>(null);
+  
+  useEffect(() => {
+    if(selectedCusip) {
+      const fetchData = async () =>{
+        const data = await basicFetch(`${apiPrefix}${apiEndpoint}`)
+        setNewData(data);
+        console.log('data   ', data);
+      };
+      fetchData();
+    }
+  }, [selectedCusip]);
+
+
+  const modifiedColumnsCUSIP = (columns: any[]) => {
+    return columns.map(column => {
+      if (column.accessorKey === 'CUSIP' || column.accessorKey === 'cusip') {
+        return {
+          ...column,
+          cell: ({ getValue }: { getValue: () => string }) =>{
+            const cusipValue = getValue();
+            console.log('value of cusip', cusipValue);
+            const handleClick =  async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+              console.log('cusipValue  ',cusipValue);
+
+              e.preventDefault();
+              const data = await  basicFetch(`${apiPrefix}${apiEndpoint}${cusipValue}`);
+              console.log('data  ', data);
+              setNewData(data);
+            };
+            return <button onClick={handleClick}>{cusipValue}</button>
+          }
+        };
+      }
+      return column;
+    });
+  };
+  const allColumns = modifiedColumnsCUSIP(
+    rawData.columns ? columnsConstructorGeneric(rawData.columns) : columnsConstructorData(rawData, hideColumns, tableName, columnConfig)
+    );
+    // ? columnsConstructorGeneric(nonRawDataColumns)
+    // : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -99,31 +141,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       }
     };
   }
-  const apiEndpoint: string = 'v1/accounting/od/tips_cpi_data_summary'
-  useEffect(() => {
-    basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
-      console.log(res)
-    })
-  }, []);
-
-  const modifiedColumnsCUSIP = (columns) => {
-    return columns.map(column => {
-      if (column.accessorKey === 'CUSIP' || column.accessorKey === 'cusip') {
-        return {
-          ...column,
-          cell: ({ getValue }) => {
-            const cusipValue = getValue();
-            const handleClick = (e) => {
-              e.preventDefault();
-              // api maybe...
-            };
-            return <Link to='/' onClick={handleClick}>{cusipValue}</Link>
-          }
-        };
-      }
-      return column;
-    });
-  };
+  
 
   const modifiedColumns = modifiedColumnsCUSIP(allColumns);
   let dataTypes;
@@ -149,8 +167,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [additionalColumns, setAdditionalColumns] = useState([]);
 
   const table = useReactTable({
-    columns: modifiedColumns,
-    data: rawData.data,
+    columns: allColumns,
+    data: newData || rawData.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
