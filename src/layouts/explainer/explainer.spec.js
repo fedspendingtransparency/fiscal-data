@@ -55,11 +55,14 @@ describe('Deficit explainer', () => {
     subHeading: 'mock subheading',
   };
   const glossary = [];
+  const isAFG = true;
+
   const mockPageContext = {
     breadCrumbLinkName,
     seoConfig,
     heroImage,
     glossary,
+    isAFG,
   };
 
   it('renders the deficit explainer page', async () => {
@@ -69,7 +72,7 @@ describe('Deficit explainer', () => {
       ...mockPageContext,
     };
 
-    const { findAllByTestId, findByText } = render(
+    const { findAllByTestId, findByText, findByTestId } = render(
       <RecoilRoot>
         <ExplainerPageLayout pageContext={deficitPageContext} />
       </RecoilRoot>
@@ -80,6 +83,9 @@ describe('Deficit explainer', () => {
 
     const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
     expect(dataSourcesMethodologies).toBeInTheDocument();
+
+    const subNav = await findByTestId('explainerSubNav');
+    expect(subNav).toBeInTheDocument();
   });
 });
 
@@ -96,6 +102,10 @@ describe('Spending explainer', () => {
       },
     ],
   };
+
+  beforeAll(() => {
+    useStaticQuery.mockReturnValue(glossaryMock);
+  });
 
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -146,12 +156,15 @@ describe('Spending explainer', () => {
     '2022': '296.808',
   };
   const glossary = [];
+  const isAFG = true;
+
   const mockPageContext = {
     breadCrumbLinkName,
     seoConfig,
     heroImage,
     glossary,
     cpiDataByYear,
+    isAFG,
   };
 
   it('renders the spending explainer page', async () => {
@@ -161,7 +174,7 @@ describe('Spending explainer', () => {
       ...mockPageContext,
     };
 
-    const { findAllByTestId, findByText } = render(
+    const { findAllByTestId, findByText, findByTestId } = render(
       <RecoilRoot>
         <ExplainerPageLayout pageContext={spendingPageContext} />
       </RecoilRoot>
@@ -172,10 +185,16 @@ describe('Spending explainer', () => {
 
     const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
     expect(dataSourcesMethodologies).toBeInTheDocument();
+
+    const subNav = await findByTestId('explainerSubNav');
+    expect(subNav).toBeInTheDocument();
   });
 });
 
 describe('Revenue explainer', () => {
+  beforeAll(() => {
+    useStaticQuery.mockReturnValue(glossaryMock);
+  });
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, governmentRevenueMatchers);
@@ -203,12 +222,14 @@ describe('Revenue explainer', () => {
     subHeading: 'mock subheading',
   };
   const glossary = [];
+  const isAFG = true;
   const mockPageContext = {
     breadCrumbLinkName,
     seoConfig,
     heroImage,
     glossary,
     cpiDataByYear,
+    isAFG,
   };
 
   it('renders the revenue explainer page', async () => {
@@ -218,7 +239,7 @@ describe('Revenue explainer', () => {
       ...mockPageContext,
     };
 
-    const { findAllByTestId, findByText } = render(
+    const { findAllByTestId, findByText, findByTestId } = render(
       <RecoilRoot>
         <ExplainerPageLayout pageContext={spendingPageContext} />
       </RecoilRoot>
@@ -229,6 +250,9 @@ describe('Revenue explainer', () => {
 
     const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
     expect(dataSourcesMethodologies).toBeInTheDocument();
+
+    const subNav = await findByTestId('explainerSubNav');
+    expect(subNav).toBeInTheDocument();
   });
 });
 
@@ -244,6 +268,7 @@ describe('Explainer Page Layout', () => {
     subHeading: 'mock subheading',
   };
   const glossary = [];
+  const isAFG = true;
 
   const mockPageContext = {
     pageName,
@@ -251,6 +276,7 @@ describe('Explainer Page Layout', () => {
     seoConfig,
     heroImage,
     glossary,
+    isAFG,
   };
 
   beforeAll(() => {
@@ -279,8 +305,8 @@ describe('Explainer Page Layout', () => {
     ]);
   });
 
-  it('renders the explainer page', async () => {
-    const { findAllByTestId, findByText } = render(
+  it('renders the debt explainer page', async () => {
+    const { findAllByTestId, findByText, findByTestId } = render(
       <RecoilRoot>
         <ExplainerPageLayout pageContext={mockPageContext} />
       </RecoilRoot>
@@ -291,5 +317,71 @@ describe('Explainer Page Layout', () => {
 
     const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
     expect(dataSourcesMethodologies).toBeInTheDocument();
+
+    const subNav = await findByTestId('explainerSubNav');
+    expect(subNav).toBeInTheDocument();
+  });
+});
+
+describe('Savings Bonds explainer', () => {
+  beforeAll(() => {
+    useStaticQuery.mockReturnValue(glossaryMock);
+  });
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+  afterEach(() => {
+    jest.resetModules();
+  });
+
+  const cpiDataByYear = {
+    '2011': '10',
+    '2012': '5',
+    '2013': '5',
+    '2020': '15',
+    '2021': '15',
+  };
+  const breadCrumbLinkName = 'mock link';
+  const seoConfig = {
+    pageTitle: 'mock title',
+    description: 'mock description',
+  };
+  const heroImage = {
+    heading: 'mock heading',
+    subHeading: 'mock subheading',
+  };
+  const glossary = [];
+  const isAFG = false;
+  const mockPageContext = {
+    breadCrumbLinkName,
+    seoConfig,
+    heroImage,
+    glossary,
+    cpiDataByYear,
+    isAFG,
+  };
+
+  it('renders the savings bonds explainer page', async () => {
+    const pageName = 'treasury-savings-bonds';
+
+    const savingsBondsPageContext = {
+      pageName,
+      ...mockPageContext,
+    };
+
+    const { findAllByTestId, findByText, queryByTestId } = render(
+      <RecoilRoot>
+        <ExplainerPageLayout pageContext={savingsBondsPageContext} />
+      </RecoilRoot>
+    );
+
+    const sectionHeadings = await findAllByTestId('section-heading');
+    expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
+
+    const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
+    expect(dataSourcesMethodologies).toBeInTheDocument();
+
+    const subNav = queryByTestId('explainerSubNav');
+    expect(subNav).not.toBeInTheDocument();
   });
 });

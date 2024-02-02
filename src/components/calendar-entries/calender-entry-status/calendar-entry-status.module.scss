@@ -34,8 +34,8 @@
     .notYetUpdated {
       height: $font-size-16;
       width: $font-size-16;
-      margin-right: $font-size-16 / 2;
-      border-radius: $font-size-16 / 2;
+      margin-right: calc($font-size-16 / 2);
+      border-radius: calc($font-size-16 / 2);
     }
 
     span {

@@ -14,20 +14,15 @@ import supplementalSpendingMobile from '../../../../../../static/images/suppleme
 import MandatorySpendingImgDesktop from '../../../../../../static/images/mandatory-spending_desktop.png';
 import MandatorySpendingImgMobile from '../../../../../../static/images/mandatory-spending_mobile.png';
 
-export const SpendingDifference = ({ width, glossary, glossaryClickHandler }) => {
+export const SpendingDifference = ({ width }) => {
   const appropriations = (
-    <GlossaryPopoverDefinition term="appropriations" page="Spending Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="appropriations" page="Spending Explainer">
       appropriations
     </GlossaryPopoverDefinition>
   );
 
   const supplementalAppropriations = (
-    <GlossaryPopoverDefinition
-      term="supplemental appropriations"
-      page="Spending Explainer"
-      glossary={glossary}
-      glossaryClickHandler={glossaryClickHandler}
-    >
+    <GlossaryPopoverDefinition term="supplemental appropriations" page="Spending Explainer">
       supplemental appropriations
     </GlossaryPopoverDefinition>
   );

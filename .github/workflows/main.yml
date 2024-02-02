@@ -15,10 +15,10 @@ jobs:
         uses: actions/setup-node@v3.8.1
         with:
           node-version: 16
-      - name: npm install
+      - name: npm install 
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
@@ -35,7 +35,7 @@ jobs:
       - name: Cypress install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: Cypress run
         uses: cypress-io/github-action@v5
         env:

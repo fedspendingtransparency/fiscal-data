@@ -36,7 +36,7 @@ import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
-  const { pageName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear } = pageContext;
+  const { pageName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear, isAFG } = pageContext;
 
   return (
     <GlossaryProvider>
@@ -50,18 +50,23 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
           canonical=""
           datasetDetails=""
         />
-        <div className={mobileSubNav}>
-          <MobileSubNav hidePosition={160} pageName={pageName} />
-        </div>
-        <div className={desktopSubNav}>
-          <DeskTopSubNav hidePosition={160} />
-        </div>
+        {isAFG && (
+          <>
+            <div className={mobileSubNav}>
+              <MobileSubNav hidePosition={160} pageName={pageName} />
+            </div>
+            <div className={desktopSubNav}>
+              <DeskTopSubNav hidePosition={160} />
+            </div>
+          </>
+        )}
+
         <div className={mainContainer}>
           <HeroImage
             heading={heroImage.heading}
             subHeading={heroImage.subHeading}
             primaryColor={explainerColorMap[pageName].primary}
-            secondaryColor={explainerColorMap[pageName].secondaryLight}
+            secondaryColor={explainerColorMap[pageName].hero}
             pageName={pageName}
           >
             {explainerHeroMap[pageName].component(glossary)}

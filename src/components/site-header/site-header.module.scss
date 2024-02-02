@@ -3,7 +3,7 @@
 
 .stickyHeader {
   position: sticky;
-  top: -3.25rem;
+  top: -0.75rem;
   z-index: $sticky-header;
 }
 
@@ -47,7 +47,7 @@
     padding-bottom: .5rem;
   }
   .stickyHeader {
-    top: -1.75rem;
+    top: 0;
   }
   .container {
     margin: 0;

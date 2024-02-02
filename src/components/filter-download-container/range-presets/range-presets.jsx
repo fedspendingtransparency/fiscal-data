@@ -197,7 +197,6 @@ const RangePresets = ({
       setPresets(curPresets);
     }
   }, [selectedTable, allTablesSelected, finalDatesNotFound]);
-
   const label =
     selectedTable && selectedTable.fields
       ? ` (${selectedTable.fields.find(field => field.columnName === selectedTable.dateField).prettyName})`

@@ -2,7 +2,7 @@ import React from 'react';
 import FilterRow from '../filterRow/filterRow';
 
 const FilterGroup = ({ groupId, onChange, filterTally, currentFilters, analyticsObject = {} }) => (
-  <>
+  <div data-testid={`${groupId}Filter`}>
     {currentFilters
       .filter(filter => filter.groupId === groupId)
       .map(filter => (
@@ -21,7 +21,7 @@ const FilterGroup = ({ groupId, onChange, filterTally, currentFilters, analytics
           {filter.label}
         </FilterRow>
       ))}
-  </>
+  </div>
 );
 
 export default FilterGroup;

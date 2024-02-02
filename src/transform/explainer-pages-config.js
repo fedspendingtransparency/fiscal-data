@@ -12,6 +12,7 @@ const explainerPagesSource = {
       subHeading: `The national debt is the total amount of outstanding borrowing by the U.S. Federal Government accumulated over the nation’s history.`,
     },
     relatedDatasets: ['015-BFS-2014Q3-065', '015-BFS-2014Q3-071', '015-BFS-2014Q1-11', '015-BFS-2014Q3-056'],
+    isAFG: true,
   },
   'national-deficit': {
     slug: '/americas-finance-guide/national-deficit/',
@@ -27,6 +28,7 @@ const explainerPagesSource = {
       subHeading: '',
     },
     relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q3-096', '015-BFS-2014Q1-07', '015-BFS-2014Q1-03'],
+    isAFG: true,
   },
   'federal-spending': {
     slug: '/americas-finance-guide/federal-spending/',
@@ -42,6 +44,7 @@ const explainerPagesSource = {
       subHeading: '',
     },
     relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q3-103', '015-BFS-2014Q1-03', '015-BFS-2014Q1-07'],
+    isAFG: true,
   },
   'government-revenue': {
     slug: '/americas-finance-guide/government-revenue/',
@@ -57,6 +60,22 @@ const explainerPagesSource = {
       subHeading: '',
     },
     relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-04', '015-BFS-2020Q4-yy', '015-BFS-2014Q1-07'],
+    isAFG: true,
+  },
+  'treasury-savings-bonds': {
+    slug: '/treasury-savings-bonds/',
+    breadCrumbLinkName: 'Treasury Savings Bonds Explained',
+    seoConfig: {
+      pageTitle: 'Treasury Savings Bonds Explained ',
+      description: `Learn how U.S. government savings bonds work, including types of savings bonds, and how you might have a savings bond ready to redeem.`,
+    },
+    prodReady: false,
+    heroImage: {
+      heading: 'How much has been invested in savings bonds this year?',
+      subHeading: '',
+    },
+    relatedDatasets: [],
+    isAFG: false,
   },
 };
 

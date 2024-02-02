@@ -732,6 +732,7 @@ const endpointConfig = {
           looking for appears under a different name, or change the date
           selected for available results.`,
     },
+    selectColumns: [],
   },
   '138': {
     endpoint: 'v1/accounting/od/schedules_fed_debt',
@@ -1760,6 +1761,7 @@ const endpointConfig = {
     dateField: 'record_date',
     downloadName: 'Auctions_Query',
     alwaysSortWith: ['-auction_date', '-issue_date', 'maturity_date'],
+    selectColumns: ['cusip', 'security_type', 'security_term', 'auction_date', 'issue_date', 'maturity_date', 'price_per100'],
   },
   // treasury bulletin
   '206': {

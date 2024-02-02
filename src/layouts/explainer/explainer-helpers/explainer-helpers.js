@@ -9,6 +9,8 @@ import {
   federalSpendingHover,
   revenueActive,
   revenueHover,
+  treasurySavingsBondsActive,
+  treasurySavingsBondsHover,
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from '../heros/national-debt/national-debt-hero';
 import {
@@ -27,6 +29,12 @@ import {
   revenueExplainerSecondary,
   revenueExplainerLightSecondary,
 } from '../sections/government-revenue/revenue.module.scss';
+import {
+  treasurySavingsBondsExplainerPrimary,
+  treasurySavingsBondsExplainerSecondary,
+  treasurySavingsBondsExplainerLightSecondary,
+  treasurySavingsBondsExplainerHero,
+} from '../sections/treasury-savings-bonds/treasury-savings-bonds.module.scss';
 import FederalSpendingHero from '../heros/federal-spending/federal-spending-hero';
 import GovernmentRevenueHero from '../heros/government-revenue/government-revenue-hero';
 import { BASE_URL } from 'gatsby-env-variables';
@@ -50,21 +58,31 @@ export const explainerColorMap = {
     primary: debtExplainerPrimary,
     secondary: debtExplainerSecondary,
     secondaryLight: debtExplainerLightSecondary,
+    hero: debtExplainerLightSecondary,
   },
   'national-deficit': {
     primary: deficitExplainerPrimary,
     secondary: deficitExplainerSecondary,
     secondaryLight: deficitExplainerLightSecondary,
+    hero: deficitExplainerLightSecondary,
   },
   'federal-spending': {
     primary: spendingExplainerPrimary,
     secondary: spendingExplainerSecondary,
     secondaryLight: spendingExplainerLightSecondary,
+    hero: spendingExplainerLightSecondary,
   },
   'government-revenue': {
     primary: revenueExplainerPrimary,
     secondary: revenueExplainerSecondary,
     secondaryLight: revenueExplainerLightSecondary,
+    hero: revenueExplainerLightSecondary,
+  },
+  'treasury-savings-bonds': {
+    primary: treasurySavingsBondsExplainerPrimary,
+    secondary: treasurySavingsBondsExplainerSecondary,
+    secondaryLight: treasurySavingsBondsExplainerLightSecondary,
+    hero: treasurySavingsBondsExplainerHero,
   },
 };
 
@@ -84,6 +102,10 @@ export const explainerClassMap = {
   'government-revenue': {
     active: revenueActive,
     hover: revenueHover,
+  },
+  'treasury-savings-bonds': {
+    active: treasurySavingsBondsActive,
+    hover: treasurySavingsBondsHover,
   },
 };
 
@@ -140,6 +162,15 @@ export const explainerSocialShareMap = {
     url: envBaseUrl + '/americas-finance-guide/',
     image: envBaseUrl + '/images/AFG-Overview_1200x630.png',
   },
+  'treasury-savings-bonds': {
+    title: '',
+    description: '',
+    body: '   ',
+    emailSubject: '',
+    emailBody: '',
+    url: envBaseUrl + '/treasury-savings-bonds/',
+    image: '',
+  },
 };
 
 export const explainerHeroMap = {
@@ -155,6 +186,9 @@ export const explainerHeroMap = {
   'government-revenue': {
     component: () => <GovernmentRevenueHero />,
   },
+  'treasury-savings-bonds': {
+    component: () => <div />,
+  },
 };
 
 export const explainerRelatedDatasetMap = {
@@ -162,6 +196,7 @@ export const explainerRelatedDatasetMap = {
   'national-deficit': 'See the datasets behind the national deficit',
   'federal-spending': 'See the datasets that relate to federal spending',
   'government-revenue': 'See the datasets that relate to government revenue',
+  'treasury-savings-bonds': 'See the datasets that relate to savings bonds',
 };
 
 export const datasetSectionConfig = {

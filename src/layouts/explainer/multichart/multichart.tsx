@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { MultichartRenderer } from '../../../components/charts/chart-primary/multichart-renderer';
+import { useInView } from 'react-intersection-observer';
 
 type ChartOptions = {
   forceHeight: number;
@@ -85,41 +86,37 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
     }
   }, [window.innerWidth]);
 
+  const { ref: animationRef, inView } = useInView({
+    threshold: 0,
+    rootMargin: '-50% 0% -50% 0%',
+    triggerOnce: true,
+  });
+
   useEffect(() => {
     setChartRenderer(new MultichartRenderer(chartConfigs, itemRef.current, chartId));
-    let observer;
 
-    if (typeof window !== 'undefined') {
-      const config = {
-        rootMargin: '-50% 0% -50% 0%',
-        threshold: 0,
-      };
-      observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            // animate data series display on chart upon initial scroll
-            setAnimateChart(true);
-          }
-        });
-      }, config);
-      observer.observe(document.querySelector('[data-testid="multichart"]'));
+    if (inView) {
+      // animate data series display on chart upon initial scroll
+      setAnimateChart(true);
     }
-  }, []);
+  }, [inView]);
 
   return (
     <>
-      <div
-        ref={itemRef}
-        id={chartId}
-        style={{
-          display: 'block',
-          backgroundColor: '#f1f1f1',
-        }}
-        data-testid="multichart"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        role="presentation"
-      />
+      <div ref={animationRef}>
+        <div
+          ref={itemRef}
+          id={chartId}
+          style={{
+            display: 'block',
+            backgroundColor: '#f1f1f1',
+          }}
+          data-testid="multichart"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          role="presentation"
+        />
+      </div>
     </>
   );
 };

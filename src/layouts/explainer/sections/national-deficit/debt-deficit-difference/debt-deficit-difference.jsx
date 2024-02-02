@@ -10,7 +10,7 @@ import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 
-export const DebtDeficitDifference = ({ width, glossary, glossaryClickHandler }) => {
+export const DebtDeficitDifference = ({ width }) => {
   const nationalDebtLink = (
     <CustomLink url="/americas-finance-guide/national-debt/" id="National Debt">
       National Debt Explainer
@@ -18,13 +18,13 @@ export const DebtDeficitDifference = ({ width, glossary, glossaryClickHandler })
   );
 
   const bonds = (
-    <GlossaryPopoverDefinition term="Bonds" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Bonds" page="Deficit Explainer">
       bonds
     </GlossaryPopoverDefinition>
   );
 
   const bills = (
-    <GlossaryPopoverDefinition term="Bills" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Bills" page="Deficit Explainer">
       bills
     </GlossaryPopoverDefinition>
   );

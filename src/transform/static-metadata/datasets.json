@@ -142,8 +142,7 @@
     "customRangePreset": "latestQuarter",
     "bannerCallout": {
       "banner": "XRCallout"
-    },
-    "selectColumns": ["record_date", "country_currency_desc", "exchange_rate", "effective_date"]
+    }
   },
   "015-BFS-2014Q3-071": {
     "slug": "/historical-debt-outstanding/",
@@ -476,8 +475,7 @@
     "topics": ["auctions", "debt", "savings-bonds"],
     "relatedDatasets": ["015-BFS-2014Q1-14"],
     "slug": "/auctions/",
-    "currentDateButton": "byLast30Days",
-    "selectColumns": ["cusip", "security_type", "security_term", "auction_date", "issue_date", "maturity_date", "price_per100"]
+    "currentDateButton": "byLast30Days"
   },
   "015-BFS-2014Q3-046": {
     "slug": "/treasury-bulletin/",
