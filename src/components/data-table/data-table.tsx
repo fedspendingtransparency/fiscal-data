@@ -25,6 +25,7 @@ import { columnsConstructorData, columnsConstructorGeneric } from './data-table-
 import { useSetRecoilState } from 'recoil';
 import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
 import { Link } from 'gatsby';
+import { basicFetch, apiPrefix } from '../../utils/api-utils';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -98,9 +99,15 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       }
     };
   }
+  const apiEndpoint: string = 'v1/accounting/od/tips_cpi_data_summary'
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
+      console.log(res)
+    })
+  }, []);
+
   const modifiedColumnsCUSIP = (columns) => {
     return columns.map(column => {
-      console.log('ID ',column.accessorKey)
       if (column.accessorKey === 'CUSIP' || column.accessorKey === 'cusip') {
         return {
           ...column,
