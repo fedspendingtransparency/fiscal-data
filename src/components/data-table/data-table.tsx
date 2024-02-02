@@ -24,6 +24,7 @@ import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric } from './data-table-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
+import { Link } from 'gatsby';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -97,7 +98,27 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       }
     };
   }
+  const modifiedColumnsCUSIP = (columns) => {
+    return columns.map(column => {
+      console.log('ID ',column.accessorKey)
+      if (column.accessorKey === 'CUSIP' || column.accessorKey === 'cusip') {
+        return {
+          ...column,
+          cell: ({ getValue }) => {
+            const cusipValue = getValue();
+            const handleClick = (e) => {
+              e.preventDefault();
+              // api maybe...
+            };
+            return <Link to='/' onClick={handleClick}>{cusipValue}</Link>
+          }
+        };
+      }
+      return column;
+    });
+  };
 
+  const modifiedColumns = modifiedColumnsCUSIP(allColumns);
   let dataTypes;
 
   if (rawData.meta) {
@@ -121,7 +142,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [additionalColumns, setAdditionalColumns] = useState([]);
 
   const table = useReactTable({
-    columns: allColumns,
+    columns: modifiedColumns,
     data: rawData.data,
     columnResizeMode: 'onChange',
     initialState: {
