@@ -173,8 +173,8 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
   };
 
   useEffect(() => {
-    if (selectedPivot && selectedPivot.pivotView.roundingDenomination) {
-      setCapitalized(selectedPivot.pivotView.roundingDenomination.charAt(0).toUpperCase() + selectedPivot.pivotView.roundingDenomination.slice(1));
+    if (selectedPivot && selectedPivot.pivotView?.roundingDenomination) {
+      setCapitalized(selectedPivot.pivotView?.roundingDenomination.charAt(0).toUpperCase() + selectedPivot.pivotView.roundingDenomination.slice(1));
     }
   }, [selectedPivot]);
 
@@ -188,8 +188,8 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
               {data && `${getYear(dateRange.from)} - ${getYear(dateRange.to)}`}
               {selectedPivot && selectedPivot.pivotView ? ` | ${selectedPivot.pivotView.title}` : ''}
             </h4>
-            {selectedPivot && selectedPivot.pivotView.roundingDenomination && (
-              <h5 className={subTitle}>Values shown in {selectedPivot.pivotView.roundingDenomination} of U.S dollars</h5>
+            {selectedPivot && selectedPivot.pivotView?.roundingDenomination && (
+              <h5 className={subTitle}>Values shown in {selectedPivot.pivotView?.roundingDenomination} of U.S dollars</h5>
             )}
             <div className={labelContainer}>
               <div className={yAxisLabel}>{capitalized}</div>
