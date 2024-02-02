@@ -39,8 +39,6 @@ let w,
   displayRawValues,
   roundingDenomination;
 
-// const baseYAxisWidth = displayRawValues ? 140 : 66;
-
 const baseYAxisWidth = 66;
 
 const chartDimensions = {
