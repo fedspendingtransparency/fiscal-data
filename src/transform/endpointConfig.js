@@ -821,6 +821,15 @@ const endpointConfig = {
     //   },
     // ],
     // valueFieldOptions: ['principal_mil_amt', 'accrued_int_payable_mil_amt', 'net_unamortized_mil_amt'],
+    selectColumns: [
+      'record_date',
+      'debt_holder_type',
+      'security_class1_desc',
+      'security_class2_desc',
+      'principal_mil_amt',
+      'accrued_int_payable_mil_amt',
+      'net_unamortized_mil_amt',
+    ],
   },
   '139': {
     endpoint: 'v1/debt/mspd/mspd_table_3_market',
@@ -1128,6 +1137,15 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/schedules_fed_debt_fytd',
     dateField: 'record_date',
     downloadName: 'SFD_SchedFedDebtFytd',
+    selectColumns: [
+      'record_date',
+      'debt_holder_type',
+      'security_class1_desc',
+      'security_class2_desc',
+      'principal_mil_amt',
+      'accrued_int_payable_mil_amt',
+      'net_unamortized_mil_amt',
+    ],
   },
   '142': {
     endpoint: 'v1/accounting/od/savings_bonds_report',
