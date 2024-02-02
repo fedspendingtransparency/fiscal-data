@@ -1,0 +1,50 @@
+@import 'src/variables.module';
+
+.legendContainer {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 263px;
+
+  .checkbox {
+    font-size: $font-size-14;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+
+    &:not(:first-child) {
+      //margin-left: 3rem;
+    }
+
+    input {
+      margin: 0;
+      height: 18px;
+      width: 18px;
+    }
+
+    .labelText {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+.labelCheckmarkContainer {
+  position: relative;
+  color: white;
+}
+
+.checkmarkText {
+  position: absolute;
+  //bottom: -3px;
+  left: 2px;
+  font-size: 0.9rem;
+}
+
+.select {
+  position: absolute;
+  display: inline-block;
+  min-width: 1rem;
+  min-height: 1rem;
+  margin-right: 1px;
+  overflow: hidden;
+  opacity: 0;
+}

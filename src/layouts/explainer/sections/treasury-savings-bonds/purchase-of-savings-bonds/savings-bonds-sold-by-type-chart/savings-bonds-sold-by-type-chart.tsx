@@ -8,10 +8,11 @@ import { dataHeader, inflationLabel, inflationToggleContainer, chartStyle } from
 import InflationToggle from './inflation-toogle/inflation-toggle';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import ChartLegend from './chart-legend/chart-legend';
-import { chartCopy, colorMap, mockData, lines } from './savings-bonds-sold-by-type-chart-helper';
+import { chartCopy, lineMap, mockData, lines } from './savings-bonds-sold-by-type-chart-helper';
 
 const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
   const [selectedChartView, setSelectedChartView] = useState('amounts');
+  const [hiddenFields, setHiddenFields] = useState([]);
   const lastUpdated = new Date();
   const footer = (
     <p>
@@ -59,7 +60,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
     </div>
   );
 
-  const hidden = ['i'];
+  const hidden = [];
   return (
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} header={header}>
@@ -71,11 +72,20 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
                 <XAxis dataKey="year" type="number" domain={[1935, 2023]} ticks={[1935, 1955, 1975, 1995, 2015, 2023]} minTickGap={3} />
                 <YAxis axisLine={false} tickLine={false} tickFormatter={value => `$${value}B`} />
                 {lines.map(key => {
-                  return <Area dataKey={key} fillOpacity={0.9} fill={colorMap[key]} stroke={colorMap[key]} hide={hidden.includes(key)} />;
+                  return (
+                    <Area
+                      dataKey={key}
+                      fillOpacity={0.9}
+                      fill={lineMap[key].color}
+                      stroke={lineMap[key].color}
+                      hide={hiddenFields.includes(key)}
+                      isAnimationActive={false}
+                    />
+                  );
                 })}
               </AreaChart>
             </ResponsiveContainer>
-            <ChartLegend />
+            <ChartLegend lines={lines} lineMap={lineMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} />
           </div>
         )}
       </ChartContainer>

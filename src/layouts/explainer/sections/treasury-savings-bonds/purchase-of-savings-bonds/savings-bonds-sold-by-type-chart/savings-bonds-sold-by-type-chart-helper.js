@@ -8,18 +8,18 @@ export const chartCopy = {
     'bond sales using the current value of a dollar.',
 };
 
-export const colorMap = {
-  ad: '#B04ABD',
-  e: '#DDAA01',
-  ee: '#6E338E',
-  f: '#5E9F69',
-  g: '#E17141',
-  h: '#4F9E99',
-  hh: '#A6B557',
-  i: '#CD425B',
-  j: '#E0699F',
-  k: '#496FD8',
-  sn: '#1B1B1B',
+export const lineMap = {
+  ad: { color: '#B04ABD', label: 'A - D', hidden: false },
+  e: { color: '#DDAA01', label: 'E', hidden: false },
+  ee: { color: '#6E338E', label: 'EE', hidden: false },
+  f: { color: '#5E9F69', label: 'F', hidden: false },
+  g: { color: '#E17141', label: 'G', hidden: false },
+  h: { color: '#4F9E99', label: 'H', hidden: false },
+  hh: { color: '#A6B557', label: 'HH', hidden: false },
+  i: { color: '#CD425B', label: 'I', hidden: false },
+  j: { color: '#E0699F', label: 'J', hidden: false },
+  k: { color: '#496FD8', label: 'K', hidden: false },
+  sn: { color: '#1B1B1B', label: 'SN', hidden: false },
 };
 
 export const lines = ['ad', 'e', 'ee', 'f', 'g', 'h', 'hh', 'i', 'j', 'k', 'sn'];
