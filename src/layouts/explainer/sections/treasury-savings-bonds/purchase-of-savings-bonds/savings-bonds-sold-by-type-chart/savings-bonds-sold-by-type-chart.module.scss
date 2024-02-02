@@ -9,11 +9,21 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+
     .inflationLabel {
       color: $treasury-savings-bonds-explainer-secondary;
       font-size: $font-size-16;
       font-weight: $semi-bold-weight;
       margin-right: 0.5rem;
     }
+  }
+}
+
+.chartStyle {
+  width: 100%;
+
+  tspan {
+    color: $font-body-copy;
+    font-size: $font-size-14;
   }
 }
