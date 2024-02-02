@@ -1,9 +1,10 @@
 import QuoteBox from '../../../quote-box/quote-box';
-import { treasurySavingsBondsExplainerPrimary, treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
+import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
 import { faCalculator } from '@fortawesome/free-solid-svg-icons/faCalculator';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import React, { FunctionComponent } from 'react';
+import { fontBodyCopy } from '../../../explainer.module.scss';
 
 const SavingsBondsOverview: FunctionComponent = () => {
   return (
@@ -17,8 +18,9 @@ const SavingsBondsOverview: FunctionComponent = () => {
       </span>
       <QuoteBox
         icon={faCalculator as IconProp}
-        primaryColor={treasurySavingsBondsExplainerPrimary}
+        primaryColor={fontBodyCopy}
         secondaryColor={treasurySavingsBondsExplainerSecondary}
+        customTopMargin={'0'}
       >
         <p>
           Wondering how much your savings bond is worth today? Visit the{' '}
