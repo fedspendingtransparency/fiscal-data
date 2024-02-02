@@ -79,6 +79,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
   const [chartFields, setChartFields] = useState([]);
   const [chartNotes, setChartNotes] = useState(null);
   const [hasUpdate, setHasUpdate] = useState(true);
+  const [capitalized, setCapitalized] = useState('');
 
   const viz = useRef();
 
@@ -156,7 +157,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
           localChartFields,
           data.meta.labels,
           displayRawValues,
-          selectedPivot.pivotView.roundingDenomination,
+          selectedPivot ? selectedPivot.pivotView.roundingDenomination : null,
           {
             format: determineFormat(localChartFields, data.meta.dataTypes),
             toolTipDateKey: aggFieldName || false,
@@ -171,7 +172,11 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
     callbacks.onLabelChange(update, chartFields, setChartFields);
   };
 
-  const capitalized = selectedPivot.pivotView.roundingDenomination.charAt(0).toUpperCase() + selectedPivot.pivotView.roundingDenomination.slice(1);
+  useEffect(() => {
+    if (selectedPivot && selectedPivot.pivotView.roundingDenomination) {
+      setCapitalized(selectedPivot.pivotView.roundingDenomination.charAt(0).toUpperCase() + selectedPivot.pivotView.roundingDenomination.slice(1));
+    }
+  }, [selectedPivot]);
 
   return (
     <div className={`${chartArea} ${legend ? legendActive : ''}`}>
