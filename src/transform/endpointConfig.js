@@ -1580,6 +1580,7 @@ const endpointConfig = {
       'public_net_unamortized_mil_amt',
       'intragov_principal_mil_amt',
       'intragov_accr_int_pay_mil_amt',
+      'intragov_net_unamort_mil_amt',
     ],
   },
   '176': {
