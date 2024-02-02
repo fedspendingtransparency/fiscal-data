@@ -1,0 +1,19 @@
+@import 'src/variables.module.scss';
+@import '../../treasury-savings-bonds.module.scss';
+
+.dataHeader {
+  display: flex;
+  flex-direction: column;
+
+  .inflationToggleContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    .inflationLabel {
+      color: $treasury-savings-bonds-explainer-secondary;
+      font-size: $font-size-16;
+      font-weight: $semi-bold-weight;
+      margin-right: 0.5rem;
+    }
+  }
+}
