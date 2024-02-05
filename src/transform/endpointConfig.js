@@ -640,24 +640,24 @@ const endpointConfig = {
     endpoint: 'v1/debt/mspd/mspd_table_5',
     dateField: 'record_date',
     downloadName: 'MSPD_StripSecty',
-    // dataDisplays: [
-    //   {
-    //     title: 'By Security Class',
-    //     dimensionField: 'security_class1_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'in',
-    //         value:
-    //           'Total Treasury Bonds,' +
-    //           'Total Treasury Inflation-Protected Securities,' +
-    //           'Total Treasury Notes,Total Inflation-Indexed Bonds,Total Inflation-Indexed Notes',
-    //       },
-    //     ],
-    //   },
-    // ],
-    // valueFieldOptions: ['outstanding_amt', 'portion_unstripped_amt', 'portion_stripped_amt', 'reconstituted_amt'],
+    dataDisplays: [
+      {
+        title: 'By Security Class',
+        dimensionField: 'security_class1_desc',
+        roundingDenomination: 'thousands',
+        filters: [
+          {
+            key: 'security_class2_desc',
+            operator: 'in',
+            value:
+              'Total Treasury Bonds,' +
+              'Total Treasury Inflation-Protected Securities,' +
+              'Total Treasury Notes,Total Inflation-Indexed Bonds,Total Inflation-Indexed Notes',
+          },
+        ],
+      },
+    ],
+    valueFieldOptions: ['outstanding_amt', 'portion_unstripped_amt', 'portion_stripped_amt', 'reconstituted_amt'],
   },
   '126': {
     endpoint: 'v1/debt/top/top_state',

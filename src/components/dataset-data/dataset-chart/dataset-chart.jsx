@@ -191,7 +191,9 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
               <h5 className={subTitle}>Values shown in {selectedPivot.pivotView?.roundingDenomination} of U.S dollars</h5>
             )}
             <div className={labelContainer}>
-              <div className={yAxisLabel}>{capitalized}</div>
+              <div style={{ left: selectedPivot?.pivotView?.roundingDenomination === 'thousands' && '-3rem' }} className={yAxisLabel}>
+                {capitalized}
+              </div>
             </div>
             <div id="viz" ref={viz} />
             <ChartCitation slug={slug} currentTableName={currentTable.tableName} />

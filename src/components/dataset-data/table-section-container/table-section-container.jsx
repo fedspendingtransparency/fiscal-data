@@ -134,7 +134,8 @@ const TableSectionContainer = ({
 
     // Format chart data to match table decimal formatting for currency types
     if (selectedPivot.pivotValue && selectedPivot.pivotView.roundingDenomination && apiData?.data) {
-      displayData = apiData.data.map(d => {
+      const copy = JSON.parse(JSON.stringify(apiData.data));
+      displayData = copy.map(d => {
         columnConfig.forEach(config => {
           if (d[config.property] && !isNaN(d[config.property]) && config.type.includes('CURRENCY')) {
             const decimalPlaces = parseInt(config.type.split('CURRENCY')[1]);
