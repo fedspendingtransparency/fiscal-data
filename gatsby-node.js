@@ -400,6 +400,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     query {
       allDatasets(filter: { apis: { elemMatch: { endpoint: { ne: "" } } } }) {
         datasets: nodes {
+          displayRealChartValues
           dataFormats
           dataStartYear
           datasetId
@@ -460,6 +461,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 operator
               }
               title
+              roundingDenomination
               aggregateOn {
                 field
                 type

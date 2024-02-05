@@ -16,6 +16,9 @@ import {
   viz as vizClass,
   datasetStats,
   legend as legendClass,
+  yAxisLabel,
+  labelContainer,
+  subTitle,
 } from './dataset-chart.module.scss';
 
 export let chartHooks;
@@ -72,10 +75,11 @@ export const dataTableChartNotesText =
   ' of data points for this date range can be found under the Table tab and are available through' +
   ' the API endpoint for this data table.';
 
-const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPivot, dateField, dateRange }) => {
+const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPivot, dateField, dateRange, displayRawValues }) => {
   const [chartFields, setChartFields] = useState([]);
   const [chartNotes, setChartNotes] = useState(null);
   const [hasUpdate, setHasUpdate] = useState(true);
+  const [capitalized, setCapitalized] = useState('');
 
   const viz = useRef();
 
@@ -146,10 +150,19 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
       const chartData = thinDataAsNeededForChart(data.data, slug, dateField, currentTable);
 
       if (chartData.length > 0) {
-        chartHooks = drawChart(chartData, viz.current, dateField, localChartFields, data.meta.labels, {
-          format: determineFormat(localChartFields, data.meta.dataTypes),
-          toolTipDateKey: aggFieldName || false,
-        });
+        chartHooks = drawChart(
+          chartData,
+          viz.current,
+          dateField,
+          localChartFields,
+          data.meta.labels,
+          displayRawValues,
+          selectedPivot ? selectedPivot.pivotView.roundingDenomination : null,
+          {
+            format: determineFormat(localChartFields, data.meta.dataTypes),
+            toolTipDateKey: aggFieldName || false,
+          }
+        );
       }
     }
   }, [isVisible, data]);
@@ -158,6 +171,12 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
     setHasUpdate(update.length > 0);
     callbacks.onLabelChange(update, chartFields, setChartFields);
   };
+
+  useEffect(() => {
+    if (selectedPivot && selectedPivot.pivotView?.roundingDenomination) {
+      setCapitalized(selectedPivot.pivotView?.roundingDenomination.charAt(0).toUpperCase() + selectedPivot.pivotView.roundingDenomination.slice(1));
+    }
+  }, [selectedPivot]);
 
   return (
     <div className={`${chartArea} ${legend ? legendActive : ''}`}>
@@ -169,6 +188,12 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
               {data && `${getYear(dateRange.from)} - ${getYear(dateRange.to)}`}
               {selectedPivot && selectedPivot.pivotView ? ` | ${selectedPivot.pivotView.title}` : ''}
             </h4>
+            {selectedPivot && selectedPivot.pivotView?.roundingDenomination && (
+              <h5 className={subTitle}>Values shown in {selectedPivot.pivotView?.roundingDenomination} of U.S dollars</h5>
+            )}
+            <div className={labelContainer}>
+              <div className={yAxisLabel}>{capitalized}</div>
+            </div>
             <div id="viz" ref={viz} />
             <ChartCitation slug={slug} currentTableName={currentTable.tableName} />
           </div>

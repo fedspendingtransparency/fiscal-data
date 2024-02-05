@@ -13,6 +13,21 @@ $paddingOffset: 87px;
   overflow-x: auto;
 }
 
+.labelContainer {
+  position: relative;
+}
+
+.subTitle {
+  margin-top: -2.5rem;
+}
+
+.yAxisLabel {
+  transform: rotate(-90deg);
+  position: absolute;
+  top: 11rem;
+  left: -1rem;
+}
+
 .datasetStats {
   @include headingStyle6;
   margin: 0.5rem 0 2.5rem;
