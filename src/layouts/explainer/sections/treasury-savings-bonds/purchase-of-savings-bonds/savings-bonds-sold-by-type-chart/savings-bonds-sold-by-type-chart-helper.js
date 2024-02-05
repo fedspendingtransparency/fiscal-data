@@ -25,10 +25,10 @@ export const lineMap = {
 export const lines = ['ad', 'e', 'ee', 'f', 'g', 'h', 'hh', 'i', 'j', 'k', 'sn'];
 
 export const mockData = [
-  { year: 1935, ad: 0, e: 0, ee: 1, f: 1, g: 5, h: 1, hh: 1, i: 0, j: 2, k: 0, sn: 0 },
-  { year: 1955, ad: 3, e: 12, ee: 1, f: 3, g: 7, h: 2, hh: 3, i: 0, j: 3, k: 1, sn: 0 },
-  { year: 1975, ad: 0, e: 4, ee: 10, f: 2, g: 4, h: 2, hh: 3, i: 8, j: 2, k: 2, sn: 0 },
-  { year: 1995, ad: 0, e: 1, ee: 18, f: 4, g: 3, h: 3, hh: 2, i: 2, j: 6, k: 1, sn: 1 },
-  { year: 2015, ad: 0, e: 0.5, ee: 5, f: 2, g: 3, h: 1, hh: 1, i: 22, j: 4, k: 0.5, sn: 0 },
-  { year: 2023, ad: 0, e: 0, ee: 3, f: 1, g: 2, h: 1, hh: 0, i: 20, j: 2, k: 0.25, sn: 0 },
+  { year: 1935, ad: 0, e: 0, f: 1, g: 5, h: 1, hh: 1, i: 0, j: 2, k: 0 },
+  { year: 1955, ad: 3, e: 12, f: 3, g: 7, h: 2, hh: 3, i: 0, j: 3, k: 1 },
+  { year: 1975, e: 4, f: 2, g: 4, h: 2, hh: 3, i: 8, j: 2, k: 2, sn: 0.5 },
+  { year: 1995, e: 1, ee: 18, f: 4, g: 3, h: 3, hh: 2, i: 2, j: 6, k: 1, sn: 1 },
+  { year: 2015, ee: 5, f: 2, h: 1, hh: 1, i: 22, j: 4, k: 0.5, sn: 0.125 },
+  { year: 2023, ee: 3, f: 1, h: 1, hh: 0, i: 20, j: 2, k: 0.25 },
 ];

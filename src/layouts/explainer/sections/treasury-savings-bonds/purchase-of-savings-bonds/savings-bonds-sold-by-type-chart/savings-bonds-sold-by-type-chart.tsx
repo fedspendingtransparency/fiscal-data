@@ -6,9 +6,10 @@ import { treasurySavingsBondsExplainerSecondary } from '../../treasury-savings-b
 import InfoTip from '../../../../../../components/info-tip/info-tip';
 import { dataHeader, inflationLabel, inflationToggleContainer, chartStyle } from './savings-bonds-sold-by-type-chart.module.scss';
 import InflationToggle from './inflation-toogle/inflation-toggle';
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartLegend from './chart-legend/chart-legend';
 import { chartCopy, lineMap, mockData, lines } from './savings-bonds-sold-by-type-chart-helper';
+import CustomTooltip from './custom-tooltip/custom-tooltip';
 
 const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
   const [selectedChartView, setSelectedChartView] = useState('amounts');
@@ -60,7 +61,6 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
     </div>
   );
 
-  const hidden = [];
   return (
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} header={header}>
@@ -80,9 +80,15 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
                       stroke={lineMap[key].color}
                       hide={hiddenFields.includes(key)}
                       isAnimationActive={false}
+                      activeDot={false}
                     />
                   );
                 })}
+                <Tooltip
+                  content={<CustomTooltip />}
+                  cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
+                  isAnimationActive={false}
+                />
               </AreaChart>
             </ResponsiveContainer>
             <ChartLegend lines={lines} lineMap={lineMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} />

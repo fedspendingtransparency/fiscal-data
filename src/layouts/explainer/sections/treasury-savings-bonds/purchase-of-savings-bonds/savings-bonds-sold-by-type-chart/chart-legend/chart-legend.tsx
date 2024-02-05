@@ -6,7 +6,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface IChartLegend {
   lines: string[];
-  [lineMap: string]: { color: string; label: string };
+  [lineMap: string]: { color: string; label: string; hidden: boolean };
   setHiddenFields: (val: string[]) => void;
   hiddenFields: string[];
 }
