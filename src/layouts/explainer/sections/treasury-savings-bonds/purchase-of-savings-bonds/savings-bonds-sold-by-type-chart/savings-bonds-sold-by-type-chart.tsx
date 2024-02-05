@@ -10,6 +10,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import ChartLegend from './chart-legend/chart-legend';
 import { chartCopy, savingsBondsMap, mockData, savingsBonds } from './savings-bonds-sold-by-type-chart-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
+import { getShortForm } from '../../../../../../utils/rounding-utils';
 
 const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
   const [selectedChartView, setSelectedChartView] = useState('amounts');
@@ -72,7 +73,13 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
               <AreaChart data={mockData} margin={{ top: 16, bottom: 0, left: -18, right: 16 }}>
                 <CartesianGrid vertical={false} stroke="#d9d9d9" />
                 <XAxis dataKey="year" type="number" domain={[1935, 2023]} ticks={[1935, 1955, 1975, 1995, 2015, 2023]} minTickGap={3} />
-                <YAxis axisLine={false} tickLine={false} tickFormatter={value => `$${value}B`} ticks={[0, 5, 10, 15, 20, 25, 30]} tickCount={7} />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tickFormatter={value => `$${getShortForm(value)}`}
+                  ticks={[0, 5000000000, 10000000000, 15000000000, 20000000000, 25000000000, 30000000000]}
+                  tickCount={7}
+                />
                 {savingsBonds.map((id, index) => {
                   return (
                     <Area

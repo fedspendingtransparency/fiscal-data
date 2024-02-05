@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { toolTip, tooltipLabel, box, labelContainer, valueContainer } from './custom-tooltip.module.scss';
 import { savingsBonds, savingsBondsMap } from '../savings-bonds-sold-by-type-chart-helper';
+import { getShortForm } from '../../../../../../../utils/rounding-utils';
+
 interface ICustomTooltip {
   label?: string;
   payload?;
@@ -22,7 +24,7 @@ const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label }) =>
                   <span className={box} style={{ backgroundColor: savingsBondsMap[id].color }} />
                   <span className={tooltipLabel}>{label}</span>
                 </div>
-                <span>${value}B</span>
+                <span>${getShortForm(value)}</span>
               </div>
             );
           }
