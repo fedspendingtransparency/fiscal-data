@@ -271,6 +271,7 @@ const TableSectionContainer = ({
             selectedTable={selectedTable}
             setResetFilters={setResetFilters}
             textFilteringDisabled={manualPagination}
+            pivotSelected={selectedPivot}
             table={
               tableProps ? (
                 <DtgTable
