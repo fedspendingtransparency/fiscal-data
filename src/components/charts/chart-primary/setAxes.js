@@ -85,7 +85,6 @@ const setYAxis = isRoundedAxis => {
     .ticks(options.yAxisTickNumber || 10)
     .tickSizeInner(0 - chartDimensions.width)
     .tickFormat(d => {
-      console.log(dataType);
       return formatForDataType(d, dataType, roundingDenomination, isRoundedAxis);
     })
     .tickSizeOuter(0);

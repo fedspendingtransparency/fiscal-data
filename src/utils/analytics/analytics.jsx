@@ -37,7 +37,4 @@ const Analytics = {
   },
 };
 
-// no hack approaches allowed
-// Object.freeze(Analytics);
-
 export default Analytics;

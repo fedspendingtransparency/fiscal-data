@@ -835,303 +835,303 @@ const endpointConfig = {
     endpoint: 'v1/debt/mspd/mspd_table_3_market',
     dateField: 'record_date',
     downloadName: 'MSPD_MktSecty',
-    // dataDisplays: [
-    //   {
-    //     title: 'By Security Class',
-    //     dimensionField: 'security_class1_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'in',
-    //         value:
-    //           'null,Total Treasury Bills,Total Treasury Bonds,Total Treasury Floating ' +
-    //           'Rate Notes,Total Tresasury Floating Rate Notes,Total Treasury Inflation-Indexed ' +
-    //           'Bonds,Total Treasury Inflation-Indexed Notes,Total Treasury Inflation-Protected ' +
-    //           'Securities,Total TIPS,Total Treasury Notes,',
-    //       },
-    //       {
-    //         key: 'security_class1_desc',
-    //         operator: 'neq',
-    //         value: 'Total Marketable',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Bonds by Maturity',
-    //     dimensionField: 'security_class2_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'in',
-    //         value: 'Total Matured Treasury Bonds,Total Unmatured Treasury Bonds',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Inflation-Protected Securities by Class',
-    //     dimensionField: 'security_class2_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'in',
-    //         value:
-    //           'Total Treasury Inflation-Indexed Bonds,Total Treasury Inflation-Indexed ' +
-    //           'Notes,Total Treasury Inflation-Protected Securities,Total TIPS',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Notes by Maturity',
-    //     dimensionField: 'security_class2_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'in',
-    //         value: 'Total Matured Treasury Notes,Total Unmatured Treasury Notes',
-    //       },
-    //     ],
-    //   },
-    // ],
-    // valueFieldOptions: ['issued_amt', 'outstanding_amt', 'redeemed_amt'],
+    dataDisplays: [
+      {
+        title: 'By Security Class',
+        dimensionField: 'security_class1_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class2_desc',
+            operator: 'in',
+            value:
+              'null,Total Treasury Bills,Total Treasury Bonds,Total Treasury Floating ' +
+              'Rate Notes,Total Tresasury Floating Rate Notes,Total Treasury Inflation-Indexed ' +
+              'Bonds,Total Treasury Inflation-Indexed Notes,Total Treasury Inflation-Protected ' +
+              'Securities,Total TIPS,Total Treasury Notes,',
+          },
+          {
+            key: 'security_class1_desc',
+            operator: 'neq',
+            value: 'Total Marketable',
+          },
+        ],
+      },
+      {
+        title: 'Bonds by Maturity',
+        dimensionField: 'security_class2_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class2_desc',
+            operator: 'in',
+            value: 'Total Matured Treasury Bonds,Total Unmatured Treasury Bonds',
+          },
+        ],
+      },
+      {
+        title: 'Inflation-Protected Securities by Class',
+        dimensionField: 'security_class2_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class2_desc',
+            operator: 'in',
+            value:
+              'Total Treasury Inflation-Indexed Bonds,Total Treasury Inflation-Indexed ' +
+              'Notes,Total Treasury Inflation-Protected Securities,Total TIPS',
+          },
+        ],
+      },
+      {
+        title: 'Notes by Maturity',
+        dimensionField: 'security_class2_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class2_desc',
+            operator: 'in',
+            value: 'Total Matured Treasury Notes,Total Unmatured Treasury Notes',
+          },
+        ],
+      },
+    ],
+    valueFieldOptions: ['issued_amt', 'outstanding_amt', 'redeemed_amt'],
   },
   '140': {
     endpoint: 'v1/debt/mspd/mspd_table_3_nonmarket',
     dateField: 'record_date',
     downloadName: 'MSPD_NonmktSecty',
-    // dataDisplays: [
-    //   {
-    //     title: 'By Security Class',
-    //     dimensionField: 'security_class1_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class1_desc',
-    //         operator: 'in',
-    //         value:
-    //           'Total Depositary Securities,Total Domestic Series,Total Foreign Series,' +
-    //           'Total R.E.A. Series,Total State and Local Government Series,Total United ' +
-    //           'States Savings Securities',
-    //       },
-    //     ],
-    //     uniquePivotValues: [
-    //       {
-    //         columnName: 'current_month_issued_amt',
-    //         prettyName: 'Current Month Issued Amount (in Millions)',
-    //       },
-    //       {
-    //         columnName: 'current_month_redeemed_amt',
-    //         prettyName: 'Current Month Redeemed Amount (in Millions)',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Zero-coupon Treasury Bonds by Series',
-    //     dimensionField: 'security_class1_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'in',
-    //         value:
-    //           'Zero-coupon Treasury Bond,Zero-coupon Treasury Bond (A),Zero-coupon ' +
-    //           'Treasury Bond (B),Zero-coupon Treasury bond,Zero-coupon Treasury bond (A),' +
-    //           'Zero-coupon Treasury bond (B)',
-    //       },
-    //     ],
-    //     uniquePivotValues: [
-    //       {
-    //         columnName: 'current_month_issued_amt',
-    //         prettyName: 'Current Month Issued Amount (in Millions)',
-    //       },
-    //       {
-    //         columnName: 'current_month_redeemed_amt',
-    //         prettyName: 'Current Month Redeemed Amount (in Millions)',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Foreign Series Bills',
-    //     dimensionField: 'security_class1_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class1_desc',
-    //         operator: 'eq',
-    //         value: 'Foreign Series',
-    //       },
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'nin',
-    //         value: 'Zero-coupon Treasury Bond,Zero-coupon Treasury bond',
-    //       },
-    //     ],
-    //     uniquePivotValues: [
-    //       {
-    //         columnName: 'current_month_issued_amt',
-    //         prettyName: 'Current Month Issued Amount (in Millions)',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Government Account Series',
-    //     dimensionField: 'security_class2_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class1_desc',
-    //         operator: 'eq',
-    //         value: 'Government Account Series',
-    //       },
-    //       {
-    //         key: 'security_class3_desc',
-    //         operator: 'nin',
-    //         value:
-    //           'Total Government Account Series - Held by Public,Total Government Account ' +
-    //           'Series - Held By The Public,Total Governmental Account Series - Held By the ' +
-    //           'Public,Total Government Account Series,Total Government Account Series - ' +
-    //           'Intragovernmental Holding,Total Government Account Series - Intragovernmental ' +
-    //           'Holdings,Total Governmental Account Series - Intragovernmental Holdings',
-    //       },
-    //     ],
-    //     uniquePivotValues: [
-    //       {
-    //         columnName: 'current_month_issued_amt',
-    //         prettyName: 'Current Month Issued Amount (in Millions)',
-    //       },
-    //       {
-    //         columnName: 'current_month_redeemed_amt',
-    //         prettyName: 'Current Month Redeemed Amount (in Millions)',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Other Debt Not Subject to Limit',
-    //     dimensionField: 'security_class3_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class1_desc',
-    //         operator: 'eq',
-    //         value: 'Other Debt',
-    //       },
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'eq',
-    //         value: 'Not Subject to the Statutory Debt Limit',
-    //       },
-    //       {
-    //         key: 'security_class3_desc',
-    //         operator: 'neq',
-    //         value: 'Total Not Subject to the Statutory Debt Limit',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Other Debt Subject to Limit',
-    //     dimensionField: 'security_class3_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class1_desc',
-    //         operator: 'eq',
-    //         value: 'Other Debt',
-    //       },
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'eq',
-    //         value: 'Subject to the Statutory Debt Limit',
-    //       },
-    //       {
-    //         key: 'security_class3_desc',
-    //         operator: 'neq',
-    //         value: 'Total Subject to the Statutory Debt Limit',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'State and Local Government Series',
-    //     dimensionField: 'security_class2_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class1_desc',
-    //         operator: 'eq',
-    //         value: 'State and Local Government Series',
-    //       },
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'nin',
-    //         value:
-    //           'Ninety-day Certificates of Indebtedness,Special - 90 Day Certificates of ' +
-    //           "Indebtedness (Various rates),Treasury Special Zero's - Notes",
-    //       },
-    //     ],
-    //     uniquePivotValues: [
-    //       {
-    //         columnName: 'current_month_issued_amt',
-    //         prettyName: 'Current Month Issued Amount (in Millions)',
-    //       },
-    //       {
-    //         columnName: 'current_month_redeemed_amt',
-    //         prettyName: 'Current Month Redeemed Amount (in Millions)',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'U.S. Savings Securities by Class',
-    //     dimensionField: 'security_class2_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class1_desc',
-    //         operator: 'eq',
-    //         value: 'United States Savings Securities',
-    //       },
-    //       {
-    //         key: 'security_class2_desc',
-    //         operator: 'neq',
-    //         value: 'Total United States Savings Bonds',
-    //       },
-    //     ],
-    //     uniquePivotValues: [
-    //       {
-    //         columnName: 'current_month_issued_amt',
-    //         prettyName: 'Current Month Issued Amount (in Millions)',
-    //       },
-    //       {
-    //         columnName: 'current_month_redeemed_amt',
-    //         prettyName: 'Current Month Redeemed Amount (in Millions)',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'U.S. Savings Securities by Maturity',
-    //     dimensionField: 'security_class1_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class1_desc',
-    //         operator: 'in',
-    //         value: 'Total Matured United States Savings Securities,Total Unmatured United ' + 'States Savings Securities',
-    //       },
-    //     ],
-    //     uniquePivotValues: [
-    //       {
-    //         columnName: 'current_month_issued_amt',
-    //         prettyName: 'Current Month Issued Amount (in Millions)',
-    //       },
-    //       {
-    //         columnName: 'current_month_redeemed_amt',
-    //         prettyName: 'Current Month Redeemed Amount (in Millions)',
-    //       },
-    //     ],
-    //   },
-    // ],
-    // valueFieldOptions: ['current_month_outstanding_amt'],
+    dataDisplays: [
+      {
+        title: 'By Security Class',
+        dimensionField: 'security_class1_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class1_desc',
+            operator: 'in',
+            value:
+              'Total Depositary Securities,Total Domestic Series,Total Foreign Series,' +
+              'Total R.E.A. Series,Total State and Local Government Series,Total United ' +
+              'States Savings Securities',
+          },
+        ],
+        uniquePivotValues: [
+          {
+            columnName: 'current_month_issued_amt',
+            prettyName: 'Current Month Issued Amount (in Millions)',
+          },
+          {
+            columnName: 'current_month_redeemed_amt',
+            prettyName: 'Current Month Redeemed Amount (in Millions)',
+          },
+        ],
+      },
+      {
+        title: 'Zero-coupon Treasury Bonds by Series',
+        dimensionField: 'security_class1_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class2_desc',
+            operator: 'in',
+            value:
+              'Zero-coupon Treasury Bond,Zero-coupon Treasury Bond (A),Zero-coupon ' +
+              'Treasury Bond (B),Zero-coupon Treasury bond,Zero-coupon Treasury bond (A),' +
+              'Zero-coupon Treasury bond (B)',
+          },
+        ],
+        uniquePivotValues: [
+          {
+            columnName: 'current_month_issued_amt',
+            prettyName: 'Current Month Issued Amount (in Millions)',
+          },
+          {
+            columnName: 'current_month_redeemed_amt',
+            prettyName: 'Current Month Redeemed Amount (in Millions)',
+          },
+        ],
+      },
+      {
+        title: 'Foreign Series Bills',
+        dimensionField: 'security_class1_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class1_desc',
+            operator: 'eq',
+            value: 'Foreign Series',
+          },
+          {
+            key: 'security_class2_desc',
+            operator: 'nin',
+            value: 'Zero-coupon Treasury Bond,Zero-coupon Treasury bond',
+          },
+        ],
+        uniquePivotValues: [
+          {
+            columnName: 'current_month_issued_amt',
+            prettyName: 'Current Month Issued Amount (in Millions)',
+          },
+        ],
+      },
+      {
+        title: 'Government Account Series',
+        dimensionField: 'security_class2_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class1_desc',
+            operator: 'eq',
+            value: 'Government Account Series',
+          },
+          {
+            key: 'security_class3_desc',
+            operator: 'nin',
+            value:
+              'Total Government Account Series - Held by Public,Total Government Account ' +
+              'Series - Held By The Public,Total Governmental Account Series - Held By the ' +
+              'Public,Total Government Account Series,Total Government Account Series - ' +
+              'Intragovernmental Holding,Total Government Account Series - Intragovernmental ' +
+              'Holdings,Total Governmental Account Series - Intragovernmental Holdings',
+          },
+        ],
+        uniquePivotValues: [
+          {
+            columnName: 'current_month_issued_amt',
+            prettyName: 'Current Month Issued Amount (in Millions)',
+          },
+          {
+            columnName: 'current_month_redeemed_amt',
+            prettyName: 'Current Month Redeemed Amount (in Millions)',
+          },
+        ],
+      },
+      {
+        title: 'Other Debt Not Subject to Limit',
+        dimensionField: 'security_class3_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class1_desc',
+            operator: 'eq',
+            value: 'Other Debt',
+          },
+          {
+            key: 'security_class2_desc',
+            operator: 'eq',
+            value: 'Not Subject to the Statutory Debt Limit',
+          },
+          {
+            key: 'security_class3_desc',
+            operator: 'neq',
+            value: 'Total Not Subject to the Statutory Debt Limit',
+          },
+        ],
+      },
+      {
+        title: 'Other Debt Subject to Limit',
+        dimensionField: 'security_class3_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class1_desc',
+            operator: 'eq',
+            value: 'Other Debt',
+          },
+          {
+            key: 'security_class2_desc',
+            operator: 'eq',
+            value: 'Subject to the Statutory Debt Limit',
+          },
+          {
+            key: 'security_class3_desc',
+            operator: 'neq',
+            value: 'Total Subject to the Statutory Debt Limit',
+          },
+        ],
+      },
+      {
+        title: 'State and Local Government Series',
+        dimensionField: 'security_class2_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class1_desc',
+            operator: 'eq',
+            value: 'State and Local Government Series',
+          },
+          {
+            key: 'security_class2_desc',
+            operator: 'nin',
+            value:
+              'Ninety-day Certificates of Indebtedness,Special - 90 Day Certificates of ' +
+              "Indebtedness (Various rates),Treasury Special Zero's - Notes",
+          },
+        ],
+        uniquePivotValues: [
+          {
+            columnName: 'current_month_issued_amt',
+            prettyName: 'Current Month Issued Amount (in Millions)',
+          },
+          {
+            columnName: 'current_month_redeemed_amt',
+            prettyName: 'Current Month Redeemed Amount (in Millions)',
+          },
+        ],
+      },
+      {
+        title: 'U.S. Savings Securities by Class',
+        dimensionField: 'security_class2_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class1_desc',
+            operator: 'eq',
+            value: 'United States Savings Securities',
+          },
+          {
+            key: 'security_class2_desc',
+            operator: 'neq',
+            value: 'Total United States Savings Bonds',
+          },
+        ],
+        uniquePivotValues: [
+          {
+            columnName: 'current_month_issued_amt',
+            prettyName: 'Current Month Issued Amount (in Millions)',
+          },
+          {
+            columnName: 'current_month_redeemed_amt',
+            prettyName: 'Current Month Redeemed Amount (in Millions)',
+          },
+        ],
+      },
+      {
+        title: 'U.S. Savings Securities by Maturity',
+        dimensionField: 'security_class1_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class1_desc',
+            operator: 'in',
+            value: 'Total Matured United States Savings Securities,Total Unmatured United ' + 'States Savings Securities',
+          },
+        ],
+        uniquePivotValues: [
+          {
+            columnName: 'current_month_issued_amt',
+            prettyName: 'Current Month Issued Amount (in Millions)',
+          },
+          {
+            columnName: 'current_month_redeemed_amt',
+            prettyName: 'Current Month Redeemed Amount (in Millions)',
+          },
+        ],
+      },
+    ],
+    valueFieldOptions: ['current_month_outstanding_amt'],
   },
   '141': {
     endpoint: 'v1/accounting/od/schedules_fed_debt_fytd',
