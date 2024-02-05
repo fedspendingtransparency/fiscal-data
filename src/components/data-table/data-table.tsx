@@ -80,20 +80,23 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   const apiEndpoint: string = 'v1/accounting/od/tips_cpi_data_detail';
   const [newData, setNewData] = useState<any | null>(null);
-  const [selectedCusip, newSelectedCusip] = useState<string | null>(null);
+  const [selectedCusip, setSelectedCusip] = useState<string | null>(null);
   
+  // useEffect(() => {
+  //     const data = basicFetch(`${apiPrefix}${apiEndpoint}`)
+  //       setNewData(data.links);
+  //       console.log('data 123  ', data);
+  // }, [selectedCusip]);
+
+console.log('rawww ', rawData);
   useEffect(() => {
-    if(selectedCusip) {
-      const fetchData = async () =>{
-        const data = await basicFetch(`${apiPrefix}${apiEndpoint}`)
-        setNewData(data);
-        console.log('data   ', data);
-      };
-      fetchData();
-    }
-  }, [selectedCusip]);
-
-
+    if(selectedCusip){
+    basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
+      setNewData(res);
+      console.log(selectedCusip);
+    })
+  }
+  }, []);
   const modifiedColumnsCUSIP = (columns: any[]) => {
     return columns.map(column => {
       if (column.accessorKey === 'CUSIP' || column.accessorKey === 'cusip') {
@@ -101,14 +104,13 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           ...column,
           cell: ({ getValue }: { getValue: () => string }) =>{
             const cusipValue = getValue();
-            console.log('value of cusip', cusipValue);
-            const handleClick =  async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
               console.log('cusipValue  ',cusipValue);
 
               e.preventDefault();
-              const data = await  basicFetch(`${apiPrefix}${apiEndpoint}${cusipValue}`);
+              const data = basicFetch(`${apiPrefix}${apiEndpoint}`);
               console.log('data  ', data);
-              setNewData(data);
+              setSelectedCusip(data);
             };
             return <button onClick={handleClick}>{cusipValue}</button>
           }
@@ -143,7 +145,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }
   
 
-  const modifiedColumns = modifiedColumnsCUSIP(allColumns);
   let dataTypes;
 
   if (rawData.meta) {
@@ -188,6 +189,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
+  console.log(table)
 
   const getSortedColumnsData = table => {
     if (setTableColumnSortData) {
