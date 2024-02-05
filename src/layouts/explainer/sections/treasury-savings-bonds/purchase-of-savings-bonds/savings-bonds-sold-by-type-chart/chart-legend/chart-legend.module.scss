@@ -3,17 +3,15 @@
 .legendContainer {
   display: flex;
   flex-wrap: wrap;
-  max-width: 263px;
-
+  max-width: 352px;
+  margin: 1rem auto;
   .checkbox {
     font-size: $font-size-14;
     display: flex;
     align-items: center;
     margin-bottom: 0.5rem;
-
-    &:not(:first-child) {
-      //margin-left: 3rem;
-    }
+    width: 4rem;
+    margin-left: 1.5rem;
 
     input {
       margin: 0;
@@ -25,6 +23,22 @@
       margin-left: 0.5rem;
     }
   }
+
+  [type='checkbox']:not(:checked) + span {
+    background: white left top no-repeat !important;
+    border: 1px solid #ccc !important;
+  }
+
+  [type='checkbox'] + span {
+    display: inline-block;
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    border-radius: 2px;
+  }
 }
 
 .labelCheckmarkContainer {
@@ -34,7 +48,7 @@
 
 .checkmarkText {
   position: absolute;
-  //bottom: -3px;
+  bottom: 0;
   left: 2px;
   font-size: 0.9rem;
 }

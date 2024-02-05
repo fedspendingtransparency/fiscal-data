@@ -23,9 +23,9 @@ const ChartLegend: FunctionComponent<IChartLegend> = ({ lines, lineMap, setHidde
   };
   return (
     <div className={legendContainer}>
-      {lines.map(line => {
+      {lines.map((line, index) => {
         return (
-          <label className={checkbox}>
+          <label className={checkbox} key={index}>
             {' '}
             <input
               name={lineMap[line].label}
@@ -34,11 +34,13 @@ const ChartLegend: FunctionComponent<IChartLegend> = ({ lines, lineMap, setHidde
               value={!lineMap[line].hidden}
               type="checkbox"
               checked={!lineMap[line].hidden}
-              style={{ background: lineMap[line].color }}
               hidden={true}
               className={select}
             />
-            <span className={labelCheckmarkContainer}>
+            <span
+              className={labelCheckmarkContainer}
+              style={{ background: `${lineMap[line].color} -19px top no-repeat`, border: `1px solid ${lineMap[line].color}` }}
+            >
               <span className={checkmarkText}>
                 <FontAwesomeIcon icon={faCheck as IconProp} size="sm" />
               </span>
