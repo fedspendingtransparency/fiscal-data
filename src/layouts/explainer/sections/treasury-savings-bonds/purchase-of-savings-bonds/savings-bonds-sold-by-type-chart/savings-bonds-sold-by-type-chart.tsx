@@ -8,7 +8,7 @@ import { dataHeader, inflationLabel, inflationToggleContainer, chartStyle } from
 import InflationToggle from './inflation-toogle/inflation-toggle';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartLegend from './chart-legend/chart-legend';
-import { chartCopy, lineMap, mockData, lines } from './savings-bonds-sold-by-type-chart-helper';
+import { chartCopy, savingsBondsMap, mockData, savingsBonds } from './savings-bonds-sold-by-type-chart-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 
 const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
@@ -54,6 +54,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
             paddingTop: '0.25rem',
             marginLeft: '0.5rem',
           }}
+          secondary={false}
         >
           {chartCopy.inflationToolTip}
         </InfoTip>
@@ -71,16 +72,17 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
                 <CartesianGrid vertical={false} stroke="#d9d9d9" />
                 <XAxis dataKey="year" type="number" domain={[1935, 2023]} ticks={[1935, 1955, 1975, 1995, 2015, 2023]} minTickGap={3} />
                 <YAxis axisLine={false} tickLine={false} tickFormatter={value => `$${value}B`} ticks={[0, 5, 10, 15, 20, 25, 30]} tickCount={7} />
-                {lines.map(key => {
+                {savingsBonds.map(key => {
                   return (
                     <Area
                       dataKey={key}
                       fillOpacity={0.9}
-                      fill={lineMap[key].color}
-                      stroke={lineMap[key].color}
+                      fill={savingsBondsMap[key].color}
+                      stroke={savingsBondsMap[key].color}
                       hide={hiddenFields.includes(key)}
                       isAnimationActive={false}
                       activeDot={false}
+                      data-testid={key}
                     />
                   );
                 })}
@@ -91,7 +93,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
                 />
               </AreaChart>
             </ResponsiveContainer>
-            <ChartLegend lines={lines} lineMap={lineMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} />
+            <ChartLegend lines={savingsBonds} lineMap={savingsBondsMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} />
           </div>
         )}
       </ChartContainer>

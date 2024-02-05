@@ -8,7 +8,7 @@ export const chartCopy = {
     'bond sales using the current value of a dollar.',
 };
 
-export const lineMap = {
+export const savingsBondsMap = {
   ad: { color: '#B04ABD', label: 'A - D', hidden: false },
   e: { color: '#DDAA01', label: 'E', hidden: false },
   ee: { color: '#6E338E', label: 'EE', hidden: false },
@@ -22,7 +22,7 @@ export const lineMap = {
   sn: { color: '#1B1B1B', label: 'SN', hidden: false },
 };
 
-export const lines = ['ad', 'e', 'ee', 'f', 'g', 'h', 'hh', 'i', 'j', 'k', 'sn'];
+export const savingsBonds = ['ad', 'e', 'ee', 'f', 'g', 'h', 'hh', 'i', 'j', 'k', 'sn'];
 
 export const mockData = [
   { year: 1935, ad: 0, e: 0, f: 1, g: 5, h: 1, hh: 1, i: 0, j: 2, k: 0 },

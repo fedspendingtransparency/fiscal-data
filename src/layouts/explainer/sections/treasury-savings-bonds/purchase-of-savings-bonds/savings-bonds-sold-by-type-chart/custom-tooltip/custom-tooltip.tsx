@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { toolTip, tooltipLabel, box, labelContainer, valueContainer } from './custom-tooltip.module.scss';
-import { lines, lineMap } from '../savings-bonds-sold-by-type-chart-helper';
+import { savingsBonds, savingsBondsMap } from '../savings-bonds-sold-by-type-chart-helper';
 interface ICustomTooltip {
   label?: string;
   payload?;
@@ -12,14 +12,14 @@ const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label }) =>
     return (
       <div className={toolTip} data-testid="CustomTooltip">
         <div className={tooltipLabel}>{label}</div>
-        {lines.map(line => {
-          const value = content[line];
-          const label = lineMap[line].label;
+        {savingsBonds.map((id, index) => {
+          const value = content[id];
+          const label = savingsBondsMap[id].label;
           if (value > 0) {
             return (
-              <div className={valueContainer}>
+              <div className={valueContainer} key={index}>
                 <div className={labelContainer}>
-                  <span className={box} style={{ backgroundColor: lineMap[line].color }} />
+                  <span className={box} style={{ backgroundColor: savingsBondsMap[id].color }} />
                   <span className={tooltipLabel}>{label}</span>
                 </div>
                 <span>${value}B</span>
