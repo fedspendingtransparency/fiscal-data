@@ -26,6 +26,7 @@ const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label }) =>
               </div>
             );
           }
+          return null;
         })}
       </div>
     );
