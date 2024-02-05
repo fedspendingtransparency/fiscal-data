@@ -3,7 +3,7 @@ import simplifyNumber from '../../../helpers/simplify-number/simplifyNumber';
 export const formatForDataType = (d, dataType, displayRealValues, roundingDenomination) => {
   const sign = dataType === 'RATE' ? ' %' : '';
   if (displayRealValues) {
-    if (dataType === 'CURRENCY') {
+    if (roundingDenomination && dataType === 'CURRENCY') {
       if (roundingDenomination) {
         return `$${Number(d).toLocaleString()} ${(roundingDenomination.charAt(0).toUpperCase() + roundingDenomination.slice(1)).slice(0, -1)}`;
       }

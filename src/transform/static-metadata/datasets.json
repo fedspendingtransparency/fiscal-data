@@ -92,7 +92,7 @@
     "topics": ["debt", "financial-summaries", "interest-exchange-rates", "savings-bonds"],
     "relatedDatasets": ["015-BFS-2014Q3-056", "015-BFS-2014Q1-03", "015-BFS-2014Q3-065"],
     "currentDateButton": "byMonth",
-    "customNoChartMessage": true
+    "displayRealChartValues": true
   },
   "015-BFS-2014Q1-13": {
     "slug": "/monthly-treasury-statement/",

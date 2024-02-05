@@ -3,82 +3,82 @@ const endpointConfig = {
     endpoint: 'v1/debt/mspd/mspd_table_1',
     dateField: 'record_date',
     downloadName: 'MSPD_SumSecty',
-    // dataDisplays: [
-    //   {
-    //     title: 'By Security Type',
-    //     dimensionField: 'security_type_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_type_desc',
-    //         operator: 'in',
-    //         value: 'Marketable,Nonmarketable',
-    //       },
-    //     ],
-    //   },
-    // ],
-    // valueFieldOptions: ['debt_held_public_mil_amt', 'intragov_hold_mil_amt', 'total_mil_amt'],
+    dataDisplays: [
+      {
+        title: 'By Security Type',
+        dimensionField: 'security_type_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_type_desc',
+            operator: 'in',
+            value: 'Marketable,Nonmarketable',
+          },
+        ],
+      },
+    ],
+    valueFieldOptions: ['debt_held_public_mil_amt', 'intragov_hold_mil_amt', 'total_mil_amt'],
   },
   '28': {
     endpoint: 'v1/debt/mspd/mspd_table_3',
     dateField: 'record_date',
     downloadName: 'MSPD_DetailSecty',
-    // dataDisplays: [
-    //   {
-    //     title: 'By Marketable',
-    //     dimensionField: 'security_type_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_type_desc',
-    //         operator: 'eq',
-    //         value: 'Marketable',
-    //       },
-    //       {
-    //         key: 'security_class1_desc',
-    //         operator: 'eq',
-    //         value: 'Total Marketable',
-    //       },
-    //     ],
-    //     uniquePivotValues: [
-    //       {
-    //         columnName: 'issued_amt',
-    //         prettyName: 'Issued Amount (in Millions)',
-    //       },
-    //       {
-    //         columnName: 'redeemed_amt',
-    //         prettyName: 'Redeemed Amount (in Millions)',
-    //       },
-    //       {
-    //         columnName: 'outstanding_amt',
-    //         prettyName: 'Outstanding Amount (in Millions)',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: 'By Nonmarketable',
-    //     dimensionField: 'security_type_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_type_desc',
-    //         operator: 'eq',
-    //         value: 'Nonmarketable',
-    //       },
-    //       {
-    //         key: 'security_class1_desc',
-    //         operator: 'eq',
-    //         value: 'Total Nonmarketable',
-    //       },
-    //     ],
-    //     uniquePivotValues: [
-    //       {
-    //         columnName: 'current_month_outstanding_amt',
-    //         prettyName: 'Current Month Outstanding Amount (in Millions)',
-    //       },
-    //     ],
-    //   },
-    // ],
+    dataDisplays: [
+      {
+        title: 'By Marketable',
+        dimensionField: 'security_type_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_type_desc',
+            operator: 'eq',
+            value: 'Marketable',
+          },
+          {
+            key: 'security_class1_desc',
+            operator: 'eq',
+            value: 'Total Marketable',
+          },
+        ],
+        uniquePivotValues: [
+          {
+            columnName: 'issued_amt',
+            prettyName: 'Issued Amount (in Millions)',
+          },
+          {
+            columnName: 'redeemed_amt',
+            prettyName: 'Redeemed Amount (in Millions)',
+          },
+          {
+            columnName: 'outstanding_amt',
+            prettyName: 'Outstanding Amount (in Millions)',
+          },
+        ],
+      },
+      {
+        title: 'By Nonmarketable',
+        dimensionField: 'security_type_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_type_desc',
+            operator: 'eq',
+            value: 'Nonmarketable',
+          },
+          {
+            key: 'security_class1_desc',
+            operator: 'eq',
+            value: 'Total Nonmarketable',
+          },
+        ],
+        uniquePivotValues: [
+          {
+            columnName: 'current_month_outstanding_amt',
+            prettyName: 'Current Month Outstanding Amount (in Millions)',
+          },
+        ],
+      },
+    ],
   },
   '94': {
     endpoint: 'v1/accounting/od/savings_bonds_pcs',
@@ -256,21 +256,21 @@ const endpointConfig = {
     endpoint: 'v1/debt/mspd/mspd_table_2',
     dateField: 'record_date',
     downloadName: 'MSPD_DebtLim',
-    // dataDisplays: [
-    //   {
-    //     title: 'By Debt Limit Class 1',
-    //     dimensionField: 'debt_limit_class1_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'debt_limit_class1_desc',
-    //         operator: 'in',
-    //         value: 'Statutory Debt Limit,Public Debt Outstanding,Total Public Debt Outstanding',
-    //       },
-    //     ],
-    //   },
-    // ],
-    // valueFieldOptions: ['debt_held_public_mil_amt', 'intragov_hold_mil_amt', 'total_mil_amt'],
+    dataDisplays: [
+      {
+        title: 'By Debt Limit Class 1',
+        dimensionField: 'debt_limit_class1_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'debt_limit_class1_desc',
+            operator: 'in',
+            value: 'Statutory Debt Limit,Public Debt Outstanding,Total Public Debt Outstanding',
+          },
+        ],
+      },
+    ],
+    valueFieldOptions: ['debt_held_public_mil_amt', 'intragov_hold_mil_amt', 'total_mil_amt'],
   },
   '108': {
     endpoint: 'v1/accounting/mts/mts_table_4',
@@ -620,21 +620,21 @@ const endpointConfig = {
     endpoint: 'v1/debt/mspd/mspd_table_4',
     dateField: 'record_date',
     downloadName: 'MSPD_HstSecty',
-    // dataDisplays: [
-    //   {
-    //     title: 'By Security Class',
-    //     dimensionField: 'security_class_desc',
-    //     chartType: 'none',
-    //     filters: [
-    //       {
-    //         key: 'security_class_desc',
-    //         operator: 'neq',
-    //         value: 'Total Treasury Securities Outstanding',
-    //       },
-    //     ],
-    //   },
-    // ],
-    // valueFieldOptions: ['curr_mth_mil_amt'],
+    dataDisplays: [
+      {
+        title: 'By Security Class',
+        dimensionField: 'security_class_desc',
+        roundingDenomination: 'millions',
+        filters: [
+          {
+            key: 'security_class_desc',
+            operator: 'neq',
+            value: 'Total Treasury Securities Outstanding',
+          },
+        ],
+      },
+    ],
+    valueFieldOptions: ['curr_mth_mil_amt'],
   },
   '124': {
     endpoint: 'v1/debt/mspd/mspd_table_5',

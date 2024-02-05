@@ -411,7 +411,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           currentDateButton
           datePreset
           customRangePreset
-          customNoChartMessage
           bannerCallout {
             banner
             startDate
