@@ -223,8 +223,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
-          <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
-            {defaultSelectedColumns && (
+          {defaultSelectedColumns && (
+            <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
               <DataTableColumnSelector
                 dataTableRef={selectColumnsRef}
                 selectColumnPanel={selectColumnPanel}
@@ -236,8 +236,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                 additionalColumns={additionalColumns}
                 defaultColumns={defaultColumns}
               />
-            )}
-          </div>
+            </div>
+          )}
           <div className={tableStyle}>
             <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>
