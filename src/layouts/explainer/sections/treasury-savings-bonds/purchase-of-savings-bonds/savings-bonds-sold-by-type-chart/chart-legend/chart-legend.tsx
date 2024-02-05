@@ -26,12 +26,11 @@ const ChartLegend: FunctionComponent<IChartLegend> = ({ lines, lineMap, setHidde
       {lines.map((line, index) => {
         return (
           <label className={checkbox} key={index}>
-            {' '}
             <input
               name={lineMap[line].label}
               id={lineMap[line].label}
               onChange={() => handleChange(line)}
-              value={!lineMap[line].hidden}
+              value={`${!lineMap[line].hidden}`}
               type="checkbox"
               checked={!lineMap[line].hidden}
               hidden={true}

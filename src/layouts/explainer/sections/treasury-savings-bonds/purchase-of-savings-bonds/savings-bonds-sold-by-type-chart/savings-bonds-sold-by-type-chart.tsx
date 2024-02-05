@@ -41,6 +41,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
           rightSelected: selectedChartView === 'description',
         }}
         toggleClickHandler={chartView => setSelectedChartView(chartView)}
+        chartId={null}
       />
       <div className={inflationToggleContainer}>
         <span className={inflationLabel}>Adjust for Inflation</span>
@@ -66,23 +67,23 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} header={header}>
         {selectedChartView === 'amounts' && (
-          <div className={chartStyle}>
+          <div className={chartStyle} data-testid="chartParent">
             <ResponsiveContainer height={377} width="99%">
               <AreaChart data={mockData} margin={{ top: 16, bottom: 0, left: -18, right: 16 }}>
                 <CartesianGrid vertical={false} stroke="#d9d9d9" />
                 <XAxis dataKey="year" type="number" domain={[1935, 2023]} ticks={[1935, 1955, 1975, 1995, 2015, 2023]} minTickGap={3} />
                 <YAxis axisLine={false} tickLine={false} tickFormatter={value => `$${value}B`} ticks={[0, 5, 10, 15, 20, 25, 30]} tickCount={7} />
-                {savingsBonds.map(key => {
+                {savingsBonds.map((id, index) => {
                   return (
                     <Area
-                      dataKey={key}
+                      dataKey={id}
+                      key={index}
                       fillOpacity={0.9}
-                      fill={savingsBondsMap[key].color}
-                      stroke={savingsBondsMap[key].color}
-                      hide={hiddenFields.includes(key)}
+                      fill={savingsBondsMap[id].color}
+                      stroke={savingsBondsMap[id].color}
+                      hide={hiddenFields.includes(id)}
                       isAnimationActive={false}
                       activeDot={false}
-                      data-testid={key}
                     />
                   );
                 })}

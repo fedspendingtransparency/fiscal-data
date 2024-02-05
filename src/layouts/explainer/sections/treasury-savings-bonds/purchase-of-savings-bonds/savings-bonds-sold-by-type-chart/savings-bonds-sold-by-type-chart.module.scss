@@ -4,11 +4,12 @@
 .dataHeader {
   display: flex;
   flex-direction: column;
-
+  margin-top: 1rem;
   .inflationToggleContainer {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin: 1.75rem 0 1rem;
 
     .inflationLabel {
       color: $treasury-savings-bonds-explainer-secondary;

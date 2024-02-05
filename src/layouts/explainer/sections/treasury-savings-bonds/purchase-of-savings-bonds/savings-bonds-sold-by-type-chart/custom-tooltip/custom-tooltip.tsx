@@ -7,8 +7,8 @@ interface ICustomTooltip {
 }
 
 const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label }) => {
-  const content = payload[0]?.payload;
   if (payload && payload.length) {
+    const content = payload[0]?.payload;
     return (
       <div className={toolTip} data-testid="CustomTooltip">
         <div className={tooltipLabel}>{label}</div>
