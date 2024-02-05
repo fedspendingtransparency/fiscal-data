@@ -4,9 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
+interface IChartLineConfig {
+  [key: string]: {
+    color: string;
+    label: string;
+    hidden: boolean;
+  };
+}
 interface IChartLegend {
+  lineMap: IChartLineConfig;
   lines: string[];
-  [lineMap: string]: { color: string; label: string; hidden: boolean };
   setHiddenFields: (val: string[]) => void;
   hiddenFields: string[];
 }
