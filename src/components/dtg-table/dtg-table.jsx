@@ -393,7 +393,7 @@ export default function DtgTable({
             <DataTable
               rawData={reactTableData}
               nonRawDataColumns={!rawDataTable ? columnConfig : null}
-              defaultSelectedColumns={!pivotSelected ? selectColumns : null}
+              defaultSelectedColumns={!pivotSelected?.pivotValue ? selectColumns : null}
               setTableColumnSortData={setTableColumnSortData}
               hideCellLinks={true}
               shouldPage={shouldPage}
