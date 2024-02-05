@@ -80,7 +80,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   const apiEndpoint: string = 'v1/accounting/od/tips_cpi_data_detail';
   const [newData, setNewData] = useState<any | null>(null);
-  const [selectedCusip, setSelectedCusip] = useState<string | null>(null);
+
   
   // useEffect(() => {
   //     const data = basicFetch(`${apiPrefix}${apiEndpoint}`)
@@ -88,40 +88,51 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   //       console.log('data 123  ', data);
   // }, [selectedCusip]);
 
-console.log('rawww ', rawData);
-  useEffect(() => {
-    if(selectedCusip){
-    basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
-      setNewData(res);
-      console.log(selectedCusip);
-    })
+
+  // useEffect(() => {
+
+  //   basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
+  //     console.log('res.data ', res)
+  //     console.log('QQQQ ',selectedCusip);
+  //     if(selectedCusip !== null || selectedCusip.length > 0){
+  //       console.log('res.data ', res.data)
+  //       console.log('SU{} ',selectedCusip);
+  // }
+  //   })
+  // }, []);
+
+  const fetchDatabasedOnCusip = async (cusip: string) => {
+    const res = await basicFetch(`${apiPrefix}${apiEndpoint}`)
+
+    setNewData(res.data);
   }
-  }, []);
+  const handleClick = (e, cusipValue) => {
+    e.preventDefault();
+    fetchDatabasedOnCusip(cusipValue);
+  };
+
   const modifiedColumnsCUSIP = (columns: any[]) => {
     return columns.map(column => {
       if (column.accessorKey === 'CUSIP' || column.accessorKey === 'cusip') {
         return {
           ...column,
-          cell: ({ getValue }: { getValue: () => string }) =>{
+          cell: ({ getValue }) => {
             const cusipValue = getValue();
-            const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-              console.log('cusipValue  ',cusipValue);
-
-              e.preventDefault();
-              const data = basicFetch(`${apiPrefix}${apiEndpoint}`);
-              console.log('data  ', data);
-              setSelectedCusip(data);
-            };
-            return <button onClick={handleClick}>{cusipValue}</button>
+            return (
+              <button onClick={(e) => handleClick(e, cusipValue)}>
+                {cusipValue}
+              </button>
+            )
           }
         };
       }
       return column;
     });
   };
-  const allColumns = modifiedColumnsCUSIP(
+
+  const allColumns = React.useMemo(() => modifiedColumnsCUSIP(
     rawData.columns ? columnsConstructorGeneric(rawData.columns) : columnsConstructorData(rawData, hideColumns, tableName, columnConfig)
-    );
+    ), [rawData.columns, hideColumns, tableName, columnConfig]);
     // ? columnsConstructorGeneric(nonRawDataColumns)
     // : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
   if (hasPublishedReports && !hideCellLinks) {
@@ -191,6 +202,11 @@ console.log('rawww ', rawData);
   }) as Table<Record<string, unknown>>;
   console.log(table)
 
+  useEffect(() => {
+    if(resetFilters) {
+      setTableColumnSortData(rawData.data);
+    }
+  },[resetFilters, table])
   const getSortedColumnsData = table => {
     if (setTableColumnSortData) {
       const columns = table.getVisibleFlatColumns();
