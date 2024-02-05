@@ -69,7 +69,6 @@ const mockConfig = {
 
 const mockConfigWithRounded = {
   name: 'my name',
-  displayRealValues: true,
 };
 
 const mockPivotWithRounded = { pivotView: { title: 'my selection', dimensionField: 'test', roundingDenomination: 'millions' } };

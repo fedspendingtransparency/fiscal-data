@@ -75,7 +75,7 @@ export const dataTableChartNotesText =
   ' of data points for this date range can be found under the Table tab and are available through' +
   ' the API endpoint for this data table.';
 
-const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPivot, dateField, dateRange, displayRawValues }) => {
+const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPivot, dateField, dateRange }) => {
   const [chartFields, setChartFields] = useState([]);
   const [chartNotes, setChartNotes] = useState(null);
   const [hasUpdate, setHasUpdate] = useState(true);
@@ -156,7 +156,6 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
           dateField,
           localChartFields,
           data.meta.labels,
-          displayRawValues,
           selectedPivot ? selectedPivot.pivotView.roundingDenomination : null,
           {
             format: determineFormat(localChartFields, data.meta.dataTypes),

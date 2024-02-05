@@ -306,7 +306,6 @@ const TableSectionContainer = ({
                   slug={config.slug}
                   currentTable={selectedTable}
                   dateField={dateFieldForChart}
-                  displayRawValues={config.displayRealChartValues}
                   isVisible={selectedTab === 1}
                   selectedPivot={selectedPivot}
                 />
