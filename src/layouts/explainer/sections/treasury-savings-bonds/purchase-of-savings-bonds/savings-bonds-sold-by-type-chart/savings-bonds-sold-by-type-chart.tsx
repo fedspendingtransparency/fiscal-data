@@ -4,7 +4,7 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import ChartToggle from '../../../../../../components/nivo/chart-toggle/chart-toggle';
 import { treasurySavingsBondsExplainerSecondary } from '../../treasury-savings-bonds.module.scss';
 import InfoTip from '../../../../../../components/info-tip/info-tip';
-import { dataHeader, inflationLabel, inflationToggleContainer, chartStyle } from './savings-bonds-sold-by-type-chart.module.scss';
+import { dataHeader, inflationLabel, inflationToggleContainer, chartStyle, infoTipContainer } from './savings-bonds-sold-by-type-chart.module.scss';
 import InflationToggle from './inflation-toogle/inflation-toggle';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartLegend from './chart-legend/chart-legend';
@@ -47,19 +47,19 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
       <div className={inflationToggleContainer}>
         <span className={inflationLabel}>Adjust for Inflation</span>
         <InflationToggle />
-        <InfoTip
-          hover
-          iconStyle={{
-            color: '#666666',
-            width: '1rem',
-            height: '1rem',
-            paddingTop: '0.25rem',
-            marginLeft: '0.5rem',
-          }}
-          secondary={false}
-        >
-          {chartCopy.inflationToolTip}
-        </InfoTip>
+        <div className={infoTipContainer}>
+          <InfoTip
+            hover
+            iconStyle={{
+              color: '#666666',
+              width: '1rem',
+              height: '1rem',
+            }}
+            secondary={false}
+          >
+            {chartCopy.inflationToolTip}
+          </InfoTip>
+        </div>
       </div>
     </div>
   );
