@@ -7,8 +7,8 @@ type QuoteBoxProps = {
   icon: IconProp;
   primaryColor: string;
   secondaryColor: string;
-  customTopMargin: string;
-  customBottomMargin: string;
+  customTopMargin?: string;
+  customBottomMargin?: string;
   children: ReactElement;
 };
 
@@ -26,7 +26,7 @@ const QuoteBox: FunctionComponent<QuoteBoxProps> = ({ icon, primaryColor, second
         style={{
           borderColor: secondaryColor,
           boxShadow: `.25rem .25rem ${secondaryColor}`,
-          marginBottom: customBottomMargin 
+          marginBottom: customBottomMargin,
         }}
       >
         {children}
