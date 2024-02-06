@@ -40,6 +40,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
+  const [invalidDate, setInvalidDate] = useState(false);
+  const [inputDisplay, setInputDisplay] = useState([datePlaceholder, datePlaceholder]);
+  const [month, setMonth] = useState();
 
   const dropdownRef = useRef();
   const displayRef = useRef();
@@ -169,15 +172,17 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
-          <div className={dateTextBegin} style={beginTextStyle}>
-            {filterDisplayBeginDate}
-          </div>
-          <div className={dateDivider}> - </div>
-          <div className={dateTextEnd} style={endTextStyle}>
-            {filterDisplayEndDate}
-          </div>
-          {selected ? (
-            <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role={'button'} aria-label={'Clear dates'}>
+          <DateRangeTextInput
+            selected={selected}
+            setSelected={setSelected}
+            inputDisplay={inputDisplay}
+            setInputDisplay={setInputDisplay}
+            setInvalidDate={setInvalidDate}
+            invalidDate={invalidDate}
+            active={active}
+          />
+          {inputDisplay[0] !== datePlaceholder ? (
+            <span onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
             </span>
           ) : (
@@ -201,28 +206,48 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             role="presentation"
             data-testid="Date Picker Dropdown"
           >
-            <div className={datePickerContainer}>
-              <DayPicker
-                mode="range"
-                selected={selected}
-                onSelect={setSelected}
-                modifiersClassNames={{
-                  selected: datePickerSelected,
-                  range_middle: datePickerRangeMiddle,
-                }}
-                fromYear={1900}
-                toYear={2099}
-                captionLayout="dropdown-buttons"
-              />
-            </div>
-            <div className={buttonContainer}>
-              <div role="button" onClick={todayOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Today">
-                Today
-              </div>
-              <div role="button" onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Clear">
-                Clear
-              </div>
-            </div>
+            {invalidDate ? (
+              <div>Invalid date range. Please check the entered dates and try again</div>
+            ) : (
+              <>
+                <div className={datePickerContainer}>
+                  <DayPicker
+                    mode="range"
+                    selected={selected}
+                    onSelect={setSelected}
+                    modifiersClassNames={{
+                      selected: datePickerSelected,
+                      range_middle: datePickerRangeMiddle,
+                    }}
+                    fromYear={dateFilterMinYear}
+                    toYear={dateFilterMaxYear}
+                    captionLayout="dropdown-buttons"
+                  />
+                </div>
+                <div className={buttonContainer}>
+                  <div
+                    role="button"
+                    onClick={todayOnClick}
+                    onKeyDown={e => todayOnClick(e)}
+                    tabIndex={0}
+                    className={datePickerButton}
+                    aria-label="Today"
+                  >
+                    Today
+                  </div>
+                  <div
+                    role="button"
+                    onClick={clearOnClick}
+                    onKeyDown={e => clearOnClick(e)}
+                    tabIndex={0}
+                    className={datePickerButton}
+                    aria-label="Clear"
+                  >
+                    Clear
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>
