@@ -26,6 +26,7 @@ import {
   loadingSection,
   tableContainer,
 } from './table-section-container.module.scss';
+import { chart } from '../../../layouts/explainer/explainer-components/chart-container/chart-container.module.scss';
 
 const TableSectionContainer = ({
   config,
@@ -68,7 +69,7 @@ const TableSectionContainer = ({
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
-  const [chartData, setChartData] = useState(apiData);
+  const [chartData, setChartData] = useState(null);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -321,7 +322,7 @@ const TableSectionContainer = ({
                 <DatasetChart
                   legend={legend}
                   dateRange={dateRange}
-                  data={userFilteredData ? userFilteredData : chartData}
+                  data={userFilteredData ? userFilteredData : chartData ? chartData : apiData}
                   slug={config.slug}
                   currentTable={selectedTable}
                   dateField={dateFieldForChart}
