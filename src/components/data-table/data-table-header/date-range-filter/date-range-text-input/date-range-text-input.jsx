@@ -11,6 +11,7 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
   const [opts] = useState({
     mask: dateRangePlaceholder,
     lazy: false,
+    eager: true,
     parse: str => {
       console.log(str);
       const dateRange = str.split(' - ');
