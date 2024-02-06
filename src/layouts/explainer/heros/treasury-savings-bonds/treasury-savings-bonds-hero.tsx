@@ -43,12 +43,12 @@ const TreasurySavingsBondsHero = (): ReactElement => {
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal year-to-date (Since October {priorFiscalYear}) is updated monthly using the {securitiesTreasuryDirect} dataset.
+          Fiscal year-to-date (Since October {priorFiscalYear}) total is updated monthly using the {securitiesTreasuryDirect} dataset.
         </p>
         <div className={footNotesPillData}>
           <p>
-            Compared to the same period last year ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)}), investment has{' '}
-            {savingsBondChangeLabel}.
+            Compared to the same period last year ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)}), savings bonds
+            investments have {savingsBondChangeLabel}.
           </p>
           {getPillData(
             savingsBondChange,
