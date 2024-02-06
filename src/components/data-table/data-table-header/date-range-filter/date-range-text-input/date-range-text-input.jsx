@@ -13,7 +13,6 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
     lazy: false,
     eager: true,
     parse: str => {
-      console.log(str);
       const dateRange = str.split(' - ');
       setInputDisplay(dateRange);
       parseDates(dateRange);
