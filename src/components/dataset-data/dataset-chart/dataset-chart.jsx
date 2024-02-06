@@ -20,6 +20,7 @@ import {
   labelContainer,
   subTitle,
 } from './dataset-chart.module.scss';
+import { chart } from '../../../layouts/explainer/explainer-components/chart-container/chart-container.module.scss';
 
 export let chartHooks;
 export const callbacks = {
@@ -80,6 +81,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
   const [chartNotes, setChartNotes] = useState(null);
   const [hasUpdate, setHasUpdate] = useState(true);
   const [capitalized, setCapitalized] = useState('');
+  const [axisHasBillions, setAxisHasBillions] = useState(false);
 
   const viz = useRef();
 
@@ -138,6 +140,14 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
     }
   }, [isVisible]);
 
+  const determineIfAxisWillHaveBillions = data => {
+    const valueArrays = data.map(v => Object.values(v));
+    const filtered = valueArrays.map(v => v.filter(e => !isNaN(Number(e))));
+    const values = Array.prototype.concat.call(...filtered);
+    const max = Math.max(...values);
+    return max >= 1000000000;
+  };
+
   useEffect(() => {
     let localChartFields;
 
@@ -150,6 +160,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
       const chartData = thinDataAsNeededForChart(data.data, slug, dateField, currentTable);
 
       if (chartData.length > 0) {
+        setAxisHasBillions(determineIfAxisWillHaveBillions(chartData));
         chartHooks = drawChart(
           chartData,
           viz.current,
@@ -190,11 +201,13 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
             {selectedPivot && selectedPivot.pivotView?.roundingDenomination && (
               <h5 className={subTitle}>Values shown in {selectedPivot.pivotView?.roundingDenomination} of U.S dollars</h5>
             )}
-            <div className={labelContainer}>
-              <div style={{ left: selectedPivot?.pivotView?.roundingDenomination === 'thousands' && '-3rem' }} className={yAxisLabel}>
-                {capitalized}
+            {selectedPivot && selectedPivot.pivotView?.roundingDenomination && (
+              <div className={labelContainer}>
+                <div style={{ left: axisHasBillions && '-3rem' }} className={yAxisLabel}>
+                  {capitalized}
+                </div>
               </div>
-            </div>
+            )}
             <div id="viz" ref={viz} />
             <ChartCitation slug={slug} currentTableName={currentTable.tableName} />
           </div>
