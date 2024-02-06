@@ -3,6 +3,7 @@
 .glow {
   box-shadow: 0 0 0 0.25rem #e8f5ff;
   border-radius: 0.125rem;
+
   .dateEntryBox {
     border: 1px solid $primary;
   }
@@ -21,24 +22,7 @@
   font-weight: normal;
   white-space: nowrap;
   margin-top: 0.25rem;
-
-  .dateTextEnd {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 10.5px;
-    margin-top: 10.5px;
-  }
-
-  .dateTextBegin {
-    margin-left: 10px;
-    margin-bottom: 10.5px;
-    margin-top: 10.5px;
-  }
-
-  .dateDivider {
-    padding-left: 2.5px;
-    padding-right: 2.5px;
-  }
+  color: $font-body-copy;
 
   .calendarIcon {
     font-size: $font-size-16;
@@ -49,8 +33,8 @@
     font-size: $font-size-16;
     margin-right: 0.5rem;
     margin-top: 0.25rem;
+    cursor: pointer;
   }
-
 }
 
 .datePickerSelected {
@@ -80,6 +64,12 @@
   padding: 0.5rem 0 1rem;
   margin-top: 0.5rem;
 
+  &.invalidDateText {
+    margin-top: 0;
+    padding: 1rem;
+    text-align: start;
+  }
+
   .datePickerContainer {
     td,
     th {
@@ -90,9 +80,11 @@
   .buttonContainer {
     display: flex;
     justify-content: center;
+
     :first-child {
       margin-right: 2rem;
     }
+
     .datePickerButton {
       color: $primary;
       text-decoration: underline;

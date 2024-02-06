@@ -49,6 +49,7 @@ type DataTableProps = {
   columnConfig?;
   allowColumnWrap?: string[];
   aria;
+  pivotSelected;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -74,6 +75,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   columnConfig,
   allowColumnWrap,
   aria,
+  pivotSelected,
 }) => {
   const allColumns = nonRawDataColumns
     ? columnsConstructorGeneric(nonRawDataColumns)
@@ -114,7 +116,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const setTableSorting = useSetRecoilState(reactTableSortingState);
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(
-    defaultSelectedColumns && defaultSelectedColumns.length > 0 ? defaultInvisibleColumns : {}
+    defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
   );
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [defaultColumns, setDefaultColumns] = useState([]);
@@ -207,10 +209,11 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }, [resetFilters]);
 
   useEffect(() => {
-    if (defaultSelectedColumns) {
+    if (defaultSelectedColumns && !pivotSelected) {
       constructDefaultColumnsFromTableData();
+      setColumnVisibility(defaultSelectedColumns?.length > 0 ? defaultInvisibleColumns : {});
     }
-  }, []);
+  }, [rawData]);
 
   const selectColumnsRef = useRef(null);
   useEffect(() => {
@@ -223,8 +226,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
-          <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
-            {defaultSelectedColumns && (
+          {defaultSelectedColumns && (
+            <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
               <DataTableColumnSelector
                 dataTableRef={selectColumnsRef}
                 selectColumnPanel={selectColumnPanel}
@@ -236,8 +239,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                 additionalColumns={additionalColumns}
                 defaultColumns={defaultColumns}
               />
-            )}
-          </div>
+            </div>
+          )}
           <div className={tableStyle}>
             <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>

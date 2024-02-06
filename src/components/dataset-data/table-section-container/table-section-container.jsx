@@ -271,6 +271,7 @@ const TableSectionContainer = ({
             selectedTable={selectedTable}
             setResetFilters={setResetFilters}
             textFilteringDisabled={manualPagination}
+            pivotSelected={selectedPivot}
             table={
               tableProps ? (
                 <DtgTable
@@ -306,6 +307,7 @@ const TableSectionContainer = ({
                   slug={config.slug}
                   currentTable={selectedTable}
                   dateField={dateFieldForChart}
+                  displayRawValues={config.displayRealChartValues}
                   isVisible={selectedTab === 1}
                   selectedPivot={selectedPivot}
                 />

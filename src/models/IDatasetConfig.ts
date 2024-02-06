@@ -6,6 +6,7 @@ export interface IDatasetConfig {
   currentDateButton: string | null;
   customNoChartMessage: boolean | null;
   datePreset: string | null;
+  displayRealChartValues: boolean | null;
   customRangePreset: string | null;
   bannerCallout: Record<string, string> | null;
   datatableBanner: string | null;
