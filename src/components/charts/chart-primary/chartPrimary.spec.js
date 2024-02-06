@@ -5,7 +5,7 @@ import drawChart from './index';
 describe('Primary Chart', () => {
   const container = document.createElement('div');
 
-  const chart = drawChart(mockData.data, container, dateField, fields, mockData.meta.labels, false, '', {
+  const chart = drawChart(mockData.data, container, dateField, fields, mockData.meta.labels, {
     format: mockData.meta.dataTypes.a,
   });
 
@@ -53,7 +53,7 @@ describe('Primary Chart', () => {
   });
 
   it('places no tooltips when configured not to', () => {
-    drawChart(mockData.data, container, dateField, fields, mockData.labels, false, '', {
+    drawChart(mockData.data, container, dateField, fields, mockData.labels, {
       noTooltip: true,
     }); // drawChart clears the container; previous tests should not interfere
 

@@ -95,7 +95,6 @@ const ChartTableToggle = ({
   filtersActive,
   setResetFilters,
   textFilteringDisabled,
-  pivotSelected,
 }) => {
   const [tabState, setTabState] = React.useState(currentTab);
 
@@ -151,20 +150,18 @@ const ChartTableToggle = ({
               selectedTab={selectedTab === 1}
             />
           ) : (
-            !pivotSelected?.pivotValue && (
-              <HideLegendToggle
-                displayText="Select Columns"
-                displayIcon={faCrosshairs}
-                showToggle={showToggleTable}
-                onToggleLegend={onToggleLegend}
-                selectedTab={selectedTab === 0}
-              />
-            )
+            <HideLegendToggle
+              displayText="Select Columns"
+              displayIcon={faCrosshairs}
+              showToggle={showToggleTable}
+              onToggleLegend={onToggleLegend}
+              selectedTab={selectedTab === 0}
+            />
           )}
         </AntTabs>
       </div>
       {selectedTab === 0 && (
-        <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} textFilteringDisabled={textFilteringDisabled} />
+          <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} textFilteringDisabled={textFilteringDisabled} />
       )}
       <TabPanel index={0} value={tabState}>
         {emptyDataMessage ? emptyDataMessage : table}

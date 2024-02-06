@@ -50,7 +50,6 @@ type DataTableProps = {
   columnConfig?;
   allowColumnWrap?: string[];
   aria;
-  pivotSelected;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -76,7 +75,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   columnConfig,
   allowColumnWrap,
   aria,
-  pivotSelected,
 }) => {
 
   const apiEndpoint: string = `v1/accounting/od/tips_cpi_data_detail`;
@@ -164,7 +162,7 @@ console.log('newData',newData);
   const setTableSorting = useSetRecoilState(reactTableSortingState);
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(
-    defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
+    defaultSelectedColumns && defaultSelectedColumns.length > 0 ? defaultInvisibleColumns : {}
   );
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [defaultColumns, setDefaultColumns] = useState([]);
@@ -261,11 +259,10 @@ console.log('newData',newData);
   }, [resetFilters]);
 
   useEffect(() => {
-    if (defaultSelectedColumns && !pivotSelected) {
+    if (defaultSelectedColumns) {
       constructDefaultColumnsFromTableData();
-      setColumnVisibility(defaultSelectedColumns?.length > 0 ? defaultInvisibleColumns : {});
     }
-  }, [rawData]);
+  }, []);
 
   const selectColumnsRef = useRef(null);
   useEffect(() => {
@@ -278,8 +275,8 @@ console.log('newData',newData);
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
-          {defaultSelectedColumns && (
-            <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
+          <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
+            {defaultSelectedColumns && (
               <DataTableColumnSelector
                 dataTableRef={selectColumnsRef}
                 selectColumnPanel={selectColumnPanel}
@@ -291,8 +288,8 @@ console.log('newData',newData);
                 additionalColumns={additionalColumns}
                 defaultColumns={defaultColumns}
               />
-            </div>
-          )}
+            )}
+          </div>
           <div className={tableStyle}>
             <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>

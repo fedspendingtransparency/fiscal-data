@@ -414,7 +414,6 @@ export default function DtgTable({
               columnConfig={columnConfig}
               allowColumnWrap={allowColumnWrap}
               aria={tableProps.aria}
-              pivotSelected={pivotSelected?.pivotValue}
             />
           </ErrorBoundary>
         </div>

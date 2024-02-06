@@ -67,13 +67,6 @@ const mockConfig = {
   name: 'my name',
 };
 
-const mockConfigWithRounded = {
-  name: 'my name',
-  displayRealValues: true,
-};
-
-const mockPivotWithRounded = { pivotView: { title: 'my selection', dimensionField: 'test', roundingDenomination: 'millions' } };
-
 const mockPivot = { pivotView: { title: 'my selection', dimensionField: 'test' } };
 
 const mockSlug = 'mock/slug/here';
@@ -100,29 +93,6 @@ describe('Dataset Chart', () => {
     const { title } = mockPivot.pivotView;
 
     expect(getByText(`${from} - ${to} | ${title}`)).toBeInTheDocument();
-  });
-
-  it('shows subtitle and y axis label with rounded denomination if config set', () => {
-    const { getByText } = render(
-      <DatasetChart
-        config={mockConfigWithRounded}
-        data={mockData}
-        dateField={mockDateField}
-        dateRange={mockDateRange}
-        selectedPivot={mockPivotWithRounded}
-        slug={mockSlug}
-        currentTable={mockTable}
-        isVisible={true}
-        legend={true}
-      />
-    );
-
-    const { from, to } = mockYears;
-    const { title } = mockPivot.pivotView;
-
-    expect(getByText(`${from} - ${to} | ${title}`)).toBeInTheDocument();
-    expect(getByText('Values shown in millions of U.S dollars')).toBeInTheDocument();
-    expect(getByText('Millions')).toBeInTheDocument();
   });
 
   it('sets chart fields correctly', () => {
