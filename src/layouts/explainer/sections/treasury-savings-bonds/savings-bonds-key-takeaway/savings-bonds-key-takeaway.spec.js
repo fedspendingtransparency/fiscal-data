@@ -1,18 +1,10 @@
+import { render, waitFor } from '@testing-library/react';
 import React from 'react';
-import { render, screen } from '@testing-library/react'; 
-import '@testing-library/jest-dom'; 
-import SavingBondsKeyTakeaway from './savings-bonds-key-takeaway'; 
+import SavingBondsKeyTakeaway from './savings-bonds-key-takeaway';
 
-jest.mock('@fortawesome/react-fontawesome', () => ({
-  FontAwesomeIcon: () => <div></div>,
-}));
-
-describe('SavingBondsKeyTakeaway', () => {
-  it('renders without crashing', () => {
-    render(<SavingBondsKeyTakeaway />);
-    expect(screen.getByText(/savings bonds are simple, safe, and affordable loans to the federal government/i)).toBeInTheDocument();
-    expect(screen.getByText(/savings bond sales have varied over time/i)).toBeInTheDocument();
-    expect(screen.getByText(/savings bonds earn interest until they reach/i)).toBeInTheDocument();
+describe('Spending Key Takeaways evergreen values', () => {
+  it('renders the link correctly in takeaway 3', async () => {
+    const { getByRole } = render(<SavingBondsKeyTakeaway />);
+    expect(getByRole('link')).toHaveAttribute('href', '/americas-finance-guide/national-debt/');
   });
-
 });
