@@ -35,6 +35,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
   const [invalidDate, setInvalidDate] = useState(false);
   const [inputDisplay, setInputDisplay] = useState([datePlaceholder, datePlaceholder]);
+  const [month, setMonth] = useState();
 
   const dropdownRef = useRef();
   const displayRef = useRef();
@@ -160,6 +161,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             setInvalidDate={setInvalidDate}
             invalidDate={invalidDate}
             active={active}
+            setMonth={setMonth}
           />
           {inputDisplay[0] !== datePlaceholder ? (
             <span onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
@@ -195,6 +197,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
                     mode="range"
                     selected={selected}
                     onSelect={setSelected}
+                    month={month}
                     modifiersClassNames={{
                       selected: datePickerSelected,
                       range_middle: datePickerRangeMiddle,
