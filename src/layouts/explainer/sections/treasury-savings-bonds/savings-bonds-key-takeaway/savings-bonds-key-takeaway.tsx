@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 
 import { faHandshakeAlt, faHourglassHalf, faLineChart } from '@fortawesome/free-solid-svg-icons';
 import { treasurySavingsBondsExplainerSecondary, treasurySavingsBondsExplainerLightSecondary } from '../treasury-savings-bonds.module.scss';
 
-const SavingBondsKeyTakeaway: React.FC = () => {
+const SavingBondsKeyTakeaway: FunctionComponent = () => {
 
   const savingBondsKeyTakeaways = [
     {
