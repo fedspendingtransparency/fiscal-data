@@ -24,7 +24,6 @@ import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric } from './data-table-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
-import { Link } from 'gatsby';
 import { basicFetch, apiPrefix } from '../../utils/api-utils';
 
 type DataTableProps = {
@@ -123,7 +122,7 @@ console.log('newData',newData);
     rawData.columns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(newData ? newData : rawData, hideColumns, tableName, columnConfig)
     );
     const allCusipColumns = modifiedColumnsCUSIP(
-      rawData.columns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(newData ? newData : rawData, hideColumns, tableName, columnConfig)
+      rawData.columns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(newData, hideColumns, tableName, columnConfig)
       );
     
     // ? columnsConstructorGeneric(nonRawDataColumns)
@@ -171,8 +170,8 @@ console.log('newData',newData);
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
   const table = useReactTable({
-    columns: allColumns,
-    data: newData || rawData.data,
+    columns: allCusipColumns || allColumns,
+    data: newData.data || rawData.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
