@@ -24,6 +24,7 @@ import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric } from './data-table-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
+import { basicFetch, apiPrefix } from '../../utils/api-utils';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -49,7 +50,6 @@ type DataTableProps = {
   columnConfig?;
   allowColumnWrap?: string[];
   aria;
-  pivotSelected;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -75,11 +75,65 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   columnConfig,
   allowColumnWrap,
   aria,
-  pivotSelected,
 }) => {
-  const allColumns = nonRawDataColumns
-    ? columnsConstructorGeneric(nonRawDataColumns)
-    : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
+
+  const apiEndpoint: string = `v1/accounting/od/tips_cpi_data_detail`;
+  const [newData, setNewData] = useState<any | null>(null);
+  const [selectedCusip, setSelectedCusip] =useState('');
+ 
+  const handleClick = (e, cusipValue) => {
+    e.preventDefault();
+    setSelectedCusip(cusipValue);
+    
+  };
+
+  const modifiedColumnsCUSIP = (columns: any[]) => {
+    return columns.map(column => {
+      if (column.accessorKey === 'CUSIP' || column.accessorKey === 'cusip') {
+        return {
+          ...column,
+          cell: ({ getValue }) => {
+            const cusipValue = getValue();
+            return (
+              <button onClick={(e) => handleClick(e, cusipValue)}>
+                {cusipValue}
+              </button>
+            )
+          }
+        };
+      }
+      return column;
+    });
+  };
+console.log('rawData',rawData.columns);
+
+useEffect(() => {
+  const fetchData = async () => {
+    if(selectedCusip){
+      const res = await basicFetch(`${apiPrefix}${apiEndpoint}?filter=cusip:eq:${selectedCusip}`);
+      setNewData({ data: res.data, meta: res.meta });
+    }
+  }
+  fetchData();
+}, [selectedCusip]);
+const dataDipaly = newData || rawData;
+  const allColumns = React.useMemo(() => {
+      const baseColumns = dataDipaly.columns 
+      ? columnsConstructorGeneric(nonRawDataColumns)
+      : columnsConstructorData(dataDipaly, hideColumns, tableName, columnConfig);
+
+
+    return modifiedColumnsCUSIP(baseColumns)
+  }, [dataDipaly, rawData.columns, nonRawDataColumns, hideColumns, tableName, columnConfig]);
+
+
+
+    // const allCusipColumns = modifiedColumnsCUSIP(
+    //   newData.columns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(newData, hideColumns, tableName, columnConfig)
+    //   );
+    
+    // ? columnsConstructorGeneric(nonRawDataColumns)
+    // : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -99,14 +153,18 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       }
     };
   }
+  
 
   let dataTypes;
 
   if (rawData.meta) {
     dataTypes = rawData.meta.dataTypes;
-  } else {
+  }
+  else if (newData.meta) {
+    dataTypes = rawData.meta.dataTypes;
+  }  else {
     const tempDataTypes = {};
-    allColumns.forEach(column => {
+    allColumns?.forEach(column => {
       tempDataTypes[column.property] = 'STRING';
     });
     dataTypes = tempDataTypes;
@@ -116,15 +174,14 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const setTableSorting = useSetRecoilState(reactTableSortingState);
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(
-    defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
+    defaultSelectedColumns && defaultSelectedColumns.length > 0 ? defaultInvisibleColumns : {}
   );
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
-
   const table = useReactTable({
     columns: allColumns,
-    data: rawData.data,
+    data: newData?.data || rawData.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
@@ -145,6 +202,11 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
 
+  useEffect(() => {
+    if(resetFilters) {
+      setTableColumnSortData(rawData.data);
+    }
+  },[resetFilters, table])
   const getSortedColumnsData = table => {
     if (setTableColumnSortData) {
       const columns = table.getVisibleFlatColumns();
@@ -209,11 +271,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }, [resetFilters]);
 
   useEffect(() => {
-    if (defaultSelectedColumns && !pivotSelected) {
+    if (defaultSelectedColumns) {
       constructDefaultColumnsFromTableData();
-      setColumnVisibility(defaultSelectedColumns?.length > 0 ? defaultInvisibleColumns : {});
     }
-  }, [rawData]);
+  }, []);
 
   const selectColumnsRef = useRef(null);
   useEffect(() => {
@@ -226,8 +287,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
-          {defaultSelectedColumns && (
-            <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
+          <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
+            {defaultSelectedColumns && (
               <DataTableColumnSelector
                 dataTableRef={selectColumnsRef}
                 selectColumnPanel={selectColumnPanel}
@@ -239,8 +300,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                 additionalColumns={additionalColumns}
                 defaultColumns={defaultColumns}
               />
-            </div>
-          )}
+            )}
+          </div>
           <div className={tableStyle}>
             <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>
