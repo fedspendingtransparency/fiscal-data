@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
-import { mockBeaGDPData, mockSpendingHeroData, mockUseStaticBeaGDP } from './explainer-test-helper';
+import { mockBeaGDPData, mockSpendingHeroData } from './explainer-test-helper';
 import { determineBEAFetchResponse, setGlobalFetchMatchingResponse } from '../../utils/mock-utils';
 import { understandingDeficitMatchers } from './explainer-helpers/national-deficit/national-deficit-test-helper';
 import fetchMock from 'fetch-mock';
@@ -324,6 +324,12 @@ describe('Explainer Page Layout', () => {
 });
 
 describe('Savings Bonds explainer', () => {
+  class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  window.ResizeObserver = ResizeObserver;
   beforeAll(() => {
     useStaticQuery.mockReturnValue(glossaryMock);
   });
