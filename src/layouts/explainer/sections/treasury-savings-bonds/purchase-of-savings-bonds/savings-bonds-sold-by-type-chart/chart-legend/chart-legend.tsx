@@ -37,6 +37,7 @@ const ChartLegend: FunctionComponent<IChartLegend> = ({ lines, lineMap, setHidde
               name={lineMap[line].label}
               id={lineMap[line].label}
               onChange={() => handleChange(line)}
+              onKeyDown={e => e.key === 'Enter' && handleChange(line)}
               value={`${!lineMap[line].hidden}`}
               type="checkbox"
               checked={!lineMap[line].hidden}

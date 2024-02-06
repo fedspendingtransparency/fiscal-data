@@ -4,7 +4,7 @@ export const chartCopy = {
     'A chart demonstrating the sales of different types of savings bonds based on the years they were ' +
     'available. A toggle is available that when selected, adjusts the values shown in the chart for inflation. ',
   inflationToolTip:
-    'Adjusting for inflation provides a more accurate comparison between bond sales during different time periods. It shows the real amount of' +
+    'Adjusting for inflation provides a more accurate comparison between bond sales during different time periods. It shows the real amount of ' +
     'bond sales using the current value of a dollar.',
 };
 
