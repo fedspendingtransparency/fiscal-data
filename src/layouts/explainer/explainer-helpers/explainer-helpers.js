@@ -38,6 +38,7 @@ import {
 import FederalSpendingHero from '../heros/federal-spending/federal-spending-hero';
 import GovernmentRevenueHero from '../heros/government-revenue/government-revenue-hero';
 import { BASE_URL } from 'gatsby-env-variables';
+import TreasurySavingsBondsHero from '../heros/treasury-savings-bonds/treasury-savings-bonds-hero';
 
 const envBaseUrl = BASE_URL;
 
@@ -187,7 +188,7 @@ export const explainerHeroMap = {
     component: () => <GovernmentRevenueHero />,
   },
   'treasury-savings-bonds': {
-    component: () => <div />,
+    component: () => <TreasurySavingsBondsHero />,
   },
 };
 
