@@ -5,9 +5,6 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import PageErrorText from '../../components/pageError/page-error-text';
 
-// TODO: Research why adding Error Boundary Package throws errors in Jest test
-// for Markdown imports on pages where siteLayout was called
-
 const NotFoundContent = ({ fallback }) => {
   const pageTitle = fallback ? 'Content Currently Unavailable' : 'Page Not Found';
 

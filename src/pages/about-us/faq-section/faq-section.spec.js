@@ -6,12 +6,6 @@ import FAQ from './faq-section';
 
 const h3Headers = ['who', 'when', 'why', 'how', 'get-updates', 'new-to-apis', 'taxes-stimulus-inquiries', 'update-frequency'];
 
-// jest.mock("gatsby-plugin-mdx", () => {
-//   return { MDXRenderer: ({children}) => {
-//       return <div>{children}</div>;
-//     } }
-// });
-
 describe('FAQ section', () => {
   const shallowRenderer = new ShallowRenderer();
   shallowRenderer.render(<FAQ />);

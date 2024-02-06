@@ -396,11 +396,13 @@ exports.createSchemaCustomization = ({ actions }) => {
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage, createRedirect } = actions;
 
+  // Note: if customNoChartMessage needs to be used again, it can be re inserted into the below query. If it is included
+  // in the query without being used or defined in a dataset config, the query will fail
+
   const result = await graphql(`
     query {
       allDatasets(filter: { apis: { elemMatch: { endpoint: { ne: "" } } } }) {
         datasets: nodes {
-          displayRealChartValues
           dataFormats
           dataStartYear
           datasetId
@@ -411,7 +413,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           currentDateButton
           datePreset
           customRangePreset
-          customNoChartMessage
           bannerCallout {
             banner
             startDate

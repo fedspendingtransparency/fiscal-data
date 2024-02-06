@@ -26,6 +26,7 @@ import {
   loadingSection,
   tableContainer,
 } from './table-section-container.module.scss';
+import { chart } from '../../../layouts/explainer/explainer-components/chart-container/chart-container.module.scss';
 
 const TableSectionContainer = ({
   config,
@@ -68,6 +69,7 @@ const TableSectionContainer = ({
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
+  const [chartData, setChartData] = useState(null);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -123,11 +125,28 @@ const TableSectionContainer = ({
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
 
     let displayData = apiData ? apiData.data : null;
+
     if (userFilterSelection?.value && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
       setUserFilteredData({ ...apiData, data: displayData });
     } else {
       setUserFilteredData(null);
+    }
+
+    // Format chart data to match table decimal formatting for currency types
+    if (selectedPivot.pivotValue && selectedPivot.pivotView.roundingDenomination && apiData?.data) {
+      const copy = JSON.parse(JSON.stringify(apiData.data));
+      displayData = copy.map(d => {
+        columnConfig.forEach(config => {
+          if (d[config.property] && !isNaN(d[config.property]) && config.type.includes('CURRENCY')) {
+            const decimalPlaces = parseInt(config.type.split('CURRENCY')[1]);
+            const absVal = Math.abs(d[config.property].toString());
+            d[config.property] = absVal.toFixed(decimalPlaces);
+          }
+        });
+        return d;
+      });
+      setChartData({ ...apiData, data: displayData });
     }
 
     setTableProps({
@@ -303,11 +322,10 @@ const TableSectionContainer = ({
                 <DatasetChart
                   legend={legend}
                   dateRange={dateRange}
-                  data={userFilteredData ? userFilteredData : apiData}
+                  data={userFilteredData ? userFilteredData : chartData ? chartData : apiData}
                   slug={config.slug}
                   currentTable={selectedTable}
                   dateField={dateFieldForChart}
-                  displayRawValues={config.displayRealChartValues}
                   isVisible={selectedTab === 1}
                   selectedPivot={selectedPivot}
                 />
