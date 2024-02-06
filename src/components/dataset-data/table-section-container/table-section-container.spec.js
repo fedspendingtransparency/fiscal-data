@@ -16,6 +16,7 @@ import {
   selectedPivotWithAggregation,
   mockTableWithUserFilterAvailable,
   mockApiDataUserFilterable,
+  selectedPivotWithRoundingDenomination,
 } from './testHelpers';
 import * as setNoChartMessageMod from './set-no-chart-message';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
@@ -243,6 +244,25 @@ describe('TableSectionContainer with Pivot Options', () => {
     expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
     fireEvent.click(getByTestId('pivotToggle'));
     expect(getByTestId('pivotOptionsDrawer').className).not.toContain(active);
+  });
+
+  it('toggle pivot view with rounding denomination', () => {
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithPivot}
+          apiData={mockApiData}
+          pivotFields={pivotFields}
+          selectedPivot={selectedPivotWithRoundingDenomination}
+          isLoading={false}
+          apiError={false}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
+    );
+    fireEvent.click(getByTestId('pivotToggle'));
   });
 
   it('relays an endpoint value when it receives it in the serverSidePagination prop', async () => {

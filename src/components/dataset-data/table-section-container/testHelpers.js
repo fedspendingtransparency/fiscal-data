@@ -7,9 +7,11 @@ export const mockApiData = {
       first: 'First',
       middle: 'Middle',
       last: 'Last',
+      wallet: 'Wallet',
     },
     dataTypes: {
       first: 'string',
+      wallet: 'CURRENCY',
     },
   },
 };
@@ -179,6 +181,11 @@ export const pivotFields = [
 
 export const selectedPivot = {
   pivotView: { chartType: null, dimensionField: 'facility_desc', title: 'By Facility' },
+  pivotValue: pivotFields[0],
+};
+
+export const selectedPivotWithRoundingDenomination = {
+  pivotView: { chartType: null, dimensionField: 'facility_desc', title: 'By Facility', roundingDenomination: 'millions' },
   pivotValue: pivotFields[0],
 };
 
