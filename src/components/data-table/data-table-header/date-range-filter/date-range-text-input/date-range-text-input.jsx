@@ -5,12 +5,13 @@ import { useIMask, IMask } from 'react-imask';
 import { inputDisplayContainer, inputTextDisplay, inputBox, currentDate } from './date-range-text-input.module.scss';
 import { dateFormat, dateRangePlaceholder, datePlaceholder } from '../date-range-helper';
 
-const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDisplay, setInvalidDate, active }) => {
+const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDisplay, setInvalidDate, active, setMonth }) => {
   const [highlight, setHighlight] = useState('from');
 
   const [opts] = useState({
     mask: dateRangePlaceholder,
     lazy: false,
+    eager: true,
     parse: str => {
       const dateRange = str.split(' - ');
       setInputDisplay(dateRange);
@@ -34,6 +35,7 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
         setInvalidDate(false);
         setSelected({ from: from, to: undefined });
         setHighlight('to');
+        setMonth(from);
       } else {
         setInvalidDate(true);
       }
@@ -45,6 +47,7 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
         setInvalidDate(false);
         setSelected({ from: from, to: to });
         setHighlight(null);
+        setMonth(to);
       } else {
         setInvalidDate(true);
       }
@@ -63,6 +66,7 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
       setInputDisplay([datePlaceholder, datePlaceholder]);
       setHighlight('from');
       setInvalidDate(false);
+      setMonth();
     }
   }, [selected]);
 

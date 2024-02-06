@@ -38,12 +38,12 @@
     font-size: $font-size-14;
     line-height: $font-size-16;
     padding: 0.375rem 0;
-    color: $font-body-copy;
     letter-spacing: normal;
+    color: transparent;
   }
 
   .inputBox {
-    color: transparent;
+    color: $font-body-copy;
     position: absolute;
     bottom: 0;
     left: 0;
