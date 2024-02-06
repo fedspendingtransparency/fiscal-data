@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { SwitchProps } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import { treasurySavingsBondsExplainerSecondary } from '../../../treasury-savings-bonds.module.scss';
 
 const InflationToggle: FunctionComponent = () => {
+  const [inflationSwitch, setInflationSwitch] = useState(false);
   const StyledSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />)(() => ({
     width: 45,
     height: 24,
@@ -35,7 +36,14 @@ const InflationToggle: FunctionComponent = () => {
       opacity: 1,
     },
   }));
-  return <StyledSwitch />;
+  return (
+    <StyledSwitch
+      checked={inflationSwitch}
+      onChange={() => setInflationSwitch(!inflationSwitch)}
+      onKeyDown={e => e.key === 'Enter' && setInflationSwitch(!inflationSwitch)}
+      tabIndex={0}
+    />
+  );
 };
 
 export default InflationToggle;
