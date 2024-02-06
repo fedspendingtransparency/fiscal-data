@@ -235,13 +235,13 @@
   },
   "015-BFS-2014Q3-080": {
     "seoConfig": {
-      "pageTitle": "Securities Issued in TreasuryDirect",
+      "pageTitle": "Electronic Securities Transactions",
       "description": "Data on monthly sales, incoming transfers, redemptions, amount outstanding, and number of accounts in TreasuryDirect.",
       "keywords": "Debt, Savings Bonds"
     },
     "topics": ["debt", "savings-bonds"],
     "relatedDatasets": ["015-BFS-2014Q1-11", "015-BFS-2014Q3-056", "015-BFS-2014Q1-14", "015-BFS-2014Q3-xx", "015-BFS-2014Q3-096"],
-    "slug": "/securities-issued-in-treasurydirect/",
+    "slug": "/electronic-securities-transactions/",
     "currentDateButton": "byMonth",
     "bannerCallout": {
       "banner": "TreasuryDirectDelay"
