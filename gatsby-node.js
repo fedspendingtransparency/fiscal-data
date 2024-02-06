@@ -396,7 +396,7 @@ exports.createSchemaCustomization = ({ actions }) => {
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage, createRedirect } = actions;
 
-  // Note: is customNoChartMessage needs to be used again, it can be re insterted into the below query. If it is included
+  // Note: is customNoChartMessage needs to be used again, it can be re inserted into the below query. If it is included
   // in the query without being used or defined in a dataset config, the query will fail
 
   const result = await graphql(`
