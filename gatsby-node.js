@@ -720,6 +720,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     toPath: '/americas-finance-guide/national-debt/',
     isPermanent: true,
   });
+  createRedirect({
+    fromPath: '/datasets/securities-issued-in-treasurydirect/',
+    toPath: '/datasets/electronic-securities-transactions/',
+    isPermanent: true,
+  });
 };
 
 exports.onCreatePage = async ({ page, actions: { createPage } }) => {
