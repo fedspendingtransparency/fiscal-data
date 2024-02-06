@@ -80,19 +80,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const apiEndpoint: string = `v1/accounting/od/tips_cpi_data_detail`;
   const [newData, setNewData] = useState<any | null>(null);
   const [selectedCusip, setSelectedCusip] =useState('');
-
-
-
-  const fetchDatabasedOnCusip = async (cusip: string) => {
-    const res = await basicFetch(`${apiPrefix}${apiEndpoint}?filter=cusip:eq:${cusip}`)
-
-    setNewData({ data: res.data, meta: res.meta });
-
-  }
+ 
   const handleClick = (e, cusipValue) => {
     e.preventDefault();
     setSelectedCusip(cusipValue);
-    fetchDatabasedOnCusip(cusipValue);
     
   };
 
@@ -114,14 +105,32 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       return column;
     });
   };
-console.log('rawData',rawData);
-console.log('newData',newData);
-  const allColumns = modifiedColumnsCUSIP(
-    rawData.columns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(newData ? newData : rawData, hideColumns, tableName, columnConfig)
-    );
-    const allCusipColumns = modifiedColumnsCUSIP(
-      rawData.columns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(newData, hideColumns, tableName, columnConfig)
-      );
+console.log('rawData',rawData.columns);
+
+useEffect(() => {
+  const fetchData = async () => {
+    if(selectedCusip){
+      const res = await basicFetch(`${apiPrefix}${apiEndpoint}?filter=cusip:eq:${selectedCusip}`);
+      setNewData({ data: res.data, meta: res.meta });
+    }
+  }
+  fetchData();
+}, [selectedCusip]);
+const dataDipaly = newData || rawData;
+  const allColumns = React.useMemo(() => {
+      const baseColumns = dataDipaly.columns 
+      ? columnsConstructorGeneric(nonRawDataColumns)
+      : columnsConstructorData(dataDipaly, hideColumns, tableName, columnConfig);
+
+
+    return modifiedColumnsCUSIP(baseColumns)
+  }, [dataDipaly, rawData.columns, nonRawDataColumns, hideColumns, tableName, columnConfig]);
+
+
+
+    // const allCusipColumns = modifiedColumnsCUSIP(
+    //   newData.columns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(newData, hideColumns, tableName, columnConfig)
+    //   );
     
     // ? columnsConstructorGeneric(nonRawDataColumns)
     // : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
@@ -152,7 +161,7 @@ console.log('newData',newData);
     dataTypes = rawData.meta.dataTypes;
   } else {
     const tempDataTypes = {};
-    allColumns.forEach(column => {
+    allColumns?.forEach(column => {
       tempDataTypes[column.property] = 'STRING';
     });
     dataTypes = tempDataTypes;
@@ -168,8 +177,8 @@ console.log('newData',newData);
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
   const table = useReactTable({
-    columns: allCusipColumns || allColumns,
-    data: newData.data || rawData.data,
+    columns: allColumns,
+    data: newData?.data || rawData.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
