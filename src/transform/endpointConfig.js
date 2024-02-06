@@ -1949,7 +1949,7 @@ const endpointConfig = {
       {
         title: 'By Type of Account',
         dimensionField: 'account_type',
-
+        roundingDenomination: 'millions',
         lastRowSnapshot: true,
         filters: [
           {
@@ -1987,10 +1987,12 @@ const endpointConfig = {
       {
         title: 'By Type of Account',
         dimensionField: 'account_type',
+        roundingDenomination: 'millions',
       },
       {
         title: 'By Transaction Type',
         dimensionField: 'transaction_type',
+        roundingDenomination: 'millions',
       },
     ],
     valueFieldOptions: ['transaction_today_amt', 'transaction_mtd_amt', 'transaction_fytd_amt'],
@@ -2021,6 +2023,7 @@ const endpointConfig = {
       {
         title: 'By Transaction Type',
         dimensionField: 'transaction_type',
+        roundingDenomination: 'millions',
       },
     ],
     valueFieldOptions: ['transaction_today_amt', 'transaction_mtd_amt', 'transaction_fytd_amt'],
@@ -2033,10 +2036,12 @@ const endpointConfig = {
       {
         title: 'By Transaction Type',
         dimensionField: 'transaction_type',
+        roundingDenomination: 'millions',
       },
       {
         title: 'By Adjustment Type',
         dimensionField: 'adj_type',
+        roundingDenomination: 'millions',
       },
     ],
     valueFieldOptions: ['adj_today_amt', 'adj_mtd_amt', 'adj_fytd_amt'],
@@ -2049,6 +2054,7 @@ const endpointConfig = {
       {
         title: 'By Debt Category',
         dimensionField: 'debt_catg',
+        roundingDenomination: 'millions',
         lastRowSnapshot: true,
       },
     ],
@@ -2062,6 +2068,7 @@ const endpointConfig = {
       {
         title: 'By Federal Tax Deposit Type',
         dimensionField: 'tax_deposit_type',
+        roundingDenomination: 'millions',
       },
     ],
     valueFieldOptions: ['tax_deposit_today_amt', 'tax_deposit_mtd_amt', 'tax_deposit_fytd_amt'],
@@ -2074,6 +2081,7 @@ const endpointConfig = {
       {
         title: 'By Transaction Type',
         dimensionField: 'transaction_type',
+        roundingDenomination: 'millions',
       },
     ],
     valueFieldOptions: ['depositary_type_a_amt', 'depositary_type_b_amt', 'depositary_type_c_amt', 'total_amt'],
@@ -2086,6 +2094,7 @@ const endpointConfig = {
       {
         title: 'By Federal Tax Refund Type',
         dimensionField: 'tax_refund_type',
+        roundingDenomination: 'millions',
       },
       {
         title: 'By Federal Tax Refund Type Description',
@@ -2119,6 +2128,7 @@ const endpointConfig = {
       {
         title: 'By Classification',
         dimensionField: 'classification',
+        roundingDenomination: 'millions',
       },
     ],
     valueFieldOptions: ['today_amt', 'mtd_amt', 'fytd_amt'],
