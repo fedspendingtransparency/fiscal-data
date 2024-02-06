@@ -78,37 +78,23 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   aria,
 }) => {
 
-  const apiEndpoint: string = 'v1/accounting/od/tips_cpi_data_detail';
+  const apiEndpoint: string = `v1/accounting/od/tips_cpi_data_detail`;
   const [newData, setNewData] = useState<any | null>(null);
-
-  
-  // useEffect(() => {
-  //     const data = basicFetch(`${apiPrefix}${apiEndpoint}`)
-  //       setNewData(data.links);
-  //       console.log('data 123  ', data);
-  // }, [selectedCusip]);
+  const [selectedCusip, setSelectedCusip] =useState('');
 
 
-  // useEffect(() => {
-
-  //   basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
-  //     console.log('res.data ', res)
-  //     console.log('QQQQ ',selectedCusip);
-  //     if(selectedCusip !== null || selectedCusip.length > 0){
-  //       console.log('res.data ', res.data)
-  //       console.log('SU{} ',selectedCusip);
-  // }
-  //   })
-  // }, []);
 
   const fetchDatabasedOnCusip = async (cusip: string) => {
-    const res = await basicFetch(`${apiPrefix}${apiEndpoint}`)
+    const res = await basicFetch(`${apiPrefix}${apiEndpoint}?filter=cusip:eq:${cusip}`)
 
-    setNewData(res.data);
+    setNewData({ data: res.data, meta: res.meta });
+
   }
   const handleClick = (e, cusipValue) => {
     e.preventDefault();
+    setSelectedCusip(cusipValue);
     fetchDatabasedOnCusip(cusipValue);
+    
   };
 
   const modifiedColumnsCUSIP = (columns: any[]) => {
@@ -129,10 +115,15 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       return column;
     });
   };
-
-  const allColumns = React.useMemo(() => modifiedColumnsCUSIP(
-    rawData.columns ? columnsConstructorGeneric(rawData.columns) : columnsConstructorData(rawData, hideColumns, tableName, columnConfig)
-    ), [rawData.columns, hideColumns, tableName, columnConfig]);
+console.log('rawData',rawData);
+console.log('newData',newData);
+  const allColumns = modifiedColumnsCUSIP(
+    rawData.columns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(newData ? newData : rawData, hideColumns, tableName, columnConfig)
+    );
+    const allCusipColumns = modifiedColumnsCUSIP(
+      rawData.columns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(newData ? newData : rawData, hideColumns, tableName, columnConfig)
+      );
+    
     // ? columnsConstructorGeneric(nonRawDataColumns)
     // : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
   if (hasPublishedReports && !hideCellLinks) {
@@ -177,7 +168,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
-
   const table = useReactTable({
     columns: allColumns,
     data: newData || rawData.data,
@@ -200,7 +190,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
-  console.log(table)
 
   useEffect(() => {
     if(resetFilters) {
