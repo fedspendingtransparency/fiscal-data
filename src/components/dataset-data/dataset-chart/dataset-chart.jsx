@@ -160,7 +160,6 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
       const chartData = thinDataAsNeededForChart(data.data, slug, dateField, currentTable);
 
       if (chartData.length > 0) {
-        console.log(determineIfAxisWillHaveBillions(chartData));
         setAxisHasBillions(determineIfAxisWillHaveBillions(chartData));
         chartHooks = drawChart(
           chartData,
@@ -202,11 +201,13 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
             {selectedPivot && selectedPivot.pivotView?.roundingDenomination && (
               <h5 className={subTitle}>Values shown in {selectedPivot.pivotView?.roundingDenomination} of U.S dollars</h5>
             )}
-            <div className={labelContainer}>
-              <div style={{ left: axisHasBillions && '-3rem' }} className={yAxisLabel}>
-                {capitalized}
+            {selectedPivot && selectedPivot.pivotView?.roundingDenomination && (
+              <div className={labelContainer}>
+                <div style={{ left: axisHasBillions && '-3rem' }} className={yAxisLabel}>
+                  {capitalized}
+                </div>
               </div>
-            </div>
+            )}
             <div id="viz" ref={viz} />
             <ChartCitation slug={slug} currentTableName={currentTable.tableName} />
           </div>
