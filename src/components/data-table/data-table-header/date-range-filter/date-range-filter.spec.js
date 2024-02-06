@@ -235,6 +235,7 @@ describe('date range filter', () => {
     });
     expect(getByText('Invalid date range. Please check the entered dates and try again')).toBeInTheDocument();
   });
+
   it('highlights the in progress date entry', () => {
     const { getByRole, getByText } = render(
       <RecoilRoot>
@@ -267,5 +268,40 @@ describe('date range filter', () => {
     const endDate = getByText('mm/dd/yyyy');
     expect(endDate).toBeInTheDocument();
     expect(endDate).toHaveClass('currentDate');
+  });
+
+  it('displays the keyboard date entry in the calendar', () => {
+    const { getByRole, getAllByText } = render(
+      <RecoilRoot>
+        <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+
+    const dateRangeEntry = getByRole('textbox', { hidden: true });
+    dateRangeEntry.focus();
+
+    act(() => {
+      userEvent.keyboard('12102023');
+    });
+    expect(getAllByText('December').length).toBe(2);
+    expect(getAllByText('January').length).toBe(1);
+
+    act(() => {
+      userEvent.keyboard('11102024');
+    });
+    dateRangeButton.click();
+    expect(getAllByText('November').length).toBe(2);
+    expect(getAllByText('2024').length).toBe(2);
+    expect(getAllByText('December').length).toBe(1);
+    expect(getAllByText('2023').length).toBe(1);
   });
 });
