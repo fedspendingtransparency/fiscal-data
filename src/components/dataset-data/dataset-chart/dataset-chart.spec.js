@@ -63,11 +63,44 @@ const mockData = {
   },
 };
 
-const mockConfig = {
-  name: 'my name',
+const mockDataWithBillionsOnAxis = {
+  data: [
+    {
+      reporting_date: `${mockYears.from}-01-01`,
+      a: 1,
+      b: 2,
+      c: 3,
+      d: 4,
+      e: 5,
+    },
+    {
+      reporting_date: `${mockYears.to}-01-01`,
+      a: 11,
+      b: 12,
+      c: 13,
+      d: 14,
+      e: 1000000000,
+    },
+  ],
+  meta: {
+    dataTypes: {
+      a: 'CURRENCY',
+      b: 'not currency',
+      c: 'NUMBER',
+      d: 'PERCENTAGE',
+      e: 'CURRENCY0',
+    },
+    labels: {
+      a: 'A',
+      b: 'B',
+      c: 'C',
+      d: 'D',
+      e: 'E',
+    },
+  },
 };
 
-const mockConfigWithRounded = {
+const mockConfig = {
   name: 'my name',
 };
 
@@ -104,8 +137,31 @@ describe('Dataset Chart', () => {
   it('shows subtitle and y axis label with rounded denomination if config set', () => {
     const { getByText } = render(
       <DatasetChart
-        config={mockConfigWithRounded}
+        config={mockConfig}
         data={mockData}
+        dateField={mockDateField}
+        dateRange={mockDateRange}
+        selectedPivot={mockPivotWithRounded}
+        slug={mockSlug}
+        currentTable={mockTable}
+        isVisible={true}
+        legend={true}
+      />
+    );
+
+    const { from, to } = mockYears;
+    const { title } = mockPivot.pivotView;
+
+    expect(getByText(`${from} - ${to} | ${title}`)).toBeInTheDocument();
+    expect(getByText('Values shown in millions of U.S dollars')).toBeInTheDocument();
+    expect(getByText('Millions')).toBeInTheDocument();
+  });
+
+  it('shows y axis label with larger axis values', () => {
+    const { getByText } = render(
+      <DatasetChart
+        config={mockConfig}
+        data={mockDataWithBillionsOnAxis}
         dateField={mockDateField}
         dateRange={mockDateRange}
         selectedPivot={mockPivotWithRounded}
