@@ -17,6 +17,7 @@ import {
   selectColumnPanelActive,
   selectColumnPanelInactive,
   selectColumnsWrapper,
+  updateTableButton,
 } from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
@@ -80,32 +81,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const apiEndpoint: string = `v1/accounting/od/tips_cpi_data_detail`;
   const [newData, setNewData] = useState<any | null>(null);
   const [selectedCusip, setSelectedCusip] =useState('');
- 
-  const handleClick = (e, cusipValue) => {
-    e.preventDefault();
-    setSelectedCusip(cusipValue);
-    
-  };
 
-  const modifiedColumnsCUSIP = (columns: any[]) => {
-    return columns.map(column => {
-      if (column.accessorKey === 'CUSIP' || column.accessorKey === 'cusip') {
-        return {
-          ...column,
-          cell: ({ getValue }) => {
-            const cusipValue = getValue();
-            return (
-              <button onClick={(e) => handleClick(e, cusipValue)}>
-                {cusipValue}
-              </button>
-            )
-          }
-        };
-      }
-      return column;
-    });
-  };
-console.log('rawData',rawData.columns);
+console.log('rawData', newData);
 
 useEffect(() => {
   const fetchData = async () => {
@@ -116,15 +93,38 @@ useEffect(() => {
   }
   fetchData();
 }, [selectedCusip]);
+
+const handleClick = (e, cusipValue) => {
+  e.preventDefault();
+  setSelectedCusip(cusipValue);
+};
+
+const modifiedColumnsCUSIP = (columns: any[]) => {
+  return columns.map(column => {
+    if (column.accessorKey === 'CUSIP' || column.accessorKey === 'cusip') {
+      return {
+        ...column,
+        cell: ({ getValue }) => {
+          const cusipValue = getValue();
+          return (
+            <button onClick={(e) => handleClick(e, cusipValue)} className={updateTableButton}>
+              {cusipValue}
+            </button>
+          )
+        }
+      };
+    }
+    return column;
+  });
+};
 const dataDipaly = newData || rawData;
   const allColumns = React.useMemo(() => {
       const baseColumns = dataDipaly.columns 
       ? columnsConstructorGeneric(nonRawDataColumns)
       : columnsConstructorData(dataDipaly, hideColumns, tableName, columnConfig);
 
-
     return modifiedColumnsCUSIP(baseColumns)
-  }, [dataDipaly, rawData.columns, nonRawDataColumns, hideColumns, tableName, columnConfig]);
+  }, [newData, rawData, dataDipaly.columns, nonRawDataColumns, hideColumns, tableName, columnConfig]);
 
 
 
@@ -157,12 +157,10 @@ const dataDipaly = newData || rawData;
 
   let dataTypes;
 
-  if (rawData.meta) {
-    dataTypes = rawData.meta.dataTypes;
+  if (dataDipaly.meta) {
+    dataTypes = dataDipaly.meta.dataTypes;
   }
-  else if (newData.meta) {
-    dataTypes = rawData.meta.dataTypes;
-  }  else {
+  else {
     const tempDataTypes = {};
     allColumns?.forEach(column => {
       tempDataTypes[column.property] = 'STRING';
@@ -181,7 +179,7 @@ const dataDipaly = newData || rawData;
   const [additionalColumns, setAdditionalColumns] = useState([]);
   const table = useReactTable({
     columns: allColumns,
-    data: newData?.data || rawData.data,
+    data: dataDipaly.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
@@ -204,7 +202,7 @@ const dataDipaly = newData || rawData;
 
   useEffect(() => {
     if(resetFilters) {
-      setTableColumnSortData(rawData.data);
+      setTableColumnSortData(dataDipaly.data);
     }
   },[resetFilters, table])
   const getSortedColumnsData = table => {
