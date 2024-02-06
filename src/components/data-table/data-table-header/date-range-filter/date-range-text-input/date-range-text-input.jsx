@@ -17,7 +17,6 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
       setInputDisplay(dateRange);
       parseDates(dateRange);
     },
-    unmask: true,
     blocks: {
       dd: { mask: IMask.MaskedRange, placeholderChar: 'd', from: 1, to: 31, maxLength: 2, autofix: 'pad' },
       mm: { mask: IMask.MaskedRange, placeholderChar: 'm', from: 1, to: 12, maxLength: 2, autofix: 'pad' },
