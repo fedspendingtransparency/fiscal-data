@@ -393,7 +393,7 @@ export default function DtgTable({
             <DataTable
               rawData={reactTableData}
               nonRawDataColumns={!rawDataTable ? columnConfig : null}
-              defaultSelectedColumns={!pivotSelected ? selectColumns : null}
+              defaultSelectedColumns={selectColumns}
               setTableColumnSortData={setTableColumnSortData}
               hideCellLinks={true}
               shouldPage={shouldPage}
@@ -414,6 +414,7 @@ export default function DtgTable({
               columnConfig={columnConfig}
               allowColumnWrap={allowColumnWrap}
               aria={tableProps.aria}
+              pivotSelected={pivotSelected?.pivotValue}
             />
           </ErrorBoundary>
         </div>
