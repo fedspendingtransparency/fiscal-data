@@ -1,6 +1,5 @@
 import React from 'react';
 import SavingsBondsOverview from './savings-bonds-overview/savings-bonds-overview';
-import SavingBondsKeyTakeaway from './savings-bonds-overview/savings-bonds-key-takeaway';
 
 export const treasurySavingsBondsSectionIds = [
   'key-takeaways',
@@ -16,7 +15,7 @@ const treasurySavingsBondsSections = [
     index: 0,
     id: treasurySavingsBondsSectionIds[0],
     title: 'Key Takeaways',
-    component: cpiDataByYear => <SavingBondsKeyTakeaway />,
+    component: cpiDataByYear => <div />,
   },
   {
     index: 1,
