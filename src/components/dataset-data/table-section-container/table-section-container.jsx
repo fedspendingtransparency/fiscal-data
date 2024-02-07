@@ -122,7 +122,7 @@ const TableSectionContainer = ({
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
-    const { columnConfig: detailColumnConfig } = setTableConfig(config, { apiId: 300 }, selectedPivot, apiData);
+    const { columnConfig: detailColumnConfig } = setTableConfig(config, config.detailView, selectedPivot, apiData);
 
     let displayData = apiData ? apiData.data : null;
     if (userFilterSelection?.value && apiData?.data) {
