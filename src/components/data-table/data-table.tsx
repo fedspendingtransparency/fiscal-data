@@ -127,21 +127,19 @@ const modifiedColumnsCUSIP = (columns: any[]) => {
 const dataDipaly = newData || rawData;
 
   const allColumns = React.useMemo(() => {
-      const baseColumns = dataDipaly.columns 
+      let baseColumns = dataDipaly.columns 
       ? columnsConstructorGeneric(nonRawDataColumns)
       : columnsConstructorData(dataDipaly, hideColumns, tableName, configOption);
 
-    return modifiedColumnsCUSIP(baseColumns)
+      if(selectedCusip){
+        baseColumns = baseColumns.filter(column => column.accessorKey !== 'CUSIP' && column.accessorKey !== 'cusip');
+      } else {
+        baseColumns = modifiedColumnsCUSIP(baseColumns)
+      }
+
+    return baseColumns
   }, [newData, rawData, dataDipaly.columns, nonRawDataColumns, hideColumns, tableName, configOption]);
 
-
-
-    // const allCusipColumns = modifiedColumnsCUSIP(
-    //   newData.columns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(newData, hideColumns, tableName, columnConfig)
-    //   );
-    
-    // ? columnsConstructorGeneric(nonRawDataColumns)
-    // : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
