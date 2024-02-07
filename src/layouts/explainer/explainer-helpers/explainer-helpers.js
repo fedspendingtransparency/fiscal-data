@@ -164,13 +164,13 @@ export const explainerSocialShareMap = {
     image: envBaseUrl + '/images/AFG-Overview_1200x630.png',
   },
   'treasury-savings-bonds': {
-    title: '',
-    description: '',
-    body: '   ',
-    emailSubject: '',
-    emailBody: '',
+    title: 'Fiscal Data Explains U.S. Treasury Savings Bonds',
+    description: 'Check out @FiscalService Fiscal Data’s new savings bonds page! #SavingsBonds ',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page explaining Treasury savings bonds! #FiscalData #SavingsBonds',
+    emailSubject: 'Fiscal Data Explains U.S. Treasury Savings Bonds',
+    emailBody: 'Check out Fiscal Data’s new topic page explaining U.S. Treasury savings bonds!',
     url: envBaseUrl + '/treasury-savings-bonds/',
-    image: '',
+    image: envBaseUrl + '/images/Savings-Bonds-Social-Share-w-Illustration_1200x630.png',
   },
 };
 
