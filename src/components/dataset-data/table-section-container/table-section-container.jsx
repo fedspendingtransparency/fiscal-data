@@ -68,7 +68,6 @@ const TableSectionContainer = ({
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
-  console.log(config);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);

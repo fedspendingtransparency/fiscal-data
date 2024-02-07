@@ -65,6 +65,7 @@ const createPivotFields = (apiData, dateField, pivot) => {
 
 export const setTableConfig = (config, selectedTable, selectedPivot, apiData) => {
   let fields;
+  console.log(config);
   if (
     apiData &&
     apiData.data &&

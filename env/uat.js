@@ -18,7 +18,7 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-056', '015-BFS-2014Q3-048', '015-BFS-2014Q3-049'],
       currentDateButton: 'byMonth',
       detailView: {
-        apiId: '300',
+        apiId: 300,
         columnId: 'cusip',
       },
     },

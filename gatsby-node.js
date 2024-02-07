@@ -354,7 +354,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       keywords: String
     }
     type DetailView {
-      apiId: String,
+      apiId: Int,
       columnId: String,
     }
     type Datasets implements Node {

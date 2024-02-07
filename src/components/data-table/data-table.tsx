@@ -49,6 +49,7 @@ type DataTableProps = {
   rowsShowing: { begin: number; end: number };
   columnConfig?;
   detailColumnConfig?;
+  detailView?;
   detailViewAPI?;
   allowColumnWrap?: string[];
   aria;
@@ -76,6 +77,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   rowsShowing,
   columnConfig,
   detailColumnConfig,
+  detailView,
   detailViewAPI,
   allowColumnWrap,
   aria,
@@ -88,7 +90,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       if (selectedDetailView) {
-        const res = await basicFetch(`${apiPrefix}${detailViewEndpoint}?filter=cusip:eq:${selectedDetailView}`);
+        const res = await basicFetch(`${apiPrefix}${detailViewEndpoint}?filter=${detailView.columnId}:eq:${selectedDetailView}`);
         setDetailViewData({ data: res.data, meta: res.meta });
         setConfigOption(detailColumnConfig);
       }
@@ -110,7 +112,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       ? columnsConstructorGeneric(nonRawDataColumns)
       : columnsConstructorData(dataDisplay, hideCols, tableName, configOption);
 
-    baseColumns = modifiedColumnsCUSIP(baseColumns, handleClick, 'cusip');
+    baseColumns = modifiedColumnsCUSIP(baseColumns, handleClick, detailView?.columnId);
     return baseColumns;
   }, [detailViewData, rawData, configOption]);
 

@@ -25,8 +25,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const title = width >= pxToNumber(breakpointSm) ? desktopTitle : tabletMobileTitle;
   // config.apis should always be available; but, fallback in case
   const apis = config ? config.apis : [null];
-const filterAPI = apis.filter(api => api?.apiId.toString() !== config.detailView?.apiId)
-console.log('filterAPI  ', filterAPI)
+  const filterAPI = apis.filter(api => api?.apiId !== config.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
