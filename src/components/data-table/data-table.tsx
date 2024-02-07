@@ -21,7 +21,7 @@ import {
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
-import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsCUSIP } from './data-table-helper';
+import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
 import { basicFetch, apiPrefix } from '../../utils/api-utils';
@@ -108,11 +108,11 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const allColumns = React.useMemo(() => {
     const hideCols = detailViewData ? detailViewAPI.hideColumns : hideColumns;
 
-    let baseColumns = dataDisplay.columns
+    let baseColumns = nonRawDataColumns
       ? columnsConstructorGeneric(nonRawDataColumns)
       : columnsConstructorData(dataDisplay, hideCols, tableName, configOption);
 
-    baseColumns = modifiedColumnsCUSIP(baseColumns, handleClick, detailView?.columnId);
+    baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.columnId);
     return baseColumns;
   }, [detailViewData, rawData, configOption]);
 

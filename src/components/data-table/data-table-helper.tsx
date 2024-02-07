@@ -172,7 +172,7 @@ export const rightAlign = (type: string): boolean => {
   return types.includes(type) || type?.includes('CURRENCY');
 };
 
-export const modifiedColumnsCUSIP = (columns: any[], handleClick, columnKey: string) => {
+export const modifiedColumnsDetailView = (columns: any[], handleClick, columnKey: string) => {
   return columns.map(column => {
     if (column.accessorKey.toLowerCase() === columnKey) {
       return {
