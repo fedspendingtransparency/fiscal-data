@@ -88,8 +88,7 @@ export default function DtgTable({
   const [showPaginationControls, setShowPaginationControls] = useState();
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   const sorting = useRecoilValue(reactTableSortingState);
-  const detailViewEndPoint = config?.detailViewAPI ? config.apis.find(api => api.apiId.toString() === config.detailViewAPI).endpoint : null;
-console.log('config', config);
+  const detailViewAPIConfig = config?.detailView ? config.apis.find(api => api.apiId.toString() === config.detailView.apiId) : null;
   let loadCanceled = false;
 
   let debounce;
@@ -397,7 +396,7 @@ console.log('config', config);
               rawData={reactTableData}
               nonRawDataColumns={!rawDataTable ? columnConfig : null}
               detailColumnConfig={detailColumnConfig}
-              detailViewAPI={detailViewEndPoint}
+              detailViewAPI={detailViewAPIConfig}
               defaultSelectedColumns={selectColumns}
               setTableColumnSortData={setTableColumnSortData}
               hideCellLinks={true}

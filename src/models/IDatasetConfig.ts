@@ -11,8 +11,7 @@ export interface IDatasetConfig {
   bannerCallout: Record<string, string> | null;
   datatableBanner: string | null;
   selectColumns: string[] | null;
-  hideColumns: string[] | null;
-  detailViewAPI: string | null;
+  detailView: { apiId: string; columnId: string } | null;
   dataFormats: string[] | Record<string, unknown>[];
   dataStartYear: string;
   datasetId: string;

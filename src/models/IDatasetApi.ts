@@ -1,5 +1,6 @@
 export interface IDatasetApi {
   alwaysSortWith: string | null;
+  hideColumns: string[] | null;
   selectColumns: string[];
   apiId: number;
   dataDisplays: Record<string, unknown>[];

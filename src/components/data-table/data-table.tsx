@@ -17,16 +17,14 @@ import {
   selectColumnPanelActive,
   selectColumnPanelInactive,
   selectColumnsWrapper,
-  updateTableButton,
 } from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
-import { columnsConstructorData, columnsConstructorGeneric } from './data-table-helper';
+import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsCUSIP } from './data-table-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
 import { basicFetch, apiPrefix } from '../../utils/api-utils';
-
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -51,7 +49,7 @@ type DataTableProps = {
   rowsShowing: { begin: number; end: number };
   columnConfig?;
   detailColumnConfig?;
-  detailViewAPI: string;
+  detailViewAPI?;
   allowColumnWrap?: string[];
   aria;
 };
@@ -82,63 +80,39 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   allowColumnWrap,
   aria,
 }) => {
-
-  const apiEndpoint: string = detailViewAPI ? detailViewAPI : null;
-  const [newData, setNewData] = useState<any | null>(null);
-  const [selectedCusip, setSelectedCusip] =useState('');
+  const detailViewEndpoint: string = detailViewAPI ? detailViewAPI.endpoint : null;
+  const [detailViewData, setDetailViewData] = useState(null);
+  const [selectedDetailView, setSelectedDetailView] = useState('');
   const [configOption, setConfigOption] = useState(columnConfig);
 
-console.log('rawData', newData);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (selectedDetailView) {
+        const res = await basicFetch(`${apiPrefix}${detailViewEndpoint}?filter=cusip:eq:${selectedDetailView}`);
+        setDetailViewData({ data: res.data, meta: res.meta });
+        setConfigOption(detailColumnConfig);
+      }
+    };
+    fetchData();
+  }, [selectedDetailView]);
 
-useEffect(() => {
-  const fetchData = async () => {
-    if(selectedCusip){
-      const res = await basicFetch(`${apiPrefix}${apiEndpoint}?filter=cusip:eq:${selectedCusip}`);
-      setNewData({ data: res.data, meta: res.meta });
-      setConfigOption(detailColumnConfig);
-    }
-  }
-  fetchData();
-}, [selectedCusip]);
+  const handleClick = (e, columnValue) => {
+    e.preventDefault();
+    setSelectedDetailView(columnValue);
+  };
 
-const handleClick = (e, cusipValue) => {
-  e.preventDefault();
-  setSelectedCusip(cusipValue);
-};
-console.log(detailColumnConfig);
-const modifiedColumnsCUSIP = (columns: any[]) => {
-  return columns.map(column => {
-    if (column.accessorKey === 'CUSIP' || column.accessorKey === 'cusip') {
-      return {
-        ...column,
-        cell: ({ getValue }) => {
-          const cusipValue = getValue();
-          return (
-            <button onClick={(e) => handleClick(e, cusipValue)} className={updateTableButton}>
-              {cusipValue}
-            </button>
-          )
-        }
-      };
-    }
-    return column;
-  });
-};
-const dataDipaly = newData || rawData;
+  const dataDisplay = detailViewData || rawData;
 
   const allColumns = React.useMemo(() => {
-      let baseColumns = dataDipaly.columns 
+    const hideCols = detailViewData ? detailViewAPI.hideColumns : hideColumns;
+
+    let baseColumns = dataDisplay.columns
       ? columnsConstructorGeneric(nonRawDataColumns)
-      : columnsConstructorData(dataDipaly, hideColumns, tableName, configOption);
+      : columnsConstructorData(dataDisplay, hideCols, tableName, configOption);
 
-      if(selectedCusip){
-        baseColumns = baseColumns.filter(column => column.accessorKey !== 'CUSIP' && column.accessorKey !== 'cusip');
-      } else {
-        baseColumns = modifiedColumnsCUSIP(baseColumns)
-      }
-
-    return baseColumns
-  }, [newData, rawData, dataDipaly.columns, nonRawDataColumns, hideColumns, tableName, configOption]);
+    baseColumns = modifiedColumnsCUSIP(baseColumns, handleClick, 'cusip');
+    return baseColumns;
+  }, [detailViewData, rawData, configOption]);
 
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
@@ -159,14 +133,12 @@ const dataDipaly = newData || rawData;
       }
     };
   }
-  
 
   let dataTypes;
 
-  if (dataDipaly.meta) {
-    dataTypes = dataDipaly.meta.dataTypes;
-  }
-  else {
+  if (dataDisplay.meta) {
+    dataTypes = dataDisplay.meta.dataTypes;
+  } else {
     const tempDataTypes = {};
     allColumns?.forEach(column => {
       tempDataTypes[column.property] = 'STRING';
@@ -185,7 +157,7 @@ const dataDipaly = newData || rawData;
   const [additionalColumns, setAdditionalColumns] = useState([]);
   const table = useReactTable({
     columns: allColumns,
-    data: dataDipaly.data,
+    data: dataDisplay.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
@@ -207,24 +179,10 @@ const dataDipaly = newData || rawData;
   }) as Table<Record<string, unknown>>;
 
   useEffect(() => {
-    if(resetFilters) {
-      setTableColumnSortData(dataDipaly.data);
+    if (resetFilters) {
+      setTableColumnSortData(dataDisplay.data);
     }
-  },[resetFilters, table])
-  const getSortedColumnsData = table => {
-    if (setTableColumnSortData) {
-      const columns = table.getVisibleFlatColumns();
-      const mapped = columns.map(column => ({
-        id: column.id,
-        sorted: column.getIsSorted(),
-        filterValue: column.getFilterValue(),
-        downloadFilter: dataTypes[column.id] !== 'DATE',
-        rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
-        allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
-      }));
-      setTableColumnSortData(mapped);
-    }
-  };
+  }, [resetFilters, table]);
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
@@ -257,11 +215,11 @@ const dataDipaly = newData || rawData;
   };
 
   useEffect(() => {
-    getSortedColumnsData(table);
+    getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
   }, [columnVisibility, table.getFilteredRowModel()]);
 
   useEffect(() => {
-    getSortedColumnsData(table);
+    getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
     setTableSorting(sorting);
   }, [sorting]);
 
@@ -281,6 +239,7 @@ const dataDipaly = newData || rawData;
   }, []);
 
   const selectColumnsRef = useRef(null);
+
   useEffect(() => {
     if (selectColumnPanel) {
       selectColumnsRef.current?.focus();

@@ -122,7 +122,7 @@ const TableSectionContainer = ({
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
-    const {columnConfig: detailColumnConfig} = setTableConfig(config, {apiId: 300}, selectedPivot, apiData);
+    const { columnConfig: detailColumnConfig } = setTableConfig(config, { apiId: 300 }, selectedPivot, apiData);
 
     let displayData = apiData ? apiData.data : null;
     if (userFilterSelection?.value && apiData?.data) {
@@ -151,7 +151,7 @@ const TableSectionContainer = ({
       dateRange,
       apiError: apiErrorState,
       selectColumns: selectedTable.selectColumns,
-      hideColumns: config.hideColumns,
+      hideColumns: selectedTable.hideColumns,
       excludeCols: ['CHART_DATE'],
       aria: { 'aria-labelledby': 'main-data-table-title' },
     });

@@ -17,7 +17,10 @@ module.exports = {
       topics: ['auctions', 'interest-exchange-rates'],
       relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-056', '015-BFS-2014Q3-048', '015-BFS-2014Q3-049'],
       currentDateButton: 'byMonth',
-      detailViewAPI: '300',
+      detailView: {
+        apiId: '300',
+        columnId: 'cusip',
+      },
     },
   },
   ADDITIONAL_ENDPOINTS: {
@@ -65,6 +68,7 @@ module.exports = {
       downloadName: 'TIPSandCPIdata_Details',
       dateField: 'index_date',
       alwaysSortWith: ['-index_date'],
+      hideColumns: ['cusip'],
     },
     '301': {
       endpoint: 'v1/accounting/od/tips_cpi_data_summary',

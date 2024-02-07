@@ -106,7 +106,7 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.apis = dataset.apis.filter(api => !api.markedForDelete);
       dataset.relatedDatasets = mappedDataset && mappedDataset.relatedDatasets ? mappedDataset.relatedDatasets : [];
       dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton ? mappedDataset.currentDateButton : null;
-      dataset.detailViewAPI = mappedDataset && mappedDataset.detailViewAPI ? mappedDataset.detailViewAPI : null;
+      dataset.detailView = mappedDataset && mappedDataset.detailView ? mappedDataset.detailView : null;
       dataset.customNoChartMessage = mappedDataset && mappedDataset.customNoChartMessage ? mappedDataset.customNoChartMessage : null;
       dataset.datePreset = mappedDataset && mappedDataset.datePreset ? mappedDataset.datePreset : null;
       dataset.customRangePreset = mappedDataset && mappedDataset.customRangePreset ? mappedDataset.customRangePreset : null;
@@ -114,7 +114,6 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.datatableBanner = mappedDataset && mappedDataset.datatableBanner ? mappedDataset.datatableBanner : null;
       dataset.displayRealChartValues = mappedDataset && mappedDataset.displayRealChartValues ? mappedDataset.displayRealChartValues : null;
       dataset.selectColumns = mappedDataset && mappedDataset.selectColumns ? mappedDataset.selectColumns : null;
-      dataset.hideColumns = mappedDataset && mappedDataset.hideColumns ? mappedDataset.hideColumns : null;
 
       if (dataset.apis.length === 0) {
         if (mappedDataset && mappedDataset.apiIds) {
