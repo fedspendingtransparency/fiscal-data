@@ -183,9 +183,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
         constructedAdditionalColumns.push(column);
       }
     }
-    constructedAdditionalColumns.sort((a, b) => {
-      return a.id.localeCompare(b.id);
-    });
     setDefaultColumns(constructedDefaultColumns);
     setAdditionalColumns(constructedAdditionalColumns);
   };
