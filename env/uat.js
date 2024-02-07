@@ -17,6 +17,7 @@ module.exports = {
       topics: ['auctions', 'interest-exchange-rates'],
       relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-056', '015-BFS-2014Q3-048', '015-BFS-2014Q3-049'],
       currentDateButton: 'byMonth',
+      detailViewAPI: '300',
     },
   },
   ADDITIONAL_ENDPOINTS: {
@@ -58,6 +59,12 @@ module.exports = {
       ],
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
+    },
+    '300': {
+      endpoint: 'v1/accounting/od/tips_cpi_data_detail',
+      downloadName: 'TIPSandCPIdata_Details',
+      dateField: 'index_date',
+      alwaysSortWith: ['-index_date'],
     },
     '301': {
       endpoint: 'v1/accounting/od/tips_cpi_data_summary',

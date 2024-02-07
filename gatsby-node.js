@@ -409,6 +409,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          detailViewAPI
           datePreset
           customRangePreset
           customNoChartMessage

@@ -68,6 +68,7 @@ const TableSectionContainer = ({
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
+  console.log(config);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -121,6 +122,7 @@ const TableSectionContainer = ({
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
+    const {columnConfig: detailColumnConfig} = setTableConfig(config, {apiId: 300}, selectedPivot, apiData);
 
     let displayData = apiData ? apiData.data : null;
     if (userFilterSelection?.value && apiData?.data) {
@@ -136,7 +138,9 @@ const TableSectionContainer = ({
       publishedReports,
       rawData: { ...apiData, data: displayData }.data ? { ...apiData, data: displayData } : apiData,
       data: displayData, //null for server-side pagination
+      config,
       columnConfig,
+      detailColumnConfig,
       width,
       noBorder: true,
       shouldPage: true,

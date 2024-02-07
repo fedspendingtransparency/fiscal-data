@@ -60,7 +60,9 @@ export default function DtgTable({
     selectedTable,
     selectedPivot,
     dateRange,
+    config,
     columnConfig,
+    detailColumnConfig,
     caption,
     selectColumns,
     hideColumns,
@@ -86,7 +88,8 @@ export default function DtgTable({
   const [showPaginationControls, setShowPaginationControls] = useState();
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   const sorting = useRecoilValue(reactTableSortingState);
-
+  const detailViewEndPoint = config?.detailViewAPI ? config.apis.find(api => api.apiId.toString() === config.detailViewAPI).endpoint : null;
+console.log('config', config);
   let loadCanceled = false;
 
   let debounce;
@@ -393,6 +396,8 @@ export default function DtgTable({
             <DataTable
               rawData={reactTableData}
               nonRawDataColumns={!rawDataTable ? columnConfig : null}
+              detailColumnConfig={detailColumnConfig}
+              detailViewAPI={detailViewEndPoint}
               defaultSelectedColumns={selectColumns}
               setTableColumnSortData={setTableColumnSortData}
               hideCellLinks={true}

@@ -27,6 +27,7 @@ import { useSetRecoilState } from 'recoil';
 import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
 import { basicFetch, apiPrefix } from '../../utils/api-utils';
 
+
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
   rawData;
@@ -49,6 +50,8 @@ type DataTableProps = {
   manualPagination: boolean;
   rowsShowing: { begin: number; end: number };
   columnConfig?;
+  detailColumnConfig?;
+  detailViewAPI: string;
   allowColumnWrap?: string[];
   aria;
 };
@@ -74,13 +77,16 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   manualPagination,
   rowsShowing,
   columnConfig,
+  detailColumnConfig,
+  detailViewAPI,
   allowColumnWrap,
   aria,
 }) => {
 
-  const apiEndpoint: string = `v1/accounting/od/tips_cpi_data_detail`;
+  const apiEndpoint: string = detailViewAPI ? detailViewAPI : null;
   const [newData, setNewData] = useState<any | null>(null);
   const [selectedCusip, setSelectedCusip] =useState('');
+  const [configOption, setConfigOption] = useState(columnConfig);
 
 console.log('rawData', newData);
 
@@ -89,6 +95,7 @@ useEffect(() => {
     if(selectedCusip){
       const res = await basicFetch(`${apiPrefix}${apiEndpoint}?filter=cusip:eq:${selectedCusip}`);
       setNewData({ data: res.data, meta: res.meta });
+      setConfigOption(detailColumnConfig);
     }
   }
   fetchData();
@@ -98,7 +105,7 @@ const handleClick = (e, cusipValue) => {
   e.preventDefault();
   setSelectedCusip(cusipValue);
 };
-
+console.log(detailColumnConfig);
 const modifiedColumnsCUSIP = (columns: any[]) => {
   return columns.map(column => {
     if (column.accessorKey === 'CUSIP' || column.accessorKey === 'cusip') {
@@ -118,13 +125,14 @@ const modifiedColumnsCUSIP = (columns: any[]) => {
   });
 };
 const dataDipaly = newData || rawData;
+
   const allColumns = React.useMemo(() => {
       const baseColumns = dataDipaly.columns 
       ? columnsConstructorGeneric(nonRawDataColumns)
-      : columnsConstructorData(dataDipaly, hideColumns, tableName, columnConfig);
+      : columnsConstructorData(dataDipaly, hideColumns, tableName, configOption);
 
     return modifiedColumnsCUSIP(baseColumns)
-  }, [newData, rawData, dataDipaly.columns, nonRawDataColumns, hideColumns, tableName, columnConfig]);
+  }, [newData, rawData, dataDipaly.columns, nonRawDataColumns, hideColumns, tableName, configOption]);
 
 
 
