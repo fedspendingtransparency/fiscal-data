@@ -19,7 +19,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   const numberFormat = new Intl.NumberFormat('en-US');
 
   const securitiesTreasuryDirect = (
-    <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government" eventNumber="4" id="Monthly Treasury Statement">
+    <CustomLink url="/datasets/securities-issued-in-treasurydirect" id="Securities Issued in Treasury Direct">
       Securities Issued In Treasury Direct
     </CustomLink>
   );
