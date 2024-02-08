@@ -229,7 +229,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
           <TableSectionContainer
             config={config}
             dateRange={dateRange}
-            isDetailView={true}
             selectedTable={selectedTable}
             userFilterSelection={userFilterSelection}
             apiData={apiData}

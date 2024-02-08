@@ -54,14 +54,14 @@ type DataTableProps = {
   allowColumnWrap?: string[];
   aria;
   pivotSelected;
-  onShowBackButton: () => void;
-  handleDetailViewTransition;
+  setDetailViewState: (val: string) => void;
+  detailViewState: string;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
   rawData,
-  onShowBackButton,
-  handleDetailViewTransition,
+  detailViewState,
+  setDetailViewState,
   nonRawDataColumns,
   defaultSelectedColumns,
   setTableColumnSortData,
@@ -89,16 +89,19 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pivotSelected,
 }) => {
   const detailViewEndpoint: string = detailViewAPI ? detailViewAPI.endpoint : null;
-  const [detailViewData, setDetailViewData] = useState(null);
   const [selectedDetailView, setSelectedDetailView] = useState('');
   const [configOption, setConfigOption] = useState(columnConfig);
+  const [tableData, setTableData] = useState(rawData);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (selectedDetailView) {
+      if (!!selectedDetailView) {
         const res = await basicFetch(`${apiPrefix}${detailViewEndpoint}?filter=${detailView.columnId}:eq:${selectedDetailView}`);
-        setDetailViewData({ data: res.data, meta: res.meta });
+        setTableData({ data: res.data, meta: res.meta });
         setConfigOption(detailColumnConfig);
+      } else {
+        setTableData(rawData);
+        setConfigOption(columnConfig);
       }
     };
     fetchData();
@@ -107,26 +110,25 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const handleClick = (e, columnValue) => {
     e.preventDefault();
     setSelectedDetailView(columnValue);
-    handleDetailViewTransition(columnValue);
-
+    setDetailViewState(columnValue);
   };
 
-if (selectedDetailView === ''){
-  onShowBackButton(false);
-}
-
-  const dataDisplay = detailViewData || rawData;
+  useEffect(() => {
+    if (!detailViewState) {
+      setSelectedDetailView(null);
+    }
+  }, [detailViewState]);
 
   const allColumns = React.useMemo(() => {
-    const hideCols = detailViewData ? detailViewAPI.hideColumns : hideColumns;
+    const hideCols = selectedDetailView ? detailViewAPI.hideColumns : hideColumns;
 
     let baseColumns = nonRawDataColumns
       ? columnsConstructorGeneric(nonRawDataColumns)
-      : columnsConstructorData(dataDisplay, hideCols, tableName, configOption);
+      : columnsConstructorData(tableData, hideCols, tableName, configOption);
 
     baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.columnId);
     return baseColumns;
-  }, [detailViewData, rawData, configOption]);
+  }, [tableData, rawData, configOption]);
 
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
@@ -150,8 +152,8 @@ if (selectedDetailView === ''){
 
   let dataTypes;
 
-  if (dataDisplay.meta) {
-    dataTypes = dataDisplay.meta.dataTypes;
+  if (tableData.meta) {
+    dataTypes = tableData.meta.dataTypes;
   } else {
     const tempDataTypes = {};
     allColumns?.forEach(column => {
@@ -171,7 +173,7 @@ if (selectedDetailView === ''){
   const [additionalColumns, setAdditionalColumns] = useState([]);
   const table = useReactTable({
     columns: allColumns,
-    data: dataDisplay.data,
+    data: tableData.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
@@ -194,7 +196,7 @@ if (selectedDetailView === ''){
 
   useEffect(() => {
     if (resetFilters) {
-      setTableColumnSortData(dataDisplay.data);
+      setTableColumnSortData(tableData.data);
     }
   }, [resetFilters, table]);
 
@@ -250,7 +252,7 @@ if (selectedDetailView === ''){
     if (defaultSelectedColumns && !pivotSelected) {
       constructDefaultColumnsFromTableData();
     }
-  }, [dataDisplay]);
+  }, [tableData]);
 
   const selectColumnsRef = useRef(null);
 

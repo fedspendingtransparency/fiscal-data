@@ -2,14 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-
 import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
 import DtgTableRow from './dtg-table-row/dtg-table-row';
 import { loadingTimeout, netLoadingDelay, setColumns } from './dtg-table-helper';
 import PaginationControls, { defaultPerPageOptions } from '../pagination/pagination-controls';
 import { pagedDatatableRequest, formatDateForApi, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
-
 import {
   overlayContainer,
   overlay,
@@ -48,8 +46,8 @@ export default function DtgTable({
   reactTable,
   rawDataTable,
   allowColumnWrap,
-  onShowBackButton,
-  handleDetailViewTransition,
+  setDetailViewState,
+  detailViewState,
 }) {
   const {
     dePaginated,
@@ -397,8 +395,8 @@ export default function DtgTable({
           <ErrorBoundary FallbackComponent={() => <></>}>
             <DataTable
               rawData={reactTableData}
-              onShowBackButton={onShowBackButton}
-              handleDetailViewTransition={handleDetailViewTransition}
+              detailViewState={detailViewState}
+              setDetailViewState={setDetailViewState}
               nonRawDataColumns={!rawDataTable ? columnConfig : null}
               detailColumnConfig={detailColumnConfig}
               detailViewAPI={detailViewAPIConfig}

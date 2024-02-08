@@ -52,8 +52,6 @@ const TableSectionContainer = ({
   hasPublishedReports,
   publishedReports,
   resetFilters,
-  isDetailView,
-  setDetailView,
   setResetFilters,
 }) => {
   const tableName = selectedTable.tableName;
@@ -69,34 +67,7 @@ const TableSectionContainer = ({
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const [filtersActive, setFiltersActive] = useState(false);
-  const [showBackButton, setShowBackButton] = useState(false);
-  const [previousState, setPreviousState] = useState(null);
   const [detailViewState, setDetailViewState] = useState(null);
-  const [currentData, setCurrentData] = useState(apiData);
-
-  const handleShowBackButton = (value) => {
-    setShowBackButton(value);
-  }
-
-  const handleDetailViewTransition = (detailId) => {
-    setPreviousState({
-      data: currentData
-    })
-
-    setDetailViewState({
-      detailId: detailId,
-    })
-
-    setShowBackButton(true);
-  }
-  const handleBackClick = () => {
-    if(previousState) {
-      setCurrentData(previousState.data);
-
-      setPreviousState(null);
-    }
-    setShowBackButton(false);
-  }
 
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
@@ -258,13 +229,12 @@ const TableSectionContainer = ({
     <div data-test-id="table-container">
       <div className={titleContainer}>
         <div className={headerWrapper}>
-          {showBackButton && (
-          <button className={detailViewButton} onClick={handleBackClick}>
-          <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
-          <span className={detailViewBack}>Back</span>
-          </button>
+          {!!detailViewState && (
+            <button className={detailViewButton} onClick={() => setDetailViewState(null)}>
+              <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
+              <span className={detailViewBack}>Back</span>
+            </button>
           )}
-
           <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
           <h3 className={header} data-testid="tableName" id="main-data-table-title">
             {tableName}
@@ -319,8 +289,8 @@ const TableSectionContainer = ({
               tableProps ? (
                 <DtgTable
                   selectColumnPanel={selectColumnPanel}
-                  onShowBackButton={handleShowBackButton}
-                  handleDetailViewTransition={handleDetailViewTransition}
+                  setDetailViewState={setDetailViewState}
+                  detailViewState={detailViewState}
                   pivotSelected={selectedPivot}
                   setSelectColumnPanel={setSelectColumnPanel}
                   tableProps={tableProps}
