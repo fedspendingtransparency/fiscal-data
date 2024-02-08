@@ -236,9 +236,15 @@ const TableSectionContainer = ({
             </button>
           )}
           <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
-          <h3 className={header} data-testid="tableName" id="main-data-table-title">
-            {tableName}
-          </h3>
+          {!!detailViewState ? (
+            <h3 className={header} data-testid="tableName" id="main-data-table-title">
+              {`${tableName} > ${detailViewState}`}
+            </h3>
+          ) : (
+            <h3 className={header} data-testid="tableName" id="main-data-table-title">
+              {tableName}
+            </h3>
+          )}
           {!!hasPivotOptions && <PivotToggle clickHandler={pivotToggler} open={showPivotBar} />}
           <Experimental featureId="chartingConfigurationTool">
             <DynamicConfig
