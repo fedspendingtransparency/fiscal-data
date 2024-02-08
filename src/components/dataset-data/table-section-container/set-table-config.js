@@ -76,7 +76,7 @@ export const setTableConfig = (config, selectedTable, selectedPivot, apiData) =>
   ) {
     fields = createPivotFields(apiData, selectedTable.dateField, selectedPivot);
   } else if (selectedTable?.apiId) {
-    fields = config.apis.find(api => api.apiId === selectedTable.apiId).fields;
+    fields = config.apis.find(api => api.apiId === selectedTable.apiId)?.fields;
   }
 
   let columnConfig;

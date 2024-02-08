@@ -511,4 +511,23 @@ describe('TableSectionContainer with Pivot Options', () => {
     // Expect legend to still be invisible after change to tablet
     expect(datasetChart.props.legend).toBeFalsy();
   });
+
+  // it('renders selected detail view key with the dataset header', () => {});
+  //
+  // it('renders the detail view back button when a detail table has been selected', () => {
+  //   const { queryByTestId } = render(
+  //     <RecoilRoot>
+  //       <TableSectionContainer
+  //         config={mockConfig}
+  //         dateRange={mockDateRange}
+  //         selectedTable={selectedTableLessFields}
+  //         apiData={{ data: [], meta: { labels: {} } }}
+  //         isLoading={true}
+  //         apiError={false}
+  //         setSelectedPivot={mockSetSelectedPivot}
+  //         selectedPivot={selectedPivot}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  // });
 });

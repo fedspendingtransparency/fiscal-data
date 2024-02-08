@@ -324,10 +324,45 @@ export const config = {
       ],
       valueFieldOptions: ['book_value_amt'],
     },
+    {
+      tableName: 'Table 11',
+      pathName: 'table-11',
+      earliestDate: '2017-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint11',
+      apiId: 300,
+      rowCount: 4000,
+      dateField: 'record_date',
+      dataDisplays: [
+        { chartType: 'none', dimensionField: null, title: 'Complete Table' },
+        { chartType: null, dimensionField: 'facility_desc', title: 'By Facility' },
+      ],
+      fields: [
+        {
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date',
+        },
+        {
+          columnName: 'book_value_amt',
+          dataType: 'NUMBER',
+          prettyName: 'Book Value Amount',
+        },
+        {
+          columnName: 'facility_desc',
+          dataType: 'DESK',
+          prettyName: "Facilities' Desk",
+        },
+      ],
+      valueFieldOptions: ['book_value_amt'],
+    },
   ],
   techSpecs: {
     earliestDate: '2002-01-01',
     latestDate,
+  },
+  detailView: {
+    apiId: 300,
   },
 };
 
