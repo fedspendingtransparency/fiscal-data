@@ -1,6 +1,13 @@
 import React from 'react';
 import { summaryValue, tableContainer, tableHeader, sectionHeader, detailContainer } from './summary-table.module.scss';
-const SummaryTable = ({ summaryValues, summaryTable, getSummaryTableHeaders }) => {
+const SummaryTable = ({ summaryValues, summaryTable, columnConfig }) => {
+  const getSummaryTableHeaders = () => {
+    const summary = {};
+    summaryTable.forEach(header => {
+      summary[header] = columnConfig.find(configVal => configVal.property === header)?.name;
+    });
+    return summary;
+  };
   return (
     <>
       {summaryValues && (

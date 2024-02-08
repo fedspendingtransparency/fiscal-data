@@ -227,26 +227,6 @@ const TableSectionContainer = ({
     );
   }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData, config?.customNoChartMessage]);
 
-  const summaryTable = [
-    'cusip',
-    'series',
-    'interest_rate',
-    'security_term',
-    'original_auction_date',
-    'maturity_date',
-    'ref_cpi_on_dated_date',
-    'additional_issue_date',
-  ];
-
-  const summaryTableHeaders = () => {
-    const summary = {};
-    summaryTable.forEach(header => {
-      const name = tableProps.columnConfig.find(configVal => configVal.property === header);
-      summary[header] = name?.name;
-    });
-    return summary;
-  };
-
   return (
     <div data-test-id="table-container">
       <div className={titleContainer}>
@@ -297,7 +277,9 @@ const TableSectionContainer = ({
             </div>
           </div>
         )}
-        <SummaryTable summaryTable={summaryTable} summaryValues={summaryValues} getSummaryTableHeaders={summaryTableHeaders} />
+        {!!detailViewState && (
+          <SummaryTable summaryTable={config?.detailView?.summaryTableFields} summaryValues={summaryValues} columnConfig={tableProps?.columnConfig} />
+        )}
         {(apiData || serverSidePagination || apiError) && (
           <ChartTableToggle
             legend={legend}

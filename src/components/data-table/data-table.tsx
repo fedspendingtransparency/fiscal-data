@@ -115,7 +115,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const handleClick = (e, columnValue) => {
     e.preventDefault();
     setSelectedDetailView(columnValue);
-    setSummaryValues(rawData.data.find(data => data.cusip === columnValue));
+    setSummaryValues(rawData.data.find(data => data[detailView?.columnId] === columnValue));
     if (setDetailViewState) {
       setDetailViewState(columnValue);
     }
