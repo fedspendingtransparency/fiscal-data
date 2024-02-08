@@ -49,6 +49,7 @@ export default function DtgTable({
   rawDataTable,
   allowColumnWrap,
   onShowBackButton,
+  handleDetailViewTransition,
 }) {
   const {
     dePaginated,
@@ -397,6 +398,7 @@ export default function DtgTable({
             <DataTable
               rawData={reactTableData}
               onShowBackButton={onShowBackButton}
+              handleDetailViewTransition={handleDetailViewTransition}
               nonRawDataColumns={!rawDataTable ? columnConfig : null}
               detailColumnConfig={detailColumnConfig}
               detailViewAPI={detailViewAPIConfig}

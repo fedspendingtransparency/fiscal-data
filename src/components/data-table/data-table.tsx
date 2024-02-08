@@ -54,12 +54,14 @@ type DataTableProps = {
   allowColumnWrap?: string[];
   aria;
   pivotSelected;
-  onShowBackButton;
+  onShowBackButton: () => void;
+  handleDetailViewTransition;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
   rawData,
   onShowBackButton,
+  handleDetailViewTransition,
   nonRawDataColumns,
   defaultSelectedColumns,
   setTableColumnSortData,
@@ -105,8 +107,13 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const handleClick = (e, columnValue) => {
     e.preventDefault();
     setSelectedDetailView(columnValue);
-    onShowBackButton();
+    handleDetailViewTransition(columnValue);
+
   };
+
+if (selectedDetailView === ''){
+  onShowBackButton(false);
+}
 
   const dataDisplay = detailViewData || rawData;
 

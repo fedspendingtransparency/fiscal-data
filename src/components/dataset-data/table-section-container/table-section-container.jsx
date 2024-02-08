@@ -70,8 +70,32 @@ const TableSectionContainer = ({
   const [perPage, setPerPage] = useState(null);
   const [filtersActive, setFiltersActive] = useState(false);
   const [showBackButton, setShowBackButton] = useState(false);
-  const handleShowBackButton = () => {
+  const [previousState, setPreviousState] = useState(null);
+  const [detailViewState, setDetailViewState] = useState(null);
+  const [currentData, setCurrentData] = useState(apiData);
+
+  const handleShowBackButton = (value) => {
+    setShowBackButton(value);
+  }
+
+  const handleDetailViewTransition = (detailId) => {
+    setPreviousState({
+      data: currentData
+    })
+
+    setDetailViewState({
+      detailId: detailId,
+    })
+
     setShowBackButton(true);
+  }
+  const handleBackClick = () => {
+    if(previousState) {
+      setCurrentData(previousState.data);
+
+      setPreviousState(null);
+    }
+    setShowBackButton(false);
   }
 
   const [tableMeta, setTableMeta] = useState(null);
@@ -235,7 +259,7 @@ const TableSectionContainer = ({
       <div className={titleContainer}>
         <div className={headerWrapper}>
           {showBackButton && (
-          <button className={detailViewButton} onClick={() => setShowBackButton(false)}>
+          <button className={detailViewButton} onClick={handleBackClick}>
           <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
           <span className={detailViewBack}>Back</span>
           </button>
@@ -296,6 +320,7 @@ const TableSectionContainer = ({
                 <DtgTable
                   selectColumnPanel={selectColumnPanel}
                   onShowBackButton={handleShowBackButton}
+                  handleDetailViewTransition={handleDetailViewTransition}
                   pivotSelected={selectedPivot}
                   setSelectColumnPanel={setSelectColumnPanel}
                   tableProps={tableProps}
