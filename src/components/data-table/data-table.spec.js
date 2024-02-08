@@ -1,4 +1,4 @@
-import { render, within } from '@testing-library/react';
+import { render, waitFor, within } from '@testing-library/react';
 import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import DataTable from './data-table';
@@ -16,10 +16,19 @@ import {
   defaultColLabels,
   additionalColLabels,
   mockColumnConfig,
+  mockDetailViewColumnConfig,
+  mockDetailApiData,
 } from './data-table-test-helper';
 
 describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
+
+  global.fetch = jest.fn(() => {
+    return Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(mockDetailApiData),
+    });
+  });
 
   it('table renders', () => {
     const instance = render(
@@ -468,5 +477,36 @@ describe('react-table', () => {
     expect(getAllByTestId('row')[0].innerHTML).toContain('0.111111111');
     expect(getAllByTestId('row')[0].innerHTML).toContain('0.222222222');
     expect(getAllByTestId('row')[0].innerHTML).toContain('-0.120');
+  });
+
+  it('renders detail view links', async () => {
+    const setDetailViewSpy = jest.fn();
+    const { getByRole, queryByRole } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={null}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          tableName="FRN Daily Indexes"
+          columnConfig={mockColumnConfig}
+          detailColumnConfig={mockDetailViewColumnConfig}
+          detailView={{ columnId: 'record_date' }}
+          detailViewAPI={{ endpoint: '/test/endpoint/', alwaysSortWith: ['-record_date'], dateField: 'record_date', hideColumns: [] }}
+          setDetailViewState={setDetailViewSpy}
+        />
+      </RecoilRoot>
+    );
+    const detailViewButton = getByRole('button', { name: '2023-07-12' });
+    expect(detailViewButton).toBeInTheDocument();
+    expect(getByRole('columnheader', { name: 'Fiscal Year' })).toBeInTheDocument();
+    detailViewButton.click();
+    await waitFor(() => {
+      expect(queryByRole('columnheader', { name: 'Fiscal Year' })).not.toBeInTheDocument();
+    });
+    expect(setDetailViewSpy).toHaveBeenCalledWith('2023-07-12');
   });
 });
