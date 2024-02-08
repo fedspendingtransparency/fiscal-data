@@ -18,9 +18,9 @@ const TreasurySavingsBondsHero = (): ReactElement => {
 
   const numberFormat = new Intl.NumberFormat('en-US');
 
-  const securitiesTreasuryDirect = (
-    <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government" eventNumber="4" id="Monthly Treasury Statement">
-      Securities Issued In Treasury Direct
+  const electronicSecurities = (
+    <CustomLink url="/datasets/electronic-securities-transactions/" id="Electronic Securities Transactions">
+      Electronic Securities Transactions
     </CustomLink>
   );
 
@@ -43,7 +43,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal year-to-date (Since October {priorFiscalYear}) total is updated monthly using the {securitiesTreasuryDirect} dataset.
+          Fiscal year-to-date (Since October {priorFiscalYear}) total is updated monthly using the {electronicSecurities} dataset.
         </p>
         <div className={footNotesPillData}>
           <p>
