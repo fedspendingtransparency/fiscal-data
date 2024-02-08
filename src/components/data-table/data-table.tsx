@@ -96,7 +96,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       if (!!selectedDetailView) {
-        const res = await basicFetch(`${apiPrefix}${detailViewEndpoint}?filter=${detailView.columnId}:eq:${selectedDetailView}`);
+        const res = await basicFetch(`${apiPrefix}${detailViewEndpoint}?filter=${detailView.columnId}:eq:${selectedDetailView}&sort=-index_date`);
         setTableData({ data: res.data, meta: res.meta });
         setConfigOption(detailColumnConfig);
       } else {

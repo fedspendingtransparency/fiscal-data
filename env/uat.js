@@ -68,7 +68,7 @@ module.exports = {
       downloadName: 'TIPSandCPIdata_Details',
       dateField: 'index_date',
       alwaysSortWith: ['-index_date'],
-      hideColumns: ['cusip'],
+      hideColumns: ['cusip', 'original_issue_date'],
     },
     '301': {
       endpoint: 'v1/accounting/od/tips_cpi_data_summary',
