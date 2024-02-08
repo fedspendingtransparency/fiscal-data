@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTable, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import DtgTable from '../../dtg-table/dtg-table';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
@@ -25,6 +25,9 @@ import {
   loadingIcon,
   loadingSection,
   tableContainer,
+  detailViewButton,
+  detailViewBack,
+  detailViewIcon,
 } from './table-section-container.module.scss';
 
 const TableSectionContainer = ({
@@ -49,6 +52,8 @@ const TableSectionContainer = ({
   hasPublishedReports,
   publishedReports,
   resetFilters,
+  isDetailView,
+  setDetailView,
   setResetFilters,
 }) => {
   const tableName = selectedTable.tableName;
@@ -225,6 +230,13 @@ const TableSectionContainer = ({
     <div data-test-id="table-container">
       <div className={titleContainer}>
         <div className={headerWrapper}>
+          {isDetailView && (
+          <button className={detailViewButton} onClick={resetFilters}>
+          <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeft} data-testid="arrow-icon" size="1x" />
+          <span className={detailViewBack}>Back</span>
+          </button>
+          )}
+
           <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
           <h3 className={header} data-testid="tableName" id="main-data-table-title">
             {tableName}

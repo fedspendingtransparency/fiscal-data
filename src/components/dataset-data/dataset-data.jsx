@@ -46,6 +46,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const [tableCaches] = useState({});
   const [resetFilters, setResetFilters] = useState(false);
+
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;
@@ -228,6 +229,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
           <TableSectionContainer
             config={config}
             dateRange={dateRange}
+            isDetailView={true}
             selectedTable={selectedTable}
             userFilterSelection={userFilterSelection}
             apiData={apiData}
