@@ -91,8 +91,7 @@
     },
     "topics": ["debt", "financial-summaries", "interest-exchange-rates", "savings-bonds"],
     "relatedDatasets": ["015-BFS-2014Q3-056", "015-BFS-2014Q1-03", "015-BFS-2014Q3-065"],
-    "currentDateButton": "byMonth",
-    "customNoChartMessage": true
+    "currentDateButton": "byMonth"
   },
   "015-BFS-2014Q1-13": {
     "slug": "/monthly-treasury-statement/",
@@ -125,8 +124,7 @@
     },
     "topics": ["debt", "financial-summaries"],
     "relatedDatasets": ["015-BFS-2014Q1-03", "015-BFS-2014Q3-065", "015-BFS-2014Q1-11", "015-BFS-2014Q1-13"],
-    "currentDateButton": "byMonth",
-    "displayRealChartValues": true
+    "currentDateButton": "byMonth"
   },
   "015-BFS-2014Q1-04": {
     "slug": "/treasury-reporting-rates-exchange/",
@@ -235,13 +233,13 @@
   },
   "015-BFS-2014Q3-080": {
     "seoConfig": {
-      "pageTitle": "Securities Issued in TreasuryDirect",
+      "pageTitle": "Electronic Securities Transactions",
       "description": "Data on monthly sales, incoming transfers, redemptions, amount outstanding, and number of accounts in TreasuryDirect.",
       "keywords": "Debt, Savings Bonds"
     },
     "topics": ["debt", "savings-bonds"],
     "relatedDatasets": ["015-BFS-2014Q1-11", "015-BFS-2014Q3-056", "015-BFS-2014Q1-14", "015-BFS-2014Q3-xx", "015-BFS-2014Q3-096"],
-    "slug": "/securities-issued-in-treasurydirect/",
+    "slug": "/electronic-securities-transactions/",
     "currentDateButton": "byMonth",
     "bannerCallout": {
       "banner": "TreasuryDirectDelay"

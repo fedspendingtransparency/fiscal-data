@@ -5,6 +5,7 @@ export const TestData = [
     middle: 'McRae',
     last: 'Francis',
     birthplace: 'Ft. Collins, CO',
+    wallet: '35',
   },
   {
     first: 'Corinne',

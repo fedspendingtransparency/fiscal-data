@@ -58,8 +58,10 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
     if (!!selected?.from) {
       if (!!selected?.to) {
         setInputDisplay([format(selected?.from, dateFormat), format(selected?.to, dateFormat)]);
+        setHighlight(null);
       } else if (format(selected.from, dateFormat) !== inputDisplay[0]) {
         setInputDisplay([format(selected?.from, dateFormat), datePlaceholder]);
+        setHighlight('to');
       }
     } else if (!selected) {
       ref.current.value = dateRangePlaceholder;

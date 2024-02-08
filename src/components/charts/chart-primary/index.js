@@ -36,7 +36,6 @@ let w,
   previousExtent,
   toolTipDateKey,
   svgDefs,
-  displayRawValues,
   roundingDenomination;
 
 const baseYAxisWidth = 66;
@@ -264,7 +263,7 @@ const onUpdateChartWidth = (ref, _fields, _visibleFields) => {
   el = ref;
   setContainer();
   scales = setScales(_fields);
-  y = setAxes(container, scales, chartDimensions, dataType);
+  y = setAxes(container, scales, chartDimensions, dataType, roundingDenomination, roundingDenomination ? true : false);
   draw(container, scales, fields, _visibleFields);
   setTooltips();
 };
@@ -305,13 +304,12 @@ const setTooltips = (fieldsToShow, currentScales) => {
       labels,
       dataType,
       toolTipDateKey,
-      displayRawValues,
       roundingDenomination,
     });
   }
 };
 
-const initChart = (_data, _el, _dateField, _fields, _labels, _displayRawValues, _roundingDenomination, _options = {}) => {
+const initChart = (_data, _el, _dateField, _fields, _labels, _roundingDenomination, _options = {}) => {
   data = _data;
   el = _el;
   dateField = _dateField;
@@ -320,17 +318,17 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _displayRawValues, 
   dataType = options.format === true ? 'CURRENCY' : options.format;
   labels = _labels;
   markers = [_data[0]];
-  displayRawValues = _displayRawValues;
   roundingDenomination = _roundingDenomination;
   toolTipDateKey = options.toolTipDateKey;
   chartDimensions.height = options.forceHeight || chartDimensions.height;
-  chartDimensions.yAxisWidth = displayRawValues ? 130 : options.forceYAxisWidth || baseYAxisWidth;
+  chartDimensions.yAxisWidth = roundingDenomination ? 130 : options.forceYAxisWidth || baseYAxisWidth;
 
   setContainer();
 
   if (data) {
     scales = setScales(fields);
-    y = setAxes(container, scales, chartDimensions, dataType, displayRawValues, options);
+    const isRoundedAxis = !!roundingDenomination;
+    y = setAxes(container, scales, chartDimensions, dataType, isRoundedAxis, options);
 
     draw(container, scales, fields);
   }

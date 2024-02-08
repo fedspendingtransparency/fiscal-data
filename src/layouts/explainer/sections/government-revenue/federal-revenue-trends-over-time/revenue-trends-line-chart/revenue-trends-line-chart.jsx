@@ -202,6 +202,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             width={slice.width}
             height={slice.height}
             strokeWidth={0}
+            data-testid={'slice'}
             strokeOpacity={0.75}
             fillOpacity={0}
             onMouseEnter={() => setCurrentSlice(slice)}

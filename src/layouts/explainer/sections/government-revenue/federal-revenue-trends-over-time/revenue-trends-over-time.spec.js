@@ -1,9 +1,18 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import FederalRevenueTrendsOverTime from './federal-revenue-trends-over-time';
 import fetchMock from 'fetch-mock';
 
+class ResizeObserver {
+  observe() {}
+  unobserve() {}
+}
+
+jest.useFakeTimers();
 describe('revenue trends over time section', () => {
+  window.ResizeObserver = ResizeObserver;
+  window.dataLayer = window.dataLayer || [];
+  const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
   const mockCpiDataset = {
     '2011': '10',
     '2012': '5',
@@ -265,6 +274,32 @@ describe('revenue trends over time section', () => {
     const { getByTestId } = render(<FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await getByTestId('revenueTrendsLineChart')).toBeInTheDocument();
+  });
+
+  it('chart fires ga4 event on mouse over', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByTestId } = render(<FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />);
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
+    expect(await getByTestId('revenueTrendsLineChart')).toBeInTheDocument();
+    fireEvent.mouseOver(getByTestId('chartParentTrends'));
+    jest.runAllTimers();
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'chart-hover-federal-rev-trends',
+    });
+    fireEvent.mouseLeave(getByTestId('chartParentTrends'));
+  });
+
+  it('custom slices mouse interactions', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getAllByTestId } = render(<FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />);
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
+    const slices = await getAllByTestId('slice');
+    expect(slices).toBeDefined();
+    fireEvent.mouseEnter(slices[0]);
+    fireEvent.mouseMove(slices[0]);
+    fireEvent.mouseLeave(slices[0]);
+    slices[0].focus();
+    fireEvent.focusOut(slices[0]);
   });
 
   it('renders data for section', async () => {
