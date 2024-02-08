@@ -29,6 +29,7 @@ import {
   detailViewBack,
   detailViewIcon,
 } from './table-section-container.module.scss';
+import SummaryTable from './summary-table/summary-table';
 
 const TableSectionContainer = ({
   config,
@@ -68,6 +69,7 @@ const TableSectionContainer = ({
   const [perPage, setPerPage] = useState(null);
   const [filtersActive, setFiltersActive] = useState(false);
   const [detailViewState, setDetailViewState] = useState(null);
+  const [summaryValues, setSummaryValues] = useState();
 
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
@@ -126,7 +128,7 @@ const TableSectionContainer = ({
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
     const { columnConfig: detailColumnConfig } = setTableConfig(config, config.detailView, selectedPivot, apiData);
-
+    console.log(detailColumnConfig, config);
     let displayData = apiData ? apiData.data : null;
     if (userFilterSelection?.value && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
@@ -225,6 +227,26 @@ const TableSectionContainer = ({
     );
   }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData, config?.customNoChartMessage]);
 
+  const summaryTable = [
+    'cusip',
+    'series',
+    'interest_rate',
+    'security_term',
+    'original_auction_date',
+    'maturity_date',
+    'ref_cpi_on_dated_date',
+    'additional_issue_date',
+  ];
+
+  const summaryTableHeaders = () => {
+    const summary = {};
+    summaryTable.forEach(header => {
+      const name = tableProps.columnConfig.find(configVal => configVal.property === header);
+      summary[header] = name?.name;
+    });
+    return summary;
+  };
+
   return (
     <div data-test-id="table-container">
       <div className={titleContainer}>
@@ -275,6 +297,7 @@ const TableSectionContainer = ({
             </div>
           </div>
         )}
+        <SummaryTable summaryTable={summaryTable} summaryValues={summaryValues} getSummaryTableHeaders={summaryTableHeaders} />
         {(apiData || serverSidePagination || apiError) && (
           <ChartTableToggle
             legend={legend}
@@ -297,6 +320,8 @@ const TableSectionContainer = ({
                   selectColumnPanel={selectColumnPanel}
                   setDetailViewState={setDetailViewState}
                   detailViewState={detailViewState}
+                  summaryValues={summaryValues}
+                  setSummaryValues={setSummaryValues}
                   pivotSelected={selectedPivot}
                   setSelectColumnPanel={setSelectColumnPanel}
                   tableProps={tableProps}

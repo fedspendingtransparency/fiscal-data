@@ -56,6 +56,8 @@ type DataTableProps = {
   allowColumnWrap?: string[];
   aria;
   pivotSelected;
+  summaryValues?;
+  setSummaryValues?;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -87,6 +89,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   allowColumnWrap,
   aria,
   pivotSelected,
+  summaryValues,
+  setSummaryValues,
 }) => {
   const detailViewEndpoint: string = detailViewAPI ? detailViewAPI.endpoint : null;
   const [selectedDetailView, setSelectedDetailView] = useState('');
@@ -111,6 +115,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const handleClick = (e, columnValue) => {
     e.preventDefault();
     setSelectedDetailView(columnValue);
+    setSummaryValues(rawData.data.find(data => data.cusip === columnValue));
     if (setDetailViewState) {
       setDetailViewState(columnValue);
     }
