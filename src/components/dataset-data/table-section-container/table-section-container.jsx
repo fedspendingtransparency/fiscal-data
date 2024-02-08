@@ -229,8 +229,8 @@ const TableSectionContainer = ({
     <div data-test-id="table-container">
       <div className={titleContainer}>
         <div className={headerWrapper}>
-          {!!detailViewState && (
-            <button className={detailViewButton} onClick={() => setDetailViewState(null)}>
+          {!!detailViewState && selectedTab === 0 && (
+            <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailView">
               <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
               <span className={detailViewBack}>Back</span>
             </button>
