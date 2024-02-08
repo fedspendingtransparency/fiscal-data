@@ -128,7 +128,6 @@ const TableSectionContainer = ({
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
     const { columnConfig: detailColumnConfig } = setTableConfig(config, config.detailView, selectedPivot, apiData);
-    console.log(detailColumnConfig, config);
     let displayData = apiData ? apiData.data : null;
     if (userFilterSelection?.value && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
@@ -302,7 +301,6 @@ const TableSectionContainer = ({
                   selectColumnPanel={selectColumnPanel}
                   setDetailViewState={setDetailViewState}
                   detailViewState={detailViewState}
-                  summaryValues={summaryValues}
                   setSummaryValues={setSummaryValues}
                   pivotSelected={selectedPivot}
                   setSelectColumnPanel={setSelectColumnPanel}

@@ -481,6 +481,7 @@ describe('react-table', () => {
 
   it('renders detail view links', async () => {
     const setDetailViewSpy = jest.fn();
+    const setSummaryValuesSpy = jest.fn();
     const { getByRole, queryByRole } = render(
       <RecoilRoot>
         <DataTable
@@ -497,6 +498,7 @@ describe('react-table', () => {
           detailView={{ columnId: 'record_date' }}
           detailViewAPI={{ endpoint: '/test/endpoint/', alwaysSortWith: ['-record_date'], dateField: 'record_date', hideColumns: [] }}
           setDetailViewState={setDetailViewSpy}
+          setSummaryValues={setSummaryValuesSpy}
         />
       </RecoilRoot>
     );
@@ -508,5 +510,6 @@ describe('react-table', () => {
       expect(queryByRole('columnheader', { name: 'Fiscal Year' })).not.toBeInTheDocument();
     });
     expect(setDetailViewSpy).toHaveBeenCalledWith('2023-07-12');
+    expect(setSummaryValuesSpy).toHaveBeenCalledWith(mockTableData.data[0]);
   });
 });

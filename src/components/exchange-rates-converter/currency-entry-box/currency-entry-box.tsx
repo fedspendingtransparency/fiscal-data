@@ -112,7 +112,16 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
             />
           )}
         </div>
-        <div className={boxLabel}>{labelIcon('Country-Currency', tooltip, "foreign-currency-info-tip", tooltipDiplay, () => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr'), handleInfoTipClose)}</div>
+        <div className={boxLabel}>
+          {labelIcon(
+            'Country-Currency',
+            tooltip,
+            'foreign-currency-info-tip',
+            tooltipDiplay,
+            () => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr'),
+            handleInfoTipClose
+          )}
+        </div>
         {dropdown && options ? (
           <div className={comboCurrencySelection}>
             <ComboCurrencySelect

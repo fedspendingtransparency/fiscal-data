@@ -56,7 +56,6 @@ type DataTableProps = {
   allowColumnWrap?: string[];
   aria;
   pivotSelected;
-  summaryValues?;
   setSummaryValues?;
 };
 
@@ -89,7 +88,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   allowColumnWrap,
   aria,
   pivotSelected,
-  summaryValues,
   setSummaryValues,
 }) => {
   const detailViewEndpoint: string = detailViewAPI ? detailViewAPI.endpoint : null;
