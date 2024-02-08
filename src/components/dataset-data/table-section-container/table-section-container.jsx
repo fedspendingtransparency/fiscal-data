@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faTable, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTable, faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
 import DtgTable from '../../dtg-table/dtg-table';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
@@ -69,6 +69,10 @@ const TableSectionContainer = ({
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const [filtersActive, setFiltersActive] = useState(false);
+  const [showBackButton, setShowBackButton] = useState(false);
+  const handleShowBackButton = () => {
+    setShowBackButton(true);
+  }
 
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
@@ -230,9 +234,9 @@ const TableSectionContainer = ({
     <div data-test-id="table-container">
       <div className={titleContainer}>
         <div className={headerWrapper}>
-          {isDetailView && (
-          <button className={detailViewButton} onClick={resetFilters}>
-          <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeft} data-testid="arrow-icon" size="1x" />
+          {showBackButton && (
+          <button className={detailViewButton} onClick={() => setShowBackButton(false)}>
+          <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
           <span className={detailViewBack}>Back</span>
           </button>
           )}
@@ -291,6 +295,7 @@ const TableSectionContainer = ({
               tableProps ? (
                 <DtgTable
                   selectColumnPanel={selectColumnPanel}
+                  onShowBackButton={handleShowBackButton}
                   pivotSelected={selectedPivot}
                   setSelectColumnPanel={setSelectColumnPanel}
                   tableProps={tableProps}

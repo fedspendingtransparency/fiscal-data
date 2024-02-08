@@ -48,6 +48,7 @@ export default function DtgTable({
   reactTable,
   rawDataTable,
   allowColumnWrap,
+  onShowBackButton,
 }) {
   const {
     dePaginated,
@@ -395,6 +396,7 @@ export default function DtgTable({
           <ErrorBoundary FallbackComponent={() => <></>}>
             <DataTable
               rawData={reactTableData}
+              onShowBackButton={onShowBackButton}
               nonRawDataColumns={!rawDataTable ? columnConfig : null}
               detailColumnConfig={detailColumnConfig}
               detailViewAPI={detailViewAPIConfig}
