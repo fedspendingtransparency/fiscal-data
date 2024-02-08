@@ -86,13 +86,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       label: table.tableName,
     });
 
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'Pick Table Click',
-      eventLabel: table.tableName,
-    });
-  };
-
   const handleDateRangeChange = range => {
     if (range && isValidDateRange(range.from, range.to, config.techSpecs.earliestDate, config.techSpecs.latestDate)) {
       setDateRange(range);
