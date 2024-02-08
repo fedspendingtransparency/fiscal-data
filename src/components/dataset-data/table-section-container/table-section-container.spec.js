@@ -80,6 +80,9 @@ describe('TableSectionContainer while loading', () => {
   it('provides the loading section while the table is loading', () => {
     expect(queryTestId('loadingSection')).toBeNull();
   });
+  it('does not show detailView on initial render', () => {
+    expect(queryTestId('detailViewCloseButton')).not.toBeInTheDocument();
+  });
 });
 
 describe('TableSectionContainer with data', () => {
@@ -532,22 +535,21 @@ describe('TableSectionContainer with Pivot Options', () => {
     expect(datasetChart.props.legend).toBeFalsy();
   });
 
-  // it('renders selected detail view key with the dataset header', () => {});
-  //
-  // it('renders the detail view back button when a detail table has been selected', () => {
-  //   const { queryByTestId } = render(
-  //     <RecoilRoot>
-  //       <TableSectionContainer
-  //         config={mockConfig}
-  //         dateRange={mockDateRange}
-  //         selectedTable={selectedTableLessFields}
-  //         apiData={{ data: [], meta: { labels: {} } }}
-  //         isLoading={true}
-  //         apiError={false}
-  //         setSelectedPivot={mockSetSelectedPivot}
-  //         selectedPivot={selectedPivot}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  // });
+  it('renders selected detail view key with the dataset header', () => {
+    const { queryByTestId } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={selectedTableLessFields}
+          apiData={{ data: [], meta: { labels: {} } }}
+          isLoading={true}
+          apiError={false}
+          setSelectedPivot={mockSetSelectedPivot}
+          selectedPivot={selectedPivot}
+        />
+      </RecoilRoot>
+    );
+    expect(queryByTestId('tableName')).toBeInTheDocument();
+  });
 });

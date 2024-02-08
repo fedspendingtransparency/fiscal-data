@@ -29,7 +29,6 @@ import {
   detailViewBack,
   detailViewIcon,
 } from './table-section-container.module.scss';
-import { chart } from '../../../layouts/explainer/explainer-components/chart-container/chart-container.module.scss';
 
 const TableSectionContainer = ({
   config,
@@ -127,7 +126,7 @@ const TableSectionContainer = ({
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
-    const { columnConfig: detailColumnConfig } = setTableConfig(config, config.detailView, selectedPivot, apiData);
+    const { columnConfig: detailColumnConfig } = setTableConfig(config, config.apis[1], selectedPivot, apiData);
 
     let displayData = apiData ? apiData.data : null;
 
@@ -249,9 +248,9 @@ const TableSectionContainer = ({
       <div className={titleContainer}>
         <div className={headerWrapper}>
           {!!detailViewState && selectedTab === 0 && (
-            <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailView">
+            <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailViewCloseButton">
               <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
-              <span className={detailViewBack}>Back</span>
+              <span className={detailViewBack}data-testid="backButton">Back</span>
             </button>
           )}
           <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
