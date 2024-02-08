@@ -25,7 +25,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const title = width >= pxToNumber(breakpointSm) ? desktopTitle : tabletMobileTitle;
   // config.apis should always be available; but, fallback in case
   const apis = config ? config.apis : [null];
-  const filterAPI = apis.filter(api => api?.apiId !== config.detailView?.apiId);
+  const filteredApis = apis.filter(api => api?.apiId !== config.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
@@ -102,7 +102,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   useEffect(() => {
     if (configUpdated) {
       tableCaches[selectedTable.apiId] = new TableCache();
-      const tableFromUrl = parseTableSelectionFromUrl(location, filterAPI);
+      const tableFromUrl = parseTableSelectionFromUrl(location, apis);
       setSelectedTable(tableFromUrl);
       setConfigUpdated(false);
     }
@@ -112,11 +112,11 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   // called. If new dates are available, then we should be updating the page to reflect the
   // newest dates.
   useEffect(() => {
-    const idealSelectedTable = matchTableFromApiTables(selectedTable, filterAPI) || parseTableSelectionFromUrl(location, filterAPI);
+    const idealSelectedTable = matchTableFromApiTables(selectedTable, apis) || parseTableSelectionFromUrl(location, apis);
     if (idealSelectedTable && idealSelectedTable.tableName) {
       setSelectedTable(idealSelectedTable);
     }
-  }, [filterAPI]);
+  }, [apis]);
 
   // while published Reports metadata is loaded at page load, don't initialize
   // the published report component with data until the user first selects that tab,
@@ -195,7 +195,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             filteredDateRange={filteredDateRange}
           >
             <DataTableSelect
-              apis={filterAPI}
+              apis={filteredApis}
               selectedTable={selectedTable}
               setSelectedTable={handleSelectedTableChange}
               allTablesSelected={allTablesSelected}

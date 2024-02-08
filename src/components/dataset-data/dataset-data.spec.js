@@ -577,6 +577,4 @@ describe('DatasetData', () => {
     rangePresets = instance.findByType(RangePresets);
     expect(rangePresets.props.allTablesSelected).toBeFalsy();
   });
-
-  it('filters out detail view api from dropdown', () => {});
 });
