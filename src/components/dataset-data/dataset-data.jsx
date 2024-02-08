@@ -85,6 +85,12 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       action: 'Pick Table Click',
       label: table.tableName,
     });
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'Pick Table Click',
+      eventLabel: table.tableName,
+    });
   };
 
   const handleDateRangeChange = range => {
