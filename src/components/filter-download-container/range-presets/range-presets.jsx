@@ -173,7 +173,7 @@ const RangePresets = ({
   }, [presets]);
 
   useEffect(() => {
-    if (currentTable.userFilter && apiData?.data && initialLoad) {
+    if (selectedTable.userFilter && apiData?.data && initialLoad) {
       setInitialLoad(false);
       applyPreset(customPreset);
     }
@@ -205,7 +205,7 @@ const RangePresets = ({
       curPresets.push(customPreset);
       setPresets(curPresets);
     }
-  }, [currentTable, allTablesSelected, finalDatesNotFound, selectedTable]);
+  }, [allTablesSelected, finalDatesNotFound, selectedTable, detailTable]);
   const label =
     currentTable && currentTable.fields ? ` (${currentTable.fields.find(field => field.columnName === currentTable.dateField).prettyName})` : null;
   return (
