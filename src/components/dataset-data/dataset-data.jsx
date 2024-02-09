@@ -24,10 +24,8 @@ export const tabletMobileTitle = 'Preview';
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
   const title = width >= pxToNumber(breakpointSm) ? desktopTitle : tabletMobileTitle;
   // config.apis should always be available; but, fallback in case
-  console.log('config', config);
   const apis = config ? config.apis : [null];
   const filteredApis = apis.filter(api => api?.apiId !== config.detailView?.apiId);
-  const detailApi = apis.find(api => api.apiId === config.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
@@ -147,7 +145,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   // When dateRange changes, fetch new data
   useEffect(() => {
-    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
+    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected && !detailViewState) {
       const cache = tableCaches[selectedTable.apiId];
       const cachedDisplay = cache.getCachedDataDisplay(dateRange, selectedPivot, selectedTable);
       if (cachedDisplay) {
@@ -224,8 +222,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 finalDatesNotFound={finalDatesNotFound}
                 setResetFilters={setResetFilters}
                 datatableBanner={config.datatableBanner}
-                detailTable={detailApi}
-                detailViewState={detailViewState}
               />
             )}
           </FilterAndDownload>
