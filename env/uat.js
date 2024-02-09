@@ -18,6 +18,18 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-056', '015-BFS-2014Q3-048', '015-BFS-2014Q3-049'],
       currentDateButton: 'byMonth',
     },
+    '015-BFS-2014Q3-051': {
+      slug: '/federal-investments-program-statement-of-account/',
+      seoConfig: {
+        pageTitle: 'Federal Investments Program',
+        description:
+          'Statement of Account provides monthly reports specifying the security holdings as of the end of each month and all transaction activity during that month for each individual investment account.',
+        keywords: 'Financial Summaries',
+      },
+      topics: ['financial-summaries'],
+      relatedDatasets: ['015-BFS-2014Q3-098'],
+      currentDateButton: 'byMonth',
+    },
   },
   ADDITIONAL_ENDPOINTS: {
     '160': {
@@ -149,6 +161,13 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'TB_WoolResearchExpected',
       alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
+    },
+    '302': {
+      endpoint: 'v1/accounting/od/fip_statement_of_account_table1',
+      dateField: 'record_date',
+      downloadName: 'FIP_SOA_CARS_Reporting',
+      alwaysSortWith: ['-record_date, -src_line_nbr'],
+      selectColumns: ['account_number_tas', 'account_name', 'date_range', 'line_item_nm', 'decrease', 'increase'],
     },
   },
 };
