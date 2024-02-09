@@ -1,4 +1,4 @@
-import { fireEvent, render, act } from '@testing-library/react';
+import { fireEvent, render, act, waitFor } from '@testing-library/react';
 import DateRangeFilter from './date-range-filter';
 import React, { useEffect } from 'react';
 import { RecoilRoot, useRecoilValue } from 'recoil';
@@ -249,16 +249,18 @@ describe('date range filter', () => {
         />
       </RecoilRoot>
     );
-    const dateRangeButton = getByRole('button');
-    dateRangeButton.click();
     const dateRangeEntry = getByRole('textbox', { hidden: true });
     dateRangeEntry.focus();
+
+    //highlights in progress start date
     act(() => {
       userEvent.keyboard('1210');
     });
     const startDate = getByText('12/10/yyyy');
     expect(startDate).toBeInTheDocument();
     expect(startDate).toHaveClass('currentDate');
+
+    //moves highlight to end date when start date is complete
     act(() => {
       userEvent.keyboard('2024');
     });
@@ -268,6 +270,42 @@ describe('date range filter', () => {
     const endDate = getByText('mm/dd/yyyy');
     expect(endDate).toBeInTheDocument();
     expect(endDate).toHaveClass('currentDate');
+  });
+  it('clear highlights for incomplete date entry', async () => {
+    const { getByRole, getByText, queryByText } = render(
+      <RecoilRoot>
+        <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+    const dateRangeEntry = getByRole('textbox', { hidden: true });
+    dateRangeEntry.focus();
+
+    //highlights in progress start date
+    await act(() => {
+      userEvent.keyboard('12102024');
+    });
+
+    await act(() => {
+      userEvent.keyboard('1211');
+    });
+    const endDate = getByText('12/11/yyyy');
+    expect(endDate).toBeInTheDocument();
+    expect(endDate).toHaveClass('currentDate');
+
+    //close the calendar to clear highlighting
+    dateRangeButton.click();
+
+    await waitFor(() => expect(queryByText('12/11/yyyy')).not.toBeInTheDocument());
+    expect(endDate).not.toHaveClass('currentDate');
   });
 
   it('displays the keyboard date entry in the calendar', () => {
