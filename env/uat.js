@@ -166,14 +166,14 @@ module.exports = {
       endpoint: 'v1/accounting/od/fip_statement_of_account_table1',
       dateField: 'record_date',
       downloadName: 'FIP_SOA_CARS_Reporting',
-      alwaysSortWith: ['-record_date, -src_line_nbr'],
+      alwaysSortWith: ['-record_date, src_line_nbr'],
       selectColumns: ['account_number_tas', 'account_name', 'date_range', 'line_item_nm', 'decrease', 'increase'],
     },
     '303': {
       endpoint: 'v1/accounting/od/fip_statement_of_account_table2',
       dateField: 'record_date',
       downloadName: 'FIP_SOA_Account_Pos_Summary',
-      alwaysSortWith: ['-record_date, -src_line_nbr'],
+      alwaysSortWith: ['-record_date, src_line_nbr'],
       selectColumns: [
         'account_number_tas',
         'account_name',
@@ -189,7 +189,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/fip_statement_of_account_table3',
       dateField: 'record_date',
       downloadName: 'FIP_SOA_Transaction_Detail',
-      alwaysSortWith: ['-record_date, -src_line_nbr'],
+      alwaysSortWith: ['-record_date, src_line_nbr'],
       selectColumns: [
         'account_number_tas',
         'account_name',
