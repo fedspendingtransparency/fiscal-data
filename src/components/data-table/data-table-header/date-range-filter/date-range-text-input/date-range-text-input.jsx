@@ -6,7 +6,7 @@ import { inputDisplayContainer, inputTextDisplay, inputBox, currentDate } from '
 import { dateFormat, dateRangePlaceholder, datePlaceholder } from '../date-range-helper';
 
 const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDisplay, setInvalidDate, active, setMonth }) => {
-  const [highlight, setHighlight] = useState('from');
+  const [highlight, setHighlight] = useState(null);
 
   const [opts] = useState({
     mask: dateRangePlaceholder,
@@ -40,6 +40,11 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
         setInvalidDate(true);
       }
     } else {
+      if (fromInput !== datePlaceholder) {
+        setHighlight('from');
+      } else {
+        setHighlight(null);
+      }
       setSelected(undefined);
     }
     if (completeDate(toInput)) {
@@ -66,7 +71,6 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
     } else if (!selected) {
       ref.current.value = dateRangePlaceholder;
       setInputDisplay([datePlaceholder, datePlaceholder]);
-      setHighlight('from');
       setInvalidDate(false);
       setMonth();
     }
@@ -79,13 +83,25 @@ const DateRangeTextInput = ({ selected, setSelected, inputDisplay, setInputDispl
     }
   }, [inputDisplay]);
 
+  useEffect(() => {
+    if (!completeDate(inputDisplay[0])) {
+      if (active) {
+        setHighlight('from');
+      } else {
+        setHighlight(null);
+      }
+    } else if (!active && !completeDate(inputDisplay[1])) {
+      setHighlight(null);
+    }
+  }, [active]);
+
   return (
     <div className={inputDisplayContainer}>
       <input ref={ref} spellCheck={false} className={inputBox} aria-hidden={true} />
       <div className={inputTextDisplay}>
-        <span className={active && highlight === 'from' ? currentDate : undefined}>{inputDisplay[0]}</span>
+        <span className={highlight === 'from' ? currentDate : undefined}>{inputDisplay[0]}</span>
         {' - '}
-        <span className={active && highlight === 'to' ? currentDate : undefined}>{inputDisplay[1]}</span>
+        <span className={highlight === 'to' ? currentDate : undefined}>{inputDisplay[1]}</span>
       </div>
     </div>
   );
