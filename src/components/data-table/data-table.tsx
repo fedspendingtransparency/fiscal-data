@@ -24,7 +24,7 @@ import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
-import { basicFetch, apiPrefix, buildSortParams } from '../../utils/api-utils';
+import { basicFetch, apiPrefix, buildSortParams, MAX_PAGE_SIZE } from '../../utils/api-utils';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -97,7 +97,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     const fetchData = async () => {
       if (!!selectedDetailView) {
         const sortParam = buildSortParams(detailViewAPI);
-        const res = await basicFetch(`${apiPrefix}${detailViewEndpoint}?filter=${detailView.columnId}:eq:${selectedDetailView}&sort=${sortParam}`);
+        const res = await basicFetch(
+          `${apiPrefix}${detailViewEndpoint}?filter=${detailView.columnId}:eq:${selectedDetailView}&sort=${sortParam}&page[size]=${MAX_PAGE_SIZE}`
+        );
         setTableData({ data: res.data, meta: res.meta });
         setConfigOption(detailColumnConfig);
       } else {
