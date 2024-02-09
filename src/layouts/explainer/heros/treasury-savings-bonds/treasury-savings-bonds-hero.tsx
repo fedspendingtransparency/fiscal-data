@@ -43,7 +43,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal year-to-date (Since October {priorFiscalYear}) total is updated monthly using the {electronicSecurities} dataset.
+          Fiscal year-to-date (since October {priorFiscalYear}) total is updated monthly using the {electronicSecurities} dataset.
         </p>
         <div className={footNotesPillData}>
           <p>
