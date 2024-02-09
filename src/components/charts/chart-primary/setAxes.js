@@ -6,7 +6,8 @@ let container,
   scales,
   chartDimensions,
   dataType,
-  displayRawValues,
+  roundingDenomination,
+  isRoundedAxis,
   options = {};
 const y = {};
 
@@ -79,12 +80,12 @@ const setXAxis = () => {
   }
 };
 
-const setYAxis = displayRawValues => {
+const setYAxis = isRoundedAxis => {
   y.yAxis = axisLeft(scales.y)
     .ticks(options.yAxisTickNumber || 10)
     .tickSizeInner(0 - chartDimensions.width)
     .tickFormat(d => {
-      return formatForDataType(d, dataType, displayRawValues);
+      return formatForDataType(d, dataType, roundingDenomination, isRoundedAxis);
     })
     .tickSizeOuter(0);
 
@@ -132,11 +133,12 @@ const createShaders = noShaders => {
   }
 };
 
-const setAxes = (_container, _scales, _chartDimensions, _dataType, _displayRawValues, _options = {}) => {
+const setAxes = (_container, _scales, _chartDimensions, _dataType, _roundingDenomination, _isRoundedAxis, _options = {}) => {
   container = _container;
   scales = _scales;
   chartDimensions = _chartDimensions;
-  displayRawValues = _displayRawValues;
+  isRoundedAxis = _isRoundedAxis;
+  roundingDenomination = _roundingDenomination;
   dataType = _dataType;
   options = _options;
 
@@ -144,7 +146,7 @@ const setAxes = (_container, _scales, _chartDimensions, _dataType, _displayRawVa
     setXAxis();
   }
   if (!options.excludeYAxis) {
-    setYAxis(displayRawValues);
+    setYAxis(isRoundedAxis, roundingDenomination);
   }
 
   createShaders(options.noShaders);

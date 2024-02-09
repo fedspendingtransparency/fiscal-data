@@ -16,6 +16,7 @@ import {
   selectedPivotWithAggregation,
   mockTableWithUserFilterAvailable,
   mockApiDataUserFilterable,
+  selectedPivotWithRoundingDenomination,
 } from './testHelpers';
 import * as setNoChartMessageMod from './set-no-chart-message';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
@@ -78,6 +79,9 @@ describe('TableSectionContainer while loading', () => {
 
   it('provides the loading section while the table is loading', () => {
     expect(queryTestId('loadingSection')).toBeNull();
+  });
+  it('does not show detailView on initial render', () => {
+    expect(queryTestId('detailViewCloseButton')).not.toBeInTheDocument();
   });
 });
 
@@ -243,6 +247,25 @@ describe('TableSectionContainer with Pivot Options', () => {
     expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
     fireEvent.click(getByTestId('pivotToggle'));
     expect(getByTestId('pivotOptionsDrawer').className).not.toContain(active);
+  });
+
+  it('toggle pivot view with rounding denomination', () => {
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithPivot}
+          apiData={mockApiData}
+          pivotFields={pivotFields}
+          selectedPivot={selectedPivotWithRoundingDenomination}
+          isLoading={false}
+          apiError={false}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
+    );
+    fireEvent.click(getByTestId('pivotToggle'));
   });
 
   it('relays an endpoint value when it receives it in the serverSidePagination prop', async () => {
@@ -512,22 +535,21 @@ describe('TableSectionContainer with Pivot Options', () => {
     expect(datasetChart.props.legend).toBeFalsy();
   });
 
-  // it('renders selected detail view key with the dataset header', () => {});
-  //
-  // it('renders the detail view back button when a detail table has been selected', () => {
-  //   const { queryByTestId } = render(
-  //     <RecoilRoot>
-  //       <TableSectionContainer
-  //         config={mockConfig}
-  //         dateRange={mockDateRange}
-  //         selectedTable={selectedTableLessFields}
-  //         apiData={{ data: [], meta: { labels: {} } }}
-  //         isLoading={true}
-  //         apiError={false}
-  //         setSelectedPivot={mockSetSelectedPivot}
-  //         selectedPivot={selectedPivot}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  // });
+  it('renders selected detail view key with the dataset header', () => {
+    const { queryByTestId } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={selectedTableLessFields}
+          apiData={{ data: [], meta: { labels: {} } }}
+          isLoading={true}
+          apiError={false}
+          setSelectedPivot={mockSetSelectedPivot}
+          selectedPivot={selectedPivot}
+        />
+      </RecoilRoot>
+    );
+    expect(queryByTestId('tableName')).toBeInTheDocument();
+  });
 });

@@ -112,7 +112,6 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.customRangePreset = mappedDataset && mappedDataset.customRangePreset ? mappedDataset.customRangePreset : null;
       dataset.bannerCallout = mappedDataset && mappedDataset.bannerCallout ? mappedDataset.bannerCallout : null;
       dataset.datatableBanner = mappedDataset && mappedDataset.datatableBanner ? mappedDataset.datatableBanner : null;
-      dataset.displayRealChartValues = mappedDataset && mappedDataset.displayRealChartValues ? mappedDataset.displayRealChartValues : null;
       dataset.selectColumns = mappedDataset && mappedDataset.selectColumns ? mappedDataset.selectColumns : null;
 
       if (dataset.apis.length === 0) {
@@ -287,7 +286,7 @@ const extractPublishedReportsType = function(reports) {
  */
 const datasetPublishedReportsCustomSelectionTips = {
   '015-BFS-2014Q1-13':
-    'Monthly Treasury Statement reports dated before 1998 are grouped ' + 'by year. Once inside the desired year, scroll to the specific month.',
+    'Monthly Treasury Statement reports dated before 1998 are grouped by year. Once inside the desired year, scroll to the specific month.',
   '015-BFS-2014Q1-03':
     'Daily Treasury Statement reports dated before FY 1998 are grouped ' +
     'by fiscal year. Once inside the desired year, scroll to the specific month and day.',

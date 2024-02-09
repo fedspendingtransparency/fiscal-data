@@ -54,6 +54,8 @@ const TableSectionContainer = ({
   publishedReports,
   resetFilters,
   setResetFilters,
+  detailViewState,
+  setDetailViewState,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -68,12 +70,12 @@ const TableSectionContainer = ({
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const [filtersActive, setFiltersActive] = useState(false);
-  const [detailViewState, setDetailViewState] = useState(null);
   const [summaryValues, setSummaryValues] = useState();
 
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
+  const [chartData, setChartData] = useState(null);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -129,11 +131,28 @@ const TableSectionContainer = ({
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
     const { columnConfig: detailColumnConfig } = setTableConfig(config, config.detailView, selectedPivot, apiData);
     let displayData = apiData ? apiData.data : null;
+
     if (userFilterSelection?.value && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
       setUserFilteredData({ ...apiData, data: displayData });
     } else {
       setUserFilteredData(null);
+    }
+
+    // Format chart data to match table decimal formatting for currency types
+    if (selectedPivot.pivotValue && selectedPivot.pivotView.roundingDenomination && apiData?.data) {
+      const copy = JSON.parse(JSON.stringify(apiData.data));
+      displayData = copy.map(d => {
+        columnConfig.forEach(config => {
+          if (d[config.property] && !isNaN(d[config.property]) && config.type.includes('CURRENCY')) {
+            const decimalPlaces = parseInt(config.type.split('CURRENCY')[1]);
+            const absVal = Math.abs(d[config.property].toString());
+            d[config.property] = absVal.toFixed(decimalPlaces);
+          }
+        });
+        return d;
+      });
+      setChartData({ ...apiData, data: displayData });
     }
 
     setTableProps({
@@ -230,10 +249,12 @@ const TableSectionContainer = ({
     <div data-test-id="table-container">
       <div className={titleContainer}>
         <div className={headerWrapper}>
-          {!!detailViewState && (
-            <button className={detailViewButton} onClick={() => setDetailViewState(null)}>
+          {!!detailViewState && selectedTab === 0 && (
+            <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailViewCloseButton">
               <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
-              <span className={detailViewBack}>Back</span>
+              <span className={detailViewBack} data-testid="backButton">
+                Back
+              </span>
             </button>
           )}
           <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
@@ -329,11 +350,10 @@ const TableSectionContainer = ({
                 <DatasetChart
                   legend={legend}
                   dateRange={dateRange}
-                  data={userFilteredData ? userFilteredData : apiData}
+                  data={userFilteredData ? userFilteredData : chartData ? chartData : apiData}
                   slug={config.slug}
                   currentTable={selectedTable}
                   dateField={dateFieldForChart}
-                  displayRawValues={config.displayRealChartValues}
                   isVisible={selectedTab === 1}
                   selectedPivot={selectedPivot}
                 />

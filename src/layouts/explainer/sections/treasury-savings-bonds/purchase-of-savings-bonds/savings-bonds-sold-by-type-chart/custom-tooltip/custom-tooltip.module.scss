@@ -1,0 +1,36 @@
+@import 'src/variables.module';
+
+.toolTip {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  font-size: $font-size-14;
+  color: $font-body-copy;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: .125rem;
+  opacity: 0.95;
+  background: #FFF;
+  box-shadow: .125rem .125rem .125rem .125rem rgba(0, 0, 0, 0.25);
+
+  .tooltipLabel {
+    font-weight: $semi-bold-weight;
+    margin-bottom: 0.5rem;
+  }
+
+  .labelContainer {
+    display: flex;
+    padding-right: 0.5rem;
+  }
+
+  .valueContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .box {
+    height: 18px;
+    width: 18px;
+    margin-right: 0.5rem;
+  }
+}

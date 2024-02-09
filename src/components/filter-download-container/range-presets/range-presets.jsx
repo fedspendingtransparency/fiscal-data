@@ -121,6 +121,8 @@ const RangePresets = ({
         return;
       }
       if (datePreset === 'current' && presets[0].key === 'current') {
+        console.log(5);
+
         idealDefaultPreset = presets[0];
       }
       if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
@@ -133,7 +135,6 @@ const RangePresets = ({
             to: dateObj,
           },
         };
-
         const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
         updateDateRange(adjRange);
       }
@@ -196,7 +197,8 @@ const RangePresets = ({
       curPresets.push(customPreset);
       setPresets(curPresets);
     }
-  }, [selectedTable, allTablesSelected, finalDatesNotFound]);
+  }, [allTablesSelected, finalDatesNotFound, selectedTable, selectedTable]);
+
   const label =
     selectedTable && selectedTable.fields
       ? ` (${selectedTable.fields.find(field => field.columnName === selectedTable.dateField).prettyName})`
