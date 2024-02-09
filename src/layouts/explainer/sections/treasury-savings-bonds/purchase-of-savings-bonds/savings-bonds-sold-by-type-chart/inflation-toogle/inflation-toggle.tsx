@@ -5,9 +5,9 @@ import Switch from '@mui/material/Switch';
 import { treasurySavingsBondsExplainerSecondary } from '../../../treasury-savings-bonds.module.scss';
 
 const StyledSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />)(() => ({
-  width: 45,
-  height: 24,
-  padding: 0,
+  width: '45px !important',
+  height: '23px !important',
+  padding: '0 !important',
   '& .MuiSwitch-switchBase': {
     padding: 0,
     margin: 2,
