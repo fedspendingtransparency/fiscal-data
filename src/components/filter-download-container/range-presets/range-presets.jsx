@@ -22,13 +22,22 @@ const RangePresets = ({
   finalDatesNotFound,
   setResetFilters,
   datatableBanner,
+  detailTable,
+  detailViewState,
 }) => {
+  console.log(selectedTable, apiData, detailTable, detailViewState);
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
   const [pickerDateRange, setPickerDateRange] = useState(null);
   const [dateRange, setCurDateRange] = useState(null);
   const [presets, setPresets] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
+  const [currentTable, setCurrentTable] = useState(selectedTable);
+
+  useEffect(() => {
+    console.log(detailViewState);
+    setCurrentTable(detailViewState ? detailTable : selectedTable);
+  }, [detailViewState]);
 
   const basePreset = [{ label: 'All', key: 'all', years: null }];
   const possiblePresets = [
@@ -164,7 +173,7 @@ const RangePresets = ({
   }, [presets]);
 
   useEffect(() => {
-    if (selectedTable.userFilter && apiData?.data && initialLoad) {
+    if (currentTable.userFilter && apiData?.data && initialLoad) {
       setInitialLoad(false);
       applyPreset(customPreset);
     }
@@ -172,7 +181,7 @@ const RangePresets = ({
 
   useEffect(() => {
     if (!finalDatesNotFound) {
-      const availableRangeForSelection = allTablesSelected ? allTablesDateRange : prepAvailableDates(selectedTable);
+      const availableRangeForSelection = allTablesSelected ? allTablesDateRange : prepAvailableDates(currentTable);
       setAvailableDateRange(availableRangeForSelection);
       const curPresets = placeApplicableYearPresets(availableRangeForSelection);
 
@@ -196,11 +205,9 @@ const RangePresets = ({
       curPresets.push(customPreset);
       setPresets(curPresets);
     }
-  }, [selectedTable, allTablesSelected, finalDatesNotFound]);
+  }, [currentTable, allTablesSelected, finalDatesNotFound, selectedTable]);
   const label =
-    selectedTable && selectedTable.fields
-      ? ` (${selectedTable.fields.find(field => field.columnName === selectedTable.dateField).prettyName})`
-      : null;
+    currentTable && currentTable.fields ? ` (${currentTable.fields.find(field => field.columnName === currentTable.dateField).prettyName})` : null;
   return (
     <>
       <h3 className={header} data-test-id={'header'}>
@@ -264,8 +271,8 @@ const RangePresets = ({
       {activePresetKey === customPreset.key && (
         <DatePickers selectedDateRange={dateRange} availableDateRange={pickerDateRange} setSelectedDates={updateDateRange} />
       )}
-      {selectedTable.userFilter && (
-        <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} setResetFilters={setResetFilters} />
+      {currentTable.userFilter && (
+        <UserFilter selectedTable={currentTable} onUserFilter={onUserFilter} apiData={apiData} setResetFilters={setResetFilters} />
       )}
       {datatableBanner && <DatatableBanner bannerNotice={datatableBanner} />}
     </>

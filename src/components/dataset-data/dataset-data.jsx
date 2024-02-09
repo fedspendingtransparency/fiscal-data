@@ -24,8 +24,10 @@ export const tabletMobileTitle = 'Preview';
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
   const title = width >= pxToNumber(breakpointSm) ? desktopTitle : tabletMobileTitle;
   // config.apis should always be available; but, fallback in case
+  console.log('config', config);
   const apis = config ? config.apis : [null];
   const filteredApis = apis.filter(api => api?.apiId !== config.detailView?.apiId);
+  const detailApi = apis.find(api => api.apiId === config.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
@@ -46,6 +48,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const [tableCaches] = useState({});
   const [resetFilters, setResetFilters] = useState(false);
+  const [detailViewState, setDetailViewState] = useState(null);
 
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
@@ -221,6 +224,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 finalDatesNotFound={finalDatesNotFound}
                 setResetFilters={setResetFilters}
                 datatableBanner={config.datatableBanner}
+                detailTable={detailApi}
+                detailViewState={detailViewState}
               />
             )}
           </FilterAndDownload>
@@ -248,6 +253,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             publishedReports={publishedReports}
             resetFilters={resetFilters}
             setResetFilters={setResetFilters}
+            setDetailViewState={setDetailViewState}
+            detailViewState={detailViewState}
           />
         )}
       </div>

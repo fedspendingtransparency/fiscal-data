@@ -53,6 +53,8 @@ const TableSectionContainer = ({
   publishedReports,
   resetFilters,
   setResetFilters,
+  detailViewState,
+  setDetailViewState,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -67,7 +69,6 @@ const TableSectionContainer = ({
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const [filtersActive, setFiltersActive] = useState(false);
-  const [detailViewState, setDetailViewState] = useState(null);
 
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
