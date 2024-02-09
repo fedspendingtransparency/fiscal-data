@@ -126,8 +126,7 @@ const TableSectionContainer = ({
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
-    const { columnConfig: detailColumnConfig } = setTableConfig(config, config.apis[1], selectedPivot, apiData);
-
+    const { columnConfig: detailColumnConfig } = setTableConfig(config, config.detailView, selectedPivot, apiData);
     let displayData = apiData ? apiData.data : null;
 
     if (userFilterSelection?.value && apiData?.data) {
@@ -250,7 +249,9 @@ const TableSectionContainer = ({
           {!!detailViewState && selectedTab === 0 && (
             <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailViewCloseButton">
               <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
-              <span className={detailViewBack}data-testid="backButton">Back</span>
+              <span className={detailViewBack} data-testid="backButton">
+                Back
+              </span>
             </button>
           )}
           <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
