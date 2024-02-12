@@ -1,9 +1,10 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { Column, ColumnDef, Table } from '@tanstack/react-table';
 import React from 'react';
 import moment from 'moment';
 import { currencyFormatter, numberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
+import { updateTableButton } from './data-table.module.scss';
 
 const customFormat = (stringValue, decimalPlaces) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
@@ -169,4 +170,43 @@ export const getColumnFilter: (
 export const rightAlign = (type: string): boolean => {
   const types = ['DATE', 'CURRENCY', 'NUMBER', 'PERCENTAGE'];
   return types.includes(type) || type?.includes('CURRENCY');
+};
+
+export const modifiedColumnsDetailView = (columns: any[], handleClick, columnKey: string) => {
+  return columns.map(column => {
+    if (column.accessorKey.toLowerCase() === columnKey) {
+      return {
+        ...column,
+        cell: ({ getValue }) => {
+          const columnValue = getValue();
+          return (
+            <button onClick={e => handleClick(e, columnValue)} className={updateTableButton}>
+              {columnValue}
+            </button>
+          );
+        },
+      };
+    }
+    return column;
+  });
+};
+
+export const getSortedColumnsData = (
+  table: Table<Record<string, unknown>>,
+  setTableColumnSortData: (map: Record<string, string>) => void,
+  hideColumns: string[],
+  dataTypes
+): void => {
+  if (setTableColumnSortData) {
+    const columns = table.getVisibleFlatColumns();
+    const mapped = columns.map(column => ({
+      id: column.id,
+      sorted: column.getIsSorted(),
+      filterValue: column.getFilterValue(),
+      downloadFilter: dataTypes[column.id] !== 'DATE',
+      rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
+      allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
+    }));
+    setTableColumnSortData(mapped);
+  }
 };

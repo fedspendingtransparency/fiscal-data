@@ -140,14 +140,15 @@ describe('DatasetData', () => {
   });
 
   it(`contains a DataTableSelect component with defaulted props`, () => {
-    expect(instance.findByType(DataTableSelect).props.apis).toBe(config.apis);
+    // Detail view api is not displayed in dropdown
+    expect(instance.findByType(DataTableSelect).props.apis).toStrictEqual(config.apis.slice(0, -1));
   });
 
   it(`initializes the selected table to the first element in the apis array`, () => {
     expect(instance.findByType(FilterAndDownload).props.selectedTable.tableName).toBe(config.apis[0].tableName);
   });
 
-  it('calls rewriteUrl to append the table name but does not send a lastUrl' + '(in order to prevent triggering an analytics hit)', () => {
+  it('calls rewriteUrl to append the table name but does not send a lastUrl (in order to prevent triggering an analytics hit)', () => {
     expect(urlRewriteSpy).toHaveBeenNthCalledWith(1, config.apis[0], '/mock-dataset/', {
       pathname: '/datasets/mock-dataset/',
     });

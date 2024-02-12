@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTable, faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
 import DtgTable from '../../dtg-table/dtg-table';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
@@ -25,8 +25,10 @@ import {
   loadingIcon,
   loadingSection,
   tableContainer,
+  detailViewButton,
+  detailViewBack,
+  detailViewIcon,
 } from './table-section-container.module.scss';
-import { chart } from '../../../layouts/explainer/explainer-components/chart-container/chart-container.module.scss';
 
 const TableSectionContainer = ({
   config,
@@ -51,6 +53,8 @@ const TableSectionContainer = ({
   publishedReports,
   resetFilters,
   setResetFilters,
+  detailViewState,
+  setDetailViewState,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -123,7 +127,7 @@ const TableSectionContainer = ({
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
-
+    const { columnConfig: detailColumnConfig } = setTableConfig(config, config.detailView, selectedPivot, apiData);
     let displayData = apiData ? apiData.data : null;
 
     if (userFilterSelection?.value && apiData?.data) {
@@ -155,7 +159,9 @@ const TableSectionContainer = ({
       publishedReports,
       rawData: { ...apiData, data: displayData }.data ? { ...apiData, data: displayData } : apiData,
       data: displayData, //null for server-side pagination
+      config,
       columnConfig,
+      detailColumnConfig,
       width,
       noBorder: true,
       shouldPage: true,
@@ -166,7 +172,7 @@ const TableSectionContainer = ({
       dateRange,
       apiError: apiErrorState,
       selectColumns: selectedTable.selectColumns,
-      hideColumns: config.hideColumns,
+      hideColumns: selectedTable.hideColumns,
       excludeCols: ['CHART_DATE'],
       aria: { 'aria-labelledby': 'main-data-table-title' },
     });
@@ -241,10 +247,24 @@ const TableSectionContainer = ({
     <div data-test-id="table-container">
       <div className={titleContainer}>
         <div className={headerWrapper}>
+          {!!detailViewState && selectedTab === 0 && (
+            <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailViewCloseButton">
+              <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
+              <span className={detailViewBack} data-testid="backButton">
+                Back
+              </span>
+            </button>
+          )}
           <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
-          <h3 className={header} data-testid="tableName" id="main-data-table-title">
-            {tableName}
-          </h3>
+          {!!detailViewState ? (
+            <h3 className={header} data-testid="tableName" id="main-data-table-title">
+              {`${tableName} > ${detailViewState}`}
+            </h3>
+          ) : (
+            <h3 className={header} data-testid="tableName" id="main-data-table-title">
+              {tableName}
+            </h3>
+          )}
           {!!hasPivotOptions && <PivotToggle clickHandler={pivotToggler} open={showPivotBar} />}
           <Experimental featureId="chartingConfigurationTool">
             <DynamicConfig
@@ -295,6 +315,8 @@ const TableSectionContainer = ({
               tableProps ? (
                 <DtgTable
                   selectColumnPanel={selectColumnPanel}
+                  setDetailViewState={setDetailViewState}
+                  detailViewState={detailViewState}
                   pivotSelected={selectedPivot}
                   setSelectColumnPanel={setSelectColumnPanel}
                   tableProps={tableProps}

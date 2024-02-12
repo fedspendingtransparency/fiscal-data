@@ -21,9 +21,10 @@ import {
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
-import { columnsConstructorData, columnsConstructorGeneric } from './data-table-helper';
+import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
+import { basicFetch, apiPrefix, buildSortParams, MAX_PAGE_SIZE } from '../../utils/api-utils';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -47,6 +48,11 @@ type DataTableProps = {
   manualPagination: boolean;
   rowsShowing: { begin: number; end: number };
   columnConfig?;
+  detailColumnConfig?;
+  detailView?;
+  detailViewAPI?;
+  setDetailViewState?: (val: string) => void;
+  detailViewState?: string;
   allowColumnWrap?: string[];
   aria;
   pivotSelected;
@@ -73,13 +79,62 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   manualPagination,
   rowsShowing,
   columnConfig,
+  detailColumnConfig,
+  detailView,
+  detailViewAPI,
+  detailViewState,
+  setDetailViewState,
   allowColumnWrap,
   aria,
   pivotSelected,
 }) => {
-  const allColumns = nonRawDataColumns
-    ? columnsConstructorGeneric(nonRawDataColumns)
-    : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
+  const detailViewEndpoint: string = detailViewAPI ? detailViewAPI.endpoint : null;
+  const [selectedDetailView, setSelectedDetailView] = useState('');
+  const [configOption, setConfigOption] = useState(columnConfig);
+  const [tableData, setTableData] = useState(rawData);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!!selectedDetailView) {
+        const sortParam = buildSortParams(detailViewAPI);
+        const res = await basicFetch(
+          `${apiPrefix}${detailViewEndpoint}?filter=${detailView.columnId}:eq:${selectedDetailView}&sort=${sortParam}&page[size]=${MAX_PAGE_SIZE}`
+        );
+        setTableData({ data: res.data, meta: res.meta });
+        setConfigOption(detailColumnConfig);
+      } else {
+        setTableData(rawData);
+        setConfigOption(columnConfig);
+      }
+    };
+    fetchData();
+  }, [selectedDetailView]);
+
+  const handleClick = (e, columnValue) => {
+    e.preventDefault();
+    setSelectedDetailView(columnValue);
+    if (setDetailViewState) {
+      setDetailViewState(columnValue);
+    }
+  };
+
+  useEffect(() => {
+    if (!detailViewState) {
+      setSelectedDetailView(null);
+    }
+  }, [detailViewState]);
+
+  const allColumns = React.useMemo(() => {
+    const hideCols = selectedDetailView ? detailViewAPI.hideColumns : hideColumns;
+
+    let baseColumns = nonRawDataColumns
+      ? columnsConstructorGeneric(nonRawDataColumns)
+      : columnsConstructorData(tableData, hideCols, tableName, configOption);
+
+    baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.columnId);
+    return baseColumns;
+  }, [tableData, rawData, configOption]);
+
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -102,11 +157,11 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   let dataTypes;
 
-  if (rawData.meta) {
-    dataTypes = rawData.meta.dataTypes;
+  if (tableData.meta) {
+    dataTypes = tableData.meta.dataTypes;
   } else {
     const tempDataTypes = {};
-    allColumns.forEach(column => {
+    allColumns?.forEach(column => {
       tempDataTypes[column.property] = 'STRING';
     });
     dataTypes = tempDataTypes;
@@ -121,10 +176,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
-
   const table = useReactTable({
     columns: allColumns,
-    data: rawData.data,
+    data: tableData.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
@@ -145,20 +199,11 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
 
-  const getSortedColumnsData = table => {
-    if (setTableColumnSortData) {
-      const columns = table.getVisibleFlatColumns();
-      const mapped = columns.map(column => ({
-        id: column.id,
-        sorted: column.getIsSorted(),
-        filterValue: column.getFilterValue(),
-        downloadFilter: dataTypes[column.id] !== 'DATE',
-        rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
-        allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
-      }));
-      setTableColumnSortData(mapped);
+  useEffect(() => {
+    if (resetFilters) {
+      setTableColumnSortData(tableData.data);
     }
-  };
+  }, [resetFilters, table]);
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
@@ -191,11 +236,11 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   };
 
   useEffect(() => {
-    getSortedColumnsData(table);
+    getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
   }, [columnVisibility, table.getFilteredRowModel()]);
 
   useEffect(() => {
-    getSortedColumnsData(table);
+    getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
     setTableSorting(sorting);
   }, [sorting]);
 
@@ -211,11 +256,11 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   useEffect(() => {
     if (defaultSelectedColumns && !pivotSelected) {
       constructDefaultColumnsFromTableData();
-      setColumnVisibility(defaultSelectedColumns?.length > 0 ? defaultInvisibleColumns : {});
     }
-  }, [rawData]);
+  }, [tableData]);
 
   const selectColumnsRef = useRef(null);
+
   useEffect(() => {
     if (selectColumnPanel) {
       selectColumnsRef.current?.focus();

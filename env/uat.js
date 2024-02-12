@@ -17,6 +17,10 @@ module.exports = {
       topics: ['auctions', 'interest-exchange-rates'],
       relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-056', '015-BFS-2014Q3-048', '015-BFS-2014Q3-049'],
       currentDateButton: 'byMonth',
+      detailView: {
+        apiId: 300,
+        columnId: 'cusip',
+      },
     },
     '015-BFS-2014Q3-051': {
       slug: '/federal-investments-program-statement-of-account/',
@@ -70,6 +74,13 @@ module.exports = {
       ],
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
+    },
+    '300': {
+      endpoint: 'v1/accounting/od/tips_cpi_data_detail',
+      downloadName: 'TIPSandCPIdata_Details',
+      dateField: 'index_date',
+      alwaysSortWith: ['-index_date'],
+      hideColumns: ['cusip', 'original_issue_date'],
     },
     '301': {
       endpoint: 'v1/accounting/od/tips_cpi_data_summary',

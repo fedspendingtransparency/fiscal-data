@@ -23,7 +23,7 @@ import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
 import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
-import { render, fireEvent, getByTestId } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import NotShownMessage from './not-shown-message/not-shown-message';
 import { RecoilRoot } from 'recoil';
 
@@ -79,6 +79,9 @@ describe('TableSectionContainer while loading', () => {
 
   it('provides the loading section while the table is loading', () => {
     expect(queryTestId('loadingSection')).toBeNull();
+  });
+  it('does not show detailView on initial render', () => {
+    expect(queryTestId('detailViewCloseButton')).not.toBeInTheDocument();
   });
 });
 
@@ -530,5 +533,23 @@ describe('TableSectionContainer with Pivot Options', () => {
     datasetChart = tableSectionContainer.root.findByType(DatasetChart);
     // Expect legend to still be invisible after change to tablet
     expect(datasetChart.props.legend).toBeFalsy();
+  });
+
+  it('renders selected detail view key with the dataset header', () => {
+    const { queryByTestId } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={selectedTableLessFields}
+          apiData={{ data: [], meta: { labels: {} } }}
+          isLoading={true}
+          apiError={false}
+          setSelectedPivot={mockSetSelectedPivot}
+          selectedPivot={selectedPivot}
+        />
+      </RecoilRoot>
+    );
+    expect(queryByTestId('tableName')).toBeInTheDocument();
   });
 });

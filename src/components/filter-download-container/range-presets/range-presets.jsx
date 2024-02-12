@@ -133,7 +133,6 @@ const RangePresets = ({
             to: dateObj,
           },
         };
-
         const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
         updateDateRange(adjRange);
       }
@@ -196,7 +195,8 @@ const RangePresets = ({
       curPresets.push(customPreset);
       setPresets(curPresets);
     }
-  }, [selectedTable, allTablesSelected, finalDatesNotFound]);
+  }, [allTablesSelected, finalDatesNotFound, selectedTable, selectedTable]);
+
   const label =
     selectedTable && selectedTable.fields
       ? ` (${selectedTable.fields.find(field => field.columnName === selectedTable.dateField).prettyName})`

@@ -2138,6 +2138,16 @@ const endpointConfig = {
     dateField: 'record_date',
     downloadName: 'upcoming_auctions',
     alwaysSortWith: ['security_type', '-announcemt_date', '-auction_date', '-issue_date'],
+    hideColumns: [
+      'record_date',
+      'src_line_nbr',
+      'record_fiscal_year',
+      'record_fiscal_quarter',
+      'record_calendar_year',
+      'record_calendar_quarter',
+      'record_calendar_month',
+      'record_calendar_day',
+    ],
   },
   '263': {
     endpoint: 'v1/accounting/od/frn_daily_indexes',

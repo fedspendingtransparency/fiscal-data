@@ -25,7 +25,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const title = width >= pxToNumber(breakpointSm) ? desktopTitle : tabletMobileTitle;
   // config.apis should always be available; but, fallback in case
   const apis = config ? config.apis : [null];
-
+  const filteredApis = apis.filter(api => api?.apiId !== config.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
@@ -46,6 +46,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const [tableCaches] = useState({});
   const [resetFilters, setResetFilters] = useState(false);
+  const [detailViewState, setDetailViewState] = useState(null);
+
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;
@@ -143,7 +145,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   // When dateRange changes, fetch new data
   useEffect(() => {
-    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
+    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected && !detailViewState) {
       const cache = tableCaches[selectedTable.apiId];
       const cachedDisplay = cache.getCachedDataDisplay(dateRange, selectedPivot, selectedTable);
       if (cachedDisplay) {
@@ -194,7 +196,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             filteredDateRange={filteredDateRange}
           >
             <DataTableSelect
-              apis={apis}
+              apis={filteredApis}
               selectedTable={selectedTable}
               setSelectedTable={handleSelectedTableChange}
               allTablesSelected={allTablesSelected}
@@ -247,6 +249,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             publishedReports={publishedReports}
             resetFilters={resetFilters}
             setResetFilters={setResetFilters}
+            setDetailViewState={setDetailViewState}
+            detailViewState={detailViewState}
           />
         )}
       </div>

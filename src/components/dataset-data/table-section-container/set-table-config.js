@@ -65,20 +65,26 @@ const createPivotFields = (apiData, dateField, pivot) => {
 
 export const setTableConfig = (config, selectedTable, selectedPivot, apiData) => {
   let fields;
+
   if (
     apiData &&
     apiData.data &&
     apiData.data.length &&
     apiData.meta &&
-    selectedPivot && (selectedPivot.pivotValue || (selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn !== null))
+    selectedPivot &&
+    (selectedPivot.pivotValue || (selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn !== null))
   ) {
     fields = createPivotFields(apiData, selectedTable.dateField, selectedPivot);
-  } else {
-    fields = config.apis.find(api => api.apiId === selectedTable.apiId).fields;
+  } else if (selectedTable?.apiId) {
+    fields = config.apis.find(api => api.apiId === selectedTable.apiId)?.fields;
   }
 
-  const columnConfig = adjustColumnWidths(buildColumnConfig(fields));
-  const width = determineTableWidth(fields);
+  let columnConfig;
+  let width;
+  if (fields) {
+    columnConfig = adjustColumnWidths(buildColumnConfig(fields));
+    width = determineTableWidth(fields);
+  }
 
   return {
     width,

@@ -353,6 +353,10 @@ exports.createSchemaCustomization = ({ actions }) => {
       description: String,
       keywords: String
     }
+    type DetailView {
+      apiId: Int,
+      columnId: String,
+    }
     type Datasets implements Node {
       publishedReports: [PublishedReport!],
       dataFormats: [String!],
@@ -360,10 +364,11 @@ exports.createSchemaCustomization = ({ actions }) => {
       seoConfig: SEOConfig,
       customRangePreset: String,
       selectColumns: [String],
-      hideColumns: [String]
+      detailView: DetailView,
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
+      hideColumns: [String],
       selectColumns: [String!],
       userFilter: UserFilter,
       apiNotesAndLimitations: String
@@ -411,6 +416,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          detailView {
+            apiId
+            columnId
+          }
           datePreset
           customRangePreset
           bannerCallout {
@@ -419,8 +428,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             endDate
           }
           datatableBanner
-          selectColumns
-          hideColumns
           relatedTopics
           filterTopics
           publisher
@@ -471,6 +478,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
             dateField
             alwaysSortWith
+            hideColumns
             selectColumns
             userFilter {
               field

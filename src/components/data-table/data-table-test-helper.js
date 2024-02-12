@@ -1,3 +1,5 @@
+import { TestData } from '../dtg-table/test-data';
+
 export const mockMeta = {
   count: 2,
   labels: {
@@ -132,6 +134,21 @@ export const mockColumnConfig = [
   },
 ];
 
+export const mockDetailViewColumnConfig = [
+  {
+    property: 'record_date',
+    name: 'Record Date',
+  },
+  {
+    property: 'ref_cpi',
+    name: 'Reference CPI',
+  },
+  {
+    property: 'index_ratio',
+    name: 'Index Ratio',
+  },
+];
+
 export const mockTableData1Row = {
   record_date: '2023-07-12',
   debt_held_public_amt: '25633821130387.02',
@@ -257,6 +274,38 @@ export const mockTableData = {
     },
   ],
   meta: mockMeta,
+};
+
+const detailTestData = [
+  {
+    record_date: '2023-07-12',
+    ref_cpi: 0.5,
+    index_ratio: 2,
+  },
+  {
+    record_date: '2023-07-11',
+    ref_cpi: 0.5,
+    index_ratio: 2,
+  },
+  {
+    record_date: '2023-07-10',
+    ref_cpi: 0.5,
+    index_ratio: 2,
+  },
+];
+
+export const mockDetailApiData = {
+  data: detailTestData,
+  meta: {
+    labels: {
+      record_date: 'Record Date',
+      ref_cpi: 'Reference CPI',
+      index_ratio: 'Index Ratio',
+    },
+    dataTypes: {
+      first: 'string',
+    },
+  },
 };
 
 export const mockGenericTableData = {
