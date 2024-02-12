@@ -3,14 +3,7 @@ import { Link } from 'gatsby';
 import Experimental from '../../experimental/experimental';
 import MenuDropdown from '../menu-dropdown/menu-dropdown';
 import { menuSections } from '../site-header-helper';
-import {
-  pageLinks,
-  pageLinkButtonContainer,
-  pageLinkButtonContent,
-  pageLinkButton,
-  activeLink,
-  pageLinkButtonActive,
-} from './desktop-menu.module.scss';
+import { pageLinks, pageLinkButtonContainer, pageLinkButton, activeLink, pageLinkButtonActive } from './desktop-menu.module.scss';
 
 const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropdown, setActiveDropdown, buttonHeight }) => {
   return (

@@ -8,7 +8,6 @@ import { line } from 'd3-shape';
 import { interpolateNumber } from 'd3-interpolate';
 import setAxes from './setAxes';
 import initTooltip from './tooltip';
-import { fieldOption } from '../../dataset-data/table-section-container/dynamic-config/dynamicConfig.module.scss';
 
 const d3 = {
   select,

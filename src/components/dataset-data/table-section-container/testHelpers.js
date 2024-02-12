@@ -170,7 +170,7 @@ export const mockConfig = {
   name: 'my name',
   slug: 'mock/slug/here',
   apis: [selectedTableLessFields, selectedTableMoreFields, mockTableWithNoChartAvailable, mockTableWithPivot],
-  detailView: { apiId: 300 },
+  detailView: { apiId: 4, summaryTableFields: ['first', 'age', 'c'], columnId: 'first' },
 };
 
 export const pivotFields = [

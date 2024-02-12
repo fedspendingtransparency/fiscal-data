@@ -20,6 +20,16 @@ module.exports = {
       detailView: {
         apiId: 300,
         columnId: 'cusip',
+        summaryTableFields: [
+          'cusip',
+          'series',
+          'interest_rate',
+          'security_term',
+          'original_auction_date',
+          'maturity_date',
+          'ref_cpi_on_dated_date',
+          'additional_issue_date',
+        ],
       },
     },
     '015-BFS-2014Q3-051': {

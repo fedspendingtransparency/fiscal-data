@@ -356,6 +356,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     type DetailView {
       apiId: Int,
       columnId: String,
+      summaryTableFields: [String],
     }
     type Datasets implements Node {
       publishedReports: [PublishedReport!],
@@ -419,6 +420,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           detailView {
             apiId
             columnId
+            summaryTableFields
           }
           datePreset
           customRangePreset

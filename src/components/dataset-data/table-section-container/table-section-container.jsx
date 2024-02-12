@@ -29,6 +29,7 @@ import {
   detailViewBack,
   detailViewIcon,
 } from './table-section-container.module.scss';
+import SummaryTable from './summary-table/summary-table';
 
 const TableSectionContainer = ({
   config,
@@ -69,6 +70,7 @@ const TableSectionContainer = ({
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const [filtersActive, setFiltersActive] = useState(false);
+  const [summaryValues, setSummaryValues] = useState();
 
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
@@ -295,6 +297,9 @@ const TableSectionContainer = ({
             </div>
           </div>
         )}
+        {!!detailViewState && (
+          <SummaryTable summaryTable={config?.detailView?.summaryTableFields} summaryValues={summaryValues} columnConfig={tableProps?.columnConfig} />
+        )}
         {(apiData || serverSidePagination || apiError) && (
           <ChartTableToggle
             legend={legend}
@@ -317,6 +322,7 @@ const TableSectionContainer = ({
                   selectColumnPanel={selectColumnPanel}
                   setDetailViewState={setDetailViewState}
                   detailViewState={detailViewState}
+                  setSummaryValues={setSummaryValues}
                   pivotSelected={selectedPivot}
                   setSelectColumnPanel={setSelectColumnPanel}
                   tableProps={tableProps}

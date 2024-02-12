@@ -48,6 +48,7 @@ export default function DtgTable({
   allowColumnWrap,
   setDetailViewState,
   detailViewState,
+  setSummaryValues,
 }) {
   const {
     dePaginated,
@@ -423,6 +424,7 @@ export default function DtgTable({
               allowColumnWrap={allowColumnWrap}
               aria={tableProps.aria}
               pivotSelected={pivotSelected?.pivotValue}
+              setSummaryValues={setSummaryValues}
             />
           </ErrorBoundary>
         </div>

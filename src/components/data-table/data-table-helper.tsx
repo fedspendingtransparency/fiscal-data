@@ -1,4 +1,4 @@
-import { Column, ColumnDef, Table } from '@tanstack/react-table';
+import { ColumnDef, Table } from '@tanstack/react-table';
 import React from 'react';
 import moment from 'moment';
 import { currencyFormatter, numberFormatter } from '../../helpers/text-format/text-format';

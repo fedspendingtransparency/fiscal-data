@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { selector_container, selector_label } from '../../select-control/select-control.module.scss';
+import { selector_label } from '../../select-control/select-control.module.scss';
 import useOnClickOutside from 'use-onclickoutside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';

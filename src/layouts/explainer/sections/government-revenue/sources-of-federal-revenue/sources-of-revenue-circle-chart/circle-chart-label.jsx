@@ -87,19 +87,6 @@ const LabelComponent = ({ node, label, width, HandleClick, HandleMouseEnter, Han
   const lineSpaceOffset = width < pxToNumber(breakpointLg) ? 12.5 : 16.5;
   const yStartPoint = node.y - (lines.length / 2) * lineSpaceOffset + 9;
 
-  const flipPoint = width < pxToNumber(breakpointLg) ? 175 : 200;
-
-  const xOffsetMultiplier = 2.625;
-  const yOffsetMultiplier = () => {
-    //add additional offset for small bubbles
-    if (width < pxToNumber(breakpointLg)) {
-      return node.radius < 15 ? 1.25 : 0.9;
-    } else {
-      return node.radius < 20 ? 1.5 : 0.8;
-    }
-  };
-  const flipLabel = node.y > flipPoint ? -1 : 1;
-
   const handleInteraction = e => {
     // only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {

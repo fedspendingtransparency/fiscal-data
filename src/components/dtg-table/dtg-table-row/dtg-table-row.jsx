@@ -15,41 +15,47 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
+export const formatCellValue = (cellData, type, tableName, property) => {
+  let formattedData = cellData;
+
+  if (!cellData || cellData === 'null' || cellData === '*') {
+    formattedData = '';
+  } else if (type === 'CURRENCY') {
+    formattedData = currencyFormatter.format(cellData);
+  } else if (type && type.includes('CURRENCY') && /\d/.test(type.split('CURRENCY')[1])) {
+    const decimalPlaces = parseInt(type.split('CURRENCY')[1]);
+    formattedData = customFormat(cellData, decimalPlaces);
+  } else if (type === 'NUMBER') {
+    if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
+      formattedData = cellData;
+    } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {
+      formattedData = Number(cellData).toFixed(3);
+    } else {
+      formattedData = numberFormatter.format(cellData);
+    }
+  } else if (type === 'PERCENTAGE') {
+    formattedData = `${cellData}%`;
+  } else if (type === 'DATE') {
+    // .replace() resolves weird -1 day issue https://stackoverflow.com/a/31732581/564406
+    const date = new Date(cellData.replace(/-/g, '/'));
+    formattedData = dateFormatter.format(date);
+  } else if (type === 'SMALL_FRACTION') {
+    formattedData = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(cellData);
+  } else if (type === 'STRING' && formattedData.includes('%')) {
+    //replaces hyphens with a non-wrapping hyphen
+    formattedData = cellData.replace(/-/g, '\u2011');
+  }
+
+  return formattedData;
+};
+
 export default function DtgTableRow({ columns, data, tableName }) {
   const cells = [];
 
   columns.forEach((column, index) => {
     const { property, type } = column;
     const cellData = data[property];
-    let formattedData = cellData;
-
-    if (!cellData || cellData === 'null' || cellData === '*') {
-      formattedData = '';
-    } else if (type === 'CURRENCY') {
-      formattedData = currencyFormatter.format(cellData);
-    } else if (type && type.includes('CURRENCY') && /\d/.test(type.split('CURRENCY')[1])) {
-      const decimalPlaces = parseInt(type.split('CURRENCY')[1]);
-      formattedData = customFormat(cellData, decimalPlaces);
-    } else if (type === 'NUMBER') {
-      if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
-        formattedData = cellData;
-      } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {
-        formattedData = Number(cellData).toFixed(3);
-      } else {
-        formattedData = numberFormatter.format(cellData);
-      }
-    } else if (type === 'PERCENTAGE') {
-      formattedData = `${cellData}%`;
-    } else if (type === 'DATE') {
-      // .replace() resolves weird -1 day issue https://stackoverflow.com/a/31732581/564406
-      const date = new Date(cellData.replace(/-/g, '/'));
-      formattedData = dateFormatter.format(date);
-    } else if (type === 'SMALL_FRACTION') {
-      formattedData = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(cellData);
-    } else if (type === 'STRING' && formattedData.includes('%')) {
-      //replaces hyphens with a non-wrapping hyphen
-      formattedData = cellData.replace(/-/g, '\u2011');
-    }
+    const formattedData = formatCellValue(cellData, type, tableName, property);
 
     cells.push(
       <td key={index} className={dataTypes.includes(type) ? formattedCell : ''}>
