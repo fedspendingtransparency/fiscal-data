@@ -24,7 +24,6 @@
 
   [type='checkbox']:not(:checked) + span {
     background: white left top no-repeat !important;
-    border: 1px solid #ccc !important;
   }
 
   [type='checkbox']:focus-visible + span {
