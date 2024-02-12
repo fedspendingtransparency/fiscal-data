@@ -547,7 +547,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           apiError={false}
           setSelectedPivot={mockSetSelectedPivot}
           selectedPivot={selectedPivot}
-          detailViewState={'123'}
+          detailViewState="123"
         />
       </RecoilRoot>
     );

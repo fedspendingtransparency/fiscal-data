@@ -1,13 +1,15 @@
 import React from 'react';
 import { summaryValue, tableContainer, tableHeader, sectionHeader, detailContainer } from './summary-table.module.scss';
+import { formatCellValue } from '../../../dtg-table/dtg-table-row/dtg-table-row';
 const SummaryTable = ({ summaryValues, summaryTable, columnConfig }) => {
-  const getSummaryTableHeaders = () => {
-    const summary = {};
-    summaryTable.forEach(header => {
-      summary[header] = columnConfig.find(configVal => configVal.property === header)?.name;
-    });
-    return summary;
-  };
+  const summaryTypes = {};
+  const summaryHeaders = {};
+  summaryTable.forEach(header => {
+    const col = columnConfig.find(configVal => configVal.property === header);
+    summaryHeaders[header] = col?.name;
+    summaryTypes[header] = col?.type;
+  });
+
   return (
     <>
       {summaryValues && (
@@ -16,8 +18,8 @@ const SummaryTable = ({ summaryValues, summaryTable, columnConfig }) => {
           <div className={detailContainer}>
             {summaryTable.map(val => (
               <div key={val} className={summaryValue}>
-                <div className={sectionHeader}>{getSummaryTableHeaders()[val]}</div>
-                <div>{summaryValues[val]}</div>
+                <div className={sectionHeader}>{summaryHeaders[val]}</div>
+                <div>{formatCellValue(summaryValues[val], summaryTypes[val], null, null)}</div>
               </div>
             ))}
           </div>
