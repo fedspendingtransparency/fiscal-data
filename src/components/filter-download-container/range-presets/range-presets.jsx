@@ -195,7 +195,7 @@ const RangePresets = ({
       curPresets.push(customPreset);
       setPresets(curPresets);
     }
-  }, [allTablesSelected, finalDatesNotFound, selectedTable, selectedTable]);
+  }, [allTablesSelected, finalDatesNotFound, selectedTable]);
 
   const label =
     selectedTable && selectedTable.fields
