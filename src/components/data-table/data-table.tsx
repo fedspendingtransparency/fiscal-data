@@ -124,6 +124,12 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   }, [detailViewState]);
 
+  useEffect(() => {
+    if (rawData) {
+      setTableData(rawData);
+    }
+  }, [rawData]);
+
   const allColumns = React.useMemo(() => {
     const hideCols = selectedDetailView ? detailViewAPI.hideColumns : hideColumns;
 
