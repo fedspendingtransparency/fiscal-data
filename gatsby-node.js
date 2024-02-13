@@ -364,6 +364,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       filters: [String!],
       seoConfig: SEOConfig,
       customRangePreset: String,
+      customPublishedReportsFilter: String,
       selectColumns: [String],
       detailView: DetailView,
     }
@@ -417,6 +418,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          customPublishedReportsFilter
           detailView {
             apiId
             columnId

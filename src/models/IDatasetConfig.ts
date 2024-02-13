@@ -7,6 +7,7 @@ export interface IDatasetConfig {
   customNoChartMessage: boolean | null;
   datePreset: string | null;
   customRangePreset: string | null;
+  customPublishedReportsFilter: string | null;
   bannerCallout: Record<string, string> | null;
   datatableBanner: string | null;
   selectColumns: string[] | null;
