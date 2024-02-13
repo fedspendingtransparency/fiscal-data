@@ -9,6 +9,24 @@
   }
 }
 
+.dateTextEnd {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 10.5px;
+  margin-top: 10.5px;
+}
+
+.dateTextBegin {
+  margin-left: 10px;
+  margin-bottom: 10.5px;
+  margin-top: 10.5px;
+}
+
+.dateDivider {
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+}
+
 
 .dateEntryBox {
   border: 1px solid #d9d9d9;
