@@ -64,6 +64,20 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
     </div>
   );
 
+  const sortedByDate = (savingsBonds, data) => {
+    const sorted = [];
+    data.forEach(year => {
+      savingsBonds.forEach(bondType => {
+        if (!!year[bondType] && !sorted.includes(bondType)) {
+          sorted.push(bondType);
+        }
+      });
+    });
+    return sorted;
+  };
+
+  const sortedSavingsBonds = sortedByDate(savingsBonds, mockData);
+
   return (
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} header={header}>
@@ -80,7 +94,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = () => {
                   ticks={[0, 5000000000, 10000000000, 15000000000, 20000000000, 25000000000, 30000000000]}
                   tickCount={7}
                 />
-                {savingsBonds.map((id, index) => {
+                {sortedSavingsBonds.map((id, index) => {
                   return (
                     <Area
                       dataKey={id}
