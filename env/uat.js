@@ -43,7 +43,7 @@ module.exports = {
       topics: ['financial-summaries'],
       relatedDatasets: ['015-BFS-2014Q3-098'],
       currentDateButton: 'byMonth',
-      customPublishedReportsFilter: 'account_name',
+      customPublishedReportsFilter: 'account_number_tas',
     },
   },
   ADDITIONAL_ENDPOINTS: {
