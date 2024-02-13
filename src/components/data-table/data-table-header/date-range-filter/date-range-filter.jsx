@@ -179,7 +179,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             {filterDisplayEndDate}
           </div>
           {selected ? (
-            <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role={'button'} aria-label={'Clear dates'}>
+            <span onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
             </span>
           ) : (
