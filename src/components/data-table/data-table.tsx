@@ -130,6 +130,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   useEffect(() => {
     if (rawData) {
       setTableData(rawData);
+      setConfigOption(columnConfig);
     }
   }, [rawData]);
 
