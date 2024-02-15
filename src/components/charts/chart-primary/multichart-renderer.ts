@@ -68,7 +68,7 @@ export class MultichartRenderer {
         config.chartDimensions.height = config.options.forceHeight || this.chartDimensions.height;
         config.chartDimensions.yAxisWidth = config.options.forceYAxisWidth || baseYAxisWidth;
         config.scales = this.setScales(config, this.chartConfigs.length, index);
-        this.y = setAxes(this.container, config.scales, this.chartDimensions, 'RATE', config.options);
+        this.y = setAxes(this.container, config.scales, this.chartDimensions, 'RATE', null, false, config.options);
         this.draw(config);
       }
     });
