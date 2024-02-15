@@ -300,7 +300,12 @@ const TableSectionContainer = ({
           </div>
         )}
         {!!detailViewState && (
-          <SummaryTable summaryTable={config?.detailView?.summaryTableFields} summaryValues={summaryValues} columnConfig={tableProps?.columnConfig} />
+          <SummaryTable
+            summaryTable={config?.detailView?.summaryTableFields}
+            summaryValues={summaryValues}
+            columnConfig={tableProps?.columnConfig}
+            customFormatConfig={selectedTable?.customFormatting}
+          />
         )}
         {(apiData || serverSidePagination || apiError) && (
           <ChartTableToggle
