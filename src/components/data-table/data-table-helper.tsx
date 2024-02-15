@@ -122,9 +122,9 @@ export const columnsConstructorData = (
                     formattedValue = '';
                     dates.forEach((date, index) => {
                       if (index > 0) {
-                        formattedValue = formattedValue + ', ' + moment(date).format('M/DD/YYYY');
+                        formattedValue = formattedValue + ', ' + moment(date).format('M/D/YYYY');
                       } else {
-                        formattedValue = formattedValue + moment(date).format('M/DD/YYYY');
+                        formattedValue = formattedValue + moment(date).format('M/D/YYYY');
                       }
                     });
                   } else {

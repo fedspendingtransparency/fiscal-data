@@ -29,7 +29,6 @@ describe('DDNav', () => {
     const link = getByText('Introduction');
 
     fireEvent.mouseOver(link);
-    console.log(link.props);
     expect(link.className.includes('hover')).toBeTruthy();
 
     fireEvent.mouseOut(link);

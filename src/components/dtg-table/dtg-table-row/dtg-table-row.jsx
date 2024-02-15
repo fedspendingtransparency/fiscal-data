@@ -18,7 +18,6 @@ const customFormat = (stringValue, decimalPlaces) => {
 
 export const formatCellValue = (cellData, type, tableName, property, customFormatConfig) => {
   let formattedData = cellData;
-  console.log(customFormatConfig, property);
   if (!cellData || cellData === 'null' || cellData === '*') {
     formattedData = '';
   } else if (type === 'CURRENCY') {
@@ -56,9 +55,9 @@ export const formatCellValue = (cellData, type, tableName, property, customForma
       formattedData = '';
       dates.forEach((date, index) => {
         if (index > 0) {
-          formattedData = formattedData + ', ' + moment(date).format('M/DD/YYYY');
+          formattedData = formattedData + ', ' + moment(date).format('M/D/YYYY');
         } else {
-          formattedData = formattedData + moment(date).format('M/DD/YYYY');
+          formattedData = formattedData + moment(date).format('M/D/YYYY');
         }
       });
     }
