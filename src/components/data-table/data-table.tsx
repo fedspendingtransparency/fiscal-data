@@ -57,6 +57,7 @@ type DataTableProps = {
   aria;
   pivotSelected;
   setSummaryValues?;
+  customFormatting?;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -89,6 +90,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   aria,
   pivotSelected,
   setSummaryValues,
+  customFormatting,
 }) => {
   const detailViewEndpoint: string = detailViewAPI ? detailViewAPI.endpoint : null;
   const [selectedDetailView, setSelectedDetailView] = useState('');
@@ -138,7 +140,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
     let baseColumns = nonRawDataColumns
       ? columnsConstructorGeneric(nonRawDataColumns)
-      : columnsConstructorData(tableData, hideCols, tableName, configOption);
+      : columnsConstructorData(tableData, hideCols, tableName, configOption, customFormatting);
 
     baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.columnId);
     return baseColumns;

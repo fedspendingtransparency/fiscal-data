@@ -56,6 +56,7 @@ const TableSectionContainer = ({
   setResetFilters,
   detailViewState,
   setDetailViewState,
+  customFormatting,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -177,6 +178,7 @@ const TableSectionContainer = ({
       hideColumns: selectedTable.hideColumns,
       excludeCols: ['CHART_DATE'],
       aria: { 'aria-labelledby': 'main-data-table-title' },
+      customFormatting,
     });
   };
 

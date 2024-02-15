@@ -91,6 +91,19 @@ module.exports = {
       dateField: 'index_date',
       alwaysSortWith: ['-index_date'],
       hideColumns: ['cusip', 'original_issue_date'],
+      customFormatting: [
+        {
+          type: 'NUMBER',
+          fields: ['index_ratio', 'ref_cpi', 'ref_cpi_on_dated_date'],
+          decimalPlaces: 6,
+        },
+        {
+          type: 'STRING',
+          fields: ['additional_issue_date'],
+          breakChar: ',',
+          customType: 'dateList',
+        },
+      ],
     },
     '301': {
       endpoint: 'v1/accounting/od/tips_cpi_data_summary',
@@ -98,6 +111,19 @@ module.exports = {
       dateField: 'original_issue_date',
       alwaysSortWith: ['-original_issue_date'],
       selectColumns: [],
+      customFormatting: [
+        {
+          type: 'NUMBER',
+          fields: ['index_ratio', 'ref_cpi', 'ref_cpi_on_dated_date'],
+          decimalPlaces: 6,
+        },
+        {
+          type: 'STRING',
+          fields: ['additional_issue_date'],
+          breakChar: ',',
+          customType: 'dateList',
+        },
+      ],
     },
     '267': {
       endpoint: 'v1/accounting/od/uranium_enrichment_decontamination_decommissioning_fund_results',

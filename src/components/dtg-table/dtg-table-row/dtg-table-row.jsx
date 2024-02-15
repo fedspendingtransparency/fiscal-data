@@ -30,6 +30,8 @@ export const formatCellValue = (cellData, type, tableName, property) => {
       formattedData = cellData;
     } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {
       formattedData = Number(cellData).toFixed(3);
+    } else if (tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table' && property === 'ref_cpi') {
+      formattedData = Number(cellData).toFixed(6);
     } else {
       formattedData = numberFormatter.format(cellData);
     }

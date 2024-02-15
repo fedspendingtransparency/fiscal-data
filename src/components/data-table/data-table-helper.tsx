@@ -1,7 +1,7 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
 import React from 'react';
 import moment from 'moment';
-import { currencyFormatter, numberFormatter } from '../../helpers/text-format/text-format';
+import { currencyFormatter, numberFormatter, customNumberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
 import { updateTableButton } from './data-table.module.scss';
@@ -20,7 +20,8 @@ export const columnsConstructorData = (
   rawData: Record<string, Record<string, unknown>>,
   hideColumns: string[],
   tableName: string,
-  columnConfig
+  columnConfig,
+  customFormatConfig
 ): any => {
   if (rawData.meta && columnConfig) {
     return columnConfig
@@ -50,8 +51,10 @@ export const columnsConstructorData = (
               cell: ({ getValue }) => {
                 const value = getValue();
                 let formattedValue;
-
-                if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
+                const customFormat = customFormatConfig?.find(config => config.type === 'NUMBER' && config.fields.includes(property));
+                if (!!customFormat) {
+                  formattedValue = customNumberFormatter.format(value, customFormat.decimalPlaces);
+                } else if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
                   formattedValue = value ? value : '';
                 } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {
                   formattedValue = value ? Number(value).toFixed(3) : '';
@@ -108,14 +111,27 @@ export const columnsConstructorData = (
               accessorKey: property,
               header: name,
               cell: ({ getValue }) => {
-                if (getValue() !== undefined) {
-                  if (getValue().includes('%')) {
-                    return getValue().replace(/-/g, '\u2011');
+                const value = getValue();
+                let formattedValue;
+                const customFormat = customFormatConfig?.find(config => config.type === 'STRING' && config.fields.includes(property));
+                if (value !== undefined) {
+                  if (value.includes('%')) {
+                    formattedValue = value.replace(/-/g, '\u2011');
+                  } else if (customFormat && customFormat.customType === 'dateList') {
+                    const dates = value.split(customFormat.breakChar);
+                    formattedValue = '';
+                    dates.forEach((date, index) => {
+                      if (index > 0) {
+                        formattedValue = formattedValue + ', ' + moment(date).format('M/DD/YYYY');
+                      } else {
+                        formattedValue = formattedValue + moment(date).format('M/DD/YYYY');
+                      }
+                    });
                   } else {
-                    return getValue();
+                    formattedValue = value;
                   }
                 }
-                return getValue();
+                return formattedValue;
               },
             } as ColumnDef<string, string>;
           }
