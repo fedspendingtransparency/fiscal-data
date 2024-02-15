@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { footNotes, heroImageSubHeading, footNotesPillData, flapWrapper } from '../../hero-image/hero-image.module.scss';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
-import { getFootNotesDateRange, getPillData } from '../hero-helper';
+import { getChangeLabel, getFootNotesDateRange, getPillData } from '../hero-helper';
 import { revenueExplainerLightSecondary } from '../../sections/government-revenue/revenue.module.scss';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
@@ -53,14 +53,7 @@ const GovernmentRevenueHero = (): ReactElement => {
         setRecordCalendarMonth(data.record_calendar_month);
         setRevenueChange(difference);
         setRevenuePercentChange((difference / priorTotalRevenue) * 100);
-
-        if (currentTotalRevenue > priorTotalRevenue) {
-          setRevenueChangeLabel('increased');
-        } else if (currentTotalRevenue < priorTotalRevenue) {
-          setRevenueChangeLabel('decreased');
-        } else {
-          setRevenueChangeLabel('not changed');
-        }
+        setRevenueChangeLabel(getChangeLabel(currentTotalRevenue, priorTotalRevenue));
       }
     });
   };

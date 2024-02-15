@@ -1,7 +1,7 @@
 import React, { ReactElement, useState, useEffect } from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { footNotes, heroImageSubHeading, footNotesPillData, flapWrapper } from '../../hero-image/hero-image.module.scss';
-import { getFootNotesDateRange, getPillData } from '../hero-helper';
+import { getFootNotesDateRange, getPillData, getChangeLabel } from '../hero-helper';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { getShortForm } from '../../../../utils/rounding-utils';
@@ -22,14 +22,17 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   const [recordCalendarMonth, setRecordCalendarMonth] = useState('');
   const [savingsBondChangeLabel, setSavingsBondChangeLabel] = useState('');
   const [savingsBondChange, setSavingsBondChange] = useState(0);
-  const [savingsBondPercentChange, setSavingsBondPercentChange] = useState(30);
+  const [savingsBondPercentChange, setSavingsBondPercentChange] = useState(0);
 
   const numberFormat = new Intl.NumberFormat('en-US');
+
+  const sumSavingsBondsAmount = data => {
+    return data.reduce((n, { net_sales_amt }) => n + parseInt(net_sales_amt), 0);
+  };
 
   const getHeroData = () => {
     basicFetch(`${securitiesSalesUrl}`).then(res => {
       if (res.data) {
-        // console.log(res.data[0]);
         setPriorFiscalYear((parseInt(res.data[0].record_fiscal_year) - 1).toString());
         setPriorCalendarYear((parseInt(res.data[0].record_calendar_year) - 1).toString());
         setRecordCalendarMonth(res.data[0].record_calendar_month);
@@ -38,7 +41,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
         const currentFYReqUrl = `${apiPrefix}${currentFYEndPoint}`;
         basicFetch(`${currentFYReqUrl}`).then(res2 => {
           if (res2.data) {
-            const currentTotalSavingsBonds = res2.data[0].net_sales_amt;
+            const currentTotalSavingsBonds = sumSavingsBondsAmount(res2.data);
             setTotalSavingsBondsInvested(currentTotalSavingsBonds);
             const filterPriorFY = `filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${(
               parseInt(res.data[0].record_fiscal_year) - 1
@@ -47,14 +50,8 @@ const TreasurySavingsBondsHero = (): ReactElement => {
             const priorFYReqUrl = `${apiPrefix}${priorFYEndpoint}`;
             basicFetch(`${priorFYReqUrl}`).then(res3 => {
               if (res3.data) {
-                const previousTotalSavingsBonds = res3.data[0].net_sales_amt;
-                if (currentTotalSavingsBonds > previousTotalSavingsBonds) {
-                  setSavingsBondChangeLabel('increased');
-                } else if (currentTotalSavingsBonds < previousTotalSavingsBonds) {
-                  setSavingsBondChangeLabel('decreased');
-                } else {
-                  setSavingsBondChangeLabel('not changed');
-                }
+                const previousTotalSavingsBonds = sumSavingsBondsAmount(res3.data);
+                setSavingsBondChangeLabel(getChangeLabel(currentTotalSavingsBonds, previousTotalSavingsBonds));
                 const changeDiff = currentTotalSavingsBonds - previousTotalSavingsBonds;
                 setSavingsBondChange(changeDiff);
                 const percentChange = (changeDiff / previousTotalSavingsBonds) * 100;
