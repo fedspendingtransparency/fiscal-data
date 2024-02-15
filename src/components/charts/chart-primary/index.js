@@ -327,7 +327,7 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _roundingDenominati
   if (data) {
     scales = setScales(fields);
     const isRoundedAxis = !!roundingDenomination;
-    y = setAxes(container, scales, chartDimensions, dataType, isRoundedAxis, options);
+    y = setAxes(container, scales, chartDimensions, dataType, roundingDenomination, isRoundedAxis, options);
 
     draw(container, scales, fields);
   }
