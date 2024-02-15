@@ -41,6 +41,15 @@ const TreasurySavingsBondsHero = (): ReactElement => {
             setTotalSavingsBondsInvested(res2.data[0].net_sales_amt);
           }
         });
+        const filterPriorFY = `filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${(
+          parseInt(res.data[0].record_fiscal_year) - 1
+        ).toString()},record_calendar_month:eq:${res.data[0].record_calendar_month}`;
+        const priorFYEndpoint = `v1/accounting/od/securities_sales?${filterPriorFY}`;
+        const priorFYReqUrl = `${apiPrefix}${priorFYEndpoint}`;
+        basicFetch(`${priorFYReqUrl}`).then(res3 => {
+          if (res3.data) {
+          }
+        });
       }
     });
   };
