@@ -26,6 +26,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   // config.apis should always be available; but, fallback in case
   const apis = config ? config.apis : [null];
   const filteredApis = apis.filter(api => api?.apiId !== config.detailView?.apiId);
+  const detailApi = apis.find(api => api?.apiId === config.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
@@ -47,6 +48,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [tableCaches] = useState({});
   const [resetFilters, setResetFilters] = useState(false);
   const [detailViewState, setDetailViewState] = useState(null);
+  const [lockDateRange, setLockDateRange] = useState(true);
 
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
@@ -178,6 +180,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
 
+  console.log(selectedTable, detailApi);
+
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
@@ -206,7 +210,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             {selectedTable && (
               <RangePresets
                 setDateRange={handleDateRangeChange}
-                selectedTable={selectedTable}
+                selectedTable={!!detailViewState ? detailApi : selectedTable}
                 apiData={apiData}
                 onUserFilter={setUserFilterSelection}
                 setIsFiltered={setIsFiltered}
@@ -222,8 +226,10 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 finalDatesNotFound={finalDatesNotFound}
                 setResetFilters={setResetFilters}
                 datatableBanner={config.datatableBanner}
+                hideButtons={!detailViewState}
               />
             )}
+            {!detailViewState && <div>Select a CUSIP number in the table below to activate the date range filter.</div>}
           </FilterAndDownload>
         )}
         {dateRange && (

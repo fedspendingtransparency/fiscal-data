@@ -22,6 +22,7 @@ const RangePresets = ({
   finalDatesNotFound,
   setResetFilters,
   datatableBanner,
+  hideButtons,
 }) => {
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
@@ -203,71 +204,75 @@ const RangePresets = ({
       : null;
   return (
     <>
-      <h3 className={header} data-test-id={'header'}>
-        Date Range<span data-test-id={'label'}>{label}</span>:
-      </h3>
-      <div id={presetContainer}>
-        {presets.map(preset => (
-          <React.Fragment key={preset.key}>
-            {preset.key === 'custom' ? (
-              <>
-                <input
-                  type="radio"
-                  name="range-toggle"
-                  className={radio}
-                  checked={customPreset.key === activePresetKey}
-                  id={`radio-${customPreset.key}`}
-                  onChange={() => {
-                    applyPreset(customPreset);
-                  }}
-                  tabIndex={0}
-                  data-test-id={`preset-radio-${customPreset.key}`}
-                />
-                <label
-                  className={`
+      {!hideButtons && (
+        <>
+          <h3 className={header} data-test-id={'header'}>
+            Date Range<span data-test-id={'label'}>{label}</span>:
+          </h3>
+          <div id={presetContainer}>
+            {presets.map(preset => (
+              <React.Fragment key={preset.key}>
+                {preset.key === 'custom' ? (
+                  <>
+                    <input
+                      type="radio"
+                      name="range-toggle"
+                      className={radio}
+                      checked={customPreset.key === activePresetKey}
+                      id={`radio-${customPreset.key}`}
+                      onChange={() => {
+                        applyPreset(customPreset);
+                      }}
+                      tabIndex={0}
+                      data-test-id={`preset-radio-${customPreset.key}`}
+                    />
+                    <label
+                      className={`
                     ${toggleButton} ${activePresetKey === customPreset.key ? selected : ''}
                   `}
-                  htmlFor={`radio-${customPreset.key}`}
-                  data-test-id={`preset-label-${customPreset.key}`}
-                >
-                  {customPreset.label}
-                </label>
-              </>
-            ) : (
-              <>
-                <input
-                  type="radio"
-                  name="range-toggle"
-                  className={radio}
-                  checked={preset.key === activePresetKey}
-                  id={`radio-${preset.key}`}
-                  onChange={() => {
-                    applyPreset(preset);
-                  }}
-                  tabIndex={0}
-                  data-test-id={`preset-radio-${preset.key}`}
-                />
-                <label
-                  className={`
+                      htmlFor={`radio-${customPreset.key}`}
+                      data-test-id={`preset-label-${customPreset.key}`}
+                    >
+                      {customPreset.label}
+                    </label>
+                  </>
+                ) : (
+                  <>
+                    <input
+                      type="radio"
+                      name="range-toggle"
+                      className={radio}
+                      checked={preset.key === activePresetKey}
+                      id={`radio-${preset.key}`}
+                      onChange={() => {
+                        applyPreset(preset);
+                      }}
+                      tabIndex={0}
+                      data-test-id={`preset-radio-${preset.key}`}
+                    />
+                    <label
+                      className={`
                     ${toggleButton} ${activePresetKey === preset.key ? selected : ''}
                   `}
-                  htmlFor={`radio-${preset.key}`}
-                  data-test-id={`preset-label-${preset.key}`}
-                >
-                  {preset.label}
-                </label>
-              </>
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-      {activePresetKey === customPreset.key && (
-        <DatePickers selectedDateRange={dateRange} availableDateRange={pickerDateRange} setSelectedDates={updateDateRange} />
+                      htmlFor={`radio-${preset.key}`}
+                      data-test-id={`preset-label-${preset.key}`}
+                    >
+                      {preset.label}
+                    </label>
+                  </>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+          {activePresetKey === customPreset.key && (
+            <DatePickers selectedDateRange={dateRange} availableDateRange={pickerDateRange} setSelectedDates={updateDateRange} />
+          )}
+          {selectedTable.userFilter && (
+            <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} setResetFilters={setResetFilters} />
+          )}
+          {datatableBanner && <DatatableBanner bannerNotice={datatableBanner} />}
+        </>
       )}
-      {selectedTable.userFilter && (
-        <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} setResetFilters={setResetFilters} />
-      )}
-      {datatableBanner && <DatatableBanner bannerNotice={datatableBanner} />}
     </>
   );
 };
