@@ -25,7 +25,7 @@ module.exports = {
           'series',
           'interest_rate',
           'security_term',
-          'original_auction_date',
+          'original_issue_date',
           'maturity_date',
           'ref_cpi_on_dated_date',
           'additional_issue_date',
