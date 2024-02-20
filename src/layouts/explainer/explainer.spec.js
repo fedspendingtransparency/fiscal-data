@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
-import { mockBeaGDPData, mockSpendingHeroData } from './explainer-test-helper';
+import { mockBeaGDPData, mockSavingsBondFetchResponses, mockSpendingHeroData } from './explainer-test-helper';
 import { determineBEAFetchResponse, setGlobalFetchMatchingResponse } from '../../utils/mock-utils';
 import { understandingDeficitMatchers } from './explainer-helpers/national-deficit/national-deficit-test-helper';
 import fetchMock from 'fetch-mock';
@@ -332,6 +332,7 @@ describe('Savings Bonds explainer', () => {
   window.ResizeObserver = ResizeObserver;
   beforeAll(() => {
     useStaticQuery.mockReturnValue(glossaryMock);
+    mockSavingsBondFetchResponses();
   });
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -368,6 +369,7 @@ describe('Savings Bonds explainer', () => {
   };
 
   it('renders the savings bonds explainer page', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
     const pageName = 'treasury-savings-bonds';
 
     const savingsBondsPageContext = {
@@ -380,6 +382,8 @@ describe('Savings Bonds explainer', () => {
         <ExplainerPageLayout pageContext={savingsBondsPageContext} />
       </RecoilRoot>
     );
+
+    expect(fetchSpy).toBeCalled();
 
     const sectionHeadings = await findAllByTestId('section-heading');
     expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
