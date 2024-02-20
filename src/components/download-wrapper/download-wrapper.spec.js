@@ -7,6 +7,8 @@ import Analytics from '../../utils/analytics/analytics';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
 import DownloadModal from '../download-modal/download-modal';
+import { RecoilRoot } from 'recoil';
+import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
 
 jest.mock('../truncate/truncate.jsx', function() {
   return {
@@ -49,7 +51,11 @@ describe('DownloadWrapper', () => {
   const nonFilteredDate = 'ALL';
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(<DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} />);
+    component = renderer.create(
+      <RecoilRoot>
+        <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} />
+      </RecoilRoot>
+    );
   });
   const instance = component.root;
 
@@ -66,7 +72,11 @@ describe('DownloadWrapper', () => {
       tableName: curTableName,
     };
     renderer.act(() => {
-      component.update(<DownloadWrapper selectedTable={selectedTable} dataset={{ name: 'Mock Dataset' }} />);
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper selectedTable={selectedTable} dataset={{ name: 'Mock Dataset' }} />
+        </RecoilRoot>
+      );
     });
 
     const tableName = instance.findByProps({ 'data-test-id': 'tableNameText' });
@@ -78,7 +88,9 @@ describe('DownloadWrapper', () => {
     const isFiltered = true;
     renderer.act(() => {
       component.update(
-        <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset', techSpecs: {} }} dateRange={dateRange} isFiltered={isFiltered} />
+        <RecoilRoot>
+          <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset', techSpecs: {} }} dateRange={dateRange} isFiltered={isFiltered} />
+        </RecoilRoot>
       );
     });
 
@@ -90,7 +102,11 @@ describe('DownloadWrapper', () => {
   it('does not update the date string when an invalid date range is given', () => {
     const dateRange = { from: new Date('00/00/2020'), to: new Date('99/99/2020') };
     renderer.act(() => {
-      component.update(<DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset', techSpecs: {} }} dateRange={dateRange} />);
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset', techSpecs: {} }} dateRange={dateRange} />
+        </RecoilRoot>
+      );
     });
 
     const expectedDateString = '01/01/2020 - 11/01/2020';
@@ -103,7 +119,9 @@ describe('DownloadWrapper', () => {
     const isFiltered = false;
     renderer.act(() => {
       component.update(
-        <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset', techSpecs: {} }} dateRange={dateRange} isFiltered={isFiltered} />
+        <RecoilRoot>
+          <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset', techSpecs: {} }} dateRange={dateRange} isFiltered={isFiltered} />
+        </RecoilRoot>
       );
     });
 
@@ -139,7 +157,11 @@ describe('DownloadWrapper', () => {
       apis: [{ apiId: '1' }, { apiId: '2' }],
     };
     renderer.act(() => {
-      component.update(<DownloadWrapper selectedTable={{}} dataset={mockMultiTableDataset} allTablesSelected={true} />);
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper selectedTable={{}} dataset={mockMultiTableDataset} allTablesSelected={true} />
+        </RecoilRoot>
+      );
     });
 
     const tableName = instance.findByProps({ 'data-test-id': 'tableNameText' });
@@ -189,9 +211,11 @@ describe('DownloadWrapper', () => {
     let component = null;
     act(() => {
       component = render(
-        <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DownloadWrapper allTablesSelected={false} selectedTable={mockTable} dataset={mockDataset} dateRange={mockDateRange} />
-        </downloadsContext.Provider>
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadWrapper allTablesSelected={false} selectedTable={mockTable} dataset={mockDataset} dateRange={mockDateRange} />
+          </downloadsContext.Provider>
+        </RecoilRoot>
       );
       component.getByTestId('download-button').click();
     });
@@ -212,9 +236,11 @@ describe('DownloadWrapper', () => {
     let component = null;
     act(() => {
       component = render(
-        <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DownloadWrapper allTablesSelected selectedTable={mockAnotherTable} dataset={mockDataset} dateRange={mockDateRange} />
-        </downloadsContext.Provider>
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadWrapper allTablesSelected selectedTable={mockAnotherTable} dataset={mockDataset} dateRange={mockDateRange} />
+          </downloadsContext.Provider>
+        </RecoilRoot>
       );
       component.getByTestId('download-button').click();
     });
@@ -235,11 +261,13 @@ describe('DownloadWrapper', () => {
   it('displays userFilter selection when applied', () => {
     renderer.act(() => {
       component.update(
-        <DownloadWrapper
-          selectedTable={mockSelectedTableWithUserFilter}
-          dataset={{ name: 'Mock Dataset' }}
-          selectedUserFilter={mockSelectedUserFilter}
-        />
+        <RecoilRoot>
+          <DownloadWrapper
+            selectedTable={mockSelectedTableWithUserFilter}
+            dataset={{ name: 'Mock Dataset' }}
+            selectedUserFilter={mockSelectedUserFilter}
+          />
+        </RecoilRoot>
       );
     });
 
@@ -253,7 +281,9 @@ describe('DownloadWrapper', () => {
     // with no selection at all
     renderer.act(() => {
       component.update(
-        <DownloadWrapper selectedTable={mockSelectedTableWithUserFilter} dataset={{ name: 'Mock Dataset' }} selectedUserFilter={null} />
+        <RecoilRoot>
+          <DownloadWrapper selectedTable={mockSelectedTableWithUserFilter} dataset={{ name: 'Mock Dataset' }} selectedUserFilter={null} />
+        </RecoilRoot>
       );
     });
 
@@ -277,6 +307,28 @@ describe('DownloadWrapper', () => {
     let component = null;
     act(() => {
       component = render(
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadWrapper
+              allTablesSelected={false}
+              selectedTable={mockSelectedTableWithUserFilter}
+              dataset={mockDataset}
+              dateRange={mockDateRange}
+              selectedUserFilter={mockSelectedUserFilter}
+            />
+          </downloadsContext.Provider>
+        </RecoilRoot>
+      );
+      component.getByTestId('download-button').click();
+    });
+    expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
+    mockSetDownloadRequest.mockClear();
+  });
+
+  it('disables the download button when the recoil state is set to true', () => {
+    const mockedState = { disableDownloadButtonState: false };
+    const { getByRole } = render(
+      <RecoilRoot initializeState={snapshot => snapshot.set(disableDownloadButtonState, mockedState)}>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadWrapper
             allTablesSelected={false}
@@ -286,10 +338,8 @@ describe('DownloadWrapper', () => {
             selectedUserFilter={mockSelectedUserFilter}
           />
         </downloadsContext.Provider>
-      );
-      component.getByTestId('download-button').click();
-    });
-    expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
-    mockSetDownloadRequest.mockClear();
+      </RecoilRoot>
+    );
+    expect(getByRole('button', { name: 'Download CSV File' })).toBeDisabled();
   });
 });
