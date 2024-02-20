@@ -57,11 +57,7 @@
     },
     "topics": ["debt", "savings-bonds"],
     "relatedDatasets": [],
-    "currentDateButton": "byMonth",
-    "bannerCallout": {
-      "banner": "SavingsBondsDelay",
-      "startDate": "10/16/2023"
-    }
+    "currentDateButton": "byMonth"
   },
   "015-BFS-2014Q3-074": {
     "slug": "/redemption-tables/",
@@ -240,10 +236,7 @@
     "topics": ["debt", "savings-bonds"],
     "relatedDatasets": ["015-BFS-2014Q1-11", "015-BFS-2014Q3-056", "015-BFS-2014Q1-14", "015-BFS-2014Q3-xx", "015-BFS-2014Q3-096"],
     "slug": "/electronic-securities-transactions/",
-    "currentDateButton": "byMonth",
-    "bannerCallout": {
-      "banner": "TreasuryDirectDelay"
-    }
+    "currentDateButton": "byMonth"
   },
   "015-BFS-2014Q3-058": {
     "seoConfig": {
