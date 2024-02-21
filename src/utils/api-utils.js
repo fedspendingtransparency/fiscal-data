@@ -119,7 +119,10 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   return getIFetch()(uri).then(response => response.json());
 };
 
-export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewColumn) => {
+export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewColumn, lockDateRange, fullDateRange) => {
+  //TODO: Prevent dateRange from applying to summary table
+  // lockDateRange and fullDateRange are currently being passed in for this purpose
+
   const endpoint = table.endpoint;
   const dateField = table.dateField;
   const { pivotView, pivotValue } = selectedPivot ? selectedPivot : {};
@@ -142,20 +145,25 @@ export const datatableRequest = async (table, dateRange, selectedPivot, canceled
     const fieldsParam = pivotView && pivotView.fields && pivotView.fields.length ? `&fields=${pivotView.fields.join()}` : '';
 
     let dateRanges;
-    if (tableCache.dataCache && tableCache.dataCache.length) {
+    if (tableCache.dataCache && tableCache.dataCache.length && !lockDateRange) {
       dateRanges = tableCache.findUncachedDateRanges(dateRange);
     } else {
-      dateRanges = [dateRange];
+      if (lockDateRange && fullDateRange) {
+        console.log('fullDateRange', fullDateRange);
+        dateRanges = [fullDateRange];
+      } else {
+        dateRanges = [dateRange];
+      }
     }
     if (dateRanges && dateRanges.length) {
       const fetchers = [];
       dateRanges.forEach(range => {
         const from = formatDateForApi(range.from);
         const to = formatDateForApi(range.to);
+        //TODO: pass in cusip in as a parameter - already part of the dataset config
         const uri = detailViewColumn
           ? `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam},cusip:eq:${detailViewColumn}&sort=${sortParamValue}`
           : `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}&sort=${sortParamValue}`;
-        console.log(detailViewColumn, uri);
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
             res.range = range;

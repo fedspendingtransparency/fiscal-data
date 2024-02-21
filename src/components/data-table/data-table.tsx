@@ -109,7 +109,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   };
 
-
   const allColumns = React.useMemo(() => {
     const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
 
@@ -119,7 +118,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
     baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.columnId);
     return baseColumns;
-  }, [tableData, rawData, configOption]);
+  }, [rawData, configOption]);
 
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore

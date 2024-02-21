@@ -50,7 +50,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [tableCaches] = useState({});
   const [resetFilters, setResetFilters] = useState(false);
   const [detailViewState, setDetailViewState] = useState(null);
-  const [lockDateRange, setLockDateRange] = useState(detailApi && !detailViewState);
+  const [summaryValues, setSummaryValues] = useState(null);
 
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
@@ -148,13 +148,26 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [selectedTable]);
 
+  useEffect(() => {
+    //TODO: Prevent caching of detail view table, because the date range does not change, the data is not refreshing when switching between cusip values
+    if (detailApi) {
+      setDateRange(null);
+      setSelectedPivot(null);
+      setIsFiltered(true);
+      setApiError(false);
+      if (!tableCaches[detailApi.apiId]) {
+        tableCaches[detailApi.apiId] = new TableCache();
+      }
+      // setSelectedTableProp(selectedTable);
+    }
+  }, [detailViewState]);
+
   // When dateRange changes, fetch new data
   useEffect(() => {
     if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
-      console.log(detailViewState, detailApi, selectedTable, !detailViewState ? detailApi : selectedTable);
-
-      const cache = tableCaches[selectedTable.apiId];
-      const cachedDisplay = cache.getCachedDataDisplay(dateRange, selectedPivot, selectedTable);
+      const displayedTable = detailViewState ? detailApi : selectedTable;
+      const cache = tableCaches[displayedTable.apiId];
+      const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
       if (cachedDisplay) {
         updateDataDisplay(cachedDisplay);
       } else {
@@ -164,14 +177,15 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         if (!loadByPage || ignorePivots) {
           getApiData(
             dateRange,
-            !detailViewState ? selectedTable : detailApi,
+            displayedTable,
             selectedPivot,
             setIsLoading,
             setApiData,
             setApiError,
             canceledObj,
-            tableCaches[selectedTable.apiId],
-            detailViewState
+            tableCaches[displayedTable.apiId],
+            detailViewState,
+            detailApi && !detailViewState
           ).then(() => {
             // nothing to cancel if the request completes normally.
             canceledObj = null;
@@ -188,9 +202,9 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   useEffect(() => {
     // setSelectedTable(!detailViewState ? detailApi : detailApi);
-    console.log(detailViewState);
+    // console.log(detailViewState);
   }, [detailViewState]);
-  console.log(detailApi);
+  // console.log(detailApi);
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
@@ -271,6 +285,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             setDetailViewState={setDetailViewState}
             detailViewState={detailViewState}
             customFormatting={selectedTable?.customFormatting}
+            summaryValues={summaryValues}
+            setSummaryValues={setSummaryValues}
           />
         )}
       </div>
