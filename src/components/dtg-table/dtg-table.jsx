@@ -90,7 +90,7 @@ export default function DtgTable({
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   const sorting = useRecoilValue(reactTableSortingState);
   const detailViewAPIConfig = config?.detailView ? config.apis.find(api => api.apiId === config.detailView.apiId) : null;
-
+  // console.log(tableProps);
   let loadCanceled = false;
 
   let debounce;

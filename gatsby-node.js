@@ -356,6 +356,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     type DetailView {
       apiId: Int,
       columnId: String,
+      dateRangeLockCopy: String,
       summaryTableFields: [String],
     }
     type Datasets implements Node {
@@ -420,6 +421,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           detailView {
             apiId
             columnId
+            dateRangeLockCopy
             summaryTableFields
           }
           datePreset

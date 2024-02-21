@@ -124,6 +124,9 @@ const RangePresets = ({
       if (datePreset === 'current' && presets[0].key === 'current') {
         idealDefaultPreset = presets[0];
       }
+      if (datePreset === 'all' && presets[4].key === 'all') {
+        idealDefaultPreset = presets[4];
+      }
       if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
         idealDefaultPreset = presets.find(({ key }) => key === 'custom');
 

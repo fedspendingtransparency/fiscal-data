@@ -17,6 +17,8 @@ import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';
@@ -48,7 +50,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [tableCaches] = useState({});
   const [resetFilters, setResetFilters] = useState(false);
   const [detailViewState, setDetailViewState] = useState(null);
-  const [lockDateRange, setLockDateRange] = useState(true);
+  const [lockDateRange, setLockDateRange] = useState(detailApi && !detailViewState);
 
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
@@ -104,6 +106,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   useEffect(() => {
     if (configUpdated) {
+      console.log('here');
       tableCaches[selectedTable.apiId] = new TableCache();
       const tableFromUrl = parseTableSelectionFromUrl(location, apis);
       setSelectedTable(tableFromUrl);
@@ -147,7 +150,9 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   // When dateRange changes, fetch new data
   useEffect(() => {
-    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected && !detailViewState) {
+    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
+      console.log(detailViewState, detailApi, selectedTable, !detailViewState ? detailApi : selectedTable);
+
       const cache = tableCaches[selectedTable.apiId];
       const cachedDisplay = cache.getCachedDataDisplay(dateRange, selectedPivot, selectedTable);
       if (cachedDisplay) {
@@ -159,13 +164,14 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         if (!loadByPage || ignorePivots) {
           getApiData(
             dateRange,
-            selectedTable,
+            !detailViewState ? selectedTable : detailApi,
             selectedPivot,
             setIsLoading,
             setApiData,
             setApiError,
             canceledObj,
-            tableCaches[selectedTable.apiId]
+            tableCaches[selectedTable.apiId],
+            detailViewState
           ).then(() => {
             // nothing to cancel if the request completes normally.
             canceledObj = null;
@@ -178,10 +184,13 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         };
       }
     }
-  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
+  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, detailViewState]);
 
-  console.log(selectedTable, detailApi);
-
+  useEffect(() => {
+    // setSelectedTable(!detailViewState ? detailApi : detailApi);
+    console.log(detailViewState);
+  }, [detailViewState]);
+  console.log(detailApi);
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
@@ -226,10 +235,14 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 finalDatesNotFound={finalDatesNotFound}
                 setResetFilters={setResetFilters}
                 datatableBanner={config.datatableBanner}
-                hideButtons={!detailViewState}
+                hideButtons={detailApi && !detailViewState}
               />
             )}
-            {!detailViewState && <div>Select a CUSIP number in the table below to activate the date range filter.</div>}
+            {detailApi && !detailViewState && (
+              <div>
+                <FontAwesomeIcon icon={faLock} /> {config.detailView?.dateRangeLockCopy}
+              </div>
+            )}
           </FilterAndDownload>
         )}
         {dateRange && (

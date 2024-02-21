@@ -24,7 +24,6 @@ import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
-import { basicFetch, apiPrefix, buildSortParams, MAX_PAGE_SIZE } from '../../utils/api-utils';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -90,59 +89,34 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pivotSelected,
   setSummaryValues,
 }) => {
-  const detailViewEndpoint: string = detailViewAPI ? detailViewAPI.endpoint : null;
-  const [selectedDetailView, setSelectedDetailView] = useState('');
   const [configOption, setConfigOption] = useState(columnConfig);
-  const [tableData, setTableData] = useState(rawData);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!!selectedDetailView) {
-        const sortParam = buildSortParams(detailViewAPI);
-        const res = await basicFetch(
-          `${apiPrefix}${detailViewEndpoint}?filter=${detailView.columnId}:eq:${selectedDetailView}&sort=${sortParam}&page[size]=${MAX_PAGE_SIZE}`
-        );
-        setTableData({ data: res.data, meta: res.meta });
-        setConfigOption(detailColumnConfig);
-      } else {
-        setTableData(rawData);
-        setConfigOption(columnConfig);
-      }
-    };
-    fetchData();
-  }, [selectedDetailView]);
+    if (!detailViewState) {
+      setConfigOption(columnConfig);
+    } else {
+      setConfigOption(detailColumnConfig);
+    }
+  }, [rawData]);
 
   const handleClick = (e, columnValue) => {
     e.preventDefault();
-    setSelectedDetailView(columnValue);
     setSummaryValues(rawData.data.find(data => data[detailView?.columnId] === columnValue));
     if (setDetailViewState) {
       setDetailViewState(columnValue);
     }
   };
 
-  useEffect(() => {
-    if (!detailViewState) {
-      setSelectedDetailView(null);
-    }
-  }, [detailViewState]);
-
-  useEffect(() => {
-    if (rawData) {
-      setTableData(rawData);
-    }
-  }, [rawData]);
-
   const allColumns = React.useMemo(() => {
-    const hideCols = selectedDetailView ? detailViewAPI.hideColumns : hideColumns;
+    const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
 
     let baseColumns = nonRawDataColumns
       ? columnsConstructorGeneric(nonRawDataColumns)
-      : columnsConstructorData(tableData, hideCols, tableName, configOption);
+      : columnsConstructorData(rawData, hideCols, tableName, configOption);
 
     baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.columnId);
     return baseColumns;
-  }, [tableData, rawData, configOption]);
+  }, [rawData, configOption]);
 
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
@@ -166,8 +140,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   let dataTypes;
 
-  if (tableData.meta) {
-    dataTypes = tableData.meta.dataTypes;
+  if (rawData.meta) {
+    dataTypes = rawData.meta.dataTypes;
   } else {
     const tempDataTypes = {};
     allColumns?.forEach(column => {
@@ -187,7 +161,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [additionalColumns, setAdditionalColumns] = useState([]);
   const table = useReactTable({
     columns: allColumns,
-    data: tableData.data,
+    data: rawData.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
@@ -210,7 +184,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     if (resetFilters) {
-      setTableColumnSortData(tableData.data);
+      setTableColumnSortData(rawData.data);
     }
   }, [resetFilters, table]);
 
@@ -266,7 +240,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     if (defaultSelectedColumns && !pivotSelected) {
       constructDefaultColumnsFromTableData();
     }
-  }, [tableData]);
+  }, [rawData]);
 
   const selectColumnsRef = useRef(null);
 

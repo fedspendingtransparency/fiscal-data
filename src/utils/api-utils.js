@@ -119,7 +119,7 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   return getIFetch()(uri).then(response => response.json());
 };
 
-export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache) => {
+export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewColumn) => {
   const endpoint = table.endpoint;
   const dateField = table.dateField;
   const { pivotView, pivotValue } = selectedPivot ? selectedPivot : {};
@@ -152,7 +152,10 @@ export const datatableRequest = async (table, dateRange, selectedPivot, canceled
       dateRanges.forEach(range => {
         const from = formatDateForApi(range.from);
         const to = formatDateForApi(range.to);
-        const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}&sort=${sortParamValue}`;
+        const uri = detailViewColumn
+          ? `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam},cusip:eq:${detailViewColumn}&sort=${sortParamValue}`
+          : `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}&sort=${sortParamValue}`;
+        console.log(detailViewColumn, uri);
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
             res.range = range;
@@ -169,6 +172,7 @@ export const datatableRequest = async (table, dateRange, selectedPivot, canceled
     if (pivotView && pivotView.dimensionField && pivotValue) {
       return pivotApiData(table, selectedPivot, displayData, dateRange.from, dateRange.to);
     } else {
+      console.log(displayData);
       return displayData;
     }
   }
