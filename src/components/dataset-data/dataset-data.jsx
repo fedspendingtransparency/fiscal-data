@@ -47,7 +47,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [tableCaches] = useState({});
   const [resetFilters, setResetFilters] = useState(false);
   const [detailViewState, setDetailViewState] = useState(null);
-
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;
@@ -251,6 +250,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             setResetFilters={setResetFilters}
             setDetailViewState={setDetailViewState}
             detailViewState={detailViewState}
+            customFormatting={selectedTable?.customFormatting}
           />
         )}
       </div>
