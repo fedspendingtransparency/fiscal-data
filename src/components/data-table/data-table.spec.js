@@ -404,22 +404,47 @@ describe('react-table', () => {
     );
     expect(getAllByTestId('row')[0].innerHTML).toContain('0.00067898');
   });
-  it('formats STRING types that are percentage values correctly', () => {
+
+  it('formats custom NUMBER types correctly', () => {
+    const customFormatter = [{ type: 'NUMBER', fields: ['spread'], decimalPlaces: 6 }];
+
     const { getAllByTestId } = render(
       <RecoilRoot>
         <DataTable
           rawData={mockTableData}
-          defaultSelectedColumns={defaultColumnsTypeCheckMock}
+          defaultSelectedColumns={['spread']}
           pagingProps={{ itemsPerPage: 10 }}
           setTableColumnSortData={setTableColumnSortData}
           shouldPage
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          customFormatting={customFormatter}
         />
       </RecoilRoot>
     );
-    expect(getAllByTestId('row')[0].innerHTML).toContain('45%');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('-0.120000');
+  });
+
+  it('formats custom STRING dateList types correctly', () => {
+    const customFormatter = [{ type: 'STRING', fields: ['additional_date'], breakChar: ',', customType: 'dateList' }];
+
+    const { getAllByTestId } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={['additional_date']}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          columnConfig={mockColumnConfig}
+          customFormatting={customFormatter}
+        />
+      </RecoilRoot>
+    );
+    expect(getAllByTestId('row')[0].innerHTML).toContain('1/1/2024, 2/2/2023');
   });
 
   it('formats CURRENCY3 types correctly', () => {

@@ -359,6 +359,13 @@ exports.createSchemaCustomization = ({ actions }) => {
       dateRangeLockCopy: String,
       summaryTableFields: [String],
     }
+    type CustomFormatConfig {
+      type: String,
+      fields: [String],
+      decimalPlaces: Int,
+      breakChar: String,
+      customType: String,
+    }
     type Datasets implements Node {
       publishedReports: [PublishedReport!],
       dataFormats: [String!],
@@ -373,7 +380,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       hideColumns: [String],
       selectColumns: [String!],
       userFilter: UserFilter,
-      apiNotesAndLimitations: String
+      apiNotesAndLimitations: String,
+      customFormatting: [CustomFormatConfig!]
     }
     type DatasetsApisDataDisplays implements Node {
       uniquePivotValues: [UniquePivotValues!]
@@ -483,6 +491,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             dateField
             alwaysSortWith
             hideColumns
+            customFormatting {
+              type
+              fields
+              decimalPlaces
+              breakChar
+              customType
+            }
             selectColumns
             userFilter {
               field

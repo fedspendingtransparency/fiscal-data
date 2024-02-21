@@ -56,6 +56,7 @@ type DataTableProps = {
   aria;
   pivotSelected;
   setSummaryValues?;
+  customFormatting?;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -88,6 +89,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   aria,
   pivotSelected,
   setSummaryValues,
+  customFormatting,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
 
@@ -107,16 +109,17 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   };
 
+
   const allColumns = React.useMemo(() => {
     const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
 
     let baseColumns = nonRawDataColumns
       ? columnsConstructorGeneric(nonRawDataColumns)
-      : columnsConstructorData(rawData, hideCols, tableName, configOption);
+      : columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
 
     baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.columnId);
     return baseColumns;
-  }, [rawData, configOption]);
+  }, [tableData, rawData, configOption]);
 
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore

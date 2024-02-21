@@ -270,6 +270,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             setResetFilters={setResetFilters}
             setDetailViewState={setDetailViewState}
             detailViewState={detailViewState}
+            customFormatting={selectedTable?.customFormatting}
           />
         )}
       </div>

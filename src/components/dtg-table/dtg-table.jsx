@@ -69,6 +69,7 @@ export default function DtgTable({
     hideColumns,
     hasPublishedReports,
     publishedReports,
+    customFormatting,
   } = tableProps;
 
   const [reactTableData, setReactTableData] = useState(null);
@@ -425,6 +426,7 @@ export default function DtgTable({
               aria={tableProps.aria}
               pivotSelected={pivotSelected?.pivotValue}
               setSummaryValues={setSummaryValues}
+              customFormatting={customFormatting}
             />
           </ErrorBoundary>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
-import { currencyFormatter, numberFormatter, dateFormatter } from '../../../helpers/text-format/text-format';
+import { currencyFormatter, numberFormatter, dateFormatter, customNumberFormatter } from '../../../helpers/text-format/text-format';
 import { formattedCell } from '../dtg-table.module.scss';
+import moment from 'moment/moment';
 
 const dataTypes = ['CURRENCY', 'NUMBER', 'DATE', 'PERCENTAGE', 'CURRENCY3'];
 
@@ -15,9 +16,8 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const formatCellValue = (cellData, type, tableName, property) => {
+export const formatCellValue = (cellData, type, tableName, property, customFormatConfig) => {
   let formattedData = cellData;
-
   if (!cellData || cellData === 'null' || cellData === '*') {
     formattedData = '';
   } else if (type === 'CURRENCY') {
@@ -26,7 +26,10 @@ export const formatCellValue = (cellData, type, tableName, property) => {
     const decimalPlaces = parseInt(type.split('CURRENCY')[1]);
     formattedData = customFormat(cellData, decimalPlaces);
   } else if (type === 'NUMBER') {
-    if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
+    const customFormat = customFormatConfig?.find(config => config.type === 'NUMBER' && config.fields.includes(property));
+    if (!!customFormat) {
+      formattedData = customNumberFormatter.format(cellData, customFormat.decimalPlaces);
+    } else if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
       formattedData = cellData;
     } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {
       formattedData = Number(cellData).toFixed(3);
@@ -41,9 +44,23 @@ export const formatCellValue = (cellData, type, tableName, property) => {
     formattedData = dateFormatter.format(date);
   } else if (type === 'SMALL_FRACTION') {
     formattedData = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(cellData);
-  } else if (type === 'STRING' && formattedData.includes('%')) {
-    //replaces hyphens with a non-wrapping hyphen
-    formattedData = cellData.replace(/-/g, '\u2011');
+  } else if (type === 'STRING') {
+    const customFormat = customFormatConfig?.find(config => config.type === 'STRING' && config.fields.includes(property));
+
+    if (formattedData.includes('%')) {
+      //replaces hyphens with a non-wrapping hyphen
+      formattedData = cellData.replace(/-/g, '\u2011');
+    } else if (customFormat && customFormat.customType === 'dateList') {
+      const dates = cellData.split(customFormat.breakChar);
+      formattedData = '';
+      dates.forEach((date, index) => {
+        if (index > 0) {
+          formattedData = formattedData + ', ' + moment(date).format('M/D/YYYY');
+        } else {
+          formattedData = formattedData + moment(date).format('M/D/YYYY');
+        }
+      });
+    }
   }
 
   return formattedData;

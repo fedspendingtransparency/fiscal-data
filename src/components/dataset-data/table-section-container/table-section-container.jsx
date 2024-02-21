@@ -30,6 +30,8 @@ import {
   detailViewIcon,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
+import { useSetRecoilState } from 'recoil';
+import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 
 const TableSectionContainer = ({
   config,
@@ -56,6 +58,7 @@ const TableSectionContainer = ({
   setResetFilters,
   detailViewState,
   setDetailViewState,
+  customFormatting,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -76,6 +79,11 @@ const TableSectionContainer = ({
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
+  const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
+
+  useEffect(() => {
+    setDisableDownloadButton(userFilterUnmatchedForDateRange);
+  }, [userFilterUnmatchedForDateRange]);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -129,7 +137,9 @@ const TableSectionContainer = ({
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
-    const { columnConfig: detailColumnConfig } = setTableConfig(config, config.detailView, selectedPivot, apiData);
+
+    // DetailColumnConfig is used for the TIPS and CPI detail view table
+    const { columnConfig: detailColumnConfig } = config.detailView ? setTableConfig(config, config.detailView, selectedPivot, apiData) : {};
     let displayData = apiData ? apiData.data : null;
 
     if (userFilterSelection?.value && apiData?.data) {
@@ -177,6 +187,7 @@ const TableSectionContainer = ({
       hideColumns: selectedTable.hideColumns,
       excludeCols: ['CHART_DATE'],
       aria: { 'aria-labelledby': 'main-data-table-title' },
+      customFormatting,
     });
   };
 
@@ -298,7 +309,12 @@ const TableSectionContainer = ({
           </div>
         )}
         {!!detailViewState && (
-          <SummaryTable summaryTable={config?.detailView?.summaryTableFields} summaryValues={summaryValues} columnConfig={tableProps?.columnConfig} />
+          <SummaryTable
+            summaryTable={config?.detailView?.summaryTableFields}
+            summaryValues={summaryValues}
+            columnConfig={tableProps?.columnConfig}
+            customFormatConfig={selectedTable?.customFormatting}
+          />
         )}
         {(apiData || serverSidePagination || apiError) && (
           <ChartTableToggle

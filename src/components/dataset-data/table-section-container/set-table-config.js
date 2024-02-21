@@ -72,6 +72,7 @@ export const setTableConfig = (config, selectedTable, selectedPivot, apiData) =>
     apiData.data.length &&
     apiData.meta &&
     selectedPivot &&
+    selectedTable &&
     (selectedPivot.pivotValue || (selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn !== null))
   ) {
     fields = createPivotFields(apiData, selectedTable.dateField, selectedPivot);

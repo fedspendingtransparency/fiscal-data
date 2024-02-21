@@ -10,12 +10,19 @@ const customFormat = stringValue => {
   }
   return returnString;
 };
+
+const customFormatDecimals = (val, decimalPlaces) => {
+  const customFormatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: decimalPlaces });
+  return customFormatter.format(val);
+};
 // In use: currencyFormatter.format(123000.123);
 // Output: $123,000.12
 exports.currencyFormatter = { format: customFormat };
 // In use: numberFormatter.format(123000.123);
 // Output: 123,000.123
 exports.numberFormatter = new Intl.NumberFormat('en-US');
+
+exports.customNumberFormatter = { format: customFormatDecimals };
 // In use: dateFormatter.format(new Date(2020/03/31));
 // Output: "12/30/2020"
 // NOTE: argument for new Date() MUST use '/' not '-'
