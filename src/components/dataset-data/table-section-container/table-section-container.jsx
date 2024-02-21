@@ -30,6 +30,8 @@ import {
   detailViewIcon,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
+import { useSetRecoilState } from 'recoil';
+import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 
 const TableSectionContainer = ({
   config,
@@ -76,6 +78,11 @@ const TableSectionContainer = ({
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
+  const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
+
+  useEffect(() => {
+    setDisableDownloadButton(userFilterUnmatchedForDateRange);
+  }, [userFilterUnmatchedForDateRange]);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
