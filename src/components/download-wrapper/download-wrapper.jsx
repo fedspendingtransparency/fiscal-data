@@ -13,6 +13,8 @@ import { downloadsContext } from '../persist/download-persist/downloads-persist'
 import { generateAnalyticsEvent } from '../../layouts/dataset-detail/helper';
 import { ensureDoubleDigitDate, formatDate } from './helpers';
 import globalConstants from '../../helpers/constants';
+import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
+import { useRecoilValue } from 'recoil';
 
 const gaEventLabels = globalConstants.gaEventLabels;
 export const cancelEventLabelStr = gaEventLabels.cancelDL;
@@ -47,6 +49,7 @@ const DownloadWrapper = ({
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
+  const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
 
   const makeDownloadButtonAvailable = () => {
     if (datasetDownloadInProgress) {
@@ -172,6 +175,10 @@ const DownloadWrapper = ({
     setIcon(setIconComponent(datasetDownloadInProgress));
     setDisableButton(datasetDownloadInProgress);
   }, [datasetDownloadInProgress]);
+
+  useEffect(() => {
+    setDisableButton(globalDisableDownloadButton);
+  }, [globalDisableDownloadButton]);
 
   return (
     <div className={wrapper} data-test-id="wrapper">
