@@ -119,7 +119,7 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   return getIFetch()(uri).then(response => response.json());
 };
 
-export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache) => {
+export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, queryClient) => {
   const endpoint = table.endpoint;
   const dateField = table.dateField;
   const { pivotView, pivotValue } = selectedPivot ? selectedPivot : {};
@@ -131,7 +131,8 @@ export const datatableRequest = async (table, dateRange, selectedPivot, canceled
       pivotView,
       pivotValue.columnName,
       pivotView.aggregateOn,
-      canceledObj
+      canceledObj,
+      queryClient
     );
     if (tableCache) {
       tableCache.updateDataDisplayCache(pivotedData, dateRange);
@@ -217,7 +218,7 @@ export const fetchAllPages = async (uri, canceledObj) => {
   }
 };
 
-export const fetchPivotData = async (table, from, to, pivotView, pivotValueField, aggregateOn, canceledObj) => {
+export const fetchPivotData = async (table, from, to, pivotView, pivotValueField, aggregateOn, canceledObj, queryClient) => {
   const endpoint = table.endpoint;
   const dateField = table.dateField;
   const sortParamValue = buildSortParams(table, { pivotView });
@@ -248,9 +249,17 @@ export const fetchPivotData = async (table, from, to, pivotView, pivotValueField
     }
   }
   const uri = formulateUrl(endpoint, filterParam, fields, null, sortParamValue, 'json');
-  return fetchAllPages(uri, canceledObj).then(data =>
-    pivotData(data, dateField, pivotView, pivotValueField, aggregateOn, from, to, postFetchFilterFunction)
-  );
+
+  try {
+    const data = await queryClient.ensureQueryData({
+      queryKey: ['pivots', uri],
+      queryFn: () => fetchAllPages(uri, canceledObj),
+      staleTime: 600000,
+    });
+    return pivotData(data, dateField, pivotView, pivotValueField, aggregateOn, from, to, postFetchFilterFunction);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const buildFields = (table, pivotView, pivotValueField, aggregateOn) => {

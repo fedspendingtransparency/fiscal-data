@@ -17,6 +17,7 @@ import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
+import { queryClient } from '../../../gatsby-browser';
 
 export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';
@@ -162,7 +163,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             setApiData,
             setApiError,
             canceledObj,
-            tableCaches[selectedTable.apiId]
+            tableCaches[selectedTable.apiId],
+            queryClient
           ).then(() => {
             // nothing to cancel if the request completes normally.
             canceledObj = null;
