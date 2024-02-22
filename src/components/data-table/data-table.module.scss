@@ -117,3 +117,57 @@ $borderRadius: 5px;
     width: 450px;
   }
 }
+
+.slideFadeOutLeft {
+  animation: slideFadeOutLeft 2s forwards;
+}
+.slideFadeOutRight {
+  animation: slideFadeOutRight 2s forwards;
+}
+.slideFadeInLeft {
+  animation: slideFadeInLeft 2s forwards;
+}
+.slideFadeInRight {
+  animation: slideFadeInRight 2s forwards;
+}
+@keyframes slideFadeOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  }
+  @keyframes slideFadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+@keyframes slideFadeOutLeft {
+from {
+  opacity: 1;
+  transform: translateX(0);
+}
+to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+}
+@keyframes slideFadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

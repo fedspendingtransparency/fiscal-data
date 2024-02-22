@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
+import classNames from 'classnames';
 import {
   getCoreRowModel,
   getPaginationRowModel,
@@ -17,6 +18,10 @@ import {
   selectColumnPanelActive,
   selectColumnPanelInactive,
   selectColumnsWrapper,
+  slideFadeInRight,
+  slideFadeInLeft,
+  slideFadeOutRight,
+  slideFadeOutLeft,
 } from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
@@ -96,6 +101,29 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [selectedDetailView, setSelectedDetailView] = useState('');
   const [configOption, setConfigOption] = useState(columnConfig);
   const [tableData, setTableData] = useState(rawData);
+  const [animationClass, setAnimationClass] = useState('');
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, [])
+
+  useEffect(() => {
+    if (hasMounted){
+      if (detailViewState){
+        setAnimationClass(slideFadeInRight);
+        console.log('fade in right');
+      }
+      else {
+        setAnimationClass(slideFadeInLeft);
+        console.log('fade out left');
+      }
+    }
+    else {
+      setAnimationClass('');
+    }
+
+  }, [detailViewState])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -281,7 +309,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   return (
     <>
-      <div data-test-id="table-content" className={overlayContainerNoFooter}>
+      <div data-test-id="table-content" className={classNames([overlayContainerNoFooter, animationClass])}>
         <div className={selectColumnsWrapper}>
           {defaultSelectedColumns && (
             <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
