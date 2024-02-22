@@ -101,29 +101,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [selectedDetailView, setSelectedDetailView] = useState('');
   const [configOption, setConfigOption] = useState(columnConfig);
   const [tableData, setTableData] = useState(rawData);
-  const [animationClass, setAnimationClass] = useState('');
+  const [animationClassIn, setAnimationClassIn] = useState('');
+  const [animationClassOut, setAnimationClassOut] = useState('');
   const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, [])
-
-  useEffect(() => {
-    if (hasMounted){
-      if (detailViewState){
-        setAnimationClass(slideFadeInRight);
-        console.log('fade in right');
-      }
-      else {
-        setAnimationClass(slideFadeInLeft);
-        console.log('fade out left');
-      }
-    }
-    else {
-      setAnimationClass('');
-    }
-
-  }, [detailViewState])
+  const [nextTableData, setNextTableData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -150,6 +131,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       setDetailViewState(columnValue);
     }
   };
+
 
   useEffect(() => {
     if (!detailViewState) {
@@ -239,6 +221,27 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
 
+  const [currentDataTable, setCurrentDataTable] = useState(table);
+
+  console.log('hasmounted ',hasMounted);
+  useEffect(() => {
+    if (hasMounted){
+      if (detailViewState){
+
+        setAnimationClassOut(slideFadeOutLeft);
+        setAnimationClassIn(slideFadeInRight);
+        console.log('fade in right');
+        console.log('detailViewState',detailViewState);
+        setNextTableData(table);
+      }
+      else {
+        setAnimationClassIn(slideFadeInLeft);
+
+        console.log('fade out left');
+      }
+    }
+
+  }, [detailViewState])
   useEffect(() => {
     if (resetFilters) {
       setTableColumnSortData(tableData.data);
@@ -306,10 +309,25 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       selectColumnsRef.current?.focus();
     }
   });
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
+  useEffect(() => {
+    if(nextTableData) {
+      console.log('being run')
+      const timer = setTimeout(() => {
+        setCurrentDataTable(nextTableData);
+        setNextTableData(null);
+        setAnimationClassIn('');
+        setAnimationClassOut('');
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [nextTableData]);
   return (
     <>
-      <div data-test-id="table-content" className={classNames([overlayContainerNoFooter, animationClass])}>
+      <div data-test-id="table-content" className={classNames([overlayContainerNoFooter])}>
         <div className={selectColumnsWrapper}>
           {defaultSelectedColumns && (
             <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
@@ -326,7 +344,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
               />
             </div>
           )}
-          <div className={tableStyle}>
+          <div className={classNames(tableStyle, animationClassOut)} style={{ width: '100%', top: 0}}>
             <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>
                 <DataTableHeader
@@ -338,10 +356,28 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                   setAllActiveFilters={setAllActiveFilters}
                   manualPagination={manualPagination}
                 />
-                <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
+                <DataTableBody table={currentDataTable} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
               </table>
             </div>
           </div>
+          {nextTableData && (
+            <div className={classNames(tableStyle, animationClassIn)} style={{ position: 'absolute', width: '100%', top: 0}}>
+              <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
+                <table {...aria}>
+                  <DataTableHeader
+                    table={table}
+                    dataTypes={dataTypes}
+                    resetFilters={resetFilters}
+                    setFiltersActive={setFiltersActive}
+                    allActiveFilters={allActiveFilters}
+                    setAllActiveFilters={setAllActiveFilters}
+                    manualPagination={manualPagination}
+                  />
+                  <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
+                </table>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {shouldPage && (
