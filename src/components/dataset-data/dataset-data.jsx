@@ -151,6 +151,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   useEffect(() => {
     //TODO: Prevent caching of detail view table, because the date range does not change, the data is not refreshing when switching between cusip values
     if (detailApi) {
+      // resetting cache index here lets table data refresh on cusip change
+      tableCaches[detailApi.apiId] = null;
       setDateRange(null);
       setSelectedPivot(null);
       setIsFiltered(true);
