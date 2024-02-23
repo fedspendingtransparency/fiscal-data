@@ -236,7 +236,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       }
       else {
         setAnimationClassIn(slideFadeInLeft);
-
         console.log('fade out left');
       }
     }
@@ -373,7 +372,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                     setAllActiveFilters={setAllActiveFilters}
                     manualPagination={manualPagination}
                   />
-                  <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
+                  <DataTableBody table={nextTableData} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
                 </table>
               </div>
             </div>
