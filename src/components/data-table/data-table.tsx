@@ -242,7 +242,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     if (defaultSelectedColumns && !pivotSelected) {
       constructDefaultColumnsFromTableData();
     }
-  }, [rawData]);
+  }, [rawData, configOption]);
 
   const selectColumnsRef = useRef(null);
 

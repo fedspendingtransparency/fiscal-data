@@ -21,10 +21,6 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { detailViewNotice, lockIcon } from './dataset-data.module.scss';
 
-// Ticket Notes:
-//   - Test on other datasets
-//   - Wrong apis date range is carrying over before being corrected
-
 export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';
 
