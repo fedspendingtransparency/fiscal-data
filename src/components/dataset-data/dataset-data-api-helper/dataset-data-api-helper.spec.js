@@ -1,4 +1,3 @@
-import React from 'react';
 import { divvyUpFilters, getApiData, pivotApiData, pivotApiDataFn, unitTestFunctions } from './dataset-data-api-helper';
 import renderer from 'react-test-renderer';
 import * as TestHelpers from '../test-helper';

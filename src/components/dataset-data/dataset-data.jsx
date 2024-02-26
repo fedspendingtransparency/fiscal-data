@@ -17,6 +17,9 @@ import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { detailViewNotice, lockIcon } from './dataset-data.module.scss';
 
 export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';
@@ -25,7 +28,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const title = width >= pxToNumber(breakpointSm) ? desktopTitle : tabletMobileTitle;
   // config.apis should always be available; but, fallback in case
   const apis = config ? config.apis : [null];
-  const filteredApis = apis.filter(api => api?.apiId !== config.detailView?.apiId);
+  const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
+  const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
@@ -47,6 +51,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [tableCaches] = useState({});
   const [resetFilters, setResetFilters] = useState(false);
   const [detailViewState, setDetailViewState] = useState(null);
+  const [summaryValues, setSummaryValues] = useState(null);
+
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;
@@ -142,11 +148,26 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [selectedTable]);
 
+  useEffect(() => {
+    if (detailApi) {
+      // resetting cache index here lets table data refresh on detail view state change
+      tableCaches[detailApi.apiId] = null;
+      setDateRange(null);
+      setSelectedPivot(null);
+      setIsFiltered(true);
+      setApiError(false);
+      if (!tableCaches[detailApi.apiId]) {
+        tableCaches[detailApi.apiId] = new TableCache();
+      }
+    }
+  }, [detailViewState]);
+
   // When dateRange changes, fetch new data
   useEffect(() => {
-    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected && !detailViewState) {
-      const cache = tableCaches[selectedTable.apiId];
-      const cachedDisplay = cache.getCachedDataDisplay(dateRange, selectedPivot, selectedTable);
+    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
+      const displayedTable = detailViewState ? detailApi : selectedTable;
+      const cache = tableCaches[displayedTable.apiId];
+      const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
       if (cachedDisplay) {
         updateDataDisplay(cachedDisplay);
       } else {
@@ -156,13 +177,15 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         if (!loadByPage || ignorePivots) {
           getApiData(
             dateRange,
-            selectedTable,
+            displayedTable,
             selectedPivot,
             setIsLoading,
             setApiData,
             setApiError,
             canceledObj,
-            tableCaches[selectedTable.apiId]
+            tableCaches[displayedTable.apiId],
+            detailViewState,
+            config?.detailView?.columnId
           ).then(() => {
             // nothing to cancel if the request completes normally.
             canceledObj = null;
@@ -175,8 +198,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         };
       }
     }
-  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
-
+  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, detailViewState]);
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
@@ -205,7 +227,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             {selectedTable && (
               <RangePresets
                 setDateRange={handleDateRangeChange}
-                selectedTable={selectedTable}
+                selectedTable={!!detailViewState ? detailApi : selectedTable}
                 apiData={apiData}
                 onUserFilter={setUserFilterSelection}
                 setIsFiltered={setIsFiltered}
@@ -221,7 +243,13 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 finalDatesNotFound={finalDatesNotFound}
                 setResetFilters={setResetFilters}
                 datatableBanner={config.datatableBanner}
+                hideButtons={detailApi && !detailViewState}
               />
+            )}
+            {detailApi && !detailViewState && (
+              <div className={detailViewNotice}>
+                <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
+              </div>
             )}
           </FilterAndDownload>
         )}
@@ -251,6 +279,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             setDetailViewState={setDetailViewState}
             detailViewState={detailViewState}
             customFormatting={selectedTable?.customFormatting}
+            summaryValues={summaryValues}
+            setSummaryValues={setSummaryValues}
           />
         )}
       </div>

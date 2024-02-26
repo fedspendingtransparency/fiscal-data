@@ -17,9 +17,11 @@ module.exports = {
       topics: ['auctions', 'interest-exchange-rates'],
       relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-056', '015-BFS-2014Q3-048', '015-BFS-2014Q3-049'],
       currentDateButton: 'byMonth',
+      datePreset: 'all',
       detailView: {
         apiId: 300,
         columnId: 'cusip',
+        dateRangeLockCopy: 'Select a CUSIP number in the table below to activate the date range filter.',
         summaryTableFields: [
           'cusip',
           'series',
