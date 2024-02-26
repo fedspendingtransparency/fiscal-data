@@ -1,5 +1,3 @@
-import { TestData } from '../dtg-table/test-data';
-
 export const mockMeta = {
   count: 2,
   labels: {
@@ -21,6 +19,7 @@ export const mockMeta = {
     daily_index: 'Daily Index',
     daily_int_accrual_rate: 'Daily Accrual Rate',
     spread: 'Spread',
+    additional_date: 'Additional Date',
   },
   dataTypes: {
     record_date: 'DATE',
@@ -41,6 +40,7 @@ export const mockMeta = {
     daily_index: 'NUMBER',
     daily_int_accrual_rate: 'NUMBER',
     spread: 'NUMBER',
+    additional_date: 'STRING',
   },
   dataFormats: {
     record_date: 'YYYY-MM-DD',
@@ -132,6 +132,10 @@ export const mockColumnConfig = [
     property: 'spread',
     name: 'Spread',
   },
+  {
+    property: 'additional_date',
+    name: 'Additional Date',
+  },
 ];
 
 export const mockDetailViewColumnConfig = [
@@ -191,6 +195,7 @@ export const mockTableData = {
       daily_index: '0.111111111',
       daily_int_accrual_rate: '0.222222222',
       spread: '-0.1200',
+      additional_date: '2024-1-1, 2023-2-2',
     },
     {
       record_date: '2023-07-11',

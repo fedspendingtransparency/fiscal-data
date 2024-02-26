@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import DtgTableRow from './dtg-table-row';
+import DtgTableRow, { formatCellValue } from './dtg-table-row';
 
 describe('DtgTableRow', () => {
   const data1 = { row1: 123 };
@@ -90,5 +90,17 @@ describe('DtgTableRow', () => {
     const cols = [{ name: 'spread', order: 3, property: 'spread', width: 12 }];
     const component = renderer.create(<DtgTableRow columns={cols} data={spreadData} />);
     expect(component.root.findByType('td').props.children).toBe(0.012);
+  });
+
+  it('formats custom NUMBER correctly', () => {
+    const customFormatter = [{ type: 'NUMBER', fields: ['spread'], decimalPlaces: 6 }];
+    const formattedData = formatCellValue(0.012345, 'NUMBER', null, 'spread', customFormatter);
+    expect(formattedData).toBe('0.012345');
+  });
+
+  it('formats custom STRING dateList correctly', () => {
+    const customFormatter = [{ type: 'STRING', fields: ['spread'], breakChar: ',', customType: 'dateList' }];
+    const formattedData = formatCellValue('2024-1-1, 2023-2-2', 'STRING', null, 'spread', customFormatter);
+    expect(formattedData).toBe('1/1/2024, 2/2/2023');
   });
 });
