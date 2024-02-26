@@ -217,8 +217,8 @@ const DownloadWrapper = ({
         )}
         {selectedDetailViewFilter && (
           <div className={describer}>
-            <strong data-testid="userFilterLabel">{selectedDetailViewFilter.label}:</strong>
-            <div data-testid="userFilterValue" className={dateStringStyle}>
+            <strong data-testid="detailViewFilterLabel">{selectedDetailViewFilter.label}:</strong>
+            <div data-testid="detailViewFilterValue" className={dateStringStyle}>
               {selectedDetailViewFilter && selectedDetailViewFilter.value ? selectedDetailViewFilter.value : ''}
             </div>
           </div>
