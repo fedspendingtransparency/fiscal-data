@@ -108,7 +108,6 @@ describe('DatasetData', () => {
     const dropdownOptions = instance.findAllByProps({
       'data-testid': 'dropdown-list-option',
     });
-    console.log('dropdown', dropdownOptions);
     await renderer.act(async () => {
       const opt = dropdownOptions.find(ddo => ddo.props.children.props.children === tableName);
       await opt.props.onClick();
@@ -577,5 +576,37 @@ describe('DatasetData', () => {
     await updateTable('Table 2');
     rangePresets = instance.findByType(RangePresets);
     expect(rangePresets.props.allTablesSelected).toBeFalsy();
+  });
+});
+
+describe('Nested Data Table', () => {
+  global.console.error = jest.fn();
+  const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+  let instance;
+  const setSelectedTableMock = jest.fn();
+  const fetchSpy = jest.spyOn(global, 'fetch');
+  beforeEach(async () => {
+    instance = render(
+      <RecoilRoot>
+        <DatasetDataComponent
+          config={{ ...config, detailView: { apiId: 300 } }}
+          width={2000}
+          setSelectedTableProp={setSelectedTableMock}
+          location={mockLocation}
+        />
+      </RecoilRoot>
+    );
+  });
+
+  afterEach(() => {
+    fetchSpy.mockClear();
+    global.fetch.mockClear();
+    analyticsSpy.mockClear();
+    global.console.error.mockClear();
+  });
+
+  it('Renders the summary table', () => {
+    expect(instance).toBeDefined();
   });
 });
