@@ -2,7 +2,7 @@ import { counterContainerSpending, footNotes, footNotesPillData, heroImageSubHea
 import React, { ReactElement, useEffect, useState } from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
-import { getFootNotesDateRange, getPillData } from '../hero-helper';
+import { getChangeLabel, getFootNotesDateRange, getPillData } from '../hero-helper';
 import { spendingExplainerPrimary } from '../../sections/federal-spending/federal-spending.module.scss';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import { getShortForm } from '../../../../utils/rounding-utils';
@@ -49,14 +49,7 @@ const FederalSpendingHero = (): ReactElement => {
         setRecordCalendarMonth(data.record_calendar_month);
         setSpendingChange(difference);
         setSpendingPercentChange((difference / priorTotalSpending) * 100);
-
-        if (currentTotalSpending > priorTotalSpending) {
-          setSpendingChangeLabel('increased');
-        } else if (currentTotalSpending < priorTotalSpending) {
-          setSpendingChangeLabel('decreased');
-        } else {
-          setSpendingChangeLabel('not changed');
-        }
+        setSpendingChangeLabel(getChangeLabel(currentTotalSpending, priorTotalSpending));
       }
     });
   };
