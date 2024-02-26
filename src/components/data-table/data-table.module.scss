@@ -99,7 +99,7 @@ $borderRadius: 5px;
 
 .selectColumnsWrapper {
   display: flex;
-
+  overflow: hidden;
   .selectColumnPanelInactive {
     display: none;
   }
@@ -119,16 +119,16 @@ $borderRadius: 5px;
 }
 
 .slideFadeOutLeft {
-  animation: slideFadeOutLeft 2s forwards;
+  animation: slideFadeOutLeft .5s forwards;
 }
 .slideFadeOutRight {
-  animation: slideFadeOutRight 2s forwards;
+  animation: slideFadeOutRight .5s forwards;
 }
 .slideFadeInLeft {
-  animation: slideFadeInLeft 2s forwards;
+  animation: slideFadeInLeft .5s forwards;
 }
 .slideFadeInRight {
-  animation: slideFadeInRight 2s forwards;
+  animation: slideFadeInRight .5s forwards;
 }
 @keyframes slideFadeOutRight {
   from {

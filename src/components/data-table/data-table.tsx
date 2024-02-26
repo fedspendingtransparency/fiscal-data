@@ -233,7 +233,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
         setNextTableData(null);
         setAnimationClassIn('');
         setAnimationClassOut('');
-      }, 4000);
+      }, 500);
       return () => clearTimeout(timer);
     }
   }, [nextTableData]);
