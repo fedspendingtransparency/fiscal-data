@@ -30,6 +30,7 @@ const RangePresets = ({
   const [dateRange, setCurDateRange] = useState(null);
   const [presets, setPresets] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
+  console.log(hideButtons);
 
   const basePreset = [{ label: 'All', key: 'all', years: null }];
   const possiblePresets = [

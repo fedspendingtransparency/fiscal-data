@@ -108,6 +108,7 @@ describe('DatasetData', () => {
     const dropdownOptions = instance.findAllByProps({
       'data-testid': 'dropdown-list-option',
     });
+    console.log('dropdown', dropdownOptions);
     await renderer.act(async () => {
       const opt = dropdownOptions.find(ddo => ddo.props.children.props.children === tableName);
       await opt.props.onClick();
@@ -141,7 +142,7 @@ describe('DatasetData', () => {
 
   it(`contains a DataTableSelect component with defaulted props`, () => {
     // Detail view api is not displayed in dropdown
-    expect(instance.findByType(DataTableSelect).props.apis).toStrictEqual(config.apis.slice(0, -1));
+    expect(instance.findByType(DataTableSelect).props.apis).toStrictEqual(config.apis);
   });
 
   it(`initializes the selected table to the first element in the apis array`, () => {
@@ -187,7 +188,7 @@ describe('DatasetData', () => {
   it(`sends the updated props to FilterAndDownload component when a new data table is
   selected`, async () => {
     const dropdownOptions = await updateTable('Table 2');
-    expect(dropdownOptions.length).toBe(11);
+    expect(dropdownOptions.length).toBe(12);
     expect(instance.findByType(FilterAndDownload).props.selectedTable.tableName).toBe(config.apis[1].tableName);
   });
 

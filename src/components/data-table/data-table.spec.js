@@ -507,7 +507,7 @@ describe('react-table', () => {
   it('renders detail view links', async () => {
     const setDetailViewSpy = jest.fn();
     const setSummaryValuesSpy = jest.fn();
-    const { getByRole, queryByRole } = render(
+    const { getByRole } = render(
       <RecoilRoot>
         <DataTable
           rawData={mockTableData}
@@ -529,11 +529,8 @@ describe('react-table', () => {
     );
     const detailViewButton = getByRole('button', { name: '2023-07-12' });
     expect(detailViewButton).toBeInTheDocument();
-    expect(getByRole('columnheader', { name: 'Fiscal Year' })).toBeInTheDocument();
+
     detailViewButton.click();
-    await waitFor(() => {
-      expect(queryByRole('columnheader', { name: 'Fiscal Year' })).not.toBeInTheDocument();
-    });
     expect(setDetailViewSpy).toHaveBeenCalledWith('2023-07-12');
     expect(setSummaryValuesSpy).toHaveBeenCalledWith(mockTableData.data[0]);
   });

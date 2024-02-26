@@ -27,8 +27,8 @@ import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableF
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
-  const textHighlighted = { 'background-color': '#E8F5FF' };
-  const noTextHighLight = { 'background-color': '' };
+  const textHighlighted = { backgroundColor: '#E8F5FF' };
+  const noTextHighLight = { backgroundColor: '' };
 
   const [selected, setSelected] = useState({
     from: undefined,
