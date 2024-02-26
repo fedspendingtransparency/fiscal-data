@@ -250,7 +250,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       }
     }
   }, [detailViewState, nextTableData]);
-  console.log('nextTableData  ',nextTableData, currentDataTable, table);
+
   useEffect(() => {
     if (resetFilters) {
       setTableColumnSortData(tableData.data);
@@ -342,7 +342,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             </div>
           )}
           <div className={classNames(tableStyle, nextTableData ? animationClassOut : animationClassIn)} style={{ width: '100%', top: 0}}>
-          {console.log('ONE')}
             <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>
                 <DataTableHeader
@@ -361,7 +360,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           {nextTableData && (
             <div className={classNames(tableStyle, nextTableData ? animationClassIn : animationClassOut)} style={{ position: 'absolute', width: '100%', top: 0}}>
               <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
-              {console.log('TWO')}
                 <table {...aria}>
                   <DataTableHeader
                     table={table}
