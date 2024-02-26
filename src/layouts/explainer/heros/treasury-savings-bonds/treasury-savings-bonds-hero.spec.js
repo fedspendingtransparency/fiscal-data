@@ -9,14 +9,14 @@ describe('Treasury Savings Bonds Hero', () => {
   it('renders hero section', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<TreasurySavingsBondsHero />);
-    expect(fetchSpy).toBeCalled();
+    await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(getByText('savings bonds this fiscal year', { exact: false })).toBeInTheDocument();
   });
 
   it('renders hero section with correct data', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<TreasurySavingsBondsHero />);
-    expect(fetchSpy).toBeCalled();
+    await waitFor(() => expect(fetchSpy).toBeCalled());
     await waitFor(() => getByText('$89 million', { exact: false }));
     expect(getByText('has invested $89 million', { exact: false })).toBeInTheDocument();
     expect(getByText('(Oct 2022 - Feb 2023)', { exact: false })).toBeInTheDocument();
