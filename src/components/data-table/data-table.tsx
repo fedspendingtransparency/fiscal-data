@@ -129,7 +129,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     setSummaryValues(rawData.data.find(data => data[detailView?.columnId] === columnValue));
     if (setDetailViewState) {
       setDetailViewState(columnValue);
-      setNextTableData(currentDataTable);
     }
   };
 
@@ -222,42 +221,35 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
 
-  console.log('hasmounted ',hasMounted);
   const [currentDataTable, setCurrentDataTable] = useState(table);
 
   useEffect(() => {
     if(nextTableData) {
-      console.log('being run')
+      setCurrentDataTable(nextTableData);
+      setNextTableData(null);
       const timer = setTimeout(() => {
-        setCurrentDataTable(nextTableData);
-        setNextTableData(null);
+
         setAnimationClassIn('');
         setAnimationClassOut('');
-      }, 500);
+      }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [nextTableData]);
-console.log('currentDataTable', currentDataTable);
+  }, [nextTableData, currentDataTable]);
+  console.log('nextTableData  ',nextTableData, currentDataTable, table);
   useEffect(() => {
-
     if (hasMounted){
-      setNextTableData(currentDataTable);
       if (detailViewState){
+        setNextTableData(table);
         setAnimationClassOut(slideFadeOutLeft);
         setAnimationClassIn(slideFadeInRight);
-        console.log('fade in right');
-        console.log('detailViewState',detailViewState);
-
       }
       else {
-        console.log('currentDataTable55', currentDataTable);
+        setNextTableData(currentDataTable);
         setAnimationClassIn(slideFadeInLeft);
         setAnimationClassOut(slideFadeOutRight);
-        console.log('fade out left');
-        console.log('detailViewState',detailViewState);
       }
     }
-  }, [detailViewState])
+  }, [detailViewState, nextTableData])
   useEffect(() => {
     if (resetFilters) {
       setTableColumnSortData(tableData.data);
@@ -329,8 +321,6 @@ console.log('currentDataTable', currentDataTable);
     setHasMounted(true);
   }, []);
   
-  console.log('nextTableData  ',nextTableData, currentDataTable, table);
-
   return (
     <>
       <div data-test-id="table-content" className={classNames([overlayContainerNoFooter])}>
