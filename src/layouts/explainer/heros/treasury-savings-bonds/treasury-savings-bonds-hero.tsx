@@ -31,7 +31,6 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   };
 
   const getHeroData = () => {
-    console.log(securitiesSalesUrl);
     basicFetch(`${securitiesSalesUrl}`).then(res => {
       if (res.data) {
         setPriorFiscalYear((parseInt(res.data[0].record_fiscal_year) - 1).toString());
