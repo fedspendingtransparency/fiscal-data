@@ -106,7 +106,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
             savingsBondChangeLabel,
             true,
             pillColorWithTransparency,
-            leftTooltip(savingsBondChangeLabel),
+            leftTooltip,
             rightTooltip
           )}
         </div>
