@@ -192,7 +192,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             canceledObj,
             tableCaches[displayedTable.apiId],
             detailViewState,
-            detailApi && !detailViewState,
             config?.detailView?.columnId
           ).then(() => {
             // nothing to cancel if the request completes normally.
