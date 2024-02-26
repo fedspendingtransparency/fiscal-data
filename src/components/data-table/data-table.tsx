@@ -129,14 +129,14 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     setSummaryValues(rawData.data.find(data => data[detailView?.columnId] === columnValue));
     if (setDetailViewState) {
       setDetailViewState(columnValue);
+      setNextTableData(currentDataTable);
     }
   };
-
 
   useEffect(() => {
     if (!detailViewState) {
       setSelectedDetailView(null);
-    }
+}
   }, [detailViewState]);
 
   useEffect(() => {
@@ -198,6 +198,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
+
   const table = useReactTable({
     columns: allColumns,
     data: tableData.data,
@@ -221,25 +222,41 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
 
+  console.log('hasmounted ',hasMounted);
   const [currentDataTable, setCurrentDataTable] = useState(table);
 
-  console.log('hasmounted ',hasMounted);
   useEffect(() => {
-    if (hasMounted){
-      if (detailViewState){
+    if(nextTableData) {
+      console.log('being run')
+      const timer = setTimeout(() => {
+        setCurrentDataTable(nextTableData);
+        setNextTableData(null);
+        setAnimationClassIn('');
+        setAnimationClassOut('');
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [nextTableData]);
+console.log('currentDataTable', currentDataTable);
+  useEffect(() => {
 
+    if (hasMounted){
+      setNextTableData(currentDataTable);
+      if (detailViewState){
         setAnimationClassOut(slideFadeOutLeft);
         setAnimationClassIn(slideFadeInRight);
         console.log('fade in right');
         console.log('detailViewState',detailViewState);
-        setNextTableData(table);
+
       }
       else {
+        console.log('currentDataTable55', currentDataTable);
         setAnimationClassIn(slideFadeInLeft);
+        setAnimationClassOut(slideFadeOutRight);
         console.log('fade out left');
+        console.log('detailViewState',detailViewState);
       }
     }
-
   }, [detailViewState])
   useEffect(() => {
     if (resetFilters) {
@@ -311,19 +328,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   useEffect(() => {
     setHasMounted(true);
   }, []);
+  
+  console.log('nextTableData  ',nextTableData, currentDataTable, table);
 
-  useEffect(() => {
-    if(nextTableData) {
-      console.log('being run')
-      const timer = setTimeout(() => {
-        setCurrentDataTable(nextTableData);
-        setNextTableData(null);
-        setAnimationClassIn('');
-        setAnimationClassOut('');
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [nextTableData]);
   return (
     <>
       <div data-test-id="table-content" className={classNames([overlayContainerNoFooter])}>
@@ -343,7 +350,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
               />
             </div>
           )}
-          <div className={classNames(tableStyle, animationClassOut)} style={{ width: '100%', top: 0}}>
+          <div className={classNames(tableStyle, nextTableData ? animationClassOut : animationClassIn)} style={{ width: '100%', top: 0}}>
+          {console.log('ONE')}
             <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>
                 <DataTableHeader
@@ -360,8 +368,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             </div>
           </div>
           {nextTableData && (
-            <div className={classNames(tableStyle, animationClassIn)} style={{ position: 'absolute', width: '100%', top: 0}}>
+            <div className={classNames(tableStyle, nextTableData ? animationClassIn : animationClassOut)} style={{ position: 'absolute', width: '100%', top: 0}}>
               <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
+              {console.log('TWO')}
                 <table {...aria}>
                   <DataTableHeader
                     table={table}
