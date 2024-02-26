@@ -122,13 +122,13 @@ $borderRadius: 5px;
   animation: slideFadeOutLeft 1s forwards;
 }
 .slideFadeOutRight {
-  animation: slideFadeOutRight 1s forwards;
+  animation: slideFadeOutRight .1s forwards;
 }
 .slideFadeInLeft {
-  animation: slideFadeInLeft 1s forwards;
+  animation: slideFadeInLeft .5s forwards;
 }
 .slideFadeInRight {
-  animation: slideFadeInRight 1s forwards;
+  animation: slideFadeInRight .5s forwards;
 }
 @keyframes slideFadeOutRight {
   from {

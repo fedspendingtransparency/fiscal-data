@@ -235,21 +235,22 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       return () => clearTimeout(timer);
     }
   }, [nextTableData, currentDataTable]);
-  console.log('nextTableData  ',nextTableData, currentDataTable, table);
+
   useEffect(() => {
     if (hasMounted){
       if (detailViewState){
-        setNextTableData(table);
+        setNextTableData(table)
         setAnimationClassOut(slideFadeOutLeft);
         setAnimationClassIn(slideFadeInRight);
       }
       else {
-        setNextTableData(currentDataTable);
+        setNextTableData(table);
         setAnimationClassIn(slideFadeInLeft);
         setAnimationClassOut(slideFadeOutRight);
       }
     }
-  }, [detailViewState, nextTableData])
+  }, [detailViewState, nextTableData]);
+  console.log('nextTableData  ',nextTableData, currentDataTable, table);
   useEffect(() => {
     if (resetFilters) {
       setTableColumnSortData(tableData.data);
