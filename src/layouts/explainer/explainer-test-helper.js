@@ -1,3 +1,5 @@
+import fetchMock from 'fetch-mock';
+
 const mockExplainerPageResponseData = [
   {
     record_date: '2021-09-30',
@@ -644,6 +646,144 @@ export const mockRevenueHeroData_decrease = {
       record_fiscal_year: '2022',
     },
   ],
+};
+
+export const mockSavingsBondDataNoFilter = {
+  data: [
+    {
+      record_date: '2024-02-29',
+      security_type_desc: 'Savings Bond',
+      security_class_desc: 'EE',
+      securities_sold_cnt: '9210',
+      gross_sales_amt: '3699971.64',
+      returned_sales_amt: '66324.81',
+      net_sales_amt: '3633646.83',
+      trans_month: '202402',
+      src_line_nbr: '1',
+      record_fiscal_year: '2024',
+      record_fiscal_quarter: '2',
+      record_calendar_year: '2024',
+      record_calendar_quarter: '1',
+      record_calendar_month: '02',
+      record_calendar_day: '29',
+    },
+  ],
+};
+
+export const mockSavingsBondCurrentFY = {
+  data: [
+    {
+      record_date: '2023-10-31',
+      security_type_desc: 'Savings Bond',
+      security_class_desc: 'EE',
+      securities_sold_cnt: '19836',
+      gross_sales_amt: '5569509.59',
+      returned_sales_amt: '242263.46',
+      net_sales_amt: '5327246.13',
+      trans_month: '202310',
+      src_line_nbr: '1',
+      record_fiscal_year: '2024',
+      record_fiscal_quarter: '1',
+      record_calendar_year: '2023',
+      record_calendar_quarter: '4',
+      record_calendar_month: '10',
+      record_calendar_day: '31',
+    },
+    {
+      record_date: '2023-10-31',
+      security_type_desc: 'Savings Bond',
+      security_class_desc: 'I',
+      securities_sold_cnt: '108108',
+      gross_sales_amt: '78785743.45',
+      returned_sales_amt: '1480924.71',
+      net_sales_amt: '77304818.74',
+      trans_month: '202310',
+      src_line_nbr: '2',
+      record_fiscal_year: '2024',
+      record_fiscal_quarter: '1',
+      record_calendar_year: '2023',
+      record_calendar_quarter: '4',
+      record_calendar_month: '10',
+      record_calendar_day: '31',
+    },
+    {
+      record_date: '2023-11-30',
+      security_type_desc: 'Savings Bond',
+      security_class_desc: 'EE',
+      securities_sold_cnt: '21221',
+      gross_sales_amt: '6624205.09',
+      returned_sales_amt: '142941.28',
+      net_sales_amt: '6481263.81',
+      trans_month: '202311',
+      src_line_nbr: '1',
+      record_fiscal_year: '2024',
+      record_fiscal_quarter: '1',
+      record_calendar_year: '2023',
+      record_calendar_quarter: '4',
+      record_calendar_month: '11',
+      record_calendar_day: '30',
+    },
+  ],
+};
+
+export const mockSavingsBondLastFiscalYearCurrentMonth = {
+  data: [
+    {
+      record_date: '2023-02-28',
+      security_type_desc: 'Savings Bond',
+      security_class_desc: 'EE',
+      securities_sold_cnt: '18431',
+      gross_sales_amt: '9938784.25',
+      returned_sales_amt: '201945.00',
+      net_sales_amt: '9736839.25',
+      trans_month: '202302',
+      src_line_nbr: '1',
+      record_fiscal_year: '2023',
+      record_fiscal_quarter: '2',
+      record_calendar_year: '2023',
+      record_calendar_quarter: '1',
+      record_calendar_month: '02',
+      record_calendar_day: '28',
+    },
+    {
+      record_date: '2023-02-28',
+      security_type_desc: 'Savings Bond',
+      security_class_desc: 'I',
+      securities_sold_cnt: '278799',
+      gross_sales_amt: '1234294795.89',
+      returned_sales_amt: '11886896.00',
+      net_sales_amt: '1222407899.89',
+      trans_month: '202302',
+      src_line_nbr: '2',
+      record_fiscal_year: '2023',
+      record_fiscal_quarter: '2',
+      record_calendar_year: '2023',
+      record_calendar_quarter: '1',
+      record_calendar_month: '02',
+      record_calendar_day: '28',
+    },
+  ],
+};
+
+export const mockSavingsBondFetchResponses = () => {
+  fetchMock.get(
+    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&sort=-record_date&page[size]=1`,
+    mockSavingsBondDataNoFilter,
+    { overwriteRoutes: true },
+    { repeat: 1 }
+  );
+  fetchMock.get(
+    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2024`,
+    mockSavingsBondCurrentFY,
+    { overwriteRoutes: true },
+    { repeat: 1 }
+  );
+  fetchMock.get(
+    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_calendar_month:eq:02`,
+    mockSavingsBondLastFiscalYearCurrentMonth,
+    { overwriteRoutes: true },
+    { repeat: 1 }
+  );
 };
 
 export const mockDebtExpenseResponse = {
