@@ -23,8 +23,6 @@ import { detailViewNotice, lockIcon } from './dataset-data.module.scss';
 
 // Ticket Notes:
 //   - Test on other datasets
-//   - Date range should not apply to summary table
-//       - Back button set selected to all ?
 //   - Wrong apis date range is carrying over before being corrected
 
 export const desktopTitle = 'Preview & Download';
@@ -113,7 +111,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   useEffect(() => {
     if (configUpdated) {
-      console.log('here');
       tableCaches[selectedTable.apiId] = new TableCache();
       const tableFromUrl = parseTableSelectionFromUrl(location, apis);
       setSelectedTable(tableFromUrl);
@@ -207,11 +204,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, detailViewState]);
 
-  useEffect(() => {
-    // setSelectedTable(!detailViewState ? detailApi : detailApi);
-    // console.log(detailViewState);
-  }, [detailViewState]);
-  // console.log(detailApi);
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
