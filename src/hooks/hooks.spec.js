@@ -2,6 +2,14 @@ import { renderHook } from '@testing-library/react-hooks';
 import { StaticQuery, useStaticQuery } from 'gatsby';
 import useBEAGDP from './useBeaGDP';
 import { mockBEAGDPData, mockNoQ3BEAGDPData } from './hookDataMocks/mockBEAGDPData';
+import {
+  mockAFGHomePageGACSV,
+  mockDebtExplainerGACSV,
+  mockDeficitExplainerGACSV,
+  mockRevenueExplainerGACSV,
+  mockSpendingExplainerGACSV,
+} from './hookDataMocks/mockGAEventTrackingData';
+import useGAEventTracking from './useGAEventTracking';
 
 const mockBEAData = {
   allBeaGdp: {
@@ -12,6 +20,24 @@ const mockBEAData = {
 const mockNoQ3BEAData = {
   allBeaGdp: {
     nodes: mockNoQ3BEAGDPData,
+  },
+};
+
+const mockGAEventCSVs = {
+  allDeficitExplainerEventTrackingCsv: {
+    deficitExplainerEventTrackingCsv: mockDeficitExplainerGACSV,
+  },
+  allDebtExplainerEventTrackingCsv: {
+    debtExplainerEventTrackingCsv: mockDebtExplainerGACSV,
+  },
+  allSpendingExplainerEventTrackingCsv: {
+    spendingExplainerEventTrackingCsv: mockSpendingExplainerGACSV,
+  },
+  allRevenueExplainerEventTrackingCsv: {
+    revenueExplainerEventTrackingCsv: mockRevenueExplainerGACSV,
+  },
+  allAfgOverviewEventTrackingCsv: {
+    AFGOverviewEventTrackingCsv: mockAFGHomePageGACSV,
   },
 };
 
@@ -148,5 +174,41 @@ describe('useBEAGDP Q3 senario', () => {
         return entry.fiscalYear === '1984';
       }).actual
     ).toBe(3949152750000);
+  });
+});
+
+describe('useGAEventTracking', () => {
+  test('Gets proper GA Event Info based on csv and event number', () => {
+    StaticQuery.mockImplementation(({ render }) => render({ mockGAEventCSVs }));
+    useStaticQuery.mockImplementation(() => {
+      return {
+        ...mockGAEventCSVs,
+      };
+    });
+    const { result } = renderHook(() => useGAEventTracking(null, 'DebtExplainer'));
+    expect(result.current.getGAEvent(2).eventLabel).toEqual('Debt - What is the national debt');
+    expect(result.current.getGAEvent(1).eventCategory).toEqual('Fiscal Data - Sitewide Navigation');
+  });
+
+  test('getGAEvent returns null if no event number given', () => {
+    StaticQuery.mockImplementation(({ render }) => render({ mockGAEventCSVs }));
+    useStaticQuery.mockImplementation(() => {
+      return {
+        ...mockGAEventCSVs,
+      };
+    });
+    const { result } = renderHook(() => useGAEventTracking(null, 'DebtExplainer'));
+    expect(result.current.getGAEvent(null)).toEqual(null);
+  });
+
+  test('Gets proper GA Event Info based on csv and event number with a dynamic value', () => {
+    StaticQuery.mockImplementation(({ render }) => render({ mockGAEventCSVs }));
+    useStaticQuery.mockImplementation(() => {
+      return {
+        ...mockGAEventCSVs,
+      };
+    });
+    const { result } = renderHook(() => useGAEventTracking(1, 'DebtExplainer', 'debt link click'));
+    expect(result.current.getGAEvent(1)).toBeDefined();
   });
 });
