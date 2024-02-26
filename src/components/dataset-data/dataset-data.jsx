@@ -33,7 +33,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   // config.apis should always be available; but, fallback in case
   const apis = config ? config.apis : [null];
   const filteredApis = apis.filter(api => api?.apiId !== config.detailView?.apiId);
-  const detailApi = apis.find(api => api?.apiId === config.detailView?.apiId);
+  const detailApi = apis.find(api => api?.apiId && api?.apiId === config.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
@@ -203,7 +203,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       }
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, detailViewState]);
-
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />

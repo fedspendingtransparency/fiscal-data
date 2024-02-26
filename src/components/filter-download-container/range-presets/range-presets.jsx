@@ -217,8 +217,8 @@ const RangePresets = ({
     <>
       {!hideButtons && (
         <>
-          <h3 className={header} data-test-id={'header'}>
-            Date Range<span data-test-id={'label'}>{label}</span>:
+          <h3 className={header} data-test-id="header">
+            Date Range<span data-test-id="label">{label}</span>:
           </h3>
           <div id={presetContainer}>
             {presets.map(preset => (
