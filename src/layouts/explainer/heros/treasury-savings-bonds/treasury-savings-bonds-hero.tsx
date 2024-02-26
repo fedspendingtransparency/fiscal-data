@@ -71,7 +71,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   );
 
   const rightTooltip = 'The percentage change in savings bonds investments compared to the same period last year.';
-  const leftTooltip = change => `The total amount of investment in savings bonds has ${savingsBondChangeLabel} compared to the same period last year`;
+  const leftTooltip = `The total amount of investment in savings bonds has ${savingsBondChangeLabel} compared to the same period last year`;
 
   useEffect(() => {
     getHeroData();
