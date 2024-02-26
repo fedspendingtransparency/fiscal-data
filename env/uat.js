@@ -20,7 +20,8 @@ module.exports = {
       datePreset: 'all',
       detailView: {
         apiId: 300,
-        columnId: 'cusip',
+        field: 'cusip',
+        label: 'CUSIP',
         dateRangeLockCopy: 'Select a CUSIP number in the table below to activate the date range filter.',
         summaryTableFields: [
           'cusip',
