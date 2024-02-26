@@ -38,25 +38,11 @@ const makeApiCall = async (
   canceledObj,
   tableCache,
   detailViewColumn,
-  lockDateRange,
   customFilterParam
 ) => {
   const loadTimer = setTimeout(() => setIsLoading(true), loadTimerDelay);
   try {
-    const data = await datatableRequest(
-      selectedTable,
-      dateRange,
-      selectedPivot,
-      canceledObj,
-      tableCache,
-      detailViewColumn,
-      lockDateRange,
-      {
-        from: new Date(selectedTable.earliestDate),
-        to: new Date(selectedTable.latestDate),
-      },
-      customFilterParam
-    );
+    const data = await datatableRequest(selectedTable, dateRange, selectedPivot, canceledObj, tableCache, detailViewColumn, customFilterParam);
 
     if (!canceledObj.isCanceled) {
       await onDataReturned(data, dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache);
@@ -87,7 +73,6 @@ export const getApiData = async (
   _canceledObj,
   _tableCache,
   _detailViewColumn,
-  _lockDateRange,
   _customFilterParam
 ) => {
   if (_dateRange && _dateRange.from && _dateRange.to && _selectedTable && _selectedTable.endpoint && _selectedPivot) {
@@ -101,7 +86,6 @@ export const getApiData = async (
       _canceledObj,
       _tableCache,
       _detailViewColumn,
-      _lockDateRange,
       _customFilterParam
     );
   }

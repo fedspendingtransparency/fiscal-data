@@ -119,17 +119,7 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   return getIFetch()(uri).then(response => response.json());
 };
 
-export const datatableRequest = async (
-  table,
-  dateRange,
-  selectedPivot,
-  canceledObj,
-  tableCache,
-  detailViewColumn,
-  lockDateRange,
-  fullDateRange,
-  customFilterParam
-) => {
+export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewColumn, customFilterParam) => {
   //TODO: Prevent dateRange from applying to summary table
   // lockDateRange and fullDateRange are currently being passed in for this purpose
 
@@ -158,12 +148,7 @@ export const datatableRequest = async (
     if (tableCache.dataCache && tableCache.dataCache.length && !lockDateRange) {
       dateRanges = tableCache.findUncachedDateRanges(dateRange);
     } else {
-      if (lockDateRange && fullDateRange) {
-        console.log('fullDateRange', fullDateRange);
-        dateRanges = [fullDateRange];
-      } else {
-        dateRanges = [dateRange];
-      }
+      dateRanges = [dateRange];
     }
     if (dateRanges && dateRanges.length) {
       const fetchers = [];
@@ -189,7 +174,6 @@ export const datatableRequest = async (
     if (pivotView && pivotView.dimensionField && pivotValue) {
       return pivotApiData(table, selectedPivot, displayData, dateRange.from, dateRange.to);
     } else {
-      console.log(displayData);
       return displayData;
     }
   }

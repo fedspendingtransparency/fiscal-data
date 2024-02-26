@@ -26,7 +26,6 @@ import { detailViewNotice, lockIcon } from './dataset-data.module.scss';
 //   - Date range should not apply to summary table
 //       - Back button set selected to all ?
 //   - Wrong apis date range is carrying over before being corrected
-//   - notice text not styled yet
 
 export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';

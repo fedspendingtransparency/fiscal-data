@@ -201,6 +201,14 @@ const RangePresets = ({
     }
   }, [allTablesSelected, finalDatesNotFound, selectedTable]);
 
+  useEffect(() => {
+    // This hook is used for nested tables
+    // when the summary view date range is locked, all rows should display
+    if (hideButtons) {
+      setActivePresetKey('all');
+    }
+  }, [hideButtons]);
+
   const label =
     selectedTable && selectedTable.fields
       ? ` (${selectedTable.fields.find(field => field.columnName === selectedTable.dateField).prettyName})`
