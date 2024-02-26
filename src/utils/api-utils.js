@@ -119,7 +119,17 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   return getIFetch()(uri).then(response => response.json());
 };
 
-export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewColumn, lockDateRange, fullDateRange) => {
+export const datatableRequest = async (
+  table,
+  dateRange,
+  selectedPivot,
+  canceledObj,
+  tableCache,
+  detailViewColumn,
+  lockDateRange,
+  fullDateRange,
+  customFilterParam
+) => {
   //TODO: Prevent dateRange from applying to summary table
   // lockDateRange and fullDateRange are currently being passed in for this purpose
 
@@ -160,9 +170,8 @@ export const datatableRequest = async (table, dateRange, selectedPivot, canceled
       dateRanges.forEach(range => {
         const from = formatDateForApi(range.from);
         const to = formatDateForApi(range.to);
-        //TODO: pass in cusip in as a parameter - already part of the dataset config
         const uri = detailViewColumn
-          ? `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam},cusip:eq:${detailViewColumn}&sort=${sortParamValue}`
+          ? `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam},${customFilterParam}:eq:${detailViewColumn}&sort=${sortParamValue}`
           : `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}&sort=${sortParamValue}`;
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
