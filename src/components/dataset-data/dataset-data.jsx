@@ -19,6 +19,14 @@ import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { detailViewNotice, lockIcon } from './dataset-data.module.scss';
+
+// Ticket Notes:
+//   - Test on other datasets
+//   - Date range should not apply to summary table
+//       - Back button set selected to all ?
+//   - Wrong apis date range is carrying over before being corrected
+//   - notice text not styled yet
 
 export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';
@@ -149,9 +157,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   }, [selectedTable]);
 
   useEffect(() => {
-    //TODO: Prevent caching of detail view table, because the date range does not change, the data is not refreshing when switching between cusip values
     if (detailApi) {
-      // resetting cache index here lets table data refresh on cusip change
+      // resetting cache index here lets table data refresh on detail view state change
       tableCaches[detailApi.apiId] = null;
       setDateRange(null);
       setSelectedPivot(null);
@@ -160,7 +167,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       if (!tableCaches[detailApi.apiId]) {
         tableCaches[detailApi.apiId] = new TableCache();
       }
-      // setSelectedTableProp(selectedTable);
     }
   }, [detailViewState]);
 
@@ -256,8 +262,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
               />
             )}
             {detailApi && !detailViewState && (
-              <div>
-                <FontAwesomeIcon icon={faLock} /> {config.detailView?.dateRangeLockCopy}
+              <div className={detailViewNotice}>
+                <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
               </div>
             )}
           </FilterAndDownload>
