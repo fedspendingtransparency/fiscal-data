@@ -42,7 +42,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   }
   if (tableColumnSortData) {
     tableColumnSortData.forEach(column => {
-      if (!column.allColumnsSelected) {
+      if (!column.allColumnsSelected || detailViewFilter) {
         if (tableColumnFields === '&fields=') {
           tableColumnFields += `${column.id}`;
         } else {
@@ -197,7 +197,6 @@ export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter,
   if (!(apis instanceof Array)) {
     requestAPIs = [apis];
   }
-
   for (let i = requestAPIs.length; i--; ) {
     curDownloadObject = buildDownloadObject(requestAPIs[i], apiDateRange, fileType, userFilter, tableColumnSortData, detailViewFilter);
     if (curDownloadObject) {
