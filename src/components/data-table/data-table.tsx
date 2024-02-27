@@ -185,7 +185,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }) as Table<Record<string, unknown>>;
 
   useEffect(() => {
-    if (resetFilters) {
+    if (resetFilters && setTableColumnSortData) {
       setTableColumnSortData(rawData.data);
     }
   }, [resetFilters, table]);
