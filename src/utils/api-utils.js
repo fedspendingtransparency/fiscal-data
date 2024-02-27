@@ -134,9 +134,9 @@ export const datatableRequest = async (table, dateRange, selectedPivot, canceled
       canceledObj,
       queryClient
     );
-    // if (tableCache) {
-    //   tableCache.updateDataDisplayCache(pivotedData, dateRange);
-    // }
+    if (tableCache) {
+      tableCache.updateDataDisplayCache(pivotedData, dateRange);
+    }
     return pivotedData;
   } else {
     const sortParamValue = buildSortParams(table, selectedPivot);
@@ -254,7 +254,6 @@ export const fetchPivotData = async (table, from, to, pivotView, pivotValueField
     const data = await queryClient.ensureQueryData({
       queryKey: ['pivots', uri],
       queryFn: () => fetchAllPages(uri, canceledObj),
-      staleTime: 600000,
     });
     return pivotData(data, dateField, pivotView, pivotValueField, aggregateOn, from, to, postFetchFilterFunction);
   } catch (error) {
