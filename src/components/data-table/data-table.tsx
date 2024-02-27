@@ -97,7 +97,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   customFormatting,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
-  const [animationClassIn, setAnimationClassIn] = useState('');;
+  const [animationClassIn, setAnimationClassIn] = useState('');
   const [hasMounted, setHasMounted] = useState(false);
   useEffect(() => {
     setHasMounted(true);
