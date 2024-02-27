@@ -278,6 +278,7 @@ const fetchAsObservable = (url: string): Observable<Response> => {
  * @param userFilter {null|{label: string, field: string, notice: string}} - userFilter
  * @param tableColumnSortData
  * @param filteredDateRange
+ * @param detailViewFilter
  */
 const initiateDownload = (
   datasetId: string,
@@ -287,9 +288,18 @@ const initiateDownload = (
   requestTime: number,
   userFilter?: { label: string; value: string },
   tableColumnSortData?: [],
-  filteredDateRange?: { from: string; to: string }
+  filteredDateRange?: { from: string; to: string },
+  detailViewFilter?: { field: string; value: string }
 ): string => {
-  const downloadRequestMessage = buildDownloadRequestArray(apis, dateRange, fileTypes, userFilter, tableColumnSortData, filteredDateRange);
+  const downloadRequestMessage = buildDownloadRequestArray(
+    apis,
+    dateRange,
+    fileTypes,
+    userFilter,
+    tableColumnSortData,
+    filteredDateRange,
+    detailViewFilter
+  );
   const newRequestId = `${datasetId}${requestIdDelimiter}${requestTime}`;
   connect(datasetId, apis, dateRange, fileTypes, newRequestId);
   sendInitialRequestMessage(newRequestId, downloadRequestMessage);
