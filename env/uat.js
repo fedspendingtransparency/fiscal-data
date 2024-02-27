@@ -21,7 +21,7 @@ module.exports = {
       detailView: {
         apiId: 300,
         columnId: 'cusip',
-        dateRangeLockCopy: 'Select a CUSIP number in the table below to activate the date range filter.',
+        dateRangeLockCopy: 'To filter data by date range, select a CUSIP to enter the detail view.',
         summaryTableFields: [
           'cusip',
           'series',

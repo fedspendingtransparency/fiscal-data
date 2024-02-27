@@ -198,7 +198,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         };
       }
     }
-  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, detailViewState]);
+  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
