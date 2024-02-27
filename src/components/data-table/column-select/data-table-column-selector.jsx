@@ -64,13 +64,17 @@ const DataTableColumnSelector = ({
       })}
     </>
   );
+
   const closeButtonRef = useRef(null);
+
   useEffect(() => {
     if (closeButtonRef.current) {
       closeButtonRef.current.focus();
     }
   }, [selectColumnPanel]);
+
   dataTableRef = closeButtonRef;
+
   return (
     <section className={columnSelectContainer}>
       <div className={headingWrapper}>
