@@ -119,16 +119,16 @@ $borderRadius: 5px;
 }
 
 .slideFadeOutLeft {
-  animation: slideFadeOutLeft .5s forwards;
+  animation: slideFadeOutLeft .25s forwards;
 }
 .slideFadeOutRight {
-  animation: slideFadeOutRight .5s forwards;
+  animation: slideFadeOutRight .25s forwards;
 }
 .slideFadeInLeft {
-  animation: slideFadeInLeft 1s forwards;
+  animation: slideFadeInLeft .25s forwards;
 }
 .slideFadeInRight {
-  animation: slideFadeInRight 1s forwards;
+  animation: slideFadeInRight .25s forwards;
 }
 @keyframes slideFadeOutRight {
   from {

@@ -105,12 +105,15 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   useEffect(() => {
     if (!detailViewState) {
       setConfigOption(columnConfig);
+      setAnimationClassIn(slideFadeInLeft)
     } else {
       setConfigOption(detailColumnConfig);
+      setAnimationClassIn(slideFadeInRight)
     }
   }, [rawData]);
 
   const handleClick = (e, columnValue) => {
+    setHasMounted(true)
     e.preventDefault();
     setSummaryValues(rawData.data.find(data => data[detailView?.columnId] === columnValue));
     if (setDetailViewState) {
@@ -198,31 +201,28 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     if(nextTableData) {
-      setCurrentDataTable(nextTableData);
-      setNextTableData(null);
       const timer = setTimeout(() => {
-
+        setCurrentDataTable(nextTableData);
+        setNextTableData(null);
         setAnimationClassIn('');
         setAnimationClassOut('');
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [nextTableData, currentDataTable]);
+  }, [nextTableData]);
 
-  useEffect(() => {
-    if (hasMounted){
-      if (detailViewState){
-        setNextTableData(table)
-        setAnimationClassOut(slideFadeOutLeft);
-        setAnimationClassIn(slideFadeInRight);
-      }
-      else {
-        setNextTableData(table);
-        setAnimationClassIn(slideFadeInLeft);
-        setAnimationClassOut(slideFadeOutRight);
-      }
-    }
-  }, [detailViewState, nextTableData]);
+  // useEffect(() => {
+  //   if (detailViewState){
+  //       setNextTableData(table)
+  //       setAnimationClassOut(slideFadeOutLeft);
+  //       setAnimationClassIn(slideFadeInRight);
+  //     }
+  //     else {
+  //       setNextTableData(table);
+  //       setAnimationClassIn(slideFadeInLeft);
+  //       setAnimationClassOut(slideFadeOutRight);
+  //     }
+  // }, [detailViewState, nextTableData]);
 
   useEffect(() => {
     if (resetFilters) {
@@ -291,10 +291,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       selectColumnsRef.current?.focus();
     }
   });
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-  
   return (
     <>
       <div data-test-id="table-content" className={classNames([overlayContainerNoFooter])}>
@@ -330,7 +326,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
               </table>
             </div>
           </div>
-          {nextTableData && (
+          {/* {nextTableData && (
             <div className={classNames(tableStyle, nextTableData ? animationClassIn : animationClassOut)} style={{ position: 'absolute', width: '100%', top: 0}}>
               <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
                 <table {...aria}>
@@ -347,7 +343,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                 </table>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
       {shouldPage && (
