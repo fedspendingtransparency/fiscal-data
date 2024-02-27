@@ -22,7 +22,7 @@ module.exports = {
         apiId: 300,
         field: 'cusip',
         label: 'CUSIP',
-        dateRangeLockCopy: 'To filter data by date range, select a CUSIP to enter the detail view.',
+        dateRangeLockCopy: 'To filter data by date range, select a CUSIP from the table below.',
         summaryTableFields: [
           'cusip',
           'series',
