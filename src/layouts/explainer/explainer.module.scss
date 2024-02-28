@@ -34,6 +34,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+
       > div {
         display: flex;
       }
@@ -72,10 +73,18 @@
   margin-bottom: 32px;
 }
 
+@mixin explainerSubsectionHeader {
+  font-size: $font-size-24;
+  color: $font-body-copy;
+  font-weight: $semi-bold-weight;
+  margin: 2rem 0 1rem;
+}
+
 .section {
   width: 99%;
   position: relative;
 }
+
 .sourceURL {
   font-size: $font-size-16;
 }
@@ -83,6 +92,7 @@
 .mobileSubNav {
   display: none;
 }
+
 .desktopSubNav {
   display: block;
 }
@@ -123,6 +133,7 @@
     width: 146%;
 
     flex-direction: row;
+
     > :first-child {
       flex: 2.6 1 0;
     }
@@ -144,6 +155,7 @@
     margin-top: 150px;
   }
 }
+
 .quoteBoxContent {
   font-size: $font-size-20;
 
