@@ -30,7 +30,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
         invest in Treasury securities, and they gained popularity as a “safe haven” during times of economic uncertainty.
       </p>
       <ImageContainer color={treasurySavingsBondsExplainerSecondary} caption="Poster advertising savings bonds as “savings plans for all Americans.”">
-        <img src={BondPoster} alt="" />
+        <img src={BondPoster} alt="Poster advertising savings bonds as “savings plans for all Americans.”" />
       </ImageContainer>
       <p>
         In 1963, President John F. Kennedy aimed to modernize savings bonds by signing legislation that allowed for the creation of Series EE and
