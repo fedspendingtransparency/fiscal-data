@@ -6,7 +6,7 @@ import BondImage from '../../../../../../static/images/savings-bonds/Bond-Image.
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
 
-const HowSavingsBondsFinanceGovernment: FunctionComponent<{ glossary: any; glossaryClickHandler: any }> = ({ glossary, glossaryClickHandler }) => {
+const HowSavingsBondsFinanceGovernment = ({ glossary, glossaryClickHandler }) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
 
   const marketable = (
