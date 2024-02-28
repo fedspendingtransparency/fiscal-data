@@ -2,6 +2,7 @@ import React from 'react';
 import SavingsBondsOverview from './savings-bonds-overview/savings-bonds-overview';
 import WhatInfluencesPurchaseOfSavingsBonds from './purchase-of-savings-bonds/what-influences-purchase-of-savings-bonds';
 import SavingBondsKeyTakeaway from './savings-bonds-key-takeaway/savings-bonds-key-takeaway';
+import SavingsBondsAreFullyMatured from './savings-bonds-are-fully-matured/savings-bonds-are-fully-matured';
 
 export const treasurySavingsBondsSectionIds = [
   'key-takeaways',
@@ -41,7 +42,7 @@ const treasurySavingsBondsSections = [
     index: 4,
     id: treasurySavingsBondsSectionIds[4],
     title: 'What Happens when Savings Bonds are Fully Matured?',
-    component: cpiDataByYear => <div />,
+    component: cpiDataByYear => <SavingsBondsAreFullyMatured />,
   },
   {
     index: 5,
