@@ -1,10 +1,7 @@
-@import 'src/variables.module';
+@import '../../../explainer.module';
 
 .sourcesContent {
   h5 {
-    font-size: $font-size-24;
-    color: #666666;
-    font-weight: $semi-bold-weight;
-    margin: 2rem 0 1rem;
+    @include explainerSubsectionHeader
   }
 }
