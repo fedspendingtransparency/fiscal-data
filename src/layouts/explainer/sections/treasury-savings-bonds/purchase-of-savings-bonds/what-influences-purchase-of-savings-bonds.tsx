@@ -37,7 +37,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
       data.forEach((entry: BondSaleEntry) => {
         bondTypeSet.add(entry.security_class_desc);
         const year = entry.record_fiscal_year
-        const salesAmount = parseFloat(entry.net_sales_amt.replace(/,/g, '')); 
+        const salesAmount = Number(entry.net_sales_amt); 
 
         salesByYear[year] = (salesByYear[year] || 0) + salesAmount;
       });
