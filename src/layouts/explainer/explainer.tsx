@@ -36,8 +36,8 @@ import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
-  const { pageName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear, isAFG } = pageContext;
-
+  const { pageName, heroImage, seoConfig, relatedDatasets, cpiDataByYear, isAFG, savingsBondsByType } = pageContext;
+  console.log(savingsBondsByType);
   return (
     <GlossaryProvider>
       <SiteLayout isPreProd={false}>
@@ -60,7 +60,6 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
             </div>
           </>
         )}
-
         <div className={mainContainer}>
           <HeroImage
             heading={heroImage.heading}
@@ -69,7 +68,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
             secondaryColor={explainerColorMap[pageName].hero}
             pageName={pageName}
           >
-            {explainerHeroMap[pageName].component(glossary)}
+            {explainerHeroMap[pageName].component()}
           </HeroImage>
           <div className={contentContainer}>
             <SecondaryNav
@@ -77,7 +76,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
               activeClass={explainerClassMap[pageName].active}
               hoverClass={explainerClassMap[pageName].hover}
               analytics={true}
-              analyticsCategory={'Explainers'}
+              analyticsCategory="Explainers"
               analyticsPageLabel={explainerAnalyticsLabelMap[pageName]}
               tocScrollOffset={-32}
             >
