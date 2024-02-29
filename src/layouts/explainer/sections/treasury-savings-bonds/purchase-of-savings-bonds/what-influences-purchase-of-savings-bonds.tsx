@@ -28,12 +28,11 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      const url = `${apiPrefix}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=10000`;
-      const response = await basicFetch(url);
+      const url = `/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=10000`;
+      const response = await basicFetch(`${apiPrefix}${url}`);
       const data: BondSaleEntry[] = response.data;
       const salesByYear: SalesData = {};
       const bondTypeSet = new Set<string>();
-      console.log('data', data)
       data.forEach((entry: BondSaleEntry) => {
         bondTypeSet.add(entry.security_class_desc);
         const year = entry.record_fiscal_year
