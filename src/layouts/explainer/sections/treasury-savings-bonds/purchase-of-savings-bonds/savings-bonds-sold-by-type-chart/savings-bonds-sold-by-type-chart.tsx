@@ -9,7 +9,7 @@ import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import ChartHeader from './chart-header/chart-header';
 
-interface IChartData {
+export interface ISavingBondsByTypeChartData {
   year: string;
   AD?: number;
   E?: number;
@@ -24,7 +24,7 @@ interface IChartData {
   SN?: number;
 }
 
-const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: IChartData[] }> = ({ chartData }) => {
+const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsByTypeChartData[] }> = ({ chartData }) => {
   const fyEndpoint = '/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings Bond&sort=-record_date&page[size]=1';
   const [selectedChartView, setSelectedChartView] = useState<string>('amounts');
   const [hiddenFields, setHiddenFields] = useState<string[]>([]);

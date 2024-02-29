@@ -1,26 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import SavingsBondsSoldByTypeChart from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
+import SavingsBondsSoldByTypeChart, { ISavingBondsByTypeChartData } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import { visWithCallout } from '../../../explainer.module.scss';
 import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { graphql, useStaticQuery } from 'gatsby';
 import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
-
-interface IChartData {
-  year: string;
-  AD?: number;
-  E?: number;
-  EE?: number;
-  F?: number;
-  G?: number;
-  H?: number;
-  HH?: number;
-  I?: number;
-  J?: number;
-  K?: number;
-  SN?: number;
-}
 
 const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
   const allSavingsBondsByTypeHistorical = useStaticQuery(
@@ -39,7 +24,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
   const savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
   const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
   const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=600';
-  const [chartData, setChartData] = useState<IChartData[]>();
+  const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${savingsBondsEndpoint}`).then(res => {
@@ -47,17 +32,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
         const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
         const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
         setChartData(allData);
-        // const sumMap = {};
-        // data.forEach(entry => {
-        //   const year = entry?.record_fiscal_year;
-        //   const prev = entry[year];
-        //   const cur = entry.net_sales_amt;
-        //   let newVal = cur;
-        //   if (prev) {
-        //     newVal = cur + prev;
-        //   }
-        //   sumMap[year] = newVal;
-        // });
       }
     });
   }, []);
