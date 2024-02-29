@@ -28,7 +28,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      const url = `${apiPrefix}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]`;
+      const url = `${apiPrefix}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=10000`;
       const response = await basicFetch(url);
       const data: BondSaleEntry[] = response.data;
       const salesByYear: SalesData = {};
