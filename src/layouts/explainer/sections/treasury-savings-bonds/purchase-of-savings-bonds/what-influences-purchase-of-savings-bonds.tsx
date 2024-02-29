@@ -8,64 +8,59 @@ import ImageContainer from '../../../explainer-components/image-container/image-
 import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poster.png';
 import PresidentKennedy from '../../../../../../static/images/savings-bonds/President-Kennedy-Holding-Bond.png';
 import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
+import { getShortForm } from '../../../../../utils/rounding-utils';
+
+interface BondSaleEntry {
+  record_fiscal_year: string;
+  net_sales_amt: string;
+  security_type_desc: string;
+}
+
+type SalesData = Record<string, number>;
 
 const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
 
-  const [mostBondSales, setMostBondSales] = useState<any | null>(null);
-  const [secondMostBondSales, setSecondMostBondSales] = useState<any | null>(null);
-  const [mostBondSalesYear, setMostBondSalesYear] = useState<string |null>(null);
-  const [secondMostBondYear, setSecondMostBondYear] = useState<string |null>(null);
-  const [numberOfBond, setNumberOfBond] = useState();
+  const [mostBondSalesYear, setMostBondSalesYear] = useState<string | null>(null);
+  const [mostBondSales, setMostBondSales] = useState<number>(0);
+  const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
+  const [secondMostBondSales, setSecondMostBondSales] = useState<number>(0);
+  const [bondTypes, setBondTypes] = useState<number>(0);
 
   useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      const url = `${apiPrefix}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]`;
+      const response = await basicFetch(url);
+      const data: BondSaleEntry[] = response.data;
+console.log('res',data);
+      const salesByYear: SalesData = {};
+      const bondTypeSet = new Set<string>();
 
-    const url = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=10000';
-    basicFetch(`${apiPrefix}${url}`).then(res => {
-      console.log('DATA', res.data)
-      if(res.data) {
-        const salesByYear ={};
+      data.forEach((entry: BondSaleEntry) => {
+        bondTypeSet.add(entry.security_type_desc);
+        const year = entry.record_fiscal_year
+        const salesAmount = parseFloat(entry.net_sales_amt.replace(/,/g, '')); 
 
-        res.data.forEach(({ record_date, net_sales_amt}) => {
-          const year = record_date.split('-')[0];
+        salesByYear[year] = (salesByYear[year] || 0) + salesAmount;
+      });
+      setBondTypes(bondTypeSet.size);
 
-          const salesAmount = parseFloat(net_sales_amt.replace(/,/g, ''));
+      const sortedYears = Object.entries(salesByYear)
+        .sort((a, b) => b[1] - a[1])
+        .map(([year, sales]) => ({ year, sales: Math.round(sales) }));
 
-          if (salesByYear[year]) {
-            salesByYear[year] += salesAmount;
-          }
-          else {
-            salesByYear[year] = salesAmount;
-          }
-        });
-        const sortedYears = Object.entries(salesByYear)
-          .sort((a,b) => b[1] - a[1])
-          .map(entry =>  ({
-            year: entry[0],
-            sales: entry[1],
-          }));
-          console.log('sorted', sortedYears)
-          if(sortedYears.length > 0) {
-            const mostSalesYears = sortedYears[0]
-            const secondMostSalesYears = sortedYears[1];
-            console.log(mostSalesYears.sales)
-            setMostBondSales(mostSalesYears.sales);
-            setMostBondSalesYear(mostSalesYears.year);
-            setSecondMostBondYear(secondMostSalesYears.year);
-            setSecondMostBondSales(secondMostSalesYears.sales);
-          }
+      if (sortedYears.length > 0) {
+        setMostBondSalesYear(sortedYears[0].year);
+        setMostBondSales(sortedYears[0].sales);
+        if (sortedYears.length > 1) {
+          setSecondMostBondSalesYear(sortedYears[1].year);
+          setSecondMostBondSales(sortedYears[1].sales);
+        }
       }
 
+      console.log('sortedYears ',sortedYears);
+    };
 
-        setMostBondSales(res.data.most_sales_amt);
-        setSecondMostBondSales(res.data.second_most_sales_amt);
-        setNumberOfBond(res.data.security_type_desc)
-      
-      console.log('numberOfBond',numberOfBond);
-      console.log('MostBondSales', mostBondSales);
-      console.log('secondMostBondSales', secondMostBondSales);
-      console.log('mostBondSalesYear',mostBondSalesYear);
-      console.log('secondMostBondYear',secondMostBondYear);
-    });
+    fetchData();
   }, []);
 
 
@@ -101,12 +96,12 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
       <ImageContainer color={treasurySavingsBondsExplainerSecondary} caption="President John F. Kennedy holds a U.S. savings bond.">
         <img src={PresidentKennedy} alt="President John F. Kennedy holds a U.S. savings bond." />
       </ImageContainer>
-      <p>The chart below shows savings bond sales over time for all XX(number of bond types) savings bond types and their relative popularity.</p>
+      <p>The chart below shows savings bond sales over time for all {bondTypes} savings bond types and their relative popularity.</p>
       <div className={visWithCallout}>
         <SavingsBondsSoldByTypeChart />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
-            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondYear} when {mostBondSales} and {secondMostBondSales} bonds were sold,
+            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when {getShortForm(mostBondSales)} and {getShortForm(secondMostBondSales)} bonds were sold,
             respectively.
           </p>
         </VisualizationCallout>
