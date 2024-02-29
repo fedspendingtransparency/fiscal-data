@@ -6,6 +6,22 @@ import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bond
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { graphql, useStaticQuery } from 'gatsby';
 import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+
+interface IChartData {
+  year: string;
+  AD?: number;
+  E?: number;
+  EE?: number;
+  F?: number;
+  G?: number;
+  H?: number;
+  HH?: number;
+  I?: number;
+  J?: number;
+  K?: number;
+  SN?: number;
+}
+
 const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`
@@ -23,14 +39,14 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
   const savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
   const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
   const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=600';
-  const [chartData, setChartData] = useState();
+  const [chartData, setChartData] = useState<IChartData[]>();
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${savingsBondsEndpoint}`).then(res => {
       if (res.data) {
-        const data = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
-        console.log([...historicalData, ...data]);
-        setChartData([...historicalData, ...data]);
+        const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
+        const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
+        setChartData(allData);
         // const sumMap = {};
         // data.forEach(entry => {
         //   const year = entry?.record_fiscal_year;

@@ -1,3 +1,6 @@
+import CustomLink from '../../../../../../components/links/custom-link/custom-link';
+import React from 'react';
+
 export const chartCopy = {
   altText:
     'A chart demonstrating the sales of different types of savings bonds based on the years they were ' +
@@ -5,6 +8,16 @@ export const chartCopy = {
   inflationToolTip:
     'Adjusting for inflation provides a more accurate comparison between bond sales during different time periods. It shows the real amount of ' +
     'bond sales using the current value of a dollar.',
+  footer: (
+    <p>
+      Visit the <CustomLink url="/datasets/securities-issued-in-treasurydirect/sales">Securities Issued in TreasuryDirect</CustomLink> dataset for
+      data since 2001 and the{' '}
+      <CustomLink url="https://www.treasurydirect.gov/research-center/history-of-savings-bond/savings-bond-sales/">
+        Historical Savings Bonds Sales by Type
+      </CustomLink>{' '}
+      for data before 2001 to explore this data.
+    </p>
+  ),
 };
 
 export const savingsBondsMap = {
@@ -89,4 +102,16 @@ export const sortByType = (data, yearField, descField, amtField) => {
     });
   }
   return finalData;
+};
+
+export const getXAxisValues = (min, max) => {
+  let gap;
+  const range = max - min;
+  if (max % 5 === 0) {
+    gap = range / 5;
+  } else {
+    const remainder = Math.abs(5 - (range % 5));
+    gap = (range + remainder) / 5;
+  }
+  return [min, min + gap, min + gap * 2, min + gap * 3, min + gap * 4, max];
 };
