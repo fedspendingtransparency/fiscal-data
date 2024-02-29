@@ -13,7 +13,7 @@ import { getShortForm } from '../../../../../utils/rounding-utils';
 interface BondSaleEntry {
   record_fiscal_year: string;
   net_sales_amt: string;
-  security_type_desc: string;
+  security_class_desc: string;
 }
 
 type SalesData = Record<string, number>;
@@ -31,12 +31,11 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
       const url = `${apiPrefix}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]`;
       const response = await basicFetch(url);
       const data: BondSaleEntry[] = response.data;
-console.log('res',data);
       const salesByYear: SalesData = {};
       const bondTypeSet = new Set<string>();
-
+      console.log('data', data)
       data.forEach((entry: BondSaleEntry) => {
-        bondTypeSet.add(entry.security_type_desc);
+        bondTypeSet.add(entry.security_class_desc);
         const year = entry.record_fiscal_year
         const salesAmount = parseFloat(entry.net_sales_amt.replace(/,/g, '')); 
 
@@ -56,8 +55,6 @@ console.log('res',data);
           setSecondMostBondSales(sortedYears[1].sales);
         }
       }
-
-      console.log('sortedYears ',sortedYears);
     };
 
     fetchData();
