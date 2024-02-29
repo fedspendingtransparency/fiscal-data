@@ -23,16 +23,19 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
   );
   const savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
   const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
-  const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=600';
+  const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond';
   const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${savingsBondsEndpoint}`).then(res => {
-      if (res.data) {
-        const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
-        const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
-        setChartData(allData);
-      }
+    basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
+      const pageSize = metaRes.meta['total-pages'];
+      basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
+        if (res.data) {
+          const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
+          const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
+          setChartData(allData);
+        }
+      });
     });
   }, []);
 
