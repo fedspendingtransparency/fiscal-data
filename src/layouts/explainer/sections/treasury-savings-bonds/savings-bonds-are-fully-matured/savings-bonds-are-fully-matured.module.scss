@@ -1,0 +1,42 @@
+@import '../../../../../variables.module.scss';
+
+
+.holdingBondsContainer {
+  background-color: $body-background;
+  color: $debt-explainer-primary;
+  padding: 0.5rem 2rem 2rem;
+}
+
+.holdingBondsHeader {
+  display: flex;
+  justify-content: center;
+}
+
+.holdingBondsLeft {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  padding-bottom: 2rem;
+  img {
+    height: 225px;
+    padding-left: 2.125rem;
+  }
+}
+
+.holdingBondsRight {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  padding-top: 1rem;
+  padding-bottom: 4.063rem;
+  img {
+    height: 225px;
+    padding-right: 2.125rem;
+  }
+}
+
+.holdingBondsFooter {
+  font-size: $font-size-14
+}
+
+
