@@ -41,7 +41,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
 
         salesByYear[year] = (salesByYear[year] || 0) + salesAmount;
       });
-      setBondTypes(bondTypeSet.size);
+        setBondTypes(bondTypeSet.size);
 
       const sortedYears = Object.entries(salesByYear)
         .sort((a, b) => b[1] - a[1])
@@ -59,7 +59,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
 
     fetchData();
   }, []);
-
 
   return (
     <>
