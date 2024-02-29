@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import SavingsBondsSoldByTypeChart from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import { visWithCallout } from '../../../explainer.module.scss';
@@ -7,8 +7,44 @@ import { subsectionHeader } from './what-influences-purchase-of-savings-bonds.mo
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poster.png';
 import PresidentKennedy from '../../../../../../static/images/savings-bonds/President-Kennedy-Holding-Bond.png';
+import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
 
 const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
+  const [fiscalYear, setFiscalYear] = useState(0);
+  const [mostBondSales, setMostBondSales] = useState(0);
+  const [secondMostBondSales, setSecondMostBondSales] = useState(0);
+  const [mostBondSalesYear, setMostBondSalesYear] = useState(0);
+  const [allYears, setAllYears] = useState([]);
+  const [numberOfBond, setNumberOfBond] = useState();
+
+  useEffect(() => {
+    const arrayME =[];
+    let set;
+    const url = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=10000';
+    basicFetch(`${apiPrefix}${url}`).then(res => {
+      console.log('13123123',res.data);
+      if (res.data) {
+
+        res.data.forEach(entry => {
+          arrayME.push({
+            type: entry.security_class_desc
+          })
+    set = arrayME.sort();
+          setAllYears(set)
+        });
+
+        setMostBondSales(res.data.most_sales_amt);
+        setSecondMostBondSales(res.data.second_most_sales_amt);
+        setNumberOfBond(res.data.security_type_desc)
+      }
+      console.log('numberOfBond',numberOfBond);
+      console.log('allYears', set.sort());
+      console.log('mostBondSales',mostBondSales);
+      console.log('secondMostBondSales',secondMostBondSales);
+    });
+  }, []);
+
+
   return (
     <>
       <p>
