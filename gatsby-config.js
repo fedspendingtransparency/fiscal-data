@@ -186,6 +186,14 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
+        name: `savingsBondsByTypeHistorical`,
+        path: `${__dirname}/static/data/savings-bonds/`,
+      },
+    },
+    `gatsby-transformer-csv`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
         name: `deficitExplainerEventTracking`,
         path: `${__dirname}/static/data/ga-event-tracking/`,
       },

@@ -9,6 +9,8 @@ import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poste
 import PresidentKennedy from '../../../../../../static/images/savings-bonds/President-Kennedy-Holding-Bond.png';
 import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
+import { graphql, useStaticQuery } from 'gatsby';
+import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 
 interface BondSaleEntry {
   record_fiscal_year: string;
@@ -18,8 +20,56 @@ interface BondSaleEntry {
 
 type SalesData = Record<string, number>;
 
-const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
+  // useEffect(() => {
+  //   const fetchData = async (): Promise<void> => {
+  //     const url = `/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=10000`;
+  //     const response = await basicFetch(`${apiPrefix}${url}`);
+  //     const data: BondSaleEntry[] = response.data;
+  //     const salesByYear: SalesData = {};
+  //     const bondTypeSet = new Set<string>();
+  //     data.forEach((entry: BondSaleEntry) => {
+  //       bondTypeSet.add(entry.security_class_desc);
+  //       const year = entry.record_fiscal_year
+  //       const salesAmount = Number(entry.net_sales_amt); 
 
+  //       salesByYear[year] = (salesByYear[year] || 0) + salesAmount;
+  //     });
+  //       setBondTypes(bondTypeSet.size);
+
+  //     const sortedYears = Object.entries(salesByYear)
+  //       .sort((a, b) => b[1] - a[1])
+  //       .map(([year, sales]) => ({ year, sales: Math.round(sales) }));
+
+  //     if (sortedYears.length > 0) {
+  //       setMostBondSalesYear(sortedYears[0].year);
+  //       setMostBondSales(sortedYears[0].sales);
+  //       if (sortedYears.length > 1) {
+  //         setSecondMostBondSalesYear(sortedYears[1].year);
+  //         setSecondMostBondSales(sortedYears[1].sales);
+  //       }
+  //     }
+  //   };
+
+  //   fetchData();
+
+const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
+  const allSavingsBondsByTypeHistorical = useStaticQuery(
+    graphql`
+      query {
+        allSavingsBondsByTypeHistoricalCsv {
+          savingsBondsByTypeHistoricalCsv: nodes {
+            year
+            bond_type
+            sales
+          }
+        }
+      }
+    `
+  );
+  const savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
+  const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
+  const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond';
+  const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
   const [mostBondSalesYear, setMostBondSalesYear] = useState<string | null>(null);
   const [mostBondSales, setMostBondSales] = useState<number>(0);
   const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
@@ -27,36 +77,40 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
   const [bondTypes, setBondTypes] = useState<number>(0);
 
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const url = `/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=10000`;
-      const response = await basicFetch(`${apiPrefix}${url}`);
-      const data: BondSaleEntry[] = response.data;
-      const salesByYear: SalesData = {};
-      const bondTypeSet = new Set<string>();
-      data.forEach((entry: BondSaleEntry) => {
-        bondTypeSet.add(entry.security_class_desc);
-        const year = entry.record_fiscal_year
-        const salesAmount = Number(entry.net_sales_amt); 
-
-        salesByYear[year] = (salesByYear[year] || 0) + salesAmount;
-      });
-        setBondTypes(bondTypeSet.size);
-
-      const sortedYears = Object.entries(salesByYear)
-        .sort((a, b) => b[1] - a[1])
-        .map(([year, sales]) => ({ year, sales: Math.round(sales) }));
-
-      if (sortedYears.length > 0) {
-        setMostBondSalesYear(sortedYears[0].year);
-        setMostBondSales(sortedYears[0].sales);
-        if (sortedYears.length > 1) {
-          setSecondMostBondSalesYear(sortedYears[1].year);
-          setSecondMostBondSales(sortedYears[1].sales);
+    basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
+      const pageSize = metaRes.meta['total-pages'];
+      basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
+        if (res.data) {
+          const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
+          const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
+          setChartData(allData);
         }
-      }
-    };
-
-    fetchData();
+        const data: BondSaleEntry[] = res.data;
+        const salesByYear: SalesData = {};
+        const bondTypeSet = new Set<string>();
+        data.forEach((entry: BondSaleEntry) => {
+          bondTypeSet.add(entry.security_class_desc);
+          const year = entry.record_fiscal_year
+          const salesAmount = Number(entry.net_sales_amt); 
+  
+          salesByYear[year] = (salesByYear[year] || 0) + salesAmount;
+        });
+          setBondTypes(bondTypeSet.size);
+  
+        const sortedYears = Object.entries(salesByYear)
+          .sort((a, b) => b[1] - a[1])
+          .map(([year, sales]) => ({ year, sales: Math.round(sales) }));
+  
+        if (sortedYears.length > 0) {
+          setMostBondSalesYear(sortedYears[0].year);
+          setMostBondSales(sortedYears[0].sales);
+          if (sortedYears.length > 1) {
+            setSecondMostBondSalesYear(sortedYears[1].year);
+            setSecondMostBondSales(sortedYears[1].sales);
+          }
+        }
+      });
+    });
   }, []);
 
   return (
@@ -93,7 +147,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
       </ImageContainer>
       <p>The chart below shows savings bond sales over time for all {bondTypes} savings bond types and their relative popularity.</p>
       <div className={visWithCallout}>
-        <SavingsBondsSoldByTypeChart />
+        <SavingsBondsSoldByTypeChart chartData={chartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
             Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when {getShortForm(mostBondSales)} and {getShortForm(secondMostBondSales)} bonds were sold,
