@@ -53,6 +53,13 @@ type SalesData = Record<string, number>;
   //   fetchData();
 
 const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
+  const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
+  const [mostBondSalesYear, setMostBondSalesYear] = useState<string | null>(null);
+  const [mostBondSales, setMostBondSales] = useState<number>(0);
+  const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
+  const [secondMostBondSales, setSecondMostBondSales] = useState<number>(0);
+  const [bondTypes, setBondTypes] = useState<number>(0);
+
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`
       query {
@@ -69,12 +76,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
   const savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
   const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
   const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond';
-  const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
-  const [mostBondSalesYear, setMostBondSalesYear] = useState<string | null>(null);
-  const [mostBondSales, setMostBondSales] = useState<number>(0);
-  const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
-  const [secondMostBondSales, setSecondMostBondSales] = useState<number>(0);
-  const [bondTypes, setBondTypes] = useState<number>(0);
+
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
@@ -84,19 +86,27 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
           const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
           const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
           setChartData(allData);
+          console.log('allDATA', allData)
+          const bondTypeset = new Set();
+          allData.forEach(yearRecord => {
+            Object.keys(yearRecord).forEach(bondName => {
+              if(bondName !== 'year'){
+                bondTypeset.add(bondName);
+              }
+            })
+          })
+          setBondTypes(bondTypeset.size)
+          console.log('bondTypeset', bondTypeset)
         }
         const data: BondSaleEntry[] = res.data;
+        console.log('data', data)
         const salesByYear: SalesData = {};
-        const bondTypeSet = new Set<string>();
         data.forEach((entry: BondSaleEntry) => {
-          bondTypeSet.add(entry.security_class_desc);
           const year = entry.record_fiscal_year
           const salesAmount = Number(entry.net_sales_amt); 
-  
           salesByYear[year] = (salesByYear[year] || 0) + salesAmount;
         });
-          setBondTypes(bondTypeSet.size);
-  
+    
         const sortedYears = Object.entries(salesByYear)
           .sort((a, b) => b[1] - a[1])
           .map(([year, sales]) => ({ year, sales: Math.round(sales) }));
