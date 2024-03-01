@@ -67,7 +67,7 @@ const ShareButtonContent: FunctionComponent<IShareButtonContent> = ({ name, widt
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         role="presentation"
-        aria-label={`${name} content`}
+        data-testid={`${name} content`}
       >
         <FontAwesomeIcon className={shareButtonContentMap[name].className} icon={shareButtonContentMap[name].icon} style={style} />
         {displayText && (
