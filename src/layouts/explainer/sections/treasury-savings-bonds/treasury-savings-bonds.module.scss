@@ -13,20 +13,20 @@ $treasury-savings-bonds-explainer-hero: #b699c6;
 }
 
 .postQuoteBoxAccordionContainer {
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .mudAccordion {
   :global(.accordionHeading) {
     font-size: $font-size-18;
-    color: $debt-explainer-primary;
+    color: $treasury-savings-bonds-explainer-secondary;
     border: none;
     padding: 0.75rem 1rem;
   }
 
   :global(.accordionToggle) {
     svg path {
-      color: $debt-explainer-primary;
+      color: $treasury-savings-bonds-explainer-secondary;
     }
   }
 
@@ -45,7 +45,7 @@ $treasury-savings-bonds-explainer-hero: #b699c6;
 
   :global(.accordionOpen),
   :global(.accordionClosed) {
-    border: solid 0.06rem $debt-explainer-primary;
+    border: solid 0.06rem $treasury-savings-bonds-explainer-secondary;
     border-radius: 0.13rem;
   }
 }

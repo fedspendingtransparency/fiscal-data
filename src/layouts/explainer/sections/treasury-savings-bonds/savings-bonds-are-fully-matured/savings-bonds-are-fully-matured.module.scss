@@ -9,16 +9,27 @@
 
 .holdingBondsHeader {
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  font-weight: 600;
+  font-size: $font-size-20;
+  padding-top: 24px;
+  padding-bottom: 34px;
 }
 
 .holdingBondsLeft {
   display: flex;
   align-items: center;
   align-content: center;
-  img {
-    height: 225px;
+  img{
     padding-left: 2.125rem;
+  }
+
+  .image1 {
+    height: 207px;
+  }
+
+  .image3 {
+    height: 250.23px;
   }
 }
 
@@ -27,13 +38,42 @@
   align-items: center;
   align-content: center;
   img {
-    height: 225px;
+    height: 243.08px;
     padding-right: 2.125rem;
   }
 }
 
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .holdingBondsHeader {
+    text-align: center;
+  }
+
+  .holdingBondsLeft {
+    justify-content: center;
+    flex-wrap: wrap-reverse;
+    img {
+      padding: 0;
+    }
+    div {
+      padding: 20px 0;
+    }
+  }
+  .holdingBondsRight {
+    justify-content: center;
+    flex-wrap: wrap;
+    img {
+      padding: 0;
+    }
+    div {
+      padding: 20px 0;
+    }
+  }
+}
+
 .holdingBondsFooter {
-  font-size: $font-size-14
+  font-size: $font-size-14;
+  margin-top: 20px;
+  margin-bottom: 0;
 }
 
 

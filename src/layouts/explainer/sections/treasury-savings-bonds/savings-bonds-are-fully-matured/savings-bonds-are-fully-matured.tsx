@@ -7,7 +7,8 @@ import {
   holdingBondsRight,
   holdingBondsContainer,
   holdingBondsHeader,
-  holdingBondsFooter} from './savings-bonds-are-fully-matured.module.scss';
+  holdingBondsFooter,
+  image1, image3} from './savings-bonds-are-fully-matured.module.scss';
 import {
   mudAccordion,
   postQuoteBoxAccordionContainer,
@@ -51,14 +52,14 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
       </p>
 
       <div className={holdingBondsContainer}>
-        <h4 className={holdingBondsHeader}>How Holding onto Matured Bonds can Cost You Money</h4>
+        <div className={holdingBondsHeader}>How Holding onto Matured Bonds can Cost You Money</div>
 
         <div className={holdingBondsLeft}>
           <div>
             Imagine you bought a series EE bond 30 years ago for $500. After 20 years, it doubled in value ($1,000) and
             continued to earn interest ($600) until reaching maturity after 30 years.
           </div>
-          <img src={illustration1} alt="" />
+          <img src={illustration1} className={image1} alt="" />
         </div>
         <div className={holdingBondsRight}>
           <img src={illustration2} alt="" />
@@ -73,7 +74,7 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
             same goods and services you would have purchased 10 years ago now cost $2,050, effectively losing you $450
             in value.
           </div>
-          <img src={illustration3} alt="" />
+          <img src={illustration3} className={image3} alt="" />
         </div>
 
         <p className={holdingBondsFooter}>
