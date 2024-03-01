@@ -39,6 +39,6 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     const { getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(getByText('FY 1935 – FTYD 2024', { exact: false })).toBeInTheDocument();
-    expect(getByText('December 12, 2024', { exact: false })).toBeInTheDocument();
+    expect(getByText('February 29, 2024', { exact: false })).toBeInTheDocument();
   });
 });

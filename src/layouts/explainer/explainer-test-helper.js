@@ -1,5 +1,4 @@
 import fetchMock from 'fetch-mock';
-import { fyEndpoint } from './sections/treasury-savings-bonds/purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 
 const mockExplainerPageResponseData = [
   {
@@ -766,7 +765,7 @@ export const mockSavingsBondLastFiscalYearCurrentMonth = {
   ],
 };
 
-const mockSavingsBondsSoldByTypeFYData = { data: [{ record_fiscal_year: 2024, record_date: '2024-12-12' }], meta: { 'total-page': 100 } };
+const mockSavingsBondsSoldByTypeFYData = { data: [{ record_fiscal_year: 2024, record_date: '2024-12-12' }], meta: { 'total-pages': 100 } };
 
 export const mockSavingsBondFetchResponses = () => {
   fetchMock.get(
@@ -786,12 +785,6 @@ export const mockSavingsBondFetchResponses = () => {
     mockSavingsBondLastFiscalYearCurrentMonth,
     { overwriteRoutes: true },
     { repeat: 1 }
-  );
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/${fyEndpoint}`,
-    mockSavingsBondsSoldByTypeFYData,
-    { overwriteRoutes: true },
-    { repeat: 0 }
   );
   fetchMock.get(
     `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=`,

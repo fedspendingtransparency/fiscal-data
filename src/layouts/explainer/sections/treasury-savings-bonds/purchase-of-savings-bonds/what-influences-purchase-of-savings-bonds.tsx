@@ -33,14 +33,16 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
-      const pageSize = metaRes.meta['total-pages'];
-      basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
-        if (res.data) {
-          const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
-          const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
-          setChartData(allData);
-        }
-      });
+      if (metaRes.meta) {
+        const pageSize = metaRes.meta['total-pages'];
+        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
+          if (res.data) {
+            const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
+            const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
+            setChartData(allData);
+          }
+        });
+      }
     });
   }, []);
 
