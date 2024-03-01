@@ -3,11 +3,12 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import { chartStyle } from './savings-bonds-sold-by-type-chart.module.scss';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartLegend from './chart-legend/chart-legend';
-import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues } from './savings-bonds-sold-by-type-chart-helper';
+import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, fyEndpoint } from './savings-bonds-sold-by-type-chart-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import ChartHeader from './chart-header/chart-header';
+import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 
 export interface ISavingBondsByTypeChartData {
   year: string;
@@ -25,7 +26,6 @@ export interface ISavingBondsByTypeChartData {
 }
 
 const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsByTypeChartData[] }> = ({ chartData }) => {
-  const fyEndpoint = '/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings Bond&sort=-record_date&page[size]=1';
   const [selectedChartView, setSelectedChartView] = useState<string>('amounts');
   const [hiddenFields, setHiddenFields] = useState<string[]>([]);
   const [curFyHistory, setCurFyHistory] = useState<string>('');
@@ -41,8 +41,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
       if (res.data) {
         const data = res.data[0];
         setCurFyHistory(data.record_fiscal_year);
-        //TODO date offset issue
-        setHistoryChartDate(new Date(data.record_date));
+        setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
       }
     });
   }, []);

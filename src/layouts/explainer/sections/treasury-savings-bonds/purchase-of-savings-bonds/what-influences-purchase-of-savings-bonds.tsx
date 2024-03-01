@@ -7,50 +7,11 @@ import { subsectionHeader } from './what-influences-purchase-of-savings-bonds.mo
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poster.png';
 import PresidentKennedy from '../../../../../../static/images/savings-bonds/President-Kennedy-Holding-Bond.png';
-import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
-import { getShortForm } from '../../../../../utils/rounding-utils';
+=========
+import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { graphql, useStaticQuery } from 'gatsby';
 import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
-
-interface BondSaleEntry {
-  record_fiscal_year: string;
-  net_sales_amt: string;
-  security_class_desc: string;
-}
-
-type SalesData = Record<string, number>;
-
-  // useEffect(() => {
-  //   const fetchData = async (): Promise<void> => {
-  //     const url = `/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=10000`;
-  //     const response = await basicFetch(`${apiPrefix}${url}`);
-  //     const data: BondSaleEntry[] = response.data;
-  //     const salesByYear: SalesData = {};
-  //     const bondTypeSet = new Set<string>();
-  //     data.forEach((entry: BondSaleEntry) => {
-  //       bondTypeSet.add(entry.security_class_desc);
-  //       const year = entry.record_fiscal_year
-  //       const salesAmount = Number(entry.net_sales_amt); 
-
-  //       salesByYear[year] = (salesByYear[year] || 0) + salesAmount;
-  //     });
-  //       setBondTypes(bondTypeSet.size);
-
-  //     const sortedYears = Object.entries(salesByYear)
-  //       .sort((a, b) => b[1] - a[1])
-  //       .map(([year, sales]) => ({ year, sales: Math.round(sales) }));
-
-  //     if (sortedYears.length > 0) {
-  //       setMostBondSalesYear(sortedYears[0].year);
-  //       setMostBondSales(sortedYears[0].sales);
-  //       if (sortedYears.length > 1) {
-  //         setSecondMostBondSalesYear(sortedYears[1].year);
-  //         setSecondMostBondSales(sortedYears[1].sales);
-  //       }
-  //     }
-  //   };
-
-  //   fetchData();
+>>>>>>>>> Temporary merge branch 2
 
 const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
   const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();

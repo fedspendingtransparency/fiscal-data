@@ -20,6 +20,8 @@ export const chartCopy = {
   ),
 };
 
+export const fyEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings Bond&sort=-record_date&page[size]=1';
+
 export const savingsBondsMap = {
   AD: { color: '#B04ABD', label: 'A - D', hidden: false },
   E: { color: '#DDAA01', label: 'E', hidden: false },
