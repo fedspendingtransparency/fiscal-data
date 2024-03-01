@@ -19,7 +19,7 @@ describe('Chart legend', () => {
     );
     const checkBox = getAllByRole('checkbox', { hidden: true })[0];
     checkBox.click();
-    expect(setHiddenFieldsSpy).toHaveBeenCalledWith(['ad']);
+    expect(setHiddenFieldsSpy).toHaveBeenCalledWith(['AD']);
     checkBox.click();
     expect(setHiddenFieldsSpy).toHaveBeenCalledWith([]);
   });

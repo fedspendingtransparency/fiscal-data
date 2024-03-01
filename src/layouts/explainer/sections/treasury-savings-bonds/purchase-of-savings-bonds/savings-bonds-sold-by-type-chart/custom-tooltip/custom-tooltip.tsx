@@ -12,7 +12,7 @@ interface IPayload {
 interface ICustomTooltip {
   label?: string;
   payload?: IPayload[];
-  hiddenFields: string[];
+  hiddenFields?: string[];
 }
 
 const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, hiddenFields }) => {
@@ -26,7 +26,7 @@ const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, hidd
           .map((id, index) => {
             const value = content[id];
             const label = savingsBondsMap[id].label;
-            const displayValue = value < 0 ? `-${getShortForm(value)}` : `${getShortForm(value)}`;
+            const displayValue = value < 0 ? `-$${getShortForm(value)}` : `$${getShortForm(value)}`;
             if (value) {
               return (
                 <div className={valueContainer} key={index}>
