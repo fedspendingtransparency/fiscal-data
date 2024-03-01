@@ -7,11 +7,18 @@ import { subsectionHeader } from './what-influences-purchase-of-savings-bonds.mo
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poster.png';
 import PresidentKennedy from '../../../../../../static/images/savings-bonds/President-Kennedy-Holding-Bond.png';
-=========
-import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
+import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
+import { getShortForm } from '../../../../../utils/rounding-utils';
 import { graphql, useStaticQuery } from 'gatsby';
 import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
->>>>>>>>> Temporary merge branch 2
+
+interface BondSaleEntry {
+  record_fiscal_year: string;
+  net_sales_amt: string;
+  security_class_desc: string;
+}
+
+type SalesData = Record<string, number>;
 
 const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
   const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
@@ -47,7 +54,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
           const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
           const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
           setChartData(allData);
-          console.log('allDATA', allData)
           const bondTypeset = new Set();
           allData.forEach(yearRecord => {
             Object.keys(yearRecord).forEach(bondName => {
@@ -57,10 +63,8 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
             })
           })
           setBondTypes(bondTypeset.size)
-          console.log('bondTypeset', bondTypeset)
         }
         const data: BondSaleEntry[] = res.data;
-        console.log('data', data)
         const salesByYear: SalesData = {};
         data.forEach((entry: BondSaleEntry) => {
           const year = entry.record_fiscal_year
