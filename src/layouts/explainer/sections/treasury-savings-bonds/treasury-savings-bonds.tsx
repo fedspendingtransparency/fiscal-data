@@ -3,6 +3,7 @@ import SavingsBondsOverview from './savings-bonds-overview/savings-bonds-overvie
 import WhatInfluencesPurchaseOfSavingsBonds from './purchase-of-savings-bonds/what-influences-purchase-of-savings-bonds';
 import SavingBondsKeyTakeaway from './savings-bonds-key-takeaway/savings-bonds-key-takeaway';
 import { ICpiDataMap } from '../../../../models/ICpiDataMap';
+import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-government/how-savings-bonds-finance-government';
 
 export const treasurySavingsBondsSectionIds = [
   'key-takeaways',
@@ -39,7 +40,7 @@ const treasurySavingsBondsSections: IExplainerPageSection[] = [
     index: 2,
     id: treasurySavingsBondsSectionIds[2],
     title: 'How Do Savings Bonds Help Finance the Federal Government?',
-    component: cpiDataByYear => <div />,
+    component: cpiDataByYear => <HowSavingsBondsFinanceGovernment />,
   },
   {
     index: 3,

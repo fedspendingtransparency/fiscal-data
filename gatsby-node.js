@@ -355,7 +355,8 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
     type DetailView {
       apiId: Int,
-      columnId: String,
+      field: String,
+      label: String,
       dateRangeLockCopy: String,
       summaryTableFields: [String],
     }
@@ -428,7 +429,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           currentDateButton
           detailView {
             apiId
-            columnId
+            field
+            label
             dateRangeLockCopy
             summaryTableFields
           }

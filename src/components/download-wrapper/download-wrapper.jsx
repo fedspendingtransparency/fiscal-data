@@ -29,6 +29,7 @@ const DownloadWrapper = ({
   selectedUserFilter,
   tableColumnSortData,
   filteredDateRange,
+  selectedDetailViewFilter,
 }) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
@@ -114,6 +115,7 @@ const DownloadWrapper = ({
       selectedUserFilter,
       tableColumnSortData,
       filteredDateRange,
+      selectedDetailViewFilter,
     };
     setDownloadRequest(downloadEntry);
     setOpen(true);
@@ -210,6 +212,14 @@ const DownloadWrapper = ({
             <strong data-testid="userFilterLabel">{selectedTable.userFilter.label}:</strong>
             <div data-testid="userFilterValue" className={dateStringStyle}>
               {selectedUserFilter && selectedUserFilter.value ? selectedUserFilter.label : '(None selected)'}
+            </div>
+          </div>
+        )}
+        {selectedDetailViewFilter && (
+          <div className={describer}>
+            <strong data-testid="detailViewFilterLabel">{selectedDetailViewFilter.label}:</strong>
+            <div data-testid="detailViewFilterValue" className={dateStringStyle}>
+              {selectedDetailViewFilter && selectedDetailViewFilter.value ? selectedDetailViewFilter.value : ''}
             </div>
           </div>
         )}

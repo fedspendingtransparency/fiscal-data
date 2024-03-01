@@ -103,7 +103,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   const handleClick = (e, columnValue) => {
     e.preventDefault();
-    setSummaryValues(rawData.data.find(data => data[detailView?.columnId] === columnValue));
+    setSummaryValues(rawData.data.find(data => data[detailView?.field] === columnValue));
     if (setDetailViewState) {
       setDetailViewState(columnValue);
     }
@@ -116,7 +116,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       ? columnsConstructorGeneric(nonRawDataColumns)
       : columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
 
-    baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.columnId);
+    baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.field);
     return baseColumns;
   }, [rawData, configOption]);
 
@@ -185,7 +185,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }) as Table<Record<string, unknown>>;
 
   useEffect(() => {
-    if (resetFilters) {
+    if (resetFilters && setTableColumnSortData) {
       setTableColumnSortData(rawData.data);
     }
   }, [resetFilters, table]);
@@ -222,7 +222,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
-  }, [columnVisibility, table.getFilteredRowModel()]);
+  }, [columnVisibility, table.getFilteredRowModel(), table.getVisibleFlatColumns()]);
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
