@@ -5,6 +5,7 @@ import GlossaryPopoverDefinition from '../../../../../components/glossary/glossa
 import BondImage from '../../../../../../static/images/savings-bonds/Bond-Image.png';
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
+import HowSavingsBondsSoldChart from './how-savings-bonds-sold-Chart/how-savings-bonds-sold-Chart';
 
 const HowSavingsBondsFinanceGovernment = ({ glossary, glossaryClickHandler }) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
@@ -106,6 +107,7 @@ const HowSavingsBondsFinanceGovernment = ({ glossary, glossaryClickHandler }) =>
         {stateLocalGovSeries}, which can be purchased by state and local governments. Use the chart below to explore how different types of loans make
         up the total {debtHeldByPublic}.
       </span>
+      <HowSavingsBondsSoldChart />
       <h5 className={subSectionTitle}>Types of Savings Bonds</h5>
       <span>
         Over the course of American history, the U.S. government has issued {numberOfBondTypes} types of savings bonds to help fund certain programs
