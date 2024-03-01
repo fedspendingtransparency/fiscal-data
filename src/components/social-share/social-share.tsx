@@ -78,12 +78,12 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && <h3>Share this page:</h3>}
         <div className={containerStyle}>
           <FacebookShareButton className={`${buttonStyle} facebookShare`} url={url} quote={body} beforeOnClick={() => handleClick('Facebook')}>
-            <ShareButtonContent name={'facebook'} width={width} displayStyle={displayStyle} />
+            <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
           </FacebookShareButton>
         </div>
         <div className={containerStyle}>
           <TwitterShareButton className={`${buttonStyle} twitterShare`} url={url} title={body} beforeOnClick={() => handleClick('Twitter')}>
-            <ShareButtonContent name={'twitter'} width={width} displayStyle={displayStyle} />
+            <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />
           </TwitterShareButton>
         </div>
         <div className={containerStyle}>
@@ -96,12 +96,12 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
             windowHeight={650}
             beforeOnClick={() => handleClick('LinkedIn')}
           >
-            <ShareButtonContent name={'linkedin'} width={width} displayStyle={displayStyle} />
+            <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
           </LinkedinShareButton>
         </div>
         <div className={containerStyle}>
           <RedditShareButton className={`${buttonStyle} redditShare`} url={url} title={title} beforeOnClick={() => handleClick('Reddit')}>
-            <ShareButtonContent name={'reddit'} width={width} displayStyle={displayStyle} />
+            <ShareButtonContent name="reddit" width={width} displayStyle={displayStyle} />
           </RedditShareButton>
         </div>
         <div className={containerStyle}>
@@ -113,7 +113,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
             separator={emailSeparator}
             beforeOnClick={() => handleClick('Email')}
           >
-            <ShareButtonContent name={'email'} width={width} displayStyle={displayStyle} />
+            <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
           </EmailShareButton>
         </div>
       </div>
