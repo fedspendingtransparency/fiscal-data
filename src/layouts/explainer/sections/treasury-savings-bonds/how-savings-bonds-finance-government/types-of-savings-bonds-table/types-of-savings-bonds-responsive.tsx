@@ -1,5 +1,16 @@
 import React from 'react';
-import { tableContainer, rowContainer, headerBox, contentBox, singular, bondTitle, typeBox } from './types-of-savings-bonds-responsive.module.scss';
+import {
+  tableContainer,
+  rowContainer,
+  headerBox,
+  contentBox,
+  singular,
+  bondTitle,
+  typeBox,
+  typeContainer,
+  scrollContainer,
+  columnContainer,
+} from './types-of-savings-bonds-responsive.module.scss';
 
 const TypesOfSavingsBondsResponsive = () => {
   const tableContent = [
@@ -31,23 +42,32 @@ const TypesOfSavingsBondsResponsive = () => {
     <>
       <div className={tableContainer}>
         {tableContent.map(column => {
-          return (
-            <div className={rowContainer}>
-              <div className={column.name === 'Type' ? [headerBox, typeBox].join(' ') : headerBox}>{column.name}</div>
-              {column.name === 'Type' ? (
-                column.content.map(content => {
-                  return <div className={[contentBox, bondTitle].join(' ')}>{content}</div>;
-                })
-              ) : column.content.length > 1 ? (
-                column.content.map(content => {
-                  return <div className={contentBox}>{content}</div>;
-                })
-              ) : (
-                <div className={[contentBox, singular].join(' ')}>{column.content[0]}</div>
-              )}
-            </div>
-          );
+          if (column.name === 'Type') {
+            return (
+              <div className={typeContainer}>
+                {column.name === 'Type' && <div className={[headerBox, typeBox].join(' ')}>{column.name}</div>}
+                {column.name === 'Type' &&
+                  column.content.map(content => {
+                    return <div className={[contentBox, bondTitle].join(' ')}>{content}</div>;
+                  })}
+              </div>
+            );
+          }
         })}
+        <div className={scrollContainer}>
+          {tableContent.map(column => {
+            return (
+              <div className={columnContainer}>
+                {column.name !== 'Type' && <div className={headerBox}>{column.name}</div>}
+                {column.name !== 'Type' && column.content.length > 1
+                  ? column.content.map(content => {
+                      return <div className={contentBox}>{content}</div>;
+                    })
+                  : column.name !== 'Type' && <div className={[contentBox, singular].join(' ')}>{column.content[0]}</div>}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );

@@ -4,15 +4,7 @@
   display: flex;
   flex-direction: row;
   margin-top: 2rem;
-  gap: 2px;
   max-height: 10.5rem;
-  overflow-x: scroll;
-}
-
-.rowContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
 }
 
 .headerBox {
@@ -41,4 +33,22 @@
 
 .typeBox {
   min-width: 56px;
+}
+
+.typeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.scrollContainer {
+  display: flex;
+  gap: 2px;
+  overflow-x: scroll;
+}
+
+.columnContainer {
+  display: flex;
+  gap: 2px;
+  flex-direction: column;
 }
