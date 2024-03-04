@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { chartStyle } from './savings-bonds-sold-by-type-chart.module.scss';
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartLegend from './chart-legend/chart-legend';
 import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, fyEndpoint } from './savings-bonds-sold-by-type-chart-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
@@ -76,15 +76,16 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
           <div className={chartStyle} data-testid="chartParent">
             {chartData && sortedBonds && (
               <ResponsiveContainer height={377} width="99%">
-                <AreaChart data={chartData} margin={{ top: 16, bottom: 0, left: -18, right: 16 }}>
+                <AreaChart data={chartData} margin={{ top: 16, bottom: 0, left: -8, right: 16 }}>
                   <CartesianGrid vertical={false} stroke="#d9d9d9" />
+                  <ReferenceLine y={0} stroke="#555555" />
                   <XAxis dataKey="year" type="number" domain={[1935, maxYear]} ticks={xAxis} minTickGap={3} />
                   <YAxis
                     axisLine={false}
                     tickLine={false}
-                    tickFormatter={value => `$${getShortForm(value)}`}
-                    ticks={[0, 5000000000, 10000000000, 15000000000, 20000000000, 25000000000, 30000000000]}
-                    domain={[0, 'dataMax']}
+                    tickFormatter={value => (value >= 0 ? `$${getShortForm(value)}` : `-$${getShortForm(value)}`)}
+                    ticks={[-5000000000, 0, 5000000000, 10000000000, 15000000000, 20000000000, 25000000000, 30000000000]}
+                    domain={[-5000000000, 'dataMax']}
                     tickCount={7}
                   />
                   {sortedBonds.map((id, index) => {
