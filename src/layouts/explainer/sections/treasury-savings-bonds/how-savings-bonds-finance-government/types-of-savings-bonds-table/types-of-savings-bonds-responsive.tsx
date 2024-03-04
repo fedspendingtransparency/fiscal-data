@@ -10,6 +10,7 @@ import {
   typeContainer,
   scrollContainer,
   columnContainer,
+  gradient,
 } from './types-of-savings-bonds-responsive.module.scss';
 
 const TypesOfSavingsBondsResponsive = () => {
@@ -68,6 +69,7 @@ const TypesOfSavingsBondsResponsive = () => {
             );
           })}
         </div>
+        <div className={gradient} />
       </div>
     </>
   );
