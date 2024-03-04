@@ -6,9 +6,15 @@ import BondImage from '../../../../../../static/images/savings-bonds/Bond-Image.
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
 import TypesOfSavingsBonds from './types-of-savings-bonds-table/types-of-savings-bonds';
+import { withWindowSize } from 'react-fns';
+import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../explainer.module.scss';
+import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-of-savings-bonds-responsive';
 
-const HowSavingsBondsFinanceGovernment = ({ glossary, glossaryClickHandler }) => {
+const HowSavingsBondsFinanceGovernment = ({ glossary, glossaryClickHandler, width }) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
+
+  const isDesktop = width >= pxToNumber(breakpointLg);
 
   const marketable = (
     <GlossaryPopoverDefinition
@@ -113,9 +119,9 @@ const HowSavingsBondsFinanceGovernment = ({ glossary, glossaryClickHandler }) =>
         and special projects ranging from the Postal Service to the Armed Forces. Each bond type has different terms and ways that it earns interest.
         Today, there are two types of savings bonds available for purchase: {seriesIBonds} and {seriesEEBonds}.
       </span>
-      <TypesOfSavingsBonds />
+      {isDesktop ? <TypesOfSavingsBonds /> : <TypesOfSavingsBondsResponsive />}
     </>
   );
 };
 
-export default HowSavingsBondsFinanceGovernment;
+export default withWindowSize(HowSavingsBondsFinanceGovernment);

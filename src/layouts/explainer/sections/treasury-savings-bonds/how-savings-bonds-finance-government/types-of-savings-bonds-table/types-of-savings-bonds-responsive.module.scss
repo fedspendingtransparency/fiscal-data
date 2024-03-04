@@ -1,0 +1,44 @@
+
+
+.tableContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2rem;
+  gap: 2px;
+  max-height: 10.5rem;
+  overflow-x: scroll;
+}
+
+.rowContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.headerBox {
+  font-size: 14px;
+  min-width: 209px;
+  background-color: #b04abd;
+  padding: 8px 8px 12px 8px;
+  color: white;
+}
+
+.contentBox {
+  font-size: 14px;
+  height: 3rem;
+  background-color: #f8f0f9;
+  padding: 8px 8px 12px 8px;
+}
+
+.singular {
+  height: 7rem;
+}
+
+.bondTitle {
+  color: #b04abd;
+  font-weight: 600;
+}
+
+.typeBox {
+  min-width: 56px;
+}
