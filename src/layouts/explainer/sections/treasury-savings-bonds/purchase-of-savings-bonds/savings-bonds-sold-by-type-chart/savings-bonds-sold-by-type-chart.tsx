@@ -3,7 +3,7 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import { chartStyle } from './savings-bonds-sold-by-type-chart.module.scss';
 import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartLegend from './chart-legend/chart-legend';
-import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, fyEndpoint } from './savings-bonds-sold-by-type-chart-helper';
+import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, fyEndpoint, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
@@ -83,10 +83,9 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
                   <YAxis
                     axisLine={false}
                     tickLine={false}
-                    tickFormatter={value => (value >= 0 ? `$${getShortForm(value)}` : `-$${getShortForm(value)}`)}
-                    ticks={[-5000000000, 0, 5000000000, 10000000000, 15000000000, 20000000000, 25000000000, 30000000000]}
-                    domain={[-5000000000, 'dataMax']}
-                    tickCount={7}
+                    tickFormatter={value => `${yAxisFormatter(parseFloat(value))}`}
+                    domain={['auto', 'dataMax']}
+                    tickCount={8}
                   />
                   {sortedBonds.map((id, index) => {
                     return (

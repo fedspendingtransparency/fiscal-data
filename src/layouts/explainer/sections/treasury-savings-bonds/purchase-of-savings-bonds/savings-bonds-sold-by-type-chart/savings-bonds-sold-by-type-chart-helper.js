@@ -117,3 +117,34 @@ export const getXAxisValues = (min, max) => {
   }
   return [min, min + gap, min + gap * 2, min + gap * 3, min + gap * 4, max];
 };
+
+export const yAxisFormatter = value => {
+  const trimmed = Math.abs(value).toFixed();
+  const inTrillions = trimmed.length > 12;
+  const inBillions = trimmed.length > 9;
+  const negative = value < 0;
+  let divisor;
+  if (inTrillions) {
+    divisor = 1000000000000;
+  } else if (inBillions && !inTrillions) {
+    divisor = 1000000000;
+  } else if (!inBillions && !inTrillions) {
+    divisor = 1000000;
+  }
+
+  let appendix;
+  let digits = 0;
+  if (inTrillions) {
+    appendix = ' T';
+    digits = 2;
+  } else if (inBillions && !inTrillions) {
+    appendix = ' B';
+    digits = value % divisor === 0 ? 0 : 1;
+  } else if (value === 0) {
+    appendix = '';
+  } else if (!inBillions && !inTrillions) {
+    appendix = ' M';
+  }
+  const display = Math.abs(value / divisor).toFixed(digits) + appendix;
+  return negative ? `-$${display}` : `$${display}`;
+};
