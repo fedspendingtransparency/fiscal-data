@@ -41,6 +41,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
       }
     `
   );
+
   const savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
   const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
   const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond';
