@@ -20,12 +20,12 @@ const TypesOfSavingsBondsResponsive = ({ tableContent }) => {
   const scrollHandler = e => {
     if (e.target.scrollLeft + e.target.clientWidth === e.target.scrollWidth) {
       setIsGradient(false);
-    }
-    if (e.target.scrollLeft === 0) {
-      setIsShadow(false);
     } else {
       setIsShadow(true);
       setIsGradient(true);
+    }
+    if (e.target.scrollLeft === 0) {
+      setIsShadow(false);
     }
   };
 
