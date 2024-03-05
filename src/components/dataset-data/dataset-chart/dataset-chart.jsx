@@ -20,7 +20,6 @@ import {
   labelContainer,
   subTitle,
 } from './dataset-chart.module.scss';
-import { chart } from '../../../layouts/explainer/explainer-components/chart-container/chart-container.module.scss';
 
 export let chartHooks;
 export const callbacks = {

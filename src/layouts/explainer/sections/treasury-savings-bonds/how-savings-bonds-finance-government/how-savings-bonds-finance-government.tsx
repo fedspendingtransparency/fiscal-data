@@ -6,82 +6,47 @@ import BondImage from '../../../../../../static/images/savings-bonds/Series-E-Bo
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
 
-const HowSavingsBondsFinanceGovernment = ({ glossary, glossaryClickHandler }) => {
+const HowSavingsBondsFinanceGovernment: FunctionComponent = () => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
 
   const marketable = (
-    <GlossaryPopoverDefinition
-      term={'Marketable Securities'}
-      page={'Savings Bond Explainer'}
-      glossary={glossary}
-      glossaryClickHandler={glossaryClickHandler}
-    >
+    <GlossaryPopoverDefinition term="Marketable Securities" page="Savings Bond Explainer">
       marketable
     </GlossaryPopoverDefinition>
   );
 
   const nonMarketable = (
-    <GlossaryPopoverDefinition
-      term={'Non-Marketable Securities'}
-      page={'Savings Bond Explainer'}
-      glossary={glossary}
-      glossaryClickHandler={glossaryClickHandler}
-    >
+    <GlossaryPopoverDefinition term="Non-Marketable Securities" page="Savings Bond Explainer">
       non-marketable
     </GlossaryPopoverDefinition>
   );
 
   const govAccountSeries = (
-    <GlossaryPopoverDefinition
-      term={'Government Account Series'}
-      page={'Savings Bond Explainer'}
-      glossary={glossary}
-      glossaryClickHandler={glossaryClickHandler}
-    >
+    <GlossaryPopoverDefinition term="Government Account Series" page="Savings Bond Explainer">
       Government Account Series
     </GlossaryPopoverDefinition>
   );
 
   const stateLocalGovSeries = (
-    <GlossaryPopoverDefinition
-      term={'State and Local Government Series'}
-      page={'Savings Bond Explainer'}
-      glossary={glossary}
-      glossaryClickHandler={glossaryClickHandler}
-    >
+    <GlossaryPopoverDefinition term="State and Local Government Series" page="Savings Bond Explainer">
       State and Local Government Series
     </GlossaryPopoverDefinition>
   );
 
   const debtHeldByPublic = (
-    <GlossaryPopoverDefinition
-      term={'Debt Held by the Public'}
-      page={'Savings Bond Explainer'}
-      glossary={glossary}
-      glossaryClickHandler={glossaryClickHandler}
-    >
+    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer">
       debt held by the public
     </GlossaryPopoverDefinition>
   );
 
   const seriesIBonds = (
-    <GlossaryPopoverDefinition
-      term={'Series I Bonds'}
-      page={'Savings Bond Explainer'}
-      glossary={glossary}
-      glossaryClickHandler={glossaryClickHandler}
-    >
+    <GlossaryPopoverDefinition term="Series I Bonds" page="Savings Bond Explainer">
       Series I bonds
     </GlossaryPopoverDefinition>
   );
 
   const seriesEEBonds = (
-    <GlossaryPopoverDefinition
-      term={'Series EE Bonds'}
-      page={'Savings Bond Explainer'}
-      glossary={glossary}
-      glossaryClickHandler={glossaryClickHandler}
-    >
+    <GlossaryPopoverDefinition term="Series EE Bonds" page="Savings Bond Explainer">
       Series EE Bonds
     </GlossaryPopoverDefinition>
   );

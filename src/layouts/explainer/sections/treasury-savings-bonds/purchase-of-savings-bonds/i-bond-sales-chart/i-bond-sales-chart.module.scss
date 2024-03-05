@@ -1,5 +1,6 @@
 @import 'src/variables.module';
 @import '../../../../explainer.module';
+@import '../../treasury-savings-bonds.module';
 
 .chartLegend {
   display: flex;
@@ -15,7 +16,7 @@
       font-weight: $semi-bold-weight;
 
       &.leftLabel {
-        color: #B04ABD;
+        color: $treasury-savings-bonds-explainer-secondary;
       }
 
       &.rightLabel {
@@ -28,7 +29,7 @@
       width: 24px;
 
       &.leftLine {
-        border-bottom: 0.5px solid #B04ABD;
+        border-bottom: 0.5px solid $treasury-savings-bonds-explainer-secondary;
         margin-left: 0.5rem
       }
 
@@ -39,6 +40,10 @@
     }
 
   }
+}
+
+.headerContainer {
+  margin-top: 2rem;
 }
 
 .chartStyle {
@@ -54,4 +59,8 @@
   .chartLegend {
     margin-bottom: 1rem;
   }
+
+  .headerContainer {
+    margin-top: 1.875rem;
   }
+}

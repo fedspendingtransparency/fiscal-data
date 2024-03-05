@@ -1,5 +1,6 @@
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import React from 'react';
+import { getShortForm } from '../../../../../../utils/rounding-utils';
 
 export const chartCopy = {
   title: 'Correlation Between Inflation and I Bond Sales, 2003 – FYTD 2023',
@@ -23,3 +24,14 @@ export const IBondMockData = [
   { year: 2021, sales: 15000000000, inflation: 7.5 },
   { year: 2023, sales: 17000000000, inflation: 7 },
 ];
+
+export const CustomTooltip = ({ payload = [], setYear, setInflation, setSales }) => {
+  if (payload.length > 0) {
+    setYear(payload[0]?.payload.year);
+    const inflation = payload.find(x => x.dataKey === 'inflation');
+    setInflation(inflation.payload.inflation);
+    const sales = payload.find(x => x.dataKey === 'sales');
+    setSales(getShortForm(sales.payload.sales));
+  }
+  return <></>;
+};

@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
-import { chartCopy, IBondMockData } from './i-bond-sales-chart-helper';
+import { chartCopy, IBondMockData, CustomTooltip } from './i-bond-sales-chart-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { LineChart, ResponsiveContainer, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
-import { chartLegend, lengendItem, leftLine, label, chartStyle, leftLabel, rightLabel, rightLine, line } from './i-bond-sales-chart.module.scss';
+import { chartLegend, lengendItem, leftLine, label, chartStyle, leftLabel, rightLine, line, headerContainer } from './i-bond-sales-chart.module.scss';
 import classNames from 'classnames';
+import { treasurySavingsBondsExplainerSecondary } from '../../treasury-savings-bonds.module.scss';
 const IBondSalesChart: FunctionComponent = () => {
   const lastUpdated = new Date();
   const [curInflation, setCurInflation] = useState(7);
@@ -13,23 +14,14 @@ const IBondSalesChart: FunctionComponent = () => {
   const [curYear, setCurYear] = useState(2023);
   const latestYear = 2023;
 
-  const CustomTooltip = ({ payload = [], setYear, setInflation, setSales }) => {
-    if (payload.length > 0) {
-      setYear(payload[0]?.payload.year);
-      const inflation = payload.find(x => x.dataKey === 'inflation');
-      setInflation(inflation.payload.inflation);
-      const sales = payload.find(x => x.dataKey === 'sales');
-      setSales(getShortForm(sales.payload.sales));
-    }
-    return <></>;
-  };
-
   const header = (
-    <ChartDataHeader
-      fiscalYear={curYear}
-      right={{ label: 'I Bonds Sales', value: `$${curSales}` }}
-      left={{ label: 'Inflation', value: `${curInflation.toFixed(1)}%` }}
-    />
+    <div className={headerContainer}>
+      <ChartDataHeader
+        fiscalYear={curYear}
+        right={{ label: 'I Bonds Sales', value: `$${curSales}` }}
+        left={{ label: 'Inflation', value: `${curInflation.toFixed(1)}%` }}
+      />
+    </div>
   );
 
   const Legend = () => (
@@ -40,7 +32,7 @@ const IBondSalesChart: FunctionComponent = () => {
       </div>
       <div className={lengendItem}>
         <div className={classNames([line, rightLine])} />
-        <div className={classNames([label, rightLabel])}>Inflation</div>
+        <div className={label}>Inflation</div>
       </div>
     </div>
   );
@@ -56,14 +48,7 @@ const IBondSalesChart: FunctionComponent = () => {
 
   return (
     <>
-      <ChartContainer
-        title={chartCopy.title}
-        altText={chartCopy.altText}
-        date={lastUpdated}
-        footer={chartCopy.footer}
-        header={header}
-        customHeaderStyles={{ marginTop: '2rem' }}
-      >
+      <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={chartCopy.footer} header={header}>
         <div className={chartStyle} data-testid="chartParent">
           <Legend />
           <ResponsiveContainer height={352} width="99%">
@@ -81,7 +66,14 @@ const IBondSalesChart: FunctionComponent = () => {
                 tickFormatter={value => `${value.toFixed(1)}%`}
                 orientation="right"
               />
-              <Line dataKey="sales" stroke="#B04ABD" dot={false} strokeWidth={1} activeDot={false} isAnimationActive={false} />
+              <Line
+                dataKey="sales"
+                stroke={treasurySavingsBondsExplainerSecondary}
+                dot={false}
+                strokeWidth={1}
+                activeDot={false}
+                isAnimationActive={false}
+              />
               <Line
                 dataKey="inflation"
                 stroke="#666"
