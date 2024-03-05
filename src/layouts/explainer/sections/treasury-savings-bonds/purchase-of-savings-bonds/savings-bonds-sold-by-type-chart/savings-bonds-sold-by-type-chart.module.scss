@@ -26,9 +26,5 @@
 }
 
 .chartStyle {
-  width: 100%;
-
-  tspan {
-    @include reChartsBaseStyle;
-  }
+  @include reChartsBaseStyle;
 }

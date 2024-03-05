@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useState } from 'react';
-import { chartCopy } from './i-bond-sales-chart-helper';
+import { chartCopy, IBondMockData } from './i-bond-sales-chart-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { LineChart, ResponsiveContainer, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
-import { chartStyle } from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
 import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
-
+import { chartLegend, lengendItem, leftLine, label, chartStyle, leftLabel, rightLabel, rightLine, line } from './i-bond-sales-chart.module.scss';
+import classNames from 'classnames';
 const IBondSalesChart: FunctionComponent = () => {
   const lastUpdated = new Date();
   const [curInflation, setCurInflation] = useState(7);
@@ -13,24 +13,13 @@ const IBondSalesChart: FunctionComponent = () => {
   const [curYear, setCurYear] = useState(2023);
   const latestYear = 2023;
 
-  const IBondMockData = [
-    { year: 2003, sales: 0, inflation: 0 },
-    { year: 2005, sales: 2500000000, inflation: 1 },
-    { year: 2008, sales: 3000000000, inflation: 2 },
-    { year: 2010, sales: 5000000000, inflation: 1 },
-    { year: 2013, sales: 4000000000, inflation: 3 },
-    { year: 2018, sales: 9000000000, inflation: 2 },
-    { year: 2021, sales: 15000000000, inflation: 7.5 },
-    { year: 2023, sales: 17000000000, inflation: 7 },
-  ];
-
-  const CustomTooltip = ({ payload, setYear }) => {
+  const CustomTooltip = ({ payload = [], setYear, setInflation, setSales }) => {
     if (payload.length > 0) {
       setYear(payload[0]?.payload.year);
       const inflation = payload.find(x => x.dataKey === 'inflation');
-      setCurInflation(inflation.payload.inflation);
+      setInflation(inflation.payload.inflation);
       const sales = payload.find(x => x.dataKey === 'sales');
-      setCurSales(getShortForm(sales.payload.sales));
+      setSales(getShortForm(sales.payload.sales));
     }
     return <></>;
   };
@@ -44,12 +33,15 @@ const IBondSalesChart: FunctionComponent = () => {
   );
 
   const Legend = () => (
-    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex' }}>
-        <div style={{ color: '#B04ABD', fontSize: '14px', fontWeight: '600' }}>I Bond Sales</div>
-        <div style={{ width: '24px', borderBottom: '0.5px solid #B04ABD', height: '8px', marginLeft: '0.5rem' }} />
+    <div className={chartLegend}>
+      <div className={lengendItem}>
+        <div className={classNames([label, leftLabel])}>I Bond Sales</div>
+        <div className={classNames([line, leftLine])} />
       </div>
-      <div>Inflation</div>
+      <div className={lengendItem}>
+        <div className={classNames([line, rightLine])} />
+        <div className={classNames([label, rightLabel])}>Inflation</div>
+      </div>
     </div>
   );
   const resetDataHeader = () => {
@@ -58,16 +50,27 @@ const IBondSalesChart: FunctionComponent = () => {
     setCurInflation(7);
   };
 
+  const xAxisTickFormatter = val => {
+    return val === 0 ? `$${val}` : `$${getShortForm(val)}`;
+  };
+
   return (
     <>
-      <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={chartCopy.footer} header={header}>
+      <ChartContainer
+        title={chartCopy.title}
+        altText={chartCopy.altText}
+        date={lastUpdated}
+        footer={chartCopy.footer}
+        header={header}
+        customHeaderStyles={{ marginTop: '2rem' }}
+      >
         <div className={chartStyle} data-testid="chartParent">
           <Legend />
           <ResponsiveContainer height={352} width="99%">
-            <LineChart data={IBondMockData} margin={{ top: 16, bottom: 0, left: -16, right: -22 }} onMouseLeave={resetDataHeader}>
+            <LineChart data={IBondMockData} margin={{ top: 12, bottom: -8, left: -16, right: -22 }} onMouseLeave={resetDataHeader}>
               <CartesianGrid vertical={false} stroke="#d9d9d9" />
               <XAxis dataKey="year" type="number" domain={[2003, latestYear]} ticks={[2003, 2008, 2013, 2018, 2023]} minTickGap={3} />
-              <YAxis dataKey="sales" axisLine={false} tickLine={false} domain={[0, 20000000000]} tickFormatter={value => `$${getShortForm(value)}`} />
+              <YAxis dataKey="sales" axisLine={false} tickLine={false} domain={[0, 20000000000]} tickFormatter={value => xAxisTickFormatter(value)} />
               <YAxis
                 yAxisId={1}
                 dataKey="inflation"
@@ -90,7 +93,7 @@ const IBondSalesChart: FunctionComponent = () => {
                 yAxisId={1}
               />
               <Tooltip
-                content={<CustomTooltip setYear={setCurYear} />}
+                content={<CustomTooltip setYear={setCurYear} setInflation={setCurInflation} setSales={setCurSales} />}
                 cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
                 isAnimationActive={false}
               />

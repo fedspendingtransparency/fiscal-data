@@ -12,3 +12,14 @@ export const chartCopy = {
     </p>
   ),
 };
+
+export const IBondMockData = [
+  { year: 2003, sales: 0, inflation: 0 },
+  { year: 2005, sales: 2500000000, inflation: 1 },
+  { year: 2008, sales: 3000000000, inflation: 2 },
+  { year: 2010, sales: 5000000000, inflation: 1 },
+  { year: 2013, sales: 4000000000, inflation: 3 },
+  { year: 2018, sales: 9000000000, inflation: 2 },
+  { year: 2021, sales: 15000000000, inflation: 7.5 },
+  { year: 2023, sales: 17000000000, inflation: 7 },
+];

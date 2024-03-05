@@ -1,22 +1,57 @@
-@import "src/variables.module";
+@import 'src/variables.module';
+@import '../../../../explainer.module';
 
 .chartLegend {
   display: flex;
   width: 100%;
   justify-content: space-between;
+  margin: 0.75rem 0 1rem;
 
   .lengendItem {
     display: flex;
+
     .label {
       font-size: $font-size-14;
       font-weight: $semi-bold-weight;
+
+      &.leftLabel {
+        color: #B04ABD;
+      }
+
+      &.rightLabel {
+
+      }
     }
 
-    .leftLine {
-      width: 24px;
-      border-bottom: 0.5px solid #B04ABD;
+    .line {
       height: 0.5rem;
-      margin-left: 0.5rem
+      width: 24px;
+
+      &.leftLine {
+        border-bottom: 0.5px solid #B04ABD;
+        margin-left: 0.5rem
+      }
+
+      &.rightLine {
+        border-bottom: 2px dotted $font-body-copy;
+        margin-right: 0.5rem;
+      }
     }
+
   }
 }
+
+.chartStyle {
+  @include reChartsBaseStyle;
+  margin-bottom: 2rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .chartLegend {
+    margin-top: 1.25rem;
+
+  }
+  .chartLegend {
+    margin-bottom: 1rem;
+  }
+  }
