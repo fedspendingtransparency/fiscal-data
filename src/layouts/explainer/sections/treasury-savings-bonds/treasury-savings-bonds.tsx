@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import SavingsBondsOverview from './savings-bonds-overview/savings-bonds-overview';
 import WhatInfluencesPurchaseOfSavingsBonds from './purchase-of-savings-bonds/what-influences-purchase-of-savings-bonds';
 import SavingBondsKeyTakeaway from './savings-bonds-key-takeaway/savings-bonds-key-takeaway';
+import { ICpiDataMap } from '../../../../models/ICpiDataMap';
 import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-government/how-savings-bonds-finance-government';
 
 export const treasurySavingsBondsSectionIds = [
@@ -13,7 +14,16 @@ export const treasurySavingsBondsSectionIds = [
   'learn-more-buying-and-redeeming-savings-bonds-today',
 ];
 
-const treasurySavingsBondsSections = [
+interface IExplainerPageSection {
+  index: number;
+  id: string;
+  title: string;
+  component: FunctionComponent<{
+    cpiDataByYear: ICpiDataMap;
+  }>;
+}
+
+const treasurySavingsBondsSections: IExplainerPageSection[] = [
   {
     index: 0,
     id: treasurySavingsBondsSectionIds[0],
