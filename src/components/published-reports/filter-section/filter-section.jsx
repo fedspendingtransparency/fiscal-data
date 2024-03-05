@@ -331,8 +331,6 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     }
   }, [filtered]);
 
-  console.log(reports);
-
   return (
     <>
       {selectedReportGroup && (
