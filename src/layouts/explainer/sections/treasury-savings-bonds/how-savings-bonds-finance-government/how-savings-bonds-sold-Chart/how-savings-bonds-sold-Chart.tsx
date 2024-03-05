@@ -54,6 +54,7 @@ const colors = { true: '#4A0072', false: '#B04ABD' };
 
 const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHandler }) => {
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
+  const [activeSecurity, setActiveSecurity] = useState<boolean | null>(null);
   const chartTitle = `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of {Month YYYY (as of date for visualization)} `;
 
   const intragovernmental = (
@@ -81,6 +82,24 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
       U.S. Treasury Monthly Statement of the Public Debt (MSPD) </CustomLink>{' '} to explore and download this data. 
     </p>
   );
+  const onLegendEnter = (security: boolean) => {
+    setActiveSecurity(security);
+  };
+
+  const onChartLeave = () => {
+    setActiveSecurity(null);
+  };
+
+  const CustomLegend = () => (
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+      <div role='presentation' onMouseEnter={() => onLegendEnter(true)} onMouseLeave={onChartLeave} style={{ cursor: 'pointer', marginRight: 10 }}>
+        <span style={{ color: color }}>&#9632;</span> Marketable Security
+      </div>
+      <div role='presentation' onMouseEnter={() => onLegendEnter(false)} onMouseLeave={onChartLeave} style={{ cursor: 'pointer' }}>
+        <span style={{ color: color2 }}>&#9632;</span> Non-Marketable Security
+      </div>
+    </div>
+  );
 
   const onPieEnter = (data: DataItem, index: number, dataset: string) => {
     setActiveIndex(`${dataset}-${index}`);
@@ -88,9 +107,13 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
   const onPieLeave = () => {
     setActiveIndex(null);
   }
-  const getOpacity = (dataset: string, index: number) => {
-    return activeIndex === `${dataset}-${index}` || activeIndex === null ? 1 : .4;
+  const getOpacity = (dataset: string, index: number, entry: DataItem) => {
+    return activeIndex === `${dataset}-${index}` || activeIndex === null ? entry.security === activeSecurity ? .4 : 1 : .4;
   }
+  // const getOpacity = (entry: DataItem) => {
+  //   return activeSecurity === null || entry.security === activeSecurity ? 1 : 0.4;
+  // };
+
 
   return (
     <>
@@ -111,7 +134,7 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
                 >
                   {
                     data01.map((entry, index) => (
-                      <Cell key={`cell-data01-${index}`} fill={entry.security ? color2 : color} opacity={getOpacity('data01', index)} />
+                      <Cell key={`cell-data01-${index}`} fill={entry.security ? color2 : color} opacity={getOpacity('data01', index, entry)} />
                     ))
                   }
                 </Pie>
@@ -128,14 +151,14 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
                 >
                   {
                     data02.map((entry, index) => (
-                      <Cell key={`cell-data02-${index}`} fill={entry.security ? color2 : color} opacity={getOpacity('data02', index)} />
+                      <Cell key={`cell-data02-${index}`} fill={entry.security ? color2 : color} opacity={getOpacity('data02', index, entry)} />
                     ))
                   }
                 </Pie>
                 <Tooltip content={<CustomTooltip />} />
-                <Legend align="center" verticalAlign="bottom" layout="horizontal" payload={customLegend} />
               </PieChart>
             </ResponsiveContainer>
+            <CustomLegend />
           </div>
       </ChartContainer>
     </>
