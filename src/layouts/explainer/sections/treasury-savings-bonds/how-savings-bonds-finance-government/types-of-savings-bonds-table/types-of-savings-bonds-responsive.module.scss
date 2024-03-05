@@ -53,8 +53,18 @@
   background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255));
   height: 100%;
   width: 5rem;
-  left: 315px;
+  right: 0;
   z-index: 0;
+}
+
+.shadow {
+  position: absolute;
+  height: 99.5%;
+  width: 72px;
+  z-index: 0;
+  margin-left: 0.5rem;
+  left: -0.5rem;
+  box-shadow: 6px 0 16px 0 #00000026;
 }
 
 .columnContainer {
