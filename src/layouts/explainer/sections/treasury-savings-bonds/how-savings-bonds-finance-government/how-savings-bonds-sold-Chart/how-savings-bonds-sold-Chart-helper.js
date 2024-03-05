@@ -14,21 +14,17 @@ export const savingsBondsMap = {
 };
 
 export const data01 = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
+  { name: 'Group A', value: 400, security: false  },
+  { name: 'Group B', value: 24, security: true  },
+
 ];
 export const data02 = [
-  { name: 'A1', value: 100 },
-  { name: 'A2', value: 300 },
-  { name: 'B1', value: 100 },
-  { name: 'B2', value: 80 },
-  { name: 'B3', value: 40 },
-  { name: 'B4', value: 30 },
-  { name: 'B5', value: 50 },
-  { name: 'C1', value: 100 },
-  { name: 'C2', value: 200 },
-  { name: 'D1', value: 150 },
-  { name: 'D2', value: 50 },
+  { name: 'A1', value: 200, security: false },
+  { name: 'A2', value: 80, security: false },
+  { name: 'B1', value: 160, security: false },
+  { name: 'B2', value: 180, security: false },
+  { name: 'B3', value: 160, security: false },
+  { name: 'B4', value: 15, security: true  },
+  { name: 'B5', value: 12, security: true  },
+  { name: 'C1', value: 10, security: true  },
 ];

@@ -2,9 +2,9 @@ import React, { FunctionComponent, useState } from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { dataHeader, inflationLabel, inflationToggleContainer, chartStyle, infoTipContainer  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Tooltip, TooltipProps, Legend } from 'recharts';
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Tooltip, TooltipProps, LegendProps, Legend } from 'recharts';
 import ChartLegend from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/chart-legend/chart-legend';
-import { chartCopy , savingsBondsMap, mockData, savingsBonds } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+// import { data01, data02 } from './how-savings-bonds-sold-Chart-helper'
 // import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
@@ -17,25 +17,6 @@ interface DataItem {
 interface CustomTooltipProps extends TooltipProps<number, string> {
  }
 
-const data01: DataItem[] = [
-  { name: 'Group A', value: 400, security: false  },
-  { name: 'Group B', value: 24, security: true  },
-
-];
-const data02: DataItem[] = [
-  { name: 'A1', value: 160, security: false },
-  { name: 'A2', value: 300, security: false },
-  { name: 'B1', value: 160, security: false },
-  { name: 'B2', value: 180, security: false },
-  { name: 'B3', value: 160, security: false },
-  { name: 'B4', value: 10, security: true  },
-  { name: 'B5', value: 10, security: true  },
-  { name: 'C1', value: 8, security: true  },
-  { name: 'C2', value: 15,security: true  },
-  { name: 'D1', value: 15, security: true },
-  
-];
-
 const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload as DataItem; 
@@ -47,15 +28,32 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
       </div>
     );
   }
-
   return null;
 };
 
+
+const data01 = [
+  { name: 'Group A', value: 391.2, security: false  },
+  { name: 'Group B', value: 8.8, security: true  },
+
+];
+const data02 = [
+  { name: 'B3', value: 5, security: false },
+  { name: 'B2', value: 30, security: false },
+  { name: 'B1', value: 65, security: false },
+  { name: 'A2', value: 100, security: false },
+  { name: 'A1', value: 191.2, security: false },
+  { name: 'B5', value: 3.8, security: true  },
+  { name: 'B4', value: 3, security: true  },
+  { name: 'C1', value: 2, security: true  },
+];
+
 const color = '#4A0072';
 const color2 = '#B04ABD';
+const colors = { true: '#4A0072', false: '#B04ABD' };
 
 const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHandler }) => {
-  const [selectedChartView, setSelectedChartView] = useState('amounts');
+  const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const chartTitle = `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of {Month YYYY (as of date for visualization)} `;
 
   const intragovernmental = (
@@ -70,8 +68,8 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
   );
 
   const customLegend = [
-    {value: 'Marketable Security', type: 'square', id: 'secuirtyTrue', color: color},
-    {value: 'Non-Marketable Secuirty', type: 'square', id: 'secuirtyFalse', color: color2}
+    {value: 'Marketable Security', type: 'rect', id: 'secuirtyTrue', color: color},
+    {value: 'Non-Marketable Secuirty', type: 'rect', id: 'secuirtyFalse', color: color2}
   ]
 
   const lastUpdated = new Date();
@@ -84,31 +82,53 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
     </p>
   );
 
-
-  // const customTolltip = (value: number, name: string, props: any) => {
-  //   return [props.payload.name]
-    
-  // }
-
+  const onPieEnter = (data: DataItem, index: number, dataset: string) => {
+    setActiveIndex(`${dataset}-${index}`);
+  }
+  const onPieLeave = () => {
+    setActiveIndex(null);
+  }
+  const getOpacity = (dataset: string, index: number) => {
+    return activeIndex === `${dataset}-${index}` || activeIndex === null ? 1 : .4;
+  }
 
   return (
     <>
       <ChartContainer title={chartTitle} altText={chartTitle} date={lastUpdated} footer={footer} >
-        {selectedChartView === 'amounts' && (
           <div className={chartStyle} data-testid="chartParent">
-            <ResponsiveContainer height={377} width="99%">
-              <PieChart width={400} height={400}>
-                <Pie data={data01} dataKey="value" cx="50%" cy="50%" innerRadius={90} outerRadius={150} startAngle={-270} endAngle={90}>
+            <ResponsiveContainer height={485} width="99%">
+              <PieChart width={400} height={400} onMouseLeave={onPieLeave}>
+                <Pie 
+                  data={data01} 
+                  dataKey="value" 
+                  cx="50%" 
+                  cy="50%" 
+                  innerRadius={100} 
+                  outerRadius={170} 
+                  startAngle={-270} 
+                  endAngle={90} 
+                  onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
+                >
                   {
                     data01.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.security ? color2 : color} />
+                      <Cell key={`cell-data01-${index}`} fill={entry.security ? color2 : color} opacity={getOpacity('data01', index)} />
                     ))
                   }
                 </Pie>
-                <Pie data={data02} dataKey="value" cx="50%" cy="50%" innerRadius={150} outerRadius={180} startAngle={-270} endAngle={90}>
+                <Pie 
+                  data={data02} 
+                  dataKey="value" 
+                  cx="50%" 
+                  cy="50%" 
+                  innerRadius={170} 
+                  outerRadius={200} 
+                  startAngle={-270} 
+                  endAngle={90} 
+                  onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}
+                >
                   {
                     data02.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.security ? color2 : color} />
+                      <Cell key={`cell-data02-${index}`} fill={entry.security ? color2 : color} opacity={getOpacity('data02', index)} />
                     ))
                   }
                 </Pie>
@@ -117,7 +137,6 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
               </PieChart>
             </ResponsiveContainer>
           </div>
-        )}
       </ChartContainer>
     </>
   );
