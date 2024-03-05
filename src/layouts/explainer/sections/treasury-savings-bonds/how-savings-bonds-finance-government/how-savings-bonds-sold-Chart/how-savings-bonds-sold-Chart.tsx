@@ -1,54 +1,22 @@
-// import React, { FunctionComponent } from 'react';
-// import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
-// import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-// import { chartCopy } from './how-savings-bonds-sold-Chart-helper';
-// import CustomLink from '../../../../../../components/links/custom-link/custom-link';
-// import { Chart } from 'react-chartjs-2';
-
-
-
-// const HowSavingsBondsSoldChart: FunctionComponent = () => {
-
-
-
-//   return (
-//     <>
-//       <ChartContainer>
-
-//       </ChartContainer>
-//           <div  data-testid="chartParent">
-//             <ResponsiveContainer height={377} width="99%">
-//               <PieChart width={400} height={400}>
-//                 <Pie data={data01} dataKey="value" cx="50%" cy="50%" innerRadius={30} outerRadius={70} fill="#8884d8" />
-//                 <Pie data={data02} dataKey="value" cx="50%" cy="50%" innerRadius={70} outerRadius={90} fill="#82ca9d" label />
-//               </PieChart>
-//             </ResponsiveContainer>
-//             {/* <ChartLegend lines={savingsBonds} lineMap={savingsBondsMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} /> */}
-//           </div>
-//       </ChartContainer>
-//     </>
-//   );
-// }
-
-// export default HowSavingsBondsSoldChart;
-
-
 import React, { FunctionComponent, useState } from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { dataHeader, inflationLabel, inflationToggleContainer, chartStyle, infoTipContainer  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Tooltip, TooltipProps, Legend } from 'recharts';
 import ChartLegend from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/chart-legend/chart-legend';
 import { chartCopy , savingsBondsMap, mockData, savingsBonds } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 // import CustomTooltip from './custom-tooltip/custom-tooltip';
-import CustomTooltip from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/custom-tooltip/custom-tooltip';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
+import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 
 interface DataItem {
   name: string;
   value: number;
   security: boolean;
 }
+interface CustomTooltipProps extends TooltipProps<number, string> {
+ }
+
 const data01: DataItem[] = [
   { name: 'Group A', value: 400, security: false  },
   { name: 'Group B', value: 24, security: true  },
@@ -65,51 +33,72 @@ const data02: DataItem[] = [
   { name: 'C1', value: 8, security: true  },
   { name: 'C2', value: 15,security: true  },
   { name: 'D1', value: 15, security: true },
+  
 ];
+
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload as DataItem; 
+    return (
+      <div style={{ backgroundColor: '#fff', padding: '5px', border: '1px solid #ccc' }}>
+        <p>{data.name}</p>
+        <p>{`Value: ${data.value}`}</p>
+
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const color = '#4A0072';
 const color2 = '#B04ABD';
 
-const HowSavingsBondsSoldChart: FunctionComponent = () => {
+const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHandler }) => {
   const [selectedChartView, setSelectedChartView] = useState('amounts');
+  const chartTitle = `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of {Month YYYY (as of date for visualization)} `;
+
+  const intragovernmental = (
+    <GlossaryPopoverDefinition
+      term={'Intragovernmental Holdings'}
+      page={'Savings Bond Explainer'}
+      glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
+    >
+      intragovernmental
+    </GlossaryPopoverDefinition>
+  );
+
+  const customLegend = [
+    {value: 'Marketable Security', type: 'square', id: 'secuirtyTrue', color: color},
+    {value: 'Non-Marketable Secuirty', type: 'square', id: 'secuirtyFalse', color: color2}
+  ]
 
   const lastUpdated = new Date();
   const footer = (
     <p>
-      Visit the <CustomLink url="/datasets/securities-issued-in-treasurydirect/sales">Securities Issued in TreasuryDirect</CustomLink> dataset for
-      data since 2001 and the{' '}
-      <CustomLink url="https://www.treasurydirect.gov/research-center/history-of-savings-bond/savings-bond-sales/">
-        Historical Savings Bonds Sales by Type
-      </CustomLink>{' '}
-      for data before 2001 to explore this data.
+      This chart reflects total debt held by the public, which excludes debt held by the government (known as {intragovernmental}). Visit the 
+      <CustomLink url="/americas-finance-guide/national-debt/"> National Debt explainer </CustomLink> to learn more about the types of debt or the
+      {' '}<CustomLink url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding">
+      U.S. Treasury Monthly Statement of the Public Debt (MSPD) </CustomLink>{' '} to explore and download this data. 
     </p>
   );
 
 
-  const sortedByDate = (savingsBonds, data) => {
-    const sorted = [];
-    data.forEach(year => {
-      savingsBonds.forEach(bondType => {
-        if (!!year[bondType] && !sorted.includes(bondType)) {
-          sorted.push(bondType);
-        }
-      });
-    });
-    return sorted;
-  };
-
-  const customTolltip = (value: number, name: string, props: any) => {
+  // const customTolltip = (value: number, name: string, props: any) => {
+  //   return [props.payload.name]
     
-  }
+  // }
 
 
   return (
     <>
-      <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} >
+      <ChartContainer title={chartTitle} altText={chartTitle} date={lastUpdated} footer={footer} >
         {selectedChartView === 'amounts' && (
           <div className={chartStyle} data-testid="chartParent">
             <ResponsiveContainer height={377} width="99%">
               <PieChart width={400} height={400}>
-                <Pie data={data01} dataKey="value" cx="50%" cy="50%" innerRadius={100} outerRadius={150} startAngle={-270} endAngle={90}>
+                <Pie data={data01} dataKey="value" cx="50%" cy="50%" innerRadius={90} outerRadius={150} startAngle={-270} endAngle={90}>
                   {
                     data01.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.security ? color2 : color} />
@@ -123,7 +112,8 @@ const HowSavingsBondsSoldChart: FunctionComponent = () => {
                     ))
                   }
                 </Pie>
-                <Tooltip />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend align="center" verticalAlign="bottom" layout="horizontal" payload={customLegend} />
               </PieChart>
             </ResponsiveContainer>
           </div>
