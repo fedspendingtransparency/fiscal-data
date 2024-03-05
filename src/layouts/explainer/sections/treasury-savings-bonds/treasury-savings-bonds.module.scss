@@ -11,3 +11,41 @@ $treasury-savings-bonds-explainer-hero: #b699c6;
   treasurySavingsBondsExplainerLightSecondary: $treasury-savings-bonds-explainer-light-secondary;
   treasurySavingsBondsExplainerHero: $treasury-savings-bonds-explainer-hero;
 }
+
+.postQuoteBoxAccordionContainer {
+  margin-top: 2rem;
+}
+
+.mudAccordion {
+  :global(.accordionHeading) {
+    font-size: $font-size-18;
+    color: $treasury-savings-bonds-explainer-secondary;
+    border: none;
+    padding: 0.75rem 1rem;
+  }
+
+  :global(.accordionToggle) {
+    svg path {
+      color: $treasury-savings-bonds-explainer-secondary;
+    }
+  }
+
+  @media screen and (max-width: $breakpoint-sm - 1) {
+    :global(.accordionToggle) {
+      padding-left: 1.5rem;
+    }
+  }
+
+  :global(.accordionContent) {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+    padding-bottom: 1.5rem;
+    border: none;
+  }
+
+  :global(.accordionOpen),
+  :global(.accordionClosed) {
+    border: solid 0.06rem $treasury-savings-bonds-explainer-secondary;
+    border-radius: 0.13rem;
+  }
+}
