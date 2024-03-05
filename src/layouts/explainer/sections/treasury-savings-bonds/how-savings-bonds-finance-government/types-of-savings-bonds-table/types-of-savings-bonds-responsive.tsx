@@ -20,7 +20,8 @@ const TypesOfSavingsBondsResponsive = ({ tableContent }) => {
   const scrollHandler = e => {
     if (e.target.scrollLeft + e.target.clientWidth === e.target.scrollWidth) {
       setIsGradient(false);
-    } else if (e.target.scrollLeft === 0) {
+    }
+    if (e.target.scrollLeft === 0) {
       setIsShadow(false);
     } else {
       setIsShadow(true);
@@ -48,8 +49,8 @@ const TypesOfSavingsBondsResponsive = ({ tableContent }) => {
             );
           }
         })}
-        {isShadow && <div className={shadow} />}
-        <div className={scrollContainer} onScroll={scrollHandler}>
+        {isShadow && <div className={shadow} data-testid={'shadow'} />}
+        <div className={scrollContainer} onScroll={scrollHandler} data-testid={'scroll-container'}>
           {tableContent.map(column => {
             return (
               <div key={column.name} className={columnContainer}>
@@ -67,7 +68,7 @@ const TypesOfSavingsBondsResponsive = ({ tableContent }) => {
             );
           })}
         </div>
-        {isGradient && <div className={gradient} />}
+        {isGradient && <div className={gradient} data-testid={'gradient'} />}
       </div>
     </>
   );
