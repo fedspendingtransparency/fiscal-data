@@ -1,5 +1,4 @@
 
-
 .tableContainer {
   display: flex;
   flex-direction: column;
@@ -14,21 +13,22 @@
 
 .headerBox {
   font-size: 14px;
-  min-width: 23%;
+  min-width: 115px;
+  max-width: 115px;
   background-color: #b04abd;
   padding: 8px 8px 12px 8px;
   color: white;
 }
 
 .contentBox {
+  width: calc(60% - 131px);
   font-size: 14px;
-  min-width: 35%;
   background-color: #f8f0f9;
   padding: 8px 8px 12px 8px;
 }
 
 .singular {
-  min-width: 73.3%;
+  width: calc(100% - 131px);
 }
 
 .bondTitle {

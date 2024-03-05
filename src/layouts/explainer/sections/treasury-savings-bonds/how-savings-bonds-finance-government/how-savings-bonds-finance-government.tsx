@@ -16,6 +16,31 @@ const HowSavingsBondsFinanceGovernment = ({ glossary, glossaryClickHandler, widt
 
   const isDesktop = width >= pxToNumber(breakpointLg);
 
+  const tableContent = [
+    {
+      name: 'Type',
+      content: ['I Bonds', 'EE Bonds'],
+    },
+    {
+      name: 'Primary Advantage',
+      content: ["Protect buyer's money from inflation", 'Guaranteed to double in value in 20 years'],
+    },
+    {
+      name: 'Issuing Method',
+      content: ['Primarily Electronic', 'Electronic Only'],
+    },
+    {
+      name: 'Interest Earnings',
+      content: ['A fixed interest rate and a variable rate based on inflation', 'A steady interest rate that does not change'],
+    },
+    {
+      name: 'Redemption',
+      content: [
+        'Redeemable after 1 year; if redeemed in the first five years, the interest accumulated from the last three months will be deducted from the final payout',
+      ],
+    },
+  ];
+
   const marketable = (
     <GlossaryPopoverDefinition
       term={'Marketable Securities'}
@@ -119,7 +144,7 @@ const HowSavingsBondsFinanceGovernment = ({ glossary, glossaryClickHandler, widt
         and special projects ranging from the Postal Service to the Armed Forces. Each bond type has different terms and ways that it earns interest.
         Today, there are two types of savings bonds available for purchase: {seriesIBonds} and {seriesEEBonds}.
       </span>
-      {isDesktop ? <TypesOfSavingsBonds /> : <TypesOfSavingsBondsResponsive />}
+      {isDesktop ? <TypesOfSavingsBonds tableContent={tableContent} /> : <TypesOfSavingsBondsResponsive tableContent={tableContent} />}
     </>
   );
 };
