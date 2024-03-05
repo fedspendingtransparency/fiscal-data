@@ -5,6 +5,7 @@ import SavingBondsKeyTakeaway from './savings-bonds-key-takeaway/savings-bonds-k
 import { ICpiDataMap } from '../../../../models/ICpiDataMap';
 import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-government/how-savings-bonds-finance-government';
 import SavingsBondsAreFullyMatured from './savings-bonds-are-fully-matured/savings-bonds-are-fully-matured';
+import LearnMore from './learn-more/learn-more';
 
 export const treasurySavingsBondsSectionIds = [
   'key-takeaways',
@@ -59,7 +60,7 @@ const treasurySavingsBondsSections: IExplainerPageSection[] = [
     index: 5,
     id: treasurySavingsBondsSectionIds[5],
     title: 'Learn More: Buying and Redeeming Savings Bonds Today',
-    component: cpiDataByYear => <div />,
+    component: cpiDataByYear => <LearnMore />,
   },
 ];
 
