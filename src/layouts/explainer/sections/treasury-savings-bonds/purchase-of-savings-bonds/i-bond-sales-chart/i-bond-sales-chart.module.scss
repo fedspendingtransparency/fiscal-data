@@ -1,0 +1,22 @@
+@import "src/variables.module";
+
+.chartLegend {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  .lengendItem {
+    display: flex;
+    .label {
+      font-size: $font-size-14;
+      font-weight: $semi-bold-weight;
+    }
+
+    .leftLine {
+      width: 24px;
+      border-bottom: 0.5px solid #B04ABD;
+      height: 0.5rem;
+      margin-left: 0.5rem
+    }
+  }
+}

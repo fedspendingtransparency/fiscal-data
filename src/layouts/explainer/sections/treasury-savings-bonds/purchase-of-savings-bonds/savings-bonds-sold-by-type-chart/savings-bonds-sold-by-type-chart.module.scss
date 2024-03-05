@@ -1,5 +1,6 @@
 @import 'src/variables.module.scss';
 @import '../../treasury-savings-bonds.module.scss';
+@import '../../../../explainer.module';
 
 .dataHeader {
   display: flex;
@@ -28,7 +29,6 @@
   width: 100%;
 
   tspan {
-    color: $font-body-copy;
-    font-size: $font-size-14;
+    @include reChartsBaseStyle;
   }
 }
