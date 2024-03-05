@@ -3,8 +3,8 @@ import SavingsBondsOverview from './savings-bonds-overview/savings-bonds-overvie
 import WhatInfluencesPurchaseOfSavingsBonds from './purchase-of-savings-bonds/what-influences-purchase-of-savings-bonds';
 import SavingBondsKeyTakeaway from './savings-bonds-key-takeaway/savings-bonds-key-takeaway';
 import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-government/how-savings-bonds-finance-government';
-import { ICpiDataMap } from '../../../../models/ICpiDataMap';
-
+import SavingsBondsAreFullyMatured from './savings-bonds-are-fully-matured/savings-bonds-are-fully-matured';
+import LearnMore from './learn-more/learn-more';
 
 export const treasurySavingsBondsSectionIds = [
   'key-takeaways',
@@ -53,13 +53,13 @@ const treasurySavingsBondsSections: IExplainerPageSection[] = [
     index: 4,
     id: treasurySavingsBondsSectionIds[4],
     title: 'What Happens when Savings Bonds are Fully Matured?',
-    component: cpiDataByYear => <div />,
+    component: cpiDataByYear => <SavingsBondsAreFullyMatured />,
   },
   {
     index: 5,
     id: treasurySavingsBondsSectionIds[5],
     title: 'Learn More: Buying and Redeeming Savings Bonds Today',
-    component: cpiDataByYear => <div />,
+    component: cpiDataByYear => <LearnMore />,
   },
 ];
 
