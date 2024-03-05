@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { fontBodyCopy } from '../../../explainer.module.scss';
@@ -21,9 +21,52 @@ import Accordion from '../../../../../components/accordion/accordion';
 import illustration1 from '../../../../../../static/images/savings-bonds/Fully-Matured-Bonds-Story_Illustration-1.svg';
 import illustration2 from '../../../../../../static/images/savings-bonds/Fully-Matured-Bonds-Story_Illustration-2.svg';
 import illustration3 from '../../../../../../static/images/savings-bonds/Fully-Matured-Bonds-Story_Illustration-3.svg';
+import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
+import { format } from 'date-fns';
 
 const SavingsBondsAreFullyMatured: FunctionComponent = () => {
-   const glossaryTerms = {
+  const [mudMonthYear, setMudMonthYear] = useState(null);
+  const [mud, setMud] = useState(null);
+
+  useEffect(() => {
+    const sort: string = 'sort=-record_date';
+    const pagination: string = 'page[size]=1';
+    const mudDateEndpoint: string = `v1/accounting/od/savings_bonds_mud?${sort}&${pagination}`;
+    let mudRecordDate: string;
+
+    basicFetch(`${apiPrefix}${mudDateEndpoint}`).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        mudRecordDate = data.record_date;
+        console.log('data: ', data);
+        // setMudMonthYear(format(new Date(data.record_date), "MMMM y"));
+        setMudMonthYear(data.record_date);
+      }
+    });
+
+  }, []);
+
+  useEffect(() => {
+    // const mudEndpoint: string = `v1/accounting/od/savings_bonds_mud?filter=record_date:eq:2024-01-31`;
+    const mudEndpoint: string = `v1/accounting/od/savings_bonds_mud?filter=record_date:eq:2024-01-31`;
+
+    basicFetch(`${apiPrefix}${mudEndpoint}`).then(res => {
+      if (res.data) {
+        console.log('data: ', res.data);
+        const data = res.data;
+        let mudTotal = 0;
+        data.map((index) => {
+          mudTotal = mudTotal + index.bonds_out_cnt;
+        });
+
+        setMud(mudTotal);
+      }
+    });
+
+  }, [mudMonthYear]);
+
+
+  const glossaryTerms = {
      maturedUnredeemedDebt: (
       <GlossaryPopoverDefinition term="Matured Unredeemed Debt (MUD)" page="Savings Bonds Explainer">
         Matured Unredeemed Debt (MUD)
@@ -43,7 +86,7 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
         These outstanding but unredeemed bonds are called {glossaryTerms.maturedUnredeemedDebt}. The government
         continues to be
         responsible for this debt, as it may be redeemed at any time. Therefore, the Treasury has increased efforts to
-        encourage bondholders to redeem their matured savings bonds. As of Month YYYY, there were XXX million
+        encourage bondholders to redeem their matured savings bonds. As of {format(new Date(mudMonthYear), "MMMM y")}, there were {mud} XXX million
         matured unredeemed savings bonds held by investors.
       </p>
       <p>
