@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   tableContainer,
-  rowContainer,
   headerBox,
   contentBox,
   singular,
