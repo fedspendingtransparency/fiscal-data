@@ -121,7 +121,6 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
 
 export const calculatePercentage = (data) => {
   if(!Array.isArray(data)){
-    console.error('Invalide data, ',data);
     return[];
   }
   const total = data.reduce((acc, curr) => acc + curr.value, 

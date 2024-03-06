@@ -6,6 +6,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
 import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
+import { mockDataOne, mockDataTwo, chartCopy} from './how-savings-bonds-sold-chart-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 
@@ -15,29 +16,12 @@ interface DataItem {
   security: boolean;
 }
 
-const data01 = [
-  { name: 'Marketable Securities', value: 391.2, security: false, securityType: 'Marketable' },
-  { name: 'Non-Marketable Securities', value: 8.8, security: true, securityType: 'Non-Marketable' },
-
-];
-const data02 = [
-  { name: 'Bonds 1', value: 5, security: false, securityType: 'Marketable' },
-  { name: 'Bonds 2', value: 30, security: false, securityType: 'Marketable' },
-  { name: 'Bonds 3', value: 65, security: false, securityType: 'Marketable' },
-  { name: 'Bonds 4', value: 80, security: false, securityType: 'Marketable' },
-  { name: 'Bonds 5', value: 211.2, security: false, securityType: 'Marketable' },
-  { name: 'Savings Bonds 1', value: 4.4, security: true, securityType: 'Non-Marketable' },
-  { name: 'Savings Bonds', value: 2.4, security: true, securityType: 'Non-Marketable' },
-  { name: 'Other', value: 2, security: true, securityType: 'Non-Marketable' },
-];
-
 const color = '#4A0072';
 const color2 = '#B04ABD';
 
 const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHandler }) => {
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurity, setActiveSecurity] = useState<boolean | null>(null);
-  const chartTitle = `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of {Month YYYY (as of date for visualization)} `;
 
   const intragovernmental = (
     <GlossaryPopoverDefinition
@@ -50,8 +34,8 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
     </GlossaryPopoverDefinition>
   );
 
-  const data1WidthPercentage = calculatePercentage(data01);
-  const data2WidthPercentage = calculatePercentage(data02);
+  const data1WidthPercentage = calculatePercentage(mockDataOne);
+  const data2WidthPercentage = calculatePercentage(mockDataTwo);
 
   const lastUpdated = new Date();
   const footer = (
@@ -82,7 +66,7 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
 
   return (
     <>
-      <ChartContainer title={chartTitle} altText={chartTitle} date={lastUpdated} footer={footer} >
+      <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} >
           <div className={chartStyle} data-testid="chartParent">
             <ResponsiveContainer height={485} width="99%">
               <PieChart width={400} height={400} onMouseLeave={onPieLeave}>
@@ -98,7 +82,7 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
                   onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
                 >
                   {
-                    data01.map((entry, index) => (
+                    mockDataOne.map((entry, index) => (
                       <Cell key={`cell-data01-${index}`} fill={entry.security ? color2 : color} opacity={getOpacity('data01', index, entry)} />
                     ))
                   }
@@ -117,7 +101,7 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
                   onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}
                 >
                   {
-                    data02.map((entry, index) => (
+                    mockDataTwo.map((entry, index) => (
                       <Cell key={`cell-data02-${index}`} fill={entry.security ? color2 : color} opacity={getOpacity('data02', index, entry)} />
                     ))
                   }
