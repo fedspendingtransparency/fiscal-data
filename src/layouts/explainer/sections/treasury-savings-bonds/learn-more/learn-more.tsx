@@ -6,12 +6,12 @@ const LearnMore: FunctionComponent = () => {
     <>
       <p>
         Today, individuals can buy Series I and Series EE bonds online through{' '}
-        <CustomLink url="https://www.treasurydirect.gov/savings-bonds/buy-a-bond/">TreasuyDirect.gov</CustomLink>.
-        TreasuryDirect also offers a feature called{' '}
-        <CustomLink url="https://treasurydirect.gov/savings-bonds/treasury-hunt/">Treasure Hunt</CustomLink>, which allows users to search to see if there are unredeemed bonds in their name.
+        <CustomLink url="https://www.treasurydirect.gov/savings-bonds/buy-a-bond/">TreasuyDirect.gov</CustomLink>. TreasuryDirect also offers a
+        feature called <CustomLink url="https://treasurydirect.gov/savings-bonds/treasury-hunt/">Treasure Hunt</CustomLink>, which allows users to
+        search to see if there are unredeemed bonds in their name.
       </p>
     </>
-  )
+  );
 };
 
 export default LearnMore;

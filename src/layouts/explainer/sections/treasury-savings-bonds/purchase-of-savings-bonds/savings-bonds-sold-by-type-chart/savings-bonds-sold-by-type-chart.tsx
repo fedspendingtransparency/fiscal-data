@@ -5,7 +5,6 @@ import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Too
 import ChartLegend from './chart-legend/chart-legend';
 import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, fyEndpoint, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
-import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import ChartHeader from './chart-header/chart-header';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';

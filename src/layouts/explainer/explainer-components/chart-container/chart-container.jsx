@@ -4,19 +4,19 @@ import { format } from 'date-fns';
 
 const ChartContainer = ({
   title,
-  subTitle,
+  subTitle = null,
   altText,
   header,
   footer,
   date,
   children,
-  customContainerStyles,
-  customHeaderStyles,
-  customSpacing,
-  customFooterStyles,
-  customTitleStyles,
-  customSubTitleStyles,
-  customTestId,
+  customContainerStyles = {},
+  customHeaderStyles = {},
+  customSpacing = {},
+  customFooterStyles = {},
+  customTitleStyles = {},
+  customSubTitleStyles = {},
+  customTestId = null,
 }) => {
   return (
     <div className={chartContainer} role="figure" aria-label={altText} style={{ ...customSpacing }}>
