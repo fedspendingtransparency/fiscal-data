@@ -190,8 +190,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                   undefined
                 )}
                 <div
-                  role="button"
-                  tabIndex={-1}
+                  role="presentation"
                   onMouseEnter={() => handleMouseEnter(s.index)}
                   onMouseLeave={handleMouseLeave}
                   className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
@@ -208,7 +207,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                     duration={scrollDuration}
                     delay={scrollDelay}
                     onClick={() => handleInteraction(null, s.id, s.title)}
-                    onKeyPress={e => handleInteraction(e, s.id, s.title)}
+                    onKeyDown={e => handleInteraction(e, s.id, s.title)}
                     offset={globalNavOffset - 4}
                   >
                     {s.title}
