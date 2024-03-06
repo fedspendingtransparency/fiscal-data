@@ -3,9 +3,8 @@ import CustomLink from '../../../../../../components/links/custom-link/custom-li
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { dataHeader, inflationLabel, inflationToggleContainer, chartStyle, infoTipContainer  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Tooltip, TooltipProps, LegendProps, Legend } from 'recharts';
-import ChartLegend from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/chart-legend/chart-legend';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
-// import { data01, data02 } from './how-savings-bonds-sold-Chart-helper'
+import RenderActiveShape from './chartActiveShape/chart-ActiveShape';
 import CustomLegend from './chart-legend/custom-legend';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
@@ -26,8 +25,8 @@ const data02 = [
   { name: 'Bonds 1', value: 5, security: false, securityType: 'Marketable' },
   { name: 'Bonds 2', value: 30, security: false, securityType: 'Marketable' },
   { name: 'Bonds 3', value: 65, security: false, securityType: 'Marketable' },
-  { name: 'Bonds 4', value: 100, security: false, securityType: 'Marketable' },
-  { name: 'Bonds 5', value: 191.2, security: false, securityType: 'Marketable' },
+  { name: 'Bonds 4', value: 80, security: false, securityType: 'Marketable' },
+  { name: 'Bonds 5', value: 211.2, security: false, securityType: 'Marketable' },
   { name: 'Savings Bonds 1', value: 3.8, security: true, securityType: 'Non-Marketable' },
   { name: 'Savings Bonds 2', value: 3, security: true, securityType: 'Non-Marketable' },
   { name: 'Other', value: 2, security: true, securityType: 'Non-Marketable' },
@@ -122,6 +121,8 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
                   }
                 </Pie>
                 <Pie 
+                  activeIndex={activeIndex}
+                  activeShape={RenderActiveShape}
                   data={data2WidthPercentage} 
                   dataKey="percent" 
                   cx="50%" 

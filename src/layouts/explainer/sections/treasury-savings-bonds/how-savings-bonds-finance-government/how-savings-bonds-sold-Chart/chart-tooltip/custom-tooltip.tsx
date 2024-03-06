@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import { TooltipProps } from 'recharts';
 import { tooltipContainer, tooltipTitle, tooltipSecondaryTitle, tooltipPercent, tooltipColorBox } from './custom-tooltip.module.scss'
 
@@ -11,7 +11,7 @@ interface DataItem {
 
 
 
-const CustomTooltip: React.FC<TooltipProps<number, string>> = ({ active, payload }) => {
+const CustomTooltip: FunctionComponent<TooltipProps<number, string>> = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload as DataItem;
     const color = payload[0].color || '#4A0072';

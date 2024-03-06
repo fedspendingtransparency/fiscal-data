@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import { legendContainer, legendBox, legendText } from './custom-legend.module.scss'
 
 interface CustomLegendProps { 
@@ -8,7 +8,7 @@ primaryColor: string;
 secondaryColor: string;
  } 
  
- const CustomLegend: React.FC<CustomLegendProps>  = ({ onLegendEnter, onChartLeave, primaryColor, secondaryColor }) => {
+ const CustomLegend: FunctionComponent<CustomLegendProps>  = ({ onLegendEnter, onChartLeave, primaryColor, secondaryColor }) => {
   return  ( 
     <div className={legendContainer}>
       <div role='presentation' onMouseEnter={() => onLegendEnter(true)} onMouseLeave={onChartLeave} className={legendText}>
