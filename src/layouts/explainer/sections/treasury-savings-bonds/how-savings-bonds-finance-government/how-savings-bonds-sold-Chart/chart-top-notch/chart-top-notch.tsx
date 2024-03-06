@@ -17,7 +17,7 @@ interface ActiveShapeProps {
 }
 
 const RADIAN = Math.PI / 180;
-const RenderActiveShape = (props: ActiveShapeProps) => {
+const ChartTopNotch = (props: ActiveShapeProps) => {
   const {
     cx,
     cy,
@@ -64,4 +64,4 @@ const RenderActiveShape = (props: ActiveShapeProps) => {
   );
 };
 
-export default RenderActiveShape;
+export default ChartTopNotch;

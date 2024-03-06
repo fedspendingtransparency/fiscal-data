@@ -4,7 +4,7 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import { chartStyle  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
-import RenderActiveShape from './chart-top-notch/chart-top-notch';
+import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 
@@ -117,7 +117,7 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
                 </Pie>
                 <Pie 
                   activeIndex={6}
-                  activeShape={RenderActiveShape}
+                  activeShape={ChartTopNotch}
                   data={data2WidthPercentage} 
                   dataKey="percent" 
                   cx="50%" 
