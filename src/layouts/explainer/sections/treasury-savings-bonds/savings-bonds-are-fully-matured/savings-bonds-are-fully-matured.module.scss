@@ -45,10 +45,6 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .holdingBondsHeader {
-    text-align: left;
-  }
-
   .holdingBondsLeft {
     justify-content: center;
     flex-wrap: wrap-reverse;
