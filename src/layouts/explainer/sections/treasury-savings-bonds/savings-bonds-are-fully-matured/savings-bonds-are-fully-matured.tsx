@@ -31,32 +31,28 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
     const sort: string = 'sort=-record_date';
     const pagination: string = 'page[size]=1';
     const mudDateEndpoint: string = `v1/accounting/od/savings_bonds_mud?${sort}&${pagination}`;
-    let mudRecordDate: string;
 
     basicFetch(`${apiPrefix}${mudDateEndpoint}`).then(res => {
       if (res.data) {
         const data = res.data[0];
-        mudRecordDate = data.record_date;
-        setMudMonthYear(data.record_date);
+        const mudRecordDate: string = data.record_date;
+        const mudEndpoint: string = `v1/accounting/od/savings_bonds_mud?filter=record_date:eq:${mudRecordDate}`;
+        setMudMonthYear(mudRecordDate);
+
+        basicFetch(`${apiPrefix}${mudEndpoint}`).then(res => {
+          if (res.data) {
+            const data = res.data;
+            let mudTotal: number = 0;
+            data.map(index => {
+              mudTotal = mudTotal + parseInt(index.bonds_out_cnt);
+            });
+
+            setMud(mudTotal);
+          }
+        });
       }
     });
   }, []);
-
-  useEffect(() => {
-    const mudEndpoint: string = `v1/accounting/od/savings_bonds_mud?filter=record_date:eq:${mudMonthYear}`;
-
-    basicFetch(`${apiPrefix}${mudEndpoint}`).then(res => {
-      if (res.data) {
-        const data = res.data;
-        let mudTotal: number = 0;
-        data.map(index => {
-          mudTotal = mudTotal + parseInt(index.bonds_out_cnt);
-        });
-
-        setMud(mudTotal);
-      }
-    });
-  }, [mudMonthYear]);
 
   const glossaryTerms = {
     maturedUnredeemedDebt: (
