@@ -47,7 +47,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent = () => {
 
   const seriesEEBonds = (
     <GlossaryPopoverDefinition term="Series EE Bonds" page="Savings Bond Explainer">
-      Series EE Bonds
+      Series EE bonds
     </GlossaryPopoverDefinition>
   );
 
