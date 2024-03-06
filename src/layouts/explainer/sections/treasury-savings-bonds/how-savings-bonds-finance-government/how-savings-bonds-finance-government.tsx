@@ -1,13 +1,45 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { useState } from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import { subSectionTitle } from './how-savings-bonds-finance-government.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import BondImage from '../../../../../../static/images/savings-bonds/Series-E-Bond-Cropped.png';
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
+import TypesOfSavingsBonds from './types-of-savings-bonds-table/types-of-savings-bonds';
+import { withWindowSize } from 'react-fns';
+import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../explainer.module.scss';
+import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-of-savings-bonds-responsive';
 
-const HowSavingsBondsFinanceGovernment: FunctionComponent = () => {
+const HowSavingsBondsFinanceGovernment = ({width}) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
+
+  const isDesktop = width >= pxToNumber(breakpointLg);
+
+  const tableContent = [
+    {
+      name: 'Type',
+      content: ['I Bonds', 'EE Bonds'],
+    },
+    {
+      name: 'Primary Advantage',
+      content: ["Protect buyer's money from inflation", 'Guaranteed to double in value in 20 years'],
+    },
+    {
+      name: 'Issuing Method',
+      content: ['Primarily Electronic', 'Electronic Only'],
+    },
+    {
+      name: 'Interest Earnings',
+      content: ['A fixed interest rate and a variable rate based on inflation', 'A steady interest rate that does not change'],
+    },
+    {
+      name: 'Redemption',
+      content: [
+        'Redeemable after 1 year; if redeemed in the first five years, the interest accumulated from the last three months will be deducted from the final payout',
+      ],
+    },
+  ];
 
   const marketable = (
     <GlossaryPopoverDefinition term="Marketable Securities" page="Savings Bond Explainer">
@@ -77,8 +109,9 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent = () => {
         and special projects ranging from the Postal Service to the Armed Forces. Each bond type has different terms and ways that it earns interest.
         Today, there are two types of savings bonds available for purchase: {seriesIBonds} and {seriesEEBonds}.
       </span>
+      {isDesktop ? <TypesOfSavingsBonds tableContent={tableContent} /> : <TypesOfSavingsBondsResponsive tableContent={tableContent} />}
     </>
   );
 };
 
-export default HowSavingsBondsFinanceGovernment;
+export default withWindowSize(HowSavingsBondsFinanceGovernment);
