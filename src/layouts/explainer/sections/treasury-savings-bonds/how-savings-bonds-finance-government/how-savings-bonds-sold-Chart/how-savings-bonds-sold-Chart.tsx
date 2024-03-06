@@ -1,12 +1,11 @@
 import React, { FunctionComponent, useState } from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { dataHeader, inflationLabel, inflationToggleContainer, chartStyle, infoTipContainer  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Tooltip, TooltipProps, LegendProps, Legend } from 'recharts';
+import { chartStyle  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
 import RenderActiveShape from './chartActiveShape/chart-ActiveShape';
 import CustomLegend from './chart-legend/custom-legend';
-import { getShortForm } from '../../../../../../utils/rounding-utils';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 
 interface DataItem {
@@ -14,7 +13,6 @@ interface DataItem {
   value: number;
   security: boolean;
 }
-
 
 const data01 = [
   { name: 'Marketable Securities', value: 391.2, security: false, securityType: 'Marketable' },
@@ -34,7 +32,6 @@ const data02 = [
 
 const color = '#4A0072';
 const color2 = '#B04ABD';
-
 
 const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHandler }) => {
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
@@ -67,8 +64,6 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
 
   const data1WidthPercentage = calculatePercentage(data01);
   const data2WidthPercentage = calculatePercentage(data02);
-
-
 
   const lastUpdated = new Date();
   const footer = (
@@ -150,5 +145,3 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
 };
 
 export default HowSavingsBondsSoldChart;
-
-

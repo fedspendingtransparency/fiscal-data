@@ -4,7 +4,7 @@ import { Sector } from 'recharts';
 interface ActiveShapeProps {
   cx?: number;
   cy?: number;
-  midAngle?: number; // Middle of the angle for the active slice
+  midAngle?: number; 
   innerRadius?: number;
   outerRadius?: number;
   startAngle?: number;
@@ -30,7 +30,6 @@ const RenderActiveShape = (props: ActiveShapeProps) => {
     payload,
     opacity,
     percent,
-    activeIndex
   } = props;
 
   const sin = Math.sin(-RADIAN * midAngle);
