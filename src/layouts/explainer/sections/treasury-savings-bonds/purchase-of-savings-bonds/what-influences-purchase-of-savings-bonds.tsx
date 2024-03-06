@@ -49,43 +49,45 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
-      const pageSize = metaRes.meta['total-pages'];
-      basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
-        if (res.data) {
-          const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
-          const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
-          setChartData(allData);
-          const bondTypeset = new Set();
-          allData.forEach(yearRecord => {
-            Object.keys(yearRecord).forEach(bondName => {
-              if(bondName !== 'year'){
-                bondTypeset.add(bondName);
-              }
+      if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
+        const pageSize = metaRes.meta['total-pages'];
+        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
+          if (res.data) {
+            const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
+            const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
+            setChartData(allData);
+            const bondTypeset = new Set();
+            allData.forEach(yearRecord => {
+              Object.keys(yearRecord).forEach(bondName => {
+                if(bondName !== 'year'){
+                  bondTypeset.add(bondName);
+                }
+              })
             })
-          })
-          setBondTypes(bondTypeset.size)
-        }
-        const data: BondSaleEntry[] = res.data;
-        const salesByYear: SalesData = {};
-        data.forEach((entry: BondSaleEntry) => {
-          const year = entry.record_fiscal_year
-          const salesAmount = Number(entry.net_sales_amt); 
-          salesByYear[year] = (salesByYear[year] || 0) + salesAmount;
-        });
-    
-        const sortedYears = Object.entries(salesByYear)
-          .sort((a, b) => b[1] - a[1])
-          .map(([year, sales]) => ({ year, sales: Math.round(sales) }));
-  
-        if (sortedYears.length > 0) {
-          setMostBondSalesYear(sortedYears[0].year);
-          setMostBondSales(sortedYears[0].sales);
-          if (sortedYears.length > 1) {
-            setSecondMostBondSalesYear(sortedYears[1].year);
-            setSecondMostBondSales(sortedYears[1].sales);
+            setBondTypes(bondTypeset.size)
           }
-        }
-      });
+          const data: BondSaleEntry[] = res.data;
+          const salesByYear: SalesData = {};
+          data.forEach((entry: BondSaleEntry) => {
+            const year = entry.record_fiscal_year
+            const salesAmount = Number(entry.net_sales_amt); 
+            salesByYear[year] = (salesByYear[year] || 0) + salesAmount;
+          });
+      
+          const sortedYears = Object.entries(salesByYear)
+            .sort((a, b) => b[1] - a[1])
+            .map(([year, sales]) => ({ year, sales: Math.round(sales) }));
+    
+          if (sortedYears.length > 0) {
+            setMostBondSalesYear(sortedYears[0].year);
+            setMostBondSales(sortedYears[0].sales);
+            if (sortedYears.length > 1) {
+              setSecondMostBondSalesYear(sortedYears[1].year);
+              setSecondMostBondSales(sortedYears[1].sales);
+            }
+          }
+        });
+      }
     });
   }, []);
 
