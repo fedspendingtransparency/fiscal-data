@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react'; import '@testing-library/jest-dom/extend-expect';
+import { render, waitFor } from '@testing-library/react'; 
 import WhatInfluencesPurchaseOfSavingsBonds from './what-influences-purchase-of-savings-bonds';
 import mockSavingsBondFetchResponses from './../../../explainer-test-helper';
 import { useStaticQuery } from 'gatsby';
