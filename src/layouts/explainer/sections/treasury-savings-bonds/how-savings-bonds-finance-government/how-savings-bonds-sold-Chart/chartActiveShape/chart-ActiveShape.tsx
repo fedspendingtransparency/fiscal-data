@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react';
-import { Sector, CellProps } from 'recharts';
+import { Sector } from 'recharts';
 
-interface ActiveShapeProps extends CellProps {
+interface ActiveShapeProps  {
   cx? : number;
   cy?: number;
   innerRadius?: number;
@@ -9,29 +9,35 @@ interface ActiveShapeProps extends CellProps {
   startAngle?: number;
   endAngle?: number;
   fill?: string;
-  payload?: any;
-  percent?: number;
+  percent: number;
   name?: string
-
+}
+interface DataItem {
+  name: string;
+  percent: number;
+  color?: string;
+  securityType: string;
 }
 
-const RenderActiveShape: FunctionComponent<ActiveShapeProps> = (props) => {
-  const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent } = props;
+const RenderActiveShape: FunctionComponent<ActiveShapeProps> = (props, payload) => {
+  const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill, percent } = props;
 
-  // This is an example. You can customize the layout and style as needed
+  const data = payload[0].payload as DataItem;
+  
   return (
     <g>
-      <text x={cx} y={cy - outerRadius - 10} textAnchor="middle" dominantBaseline="central">
-        {payload.name}
+      <text x={cx} y={10} textAnchor="middle" dominantBaseline="central">
+        {data.name}
       </text>
-      <text x={cx} y={cy - outerRadius + 10} textAnchor="middle" dominantBaseline="central">
-        {`${(percent * 100).toFixed(2)}%`}
+      <text x={cx} y={30} textAnchor="middle" dominantBaseline="central">
+        {`${(data.percent * 100).toFixed(2)}%`}
+        {  console.log('percent,', percent)}
       </text>
       <Sector
         cx={cx}
         cy={cy}
-        innerRadius={innerRadius}
-        outerRadius={outerRadius}
+        innerRadius={innerRadius + .5}
+        outerRadius={outerRadius - .5}
         startAngle={startAngle}
         endAngle={endAngle}
         fill={fill}

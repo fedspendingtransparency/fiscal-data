@@ -28,7 +28,7 @@ const data02 = [
   { name: 'Bonds 4', value: 80, security: false, securityType: 'Marketable' },
   { name: 'Bonds 5', value: 211.2, security: false, securityType: 'Marketable' },
   { name: 'Savings Bonds 1', value: 3.8, security: true, securityType: 'Non-Marketable' },
-  { name: 'Savings Bonds 2', value: 3, security: true, securityType: 'Non-Marketable' },
+  { name: 'Savings Bonds', value: 3, security: true, securityType: 'Non-Marketable' },
   { name: 'Other', value: 2, security: true, securityType: 'Non-Marketable' },
 ];
 
@@ -121,7 +121,7 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
                   }
                 </Pie>
                 <Pie 
-                  activeIndex={activeIndex}
+                  activeIndex={6}
                   activeShape={RenderActiveShape}
                   data={data2WidthPercentage} 
                   dataKey="percent" 
