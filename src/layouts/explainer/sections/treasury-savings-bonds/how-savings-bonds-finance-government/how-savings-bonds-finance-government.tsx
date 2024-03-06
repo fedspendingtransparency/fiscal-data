@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { useState } from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import { subSectionTitle } from './how-savings-bonds-finance-government.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
@@ -11,7 +11,7 @@ import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../explainer.module.scss';
 import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-of-savings-bonds-responsive';
 
-const HowSavingsBondsFinanceGovernment: FunctionComponent = ({width}) => {
+const HowSavingsBondsFinanceGovernment = ({width}) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
 
   const isDesktop = width >= pxToNumber(breakpointLg);
