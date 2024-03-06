@@ -14,9 +14,8 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 
 interface BondSaleEntry {
-  record_fiscal_year: string;
-  net_sales_amt: string;
-  security_class_desc: string;
+year: string;
+[key: string]: string;
 }
 
 type SalesData = Record<string, number>;
@@ -47,50 +46,45 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
   const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
   const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond';
 
-
   useEffect(() => {
     basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
       if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
         const pageSize = metaRes.meta['total-pages'];
-        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
+        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => { 
           if (res.data) {
             const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
             const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
-            setChartData(allData);
-            const bondTypeset = new Set();
-            allData.forEach(yearRecord => {
-              Object.keys(yearRecord).forEach(bondName => {
-                if(bondName !== 'year'){
-                  bondTypeset.add(bondName);
-                }
-              })
-            })
-            setBondTypes(bondTypeset.size)
-          }
-          const data: BondSaleEntry[] = res.data;
-          const salesByYear: SalesData = {};
-          data.forEach((entry: BondSaleEntry) => {
-            const year = entry.record_fiscal_year
-            const salesAmount = Number(entry.net_sales_amt); 
-            salesByYear[year] = (salesByYear[year] || 0) + salesAmount;
-          });
-      
-          const sortedYears = Object.entries(salesByYear)
-            .sort((a, b) => b[1] - a[1])
-            .map(([year, sales]) => ({ year, sales: Math.round(sales) }));
-    
-          if (sortedYears.length > 0) {
-            setMostBondSalesYear(sortedYears[0].year);
-            setMostBondSales(sortedYears[0].sales);
-            if (sortedYears.length > 1) {
-              setSecondMostBondSalesYear(sortedYears[1].year);
-              setSecondMostBondSales(sortedYears[1].sales);
+          
+            const salesByYear: SalesData = allData.reduce((acc, entry: BondSaleEntry) => {
+              const totalSalesForYear = acc[entry.year] || 0;
+              const yearlySales = Object.keys(entry)
+                .filter(key => key !== 'year')
+                .reduce((sum, key) => sum + Number(entry[key]), 0);
+        
+              acc[entry.year] = totalSalesForYear + yearlySales;
+              return acc;
+            }, {});
+        
+            const sortedYears = Object.entries(salesByYear)
+              .map(([year, totalSales]) => ({ year, totalSales }))
+              .sort((a, b) => b.totalSales - a.totalSales);
+        
+            if (sortedYears.length > 0) {
+              setMostBondSalesYear(sortedYears[0].year);
+              setMostBondSales(sortedYears[0].totalSales);
+              if (sortedYears.length > 1) {
+                setSecondMostBondSalesYear(sortedYears[1].year);
+                setSecondMostBondSales(sortedYears[1].totalSales);
+              }
             }
+            setChartData(allData);
+            setBondTypes(new Set(allData.flatMap(entry => Object.keys(entry).filter(key => key !== 'year'))).size);
           }
-        });
+        })
       }
     });
   }, []);
+
 
   return (
     <>
