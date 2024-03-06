@@ -6,7 +6,7 @@ import GlossaryPopoverDefinition from '../../../../../components/glossary/glossa
 import BondImage from '../../../../../../static/images/savings-bonds/Series-E-Bond-Cropped.png';
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
-import HowSavingsBondsSoldChart from './how-savings-bonds-sold-chart/how-savings-bonds-sold-chart';
+import HowSavingsBondsSoldChart from './how-savings-bonds-finance-chart/how-savings-bonds-sold-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 
 const HowSavingsBondsFinanceGovernment: FunctionComponent = () => {
