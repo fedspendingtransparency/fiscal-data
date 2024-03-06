@@ -13,6 +13,7 @@ interface ActiveShapeProps {
   payload?: any;
   value?: number;
   percent?: number;
+  activeIndex?: string;
 }
 
 const RADIAN = Math.PI / 180;
@@ -28,14 +29,15 @@ const RenderActiveShape = (props: ActiveShapeProps) => {
     fill,
     payload,
     value,
-    percent
+    percent,
+    activeIndex
   } = props;
 
   const sin = Math.sin(-RADIAN * midAngle);
   const cos = Math.cos(-RADIAN * midAngle);
-  const sx = cx + (outerRadius + 2) * cos;
+  const sx = cx + (outerRadius + 5) * cos;
   const sy = cy + (outerRadius) * sin;
-  const mx = cx + (outerRadius + 30) * cos;
+  const mx = cx + (outerRadius + 80) * cos;
   const my = cy + (outerRadius + 10) * sin;
   const ex = mx + (cos >= 0 ? 1 : -1) * 25;
   const ey = my;
@@ -43,7 +45,7 @@ const RenderActiveShape = (props: ActiveShapeProps) => {
 
   return (
     <g>
-      <text x={(ex + (cos >= 0 ? 1 : -1) * 12) +45 } y={ey - 10} dy={8} textAnchor="middle">
+      <text x={(ex + (cos >= 0 ? 1 : -1) * 12) +45 } y={ey - 12} dy={8} textAnchor="middle">
         {payload.name}
       </text>
       <Sector
@@ -53,11 +55,11 @@ const RenderActiveShape = (props: ActiveShapeProps) => {
         outerRadius={outerRadius -.5}
         startAngle={startAngle}
         endAngle={endAngle}
-        fill={fill}
+        fill={activeIndex ? 'rgba(176,	74,	189, .4)' : fill }
       />
       <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={'#555555'} fill="none" />
 
-      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey + 15} textAnchor={textAnchor} fill="#333">{`${(percent).toFixed(2)}%`}</text>
+      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey + 13} textAnchor={textAnchor} fill="#333">{`${(percent).toFixed(2)}%`}</text>
     </g>
   );
 };
