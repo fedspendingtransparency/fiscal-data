@@ -54,9 +54,10 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
       if (res.data) {
         console.log('data: ', res.data);
         const data = res.data;
-        let mudTotal = 0;
+        let mudTotal: number = 0;
         data.map((index) => {
-          mudTotal = mudTotal + index.bonds_out_cnt;
+          console.log('total: ', mudTotal);
+          mudTotal = mudTotal + parseInt(index.bonds_out_cnt);
         });
 
         setMud(mudTotal);
