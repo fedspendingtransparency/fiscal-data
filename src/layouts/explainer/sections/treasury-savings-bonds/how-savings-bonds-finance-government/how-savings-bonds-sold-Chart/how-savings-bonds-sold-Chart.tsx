@@ -4,8 +4,9 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import { dataHeader, inflationLabel, inflationToggleContainer, chartStyle, infoTipContainer  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Tooltip, TooltipProps, LegendProps, Legend } from 'recharts';
 import ChartLegend from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/chart-legend/chart-legend';
+import CustomTooltip from './chart-tooltip/custom-tooltip'
 // import { data01, data02 } from './how-savings-bonds-sold-Chart-helper'
-// import CustomTooltip from './custom-tooltip/custom-tooltip';
+import CustomLegend from './chart-legend/custom-legend';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 
@@ -68,26 +69,7 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
   const data1WidthPercentage = calculatePercentage(data01);
   const data2WidthPercentage = calculatePercentage(data02);
 
-  const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload as DataItem;
-      return (
-        <div style={{ backgroundColor: '#fff', padding: '12px 16px', border: '1px solid #ccc', display: 'flex' }}>
-          <span>
-          <div style={{ backgroundColor: color2, width: '18px', height:'18px', marginRight: '8px' }}></div>
-          </span>
-          <span>
-          <div style={{ fontWeight: '600', fontSize: '14px'}}>{data.name}</div>
-          <div style={{ fontWeight: '400', fontSize: '12px', fontStyle: 'italic'}}>{`${data.securityType}`}</div>
-          <div style={{ fontWeight: '400', fontSize: '14px'}}>{`${data.percent}% of National Debt`}</div> 
-          </span>
 
-        </div>
-      );
-    }
-    return null;
-  };
-  
 
   const lastUpdated = new Date();
   const footer = (
@@ -105,17 +87,6 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
   const onChartLeave = () => {
     setActiveSecurity(null);
   };
-
-  const CustomLegend = () => (
-    <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 20 }}>
-      <div role='presentation' onMouseEnter={() => onLegendEnter(true)} onMouseLeave={onChartLeave} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-        <div style={{ backgroundColor: color, width: '24px', height:'18px', marginRight: '8px' }}></div> Marketable Security
-      </div>
-      <div role='presentation' onMouseEnter={() => onLegendEnter(false)} onMouseLeave={onChartLeave} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-        <div style={{ backgroundColor: color2, width: '24px', height:'18px', marginRight: '8px' }}></div> Non-Marketable Security
-      </div>
-    </div>
-  );
 
   const onPieEnter = (data: DataItem, index: number, dataset: string) => {
     setActiveIndex(`${dataset}-${index}`);
@@ -170,7 +141,7 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
                 <Tooltip content={<CustomTooltip />} />
               </PieChart>
             </ResponsiveContainer>
-            <CustomLegend />
+            <CustomLegend onLegendEnter={onLegendEnter} onChartLeave={onChartLeave} primaryColor={color} secondaryColor={color2} />
           </div>
       </ChartContainer>
     </>

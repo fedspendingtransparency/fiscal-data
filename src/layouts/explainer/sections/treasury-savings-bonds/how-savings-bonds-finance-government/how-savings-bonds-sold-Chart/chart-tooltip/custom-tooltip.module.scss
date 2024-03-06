@@ -1,0 +1,29 @@
+@import 'src/variables.module';
+
+.tooltipContainer {
+  background-color: $content-section-background;
+  padding: 12px 16px;
+  display: flex;
+}
+.tooltipColorBox {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  // {{ backgroundColor: color, width: '18px', height:'18px', marginRight: '8px' }}
+}
+.tooltipTitle {
+  font-weight: 600;
+  font-size: $font-size-14;
+  margin-bottom: 4px;
+  
+}
+.tooltipSecondaryTitle {
+  font-weight: 400;
+  font-size: $font-size-12;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+.tooltipPercent {
+  font-weight: 400;
+  font-size: $font-size-14;
+}
