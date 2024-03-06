@@ -75,7 +75,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent = () => {
         up the total {debtHeldByPublic}.
       </span>
       <div className={visWithCallout}>
-      <HowSavingsBondsSoldChart />
+        <HowSavingsBondsSoldChart />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>Savings bonds make up XX% of total debt held by the public through 
             Month YYYY . This is XX%  percentage points higher than/lower than/the same as 
