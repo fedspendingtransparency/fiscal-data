@@ -119,6 +119,20 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   return getIFetch()(uri).then(response => response.json());
 };
 
+export const calculatePercentage = (data) => {
+  if(!Array.isArray(data)){
+    console.error('Invalide data, ',data);
+    return[];
+  }
+  const total = data.reduce((acc, curr) => acc + curr.value, 
+  0);
+  return data.map(item => ({
+    ...item,
+    percent: Number(((item.value / total) * 100).toFixed(2))
+  }));
+};
+
+
 export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewValue, detailViewFilterParam) => {
   const endpoint = table.endpoint;
   const dateField = table.dateField;

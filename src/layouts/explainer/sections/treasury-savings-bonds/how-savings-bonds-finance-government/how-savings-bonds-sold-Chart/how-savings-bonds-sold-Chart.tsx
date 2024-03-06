@@ -7,6 +7,7 @@ import CustomTooltip from './chart-tooltip/custom-tooltip'
 import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
+import { calculatePercentage } from '../../../../../../utils/api-utils';
 
 interface DataItem {
   name: string;
@@ -48,19 +49,6 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
       intragovernmental
     </GlossaryPopoverDefinition>
   );
-
-  const calculatePercentage = (data) => {
-    if(!Array.isArray(data)){
-      console.error('Invalide data, ',data);
-      return[];
-    }
-    const total = data.reduce((acc, curr) => acc + curr.value, 
-    0);
-    return data.map(item => ({
-      ...item,
-      percent: Number(((item.value / total) * 100).toFixed(2))
-    }));
-  };
 
   const data1WidthPercentage = calculatePercentage(data01);
   const data2WidthPercentage = calculatePercentage(data02);
