@@ -11,9 +11,9 @@ jest.mock('./variables.module.scss', content => ({
 }));
 describe('Social Share component', () => {
   it('renders the social share button with icon and text', () => {
-    const { getByRole } = render(<ShareButtonContent name={'facebook'} width={breakpointLg} displayStyle={'responsive'} />);
+    const { getByRole, getByTestId } = render(<ShareButtonContent name="facebook" width={breakpointLg} displayStyle="responsive" />);
 
-    const facebook = getByRole('button', { name: 'facebook content' });
+    const facebook = getByTestId('facebook content');
     const icon = getByRole('img', { hidden: true });
 
     expect(facebook).toBeInTheDocument();
@@ -21,7 +21,7 @@ describe('Social Share component', () => {
   });
 
   it('icon color changes to grey on hover', () => {
-    const { getByRole } = render(<ShareButtonContent name={'facebook'} width={breakpointLg} displayStyle={'responsive'} />);
+    const { getByRole } = render(<ShareButtonContent name="facebook" width={breakpointLg} displayStyle="responsive" />);
 
     const icon = getByRole('img', { hidden: true });
 
