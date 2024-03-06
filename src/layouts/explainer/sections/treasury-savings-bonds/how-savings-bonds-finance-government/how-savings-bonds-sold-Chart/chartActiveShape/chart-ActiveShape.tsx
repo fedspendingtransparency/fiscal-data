@@ -1,48 +1,65 @@
-import React, {FunctionComponent} from 'react';
+import React from 'react';
 import { Sector } from 'recharts';
 
-interface ActiveShapeProps  {
-  cx? : number;
+interface ActiveShapeProps {
+  cx?: number;
   cy?: number;
+  midAngle?: number; // Middle of the angle for the active slice
   innerRadius?: number;
   outerRadius?: number;
   startAngle?: number;
   endAngle?: number;
   fill?: string;
-  percent: number;
-  name?: string
-}
-interface DataItem {
-  name: string;
-  percent: number;
-  color?: string;
-  securityType: string;
+  payload?: any;
+  value?: number;
+  percent?: number;
 }
 
-const RenderActiveShape: FunctionComponent<ActiveShapeProps> = (props, payload) => {
-  const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill, percent } = props;
+const RADIAN = Math.PI / 180;
+const RenderActiveShape = (props: ActiveShapeProps) => {
+  const {
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+    value,
+    percent
+  } = props;
 
-  const data = payload[0].payload as DataItem;
-  
+  const sin = Math.sin(-RADIAN * midAngle);
+  const cos = Math.cos(-RADIAN * midAngle);
+  const sx = cx + (outerRadius + 2) * cos;
+  const sy = cy + (outerRadius) * sin;
+  const mx = cx + (outerRadius + 30) * cos;
+  const my = cy + (outerRadius + 10) * sin;
+  const ex = mx + (cos >= 0 ? 1 : -1) * 25;
+  const ey = my;
+  const textAnchor = cos >= 0 ? 'start' : 'end';
+
   return (
     <g>
-      <text x={cx} y={10} textAnchor="middle" dominantBaseline="central">
-        {data.name}
-      </text>
-      <text x={cx} y={30} textAnchor="middle" dominantBaseline="central">
-        {`${(data.percent * 100).toFixed(2)}%`}
-        {  console.log('percent,', percent)}
+      <text x={(ex + (cos >= 0 ? 1 : -1) * 12) +45 } y={ey - 10} dy={8} textAnchor="middle">
+        {payload.name}
       </text>
       <Sector
         cx={cx}
         cy={cy}
         innerRadius={innerRadius + .5}
-        outerRadius={outerRadius - .5}
+        outerRadius={outerRadius -.5}
         startAngle={startAngle}
         endAngle={endAngle}
         fill={fill}
       />
+      <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={'#555555'} fill="none" />
+
+      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey + 15} textAnchor={textAnchor} fill="#333">{`${(percent).toFixed(2)}%`}</text>
     </g>
   );
 };
-export default RenderActiveShape
+
+export default RenderActiveShape;
