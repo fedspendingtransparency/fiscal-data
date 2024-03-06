@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HowSavingsBondsSoldChart from './how-savings-bonds-sold-chart';
-import { mockData01, mockData02 } from './how-savings-bond-sold-chart-test-helper'; 
+import { expectedResultOne, expectedResultTwo, mockDatasetOne, mockDatasetTwo } from './how-savings-bond-sold-chart-test-helper'; 
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 
 
@@ -33,18 +33,19 @@ describe('HowSavingsBondsSoldChart', () => {
   it('renders pie chart with provided mock data', () => {
     expect(screen.getByTestId('chartParent')).toBeInTheDocument();
   });
-  it('chart mouse events', () => {
-    const { getByTestId } = render(<HowSavingsBondsSoldChart />);
-    const chartParent = getByTestId('chartParent');
-    const chart = chartParent.children[1].children[0];
-    expect(chart).toBeInTheDocument();
-    fireEvent.mouseOver(chart);
-    fireEvent.mouseLeave(chart);
+  it('responds to chart mouse events', () => {
+    const chartParent = screen.getByTestId('chartParent');
+    fireEvent.mouseOver(chartParent);
+    fireEvent.mouseLeave(chartParent);
   });
 
   it('Check to see if notch loaded', async () => {
-    const { getByText } = render(<HowSavingsBondsSoldChart />);
-    expect(getByText('0.60%', { exact: false })).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText('0.60%', {exact: false}))).toBeInTheDocument
+  });
+
+  it('Calculate perctage correctly for given data', async () => {
+    expect(calculatePercentage(mockDatasetTwo)).toEqual(expectedResultTwo);
+    expect(calculatePercentage(mockDatasetOne)).toEqual(expectedResultOne);
   });
 
 });

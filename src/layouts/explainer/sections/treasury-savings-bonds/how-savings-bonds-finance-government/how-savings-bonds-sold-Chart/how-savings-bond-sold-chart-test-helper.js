@@ -1,10 +1,19 @@
-export const mockData01 = [
-  { name: 'Marketable Securities', value: 391.2, security: false, securityType: 'Marketable' },
-  { name: 'Non-Marketable Securities', value: 8.8, security: true, securityType: 'Non-Marketable' },
+export const mockDatasetOne = [
+  { name: 'Marketable Securities', value: 80 },
+  { name: 'Non-Marketable Securities', value: 20 },
 ];
 
-export const mockData02 = [
-  { name: 'Bonds 1', value: 5, security: false, securityType: 'Marketable' },
-  { name: 'Bonds 2', value: 30, security: false, securityType: 'Marketable' },
-
+export const mockDatasetTwo = [
+  { name: 'Bonds 1', value: 20 },
+  { name: 'Bonds 2', value: 30 },
 ];
+
+export const expectedResultOne = [
+  { name: 'Marketable Securities', value: 80, percent: 80.00 },
+  { name: 'Non-Marketable Securities', value: 20, percent: 20.00 },
+];
+
+export const expectedResultTwo = [
+  { name: 'Bonds 1', value: 20, percent: 40.00 },
+  { name: 'Bonds 2', value: 30, percent: 60.00 },
+]
