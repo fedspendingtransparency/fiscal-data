@@ -3,7 +3,7 @@
 
 .holdingBondsContainer {
   background-color: $body-background;
-  color: $debt-explainer-primary;
+  color: #864381;
   padding: 0.5rem 2rem 2rem;
   margin-top: 2rem;
 }
@@ -12,7 +12,7 @@
   display: flex;
   justify-content: left;
   font-weight: 600;
-  font-size: $font-size-20;
+  font-size: 1.2rem;
   padding-top: 24px;
   padding-bottom: 34px;
 }
@@ -46,12 +46,13 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .holdingBondsHeader {
-    text-align: center;
+    text-align: left;
   }
 
   .holdingBondsLeft {
     justify-content: center;
     flex-wrap: wrap-reverse;
+    margin-bottom: 20px;
     img {
       padding: 0;
     }
@@ -62,6 +63,7 @@
   .holdingBondsRight {
     justify-content: center;
     flex-wrap: wrap;
+    margin-bottom: 20px;
     img {
       padding: 0;
     }
