@@ -1,11 +1,12 @@
 import React from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
-import { dataElement, dataHeaderContainer, dataLabel, dataValue, headerData, headerContainer } from './total-spending-chart.module.scss';
+import { dataHeaderContainer } from './total-spending-chart.module.scss';
 import { breakpointLg, fontSize_10, fontSize_14, semiBoldWeight } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartToggle from '../../../../../../components/nivo/chart-toggle/chart-toggle';
 import { spendingExplainerPrimary } from '../spending-trends.module.scss';
 import { formatCurrency, formatPercentage } from '../../../../explainer-helpers/explainer-charting-helper';
+import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
 
 const mts = (
   <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/" eventNumber="21" id="Monthly Treasury Statement">
@@ -66,32 +67,15 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
         }}
         chartId="spending-chart-toggle"
       />
-      <div className={headerContainer}>
-        <div className={headerData}>
-          <div className={dataElement}>
-            <div className={dataValue}>{fiscalYear}</div>
-            <span className={dataLabel}>Fiscal Year</span>
-          </div>
-          {selectedChartView !== 'percentageGdp' && (
-            <>
-              <div className={dataElement}>
-                <div className={dataValue}>${totalSpending}</div>
-                <span className={dataLabel}>Total Spending</span>
-              </div>
-              <div className={dataElement}>
-                <div className={dataValue}>${gdp}</div>
-                <span className={dataLabel}>GDP</span>
-              </div>
-            </>
-          )}
-          {selectedChartView === 'percentageGdp' && (
-            <div className={dataElement}>
-              <div className={dataValue}>{gdpRatio}</div>
-              <span className={dataLabel}>GDP Ratio</span>
-            </div>
-          )}
-        </div>
-      </div>
+      <ChartDataHeader
+        fiscalYear={fiscalYear}
+        right={
+          selectedChartView !== 'percentageGdp'
+            ? { label: 'Total Spending', value: `$${totalSpending}` }
+            : { label: 'GDP Ratio', value: `$${gdpRatio}` }
+        }
+        left={selectedChartView !== 'percentageGdp' ? { label: 'GDP', value: `$${gdp}` } : null}
+      />
     </div>
   );
 };

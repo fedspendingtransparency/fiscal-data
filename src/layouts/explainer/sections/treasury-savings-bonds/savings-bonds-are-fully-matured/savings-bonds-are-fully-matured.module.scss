@@ -1,0 +1,78 @@
+@import '../../../../../variables.module.scss';
+
+
+.holdingBondsContainer {
+  background-color: $body-background;
+  color: #864381;
+  padding: 0.5rem 2rem 2rem;
+  margin-top: 2rem;
+}
+
+.holdingBondsHeader {
+  display: flex;
+  justify-content: left;
+  font-weight: 600;
+  font-size: 1.2rem;
+  padding-top: 24px;
+  padding-bottom: 34px;
+}
+
+.holdingBondsLeft {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  img{
+    padding-left: 2.125rem;
+  }
+
+  .image1 {
+    height: 207px;
+  }
+
+  .image3 {
+    height: 250.23px;
+  }
+}
+
+.holdingBondsRight {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  img {
+    height: 243.08px;
+    padding-right: 2.125rem;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .holdingBondsLeft {
+    justify-content: center;
+    flex-wrap: wrap-reverse;
+    margin-bottom: 20px;
+    img {
+      padding: 0;
+    }
+    div {
+      padding: 20px 0;
+    }
+  }
+  .holdingBondsRight {
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    img {
+      padding: 0;
+    }
+    div {
+      padding: 20px 0;
+    }
+  }
+}
+
+.holdingBondsFooter {
+  font-size: $font-size-14;
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+
