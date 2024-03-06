@@ -9,6 +9,7 @@ import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poste
 import PresidentKennedy from '../../../../../../static/images/savings-bonds/President-Kennedy-Holding-Bond.png';
 import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
+import IBondSalesChart from './i-bond-sales-chart/i-bond-sales-chart';
 import { graphql, useStaticQuery } from 'gatsby';
 import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 
@@ -146,6 +147,12 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
         percent by September 2022. In response, the American public invested heavily in Series I bonds, purchasing nearly $153 billion of Series I
         bonds between April 2021 and February 2023. The chart below shows inflation data and I bond purchases from the last 20 years.
       </p>
+      <div className={visWithCallout}>
+        <IBondSalesChart />
+        <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
+          <p>Generally, higher inflation rates are correlated with an increase in demand for inflation-protected securities like I bonds.</p>
+        </VisualizationCallout>
+      </div>
     </>
   );
 };
