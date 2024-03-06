@@ -10,8 +10,8 @@ interface ActiveShapeProps {
   startAngle?: number;
   endAngle?: number;
   fill?: string;
+  opacity?: number;
   payload?: any;
-  value?: number;
   percent?: number;
   activeIndex?: string;
 }
@@ -28,7 +28,7 @@ const RenderActiveShape = (props: ActiveShapeProps) => {
     endAngle,
     fill,
     payload,
-    value,
+    opacity,
     percent,
     activeIndex
   } = props;
@@ -55,7 +55,8 @@ const RenderActiveShape = (props: ActiveShapeProps) => {
         outerRadius={outerRadius -.5}
         startAngle={startAngle}
         endAngle={endAngle}
-        fill={activeIndex ? 'rgba(176,	74,	189, .4)' : fill }
+        fill={fill}
+        opacity={opacity}
       />
       <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={'#555555'} fill="none" />
 
