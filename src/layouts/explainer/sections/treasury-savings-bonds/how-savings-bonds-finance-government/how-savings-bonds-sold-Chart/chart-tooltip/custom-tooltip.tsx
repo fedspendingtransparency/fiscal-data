@@ -17,7 +17,7 @@ const CustomTooltip: FunctionComponent<TooltipProps<number, string>> = ({ active
     return (
       <div className={tooltipContainer} >
         <span>
-        <div className={tooltipColorBox}style={{ backgroundColor: color, width: '18px', height:'18px', marginRight: '8px' }}></div>
+        <div className={tooltipColorBox}style={{ backgroundColor: color }} data-testid="tooltip-box-color"></div>
         </span>
         <span>
         <div className={tooltipTitle} >{data.name}</div>
