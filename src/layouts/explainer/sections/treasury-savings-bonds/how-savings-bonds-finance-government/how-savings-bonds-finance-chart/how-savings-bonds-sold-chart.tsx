@@ -33,7 +33,16 @@ const mockDataTwo = [
 ];
 
 
-const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHandler }) => {
+interface HowSavingsBondsSoldChartProps {
+  glossary: any; 
+  glossaryClickHandler: (term: string) => void;
+}
+
+const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps> = ({
+  glossary,
+  glossaryClickHandler,
+}) => {
+
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurity, setActiveSecurity] = useState<boolean | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
@@ -49,7 +58,17 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
     </GlossaryPopoverDefinition>
   );
 
-  const data1WidthPercentage = calculatePercentage(mockDataOne);
+  const aggregateData = mockDataTwo.reduce((acc, cur) => {
+    const type = cur.securityType === 'Nonmarketable' ? 'Non-Marketable' : 'Marketable';
+    if (!acc[type]) acc[type] = { value: 0, securityType: type };
+    acc[type].value += cur.value;
+    return acc;
+  }, {});
+
+
+  const aggregatedDataforPie = Object.values(aggregateData)
+
+  const data1WidthPercentage = calculatePercentage(aggregatedDataforPie);
   const data2WidthPercentage = calculatePercentage(mockDataTwo);
 
   const lastUpdated = new Date();
@@ -98,10 +117,10 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
                   onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
                 >
                   {
-                    mockDataOne.map((entry, index) => (
+                    aggregatedDataforPie.map((entry, index) => (
                       <Cell 
                         key={`cell-data01-${index}`} 
-                        fill={entry.securityType === 'Nonmarketable' ? color2 : color} 
+                        fill={entry.securityType === 'Non-Marketable' ? color2 : color} 
                         opacity={getOpacity('data01', index, entry)} 
                       />
                     ))
