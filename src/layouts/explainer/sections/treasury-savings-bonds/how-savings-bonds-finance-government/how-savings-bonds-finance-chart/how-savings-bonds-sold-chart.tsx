@@ -36,17 +36,7 @@ interface HowSavingsBondsSoldChartProps {
   glossaryClickHandler: (term: string) => void;
   chartData: ChartDataItem[];
 }
-const mockDataTwo = [
-  { name: 'Bonds 1', value: 2.5, securityType: 'Marketable' },
-  { name: 'Bonds 1', value: 2.5, securityType: 'Marketable' },
-  { name: 'Bonds 2', value: 30, securityType: 'Marketable' },
-  { name: 'Bonds 3', value: 65, securityType: 'Marketable' },
-  { name: 'Bonds 4', value: 80, securityType: 'Marketable' },
-  { name: 'Bonds 5', value: 211.2, securityType: 'Marketable' },
-  { name: 'Savings Bonds 1', value: 4.4, securityType: 'Nonmarketable' },
-  { name: 'Savings Bonds', value: 2.4,  securityType: 'Nonmarketable' },
-  { name: 'Other', value: 2,  securityType: 'Nonmarketable' },
-];
+
 
 const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps> = ({
   glossary,
@@ -56,10 +46,15 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
 
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
-  
+  const [savingBondsIndex, setSavingBondsIndex] = useState<string | null>(null);
+  const [animationDone, setAnimationDone] = useState<boolean>(false);
 
-
-
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setAnimationDone(true);
+  },2000)
+  return () => clearTimeout(timer);
+},)
 
   const intragovernmental = (
     <GlossaryPopoverDefinition
@@ -97,6 +92,17 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const data1WidthPercentage = calculatePercentage(aggregatedDataforPie);
   const data2WidthPercentage = calculatePercentage(consolidateDataArray);
 
+  const savingsBondCallOut = data2WidthPercentage.map((itemn, index) => {
+    if (itemn.name === 'United States Savings Securities'){
+      itemn.name = 'Savings Bonds';
+      if (savingBondsIndex === null){
+        setSavingBondsIndex(`data02-${index}`);
+      }
+    }    
+  return itemn;
+});
+const actualActiveIndex = savingBondsIndex && savingBondsIndex.startsWith('data02') ? parseInt(savingBondsIndex.split('-')[1], 10) : undefined;
+
   const lastUpdated = new Date();
   const footer = (
     <p>
@@ -114,17 +120,17 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     setActiveSecurityType(null);
   };
 
-  const onPieEnter = (data: DataItem, index: number, dataset: string) => {
+  const onPieEnter = (data: ChartDataItem, index: number, dataset: string) => {
     setActiveIndex(`${dataset}-${index}`);
   }
   const onPieLeave = () => {
     setActiveIndex(null);
   }
-  const getOpacity = (dataset: string, index: number, entry: DataItem) => {
+  const getOpacity = (dataset: string, index: number, entry: ChartDataItem) => {
     const isActiveType = entry.securityType === activeSecurityType;
     return activeIndex === `${dataset}-${index}` || activeIndex === null ? isActiveType ? .4 : 1 : .4;
   }
-  
+
   return (
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} >
@@ -153,9 +159,9 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   }
                 </Pie>
                 <Pie 
-                  activeIndex={12}
-                  activeShape={ChartTopNotch}
-                  data={data2WidthPercentage} 
+                  activeIndex={actualActiveIndex}
+                  activeShape={animationDone ? ChartTopNotch : null}
+                  data={savingsBondCallOut} 
                   dataKey="percent" 
                   cx="50%" 
                   cy="50%" 
