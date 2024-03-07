@@ -84,25 +84,24 @@ export const mockData = [
 export const sortByType = (data, yearField, descField, amtField) => {
   const finalData = [];
   const years = [];
-  if (data) {
-    data.forEach(entry => {
-      const fy = entry[yearField];
-      const securityClass = entry[descField] === 'A...D' ? 'AD' : entry[descField];
-      const netSalesAmt = Number(entry[amtField]);
-      let newEntry = {};
-      if (!years.includes(fy)) {
-        years.push(fy);
-        newEntry['year'] = fy;
-        newEntry[securityClass] = netSalesAmt;
-        finalData.push(newEntry);
-      } else {
-        const entryIndex = finalData.findIndex(val => val.year === fy);
-        newEntry = finalData[entryIndex];
-        newEntry[securityClass] = newEntry[securityClass] ? netSalesAmt + Number(newEntry[securityClass]) : netSalesAmt;
-        finalData[entryIndex] = newEntry;
-      }
-    });
-  }
+  const iterableData = Array.isArray(data) ? data : [];
+  iterableData.forEach(entry => {
+    const fy = entry[yearField];
+    const securityClass = entry[descField] === 'A...D' ? 'AD' : entry[descField];
+    const netSalesAmt = Number(entry[amtField]);
+    let newEntry = {};
+    if (!years.includes(fy)) {
+      years.push(fy);
+      newEntry['year'] = fy;
+      newEntry[securityClass] = netSalesAmt;
+      finalData.push(newEntry);
+    } else {
+      const entryIndex = finalData.findIndex(val => val.year === fy);
+      newEntry = finalData[entryIndex];
+      newEntry[securityClass] = newEntry[securityClass] ? netSalesAmt + Number(newEntry[securityClass]) : netSalesAmt;
+      finalData[entryIndex] = newEntry;
+    }
+  });
   return finalData;
 };
 
