@@ -6,7 +6,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
 import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
-import { mockDataOne, mockDataTwo, chartCopy} from './how-savings-bonds-sold-chart-helper';
+import {  chartCopy} from './how-savings-bonds-sold-chart-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 
@@ -18,6 +18,22 @@ interface DataItem {
 
 const color = '#4A0072';
 const color2 = '#B04ABD';
+
+const mockDataOne = [
+  { name: 'Marketable Securities', value: 391.2, security: false, securityType: 'Marketable' },
+  { name: 'Non-Marketable Securities', value: 8.8, security: true, securityType: 'Non-Marketable' },
+];
+const mockDataTwo = [
+  { name: 'Bonds 1', value: 5, security: false, securityType: 'Marketable' },
+  { name: 'Bonds 2', value: 30, security: false, securityType: 'Marketable' },
+  { name: 'Bonds 3', value: 65, security: false, securityType: 'Marketable' },
+  { name: 'Bonds 4', value: 80, security: false, securityType: 'Marketable' },
+  { name: 'Bonds 5', value: 211.2, security: false, securityType: 'Marketable' },
+  { name: 'Savings Bonds 1', value: 4.4, security: true, securityType: 'Non-Marketable' },
+  { name: 'Savings Bonds', value: 2.4, security: true, securityType: 'Non-Marketable' },
+  { name: 'Other', value: 2, security: true, securityType: 'Non-Marketable' },
+];
+
 
 const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHandler }) => {
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
