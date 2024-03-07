@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { chartStyle  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
@@ -9,6 +9,7 @@ import CustomLegend from './chart-legend/custom-legend';
 import { mockDataTwo, chartCopy } from './how-savings-bonds-sold-chart-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
+import { basicFetch, apiPrefix } from '../../../../../../utils/api-utils';
 
 interface DataItem {
   name: string;
@@ -33,6 +34,18 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
 
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
+  const howSavingBondsSold = 'v1/debt/mspd/mspd_table_1?filter=record_date:eq';
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=1`).then(metaRes => {
+      if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
+        const pageSize = metaRes.meta['total-pages'];
+        basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=${pageSize}`).then(res => { 
+          console.log(res)
+        });
+      }
+    })
+  },[]);
 
   const intragovernmental = (
     <GlossaryPopoverDefinition
