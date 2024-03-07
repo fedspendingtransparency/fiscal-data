@@ -85,7 +85,8 @@ describe('Api Utils function library', () => {
       { isCanceled: false, abortController: { signal: null } },
       new TableCache(),
       '2022-10-10',
-      'index_date'
+      'index_date',
+      new QueryClient()
     );
     expect(global.fetch.mock.calls).toEqual([
       [
@@ -123,6 +124,8 @@ describe('Api Utils function library', () => {
       selectedPivotWithFilters,
       { isCanceled: false, abortController: { signal: null } },
       new TableCache(),
+      '2022-10-10',
+      'index_date',
       new QueryClient()
     );
     expect(global.fetch.mock.calls[0][0]).toContain(
