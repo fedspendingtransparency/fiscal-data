@@ -24,14 +24,14 @@ describe('CustomLegend', () => {
     expect(screen.getByText('Non-Marketable Security')).toBeInTheDocument();
   });
 
-  it('calls onLegendEnter with true when Marketable Security is hovered', () => {
+  it('calls onLegendEnter with Nonmarketable when Marketable Security is hovered', () => {
     fireEvent.mouseEnter(screen.getByText('Marketable Security'));
-    expect(mockOnLegendEnter).toHaveBeenCalledWith(true);
+    expect(mockOnLegendEnter).toHaveBeenCalledWith('Nonmarketable');
   });
 
-  it('calls onLegendEnter with false when Non-Marketable Security is hovered', () => {
+  it('calls onLegendEnter with Marketable when Non-Marketable Security is hovered', () => {
     fireEvent.mouseEnter(screen.getByText('Non-Marketable Security'));
-    expect(mockOnLegendEnter).toHaveBeenCalledWith(false);
+    expect(mockOnLegendEnter).toHaveBeenCalledWith('Marketable');
   });
 
   it('calls onChartLeave when mouse leaves either legend item', () => {

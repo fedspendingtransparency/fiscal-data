@@ -6,7 +6,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
 import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
-import {  chartCopy} from './how-savings-bonds-sold-chart-helper';
+import { chartCopy} from './how-savings-bonds-sold-chart-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 
@@ -14,30 +14,29 @@ interface DataItem {
   name: string;
   value: number;
   security: boolean;
+  securityType: string;
 }
 
 const color = '#4A0072';
 const color2 = '#B04ABD';
 
-const mockDataOne = [
-  { name: 'Marketable Securities', value: 391.2, security: false, securityType: 'Marketable' },
-  { name: 'Non-Marketable Securities', value: 8.8, security: true, securityType: 'Non-Marketable' },
-];
 const mockDataTwo = [
-  { name: 'Bonds 1', value: 5, security: false, securityType: 'Marketable' },
-  { name: 'Bonds 2', value: 30, security: false, securityType: 'Marketable' },
-  { name: 'Bonds 3', value: 65, security: false, securityType: 'Marketable' },
-  { name: 'Bonds 4', value: 80, security: false, securityType: 'Marketable' },
-  { name: 'Bonds 5', value: 211.2, security: false, securityType: 'Marketable' },
-  { name: 'Savings Bonds 1', value: 4.4, security: true, securityType: 'Non-Marketable' },
-  { name: 'Savings Bonds', value: 2.4, security: true, securityType: 'Non-Marketable' },
-  { name: 'Other', value: 2, security: true, securityType: 'Non-Marketable' },
+  { name: 'Bonds 1', value: 2.5, securityType: 'Marketable' },
+  { name: 'Bonds 1', value: 2.5, securityType: 'Marketable' },
+  { name: 'Bonds 2', value: 30, securityType: 'Marketable' },
+  { name: 'Bonds 3', value: 65, securityType: 'Marketable' },
+  { name: 'Bonds 4', value: 80, securityType: 'Marketable' },
+  { name: 'Bonds 5', value: 211.2, securityType: 'Marketable' },
+  { name: 'Savings Bonds 1', value: 4.4, securityType: 'Nonmarketable' },
+  { name: 'Savings Bonds', value: 2.4,  securityType: 'Nonmarketable' },
+  { name: 'Other', value: 2,  securityType: 'Nonmarketable' },
 ];
 
 
 const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHandler }) => {
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurity, setActiveSecurity] = useState<boolean | null>(null);
+  const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
 
   const intragovernmental = (
     <GlossaryPopoverDefinition
@@ -62,12 +61,12 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
       U.S. Treasury Monthly Statement of the Public Debt (MSPD) </CustomLink>{' '} to explore and download this data. 
     </p>
   );
-  const onLegendEnter = (security: boolean) => {
-    setActiveSecurity(security);
+  const onLegendEnter = (security: string) => {
+    setActiveSecurityType(security);
   };
 
   const onChartLeave = () => {
-    setActiveSecurity(null);
+    setActiveSecurityType(null);
   };
 
   const onPieEnter = (data: DataItem, index: number, dataset: string) => {
@@ -77,7 +76,8 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
     setActiveIndex(null);
   }
   const getOpacity = (dataset: string, index: number, entry: DataItem) => {
-    return activeIndex === `${dataset}-${index}` || activeIndex === null ? entry.security === activeSecurity ? .4 : 1 : .4;
+    const isActiveType = entry.securityType === activeSecurityType;
+    return activeIndex === `${dataset}-${index}` || activeIndex === null ? isActiveType ? .4 : 1 : .4;
   }
 
   return (
@@ -99,7 +99,11 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
                 >
                   {
                     mockDataOne.map((entry, index) => (
-                      <Cell key={`cell-data01-${index}`} fill={entry.security ? color2 : color} opacity={getOpacity('data01', index, entry)} />
+                      <Cell 
+                        key={`cell-data01-${index}`} 
+                        fill={entry.securityType === 'Nonmarketable' ? color2 : color} 
+                        opacity={getOpacity('data01', index, entry)} 
+                      />
                     ))
                   }
                 </Pie>
@@ -118,7 +122,11 @@ const HowSavingsBondsSoldChart: FunctionComponent = ({ glossary, glossaryClickHa
                 >
                   {
                     mockDataTwo.map((entry, index) => (
-                      <Cell key={`cell-data02-${index}`} fill={entry.security ? color2 : color} opacity={getOpacity('data02', index, entry)} />
+                      <Cell 
+                        key={`cell-data02-${index}`} 
+                        fill={entry.securityType === 'Nonmarketable' ? color2 : color} 
+                        opacity={getOpacity('data02', index, entry)} 
+                      />
                     ))
                   }
                 </Pie>
