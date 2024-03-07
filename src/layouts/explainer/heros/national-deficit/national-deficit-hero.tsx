@@ -4,7 +4,7 @@ import { counterSourceInfo, footNotes, deficitBoxContainer, heroImageSubHeading,
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
-import { getFootNotesDateRange, getPillData } from '../hero-helper';
+import { getChangeLabel, getFootNotesDateRange, getPillData } from '../hero-helper';
 import { getShortForm } from '../../../../utils/rounding-utils';
 
 const NationalDeficitHero = (): ReactElement => {
@@ -58,13 +58,7 @@ const NationalDeficitHero = (): ReactElement => {
         setDeficitDif(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), false));
         setDeficitDifPill(Math.abs(priorYearDeficit - currentDeficit));
         setDeficitDifPercent(parseFloat((((currentDeficit - priorYearDeficit) / priorYearDeficit) * 100).toFixed()));
-        if (currentDeficit > priorYearDeficit) {
-          setDeficitStatus('increased');
-        } else if (currentDeficit < priorYearDeficit) {
-          setDeficitStatus('decreased');
-        } else {
-          setDeficitStatus('not changed')
-        }
+        setDeficitStatus(getChangeLabel(currentDeficit, priorYearDeficit));
       }
     });
   };
@@ -84,30 +78,26 @@ const NationalDeficitHero = (): ReactElement => {
   );
 
   const fiscalYear = (
-    <GlossaryPopoverDefinition term="fiscal year" page="Deficit Explainer" >
+    <GlossaryPopoverDefinition term="fiscal year" page="Deficit Explainer">
       fiscal year (FY)
     </GlossaryPopoverDefinition>
   );
 
   const changeNationalDeficitFooter = (
     <>
-    {deficitStatus !== 'not changed' ? (
-      <p>
-        Compared to the national deficit of ${desktopPriorDeficit} for the same period last year (
-        {getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}), our national deficit has {deficitStatus} by $
-        {deficitDif}.
-      </p>
-    )
-      :
-      (
-      <p>
-        Compared to the national deficit of ${desktopPriorDeficit} for the same period last year {' '}
-        {getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}, our national deficit has {deficitStatus}.
-      </p>
-    )}
-
+      {deficitStatus !== 'not changed' ? (
+        <p>
+          Compared to the national deficit of ${desktopPriorDeficit} for the same period last year (
+          {getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}), our national deficit has {deficitStatus} by $
+          {deficitDif}.
+        </p>
+      ) : (
+        <p>
+          Compared to the national deficit of ${desktopPriorDeficit} for the same period last year{' '}
+          {getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}, our national deficit has {deficitStatus}.
+        </p>
+      )}
     </>
-
   );
 
   return (

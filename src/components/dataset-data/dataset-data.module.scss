@@ -1,0 +1,14 @@
+@import 'src/variables.module';
+
+.detailViewNotice {
+  display: flex;
+  font-weight: $semi-bold-weight;
+  font-size: $font-size-16;
+
+  .lockIcon {
+    padding-right: 0.5rem;
+    height: 1rem;
+    width: 0.875rem;
+    padding-top: 0.125rem;
+  }
+}

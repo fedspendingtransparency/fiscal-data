@@ -22,6 +22,7 @@ const RangePresets = ({
   finalDatesNotFound,
   setResetFilters,
   datatableBanner,
+  hideButtons,
 }) => {
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
@@ -123,6 +124,9 @@ const RangePresets = ({
       if (datePreset === 'current' && presets[0].key === 'current') {
         idealDefaultPreset = presets[0];
       }
+      if (datePreset === 'all' && presets[4].key === 'all') {
+        idealDefaultPreset = presets[4];
+      }
       if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
         idealDefaultPreset = presets.find(({ key }) => key === 'custom');
 
@@ -197,77 +201,89 @@ const RangePresets = ({
     }
   }, [allTablesSelected, finalDatesNotFound, selectedTable]);
 
+  useEffect(() => {
+    // This hook is used for nested tables
+    // when the summary view date range is locked, all rows should display
+    if (hideButtons) {
+      setActivePresetKey('all');
+    }
+  }, [hideButtons]);
+
   const label =
     selectedTable && selectedTable.fields
       ? ` (${selectedTable.fields.find(field => field.columnName === selectedTable.dateField).prettyName})`
       : null;
   return (
     <>
-      <h3 className={header} data-test-id={'header'}>
-        Date Range<span data-test-id={'label'}>{label}</span>:
-      </h3>
-      <div id={presetContainer}>
-        {presets.map(preset => (
-          <React.Fragment key={preset.key}>
-            {preset.key === 'custom' ? (
-              <>
-                <input
-                  type="radio"
-                  name="range-toggle"
-                  className={radio}
-                  checked={customPreset.key === activePresetKey}
-                  id={`radio-${customPreset.key}`}
-                  onChange={() => {
-                    applyPreset(customPreset);
-                  }}
-                  tabIndex={0}
-                  data-test-id={`preset-radio-${customPreset.key}`}
-                />
-                <label
-                  className={`
+      {!hideButtons && (
+        <>
+          <h3 className={header} data-test-id="header">
+            Date Range<span data-test-id="label">{label}</span>:
+          </h3>
+          <div id={presetContainer}>
+            {presets.map(preset => (
+              <React.Fragment key={preset.key}>
+                {preset.key === 'custom' ? (
+                  <>
+                    <input
+                      type="radio"
+                      name="range-toggle"
+                      className={radio}
+                      checked={customPreset.key === activePresetKey}
+                      id={`radio-${customPreset.key}`}
+                      onChange={() => {
+                        applyPreset(customPreset);
+                      }}
+                      tabIndex={0}
+                      data-test-id={`preset-radio-${customPreset.key}`}
+                    />
+                    <label
+                      className={`
                     ${toggleButton} ${activePresetKey === customPreset.key ? selected : ''}
                   `}
-                  htmlFor={`radio-${customPreset.key}`}
-                  data-test-id={`preset-label-${customPreset.key}`}
-                >
-                  {customPreset.label}
-                </label>
-              </>
-            ) : (
-              <>
-                <input
-                  type="radio"
-                  name="range-toggle"
-                  className={radio}
-                  checked={preset.key === activePresetKey}
-                  id={`radio-${preset.key}`}
-                  onChange={() => {
-                    applyPreset(preset);
-                  }}
-                  tabIndex={0}
-                  data-test-id={`preset-radio-${preset.key}`}
-                />
-                <label
-                  className={`
+                      htmlFor={`radio-${customPreset.key}`}
+                      data-test-id={`preset-label-${customPreset.key}`}
+                    >
+                      {customPreset.label}
+                    </label>
+                  </>
+                ) : (
+                  <>
+                    <input
+                      type="radio"
+                      name="range-toggle"
+                      className={radio}
+                      checked={preset.key === activePresetKey}
+                      id={`radio-${preset.key}`}
+                      onChange={() => {
+                        applyPreset(preset);
+                      }}
+                      tabIndex={0}
+                      data-test-id={`preset-radio-${preset.key}`}
+                    />
+                    <label
+                      className={`
                     ${toggleButton} ${activePresetKey === preset.key ? selected : ''}
                   `}
-                  htmlFor={`radio-${preset.key}`}
-                  data-test-id={`preset-label-${preset.key}`}
-                >
-                  {preset.label}
-                </label>
-              </>
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-      {activePresetKey === customPreset.key && (
-        <DatePickers selectedDateRange={dateRange} availableDateRange={pickerDateRange} setSelectedDates={updateDateRange} />
+                      htmlFor={`radio-${preset.key}`}
+                      data-test-id={`preset-label-${preset.key}`}
+                    >
+                      {preset.label}
+                    </label>
+                  </>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+          {activePresetKey === customPreset.key && (
+            <DatePickers selectedDateRange={dateRange} availableDateRange={pickerDateRange} setSelectedDates={updateDateRange} />
+          )}
+          {selectedTable.userFilter && (
+            <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} setResetFilters={setResetFilters} />
+          )}
+          {datatableBanner && <DatatableBanner bannerNotice={datatableBanner} />}
+        </>
       )}
-      {selectedTable.userFilter && (
-        <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} setResetFilters={setResetFilters} />
-      )}
-      {datatableBanner && <DatatableBanner bannerNotice={datatableBanner} />}
     </>
   );
 };

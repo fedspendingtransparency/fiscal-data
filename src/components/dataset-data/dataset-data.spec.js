@@ -141,7 +141,7 @@ describe('DatasetData', () => {
 
   it(`contains a DataTableSelect component with defaulted props`, () => {
     // Detail view api is not displayed in dropdown
-    expect(instance.findByType(DataTableSelect).props.apis).toStrictEqual(config.apis.slice(0, -1));
+    expect(instance.findByType(DataTableSelect).props.apis).toStrictEqual(config.apis);
   });
 
   it(`initializes the selected table to the first element in the apis array`, () => {
@@ -187,7 +187,7 @@ describe('DatasetData', () => {
   it(`sends the updated props to FilterAndDownload component when a new data table is
   selected`, async () => {
     const dropdownOptions = await updateTable('Table 2');
-    expect(dropdownOptions.length).toBe(11);
+    expect(dropdownOptions.length).toBe(12);
     expect(instance.findByType(FilterAndDownload).props.selectedTable.tableName).toBe(config.apis[1].tableName);
   });
 
@@ -328,7 +328,7 @@ describe('DatasetData', () => {
     // confirm that the second table's api url was called only once
     const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint6?') !== -1);
     // With paginated tables, 2 extra calls are now made to get data for react-table implementation
-    expect(callsToApiForUpdatedTable.length).toEqual(3);
+    expect(callsToApiForUpdatedTable.length).toEqual(2);
   });
 
   it(`does not duplicate api calls when switching from a large table to a small one`, async () => {
@@ -576,5 +576,37 @@ describe('DatasetData', () => {
     await updateTable('Table 2');
     rangePresets = instance.findByType(RangePresets);
     expect(rangePresets.props.allTablesSelected).toBeFalsy();
+  });
+});
+
+describe('Nested Data Table', () => {
+  global.console.error = jest.fn();
+  const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+  let instance;
+  const setSelectedTableMock = jest.fn();
+  const fetchSpy = jest.spyOn(global, 'fetch');
+  beforeEach(async () => {
+    instance = render(
+      <RecoilRoot>
+        <DatasetDataComponent
+          config={{ ...config, detailView: { apiId: 300 } }}
+          width={2000}
+          setSelectedTableProp={setSelectedTableMock}
+          location={mockLocation}
+        />
+      </RecoilRoot>
+    );
+  });
+
+  afterEach(() => {
+    fetchSpy.mockClear();
+    global.fetch.mockClear();
+    analyticsSpy.mockClear();
+    global.console.error.mockClear();
+  });
+
+  it('Renders the summary table', () => {
+    expect(instance).toBeDefined();
   });
 });

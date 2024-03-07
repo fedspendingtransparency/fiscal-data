@@ -1,14 +1,15 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
-import { mockBeaGDPData, mockSpendingHeroData } from './explainer-test-helper';
+import { mockBeaGDPData, mockSavingsBondFetchResponses, mockSpendingHeroData } from './explainer-test-helper';
 import { determineBEAFetchResponse, setGlobalFetchMatchingResponse } from '../../utils/mock-utils';
 import { understandingDeficitMatchers } from './explainer-helpers/national-deficit/national-deficit-test-helper';
 import fetchMock from 'fetch-mock';
 import { circleChartMockChartData, governmentRevenueMatchers } from './explainer-helpers/government-revenue/government-revenue-test-helper';
 import { useStaticQuery } from 'gatsby';
 import { RecoilRoot } from 'recoil';
+import * as Gatsby from 'gatsby';
 jest.mock('../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
 });
@@ -330,12 +331,37 @@ describe('Savings Bonds explainer', () => {
     disconnect() {}
   }
   window.ResizeObserver = ResizeObserver;
+
+  const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`);
+  const mockUseStaticQuery = {
+    allSavingsBondsByTypeHistoricalCsv: {
+      savingsBondsByTypeHistoricalCsv: [{ year: 2023, bond_type: 'A', sales: 1 }],
+    },
+    allGlossaryCsv: {
+      glossaryCsv: [
+        {
+          term: 'Excise',
+          definition:
+            'A tax collected on certain goods and commodities produced or sold within the country (i.e. alcohol and tobacco, gasoline) and on licenses granted for certain activities (i.e. import/export license).',
+          site_page: 'Revenue Explainer & AFG Overview Page',
+          id: '12',
+          url_display: '',
+          url_path: '',
+        },
+      ],
+    },
+    extensions: {},
+  };
+
   beforeAll(() => {
-    useStaticQuery.mockReturnValue(glossaryMock);
+    useStaticQuery.mockReturnValue(mockUseStaticQuery);
+    mockSavingsBondFetchResponses();
   });
+
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
   });
+
   afterEach(() => {
     jest.resetModules();
   });
@@ -356,18 +382,17 @@ describe('Savings Bonds explainer', () => {
     heading: 'mock heading',
     subHeading: 'mock subheading',
   };
-  const glossary = [];
   const isAFG = false;
   const mockPageContext = {
     breadCrumbLinkName,
     seoConfig,
     heroImage,
-    glossary,
     cpiDataByYear,
     isAFG,
   };
 
   it('renders the savings bonds explainer page', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
     const pageName = 'treasury-savings-bonds';
 
     const savingsBondsPageContext = {
@@ -380,6 +405,8 @@ describe('Savings Bonds explainer', () => {
         <ExplainerPageLayout pageContext={savingsBondsPageContext} />
       </RecoilRoot>
     );
+
+    await waitFor(() => expect(fetchSpy).toBeCalled());
 
     const sectionHeadings = await findAllByTestId('section-heading');
     expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);

@@ -62,6 +62,7 @@ export const config = {
     {
       tableName: 'Table 1',
       pathName: 'table-1',
+      apiId: 309,
       earliestDate: '2002-01-01',
       latestDate,
       endpoint: 'mockEndpoint',
@@ -82,6 +83,7 @@ export const config = {
     {
       tableName: 'Table 2',
       pathName: 'table-2',
+      apiId: 308,
       earliestDate: '2002-01-01',
       latestDate,
       endpoint: 'mockEndpoint2',
@@ -113,6 +115,7 @@ export const config = {
     {
       tableName: 'Table 3',
       pathName: 'table-3',
+      apiId: 307,
       earliestDate: '2017-01-01',
       latestDate,
       endpoint: 'mockEndpoint3',
@@ -144,6 +147,7 @@ export const config = {
     {
       tableName: 'Table 4',
       pathName: 'table-4',
+      apiId: 306,
       earliestDate: '2017-01-01',
       latestDate,
       endpoint: 'mockEndpoint4',
@@ -165,6 +169,7 @@ export const config = {
     {
       tableName: 'Table 5',
       pathName: 'table-5',
+      apiId: 305,
       earliestDate: '2017-01-01',
       latestDate,
       endpoint: 'mockEndpoint5',
@@ -209,6 +214,7 @@ export const config = {
     {
       tableName: 'Table 6',
       pathName: 'table-6',
+      apiId: 304,
       earliestDate: '2016-01-01',
       latestDate,
       endpoint: 'mockEndpoint6',
@@ -227,6 +233,7 @@ export const config = {
     {
       tableName: 'Table 7',
       pathName: 'table-7',
+      apiId: 303,
       earliestDate: '2015-01-01',
       latestDate,
       endpoint: 'mockEndpoint7',
@@ -277,6 +284,7 @@ export const config = {
     {
       tableName: 'Table 9',
       pathName: 'table-9',
+      apiId: 302,
       earliestDate: '2017-01-01',
       latestDate,
       endpoint: 'mockEndpoint9',
@@ -360,9 +368,6 @@ export const config = {
   techSpecs: {
     earliestDate: '2002-01-01',
     latestDate,
-  },
-  detailView: {
-    apiId: 300,
   },
 };
 

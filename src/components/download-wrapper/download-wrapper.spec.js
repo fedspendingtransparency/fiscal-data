@@ -36,6 +36,12 @@ describe('DownloadWrapper', () => {
     value: 'Atlantis-Aquabuck',
   };
 
+  const mockSelectedDetailViewFilter = {
+    label: 'CUSIP',
+    field: 'cusip',
+    value: 'ABCD123',
+  };
+
   beforeAll(() => {
     createObjectURL = global.URL.createObjectURL;
     global.URL.createObjectURL = jest.fn();
@@ -256,6 +262,61 @@ describe('DownloadWrapper', () => {
     });
 
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({ label: cancelEventLabelStr }));
+  });
+
+  it('displays detailViewFilter selection when applied', () => {
+    const curTableName = 'Table 1';
+    const selectedTable = {
+      tableName: curTableName,
+    };
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper selectedTable={selectedTable} dataset={{ name: 'Mock Dataset' }} selectedDetailViewFilter={mockSelectedDetailViewFilter} />
+        </RecoilRoot>
+      );
+    });
+
+    const filterName = instance.findByProps({ 'data-testid': 'detailViewFilterLabel' });
+    expect(filterName.props.children).toEqual(['CUSIP', ':']);
+    const filterValue = instance.findByProps({ 'data-testid': 'detailViewFilterValue' });
+    expect(filterValue.props.children).toEqual('ABCD123');
+  });
+
+  it('creates the expected download configuration when a detailViewFilter is applied', () => {
+    const curTableName = 'Table 1';
+    const selectedTable = {
+      tableName: curTableName,
+    };
+    mockSetDownloadRequest.mockClear();
+
+    const expectedArgs = {
+      apis: selectedTable,
+      datasetId: mockDataset.datasetId,
+      dateRange: mockDateRange,
+      selectedFileType: 'csv',
+      selectedDetailViewFilter: mockSelectedDetailViewFilter,
+    };
+
+    let component = null;
+    act(() => {
+      component = render(
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadWrapper
+              allTablesSelected={false}
+              selectedTable={selectedTable}
+              dataset={mockDataset}
+              dateRange={mockDateRange}
+              selectedDetailViewFilter={mockSelectedDetailViewFilter}
+            />
+          </downloadsContext.Provider>
+        </RecoilRoot>
+      );
+      component.getByTestId('download-button').click();
+    });
+    expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
+    mockSetDownloadRequest.mockClear();
   });
 
   it('displays userFilter selection when applied', () => {

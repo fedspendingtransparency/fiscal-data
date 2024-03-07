@@ -355,7 +355,9 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
     type DetailView {
       apiId: Int,
-      columnId: String,
+      field: String,
+      label: String,
+      dateRangeLockCopy: String,
       summaryTableFields: [String],
     }
     type CustomFormatConfig {
@@ -391,13 +393,13 @@ exports.createSchemaCustomization = ({ actions }) => {
       seoConfig: SEOConfig,
       breadCrumbLinkName: String
     }
-    type BLSPublicAPIData implements Node{
+    type BLSPublicAPIData implements Node {
       year: String,
       period: String,
       latest: String,
       value: String
     }
-    type BeaGDP implements Node{
+    type BeaGDP implements Node {
       lineDescription: String,
       timePeriod: String,
       dataValue: String
@@ -427,7 +429,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           currentDateButton
           detailView {
             apiId
-            columnId
+            field
+            label
+            dateRangeLockCopy
             summaryTableFields
           }
           datePreset
@@ -562,6 +566,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           value
         }
       }
+      allSavingsBondsByTypeHistoricalCsv {
+        savingsBondsByTypeHistoricalCsv: nodes {
+          year
+          bond_type
+          sales
+        }
+      }
       allBlsPublicApiData {
         blsPublicApiData: nodes {
           year
@@ -668,7 +679,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           relatedDatasets: explainerRelatedDatasets,
           isAFG: explainer.isAFG,
           cpiDataByYear: cpiYearMap,
-          glossary: glossaryData,
         },
       });
     }

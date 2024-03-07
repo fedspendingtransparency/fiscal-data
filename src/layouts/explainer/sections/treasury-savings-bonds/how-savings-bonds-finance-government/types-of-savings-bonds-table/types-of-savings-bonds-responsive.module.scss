@@ -1,0 +1,74 @@
+
+
+.tableContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2rem;
+  max-height: 10.5rem;
+  position: relative;
+}
+
+.headerBox {
+  font-size: 14px;
+  min-width: 209px;
+  background-color: #b04abd;
+  padding: 8px 8px 12px 8px;
+  color: white;
+}
+
+.contentBox {
+  font-size: 14px;
+  height: 3rem;
+  background-color: #f8f0f9;
+  padding: 8px 8px 12px 8px;
+}
+
+.singular {
+  height: 7rem;
+}
+
+.bondTitle {
+  color: #b04abd;
+  font-weight: 600;
+}
+
+.typeBox {
+  min-width: 56px;
+}
+
+.typeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.scrollContainer {
+  display: flex;
+  gap: 2px;
+  overflow-x: scroll;
+}
+
+.gradient {
+  position: absolute;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255));
+  height: 100%;
+  width: 40px;
+  right: 0;
+  z-index: 0;
+}
+
+.shadow {
+  position: absolute;
+  height: 99.5%;
+  width: 72px;
+  z-index: 0;
+  margin-left: 0.5rem;
+  left: -0.5rem;
+  box-shadow: 6px 0 16px 0 #00000026;
+}
+
+.columnContainer {
+  display: flex;
+  gap: 2px;
+  flex-direction: column;
+}

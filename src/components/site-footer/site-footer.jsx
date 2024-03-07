@@ -99,9 +99,9 @@ const SiteFooter = () => {
               alt="Fiscal Data logo"
               height={49}
               width={171}
-              placeholder="tracedSVG"
+              placeholder="dominantColor"
               layout="fixed"
-              aria-label={'Fiscal Data logo'}
+              aria-label="Fiscal Data logo"
             />
           </Link>
           <div className={pageLinks}>

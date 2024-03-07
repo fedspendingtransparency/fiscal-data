@@ -1,0 +1,29 @@
+@import 'src/variables.module';
+
+.container {
+  margin: 2rem auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 464px;
+
+  .imageBorder {
+    display: flex;
+    border-radius: .125rem;
+    margin-bottom: 1rem;
+    width: 100%;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+
+@media screen and (min-width: $breakpoint-lg) {
+  .container {
+    width: 496px;
+  }
+}
+

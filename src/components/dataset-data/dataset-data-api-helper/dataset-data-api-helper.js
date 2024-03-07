@@ -28,10 +28,22 @@ const onDataReturned = async (res, rangeRequested, selectedTable, selectedPivot,
   }
 };
 
-const makeApiCall = async (dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache, queryClient) => {
+const makeApiCall = async (
+  dateRange,
+  selectedTable,
+  selectedPivot,
+  setIsLoading,
+  setApiData,
+  setApiError,
+  canceledObj,
+  tableCache,
+  detailViewValue,
+  detailViewFilterParam,
+  queryClient,
+) => {
   const loadTimer = setTimeout(() => setIsLoading(true), loadTimerDelay);
   try {
-    const data = await datatableRequest(selectedTable, dateRange, selectedPivot, canceledObj, tableCache, queryClient);
+    const data = await datatableRequest(selectedTable, dateRange, selectedPivot, canceledObj, tableCache, detailViewValue, detailViewFilterParam, queryClient);
 
     if (!canceledObj.isCanceled) {
       await onDataReturned(data, dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache);
@@ -61,10 +73,24 @@ export const getApiData = async (
   _setApiError,
   _canceledObj,
   _tableCache,
-  _queryClient
+  _detailViewValue,
+  _detailViewFilterParam,
+  _queryClient,
 ) => {
   if (_dateRange && _dateRange.from && _dateRange.to && _selectedTable && _selectedTable.endpoint && _selectedPivot) {
-    await makeApiCall(_dateRange, _selectedTable, _selectedPivot, _setIsLoading, _setApiData, _setApiError, _canceledObj, _tableCache, _queryClient);
+    await makeApiCall(
+      _dateRange,
+      _selectedTable,
+      _selectedPivot,
+      _setIsLoading,
+      _setApiData,
+      _setApiError,
+      _canceledObj,
+      _tableCache,
+      _detailViewValue,
+      _detailViewFilterParam,
+      _queryClient
+    );
   }
 };
 
