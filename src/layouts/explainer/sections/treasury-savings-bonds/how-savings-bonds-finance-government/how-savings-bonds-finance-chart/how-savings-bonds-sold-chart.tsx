@@ -44,7 +44,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
 }) => {
 
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
-  const [activeSecurity, setActiveSecurity] = useState<boolean | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
 
   const intragovernmental = (
@@ -58,18 +57,30 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     </GlossaryPopoverDefinition>
   );
 
-  const aggregateData = mockDataTwo.reduce((acc, cur) => {
-    const type = cur.securityType === 'Nonmarketable' ? 'Non-Marketable' : 'Marketable';
-    if (!acc[type]) acc[type] = { value: 0, securityType: type };
-    acc[type].value += cur.value;
-    return acc;
+  const aggregateData = mockDataTwo.reduce((accumulator, cur) => {
+    const key = cur.securityType === 'Marketable' ? 'Marketable' : 'Nonmarketable';
+    if (!accumulator[key]) {
+      accumulator[key] = { name: key, value: 0, securityType: key };
+    }
+    accumulator[key].value += cur.value;
+    return accumulator;
   }, {});
+  
 
+  const consolidateData = mockDataTwo.reduce((accumulator, value) => {
+    if(!accumulator[value.name]) {
+      accumulator[value.name] = {...value};
+    } else {
+      accumulator[value.name].value += value.value;
+    }
+    return accumulator;
+  }, {})
 
+  const consolidateDataArray = Object.values(consolidateData)
   const aggregatedDataforPie = Object.values(aggregateData)
 
   const data1WidthPercentage = calculatePercentage(aggregatedDataforPie);
-  const data2WidthPercentage = calculatePercentage(mockDataTwo);
+  const data2WidthPercentage = calculatePercentage(consolidateDataArray);
 
   const lastUpdated = new Date();
   const footer = (
@@ -120,7 +131,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                     aggregatedDataforPie.map((entry, index) => (
                       <Cell 
                         key={`cell-data01-${index}`} 
-                        fill={entry.securityType === 'Non-Marketable' ? color2 : color} 
+                        fill={entry.securityType === 'Nonmarketable' ? color2 : color} 
                         opacity={getOpacity('data01', index, entry)} 
                       />
                     ))
@@ -140,10 +151,10 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}
                 >
                   {
-                    mockDataTwo.map((entry, index) => (
+                    consolidateDataArray.map((entry, index) => (
                       <Cell 
                         key={`cell-data02-${index}`} 
-                        fill={entry.securityType === 'Nonmarketable' ? color2 : color} 
+                        fill={entry.securityType === 'Nonmarketable' ?  color2 : color} 
                         opacity={getOpacity('data02', index, entry)} 
                       />
                     ))
