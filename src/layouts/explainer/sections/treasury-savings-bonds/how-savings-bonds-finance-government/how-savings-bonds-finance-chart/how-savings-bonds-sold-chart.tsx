@@ -116,10 +116,10 @@ const actualActiveIndex = savingBondsIndex && savingBondsIndex.startsWith('data0
   );
   console.log('MONTH YEAR', monthYear);
   const chartCopy = {
-  title: 'Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of' + {monthYear},
+  title: `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of ${monthYear}` ,
   altText:
     'A pie chart showing the percentage of U.S. debt held by the public that is marketable versus non-marketable. As of ' +
-    {monthYear}+', non-marketable securities make up {XX} percent, and savings bonds make up {XX} ' +
+    `${monthYear}`+', non-marketable securities make up {XX} percent, and savings bonds make up {XX} ' +
     ' percent of the debt held by the public.',
 };
   const onLegendEnter = (security: string) => {
