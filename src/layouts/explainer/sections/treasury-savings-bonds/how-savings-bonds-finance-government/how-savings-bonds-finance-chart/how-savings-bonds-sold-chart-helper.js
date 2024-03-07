@@ -1,5 +1,5 @@
 export const chartCopy = {
-  title: 'Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of {Month YYYY (as of date for visualization)} ',
+  title: 'Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of {monthYear} ',
   altText:
     'A pie chart showing the percentage of U.S. debt held by the public that is marketable versus non-marketable. As of ' +
     '{Month YYYY (as of date for visualization)}, non-marketable securities make up {XX} percent, and savings bonds make up {XX} ' +

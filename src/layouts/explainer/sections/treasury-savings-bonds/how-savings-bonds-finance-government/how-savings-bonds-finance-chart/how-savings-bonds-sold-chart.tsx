@@ -35,13 +35,15 @@ interface HowSavingsBondsSoldChartProps {
   glossary: any; 
   glossaryClickHandler: (term: string) => void;
   chartData: ChartDataItem[];
+  monthYear: string;
 }
 
 
 const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps> = ({
   glossary,
   glossaryClickHandler,
-  chartData
+  chartData,
+  monthYear,
 }) => {
 
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
@@ -112,6 +114,14 @@ const actualActiveIndex = savingBondsIndex && savingBondsIndex.startsWith('data0
       U.S. Treasury Monthly Statement of the Public Debt (MSPD) </CustomLink>{' '} to explore and download this data. 
     </p>
   );
+  console.log('MONTH YEAR', monthYear);
+  const chartCopy = {
+  title: 'Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of' + {monthYear},
+  altText:
+    'A pie chart showing the percentage of U.S. debt held by the public that is marketable versus non-marketable. As of ' +
+    {monthYear}+', non-marketable securities make up {XX} percent, and savings bonds make up {XX} ' +
+    ' percent of the debt held by the public.',
+};
   const onLegendEnter = (security: string) => {
     setActiveSecurityType(security);
   };

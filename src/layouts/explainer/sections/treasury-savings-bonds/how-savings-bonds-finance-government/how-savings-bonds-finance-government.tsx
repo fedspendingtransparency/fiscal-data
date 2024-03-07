@@ -13,7 +13,7 @@ import { breakpointLg } from '../../../explainer.module.scss';
 import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-of-savings-bonds-responsive';
 import HowSavingsBondsSoldChart from './how-savings-bonds-finance-chart/how-savings-bonds-sold-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
-import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
+import { basicFetch, apiPrefix, monthNames } from '../../../../../utils/api-utils';
 
 interface ChartDataItem {
   name: string;
@@ -27,6 +27,7 @@ interface ApiResponse {
     debt_held_public_mil_amt: number;
     security_class_desc: string;
     security_type_desc: string;
+    record_date: string;
   }[];
   meta: {'total-pages': number};
 }
@@ -34,11 +35,11 @@ interface ApiResponse {
 const HowSavingsBondsFinanceGovernment = ({width}) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
+  const [savingBondsPercetage, setSavingBondsPercentage] = useState<number | null>(null);
+  const [monthYear, setMonthYear] = useState<string | null>(null);
   const isDesktop = width >= pxToNumber(breakpointLg);
 
   const howSavingBondsSold = 'v1/debt/mspd/mspd_table_1?filter=record_date:eq';
-
-
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=1`)
@@ -46,8 +47,8 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
         if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
           const pageSize = metaRes.meta['total-pages'];
           basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=${pageSize}`)
-            .then((fullRes: ApiResponse) => {
-              const relevantData = fullRes.data
+            .then((res: ApiResponse) => {
+              const relevantData = res.data
               .filter(item =>
                 item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable'
               )
@@ -55,7 +56,6 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
                 ...item,
                 debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt)
               }));
-
               const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
                 const key = cur.security_class_desc;
                 if (!acc[key]) {
@@ -64,24 +64,34 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
                 acc[key].value += cur.debt_held_public_mil_amt;
                 return acc;
               }, {});
-
               const processedData = Object.values(summedData);
               const totalValue = Number(processedData.reduce((sum, item) => sum + item.value, 0));
-
               const dataWithPercentages = processedData.map(item => ({
                 ...item,
                 percent: (item.value/totalValue) * 100
                 
               }));
-
               dataWithPercentages.sort((a,b) => 
               a.securityType === 'Nonmarketable' ? 1 : b.securityType !== 'Nonmarketanble' ? -1 : 0
               );
-              
               setChartData(dataWithPercentages)
-            })
+              console.log(chartData);
+              const savingBondsPercentage = chartData.find(item => item.name === 'United States Savings Securities');
+              if (savingBondsPercentage) {
+                const roundedPercent = parseFloat(savingBondsPercentage.percent.toFixed(2))
+                setSavingBondsPercentage(roundedPercent);
+              }
+              const mostRecentItem = res.data.reduce((mostRecent, currentItem) => {
+                const currentDate = new Date(currentItem.record_date);
+                return currentDate > new Date(mostRecent.record_date) ? currentItem : mostRecent;
+              }, res.data[0]);
+              const mostRecentDate = new Date(mostRecentItem.record_date);
+              const monstRecentMonthYear= `${monthNames[mostRecentDate.getMonth()]} ${mostRecentDate.getFullYear()}`;
+              console.log(monstRecentMonthYear);
+              setMonthYear(monstRecentMonthYear);
+          });
         }
-      })
+      });
   }, []);
 
   const tableContent = [
@@ -172,11 +182,12 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
         up the total {debtHeldByPublic}.
       </span>
       <div className={visWithCallout}>
-        <HowSavingsBondsSoldChart chartData={chartData} />
+        <HowSavingsBondsSoldChart chartData={chartData} monthYear={monthYear} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
-          <p>Savings bonds make up XX% of total debt held by the public through 
-            Month YYYY . This is XX%  percentage points higher than/lower than/the same as 
-            the percent of debt held by the public ten years ago (XX% ). </p>
+          <p>Savings bonds make up {savingBondsPercetage}% of total debt held by the public through{' '}
+            {monthYear} . This is XX%  percentage points higher than/lower than/the same as 
+            the percent of debt held by the public ten years ago (XX% ).
+          </p>
         </VisualizationCallout>
       </div>
       <h5 className={subSectionTitle}>Types of Savings Bonds</h5>
