@@ -6,16 +6,25 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
 import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
-import { mockDataTwo, chartCopy } from './how-savings-bonds-sold-chart-helper';
+import { chartCopy } from './how-savings-bonds-sold-chart-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 import { basicFetch, apiPrefix } from '../../../../../../utils/api-utils';
 
-interface DataItem {
+interface ChartDataItem {
   name: string;
   value: number;
-  security: boolean;
+  percent: number;
   securityType: string;
+}
+
+interface ApiResponse {
+  data: {
+    debt_held_public_mil_amt: number;
+    security_class_desc: string;
+    security_type_desc: string;
+  }[];
+  meta: {'total-pages': number};
 }
 
 const color = '#4A0072';
@@ -25,27 +34,32 @@ const color2 = '#B04ABD';
 interface HowSavingsBondsSoldChartProps {
   glossary: any; 
   glossaryClickHandler: (term: string) => void;
+  chartData: ChartDataItem[];
 }
+const mockDataTwo = [
+  { name: 'Bonds 1', value: 2.5, securityType: 'Marketable' },
+  { name: 'Bonds 1', value: 2.5, securityType: 'Marketable' },
+  { name: 'Bonds 2', value: 30, securityType: 'Marketable' },
+  { name: 'Bonds 3', value: 65, securityType: 'Marketable' },
+  { name: 'Bonds 4', value: 80, securityType: 'Marketable' },
+  { name: 'Bonds 5', value: 211.2, securityType: 'Marketable' },
+  { name: 'Savings Bonds 1', value: 4.4, securityType: 'Nonmarketable' },
+  { name: 'Savings Bonds', value: 2.4,  securityType: 'Nonmarketable' },
+  { name: 'Other', value: 2,  securityType: 'Nonmarketable' },
+];
 
 const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps> = ({
   glossary,
   glossaryClickHandler,
+  chartData
 }) => {
 
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
-  const howSavingBondsSold = 'v1/debt/mspd/mspd_table_1?filter=record_date:eq';
+  
 
-  useEffect(() => {
-    basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=1`).then(metaRes => {
-      if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
-        const pageSize = metaRes.meta['total-pages'];
-        basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=${pageSize}`).then(res => { 
-          console.log(res)
-        });
-      }
-    })
-  },[]);
+
+
 
   const intragovernmental = (
     <GlossaryPopoverDefinition
@@ -58,7 +72,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     </GlossaryPopoverDefinition>
   );
 
-  const aggregateData = mockDataTwo.reduce((accumulator, cur) => {
+  const aggregateData = chartData.reduce((accumulator, cur) => {
     const key = cur.securityType === 'Marketable' ? 'Marketable' : 'Nonmarketable';
     if (!accumulator[key]) {
       accumulator[key] = { name: key, value: 0, securityType: key };
@@ -66,9 +80,9 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     accumulator[key].value += cur.value;
     return accumulator;
   }, {});
-  
 
-  const consolidateData = mockDataTwo.reduce((accumulator, value) => {
+
+  const consolidateData = chartData.reduce((accumulator, value) => {
     if(!accumulator[value.name]) {
       accumulator[value.name] = {...value};
     } else {
@@ -110,7 +124,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     const isActiveType = entry.securityType === activeSecurityType;
     return activeIndex === `${dataset}-${index}` || activeIndex === null ? isActiveType ? .4 : 1 : .4;
   }
-
+  
   return (
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} >
@@ -139,7 +153,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   }
                 </Pie>
                 <Pie 
-                  activeIndex={6}
+                  activeIndex={12}
                   activeShape={ChartTopNotch}
                   data={data2WidthPercentage} 
                   dataKey="percent" 
