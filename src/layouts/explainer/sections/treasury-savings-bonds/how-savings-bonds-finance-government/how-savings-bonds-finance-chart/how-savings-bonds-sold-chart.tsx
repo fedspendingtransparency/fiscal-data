@@ -6,7 +6,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
 import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
-import { chartCopy} from './how-savings-bonds-sold-chart-helper';
+import { mockDataTwo, chartCopy } from './how-savings-bonds-sold-chart-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 
@@ -19,18 +19,6 @@ interface DataItem {
 
 const color = '#4A0072';
 const color2 = '#B04ABD';
-
-const mockDataTwo = [
-  { name: 'Bonds 1', value: 2.5, securityType: 'Marketable' },
-  { name: 'Bonds 1', value: 2.5, securityType: 'Marketable' },
-  { name: 'Bonds 2', value: 30, securityType: 'Marketable' },
-  { name: 'Bonds 3', value: 65, securityType: 'Marketable' },
-  { name: 'Bonds 4', value: 80, securityType: 'Marketable' },
-  { name: 'Bonds 5', value: 211.2, securityType: 'Marketable' },
-  { name: 'Savings Bonds 1', value: 4.4, securityType: 'Nonmarketable' },
-  { name: 'Savings Bonds', value: 2.4,  securityType: 'Nonmarketable' },
-  { name: 'Other', value: 2,  securityType: 'Nonmarketable' },
-];
 
 
 interface HowSavingsBondsSoldChartProps {
