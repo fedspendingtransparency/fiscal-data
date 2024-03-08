@@ -40,6 +40,8 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
   const [savingBondsIndex, setSavingBondsIndex] = useState<string | null>(null);
+  const [savingBondPercentage, setSavingBondPercentage] = useState<string | null>(null);
+  const [nonMarketablePercent, setNonMarketablePercent] = useState<number | null>(null);
   const [animationDone, setAnimationDone] = useState<boolean>(false);
   const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
 
@@ -54,7 +56,6 @@ useEffect(() => {
   basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
     if (res.data) {
       const data = res.data[0];
-      console.log(res.data)
       setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
     }
   });
@@ -69,7 +70,19 @@ useEffect(() => {
       intragovernmental
     </GlossaryPopoverDefinition>
   );
+  useEffect(() => {
+    let nonMarkPercent = 0;
+  
+    chartData.forEach(item => {
+      if (item.securityType === 'Nonmarketable') {
+        nonMarkPercent += item.percent;
+      }
+      setNonMarketablePercent(parseFloat(nonMarkPercent.toFixed(1)));
+    });
 
+
+  }, [chartData, monthYear]);
+  
   const aggregateData = chartData.reduce((accumulator, cur) => {
     const key = cur.securityType === 'Marketable' ? 'Marketable' : 'Nonmarketable';
     if (!accumulator[key]) {
@@ -78,7 +91,6 @@ useEffect(() => {
     accumulator[key].value += cur.value;
     return accumulator;
   }, {});
-
 
   const consolidateData = chartData.reduce((accumulator, value) => {
     if(!accumulator[value.name]) {
@@ -95,32 +107,33 @@ useEffect(() => {
   const data1WidthPercentage = calculatePercentage(aggregatedDataforPie);
   const data2WidthPercentage = calculatePercentage(consolidateDataArray);
 
-  const savingsBondCallOut = data2WidthPercentage.map((itemn, index) => {
-    if (itemn.name === 'United States Savings Securities'){
-      itemn.name = 'Savings Bonds';
+  const savingsBondCallOut = data2WidthPercentage.map((item, index) => {
+    if (item.name === 'United States Savings Securities'){
+      item.name = 'Savings Bonds';
       if (savingBondsIndex === null){
         setSavingBondsIndex(`data02-${index}`);
+        setSavingBondPercentage(item.percent);
       }
     }    
-  return itemn;
-});
-const actualActiveIndex = savingBondsIndex && savingBondsIndex.startsWith('data02') ? parseInt(savingBondsIndex.split('-')[1], 10) : undefined;
+    return item;
+  });
+  const actualActiveIndex = savingBondsIndex && savingBondsIndex.startsWith('data02') ? parseInt(savingBondsIndex.split('-')[1], 10) : undefined;
 
   const footer = (
     <p>
       This chart reflects total debt held by the public, which excludes debt held by the government (known as {intragovernmental}). Visit the 
-      <CustomLink url="/americas-finance-guide/national-debt/"> National Debt explainer </CustomLink> to learn more about the types of debt or the
+      {' '}<CustomLink url="/americas-finance-guide/national-debt/">National Debt explainer</CustomLink> to learn more about the types of debt or the
       {' '}<CustomLink url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding">
-      U.S. Treasury Monthly Statement of the Public Debt (MSPD) </CustomLink>{' '} to explore and download this data. 
+      U.S. Treasury Monthly Statement of the Public Debt (MSPD)</CustomLink>{' '} to explore and download this data. 
     </p>
   );
 
   const chartCopy = {
   title: `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of ${monthYear}` ,
   altText:
-    'A pie chart showing the percentage of U.S. debt held by the public that is marketable versus non-marketable. As of ' +
-    `${monthYear}` + ', non-marketable securities make up {XX} percent, and savings bonds make up {XX} ' +
-    ' percent of the debt held by the public.',
+     `A pie chart showing the percentage of U.S. debt held by the public that is marketable versus non-marketable. As of  
+    ${monthYear} , non-marketable securities make up ${nonMarketablePercent} percent, and savings bonds make up  ${savingBondPercentage} 
+    percent of the debt held by the public.`,
 };
   const onLegendEnter = (security: string) => {
     setActiveSecurityType(security);
