@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import { subSectionTitle } from './how-savings-bonds-finance-government.module.scss';
+import { visWithCallout } from '../../../explainer.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import BondImage from '../../../../../../static/images/savings-bonds/Series-E-Bond-Cropped.png';
 import ImageContainer from '../../../explainer-components/image-container/image-container';
@@ -10,6 +11,8 @@ import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../explainer.module.scss';
 import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-of-savings-bonds-responsive';
+import HowSavingsBondsSoldChart from './how-savings-bonds-finance-chart/how-savings-bonds-sold-chart';
+import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 
 const HowSavingsBondsFinanceGovernment = ({width}) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
@@ -108,6 +111,14 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
         {stateLocalGovSeries}, which can be purchased by state and local governments. Use the chart below to explore how different types of loans make
         up the total {debtHeldByPublic}.
       </span>
+      <div className={visWithCallout}>
+        <HowSavingsBondsSoldChart />
+        <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
+          <p>Savings bonds make up XX% of total debt held by the public through 
+            Month YYYY . This is XX%  percentage points higher than/lower than/the same as 
+            the percent of debt held by the public ten years ago (XX% ). </p>
+        </VisualizationCallout>
+      </div>
       <h5 className={subSectionTitle}>Types of Savings Bonds</h5>
       <span>
         Over the course of American history, the U.S. government has issued {numberOfBondTypes} types of savings bonds to help fund certain programs
