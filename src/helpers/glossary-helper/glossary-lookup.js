@@ -14,9 +14,10 @@ export const glossaryLookup = (value, glossary, page, customFormat) => {
     glossaryTerm = entry.term;
     definition = entry.definition;
     slug = entry.slug;
+    definitionFormatted = definition;
     if (customFormat) {
       let count = 0;
-      definitionFormatted = reactStringReplace(definition, customFormat.text, (match, index) => {
+      definitionFormatted = reactStringReplace(definitionFormatted, customFormat.text, (match, index) => {
         count = count + 1;
         if (count === customFormat.index + 1) {
           if (customFormat.format === 'underline') {
@@ -32,6 +33,7 @@ export const glossaryLookup = (value, glossary, page, customFormat) => {
       });
     }
   }
+
   return {
     termName: glossaryTerm,
     definition: definitionFormatted ? definitionFormatted : definition,
