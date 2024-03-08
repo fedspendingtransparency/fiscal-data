@@ -54,7 +54,8 @@ useEffect(() => {
   basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
     if (res.data) {
       const data = res.data[0];
-      setHistoryChartDate(getDateWithoutTimeZoneAdjust(data[-1].record_date));
+      console.log('data', data);
+      setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
     }
   });
 }, []);

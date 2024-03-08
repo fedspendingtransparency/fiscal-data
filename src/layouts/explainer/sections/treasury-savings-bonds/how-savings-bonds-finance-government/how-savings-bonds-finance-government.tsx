@@ -14,7 +14,7 @@ import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-
 import HowSavingsBondsSoldChart from './how-savings-bonds-finance-chart/how-savings-bonds-sold-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import { basicFetch, apiPrefix, monthNames } from '../../../../../utils/api-utils';
-
+import { calculatePercentage } from '../../../../../utils/api-utils';
 interface ChartDataItem {
   name: string;
   value: number;
@@ -35,7 +35,7 @@ interface ApiResponse {
 const HowSavingsBondsFinanceGovernment = ({width}) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
-  const [savingBondsPercetage, setSavingBondsPercentage] = useState<number | null>(null);
+  const [savingBondsPercentage, setSavingBondsPercentage] = useState<number | null>(null);
   const [historicalSavingBondsPercentage, setHistoricalSavingBondsPercentage] = useState<number | null>(null);
   const [percentageDifference, setPercentageDifference] = useState<number | null>(null);
   const [monthYear, setMonthYear] = useState<string | null>(null);
@@ -78,9 +78,9 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
               );
               setChartData(dataWithPercentages)
               console.log(chartData);
-              const savingBondsPercentage = chartData.find(item => item.name === 'United States Savings Securities');
-              if (savingBondsPercentage) {
-                const roundedPercent = parseFloat(savingBondsPercentage.percent.toFixed(2))
+              const savingBonds = chartData.find(item => item.name === 'United States Savings Securities');
+              if (savingBonds) {
+                const roundedPercent = parseFloat(savingBonds.percent.toFixed(1))
                 setSavingBondsPercentage(roundedPercent);
               }
               const mostRecentItem = res.data.reduce((mostRecent, currentItem) => {
@@ -106,10 +106,10 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
                 const percentage = (savingsBondValue / totalValue) * 100;
 
                 if (setIsHistorical) {
-                  setHistoricalSavingBondsPercentage(parseFloat(percentage.toFixed(2)));
+                  setHistoricalSavingBondsPercentage(parseFloat(percentage.toFixed(1)));
                 } else {
-                  const difference = savingBondsPercetage - historicalSavingBondsPercentage;
-                  setPercentageDifference(parseFloat(difference.toFixed(2)));
+                  const difference = savingBondsPercentage - historicalSavingBondsPercentage;
+                  setPercentageDifference(parseFloat(difference.toFixed(1)));
                 }
               };
 
@@ -214,7 +214,7 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
       <div className={visWithCallout}>
         <HowSavingsBondsSoldChart chartData={chartData} monthYear={monthYear} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
-          <p>Savings bonds make up {savingBondsPercetage}% of total debt held by the public through{' '}
+          <p>Savings bonds make up {savingBondsPercentage}% of total debt held by the public through{' '}
             {monthYear}. This is {percentageDifference}  percentage points {higherOrLower} the same as 
             the percent of debt held by the public ten years ago ({historicalSavingBondsPercentage}%).
           </p>

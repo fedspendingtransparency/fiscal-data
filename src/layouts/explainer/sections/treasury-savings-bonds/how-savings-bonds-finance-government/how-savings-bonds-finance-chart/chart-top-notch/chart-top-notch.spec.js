@@ -21,7 +21,7 @@ describe('RenderActiveShape', () => {
   it('renders correctly with provided props', () => {
     const { getByText } = render(<ChartTopNotch {...mockProps} />);
     expect(getByText('Test Sector')).toBeInTheDocument();
-    expect(getByText(`${mockProps.percent.toFixed(2)}%`)).toBeInTheDocument();
+    expect(getByText(`${mockProps.percent.toFixed(1)}%`)).toBeInTheDocument();
 
   });
 });

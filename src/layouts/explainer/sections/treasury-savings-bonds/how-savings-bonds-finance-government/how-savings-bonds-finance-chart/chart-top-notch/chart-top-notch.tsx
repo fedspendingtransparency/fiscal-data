@@ -59,7 +59,7 @@ const ChartTopNotch = (props: ActiveShapeProps) => {
       />
       <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={'#555555'} fill="none" />
 
-      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey + 13} textAnchor={textAnchor} fill="#333">{`${(percent).toFixed(2)}%`}</text>
+      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey + 13} textAnchor={textAnchor} fill="#333">{`${(percent).toFixed(1)}%`}</text>
     </g>
   );
 };
