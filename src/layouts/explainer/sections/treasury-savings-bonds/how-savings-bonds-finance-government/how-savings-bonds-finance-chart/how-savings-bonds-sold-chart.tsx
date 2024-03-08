@@ -6,10 +6,11 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
 import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
-import { chartCopy } from './how-savings-bonds-sold-chart-helper';
+import { fyEndpoint } from './how-savings-bonds-sold-chart-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 import { basicFetch, apiPrefix } from '../../../../../../utils/api-utils';
+import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 
 interface ChartDataItem {
   name: string;
@@ -18,18 +19,8 @@ interface ChartDataItem {
   securityType: string;
 }
 
-interface ApiResponse {
-  data: {
-    debt_held_public_mil_amt: number;
-    security_class_desc: string;
-    security_type_desc: string;
-  }[];
-  meta: {'total-pages': number};
-}
-
 const color = '#4A0072';
 const color2 = '#B04ABD';
-
 
 interface HowSavingsBondsSoldChartProps {
   glossary: any; 
@@ -50,14 +41,24 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
   const [savingBondsIndex, setSavingBondsIndex] = useState<string | null>(null);
   const [animationDone, setAnimationDone] = useState<boolean>(false);
+  const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
 
 useEffect(() => {
   const timer = setTimeout(() => {
     setAnimationDone(true);
   },2000)
   return () => clearTimeout(timer);
-},)
+},);
 
+useEffect(() => {
+  basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
+    if (res.data) {
+      const data = res.data[0];
+      setHistoryChartDate(getDateWithoutTimeZoneAdjust(data[-1].record_date));
+    }
+  });
+}, []);
+console.log(chartData)
   const intragovernmental = (
     <GlossaryPopoverDefinition
       term={'Intragovernmental Holdings'}
@@ -105,7 +106,6 @@ useEffect(() => {
 });
 const actualActiveIndex = savingBondsIndex && savingBondsIndex.startsWith('data02') ? parseInt(savingBondsIndex.split('-')[1], 10) : undefined;
 
-  const lastUpdated = new Date();
   const footer = (
     <p>
       This chart reflects total debt held by the public, which excludes debt held by the government (known as {intragovernmental}). Visit the 
@@ -119,7 +119,7 @@ const actualActiveIndex = savingBondsIndex && savingBondsIndex.startsWith('data0
   title: `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of ${monthYear}` ,
   altText:
     'A pie chart showing the percentage of U.S. debt held by the public that is marketable versus non-marketable. As of ' +
-    `${monthYear}`+', non-marketable securities make up {XX} percent, and savings bonds make up {XX} ' +
+    `${monthYear}` + ', non-marketable securities make up {XX} percent, and savings bonds make up {XX} ' +
     ' percent of the debt held by the public.',
 };
   const onLegendEnter = (security: string) => {
@@ -143,7 +143,7 @@ const actualActiveIndex = savingBondsIndex && savingBondsIndex.startsWith('data0
 
   return (
     <>
-      <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} >
+      <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={historyChartDate} footer={footer} >
           <div className={chartStyle} data-testid="chartParent">
             <ResponsiveContainer height={485} width="99%">
               <PieChart width={400} height={400} onMouseLeave={onPieLeave}>

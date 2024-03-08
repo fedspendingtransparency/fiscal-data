@@ -91,7 +91,6 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
               const monstRecentMonthYear= `${monthNames[mostRecentDate.getMonth()]} ${mostRecentDate.getFullYear()}`;
               console.log(monstRecentMonthYear);
               setMonthYear(monstRecentMonthYear);
-              const mostRecentData = relevantData[0]; //
               const tenYearsAgo = new Date(mostRecentDate);
               tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
 
@@ -100,18 +99,17 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
                 return itemDate.getFullYear() === tenYearsAgo.getFullYear() && itemDate.getMonth() === tenYearsAgo.getMonth();
               });
               const processChartData = (dataSet, setIsHistorical = false) => {
-                // Calculation logic remains the same
+
                 const totalValue = dataSet.reduce((sum, item) => sum + item.debt_held_public_mil_amt, 0);
                 const savingsBondValue = dataSet.filter(item => item.security_class_desc === 'United States Savings Securities')
                   .reduce((sum, item) => sum + item.debt_held_public_mil_amt, 0);
                 const percentage = (savingsBondValue / totalValue) * 100;
 
                 if (setIsHistorical) {
-                  setHistoricalSavingBondsPercentage(percentage);
+                  setHistoricalSavingBondsPercentage(parseFloat(percentage.toFixed(2)));
                 } else {
-                  setSavingBondsPercentage(percentage);
                   const difference = savingBondsPercetage - historicalSavingBondsPercentage;
-                  setPercentageDifference(difference);
+                  setPercentageDifference(parseFloat(difference.toFixed(2)));
                 }
               };
 
@@ -123,6 +121,8 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
         }
       });
   }, []);
+
+  const higherOrLower = percentageDifference > 0 ? 'higher than' : 'lower than'
 
   const tableContent = [
     {
@@ -215,8 +215,8 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
         <HowSavingsBondsSoldChart chartData={chartData} monthYear={monthYear} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>Savings bonds make up {savingBondsPercetage}% of total debt held by the public through{' '}
-            {monthYear} . This is XX%  percentage points higher than/lower than/the same as 
-            the percent of debt held by the public ten years ago (XX% ).
+            {monthYear}. This is {percentageDifference}  percentage points {higherOrLower} the same as 
+            the percent of debt held by the public ten years ago ({historicalSavingBondsPercentage}%).
           </p>
         </VisualizationCallout>
       </div>
