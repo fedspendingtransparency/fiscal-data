@@ -21,6 +21,7 @@ import helpers from './helpers/helpers';
 
 const BarGraph = ({
   cardId,
+  chartTitle,
   graphData,
   graphIndex,
   valueKeys,
@@ -104,6 +105,7 @@ const BarGraph = ({
         role={'presentation'}
       >
         <ResponsiveBar
+          ariaLabel={chartTitle}
           data={data}
           keys={keys}
           indexBy={index}
