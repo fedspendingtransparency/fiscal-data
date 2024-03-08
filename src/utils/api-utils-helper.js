@@ -10,6 +10,7 @@ import moment from 'moment';
  * @param fileType {String}  - Accepted values are 'csv', 'xml', 'json'.
  * @param userFilter {null|object}  - Object to describe the user selected filter object
  * @param tableColumnSortData
+ * @param detailViewFilter
  * @returns {null|Object}    - Returns null if params are invalid, else returns object with desired
  * fields "apiId" and "params"
  */
@@ -74,6 +75,9 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
           }
         });
       });
+      if (defaultParamsWithColumnSelect.length === 0) {
+        defaultParamsWithColumnSelect = defaultSortParamsAsArray;
+      }
       defaultParamsWithColumnSelect = defaultParamsWithColumnSelect.join(',');
     }
   }
@@ -85,6 +89,10 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   } else {
     if (tableColumnFields !== '&fields=') {
       sortValue = defaultParamsWithColumnSelect;
+      const sortFields = defaultParamsWithColumnSelect.split(', ');
+      let sortFieldsString = sortFields.join(',');
+      sortFieldsString = sortFieldsString.replace('-', '');
+      tableColumnFields = tableColumnFields + ',' + sortFieldsString;
     } else {
       sortValue = apiSortParams;
     }
