@@ -58,7 +58,7 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
                 ...item,
                 debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt)
               }));
-
+              
               const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
                 const key = cur.security_class_desc;
                 if (!acc[key]) {
@@ -108,11 +108,8 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
                   setHistoricalSavingBondsPercentage(parseFloat(percentage.toFixed(1)));
                 } else {
                   setSavingBondsPercentage(parseFloat(percentage.toFixed(1)));
-                  const difference = savingBondsPercentage - historicalSavingBondsPercentage;
-                  setPercentageDifference(parseFloat(difference.toFixed(1)));
                 }
               };
-              
               processChartData(relevantData);
               if (historicalData.length) {
                 processChartData(historicalData, true);
@@ -121,6 +118,13 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
         }
       });
   }, []);
+
+  useEffect(() => {
+    if (savingBondsPercentage !== null && historicalSavingBondsPercentage !== null){
+      const difference = savingBondsPercentage - historicalSavingBondsPercentage;
+      setPercentageDifference(parseFloat(difference.toFixed(1)));
+    }
+  },[savingBondsPercentage,historicalSavingBondsPercentage]);
 
   const higherOrLower = percentageDifference > 0 ? 'higher than' : 'lower than'
 
