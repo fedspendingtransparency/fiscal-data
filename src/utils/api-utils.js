@@ -12,6 +12,7 @@ export const getIFetch = () => (apiKey ? authenticatingFetch(apiKey, fetch) : fe
 export const apiPrefix = `${API_BASE_URL}/services/api/fiscal_service/`;
 
 export const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+export const monthFullNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'NoNovemberv', 'December'];
 
 export const MAX_PAGE_SIZE = 10000;
 export const REACT_TABLE_MAX_NON_PAGINATED_SIZE = 20000;

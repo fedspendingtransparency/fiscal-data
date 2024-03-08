@@ -1,4 +1,4 @@
-export const fyEndpoint = 'v1/debt/mspd/mspd_table_1?filter=record_date';
+export const fyEndpoint = 'v1/debt/mspd/mspd_table_1?sort=-record_date&page[size]=1';
 export const mockDataOne = [
   { name: 'Marketable Securities', value: 391.2, securityType: 'Marketable' },
   { name: 'Non-Marketable Securities', value: 8.8, securityType: 'Nonmarketable' },

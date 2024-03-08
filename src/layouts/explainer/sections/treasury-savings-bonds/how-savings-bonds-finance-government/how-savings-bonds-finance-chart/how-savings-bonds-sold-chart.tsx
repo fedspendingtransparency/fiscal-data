@@ -54,12 +54,11 @@ useEffect(() => {
   basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
     if (res.data) {
       const data = res.data[0];
-      console.log('data', data)
+      console.log(res.data)
       setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
     }
   });
 }, []);
-console.log(chartData)
   const intragovernmental = (
     <GlossaryPopoverDefinition
       term={'Intragovernmental Holdings'}
@@ -115,7 +114,7 @@ const actualActiveIndex = savingBondsIndex && savingBondsIndex.startsWith('data0
       U.S. Treasury Monthly Statement of the Public Debt (MSPD) </CustomLink>{' '} to explore and download this data. 
     </p>
   );
-  console.log('MONTH YEAR', monthYear);
+
   const chartCopy = {
   title: `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of ${monthYear}` ,
   altText:

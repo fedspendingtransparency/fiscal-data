@@ -13,8 +13,8 @@ import { breakpointLg } from '../../../explainer.module.scss';
 import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-of-savings-bonds-responsive';
 import HowSavingsBondsSoldChart from './how-savings-bonds-finance-chart/how-savings-bonds-sold-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
-import { basicFetch, apiPrefix, monthNames } from '../../../../../utils/api-utils';
-import { calculatePercentage } from '../../../../../utils/api-utils';
+import { basicFetch, apiPrefix, monthFullNames } from '../../../../../utils/api-utils';
+
 interface ChartDataItem {
   name: string;
   value: number;
@@ -58,6 +58,7 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
                 ...item,
                 debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt)
               }));
+
               const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
                 const key = cur.security_class_desc;
                 if (!acc[key]) {
@@ -66,8 +67,10 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
                 acc[key].value += cur.debt_held_public_mil_amt;
                 return acc;
               }, {});
+
               const processedData = Object.values(summedData);
               const totalValue = Number(processedData.reduce((sum, item) => sum + item.value, 0));
+
               const dataWithPercentages = processedData.map(item => ({
                 ...item,
                 percent: (item.value/totalValue) * 100
@@ -77,28 +80,29 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
               a.securityType === 'Nonmarketable' ? 1 : b.securityType !== 'Nonmarketanble' ? -1 : 0
               );
               setChartData(dataWithPercentages)
-              console.log(chartData);
+
               const mostRecentItem = res.data.reduce((mostRecent, currentItem) => {
                 const currentDate = new Date(currentItem.record_date);
                 return currentDate > new Date(mostRecent.record_date) ? currentItem : mostRecent;
               }, res.data[0]);
+
               const mostRecentDate = new Date(mostRecentItem.record_date);
-              const monstRecentMonthYear= `${monthNames[mostRecentDate.getMonth()]} ${mostRecentDate.getFullYear()}`;
-              console.log(monstRecentMonthYear);
+              const monstRecentMonthYear= `${monthFullNames[mostRecentDate.getMonth()]} ${mostRecentDate.getFullYear()}`;
               setMonthYear(monstRecentMonthYear);
+
               const tenYearsAgo = new Date(mostRecentDate);
               tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
+
               const historicalData = relevantData.filter(item => {
                 const itemDate = new Date(item.record_date);
                 return itemDate.getFullYear() === tenYearsAgo.getFullYear() && itemDate.getMonth() === tenYearsAgo.getMonth();
               });
-              const processChartData = (dataSet, setIsHistorical = false) => {
 
+              const processChartData = (dataSet, setIsHistorical = false) => {
                 const totalValue = dataSet.reduce((sum, item) => sum + item.debt_held_public_mil_amt, 0);
                 const savingsBondValue = dataSet.filter(item => item.security_class_desc === 'United States Savings Securities')
                   .reduce((sum, item) => sum + item.debt_held_public_mil_amt, 0);
                 const percentage = (savingsBondValue / totalValue) * 100;
-                console.log('percent', percentage)
 
                 if (setIsHistorical) {
                   setHistoricalSavingBondsPercentage(parseFloat(percentage.toFixed(1)));
@@ -108,6 +112,7 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
                   setPercentageDifference(parseFloat(difference.toFixed(1)));
                 }
               };
+              
               processChartData(relevantData);
               if (historicalData.length) {
                 processChartData(historicalData, true);
