@@ -36,6 +36,8 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [savingBondsPercetage, setSavingBondsPercentage] = useState<number | null>(null);
+  const [historicalSavingBondsPercentage, setHistoricalSavingBondsPercentage] = useState<number | null>(null);
+  const [percentageDifference, setPercentageDifference] = useState<number | null>(null);
   const [monthYear, setMonthYear] = useState<string | null>(null);
   const isDesktop = width >= pxToNumber(breakpointLg);
 
@@ -89,6 +91,34 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
               const monstRecentMonthYear= `${monthNames[mostRecentDate.getMonth()]} ${mostRecentDate.getFullYear()}`;
               console.log(monstRecentMonthYear);
               setMonthYear(monstRecentMonthYear);
+              const mostRecentData = relevantData[0]; //
+              const tenYearsAgo = new Date(mostRecentDate);
+              tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
+
+              const historicalData = relevantData.filter(item => {
+                const itemDate = new Date(item.record_date);
+                return itemDate.getFullYear() === tenYearsAgo.getFullYear() && itemDate.getMonth() === tenYearsAgo.getMonth();
+              });
+              const processChartData = (dataSet, setIsHistorical = false) => {
+                // Calculation logic remains the same
+                const totalValue = dataSet.reduce((sum, item) => sum + item.debt_held_public_mil_amt, 0);
+                const savingsBondValue = dataSet.filter(item => item.security_class_desc === 'United States Savings Securities')
+                  .reduce((sum, item) => sum + item.debt_held_public_mil_amt, 0);
+                const percentage = (savingsBondValue / totalValue) * 100;
+
+                if (setIsHistorical) {
+                  setHistoricalSavingBondsPercentage(percentage);
+                } else {
+                  setSavingBondsPercentage(percentage);
+                  const difference = savingBondsPercetage - historicalSavingBondsPercentage;
+                  setPercentageDifference(difference);
+                }
+              };
+
+              processChartData(relevantData);
+              if (historicalData.length) {
+                processChartData(historicalData, true);
+              }
           });
         }
       });
