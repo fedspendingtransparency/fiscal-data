@@ -78,11 +78,6 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
               );
               setChartData(dataWithPercentages)
               console.log(chartData);
-              const savingBonds = chartData.find(item => item.name === 'United States Savings Securities');
-              if (savingBonds) {
-                const roundedPercent = parseFloat(savingBonds.percent.toFixed(1))
-                setSavingBondsPercentage(roundedPercent);
-              }
               const mostRecentItem = res.data.reduce((mostRecent, currentItem) => {
                 const currentDate = new Date(currentItem.record_date);
                 return currentDate > new Date(mostRecent.record_date) ? currentItem : mostRecent;
@@ -93,7 +88,6 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
               setMonthYear(monstRecentMonthYear);
               const tenYearsAgo = new Date(mostRecentDate);
               tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
-
               const historicalData = relevantData.filter(item => {
                 const itemDate = new Date(item.record_date);
                 return itemDate.getFullYear() === tenYearsAgo.getFullYear() && itemDate.getMonth() === tenYearsAgo.getMonth();
@@ -104,15 +98,16 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
                 const savingsBondValue = dataSet.filter(item => item.security_class_desc === 'United States Savings Securities')
                   .reduce((sum, item) => sum + item.debt_held_public_mil_amt, 0);
                 const percentage = (savingsBondValue / totalValue) * 100;
+                console.log('percent', percentage)
 
                 if (setIsHistorical) {
                   setHistoricalSavingBondsPercentage(parseFloat(percentage.toFixed(1)));
                 } else {
+                  setSavingBondsPercentage(parseFloat(percentage.toFixed(1)));
                   const difference = savingBondsPercentage - historicalSavingBondsPercentage;
                   setPercentageDifference(parseFloat(difference.toFixed(1)));
                 }
               };
-
               processChartData(relevantData);
               if (historicalData.length) {
                 processChartData(historicalData, true);
