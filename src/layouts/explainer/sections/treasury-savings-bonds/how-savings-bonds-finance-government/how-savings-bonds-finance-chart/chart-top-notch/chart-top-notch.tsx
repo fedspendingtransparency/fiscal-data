@@ -44,7 +44,7 @@ const ChartTopNotch = (props: ActiveShapeProps) => {
 
   return (
     <g>
-      <text x={(ex + (cos >= 0 ? 1 : -1) * 12) +45 } y={ey - 12} dy={8} textAnchor="middle">
+      <text x={(ex + (cos >= 0 ? 1 : -1) * 12) +45 } y={ey - 12} dy={8} textAnchor="middle" fontWeight={600}>
         {payload.name}
       </text>
       <Sector
@@ -59,7 +59,7 @@ const ChartTopNotch = (props: ActiveShapeProps) => {
       />
       <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={'#555555'} fill="none" />
 
-      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey + 13} textAnchor={textAnchor} fill="#333">{`${(percent).toFixed(2)}%`}</text>
+      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey + 13} textAnchor={textAnchor} fill="#333" fontWeight={400}>{`${(percent).toFixed(1)}%`}</text>
     </g>
   );
 };

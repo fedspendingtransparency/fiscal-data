@@ -127,7 +127,7 @@ export const calculatePercentage = (data) => {
   0);
   return data.map(item => ({
     ...item,
-    percent: Number(((item.value / total) * 100).toFixed(2))
+    percent: Number(((item.value / total) * 100).toFixed(1))
   }));
 };
 
