@@ -131,20 +131,6 @@ export const calculatePercentage = (data) => {
   }));
 };
 
-
-export const calculatePercentage = (data) => {
-  if(!Array.isArray(data)){
-    return[];
-  }
-  const total = data.reduce((acc, curr) => acc + curr.value, 
-  0);
-  return data.map(item => ({
-    ...item,
-    percent: Number(((item.value / total) * 100).toFixed(2))
-  }));
-};
-
-
 export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewValue, detailViewFilterParam, queryClient) => {
   const endpoint = table.endpoint;
   const dateField = table.dateField;
