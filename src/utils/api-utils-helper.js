@@ -34,6 +34,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   let tableColumnFields = '&fields=';
   let tableColumnSort = '';
   let tableColumnFilter = '';
+  let fieldsAsArray;
   let defaultParamsWithColumnSelect = [];
   if (userFilter?.value) {
     filterAddendum = `,${api.userFilter.field}:eq:${userFilter.value}`;
@@ -66,7 +67,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     });
     // If the user has engaged the column select, apply the default sort params to the applicable selected columns
     if (tableColumnFields !== '&fields=') {
-      const fieldsAsArray = tableColumnFields.replace('&fields=', '').split(',');
+      fieldsAsArray = tableColumnFields.replace('&fields=', '').split(',');
       const defaultSortParamsAsArray = apiSortParams.split(',');
       defaultSortParamsAsArray.filter(element => {
         fieldsAsArray.forEach(field => {
@@ -88,11 +89,15 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     sortValue = tableColumnSort;
   } else {
     if (tableColumnFields !== '&fields=') {
+      // Sort parameters always need to be included in fields
       sortValue = defaultParamsWithColumnSelect;
-      const sortFields = defaultParamsWithColumnSelect.split(', ');
-      let sortFieldsString = sortFields.join(',');
-      sortFieldsString = sortFieldsString.replace('-', '');
-      tableColumnFields = tableColumnFields + ',' + sortFieldsString;
+      // Any duplicates need to be removed when sort params are combined with fields
+      const sortFields = defaultParamsWithColumnSelect
+        .split(', ')
+        .join(',')
+        .replace('-', '');
+      const set = new Set([...fieldsAsArray, ...sortFields.split(',')]);
+      tableColumnFields = '&fields=' + Array.from(set).join(',');
     } else {
       sortValue = apiSortParams;
     }
