@@ -29,6 +29,14 @@ describe('glossary term', () => {
       url_display: 'link',
       url_path: 'example.com',
     },
+    {
+      id: 4,
+      term: 'Hello again again',
+      site_page: 'Test Page',
+      definition: 'Test for term with custom style.',
+      url_display: '',
+      url_path: '',
+    },
   ];
 
   beforeEach(() => {
@@ -87,9 +95,32 @@ describe('glossary term', () => {
     const glossaryTermButton = getByRole('button', { name: termText });
     glossaryTermButton.click();
 
-    const definitionSplit = getByText('Test for term', { exact: false });
+    const definitionText = getByText('Test for term', { exact: false });
+    expect(getByRole('link', { name: 'link' })).toBeInTheDocument();
+    expect(definitionText.textContent).toEqual(glossaryDefinition);
+  });
 
-    expect(definitionSplit.textContent).toEqual(glossaryDefinition);
+  it('adds the custom style into the definition', () => {
+    const termText = 'Hello again again';
+    const testPage = 'Test Page';
+    const customStyleConfig = {
+      text: 'custom',
+      index: 0,
+      format: 'underline',
+    };
+
+    const { getByRole, getByText } = render(
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
+        <GlossaryPopoverDefinition term={termText} page={testPage} customFormat={customStyleConfig}>
+          {termText}
+        </GlossaryPopoverDefinition>
+      </GlossaryContext.Provider>
+    );
+    const glossaryTermButton = getByRole('button', { name: termText });
+    glossaryTermButton.click();
+
+    const styledText = getByText('custom');
+    expect(styledText).toHaveStyle({ textDecoration: 'underline' });
   });
 
   it('correctly displays the definition for the term associated with the specified page', () => {
