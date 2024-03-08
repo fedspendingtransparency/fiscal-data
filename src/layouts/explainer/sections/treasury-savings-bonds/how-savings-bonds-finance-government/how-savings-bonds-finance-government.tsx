@@ -87,8 +87,8 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
               }, res.data[0]);
 
               const mostRecentDate = new Date(mostRecentItem.record_date);
-              const monstRecentMonthYear= `${monthFullNames[mostRecentDate.getMonth()]} ${mostRecentDate.getFullYear()}`;
-              setMonthYear(monstRecentMonthYear);
+              const montRecentMonthYear= `${monthFullNames[mostRecentDate.getMonth()]} ${mostRecentDate.getFullYear()}`;
+              setMonthYear(montRecentMonthYear);
 
               const tenYearsAgo = new Date(mostRecentDate);
               tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
@@ -219,7 +219,7 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
         <HowSavingsBondsSoldChart chartData={chartData} monthYear={monthYear} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>Savings bonds make up {savingBondsPercentage}% of total debt held by the public through{' '}
-            {monthYear}. This is {percentageDifference}  percentage points {higherOrLower} the same as 
+            {monthYear}. This is {percentageDifference} percentage points {higherOrLower} the same as 
             the percent of debt held by the public ten years ago ({historicalSavingBondsPercentage}%).
           </p>
         </VisualizationCallout>
