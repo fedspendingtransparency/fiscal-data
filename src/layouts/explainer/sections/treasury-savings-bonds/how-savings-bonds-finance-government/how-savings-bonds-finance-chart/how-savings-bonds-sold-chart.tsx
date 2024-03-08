@@ -11,6 +11,7 @@ import GlossaryPopoverDefinition from '../../../../../../components/glossary/glo
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 import { basicFetch, apiPrefix } from '../../../../../../utils/api-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
+import { monthFullNames } from '../../../../../../utils/api-utils';
 
 interface ChartDataItem {
   name: string;
@@ -26,7 +27,6 @@ interface HowSavingsBondsSoldChartProps {
   glossary: any; 
   glossaryClickHandler: (term: string) => void;
   chartData: ChartDataItem[];
-  monthYear: string;
 }
 
 
@@ -34,7 +34,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   glossary,
   glossaryClickHandler,
   chartData,
-  monthYear,
 }) => {
 
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
@@ -60,6 +59,8 @@ useEffect(() => {
     }
   });
 }, []);
+
+  const monthYear = historyChartDate ? `${monthFullNames[historyChartDate.getMonth()]} ${historyChartDate.getFullYear()}` : ""
   const intragovernmental = (
     <GlossaryPopoverDefinition
       term={'Intragovernmental Holdings'}

@@ -216,7 +216,7 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
         up the total {debtHeldByPublic}.
       </span>
       <div className={visWithCallout}>
-        <HowSavingsBondsSoldChart chartData={chartData} monthYear={monthYear} />
+        <HowSavingsBondsSoldChart chartData={chartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>Savings bonds make up {savingBondsPercentage}% of total debt held by the public through{' '}
             {monthYear}. This is {percentageDifference} percentage points {higherOrLower} the same as 
