@@ -8,7 +8,7 @@ import ImageContainer from '../../../explainer-components/image-container/image-
 import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poster.png';
 import PresidentKennedy from '../../../../../../static/images/savings-bonds/President-Kennedy-Holding-Bond.png';
 import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
-import { yAxisFormatter } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import { getShortForm } from '../../../../../utils/rounding-utils';
 import IBondSalesChart from './i-bond-sales-chart/i-bond-sales-chart';
 import { graphql, useStaticQuery } from 'gatsby';
 import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
@@ -123,7 +123,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
         <SavingsBondsSoldByTypeChart chartData={chartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
-            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when {yAxisFormatter(mostBondSales)} and {yAxisFormatter(secondMostBondSales)} bonds were sold,
+            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when {getShortForm(mostBondSales)} and {getShortForm(secondMostBondSales)} bonds were sold,
             respectively.
           </p>
         </VisualizationCallout>

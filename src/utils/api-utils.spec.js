@@ -3,6 +3,7 @@ import * as helpers from './api-utils-helper';
 import { TableCache } from '../components/dataset-data/table-cache/table-cache';
 import { mockFetchApi } from './mock-utils';
 import { mockPivotView, mockDataToPivot, mockPivotedData } from './api-utils-test-data';
+import { QueryClient } from '@tanstack/react-query';
 
 describe('Api Utils function library', () => {
   const unitTestObjects = helpers.unitTestObjects;
@@ -84,7 +85,8 @@ describe('Api Utils function library', () => {
       { isCanceled: false, abortController: { signal: null } },
       new TableCache(),
       '2022-10-10',
-      'index_date'
+      'index_date',
+      new QueryClient()
     );
     expect(global.fetch.mock.calls).toEqual([
       [
@@ -121,7 +123,10 @@ describe('Api Utils function library', () => {
       mockRange,
       selectedPivotWithFilters,
       { isCanceled: false, abortController: { signal: null } },
-      new TableCache()
+      new TableCache(),
+      '2022-10-10',
+      'index_date',
+      new QueryClient()
     );
     expect(global.fetch.mock.calls[0][0]).toContain(
       '&filter=test_date_field%3Agte%3A2021-01-01%2Ctest_date_field%3Alte%3A2021-02-01%2Cfield1%3Aeq%3ABanana%2Cfield3%3Aeq%3AOrange&'
