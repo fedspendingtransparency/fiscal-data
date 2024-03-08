@@ -105,7 +105,7 @@ const BarGraph = ({
         role={'presentation'}
       >
         <ResponsiveBar
-          ariaLabel={chartTitle}
+          ariaLabel={`${chartTitle} bar chart`}
           data={data}
           keys={keys}
           indexBy={index}
