@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { chartStyle  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { chartStyle, chartContainer  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
+import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
 import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
@@ -20,26 +20,17 @@ interface DataItem {
 const color = '#4A0072';
 const color2 = '#B04ABD';
 
-
-interface HowSavingsBondsSoldChartProps {
-  glossary: any; 
-  glossaryClickHandler: (term: string) => void;
-}
-
-const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps> = ({
-  glossary,
-  glossaryClickHandler,
-}) => {
+const HowSavingsBondsSoldChart: FunctionComponent = () => {
 
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
+  const [chartHeight, setChartHeight] = useState<number>(400);
+  const [chartWidth, setChartWidth] = useState<number>(400);
 
   const intragovernmental = (
     <GlossaryPopoverDefinition
       term={'Intragovernmental Holdings'}
       page={'Savings Bond Explainer'}
-      glossary={glossary}
-      glossaryClickHandler={glossaryClickHandler}
     >
       intragovernmental
     </GlossaryPopoverDefinition>
@@ -83,6 +74,26 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     setActiveSecurityType(security);
   };
 
+  const updateChartHeight = () => {
+    const screenWidth = window.innerWidth;
+    if (screenWidth < 480) {
+      setChartHeight(360);
+      setChartWidth(335)
+    } else if (screenWidth >= 480 && screenWidth < 768) {
+      setChartHeight(382);
+      setChartWidth(382);
+    }else  {
+      setChartHeight(400);
+      setChartWidth(400);
+    }
+  }
+  useEffect(() => {
+    window.addEventListener('resize', updateChartHeight);
+    updateChartHeight();
+    return () => window.removeEventListener('resize', updateChartHeight);
+  }, [])
+
+
   const onChartLeave = () => {
     setActiveSecurityType(null);
   };
@@ -102,15 +113,15 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} >
           <div className={chartStyle} data-testid="chartParent">
-            <ResponsiveContainer height={485} width="99%">
-              <PieChart width={400} height={400} onMouseLeave={onPieLeave}>
+            <div className={chartContainer}>
+            <PieChart width={chartWidth} height={chartHeight} onMouseLeave={onPieLeave}>
                 <Pie 
                   data={data1WidthPercentage} 
                   dataKey="percent" 
                   cx="50%" 
                   cy="50%" 
-                  innerRadius={100} 
-                  outerRadius={170} 
+                  innerRadius={'40%'} 
+                  outerRadius={'74.5%'} 
                   startAngle={-270} 
                   endAngle={90} 
                   onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
@@ -132,8 +143,8 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   dataKey="percent" 
                   cx="50%" 
                   cy="50%" 
-                  innerRadius={171} 
-                  outerRadius={200} 
+                  innerRadius={'75%'} 
+                  outerRadius={'90%'} 
                   startAngle={-270} 
                   endAngle={90} 
                   onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}
@@ -150,7 +161,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                 </Pie>
                 <Tooltip content={<CustomTooltip />} />
               </PieChart>
-            </ResponsiveContainer>
+            </div>
             <CustomLegend onLegendEnter={onLegendEnter} onChartLeave={onChartLeave} primaryColor={color} secondaryColor={color2} />
           </div>
       </ChartContainer>

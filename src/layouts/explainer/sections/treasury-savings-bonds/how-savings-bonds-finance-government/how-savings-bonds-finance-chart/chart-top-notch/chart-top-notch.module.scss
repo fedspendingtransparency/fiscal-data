@@ -1,0 +1,12 @@
+@import 'src/variables.module';
+
+.topNotchText {
+  fill: $font-title;
+  font-size: $font-size-14;
+  font-weight: 600;
+}
+.topNotchPercentage {
+  fill: $font-title;
+  font-size: $font-size-14;
+  font-weight: 400;
+}
