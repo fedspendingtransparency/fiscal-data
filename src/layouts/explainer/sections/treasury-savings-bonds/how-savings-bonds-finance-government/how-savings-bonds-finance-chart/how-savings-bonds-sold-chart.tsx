@@ -87,8 +87,8 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const updateChartHeight = () => {
     const screenWidth = window.innerWidth;
     if (screenWidth < 480) {
-      setChartHeight(365);
-      setChartWidth(365)
+      setChartHeight(360);
+      setChartWidth(335)
     } else if (screenWidth >= 480 && screenWidth < 768) {
       setChartHeight(382);
       setChartWidth(382);
