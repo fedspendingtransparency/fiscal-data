@@ -20,15 +20,7 @@ interface DataItem {
 const color = '#4A0072';
 const color2 = '#B04ABD';
 
-interface HowSavingsBondsSoldChartProps {
-  glossary: any; 
-  glossaryClickHandler: (term: string) => void;
-}
-
-const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps> = ({
-  glossary,
-  glossaryClickHandler,
-}) => {
+const HowSavingsBondsSoldChart: FunctionComponent = () => {
 
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
@@ -39,8 +31,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     <GlossaryPopoverDefinition
       term={'Intragovernmental Holdings'}
       page={'Savings Bond Explainer'}
-      glossary={glossary}
-      glossaryClickHandler={glossaryClickHandler}
     >
       intragovernmental
     </GlossaryPopoverDefinition>
