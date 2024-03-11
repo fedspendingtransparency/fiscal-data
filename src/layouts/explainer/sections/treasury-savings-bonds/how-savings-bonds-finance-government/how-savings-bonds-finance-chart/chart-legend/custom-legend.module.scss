@@ -1,9 +1,7 @@
 @import 'src/variables.module';
 
 .legendContainer {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 .legendBox {
   width: 24px;
@@ -14,4 +12,14 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  margin-bottom: 1rem;
 }
+.centerContainer {
+  display: flex;
+  justify-content: space-around;
+  @media (max-width: $breakpoint-md) {
+    justify-content: center;
+    display: grid;
+  }
+}
+
