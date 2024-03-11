@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 import CustomTooltip from './custom-tooltip';
-import { getShortForm } from '../../../../../../../utils/rounding-utils';
+import { yAxisFormatter } from '../savings-bonds-sold-by-type-chart-helper';
 describe('Savings Bonds Sold By Type Tooltip', () => {
   const mockPayload = [
     {
@@ -28,7 +28,7 @@ describe('Savings Bonds Sold By Type Tooltip', () => {
     const { getByTestId, getByText } = render(<CustomTooltip payload={mockPayload} label={2020} hiddenFields={[]} />);
     expect(getByTestId('CustomTooltip')).toBeInTheDocument();
     expect(getByText('2020')).toBeInTheDocument();
-    expect(getByText(`$${getShortForm(mockPayload[0].payload.AD)}`)).toBeInTheDocument();
+    expect(getByText(`${yAxisFormatter(mockPayload[0].payload.AD)}`)).toBeInTheDocument();
   });
 
   it('does not render the tooltip when it is inactive', () => {
@@ -39,7 +39,7 @@ describe('Savings Bonds Sold By Type Tooltip', () => {
   it('does not render tooltip values when it is undefined', () => {
     const { getByTestId, queryByText } = render(<CustomTooltip payload={mockPayload_undefined} hiddenFields={[]} />);
     expect(getByTestId('CustomTooltip')).toBeInTheDocument();
-    expect(queryByText(`$${getShortForm(mockPayload[0].payload.E)}`)).toBeInTheDocument();
+    expect(queryByText(`${yAxisFormatter(mockPayload[0].payload.E)}`)).toBeInTheDocument();
     expect(queryByText(`$${mockPayload[0].payload.F}`)).not.toBeInTheDocument();
   });
 });
