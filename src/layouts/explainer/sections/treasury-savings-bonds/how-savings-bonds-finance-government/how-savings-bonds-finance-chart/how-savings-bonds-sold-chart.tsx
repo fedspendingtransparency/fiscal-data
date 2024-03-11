@@ -1,15 +1,14 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { chartStyle  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { chartStyle, chartContainer  } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
+import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
 import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
 import { mockDataTwo, chartCopy } from './how-savings-bonds-sold-chart-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
-import { useWindowSize } from '../../../../../../hooks/windowResize';
 
 interface DataItem {
   name: string;
@@ -21,11 +20,11 @@ interface DataItem {
 const color = '#4A0072';
 const color2 = '#B04ABD';
 
-
 interface HowSavingsBondsSoldChartProps {
   glossary: any; 
   glossaryClickHandler: (term: string) => void;
 }
+
 
 const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps> = ({
   glossary,
@@ -34,7 +33,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
 
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
-  const [chartHeight, setChartHeight] = useState<number>(485);
 
   const intragovernmental = (
     <GlossaryPopoverDefinition
@@ -84,27 +82,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const onLegendEnter = (security: string) => {
     setActiveSecurityType(security);
   };
-  const breakpoint = {
-    desktop: 992,
-    medium: 768,
-    tablet: 600,
-  };
-
-  const updateChartHeight = () => {
-    const screenWidth = window.innerWidth;
-    if (screenWidth < 480) {
-      setChartHeight(370);
-    } else if (screenWidth >= 480 && screenWidth < 768) {
-      setChartHeight(400);
-    }else  {
-      setChartHeight(485);
-    }
-  }
-  useEffect(() => {
-    window.addEventListener('resize', updateChartHeight);
-    updateChartHeight();
-    return () => window.removeEventListener('resize', updateChartHeight);
-  }, [])
 
 
   const onChartLeave = () => {
@@ -126,8 +103,8 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} >
           <div className={chartStyle} data-testid="chartParent">
-            <ResponsiveContainer height={chartHeight} width="99%">
-              <PieChart width={400} height={400} onMouseLeave={onPieLeave}>
+            <div className={chartContainer}>
+            <PieChart width={400} height={400} onMouseLeave={onPieLeave}>
                 <Pie 
                   data={data1WidthPercentage} 
                   dataKey="percent" 
@@ -174,7 +151,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                 </Pie>
                 <Tooltip content={<CustomTooltip />} />
               </PieChart>
-            </ResponsiveContainer>
+            </div>
             <CustomLegend onLegendEnter={onLegendEnter} onChartLeave={onChartLeave} primaryColor={color} secondaryColor={color2} />
           </div>
       </ChartContainer>
