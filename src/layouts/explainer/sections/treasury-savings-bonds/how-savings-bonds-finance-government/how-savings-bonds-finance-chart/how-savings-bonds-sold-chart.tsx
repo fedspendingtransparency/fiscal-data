@@ -25,7 +25,6 @@ interface HowSavingsBondsSoldChartProps {
   glossaryClickHandler: (term: string) => void;
 }
 
-
 const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps> = ({
   glossary,
   glossaryClickHandler,
@@ -33,6 +32,8 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
 
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
+  const [chartHeight, setChartHeight] = useState<number>(400);
+  const [chartWidth, setChartWidth] = useState<number>(400);
 
   const intragovernmental = (
     <GlossaryPopoverDefinition
@@ -83,6 +84,25 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     setActiveSecurityType(security);
   };
 
+  const updateChartHeight = () => {
+    const screenWidth = window.innerWidth;
+    if (screenWidth < 480) {
+      setChartHeight(350);
+      setChartWidth(350)
+    } else if (screenWidth >= 480 && screenWidth < 768) {
+      setChartHeight(375);
+      setChartWidth(375);
+    }else  {
+      setChartHeight(400);
+      setChartWidth(400);
+    }
+  }
+  useEffect(() => {
+    window.addEventListener('resize', updateChartHeight);
+    updateChartHeight();
+    return () => window.removeEventListener('resize', updateChartHeight);
+  }, [])
+
 
   const onChartLeave = () => {
     setActiveSecurityType(null);
@@ -104,7 +124,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} >
           <div className={chartStyle} data-testid="chartParent">
             <div className={chartContainer}>
-            <PieChart width={400} height={400} onMouseLeave={onPieLeave}>
+            <PieChart width={chartWidth} height={chartHeight} onMouseLeave={onPieLeave}>
                 <Pie 
                   data={data1WidthPercentage} 
                   dataKey="percent" 
