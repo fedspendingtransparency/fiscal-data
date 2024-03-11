@@ -12,7 +12,7 @@ interface DataItem {
 const CustomTooltip: FunctionComponent<TooltipProps<number, string>> = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload as DataItem;
-    const color = payload[0].color || '#4A0072';
+    const color = data.securityType === 'Marketable' ? '#4A0072' : '#B04ABD';
 
     return (
       <div className={tooltipContainer} >

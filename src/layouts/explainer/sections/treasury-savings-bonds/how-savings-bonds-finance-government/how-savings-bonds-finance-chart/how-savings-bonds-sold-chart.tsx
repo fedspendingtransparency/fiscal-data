@@ -109,8 +109,8 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   dataKey="percent" 
                   cx="50%" 
                   cy="50%" 
-                  innerRadius={100} 
-                  outerRadius={170} 
+                  innerRadius={'40%'} 
+                  outerRadius={'74.5%'} 
                   startAngle={-270} 
                   endAngle={90} 
                   onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
@@ -132,8 +132,8 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   dataKey="percent" 
                   cx="50%" 
                   cy="50%" 
-                  innerRadius={171} 
-                  outerRadius={200} 
+                  innerRadius={'75%'} 
+                  outerRadius={'90%'} 
                   startAngle={-270} 
                   endAngle={90} 
                   onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}
