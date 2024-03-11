@@ -56,7 +56,7 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   it('formats y axis values', () => {
     const { getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} />);
     expect(getByText('$24.5 B')).toBeInTheDocument();
-    expect(getByText('$21 B')).toBeInTheDocument();
+    expect(getByText('$21.0 B')).toBeInTheDocument();
     expect(getByText('$0')).toBeInTheDocument();
   });
 
