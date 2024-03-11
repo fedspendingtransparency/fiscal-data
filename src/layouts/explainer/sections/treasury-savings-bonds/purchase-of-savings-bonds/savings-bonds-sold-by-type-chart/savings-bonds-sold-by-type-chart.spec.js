@@ -64,7 +64,7 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     const formattedTrillion = yAxisFormatter(25000000000000);
     expect(formattedTrillion).toBe('$25.00 T');
     const formattedBillion = yAxisFormatter(25000000000);
-    expect(formattedBillion).toBe('$25 B');
+    expect(formattedBillion).toBe('$25.0 B');
     const formattedBillionDecimal = yAxisFormatter(25600000000);
     expect(formattedBillionDecimal).toBe('$25.6 B');
     const formattedMillion = yAxisFormatter(25000000);
