@@ -117,7 +117,7 @@ export const columnsConstructorData = (
                 let formattedValue;
                 const customFormat = customFormatConfig?.find(config => config.type === 'STRING' && config.fields.includes(property));
                 if (value !== undefined) {
-                  if (ENV_ID === 'uat' || ENV_ID === 'qat' || ENV_ID === 'dev') {
+                  if (ENV_ID === 'qat' || ENV_ID === 'dev') {
                     if (tableName === 'Treasury Securities Auctions Data') {
                       if (property === 'pdf_filenm_announcemt' || property === 'xml_filenm_announcemt') {
                         return <CustomLink url={`/static-data/published-reports/auctions-query/announcements/${value}`}>{value}</CustomLink>;
