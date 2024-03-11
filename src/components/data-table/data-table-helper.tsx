@@ -4,7 +4,9 @@ import moment from 'moment';
 import { currencyFormatter, numberFormatter, customNumberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
+import CustomLink from '../links/custom-link/custom-link';
 import { updateTableButton } from './data-table.module.scss';
+import { ENV_ID } from 'gatsby-env-variables';
 
 const customFormat = (stringValue, decimalPlaces) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
@@ -115,6 +117,22 @@ export const columnsConstructorData = (
                 let formattedValue;
                 const customFormat = customFormatConfig?.find(config => config.type === 'STRING' && config.fields.includes(property));
                 if (value !== undefined) {
+                  if (ENV_ID === 'uat' || ENV_ID === 'qat' || ENV_ID === 'dev') {
+                    if (tableName === 'Treasury Securities Auctions Data') {
+                      if (property === 'pdf_filenm_announcemt' || property === 'xml_filenm_announcemt') {
+                        return <CustomLink url={`/static-data/published-reports/auctions-query/announcements/${value}`}>{value}</CustomLink>;
+                      }
+                      if (property === 'pdf_filenm_comp_results' || property === 'xml_filenm_comp_results') {
+                        return <CustomLink url={`/static-data/published-reports/auctions-query/results/${value}`}>{value}</CustomLink>;
+                      }
+                      if (property === 'pdf_filenm_noncomp_results') {
+                        return <CustomLink url={`/static-data/published-reports/auctions-query/ncr/${value}`}>{value}</CustomLink>;
+                      }
+                      if (property === 'pdf_filenm_spec_announcemt') {
+                        return <CustomLink url={`/static-data/published-reports/auctions-query/spec-ann/${value}`}>{value}</CustomLink>;
+                      }
+                    }
+                  }
                   if (value.includes('%')) {
                     formattedValue = value.replace(/-/g, '\u2011');
                   } else if (customFormat && customFormat.customType === 'dateList') {
