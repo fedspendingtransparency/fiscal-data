@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { toolTip, tooltipLabel, box, labelContainer, valueContainer } from './custom-tooltip.module.scss';
-import { savingsBonds, savingsBondsMap } from '../savings-bonds-sold-by-type-chart-helper';
-import { getShortForm } from '../../../../../../../utils/rounding-utils';
+import { savingsBonds, savingsBondsMap, yAxisFormatter } from '../savings-bonds-sold-by-type-chart-helper';
 
 interface IPayload {
   payload: {
@@ -26,7 +25,7 @@ const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, hidd
           .map((id, index) => {
             const value = content[id];
             const label = savingsBondsMap[id].label;
-            const displayValue = value < 0 ? `-$${getShortForm(value)}` : `$${getShortForm(value)}`;
+            const displayValue = `${yAxisFormatter(parseFloat(value))}`;
             if (value) {
               return (
                 <div className={valueContainer} key={index}>

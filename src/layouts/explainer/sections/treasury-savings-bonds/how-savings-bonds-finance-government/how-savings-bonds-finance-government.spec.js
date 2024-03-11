@@ -4,6 +4,13 @@ import '@testing-library/jest-dom';
 import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-government';
 
 describe('How Savings Bonds Finance The Government Section', () => {
+  class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  window.ResizeObserver = ResizeObserver;
+
   it('renders the section', () => {
     render(<HowSavingsBondsFinanceGovernment />);
     expect(screen.getByText('Different types of securities earn interest in different ways.', { exact: false })).toBeInTheDocument();

@@ -84,25 +84,24 @@ export const mockData = [
 export const sortByType = (data, yearField, descField, amtField) => {
   const finalData = [];
   const years = [];
-  if (data) {
-    data.forEach(entry => {
-      const fy = entry[yearField];
-      const securityClass = entry[descField] === 'A...D' ? 'AD' : entry[descField];
-      const netSalesAmt = Number(entry[amtField]);
-      let newEntry = {};
-      if (!years.includes(fy)) {
-        years.push(fy);
-        newEntry['year'] = fy;
-        newEntry[securityClass] = netSalesAmt;
-        finalData.push(newEntry);
-      } else {
-        const entryIndex = finalData.findIndex(val => val.year === fy);
-        newEntry = finalData[entryIndex];
-        newEntry[securityClass] = newEntry[securityClass] ? netSalesAmt + Number(newEntry[securityClass]) : netSalesAmt;
-        finalData[entryIndex] = newEntry;
-      }
-    });
-  }
+  const iterableData = Array.isArray(data) ? data : [];
+  iterableData.forEach(entry => {
+    const fy = entry[yearField];
+    const securityClass = entry[descField] === 'A...D' ? 'AD' : entry[descField];
+    const netSalesAmt = Number(entry[amtField]);
+    let newEntry = {};
+    if (!years.includes(fy)) {
+      years.push(fy);
+      newEntry['year'] = fy;
+      newEntry[securityClass] = netSalesAmt;
+      finalData.push(newEntry);
+    } else {
+      const entryIndex = finalData.findIndex(val => val.year === fy);
+      newEntry = finalData[entryIndex];
+      newEntry[securityClass] = newEntry[securityClass] ? netSalesAmt + Number(newEntry[securityClass]) : netSalesAmt;
+      finalData[entryIndex] = newEntry;
+    }
+  });
   return finalData;
 };
 
@@ -122,14 +121,17 @@ export const yAxisFormatter = value => {
   const trimmed = Math.abs(value).toFixed();
   const inTrillions = trimmed.length > 12;
   const inBillions = trimmed.length > 9;
+  const inMillions = trimmed.length > 6;
   const negative = value < 0;
   let divisor;
   if (inTrillions) {
     divisor = 1000000000000;
-  } else if (inBillions && !inTrillions) {
+  } else if (inBillions) {
     divisor = 1000000000;
-  } else if (!inBillions && !inTrillions) {
+  } else if (inMillions) {
     divisor = 1000000;
+  } else {
+    divisor = 1000;
   }
 
   let appendix;
@@ -137,13 +139,15 @@ export const yAxisFormatter = value => {
   if (inTrillions) {
     appendix = ' T';
     digits = 2;
-  } else if (inBillions && !inTrillions) {
+  } else if (inBillions) {
     appendix = ' B';
     digits = 1;
   } else if (value === 0) {
     appendix = '';
-  } else if (!inBillions && !inTrillions) {
+  } else if (inMillions) {
     appendix = ' M';
+  } else {
+    appendix = ' k';
   }
   const display = Math.abs(value / divisor).toFixed(digits) + appendix;
   return negative ? `-$${display}` : `$${display}`;

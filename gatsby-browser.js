@@ -2,11 +2,30 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import React from 'react';
 import Persist from './src/components/persist/persist';
 import { RecoilRoot } from 'recoil';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
+import { QueryClient } from '@tanstack/react-query';
+
+const isBrowser = () => typeof window !== 'undefined';
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 600000, // 10 minutes, for persistent (browser session storage) caching
+    },
+  },
+});
+
+const persister = createSyncStoragePersister({
+  storage: isBrowser() && window.sessionStorage,
+});
 
 export const wrapRootElement = ({ element }) => {
   return (
-    <RecoilRoot>
-      <Persist element={element} />
-    </RecoilRoot>
+    <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: persister, maxAge: 600000 }}>
+      <RecoilRoot>
+        <Persist element={element} />
+      </RecoilRoot>
+    </PersistQueryClientProvider>
   );
 };

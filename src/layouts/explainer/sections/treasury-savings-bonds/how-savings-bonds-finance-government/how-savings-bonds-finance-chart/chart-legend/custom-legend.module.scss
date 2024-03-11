@@ -1,0 +1,17 @@
+@import 'src/variables.module';
+
+.legendContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+}
+.legendBox {
+  width: 24px;
+  height: 18px;
+  margin-right: 8px;
+}
+.legendText {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
