@@ -177,8 +177,13 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
     </GlossaryPopoverDefinition>
   );
 
+  const glossaryCustomFormat = {
+    text: 'not',
+    format: 'underline',
+    index: 0,
+  };
   const debtHeldByPublic = (
-    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer" customFormat={glossaryCustomFormat}>
       debt held by the public
     </GlossaryPopoverDefinition>
   );

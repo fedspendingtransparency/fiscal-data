@@ -20,6 +20,7 @@ import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFiltere
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { detailViewNotice, lockIcon } from './dataset-data.module.scss';
+import { queryClient } from '../../../gatsby-browser';
 
 export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';
@@ -189,7 +190,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             canceledObj,
             tableCaches[displayedTable.apiId],
             detailViewState,
-            config?.detailView?.field
+            config?.detailView?.field,
+            queryClient
           ).then(() => {
             // nothing to cancel if the request completes normally.
             canceledObj = null;

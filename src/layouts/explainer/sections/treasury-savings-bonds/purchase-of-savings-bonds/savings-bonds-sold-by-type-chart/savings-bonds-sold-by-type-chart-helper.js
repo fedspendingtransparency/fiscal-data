@@ -121,14 +121,17 @@ export const yAxisFormatter = value => {
   const trimmed = Math.abs(value).toFixed();
   const inTrillions = trimmed.length > 12;
   const inBillions = trimmed.length > 9;
+  const inMillions = trimmed.length > 6;
   const negative = value < 0;
   let divisor;
   if (inTrillions) {
     divisor = 1000000000000;
-  } else if (inBillions && !inTrillions) {
+  } else if (inBillions) {
     divisor = 1000000000;
-  } else if (!inBillions && !inTrillions) {
+  } else if (inMillions) {
     divisor = 1000000;
+  } else {
+    divisor = 1000;
   }
 
   let appendix;
@@ -136,13 +139,15 @@ export const yAxisFormatter = value => {
   if (inTrillions) {
     appendix = ' T';
     digits = 2;
-  } else if (inBillions && !inTrillions) {
+  } else if (inBillions) {
     appendix = ' B';
-    digits = value % divisor === 0 ? 0 : 1;
+    digits = 1;
   } else if (value === 0) {
     appendix = '';
-  } else if (!inBillions && !inTrillions) {
+  } else if (inMillions) {
     appendix = ' M';
+  } else {
+    appendix = ' k';
   }
   const display = Math.abs(value / divisor).toFixed(digits) + appendix;
   return negative ? `-$${display}` : `$${display}`;
