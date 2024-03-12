@@ -359,6 +359,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       label: String,
       dateRangeLockCopy: String,
       summaryTableFields: [String],
+      selectColumns: [String],
     }
     type CustomFormatConfig {
       type: String,
@@ -433,6 +434,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             label
             dateRangeLockCopy
             summaryTableFields
+            selectColumns
           }
           datePreset
           customRangePreset
