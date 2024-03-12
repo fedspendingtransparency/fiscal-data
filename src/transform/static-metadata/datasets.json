@@ -510,5 +510,35 @@
     "topics": ["financial-summaries"],
     "relatedDatasets": ["015-BFS-2014Q3-046"],
     "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-050": {
+    "slug": "/tips-cpi-data/",
+    "seoConfig": {
+      "pageTitle": "TIPS and CPI Data",
+      "description":
+      "Treasury Inflation Protected Securities (TIPS) issued by the U.S. Treasury and Consumer Price Index (CPI) numbers released by the Bureau of Labor Statistics (BLS).",
+      "keywords": "Consumer Price Index, CPI"
+    },
+    "topics": ["auctions", "interest-exchange-rates"],
+    "relatedDatasets": ["015-BFS-2014Q3-045", "015-BFS-2014Q3-056", "015-BFS-2014Q3-048", "015-BFS-2014Q3-049"],
+    "currentDateButton": "byMonth",
+    "datePreset": "all",
+    "detailView": {
+      "apiId": 300,
+      "field": "cusip",
+      "label": "CUSIP",
+      "dateRangeLockCopy": "To filter data by date range, select a CUSIP from the table below.",
+      "summaryTableFields": [
+        "cusip",
+        "series",
+        "interest_rate",
+        "security_term",
+        "original_issue_date",
+        "maturity_date",
+        "ref_cpi_on_dated_date",
+        "additional_issue_date"
+      ],
+      "selectColumns": ["index_date", "ref_cpi", "index_ratio"]
+    }
   }
 }
