@@ -23,13 +23,42 @@ interface ChartDataItem {
 const color = '#4A0072';
 const color2 = '#B04ABD';
 
-const HowSavingsBondsSoldChart: FunctionComponent = () => {
+interface HowSavingsBondsSoldChartProps {
 
+  chartData: ChartDataItem[];
+}
+
+
+const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps> = ({
+  chartData,
+}) => {
+  const [savingBondsIndex, setSavingBondsIndex] = useState<string | null>(null);
+  const [savingBondPercentage, setSavingBondPercentage] = useState<string | null>(null);
+  const [nonMarketablePercent, setNonMarketablePercent] = useState<number | null>(null);
+  const [animationDone, setAnimationDone] = useState<boolean>(false);
+  const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
   const [chartHeight, setChartHeight] = useState<number>(400);
   const [chartWidth, setChartWidth] = useState<number>(400);
 
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setAnimationDone(true);
+  },2000)
+  return () => clearTimeout(timer);
+},);
+
+useEffect(() => {
+  basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
+    if (res.data) {
+      const data = res.data[0];
+      setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
+    }
+  });
+}, []);
+
+  const monthYear = historyChartDate ? `${monthFullNames[historyChartDate.getMonth()]} ${historyChartDate.getFullYear()}` : ""
   const intragovernmental = (
     <GlossaryPopoverDefinition
       term={'Intragovernmental Holdings'}
@@ -99,7 +128,7 @@ const HowSavingsBondsSoldChart: FunctionComponent = () => {
   const chartCopy = {
   title: `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of ${monthYear}` ,
   altText:
-     `A pie chart showing the percentage of U.S. debt held by the public that is marketable versus non-marketable. As of  
+    `A pie chart showing the percentage of U.S. debt held by the public that is marketable versus non-marketable. As of  
     ${monthYear} , non-marketable securities make up ${nonMarketablePercent} percent, and savings bonds make up  ${savingBondPercentage} 
     percent of the debt held by the public.`,
 };
