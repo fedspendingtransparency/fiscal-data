@@ -33,6 +33,7 @@ module.exports = {
           'ref_cpi_on_dated_date',
           'additional_issue_date',
         ],
+        selectColumns: ['index_date', 'ref_cpi', 'index_ratio'],
       },
     },
     '015-BFS-2014Q3-051': {
