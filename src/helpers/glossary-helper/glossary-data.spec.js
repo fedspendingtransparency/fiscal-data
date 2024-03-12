@@ -1,4 +1,3 @@
-import React from 'react';
 import { getSortedGlossaryList } from './glossary-data';
 import { testGlossaryData } from '../../components/glossary/test-helper';
 

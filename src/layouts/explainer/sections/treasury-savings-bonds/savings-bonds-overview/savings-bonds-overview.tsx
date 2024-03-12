@@ -5,13 +5,20 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import React, { FunctionComponent } from 'react';
 import { fontBodyCopy } from '../../../explainer.module.scss';
+import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 
 const SavingsBondsOverview: FunctionComponent = () => {
+  const securities = (
+    <GlossaryPopoverDefinition term="Treasury Security" page="Savings Bonds Explainer">
+      securities
+    </GlossaryPopoverDefinition>
+  );
+
   return (
     <>
       <span>
         U.S. Treasury savings bonds are a type of loan issued by the U.S. Department of the Treasury (the Treasury). They are low-risk,
-        interest-bearing securities that individuals and investors can purchase directly from the government on{' '}
+        interest-bearing {securities} that individuals and investors can purchase directly from the government on{' '}
         <CustomLink url="https://www.treasurydirect.gov/savings-bonds/buy-a-bond/">TreasuryDirect</CustomLink>. Savings bonds are designed to offer a
         safe investment opportunity to ordinary citizens with the hope that by owning shares in their country, people may become more interested in,
         and concerned about national policy.

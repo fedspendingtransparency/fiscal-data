@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { container, listItems, scrollContainerTop, scrollGradient } from './scroll-container.module.scss';
 
-const ScrollContainer = ({ list, selection, filter, scrollTop, setScrollTop, customChildStyle, children }) => {
+const ScrollContainer = ({ list, selection, filter = null, scrollTop, setScrollTop, customChildStyle, children }) => {
   const handleScroll = scrollContainer => {
     setScrollTop(scrollContainer.scrollTop === 0);
   };

@@ -14,7 +14,7 @@ import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-
 import HowSavingsBondsSoldChart from './how-savings-bonds-finance-chart/how-savings-bonds-sold-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 
-const HowSavingsBondsFinanceGovernment = ({width}) => {
+const HowSavingsBondsFinanceGovernment = ({ width }) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
 
   const isDesktop = width >= pxToNumber(breakpointLg);
@@ -68,13 +68,8 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
     </GlossaryPopoverDefinition>
   );
 
-  const glossaryCustomFormat = {
-    text: 'not',
-    format: 'underline',
-    index: 0,
-  };
   const debtHeldByPublic = (
-    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer" customFormat={glossaryCustomFormat}>
+    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer">
       debt held by the public
     </GlossaryPopoverDefinition>
   );
@@ -114,9 +109,10 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
       <div className={visWithCallout}>
         <HowSavingsBondsSoldChart />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
-          <p>Savings bonds make up XX% of total debt held by the public through 
-            Month YYYY . This is XX%  percentage points higher than/lower than/the same as 
-            the percent of debt held by the public ten years ago (XX% ). </p>
+          <p>
+            Savings bonds make up XX% of total debt held by the public through Month YYYY . This is XX% percentage points higher than/lower than/the
+            same as the percent of debt held by the public ten years ago (XX% ).
+          </p>
         </VisualizationCallout>
       </div>
       <h5 className={subSectionTitle}>Types of Savings Bonds</h5>
