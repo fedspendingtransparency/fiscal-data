@@ -64,10 +64,11 @@ const HowSavingsBondsSoldChart: FunctionComponent = () => {
   const lastUpdated = new Date();
   const footer = (
     <p>
-      This chart reflects total debt held by the public, which excludes debt held by the government (known as {intragovernmental}). Visit the 
-      <CustomLink url="/americas-finance-guide/national-debt/"> National Debt explainer </CustomLink> to learn more about the types of debt or the
-      {' '}<CustomLink url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding">
-      U.S. Treasury Monthly Statement of the Public Debt (MSPD) </CustomLink>{' '} to explore and download this data. 
+      This chart reflects total debt held by the public, which excludes debt held by the government (known as {intragovernmental}). Visit the {' '}
+      <CustomLink url="/americas-finance-guide/national-debt/">National Debt explainer</CustomLink> to learn more about the types of debt or the{' '}
+      <CustomLink url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding">
+        U.S. Treasury Monthly Statement of the Public Debt (MSPD)
+      </CustomLink>{' '} to explore and download this data. 
     </p>
   );
   const onLegendEnter = (security: string) => {
