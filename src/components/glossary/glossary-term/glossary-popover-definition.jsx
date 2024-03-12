@@ -53,7 +53,7 @@ const style = {
   },
 };
 
-const GlossaryPopoverDefinition = ({ term, page, children, width }) => {
+const GlossaryPopoverDefinition = ({ term, page, children, width = null, customFormat = null }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -62,7 +62,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width }) => {
   const { setGlossaryClickEvent, glossary } = useContext(GlossaryContext);
 
   const displayText = children.toString();
-  const { termName, definition, slug } = glossaryLookup(term, glossary, page);
+  const { termName, definition, slug } = glossaryLookup(term, glossary, page, customFormat);
 
   const useStyles = makeStyles(theme => ({
     ...style,
@@ -146,7 +146,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width }) => {
           horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
         }}
       >
-        <div className={popupContainer} data-testid="popupContainer" role={'presentation'}>
+        <div className={popupContainer} data-testid="popupContainer" role="presentation">
           <div className={glossaryText}>
             <div className={header}>
               <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyPress={handleClose} tabIndex={0} size="lg" />

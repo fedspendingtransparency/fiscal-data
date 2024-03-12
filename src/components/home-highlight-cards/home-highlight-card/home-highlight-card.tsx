@@ -348,6 +348,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               >
                 <BarGraph
                   cardId={cardId}
+                  chartTitle={title}
                   graphData={apiData.data as [{ [key: string]: string | number }]}
                   graphIndex={data.index}
                   valueKeys={data.value_fields}

@@ -123,7 +123,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
         <SavingsBondsSoldByTypeChart chartData={chartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
-            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when {getShortForm(mostBondSales)} and {getShortForm(secondMostBondSales)} bonds were sold,
+            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when ${getShortForm(mostBondSales)} and ${getShortForm(secondMostBondSales)} bonds were sold,
             respectively.
           </p>
         </VisualizationCallout>

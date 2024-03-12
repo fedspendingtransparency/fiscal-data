@@ -10,6 +10,7 @@ import moment from 'moment';
  * @param fileType {String}  - Accepted values are 'csv', 'xml', 'json'.
  * @param userFilter {null|object}  - Object to describe the user selected filter object
  * @param tableColumnSortData
+ * @param detailViewFilter
  * @returns {null|Object}    - Returns null if params are invalid, else returns object with desired
  * fields "apiId" and "params"
  */
@@ -33,6 +34,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   let tableColumnFields = '&fields=';
   let tableColumnSort = '';
   let tableColumnFilter = '';
+  let fieldsAsArray;
   let defaultParamsWithColumnSelect = [];
   if (userFilter?.value) {
     filterAddendum = `,${api.userFilter.field}:eq:${userFilter.value}`;
@@ -65,7 +67,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     });
     // If the user has engaged the column select, apply the default sort params to the applicable selected columns
     if (tableColumnFields !== '&fields=') {
-      const fieldsAsArray = tableColumnFields.replace('&fields=', '').split(',');
+      fieldsAsArray = tableColumnFields.replace('&fields=', '').split(',');
       const defaultSortParamsAsArray = apiSortParams.split(',');
       defaultSortParamsAsArray.filter(element => {
         fieldsAsArray.forEach(field => {
@@ -74,6 +76,9 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
           }
         });
       });
+      if (defaultParamsWithColumnSelect.length === 0) {
+        defaultParamsWithColumnSelect = defaultSortParamsAsArray;
+      }
       defaultParamsWithColumnSelect = defaultParamsWithColumnSelect.join(',');
     }
   }
@@ -84,7 +89,15 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     sortValue = tableColumnSort;
   } else {
     if (tableColumnFields !== '&fields=') {
+      // Sort parameters always need to be included in fields
       sortValue = defaultParamsWithColumnSelect;
+      // Any duplicates need to be removed when sort params are combined with fields
+      const sortFields = defaultParamsWithColumnSelect
+        .split(', ')
+        .join(',')
+        .replace('-', '');
+      const set = new Set([...fieldsAsArray, ...sortFields.split(',')]);
+      tableColumnFields = '&fields=' + Array.from(set).join(',');
     } else {
       sortValue = apiSortParams;
     }

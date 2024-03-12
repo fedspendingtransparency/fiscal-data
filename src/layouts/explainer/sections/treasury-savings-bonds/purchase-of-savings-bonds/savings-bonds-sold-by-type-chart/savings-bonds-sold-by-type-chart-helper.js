@@ -141,7 +141,7 @@ export const yAxisFormatter = value => {
     digits = 2;
   } else if (inBillions) {
     appendix = ' B';
-    digits = value % divisor === 0 ? 0 : 1;
+    digits = 1;
   } else if (value === 0) {
     appendix = '';
   } else if (inMillions) {
