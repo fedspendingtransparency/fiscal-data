@@ -8,7 +8,20 @@ import {
   scrollContainerBottom,
 } from './scroll-container.module.scss';
 
-const ScrollContainer = ({ list, selection, filter, scrollTop, setScrollTop, customChildStyle, scrollBottom, setScrollBottom, children }) => {
+const ScrollContainer = ({
+  list,
+  selection,
+  filter,
+  scrollTop,
+  setScrollTop,
+  scrollBottom,
+  setScrollBottom,
+  customChildStyle,
+  customContainerStyle,
+  children,
+  gradientColor = 'white',
+  testId = '',
+}) => {
   const handleScroll = scrollContainer => {
     setScrollTop(scrollContainer.scrollTop === 0);
     console.log(Math.abs(scrollContainer.scrollHeight - (scrollContainer.scrollTop + scrollContainer.clientHeight)) <= 1);
@@ -17,8 +30,10 @@ const ScrollContainer = ({ list, selection, filter, scrollTop, setScrollTop, cus
     }
   };
 
+  const dataTestId = 'scrollContainer' + testId;
+
   useEffect(() => {
-    const scrollContainer = document.querySelector('[data-testid="scrollContainer"]');
+    const scrollContainer = document.querySelector(`[data-testid=${dataTestId}]`);
     if (scrollContainer) {
       scrollContainer.addEventListener('scroll', () => handleScroll(scrollContainer), { passive: true });
 
@@ -30,13 +45,21 @@ const ScrollContainer = ({ list, selection, filter, scrollTop, setScrollTop, cus
 
   return (
     <>
-      <div className={scrollTop ? scrollContainerTop : scrollGradientTop} data-testid="scrollGradient" />
-      <div className={container}>
-        <div className={listItems} style={customChildStyle} data-testid="scrollContainer">
+      <div
+        className={scrollTop ? scrollContainerTop : scrollGradientTop}
+        style={scrollTop ? {} : { background: `linear-gradient(${gradientColor}, rgba(255, 255, 255, 0))` }}
+        data-testid="scrollGradient"
+      />
+      <div className={container} style={customContainerStyle}>
+        <div className={listItems} style={customChildStyle} data-testid={dataTestId}>
           {children}
         </div>
       </div>
-      <div className={scrollBottom ? scrollContainerBottom : scrollGradientBottom} data-testid="scrollGradient" />
+      <div
+        className={scrollBottom ? scrollContainerBottom : scrollGradientBottom}
+        style={scrollBottom ? {} : { background: `linear-gradient( rgba(255, 255, 255, 0), ${gradientColor})` }}
+        data-testid="scrollGradient"
+      />
     </>
   );
 };

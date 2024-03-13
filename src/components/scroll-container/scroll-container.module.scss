@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  //height: 100%;
+  height: 100%;
 }
 
 .listItems {
@@ -29,18 +29,10 @@
   margin-top: -2.5rem;
 }
 
-.scrollGradientTop {
-  background: linear-gradient(white, rgba(255, 255, 255, 0));
-}
-
 .scrollContainerTop {
   background: rgba(255, 255, 255, 0);
 }
 
 .scrollContainerBottom {
   background: rgba(255, 255, 255, 0);
-}
-
-.scrollGradientBottom {
-  background: linear-gradient( rgba(255, 255, 255, 0), white);
 }
