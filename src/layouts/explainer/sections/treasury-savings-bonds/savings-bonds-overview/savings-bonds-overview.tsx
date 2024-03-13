@@ -19,7 +19,7 @@ const SavingsBondsOverview: FunctionComponent = () => {
         safe investment opportunity to ordinary citizens with the hope that by owning shares in their country, people may become more interested in,
         and concerned about national policy.
       </span>
-      <AnchorText link={anchor} text={'2'}/>
+      <AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text}/>
       <QuoteBox
         icon={faCalculator as IconProp}
         primaryColor={fontBodyCopy}
