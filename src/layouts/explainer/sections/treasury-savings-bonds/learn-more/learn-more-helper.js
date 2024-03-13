@@ -4,7 +4,7 @@ import CustomLink from "../../../../../components/links/custom-link/custom-link"
 export const getSaleBondsFootNotes = () => {
   return [
     {
-      anchors: [{ text: ['1'], link: ['https://www.treasurydirect.gov/files/research-center/history-of-savings-bond/history-sb.pdf'] }],
+      anchors: [{ text: ['1'] }],
       definition: (
         <>
         <CustomLink url={'https://www.treasurydirect.gov/files/research-center/history-of-savings-bond/history-sb.pdf'} >

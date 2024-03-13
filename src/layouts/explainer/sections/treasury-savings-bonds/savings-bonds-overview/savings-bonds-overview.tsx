@@ -5,8 +5,11 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import React, { FunctionComponent } from 'react';
 import { fontBodyCopy } from '../../../explainer.module.scss';
+import AnchorText from '../../../../../components/anchor-text/anchor-text';
+import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
 
 const SavingsBondsOverview: FunctionComponent = () => {
+  const anchor = getSaleBondsFootNotes()[0];
   return (
     <>
       <span>
@@ -16,6 +19,7 @@ const SavingsBondsOverview: FunctionComponent = () => {
         safe investment opportunity to ordinary citizens with the hope that by owning shares in their country, people may become more interested in,
         and concerned about national policy.
       </span>
+      <AnchorText link={anchor} text={'2'}/>
       <QuoteBox
         icon={faCalculator as IconProp}
         primaryColor={fontBodyCopy}
