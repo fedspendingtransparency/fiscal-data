@@ -12,7 +12,7 @@ const LearnMore: FunctionComponent = () => {
         called <CustomLink url="https://treasurydirect.gov/savings-bonds/treasury-hunt/">Treasure Hunt</CustomLink>, which allows users to search to
         see if there are unredeemed bonds in their name.
       </p>
-      <Footnote footnotes={getSaleBondsFootNotes} width="100%" />
+      <Footnote footnotes={getSaleBondsFootNotes()} width="100%" />
     </>
   );
 };
