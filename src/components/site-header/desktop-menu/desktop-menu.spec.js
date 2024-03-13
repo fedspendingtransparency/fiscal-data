@@ -67,6 +67,7 @@ describe('Desktop Menu', () => {
     expect(getByRole('link', { name: 'Deficit' })).toBeInTheDocument();
     expect(getByRole('link', { name: 'Spending' })).toBeInTheDocument();
     expect(getByRole('link', { name: 'Revenue' })).toBeInTheDocument();
+    expect(getByRole('link', { name: 'Savings Bonds' })).toBeInTheDocument();
   });
 
   it('displays the tools drop down when mousing over tool button', () => {
