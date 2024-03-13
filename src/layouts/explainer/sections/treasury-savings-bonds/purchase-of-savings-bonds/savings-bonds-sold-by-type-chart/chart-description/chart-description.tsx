@@ -4,6 +4,7 @@ import ScrollContainer from '../../../../../../../components/scroll-container/sc
 
 const ChartDescription = () => {
   const [scrollTop, setScrollTop] = useState(true);
+  const [scrollBottom, setScrollBottom] = useState(false);
   const descriptionList = [
     {
       header: 'A-D',
@@ -78,7 +79,13 @@ const ChartDescription = () => {
   ];
   return (
     <div style={{ display: 'block' }}>
-      <ScrollContainer scrollTop={scrollTop} setScrollTop={setScrollTop} list={descriptionList}>
+      <ScrollContainer
+        scrollTop={scrollTop}
+        setScrollTop={setScrollTop}
+        list={descriptionList}
+        scrollBottom={scrollBottom}
+        setScrollBottom={setScrollBottom}
+      >
         <div className={listContainer}>
           {descriptionList.map((bond, index) => {
             return (

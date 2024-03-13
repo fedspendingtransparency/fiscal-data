@@ -1,9 +1,20 @@
 import React, { useEffect } from 'react';
-import { container, listItems, scrollContainerTop, scrollGradient } from './scroll-container.module.scss';
+import {
+  container,
+  listItems,
+  scrollContainerTop,
+  scrollGradientTop,
+  scrollGradientBottom,
+  scrollContainerBottom,
+} from './scroll-container.module.scss';
 
-const ScrollContainer = ({ list, selection, filter, scrollTop, setScrollTop, customChildStyle, children }) => {
+const ScrollContainer = ({ list, selection, filter, scrollTop, setScrollTop, customChildStyle, scrollBottom, setScrollBottom, children }) => {
   const handleScroll = scrollContainer => {
     setScrollTop(scrollContainer.scrollTop === 0);
+    console.log(Math.abs(scrollContainer.scrollHeight - (scrollContainer.scrollTop + scrollContainer.clientHeight)) <= 1);
+    if (setScrollBottom) {
+      setScrollBottom(Math.abs(scrollContainer.scrollHeight - (scrollContainer.scrollTop + scrollContainer.clientHeight)) <= 1);
+    }
   };
 
   useEffect(() => {
@@ -19,12 +30,13 @@ const ScrollContainer = ({ list, selection, filter, scrollTop, setScrollTop, cus
 
   return (
     <>
-      <div className={scrollTop ? scrollContainerTop : scrollGradient} data-testid="scrollGradient" />
+      <div className={scrollTop ? scrollContainerTop : scrollGradientTop} data-testid="scrollGradient" />
       <div className={container}>
         <div className={listItems} style={customChildStyle} data-testid="scrollContainer">
           {children}
         </div>
       </div>
+      <div className={scrollBottom ? scrollContainerBottom : scrollGradientBottom} data-testid="scrollGradient" />
     </>
   );
 };
