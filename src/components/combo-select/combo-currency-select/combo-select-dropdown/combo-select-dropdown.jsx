@@ -35,7 +35,6 @@ const ComboSelectDropdown = ({
   searchBarLabel,
 }) => {
   const [filterValue, setFilterValue] = useState('');
-  // const [scrollTop, setScrollTop] = useState(true);
   const [filteredOptions, setFilteredOptions] = useState(options);
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = opts;
@@ -105,12 +104,6 @@ const ComboSelectDropdown = ({
       }
     }
   };
-
-  // useEffect(() => {
-  //   if (active) {
-  // setScrollTop(true);
-  //   }
-  // }, [active]);
 
   return (
     <>
