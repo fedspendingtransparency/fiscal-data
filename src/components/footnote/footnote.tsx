@@ -11,7 +11,7 @@ type FootnoteProps = {
           link?: string;
         }
       ];
-      definition?: string;
+      definition?: JSX.Element | (() => JSX.Element);
     }
   ];
   width?: string;

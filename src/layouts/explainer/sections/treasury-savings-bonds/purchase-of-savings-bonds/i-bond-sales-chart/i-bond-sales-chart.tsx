@@ -55,7 +55,7 @@ const IBondSalesChart: FunctionComponent = () => {
             <LineChart data={IBondMockData} margin={{ top: 12, bottom: -8, left: -16, right: -22 }} onMouseLeave={resetDataHeader}>
               <CartesianGrid vertical={false} stroke="#d9d9d9" />
               <XAxis dataKey="year" type="number" domain={[2003, latestYear]} ticks={[2003, 2008, 2013, 2018, 2023]} minTickGap={3} />
-              <YAxis dataKey="sales" axisLine={false} tickLine={false} domain={[0, 20000000000]} tickFormatter={value => xAxisTickFormatter(value)} />
+              <YAxis tick={{ fill: treasurySavingsBondsExplainerSecondary }} dataKey="sales" axisLine={false} tickLine={false} domain={[0, 20000000000]} tickFormatter={value => xAxisTickFormatter(value)} />
               <YAxis
                 yAxisId={1}
                 dataKey="inflation"

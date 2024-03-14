@@ -221,6 +221,15 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   };
 
   useEffect(() => {
+    if (defaultSelectedColumns && !pivotSelected) {
+      constructDefaultColumnsFromTableData();
+    }
+    if (detailViewState) {
+      setColumnVisibility(defaultInvisibleColumns);
+    }
+  }, [configOption]);
+
+  useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
   }, [columnVisibility, table.getFilteredRowModel(), table.getVisibleFlatColumns()]);
 
@@ -237,12 +246,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       setAllActiveFilters([]);
     }
   }, [resetFilters]);
-
-  useEffect(() => {
-    if (defaultSelectedColumns && !pivotSelected) {
-      constructDefaultColumnsFromTableData();
-    }
-  }, [rawData, configOption]);
 
   const selectColumnsRef = useRef(null);
 

@@ -6,8 +6,11 @@ import CustomLink from '../../../../../components/links/custom-link/custom-link'
 import React, { FunctionComponent } from 'react';
 import { fontBodyCopy } from '../../../explainer.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
+import AnchorText from '../../../../../components/anchor-text/anchor-text';
+import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
 
 const SavingsBondsOverview: FunctionComponent = () => {
+  const anchor = getSaleBondsFootNotes()[0];
   const securities = (
     <GlossaryPopoverDefinition term="Treasury Security" page="Savings Bonds Explainer">
       securities
@@ -23,6 +26,7 @@ const SavingsBondsOverview: FunctionComponent = () => {
         safe investment opportunity to ordinary citizens with the hope that by owning shares in their country, people may become more interested in,
         and concerned about national policy.
       </span>
+      <AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text}/>
       <QuoteBox
         icon={faCalculator as IconProp}
         primaryColor={fontBodyCopy}

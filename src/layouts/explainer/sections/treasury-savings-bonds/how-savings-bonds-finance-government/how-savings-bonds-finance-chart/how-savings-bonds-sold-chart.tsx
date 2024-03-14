@@ -6,27 +6,59 @@ import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip'
 import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
-import { mockDataTwo, chartCopy } from './how-savings-bonds-sold-chart-helper';
+import { fyEndpoint } from './how-savings-bonds-sold-chart-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
+import { basicFetch, apiPrefix } from '../../../../../../utils/api-utils';
+import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
+import { monthFullNames } from '../../../../../../utils/api-utils';
 
-interface DataItem {
+interface ChartDataItem {
   name: string;
   value: number;
-  security: boolean;
+  percent: number;
   securityType: string;
 }
 
 const color = '#4A0072';
 const color2 = '#B04ABD';
 
-const HowSavingsBondsSoldChart: FunctionComponent = () => {
+interface HowSavingsBondsSoldChartProps {
 
+  chartData: ChartDataItem[];
+}
+
+
+const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps> = ({
+  chartData,
+}) => {
+  const [savingBondsIndex, setSavingBondsIndex] = useState<string | null>(null);
+  const [savingBondPercentage, setSavingBondPercentage] = useState<string | null>(null);
+  const [nonMarketablePercent, setNonMarketablePercent] = useState<number | null>(null);
+  const [animationDone, setAnimationDone] = useState<boolean>(false);
+  const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
   const [chartHeight, setChartHeight] = useState<number>(400);
   const [chartWidth, setChartWidth] = useState<number>(400);
 
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setAnimationDone(true);
+  },2000)
+  return () => clearTimeout(timer);
+},);
+
+useEffect(() => {
+  basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
+    if (res.data) {
+      const data = res.data[0];
+      setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
+    }
+  });
+}, []);
+
+  const monthYear = historyChartDate ? `${monthFullNames[historyChartDate.getMonth()]} ${historyChartDate.getFullYear()}` : ""
   const intragovernmental = (
     <GlossaryPopoverDefinition
       term={'Intragovernmental Holdings'}
@@ -35,8 +67,20 @@ const HowSavingsBondsSoldChart: FunctionComponent = () => {
       intragovernmental
     </GlossaryPopoverDefinition>
   );
+  useEffect(() => {
+    let nonMarkPercent = 0;
+  
+    chartData.forEach(item => {
+      if (item.securityType === 'Nonmarketable') {
+        nonMarkPercent += item.percent;
+      }
+      setNonMarketablePercent(parseFloat(nonMarkPercent.toFixed(1)));
+    });
 
-  const aggregateData = mockDataTwo.reduce((accumulator, cur) => {
+
+  }, [chartData, monthYear]);
+  
+  const aggregateData = chartData.reduce((accumulator, cur) => {
     const key = cur.securityType === 'Marketable' ? 'Marketable' : 'Nonmarketable';
     if (!accumulator[key]) {
       accumulator[key] = { name: key, value: 0, securityType: key };
@@ -44,9 +88,8 @@ const HowSavingsBondsSoldChart: FunctionComponent = () => {
     accumulator[key].value += cur.value;
     return accumulator;
   }, {});
-  
 
-  const consolidateData = mockDataTwo.reduce((accumulator, value) => {
+  const consolidateData = chartData.reduce((accumulator, value) => {
     if(!accumulator[value.name]) {
       accumulator[value.name] = {...value};
     } else {
@@ -61,15 +104,34 @@ const HowSavingsBondsSoldChart: FunctionComponent = () => {
   const data1WidthPercentage = calculatePercentage(aggregatedDataforPie);
   const data2WidthPercentage = calculatePercentage(consolidateDataArray);
 
-  const lastUpdated = new Date();
+  const savingsBondCallOut = data2WidthPercentage.map((item, index) => {
+    if (item.name === 'United States Savings Securities'){
+      item.name = 'Savings Bonds';
+      if (savingBondsIndex === null){
+        setSavingBondsIndex(`data02-${index}`);
+        setSavingBondPercentage(item.percent);
+      }
+    }    
+    return item;
+  });
+  const actualActiveIndex = savingBondsIndex && savingBondsIndex.startsWith('data02') ? parseInt(savingBondsIndex.split('-')[1], 10) : undefined;
+
   const footer = (
     <p>
       This chart reflects total debt held by the public, which excludes debt held by the government (known as {intragovernmental}). Visit the 
-      <CustomLink url="/americas-finance-guide/national-debt/"> National Debt explainer </CustomLink> to learn more about the types of debt or the
+      {' '}<CustomLink url="/americas-finance-guide/national-debt/">National Debt explainer</CustomLink> to learn more about the types of debt or the
       {' '}<CustomLink url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding">
-      U.S. Treasury Monthly Statement of the Public Debt (MSPD) </CustomLink>{' '} to explore and download this data. 
+      U.S. Treasury Monthly Statement of the Public Debt (MSPD)</CustomLink>{' '} to explore and download this data. 
     </p>
   );
+
+  const chartCopy = {
+  title: `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of ${monthYear}` ,
+  altText:
+    `A pie chart showing the percentage of U.S. debt held by the public that is marketable versus non-marketable. As of  
+    ${monthYear} , non-marketable securities make up ${nonMarketablePercent} percent, and savings bonds make up  ${savingBondPercentage} 
+    percent of the debt held by the public.`,
+};
   const onLegendEnter = (security: string) => {
     setActiveSecurityType(security);
   };
@@ -98,20 +160,20 @@ const HowSavingsBondsSoldChart: FunctionComponent = () => {
     setActiveSecurityType(null);
   };
 
-  const onPieEnter = (data: DataItem, index: number, dataset: string) => {
+  const onPieEnter = (data: ChartDataItem, index: number, dataset: string) => {
     setActiveIndex(`${dataset}-${index}`);
   }
   const onPieLeave = () => {
     setActiveIndex(null);
   }
-  const getOpacity = (dataset: string, index: number, entry: DataItem) => {
+  const getOpacity = (dataset: string, index: number, entry: ChartDataItem) => {
     const isActiveType = entry.securityType === activeSecurityType;
     return activeIndex === `${dataset}-${index}` || activeIndex === null ? isActiveType ? .4 : 1 : .4;
   }
 
   return (
     <>
-      <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={lastUpdated} footer={footer} >
+      <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={historyChartDate} footer={footer} >
           <div className={chartStyle} data-testid="chartParent">
             <div className={chartContainer}>
             <PieChart width={chartWidth} height={chartHeight} onMouseLeave={onPieLeave}>
@@ -137,9 +199,9 @@ const HowSavingsBondsSoldChart: FunctionComponent = () => {
                   }
                 </Pie>
                 <Pie 
-                  activeIndex={6}
-                  activeShape={ChartTopNotch}
-                  data={data2WidthPercentage} 
+                  activeIndex={actualActiveIndex}
+                  activeShape={animationDone ? ChartTopNotch : null}
+                  data={savingsBondCallOut} 
                   dataKey="percent" 
                   cx="50%" 
                   cy="50%" 
