@@ -402,7 +402,7 @@ export default function DtgTable({
               detailColumnConfig={detailColumnConfig}
               detailViewAPI={detailViewAPIConfig}
               detailView={config?.detailView}
-              defaultSelectedColumns={selectColumns}
+              defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
               setTableColumnSortData={setTableColumnSortData}
               hideCellLinks={true}
               shouldPage={shouldPage}
