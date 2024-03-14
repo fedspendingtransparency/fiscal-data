@@ -44,7 +44,7 @@ const ScrollContainer = ({
       <div
         className={scrollTop ? scrollContainerTop : scrollGradientTop}
         style={scrollTop ? {} : { background: `linear-gradient(${gradientColor}, rgba(255, 255, 255, 0))` }}
-        data-testid="scrollGradient"
+        data-testid="topScrollGradient"
       />
       <div className={container} style={customContainerStyle}>
         <div className={listItems} style={customChildStyle} data-testid={dataTestId}>
@@ -55,7 +55,7 @@ const ScrollContainer = ({
         <div
           className={scrollBottom ? scrollContainerBottom : scrollGradientBottom}
           style={scrollBottom ? {} : { background: `linear-gradient( rgba(255, 255, 255, 0), ${gradientColor})` }}
-          data-testid="scrollGradient"
+          data-testid="bottomScrollGradient"
         />
       )}
     </>
