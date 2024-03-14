@@ -143,7 +143,7 @@ describe('Combo Select Dropdown', () => {
       />
     );
 
-    expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
-    expect(getByTestId('scrollGradient')).not.toHaveClass('scrollGradient');
+    expect(getByTestId('topScrollGradient')).toHaveClass('scrollContainerTop');
+    expect(getByTestId('topScrollGradient')).not.toHaveClass('scrollGradient');
   });
 });

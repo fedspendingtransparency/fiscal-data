@@ -1,5 +1,5 @@
 import React from 'react';
-import { listContainer, description, box, header } from './chart-description.module.scss';
+import { listContainer, description, box, header, descriptionsContainer } from './chart-description.module.scss';
 import ScrollContainer from '../../../../../../../components/scroll-container/scroll-container';
 import { savingsBondsMap } from '../savings-bonds-sold-by-type-chart-helper';
 
@@ -7,7 +7,7 @@ const ChartDescription = () => {
   const descriptionList = ['AD', 'E', 'EE', 'F', 'G', 'H', 'HH', 'I', 'J', 'K', 'SN'];
 
   return (
-    <div style={{ display: 'block' }}>
+    <div className={descriptionsContainer}>
       <ScrollContainer
         customContainerStyle={{ height: 'fit-content' }}
         gradientColor="#f1f1f1"

@@ -14,17 +14,17 @@ describe('glossary list container', () => {
   it('applies a gradient to the scroll container when it is not at the top', () => {
     const { getByTestId } = render(<GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} />);
 
-    expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
+    expect(getByTestId('topScrollGradient')).toHaveClass('scrollContainerTop');
 
     const scrollContainer = getByTestId('scrollContainer');
 
     fireEvent.scroll(scrollContainer, { target: { scrollTop: 100 } });
-    expect(getByTestId('scrollGradient')).toHaveClass('scrollGradient');
-    expect(getByTestId('scrollGradient')).not.toHaveClass('scrollContainerTop');
+    expect(getByTestId('topScrollGradient')).toHaveClass('scrollGradientTop');
+    expect(getByTestId('topScrollGradient')).not.toHaveClass('scrollContainerTop');
 
     fireEvent.scroll(scrollContainer, { target: { scrollTop: 0 } });
-    expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
-    expect(getByTestId('scrollGradient')).not.toHaveClass('scrollGradient');
+    expect(getByTestId('topScrollGradient')).toHaveClass('scrollContainerTop');
+    expect(getByTestId('topScrollGradient')).not.toHaveClass('scrollGradientTop');
   });
 
   it('opens a terms definition display on click', () => {
