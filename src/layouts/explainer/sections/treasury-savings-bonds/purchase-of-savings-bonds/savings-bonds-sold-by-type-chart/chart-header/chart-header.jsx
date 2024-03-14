@@ -24,23 +24,25 @@ const ChartHeader = ({ selectedChartView, setSelectedChartView }) => {
         toggleClickHandler={chartView => setSelectedChartView(chartView)}
         chartId={null}
       />
-      <div className={inflationToggleContainer}>
-        <span className={inflationLabel}>Adjust for Inflation</span>
-        <InflationToggle />
-        <div className={infoTipContainer}>
-          <InfoTip
-            hover
-            iconStyle={{
-              color: '#666666',
-              width: '1rem',
-              height: '1rem',
-            }}
-            secondary={false}
-          >
-            {chartCopy.inflationToolTip}
-          </InfoTip>
+      {selectedChartView === 'amounts' && (
+        <div className={inflationToggleContainer}>
+          <span className={inflationLabel}>Adjust for Inflation</span>
+          <InflationToggle />
+          <div className={infoTipContainer}>
+            <InfoTip
+              hover
+              iconStyle={{
+                color: '#666666',
+                width: '1rem',
+                height: '1rem',
+              }}
+              secondary={false}
+            >
+              {chartCopy.inflationToolTip}
+            </InfoTip>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -8,6 +8,7 @@ import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import ChartHeader from './chart-header/chart-header';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
+import ChartDescription from './chart-description/chart-description';
 
 export interface ISavingBondsByTypeChartData {
   year: string;
@@ -112,6 +113,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
             <ChartLegend lines={savingsBonds} lineMap={savingsBondsMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} />
           </div>
         )}
+        {selectedChartView === 'description' && <ChartDescription />}
       </ChartContainer>
     </>
   );
