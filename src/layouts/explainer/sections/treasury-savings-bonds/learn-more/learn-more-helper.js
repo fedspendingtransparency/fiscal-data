@@ -8,8 +8,8 @@ export const getSaleBondsFootNotes = () => {
       definition: (
         <>
         <CustomLink url={'https://www.treasurydirect.gov/files/research-center/history-of-savings-bond/history-sb.pdf'} >
-          A History of the United States Savings Bonds Program,
-        </CustomLink> page 5
+          A History of the United States Savings Bonds Program
+        </CustomLink>, page 5
         </>
       ),
     },
@@ -18,8 +18,8 @@ export const getSaleBondsFootNotes = () => {
       definition: (
         <>
         <CustomLink url={'https://www.treasurydirect.gov/files/research-center/history-of-savings-bond/history-sb.pdf'} >
-          A History of the United States Savings Bonds Program,
-        </CustomLink> page 3
+          A History of the United States Savings Bonds Program
+        </CustomLink>, page 3
         </>
       )
     },
