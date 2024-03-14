@@ -32,7 +32,7 @@ interface ApiResponse {
   meta: {'total-pages': number};
 }
 
-const HowSavingsBondsFinanceGovernment = ({width}) => {
+const HowSavingsBondsFinanceGovernment = ({ width }) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [savingBondsPercentage, setSavingBondsPercentage] = useState<number | null>(null);
@@ -58,7 +58,7 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
                 ...item,
                 debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt)
               }));
-              
+
               const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
                 const key = cur.security_class_desc;
                 if (!acc[key]) {
@@ -74,9 +74,9 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
               const dataWithPercentages = processedData.map(item => ({
                 ...item,
                 percent: (item.value/totalValue) * 100
-                
+
               }));
-              dataWithPercentages.sort((a,b) => 
+              dataWithPercentages.sort((a,b) =>
               a.securityType === 'Nonmarketable' ? 1 : b.securityType !== 'Nonmarketanble' ? -1 : 0
               );
               setChartData(dataWithPercentages)
@@ -177,13 +177,8 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
     </GlossaryPopoverDefinition>
   );
 
-  const glossaryCustomFormat = {
-    text: 'not',
-    format: 'underline',
-    index: 0,
-  };
   const debtHeldByPublic = (
-    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer" customFormat={glossaryCustomFormat}>
+    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer">
       debt held by the public
     </GlossaryPopoverDefinition>
   );
@@ -223,8 +218,9 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
       <div className={visWithCallout}>
         <HowSavingsBondsSoldChart chartData={chartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
-          <p>Savings bonds make up {savingBondsPercentage}% of total debt held by the public through{' '}
-            {monthYear}. This is {percentageDifference} percentage points {higherOrLower} the same as 
+          <p>
+            Savings bonds make up {savingBondsPercentage}% of total debt held by the public through{' '}
+            {monthYear}. This is {percentageDifference} percentage points {higherOrLower} the same as
             the percent of debt held by the public ten years ago ({historicalSavingBondsPercentage}%).
           </p>
         </VisualizationCallout>
