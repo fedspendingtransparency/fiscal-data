@@ -4,7 +4,7 @@ import ScrollContainer from '../../../../../../../components/scroll-container/sc
 import { savingsBondsMap } from '../savings-bonds-sold-by-type-chart-helper';
 
 const ChartDescription = () => {
-  const descriptionList = ['AD', 'E', 'EE', 'F', 'G', 'H', 'HH', 'I', 'J', 'K', 'SN'];
+  const descriptionList = ['AD', 'E', 'EE', 'F', 'G', 'H', 'I', 'J', 'K', 'SN', 'HH'];
 
   return (
     <div className={descriptionsContainer}>
