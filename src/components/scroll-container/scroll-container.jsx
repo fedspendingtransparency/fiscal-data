@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   container,
   listItems,
@@ -9,23 +9,19 @@ import {
 } from './scroll-container.module.scss';
 
 const ScrollContainer = ({
-  list,
-  selection,
-  filter,
-  scrollTop,
-  setScrollTop,
-  scrollBottom,
-  setScrollBottom,
-  customChildStyle,
-  customContainerStyle,
-  children,
+  deps = [],
   gradientColor = 'white',
+  bottomGradient = false,
   testId = '',
+  customChildStyle = null,
+  customContainerStyle = null,
+  children,
 }) => {
+  const [scrollTop, setScrollTop] = useState(true);
+  const [scrollBottom, setScrollBottom] = useState(false);
   const handleScroll = scrollContainer => {
     setScrollTop(scrollContainer.scrollTop === 0);
-    console.log(Math.abs(scrollContainer.scrollHeight - (scrollContainer.scrollTop + scrollContainer.clientHeight)) <= 1);
-    if (setScrollBottom) {
+    if (bottomGradient) {
       setScrollBottom(Math.abs(scrollContainer.scrollHeight - (scrollContainer.scrollTop + scrollContainer.clientHeight)) <= 1);
     }
   };
@@ -41,7 +37,7 @@ const ScrollContainer = ({
         scrollContainer.removeEventListener('scroll', handleScroll);
       };
     }
-  }, [selection, list, filter]);
+  }, [...deps]);
 
   return (
     <>
@@ -55,11 +51,13 @@ const ScrollContainer = ({
           {children}
         </div>
       </div>
-      <div
-        className={scrollBottom ? scrollContainerBottom : scrollGradientBottom}
-        style={scrollBottom ? {} : { background: `linear-gradient( rgba(255, 255, 255, 0), ${gradientColor})` }}
-        data-testid="scrollGradient"
-      />
+      {bottomGradient && (
+        <div
+          className={scrollBottom ? scrollContainerBottom : scrollGradientBottom}
+          style={scrollBottom ? {} : { background: `linear-gradient( rgba(255, 255, 255, 0), ${gradientColor})` }}
+          data-testid="scrollGradient"
+        />
+      )}
     </>
   );
 };
