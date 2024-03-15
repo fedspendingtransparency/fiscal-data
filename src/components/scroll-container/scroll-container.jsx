@@ -33,8 +33,10 @@ const ScrollContainer = ({
   useEffect(() => {
     //Get the width of the scroll bar so that the gradient does not overlay that
     const scrollContainer = document.querySelector(`[data-testid=${dataTestId}]`);
-    const scrollWidth = scrollContainer.offsetWidth - scrollContainer.clientWidth;
-    setScrollBarWidth(scrollWidth);
+    const scrollWidth = scrollContainer?.offsetWidth - scrollContainer?.clientWidth;
+    if (scrollWidth) {
+      setScrollBarWidth(scrollWidth);
+    }
   }, []);
 
   useEffect(() => {
