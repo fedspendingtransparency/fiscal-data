@@ -36,7 +36,7 @@ import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
-  const { pageName, heroImage, seoConfig, relatedDatasets, cpiDataByYear, isAFG } = pageContext;
+  const { pageName, heroImage, seoConfig, relatedDatasets, cpiDataByYear, isAFG, cpi12MonthPercentChange } = pageContext;
   return (
     <GlossaryProvider>
       <SiteLayout isPreProd={false}>

@@ -224,7 +224,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     createNode(node);
   });
 
-  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=0270cf2d85494f99aeab578067ad5d9c`;
+  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?startyear=2005&endyear=2024&calculations=true`;
   const getBLSData = async () => {
     return new Promise((resolve, reject) => {
       fetch(blsPublicApiUrl)
@@ -243,12 +243,11 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   };
 
-  // use locally for BLS failures
-  // const getResultData = require('./static/data/CPI/bls-fallback-data.json');
-
   let resultDataBLS;
   let resultDataBEA;
 
+  // This file can be used for any local testing, otherwise the fallback api response will include 10 years of data
+  // fs.readFile('./static/data/CPI/bls-data-fallback.json', 'utf8', async (err, data) => {
   fs.readFile('./static/data/bls-data.json', 'utf8', async (err, data) => {
     if (err) {
       resultDataBLS = await getBLSData()
@@ -264,6 +263,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       blsRow.id = createNodeId(blsRow.year + blsRow.period);
       const node = {
         ...blsRow,
+        _12mo_percentage_change: blsRow['12mo_percentage_change'],
         parent: null,
         children: [],
         internal: {
@@ -398,7 +398,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       year: String,
       period: String,
       latest: String,
-      value: String
+      value: String,
+      _12mo_percentage_change: String
     }
     type BeaGDP implements Node {
       lineDescription: String,
@@ -581,6 +582,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           value
           period
           latest
+          _12mo_percentage_change
         }
       }
       allGlossaryCsv {
@@ -618,6 +620,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const cpiYearMap = {};
   result.data.allCpi100Csv.cpi100Csv.forEach(row => {
     cpiYearMap[row.year] = row.value;
+  });
+
+  const cpi12MonthPercentChangeMap = {};
+
+  result.data.allBlsPublicApiData.blsPublicApiData.forEach(blsRow => {
+    cpi12MonthPercentChangeMap[blsRow.period + blsRow.year] = blsRow['_12mo_percentage_change'];
   });
 
   for (const config of result.data.allDatasets.datasets) {
@@ -681,6 +689,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           relatedDatasets: explainerRelatedDatasets,
           isAFG: explainer.isAFG,
           cpiDataByYear: cpiYearMap,
+          cpi12MonthPercentChange: cpi12MonthPercentChangeMap,
         },
       });
     }
