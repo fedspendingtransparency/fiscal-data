@@ -3,6 +3,15 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-government';
 import { RecoilRoot } from 'recoil';
+import { useStaticQuery } from 'gatsby';
+
+const mockUseStaticQueryData = {
+  allSavingsBondsByTypeHistoricalCsv: {
+    savingsBondsByTypeHistoricalCsv: {
+      nodes: [{ year: '2021', bond_type: 'Series I', sales: 153000000000 }],
+    },
+  },
+};
 
 describe('How Savings Bonds Finance The Government Section', () => {
   class ResizeObserver {
@@ -11,6 +20,10 @@ describe('How Savings Bonds Finance The Government Section', () => {
     disconnect() {}
   }
   window.ResizeObserver = ResizeObserver;
+
+  beforeAll(() => {
+    useStaticQuery.mockReturnValue(mockUseStaticQueryData);
+  });
 
   it('renders the section', () => {
     render(
