@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-government';
+import { RecoilRoot } from 'recoil';
 
 describe('How Savings Bonds Finance The Government Section', () => {
   class ResizeObserver {
@@ -12,7 +13,11 @@ describe('How Savings Bonds Finance The Government Section', () => {
   window.ResizeObserver = ResizeObserver;
 
   it('renders the section', () => {
-    render(<HowSavingsBondsFinanceGovernment />);
+    render(
+      <RecoilRoot>
+        <HowSavingsBondsFinanceGovernment />
+      </RecoilRoot>
+    );
     expect(screen.getByText('Different types of securities earn interest in different ways.', { exact: false })).toBeInTheDocument();
     expect(
       screen.getByText(

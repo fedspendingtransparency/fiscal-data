@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import { subSectionTitle } from './how-savings-bonds-finance-government.module.scss';
-import { visWithCallout } from '../../../explainer.module.scss';
+import { breakpointLg, visWithCallout } from '../../../explainer.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import BondImage from '../../../../../../static/images/savings-bonds/Series-E-Bond-Cropped.png';
 import ImageContainer from '../../../explainer-components/image-container/image-container';
@@ -9,13 +9,14 @@ import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bond
 import TypesOfSavingsBonds from './types-of-savings-bonds-table/types-of-savings-bonds';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg } from '../../../explainer.module.scss';
 import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-of-savings-bonds-responsive';
 import HowSavingsBondsSoldChart from './how-savings-bonds-finance-chart/how-savings-bonds-sold-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
-import { basicFetch, apiPrefix, monthFullNames } from '../../../../../utils/api-utils';
-import { sortByType } from '../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import { apiPrefix, basicFetch, monthFullNames } from '../../../../../utils/api-utils';
 import { graphql, useStaticQuery } from 'gatsby';
+import { useRecoilValueLoadable } from 'recoil';
+import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
+import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
 
 interface ChartDataItem {
   name: string;
@@ -42,6 +43,8 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
   const [percentageDifference, setPercentageDifference] = useState<number | null>(null);
   const [monthYear, setMonthYear] = useState<string | null>(null);
   const isDesktop = width >= pxToNumber(breakpointLg);
+  const typesData = useRecoilValueLoadable(savingsBondTypesData);
+  useShouldRefreshCachedData(Date.now(), savingsBondTypesData, savingsBondTypesLastCachedState);
 
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`
@@ -59,7 +62,6 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
 
   const savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
   const howSavingBondsSold = 'v1/debt/mspd/mspd_table_1?filter=record_date:eq';
-  const numOfSavingsBonds = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond';
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=1`).then((metaRes: ApiResponse) => {
@@ -131,28 +133,24 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
     });
   }, []);
 
-  useEffect(() => {
-    const historicalData = savingsBondsByTypeHistorical;
-    basicFetch(`${apiPrefix}${numOfSavingsBonds}&page[size]=1`).then(metaRes => {
-      if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
-        const pageSize = metaRes.meta['total-pages'];
-        basicFetch(`${apiPrefix}${numOfSavingsBonds}&page[size]=${pageSize}`).then(res => {
-          if (res.data) {
-            const totalData = [...historicalData, ...res.data];
-            const types = totalData.map(element => {
-              if (element.security_class_desc) {
-                return element.security_class_desc;
-              } else if (element.bond_type) {
-                return element.bond_type;
-              }
-            });
-            const unique = Array.from(new Set(types));
-            setNumberOfBondTypes(unique.length.toString());
-          }
-        });
+  const processTypesSavingsBondsData = res => {
+    const totalData = [...savingsBondsByTypeHistorical, ...res];
+    const types = totalData.map(element => {
+      if (element.security_class_desc) {
+        return element.security_class_desc;
+      } else if (element.bond_type) {
+        return element.bond_type;
       }
     });
-  }, []);
+    return Array.from(new Set(types));
+  };
+
+  useEffect(() => {
+    if (typesData.state === 'hasValue') {
+      const processedTypes = processTypesSavingsBondsData(typesData.contents.payload);
+      setNumberOfBondTypes(processedTypes.length.toString());
+    }
+  }, [typesData.state]);
 
   useEffect(() => {
     if (savingBondsPercentage !== null && historicalSavingBondsPercentage !== null) {
