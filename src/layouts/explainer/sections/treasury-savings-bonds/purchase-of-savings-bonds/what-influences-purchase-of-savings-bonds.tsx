@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import SavingsBondsSoldByTypeChart from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
+import SavingsBondsSoldByTypeChart, { ISavingBondsByTypeChartData } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import { visWithCallout } from '../../../explainer.module.scss';
 import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
@@ -11,17 +11,20 @@ import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import IBondSalesChart from './i-bond-sales-chart/i-bond-sales-chart';
 import { graphql, useStaticQuery } from 'gatsby';
-import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import { fyEndpoint, sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
 
 interface BondSaleEntry {
-year: string;
-[key: string]: string;
+  year: string;
+  [key: string]: string;
 }
 
 type SalesData = Record<string, number>;
 
-const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
+const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent<{ cpi12MonthPercentChange: any }> = ({ cpi12MonthPercentChange }) => {
   const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
+  const [curFy, setCurFy] = useState<string>('');
+  const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
   const [mostBondSalesYear, setMostBondSalesYear] = useState<string | null>(null);
   const [mostBondSales, setMostBondSales] = useState<number>(0);
   const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
@@ -50,25 +53,25 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
       if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
         const pageSize = metaRes.meta['total-pages'];
-        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => { 
+        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
           if (res.data) {
             const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
             const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
-          
+
             const salesByYear: SalesData = allData.reduce((acc, entry: BondSaleEntry) => {
               const totalSalesForYear = acc[entry.year] || 0;
               const yearlySales = Object.keys(entry)
                 .filter(key => key !== 'year')
                 .reduce((sum, key) => sum + Number(entry[key]), 0);
-        
+
               acc[entry.year] = totalSalesForYear + yearlySales;
               return acc;
             }, {});
-        
+
             const sortedYears = Object.entries(salesByYear)
               .map(([year, totalSales]) => ({ year, totalSales }))
               .sort((a, b) => b.totalSales - a.totalSales);
-        
+
             if (sortedYears.length > 0) {
               setMostBondSalesYear(sortedYears[0].year);
               setMostBondSales(sortedYears[0].totalSales);
@@ -80,11 +83,20 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
             setChartData(allData);
             setBondTypes(new Set(allData.flatMap(entry => Object.keys(entry).filter(key => key !== 'year'))).size);
           }
-        })
+        });
       }
     });
   }, []);
 
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        setCurFy(data.record_fiscal_year);
+        setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -120,11 +132,11 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
       </ImageContainer>
       <p>The chart below shows savings bond sales over time for all {bondTypes} savings bond types and their relative popularity.</p>
       <div className={visWithCallout}>
-        <SavingsBondsSoldByTypeChart chartData={chartData} />
+        <SavingsBondsSoldByTypeChart chartData={chartData} curFy={curFy} chartDate={historyChartDate} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
-            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when ${getShortForm(mostBondSales)} and ${getShortForm(secondMostBondSales)} bonds were sold,
-            respectively.
+            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when ${getShortForm(mostBondSales)} and $
+            {getShortForm(secondMostBondSales)} bonds were sold, respectively.
           </p>
         </VisualizationCallout>
       </div>
@@ -142,7 +154,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
         bonds between April 2021 and February 2023. The chart below shows inflation data and I bond purchases from the last 20 years.
       </p>
       <div className={visWithCallout}>
-        <IBondSalesChart />
+        <IBondSalesChart cpi12MonthPercentChange={cpi12MonthPercentChange} curFy={curFy} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>Generally, higher inflation rates are correlated with an increase in demand for inflation-protected securities like I bonds.</p>
         </VisualizationCallout>

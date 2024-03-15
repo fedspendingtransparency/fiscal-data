@@ -5,6 +5,7 @@ import SavingBondsKeyTakeaway from './savings-bonds-key-takeaway/savings-bonds-k
 import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-government/how-savings-bonds-finance-government';
 import SavingsBondsAreFullyMatured from './savings-bonds-are-fully-matured/savings-bonds-are-fully-matured';
 import LearnMore from './learn-more/learn-more';
+import { ICpiDataMap } from '../../../../models/ICpiDataMap';
 
 export const treasurySavingsBondsSectionIds = [
   'key-takeaways',
@@ -20,7 +21,9 @@ interface IExplainerPageSection {
   id: string;
   title: string;
   component: FunctionComponent<{
-    cpiDataByYear: ICpiDataMap;
+    cpiData: {
+      cpi12MonthPercentChange: ICpiDataMap;
+    };
   }>;
 }
 
@@ -47,7 +50,7 @@ const treasurySavingsBondsSections: IExplainerPageSection[] = [
     index: 3,
     id: treasurySavingsBondsSectionIds[3],
     title: 'What Influences the Purchase of Savings Bonds?',
-    component: cpiData => <WhatInfluencesPurchaseOfSavingsBonds />,
+    component: cpiData => <WhatInfluencesPurchaseOfSavingsBonds cpi12MonthPercentChange={cpiData.cpi12MonthPercentChange} />,
   },
   {
     index: 4,
