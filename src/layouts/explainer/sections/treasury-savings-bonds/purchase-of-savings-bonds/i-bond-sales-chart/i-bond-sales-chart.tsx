@@ -97,6 +97,7 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
                   tickLine={false}
                   domain={[0, 20000000000]}
                   tickFormatter={value => xAxisTickFormatter(value)}
+                  tick={{ fill: treasurySavingsBondsExplainerSecondary }}
                 />
                 <YAxis
                   yAxisId={1}

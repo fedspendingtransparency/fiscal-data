@@ -13,6 +13,8 @@ import IBondSalesChart from './i-bond-sales-chart/i-bond-sales-chart';
 import { graphql, useStaticQuery } from 'gatsby';
 import { fyEndpoint, sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
+import AnchorText from '../../../../../components/anchor-text/anchor-text';
+import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
 
 interface BondSaleEntry {
   year: string;
@@ -48,7 +50,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent<{ cpi12MonthPercen
   const savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
   const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
   const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond';
-
+  const anchor = getSaleBondsFootNotes()[1];
   useEffect(() => {
     basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
       if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
@@ -108,7 +110,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent<{ cpi12MonthPercen
       <h5 className={subsectionHeader}>Savings Bonds History</h5>
       <p>
         The sale of U.S. Treasury marketable securities began with the nation’s founding, where private citizens purchased $27 million in government
-        bonds to finance the Revolutionary War. These early loans to the government were introduced to raise funds from the American public to support
+        bonds to finance the Revolutionary War<AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text} />. These early loans to the government were introduced to raise funds from the American public to support
         war efforts as well as other national projects like the construction of the Panama Canal.
       </p>
       <p>

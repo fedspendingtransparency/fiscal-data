@@ -27,7 +27,7 @@ describe('HowSavingsBondsSoldChart', () => {
   }
   window.ResizeObserver = ResizeObserver;
   beforeEach(() => {
-    render(<HowSavingsBondsSoldChart />);
+    render(<HowSavingsBondsSoldChart chartData={mockDatasetTwo} />);
   });
 
   it('renders pie chart with provided mock data', () => {
