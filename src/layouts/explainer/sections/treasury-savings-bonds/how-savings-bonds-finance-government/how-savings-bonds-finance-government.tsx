@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import { subSectionTitle } from './how-savings-bonds-finance-government.module.scss';
 import { visWithCallout } from '../../../explainer.module.scss';
@@ -14,7 +14,7 @@ import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-
 import HowSavingsBondsSoldChart from './how-savings-bonds-finance-chart/how-savings-bonds-sold-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 
-const HowSavingsBondsFinanceGovernment = ({width}) => {
+const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = ({ width }) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
 
   const isDesktop = width >= pxToNumber(breakpointLg);
@@ -114,9 +114,10 @@ const HowSavingsBondsFinanceGovernment = ({width}) => {
       <div className={visWithCallout}>
         <HowSavingsBondsSoldChart />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
-          <p>Savings bonds make up XX% of total debt held by the public through 
-            Month YYYY . This is XX%  percentage points higher than/lower than/the same as 
-            the percent of debt held by the public ten years ago (XX% ). </p>
+          <p>
+            Savings bonds make up XX% of total debt held by the public through Month YYYY . This is XX% percentage points higher than/lower than/the
+            same as the percent of debt held by the public ten years ago (XX% ).
+          </p>
         </VisualizationCallout>
       </div>
       <h5 className={subSectionTitle}>Types of Savings Bonds</h5>

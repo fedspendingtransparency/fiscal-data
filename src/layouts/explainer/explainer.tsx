@@ -37,6 +37,11 @@ import GlossaryProvider from '../../components/glossary/glossary-context/glossar
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
   const { pageName, heroImage, seoConfig, relatedDatasets, cpiDataByYear, isAFG, cpi12MonthPercentChange } = pageContext;
+
+  const cpiData = {
+    cpiDataByYear: cpiDataByYear,
+    cpi12MonthPercentChange: cpi12MonthPercentChange,
+  };
   return (
     <GlossaryProvider>
       <SiteLayout isPreProd={false}>
@@ -91,7 +96,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
                         <h2 className={sectionHeading} style={{ color: explainerColorMap[pageName].primary }} data-testid="section-heading">
                           {s.title}
                         </h2>
-                        {s.component(cpiDataByYear)}
+                        {s.component(cpiData)}
                         {s.index !== explainerSections[pageName].length - 1 && (
                           <div
                             className={sectionBorder}

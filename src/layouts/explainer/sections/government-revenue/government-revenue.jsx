@@ -18,31 +18,31 @@ const governmentRevenueSections = [
     index: 0,
     id: governmentRevenueSectionIds[0],
     title: 'Key Takeaways',
-    component: cpiDataByYear => <RevenueKeyTakeaways />,
+    component: cpiData => <RevenueKeyTakeaways />,
   },
   {
     index: 1,
     id: governmentRevenueSectionIds[1],
     title: 'Federal Revenue Overview',
-    component: cpiDataByYear => <FederalRevenueOverview />,
+    component: cpiData => <FederalRevenueOverview />,
   },
   {
     index: 2,
     id: governmentRevenueSectionIds[2],
     title: 'Sources of Federal Revenue',
-    component: cpiDataByYear => <SourcesOfFederalRevenue />,
+    component: cpiData => <SourcesOfFederalRevenue />,
   },
   {
     index: 3,
     id: governmentRevenueSectionIds[3],
     title: 'Federal Revenue Trends Over Time',
-    component: cpiDataByYear => <FederalRevenueTrendsOverTime cpiDataByYear={cpiDataByYear} />,
+    component: cpiData => <FederalRevenueTrendsOverTime cpiDataByYear={cpiData.cpiDataByYear} />,
   },
   {
     index: 4,
     id: governmentRevenueSectionIds[4],
     title: 'Federal Revenue Trends and the U.S. Economy ',
-    component: cpiDataByYear => <FederalRevenueTrendsAndUSEconomy cpiDataByYear={cpiDataByYear} />,
+    component: cpiData => <FederalRevenueTrendsAndUSEconomy cpiDataByYear={cpiDataByYear} />,
   },
 ];
 
