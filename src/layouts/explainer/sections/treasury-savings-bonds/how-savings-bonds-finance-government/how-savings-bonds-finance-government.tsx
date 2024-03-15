@@ -64,35 +64,42 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
   const howSavingBondsSold = 'v1/debt/mspd/mspd_table_1?filter=record_date:eq';
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=1`).then((metaRes: ApiResponse) => {
-      if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
-        const pageSize = metaRes.meta['total-pages'];
-        basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=${pageSize}`).then((res: ApiResponse) => {
-          const relevantData = res.data
-            .filter(item => item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable')
-            .map(item => ({
-              ...item,
-              debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt),
-            }));
+    basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=1`)
+      .then((metaRes: ApiResponse) => {
+        if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
+          const pageSize = metaRes.meta['total-pages'];
+          basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=${pageSize}`)
+            .then((res: ApiResponse) => {
+              const relevantData = res.data
+              .filter(item =>
+                item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable'
+              )
+              .map(item => ({
+                ...item,
+                debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt)
+              }));
 
-          const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
-            const key = cur.security_class_desc;
-            if (!acc[key]) {
-              acc[key] = { name: key, value: 0, percent: 0, securityType: cur.security_type_desc };
-            }
-            acc[key].value += cur.debt_held_public_mil_amt;
-            return acc;
-          }, {});
+              const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
+                const key = cur.security_class_desc;
+                if (!acc[key]) {
+                  acc[key] = { name: key, value: 0, percent: 0, securityType: cur.security_type_desc };
+                }
+                acc[key].value += cur.debt_held_public_mil_amt;
+                return acc;
+              }, {});
 
           const processedData = Object.values(summedData);
           const totalValue = Number(processedData.reduce((sum, item) => sum + item.value, 0));
 
-          const dataWithPercentages = processedData.map(item => ({
-            ...item,
-            percent: (item.value / totalValue) * 100,
-          }));
-          dataWithPercentages.sort((a, b) => (a.securityType === 'Nonmarketable' ? 1 : b.securityType !== 'Nonmarketanble' ? -1 : 0));
-          setChartData(dataWithPercentages);
+              const dataWithPercentages = processedData.map(item => ({
+                ...item,
+                percent: (item.value/totalValue) * 100
+
+              }));
+              dataWithPercentages.sort((a,b) =>
+              a.securityType === 'Nonmarketable' ? 1 : b.securityType !== 'Nonmarketanble' ? -1 : 0
+              );
+              setChartData(dataWithPercentages)
 
           const mostRecentItem = res.data.reduce((mostRecent, currentItem) => {
             const currentDate = new Date(currentItem.record_date);
@@ -210,13 +217,8 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
     </GlossaryPopoverDefinition>
   );
 
-  const glossaryCustomFormat = {
-    text: 'not',
-    format: 'underline',
-    index: 0,
-  };
   const debtHeldByPublic = (
-    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer" customFormat={glossaryCustomFormat}>
+    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer">
       debt held by the public
     </GlossaryPopoverDefinition>
   );
