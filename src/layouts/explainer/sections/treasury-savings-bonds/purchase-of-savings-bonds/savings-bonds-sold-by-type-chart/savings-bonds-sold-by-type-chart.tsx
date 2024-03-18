@@ -9,6 +9,7 @@ import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import ChartHeader from './chart-header/chart-header';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartDescription from './chart-description/chart-description';
+import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 
 export interface ISavingBondsByTypeChartData {
   year: string;
@@ -25,7 +26,7 @@ export interface ISavingBondsByTypeChartData {
   SN?: number;
 }
 
-const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsByTypeChartData[] }> = ({ chartData }) => {
+const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsByTypeChartData[], cipDataByYear: any }> = ({ chartData, cpiDataByYear }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('amounts');
   const [hiddenFields, setHiddenFields] = useState<string[]>([]);
   const [curFyHistory, setCurFyHistory] = useState<string>('');
@@ -42,6 +43,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
         const data = res.data[0];
         setCurFyHistory(data.record_fiscal_year);
         setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
+        console.log('adjust', chartData);
       }
     });
   }, []);
@@ -52,6 +54,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
       setXAxis(getXAxisValues(1935, max));
       setMaxYear(max);
       setSortedBonds(sortedByDate(savingsBonds, chartData));
+
     }
   }, [chartData]);
 

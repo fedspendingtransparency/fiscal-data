@@ -58,7 +58,7 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
                 ...item,
                 debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt)
               }));
-
+              console.log('relevantData,', res.data);
               const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
                 const key = cur.security_class_desc;
                 if (!acc[key]) {
@@ -80,6 +80,7 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
               a.securityType === 'Nonmarketable' ? 1 : b.securityType !== 'Nonmarketanble' ? -1 : 0
               );
               setChartData(dataWithPercentages)
+              console.log('setchart', chartData)
 
               const mostRecentItem = res.data.reduce((mostRecent, currentItem) => {
                 const currentDate = new Date(currentItem.record_date);
@@ -100,6 +101,7 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
 
               const processChartData = (dataSet, setIsHistorical = false) => {
                 const totalValue = dataSet.reduce((sum, item) => sum + item.debt_held_public_mil_amt, 0);
+                console.log(totalValue)
                 const savingsBondValue = dataSet.filter(item => item.security_class_desc === 'United States Savings Securities')
                   .reduce((sum, item) => sum + item.debt_held_public_mil_amt, 0);
                 const percentage = (savingsBondValue / totalValue) * 100;

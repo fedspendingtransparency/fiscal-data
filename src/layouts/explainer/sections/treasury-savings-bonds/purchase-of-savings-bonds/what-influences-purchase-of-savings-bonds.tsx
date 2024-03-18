@@ -14,15 +14,18 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
 import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
-
+import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';
 interface BondSaleEntry {
 year: string;
 [key: string]: string;
 }
 
 type SalesData = Record<string, number>;
+type CalloutProps = {
+  cpiDataByYear: any;
+};
 
-const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
+const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear }: CalloutProps) => {
   const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
   const [mostBondSalesYear, setMostBondSalesYear] = useState<string | null>(null);
   const [mostBondSales, setMostBondSales] = useState<number>(0);
@@ -55,8 +58,10 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
         basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => { 
           if (res.data) {
             const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
+            // currentData = adjustDataForInflation(currentData, 'net_sales_amt', 'record_fiscal_year', cpiDataByYear);
             const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
-          
+
+
             const salesByYear: SalesData = allData.reduce((acc, entry: BondSaleEntry) => {
               const totalSalesForYear = acc[entry.year] || 0;
               const yearlySales = Object.keys(entry)
@@ -79,6 +84,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
                 setSecondMostBondSales(sortedYears[1].totalSales);
               }
             }
+            console.log('allData', allData)
             setChartData(allData);
             setBondTypes(new Set(allData.flatMap(entry => Object.keys(entry).filter(key => key !== 'year'))).size);
           }
@@ -122,7 +128,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
       </ImageContainer>
       <p>The chart below shows savings bond sales over time for all {bondTypes} savings bond types and their relative popularity.</p>
       <div className={visWithCallout}>
-        <SavingsBondsSoldByTypeChart chartData={chartData} />
+        <SavingsBondsSoldByTypeChart chartData={chartData} cpiDataByYear={cpiDataByYear}/>
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
             Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when ${getShortForm(mostBondSales)} and ${getShortForm(secondMostBondSales)} bonds were sold,
