@@ -9,7 +9,10 @@ export const adjustDataForInflation = (
   const getYearFromDate = dateValue => {
     return dateValue.substring(0, 4);
   };
-
+  console.log('dataToConvert', dataToConvert)
+  console.log('dollarValueField', dollarValueField)
+  console.log('dateField', dateField)
+  console.log('cpiYearMap', cpiYearMap)
   const latestEntry = [...dataToConvert].sort((a, b) => getYearFromDate(b[dateField]) - getYearFromDate(a[dateField]))[0];
   const latestYear = getYearFromDate(latestEntry[dateField]);
   const referenceCPIValue = cpiYearMap[latestYear];

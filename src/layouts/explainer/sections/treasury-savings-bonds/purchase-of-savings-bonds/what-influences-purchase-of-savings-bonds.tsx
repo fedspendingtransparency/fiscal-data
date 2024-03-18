@@ -15,6 +15,8 @@ import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sol
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
 import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
 import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';
+import { leftTile } from '../../../../../components/topics-section/homepage-tile/homepage-tile.module.scss';
+import { currency } from '../../../../../components/split-flap-display/split-flap-display.module.scss';
 interface BondSaleEntry {
 year: string;
 [key: string]: string;
@@ -57,10 +59,12 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
         const pageSize = metaRes.meta['total-pages'];
         basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => { 
           if (res.data) {
+            console.log('BEFORE res.data,', res.data)
+            res.data = adjustDataForInflation(res.data, 'net_sales_amt', 'record_fiscal_year', cpiDataByYear);
             const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
-            // currentData = adjustDataForInflation(currentData, 'net_sales_amt', 'record_fiscal_year', cpiDataByYear);
-            const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
 
+            console.log('res.data,', res.data)
+            const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
 
             const salesByYear: SalesData = allData.reduce((acc, entry: BondSaleEntry) => {
               const totalSalesForYear = acc[entry.year] || 0;

@@ -43,13 +43,13 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
         const data = res.data[0];
         setCurFyHistory(data.record_fiscal_year);
         setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
-        console.log('adjust', chartData);
       }
     });
   }, []);
 
   useEffect(() => {
     if (chartData) {
+      console.log(chartData);
       const max = Number(chartData[chartData.length - 1].year);
       setXAxis(getXAxisValues(1935, max));
       setMaxYear(max);
@@ -57,6 +57,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
 
     }
   }, [chartData]);
+
 
   const sortedByDate = (savingsBonds, data) => {
     if (data) {
