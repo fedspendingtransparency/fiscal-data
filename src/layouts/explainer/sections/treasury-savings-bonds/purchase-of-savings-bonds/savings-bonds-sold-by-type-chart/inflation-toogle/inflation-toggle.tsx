@@ -41,6 +41,7 @@ const StyledSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
 
 const InflationToggle: FunctionComponent = () => {
   const [inflationSwitch, setInflationSwitch] = useState(false);
+  console.log(inflationSwitch)
 
   return (
     <StyledSwitch

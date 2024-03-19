@@ -29,6 +29,7 @@ type CalloutProps = {
 
 const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear }: CalloutProps) => {
   const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
+  const [inflationChartData, setInflationChartData] = useState<ISavingBondsByTypeChartData[]>();
   const [mostBondSalesYear, setMostBondSalesYear] = useState<string | null>(null);
   const [mostBondSales, setMostBondSales] = useState<number>(0);
   const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
@@ -49,8 +50,8 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
     `
   );
 
-  const savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
-  const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
+  let savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
+  // let historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
   const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond';
   const anchor = getSaleBondsFootNotes()[1];
   useEffect(() => {
@@ -59,12 +60,16 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
         const pageSize = metaRes.meta['total-pages'];
         basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => { 
           if (res.data) {
-            console.log('BEFORE res.data,', res.data)
-            res.data = adjustDataForInflation(res.data, 'net_sales_amt', 'record_fiscal_year', cpiDataByYear);
-            const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
 
-            console.log('res.data,', res.data)
+            const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
+            const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
             const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
+            res.data = adjustDataForInflation(res.data, 'net_sales_amt', 'record_fiscal_year', cpiDataByYear);
+            savingsBondsByTypeHistorical = adjustDataForInflation(savingsBondsByTypeHistorical, 'sales', 'year', cpiDataByYear);
+            const inflationCurrentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
+            console.log('res.data,', res.data)
+            const inflationHistoricalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
+            const inflationAllData = [...inflationHistoricalData, ...inflationCurrentData].sort((a, b) => a.year - b.year);
 
             const salesByYear: SalesData = allData.reduce((acc, entry: BondSaleEntry) => {
               const totalSalesForYear = acc[entry.year] || 0;
@@ -90,6 +95,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
             }
             console.log('allData', allData)
             setChartData(allData);
+            setInflationChartData(inflationAllData);
             setBondTypes(new Set(allData.flatMap(entry => Object.keys(entry).filter(key => key !== 'year'))).size);
           }
         })
@@ -132,7 +138,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
       </ImageContainer>
       <p>The chart below shows savings bond sales over time for all {bondTypes} savings bond types and their relative popularity.</p>
       <div className={visWithCallout}>
-        <SavingsBondsSoldByTypeChart chartData={chartData} cpiDataByYear={cpiDataByYear}/>
+        <SavingsBondsSoldByTypeChart chartData={chartData} inflationChartData={inflationChartData}/>
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
             Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when ${getShortForm(mostBondSales)} and ${getShortForm(secondMostBondSales)} bonds were sold,

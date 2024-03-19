@@ -9,7 +9,6 @@ import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import ChartHeader from './chart-header/chart-header';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartDescription from './chart-description/chart-description';
-import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 
 export interface ISavingBondsByTypeChartData {
   year: string;
@@ -26,7 +25,7 @@ export interface ISavingBondsByTypeChartData {
   SN?: number;
 }
 
-const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsByTypeChartData[], cipDataByYear: any }> = ({ chartData, cpiDataByYear }) => {
+const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsByTypeChartData[], inflationChartData: ISavingBondsByTypeChartData[] }> = ({ chartData, inflationChartData }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('amounts');
   const [hiddenFields, setHiddenFields] = useState<string[]>([]);
   const [curFyHistory, setCurFyHistory] = useState<string>('');
@@ -36,6 +35,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
   const [maxYear, setMaxYear] = useState<number>();
   const [xAxis, setXAxis] = useState<number[]>();
   const header = <ChartHeader selectedChartView={selectedChartView} setSelectedChartView={setSelectedChartView} />;
+  console.log('SELECTED CHART VIEW ', header)
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
@@ -49,7 +49,6 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
 
   useEffect(() => {
     if (chartData) {
-      console.log(chartData);
       const max = Number(chartData[chartData.length - 1].year);
       setXAxis(getXAxisValues(1935, max));
       setMaxYear(max);
@@ -80,7 +79,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
           <div className={chartStyle} data-testid="chartParent">
             {chartData && sortedBonds && (
               <ResponsiveContainer height={377} width="99%">
-                <AreaChart data={chartData} margin={{ top: 16, bottom: 0, left: -8, right: 16 }}>
+                <AreaChart data={inflationChartData} margin={{ top: 16, bottom: 0, left: -8, right: 16 }}>
                   <CartesianGrid vertical={false} stroke="#d9d9d9" />
                   <ReferenceLine y={0} stroke="#555555" />
                   <XAxis dataKey="year" type="number" domain={[1935, maxYear]} ticks={xAxis} minTickGap={3} />
