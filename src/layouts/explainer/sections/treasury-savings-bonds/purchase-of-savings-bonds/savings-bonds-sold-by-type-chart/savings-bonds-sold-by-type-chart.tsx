@@ -40,7 +40,6 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
     setInflationSwitch(isAdjusted);
   }
   const header = <ChartHeader selectedChartView={selectedChartView} setSelectedChartView={setSelectedChartView} onToggle={handleInflationToggle} />;
-  console.log('SELECTED CHART VIEW ', header)
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
