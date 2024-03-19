@@ -50,12 +50,18 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
 
   const bannerCallout = pageContext.config.bannerCallout;
 
-  console.log(bannerCallout);
-
   useEffect(() => {
     setPageConfig(updatedPageConfig.config);
     setFinalDatesNotFound(false);
   }, [updatedPageConfig]);
+
+  const determineBannerType = () => {
+    if (bannerCallout.banner === 'SavingsBondsDelay' || bannerCallout.banner === 'TreasuryDirectDelay') {
+      return 'warning';
+    } else {
+      return 'info';
+    }
+  };
 
   return (
     <SiteLayout isPreProd={pageContext.isPreProd}>
@@ -71,10 +77,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
       <div className="ddpBodyBackground">
         {bannerCallout && (
           <div className={bannerCalloutContainer} data-testid="callout">
-            <BannerCallout
-              bannerCallout={bannerCallout}
-              bannerType={bannerCallout.banner === 'SavingsBondsDelay' || bannerCallout.banner === 'TreasuryDirectDelay' ? 'warning' : 'info'}
-            />
+            <BannerCallout bannerCallout={bannerCallout} bannerType={determineBannerType()} />
           </div>
         )}
         <DatasetIntroduction

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   banner,
   infoBanner,
@@ -10,7 +10,7 @@ import {
   altBannerText,
   altInfoColor,
 } from './banner-callout.module.scss';
-import { faCircleInfo, faTriangleExclamation, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { calloutConfig } from './banner-callout-helper';
@@ -41,6 +41,12 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
     },
   };
 
+  const infoTipElement = (
+    <InfoTip width={width} hover iconStyle={{ color: '#666666', width: '15px', height: '15px' }}>
+      {infoTip}
+    </InfoTip>
+  );
+
   const styleConfig = bannerMap[bannerType];
 
   if (currentCallout && today >= startDate && (endDate === null || today < endDate)) {
@@ -55,11 +61,7 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
             {!infoTip && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
             <div>
               {currentCallout}
-              {infoTip && (
-                <InfoTip width={width} hover iconStyle={{ color: '#666666', width: '15px', height: '15px' }}>
-                  {infoTip}
-                </InfoTip>
-              )}
+              {infoTip && { infoTipElement }}
             </div>
           </span>
         </div>
@@ -76,11 +78,7 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
             {!infoTip && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
             <div>
               {currentCallout}
-              {infoTip && (
-                <InfoTip width={width} hover iconStyle={{ color: '#666666', width: '15px', height: '15px' }}>
-                  {infoTip}
-                </InfoTip>
-              )}
+              {infoTip && { infoTipElement }}
             </div>
           </span>
         </div>
