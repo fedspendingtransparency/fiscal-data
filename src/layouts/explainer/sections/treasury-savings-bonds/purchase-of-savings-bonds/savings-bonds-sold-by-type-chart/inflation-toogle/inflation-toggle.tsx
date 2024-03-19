@@ -39,15 +39,22 @@ const StyledSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
   },
 }));
 
-const InflationToggle: FunctionComponent = () => {
+const InflationToggle: FunctionComponent<{ onToggle: (isToggled: boolean) => void }> = ({ onToggle }) => {
   const [inflationSwitch, setInflationSwitch] = useState(false);
   console.log(inflationSwitch)
+  const handleToggle = () => {
+    const newState = !inflationSwitch;
+    setInflationSwitch(newState);
+    onToggle(newState);
+  }
+
+
 
   return (
     <StyledSwitch
       checked={inflationSwitch}
-      onChange={() => setInflationSwitch(!inflationSwitch)}
-      onKeyDown={e => e.key === 'Enter' && setInflationSwitch(!inflationSwitch)}
+      onChange={handleToggle}
+      onKeyDown={e => e.key === 'Enter' && handleToggle()}
       tabIndex={0}
     />
   );

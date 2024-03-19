@@ -34,7 +34,12 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
   const [sortedBonds, setSortedBonds] = useState<string[]>();
   const [maxYear, setMaxYear] = useState<number>();
   const [xAxis, setXAxis] = useState<number[]>();
-  const header = <ChartHeader selectedChartView={selectedChartView} setSelectedChartView={setSelectedChartView} />;
+  const [inflationSwitch, setInflationSwitch] = useState<boolean>(false);
+
+  const handleInflationToggle = (isAdjusted: boolean) => {
+    setInflationSwitch(isAdjusted);
+  }
+  const header = <ChartHeader selectedChartView={selectedChartView} setSelectedChartView={setSelectedChartView} onToggle={handleInflationToggle} />;
   console.log('SELECTED CHART VIEW ', header)
 
   useEffect(() => {
@@ -56,7 +61,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
 
     }
   }, [chartData]);
-
+const activeChartData = inflationSwitch ? inflationChartData : chartData;
 
   const sortedByDate = (savingsBonds, data) => {
     if (data) {
@@ -79,7 +84,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
           <div className={chartStyle} data-testid="chartParent">
             {chartData && sortedBonds && (
               <ResponsiveContainer height={377} width="99%">
-                <AreaChart data={inflationChartData} margin={{ top: 16, bottom: 0, left: -8, right: 16 }}>
+                <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -8, right: 16 }}>
                   <CartesianGrid vertical={false} stroke="#d9d9d9" />
                   <ReferenceLine y={0} stroke="#555555" />
                   <XAxis dataKey="year" type="number" domain={[1935, maxYear]} ticks={xAxis} minTickGap={3} />
