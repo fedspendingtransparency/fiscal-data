@@ -31,9 +31,9 @@ describe('glossary term', () => {
     },
     {
       id: 4,
-      term: 'Hello again again',
+      term: 'Debt Held by the Public',
       site_page: 'Test Page',
-      definition: 'Test for term with custom style.',
+      definition: 'Test for term with custom style for not.',
       url_display: '',
       url_path: '',
     },
@@ -101,17 +101,12 @@ describe('glossary term', () => {
   });
 
   it('adds the custom style into the definition', () => {
-    const termText = 'Hello again again';
+    const termText = 'Debt Held by the Public';
     const testPage = 'Test Page';
-    const customStyleConfig = {
-      text: 'custom',
-      index: 0,
-      format: 'underline',
-    };
 
     const { getByRole, getByText } = render(
       <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
-        <GlossaryPopoverDefinition term={termText} page={testPage} customFormat={customStyleConfig}>
+        <GlossaryPopoverDefinition term="Debt Held by the Public" page={testPage}>
           {termText}
         </GlossaryPopoverDefinition>
       </GlossaryContext.Provider>
@@ -119,7 +114,7 @@ describe('glossary term', () => {
     const glossaryTermButton = getByRole('button', { name: termText });
     glossaryTermButton.click();
 
-    const styledText = getByText('custom');
+    const styledText = getByText('not');
     expect(styledText).toHaveStyle({ textDecoration: 'underline' });
   });
 

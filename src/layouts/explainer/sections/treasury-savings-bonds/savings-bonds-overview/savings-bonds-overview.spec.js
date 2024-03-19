@@ -10,7 +10,7 @@ describe('Savings Bonds Overview Section', () => {
 
   it('renders the quote box', () => {
     const { getByRole, getAllByRole } = render(<SavingsBondsOverview />);
-    expect(getAllByRole('img', { hidden: true })[0]).toHaveClass('fa-calculator');
+    expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-calculator');
     expect(getByRole('link', { name: 'Savings Bond Calculator' })).toBeInTheDocument();
   });
 });

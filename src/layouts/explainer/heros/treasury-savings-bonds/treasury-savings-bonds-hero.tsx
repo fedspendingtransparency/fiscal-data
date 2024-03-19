@@ -5,6 +5,7 @@ import { getFootNotesDateRange, getPillData, getChangeLabel } from '../hero-help
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { getShortForm } from '../../../../utils/rounding-utils';
+import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
 
 const TreasurySavingsBondsHero = (): ReactElement => {
   // appending 40 to a 6 digit hex color is equivalent to specifying 25% opacity
@@ -70,6 +71,18 @@ const TreasurySavingsBondsHero = (): ReactElement => {
     </CustomLink>
   );
 
+  const savingsBonds = (
+    <GlossaryPopoverDefinition term="Savings Bonds" page="Savings Bonds Explainer">
+      savings bonds
+    </GlossaryPopoverDefinition>
+  );
+
+  const fiscalYear = (
+    <GlossaryPopoverDefinition term="Fiscal Year" page="Savings Bonds Explainer">
+      fiscal year
+    </GlossaryPopoverDefinition>
+  );
+
   const rightTooltip = 'The percentage change in savings bonds investments compared to the same period last year.';
   const leftTooltip = `The total amount of investment in savings bonds has ${savingsBondChangeLabel} compared to the same period last year`;
 
@@ -80,7 +93,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   return (
     <>
       <p className={heroImageSubHeading}>
-        The American public has invested ${getShortForm(totalSavingsBondsInvested, false)} in savings bonds this fiscal year to finance the federal
+        The American public has invested ${getShortForm(totalSavingsBondsInvested, false)} in {savingsBonds} this {fiscalYear} to finance the federal
         government's operations.
       </p>
       <div className={flapWrapper}>

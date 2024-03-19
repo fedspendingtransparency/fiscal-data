@@ -732,7 +732,7 @@ const endpointConfig = {
           looking for appears under a different name, or change the date
           selected for available results.`,
     },
-    selectColumns: [],
+    selectColumns: ['record_date', 'country_currency_desc', 'exchange_rate', 'effective_date'],
   },
   '138': {
     endpoint: 'v1/accounting/od/schedules_fed_debt',

@@ -7,7 +7,6 @@ import { subsectionHeader } from './what-influences-purchase-of-savings-bonds.mo
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poster.png';
 import PresidentKennedy from '../../../../../../static/images/savings-bonds/President-Kennedy-Holding-Bond.png';
-import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import IBondSalesChart from './i-bond-sales-chart/i-bond-sales-chart';
 import { graphql, useStaticQuery } from 'gatsby';
@@ -15,6 +14,9 @@ import { fyEndpoint, sortByType } from './savings-bonds-sold-by-type-chart/savin
 import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
 import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
+import { useRecoilValueLoadable } from 'recoil';
+import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
+import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
 
 interface BondSaleEntry {
   year: string;
@@ -32,6 +34,8 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent<{ cpi12MonthPercen
   const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
   const [secondMostBondSales, setSecondMostBondSales] = useState<number>(0);
   const [bondTypes, setBondTypes] = useState<number>(0);
+  const typesData = useRecoilValueLoadable(savingsBondTypesData);
+  useShouldRefreshCachedData(Date.now(), savingsBondTypesData, savingsBondTypesLastCachedState);
 
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`
@@ -49,46 +53,43 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent<{ cpi12MonthPercen
 
   const savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
   const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
-  const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond';
   const anchor = getSaleBondsFootNotes()[1];
-  useEffect(() => {
-    basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
-      if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
-        const pageSize = metaRes.meta['total-pages'];
-        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
-          if (res.data) {
-            const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
-            const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
 
-            const salesByYear: SalesData = allData.reduce((acc, entry: BondSaleEntry) => {
-              const totalSalesForYear = acc[entry.year] || 0;
-              const yearlySales = Object.keys(entry)
-                .filter(key => key !== 'year')
-                .reduce((sum, key) => sum + Number(entry[key]), 0);
+  const processData = res => {
+    const currentData = sortByType(res, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
+    const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
 
-              acc[entry.year] = totalSalesForYear + yearlySales;
-              return acc;
-            }, {});
+    const salesByYear: SalesData = allData.reduce((acc, entry: BondSaleEntry) => {
+      const totalSalesForYear = acc[entry.year] || 0;
+      const yearlySales = Object.keys(entry)
+        .filter(key => key !== 'year')
+        .reduce((sum, key) => sum + Number(entry[key]), 0);
 
-            const sortedYears = Object.entries(salesByYear)
-              .map(([year, totalSales]) => ({ year, totalSales }))
-              .sort((a, b) => b.totalSales - a.totalSales);
+      acc[entry.year] = totalSalesForYear + yearlySales;
+      return acc;
+    }, {});
 
-            if (sortedYears.length > 0) {
-              setMostBondSalesYear(sortedYears[0].year);
-              setMostBondSales(sortedYears[0].totalSales);
-              if (sortedYears.length > 1) {
-                setSecondMostBondSalesYear(sortedYears[1].year);
-                setSecondMostBondSales(sortedYears[1].totalSales);
-              }
-            }
-            setChartData(allData);
-            setBondTypes(new Set(allData.flatMap(entry => Object.keys(entry).filter(key => key !== 'year'))).size);
-          }
-        });
+    const sortedYears = Object.entries(salesByYear)
+      .map(([year, totalSales]) => ({ year, totalSales }))
+      .sort((a, b) => b.totalSales - a.totalSales);
+
+    if (sortedYears.length > 0) {
+      setMostBondSalesYear(sortedYears[0].year);
+      setMostBondSales(sortedYears[0].totalSales);
+      if (sortedYears.length > 1) {
+        setSecondMostBondSalesYear(sortedYears[1].year);
+        setSecondMostBondSales(sortedYears[1].totalSales);
       }
-    });
-  }, []);
+    }
+    setChartData(allData);
+    setBondTypes(new Set(allData.flatMap(entry => Object.keys(entry).filter(key => key !== 'year'))).size);
+  };
+
+  useEffect(() => {
+    if (typesData.state === 'hasValue') {
+      processData(typesData.contents.payload);
+    }
+  }, [typesData.state]);
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
@@ -110,8 +111,9 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent<{ cpi12MonthPercen
       <h5 className={subsectionHeader}>Savings Bonds History</h5>
       <p>
         The sale of U.S. Treasury marketable securities began with the nation’s founding, where private citizens purchased $27 million in government
-        bonds to finance the Revolutionary War<AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text} />. These early loans to the government were introduced to raise funds from the American public to support
-        war efforts as well as other national projects like the construction of the Panama Canal.
+        bonds to finance the Revolutionary War
+        <AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text} />. These early loans to the government were introduced to raise
+        funds from the American public to support war efforts as well as other national projects like the construction of the Panama Canal.
       </p>
       <p>
         During the Great Depression, the U.S. government sought to stabilize the economy by issuing a new type of Treasury security: savings bonds. In

@@ -31,7 +31,7 @@ const GlossaryDisplayList: FunctionComponent<IGlossaryDisplayList> = ({ sortedLi
                   <div
                     className={termText}
                     tabIndex={0}
-                    role={'button'}
+                    role="button"
                     key={term.term}
                     onClick={e => onTermClick(e, term)}
                     onKeyPress={e => onTermClick(e, term)}
