@@ -67,7 +67,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
             res.data = adjustDataForInflation(res.data, 'net_sales_amt', 'record_fiscal_year', cpiDataByYear);
             savingsBondsByTypeHistorical = adjustDataForInflation(savingsBondsByTypeHistorical, 'sales', 'year', cpiDataByYear);
             const inflationCurrentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
-            console.log('res.data,', res.data)
             const inflationHistoricalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
             const inflationAllData = [...inflationHistoricalData, ...inflationCurrentData].sort((a, b) => a.year - b.year);
 
@@ -93,7 +92,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
                 setSecondMostBondSales(sortedYears[1].totalSales);
               }
             }
-            console.log('allData', allData)
             setChartData(allData);
             setInflationChartData(inflationAllData);
             setBondTypes(new Set(allData.flatMap(entry => Object.keys(entry).filter(key => key !== 'year'))).size);
