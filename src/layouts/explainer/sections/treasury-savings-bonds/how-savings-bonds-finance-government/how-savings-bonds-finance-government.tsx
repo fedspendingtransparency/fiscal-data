@@ -70,36 +70,43 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
           const pageSize = metaRes.meta['total-pages'];
           basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=${pageSize}`)
             .then((res: ApiResponse) => {
-              const relevantData = res.data
+              console.log('res', res.data)
+              const latestDate = new Date(Math.max(...res.data.map(e => new Date(e.record_date).getTime())));
+              const latestYear = latestDate.getFullYear();
+              const latestMonth = latestDate.getMonth() + 1; 
+              
+              const latestMonthData = res.data.filter(item => {
+                const itemDate = new Date(item.record_date);
+                return itemDate.getFullYear() === latestYear &&
+                  itemDate.getMonth() + 1 === latestMonth &&
+                  (item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable');
+              });
+
+              const relevantData: ChartDataItem[] = latestMonthData
               .filter(item =>
                 item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable'
               )
               .map(item => ({
-                ...item,
-                debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt)
+                name: item.security_class_desc,
+                value: Number(item.debt_held_public_mil_amt),
+                percent: 0,
+                securityType: item.security_type_desc
               }));
 
-              const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
-                const key = cur.security_class_desc;
-                if (!acc[key]) {
-                  acc[key] = { name: key, value: 0, percent: 0, securityType: cur.security_type_desc };
-                }
-                acc[key].value += cur.debt_held_public_mil_amt;
-                return acc;
-              }, {});
+              const totalValue = relevantData.reduce((sum, item) => sum + item.value, 0);
+              console.log('totalVALUE', totalValue)
+              const updatedChartData = relevantData.map(item => {
+                return {
+                  ...item,
+                  percent: (item.value /totalValue) * 100
+                };
+              })
 
-          const processedData = Object.values(summedData);
-          const totalValue = Number(processedData.reduce((sum, item) => sum + item.value, 0));
-
-              const dataWithPercentages = processedData.map(item => ({
-                ...item,
-                percent: (item.value/totalValue) * 100
-
-              }));
-              dataWithPercentages.sort((a,b) =>
+              updatedChartData.sort((a,b) =>
               a.securityType === 'Nonmarketable' ? 1 : b.securityType !== 'Nonmarketanble' ? -1 : 0
               );
-              setChartData(dataWithPercentages)
+              setChartData(updatedChartData)
+              console.log('chart', updatedChartData)
 
           const mostRecentItem = res.data.reduce((mostRecent, currentItem) => {
             const currentDate = new Date(currentItem.record_date);
