@@ -7,19 +7,21 @@ import { subsectionHeader } from './what-influences-purchase-of-savings-bonds.mo
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poster.png';
 import PresidentKennedy from '../../../../../../static/images/savings-bonds/President-Kennedy-Holding-Bond.png';
-import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import IBondSalesChart from './i-bond-sales-chart/i-bond-sales-chart';
 import { graphql, useStaticQuery } from 'gatsby';
 import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
 import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
+import { useRecoilValueLoadable } from 'recoil';
+import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
+import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';
 import { leftTile } from '../../../../../components/topics-section/homepage-tile/homepage-tile.module.scss';
 import { currency } from '../../../../../components/split-flap-display/split-flap-display.module.scss';
 interface BondSaleEntry {
-year: string;
-[key: string]: string;
+  year: string;
+  [key: string]: string;
 }
 
 type SalesData = Record<string, number>;
@@ -35,6 +37,8 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
   const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
   const [secondMostBondSales, setSecondMostBondSales] = useState<number>(0);
   const [bondTypes, setBondTypes] = useState<number>(0);
+  const typesData = useRecoilValueLoadable(savingsBondTypesData);
+  useShouldRefreshCachedData(Date.now(), savingsBondTypesData, savingsBondTypesLastCachedState);
 
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`
@@ -60,16 +64,9 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
         const pageSize = metaRes.meta['total-pages'];
         basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => { 
           if (res.data) {
-
             const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
-            const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
             const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
-            res.data = adjustDataForInflation(res.data, 'net_sales_amt', 'record_fiscal_year', cpiDataByYear);
-            savingsBondsByTypeHistorical = adjustDataForInflation(savingsBondsByTypeHistorical, 'sales', 'year', cpiDataByYear);
-            const inflationCurrentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
-            const inflationHistoricalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
-            const inflationAllData = [...inflationHistoricalData, ...inflationCurrentData].sort((a, b) => a.year - b.year);
-
+          
             const salesByYear: SalesData = allData.reduce((acc, entry: BondSaleEntry) => {
               const totalSalesForYear = acc[entry.year] || 0;
               const yearlySales = Object.keys(entry)
@@ -93,7 +90,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
               }
             }
             setChartData(allData);
-            setInflationChartData(inflationAllData);
             setBondTypes(new Set(allData.flatMap(entry => Object.keys(entry).filter(key => key !== 'year'))).size);
           }
         })
@@ -112,8 +108,9 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
       <h5 className={subsectionHeader}>Savings Bonds History</h5>
       <p>
         The sale of U.S. Treasury marketable securities began with the nation’s founding, where private citizens purchased $27 million in government
-        bonds to finance the Revolutionary War<AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text} />. These early loans to the government were introduced to raise funds from the American public to support
-        war efforts as well as other national projects like the construction of the Panama Canal.
+        bonds to finance the Revolutionary War
+        <AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text} />. These early loans to the government were introduced to raise
+        funds from the American public to support war efforts as well as other national projects like the construction of the Panama Canal.
       </p>
       <p>
         During the Great Depression, the U.S. government sought to stabilize the economy by issuing a new type of Treasury security: savings bonds. In
@@ -139,8 +136,8 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
         <SavingsBondsSoldByTypeChart chartData={chartData} inflationChartData={inflationChartData}/>
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
-            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when ${getShortForm(mostBondSales)} and ${getShortForm(secondMostBondSales)} bonds were sold,
-            respectively.
+            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when ${getShortForm(mostBondSales)} and $
+            {getShortForm(secondMostBondSales)} bonds were sold, respectively.
           </p>
         </VisualizationCallout>
       </div>

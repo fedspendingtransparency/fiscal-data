@@ -10,4 +10,5 @@ export interface IExplainerPageContext {
   relatedDatasets: IDataset[];
   isAFG: boolean;
   cpiDataByYear: ICpiDataMap;
+  cpi12MonthPercentChange: ICpiDataMap;
 }

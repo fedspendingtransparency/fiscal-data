@@ -19,6 +19,8 @@ const ScrollContainer = ({
 }) => {
   const [scrollTop, setScrollTop] = useState(true);
   const [scrollBottom, setScrollBottom] = useState(false);
+  const [scrollBarWidth, setScrollBarWidth] = useState(0);
+
   const handleScroll = scrollContainer => {
     setScrollTop(scrollContainer.scrollTop === 0);
     if (bottomGradient) {
@@ -27,6 +29,15 @@ const ScrollContainer = ({
   };
 
   const dataTestId = 'scrollContainer' + testId;
+
+  useEffect(() => {
+    //Get the width of the scroll bar so that the gradient does not overlay that
+    const scrollContainer = document.querySelector(`[data-testid=${dataTestId}]`);
+    const scrollWidth = scrollContainer?.offsetWidth - scrollContainer?.clientWidth;
+    if (scrollWidth) {
+      setScrollBarWidth(scrollWidth);
+    }
+  }, []);
 
   useEffect(() => {
     const scrollContainer = document.querySelector(`[data-testid=${dataTestId}]`);
@@ -43,18 +54,18 @@ const ScrollContainer = ({
     <>
       <div
         className={scrollTop ? scrollContainerTop : scrollGradientTop}
-        style={scrollTop ? {} : { background: `linear-gradient(${gradientColor}, rgba(255, 255, 255, 0))` }}
+        style={scrollTop ? {} : { background: `linear-gradient(${gradientColor}, rgba(255, 255, 255, 0))`, marginRight: scrollBarWidth + 'px' }}
         data-testid="topScrollGradient"
       />
       <div className={container} style={customContainerStyle}>
-        <div className={listItems} style={customChildStyle} data-testid={dataTestId}>
+        <div className={listItems} style={{ ...customChildStyle, paddingRight: scrollBarWidth + 'px' }} data-testid={dataTestId}>
           {children}
         </div>
       </div>
       {bottomGradient && (
         <div
           className={scrollBottom ? scrollContainerBottom : scrollGradientBottom}
-          style={scrollBottom ? {} : { background: `linear-gradient( rgba(255, 255, 255, 0), ${gradientColor})` }}
+          style={scrollBottom ? {} : { background: `linear-gradient( rgba(255, 255, 255, 0), ${gradientColor})`, marginRight: scrollBarWidth + 'px' }}
           data-testid="bottomScrollGradient"
         />
       )}
