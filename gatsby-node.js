@@ -443,6 +443,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             banner
             startDate
             endDate
+            altBanner
           }
           datatableBanner
           relatedTopics

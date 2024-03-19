@@ -50,6 +50,8 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
 
   const bannerCallout = pageContext.config.bannerCallout;
 
+  console.log(bannerCallout);
+
   useEffect(() => {
     setPageConfig(updatedPageConfig.config);
     setFinalDatesNotFound(false);
