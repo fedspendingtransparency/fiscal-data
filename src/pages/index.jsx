@@ -12,19 +12,14 @@ import TopicsSection from '../components/topics-section/topics-section';
 import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { useWindowSize } from '../hooks/windowResize';
 import { withWindowSize } from 'react-fns';
 
 export const Index = ({ width }) => {
   const [loading, setLoading] = useState(true);
-  const [height] = useWindowSize();
-  const [containerHeight, setContainerHeight] = useState(765);
-  const refSocialShare = useRef(0);
 
   useEffect(() => {
-    setContainerHeight(refSocialShare.current.offsetTop + 466);
     setLoading(false);
-  }, [width, height, containerHeight]);
+  }, [width]);
 
   const allFile = useStaticQuery(
     graphql`
@@ -59,7 +54,7 @@ export const Index = ({ width }) => {
               keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
           financial data, debt, Treasury, US government"
             />
-            <TopicsSection images={allFile} data-testid="topics-section" />
+            <TopicsSection images={allFile} />
             <HomeMainContent />
             <HomeFeatures />
           </div>
