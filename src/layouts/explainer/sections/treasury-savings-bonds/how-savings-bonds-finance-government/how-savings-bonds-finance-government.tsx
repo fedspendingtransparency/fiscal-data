@@ -103,9 +103,9 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
               })
 
               updatedChartData.sort((a,b) =>
-              a.securityType === 'Nonmarketable' ? 1 : b.securityType !== 'Nonmarketanble' ? -1 : 0
+                a.securityType === 'Nonmarketable' ? 1 : b.securityType !== 'Nonmarketanble' ? -1 : 0
               );
-              setChartData(updatedChartData)
+              setChartData(updatedChartData);
 
           const montRecentMonthYear = `${monthFullNames[latestMonth -1]} ${latestYear}`;
           setMonthYear(montRecentMonthYear);
