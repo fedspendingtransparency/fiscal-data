@@ -82,7 +82,7 @@ export const savingsBondsMap = {
     color: '#A6B557',
     label: 'HH',
     hidden: false,
-    description: 'Sold from 1980–2004, HH bonds replaced H bonds but with different interest rates. HH bonds earn interest' + 'for up to 20 years',
+    description: 'Sold from 1980–2004, HH bonds replaced H bonds but with different interest rates. HH bonds earn interest for up to 20 years',
   },
   I: {
     color: '#CD425B',
