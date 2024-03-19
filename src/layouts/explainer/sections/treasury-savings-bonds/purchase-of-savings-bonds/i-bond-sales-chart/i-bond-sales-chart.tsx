@@ -1,17 +1,14 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { chartCopy, IBondMockData, CustomTooltip } from './i-bond-sales-chart-helper';
+import { chartCopy, CustomTooltip } from './i-bond-sales-chart-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { LineChart, ResponsiveContainer, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-import { getShortForm } from '../../../../../../utils/rounding-utils';
 import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
 import { chartLegend, lengendItem, leftLine, label, chartStyle, leftLabel, rightLine, line, headerContainer } from './i-bond-sales-chart.module.scss';
 import classNames from 'classnames';
 import { treasurySavingsBondsExplainerSecondary } from '../../treasury-savings-bonds.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
-import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import { ICpiDataMap } from '../../../../../../models/ICpiDataMap';
-import moment from 'moment';
-import { xAxis } from '../../../../../../components/home-highlight-cards/home-highlight-card/home-highlight-card.module.scss';
+import { yAxisFormatter } from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 
 interface IIBondsSalesChart {
   cpi12MonthPercentChange: ICpiDataMap;
@@ -23,16 +20,17 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
   const [curInflation, setCurInflation] = useState(7);
   const [curSales, setCurSales] = useState('17 B');
   const [curYear, setCurYear] = useState(2023);
-  const latestYear = 2023;
   const [chartData, setChartData] = useState(null);
   const [xAxisValues, setXAxisValues] = useState(null);
+  const [latestData, setLatestData] = useState();
 
   const header = (
     <div className={headerContainer}>
       <ChartDataHeader
         fiscalYear={curYear}
-        right={{ label: 'I Bonds Sales', value: `$${curSales}` }}
+        right={{ label: 'I Bonds Sales', value: `${yAxisFormatter(curSales)}` }}
         left={{ label: 'Inflation', value: `${curInflation}%` }}
+        dateField="Date"
       />
     </div>
   );
@@ -50,13 +48,11 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
     </div>
   );
   const resetDataHeader = () => {
-    setCurYear(latestYear);
-    setCurSales('17 B');
-    setCurInflation(7);
-  };
-
-  const xAxisTickFormatter = val => {
-    return val === 0 ? `$${val}` : `$${getShortForm(val)}`;
+    if (latestData) {
+      setCurYear(latestData?.year);
+      setCurSales(latestData?.sales);
+      setCurInflation(latestData?.inflation);
+    }
   };
 
   useEffect(() => {
@@ -66,6 +62,8 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
     basicFetch(`${apiPrefix}${endpoint}`).then(res => {
       if (res.data) {
         const data = res.data;
+
+        console.log(data);
         const tempChartData = [];
         const xAxis = [];
         data.forEach(val => {
@@ -73,8 +71,9 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
           const inflationChange = cpi12MonthPercentChange[cpiKey];
           const salesAmount = val.net_sales_amt;
           if (inflationChange && salesAmount) {
+            const month = new Date(val.record_date).toLocaleDateString('default', { month: 'short' });
             tempChartData.push({
-              year: val.record_fiscal_year,
+              year: month + ' ' + val.record_fiscal_year,
               sales: salesAmount,
               inflation: inflationChange,
               recordDate: val.record_date,
@@ -83,9 +82,14 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
             if (val.record_calendar_month === '10') {
               xAxis.push(val.record_date);
             }
-            // console.log(moment(val.record_date));
           }
         });
+        const latest = tempChartData[0];
+        setLatestData(latest);
+        setCurYear(latest.year);
+        setCurSales(latest.sales);
+        setCurInflation(latest.inflation);
+        console.log(latest);
         tempChartData.reverse();
         console.log(tempChartData);
         setChartData(tempChartData);
@@ -101,16 +105,17 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
           <Legend />
           {chartData && (
             <ResponsiveContainer height={352} width="99%">
-              <LineChart data={chartData} margin={{ top: 12, bottom: -8, left: -16, right: -22 }} onMouseLeave={resetDataHeader}>
+              <LineChart data={chartData} margin={{ top: 12, bottom: -8, left: -8, right: -12 }} onMouseLeave={resetDataHeader}>
                 <CartesianGrid vertical={false} stroke="#d9d9d9" />
                 <XAxis dataKey="recordDate" minTickGap={3} ticks={xAxisValues} tickFormatter={value => Number(value.substring(0, 4)) + 1} />
                 <YAxis
                   dataKey="sales"
                   axisLine={false}
                   tickLine={false}
-                  domain={[0, 20000000000]}
-                  tickFormatter={value => xAxisTickFormatter(value)}
+                  tickFormatter={value => yAxisFormatter(value)}
                   tick={{ fill: treasurySavingsBondsExplainerSecondary }}
+                  ticks={[-2500000000, 0, 2500000000, 5000000000, 7500000000]}
+                  tickCount={5}
                 />
                 <YAxis
                   yAxisId={1}
@@ -118,7 +123,8 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
                   type="number"
                   axisLine={false}
                   tickLine={false}
-                  domain={[0, 8]}
+                  tickCount={5}
+                  ticks={[-3, 0, 3, 6, 9]}
                   tickFormatter={value => `${value.toFixed(1)}%`}
                   orientation="right"
                 />

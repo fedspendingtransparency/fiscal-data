@@ -17,6 +17,7 @@ import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
 import { useRecoilValueLoadable } from 'recoil';
 import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
 import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
+import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 
 interface BondSaleEntry {
   year: string;

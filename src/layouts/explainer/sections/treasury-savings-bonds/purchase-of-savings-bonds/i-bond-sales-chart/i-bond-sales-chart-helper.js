@@ -1,6 +1,7 @@
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import React from 'react';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
+import { yAxisFormatter } from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 
 export const chartCopy = {
   title: 'Correlation Between Inflation and I Bond Sales, FY 2003 – FYTD 2023',
@@ -31,7 +32,7 @@ export const CustomTooltip = ({ payload = [], setYear, setInflation, setSales })
     const inflation = payload.find(x => x.dataKey === 'inflation');
     setInflation(inflation.payload.inflation);
     const sales = payload.find(x => x.dataKey === 'sales');
-    setSales(getShortForm(sales.payload.sales));
+    setSales(sales.payload.sales);
   }
   return <></>;
 };
