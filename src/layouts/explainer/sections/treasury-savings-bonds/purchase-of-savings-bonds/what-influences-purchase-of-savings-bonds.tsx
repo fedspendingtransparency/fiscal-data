@@ -15,8 +15,7 @@ import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sol
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
 import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
 import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';
-import { leftTile } from '../../../../../components/topics-section/homepage-tile/homepage-tile.module.scss';
-import { currency } from '../../../../../components/split-flap-display/split-flap-display.module.scss';
+
 interface BondSaleEntry {
 year: string;
 [key: string]: string;
