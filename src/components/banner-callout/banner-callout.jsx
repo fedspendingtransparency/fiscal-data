@@ -41,12 +41,6 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
     },
   };
 
-  const infoTipElement = (
-    <InfoTip width={width} hover iconStyle={{ color: '#666666', width: '15px', height: '15px' }}>
-      {infoTip}
-    </InfoTip>
-  );
-
   const styleConfig = bannerMap[bannerType];
 
   if (currentCallout && today >= startDate && (endDate === null || today < endDate)) {
@@ -61,7 +55,11 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
             {!infoTip && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
             <div>
               {currentCallout}
-              {infoTip && { infoTipElement }}
+              {infoTip && (
+                <InfoTip width={width} hover iconStyle={{ color: '#666666', width: '15px', height: '15px' }}>
+                  {infoTip}
+                </InfoTip>
+              )}
             </div>
           </span>
         </div>
@@ -78,7 +76,11 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
             {!infoTip && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
             <div>
               {currentCallout}
-              {infoTip && { infoTipElement }}
+              {infoTip && (
+                <InfoTip width={width} hover iconStyle={{ color: '#666666', width: '15px', height: '15px' }}>
+                  {infoTip}
+                </InfoTip>
+              )}
             </div>
           </span>
         </div>
