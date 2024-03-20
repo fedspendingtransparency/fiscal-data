@@ -35,11 +35,17 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
   const [maxYear, setMaxYear] = useState<number>();
   const [xAxis, setXAxis] = useState<number[]>();
   const [inflationSwitch, setInflationSwitch] = useState<boolean>(false);
-
+  let activeChartData = inflationSwitch ? inflationChartData : chartData;
   const handleInflationToggle = (isAdjusted: boolean) => {
     setInflationSwitch(isAdjusted);
   }
-  const header = <ChartHeader selectedChartView={selectedChartView} setSelectedChartView={setSelectedChartView} onToggle={handleInflationToggle} />;
+
+  const header = <ChartHeader 
+    selectedChartView={selectedChartView} 
+    setSelectedChartView={setSelectedChartView} 
+    onToggle={handleInflationToggle} 
+    isInflationAdjusted={inflationSwitch} 
+    />;
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
@@ -59,8 +65,11 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
       setSortedBonds(sortedByDate(savingsBonds, chartData));
 
     }
-  }, [chartData]);
-const activeChartData = inflationSwitch ? inflationChartData : chartData;
+    if(selectedChartView === 'description') {
+      activeChartData = chartData;
+    }
+  }, [chartData, activeChartData, selectedChartView]);
+
 
   const sortedByDate = (savingsBonds, data) => {
     if (data) {
@@ -83,7 +92,7 @@ const activeChartData = inflationSwitch ? inflationChartData : chartData;
           <div className={chartStyle} data-testid="chartParent">
             {chartData && sortedBonds && (
               <ResponsiveContainer height={377} width="99%">
-                <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -8, right: 16 }}>
+                <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }}>
                   <CartesianGrid vertical={false} stroke="#d9d9d9" />
                   <ReferenceLine y={0} stroke="#555555" />
                   <XAxis dataKey="year" type="number" domain={[1935, maxYear]} ticks={xAxis} minTickGap={3} />
