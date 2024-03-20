@@ -78,7 +78,6 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
                 ...item,
                 debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt)
               }));
-
               const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
                 const key = cur.security_class_desc;
                 if (!acc[key]) {
