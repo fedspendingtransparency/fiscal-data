@@ -52,6 +52,32 @@ export const RevenueBodyGenerator = () => {
     </>
   );
 };
+
+export const SavingsBondsBodyGenerator = () => {
+  const [savingsBondsAmount, setSavingsBondsAmount] = useState(null);
+  const [recordFiscalYear, setRecordFiscalYear] = useState(null);
+  // eslint-disable-next-line max-len
+  const revUrl = `v1/debt/mspd/mspd_table_1?filter=record_datepage[size]=10000`;
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${revUrl}`).then(res => {
+      console.log(res.data);
+      if (res.data) {
+        const data = res.data[0];
+        const currentTotalRevenue = data.current_fytd_net_rcpt_amt || 0;
+        setSavingsBondsAmount(currentTotalRevenue);
+        setRecordFiscalYear(data.record_fiscal_year);
+      }
+    });
+  }, []);
+
+  return (
+    <>
+      In {recordFiscalYear}, U.S. citizens invested {savingsBondsAmount} in savings bonds. 
+      Discover how savings bonds help finance the federal government and the benefits these bonds offer to citizens who choose to invest in them.  
+    </>
+  );
+};
 export const pageTileMap = {
   debt: {
     title: 'What is the national debt?',
@@ -137,6 +163,7 @@ export const pageTileMap = {
   },
   'savings-bonds': {
     title: 'Explore U.S. Treasury Savings Bonds',
+    bodyGenerator: SavingsBondsBodyGenerator,
     body:
       'In {YYYY (latest complete FY)}, U.S. citizens invested {$XXX million (total savings bonds purchased in latest ' +
       'complete FY)} in savings bonds. Discover how savings bonds help finance the federal government and the benefits ' +

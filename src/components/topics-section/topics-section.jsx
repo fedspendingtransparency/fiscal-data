@@ -19,7 +19,7 @@ export const TopicsSection = ({ images, width }) => {
     },
   });
 
-  const explainerTiles = ['americas-finance-guide', 'revenue', 'spending', 'deficit', 'debt'];
+  const explainerTiles = ['revenue', 'spending', 'deficit', 'debt'];
 
   return (
     <div className={topicsSectionContainer}>
@@ -28,7 +28,7 @@ export const TopicsSection = ({ images, width }) => {
           <Grid container spacing={4} direction={width < pxToNumber(breakpointLg) ? 'column-reverse' : 'row'}>
             <Grid item lg={mainWidth}>
               <div className={sectionHeader}>AMERICA’S FINANCE GUIDE</div>
-              <HomePageTile content={pageTileMap['savings-bonds']} images={images} width={width} hasMobileImage hasIcon />
+              <HomePageTile content={pageTileMap['americas-finance-guide']} images={images} width={width} hasMobileImage hasIcon />
               {explainerTiles.map(tile => {
                 return (
                   <React.Fragment key={tile}>
@@ -40,6 +40,8 @@ export const TopicsSection = ({ images, width }) => {
             </Grid>
             <Grid item lg={secondaryWidth}>
               <div className={insightsSectionContainer}>
+              <div className={sectionHeader}>MORE TOPICS</div>
+                <HomePageTile content={pageTileMap['savings-bonds']} images={images} width={width} />
                 <div className={sectionHeader}>TOOLS</div>
                 <HomePageTile content={pageTileMap['currency-exchange-rates']} images={images} width={width} />
               </div>
