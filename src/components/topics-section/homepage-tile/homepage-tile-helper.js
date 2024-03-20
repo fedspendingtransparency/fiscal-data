@@ -57,14 +57,14 @@ export const SavingsBondsBodyGenerator = () => {
   const [savingsBondsAmount, setSavingsBondsAmount] = useState(null);
   const [recordFiscalYear, setRecordFiscalYear] = useState(null);
   // eslint-disable-next-line max-len
-  const revUrl = `v1/debt/mspd/mspd_table_1?filter=record_datepage[size]=10000`;
+  const revUrl = `v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023`;
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${revUrl}`).then(res => {
       console.log(res.data);
       if (res.data) {
         const data = res.data[0];
-        const currentTotalRevenue = data.current_fytd_net_rcpt_amt || 0;
+        const currentTotalRevenue = data.gross_sales_amt || 0;
         setSavingsBondsAmount(currentTotalRevenue);
         setRecordFiscalYear(data.record_fiscal_year);
       }
@@ -73,7 +73,7 @@ export const SavingsBondsBodyGenerator = () => {
 
   return (
     <>
-      In {recordFiscalYear}, U.S. citizens invested {savingsBondsAmount} in savings bonds. 
+      In FY {recordFiscalYear}, U.S. citizens invested ${getShortForm(savingsBondsAmount)} in savings bonds. 
       Discover how savings bonds help finance the federal government and the benefits these bonds offer to citizens who choose to invest in them.  
     </>
   );
