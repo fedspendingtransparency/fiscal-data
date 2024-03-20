@@ -2,7 +2,7 @@ import { ENV_ID } from 'gatsby-env-variables';
 
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles.scss';
-import { siteHome } from './home.module.scss';
+import { siteHome, loadingHome } from './home.module.scss';
 import PageHelmet from '../components/page-helmet/page-helmet';
 import SiteLayout from '../components/siteLayout/siteLayout';
 import HomeMainContent from '../components/home-main-content/home-main-content';
@@ -39,7 +39,7 @@ export const Index = ({ width }) => {
   return (
     <>
       {loading && (
-        <div style={{ display: 'flex', justifyContent: 'center', padding: '8rem' }}>
+        <div className={loadingHome}>
           <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>
       )}
