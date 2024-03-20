@@ -47,7 +47,7 @@ const treasurySavingsBondsSections: IExplainerPageSection[] = [
     index: 3,
     id: treasurySavingsBondsSectionIds[3],
     title: 'What Influences the Purchase of Savings Bonds?',
-    component: cpiDataByYear => <WhatInfluencesPurchaseOfSavingsBonds />,
+    component: cpiDataByYear => <WhatInfluencesPurchaseOfSavingsBonds cpiDataByYear={cpiDataByYear} />,
   },
   {
     index: 4,
