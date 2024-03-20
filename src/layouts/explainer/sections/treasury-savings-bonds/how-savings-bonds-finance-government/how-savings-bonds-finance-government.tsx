@@ -17,7 +17,6 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { useRecoilValueLoadable } from 'recoil';
 import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
 import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
-import { BarItem } from '@nivo/bar';
 
 interface ChartDataItem {
   name: string;
@@ -43,7 +42,7 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
   const [historicalSavingBondsPercentage, setHistoricalSavingBondsPercentage] = useState<number | null>(null);
   const [percentageDifference, setPercentageDifference] = useState<number | null>(null);
   const [monthYear, setMonthYear] = useState<string | null>(null);
-  const [higherLower, setHigherLower] = useState<string | null>('null');
+  const [higherLower, setHigherLower] = useState<string | null>(null);
   const isDesktop = width >= pxToNumber(breakpointLg);
   const typesData = useRecoilValueLoadable(savingsBondTypesData);
   useShouldRefreshCachedData(Date.now(), savingsBondTypesData, savingsBondTypesLastCachedState);
