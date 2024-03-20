@@ -142,7 +142,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
         inflation to increase, savings bonds like Series I become attractive because they provide protection against inflation, preserving the value
         of the money invested. In the spring of 2021, inflation in the United States began to rise over three percent and would grow to over six
         percent by September 2022. In response, the American public invested heavily in Series I bonds, purchasing nearly $153 billion of Series I
-        bonds between April 2021 and February 2023. The chart below shows inflation data and I bond purchases from the last 20 years.
+        bonds between April 2021 and February 2023. The chart below shows inflation data and I bond purchases from the last 15 years.
       </p>
       <div className={visWithCallout}>
         <IBondSalesChart />
