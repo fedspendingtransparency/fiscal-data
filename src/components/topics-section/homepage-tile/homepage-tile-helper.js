@@ -63,17 +63,20 @@ export const SavingsBondsBodyGenerator = () => {
     basicFetch(`${apiPrefix}${revUrl}`).then(res => {
       console.log(res.data);
       if (res.data) {
-        const data = res.data[0];
-        const currentTotalRevenue = data.gross_sales_amt || 0;
-        setSavingsBondsAmount(currentTotalRevenue);
-        setRecordFiscalYear(data.record_fiscal_year);
+        const data = res.data;
+        let savingsBondsTotal =0;
+        data.map(index => {
+          savingsBondsTotal = savingsBondsTotal + parseInt(index.gross_sales_amt);
+        });
+        setSavingsBondsAmount(savingsBondsTotal);
+        setRecordFiscalYear(data[0].record_fiscal_year);
       }
     });
   }, []);
 
   return (
     <>
-      In FY {recordFiscalYear}, U.S. citizens invested ${getShortForm(savingsBondsAmount)} in savings bonds. 
+      In FY {recordFiscalYear}, U.S. citizens invested ${getShortForm(savingsBondsAmount, false)} in savings bonds. 
       Discover how savings bonds help finance the federal government and the benefits these bonds offer to citizens who choose to invest in them.  
     </>
   );
