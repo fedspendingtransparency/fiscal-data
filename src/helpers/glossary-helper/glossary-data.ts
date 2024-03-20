@@ -1,7 +1,9 @@
 import { IGlossaryTerm } from '../../models/IGlossaryTerm';
+import React from 'react';
 
 export interface IGlossaryListSection {
   sortedList: IGlossaryTerm[];
+  map(element: (term: string) => React.JSX.Element): IGlossaryTerm;
 }
 
 export const getSortedGlossaryList = (glossaryData: IGlossaryTerm[]): IGlossaryListSection[] => {

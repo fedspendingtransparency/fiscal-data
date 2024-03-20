@@ -35,7 +35,6 @@ const ComboSelectDropdown = ({
   searchBarLabel,
 }) => {
   const [filterValue, setFilterValue] = useState('');
-  const [scrollTop, setScrollTop] = useState(true);
   const [filteredOptions, setFilteredOptions] = useState(options);
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = opts;
@@ -106,12 +105,6 @@ const ComboSelectDropdown = ({
     }
   };
 
-  useEffect(() => {
-    if (active) {
-      setScrollTop(true);
-    }
-  }, [active]);
-
   return (
     <>
       {active && (
@@ -136,7 +129,7 @@ const ComboSelectDropdown = ({
               inputRef={inputRef}
             />
           </div>
-          <ScrollContainer list={filteredOptions} selection={selectedOption} filter={filterValue} scrollTop={scrollTop} setScrollTop={setScrollTop}>
+          <ScrollContainer deps={[filteredOptions, selectedOption, filterValue]}>
             {filteredOptions.length === 0 ? (
               <div className={noMatch}>
                 No match for <span className={unmatchedTerm}>'{filterValue}'</span>. Please revise your search and try again.

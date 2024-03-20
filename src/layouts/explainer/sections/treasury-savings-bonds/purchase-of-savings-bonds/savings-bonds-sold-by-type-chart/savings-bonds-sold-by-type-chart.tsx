@@ -8,6 +8,7 @@ import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import ChartHeader from './chart-header/chart-header';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
+import ChartDescription from './chart-description/chart-description';
 
 export interface ISavingBondsByTypeChartData {
   year: string;
@@ -24,7 +25,7 @@ export interface ISavingBondsByTypeChartData {
   SN?: number;
 }
 
-const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsByTypeChartData[] }> = ({ chartData }) => {
+const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsByTypeChartData[], inflationChartData: ISavingBondsByTypeChartData[] }> = ({ chartData, inflationChartData }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('amounts');
   const [hiddenFields, setHiddenFields] = useState<string[]>([]);
   const [curFyHistory, setCurFyHistory] = useState<string>('');
@@ -33,7 +34,18 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
   const [sortedBonds, setSortedBonds] = useState<string[]>();
   const [maxYear, setMaxYear] = useState<number>();
   const [xAxis, setXAxis] = useState<number[]>();
-  const header = <ChartHeader selectedChartView={selectedChartView} setSelectedChartView={setSelectedChartView} />;
+  const [inflationSwitch, setInflationSwitch] = useState<boolean>(false);
+  let activeChartData = inflationSwitch ? inflationChartData : chartData;
+  const handleInflationToggle = (isAdjusted: boolean) => {
+    setInflationSwitch(isAdjusted);
+  }
+
+  const header = <ChartHeader 
+    selectedChartView={selectedChartView} 
+    setSelectedChartView={setSelectedChartView} 
+    onToggle={handleInflationToggle} 
+    isInflationAdjusted={inflationSwitch} 
+    />;
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
@@ -51,8 +63,13 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
       setXAxis(getXAxisValues(1935, max));
       setMaxYear(max);
       setSortedBonds(sortedByDate(savingsBonds, chartData));
+
     }
-  }, [chartData]);
+    if(selectedChartView === 'description') {
+      activeChartData = chartData;
+    }
+  }, [chartData, activeChartData, selectedChartView]);
+
 
   const sortedByDate = (savingsBonds, data) => {
     if (data) {
@@ -75,7 +92,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
           <div className={chartStyle} data-testid="chartParent">
             {chartData && sortedBonds && (
               <ResponsiveContainer height={377} width="99%">
-                <AreaChart data={chartData} margin={{ top: 16, bottom: 0, left: -8, right: 16 }}>
+                <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }}>
                   <CartesianGrid vertical={false} stroke="#d9d9d9" />
                   <ReferenceLine y={0} stroke="#555555" />
                   <XAxis dataKey="year" type="number" domain={[1935, maxYear]} ticks={xAxis} minTickGap={3} />
@@ -112,6 +129,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
             <ChartLegend lines={savingsBonds} lineMap={savingsBondsMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} />
           </div>
         )}
+        {selectedChartView === 'description' && <ChartDescription />}
       </ChartContainer>
     </>
   );

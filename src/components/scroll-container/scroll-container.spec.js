@@ -4,43 +4,33 @@ import React from 'react';
 import ScrollContainer from './scroll-container';
 
 describe('Scroll gradient container', () => {
-  it('applies a gradient to the scroll container when it is not at the top', () => {
-    const setScrollTopSpy = jest.fn();
-    const { getByTestId } = render(
-      <ScrollContainer
-        list={testSortedGlossaryData}
-        selection={testSortedGlossaryData[0]}
-        scrollTop={false}
-        setScrollTop={setScrollTopSpy}
-      ></ScrollContainer>
-    );
+  it('does not apply the gradient when scroll is at the top of the container, and does apply it when scrolled down', () => {
+    const { getByTestId } = render(<ScrollContainer list={testSortedGlossaryData} selection={testSortedGlossaryData[0]} />);
     const scrollContainer = getByTestId('scrollContainer');
-
-    expect(getByTestId('scrollGradient')).not.toHaveClass('scrollContainerTop');
-    expect(getByTestId('scrollGradient')).toHaveClass('scrollGradient');
-
     fireEvent.scroll(scrollContainer, { target: { scrollTop: 0 } });
 
-    expect(setScrollTopSpy).toHaveBeenCalledWith(true);
+    expect(getByTestId('topScrollGradient')).toHaveClass('scrollContainerTop');
+    expect(getByTestId('topScrollGradient')).not.toHaveClass('scrollGradientTop');
+
+    fireEvent.scroll(scrollContainer, { target: { scrollTop: 20 } });
+
+    expect(getByTestId('topScrollGradient')).not.toHaveClass('scrollContainerTop');
+    expect(getByTestId('topScrollGradient')).toHaveClass('scrollGradientTop');
   });
 
-  it('does not apply a gradient to the scroll container when it is at the top', () => {
-    const setScrollTopSpy = jest.fn();
-    const { getByTestId } = render(
-      <ScrollContainer
-        list={testSortedGlossaryData}
-        selection={testSortedGlossaryData[0]}
-        scrollTop={true}
-        setScrollTop={setScrollTopSpy}
-      ></ScrollContainer>
-    );
+  it('applies a gradient to the bottom when bottom gradient is true, and scroll is not at the bottom of the container', () => {
+    const { getByTestId } = render(<ScrollContainer list={testSortedGlossaryData} selection={testSortedGlossaryData[0]} bottomGradient />);
     const scrollContainer = getByTestId('scrollContainer');
+    jest.spyOn(scrollContainer, 'scrollHeight', 'get').mockImplementation(() => 150);
+    jest.spyOn(scrollContainer, 'clientHeight', 'get').mockImplementation(() => 50);
+    fireEvent.scroll(scrollContainer, { target: { scrollTop: 40 } });
 
-    expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
-    expect(getByTestId('scrollGradient')).not.toHaveClass('scrollGradient');
+    expect(getByTestId('bottomScrollGradient')).not.toHaveClass('scrollContainerBottom');
+    expect(getByTestId('bottomScrollGradient')).toHaveClass('scrollGradientBottom');
 
     fireEvent.scroll(scrollContainer, { target: { scrollTop: 100 } });
 
-    expect(setScrollTopSpy).toHaveBeenCalledWith(false);
+    expect(getByTestId('bottomScrollGradient')).toHaveClass('scrollContainerBottom');
+    expect(getByTestId('bottomScrollGradient')).not.toHaveClass('scrollGradientBottom');
   });
 });

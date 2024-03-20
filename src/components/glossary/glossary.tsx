@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 import { glossaryContainer, glossaryHeaderContainer, open, overlay, tray } from './glossary.module.scss';
 import GlossaryHeader from './glossary-header/glossary-header';
@@ -79,7 +78,7 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
 
   return (
     <div className={`${glossaryContainer} ${activeState ? open : ''}`} data-testid="glossaryContainer">
-      <div className={overlay} data-testid="overlay" onClick={toggleState} />
+      <div className={overlay} data-testid="overlay" onClick={toggleState} role="presentation" />
       <div className={`${tray} ${activeState ? open : ''}`}>
         {activeState && (
           <>

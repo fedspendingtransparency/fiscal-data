@@ -14,9 +14,20 @@ describe('Banner Callout with flag', () => {
   const fakeCallout = {
     banner: 'NotACallout',
   };
+  const altBannerCallout = {
+    banner: currentBanner,
+    altBanner: true,
+  };
 
   it('renders banner for specified dataset', () => {
     const { getByTestId, getByText } = render(<BannerCallout bannerCallout={currentCallout} />);
+
+    expect(getByTestId('internal-link')).toBeInTheDocument();
+    expect(getByText(/calculate foreign currency exchange rates/)).toBeInTheDocument();
+  });
+
+  it('renders alternate banner when appropriate', () => {
+    const { getByTestId, getByText } = render(<BannerCallout bannerCallout={altBannerCallout} />);
 
     expect(getByTestId('internal-link')).toBeInTheDocument();
     expect(getByText(/calculate foreign currency exchange rates/)).toBeInTheDocument();

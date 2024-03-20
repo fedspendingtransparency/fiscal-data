@@ -47,7 +47,7 @@ export const featuresSrc = [
 
 const HomeFeatures = () => {
   return (
-    <div className={container}>
+    <div className={container} data-testid={'home-features'}>
       <div className={content}>
         <h2>{contentSrc.header}</h2>
         <p className={contentDesc}>{contentSrc.desc}</p>
