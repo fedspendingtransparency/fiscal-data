@@ -1,6 +1,6 @@
 import { ENV_ID } from 'gatsby-env-variables';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles.scss';
 import { siteHome, loadingHome } from './home.module.scss';
 import PageHelmet from '../components/page-helmet/page-helmet';
