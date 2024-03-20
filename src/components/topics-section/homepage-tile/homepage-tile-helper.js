@@ -135,4 +135,16 @@ export const pageTileMap = {
     path: '/currency-exchange-rates-converter/',
     analyticsName: 'Currency Exchange Rates Converter',
   },
+  'savings-bonds': {
+    title: 'Explore U.S. Treasury Savings Bonds',
+    body:
+      'In {YYYY (latest complete FY)}, U.S. citizens invested {$XXX million (total savings bonds purchased in latest ' +
+      'complete FY)} in savings bonds. Discover how savings bonds help finance the federal government and the benefits ' +
+      'these bonds offer to citizens who choose to invest in them.',
+    altText: 'Images of savings bonds, including Series H and Series EE, surrounding the text “Fiscal Data Explains: Savings Bonds.”',
+    desktopImage: 'savings_bonds_homepage_1200X630',
+    mobileImage: 'savings_bonds_homepage_1200X630',
+    path: '/treasury-savings-bonds/',
+    analyticsName: 'Treasury Savings Bonds',
+  },
 };
