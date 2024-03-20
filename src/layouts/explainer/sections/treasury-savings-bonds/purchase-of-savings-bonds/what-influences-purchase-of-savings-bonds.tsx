@@ -98,9 +98,9 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
       <h5 className={subsectionHeader}>Savings Bonds History</h5>
       <p>
         The sale of U.S. Treasury marketable securities began with the nation’s founding, where private citizens purchased $27 million in government
-        bonds to finance the Revolutionary War
-        <AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text} />. These early loans to the government were introduced to raise
-        funds from the American public to support war efforts as well as other national projects like the construction of the Panama Canal.
+        bonds to finance the Revolutionary War.
+        <AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text} /> These early loans to the government were introduced to raise funds
+        from the American public to support war efforts as well as other national projects like the construction of the Panama Canal.
       </p>
       <p>
         During the Great Depression, the U.S. government sought to stabilize the economy by issuing a new type of Treasury security: savings bonds. In
@@ -121,7 +121,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = () => {
       <ImageContainer color={treasurySavingsBondsExplainerSecondary} caption="President John F. Kennedy holds a U.S. savings bond.">
         <img src={PresidentKennedy} alt="President John F. Kennedy holds a U.S. savings bond." />
       </ImageContainer>
-      <p>The chart below shows savings bond sales over time for all {bondTypes} savings bond types and their relative popularity.</p>
+      <p>The chart below shows savings bond sales over time for all {bondTypes} savings bond types.</p>
       <div className={visWithCallout}>
         <SavingsBondsSoldByTypeChart chartData={chartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>

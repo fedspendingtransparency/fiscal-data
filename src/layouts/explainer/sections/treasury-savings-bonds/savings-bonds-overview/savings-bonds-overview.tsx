@@ -35,8 +35,8 @@ const SavingsBondsOverview: FunctionComponent = () => {
       >
         <p>
           Wondering how much your savings bond is worth today? Visit the{' '}
-          <CustomLink url="https://www.treasurydirect.gov/savings-bonds/savings-bond-calculator/">Savings Bond Calculator</CustomLink> to price your
-          paper bonds or log in to your TreasuryDirect account to determine how much your bond is worth.
+          <CustomLink url="https://www.treasurydirect.gov/savings-bonds/savings-bond-calculator/">Savings Bond Calculator</CustomLink> to find the
+          value of your paper bonds or log in to your TreasuryDirect account to determine how much your electronic bond is worth.
         </p>
       </QuoteBox>
     </>

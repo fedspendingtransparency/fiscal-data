@@ -4,18 +4,18 @@ import React from 'react';
 export const chartCopy = {
   altText:
     'A chart demonstrating the sales of different types of savings bonds based on the years they were ' +
-    'available. A toggle is available that when selected, adjusts the values shown in the chart for inflation. ',
+    'available. The toggle adjusts the values shown in the chart for inflation.  ',
   inflationToolTip:
     'Adjusting for inflation provides a more accurate comparison between bond sales during different time periods. It shows the real amount of ' +
     'bond sales using the current value of a dollar.',
   footer: (
     <p>
-      Visit the <CustomLink url="/datasets/securities-issued-in-treasurydirect/sales">Securities Issued in TreasuryDirect</CustomLink> dataset for
-      data since 2001 and the{' '}
+      Visit the <CustomLink url="/datasets/electronic-securities-transactions/sales">Electronic Securities Transactions</CustomLink> dataset for data
+      since 2001 and the{' '}
       <CustomLink url="https://www.treasurydirect.gov/research-center/history-of-savings-bond/savings-bond-sales/">
         Historical Savings Bonds Sales by Type
       </CustomLink>{' '}
-      for data before 2001 to explore this data.
+      for data before 2001 to explore and download this data.
     </p>
   ),
 };
@@ -46,9 +46,9 @@ export const savingsBondsMap = {
     label: 'EE',
     hidden: false,
     description:
-      'First issued in 1980 and still available today, the EE bond was modeled after the E bond; however, the EE bond' +
-      'sells at 50% of the face value while E bonds were offered at 75% of face value. EE bonds sold between 2001 and 2011 were ' +
-      'designated as “Patriot Bonds” as a way for Americans to express support for anti-terrorism efforts.',
+      'First issued in 1980 and still available today, the EE bond was modeled after the E bond; however, ' +
+      'the EE bond sells at 50% of the face value while E bonds were offered at 75% of face value. ' +
+      'EE bonds sold between 2001 and 2011 were designated as “Patriot Bonds” as a way for Americans to express support for anti-terrorism efforts.',
   },
   F: {
     color: '#5E9F69',

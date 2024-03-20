@@ -30,7 +30,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
   const [hiddenFields, setHiddenFields] = useState<string[]>([]);
   const [curFyHistory, setCurFyHistory] = useState<string>('');
   const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
-  const chartTitle = `Savings Bonds Sold by Type Over Time, FY 1935 – FTYD ${curFyHistory}`;
+  const chartTitle = `Savings Bonds Sold by Type Over Time, FY 1935 – FYTD ${curFyHistory}`;
   const [sortedBonds, setSortedBonds] = useState<string[]>();
   const [maxYear, setMaxYear] = useState<number>();
   const [xAxis, setXAxis] = useState<number[]>();
