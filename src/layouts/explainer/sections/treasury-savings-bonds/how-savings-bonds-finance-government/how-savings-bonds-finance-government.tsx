@@ -64,25 +64,28 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
   const howSavingBondsSold = 'v1/debt/mspd/mspd_table_1?filter=record_date:eq';
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=1`).then((metaRes: ApiResponse) => {
-      if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
-        const pageSize = metaRes.meta['total-pages'];
-        basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=${pageSize}`).then((res: ApiResponse) => {
-          const relevantData = res.data
-            .filter(item => item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable')
-            .map(item => ({
-              ...item,
-              debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt),
-            }));
-
-          const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
-            const key = cur.security_class_desc;
-            if (!acc[key]) {
-              acc[key] = { name: key, value: 0, percent: 0, securityType: cur.security_type_desc };
-            }
-            acc[key].value += cur.debt_held_public_mil_amt;
-            return acc;
-          }, {});
+    basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=1`)
+      .then((metaRes: ApiResponse) => {
+        if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
+          const pageSize = metaRes.meta['total-pages'];
+          basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=${pageSize}`)
+            .then((res: ApiResponse) => {
+              const relevantData = res.data
+              .filter(item =>
+                item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable'
+              )
+              .map(item => ({
+                ...item,
+                debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt)
+              }));
+              const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
+                const key = cur.security_class_desc;
+                if (!acc[key]) {
+                  acc[key] = { name: key, value: 0, percent: 0, securityType: cur.security_type_desc };
+                }
+                acc[key].value += cur.debt_held_public_mil_amt;
+                return acc;
+              }, {});
 
           const processedData = Object.values(summedData);
           const totalValue = Number(processedData.reduce((sum, item) => sum + item.value, 0));

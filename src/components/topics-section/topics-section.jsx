@@ -22,7 +22,7 @@ export const TopicsSection = ({ images, width }) => {
   const explainerTiles = ['revenue', 'spending', 'deficit', 'debt'];
 
   return (
-    <div className={topicsSectionContainer}>
+    <div className={topicsSectionContainer} data-testid="topics-section">
       <div className={tileContainer}>
         <ThemeProvider theme={theme}>
           <Grid container spacing={4} direction={width < pxToNumber(breakpointLg) ? 'column-reverse' : 'row'}>
