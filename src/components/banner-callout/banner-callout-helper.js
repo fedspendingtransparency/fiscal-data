@@ -42,10 +42,9 @@ export const calloutConfig = {
     copy: (
       <>
         <div className={columnFlex}>
-          <b className={altBannerHeader}>Data Availability</b>
+          <b className={altBannerHeader}>This dataset is currently limited to data prior to 12/15/2022.</b>
           <span>
-            This dataset is currently limited to data prior to 12/15/2022. The Fiscal Data team is working to resume the monthly update cadence. For
-            more information about this data, please contact our team at{' '}
+            The Fiscal Data team is working to resume the monthly update cadence. For more information about this data, please contact our team at{' '}
             <CustomLink url={'mailto:fiscaldata@fiscal.treasury.gov'}>fiscaldata@fiscal.treasury.gov</CustomLink> for assistance.
           </span>
         </div>
