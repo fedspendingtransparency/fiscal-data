@@ -1,3 +1,4 @@
+import React from 'react';
 import SiteHeader from '../site-header/site-header';
 import SiteFooter from '../site-footer/site-footer';
 import { ErrorBoundary } from 'react-error-boundary';
