@@ -23,6 +23,13 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
   const [chartData, setChartData] = useState(null);
   const [xAxisValues, setXAxisValues] = useState(null);
   const [latestData, setLatestData] = useState<{ year: string; sales: number; inflation: number; recordDate: string }>();
+  const [inflationAxis, setInflationAxis] = useState<number[]>();
+  const [salesAxis, setSalesAxis] = useState<number[]>();
+
+  const defaultInflationAxis = [-3, 0, 3, 6, 9];
+  const inflationAxisInterval = 3;
+  const defaultSalesAxis = [0, 2500000000, 5000000000];
+  const salesAxisInterval = 2500000000;
 
   const header = (
     <div className={headerContainer}>
@@ -55,6 +62,57 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
     }
   };
 
+  const adjustYAxisArrays = (salesValues, inflationValues, maxSales, minSales, maxInflation, minInflation) => {
+    const salesAxisValues = [...salesValues];
+    const inflationAxisValues = [...inflationValues];
+
+    // Adjust each y-axis to cover the full range of available data
+    while (maxSales > salesAxisValues[salesAxisValues.length - 1]) {
+      salesAxisValues.push(salesAxisValues[salesAxisValues.length - 1] + salesAxisInterval);
+    }
+    while (minSales < salesAxisValues[0]) {
+      salesAxisValues.unshift(salesAxisValues[0] - salesAxisInterval);
+    }
+    while (maxInflation > inflationAxisValues[inflationAxisValues.length - 1]) {
+      inflationAxisValues.push(inflationAxisValues[inflationAxisValues.length - 1] + inflationAxisInterval);
+    }
+    while (minInflation < inflationAxisValues[0]) {
+      inflationAxisValues.unshift(inflationAxisValues[0] - inflationAxisInterval);
+    }
+
+    //Adjust either y-axis to be the same length, with zero in the same position
+    const salesAxisLength = salesAxisValues.length;
+    const inflationAxisLength = inflationAxisValues.length;
+    const salesZeroIndex = salesAxisValues.findIndex(x => x === 0);
+    const inflationZeroIndex = inflationAxisValues.findIndex(x => x === 0);
+
+    if (salesZeroIndex !== inflationZeroIndex || salesAxisLength !== inflationAxisLength) {
+      const salesNegativeTotal = salesZeroIndex - 1;
+      const inflationNegativeTotal = inflationZeroIndex - 1;
+      const salesPositiveTotal = salesAxisLength - salesZeroIndex;
+      const inflationPositiveTotal = inflationAxisLength - inflationZeroIndex;
+
+      if (salesNativeTotal !== inflationNegativeTotal) {
+        if (salesNegativeTotal > inflationNegativeTotal) {
+          // Add neg inflation values
+        } else {
+          //add neg sales values
+        }
+      }
+
+      if (salesPositiveTotal !== inflationPositiveTotal) {
+        if (salesPositiveTotal > inflationPositiveTotal) {
+          // Add pos inflation values
+        } else {
+          //add pos sales values
+        }
+      }
+    }
+
+    console.log(salesAxisValues, inflationAxisValues);
+    return { sales: salesAxisValues, inflation: inflationAxisValues };
+  };
+
   useEffect(() => {
     const filter = `security_type_desc:eq:Savings Bond,security_class_desc:eq:I,record_fiscal_year:gte:${curFy - 15}`;
     //TODO: check necessary page size
@@ -65,31 +123,55 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
         const data = res.data;
         const tempChartData = [];
         const xAxis = [];
+        let maxSalesValue;
+        let minSalesValue;
+        let maxInflationValue;
+        let minInflationValue;
         data.forEach(val => {
-          const cpiKey = 'M' + val.record_calendar_month + val.record_calendar_year;
+          const { record_calendar_month, record_calendar_year, record_fiscal_year, net_sales_amt, record_date } = val;
+          const cpiKey = 'M' + record_calendar_month + record_calendar_year;
           const inflationChange = cpi12MonthPercentChange[cpiKey];
-          const salesAmount = val.net_sales_amt;
+          const salesAmount = net_sales_amt;
           if (inflationChange && salesAmount) {
-            const month = new Date(val.record_date).toLocaleDateString('default', { month: 'short' });
+            maxSalesValue = maxSalesValue ? Math.max(salesAmount, maxSalesValue) : salesAmount;
+            minSalesValue = minSalesValue ? Math.min(salesAmount, minSalesValue) : salesAmount;
+            maxInflationValue = maxInflationValue ? Math.max(inflationChange, maxInflationValue) : inflationChange;
+            minInflationValue = minInflationValue ? Math.min(inflationChange, minInflationValue) : inflationChange;
+            const month = new Date(record_date).toLocaleDateString('default', { month: 'short' });
             tempChartData.push({
-              year: month + ' ' + val.record_calendar_year,
+              year: month + ' ' + record_calendar_year,
               sales: salesAmount,
               inflation: inflationChange,
-              recordDate: val.record_date,
-              axisValue: val.record_calendar_month === '09',
+              recordDate: record_date,
             });
             // Create an x-axis tick at the start of the fiscal year ( Oct ), every 3 years
-            if (val.record_calendar_month === '10' && (curFy - val.record_fiscal_year) % 3 === 0) {
-              xAxis.push(val.record_date);
+            if (record_calendar_month === '10' && (curFy - record_fiscal_year) % 3 === 0) {
+              xAxis.push(record_date);
             }
           }
         });
         const latest = tempChartData[0];
         setLatestData(latest);
+
+        // Set default header values
         setCurYear(latest.year);
         setCurSales(latest.sales);
         setCurInflation(latest.inflation);
+
+        //Set axis values, additional y-axis values may be added based on current data
+        const yAxisValues = adjustYAxisArrays(
+          defaultSalesAxis,
+          defaultInflationAxis,
+          maxSalesValue,
+          minSalesValue,
+          maxInflationValue,
+          minInflationValue
+        );
+        setSalesAxis(yAxisValues.sales);
+        setInflationAxis(yAxisValues.inflation);
         setXAxisValues(xAxis);
+        console.log(maxSalesValue, minSalesValue, maxInflationValue, minInflationValue);
+
         tempChartData.reverse();
         setChartData(tempChartData);
       }
@@ -125,8 +207,8 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
                   tickLine={false}
                   tickFormatter={value => yAxisFormatter(value)}
                   tick={{ fill: treasurySavingsBondsExplainerSecondary }}
-                  ticks={[-2500000000, 0, 2500000000, 5000000000, 7500000000, 10000000000]}
-                  tickCount={6}
+                  ticks={salesAxis}
+                  tickCount={5}
                 />
                 <YAxis
                   yAxisId={1}
@@ -134,11 +216,11 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
                   type="number"
                   axisLine={false}
                   tickLine={false}
-                  tickCount={6}
-                  ticks={[-3, 0, 3, 6, 9, 12]}
+                  tickCount={inflationAxis.length}
+                  ticks={inflationAxis}
                   tickFormatter={value => `${value.toFixed(1)}%`}
                   orientation="right"
-                  domain={[-3, 12]}
+                  domain={[inflationAxis[0], inflationAxis[inflationAxis.length]]}
                 />
                 <Line
                   dataKey="sales"
