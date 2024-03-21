@@ -26,9 +26,9 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
   const [inflationAxis, setInflationAxis] = useState<number[]>();
   const [salesAxis, setSalesAxis] = useState<number[]>();
 
-  const defaultInflationAxis = [-3, 0, 3, 6, 9];
+  const defaultInflationAxis = [-3, 0, 3, 6, 9, 12];
   const inflationAxisInterval = 3;
-  const defaultSalesAxis = [0, 2500000000, 5000000000];
+  const defaultSalesAxis = [0, 2500000000, 5000000000, 7500000000];
   const salesAxisInterval = 2500000000;
 
   const header = (
@@ -87,29 +87,45 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
     const inflationZeroIndex = inflationAxisValues.findIndex(x => x === 0);
 
     if (salesZeroIndex !== inflationZeroIndex || salesAxisLength !== inflationAxisLength) {
-      const salesNegativeTotal = salesZeroIndex - 1;
-      const inflationNegativeTotal = inflationZeroIndex - 1;
-      const salesPositiveTotal = salesAxisLength - salesZeroIndex;
-      const inflationPositiveTotal = inflationAxisLength - inflationZeroIndex;
+      const salesPositiveTotal = salesAxisLength - salesZeroIndex - 1;
+      const inflationPositiveTotal = inflationAxisLength - inflationZeroIndex - 1;
 
-      if (salesNativeTotal !== inflationNegativeTotal) {
-        if (salesNegativeTotal > inflationNegativeTotal) {
-          // Add neg inflation values
+      if (salesZeroIndex !== inflationZeroIndex) {
+        // Add additional negative values to either axis as needed, until both zeros are in at the same index
+        // and there are the same amount of negative axis values
+        if (salesZeroIndex > inflationZeroIndex) {
+          let negativeDif = salesZeroIndex - inflationZeroIndex;
+          while (negativeDif !== 0) {
+            inflationAxisValues.unshift(inflationAxisValues[0] - inflationAxisInterval);
+            negativeDif = negativeDif - 1;
+          }
         } else {
-          //add neg sales values
+          let negativeDif = inflationZeroIndex - salesZeroIndex;
+          while (negativeDif !== 0) {
+            salesAxisValues.unshift(salesAxisValues[0] - salesAxisInterval);
+            negativeDif = negativeDif - 1;
+          }
         }
       }
 
       if (salesPositiveTotal !== inflationPositiveTotal) {
+        // Add additional positive values to either axis as needed, until there are the same amount of positive axis values
         if (salesPositiveTotal > inflationPositiveTotal) {
-          // Add pos inflation values
+          let positiveDif = salesPositiveTotal - inflationPositiveTotal;
+          while (positiveDif !== 0) {
+            inflationAxisValues.push(inflationAxisValues[inflationAxisValues.length - 1] + inflationAxisInterval);
+            positiveDif = positiveDif - 1;
+          }
         } else {
-          //add pos sales values
+          let positiveDif = inflationPositiveTotal - salesPositiveTotal;
+          while (positiveDif !== 0) {
+            salesAxisValues.push(salesAxisValues[salesAxisValues.length - 1] + salesAxisInterval);
+            positiveDif = positiveDif - 1;
+          }
         }
       }
     }
 
-    console.log(salesAxisValues, inflationAxisValues);
     return { sales: salesAxisValues, inflation: inflationAxisValues };
   };
 
@@ -208,7 +224,7 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
                   tickFormatter={value => yAxisFormatter(value)}
                   tick={{ fill: treasurySavingsBondsExplainerSecondary }}
                   ticks={salesAxis}
-                  tickCount={5}
+                  tickCount={salesAxis.length}
                 />
                 <YAxis
                   yAxisId={1}
