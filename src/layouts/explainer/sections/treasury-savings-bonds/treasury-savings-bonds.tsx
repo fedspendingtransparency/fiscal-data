@@ -22,6 +22,7 @@ interface IExplainerPageSection {
   title: string;
   component: FunctionComponent<{
     cpiData: {
+      cpiDataByYear: ICpiDataMap;
       cpi12MonthPercentChange: ICpiDataMap;
     };
   }>;
@@ -50,7 +51,8 @@ const treasurySavingsBondsSections: IExplainerPageSection[] = [
     index: 3,
     id: treasurySavingsBondsSectionIds[3],
     title: 'What Influences the Purchase of Savings Bonds?',
-    component: cpiData => <WhatInfluencesPurchaseOfSavingsBonds cpi12MonthPercentChange={cpiData.cpi12MonthPercentChange} />,
+    component: cpiData =>
+      <WhatInfluencesPurchaseOfSavingsBonds cpi12MonthPercentChange={cpiData.cpi12MonthPercentChange} cpiDataByYear={cpiData.cpiDataByYear} />,
   },
   {
     index: 4,

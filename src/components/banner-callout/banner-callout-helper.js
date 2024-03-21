@@ -1,6 +1,6 @@
 import CustomLink from '../links/custom-link/custom-link';
 import React from 'react';
-import { updateList, header, suggestions } from './banner-callout.module.scss';
+import { updateList, header, suggestions, columnFlex, altBannerHeader } from './banner-callout.module.scss';
 export const calloutConfig = {
   XRCallout: {
     copy: (
@@ -35,6 +35,19 @@ export const calloutConfig = {
           <li>The Federal Tax Deposits and Short-Term Cash Investments tables will contain historical data only (through Feb. 13, 2023).</li>
           <li>There will be a new API endpoint for the Inter-Agency Tax Transfers table, which started on Feb. 14, 2023.</li>
         </ul>
+      </>
+    ),
+  },
+  TOPLimitedData: {
+    copy: (
+      <>
+        <div className={columnFlex}>
+          <b className={altBannerHeader}>This dataset is currently limited to data prior to 12/15/2022.</b>
+          <span>
+            The Fiscal Data team is working to resume the monthly update cadence. For more information about this data, please contact our team at{' '}
+            <CustomLink url={'mailto:fiscaldata@fiscal.treasury.gov'}>fiscaldata@fiscal.treasury.gov</CustomLink> for assistance.
+          </span>
+        </div>
       </>
     ),
   },

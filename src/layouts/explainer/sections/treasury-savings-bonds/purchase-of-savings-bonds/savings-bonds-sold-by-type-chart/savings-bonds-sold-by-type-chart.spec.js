@@ -1,7 +1,7 @@
 import React from 'react';
 import SavingsBondsSoldByTypeChart from './savings-bonds-sold-by-type-chart';
 import { fireEvent, render, act, waitFor } from '@testing-library/react';
-import { mockData, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
+import { mockData, yAxisFormatter, mockInflationData } from './savings-bonds-sold-by-type-chart-helper';
 import { mockSavingsBondFetchResponses } from '../../../../explainer-test-helper';
 
 jest.mock('recharts', () => {
@@ -49,7 +49,7 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(getByText('FY 1935 – FTYD 2024', { exact: false })).toBeInTheDocument();
+    expect(getByText('FY 1935 – FYTD 2024', { exact: false })).toBeInTheDocument();
     expect(getByText('February 29, 2024', { exact: false })).toBeInTheDocument();
   });
 
@@ -71,5 +71,17 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     expect(formattedMillion).toBe('$25 M');
     const formattedThousand = yAxisFormatter(25000);
     expect(formattedThousand).toBe('$25 k');
+  });
+
+  it('switches chart data on inflation toggle', async () => {
+    const { getByText, rerender, getByTestId } = render(<SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} />);
+    expect(getByText('$21.0 B')).toBeInTheDocument();
+    const inflationToggle = getByTestId('inflation-check-box', { name: /adjust for inflation/i });
+    fireEvent.click(inflationToggle);
+    rerender(<SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} />);
+
+    await waitFor(() => {
+      expect(getByText('$24.5 B')).toBeInTheDocument();
+    });
   });
 });
