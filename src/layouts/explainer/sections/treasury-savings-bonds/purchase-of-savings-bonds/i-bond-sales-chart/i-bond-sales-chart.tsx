@@ -134,7 +134,7 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
     const sort = '-record_date';
     const endpoint = `v1/accounting/od/securities_sales?filter=${filter}&sort=${sort}`;
 
-    if (curFy) {
+    if (curFy && cpi12MonthPercentChange) {
       basicFetch(`${apiPrefix}${endpoint}&page[size]=1`).then(metaRes => {
         if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
           const pageSize = metaRes.meta['total-pages'];
