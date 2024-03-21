@@ -28,7 +28,7 @@ type SalesData = Record<string, number>;
 
 const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent<{ cpi12MonthPercentChange: any }> = ({ cpi12MonthPercentChange }) => {
   const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
-  const [curFy, setCurFy] = useState<string>('');
+  const [curFy, setCurFy] = useState<string>();
   const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
   const [mostBondSalesYear, setMostBondSalesYear] = useState<string | null>(null);
   const [mostBondSales, setMostBondSales] = useState<number>(0);

@@ -26,10 +26,10 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
   const [inflationAxis, setInflationAxis] = useState<number[]>();
   const [salesAxis, setSalesAxis] = useState<number[]>();
 
-  const defaultInflationAxis = [-3, 0, 3, 6, 9, 12];
-  const inflationAxisInterval = 3;
-  const defaultSalesAxis = [0, 2500000000, 5000000000, 7500000000];
-  const salesAxisInterval = 2500000000;
+  const defaultInflationAxis: number[] = [-2.5, 0, 2.5, 5, 7.5, 10];
+  const inflationAxisInterval = 2.5;
+  const defaultSalesAxis: number[] = [0, 2000000000, 4000000000, 6000000000];
+  const salesAxisInterval = 2000000000;
 
   const header = (
     <div className={headerContainer}>
@@ -131,67 +131,72 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
 
   useEffect(() => {
     const filter = `security_type_desc:eq:Savings Bond,security_class_desc:eq:I,record_fiscal_year:gte:${curFy - 15}`;
-    //TODO: check necessary page size
-    const sort = '-record_date&page[size]=500';
+    const sort = '-record_date';
     const endpoint = `v1/accounting/od/securities_sales?filter=${filter}&sort=${sort}`;
-    basicFetch(`${apiPrefix}${endpoint}`).then(res => {
-      if (res.data) {
-        const data = res.data;
-        const tempChartData = [];
-        const xAxis = [];
-        let maxSalesValue;
-        let minSalesValue;
-        let maxInflationValue;
-        let minInflationValue;
-        data.forEach(val => {
-          const { record_calendar_month, record_calendar_year, record_fiscal_year, net_sales_amt, record_date } = val;
-          const cpiKey = 'M' + record_calendar_month + record_calendar_year;
-          const inflationChange = cpi12MonthPercentChange[cpiKey];
-          const salesAmount = net_sales_amt;
-          if (inflationChange && salesAmount) {
-            maxSalesValue = maxSalesValue ? Math.max(salesAmount, maxSalesValue) : salesAmount;
-            minSalesValue = minSalesValue ? Math.min(salesAmount, minSalesValue) : salesAmount;
-            maxInflationValue = maxInflationValue ? Math.max(inflationChange, maxInflationValue) : inflationChange;
-            minInflationValue = minInflationValue ? Math.min(inflationChange, minInflationValue) : inflationChange;
-            const month = new Date(record_date).toLocaleDateString('default', { month: 'short' });
-            tempChartData.push({
-              year: month + ' ' + record_calendar_year,
-              sales: salesAmount,
-              inflation: inflationChange,
-              recordDate: record_date,
-            });
-            // Create an x-axis tick at the start of the fiscal year ( Oct ), every 3 years
-            if (record_calendar_month === '10' && (curFy - record_fiscal_year) % 3 === 0) {
-              xAxis.push(record_date);
+
+    if (curFy) {
+      basicFetch(`${apiPrefix}${endpoint}&page[size]=1`).then(metaRes => {
+        if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
+          const pageSize = metaRes.meta['total-pages'];
+          basicFetch(`${apiPrefix}${endpoint}&page[size]=${pageSize}`).then(res => {
+            if (res.data) {
+              const data = res.data;
+              const tempChartData = [];
+              const xAxis = [];
+              let maxSalesValue;
+              let minSalesValue;
+              let maxInflationValue;
+              let minInflationValue;
+              data.forEach(val => {
+                const { record_calendar_month, record_calendar_year, record_fiscal_year, net_sales_amt, record_date } = val;
+                const cpiKey = 'M' + record_calendar_month + record_calendar_year;
+                const inflationChange = cpi12MonthPercentChange[cpiKey];
+                const salesAmount = net_sales_amt;
+                if (inflationChange && salesAmount) {
+                  maxSalesValue = maxSalesValue ? Math.max(salesAmount, maxSalesValue) : salesAmount;
+                  minSalesValue = minSalesValue ? Math.min(salesAmount, minSalesValue) : salesAmount;
+                  maxInflationValue = maxInflationValue ? Math.max(inflationChange, maxInflationValue) : inflationChange;
+                  minInflationValue = minInflationValue ? Math.min(inflationChange, minInflationValue) : inflationChange;
+                  const month = new Date(record_date).toLocaleDateString('default', { month: 'short' });
+                  tempChartData.push({
+                    year: month + ' ' + record_calendar_year,
+                    sales: salesAmount,
+                    inflation: inflationChange,
+                    recordDate: record_date,
+                  });
+                  // Create an x-axis tick at the start of the fiscal year ( Oct ), every 3 years
+                  if (record_calendar_month === '10' && (curFy - record_fiscal_year) % 3 === 0) {
+                    xAxis.push(record_date);
+                  }
+                }
+              });
+              const latest = tempChartData[0];
+              setLatestData(latest);
+
+              // Set default header values
+              setCurYear(latest.year);
+              setCurSales(latest.sales);
+              setCurInflation(latest.inflation);
+
+              //Set axis values, additional y-axis values may be added based on current data
+              const yAxisValues = adjustYAxisArrays(
+                defaultSalesAxis,
+                defaultInflationAxis,
+                maxSalesValue,
+                minSalesValue,
+                maxInflationValue,
+                minInflationValue
+              );
+              setSalesAxis(yAxisValues.sales);
+              setInflationAxis(yAxisValues.inflation);
+              setXAxisValues(xAxis);
+              tempChartData.reverse();
+              setChartData(tempChartData);
             }
-          }
-        });
-        const latest = tempChartData[0];
-        setLatestData(latest);
-
-        // Set default header values
-        setCurYear(latest.year);
-        setCurSales(latest.sales);
-        setCurInflation(latest.inflation);
-
-        //Set axis values, additional y-axis values may be added based on current data
-        const yAxisValues = adjustYAxisArrays(
-          defaultSalesAxis,
-          defaultInflationAxis,
-          maxSalesValue,
-          minSalesValue,
-          maxInflationValue,
-          minInflationValue
-        );
-        setSalesAxis(yAxisValues.sales);
-        setInflationAxis(yAxisValues.inflation);
-        setXAxisValues(xAxis);
-        console.log(maxSalesValue, minSalesValue, maxInflationValue, minInflationValue);
-
-        tempChartData.reverse();
-        setChartData(tempChartData);
-      }
-    });
+          });
+        }
+      });
+    }
   }, [curFy]);
 
   const formatTick = value => {
@@ -199,11 +204,13 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
     return new Date(value).getFullYear() + 1;
   };
 
+  const chartTitle = `Correlation Between Inflation and I Bond Sales, FY ${curFy - 15} – FYTD ${curFy}`;
+
   return (
     <>
       {chartData && (
         <ChartContainer
-          title={chartCopy.title}
+          title={chartTitle}
           altText={chartCopy.altText}
           date={getDateWithoutOffset(latestData?.recordDate)}
           footer={chartCopy.footer}
@@ -215,7 +222,6 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
               <LineChart data={chartData} margin={{ top: 12, bottom: -8, left: -8, right: -12 }} onMouseLeave={resetDataHeader}>
                 <CartesianGrid vertical={false} stroke="#d9d9d9" />
                 <ReferenceLine y={0} stroke="#555555" />
-
                 <XAxis dataKey="recordDate" ticks={xAxisValues} tickCount={5} tickFormatter={value => formatTick(value).toString()} />
                 <YAxis
                   dataKey="sales"

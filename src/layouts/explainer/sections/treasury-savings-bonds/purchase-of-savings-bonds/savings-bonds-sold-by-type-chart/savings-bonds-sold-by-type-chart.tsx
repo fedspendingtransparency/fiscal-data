@@ -6,7 +6,6 @@ import ChartLegend from './chart-legend/chart-legend';
 import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import ChartHeader from './chart-header/chart-header';
-import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartDescription from './chart-description/chart-description';
 
 export interface ISavingBondsByTypeChartData {

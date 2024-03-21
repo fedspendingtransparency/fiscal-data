@@ -1,4 +1,5 @@
 import fetchMock from 'fetch-mock';
+import { IBondMockData } from './sections/treasury-savings-bonds/purchase-of-savings-bonds/i-bond-sales-chart/i-bond-sales-chart-helper';
 
 const mockExplainerPageResponseData = [
   {
@@ -791,6 +792,12 @@ export const mockSavingsBondFetchResponses = () => {
     mockSavingsBondsSoldByTypeFYData,
     { overwriteRoutes: true },
     { repeat: 0 }
+  );
+  fetchMock.get(
+    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,security_class_desc:eq:I,record_fiscal_year:gte:2009&sort=-record_date`,
+    IBondMockData,
+    { overwriteRoutes: true },
+    { repeat: 2 }
   );
 };
 
