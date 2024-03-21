@@ -80,7 +80,15 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
         illustration below.
       </p>
 
-      <div className={holdingBondsContainer}>
+      <div
+        className={holdingBondsContainer}
+        aria-label={
+          'Three images of the same person. The first image is of the person with a new savings bond certificate and a few gold coins. ' +
+          'The next image is of the same person, now unboxing more gold coins resulting from redeeming a fully matured savings bond. ' +
+          'The final image is of the same person, now with some of their gold coins flying away, ' +
+          'symbolizing how value disappears from fully matured savings bonds that go unredeemed.'
+        }
+      >
         <div className={holdingBondsHeader}>How Holding onto Matured Bonds can Cost You Money</div>
 
         <div className={holdingBondsLeft}>

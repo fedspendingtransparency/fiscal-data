@@ -57,7 +57,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
     basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
       if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
         const pageSize = metaRes.meta['total-pages'];
-        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => { 
+        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
           if (res.data) {
 
             const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
@@ -73,15 +73,15 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
               const yearlySales = Object.keys(entry)
                 .filter(key => key !== 'year')
                 .reduce((sum, key) => sum + Number(entry[key]), 0);
-        
+
               acc[entry.year] = totalSalesForYear + yearlySales;
               return acc;
             }, {});
-        
+
             const sortedYears = Object.entries(salesByYear)
               .map(([year, totalSales]) => ({ year, totalSales }))
               .sort((a, b) => b.totalSales - a.totalSales);
-        
+
             if (sortedYears.length > 0) {
               setMostBondSalesYear(sortedYears[0].year);
               setMostBondSales(sortedYears[0].totalSales);
@@ -110,8 +110,9 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
       <h5 className={subsectionHeader}>Savings Bonds History</h5>
       <p>
         The sale of U.S. Treasury marketable securities began with the nation’s founding, where private citizens purchased $27 million in government
-        bonds to finance the Revolutionary War<AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text} />. These early loans to the government were introduced to raise funds from the American public to support
-        war efforts as well as other national projects like the construction of the Panama Canal.
+        bonds to finance the Revolutionary War.
+        <AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text} /> These early loans to the government were introduced to raise funds
+        from the American public to support war efforts as well as other national projects like the construction of the Panama Canal.
       </p>
       <p>
         During the Great Depression, the U.S. government sought to stabilize the economy by issuing a new type of Treasury security: savings bonds. In
@@ -132,7 +133,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
       <ImageContainer color={treasurySavingsBondsExplainerSecondary} caption="President John F. Kennedy holds a U.S. savings bond.">
         <img src={PresidentKennedy} alt="President John F. Kennedy holds a U.S. savings bond." />
       </ImageContainer>
-      <p>The chart below shows savings bond sales over time for all {bondTypes} savings bond types and their relative popularity.</p>
+      <p>The chart below shows savings bond sales over time for all {bondTypes} savings bond types.</p>
       <div className={visWithCallout}>
         <SavingsBondsSoldByTypeChart chartData={chartData} inflationChartData={inflationChartData}/>
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
@@ -153,7 +154,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
         inflation to increase, savings bonds like Series I become attractive because they provide protection against inflation, preserving the value
         of the money invested. In the spring of 2021, inflation in the United States began to rise over three percent and would grow to over six
         percent by September 2022. In response, the American public invested heavily in Series I bonds, purchasing nearly $153 billion of Series I
-        bonds between April 2021 and February 2023. The chart below shows inflation data and I bond purchases from the last 20 years.
+        bonds between April 2021 and February 2023. The chart below shows inflation data and I bond purchases from the last 15 years.
       </p>
       <div className={visWithCallout}>
         <IBondSalesChart />

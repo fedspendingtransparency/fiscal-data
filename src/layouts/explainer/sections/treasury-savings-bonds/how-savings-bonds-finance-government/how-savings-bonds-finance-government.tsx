@@ -73,7 +73,7 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
             .then((res: ApiResponse) => {
               const latestDate = new Date(Math.max(...res.data.map(e => new Date(e.record_date).getTime())));
               const latestYear = latestDate.getFullYear();
-              const latestMonth = latestDate.getMonth() + 1; 
+              const latestMonth = latestDate.getMonth() + 1;
 
               const latestMonthData = res.data.filter(item => {
                 const itemDate = new Date(item.record_date);
@@ -120,7 +120,7 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
 
           const historicalMonthData = res.data.filter(item => {
             const itemDate = new Date(item.record_date);
-            return itemDate.getFullYear() === historicalYear && 
+            return itemDate.getFullYear() === historicalYear &&
             itemDate.getMonth() + 1 === latestMonth &&
             (item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable');
           });
