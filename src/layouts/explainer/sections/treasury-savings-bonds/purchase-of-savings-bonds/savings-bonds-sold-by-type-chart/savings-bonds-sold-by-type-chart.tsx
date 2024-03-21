@@ -33,7 +33,7 @@ interface ISavingsBondsSoldByTypeChart {
 const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChart> = ({ chartData, inflationChartData, curFy, chartDate }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('amounts');
   const [hiddenFields, setHiddenFields] = useState<string[]>([]);
-  const chartTitle = `Savings Bonds Sold by Type Over Time, FY 1935 – FTYD ${curFy}`;
+  const chartTitle = `Savings Bonds Sold by Type Over Time, FY 1935 – FYTD ${curFy}`;
   const [sortedBonds, setSortedBonds] = useState<string[]>();
   const [maxYear, setMaxYear] = useState<number>();
   const [xAxis, setXAxis] = useState<number[]>();
@@ -41,14 +41,16 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
   let activeChartData = inflationSwitch ? inflationChartData : chartData;
   const handleInflationToggle = (isAdjusted: boolean) => {
     setInflationSwitch(isAdjusted);
-  }
+  };
 
-  const header = <ChartHeader
-    selectedChartView={selectedChartView}
-    setSelectedChartView={setSelectedChartView}
-    onToggle={handleInflationToggle}
-    isInflationAdjusted={inflationSwitch}
-    />;
+  const header = (
+    <ChartHeader
+      selectedChartView={selectedChartView}
+      setSelectedChartView={setSelectedChartView}
+      onToggle={handleInflationToggle}
+      isInflationAdjusted={inflationSwitch}
+    />
+  );
 
   useEffect(() => {
     if (chartData) {
@@ -56,13 +58,11 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
       setXAxis(getXAxisValues(1935, max));
       setMaxYear(max);
       setSortedBonds(sortedByDate(savingsBonds, chartData));
-
     }
-    if(selectedChartView === 'description') {
+    if (selectedChartView === 'description') {
       activeChartData = chartData;
     }
   }, [chartData, activeChartData, selectedChartView]);
-
 
   const sortedByDate = (savingsBonds, data) => {
     if (data) {

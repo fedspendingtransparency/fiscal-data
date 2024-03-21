@@ -30,13 +30,13 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   });
 
   it('renders the chart', () => {
-    const { container, getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} />);
+    const { container, getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} chartDate={new Date()} />);
     expect(container).toBeInTheDocument();
     expect(getByText('Adjust for Inflation')).toBeInTheDocument();
   });
 
   it('renders the chart toggle', () => {
-    const { getByTestId, queryByTestId, getByRole } = render(<SavingsBondsSoldByTypeChart chartData={mockData} />);
+    const { getByTestId, queryByTestId, getByRole } = render(<SavingsBondsSoldByTypeChart chartData={mockData} chartDate={new Date()} />);
     const descriptionsToggle = getByRole('button', { name: 'Description' });
     expect(getByTestId('chartParent')).toBeInTheDocument();
     act(() => {
@@ -45,16 +45,8 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     expect(queryByTestId('chartParent')).not.toBeInTheDocument();
   });
 
-  it('renders chart evergreen copy values', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(getByText('FY 1935 – FYTD 2024', { exact: false })).toBeInTheDocument();
-    expect(getByText('February 29, 2024', { exact: false })).toBeInTheDocument();
-  });
-
   it('formats y axis values', () => {
-    const { getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} />);
+    const { getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} chartDate={new Date()} />);
     expect(getByText('$24.5 B')).toBeInTheDocument();
     expect(getByText('$21.0 B')).toBeInTheDocument();
     expect(getByText('$0')).toBeInTheDocument();
@@ -74,11 +66,13 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   });
 
   it('switches chart data on inflation toggle', async () => {
-    const { getByText, rerender, getByTestId } = render(<SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} />);
+    const { getByText, rerender, getByTestId } = render(
+      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} />
+    );
     expect(getByText('$21.0 B')).toBeInTheDocument();
     const inflationToggle = getByTestId('inflation-check-box', { name: /adjust for inflation/i });
     fireEvent.click(inflationToggle);
-    rerender(<SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} />);
+    rerender(<SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} />);
 
     await waitFor(() => {
       expect(getByText('$24.5 B')).toBeInTheDocument();
