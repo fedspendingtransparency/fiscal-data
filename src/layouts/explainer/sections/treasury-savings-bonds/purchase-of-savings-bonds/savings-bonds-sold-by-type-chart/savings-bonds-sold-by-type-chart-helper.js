@@ -15,7 +15,7 @@ export const chartCopy = {
       <CustomLink url="https://www.treasurydirect.gov/research-center/history-of-savings-bond/savings-bond-sales/">
         Historical Savings Bonds Sales by Type
       </CustomLink>{' '}
-      for data before 2001 to explore and download this data.
+      dataset for data before 2001 to explore and download this data.
     </p>
   ),
 };
@@ -82,7 +82,7 @@ export const savingsBondsMap = {
     color: '#A6B557',
     label: 'HH',
     hidden: false,
-    description: 'Sold from 1980–2004, HH bonds replaced H bonds but with different interest rates. HH bonds earn interest for up to 20 years',
+    description: 'Sold from 1980–2004, HH bonds replaced H bonds but with different interest rates. HH bonds earn interest for up to 20 years.',
   },
   I: {
     color: '#CD425B',
@@ -105,7 +105,7 @@ export const savingsBondsMap = {
     color: '#496FD8',
     label: 'K',
     hidden: false,
-    description: 'Issued from 1952–1957, K bonds replaced G bonds with a higher interest rate of 2.76% (versus G bonds’ 2.53%)',
+    description: 'Issued from 1952–1957, K bonds replaced G bonds with a higher interest rate of 2.76% (versus G bonds’ 2.53%).',
   },
   SN: {
     color: '#1B1B1B',
