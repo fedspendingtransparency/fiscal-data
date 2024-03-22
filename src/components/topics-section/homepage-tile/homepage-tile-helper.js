@@ -64,7 +64,6 @@ export const SavingsBondsBodyGenerator = () => {
 
   const previousFiscalYear = getPreviousFiscalYear();
   const [savingsBondsAmount, setSavingsBondsAmount] = useState(null);
-  // const [recordFiscalYear, setRecordFiscalYear] = useState(null);
   // eslint-disable-next-line max-len
   const sbUrl = `v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${previousFiscalYear}`;
 
