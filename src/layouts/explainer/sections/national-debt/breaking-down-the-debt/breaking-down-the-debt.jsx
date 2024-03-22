@@ -323,7 +323,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width 
                 ' to ' +
                 multichartInterestRateMin
               }
-              role="img"
+              role="figure"
             >
               <div
                 className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
