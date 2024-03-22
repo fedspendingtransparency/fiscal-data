@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
 import { getShortForm } from '../../../utils/rounding-utils';
+import { format } from 'date-fns';
 export const SpendingBodyGenerator = () => {
   const fields = 'fields=current_fytd_net_outly_amt,record_fiscal_year,record_date';
   const filter = 'filter=line_code_nbr:eq:5691';
@@ -54,10 +55,18 @@ export const RevenueBodyGenerator = () => {
 };
 
 export const SavingsBondsBodyGenerator = () => {
+  function getPreviousFiscalYear() {
+    const today = new Date();
+    if (today.getMonth() < 10) {
+      return today.getFullYear() - 1;
+    } else return today.getFullYear();
+  }
+
+  const previousFiscalYear = getPreviousFiscalYear();
   const [savingsBondsAmount, setSavingsBondsAmount] = useState(null);
-  const [recordFiscalYear, setRecordFiscalYear] = useState(null);
+  // const [recordFiscalYear, setRecordFiscalYear] = useState(null);
   // eslint-disable-next-line max-len
-  const sbUrl = `v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&sort=-record_date`;
+  const sbUrl = `v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${previousFiscalYear}`;
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${sbUrl}`).then(res => {
@@ -69,14 +78,13 @@ export const SavingsBondsBodyGenerator = () => {
           savingsBondsTotal = savingsBondsTotal + parseInt(index.gross_sales_amt);
         });
         setSavingsBondsAmount(savingsBondsTotal);
-        setRecordFiscalYear(data[0].record_fiscal_year);
       }
     });
   }, []);
 
   return (
     <>
-      In FY {recordFiscalYear}, U.S. citizens invested ${getShortForm(savingsBondsAmount, false)} in savings bonds. Discover how savings bonds help
+      In FY {previousFiscalYear}, U.S. citizens invested ${getShortForm(savingsBondsAmount, false)} in savings bonds. Discover how savings bonds help
       finance the federal government and the benefits these bonds offer to citizens who choose to invest in them.
     </>
   );
