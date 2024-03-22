@@ -10,7 +10,6 @@ import { loadingIcon } from './site-layout.module.scss';
 export const preProdEnvMsg = 'Loading metadata and data from endpoints in pre-production environment.';
 
 const SiteLayout = ({ children, isPreProd, loading }) => {
-  console.log('loading::: ', loading);
   let lowerEnvMsg;
 
   if (isPreProd) {
