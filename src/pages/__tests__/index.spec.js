@@ -34,17 +34,17 @@ beforeAll(() => {
 
 describe('Site Home Index', () => {
   it('renders the topics section', () => {
-    const { getByTestId } = render(<Index />);
+    const { getByTestId } = render(<Index width={900} />);
     expect(getByTestId('topics-section')).toBeInTheDocument();
   });
 
   it('renders the HomeMainContent component', () => {
-    const { getByTestId } = render(<Index />);
+    const { getByTestId } = render(<Index width={900} />);
     expect(getByTestId('home-main-content')).toBeInTheDocument();
   });
 
   it('renders the HomeFeatures component', () => {
-    const { getByTestId } = render(<Index />);
+    const { getByTestId } = render(<Index width={900} />);
     expect(getByTestId('home-features')).toBeInTheDocument();
   });
 });

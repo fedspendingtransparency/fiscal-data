@@ -2,7 +2,7 @@ import { ENV_ID } from 'gatsby-env-variables';
 
 import React, { useState, useEffect } from 'react';
 import '../styles.scss';
-import { siteHome, loadingHome } from './home.module.scss';
+import { siteHome } from './home.module.scss';
 import PageHelmet from '../components/page-helmet/page-helmet';
 import SiteLayout from '../components/siteLayout/siteLayout';
 import HomeMainContent from '../components/home-main-content/home-main-content';
@@ -10,15 +10,15 @@ import HomeFeatures from '../components/home-features/home-features';
 import LocationAware from '../components/location-aware/location-aware';
 import TopicsSection from '../components/topics-section/topics-section';
 import { graphql, useStaticQuery } from 'gatsby';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { withWindowSize } from 'react-fns';
 
 export const Index = ({ width }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(false);
+    if (width > 0) {
+      setLoading(false);
+    }
   }, [width]);
 
   const allFile = useStaticQuery(
@@ -38,28 +38,25 @@ export const Index = ({ width }) => {
 
   return (
     <>
-      {loading && (
-        <div className={loadingHome}>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
-      {!loading && (
-        <SiteLayout isPreProd={ENV_ID === 'preprod'}>
-          <div data-testid="site-home" className={siteHome} data-environment={ENV_ID}>
-            <PageHelmet
-              data-testid="helmet"
-              pageTitle=""
-              description="With historical and current data, Fiscal Data is your hub for fiscal data.
+      <SiteLayout isPreProd={ENV_ID === 'preprod'} loading={loading}>
+        <div data-testid="site-home" className={siteHome} data-environment={ENV_ID}>
+          <PageHelmet
+            data-testid="helmet"
+            pageTitle=""
+            description="With historical and current data, Fiscal Data is your hub for fiscal data.
           Download datasets on topics such as debt, interest rates, and more."
-              keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
+            keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
           financial data, debt, Treasury, US government"
-            />
-            <TopicsSection images={allFile} />
-            <HomeMainContent />
-            <HomeFeatures />
-          </div>
-        </SiteLayout>
-      )}
+          />
+          {width > 0 && (
+            <>
+              <TopicsSection images={allFile} width={width} />
+              <HomeMainContent />
+              <HomeFeatures />
+            </>
+          )}
+        </div>
+      </SiteLayout>
     </>
   );
 };
