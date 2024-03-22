@@ -10,15 +10,15 @@ import HomeFeatures from '../components/home-features/home-features';
 import LocationAware from '../components/location-aware/location-aware';
 import TopicsSection from '../components/topics-section/topics-section';
 import { graphql, useStaticQuery } from 'gatsby';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { withWindowSize } from 'react-fns';
 
 export const Index = ({ width }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(false);
+    if (width > 0) {
+      setLoading(false);
+    }
   }, [width]);
 
   const allFile = useStaticQuery(
@@ -48,9 +48,13 @@ export const Index = ({ width }) => {
             keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
           financial data, debt, Treasury, US government"
           />
-          <TopicsSection images={allFile} />
-          <HomeMainContent />
-          <HomeFeatures />
+          {width > 0 && (
+            <>
+              <TopicsSection images={allFile} width={width} />
+              <HomeMainContent />
+              <HomeFeatures />
+            </>
+          )}
         </div>
       </SiteLayout>
     </>
