@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import SavingsBondsSoldByTypeChart from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
+import SavingsBondsSoldByTypeChart, { ISavingBondsByTypeChartData } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import { visWithCallout } from '../../../explainer.module.scss';
 import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
@@ -11,23 +11,31 @@ import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import IBondSalesChart from './i-bond-sales-chart/i-bond-sales-chart';
 import { graphql, useStaticQuery } from 'gatsby';
-import { sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import { fyEndpoint, sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
 import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
 import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';
+import { useRecoilValueLoadable } from 'recoil';
+import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
+import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
+import { ICpiDataMap } from '../../../../../models/ICpiDataMap';
 
 interface BondSaleEntry {
-year: string;
-[key: string]: string;
+  year: string;
+  [key: string]: string;
 }
 
 type SalesData = Record<string, number>;
 type CalloutProps = {
-  cpiDataByYear: any;
+  cpiDataByYear: ICpiDataMap[];
+  cpi12MonthPercentChange: ICpiDataMap[];
 };
 
-const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear }: CalloutProps) => {
+const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPercentChange, cpiDataByYear }: CalloutProps) => {
   const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
+  const [curFy, setCurFy] = useState<string>();
+  const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
   const [inflationChartData, setInflationChartData] = useState<ISavingBondsByTypeChartData[]>();
   const [mostBondSalesYear, setMostBondSalesYear] = useState<string | null>(null);
   const [mostBondSales, setMostBondSales] = useState<number>(0);
@@ -100,6 +108,16 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
   }, []);
 
 
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        setCurFy(data.record_fiscal_year);
+        setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
+      }
+    });
+  }, []);
+
   return (
     <>
       <p>
@@ -135,7 +153,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
       </ImageContainer>
       <p>The chart below shows savings bond sales over time for all {bondTypes} savings bond types.</p>
       <div className={visWithCallout}>
-        <SavingsBondsSoldByTypeChart chartData={chartData} inflationChartData={inflationChartData}/>
+        <SavingsBondsSoldByTypeChart chartData={chartData} curFy={curFy} chartDate={historyChartDate} inflationChartData={inflationChartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
             Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when ${getShortForm(mostBondSales)} and ${getShortForm(secondMostBondSales)} bonds were sold,
@@ -157,7 +175,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpiDataByYear
         bonds between April 2021 and February 2023. The chart below shows inflation data and I bond purchases from the last 15 years.
       </p>
       <div className={visWithCallout}>
-        <IBondSalesChart />
+        <IBondSalesChart cpi12MonthPercentChange={cpi12MonthPercentChange} curFy={curFy} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>Generally, higher inflation rates are correlated with an increase in demand for inflation-protected securities like I bonds.</p>
         </VisualizationCallout>

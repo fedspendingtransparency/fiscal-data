@@ -3,11 +3,9 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import { chartStyle } from './savings-bonds-sold-by-type-chart.module.scss';
 import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartLegend from './chart-legend/chart-legend';
-import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, fyEndpoint, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
+import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
-import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import ChartHeader from './chart-header/chart-header';
-import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartDescription from './chart-description/chart-description';
 
 export interface ISavingBondsByTypeChartData {
@@ -25,12 +23,17 @@ export interface ISavingBondsByTypeChartData {
   SN?: number;
 }
 
-const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsByTypeChartData[], inflationChartData: ISavingBondsByTypeChartData[] }> = ({ chartData, inflationChartData }) => {
+interface ISavingsBondsSoldByTypeChart {
+  chartData: ISavingBondsByTypeChartData[];
+  inflationChartData: ISavingBondsByTypeChartData[];
+  curFy: number;
+  chartDate: Date;
+}
+
+const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChart> = ({ chartData, inflationChartData, curFy, chartDate }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('amounts');
   const [hiddenFields, setHiddenFields] = useState<string[]>([]);
-  const [curFyHistory, setCurFyHistory] = useState<string>('');
-  const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
-  const chartTitle = `Savings Bonds Sold by Type Over Time, FY 1935 – FYTD ${curFyHistory}`;
+  const chartTitle = `Savings Bonds Sold by Type Over Time, FY 1935 – FYTD ${curFy}`;
   const [sortedBonds, setSortedBonds] = useState<string[]>();
   const [maxYear, setMaxYear] = useState<number>();
   const [xAxis, setXAxis] = useState<number[]>();
@@ -38,24 +41,16 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
   let activeChartData = inflationSwitch ? inflationChartData : chartData;
   const handleInflationToggle = (isAdjusted: boolean) => {
     setInflationSwitch(isAdjusted);
-  }
+  };
 
-  const header = <ChartHeader 
-    selectedChartView={selectedChartView} 
-    setSelectedChartView={setSelectedChartView} 
-    onToggle={handleInflationToggle} 
-    isInflationAdjusted={inflationSwitch} 
-    />;
-
-  useEffect(() => {
-    basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
-      if (res.data) {
-        const data = res.data[0];
-        setCurFyHistory(data.record_fiscal_year);
-        setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
-      }
-    });
-  }, []);
+  const header = (
+    <ChartHeader
+      selectedChartView={selectedChartView}
+      setSelectedChartView={setSelectedChartView}
+      onToggle={handleInflationToggle}
+      isInflationAdjusted={inflationSwitch}
+    />
+  );
 
   useEffect(() => {
     if (chartData) {
@@ -63,13 +58,11 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
       setXAxis(getXAxisValues(1935, max));
       setMaxYear(max);
       setSortedBonds(sortedByDate(savingsBonds, chartData));
-
     }
-    if(selectedChartView === 'description') {
+    if (selectedChartView === 'description') {
       activeChartData = chartData;
     }
   }, [chartData, activeChartData, selectedChartView]);
-
 
   const sortedByDate = (savingsBonds, data) => {
     if (data) {
@@ -87,7 +80,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<{ chartData: ISavingBondsBy
 
   return (
     <>
-      <ChartContainer title={chartTitle} altText={chartCopy.altText} date={historyChartDate} footer={chartCopy.footer} header={header}>
+      <ChartContainer title={chartTitle} altText={chartCopy.altText} date={chartDate} footer={chartCopy.footer} header={header}>
         {selectedChartView === 'amounts' && (
           <div className={chartStyle} data-testid="chartParent">
             {chartData && sortedBonds && (

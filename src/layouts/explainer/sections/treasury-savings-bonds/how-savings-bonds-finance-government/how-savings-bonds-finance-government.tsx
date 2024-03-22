@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import { subSectionTitle } from './how-savings-bonds-finance-government.module.scss';
 import { breakpointLg, visWithCallout } from '../../../explainer.module.scss';
@@ -35,7 +35,7 @@ interface ApiResponse {
   meta: { 'total-pages': number };
 }
 
-const HowSavingsBondsFinanceGovernment = ({ width }) => {
+const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = ({ width }) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [savingBondsPercentage, setSavingBondsPercentage] = useState<number | null>(null);
