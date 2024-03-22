@@ -39,7 +39,7 @@ export const trillionsFormatter = value => `$${(Number(value) / 1000000).toFixed
 let gaTimerDualChart;
 let ga4Timer;
 
-const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width }) => {
+const BreakingDownTheDebt = ({ sectionId, width }) => {
   const [data, setData] = useState();
   const [date, setDate] = useState(new Date());
   const [startYear, setStartYear] = useState('');
