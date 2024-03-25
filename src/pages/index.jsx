@@ -2,7 +2,7 @@ import { ENV_ID } from 'gatsby-env-variables';
 
 import React, { useState, useEffect } from 'react';
 import '../styles.scss';
-import { siteHome } from './home.module.scss';
+import { siteHome, loadingIcon } from './home.module.scss';
 import PageHelmet from '../components/page-helmet/page-helmet';
 import SiteLayout from '../components/siteLayout/siteLayout';
 import HomeMainContent from '../components/home-main-content/home-main-content';
@@ -11,6 +11,8 @@ import LocationAware from '../components/location-aware/location-aware';
 import TopicsSection from '../components/topics-section/topics-section';
 import { graphql, useStaticQuery } from 'gatsby';
 import { withWindowSize } from 'react-fns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 export const Index = ({ width }) => {
   const [loading, setLoading] = useState(true);
@@ -38,7 +40,7 @@ export const Index = ({ width }) => {
 
   return (
     <>
-      <SiteLayout isPreProd={ENV_ID === 'preprod'} loading={loading}>
+      <SiteLayout isPreProd={ENV_ID === 'preprod'}>
         <div data-testid="site-home" className={siteHome} data-environment={ENV_ID}>
           <PageHelmet
             data-testid="helmet"
@@ -48,13 +50,16 @@ export const Index = ({ width }) => {
             keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
           financial data, debt, Treasury, US government"
           />
-          {width > 0 && (
-            <>
-              <TopicsSection images={allFile} width={width} />
-              <HomeMainContent />
-              <HomeFeatures />
-            </>
-          )}
+          <>
+            {loading && (
+              <div className={loadingIcon}>
+                <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
+              </div>
+            )}
+            {!loading && <TopicsSection images={allFile} width={width} />}
+            <HomeMainContent />
+            <HomeFeatures />
+          </>
         </div>
       </SiteLayout>
     </>
