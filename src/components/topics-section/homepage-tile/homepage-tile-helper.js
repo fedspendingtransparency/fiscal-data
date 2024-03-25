@@ -68,20 +68,22 @@ export const SavingsBondsBodyGenerator = () => {
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${sbUrl}&sort=-record_date&page[size]=1`).then(res => {
-      const prevFY = getPreviousFiscalYear(res.data[0].record_calendar_month, res.data[0].record_fiscal_year);
-      setPreviousFiscalYear(prevFY);
+      if (res.data) {
+        const prevFY = getPreviousFiscalYear(res.data[0].record_calendar_month, res.data[0].record_fiscal_year);
+        setPreviousFiscalYear(prevFY);
 
-      basicFetch(`${apiPrefix}${sbUrl},record_fiscal_year:eq:${prevFY}`).then(res => {
-        if (res.data) {
-          const data = res.data;
+        basicFetch(`${apiPrefix}${sbUrl},record_fiscal_year:eq:${prevFY}`).then(res => {
+          if (res.data) {
+            const data = res.data;
 
-          let savingsBondsTotal = 0;
-          data.map(index => {
-            savingsBondsTotal = savingsBondsTotal + parseInt(index.net_sales_amt);
-          });
-          setSavingsBondsAmount(savingsBondsTotal);
-        }
-      });
+            let savingsBondsTotal = 0;
+            data.map(index => {
+              savingsBondsTotal = savingsBondsTotal + parseInt(index.net_sales_amt);
+            });
+            setSavingsBondsAmount(savingsBondsTotal);
+          }
+        });
+      }
     });
   }, []);
 
