@@ -55,29 +55,33 @@ export const RevenueBodyGenerator = () => {
 };
 
 export const SavingsBondsBodyGenerator = () => {
-  function getPreviousFiscalYear() {
-    const today = new Date();
-    if (today.getMonth() < 10) {
-      return today.getFullYear() - 1;
-    } else return today.getFullYear();
-  }
+  const getPreviousFiscalYear = (month, year) => {
+    if (Number(month) < 10) {
+      return Number(year) - 1; // show previous year's data
+    } else return Number(year); // show current year's data
+  };
 
-  const previousFiscalYear = getPreviousFiscalYear();
+  const [previousFiscalYear, setPreviousFiscalYear] = useState(null);
   const [savingsBondsAmount, setSavingsBondsAmount] = useState(null);
   // eslint-disable-next-line max-len
-  const sbUrl = `v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${previousFiscalYear}`;
+  const sbUrl = `v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond`;
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${sbUrl}`).then(res => {
-      if (res.data) {
-        const data = res.data;
+    basicFetch(`${apiPrefix}${sbUrl}&sort=-record_date&page[size]=1`).then(res => {
+      const prevFY = getPreviousFiscalYear(res.data[0].record_calendar_month, res.data[0].record_fiscal_year);
+      setPreviousFiscalYear(prevFY);
 
-        let savingsBondsTotal = 0;
-        data.map(index => {
-          savingsBondsTotal = savingsBondsTotal + parseInt(index.gross_sales_amt);
-        });
-        setSavingsBondsAmount(savingsBondsTotal);
-      }
+      basicFetch(`${apiPrefix}${sbUrl},record_fiscal_year:eq:${prevFY}`).then(res => {
+        if (res.data) {
+          const data = res.data;
+
+          let savingsBondsTotal = 0;
+          data.map(index => {
+            savingsBondsTotal = savingsBondsTotal + parseInt(index.net_sales_amt);
+          });
+          setSavingsBondsAmount(savingsBondsTotal);
+        }
+      });
     });
   }, []);
 
