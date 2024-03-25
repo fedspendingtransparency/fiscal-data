@@ -42,7 +42,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
   const [historicalSavingBondsPercentage, setHistoricalSavingBondsPercentage] = useState<number | null>(null);
   const [percentageDifference, setPercentageDifference] = useState<number | null>(null);
   const [monthYear, setMonthYear] = useState<string | null>(null);
-  const [higherLower, setHigherLower] = useState<string | null>(null);
+  const [higherLowerSameAs, setHigherLowerSameAs] = useState<string | null>(null);
   const isDesktop = width >= pxToNumber(breakpointLg);
   const typesData = useRecoilValueLoadable(savingsBondTypesData);
   useShouldRefreshCachedData(Date.now(), savingsBondTypesData, savingsBondTypesLastCachedState);
@@ -152,10 +152,10 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     }
   }, [typesData.state]);
 
-  const higherOrLowerOrSameAs = () => {
-    if (percentageDifference > 0) {
+  const higherOrLowerOrSameAs = difference => {
+    if (difference > 0) {
       return 'higher than';
-    } else if (percentageDifference < 0) {
+    } else if (difference < 0) {
       return 'lower than';
     } else {
       return 'the same as';
@@ -165,8 +165,8 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
   useEffect(() => {
     if (savingBondsPercentage !== null && historicalSavingBondsPercentage !== null) {
       const difference = savingBondsPercentage - historicalSavingBondsPercentage;
-      const higherOrLower = higherOrLowerOrSameAs(difference);
-      setHigherLower(higherOrLower);
+      const diffString = higherOrLowerOrSameAs(difference);
+      setHigherLowerSameAs(diffString);
       const absulteDifference = Math.abs(difference);
       setPercentageDifference(parseFloat(absulteDifference.toFixed(1)));
     }
@@ -264,7 +264,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
             Savings bonds make up {savingBondsPercentage}% of total debt held by the public through {monthYear}. This is {percentageDifference}{' '}
-            percentage points {higherOrLowerOrSameAs()} the percent of debt held by the public ten years ago ({historicalSavingBondsPercentage}%).
+            percentage points {higherLowerSameAs} the percent of debt held by the public ten years ago ({historicalSavingBondsPercentage}%).
           </p>
         </VisualizationCallout>
       </div>
