@@ -6,7 +6,7 @@ import InfoTip from '../../../../../../../components/info-tip/info-tip';
 import { chartCopy } from '../savings-bonds-sold-by-type-chart-helper';
 import React from 'react';
 
-const ChartHeader = ({ selectedChartView, setSelectedChartView }) => {
+const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInflationAdjusted }) => {
   return (
     <div className={dataHeader}>
       <ChartToggle
@@ -27,7 +27,7 @@ const ChartHeader = ({ selectedChartView, setSelectedChartView }) => {
       {selectedChartView === 'amounts' && (
         <div className={inflationToggleContainer}>
           <span className={inflationLabel}>Adjust for Inflation</span>
-          <InflationToggle />
+          <InflationToggle onToggle={onToggle}  isInflationAdjusted={isInflationAdjusted} />
           <div className={infoTipContainer}>
             <InfoTip
               hover

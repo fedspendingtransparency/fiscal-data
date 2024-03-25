@@ -24,37 +24,37 @@ const nationalDeficitSections = [
     index: 0,
     id: nationalDeficitSectionIds[0],
     title: 'Key Takeaways',
-    component: cpiDataByYear => <DeficitKeyTakeaways />,
+    component: cpiData => <DeficitKeyTakeaways />,
   },
   {
     index: 1,
     id: nationalDeficitSectionIds[1],
     title: 'Understanding the National Deficit',
-    component: cpiDataByYear => <UnderstandingDeficit sectionId={nationalDeficitSectionIds[1]} />,
+    component: cpiData => <UnderstandingDeficit sectionId={nationalDeficitSectionIds[1]} />,
   },
   {
     index: 2,
     id: nationalDeficitSectionIds[2],
     title: 'The Causes of Deficits and Surpluses',
-    component: cpiDataByYear => <DeficitAndSurplusCauses />,
+    component: cpiData => <DeficitAndSurplusCauses />,
   },
   {
     index: 3,
     id: nationalDeficitSectionIds[3],
     title: 'The Difference Between the National Deficit and the National Debt',
-    component: cpiDataByYear => <DebtDeficitDifference />,
+    component: cpiData => <DebtDeficitDifference />,
   },
   {
     index: 4,
     id: nationalDeficitSectionIds[4],
     title: 'U.S. Deficit by Year',
-    component: cpiDataByYear => <DeficitByYear />,
+    component: cpiData => <DeficitByYear />,
   },
   {
     index: 5,
     id: nationalDeficitSectionIds[5],
     title: 'Learn More about the Deficit',
-    component: cpiDataByYear => <LearnMoreSection links={deficitLearnMoreLinks} description={deficitLearnMoreDescription} />,
+    component: cpiData => <LearnMoreSection links={deficitLearnMoreLinks} description={deficitLearnMoreDescription} />,
   },
 ];
 

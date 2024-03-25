@@ -29,7 +29,7 @@ For Non-marketable Securities, the following security classes are included as \"
 ## What Influences the Purchase of Savings Bonds?
 
 ### Savings Bonds History
-**Source:** Data prior to 2001 is available from [TreasuryDirect](https://www.treasurydirect.gov/research-center/history-of-savings-bond/savings-bond-sales/). Data from 2001 to present is available from the Electronic Securities Transactions](https://fiscaldata.treasury.gov/datasets/electronic-securities-transactions/sales) \(Fiscal Data\) dataset.
+**Source:** Data prior to 2001 is available from [TreasuryDirect](https://www.treasurydirect.gov/research-center/history-of-savings-bond/savings-bond-sales/). Data from 2001 to present is available from the [Electronic Securities Transactions](https://fiscaldata.treasury.gov/datasets/electronic-securities-transactions/sales) \(Fiscal Data\) dataset.
 
 **API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond \(Fiscal Data\)
 

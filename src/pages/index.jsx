@@ -1,6 +1,6 @@
 import { ENV_ID } from 'gatsby-env-variables';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles.scss';
 import { siteHome } from './home.module.scss';
 import PageHelmet from '../components/page-helmet/page-helmet';
@@ -10,8 +10,17 @@ import HomeFeatures from '../components/home-features/home-features';
 import LocationAware from '../components/location-aware/location-aware';
 import TopicsSection from '../components/topics-section/topics-section';
 import { graphql, useStaticQuery } from 'gatsby';
+import { withWindowSize } from 'react-fns';
 
-export const Index = () => {
+export const Index = ({ width }) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (width > 0) {
+      setLoading(false);
+    }
+  }, [width]);
+
   const allFile = useStaticQuery(
     graphql`
       query {
@@ -29,7 +38,7 @@ export const Index = () => {
 
   return (
     <>
-      <SiteLayout isPreProd={ENV_ID === 'preprod'}>
+      <SiteLayout isPreProd={ENV_ID === 'preprod'} loading={loading}>
         <div data-testid="site-home" className={siteHome} data-environment={ENV_ID}>
           <PageHelmet
             data-testid="helmet"
@@ -39,13 +48,17 @@ export const Index = () => {
             keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
           financial data, debt, Treasury, US government"
           />
-          <TopicsSection images={allFile} data-testid="topics-section" />
-          <HomeMainContent />
-          <HomeFeatures />
+          {width > 0 && (
+            <>
+              <TopicsSection images={allFile} width={width} />
+              <HomeMainContent />
+              <HomeFeatures />
+            </>
+          )}
         </div>
       </SiteLayout>
     </>
   );
 };
 
-export default LocationAware(Index);
+export default LocationAware(withWindowSize(Index));
