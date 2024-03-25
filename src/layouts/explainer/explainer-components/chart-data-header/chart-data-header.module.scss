@@ -3,6 +3,8 @@
 .headerContainer {
   display: flex;
   flex-direction: column;
+  min-width: 25.5rem;
+  white-space: nowrap;
 
   .headerData {
     margin-bottom: 0.75rem;
