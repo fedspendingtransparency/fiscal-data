@@ -39,6 +39,9 @@ export const TopicsSection = ({ images, width }) => {
             </Grid>
             <Grid item lg={secondaryWidth}>
               <div className={insightsSectionContainer}>
+                <div className={sectionHeader}>MORE TOPICS</div>
+                <HomePageTile content={pageTileMap['savings-bonds']} images={images} width={width} />
+                <div className={line} />
                 <div className={sectionHeader}>TOOLS</div>
                 <HomePageTile content={pageTileMap['currency-exchange-rates']} images={images} width={width} />
               </div>
