@@ -39,6 +39,7 @@ describe('Site Home Index', () => {
   });
 
   it('renders the HomeFeatures component', () => {
-    expect(siteHome.props.children).toContainEqual(<HomeFeatures />);
+    const { getByTestId } = render(<Index width={900} />);
+    expect(getByTestId('home-features')).toBeInTheDocument();
   });
 });
