@@ -23,9 +23,9 @@ module.exports = {
       seoConfig: {
         pageTitle: 'Receipts by Department',
         description: 'The Receipts by Department dataset contains receipt amounts categorized by agency identifier and account symbols',
-        keywords: 'Financial Summaries',
+        keywords: 'Financial Summaries, Revenue',
       },
-      topics: ['financial-summaries'],
+      topics: ['financial-summaries', 'revenue'],
       relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03', '015-BFS-2014Q1-07'],
       currentDateButton: 'byMonth',
     },
