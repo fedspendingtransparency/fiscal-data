@@ -18,6 +18,17 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-098'],
       currentDateButton: 'byMonth',
     },
+    '015-BFS-2014Q3-049': {
+      slug: '/receipts-by-department/',
+      seoConfig: {
+        pageTitle: 'Receipts by Department',
+        description: 'The Receipts by Department dataset contains receipt amounts categorized by agency identifier and account symbols',
+        keywords: 'Financial Summaries',
+      },
+      topics: ['financial-summaries'],
+      relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03', '015-BFS-2014Q1-07'],
+      currentDateButton: 'byMonth',
+    },
   },
   ADDITIONAL_ENDPOINTS: {
     '160': {
