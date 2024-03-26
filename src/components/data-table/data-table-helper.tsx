@@ -18,6 +18,8 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
+const tablesWithPublishedReportLinks = ['Treasury Securities Auctions Data', 'Reference CPI Numbers and Daily Index Ratios Summary Table'];
+
 const publishedReportsLinksProcessor = (tableName, property, value) => {
   if (ENV_ID === 'uat') {
     if (tableName === 'Treasury Securities Auctions Data') {
@@ -158,10 +160,7 @@ export const columnsConstructorData = (
                       }
                     });
                   } else {
-                    if (
-                      tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table' ||
-                      tableName === 'Treasury Securities Auctions Data'
-                    ) {
+                    if (tablesWithPublishedReportLinks.includes(tableName)) {
                       formattedValue = publishedReportsLinksProcessor(tableName, property, value);
                     } else {
                       formattedValue = value;
