@@ -185,8 +185,8 @@ export const pageTileMap = {
       'complete FY)} in savings bonds. Discover how savings bonds help finance the federal government and the benefits ' +
       'these bonds offer to citizens who choose to invest in them.',
     altText: 'Images of savings bonds, including Series H and Series EE, surrounding the text “Fiscal Data Explains: Savings Bonds.”',
-    desktopImage: 'savings_bonds_homepage_1200X630',
-    mobileImage: 'savings_bonds_homepage_1200X630',
+    desktopImage: 'Savings-Bonds-Social-Share-w-Illustration_1200x630',
+    mobileImage: 'Savings-Bonds-Social-Share-w-Illustration_1200x630',
     path: '/treasury-savings-bonds/',
     analyticsName: 'Treasury Savings Bonds',
   },
