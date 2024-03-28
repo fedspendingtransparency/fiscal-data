@@ -25,6 +25,16 @@ const MobileMenu = ({ setOpenGlossary }) => {
 
   const topics = [
     {
+      sectionHeader: 'FEATURED TOPIC',
+      analyticsAction: 'Topics Click',
+      children: [
+        {
+          to: '/treasury-savings-bonds/',
+          name: 'Savings Bonds',
+        },
+      ],
+    },
+    {
       sectionHeader: "AMERICA'S FINANCE GUIDE",
       analyticsAction: 'Topics Click',
       children: [
@@ -50,16 +60,6 @@ const MobileMenu = ({ setOpenGlossary }) => {
         },
       ],
     },
-    {
-      sectionHeader: "MORE TOPICS",
-      analyticsAction: 'Topics Click',
-      children: [
-        {
-          to: '/treasury-savings-bonds/',
-          name: 'Savings Bonds',
-        },
-      ]
-    }
   ];
 
   const tools = [
