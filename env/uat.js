@@ -18,6 +18,17 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-098'],
       currentDateButton: 'byMonth',
     },
+    '015-BFS-2014Q3-049': {
+      slug: '/receipts-by-department/',
+      seoConfig: {
+        pageTitle: 'Receipts by Department',
+        description: 'The Receipts by Department dataset contains receipt amounts categorized by agency identifier and account symbols',
+        keywords: 'Financial Summaries, Revenue',
+      },
+      topics: ['financial-summaries', 'revenue'],
+      relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03', '015-BFS-2014Q1-07'],
+      currentDateButton: 'byMonth',
+    },
   },
   ADDITIONAL_ENDPOINTS: {
     '160': {
@@ -102,6 +113,13 @@ module.exports = {
         'total_redemptions',
         'total_inflation_purchased_sold',
       ],
+    },
+    '253': {
+      endpoint: 'v1/accounting/od/receipts_by_department',
+      dateField: 'record_date',
+      downloadName: 'Receipts_By_Department',
+      alwaysSortWith: ['-record_date, src_line_nbr'],
+      selectColumns: [],
     },
   },
 };
