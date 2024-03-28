@@ -18,6 +18,31 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
+const publishedReportsLinksProcessor = (tableName, property, value) => {
+  if (ENV_ID === 'qat' || ENV_ID === 'dev') {
+    if (tableName === 'Treasury Securities Auctions Data') {
+      if (property === 'pdf_filenm_announcemt' || property === 'xml_filenm_announcemt') {
+        return <CustomLink url={BASE_URL + `/static-data/published-reports/auctions-query/announcements/${value}`}>{value}</CustomLink>;
+      }
+      if (property === 'pdf_filenm_comp_results' || property === 'xml_filenm_comp_results') {
+        return <CustomLink url={BASE_URL + `/static-data/published-reports/auctions-query/results/${value}`}>{value}</CustomLink>;
+      }
+      if (property === 'pdf_filenm_noncomp_results') {
+        return <CustomLink url={BASE_URL + `/static-data/published-reports/auctions-query/ncr/${value}`}>{value}</CustomLink>;
+      }
+      if (property === 'pdf_filenm_spec_announcemt') {
+        return <CustomLink url={BASE_URL + `/static-data/published-reports/auctions-query/spec-ann/${value}`}>{value}</CustomLink>;
+      }
+    }
+  } else if (ENV_ID === 'uat') {
+    if (tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table') {
+      if (property === 'pdf_link' || property === 'xml_link') {
+        return <CustomLink url={`/static-data/published-reports/tips-cpi/${value}`}>{value}</CustomLink>;
+      }
+    }
+  }
+};
+
 export const columnsConstructorData = (
   rawData: Record<string, Record<string, unknown>>,
   hideColumns: string[],
@@ -117,24 +142,6 @@ export const columnsConstructorData = (
                 let formattedValue;
                 const customFormat = customFormatConfig?.find(config => config.type === 'STRING' && config.fields.includes(property));
                 if (value !== undefined) {
-                  if (ENV_ID === 'qat' || ENV_ID === 'dev') {
-                    if (tableName === 'Treasury Securities Auctions Data') {
-                      if (property === 'pdf_filenm_announcemt' || property === 'xml_filenm_announcemt') {
-                        return (
-                          <CustomLink url={BASE_URL + `/static-data/published-reports/auctions-query/announcements/${value}`}>{value}</CustomLink>
-                        );
-                      }
-                      if (property === 'pdf_filenm_comp_results' || property === 'xml_filenm_comp_results') {
-                        return <CustomLink url={BASE_URL + `/static-data/published-reports/auctions-query/results/${value}`}>{value}</CustomLink>;
-                      }
-                      if (property === 'pdf_filenm_noncomp_results') {
-                        return <CustomLink url={BASE_URL + `/static-data/published-reports/auctions-query/ncr/${value}`}>{value}</CustomLink>;
-                      }
-                      if (property === 'pdf_filenm_spec_announcemt') {
-                        return <CustomLink url={BASE_URL + `/static-data/published-reports/auctions-query/spec-ann/${value}`}>{value}</CustomLink>;
-                      }
-                    }
-                  }
                   if (value.includes('%')) {
                     formattedValue = value.replace(/-/g, '\u2011');
                   } else if (customFormat && customFormat.customType === 'dateList') {
@@ -148,7 +155,11 @@ export const columnsConstructorData = (
                       }
                     });
                   } else {
-                    formattedValue = value;
+                    if (tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table') {
+                      formattedValue = publishedReportsLinksProcessor(tableName, property, value);
+                    } else {
+                      formattedValue = value;
+                    }
                   }
                 }
                 return formattedValue;
