@@ -3,7 +3,7 @@ import { apiPrefix, callApiUrl, postAPI } from '../../utils/api-utils';
 import { format } from 'date-fns';
 import { fileSizeTranslator, fileSizeTranslator2 } from '../datatables-tab/datatables-tab-helpers';
 
-const stringify = require('csv-stringify/lib/browser/sync');
+const { stringify } = require('csv-stringify/sync');
 const fileDownload = require('js-file-download');
 
 export const dateRangeUrl = (endpointPath, dateFilter, dateField, limit, format, sort) => {
