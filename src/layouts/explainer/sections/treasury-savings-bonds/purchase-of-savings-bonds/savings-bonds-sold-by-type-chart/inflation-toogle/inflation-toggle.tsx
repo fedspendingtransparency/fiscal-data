@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { styled } from '@mui/material/styles';
 import { SwitchProps } from '@mui/material';
 import Switch from '@mui/material/Switch';
@@ -39,15 +39,13 @@ const StyledSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
   },
 }));
 
-const InflationToggle: FunctionComponent<{ 
-  onToggle: (isToggled: boolean) => void, 
-  isInflationAdjusted: boolean 
+const InflationToggle: FunctionComponent<{
+  onToggle: (isToggled: boolean) => void;
+  isInflationAdjusted: boolean;
 }> = ({ onToggle, isInflationAdjusted }) => {
-
   const handleToggle = () => {
-
     onToggle(!isInflationAdjusted);
-  }
+  };
 
   return (
     <StyledSwitch

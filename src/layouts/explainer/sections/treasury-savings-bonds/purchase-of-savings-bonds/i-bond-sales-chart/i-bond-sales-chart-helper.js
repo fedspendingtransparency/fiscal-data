@@ -1,5 +1,6 @@
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import React from 'react';
+import { useIsMounted } from '../../../../../../utils/useIsMounted';
 
 export const chartCopy = {
   altText: 'Inflation and I bond sales shown over time.',
@@ -54,12 +55,15 @@ export const IBondMockData = {
 };
 
 export const CustomTooltip = ({ payload = [], setYear, setInflation, setSales }) => {
-  if (payload.length > 0) {
+  const isMounted = useIsMounted();
+
+  console.log(isMounted);
+  if (payload.length > 0 && isMounted) {
     setYear(payload[0]?.payload.year);
     const inflation = payload.find(x => x.dataKey === 'inflation');
     setInflation(inflation.payload.inflation);
     const sales = payload.find(x => x.dataKey === 'sales');
     setSales(sales.payload.sales);
   }
-  return <></>;
+  return isMounted ? <></> : null;
 };

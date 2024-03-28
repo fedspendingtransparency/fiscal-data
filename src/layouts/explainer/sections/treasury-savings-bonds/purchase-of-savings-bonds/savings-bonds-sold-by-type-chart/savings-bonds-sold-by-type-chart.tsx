@@ -7,6 +7,9 @@ import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, yAxisFormatte
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import ChartHeader from './chart-header/chart-header';
 import ChartDescription from './chart-description/chart-description';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export interface ISavingBondsByTypeChartData {
   year: string;
@@ -83,9 +86,14 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
       <ChartContainer title={chartTitle} altText={chartCopy.altText} date={chartDate} footer={chartCopy.footer} header={header}>
         {selectedChartView === 'amounts' && (
           <div className={chartStyle} data-testid="chartParent">
+            {(!chartData || !sortedBonds) && (
+              <div>
+                <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
+              </div>
+            )}
             {chartData && sortedBonds && (
               <ResponsiveContainer height={377} width="99%">
-                <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }}>
+                <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }} accessibilityLayer>
                   <CartesianGrid vertical={false} stroke="#d9d9d9" />
                   <ReferenceLine y={0} stroke="#555555" />
                   <XAxis dataKey="year" type="number" domain={[1935, maxYear]} ticks={xAxis} minTickGap={3} />

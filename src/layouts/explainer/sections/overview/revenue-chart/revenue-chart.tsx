@@ -108,7 +108,7 @@ const AFGRevenueChart = (): ReactElement => {
           <ChartLegend legendItems={legend} mobileDotSpacing />
           <div className={chartContainer} data-testid="chartContainer">
             <ResponsiveContainer height={164} width="99%">
-              <LineChart data={finalChartData} margin={{ top: 8, left: 5, right: 5, bottom: 4 }}>
+              <LineChart data={finalChartData} margin={{ top: 8, left: 5, right: 5, bottom: 4 }} accessibilityLayer>
                 <CartesianGrid vertical={false} />
                 <XAxis
                   dataKey="month"

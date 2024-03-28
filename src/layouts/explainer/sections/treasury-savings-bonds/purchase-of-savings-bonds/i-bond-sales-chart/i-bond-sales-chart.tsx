@@ -10,6 +10,9 @@ import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { ICpiDataMap } from '../../../../../../models/ICpiDataMap';
 import { yAxisFormatter } from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import { getDateWithoutOffset } from '../../../../explainer-helpers/explainer-helpers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface IIBondsSalesChart {
   cpi12MonthPercentChange: ICpiDataMap;
@@ -210,6 +213,11 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
 
   return (
     <>
+      {!chartData && (
+        <div>
+          <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
+        </div>
+      )}
       {chartData && (
         <ChartContainer
           title={chartTitle}
@@ -221,7 +229,7 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
           <div className={chartStyle} data-testid="chartParent">
             <Legend />
             <ResponsiveContainer height={352} width="99%">
-              <LineChart data={chartData} margin={{ top: 12, bottom: -8, left: -8, right: -12 }} onMouseLeave={resetDataHeader}>
+              <LineChart data={chartData} margin={{ top: 12, bottom: -8, left: -8, right: -12 }} onMouseLeave={resetDataHeader} accessibilityLayer>
                 <CartesianGrid vertical={false} stroke="#d9d9d9" />
                 <ReferenceLine y={0} stroke="#555555" />
                 <XAxis dataKey="recordDate" ticks={xAxisValues} tickCount={5} tickFormatter={value => formatTick(value).toString()} />
