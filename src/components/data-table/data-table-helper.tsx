@@ -45,6 +45,8 @@ const publishedReportsLinksProcessor = (tableName, property, value) => {
         return value;
       }
     }
+  } else {
+    return value;
   }
 };
 
@@ -147,6 +149,9 @@ export const columnsConstructorData = (
                 let formattedValue;
                 const customFormat = customFormatConfig?.find(config => config.type === 'STRING' && config.fields.includes(property));
                 if (value !== undefined) {
+                  if (tablesWithPublishedReportLinks.includes(tableName)) {
+                    formattedValue = publishedReportsLinksProcessor(tableName, property, value);
+                  }
                   if (value.includes('%')) {
                     formattedValue = value.replace(/-/g, '\u2011');
                   } else if (customFormat && customFormat.customType === 'dateList') {
@@ -160,11 +165,7 @@ export const columnsConstructorData = (
                       }
                     });
                   } else {
-                    if (tablesWithPublishedReportLinks.includes(tableName)) {
-                      formattedValue = publishedReportsLinksProcessor(tableName, property, value);
-                    } else {
-                      formattedValue = value;
-                    }
+                    formattedValue = value;
                   }
                 }
                 return formattedValue;
