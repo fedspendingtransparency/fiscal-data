@@ -74,7 +74,7 @@
     "@types/react-dom": "^18.2.7",
     "amd-loader": "^0.0.8",
     "awesome-debounce-promise": "^2.1.0",
-    "bignumber.js": "^9.0.2",
+    "bignumber.js": "^9.1.2",
     "camelcase-keys": "^6.2.2",
     "classnames": "^2.3.1",
     "csv-stringify": "^6.4.2",
