@@ -36,8 +36,12 @@ import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
-  const { pageName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear, isAFG } = pageContext;
+  const { pageName, heroImage, seoConfig, relatedDatasets, cpiDataByYear, isAFG, cpi12MonthPercentChange } = pageContext;
 
+  const cpiData = {
+    cpiDataByYear: cpiDataByYear,
+    cpi12MonthPercentChange: cpi12MonthPercentChange,
+  };
   return (
     <GlossaryProvider>
       <SiteLayout isPreProd={false}>
@@ -60,7 +64,6 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
             </div>
           </>
         )}
-
         <div className={mainContainer}>
           <HeroImage
             heading={heroImage.heading}
@@ -69,7 +72,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
             secondaryColor={explainerColorMap[pageName].hero}
             pageName={pageName}
           >
-            {explainerHeroMap[pageName].component(glossary)}
+            {explainerHeroMap[pageName].component()}
           </HeroImage>
           <div className={contentContainer}>
             <SecondaryNav
@@ -77,13 +80,13 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
               activeClass={explainerClassMap[pageName].active}
               hoverClass={explainerClassMap[pageName].hover}
               analytics={true}
-              analyticsCategory={'Explainers'}
+              analyticsCategory="Explainers"
               analyticsPageLabel={explainerAnalyticsLabelMap[pageName]}
               tocScrollOffset={-32}
             >
               <div className={socialShareContainer}>
                 <div className={socialShare}>
-                  <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle={'responsive'} />
+                  <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="responsive" />
                 </div>
                 <div className={mainContent}>
                   {explainerSections[pageName].map(s => (
@@ -93,7 +96,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
                         <h2 className={sectionHeading} style={{ color: explainerColorMap[pageName].primary }} data-testid="section-heading">
                           {s.title}
                         </h2>
-                        {s.component(cpiDataByYear)}
+                        {s.component(cpiData)}
                         {s.index !== explainerSections[pageName].length - 1 && (
                           <div
                             className={sectionBorder}

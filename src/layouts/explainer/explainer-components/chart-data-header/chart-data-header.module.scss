@@ -1,0 +1,66 @@
+@import 'src/variables.module';
+
+.headerContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 25.5rem;
+  white-space: nowrap;
+
+  .headerData {
+    margin-bottom: 0.75rem;
+    display: flex;
+    flex-direction: row;
+    min-width: 400px;
+    justify-content: center;
+
+    .dataElement:not(:last-child) {
+      padding-right: 1.5rem;
+    }
+
+    .dataElement {
+      color: #666666;
+
+      .dataValue {
+        font-weight: bold;
+        font-size: $font-size-36;
+      }
+
+      .dataLabel {
+        font-size: $font-size-14;
+        font-weight: $semi-bold-weight;
+        margin: 0 1.25rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+    .headerContainer {
+      display: flex;
+      justify-content: space-between;
+
+      .headerData {
+        margin-bottom: 0.75rem;
+        display: flex;
+        flex-direction: row;
+        min-width: 400px;
+
+        .dataElement:not(:last-child) {
+          padding-right: 1rem;
+        }
+
+        .dataElement {
+          .dataValue {
+            font-size: $font-size-24;
+            line-height: $font-size-24;
+          }
+
+          .dataLabel {
+            font-size: $font-size-10;
+            margin: 0 1rem;
+          }
+        }
+      }
+    }
+
+}

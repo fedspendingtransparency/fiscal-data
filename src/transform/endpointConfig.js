@@ -732,7 +732,7 @@ const endpointConfig = {
           looking for appears under a different name, or change the date
           selected for available results.`,
     },
-    selectColumns: [],
+    selectColumns: ['record_date', 'country_currency_desc', 'exchange_rate', 'effective_date'],
   },
   '138': {
     endpoint: 'v1/accounting/od/schedules_fed_debt',
@@ -2349,6 +2349,47 @@ const endpointConfig = {
     dateField: 'record_date',
     alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
     downloadName: 'TB_UnitedStatesExpected',
+  },
+  // TIPS CPI
+  '300': {
+    endpoint: 'v1/accounting/od/tips_cpi_data_detail',
+    downloadName: 'TIPSandCPIdata_Details',
+    dateField: 'index_date',
+    alwaysSortWith: ['-index_date'],
+    hideColumns: ['cusip', 'original_issue_date'],
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['index_ratio', 'ref_cpi', 'ref_cpi_on_dated_date'],
+        decimalPlaces: 6,
+      },
+      {
+        type: 'STRING',
+        fields: ['additional_issue_date'],
+        breakChar: ',',
+        customType: 'dateList',
+      },
+    ],
+  },
+  '301': {
+    endpoint: 'v1/accounting/od/tips_cpi_data_summary',
+    downloadName: 'TIPSandCPIdata_Summary',
+    dateField: 'original_issue_date',
+    alwaysSortWith: ['-original_issue_date'],
+    selectColumns: [],
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['index_ratio', 'ref_cpi', 'ref_cpi_on_dated_date'],
+        decimalPlaces: 6,
+      },
+      {
+        type: 'STRING',
+        fields: ['additional_issue_date'],
+        breakChar: ',',
+        customType: 'dateList',
+      },
+    ],
   },
 };
 

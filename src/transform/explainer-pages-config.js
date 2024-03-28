@@ -69,12 +69,12 @@ const explainerPagesSource = {
       pageTitle: 'Treasury Savings Bonds Explained ',
       description: `Learn how U.S. government savings bonds work, including types of savings bonds, and how you might have a savings bond ready to redeem.`,
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: 'How much has been invested in savings bonds this year?',
       subHeading: '',
     },
-    relatedDatasets: [],
+    relatedDatasets: ['015-BFS-2014Q3-080', '015-BFS-2014Q3-096', '015-BFS-2014Q1-11', '015-BFS-2014Q3-056'],
     isAFG: false,
   },
 };

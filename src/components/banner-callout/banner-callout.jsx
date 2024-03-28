@@ -1,5 +1,15 @@
 import React from 'react';
-import { banner, infoBanner, warningBanner, warningBannerXR, sideTab, calloutText, icon } from './banner-callout.module.scss';
+import {
+  banner,
+  infoBanner,
+  warningBanner,
+  warningBannerXR,
+  sideTab,
+  calloutText,
+  icon,
+  altBannerText,
+  altInfoColor,
+} from './banner-callout.module.scss';
 import { faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -14,6 +24,7 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
 
   const endDate = bannerCallout?.endDate ? new Date(bannerCallout?.endDate).getTime() : null;
   const startDate = bannerCallout?.startDate ? new Date(bannerCallout?.startDate).getTime() : today;
+  const altBanner = bannerCallout?.altBanner;
 
   const bannerMap = {
     info: {
@@ -33,26 +44,48 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
   const styleConfig = bannerMap[bannerType];
 
   if (currentCallout && today >= startDate && (endDate === null || today < endDate)) {
-    return (
-      <div
-        className={classNames([banner, styleConfig.classname])}
-        style={{ paddingRight: calloutConfig[bannerCallout.banner]?.customSideMargin }}
-        data-testid="banner"
-      >
-        <div className={sideTab} style={{ marginRight: calloutConfig[bannerCallout.banner]?.customSideMargin }} />
-        <span className={calloutText} style={{ margin: calloutConfig[bannerCallout.banner]?.customTextMargin }}>
-          {!infoTip && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
-          <div>
-            {currentCallout}
-            {infoTip && (
-              <InfoTip width={width} hover iconStyle={{ color: '#666666', width: '15px', height: '15px' }}>
-                {infoTip}
-              </InfoTip>
-            )}
-          </div>
-        </span>
-      </div>
-    );
+    if (altBanner) {
+      return (
+        <div
+          className={classNames([banner, altInfoColor, infoBanner])}
+          style={{ paddingRight: calloutConfig[bannerCallout.banner]?.customSideMargin }}
+          data-testid="banner"
+        >
+          <span className={classNames([calloutText, altBannerText])} style={{ margin: calloutConfig[bannerCallout.banner]?.customTextMargin }}>
+            {!infoTip && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
+            <div>
+              {currentCallout}
+              {infoTip && (
+                <InfoTip width={width} hover iconStyle={{ color: '#666666', width: '15px', height: '15px' }}>
+                  {infoTip}
+                </InfoTip>
+              )}
+            </div>
+          </span>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={classNames([banner, styleConfig.classname])}
+          style={{ paddingRight: calloutConfig[bannerCallout.banner]?.customSideMargin }}
+          data-testid="banner"
+        >
+          <div className={sideTab} style={{ marginRight: calloutConfig[bannerCallout.banner]?.customSideMargin }} />
+          <span className={calloutText} style={{ margin: calloutConfig[bannerCallout.banner]?.customTextMargin }}>
+            {!infoTip && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
+            <div>
+              {currentCallout}
+              {infoTip && (
+                <InfoTip width={width} hover iconStyle={{ color: '#666666', width: '15px', height: '15px' }}>
+                  {infoTip}
+                </InfoTip>
+              )}
+            </div>
+          </span>
+        </div>
+      );
+    }
   } else {
     return null;
   }

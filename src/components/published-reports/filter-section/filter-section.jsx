@@ -358,7 +358,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
             </>
           )}
           <h3 data-testid="filterHeader" className={filterHeader}>
-            Select Report Date:
+            {reports[0].path.includes('/tips-cpi/') ? 'Select Report Publish Date:' : 'Select Report Date:'}
           </h3>
           <CurrentReportToggle
             reports={selectedReportGroup}

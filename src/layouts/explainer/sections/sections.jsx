@@ -6,6 +6,7 @@ import { federalSpendingDataSources } from '../explainer-helpers/federal-spendin
 import governmentRevenueSections from './government-revenue/government-revenue';
 import { governmentRevenueDataSources } from '../explainer-helpers/government-revenue/government-revenue-helper';
 import treasurySavingsBondsSections from './treasury-savings-bonds/treasury-savings-bonds';
+import { treasurySavingsbondsDataSources } from '../explainer-helpers/treasury-savings-bonds/treasury-savings-bonds-helper';
 
 const explainerSections = {
   'national-debt': nationalDebtSections,
@@ -19,6 +20,7 @@ export const explainerDataSources = {
   'national-deficit': nationalDeficitDataSources,
   'federal-spending': federalSpendingDataSources,
   'government-revenue': governmentRevenueDataSources,
+  'treasury-savings-bonds': treasurySavingsbondsDataSources,
 };
 
 export const explainerDescriptionGenerators = {

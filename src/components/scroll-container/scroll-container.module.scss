@@ -10,19 +10,28 @@
   padding-bottom: 1rem;
 }
 
-.scrollGradient,
-.scrollContainerTop {
+.scrollGradientTop,
+.scrollContainerTop,
+.scrollGradientBottom,
+.scrollContainerBottom, {
   height: 2.5rem;
   position: sticky;
-  margin-top: 1.5rem;
-  margin-right: 1rem;
   pointer-events: none;
 }
 
-.scrollGradient {
-  background: linear-gradient(white, rgba(255, 255, 255, 0));
+.scrollGradientTop,
+.scrollContainerTop {
+  margin-top: 1.5rem;
+}
+.scrollGradientBottom,
+.scrollContainerBottom {
+  margin-top: -2.5rem;
 }
 
 .scrollContainerTop {
+  background: rgba(255, 255, 255, 0);
+}
+
+.scrollContainerBottom {
   background: rgba(255, 255, 255, 0);
 }

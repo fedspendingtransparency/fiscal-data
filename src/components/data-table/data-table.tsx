@@ -119,7 +119,7 @@ console.log(animationClassIn);
 
   const handleClick = (e, columnValue) => {
     e.preventDefault();
-    setSummaryValues(rawData.data.find(data => data[detailView?.columnId] === columnValue));
+    setSummaryValues(rawData.data.find(data => data[detailView?.field] === columnValue));
     if (setDetailViewState) {
       setDetailViewState(columnValue);
     }
@@ -132,7 +132,7 @@ console.log(animationClassIn);
       ? columnsConstructorGeneric(nonRawDataColumns)
       : columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
 
-    baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.columnId);
+    baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.field);
     return baseColumns;
   }, [rawData, configOption]);
 
@@ -203,7 +203,7 @@ console.log(animationClassIn);
 
 
   useEffect(() => {
-    if (resetFilters) {
+    if (resetFilters && setTableColumnSortData) {
       setTableColumnSortData(rawData.data);
     }
   }, [resetFilters, table]);
@@ -238,8 +238,17 @@ console.log(animationClassIn);
   };
 
   useEffect(() => {
+    if (defaultSelectedColumns && !pivotSelected) {
+      constructDefaultColumnsFromTableData();
+    }
+    if (detailViewState) {
+      setColumnVisibility(defaultInvisibleColumns);
+    }
+  }, [configOption]);
+
+  useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
-  }, [columnVisibility, table.getFilteredRowModel()]);
+  }, [columnVisibility, table.getFilteredRowModel(), table.getVisibleFlatColumns()]);
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
@@ -254,12 +263,6 @@ console.log(animationClassIn);
       setAllActiveFilters([]);
     }
   }, [resetFilters]);
-
-  useEffect(() => {
-    if (defaultSelectedColumns && !pivotSelected) {
-      constructDefaultColumnsFromTableData();
-    }
-  }, [rawData, configOption]);
 
   const selectColumnsRef = useRef(null);
 

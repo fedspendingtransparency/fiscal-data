@@ -101,7 +101,8 @@ export const DownloadsProvider = ({ children }) => {
       downloadRequest.requestTime,
       downloadRequest.selectedUserFilter,
       downloadRequest.tableColumnSortData,
-      downloadRequest.filteredDateRange
+      downloadRequest.filteredDateRange,
+      downloadRequest.selectedDetailViewFilter
     );
 
     return downloadService.downloadStatus(requestId).subscribe({

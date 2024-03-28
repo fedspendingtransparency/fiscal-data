@@ -19,14 +19,12 @@ interface IGlossaryList {
 }
 
 const GlossaryListContainer: FunctionComponent<IGlossaryList> = ({ sortedTermList, filter, filterHandler, defaultTerm, setTabReset }) => {
-  const [scrollTop, setScrollTop] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(defaultTerm);
   const [displayList, setDisplayList] = useState(sortedTermList);
 
   const onClickBack = () => {
     setSelectedTerm(null);
     setDisplayList(sortedTermList);
-    setScrollTop(true);
     filterHandler('');
   };
 
@@ -73,13 +71,7 @@ const GlossaryListContainer: FunctionComponent<IGlossaryList> = ({ sortedTermLis
         <GlossaryDefinition glossaryTerm={selectedTerm} />
       ) : (
         <>
-          <ScrollContainer
-            list={displayList}
-            selection={selectedTerm}
-            scrollTop={scrollTop}
-            setScrollTop={setScrollTop}
-            customChildStyle={{ marginBottom: '12.825rem', paddingRight: '1rem' }}
-          >
+          <ScrollContainer deps={[displayList, selectedTerm]} customChildStyle={{ marginBottom: '12.825rem', paddingRight: '1rem' }}>
             {displayList.length ? (
               <GlossaryDisplayList sortedList={displayList} filter={filter} selectedTermHandler={setSelectedTerm} setTabReset={setTabReset} />
             ) : (

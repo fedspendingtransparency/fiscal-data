@@ -20,6 +20,7 @@ import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFiltere
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { detailViewNotice, lockIcon } from './dataset-data.module.scss';
+import { queryClient } from '../../../gatsby-browser';
 
 export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';
@@ -52,6 +53,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [resetFilters, setResetFilters] = useState(false);
   const [detailViewState, setDetailViewState] = useState(null);
   const [summaryValues, setSummaryValues] = useState(null);
+  const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
 
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
@@ -159,6 +161,9 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       if (!tableCaches[detailApi.apiId]) {
         tableCaches[detailApi.apiId] = new TableCache();
       }
+      setDetailViewDownloadFilter(
+        !!detailViewState ? { field: config.detailView.field, label: config.detailView.label, value: detailViewState } : null
+      );
     }
   }, [detailViewState]);
 
@@ -185,7 +190,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             canceledObj,
             tableCaches[displayedTable.apiId],
             detailViewState,
-            config?.detailView?.columnId
+            config?.detailView?.field,
+            queryClient
           ).then(() => {
             // nothing to cancel if the request completes normally.
             canceledObj = null;
@@ -208,13 +214,14 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             data-testid="filterAndDownload"
             dateRange={dateRange}
             isFiltered={isFiltered}
-            selectedTable={selectedTable}
+            selectedTable={!!detailViewState ? detailApi : selectedTable}
             dataset={config}
             allTablesSelected={allTablesSelected}
             isCustomDateRange={isCustomDateRange}
             selectedUserFilter={userFilterSelection}
             tableColumnSortData={tableColumnSortData}
             filteredDateRange={filteredDateRange}
+            selectedDetailViewFilter={detailViewDownloadFilter}
           >
             <DataTableSelect
               apis={filteredApis}

@@ -11,7 +11,7 @@ type FootnoteProps = {
           link?: string;
         }
       ];
-      definition?: string;
+      definition?: JSX.Element | (() => JSX.Element);
     }
   ];
   width?: string;
@@ -26,8 +26,8 @@ const Footnote: FunctionComponent<FootnoteProps> = ({ footnotes, width = '80%' }
           return (
             <div className={footnoteBody} style={{ width: width }} key={idx} data-testid="footnote-item">
               {footnote.anchors.map((anchor, index) => (
-                <sup>
-                  <CustomLink url={`#${anchor.link}`} href={`#${anchor.link}`} key={index}>
+                <sup key={index}>
+                  <CustomLink url={`#${anchor.link}`} href={`#${anchor.link}`}>
                     {anchor.text}
                   </CustomLink>
                 </sup>

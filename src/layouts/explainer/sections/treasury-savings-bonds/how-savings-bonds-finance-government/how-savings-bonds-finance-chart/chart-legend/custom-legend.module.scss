@@ -1,0 +1,26 @@
+@import 'src/variables.module';
+
+.legendContainer {
+  margin-bottom: .25rem;
+}
+.legendBox {
+  width: 24px;
+  height: 18px;
+  margin-right: 8px;
+}
+.legendText {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: $font-size-14;
+}
+.centerContainer {
+  display: flex;
+  justify-content: space-around;
+  @media (max-width: $breakpoint-md) {
+    justify-content: center;
+    display: grid;
+  }
+}
+

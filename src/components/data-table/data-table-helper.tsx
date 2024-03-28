@@ -4,7 +4,9 @@ import moment from 'moment';
 import { currencyFormatter, numberFormatter, customNumberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
+import CustomLink from '../links/custom-link/custom-link';
 import { updateTableButton } from './data-table.module.scss';
+import { ENV_ID } from 'gatsby-env-variables';
 
 const customFormat = (stringValue, decimalPlaces) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
@@ -14,6 +16,36 @@ const customFormat = (stringValue, decimalPlaces) => {
     returnString = '-' + returnString;
   }
   return returnString;
+};
+
+const tablesWithPublishedReportLinks = ['Treasury Securities Auctions Data', 'Reference CPI Numbers and Daily Index Ratios Summary Table'];
+
+const publishedReportsLinksProcessor = (tableName, property, value) => {
+  if (ENV_ID === 'uat') {
+    if (tableName === 'Treasury Securities Auctions Data') {
+      switch (property) {
+        case 'pdf_filenm_announcemt':
+        case 'xml_filenm_announcemt':
+          return <CustomLink url={`/static-data/published-reports/auctions-query/announcements/${value}`}>{value}</CustomLink>;
+        case 'pdf_filenm_comp_results':
+        case 'xml_filenm_comp_results':
+          return <CustomLink url={`/static-data/published-reports/auctions-query/results/${value}`}>{value}</CustomLink>;
+        case 'pdf_filenm_noncomp_results':
+          return <CustomLink url={`/static-data/published-reports/auctions-query/ncr/${value}`}>{value}</CustomLink>;
+        case 'pdf_filenm_spec_announcemt':
+          return <CustomLink url={`/static-data/published-reports/auctions-query/spec-ann/${value}`}>{value}</CustomLink>;
+        default:
+          return value;
+      }
+    }
+    if (tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table') {
+      if (property === 'pdf_link' || property === 'xml_link') {
+        return <CustomLink url={`/static-data/published-reports/tips-cpi/${value}`}>{value}</CustomLink>;
+      } else {
+        return value;
+      }
+    }
+  }
 };
 
 export const columnsConstructorData = (
@@ -128,7 +160,11 @@ export const columnsConstructorData = (
                       }
                     });
                   } else {
-                    formattedValue = value;
+                    if (tablesWithPublishedReportLinks.includes(tableName)) {
+                      formattedValue = publishedReportsLinksProcessor(tableName, property, value);
+                    } else {
+                      formattedValue = value;
+                    }
                   }
                 }
                 return formattedValue;

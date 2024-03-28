@@ -6,34 +6,6 @@ module.exports = {
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'react-table-poc', 'afg-overview'],
   ADDITIONAL_DATASETS: {
-    '015-BFS-2014Q3-050': {
-      slug: '/tips-cpi-data/',
-      seoConfig: {
-        pageTitle: 'TIPS and CPI Data',
-        description:
-          'Treasury Inflation Protected Securities (TIPS) issued by the U.S. Treasury and Consumer Price Index (CPI) numbers released by the Bureau of Labor Statistics (BLS).',
-        keywords: 'Consumer Price Index, CPI',
-      },
-      topics: ['auctions', 'interest-exchange-rates'],
-      relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-056', '015-BFS-2014Q3-048', '015-BFS-2014Q3-049'],
-      currentDateButton: 'byMonth',
-      datePreset: 'all',
-      detailView: {
-        apiId: 300,
-        columnId: 'cusip',
-        dateRangeLockCopy: 'To filter data by date range, select a CUSIP to enter the detail view.',
-        summaryTableFields: [
-          'cusip',
-          'series',
-          'interest_rate',
-          'security_term',
-          'original_issue_date',
-          'maturity_date',
-          'ref_cpi_on_dated_date',
-          'additional_issue_date',
-        ],
-      },
-    },
     '015-BFS-2014Q3-051': {
       slug: '/federal-investments-program-statement-of-account/',
       seoConfig: {
@@ -44,6 +16,17 @@ module.exports = {
       },
       topics: ['financial-summaries'],
       relatedDatasets: ['015-BFS-2014Q3-098'],
+      currentDateButton: 'byMonth',
+    },
+    '015-BFS-2014Q3-049': {
+      slug: '/receipts-by-department/',
+      seoConfig: {
+        pageTitle: 'Receipts by Department',
+        description: 'The Receipts by Department dataset contains receipt amounts categorized by agency identifier and account symbols',
+        keywords: 'Financial Summaries, Revenue',
+      },
+      topics: ['financial-summaries', 'revenue'],
+      relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03', '015-BFS-2014Q1-07'],
       currentDateButton: 'byMonth',
     },
   },
@@ -87,58 +70,18 @@ module.exports = {
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
     },
-    '300': {
-      endpoint: 'v1/accounting/od/tips_cpi_data_detail',
-      downloadName: 'TIPSandCPIdata_Details',
-      dateField: 'index_date',
-      alwaysSortWith: ['-index_date'],
-      hideColumns: ['cusip', 'original_issue_date'],
-      customFormatting: [
-        {
-          type: 'NUMBER',
-          fields: ['index_ratio', 'ref_cpi', 'ref_cpi_on_dated_date'],
-          decimalPlaces: 6,
-        },
-        {
-          type: 'STRING',
-          fields: ['additional_issue_date'],
-          breakChar: ',',
-          customType: 'dateList',
-        },
-      ],
-    },
-    '301': {
-      endpoint: 'v1/accounting/od/tips_cpi_data_summary',
-      downloadName: 'TIPSandCPIdata_Summary',
-      dateField: 'original_issue_date',
-      alwaysSortWith: ['-original_issue_date'],
-      selectColumns: [],
-      customFormatting: [
-        {
-          type: 'NUMBER',
-          fields: ['index_ratio', 'ref_cpi', 'ref_cpi_on_dated_date'],
-          decimalPlaces: 6,
-        },
-        {
-          type: 'STRING',
-          fields: ['additional_issue_date'],
-          breakChar: ',',
-          customType: 'dateList',
-        },
-      ],
-    },
     '302': {
       endpoint: 'v1/accounting/od/fip_statement_of_account_table1',
       dateField: 'record_date',
       downloadName: 'FIP_SOA_CARS_Reporting',
-      alwaysSortWith: ['-record_date, src_line_nbr'],
+      alwaysSortWith: ['account_number_tas, -record_date, src_line_nbr'],
       selectColumns: ['account_number_tas', 'account_name', 'date_range', 'line_item_nm', 'decrease', 'increase'],
     },
     '303': {
       endpoint: 'v1/accounting/od/fip_statement_of_account_table2',
       dateField: 'record_date',
       downloadName: 'FIP_SOA_Account_Pos_Summary',
-      alwaysSortWith: ['-record_date, src_line_nbr'],
+      alwaysSortWith: ['account_number_tas, -record_date, src_line_nbr'],
       selectColumns: [
         'account_number_tas',
         'account_name',
@@ -154,7 +97,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/fip_statement_of_account_table3',
       dateField: 'record_date',
       downloadName: 'FIP_SOA_Transaction_Detail',
-      alwaysSortWith: ['-record_date, src_line_nbr'],
+      alwaysSortWith: ['account_number_tas, -record_date, src_line_nbr'],
       selectColumns: [
         'account_number_tas',
         'account_name',
@@ -170,6 +113,13 @@ module.exports = {
         'total_redemptions',
         'total_inflation_purchased_sold',
       ],
+    },
+    '253': {
+      endpoint: 'v1/accounting/od/receipts_by_department',
+      dateField: 'record_date',
+      downloadName: 'Receipts_By_Department',
+      alwaysSortWith: ['-record_date, src_line_nbr'],
+      selectColumns: [],
     },
   },
 };

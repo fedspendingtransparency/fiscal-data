@@ -13,6 +13,7 @@ const FilterAndDownload = ({
   selectedUserFilter,
   tableColumnSortData,
   filteredDateRange,
+  selectedDetailViewFilter,
 }) => {
   return (
     <div className={container} data-testid="filterDownloadContainer">
@@ -28,6 +29,7 @@ const FilterAndDownload = ({
           selectedUserFilter={selectedUserFilter}
           tableColumnSortData={tableColumnSortData}
           filteredDateRange={filteredDateRange}
+          selectedDetailViewFilter={selectedDetailViewFilter}
         />
       </div>
     </div>

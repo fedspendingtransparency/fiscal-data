@@ -12,6 +12,7 @@ export const getIFetch = () => (apiKey ? authenticatingFetch(apiKey, fetch) : fe
 export const apiPrefix = `${API_BASE_URL}/services/api/fiscal_service/`;
 
 export const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+export const monthFullNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'NoNovemberv', 'December'];
 
 export const MAX_PAGE_SIZE = 10000;
 export const REACT_TABLE_MAX_NON_PAGINATED_SIZE = 20000;
@@ -119,7 +120,19 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   return getIFetch()(uri).then(response => response.json());
 };
 
-export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewValue, detailViewFilterParam) => {
+export const calculatePercentage = (data) => {
+  if(!Array.isArray(data)){
+    return[];
+  }
+  const total = data.reduce((acc, curr) => acc + curr.value, 
+  0);
+  return data.map(item => ({
+    ...item,
+    percent: Number(((item.value / total) * 100).toFixed(1))
+  }));
+};
+
+export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewValue, detailViewFilterParam, queryClient) => {
   const endpoint = table.endpoint;
   const dateField = table.dateField;
   const { pivotView, pivotValue } = selectedPivot ? selectedPivot : {};
@@ -131,7 +144,8 @@ export const datatableRequest = async (table, dateRange, selectedPivot, canceled
       pivotView,
       pivotValue.columnName,
       pivotView.aggregateOn,
-      canceledObj
+      canceledObj,
+      queryClient
     );
     if (tableCache) {
       tableCache.updateDataDisplayCache(pivotedData, dateRange);
@@ -220,7 +234,7 @@ export const fetchAllPages = async (uri, canceledObj) => {
   }
 };
 
-export const fetchPivotData = async (table, from, to, pivotView, pivotValueField, aggregateOn, canceledObj) => {
+export const fetchPivotData = async (table, from, to, pivotView, pivotValueField, aggregateOn, canceledObj, queryClient) => {
   const endpoint = table.endpoint;
   const dateField = table.dateField;
   const sortParamValue = buildSortParams(table, { pivotView });
@@ -251,9 +265,16 @@ export const fetchPivotData = async (table, from, to, pivotView, pivotValueField
     }
   }
   const uri = formulateUrl(endpoint, filterParam, fields, null, sortParamValue, 'json');
-  return fetchAllPages(uri, canceledObj).then(data =>
-    pivotData(data, dateField, pivotView, pivotValueField, aggregateOn, from, to, postFetchFilterFunction)
-  );
+
+  try {
+    const data = await queryClient.ensureQueryData({
+      queryKey: ['pivots', uri],
+      queryFn: () => fetchAllPages(uri, canceledObj),
+    });
+    return pivotData(data, dateField, pivotView, pivotValueField, aggregateOn, from, to, postFetchFilterFunction);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const buildFields = (table, pivotView, pivotValueField, aggregateOn) => {

@@ -1,5 +1,6 @@
 @import 'src/variables.module.scss';
 @import '../../treasury-savings-bonds.module.scss';
+@import '../../../../explainer.module';
 
 .dataHeader {
   display: flex;
@@ -25,10 +26,10 @@
 }
 
 .chartStyle {
-  width: 100%;
-
-  tspan {
-    color: $font-body-copy;
-    font-size: $font-size-14;
-  }
+  @include reChartsBaseStyle;
+}
+.chartContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1.125rem;
 }

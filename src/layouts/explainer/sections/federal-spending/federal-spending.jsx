@@ -18,31 +18,31 @@ const federalSpendingSection = [
     index: 0,
     id: federalSpendingSectionIds[0],
     title: 'Key Takeaways',
-    component: cpiDataByYear => <SpendingKeyTakeaways />,
+    component: cpiData => <SpendingKeyTakeaways />,
   },
   {
     index: 1,
     id: federalSpendingSectionIds[1],
     title: 'Federal Spending Overview',
-    component: cpiDataByYear => <SpendingOverview />,
+    component: cpiData => <SpendingOverview />,
   },
   {
     index: 2,
     id: federalSpendingSectionIds[2],
     title: 'Spending Categories',
-    component: cpiDataByYear => <SpendingCategories />,
+    component: cpiData => <SpendingCategories />,
   },
   {
     index: 3,
     id: federalSpendingSectionIds[3],
     title: 'The Difference Between Mandatory, Discretionary, and Supplemental Spending',
-    component: cpiDataByYear => <SpendingDifference />,
+    component: cpiData => <SpendingDifference />,
   },
   {
     index: 4,
     id: federalSpendingSectionIds[4],
     title: 'Spending Trends Over Time and the U.S. Economy',
-    component: cpiDataByYear => <SpendingTrends cpiDataByYear={cpiDataByYear} />,
+    component: cpiData => <SpendingTrends cpiDataByYear={cpiData.cpiDataByYear} />,
   },
 ];
 
