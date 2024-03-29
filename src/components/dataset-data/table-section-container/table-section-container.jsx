@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTable, faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
 import DtgTable from '../../dtg-table/dtg-table';
@@ -262,7 +262,10 @@ const TableSectionContainer = ({
       <div className={titleContainer}>
         <div className={headerWrapper}>
           {!!detailViewState && selectedTab === 0 && (
-            <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailViewCloseButton">
+            // Implementing autofocus here does not violate accessibility since it continues the action flow
+            // through the component after a cusip has been selected
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailViewCloseButton" autoFocus>
               <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
               <span className={detailViewBack} data-testid="backButton">
                 Back
