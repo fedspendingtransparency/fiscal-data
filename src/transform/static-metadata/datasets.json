@@ -539,6 +539,7 @@
         "security_term",
         "original_issue_date",
         "maturity_date",
+        "dated_date",
         "ref_cpi_on_dated_date",
         "additional_issue_date"
       ],
