@@ -545,5 +545,17 @@
       ],
       "selectColumns": ["index_date", "ref_cpi", "index_ratio"]
     }
+  },
+  "015-BFS-2014Q3-051": {
+    "slug": "/federal-investments-program-statement-of-account/",
+    "seoConfig": {
+      "pageTitle": "Federal Investments Program",
+      "description":
+      "Statement of Account provides monthly reports specifying the security holdings as of the end of each month and all transaction activity during that month for each individual investment account.",
+      "keywords": "Financial Summaries"
+    },
+    "topics": ["financial-summaries"],
+    "relatedDatasets": ["015-BFS-2014Q3-098"],
+    "currentDateButton": "byMonth"
   }
 }
