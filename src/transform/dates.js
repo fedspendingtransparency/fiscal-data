@@ -48,9 +48,6 @@ const getDateRange = apis => {
       dateRange.lastUpdated = apis[0][lastUpdatedStr];
     }
   }
-  if (dateRange.earliestDate === undefined) {
-    console.log(apis[0]);
-  }
   Object.keys(dateRange).forEach(obj => (dateRange[obj] = convertAPIDate(dateRange[obj])));
 
   return dateRange;
