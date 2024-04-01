@@ -2,6 +2,7 @@
 
 .descriptionsContainer {
   display: block;
+  margin-bottom: 2.125rem;
 }
 
 .listContainer {
@@ -46,5 +47,8 @@
     display: flex;
     flex-direction: column;
     height: 376px;
+  }
+  .descriptionsContainer {
+    margin-bottom: 1.25rem;
   }
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
 import { getShortForm } from '../../../utils/rounding-utils';
+import { format } from 'date-fns';
 export const SpendingBodyGenerator = () => {
   const fields = 'fields=current_fytd_net_outly_amt,record_fiscal_year,record_date';
   const filter = 'filter=line_code_nbr:eq:5691';
@@ -49,6 +50,47 @@ export const RevenueBodyGenerator = () => {
     <>
       The U.S. government has collected ${getShortForm(currentRevenue, false)} in fiscal year {recordFiscalYear} in order to pay for the goods and
       services provided to United States citizens and businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.
+    </>
+  );
+};
+
+export const SavingsBondsBodyGenerator = () => {
+  const getPreviousFiscalYear = (month, year) => {
+    if (Number(month) < 10) {
+      return Number(year) - 1; // show previous year's data
+    } else return Number(year); // show current year's data
+  };
+
+  const [previousFiscalYear, setPreviousFiscalYear] = useState(null);
+  const [savingsBondsAmount, setSavingsBondsAmount] = useState(null);
+  // eslint-disable-next-line max-len
+  const sbUrl = `v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond`;
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${sbUrl}&sort=-record_date&page[size]=1`).then(res => {
+      if (res.data) {
+        const prevFY = getPreviousFiscalYear(res.data[0].record_calendar_month, res.data[0].record_fiscal_year);
+        setPreviousFiscalYear(prevFY);
+
+        basicFetch(`${apiPrefix}${sbUrl},record_fiscal_year:eq:${prevFY}`).then(res => {
+          if (res.data) {
+            const data = res.data;
+
+            let savingsBondsTotal = 0;
+            data.map(index => {
+              savingsBondsTotal = savingsBondsTotal + parseInt(index.net_sales_amt);
+            });
+            setSavingsBondsAmount(savingsBondsTotal);
+          }
+        });
+      }
+    });
+  }, []);
+
+  return (
+    <>
+      In FY {previousFiscalYear}, U.S. citizens invested ${getShortForm(savingsBondsAmount, false)} in savings bonds. Discover how savings bonds help
+      finance the federal government and the benefits these bonds offer to citizens who choose to invest in them.
     </>
   );
 };
@@ -134,5 +176,18 @@ export const pageTileMap = {
     mobileImage: 'currency_exchange_rates_converter_1200x600',
     path: '/currency-exchange-rates-converter/',
     analyticsName: 'Currency Exchange Rates Converter',
+  },
+  'savings-bonds': {
+    title: 'Explore U.S. Treasury Savings Bonds',
+    bodyGenerator: SavingsBondsBodyGenerator,
+    body:
+      'In {YYYY (latest complete FY)}, U.S. citizens invested {$XXX million (total savings bonds purchased in latest ' +
+      'complete FY)} in savings bonds. Discover how savings bonds help finance the federal government and the benefits ' +
+      'these bonds offer to citizens who choose to invest in them.',
+    altText: 'Images of savings bonds, including Series H and Series EE, surrounding the text “Fiscal Data Explains: Savings Bonds.”',
+    desktopImage: 'Savings-Bonds-Social-Share-w-Illustration_1200x630',
+    mobileImage: 'Savings-Bonds-Social-Share-w-Illustration_1200x630',
+    path: '/treasury-savings-bonds/',
+    analyticsName: 'Treasury Savings Bonds',
   },
 };

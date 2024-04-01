@@ -83,7 +83,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
     </GlossaryPopoverDefinition>
   );
 
-  const rightTooltip = 'The percentage change in savings bonds investments compared to the same period last year.';
+  const rightTooltip = 'The percentage change in investments in savings bonds compared to the same period last year.';
   const leftTooltip = `The total amount of investment in savings bonds has ${savingsBondChangeLabel} compared to the same period last year`;
 
   useEffect(() => {
@@ -93,8 +93,8 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   return (
     <>
       <p className={heroImageSubHeading}>
-        The American public has invested ${getShortForm(totalSavingsBondsInvested, false)} in {savingsBonds} this {fiscalYear} to finance the federal
-        government's operations.
+        The American public invested ${getShortForm(totalSavingsBondsInvested, false)} in {savingsBonds} this {fiscalYear} to finance the federal
+        government.
       </p>
       <div className={flapWrapper}>
         <SplitFlapDisplay
@@ -110,8 +110,8 @@ const TreasurySavingsBondsHero = (): ReactElement => {
         </p>
         <div className={footNotesPillData}>
           <p>
-            Compared to the same period last year ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)}), savings bonds
-            investments have {savingsBondChangeLabel}.
+            Compared to the same period last year ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)}), investments in
+            savings bonds have {savingsBondChangeLabel}.
           </p>
           {getPillData(
             savingsBondChange,

@@ -1,13 +1,13 @@
 import React from 'react';
 import { headerContainer, headerData, dataValue, dataLabel, dataElement } from './chart-data-header.module.scss';
 
-const ChartDataHeader = ({ fiscalYear, right, left }) => {
+const ChartDataHeader = ({ fiscalYear, right, left, dateField }) => {
   return (
     <div className={headerContainer}>
       <div className={headerData}>
         <div className={dataElement}>
           <div className={dataValue}>{fiscalYear}</div>
-          <span className={dataLabel}>Fiscal Year</span>
+          <span className={dataLabel}>{dateField ? dateField : 'Fiscal Year'}</span>
         </div>
         <div className={dataElement}>
           <div className={dataValue}>{right.value}</div>

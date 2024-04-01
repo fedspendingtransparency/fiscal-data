@@ -2,7 +2,6 @@ import React from 'react';
 import { createTheme, Grid, ThemeProvider } from '@material-ui/core';
 import HomePageTile from './homepage-tile/homepage-tile';
 import { tileContainer, sectionHeader, topicsSectionContainer, line, insightsSectionContainer } from './topics-section.module.scss';
-import { withWindowSize } from 'react-fns';
 import { breakpointLg } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { pageTileMap } from './homepage-tile/homepage-tile-helper';
@@ -22,7 +21,7 @@ export const TopicsSection = ({ images, width }) => {
   const explainerTiles = ['revenue', 'spending', 'deficit', 'debt'];
 
   return (
-    <div className={topicsSectionContainer}>
+    <div className={topicsSectionContainer} data-testid="topics-section">
       <div className={tileContainer}>
         <ThemeProvider theme={theme}>
           <Grid container spacing={4} direction={width < pxToNumber(breakpointLg) ? 'column-reverse' : 'row'}>
@@ -40,6 +39,9 @@ export const TopicsSection = ({ images, width }) => {
             </Grid>
             <Grid item lg={secondaryWidth}>
               <div className={insightsSectionContainer}>
+                <div className={sectionHeader}>FEATURED TOPIC</div>
+                <HomePageTile content={pageTileMap['savings-bonds']} images={images} width={width} />
+                <div className={line} />
                 <div className={sectionHeader}>TOOLS</div>
                 <HomePageTile content={pageTileMap['currency-exchange-rates']} images={images} width={width} />
               </div>
@@ -51,4 +53,4 @@ export const TopicsSection = ({ images, width }) => {
   );
 };
 
-export default withWindowSize(TopicsSection);
+export default TopicsSection;

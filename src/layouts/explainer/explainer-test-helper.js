@@ -1,4 +1,5 @@
 import fetchMock from 'fetch-mock';
+import { IBondMockData } from './sections/treasury-savings-bonds/purchase-of-savings-bonds/i-bond-sales-chart/i-bond-sales-chart-helper';
 
 const mockExplainerPageResponseData = [
   {
@@ -583,6 +584,45 @@ export const mockDeficitHeroDataOct = {
   ],
 };
 
+export const mockSavingsBondsData = {
+  data: [
+    {
+      gross_sales_amt: '18447598.28',
+      net_sales_amt: '17660717.08',
+      record_calendar_day: '31',
+      record_calendar_month: '10',
+      record_calendar_quarter: '4',
+      record_calendar_year: '2022',
+      record_date: '2022-10-31',
+      record_fiscal_quarter: '1',
+      record_fiscal_year: '2023',
+      returned_sales_amt: '786881.20',
+      securities_sold_cnt: '19474',
+      security_class_desc: 'EE',
+      security_type_desc: 'Savings Bond',
+      src_line_nbr: '1',
+      trans_month: '202210',
+    },
+    {
+      gross_sales_amt: '6914134569.71',
+      net_sales_amt: '6781886368.41',
+      record_calendar_day: '31',
+      record_calendar_month: '10',
+      record_calendar_quarter: '4',
+      record_calendar_year: '2022',
+      record_date: '2022-10-31',
+      record_fiscal_quarter: '1',
+      record_fiscal_year: '2023',
+      returned_sales_amt: '132248201.30',
+      securities_sold_cnt: '1048630',
+      security_class_desc: 'I',
+      security_type_desc: 'Savings Bond',
+      src_line_nbr: '2',
+      trans_month: '202210',
+    },
+  ],
+};
+
 export const mockSpendingHeroData = {
   data: [
     {
@@ -791,6 +831,12 @@ export const mockSavingsBondFetchResponses = () => {
     mockSavingsBondsSoldByTypeFYData,
     { overwriteRoutes: true },
     { repeat: 0 }
+  );
+  fetchMock.get(
+    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,security_class_desc:eq:I,record_fiscal_year:gte:2009&sort=-record_date`,
+    IBondMockData,
+    { overwriteRoutes: true },
+    { repeat: 2 }
   );
 };
 

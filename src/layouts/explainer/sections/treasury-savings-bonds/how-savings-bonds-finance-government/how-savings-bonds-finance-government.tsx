@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import { subSectionTitle } from './how-savings-bonds-finance-government.module.scss';
 import { breakpointLg, visWithCallout } from '../../../explainer.module.scss';
@@ -35,13 +35,14 @@ interface ApiResponse {
   meta: { 'total-pages': number };
 }
 
-const HowSavingsBondsFinanceGovernment = ({ width }) => {
+const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = ({ width }) => {
   const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [savingBondsPercentage, setSavingBondsPercentage] = useState<number | null>(null);
   const [historicalSavingBondsPercentage, setHistoricalSavingBondsPercentage] = useState<number | null>(null);
   const [percentageDifference, setPercentageDifference] = useState<number | null>(null);
   const [monthYear, setMonthYear] = useState<string | null>(null);
+  const [higherLowerSameAs, setHigherLowerSameAs] = useState<string | null>(null);
   const isDesktop = width >= pxToNumber(breakpointLg);
   const typesData = useRecoilValueLoadable(savingsBondTypesData);
   useShouldRefreshCachedData(Date.now(), savingsBondTypesData, savingsBondTypesLastCachedState);
@@ -64,77 +65,69 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
   const howSavingBondsSold = 'v1/debt/mspd/mspd_table_1?filter=record_date:eq';
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=1`)
-      .then((metaRes: ApiResponse) => {
-        if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
-          const pageSize = metaRes.meta['total-pages'];
-          basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=${pageSize}`)
-            .then((res: ApiResponse) => {
-              const relevantData = res.data
-              .filter(item =>
-                item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable'
-              )
-              .map(item => ({
-                ...item,
-                debt_held_public_mil_amt: Number(item.debt_held_public_mil_amt)
-              }));
+    basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=1`).then((metaRes: ApiResponse) => {
+      if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
+        const pageSize = metaRes.meta['total-pages'];
+        basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=${pageSize}`).then((res: ApiResponse) => {
+          const latestDate = new Date(Math.max(...res.data.map(e => new Date(e.record_date).getTime())));
+          const latestYear = latestDate.getFullYear();
+          const latestMonth = latestDate.getMonth() + 1;
 
-              const summedData = relevantData.reduce((acc: Record<string, ChartDataItem>, cur) => {
-                const key = cur.security_class_desc;
-                if (!acc[key]) {
-                  acc[key] = { name: key, value: 0, percent: 0, securityType: cur.security_type_desc };
-                }
-                acc[key].value += cur.debt_held_public_mil_amt;
-                return acc;
-              }, {});
-
-          const processedData = Object.values(summedData);
-          const totalValue = Number(processedData.reduce((sum, item) => sum + item.value, 0));
-
-              const dataWithPercentages = processedData.map(item => ({
-                ...item,
-                percent: (item.value/totalValue) * 100
-
-              }));
-              dataWithPercentages.sort((a,b) =>
-              a.securityType === 'Nonmarketable' ? 1 : b.securityType !== 'Nonmarketanble' ? -1 : 0
-              );
-              setChartData(dataWithPercentages)
-
-          const mostRecentItem = res.data.reduce((mostRecent, currentItem) => {
-            const currentDate = new Date(currentItem.record_date);
-            return currentDate > new Date(mostRecent.record_date) ? currentItem : mostRecent;
-          }, res.data[0]);
-
-          const mostRecentDate = new Date(mostRecentItem.record_date);
-          const montRecentMonthYear = `${monthFullNames[mostRecentDate.getMonth()]} ${mostRecentDate.getFullYear()}`;
-          setMonthYear(montRecentMonthYear);
-
-          const tenYearsAgo = new Date(mostRecentDate);
-          tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
-
-          const historicalData = relevantData.filter(item => {
+          const latestMonthData = res.data.filter(item => {
             const itemDate = new Date(item.record_date);
-            return itemDate.getFullYear() === tenYearsAgo.getFullYear() && itemDate.getMonth() === tenYearsAgo.getMonth();
+            return (
+              itemDate.getFullYear() === latestYear &&
+              itemDate.getMonth() + 1 === latestMonth &&
+              (item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable')
+            );
           });
 
-          const processChartData = (dataSet, setIsHistorical = false) => {
-            const totalValue = dataSet.reduce((sum, item) => sum + item.debt_held_public_mil_amt, 0);
-            const savingsBondValue = dataSet
-              .filter(item => item.security_class_desc === 'United States Savings Securities')
-              .reduce((sum, item) => sum + item.debt_held_public_mil_amt, 0);
-            const percentage = (savingsBondValue / totalValue) * 100;
+          const relevantData: ChartDataItem[] = latestMonthData
+            .filter(item => item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable')
+            .map(item => ({
+              name: item.security_class_desc,
+              value: Number(item.debt_held_public_mil_amt),
+              percent: 0,
+              securityType: item.security_type_desc,
+            }));
 
-            if (setIsHistorical) {
-              setHistoricalSavingBondsPercentage(parseFloat(percentage.toFixed(1)));
-            } else {
-              setSavingBondsPercentage(parseFloat(percentage.toFixed(1)));
-            }
-          };
-          processChartData(relevantData);
-          if (historicalData.length) {
-            processChartData(historicalData, true);
-          }
+          const totalValue = relevantData.reduce((sum, item) => sum + item.value, 0);
+          const updatedChartData = relevantData.map(item => {
+            return {
+              ...item,
+              percent: (item.value / totalValue) * 100,
+            };
+          });
+
+          updatedChartData.sort((a, b) => (a.securityType === 'Nonmarketable' ? 1 : b.securityType !== 'Nonmarketanble' ? -1 : 0));
+          setChartData(updatedChartData);
+
+          const montRecentMonthYear = `${monthFullNames[latestMonth - 1]} ${latestYear}`;
+          setMonthYear(montRecentMonthYear);
+
+          const currentSavingBondsItem = latestMonthData.find(item => item.security_class_desc === 'United States Savings Securities');
+          const currentSavingBondsValue = currentSavingBondsItem ? currentSavingBondsItem.debt_held_public_mil_amt : 0;
+          const totalDebtForLatestMonth = latestMonthData.reduce((sum, item) => sum + Number(item.debt_held_public_mil_amt), 0);
+
+          const currentSavingBondsPercentage = (currentSavingBondsValue / totalDebtForLatestMonth) * 100;
+          setSavingBondsPercentage(parseFloat(currentSavingBondsPercentage.toFixed(1)));
+
+          const historicalYear = latestYear - 10;
+
+          const historicalMonthData = res.data.filter(item => {
+            const itemDate = new Date(item.record_date);
+            return (
+              itemDate.getFullYear() === historicalYear &&
+              itemDate.getMonth() + 1 === latestMonth &&
+              (item.security_type_desc === 'Marketable' || item.security_type_desc === 'Nonmarketable')
+            );
+          });
+
+          const historicalSavingBondsItem = historicalMonthData.find(item => item.security_class_desc === 'United States Savings Securities');
+          const historicalSavingBondsValue = historicalSavingBondsItem ? historicalSavingBondsItem.debt_held_public_mil_amt : 0;
+          const totalDebtForHisotricalMonth = historicalMonthData.reduce((sum, item) => sum + Number(item.debt_held_public_mil_amt), 0);
+          const historicalSavingsBondsPercentage = (historicalSavingBondsValue / totalDebtForHisotricalMonth) * 100;
+          setHistoricalSavingBondsPercentage(parseFloat(historicalSavingsBondsPercentage.toFixed(1)));
         });
       }
     });
@@ -159,14 +152,25 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
     }
   }, [typesData.state]);
 
+  const higherOrLowerOrSameAs = difference => {
+    if (difference > 0) {
+      return 'higher than';
+    } else if (difference < 0) {
+      return 'lower than';
+    } else {
+      return 'the same as';
+    }
+  };
+
   useEffect(() => {
     if (savingBondsPercentage !== null && historicalSavingBondsPercentage !== null) {
       const difference = savingBondsPercentage - historicalSavingBondsPercentage;
-      setPercentageDifference(parseFloat(difference.toFixed(1)));
+      const diffString = higherOrLowerOrSameAs(difference);
+      setHigherLowerSameAs(diffString);
+      const absulteDifference = Math.abs(difference);
+      setPercentageDifference(parseFloat(absulteDifference.toFixed(1)));
     }
   }, [savingBondsPercentage, historicalSavingBondsPercentage]);
-
-  const higherOrLower = percentageDifference > 0 ? 'higher than' : 'lower than';
 
   const tableContent = [
     {
@@ -260,7 +264,7 @@ const HowSavingsBondsFinanceGovernment = ({ width }) => {
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
             Savings bonds make up {savingBondsPercentage}% of total debt held by the public through {monthYear}. This is {percentageDifference}{' '}
-            percentage points {higherOrLower} the same as the percent of debt held by the public ten years ago ({historicalSavingBondsPercentage}%).
+            percentage points {higherLowerSameAs} the percent of debt held by the public ten years ago ({historicalSavingBondsPercentage}%).
           </p>
         </VisualizationCallout>
       </div>

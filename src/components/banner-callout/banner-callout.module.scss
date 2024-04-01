@@ -25,6 +25,14 @@
   }
 }
 
+.altInfoColor {
+  background-color: #fff1d2;
+}
+
+.altBannerHeader {
+  margin-bottom: 4px;
+}
+
 .warningBanner {
   background-color: #faf3d1;
   margin: 0 auto;
@@ -65,6 +73,12 @@
   }
 }
 
+.altBannerText {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 2rem;
+}
+
 .icon {
   width: 1rem;
   height: 1rem;
@@ -75,6 +89,11 @@
 .updateList {
   padding-left: 1.25rem;
   margin: 0.5rem 0 0;
+}
+
+.columnFlex {
+  display: flex;
+  flex-direction: column;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -92,5 +111,9 @@
 
   .calloutText {
     margin: 1.125rem 1.375rem 1.125rem 0;
+  }
+
+  .altBannerText {
+    margin: 1rem 1rem 1rem 1rem;
   }
 }

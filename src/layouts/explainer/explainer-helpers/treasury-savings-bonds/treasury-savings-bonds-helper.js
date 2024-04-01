@@ -1,9 +1,7 @@
 import React from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 
-const est = (
-  <CustomLink url="https://fiscaldata.treasury.gov/datasets/electronic-securities-transactions/">Electronic Securities Transactions</CustomLink>
-);
+const est = <CustomLink url="/datasets/electronic-securities-transactions/">Electronic Securities Transactions</CustomLink>;
 
 const treasuryDirect = (
   <CustomLink url="https://www.treasurydirect.gov/research-center/history-of-savings-bond/savings-bond-sales/">TreasuryDirect</CustomLink>
@@ -11,7 +9,7 @@ const treasuryDirect = (
 
 const mspd = (
   <CustomLink
-    url="https://fiscaldata.treasury.gov/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
+    url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
     id="U.S. Treasury Monthly Statement of Public Debt"
   >
     U.S. Treasury Monthly Statement of Public Debt (MSPD)
@@ -21,7 +19,7 @@ const mspd = (
 const bls = <CustomLink url="https://www.bls.gov/developers/">Bureau of Labor Statistics</CustomLink>;
 
 const tsb = (
-  <CustomLink url="https://fiscaldata.treasury.gov/datasets/savings-bonds-issues-redemptions-maturities-by-series/matured-unredeemed-debt">
+  <CustomLink url="/datasets/savings-bonds-issues-redemptions-maturities-by-series/matured-unredeemed-debt">
     U.S. Treasury Savings Bonds: Issues, Redemptions, and Maturities by Series
   </CustomLink>
 );

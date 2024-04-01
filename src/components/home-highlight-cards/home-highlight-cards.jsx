@@ -4,8 +4,9 @@ import { Grid } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import HighlightedDatasets from './highlighted-datasets-config';
-import { cardsContainer, cardWrapper, container, loading } from './home-highlight-cards.module.scss';
+import { cardsContainer, cardWrapper, container } from './home-highlight-cards.module.scss';
 import HomeHighlightCard from './home-highlight-card/home-highlight-card';
+import { loadingIcon } from '../../pages/home.module.scss';
 
 export const baseCollapsedStyle = {
   overflow: 'hidden',
@@ -83,8 +84,8 @@ const HomeHighlightCards = () => {
           ))}
         </Grid>
       ) : (
-        <div className={loading} data-testid="highlight-cards-spinner">
-          <FontAwesomeIcon icon={faSpinner} spin pulse />
+        <div className={loadingIcon} data-testid="highlight-cards-spinner">
+          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>
       )}
     </div>

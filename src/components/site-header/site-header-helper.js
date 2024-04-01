@@ -3,6 +3,16 @@ export const menuSections = [
     title: 'Topics',
     children: [
       {
+        header: 'FEATURED TOPIC',
+        analyticsAction: 'Topics Click',
+        children: [
+          {
+            to: '/treasury-savings-bonds/',
+            title: 'Savings Bonds',
+          },
+        ],
+      },
+      {
         header: "AMERICA'S FINANCE GUIDE",
         analyticsAction: 'Topics Click',
         children: [

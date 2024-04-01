@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import ExplainerTile from './homepage-tile';
-import { SpendingBodyGenerator } from './homepage-tile-helper';
+import { SavingsBondsBodyGenerator, SpendingBodyGenerator } from './homepage-tile-helper';
 import fetchMock from 'fetch-mock';
-import { mockSpendingHeroData } from '../../../layouts/explainer/explainer-test-helper';
+import { mockSavingsBondsData, mockSpendingHeroData } from '../../../layouts/explainer/explainer-test-helper';
 
 const testTiles = {
   pageName: {
@@ -99,5 +99,18 @@ describe('Spending Body Generator ', () => {
     const { getByText } = render(<SpendingBodyGenerator />);
     await waitFor(() => getByText('$4.52 trillion', { exact: false }));
     expect(await getByText('in fiscal year 2022', { exact: false })).toBeInTheDocument();
+  });
+});
+
+describe('Savings Bonds Generator', () => {
+  it('renders and amount', async () => {
+    fetchMock.get(
+      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
+      mockSavingsBondsData,
+      { overwriteRoutes: true },
+      { repeat: 1 }
+    );
+    const { getByText } = render(<SavingsBondsBodyGenerator />);
+    await waitFor(() => getByText('$7 billion', { exact: false }));
   });
 });
