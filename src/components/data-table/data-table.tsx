@@ -18,10 +18,13 @@ import {
   selectColumnPanelActive,
   selectColumnPanelInactive,
   selectColumnsWrapper,
-  slideFadeInRight,
-  slideFadeInLeft,
-  slideFadeOutRight,
-  slideFadeOutLeft,
+  fadeEnter,
+  fadeExit,
+  fadeEnterActive,
+  fadeExitActive,
+  fadeEnterNoScale,
+  fadeEnterActiveNoScale,
+  fadeExitActiveNoScale,
 } from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
@@ -101,27 +104,39 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [hasMounted, setHasMounted] = useState(false);
   useEffect(() => {
     setHasMounted(true);
-  },[])
-console.log(animationClassIn);
+  }, [hasMounted]);
+
   useEffect(() => {
-    if (hasMounted){
+    if (hasMounted) {
       if (!detailViewState) {
-        setConfigOption(columnConfig);
-        setAnimationClassIn(slideFadeInLeft)
-        console.log('here')
+        setAnimationClassIn(fadeEnterNoScale);
+        setTimeout(() => {
+          setAnimationClassIn(fadeEnterActiveNoScale);
+          setConfigOption(columnConfig);
+        }, 300);
+        console.log('animation classs', animationClassIn);
       } else {
-        console.log('here TWO')
-        setConfigOption(detailColumnConfig);
-        setAnimationClassIn(slideFadeInRight)
+        console.log('animation aaaaaaa', animationClassIn);
+        setAnimationClassIn(fadeEnter);
+
+        setTimeout(() => {
+          setAnimationClassIn(fadeEnterActive);
+          setConfigOption(detailColumnConfig);
+        }, 300);
       }
     }
-  }, [rawData, detailViewState,columnConfig,detailColumnConfig, hasMounted]);
+  }, [rawData, detailViewState, columnConfig, detailColumnConfig, hasMounted]);
 
   const handleClick = (e, columnValue) => {
     e.preventDefault();
-    setSummaryValues(rawData.data.find(data => data[detailView?.field] === columnValue));
     if (setDetailViewState) {
-      setDetailViewState(columnValue);
+      console.log('HEREE I AMMMMM');
+      setAnimationClassIn(fadeExit);
+      setTimeout(() => {
+        setAnimationClassIn(fadeExitActiveNoScale);
+        setSummaryValues(rawData.data.find(data => data[detailView?.field] === columnValue));
+        setDetailViewState(columnValue);
+      }, 3000);
     }
   };
 
@@ -200,7 +215,6 @@ console.log(animationClassIn);
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
-
 
   useEffect(() => {
     if (resetFilters && setTableColumnSortData) {
@@ -291,7 +305,7 @@ console.log(animationClassIn);
               />
             </div>
           )}
-          <div className={classNames(tableStyle, animationClassIn)} style={{ width: '100%', top: 0}}>
+          <div className={classNames(tableStyle, animationClassIn)} style={{ width: '100%', top: 0 }}>
             <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>
                 <DataTableHeader
