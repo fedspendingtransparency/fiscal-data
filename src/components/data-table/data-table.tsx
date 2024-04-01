@@ -25,6 +25,11 @@ import {
   fadeEnterNoScale,
   fadeEnterActiveNoScale,
   fadeExitActiveNoScale,
+  noAnimation,
+  summaryExit,
+  summaryEnter,
+  detailExit,
+  detailEnter,
 } from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
@@ -100,44 +105,39 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   customFormatting,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
-  const [animationClassIn, setAnimationClassIn] = useState('');
+  const [animationClassIn, setAnimationClassIn] = useState(noAnimation);
+
   const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, [hasMounted]);
 
   useEffect(() => {
-    if (hasMounted) {
+    if (!hasMounted) return;
+
+    const updateConfigAndAnimation = () => {
       if (!detailViewState) {
-        setAnimationClassIn(fadeEnterNoScale);
-        setTimeout(() => {
-          setAnimationClassIn(fadeEnterActiveNoScale);
-          setConfigOption(columnConfig);
-        }, 300);
-        console.log('animation classs', animationClassIn);
+        setConfigOption(columnConfig);
+        setAnimationClassIn(summaryEnter);
       } else {
-        console.log('animation aaaaaaa', animationClassIn);
-        setAnimationClassIn(fadeEnter);
-
-        setTimeout(() => {
-          setAnimationClassIn(fadeEnterActive);
-          setConfigOption(detailColumnConfig);
-        }, 300);
+        setConfigOption(detailColumnConfig);
+        setAnimationClassIn(detailEnter);
       }
-    }
-  }, [rawData, detailViewState, columnConfig, detailColumnConfig, hasMounted]);
+    };
+
+    setTimeout(updateConfigAndAnimation, 1000);
+  }, [rawData, detailViewState, hasMounted]);
 
   const handleClick = (e, columnValue) => {
     e.preventDefault();
-    if (setDetailViewState) {
-      console.log('HEREE I AMMMMM');
-      setAnimationClassIn(fadeExit);
-      setTimeout(() => {
-        setAnimationClassIn(fadeExitActiveNoScale);
+    setAnimationClassIn(summaryExit);
+
+    setTimeout(() => {
+      if (setDetailViewState) {
         setSummaryValues(rawData.data.find(data => data[detailView?.field] === columnValue));
         setDetailViewState(columnValue);
-      }, 3000);
-    }
+      } else {
+        const newAnimationClass = detailViewState ? detailEnter : detailExit;
+        setAnimationClassIn(newAnimationClass);
+      }
+    }, 1000);
   };
 
   const allColumns = React.useMemo(() => {
@@ -285,6 +285,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       selectColumnsRef.current?.focus();
     }
   });
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   return (
     <>
