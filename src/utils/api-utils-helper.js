@@ -25,7 +25,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   const apiDateField = api.dateField;
   const apiSortParams = buildSortParams(api);
 
-  const recordDateFilter = tableColumnSortData.filter(column => column.id === 'record_date');
+  const recordDateFilter = tableColumnSortData.filter(column => column.id === apiDateField);
 
   if (recordDateFilter.length > 0 && recordDateFilter[0].filterValue !== undefined) {
     dateRange.from = recordDateFilter[0].filterValue[0];
@@ -50,7 +50,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   if (detailViewFilter) {
     filterAddendum = `,${detailViewFilter.field}:eq:${detailViewFilter.value}`;
   }
-  const dateColumns = tableColumnSortData.filter(column => column.id.includes('_date') && column.id !== 'record_date');
+  const dateColumns = tableColumnSortData.filter(column => column.id.includes('_date') && column.id !== apiDateField);
 
   dateColumns.forEach(column => {
     if (column.filterValue !== undefined) {
@@ -126,6 +126,12 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
       sortValue = apiSortParams;
     }
   }
+
+  console.log(
+    `?filter=${apiDateField}:gte:${dateRange.from},` +
+      `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
+      `&sort=${sortValue}&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`
+  );
 
   return {
     apiId: apiId,
