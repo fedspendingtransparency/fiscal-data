@@ -53,19 +53,19 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     filterAddendum = `,${detailViewFilter.field}:eq:${detailViewFilter.value}`;
   }
 
-  // Apply date filters for datasets where extra date filters can be applied in table
-  const dateColumns = tableColumnSortData.filter(column => column.id.includes('_date') && column.id !== apiDateField);
-
-  dateColumns.forEach(column => {
-    if (column.filterValue !== undefined) {
-      const beginDate = column.filterValue[0];
-      const endDate = column.filterValue[column.filterValue.length - 1];
-      const filterString = `,${column.id}:gte:${beginDate},${column.id}:lte:${endDate}`;
-      filterAddendum += filterString;
-    }
-  });
-
   if (tableColumnSortData) {
+    // Apply date filters for datasets where extra date filters can be applied in table
+    const dateColumns = tableColumnSortData.filter(column => column.id.includes('_date') && column.id !== apiDateField);
+
+    dateColumns.forEach(column => {
+      if (column.filterValue !== undefined) {
+        const beginDate = column.filterValue[0];
+        const endDate = column.filterValue[column.filterValue.length - 1];
+        const filterString = `,${column.id}:gte:${beginDate},${column.id}:lte:${endDate}`;
+        filterAddendum += filterString;
+      }
+    });
+
     tableColumnSortData.forEach(column => {
       if (!column.allColumnsSelected || detailViewFilter) {
         if (tableColumnFields === '&fields=') {
