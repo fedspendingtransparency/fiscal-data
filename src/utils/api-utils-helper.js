@@ -29,6 +29,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     dateRange.to = dateRange.to.slice(0, -3);
     dateRange.from = dateRange.from.slice(0, -3);
   } else {
+    // If following regular date formatting and apiDateField is filtered in the table, go with the table filter instead of the top level filter
     const recordDateFilter = tableColumnSortData.filter(column => column.id === apiDateField);
 
     if (recordDateFilter.length > 0 && recordDateFilter[0].filterValue !== undefined) {
@@ -49,6 +50,8 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   if (detailViewFilter) {
     filterAddendum = `,${detailViewFilter.field}:eq:${detailViewFilter.value}`;
   }
+
+  // Apply date filters for datasets where extra date filters can be applied in table
   const dateColumns = tableColumnSortData.filter(column => column.id.includes('_date') && column.id !== apiDateField);
 
   dateColumns.forEach(column => {
