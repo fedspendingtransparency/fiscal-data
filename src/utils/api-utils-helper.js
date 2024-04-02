@@ -30,11 +30,13 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     dateRange.from = dateRange.from.slice(0, -3);
   } else {
     // If following regular date formatting and apiDateField is filtered in the table, go with the table filter instead of the top level filter
-    const recordDateFilter = tableColumnSortData.filter(column => column.id === apiDateField);
+    if (tableColumnSortData) {
+      const recordDateFilter = tableColumnSortData.filter(column => column.id === apiDateField);
 
-    if (recordDateFilter.length > 0 && recordDateFilter[0].filterValue !== undefined) {
-      dateRange.from = recordDateFilter[0].filterValue[0];
-      dateRange.to = recordDateFilter[0].filterValue[recordDateFilter[0].filterValue.length - 1];
+      if (recordDateFilter.length > 0 && recordDateFilter[0].filterValue !== undefined) {
+        dateRange.from = recordDateFilter[0].filterValue[0];
+        dateRange.to = recordDateFilter[0].filterValue[recordDateFilter[0].filterValue.length - 1];
+      }
     }
   }
 
