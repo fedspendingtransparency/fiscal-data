@@ -1,7 +1,6 @@
 import { convertJSDateToAPI } from '../transform/dates';
 import { buildSortParams } from './api-utils';
 import GLOBALS from '../helpers/constants';
-import moment from 'moment';
 
 /**
  * This function creates a fragment of the formatted object used within the API download request.
@@ -25,17 +24,17 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   const apiDateField = api.dateField;
   const apiSortParams = buildSortParams(api);
 
-  const recordDateFilter = tableColumnSortData.filter(column => column.id === apiDateField);
-
-  if (recordDateFilter.length > 0 && recordDateFilter[0].filterValue !== undefined) {
-    dateRange.from = recordDateFilter[0].filterValue[0];
-    dateRange.to = recordDateFilter[0].filterValue[recordDateFilter[0].filterValue.length - 1];
-  }
-
   // Convert the date range format from YYYY-MM-DD to YYYY-MM for the following apis.
   if (GLOBALS.ENDPOINTS_WITH_YEAR_MONTH_DATE_FORMAT.some(id => id === apiIdStr)) {
     dateRange.to = dateRange.to.slice(0, -3);
     dateRange.from = dateRange.from.slice(0, -3);
+  } else {
+    const recordDateFilter = tableColumnSortData.filter(column => column.id === apiDateField);
+
+    if (recordDateFilter.length > 0 && recordDateFilter[0].filterValue !== undefined) {
+      dateRange.from = recordDateFilter[0].filterValue[0];
+      dateRange.to = recordDateFilter[0].filterValue[recordDateFilter[0].filterValue.length - 1];
+    }
   }
 
   let filterAddendum = '';
