@@ -32,17 +32,17 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     // If following regular date formatting and apiDateField is filtered in the table, go with the table filter unless is goes beyond the range
     // of the top level filter
     if (tableColumnSortData) {
-      const recordDateFilter = tableColumnSortData.filter(column => column.id === apiDateField);
+      const apiDateFilter = tableColumnSortData.filter(column => column.id === apiDateField);
 
-      if (recordDateFilter.length > 0 && recordDateFilter[0].filterValue !== undefined) {
+      if (apiDateFilter.length > 0 && apiDateFilter[0].filterValue !== undefined) {
         dateRange.from =
-          new Date(dateRange.from).getTime() >= new Date(recordDateFilter[0].filterValue[0]).getTime()
+          new Date(dateRange.from).getTime() >= new Date(apiDateFilter[0].filterValue[0]).getTime()
             ? dateRange.from
-            : recordDateFilter[0].filterValue[0];
+            : apiDateFilter[0].filterValue[0];
         dateRange.to =
-          new Date(dateRange.to).getTime() <= new Date(recordDateFilter[0].filterValue[recordDateFilter[0].filterValue.length - 1]).getTime()
+          new Date(dateRange.to).getTime() <= new Date(apiDateFilter[0].filterValue[apiDateFilter[0].filterValue.length - 1]).getTime()
             ? dateRange.to
-            : recordDateFilter[0].filterValue[recordDateFilter[0].filterValue.length - 1];
+            : apiDateFilter[0].filterValue[apiDateFilter[0].filterValue.length - 1];
       }
     }
   }
