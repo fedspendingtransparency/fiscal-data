@@ -34,8 +34,14 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
       const recordDateFilter = tableColumnSortData.filter(column => column.id === apiDateField);
 
       if (recordDateFilter.length > 0 && recordDateFilter[0].filterValue !== undefined) {
-        dateRange.from = recordDateFilter[0].filterValue[0];
-        dateRange.to = recordDateFilter[0].filterValue[recordDateFilter[0].filterValue.length - 1];
+        dateRange.from =
+          new Date(dateRange.from).getTime() > new Date(recordDateFilter[0].filterValue[0]).getTime()
+            ? dateRange.from
+            : recordDateFilter[0].filterValue[0];
+        dateRange.to =
+          new Date(dateRange.to).getTime() <= new Date(recordDateFilter[0].filterValue[recordDateFilter[0].filterValue.length - 1]).getTime()
+            ? dateRange.to
+            : recordDateFilter[0].filterValue[recordDateFilter[0].filterValue.length - 1];
       }
     }
   }
