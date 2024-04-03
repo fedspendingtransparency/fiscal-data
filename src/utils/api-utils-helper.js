@@ -1,7 +1,6 @@
 import { convertJSDateToAPI } from '../transform/dates';
 import { buildSortParams } from './api-utils';
 import GLOBALS from '../helpers/constants';
-import moment from 'moment';
 
 /**
  * This function creates a fragment of the formatted object used within the API download request.
@@ -29,7 +28,25 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   if (GLOBALS.ENDPOINTS_WITH_YEAR_MONTH_DATE_FORMAT.some(id => id === apiIdStr)) {
     dateRange.to = dateRange.to.slice(0, -3);
     dateRange.from = dateRange.from.slice(0, -3);
+  } else {
+    // If following regular date formatting and apiDateField is filtered in the table, go with the table filter unless is goes beyond the range
+    // of the top level filter
+    if (tableColumnSortData) {
+      const apiDateFilter = tableColumnSortData.filter(column => column.id === apiDateField);
+
+      if (apiDateFilter.length > 0 && apiDateFilter[0].filterValue !== undefined) {
+        dateRange.from =
+          new Date(dateRange.from).getTime() >= new Date(apiDateFilter[0].filterValue[0]).getTime()
+            ? dateRange.from
+            : apiDateFilter[0].filterValue[0];
+        dateRange.to =
+          new Date(dateRange.to).getTime() <= new Date(apiDateFilter[0].filterValue[apiDateFilter[0].filterValue.length - 1]).getTime()
+            ? dateRange.to
+            : apiDateFilter[0].filterValue[apiDateFilter[0].filterValue.length - 1];
+      }
+    }
   }
+
   let filterAddendum = '';
   let tableColumnFields = '&fields=';
   let tableColumnSort = '';
@@ -42,7 +59,20 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   if (detailViewFilter) {
     filterAddendum = `,${detailViewFilter.field}:eq:${detailViewFilter.value}`;
   }
+
   if (tableColumnSortData) {
+    // Apply date filters for datasets where extra date filters can be applied in table
+    const dateColumns = tableColumnSortData.filter(column => column.id.includes('_date') && column.id !== apiDateField);
+
+    dateColumns.forEach(column => {
+      if (column.filterValue !== undefined) {
+        const beginDate = column.filterValue[0];
+        const endDate = column.filterValue[column.filterValue.length - 1];
+        const filterString = `,${column.id}:gte:${beginDate},${column.id}:lte:${endDate}`;
+        filterAddendum += filterString;
+      }
+    });
+
     tableColumnSortData.forEach(column => {
       if (!column.allColumnsSelected || detailViewFilter) {
         if (tableColumnFields === '&fields=') {
@@ -187,6 +217,8 @@ const dataTables = [
  * @param fileType {String}   - Accepted values are 'csv', 'xml', 'json'.
  * @param userFilter {object}   - option selected from userFilter dropdown
  * @param tableColumnSortData
+ * @param filteredDateRange
+ * @param detailViewFilter
  * @returns {null|Object}     - Returns null if params are invalid, else returns object with
  * collection of APIs as built from buildDownloadObject above.
  */
@@ -196,14 +228,8 @@ export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter,
     return null;
   }
   const requestArr = [];
-  const from =
-    filteredDateRange?.from && moment(dateRange.from).diff(filteredDateRange?.from) <= 0
-      ? filteredDateRange?.from.format('YYYY-MM-DD')
-      : convertJSDateToAPI(dateRange.from);
-  const to =
-    filteredDateRange?.from && moment(dateRange.to).diff(filteredDateRange?.to) >= 0
-      ? filteredDateRange?.to.format('YYYY-MM-DD')
-      : convertJSDateToAPI(dateRange.to);
+  const from = convertJSDateToAPI(dateRange.from);
+  const to = convertJSDateToAPI(dateRange.to);
   const apiDateRange = {
     from: from,
     to: to,
