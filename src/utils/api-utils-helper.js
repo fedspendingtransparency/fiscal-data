@@ -36,7 +36,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
 
       if (recordDateFilter.length > 0 && recordDateFilter[0].filterValue !== undefined) {
         dateRange.from =
-          new Date(dateRange.from).getTime() > new Date(recordDateFilter[0].filterValue[0]).getTime()
+          new Date(dateRange.from).getTime() >= new Date(recordDateFilter[0].filterValue[0]).getTime()
             ? dateRange.from
             : recordDateFilter[0].filterValue[0];
         dateRange.to =
