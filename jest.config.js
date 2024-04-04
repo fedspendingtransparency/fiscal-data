@@ -12,6 +12,7 @@ module.exports = {
     '^gatsby-core-utils/(.*)$': `gatsby-core-utils/dist/$1`,
     '^gatsby-page-utils/(.*)$': `gatsby-page-utils/dist/$1`,
     '^gatsby-plugin-utils/(.*)$': [`gatsby-plugin-utils/dist/$1`, `gatsby-plugin-utils/$1`],
+    '^csv-stringify/sync': '<rootDir>/node_modules/csv-stringify/dist/cjs/sync.cjs',
   },
   modulePathIgnorePatterns: ['.cache'],
   testMatch: ['<rootDir>/**/**.spec.{js,jsx,ts,tsx}'],

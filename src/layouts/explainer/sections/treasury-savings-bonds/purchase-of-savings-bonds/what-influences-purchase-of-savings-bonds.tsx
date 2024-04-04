@@ -67,7 +67,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
         const pageSize = metaRes.meta['total-pages'];
         basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
           if (res.data) {
-
             const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
             const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
             const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
@@ -102,11 +101,10 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
             setInflationChartData(inflationAllData);
             setBondTypes(new Set(allData.flatMap(entry => Object.keys(entry).filter(key => key !== 'year'))).size);
           }
-        })
+        });
       }
     });
   }, []);
-
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
@@ -143,10 +141,10 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
         <img src={BondPoster} alt="Poster advertising savings bonds as “savings plans for all Americans.”" />
       </ImageContainer>
       <p>
-        In 1963, President John F. Kennedy aimed to modernize savings bonds by signing legislation that allowed for the creation of Series EE and
-        Series H savings bonds. These new savings bonds allowed workers to automatically invest a portion of their paycheck in what was known as the
-        Payroll Savings Plan, which reduced paper certificates, and moved to an electronic record-keeping system. This new program was accompanied by
-        nationwide marketing and helped increase the profile of the savings bond program in subsequent decades.
+        In 1963, President John F. Kennedy aimed to encourage the purchase of savings bonds by establishing the U.S. Industrial Payroll Savings
+        Committee. This committee encouraged workers to automatically invest a portion of their paycheck in what was known as the Payroll Savings
+        Plan, which reduced paper certificates, and moved to an electronic record-keeping system. This new program was accompanied by nationwide
+        marketing and helped increase the profile of the savings bond program in subsequent decades.
       </p>
       <ImageContainer color={treasurySavingsBondsExplainerSecondary} caption="President John F. Kennedy holds a U.S. savings bond.">
         <img src={PresidentKennedy} alt="President John F. Kennedy holds a U.S. savings bond." />
@@ -156,8 +154,8 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
         <SavingsBondsSoldByTypeChart chartData={chartData} curFy={curFy} chartDate={historyChartDate} inflationChartData={inflationChartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
-            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when ${getShortForm(mostBondSales)} and ${getShortForm(secondMostBondSales)} bonds were sold,
-            respectively.
+            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when ${getShortForm(mostBondSales)} and $
+            {getShortForm(secondMostBondSales)} bonds were sold, respectively.
           </p>
         </VisualizationCallout>
       </div>
