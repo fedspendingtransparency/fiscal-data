@@ -88,7 +88,7 @@ const ApiQuickGuide = ({ selectedTable, config }) => {
       <div className={expandStyles}>
         <div id="quick-guide-content-container">
           <DocumentationLinkSection type="HEADER" />
-          <div id="api-quick-guide-expandable" aria-hidden={isCollapsed} tabIndex={isCollapsed ? -1 : 0}>
+          <div id="api-quick-guide-expandable" aria-hidden={isCollapsed}>
             <DatasetDetailEndpoints selectedTable={selectedTable} apis={config.apis} />
             <div id="collapse-scroll-target" />
             <div>
