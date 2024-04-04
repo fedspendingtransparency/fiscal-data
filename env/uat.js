@@ -18,7 +18,7 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-098'],
       currentDateButton: 'byMonth',
     },
-    '015-BFS-2014Q3-049': {
+    '015-BFS-2024Q1-004': {
       slug: '/receipts-by-department/',
       seoConfig: {
         pageTitle: 'Receipts by Department',
