@@ -3,7 +3,7 @@ import Accordion from '../../../accordion/accordion';
 import { list, exampleTitle, exampleParameters, codeBlock } from '../accordions.module.scss';
 import GLOBALS from '../../../../helpers/constants';
 
-const FormatAccordion = ({ selectedTable }) => {
+const FormatAccordion = ({ selectedTable, tabindex }) => {
   const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
   const formatExample = '?format=csv';
   let fullUrl = '';
@@ -12,7 +12,7 @@ const FormatAccordion = ({ selectedTable }) => {
   }
 
   return (
-    <Accordion title="Format">
+    <Accordion title="Format" tabindex={tabindex}>
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>

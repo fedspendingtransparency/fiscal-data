@@ -3,13 +3,13 @@ import Accordion from '../../../accordion/accordion';
 import { list, exampleTitle, codeBlock, exampleParameters } from '../accordions.module.scss';
 import GLOBALS from '../../../../helpers/constants';
 
-const SortingAccordion = ({ selectedTable }) => {
+const SortingAccordion = ({ selectedTable, tabindex }) => {
   const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
   const fullUrl = `${baseApiUrl}/${selectedTable.endpoint}`;
   const exampleSortingQuery = `?sort=-${selectedTable.dateField}`;
 
   return (
-    <Accordion title="Sorting">
+    <Accordion title="Sorting" tabindex={tabindex}>
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>

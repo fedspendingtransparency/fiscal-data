@@ -3,7 +3,7 @@ import Accordion from '../../../accordion/accordion';
 import { list, exampleTitle, codeBlock } from '../accordions.module.scss';
 import GLOBALS from '../../../../helpers/constants';
 
-const PaginationAccordion = ({ selectedTable }) => {
+const PaginationAccordion = ({ selectedTable, tabindex }) => {
   const prodUrl = GLOBALS.PROD_API_BASE_URL;
   const exampleParameter = '?page[number]=1&page[size]=3';
   let fullUrl = '';
@@ -11,7 +11,7 @@ const PaginationAccordion = ({ selectedTable }) => {
     fullUrl = `${prodUrl}/${selectedTable.endpoint}${exampleParameter}`;
   }
   return (
-    <Accordion title="Pagination">
+    <Accordion title="Pagination" tabindex={tabindex}>
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>

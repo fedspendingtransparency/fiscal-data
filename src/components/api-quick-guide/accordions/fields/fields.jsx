@@ -4,7 +4,7 @@ import { list, exampleTitle, codeBlock, exampleParameters } from '../accordions.
 import GLOBALS from '../../../../helpers/constants';
 import CustomLink from '../../../links/custom-link/custom-link';
 
-const FieldsAccordion = ({ selectedTable, numberOfFields = 5 }) => {
+const FieldsAccordion = ({ selectedTable, numberOfFields = 5, tabindex }) => {
   const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
   const [fields, setFields] = useState('');
   const [url, setUrl] = useState('');
@@ -28,7 +28,7 @@ const FieldsAccordion = ({ selectedTable, numberOfFields = 5 }) => {
   }, [numberOfFields, selectedTable]);
 
   return (
-    <Accordion title="Fields" defaultOpen>
+    <Accordion title="Fields" defaultOpen tabindex={tabindex}>
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>

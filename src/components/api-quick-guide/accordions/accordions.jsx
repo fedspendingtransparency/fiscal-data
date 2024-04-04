@@ -7,7 +7,7 @@ import FormatAccordion from './format/format';
 import PaginationAccordion from './pagination/pagination';
 import CustomLink from '../../links/custom-link/custom-link';
 
-const Accordions = ({ selectedTable }) => {
+const Accordions = ({ selectedTable, tabindex }) => {
   const numOfFields = 5;
   const methods = {
     title: 'Parameters',
@@ -21,11 +21,11 @@ const Accordions = ({ selectedTable }) => {
 
   return (
     <ApiQuickGuideSection title={methods.title} description={methods.desc}>
-      <FieldsAccordion selectedTable={selectedTable} numberOfFields={numOfFields} />
-      <FiltersAccordion selectedTable={selectedTable} />
-      <SortingAccordion selectedTable={selectedTable} />
-      <FormatAccordion selectedTable={selectedTable} />
-      <PaginationAccordion selectedTable={selectedTable} />
+      <FieldsAccordion selectedTable={selectedTable} numberOfFields={numOfFields} tabindex={tabindex} />
+      <FiltersAccordion selectedTable={selectedTable} tabindex={tabindex} />
+      <SortingAccordion selectedTable={selectedTable} tabindex={tabindex} />
+      <FormatAccordion selectedTable={selectedTable} tabindex={tabindex} />
+      <PaginationAccordion selectedTable={selectedTable} tabindex={tabindex} />
     </ApiQuickGuideSection>
   );
 };
