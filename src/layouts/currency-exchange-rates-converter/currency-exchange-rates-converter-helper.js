@@ -51,6 +51,7 @@ export const labelIcon = (labelName, iconName, dataTestID, isIcon = false, handl
               width: '14px',
               height: '14px',
             }}
+            title={labelName}
           >
             {iconName}
           </InfoTip>
