@@ -11,10 +11,12 @@ const customFormatting = {
   },
 };
 
-export const applyFormatting = (definition, term) => {
+export const applyFormatting = entry => {
   let count = 0;
-  const customFormat = customFormatting[term];
-  return reactStringReplace(definition, customFormat?.text, (match, index) => {
+  const customFormat = customFormatting[entry.term];
+  let definition = entry.definition;
+
+  definition = reactStringReplace(definition, customFormat?.text, (match, index) => {
     count = count + 1;
     if (count === customFormat.index + 1) {
       if (customFormat.format === 'underline') {
@@ -23,6 +25,12 @@ export const applyFormatting = (definition, term) => {
     }
     return match;
   });
+
+  if (entry.url_display && entry.url_path) {
+    definition = urlFormat(entry, definition);
+  }
+
+  return definition;
 };
 
 export const glossaryLookup = (value, glossary, page) => {
@@ -39,12 +47,10 @@ export const glossaryLookup = (value, glossary, page) => {
     definitionFormatted = definition;
     const customFormat = customFormatting[glossaryTerm];
     if (customFormat) {
-      definitionFormatted = applyFormatting(definitionFormatted, glossaryTerm);
+      definitionFormatted = applyFormatting(entry);
     }
-    if (entry.url_display && entry.url_path) {
-      definitionFormatted = reactStringReplace(definitionFormatted, entry.url_display, match => {
-        return <CustomLink url={entry.url_path}>{match}</CustomLink>;
-      });
+    if (!customFormat && entry.url_display && entry.url_path) {
+      definitionFormatted = urlFormat(entry, definitionFormatted);
     }
   }
 
@@ -53,4 +59,10 @@ export const glossaryLookup = (value, glossary, page) => {
     definition: definitionFormatted ? definitionFormatted : definition,
     slug: slug,
   };
+};
+
+export const urlFormat = (entry, definitionFormatted) => {
+  return reactStringReplace(definitionFormatted, entry.url_display, match => {
+    return <CustomLink url={entry.url_path}>{match}</CustomLink>;
+  });
 };
