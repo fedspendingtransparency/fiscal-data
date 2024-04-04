@@ -4,7 +4,7 @@ import Analytics from '../../../../utils/analytics/analytics';
 
 export const a11yProps = index => ({
   id: `filter-tab-${index}`,
-  'aria-controls': `filter-tabpanel-${index}`,
+  'aria-controls': `filter-tab-${index}`,
   'data-testid': `filter-tab-${index}`,
 });
 
