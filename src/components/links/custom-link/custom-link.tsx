@@ -109,6 +109,13 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
         </a>
       );
 
+    case urlOrHref.endsWith('.xml'):
+      return (
+        <a href={urlOrHref} className="primary" download data-testid={dataTestId || 'download-link'}>
+          {children}
+        </a>
+      );
+
     default:
       return (
         <Link
