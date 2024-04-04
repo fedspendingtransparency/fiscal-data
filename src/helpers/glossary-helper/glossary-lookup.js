@@ -49,7 +49,7 @@ export const glossaryLookup = (value, glossary, page) => {
     if (customFormat) {
       definitionFormatted = applyFormatting(entry);
     }
-    if (entry.url_display && entry.url_path) {
+    if (!customFormat && entry.url_display && entry.url_path) {
       definitionFormatted = urlFormat(entry, definitionFormatted);
     }
   }
