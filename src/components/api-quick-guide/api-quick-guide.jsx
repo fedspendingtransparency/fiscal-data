@@ -91,13 +91,11 @@ const ApiQuickGuide = ({ selectedTable, config }) => {
           <div id="api-quick-guide-expandable" aria-hidden={isCollapsed}>
             <DatasetDetailEndpoints selectedTable={selectedTable} apis={config.apis} />
             <div id="collapse-scroll-target" />
-            <div>
-              <DatasetDetailFields apis={config.apis} />
-              <Accordions selectedTable={selectedTable} tabindex={isCollapsed ? -1 : 0} />
-              <ApiQuickGuideSection id="method-section" title={methods.title} description={methods.desc} />
-              <DatasetDetailExamples isAccordionOpen={!isCollapsed} selectedTable={selectedTable} />
-              <DocumentationLinkSection type="FOOTER" />
-            </div>
+            <DatasetDetailFields apis={config.apis} />
+            <Accordions selectedTable={selectedTable} tabindex={isCollapsed ? -1 : 0} />
+            <ApiQuickGuideSection id="method-section" title={methods.title} description={methods.desc} />
+            <DatasetDetailExamples isAccordionOpen={!isCollapsed} selectedTable={selectedTable} />
+            <DocumentationLinkSection type="FOOTER" />
           </div>
         </div>
       </div>
