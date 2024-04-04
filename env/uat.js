@@ -6,7 +6,7 @@ module.exports = {
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'react-table-poc', 'afg-overview'],
   ADDITIONAL_DATASETS: {
-    '015-BFS-2014Q3-049': {
+    '015-BFS-2024Q1-004': {
       slug: '/receipts-by-department/',
       seoConfig: {
         pageTitle: 'Receipts by Department',
