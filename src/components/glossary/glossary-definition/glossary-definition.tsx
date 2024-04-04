@@ -9,8 +9,8 @@ interface IGlossaryDefinition {
 }
 
 const GlossaryDefinition: FunctionComponent<IGlossaryDefinition> = ({ glossaryTerm }) => {
-  const { term, definition } = glossaryTerm;
-  const definitionDisplay = applyFormatting(definition, term);
+  const { term } = glossaryTerm;
+  const definitionDisplay = applyFormatting(glossaryTerm);
   return (
     <div className={definitionContainer}>
       <span className={termName}>{term}</span>
