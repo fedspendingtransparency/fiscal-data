@@ -184,7 +184,7 @@ const TableSectionContainer = ({
       selectedPivot,
       dateRange,
       apiError: apiErrorState,
-      selectColumns: selectedTable.selectColumns,
+      selectColumns: selectedTable.selectColumns ? selectedTable.selectColumns : [], // if selectColumns is not defined in endpointConfig.js, default to allowing all columns be selectable
       hideColumns: selectedTable.hideColumns,
       excludeCols: ['CHART_DATE'],
       aria: { 'aria-labelledby': 'main-data-table-title' },
@@ -322,7 +322,7 @@ const TableSectionContainer = ({
             legend={legend}
             selectedTab={selectedTab}
             showToggleChart={!noChartMessage}
-            showToggleTable={selectedTable.selectColumns}
+            showToggleTable={tableProps?.selectColumns}
             userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
             onToggleLegend={legendToggler}
             emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
