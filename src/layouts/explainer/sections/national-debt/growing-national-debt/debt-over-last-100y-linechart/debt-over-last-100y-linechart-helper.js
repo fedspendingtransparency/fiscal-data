@@ -12,11 +12,11 @@ const analyticsClickHandler = (action, section) => {
   });
 };
 
-const hdoLink = (
+const estLink = (
   <CustomLink
-    url="/datasets/historical-debt-outstanding/"
+    url="/datasets/electronic-securities-transactions/"
     onClick={() => analyticsClickHandler('Citation Click', 'U.S. Federal Debt Trends Over the Last 100 Years')}
-    id="Historical Debt Outstanding"
+    id="Electronic Securities Transaction"
   >
     Historical Debt Outstanding
   </CustomLink>
@@ -33,7 +33,7 @@ const bls = (
 
 const footer = (
   <p>
-    Visit the {hdoLink} dataset to explore and download this data. The inflation data is sourced from the {bls}.
+    Visit the {estLink} dataset to explore and download this data. The inflation data is sourced from the {bls}.
   </p>
 );
 

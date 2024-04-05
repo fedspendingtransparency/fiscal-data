@@ -107,17 +107,9 @@ export const savingsBondsMap = {
     hidden: false,
     description: 'Issued from 1952–1957, K bonds replaced G bonds with a higher interest rate of 2.76% (versus G bonds’ 2.53%).',
   },
-  SN: {
-    color: '#1B1B1B',
-    label: 'SN',
-    hidden: false,
-    description:
-      'Issued from 1967–1970, these Savings Notes (Freedom Shares) could be purchased at 81% of face value and were ' +
-      'investment bonds, where bond holders received accrued interest when the bonds were redeemed.',
-  },
 };
 
-export const savingsBonds = ['AD', 'E', 'EE', 'F', 'G', 'H', 'HH', 'I', 'J', 'K', 'SN'];
+export const savingsBonds = ['AD', 'E', 'EE', 'F', 'G', 'H', 'HH', 'I', 'J', 'K'];
 
 export const mockData = [
   { year: 1935, AD: 0, E: 0, F: 1000000000, G: 5000000000, H: 1000000000, HH: 1000000000, I: 0, J: 2000000000, K: 0 },

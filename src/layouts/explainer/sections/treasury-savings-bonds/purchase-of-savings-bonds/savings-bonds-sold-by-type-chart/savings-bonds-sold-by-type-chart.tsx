@@ -20,7 +20,6 @@ export interface ISavingBondsByTypeChartData {
   I?: number;
   J?: number;
   K?: number;
-  SN?: number;
 }
 
 interface ISavingsBondsSoldByTypeChart {

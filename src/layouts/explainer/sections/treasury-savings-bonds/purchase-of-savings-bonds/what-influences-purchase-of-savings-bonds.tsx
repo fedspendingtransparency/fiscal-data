@@ -166,7 +166,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
         investment opportunities outside of savings bonds, where individual investors may be able to earn higher interest rates.
       </p>
       <p>
-        In general, when interest rates are higher, demand for fixed-rate savings bonds like Series E tends to increase. However, when people expect
+        In general, when interest rates are higher, demand for fixed-rate savings bonds like Series EE tends to increase. However, when people expect
         inflation to increase, savings bonds like Series I become attractive because they provide protection against inflation, preserving the value
         of the money invested. In the spring of 2021, inflation in the United States began to rise over three percent and would grow to over six
         percent by September 2022. In response, the American public invested heavily in Series I bonds, purchasing nearly $153 billion of Series I
