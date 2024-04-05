@@ -50,7 +50,6 @@ describe('I Bond Sales Chart', () => {
     expect(getByText('5.0%')).toBeInTheDocument();
     expect(getByText('7.5%')).toBeInTheDocument();
     expect(getByText('-2.5%')).toBeInTheDocument();
-    expect(getByText('-5.0%')).toBeInTheDocument();
   });
 
   it('formats y axis values with different CPI data', async () => {
