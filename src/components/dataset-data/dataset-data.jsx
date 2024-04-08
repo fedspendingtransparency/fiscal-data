@@ -71,14 +71,12 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     } else {
       setServerSidePagination(null);
     }
-    // setIsLoading(false);
     setApiData(null);
     setApiError(false);
   };
 
   const updateDataDisplay = data => {
     clearDisplayData();
-    console.log(1);
     setTimeout(() => setApiData(data)); // then on the next tick, setup the new data
   };
 
@@ -178,11 +176,9 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         updateDataDisplay(cachedDisplay);
       } else {
         clearDisplayData();
-        console.log(2);
         let canceledObj = { isCanceled: false, abortController: new AbortController() };
 
         if (!loadByPage || ignorePivots) {
-          console.log(4);
           getApiData(
             dateRange,
             displayedTable,
