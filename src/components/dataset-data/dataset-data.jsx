@@ -37,7 +37,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [dateRange, setDateRange] = useState();
   const [isCustomDateRange, setIsCustomDateRange] = useState(false);
   const [apiData, setApiData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState(false);
   const [serverSidePagination, setServerSidePagination] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -71,13 +71,14 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     } else {
       setServerSidePagination(null);
     }
-    setIsLoading(false);
+    // setIsLoading(false);
     setApiData(null);
     setApiError(false);
   };
 
   const updateDataDisplay = data => {
     clearDisplayData();
+    console.log(1);
     setTimeout(() => setApiData(data)); // then on the next tick, setup the new data
   };
 
@@ -177,9 +178,11 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         updateDataDisplay(cachedDisplay);
       } else {
         clearDisplayData();
+        console.log(2);
         let canceledObj = { isCanceled: false, abortController: new AbortController() };
 
         if (!loadByPage || ignorePivots) {
+          console.log(4);
           getApiData(
             dateRange,
             displayedTable,
@@ -205,6 +208,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       }
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
+
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
@@ -268,6 +272,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             userFilterSelection={userFilterSelection}
             apiData={apiData}
             isLoading={isLoading}
+            setIsLoading={setIsLoading}
             apiError={apiError}
             selectedPivot={selectedPivot}
             setSelectedPivot={setSelectedPivot}

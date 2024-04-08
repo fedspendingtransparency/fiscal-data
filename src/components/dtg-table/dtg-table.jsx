@@ -49,6 +49,8 @@ export default function DtgTable({
   setDetailViewState,
   detailViewState,
   setSummaryValues,
+  setIsLoading,
+  isLoading,
 }) {
   const {
     dePaginated,
@@ -84,7 +86,7 @@ export default function DtgTable({
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [rows, setRows] = useState([]);
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
@@ -306,6 +308,7 @@ export default function DtgTable({
         // large dataset tables <= 20000 rows
         setReactTableData(dePaginated);
         setManualPagination(false);
+        setIsLoading(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
         setReactTableData(rawData);
         setManualPagination(false);
@@ -367,15 +370,6 @@ export default function DtgTable({
 
   return (
     <div className={overlayContainer}>
-      {/* Loading Indicator */}
-      {(isLoading || (reactTable && !reactTableData)) && (
-        <>
-          <div data-test-id="loading-overlay" className={overlay} />
-          <div className={loadingIcon}>
-            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
-          </div>
-        </>
-      )}
       {reactTable && reactTableData?.data && (
         <div data-test-id="table-content" className={overlayContainerNoFooter}>
           {/* API Error Message */}
