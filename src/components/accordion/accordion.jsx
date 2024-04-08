@@ -16,6 +16,7 @@ const Accordion = ({
   closeEventNumber,
   explainerGAEvent,
   ga4ID,
+  tabindex,
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
 
@@ -47,7 +48,7 @@ const Accordion = ({
           onClick={onToggle}
           onKeyPress={onToggle}
           role="button"
-          tabIndex={0}
+          tabIndex={tabindex ? tabindex : 0}
           className={`${heading} accordionHeading`}
           style={altStyleAccordion}
           id={`accordion-${open}-${ga4ID}`}

@@ -4,7 +4,7 @@ import { list, exampleTitle, exampleParameters, codeBlock } from '../accordions.
 import { filterParameter, indentedFilters } from './filters.module.scss';
 import GLOBALS from '../../../../helpers/constants';
 
-const FiltersAccordion = ({ selectedTable }) => {
+const FiltersAccordion = ({ selectedTable, tabindex }) => {
   const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
   const fullUrl = `${baseApiUrl}/${selectedTable.endpoint}`;
   let dateString = '2020-05-31'; // dummy value in case theres a problem with latestDate
@@ -19,7 +19,7 @@ const FiltersAccordion = ({ selectedTable }) => {
   const exampleFilterQuery = `?filter=${selectedTable.dateField}:eq:${dateString}`;
 
   return (
-    <Accordion title="Filters">
+    <Accordion title="Filters" tabindex={tabindex}>
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>
