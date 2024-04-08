@@ -32,7 +32,7 @@ describe('WhatInfluencesPurchaseOfSavingsBonds Component - Comprehensive Test', 
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<WhatInfluencesPurchaseOfSavingsBonds />);
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(2));
-    expect(getByText('The chart below shows savings bond sales over time for all 0 savings bond types', { exact: false })).toBeInTheDocument();
+    expect(getByText('The chart below shows savings bond sales over time for all savings bond types', { exact: false })).toBeInTheDocument();
   });
 });
 jest.mock('gatsby', () => ({
