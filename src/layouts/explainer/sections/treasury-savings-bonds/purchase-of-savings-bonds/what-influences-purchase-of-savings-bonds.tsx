@@ -41,7 +41,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
   const [mostBondSales, setMostBondSales] = useState<number>(0);
   const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
   const [secondMostBondSales, setSecondMostBondSales] = useState<number>(0);
-  const [bondTypes, setBondTypes] = useState<number>(0);
 
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`
@@ -99,7 +98,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
             }
             setChartData(allData);
             setInflationChartData(inflationAllData);
-            setBondTypes(new Set(allData.flatMap(entry => Object.keys(entry).filter(key => key !== 'year'))).size);
           }
         });
       }
@@ -149,7 +147,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
       <ImageContainer color={treasurySavingsBondsExplainerSecondary} caption="President John F. Kennedy holds a U.S. savings bond.">
         <img src={PresidentKennedy} alt="President John F. Kennedy holds a U.S. savings bond." />
       </ImageContainer>
-      <p>The chart below shows savings bond sales over time for all {bondTypes} savings bond types.</p>
+      <p>The chart below shows savings bond sales over time for all savings bond types.</p>
       <div className={visWithCallout}>
         <SavingsBondsSoldByTypeChart chartData={chartData} curFy={curFy} chartDate={historyChartDate} inflationChartData={inflationChartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
@@ -166,7 +164,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
         investment opportunities outside of savings bonds, where individual investors may be able to earn higher interest rates.
       </p>
       <p>
-        In general, when interest rates are higher, demand for fixed-rate savings bonds like Series E tends to increase. However, when people expect
+        In general, when interest rates are higher, demand for fixed-rate savings bonds like Series EE tends to increase. However, when people expect
         inflation to increase, savings bonds like Series I become attractive because they provide protection against inflation, preserving the value
         of the money invested. In the spring of 2021, inflation in the United States began to rise over three percent and would grow to over six
         percent by September 2022. In response, the American public invested heavily in Series I bonds, purchasing nearly $153 billion of Series I

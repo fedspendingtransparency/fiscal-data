@@ -9,7 +9,7 @@ describe('Chart legend', () => {
       <ChartLegend lines={savingsBonds} lineMap={savingsBondsMap} setHiddenFields={jest.fn()} hiddenFields={[]} />
     );
     expect(getByText('A - D')).toBeInTheDocument();
-    expect(getAllByRole('checkbox', { hidden: true }).length).toBe(11);
+    expect(getAllByRole('checkbox', { hidden: true }).length).toBe(10);
   });
 
   it('calls click handler', () => {

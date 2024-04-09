@@ -36,7 +36,6 @@ interface ApiResponse {
 }
 
 const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = ({ width }) => {
-  const [numberOfBondTypes, setNumberOfBondTypes] = useState('12');
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [savingBondsPercentage, setSavingBondsPercentage] = useState<number | null>(null);
   const [historicalSavingBondsPercentage, setHistoricalSavingBondsPercentage] = useState<number | null>(null);
@@ -145,13 +144,6 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     return Array.from(new Set(types));
   };
 
-  useEffect(() => {
-    if (typesData.state === 'hasValue') {
-      const processedTypes = processTypesSavingsBondsData(typesData.contents.payload);
-      setNumberOfBondTypes(processedTypes.length.toString());
-    }
-  }, [typesData.state]);
-
   const higherOrLowerOrSameAs = difference => {
     if (difference > 0) {
       return 'higher than';
@@ -247,7 +239,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
         <CustomLink url={'/americas-finance-guide/federal-spending/'}>spends</CustomLink> more than it collects from revenue, this results in a{' '}
         <CustomLink url={'/americas-finance-guide/national-deficit/'}>deficit</CustomLink>, which requires the government to borrow money (
         <CustomLink url={'/americas-finance-guide/national-debt/'}>debt</CustomLink>) by issuing loans (securities) that it promises to pay back with
-        interest. Different types of securities earn interest in different ways. Treasury groups savings bonds into two categories called {marketable}{' '}
+        interest. Different types of securities earn interest in different ways. Treasury groups securities into two categories called {marketable}{' '}
         and {nonMarketable} securities, which reflects whether they can be resold to another individual or entity after they are purchased.
       </span>
       <ImageContainer color={treasurySavingsBondsExplainerSecondary} caption="A paper Series E Savings Bond">
@@ -270,9 +262,9 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
       </div>
       <h5 className={subSectionTitle}>Types of Savings Bonds</h5>
       <span>
-        Over the course of American history, the U.S. government has issued {numberOfBondTypes} types of savings bonds to help fund certain programs
-        and special projects ranging from the Postal Service to the Armed Forces. Each bond type has different terms and ways that it earns interest.
-        Today, there are two types of savings bonds available for purchase: {seriesIBonds} and {seriesEEBonds}.
+        Over the course of American history, the U.S. government has issued savings bonds to help fund certain programs and special projects like the
+        space program. Each bond type has different terms and ways that it earns interest. Today, there are two types of savings bonds available for
+        purchase: {seriesIBonds} and {seriesEEBonds}.
       </span>
       {isDesktop ? <TypesOfSavingsBonds tableContent={tableContent} /> : <TypesOfSavingsBondsResponsive tableContent={tableContent} />}
     </>

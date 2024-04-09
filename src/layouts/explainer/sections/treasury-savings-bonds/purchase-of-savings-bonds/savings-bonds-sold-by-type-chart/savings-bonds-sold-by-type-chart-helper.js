@@ -10,12 +10,9 @@ export const chartCopy = {
     'bond sales using the current value of a dollar.',
   footer: (
     <p>
-      Visit the <CustomLink url="/datasets/electronic-securities-transactions/sales">Electronic Securities Transactions</CustomLink> dataset for data
-      since 2001 and the{' '}
-      <CustomLink url="https://www.treasurydirect.gov/research-center/history-of-savings-bond/savings-bond-sales/">
-        Historical Savings Bonds Sales by Type
-      </CustomLink>{' '}
-      dataset for data before 2001 to explore and download this data.
+      Visit the <CustomLink url="/datasets/electronic-securities-transactions/sales">Electronic Securities Transactions</CustomLink> dataset to
+      explore and download this data. Inflation data is from the{' '}
+      <CustomLink url="https://data.bls.gov/cgi-bin/surveymost?bls">Bureau of Labor Statistics</CustomLink>.
     </p>
   ),
 };
@@ -107,17 +104,9 @@ export const savingsBondsMap = {
     hidden: false,
     description: 'Issued from 1952–1957, K bonds replaced G bonds with a higher interest rate of 2.76% (versus G bonds’ 2.53%).',
   },
-  SN: {
-    color: '#1B1B1B',
-    label: 'SN',
-    hidden: false,
-    description:
-      'Issued from 1967–1970, these Savings Notes (Freedom Shares) could be purchased at 81% of face value and were ' +
-      'investment bonds, where bond holders received accrued interest when the bonds were redeemed.',
-  },
 };
 
-export const savingsBonds = ['AD', 'E', 'EE', 'F', 'G', 'H', 'HH', 'I', 'J', 'K', 'SN'];
+export const savingsBonds = ['AD', 'E', 'EE', 'F', 'G', 'H', 'HH', 'I', 'J', 'K'];
 
 export const mockData = [
   { year: 1935, AD: 0, E: 0, F: 1000000000, G: 5000000000, H: 1000000000, HH: 1000000000, I: 0, J: 2000000000, K: 0 },
@@ -143,7 +132,6 @@ export const mockData = [
     I: 8000000000,
     J: 2000000000,
     K: 2000000000,
-    SN: 500000000,
   },
   {
     year: 1995,
@@ -156,9 +144,8 @@ export const mockData = [
     I: 2000000000,
     J: 6000000000,
     K: 1,
-    SN: 1000000000,
   },
-  { year: 2015, EE: 5000000000, F: 2000000000, H: 1000000000, HH: 1000000000, I: 22000000000, J: 4000000000, K: 500000000, SN: 125000000 },
+  { year: 2015, EE: 5000000000, F: 2000000000, H: 1000000000, HH: 1000000000, I: 22000000000, J: 4000000000, K: 500000000 },
   { year: 2023, EE: 3000000000, F: 1000000000, H: 1000000000, HH: 0, I: 2000000000, J: 2000000000, K: 250000000 },
 ];
 
@@ -186,7 +173,6 @@ export const mockInflationData = [
     I: 7000000000,
     J: 2000000000,
     K: 3000000000,
-    SN: 900000000,
   },
   {
     year: 1997,
@@ -199,9 +185,8 @@ export const mockInflationData = [
     I: 3000000000,
     J: 5000000000,
     K: 1,
-    SN: 2000000000,
   },
-  { year: 2016, EE: 7000000000, F: 3000000000, H: 2000000000, HH: 2000000000, I: 12000000000, J: 5000000000, K: 600000000, SN: 225000000 },
+  { year: 2016, EE: 7000000000, F: 3000000000, H: 2000000000, HH: 2000000000, I: 12000000000, J: 5000000000, K: 600000000 },
   { year: 2022, EE: 3000000000, F: 1000000000, H: 1000000000, HH: 0, I: 2000000000, J: 2000000000, K: 250000000 },
 ];
 
