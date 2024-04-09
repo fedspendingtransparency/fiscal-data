@@ -10,12 +10,9 @@ export const chartCopy = {
     'bond sales using the current value of a dollar.',
   footer: (
     <p>
-      Visit the <CustomLink url="/datasets/electronic-securities-transactions/sales">Electronic Securities Transactions</CustomLink> dataset for data
-      since 2001 and the{' '}
-      <CustomLink url="https://www.treasurydirect.gov/research-center/history-of-savings-bond/savings-bond-sales/">
-        Historical Savings Bonds Sales by Type
-      </CustomLink>{' '}
-      dataset for data before 2001 to explore and download this data.
+      Visit the <CustomLink url="/datasets/electronic-securities-transactions/sales">Electronic Securities Transactions</CustomLink> dataset to
+      explore and download this data. Inflation data is from the{' '}
+      <CustomLink url="https://data.bls.gov/cgi-bin/surveymost?bls">Bureau of Labor Statistics</CustomLink>.
     </p>
   ),
 };
