@@ -92,7 +92,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   customFormatting,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
-
   useEffect(() => {
     if (!detailViewState) {
       setConfigOption(columnConfig);

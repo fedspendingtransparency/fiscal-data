@@ -44,6 +44,7 @@ const TableSectionContainer = ({
   setSelectedPivot,
   serverSidePagination,
   isLoading,
+  setIsLoading,
   selectedTab,
   tabChangeHandler,
   handleIgnorePivots,
@@ -355,6 +356,8 @@ const TableSectionContainer = ({
                   setManualPagination={setManualPagination}
                   reactTable
                   rawDataTable
+                  setIsLoading={setIsLoading}
+                  isLoading={isLoading}
                 />
               ) : (
                 ''

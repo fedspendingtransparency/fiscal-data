@@ -37,7 +37,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [dateRange, setDateRange] = useState();
   const [isCustomDateRange, setIsCustomDateRange] = useState(false);
   const [apiData, setApiData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState(false);
   const [serverSidePagination, setServerSidePagination] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -71,7 +71,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     } else {
       setServerSidePagination(null);
     }
-    setIsLoading(false);
     setApiData(null);
     setApiError(false);
   };
@@ -205,6 +204,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       }
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
+
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
@@ -268,6 +268,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             userFilterSelection={userFilterSelection}
             apiData={apiData}
             isLoading={isLoading}
+            setIsLoading={setIsLoading}
             apiError={apiError}
             selectedPivot={selectedPivot}
             setSelectedPivot={setSelectedPivot}
