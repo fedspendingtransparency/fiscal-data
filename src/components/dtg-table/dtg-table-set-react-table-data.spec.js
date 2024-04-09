@@ -58,6 +58,7 @@ describe('React Table Data ', () => {
           reactTable
           tableMeta={{ 'total-count': 2 }}
           setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );

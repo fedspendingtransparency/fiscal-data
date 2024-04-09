@@ -1,4 +1,3 @@
-import React from 'react';
 import { setColumns } from './dtg-table-helper';
 import { ColumnConfig } from './test-data';
 

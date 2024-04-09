@@ -210,7 +210,7 @@ describe('DTG table component', () => {
     await renderer.act(async () => {
       newComponent = await renderer.create(
         <RecoilRoot>
-          <DtgTable tableProps={mockPaginatedTableProps} />
+          <DtgTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
         </RecoilRoot>
       );
       jest.runAllTimers();
@@ -231,7 +231,7 @@ describe('DTG table component', () => {
     await renderer.act(async () => {
       newComponent = await renderer.create(
         <RecoilRoot>
-          <DtgTable tableProps={mockPaginatedTableProps} />
+          <DtgTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
         </RecoilRoot>
       );
       jest.runAllTimers();
