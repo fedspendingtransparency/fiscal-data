@@ -360,7 +360,7 @@ const TableSectionContainer = ({
                   isLoading={isLoading}
                 />
               ) : (
-                ''
+                <div style={{ height: '521px' }} />
               )
             }
             chart={

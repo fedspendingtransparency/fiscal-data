@@ -43,8 +43,8 @@ $table-container-margin: 8rem;
 
 .loadingSection {
   z-index: $table-loading-section;
-  height: calc(100% - 5.5rem);
-  width: calc(100% + 0.15rem);
+  height: 521px;
+  width: calc(100% + 0.15rem - 4px);
   position: absolute;
   left: -0.15rem;
   background-color: rgba(255, 255, 255, 0.85);
@@ -52,7 +52,12 @@ $table-container-margin: 8rem;
   display: block;
   animation: fadeIn 1s;
   overflow: hidden;
-  margin-top: 5.5rem;
+  margin: 5.5rem 2px 0;
+  border: 1px solid #dddddd;
+  border-top: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  top: -3px;
 }
 
 @media screen and (max-width: $breakpoint-lg) {
@@ -67,7 +72,7 @@ $table-container-margin: 8rem;
   color: $font-title;
   font-size: $font-size-18;
   width: 100%;
-  top: 7rem;
+  top: 12rem;
   text-align: center;
   position: absolute;
 
