@@ -105,25 +105,6 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
             </AnnouncementBanner>
           );
         })}
-
-      {/*{bannersContent && bannersContent.map((ann) => {*/}
-      {/*  console.log(ann.path);*/}
-      {/*  if (location?.pathname === ann.path) {*/}
-      {/*      return (*/}
-      {/*        <AnnouncementBanner closable={false}>*/}
-      {/*          <ContentUnavailable content={ann.announcement_description} />*/}
-      {/*        </AnnouncementBanner>*/}
-      {/*      )*/}
-      {/*  }*/}
-      {/*  else {*/}
-      {/*    if (ann.recursive_path && location?.pathname.includes(ann.path)) {*/}
-      {/*      return (*/}
-      {/*        <AnnouncementBanner closable={false}>*/}
-      {/*          <ContentUnavailable content={ann.announcement_description} />*/}
-      {/*        </AnnouncementBanner>*/}
-      {/*      )*/}
-      {/*  }*/}
-      {/*}})}*/}
       <OfficialBanner data-testid="officialBanner" />
       <header className={stickyHeader}>
         <div className={container}>
