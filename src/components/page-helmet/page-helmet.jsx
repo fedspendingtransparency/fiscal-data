@@ -49,7 +49,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
 
   return (
     <Helmet>
-      {/*Google Tag Manager */}
+      Google Tag Manager
       <script>
         {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -65,6 +65,15 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-ME8TBPZYXP');`}
+      </script>
+      GA4 DAP Account Tag
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSLL4ZEK4L" />
+      <script>
+        {`window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-CSLL4ZEK4L');`}
       </script>
       {/*Google Analytics 4 Tag  */}
       {/* Version info is placed inside a script comment below because both react jsx

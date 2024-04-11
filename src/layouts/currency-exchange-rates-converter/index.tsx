@@ -75,8 +75,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         action: action,
         label: label,
       });
+      // ga4DataLayerPush({
+      //   event: action,
+      //   eventLabel: label,
+      // });
       ga4DataLayerPush({
-        event: action,
+        event: 'dap_event',
         eventLabel: label,
       });
     }
