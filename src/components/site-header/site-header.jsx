@@ -16,8 +16,7 @@ import { container, content, logo, stickyHeader } from './site-header.module.scs
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 import { useRecoilValueLoadable } from 'recoil';
-import { dynamicBannerState } from "../../recoil/dynamicBannerState";
-
+import { dynamicBannerState } from '../../recoil/dynamicBannerState';
 
 //Additional export for page width testability
 export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
@@ -31,13 +30,16 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const [imageWidth, setImageWidth] = useState(defaultLogoWidth);
   const [bannersContent, setBannersContent] = useState(null);
 
-
   useEffect(() => {
     if (data.state === 'hasValue') {
-      setBannersContent(data.contents.payload);
+      const res = data.contents.payload;
+      const refinedBanners = res.filter(
+        announcement =>
+          location?.pathname === announcement.path || (announcement.recursive_path === 'true' && location?.pathname.includes(announcement.path))
+      );
+      setBannersContent(refinedBanners);
     }
   }, [data.state]);
-
 
   const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth;
 
@@ -95,24 +97,33 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
 
   return (
     <>
-      {bannersContent && bannersContent.map((ann) => {
-        console.log(ann.path);
-        if (location?.pathname === ann.path) {
-            return (
-              <AnnouncementBanner closable={false}>
-                <ContentUnavailable content={ann.announcement_description} />
-              </AnnouncementBanner>
-            )
-        }
-        else {
-          if (ann.recursive_path && location?.pathname.includes(ann.path)) {
-            return (
-              <AnnouncementBanner closable={false}>
-                <ContentUnavailable content={ann.announcement_description} />
-              </AnnouncementBanner>
-            )
-        }
-      }})}
+      {bannersContent &&
+        bannersContent.map(announcement => {
+          return (
+            <AnnouncementBanner closable={false}>
+              <ContentUnavailable content={announcement.announcement_description} />
+            </AnnouncementBanner>
+          );
+        })}
+
+      {/*{bannersContent && bannersContent.map((ann) => {*/}
+      {/*  console.log(ann.path);*/}
+      {/*  if (location?.pathname === ann.path) {*/}
+      {/*      return (*/}
+      {/*        <AnnouncementBanner closable={false}>*/}
+      {/*          <ContentUnavailable content={ann.announcement_description} />*/}
+      {/*        </AnnouncementBanner>*/}
+      {/*      )*/}
+      {/*  }*/}
+      {/*  else {*/}
+      {/*    if (ann.recursive_path && location?.pathname.includes(ann.path)) {*/}
+      {/*      return (*/}
+      {/*        <AnnouncementBanner closable={false}>*/}
+      {/*          <ContentUnavailable content={ann.announcement_description} />*/}
+      {/*        </AnnouncementBanner>*/}
+      {/*      )*/}
+      {/*  }*/}
+      {/*}})}*/}
       <OfficialBanner data-testid="officialBanner" />
       <header className={stickyHeader}>
         <div className={container}>
