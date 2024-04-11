@@ -16,9 +16,13 @@ import { NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } 
 import { container, content, logo, stickyHeader } from './site-header.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
+import { useRecoilValueLoadable } from 'recoil';
+import { dynamicBannerState } from "../../recoil/dynamicBannerState";
+
 
 //Additional export for page width testability
 export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
+  const data = useRecoilValueLoadable(dynamicBannerState);
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
   const reducedImageSize = 130;
@@ -26,19 +30,45 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const [openGlossary, setOpenGlossary] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [imageWidth, setImageWidth] = useState(defaultLogoWidth);
+  const [displayBanner, setDisplayBanner] = useState(false);
+  const [bannerText, setBannerText] = useState('')
+  const [bannersContent, setBannersContent] = useState(null);
 
-  const displayBanner = () => {
-    let display = false;
-    if (location) {
-      display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location?.pathname);
-      NOTIFICATION_BANNER_DISPLAY_PATHS?.forEach(path => {
-        if (location?.pathname.includes(path)) {
-          display = true;
-        }
-      });
+
+  useEffect(() => {
+    if (data.state === 'hasValue') {
+      setBannersContent(data.contents.payload);
+      // bannerContent.forEach((announcement) => {
+      //   if (announcement.recursive_path === 'true') {
+      //     if (location?.pathname.includes(announcement.path)) {
+            // console.log(location?.pathname);
+            // console.log(announcement.path);
+            // setDisplayBanner(true);
+            // setBannerText(announcement.announcement_description);
+        //   }
+        // }
+        // else {
+        //   if (location?.pathname === announcement.path) {
+        //     setDisplayBanner(true);
+        //   }
+        // }
+      // });
     }
-    return display;
-  };
+  }, [data.state]);
+
+  // const displayBanner = () => {
+  //   let display = false;
+  //   if (location) {
+  //     // display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location?.pathname);
+  //     // NOTIFICATION_BANNER_DISPLAY_PATHS?.forEach(path => {
+  //     //   if (location?.pathname.includes(path)) {
+  //     //     display = true;
+  //     //   }
+  //     // });
+  //     // console.log(location);
+  //   }
+  //   return display;
+  // };
 
   const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth;
 
@@ -96,11 +126,25 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
 
   return (
     <>
-      {displayBanner() && (
-        <AnnouncementBanner closable={false}>
-          <ContentUnavailable />
-        </AnnouncementBanner>
-      )}
+      {bannersContent && bannersContent.map((ann) => {
+        console.log(ann.path);
+        if (location?.pathname === ann.path) {
+            return (
+              <AnnouncementBanner closable={false}>
+                <ContentUnavailable content={ann.announcement_description} />
+              </AnnouncementBanner>
+            )
+        }
+        else {
+          if (ann.recursive_path && location?.pathname.includes(ann.path)) {
+          // console.log(location?.pathname);
+            return (
+              <AnnouncementBanner closable={false}>
+                <ContentUnavailable content={ann.announcement_description} />
+              </AnnouncementBanner>
+            )
+        }
+      }})}
       <OfficialBanner data-testid="officialBanner" />
       <header className={stickyHeader}>
         <div className={container}>
