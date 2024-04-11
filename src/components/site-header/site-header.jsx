@@ -10,13 +10,14 @@ import Analytics from '../../utils/analytics/analytics';
 import LocationAware from '../location-aware/location-aware';
 import Glossary from '../glossary/glossary';
 import DesktopMenu from './desktop-menu/desktop-menu';
-import ContentUnavailable from './banner-types/content-unavailable';
+import BannerContent from './banner-content/banner-content';
 import AnnouncementBanner from '../announcement-banner/announcement-banner';
 import { container, content, logo, stickyHeader } from './site-header.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 import { useRecoilValueLoadable } from 'recoil';
-import { dynamicBannerState } from '../../recoil/dynamicBannerState';
+import { dynamicBannerState, dynamicBannerLastCachedState } from '../../recoil/dynamicBannerState';
+import useShouldRefreshCachedData from "../../recoil/hooks/useShouldRefreshCachedData";
 
 //Additional export for page width testability
 export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
@@ -29,6 +30,7 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [imageWidth, setImageWidth] = useState(defaultLogoWidth);
   const [bannersContent, setBannersContent] = useState(null);
+  useShouldRefreshCachedData(Date.now(), dynamicBannerState, dynamicBannerLastCachedState);
 
   useEffect(() => {
     if (data.state === 'hasValue') {
@@ -100,8 +102,8 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
       {bannersContent &&
         bannersContent.map(announcement => {
           return (
-            <AnnouncementBanner closable={false}>
-              <ContentUnavailable content={announcement.announcement_description} />
+            <AnnouncementBanner closable={false} key={announcement.path}>
+              <BannerContent content={announcement.announcement_description} />
             </AnnouncementBanner>
           );
         })}

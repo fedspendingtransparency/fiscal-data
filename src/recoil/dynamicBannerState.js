@@ -1,5 +1,10 @@
-import { selector } from "recoil";
+import { atom, selector } from "recoil";
 import { apiPrefix, basicFetch } from "../utils/api-utils";
+
+export const dynamicBannerLastCachedState = atom({
+  key: 'dynamicBannerLastCachedState',
+  default: 0,
+});
 
 export const dynamicBannerState = selector({
   key: 'dynamicBannerState',
