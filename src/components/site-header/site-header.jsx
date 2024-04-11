@@ -96,7 +96,6 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   return (
     <>
       {bannersContent && bannersContent.map((ann) => {
-        console.log(ann.path);
         if (location?.pathname === ann.path) {
             return (
               <AnnouncementBanner closable={false}>
