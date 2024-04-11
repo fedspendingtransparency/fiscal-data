@@ -12,7 +12,6 @@ import Glossary from '../glossary/glossary';
 import DesktopMenu from './desktop-menu/desktop-menu';
 import ContentUnavailable from './banner-types/content-unavailable';
 import AnnouncementBanner from '../announcement-banner/announcement-banner';
-import { NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } from 'gatsby-env-variables';
 import { container, content, logo, stickyHeader } from './site-header.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
@@ -30,45 +29,15 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const [openGlossary, setOpenGlossary] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [imageWidth, setImageWidth] = useState(defaultLogoWidth);
-  const [displayBanner, setDisplayBanner] = useState(false);
-  const [bannerText, setBannerText] = useState('')
   const [bannersContent, setBannersContent] = useState(null);
 
 
   useEffect(() => {
     if (data.state === 'hasValue') {
       setBannersContent(data.contents.payload);
-      // bannerContent.forEach((announcement) => {
-      //   if (announcement.recursive_path === 'true') {
-      //     if (location?.pathname.includes(announcement.path)) {
-            // console.log(location?.pathname);
-            // console.log(announcement.path);
-            // setDisplayBanner(true);
-            // setBannerText(announcement.announcement_description);
-        //   }
-        // }
-        // else {
-        //   if (location?.pathname === announcement.path) {
-        //     setDisplayBanner(true);
-        //   }
-        // }
-      // });
     }
   }, [data.state]);
 
-  // const displayBanner = () => {
-  //   let display = false;
-  //   if (location) {
-  //     // display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location?.pathname);
-  //     // NOTIFICATION_BANNER_DISPLAY_PATHS?.forEach(path => {
-  //     //   if (location?.pathname.includes(path)) {
-  //     //     display = true;
-  //     //   }
-  //     // });
-  //     // console.log(location);
-  //   }
-  //   return display;
-  // };
 
   const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth;
 
@@ -137,7 +106,6 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
         }
         else {
           if (ann.recursive_path && location?.pathname.includes(ann.path)) {
-          // console.log(location?.pathname);
             return (
               <AnnouncementBanner closable={false}>
                 <ContentUnavailable content={ann.announcement_description} />
