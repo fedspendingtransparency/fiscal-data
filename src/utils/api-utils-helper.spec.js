@@ -228,10 +228,17 @@ describe('API Utils Helper', () => {
         filterValue: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
         id: 'record_date',
       },
+      {
+        allColumnsSelected: false,
+        sorted: false,
+        downloadFilter: false,
+        filterValue: ['John Doe'],
+        id: 'name',
+      },
     ];
 
     const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, null);
-    expect(res.params).toContain('sort=-record_date'); // confirming we sort properly
-    expect(res.params).toContain('fields=record_date');
+    expect(res.params).toContain('sort=-record_date');
+    expect(res.params).toContain('fields=record_date,name');
   });
 });
