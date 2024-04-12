@@ -142,4 +142,34 @@ describe('API Utils Helper', () => {
 
     expect(helpers.buildDownloadRequestArray(apiParams, dateRange, fileType)).toStrictEqual(returnObj);
   });
+
+  it('if primary date field is filtered at the table level and it is filtered before the start date or after the end date of the API date field filter, then constrain the download params for that filter to the API date field', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2021-01-01', to: '2021-12-31' };
+    const fileType = 'csv';
+
+    const tableColumnSortDataAfter = [
+      {
+        allColumnsSelected: true,
+        downloadFilter: false,
+        filterValue: ['2021-01-01', '2022-01-01'],
+        id: 'record_date',
+      },
+    ];
+
+    const res1 = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortDataAfter, null);
+    expect(res1.params).toContain('record_date:lte:2021-12-31');
+
+    const tableColumnSortDataBefore = [
+      {
+        allColumnsSelected: true,
+        downloadFilter: false,
+        filterValue: ['2020-01-01', '2021-12-31'],
+        id: 'record_date',
+      },
+    ];
+
+    const res2 = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortDataBefore, null);
+    expect(res2.params).toContain('record_date:gte:2021-01-01');
+  });
 });
