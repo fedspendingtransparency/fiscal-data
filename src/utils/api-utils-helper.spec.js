@@ -241,4 +241,23 @@ describe('API Utils Helper', () => {
     expect(res.params).toContain('sort=-record_date');
     expect(res.params).toContain('fields=record_date,name');
   });
+
+  it('when filtering a column, filter values are included in download params', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: false,
+        sorted: false,
+        downloadFilter: true,
+        filterValue: ['sometext'],
+        rowValues: ['some', 'text'],
+        id: 'text',
+      },
+    ];
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, null);
+    expect(res.params).toContain('text:in:(some,text)');
+  });
 });
