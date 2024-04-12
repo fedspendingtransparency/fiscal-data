@@ -48,7 +48,8 @@ ul.navBlock, ul.navBlockSticky {
   flex-wrap: nowrap;
   justify-content: center;
   align-items: stretch;
-  width: 100%;
+  width: fit-content;
+  padding: 0;
   font-size: $font-size-16;
 }
 
@@ -81,7 +82,7 @@ li.navItem {
     color: #fff;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 8rem;
     height: 100%;
 
     .navIcon {
