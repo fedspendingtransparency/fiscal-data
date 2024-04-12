@@ -260,4 +260,51 @@ describe('API Utils Helper', () => {
     const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, null);
     expect(res.params).toContain('text:in:(some,text)');
   });
+
+  it('when a user filters is present it is added to the download filters param', () => {
+    const api = { apiId: 1, dateField: 'record_date', userFilter: { field: 'country_currency' } };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+    const userFilter = {
+      label: 'euro',
+      value: 'euro',
+    };
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: false,
+        sorted: false,
+        downloadFilter: true,
+        filterValue: ['sometext'],
+        rowValues: ['some', 'text'],
+        id: 'text',
+      },
+    ];
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, userFilter, tableColumnSortData, null);
+    expect(res.params).toContain('country_currency:eq:euro');
+  });
+
+  it('when a detail view filter is present it is added to the download filters param', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+    const detailViewFilter = {
+      field: 'cusip',
+      value: '1234',
+      label: 'CUSIP',
+    };
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: false,
+        sorted: false,
+        downloadFilter: true,
+        filterValue: ['sometext'],
+        rowValues: ['some', 'text'],
+        id: 'text',
+      },
+    ];
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, detailViewFilter);
+    expect(res.params).toContain('cusip:eq:1234');
+  });
 });
