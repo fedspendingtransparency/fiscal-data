@@ -307,4 +307,34 @@ describe('API Utils Helper', () => {
     const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, detailViewFilter);
     expect(res.params).toContain('cusip:eq:1234');
   });
+
+  it('buildTableColumnSortParams returns sorted columns info', () => {
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: false,
+        sorted: 'desc',
+        downloadFilter: false,
+        filterValue: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
+        id: 'record_date',
+      },
+    ];
+
+    const res = helpers.buildTableColumnSortParams(tableColumnSortData);
+    expect(res.sort).toEqual('-record_date');
+
+    const tableColumnSortData2 = [
+      {
+        allColumnsSelected: false,
+        sorted: 'asc',
+        downloadFilter: false,
+        filterValue: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
+        id: 'record_date',
+      },
+    ];
+
+    const res2 = helpers.buildTableColumnSortParams(tableColumnSortData2);
+    expect(res2.sort).toEqual('+record_date');
+
+  });
+
 });
