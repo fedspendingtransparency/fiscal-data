@@ -308,6 +308,15 @@ describe('API Utils Helper', () => {
     expect(res.params).toContain('cusip:eq:1234');
   });
 
+  it('we have an empty tableColumnSortData', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, null, null);
+    expect(res.params).not.toContain('&fields=');
+  });
+
   it('buildTableColumnSortParams returns sorted columns info', () => {
     const tableColumnSortData = [
       {
@@ -334,7 +343,5 @@ describe('API Utils Helper', () => {
 
     const res2 = helpers.buildTableColumnSortParams(tableColumnSortData2);
     expect(res2.sort).toEqual('+record_date');
-
   });
-
 });
