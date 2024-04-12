@@ -43,10 +43,6 @@ const DDNav = () => {
       title: 'API Quick Guide',
       id: 'api-quick-guide',
     },
-    {
-      title: 'Related Datasets',
-      id: 'related-datasets',
-    },
   ];
 
   const handleInteraction = (e, id) => {
