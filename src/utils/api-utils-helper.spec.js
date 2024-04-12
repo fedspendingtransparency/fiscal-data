@@ -212,8 +212,26 @@ describe('API Utils Helper', () => {
     ];
 
     const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, null);
-    console.log('res', res);
     expect(res.params).toContain('sort=+record_date'); // confirming we sort properly
     expect(res.params).toContain('fields=record_date'); // confirming it's been mirrored to fields without sort direction
+  });
+
+  it('fields param contains all columns from sort param without the sort directions when receiving sort direction from api', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: false,
+        sorted: false,
+        downloadFilter: false,
+        filterValue: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
+        id: 'record_date',
+      },
+    ];
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, null);
+    expect(res.params).toContain('sort=-record_date'); // confirming we sort properly
+    expect(res.params).toContain('fields=record_date');
   });
 });
