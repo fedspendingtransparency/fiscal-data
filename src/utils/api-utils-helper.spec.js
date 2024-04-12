@@ -172,4 +172,22 @@ describe('API Utils Helper', () => {
     const res2 = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortDataBefore, null);
     expect(res2.params).toContain('record_date:gte:2021-01-01');
   });
+
+  it('applies date filters for datasets where extra date filters can be applied in table', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: true,
+        downloadFilter: false,
+        filterValue: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
+        id: 'original_auction_date',
+      },
+    ];
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, null);
+    expect(res.params).toContain('original_auction_date:gte:2022-01-01');
+    expect(res.params).toContain('original_auction_date:lte:2022-01-05');
+  });
 });
