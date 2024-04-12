@@ -109,7 +109,7 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   let tableColumnSort = '';
   let tableColumnSortParams;
   if (tableColumnSortData) {
-    tableColumnSortParams = buildTableColumnSortParams(tableColumnSortData, sortParam);
+    tableColumnSortParams = buildTableColumnSortParams(tableColumnSortData);
     tableColumnSort = tableColumnSortParams.sort;
   }
 
@@ -124,7 +124,7 @@ export const calculatePercentage = (data) => {
   if(!Array.isArray(data)){
     return[];
   }
-  const total = data.reduce((acc, curr) => acc + curr.value, 
+  const total = data.reduce((acc, curr) => acc + curr.value,
   0);
   return data.map(item => ({
     ...item,

@@ -147,19 +147,10 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   };
 };
 
-export const buildTableColumnSortParams = (sortData, apiSortParams) => {
-  let tableColumnFields = '&fields=';
+export const buildTableColumnSortParams = (sortData) => {
   let tableColumnSort = '';
-  let tableColumnFilter = '';
-  let defaultParamsWithColumnSelect = [];
+
   sortData.forEach(column => {
-    if (!column.allColumnsSelected) {
-      if (tableColumnFields === '&fields=') {
-        tableColumnFields += `${column.id}`;
-      } else {
-        tableColumnFields += `,${column.id}`;
-      }
-    }
     if (column.sorted !== false) {
       if (column.sorted === 'asc') {
         tableColumnSort += `+${column.id}`;
@@ -167,28 +158,10 @@ export const buildTableColumnSortParams = (sortData, apiSortParams) => {
         tableColumnSort += `-${column.id}`;
       }
     }
-    if (column.filterValue !== undefined) {
-      tableColumnFilter += `,${column.id}:in:(${[...new Set(column.rowValues)].join(',')})`;
-    }
   });
-  // If the user has engaged the column select, apply the default sort params to the applicable selected columns
-  if (tableColumnFields !== '&fields=') {
-    const fieldsAsArray = tableColumnFields.replace('&fields=', '').split(',');
-    const defaultSortParamsAsArray = apiSortParams.split(',');
-    defaultSortParamsAsArray.filter(element => {
-      fieldsAsArray.forEach(field => {
-        if (element.includes(field)) {
-          defaultParamsWithColumnSelect.push(element);
-        }
-      });
-    });
-    defaultParamsWithColumnSelect = defaultParamsWithColumnSelect.join(',');
-  }
+
   return {
-    fields: tableColumnFields,
-    sort: tableColumnSort,
-    filter: tableColumnFilter,
-    defaultParamsWithColumnSelect: defaultParamsWithColumnSelect,
+    sort: tableColumnSort
   };
 };
 
