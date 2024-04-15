@@ -11,7 +11,7 @@ const PaginationAccordion = ({ selectedTable, tabindex }) => {
     fullUrl = `${prodUrl}/${selectedTable.endpoint}${exampleParameter}`;
   }
   return (
-    <Accordion title="Pagination" tabindex={tabindex}>
+    <Accordion title="Pagination" tabindex={tabindex} ga4ID="pagination">
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>
