@@ -28,6 +28,7 @@ export const tabletMobileTitle = 'Preview';
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
   const title = width >= pxToNumber(breakpointSm) ? desktopTitle : tabletMobileTitle;
   // config.apis should always be available; but, fallback in case
+
   const apis = config ? config.apis : [null];
   const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
   const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
@@ -204,6 +205,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       }
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
+  console.log(config);
 
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
@@ -252,6 +254,19 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 datatableBanner={config.datatableBanner}
                 hideButtons={detailApi && !detailViewState}
               />
+            )}
+            {!selectedTable && config.apis.length > 1 && (
+              <div>
+                <h3>Choose Table</h3>
+                <div style={{ fontSize: '16px', padding: '4.8px 0' }}>Data Table:</div>
+                <div style={{ height: '3rem', width: '30rem', backgroundColor: '#d6d7d9' }} data-testid="hello" />
+              </div>
+            )}
+            {!selectedTable && (
+              <div>
+                <h3>Date Range</h3>
+                <div style={{ height: '3rem', width: '30rem', backgroundColor: '#d6d7d9' }} data-testid="hello" />
+              </div>
             )}
             {detailApi && !detailViewState && (
               <div className={detailViewNotice}>

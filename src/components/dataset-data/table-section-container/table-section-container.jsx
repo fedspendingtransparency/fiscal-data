@@ -32,6 +32,7 @@ import {
 import SummaryTable from './summary-table/summary-table';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
+import { queryClient } from '../../../../gatsby-browser';
 
 const TableSectionContainer = ({
   config,
@@ -87,6 +88,28 @@ const TableSectionContainer = ({
     setDisableDownloadButton(userFilterUnmatchedForDateRange);
   }, [userFilterUnmatchedForDateRange]);
 
+  const fetchAllTableData = async (sortParam, to, from, totalCount) => {
+    console.log('fetch all data');
+    if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
+      return await basicFetch(
+        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+          `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
+      ).then(async page1res => {
+        const page2res = await basicFetch(
+          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+            `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+        );
+        page1res.data = page1res.data.concat(page2res.data);
+        return page1res;
+      });
+    } else if (totalCount <= MAX_PAGE_SIZE) {
+      return basicFetch(
+        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+          `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
+      );
+    }
+  };
+
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
     const to = formatDateForApi(dateRange.to);
@@ -100,23 +123,14 @@ const TableSectionContainer = ({
         const totalCount = res.meta['total-count'];
         if (!selectedPivot?.pivotValue) {
           meta = res.meta;
-          if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
-            return await basicFetch(
-              `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-                `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
-            ).then(async page1res => {
-              const page2res = await basicFetch(
-                `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-                  `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
-              );
-              page1res.data = page1res.data.concat(page2res.data);
-              return page1res;
+          try {
+            const data = await queryClient.ensureQueryData({
+              queryKey: ['tableData', selectedTable, from, to],
+              queryFn: () => fetchAllTableData(sortParam, to, from, totalCount),
             });
-          } else if (totalCount <= MAX_PAGE_SIZE) {
-            return await basicFetch(
-              `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-                `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
-            );
+            return data;
+          } catch (error) {
+            console.warn(error);
           }
         }
       })
@@ -259,7 +273,7 @@ const TableSectionContainer = ({
   }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData, config?.customNoChartMessage]);
 
   return (
-    <div data-test-id="table-container">
+    <div data-test-id="table-container" style={{ border: '1px solid #d6d7d9' }}>
       <div className={titleContainer}>
         <div className={headerWrapper}>
           {!!detailViewState && selectedTab === 0 && (
