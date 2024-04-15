@@ -6,6 +6,7 @@ import SiteFooter from '../../components/site-footer/site-footer';
 import MastHead from './masthead/masthead';
 import { config } from './test-helpers';
 import RelatedDatasets from '../../components/related-datasets/related-datasets';
+import { RecoilRoot } from "recoil";
 
 describe('Topics Layout', () => {
   let component;
@@ -14,7 +15,7 @@ describe('Topics Layout', () => {
   const preProdInd = true;
 
   beforeEach(() => {
-    component = renderer.create(<Topics pageContext={{ config: config, isPreProd: preProdInd }} />);
+    component = renderer.create(<RecoilRoot><Topics pageContext={{ config: config, isPreProd: preProdInd }} /></RecoilRoot>);
     instance = component.root;
   });
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import NotFoundPage from './index';
 import { render, waitFor } from '@testing-library/react';
+import { RecoilRoot } from "recoil";
 
 jest.mock('gatsby-plugin-mdx', () => {
   return {
@@ -20,7 +21,7 @@ describe('404 page', () => {
         },
       },
     };
-    render(<NotFoundPage pageContext={{}} data={data} />);
+    render(<NotFoundPage pageContext={{}} data={data} />, {wrapper: RecoilRoot});
     await waitFor(() => expect(document.title).toContain('Page Not Found'));
   });
 
@@ -33,7 +34,7 @@ describe('404 page', () => {
         },
       },
     };
-    const { getByTestId } = render(<NotFoundPage pageContext={{}} data={data} />);
+    const { getByTestId } = render(<NotFoundPage pageContext={{}} data={data} />, {wrapper: RecoilRoot});
     const notFound = getByTestId('notFoundWrapper');
     expect(notFound).toBeInTheDocument();
   });
@@ -49,7 +50,7 @@ describe('fallback page', () => {
         },
       },
     };
-    render(<NotFoundPage pageContext={{}} data={data} fallback={true} />);
+    render(<NotFoundPage pageContext={{}} data={data} fallback={true} />, {wrapper: RecoilRoot});
     await waitFor(() => expect(document.title).toContain('Content Currently Unavailable'));
   });
 
@@ -62,7 +63,7 @@ describe('fallback page', () => {
         },
       },
     };
-    const { getByTestId } = render(<NotFoundPage pageContext={{}} data={data} />);
+    const { getByTestId } = render(<NotFoundPage pageContext={{}} data={data} />, {wrapper: RecoilRoot});
     const notFound = getByTestId('notFoundWrapper');
     expect(notFound).toBeInTheDocument();
   });

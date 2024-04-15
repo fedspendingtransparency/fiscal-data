@@ -4,6 +4,7 @@ import renderer from 'react-test-renderer';
 import React from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import { format } from 'date-fns';
+import { RecoilRoot } from "recoil";
 
 jest.mock('gatsby-plugin-mdx', () => {
   return {
@@ -55,7 +56,7 @@ describe('Feature page template', () => {
   };
 
   beforeEach(() => {
-    component = render(<Feature data={mockMarkdownData.data} pageContext={mockPageContext} />);
+    component = render(<Feature data={mockMarkdownData.data} pageContext={mockPageContext} />, {wrapper: RecoilRoot});
   });
 
   afterEach(() => {
@@ -85,7 +86,7 @@ describe('Feature page template', () => {
   });
 
   it('supplies page title and description to the PageHelmet component', () => {
-    const featureComp = renderer.create(<Feature data={mockMarkdownData.data} pageContext={mockPageContext} />);
+    const featureComp = renderer.create(<RecoilRoot><Feature data={mockMarkdownData.data} pageContext={mockPageContext} /></RecoilRoot>);
     const instance = featureComp.root;
     const helmet = instance.findByType(PageHelmet);
     expect(helmet.props.pageTitle).toBe('Mock Hits');

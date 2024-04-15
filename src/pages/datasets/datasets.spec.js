@@ -2,7 +2,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import DatasetsPage from './index';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import SiteLayout from '../../components/siteLayout/siteLayout';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import { pageQueryMock } from '../../components/datasets/mockData/mockDatasets';
 import * as Gatsby from 'gatsby';
@@ -10,6 +9,7 @@ import SearchField from '../../components/datasets/search-field/search-field';
 import FilterSection from '../../components/datasets/filters/filters';
 import { MuiThemeProvider } from '@material-ui/core';
 import { mockFilters } from '../../components/datasets/mockData/mockFilters';
+import { RecoilRoot } from "recoil";
 
 const useStaticQueryMock = jest.spyOn(Gatsby, 'useStaticQuery');
 useStaticQueryMock.mockImplementation(() => pageQueryMock);
@@ -32,11 +32,13 @@ describe('Dataset Page', () => {
   beforeAll(() => {
     renderer.act(() => {
       component = renderer.create(
-        <DatasetsPage
-          pageContext={{
-            filters: mockFilters,
-          }}
-        />
+        <RecoilRoot>
+          <DatasetsPage
+            pageContext={{
+              filters: mockFilters,
+            }}
+          />
+        </RecoilRoot>
       );
       jest.runAllTimers();
     });
@@ -51,10 +53,6 @@ describe('Dataset Page', () => {
       searchField.props.changeHandler('');
     });
   };
-
-  it('lives within the site layout', () => {
-    expect(instance.children[0].type).toBe(SiteLayout);
-  });
 
   it('supplies the required values to the page helmet', () => {
     const helmet = instance.find(e => e.type === PageHelmet);

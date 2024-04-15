@@ -10,7 +10,7 @@ import VisualizationCallout from '../../components/visualization-callout/visuali
 import InsightsDownload from '../../components/insights-download/insights-download';
 import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
 import { ErrorBoundary } from 'react-error-boundary';
-import ContentUnavailable from '../../components/site-header/banner-types/content-unavailable';
+import ContentUnavailable from '../../components/site-header/banner-content/banner-content';
 import AnnouncementBanner from '../../components/announcement-banner/announcement-banner';
 
 const fallbackComponent = () => {
