@@ -28,7 +28,7 @@ const FieldsAccordion = ({ selectedTable, numberOfFields = 5, tabindex }) => {
   }, [numberOfFields, selectedTable]);
 
   return (
-    <Accordion title="Fields" defaultOpen tabindex={tabindex}>
+    <Accordion title="Fields" defaultOpen tabindex={tabindex} ga4ID="fields">
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>

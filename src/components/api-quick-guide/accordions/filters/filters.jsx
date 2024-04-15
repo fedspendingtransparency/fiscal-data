@@ -19,7 +19,7 @@ const FiltersAccordion = ({ selectedTable, tabindex }) => {
   const exampleFilterQuery = `?filter=${selectedTable.dateField}:eq:${dateString}`;
 
   return (
-    <Accordion title="Filters" tabindex={tabindex}>
+    <Accordion title="Filters" tabindex={tabindex} ga4ID="filters">
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>
