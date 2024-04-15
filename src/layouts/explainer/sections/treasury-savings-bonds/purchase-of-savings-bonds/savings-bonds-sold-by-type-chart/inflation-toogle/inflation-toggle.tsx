@@ -11,6 +11,7 @@ const StyledSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
   '& .MuiSwitch-switchBase': {
     padding: 0,
     margin: 2,
+    color: '#fff !important',
     transitionDuration: '300ms',
     '&.Mui-focusVisible': {
       '.MuiSwitch-thumb': {
@@ -19,7 +20,7 @@ const StyledSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
     },
     '&.Mui-checked': {
       transform: 'translateX(21px)',
-      color: '#fff',
+      color: '#fff !important',
       '& + .MuiSwitch-track': {
         backgroundColor: treasurySavingsBondsExplainerSecondary,
         opacity: 1,
@@ -30,24 +31,23 @@ const StyledSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
   '& .MuiSwitch-thumb': {
     width: 16,
     height: 16,
-    border: '2px solid #864381',
+    border: '2px solid #864381 !important',
   },
   '& .MuiSwitch-track': {
     borderRadius: 24 / 2,
     backgroundColor: '#e2bee4',
     opacity: 1,
+    position: 'absolute !important',
   },
 }));
 
-const InflationToggle: FunctionComponent<{ 
-  onToggle: (isToggled: boolean) => void, 
-  isInflationAdjusted: boolean 
+const InflationToggle: FunctionComponent<{
+  onToggle: (isToggled: boolean) => void;
+  isInflationAdjusted: boolean;
 }> = ({ onToggle, isInflationAdjusted }) => {
-
   const handleToggle = () => {
-
     onToggle(!isInflationAdjusted);
-  }
+  };
 
   return (
     <StyledSwitch
