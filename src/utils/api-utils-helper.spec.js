@@ -142,4 +142,206 @@ describe('API Utils Helper', () => {
 
     expect(helpers.buildDownloadRequestArray(apiParams, dateRange, fileType)).toStrictEqual(returnObj);
   });
+
+  it('if primary date field is filtered at the table level and it is filtered before the start date or after the end date of the API date field filter, then constrain the download params for that filter to the API date field', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2021-01-01', to: '2021-12-31' };
+    const fileType = 'csv';
+
+    const tableColumnSortDataAfter = [
+      {
+        allColumnsSelected: true,
+        downloadFilter: false,
+        filterValue: ['2021-01-01', '2022-01-01'],
+        id: 'record_date',
+      },
+    ];
+
+    const res1 = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortDataAfter, null);
+    expect(res1.params).toContain('record_date:lte:2021-12-31');
+
+    const tableColumnSortDataBefore = [
+      {
+        allColumnsSelected: true,
+        downloadFilter: false,
+        filterValue: ['2020-01-01', '2021-12-31'],
+        id: 'record_date',
+      },
+    ];
+
+    const res2 = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortDataBefore, null);
+    expect(res2.params).toContain('record_date:gte:2021-01-01');
+  });
+
+  it('applies date filters for datasets where extra date filters can be applied in table', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: true,
+        downloadFilter: false,
+        filterValue: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
+        id: 'record_date',
+      },
+      {
+        allColumnsSelected: true,
+        downloadFilter: false,
+        filterValue: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
+        id: 'original_auction_date',
+      },
+    ];
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, null);
+    expect(res.params).toContain('original_auction_date:gte:2022-01-01');
+    expect(res.params).toContain('original_auction_date:lte:2022-01-05');
+  });
+
+  it('fields param contains all columns from sort param without the sort directions', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: false,
+        sorted: 'asc',
+        downloadFilter: false,
+        filterValue: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
+        id: 'record_date',
+      },
+    ];
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, null);
+    expect(res.params).toContain('sort=+record_date'); // confirming we sort properly
+    expect(res.params).toContain('fields=record_date'); // confirming it's been mirrored to fields without sort direction
+  });
+
+  it('fields param contains all columns from sort param without the sort directions when receiving sort direction from api', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: false,
+        sorted: false,
+        downloadFilter: false,
+        filterValue: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
+        id: 'record_date',
+      },
+      {
+        allColumnsSelected: false,
+        sorted: false,
+        downloadFilter: false,
+        filterValue: ['John Doe'],
+        id: 'name',
+      },
+    ];
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, null);
+    expect(res.params).toContain('sort=-record_date');
+    expect(res.params).toContain('fields=record_date,name');
+  });
+
+  it('when filtering a column, filter values are included in download params', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: false,
+        sorted: false,
+        downloadFilter: true,
+        filterValue: ['sometext'],
+        rowValues: ['some', 'text'],
+        id: 'text',
+      },
+    ];
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, null);
+    expect(res.params).toContain('text:in:(some,text)');
+  });
+
+  it('when a user filters is present it is added to the download filters param', () => {
+    const api = { apiId: 1, dateField: 'record_date', userFilter: { field: 'country_currency' } };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+    const userFilter = {
+      label: 'euro',
+      value: 'euro',
+    };
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: false,
+        sorted: false,
+        downloadFilter: true,
+        filterValue: ['sometext'],
+        rowValues: ['some', 'text'],
+        id: 'text',
+      },
+    ];
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, userFilter, tableColumnSortData, null);
+    expect(res.params).toContain('country_currency:eq:euro');
+  });
+
+  it('when a detail view filter is present it is added to the download filters param', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+    const detailViewFilter = {
+      field: 'cusip',
+      value: '1234',
+      label: 'CUSIP',
+    };
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: false,
+        sorted: false,
+        downloadFilter: true,
+        filterValue: ['sometext'],
+        rowValues: ['some', 'text'],
+        id: 'text',
+      },
+    ];
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, detailViewFilter);
+    expect(res.params).toContain('cusip:eq:1234');
+  });
+
+  it('we have an empty tableColumnSortData', () => {
+    const api = { apiId: 1, dateField: 'record_date' };
+    const dateRange = { from: '2022-01-01', to: '2022-12-31' };
+    const fileType = 'csv';
+
+    const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, null, null);
+    expect(res.params).not.toContain('&fields=');
+  });
+
+  it('buildTableColumnSortParams returns sorted columns info', () => {
+    const tableColumnSortData = [
+      {
+        allColumnsSelected: false,
+        sorted: 'desc',
+        downloadFilter: false,
+        filterValue: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
+        id: 'record_date',
+      },
+    ];
+
+    const res = helpers.buildTableColumnSortParams(tableColumnSortData);
+    expect(res.sort).toEqual('-record_date');
+
+    const tableColumnSortData2 = [
+      {
+        allColumnsSelected: false,
+        sorted: 'asc',
+        downloadFilter: false,
+        filterValue: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
+        id: 'record_date',
+      },
+    ];
+
+    const res2 = helpers.buildTableColumnSortParams(tableColumnSortData2);
+    expect(res2.sort).toEqual('+record_date');
+  });
 });
