@@ -1,6 +1,6 @@
-import React, {FunctionComponent} from 'react';
+import React, { FunctionComponent } from 'react';
 import { TooltipProps } from 'recharts';
-import { tooltipContainer, tooltipTitle, tooltipSecondaryTitle, tooltipPercent, tooltipColorBox } from './custom-tooltip.module.scss'
+import { tooltipContainer, tooltipTitle, tooltipSecondaryTitle, tooltipPercent, tooltipColorBox } from './custom-tooltip.module.scss';
 
 interface DataItem {
   name: string;
@@ -15,16 +15,15 @@ const CustomTooltip: FunctionComponent<TooltipProps<number, string>> = ({ active
     const color = data.securityType === 'Marketable' ? '#4A0072' : '#B04ABD';
 
     return (
-      <div className={tooltipContainer} >
+      <div className={tooltipContainer}>
         <span>
-        <div className={tooltipColorBox}style={{ backgroundColor: color }} data-testid="tooltip-box-color"></div>
+          <div className={tooltipColorBox} style={{ backgroundColor: color }} data-testid="tooltip-box-color"></div>
         </span>
         <span>
-        <div className={tooltipTitle} >{data.name}</div>
-        <div className={tooltipSecondaryTitle} >{`${data.securityType}`}</div>
-        <div className={tooltipPercent}>{`${data.percent}% of National Debt`}</div> 
+          <div className={tooltipTitle}>{`${data.name === 'Nonmarketable' ? 'Non-Marketable' : data.name}`}</div>
+          <div className={tooltipSecondaryTitle}>{`${data.securityType === 'Nonmarketable' ? 'Non-Marketable' : data.securityType}`}</div>
+          <div className={tooltipPercent}>{`${data.percent}% of National Debt`}</div>
         </span>
-
       </div>
     );
   }
