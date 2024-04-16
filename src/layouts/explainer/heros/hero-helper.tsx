@@ -14,18 +14,13 @@ export const getFootNotesDateRange = (priorFY: string, currentFY: string, curren
   return currentRecordMonth === '10' ? `Oct ${priorFiscalStartYear}` : `Oct ${priorFiscalStartYear} - ${currentMonth} ${currentFY}`;
 };
 
-export const getChangeLabel = (current: number, prev: number, altVerbage: string): string => {
+export const getChangeLabel = (current: number, prev: number, altVerbage: boolean): string => {
   if (current > prev) {
-    return 'increased';
+    return altVerbage ? 'more than' : 'increased';
   } else if (prev > current) {
-    return 'decreased';
+    return altVerbage ? 'less than' :'decreased';
   } else {
-    if (altVerbage) {
-      return altVerbage;
-    }
-    else {
-      return 'not changed';
-    }
+    return altVerbage ? 'the same as' :'not changed';
   }
 };
 

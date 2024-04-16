@@ -52,7 +52,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
             basicFetch(`${priorFYReqUrl}`).then(res3 => {
               if (res3.data) {
                 const previousTotalSavingsBonds = sumSavingsBondsAmount(res3.data);
-                setSavingsBondChangeLabel(getChangeLabel(currentTotalSavingsBonds, previousTotalSavingsBonds));
+                setSavingsBondChangeLabel(getChangeLabel(currentTotalSavingsBonds, previousTotalSavingsBonds, false));
                 const changeDiff = currentTotalSavingsBonds - previousTotalSavingsBonds;
                 setSavingsBondChange(changeDiff);
                 const percentChange = (changeDiff / previousTotalSavingsBonds) * 100;

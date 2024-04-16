@@ -27,6 +27,7 @@ import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../..
 import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { useInView } from 'react-intersection-observer';
 import { getShortForm } from "../../../../../../utils/rounding-utils";
+import { getChangeLabel } from "../../../../heros/hero-helper";
 
 let gaTimerDebtTrends;
 let ga4Timer;
@@ -277,7 +278,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
           <VisualizationCallout color={debtExplainerPrimary}>
             <p>
               The average GDP for fiscal year {lastDebtValue.x} was ${getShortForm(lastGDPValue.actual)},
-              which was $XXX more than/$XXX less than/the same as the U.S. debt of ${getShortForm(lastRawDebtValue)}.
+              which was {getChangeLabel(lastGDPValue.actual, lastRawDebtValue, true)} the U.S. debt of ${getShortForm(lastRawDebtValue)}.
               This resulted in a Debt to GDP Ratio of {lastDebtValue.y} percent.
               Generally, a higher Debt to GDP ratio indicates a government will have greater difficulty in repaying its debt.
             </p>
