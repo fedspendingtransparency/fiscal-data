@@ -46,8 +46,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [debtTrendsData, setDebtTrendsData] = useState([]);
   const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
   const [lastDebtValue, setLastDebtValue] = useState({});
-  const [lastRawDebtValue, setLastRawDebtValue] = useState(null);
-  const [lastGDPValue, setLastGDPValue] = useState(null);
+  const [lastRawDebtValue, setLastRawDebtValue] = useState('');
+  const [lastGDPValue, setLastGDPValue] = useState('');
   const data = useRecoilValueLoadable(debtOutstandingData);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
@@ -93,7 +93,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     ];
     setDebtTrendsData(finalData);
     setLastDebtValue(finalData[0].data[finalData[0].data.length - 1]);
-    setLastRawDebtValue(lastRawDebtMatchedValue.debt_outstanding_amt);
+    if (lastRawDebtMatchedValue) setLastRawDebtValue(lastRawDebtMatchedValue.debt_outstanding_amt);
     setLastGDPValue(lastGDPValue);
     setIsLoadingDebtTrends(false);
   };
