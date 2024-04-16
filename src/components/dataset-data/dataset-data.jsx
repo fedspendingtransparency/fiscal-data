@@ -205,6 +205,12 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
 
+  useEffect(() => {
+    if (allTablesSelected) {
+      setTableColumnSortData([]);
+    }
+  }, [allTablesSelected]);
+
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
