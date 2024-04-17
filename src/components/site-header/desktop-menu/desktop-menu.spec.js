@@ -32,7 +32,7 @@ describe('Desktop Menu', () => {
       <DesktopMenu glossaryClickHandler={glossaryClickHandler} clickHandler={clickHandler} setActiveDropdown={setActiveDropdown} />
     );
 
-    const datasetButton = getByRole('button', { name: 'Dataset Search' });
+    const datasetButton = getByRole('link', { name: 'Dataset Search' });
 
     expect(datasetButton).toBeInTheDocument();
 
@@ -123,7 +123,7 @@ describe('Desktop Menu', () => {
     });
 
     act(() => {
-      getByRole('button', { name: 'Dataset Search' }).focus();
+      getByRole('link', { name: 'Dataset Search' }).focus();
       jest.runAllTimers();
     });
     await waitFor(() => {
