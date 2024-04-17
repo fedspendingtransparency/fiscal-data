@@ -26,6 +26,8 @@ import { useRecoilValueLoadable } from 'recoil';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
 import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { useInView } from 'react-intersection-observer';
+import { getShortForm } from "../../../../../../utils/rounding-utils";
+import { getChangeLabel } from "../../../../heros/hero-helper";
 
 let gaTimerDebtTrends;
 let ga4Timer;
@@ -44,6 +46,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [debtTrendsData, setDebtTrendsData] = useState([]);
   const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
   const [lastDebtValue, setLastDebtValue] = useState({});
+  const [lastRawDebtValue, setLastRawDebtValue] = useState('');
+  const [lastGDPValue, setLastGDPValue] = useState('');
   const data = useRecoilValueLoadable(debtOutstandingData);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
@@ -68,7 +72,9 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const processData = () => {
     const { finalGDPData } = beaGDPData;
     const debtData = data.contents.payload;
+    const lastGDPValue = finalGDPData[finalGDPData.length - 1];
     const debtToGDP = [];
+    const lastRawDebtMatchedValue = debtData.find(entry => entry.record_date.includes(lastGDPValue.fiscalYear));
     finalGDPData.forEach(GDPEntry => {
       const record = debtData.find(entry => entry.record_date.includes(GDPEntry.fiscalYear));
       if (record) {
@@ -87,6 +93,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     ];
     setDebtTrendsData(finalData);
     setLastDebtValue(finalData[0].data[finalData[0].data.length - 1]);
+    if (lastRawDebtMatchedValue) setLastRawDebtValue(lastRawDebtMatchedValue.debt_outstanding_amt);
+    setLastGDPValue(lastGDPValue);
     setIsLoadingDebtTrends(false);
   };
 
@@ -166,7 +174,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
       Visit the {historicalDebtOutstanding} dataset to explore and download this data. The GDP data is sourced from the {beaLink}.
     </p>
     <p>
-      Please note: This chart is updated as new GDP data is released, even if new debt data is available. 
+      Please note: This chart is updated as new GDP data is released, even if new debt data is available.
     </p>
     </>
 
@@ -269,9 +277,10 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
           </div>
           <VisualizationCallout color={debtExplainerPrimary}>
             <p>
-              When adjusted for inflation, the U.S. federal debt has steadily increased since 2001. Without adjusting for inflation, the U.S. federal
-              debt has steadily increased since 1957. Another way to view the federal debt over time is to look at the ratio of federal debt related
-              to GDP. This ratio has generally increased since 1981.
+              The average GDP for fiscal year {lastDebtValue.x} was ${getShortForm(lastGDPValue.actual)},
+              which was {getChangeLabel(lastGDPValue.actual, lastRawDebtValue, true)} the U.S. debt of ${getShortForm(lastRawDebtValue)}.
+              This resulted in a Debt to GDP Ratio of {lastDebtValue.y} percent.
+              Generally, a higher Debt to GDP ratio indicates a government will have greater difficulty in repaying its debt.
             </p>
           </VisualizationCallout>
         </div>

@@ -58,7 +58,7 @@ const NationalDeficitHero = (): ReactElement => {
         setDeficitDif(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), false));
         setDeficitDifPill(Math.abs(priorYearDeficit - currentDeficit));
         setDeficitDifPercent(parseFloat((((currentDeficit - priorYearDeficit) / priorYearDeficit) * 100).toFixed()));
-        setDeficitStatus(getChangeLabel(currentDeficit, priorYearDeficit));
+        setDeficitStatus(getChangeLabel(currentDeficit, priorYearDeficit, false));
       }
     });
   };
