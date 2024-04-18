@@ -20,7 +20,8 @@ import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFiltere
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { detailViewNotice, lockIcon } from './dataset-data.module.scss';
-import { queryClient } from '../../../gatsby-browser';
+
+import { queryClient } from '../../../react-query-client';
 
 export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';
