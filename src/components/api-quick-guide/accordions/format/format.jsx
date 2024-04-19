@@ -12,7 +12,7 @@ const FormatAccordion = ({ selectedTable, tabindex }) => {
   }
 
   return (
-    <Accordion title="Format" tabindex={tabindex}>
+    <Accordion title="Format" tabindex={tabindex} ga4ID="format">
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>

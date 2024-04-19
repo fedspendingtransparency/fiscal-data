@@ -49,7 +49,7 @@ const FederalSpendingHero = (): ReactElement => {
         setRecordCalendarMonth(data.record_calendar_month);
         setSpendingChange(difference);
         setSpendingPercentChange((difference / priorTotalSpending) * 100);
-        setSpendingChangeLabel(getChangeLabel(currentTotalSpending, priorTotalSpending));
+        setSpendingChangeLabel(getChangeLabel(currentTotalSpending, priorTotalSpending, false));
       }
     });
   };

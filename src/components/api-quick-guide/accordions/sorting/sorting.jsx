@@ -9,7 +9,7 @@ const SortingAccordion = ({ selectedTable, tabindex }) => {
   const exampleSortingQuery = `?sort=-${selectedTable.dateField}`;
 
   return (
-    <Accordion title="Sorting" tabindex={tabindex}>
+    <Accordion title="Sorting" tabindex={tabindex} ga4ID="sorting">
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>

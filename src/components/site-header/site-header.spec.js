@@ -11,17 +11,10 @@ import { createHistory, createMemorySource, LocationProvider } from '@gatsbyjs/r
 import 'gatsby-env-variables';
 import '@testing-library/jest-dom/extend-expect';
 import GLOBALS from '../../helpers/constants';
+import { RecoilRoot } from "recoil";
+import fetchMock from "fetch-mock";
 
 jest.useFakeTimers();
-
-jest.mock('gatsby-env-variables', () => ({
-  ENV_ID: 'dev',
-  API_BASE_URL: 'https://www.transparency.treasury.gov',
-  ADDITIONAL_DATASETS: {},
-  EXPERIMENTAL_WHITELIST: [],
-  NOTIFICATION_BANNER_DISPLAY_PAGES: ['/', '/datasets/'],
-  NOTIFICATION_BANNER_DISPLAY_PATHS: ['/americas-finance-guide/'],
-}));
 
 const renderWithRouter = (ui, routeStr, { route = routeStr, history = createHistory(createMemorySource(route)) } = {}) => {
   return {
@@ -29,6 +22,8 @@ const renderWithRouter = (ui, routeStr, { route = routeStr, history = createHist
     history,
   };
 };
+
+
 describe('SiteHeader', () => {
   beforeEach(() => {
     StaticQuery.mockImplementation(({ render }) => render({ mockUseStaticGlossaryData }));
@@ -39,8 +34,31 @@ describe('SiteHeader', () => {
     });
   });
 
+  beforeAll(() => {
+    fetchMock.get(`https://www.transparency.treasury.gov/services/api/fiscal_service/v1/reference/fiscal_data/announcements`, {
+      data: [
+        {
+          "announcement_description": "We're aware of an issue impacting multiple datasets and are working to address it.",
+          "type": "general",
+          "path": "/datasets/",
+          "recursive_path": "true"
+        },
+        {
+          "announcement_description": "We're working to correct an issue with this dataset. Please find the static data at https://fiscaldata.treasury.gov/static-data/published-reports/debt_to_penny.pdf",
+          "type": "dataset",
+          "path": "/datasets/debt-to-the-penny/",
+          "recursive_path": "false"
+        }
+      ],
+    });
+  });
+
   it('displays the the logo, and resizes on page scroll', async () => {
-    const { getByTestId } = render(<SiteHeader width={GLOBALS.breakpoints.large + 50} />);
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <SiteHeader width={GLOBALS.breakpoints.large + 50} />
+      </RecoilRoot>
+    );
     const logoContainer = getByTestId('logoContainer');
     const logo = getByTestId('logo');
     expect(logo).toBeDefined();
@@ -50,7 +68,11 @@ describe('SiteHeader', () => {
   });
 
   it("contains the site's official banner", () => {
-    const { getByTestId } = render(<SiteHeaderComponent />);
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <SiteHeaderComponent />
+      </RecoilRoot>
+    );
     expect(getByTestId('officialBanner')).toBeDefined();
   });
 
@@ -60,7 +82,11 @@ describe('SiteHeader', () => {
 
   //logo
   it('contains the logo with title text', () => {
-    const { getByTestId, getByTitle } = render(<SiteHeaderComponent />);
+    const { getByTestId, getByTitle } = render(
+      <RecoilRoot>
+        <SiteHeaderComponent />
+      </RecoilRoot>
+    );
     const logo = getByTestId('logo');
     expect(logo).toBeDefined();
     expect(getByTitle('Return to home page')).toBeDefined();
@@ -68,25 +94,41 @@ describe('SiteHeader', () => {
 
   it('displays the lowerEnvMessage when sent in props', () => {
     const message = 'Message';
-    const { getByText } = render(<SiteHeaderComponent lowerEnvMsg={message} />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <SiteHeaderComponent lowerEnvMsg={message} />
+      </RecoilRoot>
+    );
     expect(getByText(message)).toBeDefined();
   });
 
   it('does not show browser notice if browser is not IE', () => {
-    const { queryAllByTestId } = render(<SiteHeaderComponent />);
+    const { queryAllByTestId } = render(
+      <RecoilRoot>
+        <SiteHeaderComponent />
+      </RecoilRoot>
+    );
     expect(queryAllByTestId('ieDetected').length).toEqual(0);
   });
 
   it('shows browser notice if browser is IE', () => {
     rdd.isIE = true;
-    const { getByTestId } = render(<SiteLayout />);
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <SiteLayout />
+      </RecoilRoot>
+    );
     expect(getByTestId('ieDetected')).toBeDefined();
   });
 
   it('calls the appropriate analytics event when links are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     const pageTitle = 'test page title';
-    const { getByTestId, getByText, getByRole } = render(<SiteHeaderComponent />);
+    const { getByTestId, getByText, getByRole } = render(
+      <RecoilRoot>
+        <SiteHeaderComponent />
+      </RecoilRoot>
+    );
     document.title = pageTitle;
 
     const logo = getByTestId('logo');
@@ -146,23 +188,41 @@ describe('SiteHeader', () => {
     spy.mockClear();
   });
 
-  it('displays announcement banner for specified pages', () => {
-    const { getByText } = renderWithRouter(<SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />, '/datasets/');
-
-    expect(getByText('Content Temporarily Unavailable:', { exact: false })).toBeInTheDocument();
+  it('displays announcement banner for specified pages', async() => {
+    const { getByTestId } = renderWithRouter(
+      <RecoilRoot>
+        <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />
+      </RecoilRoot>, '/datasets/'
+    );
+    await waitFor(() => getByTestId('announcement-banner'));
+    expect(getByTestId('announcement-banner')).toBeInTheDocument();
   });
 
-  it('displays announcement banner for specified paths', () => {
-    const { getByText } = renderWithRouter(
-      <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />,
-      '/americas-finance-guide/national-debt/'
+  it('displays multiple announcement banners for specified pages where root path has a recursively appearing banner', async() => {
+    const { getAllByTestId } = renderWithRouter(
+      <RecoilRoot>
+        <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />
+      </RecoilRoot>, '/datasets/debt-to-the-penny/'
     );
+    await waitFor(() => getAllByTestId('announcement-banner'));
+    expect(getAllByTestId('announcement-banner').length).toEqual(2);
+  });
 
-    expect(getByText('Content Temporarily Unavailable:', { exact: false })).toBeInTheDocument();
+  it('does not display announcement banner for unspecified paths', () => {
+    const { queryByTestId } = renderWithRouter(
+      <RecoilRoot>
+        <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />
+      </RecoilRoot>, '/americas-finance-guide/national-debt/'
+    );
+    expect(queryByTestId('announcement-banner')).not.toBeInTheDocument();
   });
 
   it('opens the glossary menu when selected', async () => {
-    const { getByRole, getByTestId } = render(<SiteHeaderComponent />);
+    const { getByRole, getByTestId } = render(
+      <RecoilRoot>
+        <SiteHeaderComponent />
+      </RecoilRoot>
+    );
 
     act(() => {
       fireEvent.mouseEnter(getByRole('button', { name: 'Resources' }));
@@ -178,7 +238,11 @@ describe('SiteHeader', () => {
   });
 
   it('glossary menu closes when overlay is clicked', async () => {
-    const { getByRole, getByTestId, queryByTestId } = render(<SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />);
+    const { getByRole, getByTestId } = render(
+      <RecoilRoot>
+        <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />
+      </RecoilRoot>
+    );
 
     act(() => {
       fireEvent.mouseEnter(getByRole('button', { name: 'Resources' }));
