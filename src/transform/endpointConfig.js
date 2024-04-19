@@ -2435,6 +2435,13 @@ const endpointConfig = {
       'total_inflation_purchased_sold',
     ],
   },
+  '253': {
+    endpoint: 'v1/accounting/od/receipts_by_department',
+    dateField: 'record_date',
+    downloadName: 'Receipts_By_Department',
+    alwaysSortWith: ['-record_date, src_line_nbr'],
+    selectColumns: [],
+  },
 };
 
 const setCompleteTableDisplayItem = response => {
