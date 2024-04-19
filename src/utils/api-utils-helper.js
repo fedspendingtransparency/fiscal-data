@@ -125,14 +125,14 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
       const sortFields = defaultParamsWithColumnSelect
         .split(', ')
         .join(',')
-        .replace('-', '');
+        .replaceAll('-', '');
       const set = new Set([...fieldsAsArray, ...sortFields.split(',')]);
       tableColumnFields =
         '&fields=' +
         Array.from(set)
           .join(',')
-          .replace('-', '')
-          .replace('+', '');
+          .replaceAll('-', '')
+          .replaceAll('+', '');
     } else {
       sortValue = apiSortParams;
     }
