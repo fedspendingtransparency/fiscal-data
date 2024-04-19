@@ -211,6 +211,10 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [allTablesSelected]);
 
+  useEffect(() => {
+    setTableColumnSortData([]);
+  }, [selectedTable]);
+
   return (
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
