@@ -4,17 +4,9 @@ import Persist from './src/components/persist/persist';
 import { RecoilRoot } from 'recoil';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
-import { QueryClient } from '@tanstack/react-query';
+import { queryClient } from './react-query-client';
 
 const isBrowser = () => typeof window !== 'undefined';
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      cacheTime: 600000, // 10 minutes, for persistent (browser session storage) caching
-    },
-  },
-});
 
 const persister = createSyncStoragePersister({
   storage: isBrowser() && window.sessionStorage,
