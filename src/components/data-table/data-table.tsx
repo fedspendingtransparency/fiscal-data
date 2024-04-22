@@ -57,6 +57,10 @@ type DataTableProps = {
   pivotSelected;
   setSummaryValues?;
   customFormatting?;
+  allActiveFilters: string[];
+  setAllActiveFilters: (value: string[]) => void;
+  sorting: [];
+  setSorting: (value: string[]) => void;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -74,7 +78,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setResetFilters,
   hideCellLinks,
   tableName,
-  setFiltersActive,
+  setAllActiveFilters,
+  allActiveFilters,
   hideColumns,
   pagingProps,
   manualPagination,
@@ -90,6 +95,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pivotSelected,
   setSummaryValues,
   customFormatting,
+  sorting,
+  setSorting,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
   useEffect(() => {
@@ -151,13 +158,13 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     dataTypes = tempDataTypes;
   }
 
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [tableSort, setTableSort] = useState<SortingState>(sorting);
   const setTableSorting = useSetRecoilState(reactTableSortingState);
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(
     defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
   );
-  const [allActiveFilters, setAllActiveFilters] = useState([]);
+  // const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
   const table = useReactTable({
@@ -172,9 +179,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     },
     state: {
       columnVisibility,
-      sorting,
+      sorting: tableSort,
     },
-    onSortingChange: setSorting,
+    onSortingChange: setTableSort,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -182,6 +189,12 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
+
+  useEffect(() => {
+    if (setSorting) {
+      setSorting(tableSort);
+    }
+  }, [tableSort]);
 
   useEffect(() => {
     if (resetFilters && setTableColumnSortData) {
@@ -280,7 +293,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                   table={table}
                   dataTypes={dataTypes}
                   resetFilters={resetFilters}
-                  setFiltersActive={setFiltersActive}
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
                   manualPagination={manualPagination}

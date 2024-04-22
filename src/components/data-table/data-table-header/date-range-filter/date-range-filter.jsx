@@ -44,6 +44,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const dropdownRef = useRef();
   const displayRef = useRef();
 
+  console.log('allActiveFilters in date range filter: ', allActiveFilters);
+
   const onFilterChange = val => {
     if (val) {
       if (!allActiveFilters?.includes(column.id)) {

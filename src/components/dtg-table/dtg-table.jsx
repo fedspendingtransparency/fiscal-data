@@ -37,7 +37,8 @@ export default function DtgTable({
   setTableColumnSortData,
   resetFilters,
   setResetFilters,
-  setFiltersActive,
+  setAllActiveFilters,
+  allActiveFilters,
   tableMeta,
   tableColumnSortData,
   manualPagination,
@@ -51,6 +52,8 @@ export default function DtgTable({
   setSummaryValues,
   setIsLoading,
   isLoading,
+  sort,
+  setSorting,
 }) {
   const {
     dePaginated,
@@ -416,7 +419,8 @@ export default function DtgTable({
               selectColumnPanel={selectColumnPanel}
               resetFilters={resetFilters}
               setResetFilters={setResetFilters}
-              setFiltersActive={setFiltersActive}
+              setAllActiveFilters={setAllActiveFilters}
+              allActiveFilters={allActiveFilters}
               hideColumns={hideColumns}
               tableName={tableName}
               manualPagination={manualPagination}
@@ -428,6 +432,8 @@ export default function DtgTable({
               pivotSelected={pivotSelected?.pivotValue}
               setSummaryValues={setSummaryValues}
               customFormatting={customFormatting}
+              sorting={sorting}
+              setSorting={setSorting}
             />
           </ErrorBoundary>
         </div>

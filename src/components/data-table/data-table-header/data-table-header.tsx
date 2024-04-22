@@ -34,7 +34,6 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   table,
   dataTypes,
   resetFilters,
-  setFiltersActive,
   allActiveFilters,
   setAllActiveFilters,
   manualPagination,
@@ -57,23 +56,18 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
     if (e.key === undefined || e.key === 'Enter') {
       header.column.toggleSorting();
       if (state === 'asc' || state === 'false') {
-        if (!allActiveFilters.includes(`${header.column.id}-sort`)) {
-          const currentFilters = allActiveFilters.filter(item => !item.includes('sort'));
+        if (allActiveFilters && !allActiveFilters.includes(`${header.column.id}-sort`)) {
+          const currentFilters = allActiveFilters?.filter(item => !item.includes('sort'));
           currentFilters.push(`${header.column.id}-sort`);
           setAllActiveFilters(currentFilters);
         }
       } else {
-        const currentFilters = allActiveFilters.filter(item => item !== `${header.column.id}-sort`);
+        const currentFilters = allActiveFilters?.filter(item => item !== `${header.column.id}-sort`);
         setAllActiveFilters(currentFilters);
       }
     }
   };
 
-  useEffect(() => {
-    if (setFiltersActive) {
-      setFiltersActive(allActiveFilters.length > 0);
-    }
-  }, [allActiveFilters]);
   return (
     <thead>
       {table.getHeaderGroups().map(headerGroup => {
@@ -140,16 +134,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
                       <div className={columnMinWidth}>
-                        {getColumnFilter(
-                          header,
-                          columnDataType,
-                          resetFilters,
-                          setFiltersActive,
-                          allActiveFilters,
-                          setAllActiveFilters,
-                          manualPagination,
-                          isLastColumn
-                        )}
+                        {getColumnFilter(header, columnDataType, resetFilters, allActiveFilters, setAllActiveFilters, manualPagination, isLastColumn)}
                       </div>
                     </>
                   )}

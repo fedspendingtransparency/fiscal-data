@@ -32,6 +32,7 @@ import {
 import SummaryTable from './summary-table/summary-table';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
+import { SortingState } from '@tanstack/react-table';
 
 const TableSectionContainer = ({
   config,
@@ -75,8 +76,9 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
-  const [filtersActive, setFiltersActive] = useState(false);
-
+  // const [filtersActive, setFiltersActive] = useState(false);
+  const [allActiveFilters, setAllActiveFilters] = useState([]);
+  const [sorting, setSorting] = useState([]);
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
@@ -350,7 +352,10 @@ const TableSectionContainer = ({
                   setTableColumnSortData={setTableColumnSortData}
                   resetFilters={resetFilters}
                   setResetFilters={setResetFilters}
-                  setFiltersActive={setFiltersActive}
+                  setAllActiveFilters={setAllActiveFilters}
+                  allActiveFilters={allActiveFilters}
+                  sorting={sorting}
+                  setSorting={setSorting}
                   tableMeta={tableMeta}
                   manualPagination={manualPagination}
                   setManualPagination={setManualPagination}
@@ -380,7 +385,7 @@ const TableSectionContainer = ({
               )
             }
             allTablesSelected={allTablesSelected}
-            filtersActive={filtersActive}
+            filtersActive={allActiveFilters.length > 0}
           />
         )}
       </div>

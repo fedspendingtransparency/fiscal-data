@@ -192,12 +192,11 @@ export const getColumnFilter: (
   header,
   type: string,
   resetFilters: boolean,
-  setFiltersActive: (val: boolean) => void,
   allActiveFilters: string[],
   setAllActiveFilters: (val: string[]) => void,
   manualPagination: boolean,
   isLastColumn: boolean
-) => JSX.Element = (header, type, resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters, manualPagination, isLastColumn) => {
+) => JSX.Element = (header, type, resetFilters, allActiveFilters, setAllActiveFilters, manualPagination, isLastColumn) => {
   if (type === 'DATE') {
     return (
       <DateRangeFilter
