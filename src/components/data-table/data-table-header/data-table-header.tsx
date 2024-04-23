@@ -20,19 +20,18 @@ import React, { FunctionComponent, useEffect } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { reactTableSortingState } from '../../../recoil/reactTableFilteredState';
+import { reactTableAllActiveFiltersState } from '../../../recoil/reactTableFilteredState';
 
 interface IDataTableHeader {
   table: Table<Record<string, unknown>>;
   dataTypes: { [key: string]: string };
   resetFilters: boolean;
-  setFiltersActive: (value: boolean) => void;
   manualPagination: boolean;
 }
 
 const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, manualPagination }) => {
-  const allActiveFilters = useRecoilValue(reactTableSortingState);
-  const setAllActiveFilters = useSetRecoilState(reactTableSortingState);
+  const allActiveFilters = useRecoilValue(reactTableAllActiveFiltersState);
+  const setAllActiveFilters = useSetRecoilState(reactTableAllActiveFiltersState);
 
   const LightTooltip = withStyles(() => ({
     tooltip: {

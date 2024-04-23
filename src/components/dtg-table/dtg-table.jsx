@@ -23,7 +23,7 @@ import {
 import CustomLink from '../links/custom-link/custom-link';
 import DataTable from '../data-table/data-table';
 import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState, reactTableSortingState } from '../../recoil/reactTableFilteredState';
+import { reactTableFilteredDateRangeState, reactTableAllActiveFiltersState } from '../../recoil/reactTableFilteredState';
 import moment from 'moment/moment';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -50,8 +50,6 @@ export default function DtgTable({
   setSummaryValues,
   setIsLoading,
   isLoading,
-  sort,
-  setSorting,
 }) {
   const {
     dePaginated,
@@ -91,7 +89,7 @@ export default function DtgTable({
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
-  const allActiveFilters = useRecoilValue(reactTableSortingState);
+  const allActiveFilters = useRecoilValue(reactTableAllActiveFiltersState);
   const detailViewAPIConfig = config?.detailView ? config.apis.find(api => api.apiId === config.detailView.apiId) : null;
   let loadCanceled = false;
 
@@ -428,8 +426,6 @@ export default function DtgTable({
               pivotSelected={pivotSelected?.pivotValue}
               setSummaryValues={setSummaryValues}
               customFormatting={customFormatting}
-              sorting={sort}
-              setSorting={setSorting}
             />
           </ErrorBoundary>
         </div>

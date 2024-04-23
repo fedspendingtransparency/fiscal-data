@@ -22,8 +22,8 @@ import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
-import { useSetRecoilState } from 'recoil';
-import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { reactTableAllActiveFiltersState, reactTableSortState } from '../../recoil/reactTableFilteredState';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -41,7 +41,6 @@ type DataTableProps = {
   selectColumnPanel;
   setResetFilters: (value: boolean) => void;
   tableName: string;
-  setFiltersActive: (value: boolean) => void;
   hideColumns?: string[];
   pagingProps;
   manualPagination: boolean;
@@ -57,10 +56,6 @@ type DataTableProps = {
   pivotSelected;
   setSummaryValues?;
   customFormatting?;
-  allActiveFilters: string[];
-  setAllActiveFilters: (value: string[]) => void;
-  sorting: [];
-  setSorting: (value: string[]) => void;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -93,9 +88,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pivotSelected,
   setSummaryValues,
   customFormatting,
-  sorting,
-  setSorting,
 }) => {
+  const sorting = useRecoilValue(reactTableSortState);
+  const setSorting = useSetRecoilState(reactTableSortState);
   const [configOption, setConfigOption] = useState(columnConfig);
   useEffect(() => {
     if (!detailViewState) {
@@ -157,7 +152,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }
 
   const [tableSort, setTableSort] = useState<SortingState>(sorting);
-  const setAllActiveFilters = useSetRecoilState(reactTableSortingState);
+  const setAllActiveFilters = useSetRecoilState(reactTableAllActiveFiltersState);
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(
     defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}

@@ -8,7 +8,7 @@ import CustomLink from '../links/custom-link/custom-link';
 import { updateTableButton } from './data-table.module.scss';
 import { ENV_ID } from 'gatsby-env-variables';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
+import { reactTableAllActiveFiltersState } from '../../recoil/reactTableFilteredState';
 
 const customFormat = (stringValue, decimalPlaces) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"

@@ -5,7 +5,12 @@ export const reactTableFilteredDateRangeState = atom({
   default: null,
 });
 
-export const reactTableSortingState = atom({
-  key: 'reactTableSortingState',
+export const reactTableAllActiveFiltersState = atom({
+  key: 'reactTableAllActiveFiltersState',
+  default: [],
+});
+
+export const reactTableSortState = atom({
+  key: 'reactTableSortState',
   default: [],
 });
