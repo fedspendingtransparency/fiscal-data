@@ -52,10 +52,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
     },
   }))(Tooltip);
 
-  console.log('allActiveFilters in data table header:::::::::::: ', allActiveFilters);
-
   const iconClick = (state, header, e) => {
-    console.log('allActiveFilters in data table header: ', allActiveFilters);
     if (e.key === undefined || e.key === 'Enter') {
       header.column.toggleSorting();
       if (state === 'asc' || state === 'false') {

@@ -60,21 +60,16 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   let loadByPage;
 
   const shouldUseLoadByPage = pivot => {
-    console.log('selectedTable in shouldUseLoadByPage:: ', selectedTable); // dts is true for isLargeDataset, mspd is null
     return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
 
-  // this method is called by both mspd and dts
   const clearDisplayData = () => {
-    console.log('in clearDisplayData');
     loadByPage = shouldUseLoadByPage(selectedPivot);
-    // console.log('loadByPage in clearDisplayData: ', loadByPage); // null for mspd, true for dts
 
     if (loadByPage) {
       setServerSidePagination(selectedTable.endpoint);
     } else {
       setServerSidePagination(null);
-      // setServerSidePagination(selectedTable.endpoint); // this change works, but not sure the cost. Going to explore other options
     }
     setApiData(null);
     setApiError(false);

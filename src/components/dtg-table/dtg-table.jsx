@@ -104,7 +104,6 @@ export default function DtgTable({
 
   const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
 
-  console.log('sorting in dtg table::: ', sorting);
   const getAllExcludedCols = () => {
     const allCols = [];
 
