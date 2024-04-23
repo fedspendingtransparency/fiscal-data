@@ -37,8 +37,6 @@ export default function DtgTable({
   setTableColumnSortData,
   resetFilters,
   setResetFilters,
-  setAllActiveFilters,
-  allActiveFilters,
   tableMeta,
   tableColumnSortData,
   manualPagination,
@@ -93,7 +91,7 @@ export default function DtgTable({
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
-  const sorting = useRecoilValue(reactTableSortingState);
+  const allActiveFilters = useRecoilValue(reactTableSortingState);
   const detailViewAPIConfig = config?.detailView ? config.apis.find(api => api.apiId === config.detailView.apiId) : null;
   let loadCanceled = false;
 
@@ -254,7 +252,7 @@ export default function DtgTable({
         loadCanceled = true;
       };
     }
-  }, [sorting, filteredDateRange, selectedTable, dateRange]);
+  }, [allActiveFilters, filteredDateRange, selectedTable, dateRange]);
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
@@ -419,8 +417,6 @@ export default function DtgTable({
               selectColumnPanel={selectColumnPanel}
               resetFilters={resetFilters}
               setResetFilters={setResetFilters}
-              setAllActiveFilters={setAllActiveFilters}
-              allActiveFilters={allActiveFilters}
               hideColumns={hideColumns}
               tableName={tableName}
               manualPagination={manualPagination}

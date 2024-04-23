@@ -78,8 +78,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setResetFilters,
   hideCellLinks,
   tableName,
-  setAllActiveFilters,
-  allActiveFilters,
   hideColumns,
   pagingProps,
   manualPagination,
@@ -159,7 +157,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }
 
   const [tableSort, setTableSort] = useState<SortingState>(sorting);
-  const setTableSorting = useSetRecoilState(reactTableSortingState);
+  const setAllActiveFilters = useSetRecoilState(reactTableSortingState);
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(
     defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
@@ -246,7 +244,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
-    setTableSorting(sorting);
+    // setAllActiveFilters(sorting);
   }, [sorting]);
 
   useEffect(() => {
@@ -288,14 +286,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           <div className={tableStyle}>
             <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>
-                <DataTableHeader
-                  table={table}
-                  dataTypes={dataTypes}
-                  resetFilters={resetFilters}
-                  allActiveFilters={allActiveFilters}
-                  setAllActiveFilters={setAllActiveFilters}
-                  manualPagination={manualPagination}
-                />
+                <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} manualPagination={manualPagination} />
                 <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
               </table>
             </div>

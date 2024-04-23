@@ -19,25 +19,21 @@ import { rightAlign, getColumnFilter } from '../data-table-helper';
 import React, { FunctionComponent, useEffect } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { reactTableSortingState } from '../../../recoil/reactTableFilteredState';
 
 interface IDataTableHeader {
   table: Table<Record<string, unknown>>;
   dataTypes: { [key: string]: string };
   resetFilters: boolean;
   setFiltersActive: (value: boolean) => void;
-  allActiveFilters: string[];
-  setAllActiveFilters: (value: string[]) => void;
   manualPagination: boolean;
 }
 
-const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
-  table,
-  dataTypes,
-  resetFilters,
-  allActiveFilters,
-  setAllActiveFilters,
-  manualPagination,
-}) => {
+const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, manualPagination }) => {
+  const allActiveFilters = useRecoilValue(reactTableSortingState);
+  const setAllActiveFilters = useSetRecoilState(reactTableSortingState);
+
   const LightTooltip = withStyles(() => ({
     tooltip: {
       color: '#555555',
@@ -56,7 +52,8 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
     if (e.key === undefined || e.key === 'Enter') {
       header.column.toggleSorting();
       if (state === 'asc' || state === 'false') {
-        if (allActiveFilters && !allActiveFilters.includes(`${header.column.id}-sort`)) {
+        if (allActiveFilters?.length > 0 && !allActiveFilters.includes(`${header.column.id}-sort`)) {
+          console.log('all active filters: ', allActiveFilters);
           const currentFilters = allActiveFilters?.filter(item => !item.includes('sort'));
           currentFilters.push(`${header.column.id}-sort`);
           setAllActiveFilters(currentFilters);

@@ -30,9 +30,10 @@ import {
   detailViewIcon,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 import { SortingState } from '@tanstack/react-table';
+import { reactTableSortingState } from '../../../recoil/reactTableFilteredState';
 
 const TableSectionContainer = ({
   config,
@@ -76,7 +77,8 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
-  const [allActiveFilters, setAllActiveFilters] = useState([]);
+  // const [allActiveFilters, setAllActiveFilters] = useState([]);
+  const allActiveFilters = useRecoilValue(reactTableSortingState);
   const [sorting, setSorting] = useState([]);
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
@@ -351,8 +353,6 @@ const TableSectionContainer = ({
                   setTableColumnSortData={setTableColumnSortData}
                   resetFilters={resetFilters}
                   setResetFilters={setResetFilters}
-                  setAllActiveFilters={setAllActiveFilters}
-                  allActiveFilters={allActiveFilters}
                   sort={sorting}
                   setSorting={setSorting}
                   tableMeta={tableMeta}
@@ -384,7 +384,7 @@ const TableSectionContainer = ({
               )
             }
             allTablesSelected={allTablesSelected}
-            filtersActive={allActiveFilters.length > 0}
+            filtersActive={allActiveFilters?.length > 0}
           />
         )}
       </div>
