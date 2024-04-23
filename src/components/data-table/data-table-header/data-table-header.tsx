@@ -52,8 +52,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
     if (e.key === undefined || e.key === 'Enter') {
       header.column.toggleSorting();
       if (state === 'asc' || state === 'false') {
-        if (allActiveFilters?.length > 0 && !allActiveFilters.includes(`${header.column.id}-sort`)) {
-          console.log('all active filters: ', allActiveFilters);
+        if (allActiveFilters && !allActiveFilters.includes(`${header.column.id}-sort`)) {
           const currentFilters = allActiveFilters?.filter(item => !item.includes('sort'));
           currentFilters.push(`${header.column.id}-sort`);
           setAllActiveFilters(currentFilters);

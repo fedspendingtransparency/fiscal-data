@@ -244,7 +244,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
-    // setAllActiveFilters(sorting);
   }, [sorting]);
 
   useEffect(() => {
