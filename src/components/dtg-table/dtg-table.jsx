@@ -104,6 +104,7 @@ export default function DtgTable({
 
   const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
 
+  console.log('sorting in dtg table::: ', sorting);
   const getAllExcludedCols = () => {
     const allCols = [];
 
@@ -432,7 +433,7 @@ export default function DtgTable({
               pivotSelected={pivotSelected?.pivotValue}
               setSummaryValues={setSummaryValues}
               customFormatting={customFormatting}
-              sorting={sorting}
+              sorting={sort}
               setSorting={setSorting}
             />
           </ErrorBoundary>

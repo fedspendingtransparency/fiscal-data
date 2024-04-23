@@ -195,11 +195,20 @@ const TableSectionContainer = ({
     });
   };
 
+  // console.log('apiData in table section container OUTSIDE MEMO: ', apiData);
+  // console.log('userFilterSelection in table section container OUTSIDE MEMO: ', userFilterSelection);
+  // console.log('apiError in table section container OUTSIDE MEMO: ', apiError);
+
   useMemo(async () => {
+    console.log('in non null check refreshTable');
+    // console.log('apiData in table section container: ', apiData);
+    // console.log('userFilterSelection in table section container: ', userFilterSelection);
+    // console.log('apiError in table section container: ', apiError);
     await refreshTable();
   }, [apiData, userFilterSelection, apiError]);
 
   useMemo(async () => {
+    console.log('in null check refreshTable');
     if (serverSidePagination || userFilterSelection) {
       await refreshTable();
     }
@@ -259,6 +268,8 @@ const TableSectionContainer = ({
       )
     );
   }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData, config?.customNoChartMessage]);
+
+  console.log('allActiveFilters in TSC: ', allActiveFilters);
 
   return (
     <div data-test-id="table-container">
@@ -354,7 +365,7 @@ const TableSectionContainer = ({
                   setResetFilters={setResetFilters}
                   setAllActiveFilters={setAllActiveFilters}
                   allActiveFilters={allActiveFilters}
-                  sorting={sorting}
+                  sort={sorting}
                   setSorting={setSorting}
                   tableMeta={tableMeta}
                   manualPagination={manualPagination}

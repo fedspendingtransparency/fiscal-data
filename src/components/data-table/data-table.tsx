@@ -157,6 +157,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     });
     dataTypes = tempDataTypes;
   }
+  console.log('sorting in data table::::: ', sorting);
 
   const [tableSort, setTableSort] = useState<SortingState>(sorting);
   const setTableSorting = useSetRecoilState(reactTableSortingState);
@@ -191,10 +192,15 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }) as Table<Record<string, unknown>>;
 
   useEffect(() => {
+    console.log('in useEffect for tablesort: ', tableSort);
     if (setSorting) {
       setSorting(tableSort);
     }
   }, [tableSort]);
+
+  useEffect(() => {
+    console.log('sorting in useEffect!!!!! ', sorting);
+  }, [sorting]);
 
   useEffect(() => {
     if (resetFilters && setTableColumnSortData) {

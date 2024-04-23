@@ -123,6 +123,8 @@ const ChartTableToggle = ({
 
   const emptyChartMessage = !unchartable || allTablesSelected ? emptyDataMessage : null;
 
+  console.log('filtersActive in chart table toggle: ', filtersActive);
+
   return (
     <div className={tabState || emptyData || allTablesSelected ? chartBorder : ''}>
       <div className={tabState || emptyData || allTablesSelected ? '' : tabBorder}>
