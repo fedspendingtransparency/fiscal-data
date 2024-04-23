@@ -4,12 +4,12 @@ import ResetTableSection from '../reset-table-section/reset-table-section';
 import DtgTable from '../../dtg-table/dtg-table';
 const ResetTableContainer = ({ tableProps, perPage, setPerPage }) => {
   const [resetFilters, setResetFilters] = useState(false);
-  const [filtersActive, setFiltersActive] = useState(false);
+  const [activeFilters, setActiveFilters] = useState([]);
 
   return (
     <div className={sectionContainer}>
       <div className={buttonContainer}>
-        <ResetTableSection active={filtersActive} resetColumns={() => setResetFilters(true)} sideBorder={false} />
+        <ResetTableSection active={activeFilters.length > 0} resetColumns={() => setResetFilters(true)} sideBorder={false} />
       </div>
       <DtgTable
         tableProps={tableProps}
@@ -19,7 +19,7 @@ const ResetTableContainer = ({ tableProps, perPage, setPerPage }) => {
         rawDataTable={false}
         resetFilters={resetFilters}
         setResetFilters={setResetFilters}
-        setFiltersActive={setFiltersActive}
+        setAllActiveFilters={setActiveFilters}
         allowColumnWrap={['definition']}
       />
     </div>

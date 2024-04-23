@@ -32,8 +32,7 @@ import {
 import SummaryTable from './summary-table/summary-table';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
-import { SortingState } from '@tanstack/react-table';
-import { reactTableAllActiveFiltersState } from '../../../recoil/reactTableFilteredState';
+import { reactTableAllActiveFiltersState, reactTableSortState } from '../../../recoil/reactTableFilteredState';
 
 const TableSectionContainer = ({
   config,
@@ -78,7 +77,9 @@ const TableSectionContainer = ({
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const allActiveFilters = useRecoilValue(reactTableAllActiveFiltersState);
-  // const [sorting, setSorting] = useState([]);
+  const setAllActiveFilters = useSetRecoilState(reactTableAllActiveFiltersState);
+  const reactTableSorting = useRecoilValue(reactTableSortState);
+  const setReactTableSort = useSetRecoilState(reactTableSortState);
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
@@ -219,6 +220,7 @@ const TableSectionContainer = ({
   useEffect(() => {
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
+    setReactTableSort([]);
   }, [selectedTable]);
 
   const legendToggler = e => {
@@ -359,6 +361,10 @@ const TableSectionContainer = ({
                   rawDataTable
                   setIsLoading={setIsLoading}
                   isLoading={isLoading}
+                  sorting={reactTableSorting}
+                  setSorting={setReactTableSort}
+                  allActiveFilters={allActiveFilters}
+                  setAllActiveFilters={setAllActiveFilters}
                 />
               ) : (
                 ''

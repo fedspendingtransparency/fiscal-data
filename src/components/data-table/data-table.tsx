@@ -1,13 +1,5 @@
 import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
-import {
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  getFilteredRowModel,
-  SortingState,
-  Table,
-} from '@tanstack/react-table';
+import { getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, getFilteredRowModel, Table } from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
 import {
   rawDataTableContainer,
@@ -22,8 +14,6 @@ import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { reactTableAllActiveFiltersState, reactTableSortState } from '../../recoil/reactTableFilteredState';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -56,6 +46,10 @@ type DataTableProps = {
   pivotSelected;
   setSummaryValues?;
   customFormatting?;
+  sorting?;
+  setSorting?;
+  allActiveFilters?;
+  setAllActiveFilters?;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -88,10 +82,13 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pivotSelected,
   setSummaryValues,
   customFormatting,
+  sorting,
+  setSorting,
+  allActiveFilters,
+  setAllActiveFilters,
 }) => {
-  const sorting = useRecoilValue(reactTableSortState);
-  const setSorting = useSetRecoilState(reactTableSortState);
   const [configOption, setConfigOption] = useState(columnConfig);
+
   useEffect(() => {
     if (!detailViewState) {
       setConfigOption(columnConfig);
@@ -151,8 +148,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     dataTypes = tempDataTypes;
   }
 
-  const [tableSort, setTableSort] = useState<SortingState>(sorting);
-  const setAllActiveFilters = useSetRecoilState(reactTableAllActiveFiltersState);
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(
     defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
@@ -171,9 +166,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     },
     state: {
       columnVisibility,
-      sorting: tableSort,
+      sorting: sorting,
     },
-    onSortingChange: setTableSort,
+    onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -183,14 +178,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }) as Table<Record<string, unknown>>;
 
   useEffect(() => {
-    if (setSorting) {
-      setSorting(tableSort);
-    }
-  }, [tableSort]);
-
-  useEffect(() => {
     if (resetFilters && setTableColumnSortData) {
-      setTableColumnSortData(rawData.data);
+      // setTableColumnSortData(rawData.data);
     }
   }, [resetFilters, table]);
 
