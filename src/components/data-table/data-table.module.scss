@@ -117,3 +117,13 @@ $borderRadius: 5px;
     width: 450px;
   }
 }
+
+.downloadLinkContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.downloadLinkIcon {
+  color: $primary;
+}

@@ -1803,7 +1803,21 @@ const endpointConfig = {
     dateField: 'record_date',
     downloadName: 'Auctions_Query',
     alwaysSortWith: ['-auction_date', '-issue_date', 'maturity_date'],
-    selectColumns: ['cusip', 'security_type', 'security_term', 'auction_date', 'issue_date', 'maturity_date', 'price_per100'],
+    selectColumns: [
+      'cusip',
+      'security_type',
+      'security_term',
+      'auction_date',
+      'issue_date',
+      'maturity_date',
+      'price_per100',
+      'pdf_filenm_announcemt',
+      'xml_filenm_announcemt',
+      'pdf_filenm_comp_results',
+      'xml_filenm_comp_results',
+      'pdf_filenm_noncomp_results',
+      'pdf_filenm_spec_announcemt',
+    ],
   },
   // treasury bulletin
   '206': {
