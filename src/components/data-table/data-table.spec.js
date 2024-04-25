@@ -118,6 +118,7 @@ describe('react-table', () => {
   });
 
   it('Able to interact with headers for column sort', () => {
+    const mockSorting = jest.fn();
     const { getAllByTestId, getByRole } = render(
       <RecoilRoot>
         <DataTable
@@ -130,6 +131,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
           setTableSorting={jest.fn()}
+          setAllActiveFilters={mockSorting}
         />
       </RecoilRoot>
     );
@@ -143,7 +145,9 @@ describe('react-table', () => {
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
     fireEvent.click(sortButton);
     // Now sorted in desc order
-    expect(getAllByTestId('row')[0].innerHTML).toContain('7/7/2023');
+    // expect(getAllByTestId('row')[0].innerHTML).toContain('7/7/2023');
+    console.log(mockSorting.mock);
+    expect(mockSorting).toHaveBeenCalledWith({ id: 'record_date', desc: true });
     fireEvent.click(sortButton);
     fireEvent.click(sortButton);
     //Sorting should be reset
