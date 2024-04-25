@@ -203,6 +203,8 @@ describe('react-table', () => {
           maxRows={5}
           columnConfig={mockColumnConfig}
           setTableSorting={jest.fn()}
+          setAllActiveFilters={jest.fn()}
+          allActiveFilters={[]}
         />
       </RecoilRoot>
     );
