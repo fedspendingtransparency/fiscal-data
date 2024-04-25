@@ -42,14 +42,15 @@ type DataTableProps = {
   setDetailViewState?: (val: string) => void;
   detailViewState?: string;
   allowColumnWrap?: string[];
-  aria;
+  aria: string;
   pivotSelected;
   setSummaryValues?;
   customFormatting?;
-  sorting?;
-  setSorting?;
-  allActiveFilters?;
-  setAllActiveFilters?;
+  sorting?: string[];
+  setSorting?: (value: string[]) => void;
+  allActiveFilters?: string[];
+  setAllActiveFilters?: (value: string[]) => void;
+  tableSorting: string[];
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -86,6 +87,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setSorting,
   allActiveFilters,
   setAllActiveFilters,
+  setTableSorting,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
 
@@ -228,6 +230,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
+    setTableSorting(sorting);
   }, [sorting]);
 
   useEffect(() => {

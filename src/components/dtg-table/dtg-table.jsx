@@ -94,6 +94,8 @@ export default function DtgTable({
   const [showPaginationControls, setShowPaginationControls] = useState();
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   const detailViewAPIConfig = config?.detailView ? config.apis.find(api => api.apiId === config.detailView.apiId) : null;
+  const [tableSorting, setTableSorting] = useState([]);
+
   let loadCanceled = false;
 
   let debounce;
@@ -242,6 +244,7 @@ export default function DtgTable({
   };
 
   useMemo(() => {
+    console.log('*****************************');
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       updateSmallFractionDataType();
       setCurrentPage(1);
@@ -252,7 +255,7 @@ export default function DtgTable({
         loadCanceled = true;
       };
     }
-  }, [allActiveFilters, filteredDateRange, selectedTable, dateRange]);
+  }, [tableSorting, filteredDateRange, selectedTable, dateRange]);
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
@@ -432,6 +435,7 @@ export default function DtgTable({
               setSorting={setSorting}
               allActiveFilters={allActiveFilters}
               setAllActiveFilters={setAllActiveFilters}
+              setTableSorting={setTableSorting}
             />
           </ErrorBoundary>
         </div>

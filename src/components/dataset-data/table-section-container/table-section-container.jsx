@@ -32,7 +32,7 @@ import {
 import SummaryTable from './summary-table/summary-table';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
-import { reactTableAllActiveFiltersState, reactTableSortState } from '../../../recoil/reactTableFilteredState';
+import { reactTableSortState } from '../../../recoil/reactTableFilteredState';
 
 const TableSectionContainer = ({
   config,
