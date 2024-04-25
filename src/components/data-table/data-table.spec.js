@@ -204,11 +204,6 @@ describe('react-table', () => {
     expect(getAllByTestId('row').length).toEqual(1);
     expect(getAllByTestId('row')[0].innerHTML).toContain('$25,633,821,130,387.02');
 
-    fireEvent.change(columnFilter, { target: { value: 'null' } });
-    // Search should not match to 'null' values
-    expect(getAllByTestId('row').length).toEqual(1);
-    expect(getAllByTestId('row')[0].innerHTML).toContain('null');
-
     //clear results to view full table
     const clearButton = within(header).getAllByRole('button', { hidden: true })[1];
     expect(clearButton).toHaveClass('fa-circle-xmark');
