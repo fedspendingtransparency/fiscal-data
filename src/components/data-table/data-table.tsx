@@ -269,7 +269,14 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           <div className={tableStyle}>
             <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>
-                <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} manualPagination={manualPagination} />
+                <DataTableHeader
+                  table={table}
+                  dataTypes={dataTypes}
+                  resetFilters={resetFilters}
+                  manualPagination={manualPagination}
+                  allActiveFilters={allActiveFilters}
+                  setAllActiveFilters={setAllActiveFilters}
+                />
                 <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
               </table>
             </div>

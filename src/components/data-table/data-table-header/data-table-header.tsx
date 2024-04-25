@@ -27,12 +27,18 @@ interface IDataTableHeader {
   dataTypes: { [key: string]: string };
   resetFilters: boolean;
   manualPagination: boolean;
+  allActiveFilters: string[];
+  setAllActiveFilters: (value: string[]) => void;
 }
 
-const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, manualPagination }) => {
-  const allActiveFilters = useRecoilValue(reactTableAllActiveFiltersState);
-  const setAllActiveFilters = useSetRecoilState(reactTableAllActiveFiltersState);
-
+const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
+  table,
+  dataTypes,
+  resetFilters,
+  manualPagination,
+  allActiveFilters,
+  setAllActiveFilters,
+}) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
       color: '#555555',

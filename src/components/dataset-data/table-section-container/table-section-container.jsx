@@ -63,6 +63,8 @@ const TableSectionContainer = ({
   customFormatting,
   summaryValues,
   setSummaryValues,
+  allActiveFilters,
+  setAllActiveFilters,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -76,8 +78,6 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
-  const allActiveFilters = useRecoilValue(reactTableAllActiveFiltersState);
-  const setAllActiveFilters = useSetRecoilState(reactTableAllActiveFiltersState);
   const reactTableSorting = useRecoilValue(reactTableSortState);
   const setReactTableSort = useSetRecoilState(reactTableSortState);
   const [tableMeta, setTableMeta] = useState(null);
