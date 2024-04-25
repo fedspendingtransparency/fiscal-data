@@ -30,9 +30,8 @@ import {
   detailViewIcon,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
-import { reactTableSortState } from '../../../recoil/reactTableFilteredState';
 
 const TableSectionContainer = ({
   config,
@@ -78,8 +77,7 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
-  const reactTableSorting = useRecoilValue(reactTableSortState);
-  const setReactTableSort = useSetRecoilState(reactTableSortState);
+  const [reactTableSorting, setReactTableSort] = useState([]);
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);

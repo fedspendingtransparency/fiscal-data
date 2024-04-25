@@ -16,11 +16,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft, faArrowUpShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { rightAlign, getColumnFilter } from '../data-table-helper';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { reactTableAllActiveFiltersState } from '../../../recoil/reactTableFilteredState';
 
 interface IDataTableHeader {
   table: Table<Record<string, unknown>>;

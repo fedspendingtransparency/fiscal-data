@@ -1,5 +1,13 @@
 import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
-import { getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, getFilteredRowModel, Table } from '@tanstack/react-table';
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+  getFilteredRowModel,
+  Table,
+  SortingState,
+} from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
 import {
   rawDataTableContainer,
@@ -42,15 +50,15 @@ type DataTableProps = {
   setDetailViewState?: (val: string) => void;
   detailViewState?: string;
   allowColumnWrap?: string[];
-  aria: string;
+  aria;
   pivotSelected;
   setSummaryValues?;
   customFormatting?;
-  sorting?: string[];
-  setSorting?: (value: string[]) => void;
-  allActiveFilters?: string[];
-  setAllActiveFilters?: (value: string[]) => void;
-  tableSorting: string[];
+  sorting: SortingState;
+  setSorting: (value: SortingState) => void;
+  allActiveFilters: string[];
+  setAllActiveFilters: (value: string[]) => void;
+  setTableSorting?: (value: SortingState) => void;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -168,7 +176,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     },
     state: {
       columnVisibility,
-      sorting: sorting,
+      sorting,
     },
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
@@ -178,12 +186,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
-
-  useEffect(() => {
-    if (resetFilters && setTableColumnSortData) {
-      // setTableColumnSortData(rawData.data);
-    }
-  }, [resetFilters, table]);
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
