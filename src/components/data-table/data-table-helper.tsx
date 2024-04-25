@@ -34,35 +34,30 @@ const publishedReportsLinkWrapper = (url, value) => {
 };
 
 const publishedReportsLinksProcessor = (tableName, property, value) => {
-  if (ENV_ID === 'uat') {
-    if (tableName === 'Treasury Securities Auctions Data') {
-      switch (property) {
-        case 'pdf_filenm_announcemt':
-        case 'xml_filenm_announcemt':
-          return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/announcements/${value}`, value);
-        case 'pdf_filenm_comp_results':
-        case 'xml_filenm_comp_results':
-          return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/results/${value}`, value);
-        case 'pdf_filenm_noncomp_results':
-          return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/ncr/${value}`, value);
-        case 'pdf_filenm_spec_announcemt':
-          return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/spec-ann/${value}`, value);
-        default:
-          return value;
-      }
+  if (tableName === 'Treasury Securities Auctions Data') {
+    switch (property) {
+      case 'pdf_filenm_announcemt':
+      case 'xml_filenm_announcemt':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/announcements/${value}`, value);
+      case 'pdf_filenm_comp_results':
+      case 'xml_filenm_comp_results':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/results/${value}`, value);
+      case 'pdf_filenm_noncomp_results':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/ncr/${value}`, value);
+      case 'pdf_filenm_spec_announcemt':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/spec-ann/${value}`, value);
+      default:
+        return value;
+    }
+  }
+  if (tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table') {
+    if (property === 'pdf_link' || property === 'xml_link') {
+      return publishedReportsLinkWrapper(`/static-data/published-reports/tips-cpi/${value}`, value);
     } else {
       return value;
     }
   } else {
-    if (tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table') {
-      if (property === 'pdf_link' || property === 'xml_link') {
-        return publishedReportsLinkWrapper(`/static-data/published-reports/tips-cpi/${value}`, value);
-      } else {
-        return value;
-      }
-    } else {
-      return value;
-    }
+    return value;
   }
 };
 
