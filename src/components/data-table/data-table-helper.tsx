@@ -50,16 +50,19 @@ const publishedReportsLinksProcessor = (tableName, property, value) => {
         default:
           return value;
       }
+    } else {
+      return value;
     }
+  } else {
     if (tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table') {
       if (property === 'pdf_link' || property === 'xml_link') {
         return publishedReportsLinkWrapper(`/static-data/published-reports/tips-cpi/${value}`, value);
       } else {
         return value;
       }
+    } else {
+      return value;
     }
-  } else {
-    return value;
   }
 };
 
