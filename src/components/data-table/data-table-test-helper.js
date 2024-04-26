@@ -188,7 +188,7 @@ export const mockTableData = {
       record_calendar_quarter: '3',
       record_calendar_month: '07',
       record_calendar_day: '12',
-      mock_percent_string: '45%',
+      mock_percent_string: 'null',
       mock_small_fraction: '0.00067898',
       mock_percent: '4',
       negative_currency: '-134.1',

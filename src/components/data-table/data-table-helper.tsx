@@ -124,11 +124,8 @@ export const columnsConstructorData = (
               accessorKey: property,
               header: name,
               cell: ({ getValue }) => {
-                if (getValue() !== undefined) {
-                  return `${getValue()}%`;
-                } else {
-                  return '';
-                }
+                const value = getValue();
+                return value === undefined ? '' : `${getValue()}%`;
               },
             } as ColumnDef<string, string>;
           } else if (rawData.meta.dataTypes[property] === 'SMALL_FRACTION') {
@@ -160,6 +157,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const value = getValue();
                 let formattedValue;
