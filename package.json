@@ -83,8 +83,6 @@
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "elasticlunr": "^0.9.5",
-    "express": "^4.17.1",
-    "express-http-proxy": "^1.5.1",
     "gatsby": "^4.25.7",
     "gatsby-env-variables": "^2.0.0",
     "gatsby-plugin-client-side-redirect": "^1.1.0",
