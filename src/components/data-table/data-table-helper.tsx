@@ -82,6 +82,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const value = getValue();
                 let formattedValue;
@@ -107,6 +108,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const value = getValue();
                 return value === undefined ? '' : `${getValue()}%`;
@@ -124,6 +126,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 return currencyFormatter.format(getValue());
               },
@@ -133,6 +136,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 return customFormat(getValue(), decimalPlaces);
               },
