@@ -96,7 +96,7 @@ const NotesAndLimitations = ({ apis, bodyText }) => {
             const key = `N&KL-${api.apiId}`;
             return (
               <Accordion containerClass={accordion} key={key} title={api.tableName}>
-                <ReactMarkdown source={api.apiNotesAndLimitations} />
+                <ReactMarkdown children={api.apiNotesAndLimitations} />
               </Accordion>
             );
           })
@@ -108,7 +108,7 @@ const NotesAndLimitations = ({ apis, bodyText }) => {
     <div className={wrapper}>
       <h4 className={heading}>{sectionTitle}</h4>
       <div className={bodyContent}>
-        <ReactMarkdown source={bodyText} />
+        <ReactMarkdown children={bodyText} />
         {!!tablesNKL.length && <div className={accordionContainer}>{tablesNKL}</div>}
       </div>
     </div>
