@@ -21,7 +21,7 @@ describe('Notes and Limitations (N&KL) - Only dataset level N&KL', () => {
   it('passes the text given to it as a param to the ReactMarkdown component', () => {
     // We are not using getByText for this test, because getByText struggles with line breaks.
     const renderedText = instance.findByType(ReactMarkdown);
-    expect(renderedText.props.source).toBe(text);
+    expect(renderedText.children[0]).toBe(text);
   });
 
   it('does not render any data table level content', () => {
