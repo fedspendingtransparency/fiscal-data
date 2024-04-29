@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { accordion, accordionContainer, bodyContent, heading, wrapper } from './notes-and-limitations.module.scss';
 import ReactMarkdown from 'react-markdown';
 import Accordion from '../../accordion/accordion';
