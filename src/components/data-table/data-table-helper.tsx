@@ -24,12 +24,14 @@ const tablesWithPublishedReportLinks = ['Treasury Securities Auctions Data', 'Re
 
 const publishedReportsLinkWrapper = (url, value) => {
   return (
-    <div className={downloadLinkContainer}>
-      <div className={downloadLinkIcon}>
-        <FontAwesomeIcon icon={faCloudArrowDown} />
+    <CustomLink url={url}>
+      <div className={downloadLinkContainer}>
+        <div className={downloadLinkIcon}>
+          <FontAwesomeIcon icon={faCloudArrowDown} />
+        </div>
+        {value}
       </div>
-      <CustomLink url={url}>{value}</CustomLink>
-    </div>
+    </CustomLink>
   );
 };
 
