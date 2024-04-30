@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, getByTestId, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import TotalRevenueChart from './total-revenue-chart';
 import fetchMock from 'fetch-mock';
@@ -13,7 +13,17 @@ import {
 } from '../../../../../explainer-test-helper';
 import Analytics from '../../../../../../../utils/analytics/analytics';
 
+class ResizeObserver {
+  observe() {}
+  unobserve() {}
+}
+
+jest.useFakeTimers();
 describe('Total Revenue Chart', () => {
+  window.ResizeObserver = ResizeObserver;
+  window.dataLayer = window.dataLayer || [];
+  const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
   beforeAll(() => {
     fetchMock.get(
       `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1`,
@@ -33,6 +43,19 @@ describe('Total Revenue Chart', () => {
   const mockPageFunction = () => {
     return null;
   };
+
+  it('chart fires ga4 event on mouse over', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByRole, getByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    expect(await getByRole('presentation')).toBeInTheDocument();
+    fireEvent.mouseOver(getByRole('presentation'));
+    jest.runAllTimers();
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'chart-hover-total-revenue',
+    });
+    fireEvent.mouseLeave(getByRole('presentation'));
+  });
 
   it('calls the appropriate analytics event when selecting ChartToggle', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
