@@ -11,6 +11,7 @@ import {
   mockRevenueData_decreased,
   mockRevenueData_NoChange,
 } from '../../../../../explainer-test-helper';
+import Analytics from '../../../../../../../utils/analytics/analytics';
 
 describe('Total Revenue Chart', () => {
   beforeAll(() => {
@@ -32,6 +33,22 @@ describe('Total Revenue Chart', () => {
   const mockPageFunction = () => {
     return null;
   };
+
+  it('calls the appropriate analytics event when selecting ChartToggle', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    expect(await getByTestId('totalRevenueChartParent')).toBeInTheDocument();
+    expect(await getByTestId('leftChartToggle')).toBeInTheDocument();
+    getByTestId('leftChartToggle').click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: 'Chart Click',
+      label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
+    });
+    spy.mockClear();
+  });
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
