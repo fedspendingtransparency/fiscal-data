@@ -84,7 +84,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
       <ChartContainer title={chartTitle} altText={chartCopy.altText} date={chartDate} footer={chartCopy.footer} header={header}>
         {selectedChartView === 'amounts' && (
           <div className={chartStyle} data-testid="chartParent">
-            <div onBlur={() => setChartFocus(false)} role="presentation" onFocus={() => setChartFocus(true)}>
+            <div role="presentation" onBlur={() => setChartFocus(false)} onFocus={() => setChartFocus(true)}>
               {chartData && sortedBonds && (
                 <ResponsiveContainer height={377} width="99%">
                   <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }} accessibilityLayer>
