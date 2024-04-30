@@ -38,6 +38,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
   const [xAxis, setXAxis] = useState<number[]>();
   const [inflationSwitch, setInflationSwitch] = useState<boolean>(false);
   const [chartFocus, setChartFocus] = useState<boolean>(false);
+  const [chartHover, setChartHover] = useState<boolean>(false);
 
   let activeChartData = inflationSwitch ? inflationChartData : chartData;
   const handleInflationToggle = (isAdjusted: boolean) => {
@@ -84,7 +85,14 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
       <ChartContainer title={chartTitle} altText={chartCopy.altText} date={chartDate} footer={chartCopy.footer} header={header}>
         {selectedChartView === 'amounts' && (
           <div className={chartStyle} data-testid="chartParent">
-            <div role="presentation" onBlur={() => setChartFocus(false)} onFocus={() => setChartFocus(true)}>
+            <div
+              role="presentation"
+              onBlur={() => setChartFocus(false)}
+              onFocus={() => setChartFocus(true)}
+              onMouseOver={() => setChartHover(true)}
+              onMouseLeave={() => setChartHover(false)}
+            >
+              {' '}
               {chartData && sortedBonds && (
                 <ResponsiveContainer height={377} width="99%">
                   <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }} accessibilityLayer>
@@ -117,7 +125,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
                       content={<CustomTooltip hiddenFields={hiddenFields} />}
                       cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
                       isAnimationActive={false}
-                      active={chartFocus}
+                      active={chartFocus || chartHover}
                     />
                   </AreaChart>
                 </ResponsiveContainer>

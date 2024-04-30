@@ -31,6 +31,7 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
   const [inflationAxis, setInflationAxis] = useState<number[]>();
   const [salesAxis, setSalesAxis] = useState<number[]>();
   const [chartFocus, setChartFocus] = useState<boolean>(false);
+  const [chartHover, setChartHover] = useState<boolean>(false);
 
   const defaultInflationAxis: number[] = [-2.5, 0, 2.5, 5, 7.5, 10];
   const inflationAxisInterval = 2.5;
@@ -179,7 +180,6 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
               if (tempChartData.length > 0) {
                 const latest = tempChartData[0];
                 setLatestData(latest);
-
                 // Set default header values
                 setCurYear(latest?.year);
                 setCurSales(latest?.sales);
@@ -226,7 +226,16 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
         >
           <div className={chartStyle} data-testid="chartParent">
             <Legend />
-            <div role="presentation" onBlur={() => setChartFocus(false)} onFocus={() => setChartFocus(true)}>
+            <div
+              role="presentation"
+              onBlur={() => {
+                setChartFocus(false);
+                resetDataHeader();
+              }}
+              onFocus={() => setChartFocus(true)}
+              onMouseOver={() => setChartHover(true)}
+              onMouseLeave={() => setChartHover(false)}
+            >
               <ResponsiveContainer height={352} width="99%">
                 <LineChart data={chartData} margin={{ top: 12, bottom: -8, left: -8, right: -12 }} onMouseLeave={resetDataHeader} accessibilityLayer>
                   <CartesianGrid vertical={false} stroke="#d9d9d9" />
@@ -275,7 +284,7 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
                     content={<CustomTooltip setYear={setCurYear} setInflation={setCurInflation} setSales={setCurSales} />}
                     cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
                     isAnimationActive={false}
-                    active={chartFocus}
+                    active={chartFocus || chartHover}
                   />
                 </LineChart>
               </ResponsiveContainer>
