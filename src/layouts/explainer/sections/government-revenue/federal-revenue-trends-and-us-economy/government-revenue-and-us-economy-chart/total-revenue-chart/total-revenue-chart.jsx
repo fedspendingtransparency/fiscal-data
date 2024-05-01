@@ -59,6 +59,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({});
 
+
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {
       Analytics.event({

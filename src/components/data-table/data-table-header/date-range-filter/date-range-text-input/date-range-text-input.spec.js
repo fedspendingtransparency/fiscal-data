@@ -12,6 +12,7 @@ describe('date range input', () => {
         selected={{}}
         setSelected={jest.fn()}
         setInputDisplay={jest.fn()}
+        setInvalidDate={jest.fn()}
         inputDisplay={['mm/dd/yyyy', 'mm/dd/yyyy']}
         active={false}
       />
