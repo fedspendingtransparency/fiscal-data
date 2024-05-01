@@ -9,7 +9,7 @@ import {
   mockRevenueData,
   mockCallOutData,
   mockRevenueData_decreased,
-  mockRevenueData_NoChange,
+  mockRevenueData_NoChange, mockBeaGDPDataForRevenueChart,
 } from '../../../../../explainer-test-helper';
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
@@ -45,10 +45,27 @@ describe('Total Revenue Chart', () => {
     return null;
   };
 
-  it('chart fires on mouse over leave', async () => {
+  it('chart fires on mouse over leave - for percentage of GDP', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(2));
+    expect(await getAllByText('Total Revenue').length).toBe(3);
+    expect(await getByTestId('customSlices')).toBeInTheDocument();
+
+    userEvent.tab();
+    userEvent.tab();
+    userEvent.keyboard('{Enter}');
+    const slice = getAllByTestId('customSlice')[0];
+    userEvent.tab();
+    expect(slice).toHaveFocus();
+    // 2015 is in the header after slice was focused
+    expect(await getAllByText('2015').length).toBe(2);
+  });
+
+  it('chart fires on mouse over leave - for total revenue', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />);
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await getAllByText('Total Revenue').length).toBe(3);
     expect(await getByTestId('customSlices')).toBeInTheDocument();
     const slice = getAllByTestId('customSlice')[0];
