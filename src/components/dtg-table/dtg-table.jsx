@@ -244,7 +244,6 @@ export default function DtgTable({
   };
 
   useMemo(() => {
-    console.log('*****************************');
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       updateSmallFractionDataType();
       setCurrentPage(1);
