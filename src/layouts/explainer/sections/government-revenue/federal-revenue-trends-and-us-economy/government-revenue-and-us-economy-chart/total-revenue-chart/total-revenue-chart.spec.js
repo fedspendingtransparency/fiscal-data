@@ -12,6 +12,7 @@ import {
   mockRevenueData_NoChange,
 } from '../../../../../explainer-test-helper';
 import Analytics from '../../../../../../../utils/analytics/analytics';
+import userEvent from '@testing-library/user-event';
 
 class ResizeObserver {
   observe() {}
@@ -44,9 +45,25 @@ describe('Total Revenue Chart', () => {
     return null;
   };
 
+  it('chart fires on mouse over leave', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    await waitFor(() => expect(fetchSpy).toBeCalledTimes(2));
+    expect(await getAllByText('Total Revenue').length).toBe(3);
+    expect(await getByTestId('customSlices')).toBeInTheDocument();
+    const slice = getAllByTestId('customSlice')[0];
+
+    userEvent.tab();
+    userEvent.tab();
+    userEvent.tab();
+    expect(slice).toHaveFocus();
+    // 2015 is in the header after slice was focused
+    expect(await getAllByText('2015').length).toBe(2);
+  });
+
   it('chart fires ga4 event on mouse over', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByRole, getByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByRole } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByRole('presentation')).toBeInTheDocument();
     fireEvent.mouseOver(getByRole('presentation'));

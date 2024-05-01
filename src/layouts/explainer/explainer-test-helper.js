@@ -890,30 +890,30 @@ export const mockTotalDebtResponse = {
 };
 export const mockBeaGDPData = {
   finalGDPData: [
-    {
-      x: 2011,
-      actual: 22560300363991.676,
-      fiscalYear: '2015',
-      y: 22.56,
-    },
-    {
-      x: 2012,
-      actual: 22560300363991.676,
-      fiscalYear: '2015',
-      y: 22.56,
-    },
-    {
-      x: 2013,
-      actual: 22560300363991.676,
-      fiscalYear: '2015',
-      y: 22.56,
-    },
-    {
-      x: 2014,
-      actual: 22560300363991.676,
-      fiscalYear: '2015',
-      y: 22.56,
-    },
+    // {
+    //   x: 2011,
+    //   actual: 22560300363991.676,
+    //   fiscalYear: '2015',
+    //   y: 22.56,
+    // },
+    // {
+    //   x: 2012,
+    //   actual: 22560300363991.676,
+    //   fiscalYear: '2015',
+    //   y: 22.56,
+    // },
+    // {
+    //   x: 2013,
+    //   actual: 22560300363991.676,
+    //   fiscalYear: '2015',
+    //   y: 22.56,
+    // },
+    // {
+    //   x: 2014,
+    //   actual: 22560300363991.676,
+    //   fiscalYear: '2015',
+    //   y: 22.56,
+    // },
     {
       x: 2015,
       actual: 22560300363991.676,

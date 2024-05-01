@@ -59,6 +59,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({});
 
+
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {
       Analytics.event({
@@ -248,9 +249,12 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   };
 
   const handleMouseLeave = slice => {
+    console.log('slice.points ', slice.points);
     if (selectedChartView === 'totalRevenue') {
       const revenueData = slice.points[0]?.data;
       const gdpData = slice.points[1]?.data;
+      console.log('revenueData: ', revenueData);
+      console.log('gdpData: ', gdpData);
       if (revenueData && gdpData) {
         setTotalRevenueHeadingValues({
           ...totalRevenueHeadingValues,
