@@ -3,6 +3,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import IBondSalesChart from './i-bond-sales-chart';
 import { CustomTooltip } from './i-bond-sales-chart-helper';
 import { mockSavingsBondFetchResponses } from '../../../../explainer-test-helper';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -94,5 +95,20 @@ describe('I Bond Sales Chart', () => {
     expect(setYearSpy).toHaveBeenCalledWith(2020);
     expect(setSalesSpy).toHaveBeenCalledWith('2000000000');
     expect(setInflationSpy).toHaveBeenCalledWith('6.0');
+  });
+
+  it('chart is keyboard accessible', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByRole, getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    const chart = getByRole('application');
+    userEvent.tab();
+    expect(chart).toHaveFocus();
+    //Chart header updates to first date
+    expect(getByText('Oct 2008')).toBeInTheDocument();
+    userEvent.tab();
+    expect(chart).not.toHaveFocus();
+    //Chart header resets
+    expect(getByText('Oct 2023')).toBeInTheDocument();
   });
 });

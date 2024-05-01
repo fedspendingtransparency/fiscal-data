@@ -24,12 +24,14 @@ const tablesWithPublishedReportLinks = ['Treasury Securities Auctions Data', 'Re
 
 const publishedReportsLinkWrapper = (url, value) => {
   return (
-    <div className={downloadLinkContainer}>
-      <div className={downloadLinkIcon}>
-        <FontAwesomeIcon icon={faCloudArrowDown} />
+    <CustomLink url={url}>
+      <div className={downloadLinkContainer}>
+        <div className={downloadLinkIcon}>
+          <FontAwesomeIcon icon={faCloudArrowDown} />
+        </div>
+        {value}
       </div>
-      <CustomLink url={url}>{value}</CustomLink>
-    </div>
+    </CustomLink>
   );
 };
 
@@ -93,6 +95,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const value = getValue();
                 let formattedValue;
@@ -118,6 +121,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const value = getValue();
                 return value === undefined ? '' : `${getValue()}%`;
@@ -135,6 +139,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 return currencyFormatter.format(getValue());
               },
@@ -144,6 +149,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 return customFormat(getValue(), decimalPlaces);
               },

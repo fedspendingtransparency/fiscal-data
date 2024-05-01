@@ -22,9 +22,16 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
   const [curYear, setCurYear] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [xAxisValues, setXAxisValues] = useState(null);
-  const [latestData, setLatestData] = useState<{ year: string; sales: number; inflation: number; recordDate: string }>();
+  const [latestData, setLatestData] = useState<{
+    year: string;
+    sales: number;
+    inflation: number;
+    recordDate: string;
+  }>();
   const [inflationAxis, setInflationAxis] = useState<number[]>();
   const [salesAxis, setSalesAxis] = useState<number[]>();
+  const [chartFocus, setChartFocus] = useState<boolean>(false);
+  const [chartHover, setChartHover] = useState<boolean>(false);
 
   const defaultInflationAxis: number[] = [-2.5, 0, 2.5, 5, 7.5, 10];
   const inflationAxisInterval = 2.5;
@@ -173,7 +180,6 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
               if (tempChartData.length > 0) {
                 const latest = tempChartData[0];
                 setLatestData(latest);
-
                 // Set default header values
                 setCurYear(latest?.year);
                 setCurSales(latest?.sales);
@@ -220,57 +226,69 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
         >
           <div className={chartStyle} data-testid="chartParent">
             <Legend />
-            <ResponsiveContainer height={352} width="99%">
-              <LineChart data={chartData} margin={{ top: 12, bottom: -8, left: -8, right: -12 }} onMouseLeave={resetDataHeader}>
-                <CartesianGrid vertical={false} stroke="#d9d9d9" />
-                <ReferenceLine y={0} stroke="#555555" />
-                <XAxis dataKey="recordDate" ticks={xAxisValues} tickCount={5} tickFormatter={value => formatTick(value).toString()} />
-                <YAxis
-                  dataKey="sales"
-                  axisLine={false}
-                  tickLine={false}
-                  tickFormatter={value => yAxisFormatter(value)}
-                  tick={{ fill: treasurySavingsBondsExplainerSecondary }}
-                  ticks={salesAxis}
-                  tickCount={salesAxis.length}
-                />
-                <YAxis
-                  yAxisId={1}
-                  dataKey="inflation"
-                  type="number"
-                  axisLine={false}
-                  tickLine={false}
-                  tickCount={inflationAxis.length}
-                  ticks={inflationAxis}
-                  tickFormatter={value => `${value.toFixed(1)}%`}
-                  orientation="right"
-                  domain={[inflationAxis[0], inflationAxis[inflationAxis.length]]}
-                />
-                <Line
-                  dataKey="sales"
-                  stroke={treasurySavingsBondsExplainerSecondary}
-                  dot={false}
-                  strokeWidth={1}
-                  activeDot={false}
-                  isAnimationActive={false}
-                />
-                <Line
-                  dataKey="inflation"
-                  stroke="#666"
-                  strokeDasharray="2 2"
-                  dot={false}
-                  strokeWidth={2}
-                  activeDot={false}
-                  isAnimationActive={false}
-                  yAxisId={1}
-                />
-                <Tooltip
-                  content={<CustomTooltip setYear={setCurYear} setInflation={setCurInflation} setSales={setCurSales} />}
-                  cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
-                  isAnimationActive={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <div
+              role="presentation"
+              onBlur={() => {
+                setChartFocus(false);
+                resetDataHeader();
+              }}
+              onFocus={() => setChartFocus(true)}
+              onMouseOver={() => setChartHover(true)}
+              onMouseLeave={() => setChartHover(false)}
+            >
+              <ResponsiveContainer height={352} width="99%">
+                <LineChart data={chartData} margin={{ top: 12, bottom: -8, left: -8, right: -12 }} onMouseLeave={resetDataHeader} accessibilityLayer>
+                  <CartesianGrid vertical={false} stroke="#d9d9d9" />
+                  <ReferenceLine y={0} stroke="#555555" />
+                  <XAxis dataKey="recordDate" ticks={xAxisValues} tickCount={5} tickFormatter={value => formatTick(value).toString()} />
+                  <YAxis
+                    dataKey="sales"
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={value => yAxisFormatter(value)}
+                    tick={{ fill: treasurySavingsBondsExplainerSecondary }}
+                    ticks={salesAxis}
+                    tickCount={salesAxis.length}
+                  />
+                  <YAxis
+                    yAxisId={1}
+                    dataKey="inflation"
+                    type="number"
+                    axisLine={false}
+                    tickLine={false}
+                    tickCount={inflationAxis.length}
+                    ticks={inflationAxis}
+                    tickFormatter={value => `${value.toFixed(1)}%`}
+                    orientation="right"
+                    domain={[inflationAxis[0], inflationAxis[inflationAxis.length]]}
+                  />
+                  <Line
+                    dataKey="sales"
+                    stroke={treasurySavingsBondsExplainerSecondary}
+                    dot={false}
+                    strokeWidth={1}
+                    activeDot={false}
+                    isAnimationActive={false}
+                  />
+                  <Line
+                    dataKey="inflation"
+                    stroke="#666"
+                    strokeDasharray="2 2"
+                    dot={false}
+                    strokeWidth={2}
+                    activeDot={false}
+                    isAnimationActive={false}
+                    yAxisId={1}
+                  />
+                  <Tooltip
+                    content={<CustomTooltip setYear={setCurYear} setInflation={setCurInflation} setSales={setCurSales} />}
+                    cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
+                    isAnimationActive={false}
+                    active={chartFocus || chartHover}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </ChartContainer>
       )}

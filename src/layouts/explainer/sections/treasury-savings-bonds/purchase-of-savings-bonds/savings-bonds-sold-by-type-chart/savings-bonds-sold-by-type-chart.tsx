@@ -37,6 +37,9 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
   const [maxYear, setMaxYear] = useState<number>();
   const [xAxis, setXAxis] = useState<number[]>();
   const [inflationSwitch, setInflationSwitch] = useState<boolean>(false);
+  const [chartFocus, setChartFocus] = useState<boolean>(false);
+  const [chartHover, setChartHover] = useState<boolean>(false);
+
   let activeChartData = inflationSwitch ? inflationChartData : chartData;
   const handleInflationToggle = (isAdjusted: boolean) => {
     setInflationSwitch(isAdjusted);
@@ -82,42 +85,52 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
       <ChartContainer title={chartTitle} altText={chartCopy.altText} date={chartDate} footer={chartCopy.footer} header={header}>
         {selectedChartView === 'amounts' && (
           <div className={chartStyle} data-testid="chartParent">
-            {chartData && sortedBonds && (
-              <ResponsiveContainer height={377} width="99%">
-                <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }}>
-                  <CartesianGrid vertical={false} stroke="#d9d9d9" />
-                  <ReferenceLine y={0} stroke="#555555" />
-                  <XAxis dataKey="year" type="number" domain={[1935, maxYear]} ticks={xAxis} minTickGap={3} />
-                  <YAxis
-                    axisLine={false}
-                    tickLine={false}
-                    tickFormatter={value => `${yAxisFormatter(parseFloat(value))}`}
-                    domain={['auto', 'dataMax']}
-                    tickCount={8}
-                  />
-                  {sortedBonds.map((id, index) => {
-                    return (
-                      <Area
-                        dataKey={id}
-                        key={index}
-                        fill={savingsBondsMap[id].color}
-                        fillOpacity={0.8}
-                        stroke={savingsBondsMap[id].color}
-                        strokeOpacity={0.8}
-                        hide={hiddenFields.includes(id)}
-                        isAnimationActive={false}
-                        activeDot={false}
-                      />
-                    );
-                  })}
-                  <Tooltip
-                    content={<CustomTooltip hiddenFields={hiddenFields} />}
-                    cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
-                    isAnimationActive={false}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            )}
+            <div
+              role="presentation"
+              onBlur={() => setChartFocus(false)}
+              onFocus={() => setChartFocus(true)}
+              onMouseOver={() => setChartHover(true)}
+              onMouseLeave={() => setChartHover(false)}
+            >
+              {' '}
+              {chartData && sortedBonds && (
+                <ResponsiveContainer height={377} width="99%">
+                  <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }} accessibilityLayer>
+                    <CartesianGrid vertical={false} stroke="#d9d9d9" />
+                    <ReferenceLine y={0} stroke="#555555" />
+                    <XAxis dataKey="year" type="number" domain={[1935, maxYear]} ticks={xAxis} minTickGap={3} />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tickFormatter={value => `${yAxisFormatter(parseFloat(value))}`}
+                      domain={['auto', 'dataMax']}
+                      tickCount={8}
+                    />
+                    {sortedBonds.map((id, index) => {
+                      return (
+                        <Area
+                          dataKey={id}
+                          key={index}
+                          fill={savingsBondsMap[id].color}
+                          fillOpacity={0.8}
+                          stroke={savingsBondsMap[id].color}
+                          strokeOpacity={0.8}
+                          hide={hiddenFields.includes(id)}
+                          isAnimationActive={false}
+                          activeDot={false}
+                        />
+                      );
+                    })}
+                    <Tooltip
+                      content={<CustomTooltip hiddenFields={hiddenFields} />}
+                      cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
+                      isAnimationActive={false}
+                      active={chartFocus || chartHover}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              )}
+            </div>
             <ChartLegend lines={savingsBonds} lineMap={savingsBondsMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} />
           </div>
         )}
