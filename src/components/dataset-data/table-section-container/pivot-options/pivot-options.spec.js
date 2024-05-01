@@ -1,4 +1,5 @@
 import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import React from 'react';
 import PivotOptions from './pivot-options';
 import SelectControl from '../../../select-control/select-control';
@@ -72,6 +73,7 @@ describe('PivotOptions component does render children', () => {
       { columnName: 'cheesy_title', prettyName: 'Gouda to Meet You' },
       { columnName: 'red_shirts', prettyName: 'Expendable Star Trek Crew' },
       { columnName: 'jedis_are_better', prettyName: 'Star Wars > Star Trek' },
+      { prettyName: '— N / A —' },
     ],
     valueFieldOptions: ['book_value_amt', 'fine_troy_ounce_qty'],
   };
@@ -155,5 +157,58 @@ describe('PivotOptions component does render children', () => {
       selectedTable.valueFieldOptions
     );
     expect(selectedTable.valueFieldOptions.some(opt => opt === valueSelectControl.props.selectedOption.columnName)).toBeTruthy();
+  });
+
+  it('does ', () => {
+    const setSelectedPivotSpy = jest.fn();
+    let selectedPivotValue = selectedTable.fields[8];
+    const selectedPivotView = selectedTable.dataDisplays[3];
+    const { getByRole } = render(
+      <PivotOptions
+        table={selectedTable}
+        pivotSelection={{
+          pivotView: selectedPivotView,
+          pivotValue: selectedPivotValue,
+        }}
+        setSelectedPivot={setSelectedPivotSpy}
+      />
+    );
+
+    getByRole('button', { name: 'Change pivot value from ' + selectedPivotValue.prettyName }).click();
+
+    selectedPivotValue = selectedTable.fields[3];
+
+    getByRole('button', { name: selectedPivotValue.prettyName }).click();
+    //setSelectedPivot is called when the pivot view is changed
+    expect(setSelectedPivotSpy).toHaveBeenCalledWith({
+      pivotValue: selectedPivotValue,
+      pivotView: selectedPivotView,
+    });
+  });
+
+  it('does not', () => {
+    const setSelectedPivotSpy = jest.fn();
+    const selectedPivotView = selectedTable.dataDisplays[4];
+    const selectedPivotValue = selectedTable.fields[9];
+    const { getByRole } = render(
+      <PivotOptions
+        table={selectedTable}
+        pivotSelection={{
+          pivotView: selectedPivotView,
+          pivotValue: selectedPivotValue,
+        }}
+        setSelectedPivot={setSelectedPivotSpy}
+      />
+    );
+
+    getByRole('button', { name: 'Change pivot view from Complete Table' }).click();
+    getByRole('button', { name: 'Complete Table' }).click();
+
+    getByRole('button', { name: 'Change pivot value from — N / A —' }).click();
+    getByRole('button', { name: '— N / A —' }).click();
+    expect(setSelectedPivotSpy).not.toHaveBeenCalledWith({
+      pivotValue: { prettyName: '— N / A —' },
+      pivotView: { chartType: 'none', dimensionField: null, title: 'Complete Table' },
+    });
   });
 });
