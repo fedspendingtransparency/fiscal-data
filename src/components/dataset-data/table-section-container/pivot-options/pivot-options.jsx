@@ -33,7 +33,9 @@ const PivotOptions = ({ table, pivotSelection, setSelectedPivot, pivotsUpdated }
   };
 
   const pivotValueChangeHandler = valueField => {
-    setSelectedPivot({ pivotView: pivotSelection.pivotView, pivotValue: valueField });
+    if (valueField?.prettyName !== '— N / A —') {
+      setSelectedPivot({ pivotView: pivotSelection.pivotView, pivotValue: valueField });
+    }
   };
 
   const getPivotFields = table => {
