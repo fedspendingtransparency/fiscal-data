@@ -4,6 +4,7 @@ import ReleaseCalendar from './index';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
+import { RecoilRoot } from "recoil";
 import { tagLineText } from '../../helpers/release-calendar/release-calendar-content-helper';
 import fetchMock from 'fetch-mock';
 import { waitFor } from '@testing-library/react';
@@ -100,7 +101,7 @@ describe('Release Calendar', () => {
     fetchMock.get(`https://api.fiscaldata.treasury.gov/services/calendar/release`, mockReleaseData, { overwriteRoutes: true, repeat: 0 });
     fetchMock.get('https://api.fiscaldata.treasury.gov/services/dtg/metadata/', mockMetaData, { overwriteRoutes: true, repeat: 0 });
     renderer.act(() => {
-      component = renderer.create(<ReleaseCalendar />);
+      component = renderer.create(<RecoilRoot><ReleaseCalendar /></RecoilRoot>);
     });
     instance = component.root;
   });

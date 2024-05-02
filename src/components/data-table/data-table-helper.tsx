@@ -5,8 +5,10 @@ import { currencyFormatter, numberFormatter, customNumberFormatter } from '../..
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
 import CustomLink from '../links/custom-link/custom-link';
-import { updateTableButton } from './data-table.module.scss';
+import { updateTableButton, downloadLinkContainer, downloadLinkIcon } from './data-table.module.scss';
 import { ENV_ID } from 'gatsby-env-variables';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 const customFormat = (stringValue, decimalPlaces) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
@@ -20,30 +22,41 @@ const customFormat = (stringValue, decimalPlaces) => {
 
 const tablesWithPublishedReportLinks = ['Treasury Securities Auctions Data', 'Reference CPI Numbers and Daily Index Ratios Summary Table'];
 
+const publishedReportsLinkWrapper = (url, value) => {
+  return (
+    <CustomLink url={url}>
+      <div className={downloadLinkContainer}>
+        <div className={downloadLinkIcon}>
+          <FontAwesomeIcon icon={faCloudArrowDown} />
+        </div>
+        {value}
+      </div>
+    </CustomLink>
+  );
+};
+
 const publishedReportsLinksProcessor = (tableName, property, value) => {
-  if (ENV_ID === 'uat') {
-    if (tableName === 'Treasury Securities Auctions Data') {
-      switch (property) {
-        case 'pdf_filenm_announcemt':
-        case 'xml_filenm_announcemt':
-          return <CustomLink url={`/static-data/published-reports/auctions-query/announcements/${value}`}>{value}</CustomLink>;
-        case 'pdf_filenm_comp_results':
-        case 'xml_filenm_comp_results':
-          return <CustomLink url={`/static-data/published-reports/auctions-query/results/${value}`}>{value}</CustomLink>;
-        case 'pdf_filenm_noncomp_results':
-          return <CustomLink url={`/static-data/published-reports/auctions-query/ncr/${value}`}>{value}</CustomLink>;
-        case 'pdf_filenm_spec_announcemt':
-          return <CustomLink url={`/static-data/published-reports/auctions-query/spec-ann/${value}`}>{value}</CustomLink>;
-        default:
-          return value;
-      }
-    }
-    if (tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table') {
-      if (property === 'pdf_link' || property === 'xml_link') {
-        return <CustomLink url={`/static-data/published-reports/tips-cpi/${value}`}>{value}</CustomLink>;
-      } else {
+  if (tableName === 'Treasury Securities Auctions Data') {
+    switch (property) {
+      case 'pdf_filenm_announcemt':
+      case 'xml_filenm_announcemt':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/announcements/${value}`, value);
+      case 'pdf_filenm_comp_results':
+      case 'xml_filenm_comp_results':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/results/${value}`, value);
+      case 'pdf_filenm_noncomp_results':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/ncr/${value}`, value);
+      case 'pdf_filenm_spec_announcemt':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/spec-ann/${value}`, value);
+      default:
         return value;
-      }
+    }
+  }
+  if (tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table') {
+    if (property === 'pdf_link' || property === 'xml_link') {
+      return publishedReportsLinkWrapper(`/static-data/published-reports/tips-cpi/${value}`, value);
+    } else {
+      return value;
     }
   } else {
     return value;
@@ -82,6 +95,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const value = getValue();
                 let formattedValue;
@@ -107,12 +121,10 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
-                if (getValue() !== undefined) {
-                  return `${getValue()}%`;
-                } else {
-                  return '';
-                }
+                const value = getValue();
+                return value === undefined ? '' : `${getValue()}%`;
               },
             } as ColumnDef<string, string>;
           } else if (rawData.meta.dataTypes[property] === 'SMALL_FRACTION') {
@@ -127,6 +139,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 return currencyFormatter.format(getValue());
               },
@@ -136,6 +149,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 return customFormat(getValue(), decimalPlaces);
               },
@@ -144,6 +158,7 @@ export const columnsConstructorData = (
             return {
               accessorKey: property,
               header: name,
+              accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const value = getValue();
                 let formattedValue;

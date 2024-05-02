@@ -59,7 +59,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
 
   const monthYear = historyChartDate ? `${monthFullNames[historyChartDate.getMonth()]} ${historyChartDate.getFullYear()}` : '';
   const intragovernmental = (
-    <GlossaryPopoverDefinition term={'Intragovernmental Holdings'} page={'Savings Bond Explainer'}>
+    <GlossaryPopoverDefinition term="Intragovernmental Holdings" page="Savings Bond Explainer">
       intragovernmental
     </GlossaryPopoverDefinition>
   );
@@ -176,8 +176,8 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                 dataKey="percent"
                 cx="50%"
                 cy="50%"
-                innerRadius={'40%'}
-                outerRadius={'74.5%'}
+                innerRadius="40%"
+                outerRadius="74.5%"
                 startAngle={-270}
                 endAngle={90}
                 onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
@@ -197,8 +197,8 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                 dataKey="percent"
                 cx="50%"
                 cy="50%"
-                innerRadius={'75%'}
-                outerRadius={'90%'}
+                innerRadius="75%"
+                outerRadius="90%"
                 startAngle={-270}
                 endAngle={90}
                 onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}

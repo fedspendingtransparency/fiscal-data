@@ -8,6 +8,9 @@ import CustomLink from '../../links/custom-link/custom-link';
 
 const GettingStarted = () => {
   const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
+  const urlPath = '/v1/accounting/od/rates_of_exchange';
+  const urlFieldParam = '?fields=country_currency_desc,exchange_rate,record_date';
+  const urlFilterParam = '&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso),record_date:gte:2020-01-01';
 
   return (
     <div className={sectionBreak}>
@@ -89,11 +92,7 @@ const GettingStarted = () => {
           request CSV- or XML-formatted data by using the format filter.
         </p>
         <div className={codeTitle}>EXAMPLE REQUEST:</div>
-        <code className={code}>
-          {baseApiUrl}
-          /v1/accounting/od/rates_of_exchange?fields=country_currency_desc,
-          exchange_rate,record_date&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso), record_date:gte:2020-01-01
-        </code>
+        <code className={code}>{`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}</code>
         <div className={codeTitle}>EXAMPLE RESPONSE:</div>
         <code className={code}>
           {`{"data":[{"country_currency_desc":"Canada-Dollar",`}

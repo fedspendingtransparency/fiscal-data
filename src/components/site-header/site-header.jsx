@@ -10,15 +10,18 @@ import Analytics from '../../utils/analytics/analytics';
 import LocationAware from '../location-aware/location-aware';
 import Glossary from '../glossary/glossary';
 import DesktopMenu from './desktop-menu/desktop-menu';
-import ContentUnavailable from './banner-types/content-unavailable';
+import BannerContent from './banner-content/banner-content';
 import AnnouncementBanner from '../announcement-banner/announcement-banner';
-import { NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } from 'gatsby-env-variables';
 import { container, content, logo, stickyHeader } from './site-header.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
+import { useRecoilValueLoadable } from 'recoil';
+import { dynamicBannerState, dynamicBannerLastCachedState } from '../../recoil/dynamicBannerState';
+import useShouldRefreshCachedData from "../../recoil/hooks/useShouldRefreshCachedData";
 
 //Additional export for page width testability
 export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
+  const data = useRecoilValueLoadable(dynamicBannerState);
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
   const reducedImageSize = 130;
@@ -26,19 +29,19 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const [openGlossary, setOpenGlossary] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [imageWidth, setImageWidth] = useState(defaultLogoWidth);
+  const [bannersContent, setBannersContent] = useState(null);
+  useShouldRefreshCachedData(Date.now(), dynamicBannerState, dynamicBannerLastCachedState);
 
-  const displayBanner = () => {
-    let display = false;
-    if (location) {
-      display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location?.pathname);
-      NOTIFICATION_BANNER_DISPLAY_PATHS?.forEach(path => {
-        if (location?.pathname.includes(path)) {
-          display = true;
-        }
-      });
+  useEffect(() => {
+    if (data.state === 'hasValue') {
+      const res = data.contents.payload;
+      const refinedBanners = res.filter(
+        announcement =>
+          location?.pathname === announcement.path || (announcement.recursive_path === 'true' && location?.pathname.includes(announcement.path))
+      );
+      setBannersContent(refinedBanners);
     }
-    return display;
-  };
+  }, [data.state]);
 
   const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth;
 
@@ -96,11 +99,14 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
 
   return (
     <>
-      {displayBanner() && (
-        <AnnouncementBanner closable={false}>
-          <ContentUnavailable />
-        </AnnouncementBanner>
-      )}
+      {bannersContent &&
+        bannersContent.map(announcement => {
+          return (
+            <AnnouncementBanner closable={false} key={announcement.path}>
+              <BannerContent content={announcement.announcement_description} />
+            </AnnouncementBanner>
+          );
+        })}
       <OfficialBanner data-testid="officialBanner" />
       <header className={stickyHeader}>
         <div className={container}>

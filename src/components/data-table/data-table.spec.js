@@ -227,6 +227,35 @@ describe('react-table', () => {
     expect(getAllByTestId('row').length).toEqual(6);
   });
 
+  it('Filter column by text search with null string value', () => {
+    const { getAllByTestId, getByRole, queryAllByTestId } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={null}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          maxRows={5}
+          columnConfig={mockColumnConfig}
+        />
+      </RecoilRoot>
+    );
+    // Column header
+    const header = getByRole('columnheader', { name: 'Mock Percent String' });
+    expect(header).toBeInTheDocument();
+    // Rows render
+    expect(getAllByTestId('row').length).toEqual(6);
+    const columnFilter = within(header).getByRole('textbox');
+    expect(columnFilter).toBeInTheDocument();
+
+    // Search should not match to 'null' values
+    fireEvent.change(columnFilter, { target: { value: 'null' } });
+    expect(queryAllByTestId('row').length).toEqual(0);
+  });
+
   it('pagination', () => {
     const { getAllByTestId, getByText, getByRole, getByTestId } = render(
       <RecoilRoot>

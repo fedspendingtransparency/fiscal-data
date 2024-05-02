@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, getByTestId, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import TotalRevenueChart from './total-revenue-chart';
 import fetchMock from 'fetch-mock';
@@ -9,10 +9,22 @@ import {
   mockRevenueData,
   mockCallOutData,
   mockRevenueData_decreased,
-  mockRevenueData_NoChange,
+  mockRevenueData_NoChange, mockBeaGDPDataForRevenueChart,
 } from '../../../../../explainer-test-helper';
+import Analytics from '../../../../../../../utils/analytics/analytics';
+import userEvent from '@testing-library/user-event';
 
+class ResizeObserver {
+  observe() {}
+  unobserve() {}
+}
+
+jest.useFakeTimers();
 describe('Total Revenue Chart', () => {
+  window.ResizeObserver = ResizeObserver;
+  window.dataLayer = window.dataLayer || [];
+  const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
   beforeAll(() => {
     fetchMock.get(
       `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1`,
@@ -32,6 +44,68 @@ describe('Total Revenue Chart', () => {
   const mockPageFunction = () => {
     return null;
   };
+
+  it('chart fires on mouse over leave - for percentage of GDP', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />);
+    await waitFor(() => expect(fetchSpy).toBeCalledTimes(2));
+    expect(await getAllByText('Total Revenue').length).toBe(3);
+    expect(await getByTestId('customSlices')).toBeInTheDocument();
+
+    userEvent.tab();
+    userEvent.tab();
+    userEvent.keyboard('{Enter}');
+    const slice = getAllByTestId('customSlice')[0];
+    userEvent.tab();
+    expect(slice).toHaveFocus();
+    // 2015 is in the header after slice was focused
+    expect(await getAllByText('2015').length).toBe(2);
+  });
+
+  it('chart fires on mouse over leave - for total revenue', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />);
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
+    expect(await getAllByText('Total Revenue').length).toBe(3);
+    expect(await getByTestId('customSlices')).toBeInTheDocument();
+    const slice = getAllByTestId('customSlice')[0];
+
+    userEvent.tab();
+    userEvent.tab();
+    userEvent.tab();
+    expect(slice).toHaveFocus();
+    // 2015 is in the header after slice was focused
+    expect(await getAllByText('2015').length).toBe(2);
+  });
+
+  it('chart fires ga4 event on mouse over', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByRole } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    expect(await getByRole('presentation')).toBeInTheDocument();
+    fireEvent.mouseOver(getByRole('presentation'));
+    jest.runAllTimers();
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'chart-hover-total-revenue',
+    });
+    fireEvent.mouseLeave(getByRole('presentation'));
+  });
+
+  it('calls the appropriate analytics event when selecting ChartToggle', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    expect(await getByTestId('totalRevenueChartParent')).toBeInTheDocument();
+    expect(await getByTestId('leftChartToggle')).toBeInTheDocument();
+    getByTestId('leftChartToggle').click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: 'Chart Click',
+      label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
+    });
+    spy.mockClear();
+  });
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
