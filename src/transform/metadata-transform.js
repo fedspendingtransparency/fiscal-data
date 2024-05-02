@@ -1,5 +1,4 @@
 const { addDatasetToTopic, freshTopics } = require('./topics-config');
-
 const { addMissingPublishers } = require('./filters/filterDefinitions');
 const DataTransform = require('node-json-transform').DataTransform;
 const { getDateRange } = require('./dates');
