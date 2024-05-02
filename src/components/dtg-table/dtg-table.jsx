@@ -23,7 +23,7 @@ import {
 import CustomLink from '../links/custom-link/custom-link';
 import DataTable from '../data-table/data-table';
 import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState, reactTableSortingState } from '../../recoil/reactTableFilteredState';
+import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import moment from 'moment/moment';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -37,7 +37,6 @@ export default function DtgTable({
   setTableColumnSortData,
   resetFilters,
   setResetFilters,
-  setFiltersActive,
   tableMeta,
   tableColumnSortData,
   manualPagination,
@@ -51,6 +50,10 @@ export default function DtgTable({
   setSummaryValues,
   setIsLoading,
   isLoading,
+  sorting,
+  setSorting,
+  allActiveFilters,
+  setAllActiveFilters,
 }) {
   const {
     dePaginated,
@@ -90,8 +93,9 @@ export default function DtgTable({
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
-  const sorting = useRecoilValue(reactTableSortingState);
   const detailViewAPIConfig = config?.detailView ? config.apis.find(api => api.apiId === config.detailView.apiId) : null;
+  const [tableSorting, setTableSorting] = useState([]);
+
   let loadCanceled = false;
 
   let debounce;
@@ -156,7 +160,6 @@ export default function DtgTable({
           ? filteredDateRange?.to.format('YYYY-MM-DD')
           : formatDateForApi(dateRange.to);
       const startPage = resetPage ? 1 : currentPage;
-
       pagedDatatableRequest(selectedTable, from, to, selectedPivot, startPage, itemsPerPage, tableColumnSortData)
         .then(res => {
           if (!loadCanceled) {
@@ -251,7 +254,7 @@ export default function DtgTable({
         loadCanceled = true;
       };
     }
-  }, [sorting, filteredDateRange, selectedTable, dateRange]);
+  }, [tableSorting, filteredDateRange, selectedTable, dateRange]);
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
@@ -416,7 +419,6 @@ export default function DtgTable({
               selectColumnPanel={selectColumnPanel}
               resetFilters={resetFilters}
               setResetFilters={setResetFilters}
-              setFiltersActive={setFiltersActive}
               hideColumns={hideColumns}
               tableName={tableName}
               manualPagination={manualPagination}
@@ -428,6 +430,11 @@ export default function DtgTable({
               pivotSelected={pivotSelected?.pivotValue}
               setSummaryValues={setSummaryValues}
               customFormatting={customFormatting}
+              sorting={sorting}
+              setSorting={setSorting}
+              allActiveFilters={allActiveFilters}
+              setAllActiveFilters={setAllActiveFilters}
+              setTableSorting={setTableSorting}
             />
           </ErrorBoundary>
         </div>

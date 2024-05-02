@@ -7,7 +7,7 @@ const ChartToggle = ({ toggleClickHandler, primaryColor, chartId, leftButtonConf
 
   return (
     <div className={chartToggle}>
-      <button
+      <button data-testid="leftChartToggle"
         className={`${toggleButton} ${toggleButtonRight} ${leftSelected ? selected : null}`}
         style={{
           background: leftSelected ? primaryColor : '#f1f1f1',

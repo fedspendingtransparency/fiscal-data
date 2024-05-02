@@ -62,6 +62,8 @@ const TableSectionContainer = ({
   customFormatting,
   summaryValues,
   setSummaryValues,
+  allActiveFilters,
+  setAllActiveFilters,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -75,8 +77,7 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
-  const [filtersActive, setFiltersActive] = useState(false);
-
+  const [reactTableSorting, setReactTableSort] = useState([]);
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
@@ -217,6 +218,7 @@ const TableSectionContainer = ({
   useEffect(() => {
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
+    setReactTableSort([]);
   }, [selectedTable]);
 
   const legendToggler = e => {
@@ -350,7 +352,6 @@ const TableSectionContainer = ({
                   setTableColumnSortData={setTableColumnSortData}
                   resetFilters={resetFilters}
                   setResetFilters={setResetFilters}
-                  setFiltersActive={setFiltersActive}
                   tableMeta={tableMeta}
                   manualPagination={manualPagination}
                   setManualPagination={setManualPagination}
@@ -358,6 +359,10 @@ const TableSectionContainer = ({
                   rawDataTable
                   setIsLoading={setIsLoading}
                   isLoading={isLoading}
+                  sorting={reactTableSorting}
+                  setSorting={setReactTableSort}
+                  allActiveFilters={allActiveFilters}
+                  setAllActiveFilters={setAllActiveFilters}
                 />
               ) : (
                 ''
@@ -380,7 +385,7 @@ const TableSectionContainer = ({
               )
             }
             allTablesSelected={allTablesSelected}
-            filtersActive={filtersActive}
+            filtersActive={allActiveFilters?.length > 0}
           />
         )}
       </div>

@@ -1,6 +1,4 @@
 const { addDatasetToTopic, freshTopics } = require('./topics-config');
-
-const camelcaseKeys = require('camelcase-keys');
 const { addMissingPublishers } = require('./filters/filterDefinitions');
 const DataTransform = require('node-json-transform').DataTransform;
 const { getDateRange } = require('./dates');
@@ -10,6 +8,12 @@ const { largeDatasetThreshold } = require('../helpers/largeDatasetThreshold');
 const matchedApiConfigs = [];
 
 const { getPublishedReports } = require('../helpers/published-reports/published-reports');
+
+let camelcaseKeys;
+
+(async () => {
+  camelcaseKeys = await import('camelcase-keys');
+})();
 
 const getPrettyNameForColumn = (fields, columnName, apiId) => {
   const field = fields.find(field => field.columnName === columnName);
@@ -378,7 +382,7 @@ exports.metadataTransform = async function(
   reciprocateRelationships(datasetIdMap);
   addDatasetsToTopics(datasetIdMap);
 
-  const metadataObjects = camelcaseKeys(metadataObjectsFromApi, { deep: true });
+  const metadataObjects = camelcaseKeys.default(metadataObjectsFromApi, { deep: true });
   const vettedDatasets = vetApiMetadataAgainstWhitelist(datasetIdMap, metadataObjects, minimumDatasetCount);
   console.info(
     'EXCLUDED FOR LACK OF APIS:',

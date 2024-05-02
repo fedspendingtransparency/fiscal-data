@@ -5,8 +5,8 @@ import {
   getSortedRowModel,
   useReactTable,
   getFilteredRowModel,
-  SortingState,
   Table,
+  SortingState,
 } from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
 import {
@@ -22,8 +22,6 @@ import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
-import { useSetRecoilState } from 'recoil';
-import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -41,7 +39,6 @@ type DataTableProps = {
   selectColumnPanel;
   setResetFilters: (value: boolean) => void;
   tableName: string;
-  setFiltersActive: (value: boolean) => void;
   hideColumns?: string[];
   pagingProps;
   manualPagination: boolean;
@@ -57,6 +54,11 @@ type DataTableProps = {
   pivotSelected;
   setSummaryValues?;
   customFormatting?;
+  sorting: SortingState;
+  setSorting: (value: SortingState) => void;
+  allActiveFilters: string[];
+  setAllActiveFilters: (value: string[]) => void;
+  setTableSorting?: (value: SortingState) => void;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -74,7 +76,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setResetFilters,
   hideCellLinks,
   tableName,
-  setFiltersActive,
   hideColumns,
   pagingProps,
   manualPagination,
@@ -90,8 +91,14 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pivotSelected,
   setSummaryValues,
   customFormatting,
+  sorting,
+  setSorting,
+  allActiveFilters,
+  setAllActiveFilters,
+  setTableSorting,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
+
   useEffect(() => {
     if (!detailViewState) {
       setConfigOption(columnConfig);
@@ -151,13 +158,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     dataTypes = tempDataTypes;
   }
 
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const setTableSorting = useSetRecoilState(reactTableSortingState);
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(
     defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
   );
-  const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
   const table = useReactTable({
@@ -182,12 +186,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
-
-  useEffect(() => {
-    if (resetFilters && setTableColumnSortData) {
-      setTableColumnSortData(rawData.data);
-    }
-  }, [resetFilters, table]);
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
@@ -280,10 +278,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                   table={table}
                   dataTypes={dataTypes}
                   resetFilters={resetFilters}
-                  setFiltersActive={setFiltersActive}
+                  manualPagination={manualPagination}
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
-                  manualPagination={manualPagination}
                 />
                 <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
               </table>
