@@ -32,7 +32,7 @@ const TextFilter: FunctionComponent<ITextFilter> = ({ column, resetFilters, setA
         setAllActiveFilters([...allActiveFilters, column.id]);
       }
     } else {
-      if (allActiveFilters.includes(column.id)) {
+      if (allActiveFilters?.includes(column.id)) {
         const currentFilters = allActiveFilters.filter(value => value !== column.id);
         setAllActiveFilters(currentFilters);
       }

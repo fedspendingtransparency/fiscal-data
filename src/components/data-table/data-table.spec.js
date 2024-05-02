@@ -45,6 +45,7 @@ describe('react-table', () => {
           hideCellLinks={false}
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -67,6 +68,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           selectColumnPanel={true}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -85,6 +87,7 @@ describe('react-table', () => {
           shouldPage
           showPaginationControls
           setFiltersActive={jest.fn()}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -106,6 +109,8 @@ describe('react-table', () => {
           setResetFilters={mostResetFilter}
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
+          setAllActiveFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -113,6 +118,7 @@ describe('react-table', () => {
   });
 
   it('Able to interact with headers for column sort', () => {
+    const mockSorting = jest.fn();
     const { getAllByTestId, getByRole } = render(
       <RecoilRoot>
         <DataTable
@@ -124,6 +130,9 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
+          setAllActiveFilters={mockSorting}
+          allActiveFilters={[]}
         />
       </RecoilRoot>
     );
@@ -137,7 +146,7 @@ describe('react-table', () => {
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
     fireEvent.click(sortButton);
     // Now sorted in desc order
-    expect(getAllByTestId('row')[0].innerHTML).toContain('7/7/2023');
+    expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
     fireEvent.click(sortButton);
     fireEvent.click(sortButton);
     //Sorting should be reset
@@ -145,6 +154,7 @@ describe('react-table', () => {
   });
 
   it('column sort keyboard accessibility', () => {
+    const mockSorting = jest.fn();
     const { getAllByTestId, getByRole } = render(
       <RecoilRoot>
         <DataTable
@@ -156,6 +166,9 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
+          setAllActiveFilters={mockSorting}
+          allActiveFilters={[]}
         />
       </RecoilRoot>
     );
@@ -169,7 +182,7 @@ describe('react-table', () => {
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     // Now sorted in desc order
-    expect(getAllByTestId('row')[0].innerHTML).toContain('7/7/2023');
+    expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     //Sorting should be reset
@@ -189,6 +202,9 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           maxRows={5}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
+          setAllActiveFilters={jest.fn()}
+          allActiveFilters={[]}
         />
       </RecoilRoot>
     );
@@ -222,6 +238,9 @@ describe('react-table', () => {
           shouldPage
           showPaginationControls
           setFiltersActive={jest.fn()}
+          setTableSorting={jest.fn()}
+          setAllActiveFilters={jest.fn()}
+          allActiveFilters={[]}
           maxRows={5}
           columnConfig={mockColumnConfig}
         />
@@ -252,6 +271,7 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -284,6 +304,7 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -308,6 +329,7 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -330,6 +352,7 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -354,6 +377,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           hideColumns={['src_line_nbr']}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -381,6 +405,7 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -411,6 +436,7 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -428,6 +454,7 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -449,6 +476,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
           customFormatting={customFormatter}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -470,6 +498,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
           customFormatting={customFormatter}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -488,6 +517,7 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -505,6 +535,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           pagingProps={{ itemsPerPage: 10 }}
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -524,6 +555,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           tableName="FRN Daily Indexes"
           columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -553,6 +585,7 @@ describe('react-table', () => {
           detailViewAPI={{ endpoint: '/test/endpoint/', alwaysSortWith: ['-record_date'], dateField: 'record_date', hideColumns: [] }}
           setDetailViewState={setDetailViewSpy}
           setSummaryValues={setSummaryValuesSpy}
+          setTableSorting={jest.fn()}
         />
       </RecoilRoot>
     );

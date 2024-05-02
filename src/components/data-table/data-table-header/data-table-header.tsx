@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft, faArrowUpShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { rightAlign, getColumnFilter } from '../data-table-helper';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -24,20 +24,18 @@ interface IDataTableHeader {
   table: Table<Record<string, unknown>>;
   dataTypes: { [key: string]: string };
   resetFilters: boolean;
-  setFiltersActive: (value: boolean) => void;
+  manualPagination: boolean;
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;
-  manualPagination: boolean;
 }
 
 const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   table,
   dataTypes,
   resetFilters,
-  setFiltersActive,
+  manualPagination,
   allActiveFilters,
   setAllActiveFilters,
-  manualPagination,
 }) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
@@ -57,23 +55,18 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
     if (e.key === undefined || e.key === 'Enter') {
       header.column.toggleSorting();
       if (state === 'asc' || state === 'false') {
-        if (!allActiveFilters.includes(`${header.column.id}-sort`)) {
-          const currentFilters = allActiveFilters.filter(item => !item.includes('sort'));
+        if (allActiveFilters && !allActiveFilters.includes(`${header.column.id}-sort`)) {
+          const currentFilters = allActiveFilters?.filter(item => !item.includes('sort'));
           currentFilters.push(`${header.column.id}-sort`);
           setAllActiveFilters(currentFilters);
         }
       } else {
-        const currentFilters = allActiveFilters.filter(item => item !== `${header.column.id}-sort`);
+        const currentFilters = allActiveFilters?.filter(item => item !== `${header.column.id}-sort`);
         setAllActiveFilters(currentFilters);
       }
     }
   };
 
-  useEffect(() => {
-    if (setFiltersActive) {
-      setFiltersActive(allActiveFilters.length > 0);
-    }
-  }, [allActiveFilters]);
   return (
     <thead>
       {table.getHeaderGroups().map(headerGroup => {
@@ -140,16 +133,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
                       <div className={columnMinWidth}>
-                        {getColumnFilter(
-                          header,
-                          columnDataType,
-                          resetFilters,
-                          setFiltersActive,
-                          allActiveFilters,
-                          setAllActiveFilters,
-                          manualPagination,
-                          isLastColumn
-                        )}
+                        {getColumnFilter(header, columnDataType, resetFilters, allActiveFilters, setAllActiveFilters, manualPagination, isLastColumn)}
                       </div>
                     </>
                   )}
