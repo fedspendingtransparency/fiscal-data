@@ -27,6 +27,10 @@
     position: relative;
   }
 
+  [type='checkbox']:focus-visible + span {
+    border: 1px solid black !important;
+  }
+
   [type='checkbox'] {
     position: absolute;
     display: inline-block;
@@ -75,6 +79,4 @@
 .label_text {
   display: inline-block;
   position: absolute;
-
-  // margin-left: 18px;
 }
