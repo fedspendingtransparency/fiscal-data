@@ -238,6 +238,9 @@ describe('react-table', () => {
           shouldPage
           showPaginationControls
           setFiltersActive={jest.fn()}
+          setTableSorting={jest.fn()}
+          setAllActiveFilters={jest.fn()}
+          allActiveFilters={[]}
           maxRows={5}
           columnConfig={mockColumnConfig}
         />
