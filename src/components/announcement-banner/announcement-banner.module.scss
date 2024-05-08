@@ -1,7 +1,7 @@
 @import '../../variables.module.scss';
 
 .container {
-  padding: 1rem;
+  padding: 0.36rem;
   background-color: #fff1d2;
 }
 
@@ -16,6 +16,7 @@
 .infoIcon {
   font-size: 1rem;
   align-self: flex-start;
+  margin-top: 0.65rem;
   padding: 5px 0px;
 }
 
