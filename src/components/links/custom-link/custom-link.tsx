@@ -4,6 +4,7 @@ import { Link as ScrollLink } from 'react-scroll';
 import ExternalLink from '../external-link/external-link';
 import Analytics from '../../../utils/analytics/analytics';
 import useGAEventTracking from '../../../hooks/useGAEventTracking';
+import PageScrollLink from '../page-scroll-link/page-scroll-link';
 
 type CustomLinkProps = {
   url: string;
@@ -89,17 +90,9 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 
     case urlOrHref.startsWith('#'):
       return (
-        <ScrollLink
-          to={urlOrHref.substr(1)}
-          data-testid={dataTestId || 'scroll-link'}
-          className="primary"
-          smooth={true}
-          duration={600}
-          delay={200}
-          id={id}
-        >
+        <PageScrollLink url={urlOrHref} dataTestId={dataTestId || 'scroll-link'} id={id}>
           {children}
-        </ScrollLink>
+        </PageScrollLink>
       );
 
     case urlOrHref.endsWith('.pdf'):
