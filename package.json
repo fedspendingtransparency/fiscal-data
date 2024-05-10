@@ -10,7 +10,7 @@
     "develop-qat": "cross-env BUILD_ENV=qat gatsby develop",
     "develop-stg": "cross-env BUILD_ENV=stg gatsby develop",
     "develop-uat": "cross-env BUILD_ENV=uat gatsby develop",
-    "build-dev": "cross-env BUILD_ENV=dev gatsby build",
+    "build-dev": "cross-env BUILD_ENV=dev GATSBY_CPU_COUNT=4 gatsby build",
     "build-qat": "cross-env BUILD_ENV=qat gatsby build",
     "build-stg": "cross-env BUILD_ENV=stg gatsby build",
     "build-uat": "cross-env BUILD_ENV=uat gatsby build",
