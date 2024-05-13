@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import SurplusIllustration from './surplus-illustration';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { mockIsIntersecting } from 'react-intersection-observer/test-utils';
@@ -37,10 +37,12 @@ describe('Surplus Illustration', () => {
   it('adds the bounce class for the animation', async () => {
     const { getByTestId } = render(<SurplusIllustration glossary={glossary} />);
     const illustration = await getByTestId('surplus-illustration');
-    mockIsIntersecting(illustration, true);
     const budgetTab = await getByTestId('budget-tab');
     const deficitTab = await getByTestId('deficit-tab');
-    expect(budgetTab).toHaveClass('bounce');
+    mockIsIntersecting(illustration, true);
+    await waitFor(() => {
+      expect(budgetTab).toHaveClass('bounce');
+    });
     expect(deficitTab).toHaveClass('bounceDeficit');
   });
 
