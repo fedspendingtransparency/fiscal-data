@@ -69,6 +69,11 @@
   margin-right: 1.15rem;
 }
 
+.apiQuickGuideContent {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .sectionWrapper {
   overflow-y: hidden;
   height: '';
