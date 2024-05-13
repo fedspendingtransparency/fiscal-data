@@ -28,7 +28,7 @@ body {
   margin: 0;
 }
 
-a.primary {
+@mixin primaryLink {
   color: $primary;
   cursor: pointer;
   text-decoration: underline;
@@ -40,6 +40,10 @@ a.primary {
   &:hover {
     text-decoration: none;
   }
+}
+
+a.primary {
+ @include primaryLink;
 }
 
 code {
