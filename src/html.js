@@ -8,7 +8,7 @@ export default function HTML(props) {
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script
           src={`//gateway.foresee.com/sites/fiscaldata/${ENV_ID !== 'production' ? 'staging' : 'production'}/gateway.min.js`}
           type="text/javascript"
