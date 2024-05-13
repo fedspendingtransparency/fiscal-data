@@ -93,12 +93,6 @@ module.exports = {
     },
     'gatsby-plugin-dts-css-modules',
     {
-      resolve: 'gatsby-plugin-html-attributes',
-      options: {
-        lang: 'en',
-      },
-    },
-    {
       resolve: 'gatsby-plugin-eslint',
       options: {
         test: /\.js$|\.jsx$/,
