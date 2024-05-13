@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ENV_ID } from 'gatsby-env-variables';
 
 export default function HTML(props) {
   return (
@@ -8,6 +9,13 @@ export default function HTML(props) {
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <script
+          src={`//gateway.foresee.com/sites/fiscaldata/${ENV_ID !== 'production' ? 'staging' : 'production'}/gateway.min.js`}
+          type="text/javascript"
+          async
+          data-vendor="fs"
+          data-role="gateway"
+        />
         {props.headComponents}
       </head>
       <body {...props.bodyAttributes}>
