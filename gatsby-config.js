@@ -80,12 +80,6 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-polyfill-io`,
-      options: {
-        features: [`Array.prototype.map`, `fetch`],
-      },
-    },
-    {
       resolve: 'gatsby-plugin-sass',
       options: {
         useResolveUrlLoader: true,
