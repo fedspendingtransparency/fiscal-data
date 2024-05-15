@@ -1,0 +1,7 @@
+@import "src/variables.module";
+@import "src/styles";
+
+.scrollLink {
+  display: inline;
+  @include primaryLink;
+}
