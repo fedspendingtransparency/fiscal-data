@@ -1,11 +1,23 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import SurplusIllustration from './surplus-illustration';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { mockIsIntersecting } from 'react-intersection-observer/test-utils';
 
 describe('Surplus Illustration', () => {
   const glossary = [];
+
+  it('adds the bounce class for the animation', async () => {
+    const { getByTestId } = render(<SurplusIllustration glossary={glossary} />);
+    const illustration = getByTestId('surplus-illustration');
+    const budgetTab = getByTestId('budget-tab');
+    const deficitTab = getByTestId('deficit-tab');
+    act(() => mockIsIntersecting(illustration, true));
+    await waitFor(() => {
+      expect(budgetTab).toHaveClass('bounce');
+    });
+    expect(deficitTab).toHaveClass('bounceDeficit');
+  });
 
   it('renders all three tab titles', () => {
     const { getByText } = render(<SurplusIllustration glossary={glossary} />);
@@ -32,16 +44,6 @@ describe('Surplus Illustration', () => {
     const tab = getByText('Deficit');
     tab.click();
     expect(getByTestId('deficit-image')).toBeInTheDocument();
-  });
-
-  it('adds the bounce class for the animation', async () => {
-    const { getByTestId } = render(<SurplusIllustration glossary={glossary} />);
-    const illustration = await getByTestId('surplus-illustration');
-    mockIsIntersecting(illustration, true);
-    const budgetTab = await getByTestId('budget-tab');
-    const deficitTab = await getByTestId('deficit-tab');
-    expect(budgetTab).toHaveClass('bounce');
-    expect(deficitTab).toHaveClass('bounceDeficit');
   });
 
   it('calls the appropriate analytics when a tab is clicked', () => {
