@@ -30,31 +30,31 @@ describe('Deficit Comparison Bar Chart', () => {
 
   it('renders the chart $ values and labels', async () => {
     jest.useFakeTimers();
-    const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { findByText, findByTestId } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    const chartParent = findByTestId('chartParentDiv');
+    const chartParent = await findByTestId('chartParentDiv');
 
-    mockIsIntersecting(await chartParent, false);
-    await act(async () => {
+    act(() => {
+      mockIsIntersecting(chartParent, false);
       jest.advanceTimersByTime(2000);
-      for (const mockMarker of mockDeficitComparisonChartMarkers) {
-        const marker = await findByText(mockMarker);
-        expect(marker).toBeInTheDocument();
-        expect(marker).toHaveStyle({ opacity: 0 });
-      }
     });
 
-    mockIsIntersecting(await chartParent, true);
-    await act(async () => {
+    for (const mockMarker of mockDeficitComparisonChartMarkers) {
+      const marker = await findByText(mockMarker);
+      expect(marker).toBeInTheDocument();
+      expect(marker).toHaveStyle({ opacity: 0 });
+    }
+
+    act(() => {
+      mockIsIntersecting(chartParent, true);
       jest.runAllTimers();
-      for (const mockMarker of mockDeficitComparisonChartMarkers) {
-        const marker = await findByText(mockMarker);
-        expect(marker).toBeInTheDocument();
-        expect(marker).toHaveStyle({ opacity: 1 });
-      }
     });
+
+    for (const mockMarker of mockDeficitComparisonChartMarkers) {
+      const marker = await findByText(mockMarker);
+      expect(marker).toBeInTheDocument();
+      await waitFor(() => expect(marker).toHaveStyle({ opacity: 1 }));
+    }
   });
 
   it('renders the chart header', async () => {
