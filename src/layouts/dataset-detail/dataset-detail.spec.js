@@ -95,7 +95,7 @@ export const datasetPageSampleConfig = {
         },
         {
           columnName: 'report_table_nbr',
-          definition: 'Indicates the corresponding table number in the Monthly Statement of 'the Public Debt report',
+          definition: 'Indicates the corresponding table number in the Monthly Statement of the Public Debt report',
           tableName: 'Statutory Debt Limit',
           prettyName: null,
           dataType: null,
