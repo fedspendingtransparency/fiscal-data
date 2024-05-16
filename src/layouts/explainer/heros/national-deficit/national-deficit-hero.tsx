@@ -1,6 +1,13 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
-import { counterSourceInfo, footNotes, deficitBoxContainer, heroImageSubHeading, deficit } from '../../hero-image/hero-image.module.scss';
+import {
+  counterSourceInfo,
+  footNotes,
+  deficitBoxContainer,
+  heroImageSubHeading,
+  deficit,
+  flapWrapper,
+} from '../../hero-image/hero-image.module.scss';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
@@ -106,7 +113,7 @@ const NationalDeficitHero = (): ReactElement => {
         A deficit occurs when the federal government’s spending exceeds its revenues. The federal government has spent ${textCurrentDeficit} more than
         it has collected in {fiscalYear} {currentFiscalYear}, resulting in a national deficit.
       </p>
-      <div>
+      <div className={flapWrapper}>
         <SplitFlapDisplay
           value={desktopDeficit}
           mobilePrecision={parseInt(desktopDeficit) > 999999999999 ? 2 : 0}

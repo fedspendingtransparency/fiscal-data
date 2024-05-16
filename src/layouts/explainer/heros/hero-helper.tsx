@@ -4,6 +4,16 @@ import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { getShortForm } from '../../../utils/rounding-utils';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { apiPrefix } from '../../../utils/api-utils';
+
+// Revenue Hero Data URL Variables / Params
+const fields: string =
+  'fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,record_calendar_month,record_calendar_year,record_fiscal_year,record_date';
+const filter: string = 'filter=line_code_nbr:eq:830';
+const sort: string = 'sort=-record_date';
+const pagination: string = 'page[size]=1';
+const endpointUrl: string = `v1/accounting/mts/mts_table_4?${fields}&${filter}&${sort}&${pagination}`;
+export const revenueHeroUrl: string = `${apiPrefix}${endpointUrl}`;
 
 export const getFootNotesDateRange = (priorFY: string, currentFY: string, currentRecordMonth: string): string => {
   const date = new Date();
@@ -18,9 +28,9 @@ export const getChangeLabel = (current: number, prev: number, altVerbage: boolea
   if (current > prev) {
     return altVerbage ? 'more than' : 'increased';
   } else if (prev > current) {
-    return altVerbage ? 'less than' :'decreased';
+    return altVerbage ? 'less than' : 'decreased';
   } else {
-    return altVerbage ? 'the same as' :'not changed';
+    return altVerbage ? 'the same as' : 'not changed';
   }
 };
 

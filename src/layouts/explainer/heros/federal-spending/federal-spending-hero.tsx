@@ -1,4 +1,4 @@
-import { counterContainerSpending, footNotes, footNotesPillData, heroImageSubHeading } from '../../hero-image/hero-image.module.scss';
+import { flapWrapper, footNotes, footNotesPillData, heroImageSubHeading } from '../../hero-image/hero-image.module.scss';
 import React, { ReactElement, useEffect, useState } from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
@@ -66,7 +66,7 @@ const FederalSpendingHero = (): ReactElement => {
         The U.S. government has spent ${getShortForm(totalSpending, false)} in fiscal year {recordFiscalYear} to ensure the well-being of the people
         of the United States.
       </p>
-      <div className={counterContainerSpending}>
+      <div className={flapWrapper}>
         <SplitFlapDisplay
           value={totalSpending}
           minLength={numberFormat.format(parseInt(totalSpending)).length} // number of characters to initially display
