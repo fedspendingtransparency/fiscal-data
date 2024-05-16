@@ -1,4 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
+import { basicFetch } from './src/utils/api-utils';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -7,3 +8,15 @@ export const queryClient = new QueryClient({
     },
   },
 });
+
+export const getDataFromCacheOrFetch = async (key, url, processFunction) => {
+  try {
+    const res = await queryClient.ensureQueryData({
+      queryKey: [key, url],
+      queryFn: () => basicFetch(url),
+    });
+    return processFunction(res);
+  } catch (error) {
+    console.log(error);
+  }
+};

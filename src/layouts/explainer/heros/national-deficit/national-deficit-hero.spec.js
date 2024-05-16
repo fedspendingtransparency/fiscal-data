@@ -3,16 +3,16 @@ import { render, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import NationalDeficitHero from './national-deficit-hero';
 import { mockDeficitHeroData, mockDeficitHeroData_noChange } from '../../explainer-test-helper';
+import { queryClient } from '../../../../../react-query-client';
 
 describe('National Deficit Hero', () => {
   beforeAll(() => {
     // include a "current" and a last record from the prior year for testing values
     // fetch.resetMocks();
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockDeficitHeroData,
-      { overwriteRoutes: true },
-    );
+    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockDeficitHeroData, { overwriteRoutes: true });
+  });
+  afterEach(() => {
+    queryClient.clear();
   });
   afterAll(() => {
     fetchMock.restore();
@@ -37,11 +37,12 @@ describe('National deficit no change in data', () => {
   beforeAll(() => {
     // include a "current" and a last record from the prior year for testing values
     // fetch.resetMocks();
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockDeficitHeroData_noChange,
-      { overwriteRoutes: true },
-    );
+    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockDeficitHeroData_noChange, {
+      overwriteRoutes: true,
+    });
+  });
+  afterEach(() => {
+    queryClient.clear();
   });
   afterAll(() => {
     fetchMock.restore();

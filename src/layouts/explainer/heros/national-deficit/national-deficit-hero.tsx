@@ -8,21 +8,13 @@ import {
   deficit,
   flapWrapper,
 } from '../../hero-image/hero-image.module.scss';
-import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
-import { getChangeLabel, getFootNotesDateRange, getPillData } from '../hero-helper';
+import { getChangeLabel, getFootNotesDateRange, getPillData, deficitUrl } from '../hero-helper';
 import { getShortForm } from '../../../../utils/rounding-utils';
+import { getDataFromCacheOrFetch } from '../../../../../react-query-client';
 
 const NationalDeficitHero = (): ReactElement => {
-  const fields: string =
-    'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
-  const sort: string = 'sort=-record_date';
-  const filter: string = 'filter=line_code_nbr:eq:5694';
-  const pagination: string = 'page[size]=13';
-  const endpointUrl: string = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
-  const deficitUrl: string = `${apiPrefix}${endpointUrl}`;
-
   const deficitPillColor = '#b3532d1a';
 
   const rightPillTooltipHoverText = 'The percentage change in the deficit compared to the same period last year.';
@@ -41,38 +33,36 @@ const NationalDeficitHero = (): ReactElement => {
 
   const numberFormat = new Intl.NumberFormat('en-US');
 
-  const getCurrentNationalDeficitData = url => {
-    basicFetch(`${url}`).then(res => {
-      if (res.data) {
-        // create local variable to immediately find last complete year record
-        const lastFiscalYear = (Number(res.data[0].record_fiscal_year) - 1).toString();
-        setCurrentFiscalYear(res.data[0].record_fiscal_year);
-
-        setPreviousFiscalYear(lastFiscalYear);
-
-        setTextCurrentDeficit(getShortForm(res.data[0].current_fytd_net_outly_amt, false));
-
-        setPreviousCalendarYear((parseInt(res.data[0].record_calendar_year) - 1).toString());
-
-        setDesktopDeficit(Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt)).toFixed());
-        setDesktopPriorDeficit(getShortForm(Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed(), false));
-        const date = new Date();
-        date.setDate(15);
-        date.setMonth(parseInt(res.data[0].record_calendar_month) - 1);
-        setCurrentRecordMonth(res.data[0].record_calendar_month);
-        const currentDeficit = Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt));
-        const priorYearDeficit = Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt));
-        setDeficitDif(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), false));
-        setDeficitDifPill(Math.abs(priorYearDeficit - currentDeficit));
-        setDeficitDifPercent(parseFloat((((currentDeficit - priorYearDeficit) / priorYearDeficit) * 100).toFixed()));
-        setDeficitStatus(getChangeLabel(currentDeficit, priorYearDeficit, false));
-      }
-    });
-  };
-
   useEffect(() => {
-    getCurrentNationalDeficitData(deficitUrl);
+    getDataFromCacheOrFetch('heros', deficitUrl, processDeficitHeroData);
   }, []);
+
+  const processDeficitHeroData = res => {
+    if (res.data) {
+      // create local variable to immediately find last complete year record
+      const lastFiscalYear = (Number(res.data[0].record_fiscal_year) - 1).toString();
+      setCurrentFiscalYear(res.data[0].record_fiscal_year);
+
+      setPreviousFiscalYear(lastFiscalYear);
+
+      setTextCurrentDeficit(getShortForm(res.data[0].current_fytd_net_outly_amt, false));
+
+      setPreviousCalendarYear((parseInt(res.data[0].record_calendar_year) - 1).toString());
+
+      setDesktopDeficit(Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt)).toFixed());
+      setDesktopPriorDeficit(getShortForm(Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed(), false));
+      const date = new Date();
+      date.setDate(15);
+      date.setMonth(parseInt(res.data[0].record_calendar_month) - 1);
+      setCurrentRecordMonth(res.data[0].record_calendar_month);
+      const currentDeficit = Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt));
+      const priorYearDeficit = Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt));
+      setDeficitDif(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), false));
+      setDeficitDifPill(Math.abs(priorYearDeficit - currentDeficit));
+      setDeficitDifPercent(parseFloat((((currentDeficit - priorYearDeficit) / priorYearDeficit) * 100).toFixed()));
+      setDeficitStatus(getChangeLabel(currentDeficit, priorYearDeficit, false));
+    }
+  };
 
   const mtsLink = (
     <CustomLink

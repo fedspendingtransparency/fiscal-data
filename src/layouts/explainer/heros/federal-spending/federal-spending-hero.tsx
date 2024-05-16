@@ -1,21 +1,13 @@
 import { flapWrapper, footNotes, footNotesPillData, heroImageSubHeading } from '../../hero-image/hero-image.module.scss';
 import React, { ReactElement, useEffect, useState } from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
-import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
-import { getChangeLabel, getFootNotesDateRange, getPillData } from '../hero-helper';
+import { getChangeLabel, getFootNotesDateRange, getPillData, spendingUrl } from '../hero-helper';
 import { spendingExplainerPrimary } from '../../sections/federal-spending/federal-spending.module.scss';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import { getShortForm } from '../../../../utils/rounding-utils';
+import { getDataFromCacheOrFetch } from '../../../../../react-query-client';
 
 const FederalSpendingHero = (): ReactElement => {
-  const fields: string =
-    'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
-  const filter: string = 'filter=line_code_nbr:eq:5691';
-  const sort: string = 'sort=-record_date';
-  const pagination: string = 'page[size]=1';
-  const endpointUrl: string = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
-  const spendingUrl: string = `${apiPrefix}${endpointUrl}`;
-
   const [totalSpending, setTotalSpending] = useState(null);
   const [priorYearSpending, setPriorYearSpending] = useState(0);
   const [priorFiscalYear, setPriorFiscalYear] = useState(null);
@@ -34,31 +26,29 @@ const FederalSpendingHero = (): ReactElement => {
     </CustomLink>
   );
 
-  const getHeroData = url => {
-    basicFetch(`${url}`).then(res => {
-      if (res.data) {
-        const data = res.data[0];
-        const currentTotalSpending = parseFloat(data.current_fytd_net_outly_amt);
-        const priorTotalSpending = parseFloat(data.prior_fytd_net_outly_amt);
-        const difference = currentTotalSpending - priorTotalSpending;
-        setTotalSpending(currentTotalSpending);
-        setRecordFiscalYear(data.record_fiscal_year);
-        setPriorYearSpending(priorTotalSpending);
-        setPriorFiscalYear(data.record_fiscal_year - 1);
-        setPriorCalendarYear(data.record_calendar_year - 1);
-        setRecordCalendarMonth(data.record_calendar_month);
-        setSpendingChange(difference);
-        setSpendingPercentChange((difference / priorTotalSpending) * 100);
-        setSpendingChangeLabel(getChangeLabel(currentTotalSpending, priorTotalSpending, false));
-      }
-    });
+  useEffect(() => {
+    getDataFromCacheOrFetch('heros', spendingUrl, processSpendingHeroData);
+  }, []);
+
+  const processSpendingHeroData = res => {
+    if (res.data) {
+      const data = res.data[0];
+      const currentTotalSpending = parseFloat(data.current_fytd_net_outly_amt);
+      const priorTotalSpending = parseFloat(data.prior_fytd_net_outly_amt);
+      const difference = currentTotalSpending - priorTotalSpending;
+      setTotalSpending(currentTotalSpending);
+      setRecordFiscalYear(data.record_fiscal_year);
+      setPriorYearSpending(priorTotalSpending);
+      setPriorFiscalYear(data.record_fiscal_year - 1);
+      setPriorCalendarYear(data.record_calendar_year - 1);
+      setRecordCalendarMonth(data.record_calendar_month);
+      setSpendingChange(difference);
+      setSpendingPercentChange((difference / priorTotalSpending) * 100);
+      setSpendingChangeLabel(getChangeLabel(currentTotalSpending, priorTotalSpending, false));
+    }
   };
 
   const rightTooltipText = 'The percentage change in spending compared to the same period last year.';
-
-  useEffect(() => {
-    getHeroData(spendingUrl);
-  }, []);
 
   return (
     <>

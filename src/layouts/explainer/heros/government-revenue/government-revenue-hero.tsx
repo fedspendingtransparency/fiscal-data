@@ -1,32 +1,19 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { footNotes, heroImageSubHeading, footNotesPillData, flapWrapper } from '../../hero-image/hero-image.module.scss';
-import { basicFetch } from '../../../../utils/api-utils';
 import { getFootNotesDateRange, getPillData, revenueHeroUrl } from '../hero-helper';
 import { revenueExplainerLightSecondary } from '../../sections/government-revenue/revenue.module.scss';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { getShortForm } from '../../../../utils/rounding-utils';
-import { queryClient } from '../../../../../react-query-client';
+import { getDataFromCacheOrFetch } from '../../../../../react-query-client';
 
 const GovernmentRevenueHero = (): ReactElement => {
   useEffect(() => {
-    getHeroData();
+    getDataFromCacheOrFetch('heros', revenueHeroUrl, processRevenueHeroData);
   }, []);
 
-  const getHeroData = async () => {
-    try {
-      const res = await queryClient.ensureQueryData({
-        queryKey: ['heros', revenueHeroUrl],
-        queryFn: () => basicFetch(revenueHeroUrl),
-      });
-      return processData(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const processData = res => {
+  const processRevenueHeroData = res => {
     if (res.data) {
       const data = res.data[0];
       const currentTotalRevenue = parseFloat(data.current_fytd_net_rcpt_amt) || 0;

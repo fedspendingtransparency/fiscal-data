@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import { mockRevenueHeroData, mockRevenueHeroData_decrease } from '../../explainer-test-helper';
 import GovernmentRevenueHero from './government-revenue-hero';
+import { queryClient } from '../../../../../react-query-client';
 
 describe('Government Revenue Hero', () => {
   beforeAll(() => {
@@ -12,6 +13,10 @@ describe('Government Revenue Hero', () => {
       { overwriteRoutes: true },
       { repeat: 1 }
     );
+  });
+
+  afterEach(() => {
+    queryClient.clear();
   });
 
   it('Hero Image section loads with relevant data', async () => {
@@ -32,6 +37,10 @@ describe('Government Revenue Hero', () => {
 });
 
 describe('Pill data section', () => {
+  afterEach(() => {
+    queryClient.clear();
+  });
+
   it('correctly renders the pill data, when revenue has increased', async () => {
     fetchMock.get(
       `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
