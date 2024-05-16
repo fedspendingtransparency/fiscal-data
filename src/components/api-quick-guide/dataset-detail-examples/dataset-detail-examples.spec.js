@@ -96,7 +96,7 @@ describe('Example Response', () => {
     expect(responseEl).toBe(errorMessage);
   });
 
-  it('only calls the API once if multiple useEffect triggers take place simultaneously to ' + 'call the fetchAPI', async () => {
+  it('only calls the API once if multiple useEffect triggers take place simultaneously to call the fetchAPI', async () => {
     // first open the accordion without changing the table...
     rendered.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'Ignored table' }} />);
 
@@ -146,7 +146,7 @@ describe('Example Response', () => {
     }
   );
 
-  it('prevents setting an error response if the loadCanceled is triggered before the ' + 'response returns', async () => {
+  it('prevents setting an error response if the loadCanceled is triggered before the response returns', async () => {
     fetchMock
       .mockResponses([async () => await new Promise(res => setTimeout(() => res(new Error('invalid-json')), 100)), {}])
       .mockResponse(JSON.stringify({ data: 'This is GOOD data', meta: 'This is GOOD meta' }));

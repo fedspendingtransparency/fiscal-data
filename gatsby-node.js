@@ -59,7 +59,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       );
     }
   } else {
-    console.info('App is including only datasets whitelisted for production ' + 'environments');
+    console.info('App is including only datasets whitelisted for production environments');
   }
 
   let numMetaDataCalls = 0;
@@ -71,13 +71,13 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     const rejectOrMockOutput = (error, resolve, reject) => {
       if (USE_MOCK_RELEASE_CALENDAR_DATA_ON_API_FAIL) {
         error !== null
-          ? console.info('Reject received, but resolving with mock ' + 'release calendar data.')
-          : console.info('API endpoint unavailable for Release ' + 'Calendar, using mock data.');
+          ? console.info('Reject received, but resolving with mock release calendar data.')
+          : console.info('API endpoint unavailable for Release Calendar, using mock data.');
         resolve(releaseCalendarMockData);
       } else {
         error !== null
           ? console.warn('Reject received, rejecting with error.')
-          : console.warn('API endpoint unavailable for Release Calender, ' + 'not configured to allow mock data.');
+          : console.warn('API endpoint unavailable for Release Calender, not configured to allow mock data.');
         reject(error);
       }
     };

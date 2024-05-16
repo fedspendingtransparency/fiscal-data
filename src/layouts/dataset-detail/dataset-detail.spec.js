@@ -95,7 +95,7 @@ export const datasetPageSampleConfig = {
         },
         {
           columnName: 'report_table_nbr',
-          definition: 'Indicates the corresponding table number in the Monthly Statement of ' + 'the Public Debt report',
+          definition: 'Indicates the corresponding table number in the Monthly Statement of 'the Public Debt report',
           tableName: 'Statutory Debt Limit',
           prettyName: null,
           dataType: null,
@@ -103,7 +103,7 @@ export const datasetPageSampleConfig = {
         },
         {
           columnName: 'security_holder',
-          definition: 'Indicates whether the federal debt is held by the public or ' + 'intragovernmental holdings',
+          definition: 'Indicates whether the federal debt is held by the public or intragovernmental holdings',
           tableName: 'Statutory Debt Limit',
           prettyName: null,
           dataType: null,
@@ -277,12 +277,12 @@ describe('Dataset-Detail layout component', () => {
     instance.find(obj => obj.type === RelatedDatasets);
   });
 
-  it('ensures that the proper ordering of the dataset tables is preserved when passed ' + 'down to dataset-data', () => {
+  it('ensures that the proper ordering of the dataset tables is preserved when passed down to dataset-data', () => {
     const datasetData = instance.findByType(DatasetData);
     expect(datasetData.props.config.apis.map(api => api.apiId)).toEqual(datasetPageSampleConfig.apis.map(api => api.apiId));
   });
 
-  it("ensures that the proper ordering of the dataset tables' fields are preserved when " + 'passed down to dataset-data', () => {
+  it("ensures that the proper ordering of the dataset tables' fields are preserved when passed down to dataset-data", () => {
     const datasetData = instance.findByType(DatasetData);
     expect(datasetData.props.config.apis[0].fields).toEqual(datasetPageSampleConfig.apis[0].fields);
   });

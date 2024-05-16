@@ -43,7 +43,7 @@ describe('smooth scroll', () => {
     global.window.scrollTo = globalScrollTo;
   });
 
-  it('expects scrollTo within onLinkClick to have been called on anchor that ' + 'attaches the SmoothScroll handlers', async () => {
+  it('expects scrollTo within onLinkClick to have been called on anchor that attaches the SmoothScroll handlers', async () => {
     const link = instance.findByType('a');
     link.addEventListener = jest.fn();
 
