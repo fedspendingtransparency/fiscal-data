@@ -22,6 +22,7 @@ module.exports = {
   globals: {
     __PATH_PREFIX__: ``,
     'ts-jest': {
+      isolatedModules: true,
       tsconfig: './tsconfig.spec.json',
     },
   },
