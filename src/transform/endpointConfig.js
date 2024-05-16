@@ -505,7 +505,7 @@ const endpointConfig = {
           {
             key: 'classification_desc',
             operator: 'in',
-            value: 'Net Activity&44; Direct Loan Financing' + ',Net Activity&44; Guaranteed Loan Financing',
+            value: 'Net Activity&44; Direct Loan Financing,Net Activity&44; Guaranteed Loan Financing',
           },
         ],
       },
@@ -1116,7 +1116,7 @@ const endpointConfig = {
           {
             key: 'security_class1_desc',
             operator: 'in',
-            value: 'Total Matured United States Savings Securities,Total Unmatured United ' + 'States Savings Securities',
+            value: 'Total Matured United States Savings Securities,Total Unmatured United States Savings Securities',
           },
         ],
         uniquePivotValues: [

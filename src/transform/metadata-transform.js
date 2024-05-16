@@ -20,7 +20,7 @@ const getPrettyNameForColumn = (fields, columnName, apiId) => {
   if (field) {
     return field.prettyName;
   } else {
-    console.warn('No prettyName in metadata for API: ' + apiId + ' could be found' + 'for dimension field:', columnName);
+    console.warn('No prettyName in metadata for API: ' + apiId + ' could be found for dimension field:', columnName);
     return columnName;
   }
 };

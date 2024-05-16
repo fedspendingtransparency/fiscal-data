@@ -143,7 +143,7 @@ describe('DatasetDataApiHelper with proper dataset table props', () => {
     global.console.log = origConsoleLog;
   });
 
-  it('exposes a function that prepares non-pivoted data to be pivoted' + ' and passes it to ApiUtils.pivotData', () => {
+  it('exposes a function that prepares non-pivoted data to be pivoted and passes it to ApiUtils.pivotData', () => {
     ApiUtils.pivotData = jest.fn();
 
     const mockTable = { dateField: 'record_date' };

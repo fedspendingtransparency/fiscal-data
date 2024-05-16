@@ -184,7 +184,7 @@ describe('Api Utils function library', () => {
     expect(fetchSpy.mock.calls[0][0]).toContain('sort=-record_date,col4');
   });
 
-  it('applies descending sort order to paginated requests where ' + 'alwaysSortWith is not provided', async () => {
+  it('applies descending sort order to paginated requests where alwaysSortWith is not provided', async () => {
     global.fetch = jest.fn().mockReturnValue(
       Promise.resolve({
         ok: true,
