@@ -4,9 +4,16 @@ describe('Dataset detail page validation', () => {
       url: '/datasets/daily-treasury-statement/',
       name: 'Daily Treasury Statement (DTS)',
       dataTables: [
-        { name: 'Operating Cash Balance', endpoint: '/v1/accounting/dts/operating_cash_balance' },
+        {
+          name: 'Operating Cash Balance',
+          endpoint: '/v1/accounting/dts/operating_cash_balance',
+          columns: [{ prettyName: 'Type of Account', name: 'account_type' }],
+        },
         { name: 'Public Debt Transactions', endpoint: '/v1/accounting/dts/public_debt_transactions' },
-        { name: 'Adjustment of Public Debt Transactions to Cash Basis', '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis' },
+        {
+          name: 'Adjustment of Public Debt Transactions to Cash Basis',
+          endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
+        },
       ],
     },
   ];
