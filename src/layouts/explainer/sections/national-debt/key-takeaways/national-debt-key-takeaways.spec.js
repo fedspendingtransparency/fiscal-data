@@ -8,7 +8,7 @@ describe('National Debt Key Takeaways', () => {
     expect(getByText('mortgage, car loan, and credit cards.', { exact: false })).toBeInTheDocument();
     expect(getByText('The U.S. has carried debt since its inception.', { exact: false })).toBeInTheDocument();
     expect(
-      getByText('The national debt enables the federal government to pay for ' + 'important programs and services for the American public.', {
+      getByText('The national debt enables the federal government to pay for important programs and services for the American public.', {
         exact: false,
       })
     ).toBeInTheDocument();
