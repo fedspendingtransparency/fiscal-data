@@ -59,7 +59,7 @@ describe('API Utils Helper', () => {
     expect(unitTestObjects.buildDownloadObject(apiParam, dateRange, fileType)).toStrictEqual(returnObj);
   });
 
-  it('returns a valid request object from buildDownloadObject when called with api object ' + 'has an alwaysSortWith attribute', () => {
+  it('returns a valid request object from buildDownloadObject when called with api object has an alwaysSortWith attribute', () => {
     const apiParam = {
       apiId: 1,
       dateField: 'record_date',
@@ -89,7 +89,7 @@ describe('API Utils Helper', () => {
     expect(helpers.buildDownloadRequestArray(apiParam, dateRange, null)).toBeNull();
   });
 
-  it('returns a valid request object when calling buildDownloadRequestArray with a ' + 'single API', () => {
+  it('returns a valid request object when calling buildDownloadRequestArray with a single API', () => {
     const apiParam = { apiId: 1, dateField: 'record_date' };
     const dateRange = { from: dummyDateJS, to: dummyDateJS };
     const fileType = 'csv';
@@ -108,7 +108,7 @@ describe('API Utils Helper', () => {
     expect(helpers.buildDownloadRequestArray(apiParam, dateRange, fileType)).toStrictEqual(returnObj);
   });
 
-  it('returns a valid request object when calling buildDownloadRequestArray with an ' + 'array of APIs', () => {
+  it('returns a valid request object when calling buildDownloadRequestArray with an array of APIs', () => {
     const apiParams = [
       { apiId: 1, dateField: 'record_date' },
       { apiId: 2, dateField: 'some_date' },

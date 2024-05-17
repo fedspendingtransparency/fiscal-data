@@ -203,7 +203,7 @@ describe('Secondary Nav', () => {
     });
   });
 
-  it('renders the coming soon flag on sections with the comingSoon ' + 'set to true', () => {
+  it('renders the coming soon flag on sections with the comingSoon set to true', () => {
     const { getByText } = render(
       <SecondaryNav sections={comingSoonSections} width={largeWidth} hoverClass={hoverClass}>
         <div id={sections[0].id}>{childContent}</div>

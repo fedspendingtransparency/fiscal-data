@@ -20,7 +20,7 @@ describe('Analytics Util', () => {
     process.env.GATSBY_ENV = originalEnv;
   });
 
-  it('calls window.gas and window.ga with expected arguments in Prod ' + 'environment', async () => {
+  it('calls window.gas and window.ga with expected arguments in Prod environment', async () => {
     renderer.act(() => {
       Analytics.event({
         category: 'Glossary',

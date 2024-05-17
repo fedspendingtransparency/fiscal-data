@@ -8,7 +8,7 @@ import ApiQuickGuideSection from './api-quick-guide-section';
 import DatasetDetailExamples from './dataset-detail-examples/dataset-detail-examples';
 import SectionCollapseButton from '../section-collapse/section-collapse-button';
 
-import { sectionWrapper, collapsed, toggleButtonContainer } from './api-quick-guide.module.scss';
+import { sectionWrapper, collapsed, toggleButtonContainer, apiQuickGuideContent } from './api-quick-guide.module.scss';
 
 // TODO: Refactor ApiQuickGuideSection to allow table (combine with DatasetDetailFields).
 const ApiQuickGuide = ({ selectedTable, config }) => {
@@ -85,22 +85,24 @@ const ApiQuickGuide = ({ selectedTable, config }) => {
 
   return (
     <DatasetSectionContainer id="api-quick-guide" title={title}>
-      <div className={expandStyles}>
-        <div id="quick-guide-content-container">
-          <DocumentationLinkSection type="HEADER" />
-          <div id="api-quick-guide-expandable" aria-hidden={isCollapsed}>
-            <DatasetDetailEndpoints selectedTable={selectedTable} apis={config.apis} />
-            <div id="collapse-scroll-target" />
-            <DatasetDetailFields apis={config.apis} />
-            <Accordions selectedTable={selectedTable} tabindex={isCollapsed ? -1 : 0} />
-            <ApiQuickGuideSection id="method-section" title={methods.title} description={methods.desc} />
-            <DatasetDetailExamples isAccordionOpen={!isCollapsed} selectedTable={selectedTable} />
-            <DocumentationLinkSection type="FOOTER" />
+      <DocumentationLinkSection type="HEADER" />
+      <div className={apiQuickGuideContent}>
+        <div className={toggleButtonContainer}>
+          <SectionCollapseButton sectionName="api-quick-guide" handleToggle={handleCollapse} />
+        </div>
+        <div className={expandStyles}>
+          <div id="quick-guide-content-container">
+            <div id="api-quick-guide-expandable" aria-hidden={isCollapsed}>
+              <DatasetDetailEndpoints selectedTable={selectedTable} apis={config.apis} />
+              <div id="collapse-scroll-target" />
+              <DatasetDetailFields apis={config.apis} />
+              <Accordions selectedTable={selectedTable} tabindex={isCollapsed ? -1 : 0} />
+              <ApiQuickGuideSection id="method-section" title={methods.title} description={methods.desc} />
+              <DatasetDetailExamples isAccordionOpen={!isCollapsed} selectedTable={selectedTable} />
+              <DocumentationLinkSection type="FOOTER" />
+            </div>
           </div>
         </div>
-      </div>
-      <div className={toggleButtonContainer}>
-        <SectionCollapseButton sectionName="api-quick-guide" handleToggle={handleCollapse} />
       </div>
     </DatasetSectionContainer>
   );
