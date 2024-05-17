@@ -11,7 +11,6 @@ const addTableName = (fields, table) => {
 };
 
 const DatasetDetailFields = ({ apis, tabindex }) => {
-  console.log('tabindex: ', tabindex);
   const flat = apis.reduce((flattened, current) => {
     if (current.fields) {
       return flattened.concat(addTableName(current.fields, current.tableName));

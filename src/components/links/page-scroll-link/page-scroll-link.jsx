@@ -20,7 +20,6 @@ const scrollOptionsOffset = {
 };
 
 const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children }) => {
-  console.log('tabindex in page scroll: ', tabindex);
   const handleInteraction = (e, url) => {
     //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
