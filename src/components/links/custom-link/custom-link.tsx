@@ -15,6 +15,7 @@ type CustomLinkProps = {
   'data-testid'?: string;
   eventNumber?: string;
   id?: string;
+  tabindex?: number;
 };
 
 const analyticsEventMap: Record<string, string> = {
@@ -34,6 +35,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   'data-testid': dataTestId,
   eventNumber,
   id,
+  tabindex,
 }: CustomLinkProps) => {
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
@@ -90,7 +92,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 
     case urlOrHref.startsWith('#'):
       return (
-        <PageScrollLink url={urlOrHref} dataTestId={dataTestId || 'scroll-link'} id={id}>
+        <PageScrollLink url={urlOrHref} dataTestId={dataTestId || 'scroll-link'} id={id} tabindex={tabindex}>
           {children}
         </PageScrollLink>
       );
