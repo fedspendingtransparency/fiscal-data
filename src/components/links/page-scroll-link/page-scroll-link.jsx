@@ -19,7 +19,8 @@ const scrollOptionsOffset = {
   offset: scrollOffset,
 };
 
-const PageScrollLink = ({ url, dataTestId, id, children }) => {
+const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children }) => {
+  console.log('tabindex in page scroll: ', tabindex);
   const handleInteraction = (e, url) => {
     //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
@@ -39,7 +40,7 @@ const PageScrollLink = ({ url, dataTestId, id, children }) => {
       className={scrollLink}
       role="link"
       id={id}
-      tabIndex={0}
+      tabIndex={tabindex}
     >
       {children}
     </div>

@@ -10,7 +10,8 @@ const addTableName = (fields, table) => {
   return fields;
 };
 
-const DatasetDetailFields = ({ apis }) => {
+const DatasetDetailFields = ({ apis, tabindex }) => {
+  console.log('tabindex: ', tabindex);
   const flat = apis.reduce((flattened, current) => {
     if (current.fields) {
       return flattened.concat(addTableName(current.fields, current.tableName));
@@ -77,8 +78,11 @@ const DatasetDetailFields = ({ apis }) => {
     title: 'Fields',
     desc: (
       <>
-        Refer to <CustomLink url={'#dataset-properties'}>Dataset Properties</CustomLink> above for a data dictionary with field names and
-        descriptions, as well as notes and known limitations. known limitations.
+        Refer to{' '}
+        <CustomLink url={'#dataset-properties'} tabindex={tabindex}>
+          Dataset Properties
+        </CustomLink>{' '}
+        above for a data dictionary with field names and descriptions, as well as notes and known limitations. known limitations.
       </>
     ),
   };
