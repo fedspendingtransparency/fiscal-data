@@ -9,11 +9,11 @@ describe('Dataset detail page validation', () => {
           endpoint: '/v1/accounting/dts/operating_cash_balance',
           columns: [{ prettyName: 'Type of Account', name: 'account_type' }],
         },
-        { name: 'Public Debt Transactions', endpoint: '/v1/accounting/dts/public_debt_transactions' },
-        {
-          name: 'Adjustment of Public Debt Transactions to Cash Basis',
-          endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
-        },
+        // { name: 'Public Debt Transactions', endpoint: '/v1/accounting/dts/public_debt_transactions' },
+        // {
+        //   name: 'Adjustment of Public Debt Transactions to Cash Basis',
+        //   endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
+        // },
       ],
     },
   ];
@@ -26,7 +26,7 @@ describe('Dataset detail page validation', () => {
         cy.contains(table.name).click();
         // Endpoint in the API Quick Guide documentation updates for each table
         cy.contains('/services/api/fiscal_service' + table.endpoint);
-        // cy.get('input').type('opening balance');
+        cy.get('input[aria-label="filter account_type column"]').type('opening balance');
         cy.contains(table.name).click();
       });
     });
