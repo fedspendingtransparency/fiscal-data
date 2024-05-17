@@ -31,7 +31,11 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes, al
                     fillCell ? cellBorder : null,
                     wrapStyle ? wrap : noWrap,
                   ])}
-                  style={{ verticalAlign: 'top' }}
+                  // 150 is a default value from React Table
+                  style={{
+                    verticalAlign: 'top',
+                    maxWidth: cell.column.getSize() !== 150 ? cell.column.getSize() : undefined,
+                  }}
                 >
                   {display ? <div /> : flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
