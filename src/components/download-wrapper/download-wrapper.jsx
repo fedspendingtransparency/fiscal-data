@@ -15,6 +15,7 @@ import { ensureDoubleDigitDate, formatDate } from './helpers';
 import globalConstants from '../../helpers/constants';
 import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
 import { useRecoilValue } from 'recoil';
+import { smallTableDownloadDataCSV, tableRowLengthState } from '../../recoil/smallTableDownloadData';
 
 const gaEventLabels = globalConstants.gaEventLabels;
 export const cancelEventLabelStr = gaEventLabels.cancelDL;
@@ -51,6 +52,7 @@ const DownloadWrapper = ({
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
   const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
+  const tableSize = useRecoilValue(tableRowLengthState);
 
   const makeDownloadButtonAvailable = () => {
     if (datasetDownloadInProgress) {
@@ -227,7 +229,23 @@ const DownloadWrapper = ({
 
       <DownloadToggle onChange={toggleButtonChange} />
       <div>
-        <DownloadItemButton icon={icon} label={downloadLabel} disabled={disableButton} handleClick={downloadClickHandler} />
+        {tableSize <= 6000 && selectedFileType === 'csv' ? (
+          <DownloadItemButton
+            icon={icon}
+            label={downloadLabel}
+            disabled={disableButton}
+            handleClick={downloadClickHandler}
+            directCSVDownload={true}
+          />
+        ) : (
+          <DownloadItemButton
+            icon={icon}
+            label={downloadLabel}
+            disabled={disableButton}
+            handleClick={downloadClickHandler}
+            directCSVDownload={false}
+          />
+        )}
       </div>
       <div>
         <DownloadItemButton label="Download Data Dictionary" fileSize={ddSize} asyncAction={metadataDownloader} />

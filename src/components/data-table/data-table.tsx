@@ -22,6 +22,8 @@ import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
+import { smallTableDownloadDataCSV } from '../../recoil/smallTableDownloadData';
+import { useSetRecoilState } from 'recoil';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -98,6 +100,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setTableSorting,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
+  const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
 
   useEffect(() => {
     if (!detailViewState) {
@@ -228,6 +231,19 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
+    let CSVData = [];
+    const CSVHeaders = [];
+    table.getHeaderGroups()[0].headers.map(header => {
+      CSVHeaders.push(header.column.columnDef.header);
+    });
+    table.getFilteredRowModel().flatRows.map(row => {
+      CSVData.push(row.original);
+    });
+    CSVData = CSVData.map(entry => {
+      return Object.values(entry);
+    });
+    CSVData.unshift(CSVHeaders);
+    setSmallTableCSVData(CSVData);
   }, [columnVisibility, table.getFilteredRowModel(), table.getVisibleFlatColumns()]);
 
   useEffect(() => {
