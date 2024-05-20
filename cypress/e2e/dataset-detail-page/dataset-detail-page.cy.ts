@@ -48,7 +48,8 @@ describe('Dataset detail page validation', () => {
       cy.contains(table.name).click();
       // Endpoint in the API Quick Guide documentation updates for each table
       cy.contains('/services/api/fiscal_service' + table.endpoint);
-      cy.get('input[aria-label="filter ' + table.column.name + ' column"]').type(table.column.searchTerm);
+      cy.contains('input[aria-label="filter account_type column"]');
+      cy.get('input[aria-label="filter account_type column"]').type(table.column.searchTerm);
       cy.contains('button[aria-label="Clear search bar"]');
       cy.get('td:contains("Total TGA Deposits (Table II)")', { timeout: 10000 })
         .its('length')
