@@ -22,8 +22,24 @@ describe('Dataset detail page validation', () => {
     ],
   };
 
-  it('Loads DTS Dataset Detail Page', () => {
-    const dataset = dtsDataset;
+  const mtsDataset = {
+    url: '/datasets/monthly-treasury-statement/',
+    name: 'Monthly Treasury Statement (MTS)',
+    dataTables: [
+      {
+        name: 'Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government',
+        endpoint: '/v1/accounting/mts/mts_table_1',
+        column: { prettyName: 'Classification Description', name: 'classification_desc', searchTerm: 'October' },
+      },
+      {
+        name: 'Receipts of the U.S. Government',
+        endpoint: '/v1/accounting/mts/mts_table_4',
+        column: { prettyName: 'Classification Description', name: 'classification_desc', searchTerm: 'Withheld' },
+      },
+    ],
+  };
+
+  const checkDataTables = dataset => {
     cy.visit(dataset.url);
     cy.contains(dataset.dataTables[0].name).click();
     dataset.dataTables.forEach(table => {
@@ -40,49 +56,13 @@ describe('Dataset detail page validation', () => {
         .should('eq', 10);
       cy.contains(table.name).click();
     });
+  };
+
+  it('Loads DTS Dataset Detail Page', () => {
+    checkDataTables(dtsDataset);
   });
 
-  it('Loads DTS Operating Cash Balance', () => {
-    const dataset = dtsDataset;
-    cy.visit(dataset.url);
-    cy.contains(dataset.dataTables[0].name).click();
-    const tableName = 'Operating Cash Balance';
-    const endpoint = '/v1/accounting/dts/operating_cash_balance';
-    const column = { prettyName: 'Type of Account', name: 'account_type', searchTerm: 'Table II' };
-    cy.contains(tableName).click();
-    // Endpoint in the API Quick Guide documentation updates for each table
-    cy.contains('/services/api/fiscal_service' + endpoint);
-    cy.findByRole('textbox', { name: 'filter ' + column.name + ' column' }).type(column.searchTerm);
-    cy.findByRole('textbox', { name: 'filter ' + column.name + ' column' })
-      .invoke('val')
-      .should('eq', column.searchTerm);
-    cy.get('svg[aria-label="Clear search bar"]');
-    cy.get('td:contains("' + column.searchTerm + '")')
-      .its('length')
-      .should('eq', 10);
-    cy.contains(tableName).click();
+  it('loads MTS Dataset Detail Page', () => {
+    checkDataTables(mtsDataset);
   });
-
-  it('Loads DTS Adjustment of Public Debt Transactions to Cash Basis', () => {
-    const dataset = dtsDataset;
-    cy.visit(dataset.url);
-    cy.contains(dataset.dataTables[0].name).click();
-    const tableName = 'Adjustment of Public Debt Transactions to Cash Basis';
-    const endpoint = '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis';
-    const column = { prettyName: 'Adjustment Type', name: 'adj_type', searchTerm: 'Government Account Transactions (-)' };
-    cy.contains(tableName).click();
-    // Endpoint in the API Quick Guide documentation updates for each table
-    cy.contains('/services/api/fiscal_service' + endpoint);
-    cy.findByRole('textbox', { name: 'filter ' + column.name + ' column' }).type(column.searchTerm);
-    cy.findByRole('textbox', { name: 'filter ' + column.name + ' column' })
-      .invoke('val')
-      .should('eq', column.searchTerm);
-    cy.get('svg[aria-label="Clear search bar"]');
-    cy.get('td:contains("' + column.searchTerm + '")')
-      .its('length')
-      .should('eq', 10);
-    cy.contains(tableName).click();
-  });
-
-  // it('loads MTS Dataset Detail Page', () => {});
 });
