@@ -49,12 +49,12 @@ describe('Dataset detail page validation', () => {
       cy.contains(table.name).click();
       // Endpoint in the API Quick Guide documentation updates for each table
       cy.contains('/services/api/fiscal_service' + table.endpoint);
-      cy.findByRole('textbox', { name: 'filter account_type column' }).type('Total TGA Deposits (Table II)');
-      cy.findByRole('textbox', { name: 'filter account_type column' })
+      cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' }).type(table.column.searchTerm);
+      cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' })
         .invoke('val')
-        .should('eq', 'Total TGA Deposits (Table II)');
+        .should('eq', table.column.searchTerm);
       cy.get('svg[aria-label="Clear search bar"]');
-      cy.get('td:contains("Total TGA Deposits (Table II)")')
+      cy.get('td:contains("' + table.column.searchTerm + '")')
         .its('length')
         .should('eq', 10);
       cy.contains(table.name).click();
