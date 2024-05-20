@@ -33,10 +33,11 @@ describe('Dataset detail page validation', () => {
       //   largeTable: true,
       //   column: { prettyName: 'Type of Account', name: 'account_type', searchTerm: 'Table II' },
       // },
-      // {
-      //   name: 'Adjustment of Public Debt Transactions to Cash Basis',
-      //   endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
-      // },
+      {
+        name: 'Adjustment of Public Debt Transactions to Cash Basis',
+        endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
+        column: { prettyName: 'Adjustment Type', name: 'adjustment_type', searchTerm: 'Government Account Transactions (-)' },
+      },
     ],
   };
 
@@ -52,11 +53,11 @@ describe('Dataset detail page validation', () => {
       cy.findByRole('textbox', { name: 'filter account_type column' })
         .invoke('val')
         .should('eq', 'Total TGA Deposits (Table II)');
-      cy.findByRole('button', { name: 'Clear search bar' });
+      cy.get('svg[aria-label="Clear search bar"]');
       cy.get('td:contains("Total TGA Deposits (Table II)")')
         .its('length')
         .should('eq', 10);
-      // cy.contains(table.name).click();
+      cy.contains(table.name).click();
     });
   });
 });
