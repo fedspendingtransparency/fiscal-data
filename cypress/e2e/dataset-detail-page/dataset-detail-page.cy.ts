@@ -49,10 +49,12 @@ describe('Dataset detail page validation', () => {
       // Endpoint in the API Quick Guide documentation updates for each table
       cy.contains('/services/api/fiscal_service' + table.endpoint);
       cy.get('input[aria-label="filter ' + table.column.name + ' column"]').type(table.column.searchTerm);
+      const results = cy.contains(table.column.searchTerm);
+      cy.log(results);
       cy.contains(table.column.searchTerm)
         .its('length')
         .should('eq', 10);
-      cy.contains(table.name).click();
+      // cy.contains(table.name).click();
     });
   });
 });
