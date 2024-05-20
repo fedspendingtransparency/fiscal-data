@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import { mockSpendingHeroData, mockSpendingHeroData_decrease } from '../../explainer-test-helper';
 import FederalSpendingHero from './federal-spending-hero';
+import { queryClient } from '../../../../../react-query-client';
 
 describe('Federal spending Hero', () => {
   beforeAll(() => {
@@ -13,6 +14,9 @@ describe('Federal spending Hero', () => {
       { overwriteRoutes: true },
       { repeat: 1 }
     );
+  });
+  afterEach(() => {
+    queryClient.clear();
   });
 
   it('Hero Image section loads with relevant data', async () => {
@@ -33,6 +37,10 @@ describe('Federal spending Hero', () => {
 });
 
 describe('Pill data section', () => {
+  afterEach(() => {
+    queryClient.clear();
+  });
+
   it('correctly renders the pill data, when spending has increased', async () => {
     fetchMock.get(
       `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
