@@ -7,7 +7,7 @@ describe('Dataset detail page validation', () => {
         {
           name: 'Operating Cash Balance',
           endpoint: '/v1/accounting/dts/operating_cash_balance',
-          columns: [{ prettyName: 'Type of Account', name: 'account_type' }],
+          column: { prettyName: 'Type of Account', name: 'account_type', searchTerm: 'Table II' },
         },
         // { name: 'Public Debt Transactions', endpoint: '/v1/accounting/dts/public_debt_transactions' },
         // {
@@ -26,8 +26,11 @@ describe('Dataset detail page validation', () => {
         cy.contains(table.name).click();
         // Endpoint in the API Quick Guide documentation updates for each table
         cy.contains('/services/api/fiscal_service' + table.endpoint);
-        cy.get('input[aria-label="filter account_type column"]').type('opening balance');
+        cy.get('input[aria-label="filter ' + table.column.name + ' column"]').type(table.column.searchTerm);
         cy.contains(table.name).click();
+        cy.contains(table.column.searchTerm)
+          .its('length')
+          .should('eq', 10);
       });
     });
   });
