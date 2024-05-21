@@ -68,7 +68,7 @@ describe('Dataset detail page validation', () => {
       {
         name: 'Time Deposit Rate',
         endpoint: '/v1/accounting/od/slgs_time_deposit_rates',
-        column: { prettyName: 'From (Year-Month)', name: 'from', searchTerm: '01-' },
+        largeTable: true,
       },
     ],
   };
