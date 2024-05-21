@@ -62,13 +62,12 @@ describe('Dataset detail page validation', () => {
       {
         name: 'Demand Deposit Rate',
         endpoint: '/v1/accounting/od/slgs_demand_deposit_rates',
-        updateDateRange: '1 Year',
-        column: { prettyName: 'Fiscal Year', name: 'record_fiscal_year', searchTerm: '20' },
+        column: { prettyName: 'Fiscal Year', name: 'record_fiscal_year', searchTerm: '20', dailySearchResults: 1 },
       },
       {
         name: 'Time Deposit Rate',
         endpoint: '/v1/accounting/od/slgs_time_deposit_rates',
-        largeTable: true,
+        column: { prettyName: 'Fiscal Year', name: 'record_fiscal_year', searchTerm: '20' },
       },
     ],
   };
@@ -93,17 +92,20 @@ describe('Dataset detail page validation', () => {
       if (table?.largeTable) {
         cy.contains('Text filtering has been limited due to large table size');
       } else {
-        if (table.updateDateRange) {
-          cy.findByRole('radio', { name: table.updateDateRange }).click({ force: true });
-        }
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' }).type(table.column.searchTerm);
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' })
           .invoke('val')
           .should('eq', table.column.searchTerm);
         cy.get('svg[aria-label="Clear search bar"]');
-        cy.get('td:contains("' + table.column.searchTerm + '")')
-          .its('length')
-          .should('eq', 10);
+        if (table.dailySearchResults) {
+          cy.get('td:contains("' + table.column.searchTerm + '")')
+            .its('length')
+            .should('eq', 1);
+        } else {
+          cy.get('td:contains("' + table.column.searchTerm + '")')
+            .its('length')
+            .should('eq', 10);
+        }
       }
       cy.contains(table.name).click();
     });
