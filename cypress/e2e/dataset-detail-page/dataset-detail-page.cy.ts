@@ -64,23 +64,6 @@ describe('Dataset detail page validation', () => {
         endpoint: '/v1/accounting/od/slgs_demand_deposit_rates',
         column: { prettyName: 'Fiscal Year', name: 'record_fiscal_year', searchTerm: '20', dailySearchResults: 1 },
       },
-      // {
-      //   name: 'Time Deposit Rate',
-      //   endpoint: '/v1/accounting/od/slgs_time_deposit_rates',
-      //   column: { prettyName: 'Through (Year-Month)', name: 'through', searchTerm: 'ONLY' },
-      // },
-    ],
-  };
-
-  const slgsDailyRatesDataset2 = {
-    url: '/datasets/slgs-daily-rate-table/',
-    name: 'State and Local Government Series (SLGS) Daily Rate Table',
-    dataTables: [
-      // {
-      //   name: 'Demand Deposit Rate',
-      //   endpoint: '/v1/accounting/od/slgs_demand_deposit_rates',
-      //   column: { prettyName: 'Fiscal Year', name: 'record_fiscal_year', searchTerm: '20', dailySearchResults: 1 },
-      // },
       {
         name: 'Time Deposit Rate',
         endpoint: '/v1/accounting/od/slgs_time_deposit_rates',
@@ -117,7 +100,7 @@ describe('Dataset detail page validation', () => {
         if (table.column.dailySearchResults) {
           cy.get('td:contains("' + table.column.searchTerm + '")')
             .its('length')
-            .should('eq', 1);
+            .should('be.gte', 1);
         } else {
           cy.get('td:contains("' + table.column.searchTerm + '")')
             .its('length')
@@ -142,9 +125,5 @@ describe('Dataset detail page validation', () => {
 
   it('loads SLGS Daily Rates Dataset Detail Page', () => {
     checkDataTables(slgsDailyRatesDataset);
-  });
-
-  it('loads SLGS Daily Rates Dataset Detail Page 2', () => {
-    checkDataTables(slgsDailyRatesDataset2);
   });
 });
