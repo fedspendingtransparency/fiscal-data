@@ -62,7 +62,7 @@ describe('Dataset detail page validation', () => {
       {
         name: 'Demand Deposit Rate',
         endpoint: '/v1/accounting/od/slgs_demand_deposit_rates',
-        updateDateRange: '1 year',
+        updateDateRange: '1 Year',
         column: { prettyName: 'Fiscal Year', name: 'fiscal_year', searchTerm: '20' },
       },
       {
