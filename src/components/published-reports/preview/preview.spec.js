@@ -240,7 +240,7 @@ describe('Preview component', () => {
   });
 
   it('sets the alt text to the correct string depending on if the dataset is MSPD or MTS', () => {
-    const altTextMSPD = 'Preview the downloadable PDF report of the MSPD ' + 'for the selected month and year for the previous five years.';
+    const altTextMSPD = 'Preview the downloadable PDF report of the MSPD for the selected month and year for the previous five years.';
     const altTextMTS =
       'Preview the downloadable PDF report of the MTS Receipts and Outlays ' +
       'of the U.S. Government for the selected month and year for the previous five years.';

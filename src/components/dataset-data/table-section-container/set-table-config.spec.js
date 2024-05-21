@@ -15,7 +15,7 @@ describe('set table config', () => {
     expect(config).toBeDefined();
   });
 
-  it('sets the config for pivot tables and only includes the intended columns, ' + 'including record_date when not aggregated', () => {
+  it('sets the config for pivot tables and only includes the intended columns, including record_date when not aggregated', () => {
     const config = setTableConfig(mockConfig, selectedTableLessFields, selectedPivot, mockApiPivotData);
     expect(config.columnConfig.length).toBe(6);
     expect(config.columnConfig[0].property).toBe('age');
@@ -32,15 +32,12 @@ describe('set table config', () => {
     expect(config.columnConfig[2].type).toBe('date');
   });
 
-  it(
-    'sets the config for pivot tables and only includes the intended columns and ' + 'correctly excludes the datefield when aggregation is applied',
-    () => {
-      const config = setTableConfig(mockConfig, mockTableWithPivot, selectedPivotWithAggregation, mockApiPivotData);
-      expect(config.columnConfig.length).toBe(5);
-      expect(config.columnConfig[0].property).toBe('age');
-      expect(config.columnConfig.find(cc => cc.property === 'record_date')).toBeUndefined();
-    }
-  );
+  it('sets the config for pivot tables and only includes the intended columns and correctly excludes the datefield when aggregation is applied', () => {
+    const config = setTableConfig(mockConfig, mockTableWithPivot, selectedPivotWithAggregation, mockApiPivotData);
+    expect(config.columnConfig.length).toBe(5);
+    expect(config.columnConfig[0].property).toBe('age');
+    expect(config.columnConfig.find(cc => cc.property === 'record_date')).toBeUndefined();
+  });
 
   it('sets a table width depending on the number of columns in the data', () => {
     const config = setTableConfig(mockConfig, selectedTableMoreFields, {});
@@ -57,7 +54,7 @@ describe('set table config', () => {
     expect(config.width).toBe('100%');
   });
 
-  it('sets a width of 20 on every column except the last one, only if there are fewer ' + 'than five columns', () => {
+  it('sets a width of 20 on every column except the last one, only if there are fewer than five columns', () => {
     const config = setTableConfig(mockConfig, selectedTableLessFields, {});
     // this data has three columns, so first two should have width: 20 and the last should
     // have no width assigned

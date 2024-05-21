@@ -33,7 +33,7 @@ describe('tocBuilder - Incorrect params', () => {
     expect(global.console.error).toHaveBeenCalledWith(paramsErrorMsg);
   });
 
-  it('exits with console errors if the classLevelArr does not have ' + 'enough classes', () => {
+  it('exits with console errors if the classLevelArr does not have enough classes', () => {
     tocBuilder(properMDX, ['heading1']);
     expect(global.console.error).toHaveBeenCalledWith(classLevelErrorMsg);
   });

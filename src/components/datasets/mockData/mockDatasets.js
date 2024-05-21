@@ -29,7 +29,7 @@ export const mockDatasets = [
     tags: ['Debt', 'MVP'],
     slug: '/treasury-offset-program-TOP/',
     tagLine: 'test tag line TOP',
-    summaryText: 'The TOP is a centralized program which collects delinquent debts ' + 'owed to federal agencies and states.',
+    summaryText: 'The TOP is a centralized program which collects delinquent debts owed to federal agencies and states.',
     relatedTopics: ['Debt', 'Financial Summaries', 'Interest & Exchange Rates', 'Savings Bonds'],
     filters: ['startDateRangeThree', 'csv'],
     techSpecs: {
@@ -80,7 +80,7 @@ export const mockDatasets = [
     searchScore: 100,
     tags: ['Debt', 'MVP'],
     tagLine: 'test tag line DTTP',
-    summaryText: 'DTTP is the total public debt outstanding reported each business ' + 'day at 3:00 P.M. Eastern Time',
+    summaryText: 'DTTP is the total public debt outstanding reported each business day at 3:00 P.M. Eastern Time',
     slug: '/debt-to-the-penny/',
     techSpecs: {
       earliestDate: '01/01/1995',
@@ -112,7 +112,7 @@ export const mockDatasets = [
     tags: ['Auction', 'MVP'],
     slug: '/record-setting-auction-data/',
     tagLine: 'test tag line Auction Data',
-    summaryText: 'RSAD for Treasury marketable securities, such as the lowest rate ' + 'or yield ever, the highest rate ever',
+    summaryText: 'RSAD for Treasury marketable securities, such as the lowest rate or yield ever, the highest rate ever',
     techSpecs: {
       earliestDate: '12/19/2019',
       latestDate: mockLatestDates['3'].cachedTechSpecs,
@@ -260,7 +260,7 @@ export const mockUpdatedMetadataDatasets = [
     tags: ['Debt', 'MVP'],
     slug: '/treasury-offset-program-TOP/',
     tagLine: 'test tag line TOP',
-    summaryText: 'The TOP is a centralized program which collects delinquent debts ' + 'owed to federal agencies and states.',
+    summaryText: 'The TOP is a centralized program which collects delinquent debts owed to federal agencies and states.',
     relatedTopics: ['Debt', 'Financial Summaries', 'Interest & Exchange Rates', 'Savings Bonds'],
     techSpecs: {
       earliestDate: '01/01/1950',
@@ -311,7 +311,7 @@ export const mockUpdatedMetadataDatasets = [
     searchScore: 100,
     tags: ['Debt', 'MVP'],
     tagLine: 'test tag line DTTP',
-    summaryText: 'DTTP is the total public debt outstanding reported each business ' + 'day at 3:00 P.M. Eastern Time',
+    summaryText: 'DTTP is the total public debt outstanding reported each business day at 3:00 P.M. Eastern Time',
     slug: '/debt-to-the-penny/',
     techSpecs: {
       earliestDate: '01/31/1997',
@@ -343,7 +343,7 @@ export const mockUpdatedMetadataDatasets = [
     tags: ['Auction', 'MVP'],
     slug: '/record-setting-auction-data/',
     tagLine: 'test tag line Auction Data',
-    summaryText: 'RSAD for Treasury marketable securities, such as the lowest rate or ' + 'yield ever, the highest rate ever',
+    summaryText: 'RSAD for Treasury marketable securities, such as the lowest rate or yield ever, the highest rate ever',
     techSpecs: {
       earliestDate: '12/31/2004',
       latestDate: format(testVariables.dates.withinThirtyDays, testVariables.dateFormats.displayFormat),
@@ -452,7 +452,7 @@ export const datasetPageSampleConfig = {
         },
         {
           columnName: 'report_table_nbr',
-          definition: 'Indicates the corresponding table number in the Monthly Statement ' + 'of the Public Debt report',
+          definition: 'Indicates the corresponding table number in the Monthly Statement of the Public Debt report',
           tableName: 'Statutory Debt Limit',
           prettyName: null,
           dataType: null,
@@ -460,7 +460,7 @@ export const datasetPageSampleConfig = {
         },
         {
           columnName: 'security_holder',
-          definition: 'Indicates whether the federal debt is held by the public or ' + 'intragovernmental holdings',
+          definition: 'Indicates whether the federal debt is held by the public or intragovernmental holdings',
           tableName: 'Statutory Debt Limit',
           prettyName: null,
           dataType: null,

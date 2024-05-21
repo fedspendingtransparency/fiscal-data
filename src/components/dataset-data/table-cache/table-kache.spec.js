@@ -96,7 +96,7 @@ describe('TableCache Utility Class', () => {
     }
   );
 
-  it('it returns a record set that includes a single array of data rows filtered to a ' + 'given dateRange', () => {
+  it('it returns a record set that includes a single array of data rows filtered to a given dateRange', () => {
     const mockRequestedRangeFullSegs = {
       from: new Date(2017, 9, 28),
       to: new Date(2021, 2, 21),
@@ -125,7 +125,7 @@ describe('TableCache Utility Class', () => {
     expect(tableCacheMock.dataCache).toEqual([mockDataCache[0], mockDataCache[1], mockDataCache[2], mockDataCache[3]]);
   });
 
-  it(`caches data formatted for pivot display keyed by dateRange and pivot configuration and 
+  it(`caches data formatted for pivot display keyed by dateRange and pivot configuration and
   returns appropriate responses from dataDisplay cache`, () => {
     // caching pivoted data display
     const mockPivotedData = { data: 'rows..', pivotApplied: 'By Desc:interest_amt' };

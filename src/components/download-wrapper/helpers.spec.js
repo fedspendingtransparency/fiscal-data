@@ -1,7 +1,7 @@
 import { ensureDoubleDigitDate, formatDate } from './helpers';
 
 describe('Download Wrapper Helpers', () => {
-  it('has function ensureDoubleDigitDate that ensures a 2 digit number from a 1 to 2 ' + 'digit param', () => {
+  it('has function ensureDoubleDigitDate that ensures a 2 digit number from a 1 to 2 digit param', () => {
     let expectedValue = '05';
     let curValue = 5;
     expect(ensureDoubleDigitDate(curValue)).toStrictEqual(expectedValue);

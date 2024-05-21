@@ -6,7 +6,7 @@ describe('Fields Accordion', () => {
   const titleText = 'Fields';
   const firstN = 'first,second,third,fourth,fifth,sixth,seventh';
   const mockEndpoint = 'mock/end/point';
-  const longUrlForParam2 = 'https://api.fiscaldata.treasury.gov/services/api' + '/fiscal_service/mock/end/point?fields=first,second,third';
+  const longUrlForParam2 = 'https://api.fiscaldata.treasury.gov/services/api/fiscal_service/mock/end/point?fields=first,second,third';
   const shortFieldsForParam2 = '?fields=first,second,third';
   const mockSelectedTable = {
     endpoint: mockEndpoint,
