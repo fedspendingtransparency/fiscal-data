@@ -94,7 +94,7 @@ describe('Dataset detail page validation', () => {
         cy.contains('Text filtering has been limited due to large table size');
       } else {
         if (table.updateDateRange) {
-          cy.findAllByRole('radio', { name: table.updateDateRange })[1].click();
+          cy.findByRole('radio', { name: table.updateDateRange }).click();
         }
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' }).type(table.column.searchTerm);
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' })
