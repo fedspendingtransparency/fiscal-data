@@ -114,7 +114,7 @@ describe('Dataset detail page validation', () => {
           .invoke('val')
           .should('eq', table.column.searchTerm);
         cy.get('svg[aria-label="Clear search bar"]');
-        if (table.dailySearchResults) {
+        if (table.column.dailySearchResults) {
           cy.get('td:contains("' + table.column.searchTerm + '")')
             .its('length')
             .should('eq', 1);
