@@ -8,12 +8,11 @@ describe('Dataset detail page validation', () => {
         endpoint: '/v1/accounting/dts/operating_cash_balance',
         column: { prettyName: 'Type of Account', name: 'account_type', searchTerm: 'Table II' },
       },
-      // {
-      //   name: 'Public Debt Transactions',
-      //   endpoint: '/v1/accounting/dts/public_debt_transactions',
-      //   largeTable: true,
-      //   column: { prettyName: 'Type of Account', name: 'account_type', searchTerm: 'Table II' },
-      // },
+      {
+        name: 'Public Debt Transactions',
+        endpoint: '/v1/accounting/dts/public_debt_transactions',
+        largeTable: true,
+      },
       {
         name: 'Adjustment of Public Debt Transactions to Cash Basis',
         endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
@@ -39,21 +38,73 @@ describe('Dataset detail page validation', () => {
     ],
   };
 
-  const checkDataTables = dataset => {
+  const mspdDataset = {
+    url: '/datasets/monthly-statement-public-debt/',
+    name: 'U.S. Treasury Monthly Statement of the Public Debt (MSPD)',
+    dataTables: [
+      {
+        name: 'Summary of Treasury Securities Outstanding',
+        endpoint: '/v1/debt/mspd/mspd_table_1',
+        column: { prettyName: 'Security Type Description', name: 'security_type_desc', searchTerm: 'Total Marketable' },
+      },
+      {
+        name: 'Statutory Debt Limit',
+        endpoint: '/v1/debt/mspd/mspd_table_2',
+        column: { prettyName: 'Debt Limit Class 1 Description', name: 'debt_limit_class1_desc', searchTerm: 'Less Debt Not Subject to Limit' },
+      },
+    ],
+  };
+
+  const slgsDailyRatesDataset = {
+    url: '/datasets/slgs-daily-rate-table/',
+    name: 'State and Local Government Series (SLGS) Daily Rate Table',
+    dataTables: [
+      {
+        name: 'Demand Deposit Rate',
+        endpoint: '/v1/accounting/od/slgs_demand_deposit_rates',
+        updateDateRange: '1 year',
+        column: { prettyName: 'Fiscal Year', name: 'fiscal_year', searchTerm: '20' },
+      },
+      {
+        name: 'Time Deposit Rate',
+        endpoint: '/v1/accounting/od/slgs_time_deposit_rates',
+        column: { prettyName: 'From (Year-Month)', name: 'from', searchTerm: '01-' },
+      },
+    ],
+  };
+
+  const checkDataTables = (dataset: {
+    url: string;
+    name: string;
+    dataTables: {
+      name: string;
+      endpoint: string;
+      largeTable?: boolean;
+      updateDateRange?: string;
+      column: { prettyName: string; name: string; searchTerm: string };
+    }[];
+  }) => {
     cy.visit(dataset.url);
     cy.contains(dataset.dataTables[0].name).click();
     dataset.dataTables.forEach(table => {
       cy.contains(table.name).click();
       // Endpoint in the API Quick Guide documentation updates for each table
       cy.contains('/services/api/fiscal_service' + table.endpoint);
-      cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' }).type(table.column.searchTerm);
-      cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' })
-        .invoke('val')
-        .should('eq', table.column.searchTerm);
-      cy.get('svg[aria-label="Clear search bar"]');
-      cy.get('td:contains("' + table.column.searchTerm + '")')
-        .its('length')
-        .should('eq', 10);
+      if (table?.largeTable) {
+        cy.contains('Text filtering has been limited due to large table size');
+      } else {
+        if (table.updateDateRange) {
+          cy.contains(table.updateDateRange).click();
+        }
+        cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' }).type(table.column.searchTerm);
+        cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' })
+          .invoke('val')
+          .should('eq', table.column.searchTerm);
+        cy.get('svg[aria-label="Clear search bar"]');
+        cy.get('td:contains("' + table.column.searchTerm + '")')
+          .its('length')
+          .should('eq', 10);
+      }
       cy.contains(table.name).click();
     });
   };
@@ -64,5 +115,13 @@ describe('Dataset detail page validation', () => {
 
   it('loads MTS Dataset Detail Page', () => {
     checkDataTables(mtsDataset);
+  });
+
+  it('loads MSPD Dataset Detail Page', () => {
+    checkDataTables(mspdDataset);
+  });
+
+  it('loads SLGS Daily Rates Dataset Detail Page', () => {
+    checkDataTables(slgsDailyRatesDataset);
   });
 });
