@@ -62,7 +62,7 @@ describe('Dataset detail page validation', () => {
       {
         name: 'Demand Deposit Rate',
         endpoint: '/v1/accounting/od/slgs_demand_deposit_rates',
-        updateDateRange: '1 Year',
+        updateDateRange: 'range-toggle',
         column: { prettyName: 'Fiscal Year', name: 'record_fiscal_year', searchTerm: '20' },
       },
       {
@@ -94,7 +94,7 @@ describe('Dataset detail page validation', () => {
         cy.contains('Text filtering has been limited due to large table size');
       } else {
         if (table.updateDateRange) {
-          cy.contains(table.updateDateRange).click();
+          cy.findAllByRole('radio', { name: table.updateDateRange })[1].click();
         }
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' }).type(table.column.searchTerm);
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' })
