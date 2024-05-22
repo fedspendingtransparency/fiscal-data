@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 import reactStringReplace from 'react-string-replace';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
@@ -7,6 +7,7 @@ import { deficitExplainerLightSecondary, deficitExplainerPrimary } from '../nati
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 
 const DeficitKeyTakeaways = () => {
+  const [surplus, setSurplus] = useState(4);
   const thirdTakeawayText = `To pay for government programs while operating under a deficit, the federal
     government borrows money by selling U.S. Treasury bonds, bills, and other securities.
     The national debt is the accumulation of this borrowing along with associated interest
@@ -20,12 +21,16 @@ const DeficitKeyTakeaways = () => {
     );
   });
   useEffect(() => {
-    const endpointUrl =
-      'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&sort=record_date&page[size]=200';
+    const fields = 'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
+    const sort = 'sort=record_date';
+    const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&${sort}`;
     basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
-      console.log(res.data);
+      if (res.data) {
+      }
+      console.log('here ', res.data);
+      console.log('MONEYYYY');
     });
-  });
+  }, []);
   const deficitKeyTakeaways = [
     {
       text: `A budget deficit occurs when the money going out exceeds the money coming in for a
