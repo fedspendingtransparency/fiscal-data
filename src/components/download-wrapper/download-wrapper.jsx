@@ -184,6 +184,71 @@ const DownloadWrapper = ({
     setDisableButton(globalDisableDownloadButton);
   }, [globalDisableDownloadButton]);
 
+  const determineDirectDownload = () => {
+    if (tableSize <= 6000) {
+      if (selectedFileType === 'csv') {
+        return (
+          <DownloadItemButton
+            icon={icon}
+            label={downloadLabel}
+            disabled={disableButton}
+            handleClick={downloadClickHandler}
+            directCSVDownload={true}
+            directJSONDownload={false}
+            directXMLDownload={false}
+          />
+        );
+      } else if (selectedFileType === 'json') {
+        return (
+          <DownloadItemButton
+            icon={icon}
+            label={downloadLabel}
+            disabled={disableButton}
+            handleClick={downloadClickHandler}
+            directCSVDownload={false}
+            directJSONDownload={true}
+            directXMLDownload={false}
+          />
+        );
+      } else if (selectedFileType === 'xml') {
+        return (
+          <DownloadItemButton
+            icon={icon}
+            label={downloadLabel}
+            disabled={disableButton}
+            handleClick={downloadClickHandler}
+            directCSVDownload={false}
+            directJSONDownload={false}
+            directXMLDownload={true}
+          />
+        );
+      } else {
+        return (
+          <DownloadItemButton
+            icon={icon}
+            label={downloadLabel}
+            disabled={disableButton}
+            handleClick={downloadClickHandler}
+            directCSVDownload={false}
+            directJSONDownload={false}
+            directXMLDownload={false}
+          />
+        );
+      }
+    } else {
+      return (
+        <DownloadItemButton
+          icon={icon}
+          label={downloadLabel}
+          disabled={disableButton}
+          handleClick={downloadClickHandler}
+          directCSVDownload={false}
+          directJSONDownload={false}
+        />
+      );
+    }
+  };
+
   return (
     <div className={wrapper} data-test-id="wrapper">
       <DownloadModal open={open} onClose={onClose} downloadsPrepared={downloadsPrepared} setCancelDownloadRequest={handleCancelRequest} />
@@ -228,25 +293,7 @@ const DownloadWrapper = ({
       </div>
 
       <DownloadToggle onChange={toggleButtonChange} />
-      <div>
-        {tableSize <= 6000 && selectedFileType === 'csv' ? (
-          <DownloadItemButton
-            icon={icon}
-            label={downloadLabel}
-            disabled={disableButton}
-            handleClick={downloadClickHandler}
-            directCSVDownload={true}
-          />
-        ) : (
-          <DownloadItemButton
-            icon={icon}
-            label={downloadLabel}
-            disabled={disableButton}
-            handleClick={downloadClickHandler}
-            directCSVDownload={false}
-          />
-        )}
-      </div>
+      <div>{determineDirectDownload()}</div>
       <div>
         <DownloadItemButton label="Download Data Dictionary" fileSize={ddSize} asyncAction={metadataDownloader} />
       </div>

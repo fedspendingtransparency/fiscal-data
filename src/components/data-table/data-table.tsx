@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
+import { json2xml } from 'xml-js';
 import {
   getCoreRowModel,
   getPaginationRowModel,
@@ -22,7 +23,7 @@ import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
-import { smallTableDownloadDataCSV } from '../../recoil/smallTableDownloadData';
+import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../recoil/smallTableDownloadData';
 import { useSetRecoilState } from 'recoil';
 
 type DataTableProps = {
@@ -101,6 +102,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
+  const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
+  const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
 
   useEffect(() => {
     if (!detailViewState) {
@@ -231,19 +234,23 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
-    let CSVData = [];
-    const CSVHeaders = [];
-    table.getHeaderGroups()[0].headers.map(header => {
-      CSVHeaders.push(header.column.columnDef.header);
-    });
-    table.getFilteredRowModel().flatRows.map(row => {
-      CSVData.push(row.original);
-    });
-    CSVData = CSVData.map(entry => {
-      return Object.values(entry);
-    });
-    CSVData.unshift(CSVHeaders);
-    setSmallTableCSVData(CSVData);
+    if (!table.getFilteredRowModel()?.flatRows[0]?.original.columnName) {
+      let CSVData = [];
+      const CSVHeaders = [];
+      table.getHeaderGroups()[0].headers.map(header => {
+        CSVHeaders.push(header.column.columnDef.header);
+      });
+      table.getFilteredRowModel().flatRows.map(row => {
+        CSVData.push(row.original);
+      });
+      setSmallTableJSONData(JSON.stringify({ data: CSVData }));
+      setSmallTableXMLData(json2xml(JSON.stringify({ data: CSVData }), { compact: true }));
+      CSVData = CSVData.map(entry => {
+        return Object.values(entry);
+      });
+      CSVData.unshift(CSVHeaders);
+      setSmallTableCSVData(CSVData);
+    }
   }, [columnVisibility, table.getFilteredRowModel(), table.getVisibleFlatColumns()]);
 
   useEffect(() => {

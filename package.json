@@ -149,7 +149,8 @@
     "typeface-roboto": "0.0.75",
     "typeface-roboto-mono": "0.0.75",
     "use-onclickoutside": "^0.4.1",
-    "whatwg-fetch": "^3.6.19"
+    "whatwg-fetch": "^3.6.19",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@axe-core/react": "^4.6.0",

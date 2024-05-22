@@ -5,11 +5,25 @@ import { generateAnalyticsEvent } from '../../../layouts/dataset-detail/helper';
 import globalConstants from '../../../helpers/constants';
 import { CSVLink } from 'react-csv';
 import { useRecoilValue } from 'recoil';
-import { smallTableDownloadDataCSV } from '../../../recoil/smallTableDownloadData';
+import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 
 export const downloadFileEventStr = globalConstants.gaEventLabels.downloadFile;
-const DownloadItemButton = ({ label, icon, fileSize, asyncAction, handleClick, href, download, disabled, directCSVDownload }) => {
+const DownloadItemButton = ({
+  label,
+  icon,
+  fileSize,
+  asyncAction,
+  handleClick,
+  href,
+  download,
+  disabled,
+  directCSVDownload,
+  directJSONDownload,
+  directXMLDownload,
+}) => {
   const smallTableCSVData = useRecoilValue(smallTableDownloadDataCSV);
+  const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
+  const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
   const clickFunction = () => {
     if (handleClick) {
       handleClick();
@@ -39,6 +53,29 @@ const DownloadItemButton = ({ label, icon, fileSize, asyncAction, handleClick, h
         <CSVLink className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`} data={smallTableCSVData} filename={'data.csv'}>
           {children}
         </CSVLink>
+      );
+    } else if (directJSONDownload) {
+      return (
+        <a
+          className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
+          data-testid="download-button"
+          href={`data:text/plain;charset=utf-8,${encodeURIComponent(smallTableJSONData)}`}
+          download="filename.json"
+        >
+          {children}
+        </a>
+      );
+    } else if (directXMLDownload) {
+      console.log(smallTableXMLData);
+      return (
+        <a
+          className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
+          data-testid="download-button"
+          href={`data:text/plain;charset=utf-8,${encodeURIComponent(smallTableXMLData)}`}
+          download="filename.xml"
+        >
+          {children}
+        </a>
       );
     } else {
       return (
