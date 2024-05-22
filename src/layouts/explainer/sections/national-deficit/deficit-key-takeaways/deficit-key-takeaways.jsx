@@ -7,7 +7,7 @@ import { deficitExplainerLightSecondary, deficitExplainerPrimary } from '../nati
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 
 const DeficitKeyTakeaways = () => {
-  const [surplus, setSurplus] = useState(4);
+  const [surplus, setSurplus] = useState(0);
   const thirdTakeawayText = `To pay for government programs while operating under a deficit, the federal
     government borrows money by selling U.S. Treasury bonds, bills, and other securities.
     The national debt is the accumulation of this borrowing along with associated interest
@@ -25,12 +25,16 @@ const DeficitKeyTakeaways = () => {
     const sort = 'sort=record_date';
     const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&${sort}`;
     basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
-      if (res.data) {
+      if (res.data && res.data.length > 0) {
+        let surplusCount = res.data.reduce((count, item) => {
+          return parseFloat(item.current_fytd_net_outly_amt) > 0 ? count + 1 : count;
+        }, 0);
+        console.log('here and dnow', surplusCount);
+        setSurplus(surplusCount + 4);
       }
-      console.log('here ', res.data);
-      console.log('MONEYYYY');
     });
   }, []);
+
   const deficitKeyTakeaways = [
     {
       text: `A budget deficit occurs when the money going out exceeds the money coming in for a
@@ -38,7 +42,7 @@ const DeficitKeyTakeaways = () => {
       icon: faChartColumn,
     },
     {
-      text: `In the last 50 years, the federal government budget has run a surplus five times,
+      text: `In the last 50 years, the federal government budget has run a surplus ${surplus} times,
       most recently in 2001`,
       icon: faCoins,
     },
