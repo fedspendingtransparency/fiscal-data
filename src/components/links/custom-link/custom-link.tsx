@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'gatsby';
-import { Link as ScrollLink } from 'react-scroll';
 import ExternalLink from '../external-link/external-link';
 import Analytics from '../../../utils/analytics/analytics';
 import useGAEventTracking from '../../../hooks/useGAEventTracking';
@@ -89,11 +88,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
       );
 
     case urlOrHref.startsWith('#'):
-      return (
-        <PageScrollLink url={urlOrHref} dataTestId={dataTestId || 'scroll-link'} id={id}>
-          {children}
-        </PageScrollLink>
-      );
+      return <PageScrollLink url={urlOrHref} dataTestId={dataTestId || 'scroll-link'} id={id} children={children} />;
 
     case urlOrHref.endsWith('.pdf'):
       return (
