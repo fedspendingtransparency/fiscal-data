@@ -9,7 +9,7 @@ type IAnchorText = {
 const AnchorText = ({ link, text }: IAnchorText): JSX.Element => {
   return (
     <sup>
-      <CustomLink url={`#footnote`} id={link} data-testid={'anchor-text'}>
+      <CustomLink url="#footnote" id={link} data-testid="anchor-text">
         {text}
       </CustomLink>
     </sup>
