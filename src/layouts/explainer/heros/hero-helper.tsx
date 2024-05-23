@@ -4,6 +4,34 @@ import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { getShortForm } from '../../../utils/rounding-utils';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { apiPrefix } from '../../../utils/api-utils';
+
+// Revenue Hero Data URL Variables / Params
+const revFields =
+  'fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,record_calendar_month,record_calendar_year,record_fiscal_year,record_date';
+const revFilter = 'filter=line_code_nbr:eq:830';
+const revSort = 'sort=-record_date';
+const revPagination = 'page[size]=1';
+const revEndpointUrl = `v1/accounting/mts/mts_table_4?${revFields}&${revFilter}&${revSort}&${revPagination}`;
+export const revenueHeroUrl = `${apiPrefix}${revEndpointUrl}`;
+
+// Deficit Hero Data URL Variables / Params
+const defFields =
+  'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
+const defSort = 'sort=-record_date';
+const defFilter = 'filter=line_code_nbr:eq:5694';
+const defPagination = 'page[size]=13';
+const defEndpointUrl = `v1/accounting/mts/mts_table_5?${defFields}&${defFilter}&${defSort}&${defPagination}`;
+export const deficitUrl: string = `${apiPrefix}${defEndpointUrl}`;
+
+// Spending Hero Data URL Variables / Params
+const spendFields =
+  'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
+const spendFilter = 'filter=line_code_nbr:eq:5691';
+const spendSort = 'sort=-record_date';
+const spendPagination = 'page[size]=1';
+const spendEndpointUrl = `v1/accounting/mts/mts_table_5?${spendFields}&${spendFilter}&${spendSort}&${spendPagination}`;
+export const spendingUrl = `${apiPrefix}${spendEndpointUrl}`;
 
 export const getFootNotesDateRange = (priorFY: string, currentFY: string, currentRecordMonth: string): string => {
   const date = new Date();
@@ -18,9 +46,9 @@ export const getChangeLabel = (current: number, prev: number, altVerbage: boolea
   if (current > prev) {
     return altVerbage ? 'more than' : 'increased';
   } else if (prev > current) {
-    return altVerbage ? 'less than' :'decreased';
+    return altVerbage ? 'less than' : 'decreased';
   } else {
-    return altVerbage ? 'the same as' :'not changed';
+    return altVerbage ? 'the same as' : 'not changed';
   }
 };
 

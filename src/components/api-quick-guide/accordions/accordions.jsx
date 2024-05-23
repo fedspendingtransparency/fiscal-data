@@ -13,8 +13,11 @@ const Accordions = ({ selectedTable, tabindex }) => {
     title: 'Parameters',
     desc: (
       <>
-        Refer to <CustomLink url={'#dataset-properties'}>Dataset Properties</CustomLink> above for a data dictionary with field names and descriptions
-        as well as notes and known limitations
+        Refer to{' '}
+        <CustomLink url={'#dataset-properties'} tabindex={tabindex}>
+          Dataset Properties
+        </CustomLink>{' '}
+        above for a data dictionary with field names and descriptions as well as notes and known limitations
       </>
     ),
   };
