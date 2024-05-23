@@ -22,10 +22,13 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes, al
             {row.getVisibleCells().map(cell => {
               const cellValue = cell.getValue();
               const display = !cellValue || cellValue === 'null';
-              console.log('allowColumnWrap: ', allowColumnWrap);
               const wrapStyle = allowColumnWrap?.includes(cell.column.id);
-              console.log('cell.column.getSize(): ', cell.column.getSize());
-              console.log('display: ', flexRender(cell.column.columnDef.cell, cell.getContext()));
+              // console.log('wrapStyle: ', wrapStyle);
+              if (cellValue === 'Treasury General Account (TGA) Opening Balance') {
+                console.log('cell.column.getSize(): ', cell.column.getSize());
+                console.log('cell.column.columnDef.size: ', cell.column.columnDef.size);
+              }
+              // console.log('display: ', flexRender(cell.column.columnDef.cell, cell.getContext()));
               return (
                 <td
                   key={cell.id}
@@ -37,7 +40,8 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes, al
                   // 150 is a default value from React Table
                   style={{
                     verticalAlign: 'top',
-                    maxWidth: cell.column.getSize() !== 150 ? cell.column.getSize() : undefined,
+                    // width: cell.column.getSize() !== 150 ? cell.column.getSize() : undefined,
+                    // whiteSpace: cell.column.getSize() !== 150 ? 'wrap' : 'nowrap',
                   }}
                 >
                   {display ? <div /> : flexRender(cell.column.columnDef.cell, cell.getContext())}

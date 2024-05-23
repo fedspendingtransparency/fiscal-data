@@ -20,13 +20,13 @@
   text-align: right;
 }
 
-.wrap{
-  white-space: normal;
-  min-width: 400px;
-}
+//.wrap{
+//  white-space: normal;
+//  min-width: 400px;
+//}
 
 .noWrap {
-  white-space: nowrap;
+  //white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  //text-overflow: ellipsis;
 }
