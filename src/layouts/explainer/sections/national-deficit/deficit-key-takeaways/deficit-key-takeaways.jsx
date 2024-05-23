@@ -29,7 +29,7 @@ const DeficitKeyTakeaways = () => {
         let surplusCount = res.data.reduce((count, item) => {
           return parseFloat(item.current_fytd_net_outly_amt) > 0 ? count + 1 : count;
         }, 0);
-        console.log('here and dnow', surplusCount);
+        //the + 4 is to account for surplus that are not in the data.
         setSurplus(surplusCount + 4);
       }
     });
