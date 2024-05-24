@@ -66,6 +66,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   let numRelCalendarCalls = 0;
   let numBLSAPICalls = 0;
   let numBEAAPICalls = 0;
+  let numTRREAPICalls = 0;
 
   const getReleaseCalendarData = async () => {
     const rejectOrMockOutput = (error, resolve, reject) => {
@@ -224,6 +225,53 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     createNode(node);
   });
 
+  const trreApiUrl =
+    API_BASE_URL +
+    '/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000';
+
+  const getExchangeRatesData = async () => {
+    return new Promise((resolve, reject) => {
+      fetch(trreApiUrl)
+        .then(res => {
+          resolve(res.json());
+        })
+        .catch(error => {
+          console.error(`failed to get TRRE API data ${++numTRREAPICalls} time(s), error:${error}`);
+          if (numTRREAPICalls < 3) {
+            getExchangeRatesData();
+          } else {
+            reject(error);
+          }
+          console.error(error);
+        });
+    });
+  };
+
+  const exchangeRatesResults = await getExchangeRatesData()
+    .then(res => res)
+    .catch(error => {
+      throw error;
+    });
+
+  exchangeRatesResults.data.forEach(x => {
+    x.id = createNodeId(x.effective_date + x.country_currency_desc);
+    const node = {
+      ...x,
+      record_date: x.record_date,
+      country_currency_desc: x.country_currency_desc,
+      exchange_rate: x.exchange_rate,
+      effective_date: x.effective_date,
+      record_calendar_quarter: x.record_calendar_quarter,
+      parent: null,
+      children: [],
+      internal: {
+        type: `exchangeRatesData`,
+      },
+    };
+    node.internal.contentDigest = createContentDigest(node);
+    createNode(node);
+  });
+
   const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=0270cf2d85494f99aeab578067ad5d9c`;
   const getBLSData = async () => {
     return new Promise((resolve, reject) => {
@@ -232,7 +280,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
           resolve(res.json());
         })
         .catch(error => {
-          console.error(`failed to get metadata ${++numBLSAPICalls} time(s), error:${error}`);
+          console.error(`failed to get BLS API data ${++numBLSAPICalls} time(s), error:${error}`);
           if (numBLSAPICalls < 3) {
             getBLSData();
           } else {
@@ -405,6 +453,13 @@ exports.createSchemaCustomization = ({ actions }) => {
       lineDescription: String,
       timePeriod: String,
       dataValue: String
+    }
+    type ExchangeRatesData implements Node {
+      record_date: String,
+      country_currency_desc: String,
+      exchange_rate: String,
+      effective_date: String,
+      record_calendar_quarter: String,
     }
   `;
 
@@ -584,6 +639,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           period
           latest
           _12mo_percentage_change
+        }
+      }
+      allExchangeRatesData {
+        exchangeRatesData: nodes {
+          record_date
+          country_currency_desc
+          exchange_rate
+          effective_date
+          record_calendar_quarter
         }
       }
       allGlossaryCsv {
