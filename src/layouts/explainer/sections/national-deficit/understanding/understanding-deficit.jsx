@@ -85,7 +85,7 @@ const UnderstandingDeficit = ({ sectionId }) => {
           </p>
           <p>
             The opposite of a budget deficit is a budget {surplus}, which occurs when the federal government collects more money than it spends. The
-            U.S. has experienced a fiscal year-end budget surplus five times in the last 50 years, most recently in 2001.
+            U.S. has experienced a fiscal year-end budget surplus 4 times in the last 50 years, most recently in 2001.
           </p>
           <p>When there is no deficit or surplus due to spending and revenue being equal, the budget is considered {balanced}.</p>
         </div>

@@ -34,6 +34,7 @@ const DeficitKeyTakeaways = () => {
       }
     });
   }, []);
+  const surplusAmount = surplus;
 
   const deficitKeyTakeaways = [
     {
