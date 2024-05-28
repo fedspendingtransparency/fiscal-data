@@ -11,6 +11,7 @@ import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { nationalDeficitSectionConfigs } from '../national-deficit';
 
 const UnderstandingDeficit = ({ sectionId }) => {
+  const [surplusCount, setSurplusCount] = useState(0);
   const spending = (
     <GlossaryPopoverDefinition term="spending" page="Deficit Explainer">
       spending
@@ -46,6 +47,21 @@ const UnderstandingDeficit = ({ sectionId }) => {
   const deficitEndpoint = endpoints[1];
   const revenueEndpoint = endpoints[2];
   const spendingEndpoint = endpoints[3];
+  useEffect(() => {
+    const fields = 'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
+    const sort = 'sort=record_date';
+    const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&${sort}`;
+    basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
+      if (res.data && res.data.length > 0) {
+        let surplusCount = res.data.reduce((count, item) => {
+          return parseFloat(item.current_fytd_net_outly_amt) > 0 ? count + 1 : count;
+        }, 0);
+        //the + 4 is to account for surplus that are not in the data.
+        setSurplusCount(surplusCount + 4);
+      }
+    });
+  }, []);
+  const surplusAmount = surplusCount;
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${dateEndpoint.path}`).then(response => {
@@ -85,7 +101,7 @@ const UnderstandingDeficit = ({ sectionId }) => {
           </p>
           <p>
             The opposite of a budget deficit is a budget {surplus}, which occurs when the federal government collects more money than it spends. The
-            U.S. has experienced a fiscal year-end budget surplus 4 times in the last 50 years, most recently in 2001.
+            U.S. has experienced a fiscal year-end budget surplus {surplusCount} times in the last 50 years, most recently in 2001.
           </p>
           <p>When there is no deficit or surplus due to spending and revenue being equal, the budget is considered {balanced}.</p>
         </div>
