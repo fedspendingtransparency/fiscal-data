@@ -35,7 +35,7 @@ describe('Spending Key Takeaways evergreen values', () => {
       expect(apiUtils.basicFetch).toHaveBeenCalled();
     });
 
-    // Since the start amount is 4 we should expect 5 even though there is only test
+    // Since the start amount is 4 we should expect 5 even though there is only one that is test
     expect(await findByText(/surplus 5 times/)).toBeInTheDocument();
   });
 });
