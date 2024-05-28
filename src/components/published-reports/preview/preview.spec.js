@@ -55,7 +55,7 @@ describe('Preview component', () => {
       );
     });
 
-    const objectTag = instance.findByType('embed');
+    const objectTag = instance.findByType('iframe');
     const title = instance.findByProps({ 'data-testid': 'title' });
 
     expect(objectTag.props.src).toBe(file);

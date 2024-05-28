@@ -94,7 +94,7 @@ const Preview = ({ selectedFile }) => {
         {selectedFile ? (
           isPdf ? (
             // <embed src={selectedFile.path} type="application/pdf" data-test-id="embedElement" title={altText} />
-            <iframe src={selectedFile.path} title={altText} style={{ width: '100%', height: '600px' }} />
+            <iframe src={selectedFile.path} title={altText} style={{ width: '100%', height: '600px' }} data-test-id="embedElement" />
           ) : isTxt ? (
             <div className={textReportContainer}>
               <pre className={textReportPreview}>{reportTextContent}</pre>
