@@ -32,7 +32,7 @@ const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children }) => {
   };
 
   return (
-    <div
+    <span
       data-testid={dataTestId}
       onKeyDown={e => handleInteraction(e, url)}
       onClick={() => handleInteraction(null, url)}
@@ -42,7 +42,7 @@ const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children }) => {
       tabIndex={tabindex}
     >
       {children}
-    </div>
+    </span>
   );
 };
 
