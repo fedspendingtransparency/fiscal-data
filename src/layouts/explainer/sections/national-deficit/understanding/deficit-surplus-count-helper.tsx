@@ -6,7 +6,7 @@ interface FiscalData {
 }
 
 const useFetchSurplusCount = (startYear: number): number => {
-  const [surplus, setSurplus] = useState<number>(4); // Start with an initial surplus of 4
+  const [surplus, setSurplus] = useState<number>(4); // Start with an initial surplus of 4 not included in data
 
   useEffect(() => {
     const fields = 'fields=current_fytd_net_outly_amt';
