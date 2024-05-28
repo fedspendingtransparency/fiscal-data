@@ -58,7 +58,7 @@
 
 .pageLinks a {
   text-decoration: none;
-  color: #acb0b8;
+  color: #acb0b8 !important;
   font-size: $font-size-18;
   &:not(:last-of-type) {
     padding-bottom: 1rem;
