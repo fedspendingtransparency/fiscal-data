@@ -16,10 +16,8 @@ import {
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
 import CurrencyEntryBox from '../../components/exchange-rates-converter/currency-entry-box/currency-entry-box';
 import NestSelectControl from '../../components/select-control/nest-select-control';
-import { apiPrefix, basicFetch } from '../../utils/api-utils';
 import {
   dateStringConverter,
-  apiEndpoint,
   breadCrumbLinks,
   socialCopy,
   publishedDateInfoIcon,
@@ -32,6 +30,7 @@ import CustomLink from '../../components/links/custom-link/custom-link';
 import Analytics from '../../utils/analytics/analytics';
 import BannerCallout from '../../components/banner-callout/banner-callout';
 import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
+import { graphql, useStaticQuery } from 'gatsby';
 
 let gaInfoTipTimer;
 let gaCurrencyTimer;
@@ -54,6 +53,22 @@ type DropdownOption = {
 };
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
+  const allExchangeRatesData = useStaticQuery(
+    graphql`
+      query {
+        allExchangeRatesData {
+          exchangeRatesData: nodes {
+            record_date
+            country_currency_desc
+            exchange_rate
+            effective_date
+            record_calendar_quarter
+          }
+        }
+      }
+    `
+  );
+
   const [data, setData] = useState(null);
   const [sortedCurrencies, setSortedCurrencies] = useState(null);
   const [dropdownOptions, setDropdownOptions] = useState(null);
@@ -97,75 +112,71 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     clearTimeout(gaInfoTipTimer);
     clearTimeout(ga4Timer);
   };
-
   useEffect(() => {
-    basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
-      const currencyMap: CurrencyMap = {};
-      const dateGroups = {};
-      const data = res.data;
-      let mostRecentEuroRecord = null;
-      let mostRecentDate: Date | null = null;
+    const currencyMap: CurrencyMap = {};
+    const dateGroups = {};
+    const data = allExchangeRatesData.allExchangeRatesData.exchangeRatesData;
+    let mostRecentEuroRecord = null;
+    let mostRecentDate: Date | null = null;
+    data.forEach(record => {
+      const currency = record.country_currency_desc;
+      const date = record.record_date;
+      const rawDate = record.record_date;
+      const parsedDate = new Date(rawDate);
+      const year = new Date(record.record_date).getFullYear().toString();
+      const formattedDate = dateStringConverter(new Date(record.record_date));
 
-      data.forEach(record => {
-        const currency = record.country_currency_desc;
-        const date = record.record_date;
-        const rawDate = record.record_date;
-        const parsedDate = new Date(rawDate);
-        const year = new Date(record.record_date).getFullYear().toString();
-        const formattedDate = dateStringConverter(new Date(record.record_date));
-
-        if (mostRecentDate === null || parsedDate > mostRecentDate) {
-          mostRecentDate = parsedDate;
-        }
-
-        if (!currencyMap[currency]) {
-          currencyMap[currency] = { label: currency, rates: {} };
-        }
-        currencyMap[currency].rates[date] = record.exchange_rate;
-
-        if (!dateGroups[year]) {
-          dateGroups[year] = [];
-        }
-
-        if (!dateGroups[year].some(option => option.value === record.record_date)) {
-          dateGroups[year].push({
-            label: formattedDate,
-            value: record.record_date,
-          });
-        }
-        const sorted = Object.values(currencyMap).sort((a, b) => a.label.localeCompare(b.label));
-        setSortedCurrencies(sorted);
-
-        if (record.country_currency_desc === 'Euro Zone-Euro' && record.record_calendar_quarter === '4') {
-          if (!mostRecentEuroRecord || new Date(record.record_date) > new Date(mostRecentEuroRecord.record_date)) {
-            mostRecentEuroRecord = record;
-          }
-        }
-      });
-
-      if (mostRecentDate) {
-        setDatasetDate(dateStringConverter(mostRecentDate));
+      if (mostRecentDate === null || parsedDate > mostRecentDate) {
+        mostRecentDate = parsedDate;
       }
 
-      const nestedOptions: DropdownOption[] = Object.keys(dateGroups)
-        .sort((a, b) => Number(b) - Number(a))
-        .map(year => ({
-          label: year,
-          isLabel: true,
-          children: dateGroups[year].sort((a, b) => new Date(b.value).getTime() - new Date(a.value).getTime()),
-        }));
+      if (!currencyMap[currency]) {
+        currencyMap[currency] = { label: currency, rates: {} };
+      }
+      currencyMap[currency].rates[date] = record.exchange_rate;
 
-      setGroupedDateOptions(nestedOptions);
-
-      if (mostRecentEuroRecord) {
-        setSelectedDate({ label: dateStringConverter(new Date(mostRecentEuroRecord.record_date)), value: mostRecentEuroRecord.record_date });
-        setNonUSCurrency(mostRecentEuroRecord);
-        setNonUSCurrencyExchangeValue(mostRecentEuroRecord.exchange_rate);
-        setNonUSCurrencyDecimalPlaces(countDecimals(mostRecentEuroRecord.exchange_rate));
+      if (!dateGroups[year]) {
+        dateGroups[year] = [];
       }
 
-      setData(res.data);
+      if (!dateGroups[year].some(option => option.value === record.record_date)) {
+        dateGroups[year].push({
+          label: formattedDate,
+          value: record.record_date,
+        });
+      }
+      const sorted = Object.values(currencyMap).sort((a, b) => a.label.localeCompare(b.label));
+      setSortedCurrencies(sorted);
+
+      if (record.country_currency_desc === 'Euro Zone-Euro' && record.record_calendar_quarter === '4') {
+        if (!mostRecentEuroRecord || new Date(record.record_date) > new Date(mostRecentEuroRecord.record_date)) {
+          mostRecentEuroRecord = record;
+        }
+      }
     });
+
+    if (mostRecentDate) {
+      setDatasetDate(dateStringConverter(mostRecentDate));
+    }
+
+    const nestedOptions: DropdownOption[] = Object.keys(dateGroups)
+      .sort((a, b) => Number(b) - Number(a))
+      .map(year => ({
+        label: year,
+        isLabel: true,
+        children: dateGroups[year].sort((a, b) => new Date(b.value).getTime() - new Date(a.value).getTime()),
+      }));
+
+    setGroupedDateOptions(nestedOptions);
+
+    if (mostRecentEuroRecord) {
+      setSelectedDate({ label: dateStringConverter(new Date(mostRecentEuroRecord.record_date)), value: mostRecentEuroRecord.record_date });
+      setNonUSCurrency(mostRecentEuroRecord);
+      setNonUSCurrencyExchangeValue(mostRecentEuroRecord.exchange_rate);
+      setNonUSCurrencyDecimalPlaces(countDecimals(mostRecentEuroRecord.exchange_rate));
+    }
+
+    setData(allExchangeRatesData.allExchangeRatesData.exchangeRatesData);
   }, []);
 
   useEffect(() => {
@@ -298,7 +309,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       </div>
       <ExchangeRatesBanner text="Currency Exchange Rates Converter" copy={socialCopy} />
       <div className={container} onBlur={handleInfoTipClose} role="presentation">
-        <span className={title}>Check foreign currency rates against the U.S. Dollar.</span>
+        <h2 className={title}>Check foreign currency rates against the U.S. Dollar.</h2>
         {nonUSCurrency !== null && (
           <div data-testid="box-container" className={boxWidth}>
             {data && (
