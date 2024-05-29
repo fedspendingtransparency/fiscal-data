@@ -86,9 +86,7 @@ const Preview = ({ selectedFile }) => {
       if (isPdf) {
         if (isChromium) {
           return (
-            <object data={selectedFile.path} type={'application/pdf'} width={'100%'} height={'600px'}>
-              <embed src={selectedFile.path} title={altText} style={{ width: '100%', height: '600px', border: '0' }} data-test-id="embedElement" />
-            </object>
+            <embed src={selectedFile.path} title={altText} style={{ width: '100%', height: '600px', border: '0' }} data-test-id="embedElement" />
           );
         } else {
           return (
