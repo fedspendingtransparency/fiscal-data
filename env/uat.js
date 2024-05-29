@@ -16,10 +16,10 @@ module.exports = {
           'these accounts are categorized as either Held by the Public or Intragovernmental Holdings. The daily opening ' +
           'balance, issued, and redeemed amounts are included and aggregated on a month-to-date and fiscal-year-to-date basis.',
         keywords: 'Debt, Financial Summaries',
-        topics: ['debt', 'financial-summaries'],
-        relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03', '015-BFS-2014Q1-11'],
-        //currentDateButton: 'byMonth',
       },
+      topics: ['debt', 'financial-summaries'],
+      relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03', '015-BFS-2014Q1-11'],
+      currentDateButton: 'byDay',
     },
   },
   ADDITIONAL_ENDPOINTS: {
