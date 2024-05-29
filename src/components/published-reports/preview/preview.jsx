@@ -94,7 +94,11 @@ const Preview = ({ selectedFile }) => {
         {selectedFile ? (
           isPdf ? (
             // <embed src={selectedFile.path} type="application/pdf" data-test-id="embedElement" title={altText} />
-            <iframe src={selectedFile.path} title={altText} style={{ width: '100%', height: '600px', border: '0' }} data-test-id="embedElement" />
+            <object data={selectedFile.path} type={'application/pdf'} width={'100%'} height={'600px'}>
+              <iframe src={selectedFile.path} title={altText} style={{ width: '100%', height: '600px', border: '0' }} data-test-id="embedElement">
+                This browser does not support PDFs. Please download the PDF to view it.
+              </iframe>
+            </object>
           ) : isTxt ? (
             <div className={textReportContainer}>
               <pre className={textReportPreview}>{reportTextContent}</pre>
