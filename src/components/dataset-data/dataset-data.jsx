@@ -262,7 +262,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
               />
             )}
             {!selectedTable && (
-              <div data-testid="date-range-placeholder">
+              <div data-testid="dateRangePlaceholder">
                 <h3 className={placeholderText}>Date Range</h3>
                 <div className={placeholderButton} />
               </div>
