@@ -88,7 +88,8 @@ const Preview = ({ selectedFile }) => {
           return (
             <embed
               src={selectedFile.path}
-              title="application/pdf"
+              title={altText}
+              type="application/pdf"
               style={{ width: '100%', height: '600px', border: '0' }}
               data-test-id="embedElement"
             />
