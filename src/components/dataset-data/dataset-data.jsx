@@ -274,41 +274,39 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             )}
           </FilterAndDownload>
         )}
-        <div className={tableContainer}>
-          {dateRange && (
-            <TableSectionContainer
-              config={config}
-              dateRange={dateRange}
-              selectedTable={selectedTable}
-              userFilterSelection={userFilterSelection}
-              apiData={apiData}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              apiError={apiError}
-              selectedPivot={selectedPivot}
-              setSelectedPivot={setSelectedPivot}
-              serverSidePagination={serverSidePagination}
-              selectedTab={selectedTab}
-              tabChangeHandler={setSelectedTab}
-              handleIgnorePivots={setIgnorePivots}
-              allTablesSelected={allTablesSelected}
-              handleConfigUpdate={() => setConfigUpdated(true)}
-              tableColumnSortData={tableColumnSortData}
-              setTableColumnSortData={setTableColumnSortData}
-              hasPublishedReports={!!publishedReports}
-              publishedReports={publishedReports}
-              resetFilters={resetFilters}
-              setResetFilters={setResetFilters}
-              setDetailViewState={setDetailViewState}
-              detailViewState={detailViewState}
-              customFormatting={selectedTable?.customFormatting}
-              summaryValues={summaryValues}
-              setSummaryValues={setSummaryValues}
-              allActiveFilters={allActiveFilters}
-              setAllActiveFilters={setAllActiveFilters}
-            />
-          )}
-        </div>
+        {dateRange && (
+          <TableSectionContainer
+            config={config}
+            dateRange={dateRange}
+            selectedTable={selectedTable}
+            userFilterSelection={userFilterSelection}
+            apiData={apiData}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            apiError={apiError}
+            selectedPivot={selectedPivot}
+            setSelectedPivot={setSelectedPivot}
+            serverSidePagination={serverSidePagination}
+            selectedTab={selectedTab}
+            tabChangeHandler={setSelectedTab}
+            handleIgnorePivots={setIgnorePivots}
+            allTablesSelected={allTablesSelected}
+            handleConfigUpdate={() => setConfigUpdated(true)}
+            tableColumnSortData={tableColumnSortData}
+            setTableColumnSortData={setTableColumnSortData}
+            hasPublishedReports={!!publishedReports}
+            publishedReports={publishedReports}
+            resetFilters={resetFilters}
+            setResetFilters={setResetFilters}
+            setDetailViewState={setDetailViewState}
+            detailViewState={detailViewState}
+            customFormatting={selectedTable?.customFormatting}
+            summaryValues={summaryValues}
+            setSummaryValues={setSummaryValues}
+            allActiveFilters={allActiveFilters}
+            setAllActiveFilters={setAllActiveFilters}
+          />
+        )}
       </div>
       <div className={activeTab === 2 ? '' : 'hidden'}>
         {selectedTable && initReports && <PublishedReports reports={publishedReports} dataset={config} />}

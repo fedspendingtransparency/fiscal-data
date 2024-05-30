@@ -8,6 +8,10 @@ $table-container-margin: 8rem;
   position: relative;
   z-index: $table-title;
 }
+.tableContainer {
+  min-height: 44.125rem;
+}
+
 
 .sectionBorder {
   border: solid #d6d7d9 1px;

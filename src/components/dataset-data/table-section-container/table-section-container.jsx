@@ -323,7 +323,7 @@ const TableSectionContainer = ({
               customFormatConfig={selectedTable?.customFormatting}
             />
           )}
-          <div className={tableSection}>
+          <div className={selectedTab === 0 && !allTablesSelected ? tableSection : ''}>
             {(apiData || serverSidePagination || apiError) && (
               <ChartTableToggle
                 legend={legend}

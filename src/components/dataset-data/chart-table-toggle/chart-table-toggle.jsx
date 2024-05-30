@@ -9,7 +9,7 @@ import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import NotShownMessage from '../table-section-container/not-shown-message/not-shown-message';
 import Analytics from '../../../utils/analytics/analytics';
 import HideLegendToggle from '../hide-legend-toggle/hideLegendToggle';
-import { chartBorder, tabIcon } from './chart-table-toggle.module.scss';
+import { tabIcon } from './chart-table-toggle.module.scss';
 import { getMessageForUnmatchedUserFilter } from '../../filter-download-container/user-filter/user-filter';
 import { faSlidersH, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import ResetTableSection from '../../data-table/reset-table-section/reset-table-section';
@@ -124,7 +124,7 @@ const ChartTableToggle = ({
   const emptyChartMessage = !unchartable || allTablesSelected ? emptyDataMessage : null;
 
   return (
-    <div className={tabState || emptyData || allTablesSelected ? chartBorder : ''}>
+    <div>
       <AntTabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">
         <AntTab
           label="Table"
