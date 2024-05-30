@@ -12,6 +12,7 @@ const Preview = ({ selectedFile }) => {
   const [fileType, setFileType] = useState(null);
   const [previousSelectedPath, setPreviousSelectedPath] = useState(null);
   const [reportTextContent, setReportTextContext] = useState('');
+  const isChromium = typeof window !== 'undefined' && !!window.chrome;
 
   let altText;
 
@@ -80,6 +81,39 @@ const Preview = ({ selectedFile }) => {
     }
   }, [selectedFile]);
 
+  const getFilePreview = () => {
+    if (selectedFile) {
+      if (isPdf) {
+        if (isChromium) {
+          return (
+            <embed src={selectedFile.path} title={altText} style={{ width: '100%', height: '600px', border: '0' }} data-test-id="embedElement" />
+          );
+        } else {
+          return (
+            <object data={selectedFile.path} type={'application/pdf'} width={'100%'} height={'600px'}>
+              <iframe src={selectedFile.path} title={altText} style={{ width: '100%', height: '600px', border: '0' }} data-test-id="embedElement" />
+            </object>
+          );
+        }
+      } else if (isTxt) {
+        return (
+          <div className={textReportContainer}>
+            <pre className={textReportPreview}>{reportTextContent}</pre>
+          </div>
+        );
+      } else {
+        return (
+          <NotShownMessage
+            heading="Preview cannot be displayed for this file type."
+            bodyText={`The selected file type is ${fileType !== null ? fileType : 'unknown'}`}
+          />
+        );
+      }
+    } else {
+      return <NotShownMessage heading="Select a Report Above To Generate A Preview" />;
+    }
+  };
+
   return (
     <>
       <div className={titleContainer}>
@@ -91,22 +125,7 @@ const Preview = ({ selectedFile }) => {
         </div>
       </div>
       <div data-testid="previewContent" className={previewContent}>
-        {selectedFile ? (
-          isPdf ? (
-            <embed src={selectedFile.path} type="application/pdf" data-test-id="embedElement" title={altText} />
-          ) : isTxt ? (
-            <div className={textReportContainer}>
-              <pre className={textReportPreview}>{reportTextContent}</pre>
-            </div>
-          ) : (
-            <NotShownMessage
-              heading="Preview cannot be displayed for this file type."
-              bodyText={`The selected file type is ${fileType !== null ? fileType : 'unknown'}`}
-            />
-          )
-        ) : (
-          <NotShownMessage heading="Select a Report Above To Generate A Preview" />
-        )}
+        {getFilePreview()}
       </div>
     </>
   );
