@@ -91,6 +91,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
     if (clickEvent) {
       clickEvent();
     }
+    return false;
   };
 
   const handleMouseLeave = () => {
