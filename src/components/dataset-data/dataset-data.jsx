@@ -17,7 +17,7 @@ import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { detailViewNotice, lockIcon, placeholderText, placeholderButton } from './dataset-data.module.scss';
+import { detailViewNotice, lockIcon, placeholderText, placeholderButton, tableContainer } from './dataset-data.module.scss';
 
 import { queryClient } from '../../../react-query-client';
 
@@ -262,7 +262,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
               />
             )}
             {!selectedTable && (
-              <div>
+              <div data-testid="date-range-placeholder">
                 <h3 className={placeholderText}>Date Range</h3>
                 <div className={placeholderButton} />
               </div>
@@ -274,39 +274,41 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             )}
           </FilterAndDownload>
         )}
-        {dateRange && (
-          <TableSectionContainer
-            config={config}
-            dateRange={dateRange}
-            selectedTable={selectedTable}
-            userFilterSelection={userFilterSelection}
-            apiData={apiData}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            apiError={apiError}
-            selectedPivot={selectedPivot}
-            setSelectedPivot={setSelectedPivot}
-            serverSidePagination={serverSidePagination}
-            selectedTab={selectedTab}
-            tabChangeHandler={setSelectedTab}
-            handleIgnorePivots={setIgnorePivots}
-            allTablesSelected={allTablesSelected}
-            handleConfigUpdate={() => setConfigUpdated(true)}
-            tableColumnSortData={tableColumnSortData}
-            setTableColumnSortData={setTableColumnSortData}
-            hasPublishedReports={!!publishedReports}
-            publishedReports={publishedReports}
-            resetFilters={resetFilters}
-            setResetFilters={setResetFilters}
-            setDetailViewState={setDetailViewState}
-            detailViewState={detailViewState}
-            customFormatting={selectedTable?.customFormatting}
-            summaryValues={summaryValues}
-            setSummaryValues={setSummaryValues}
-            allActiveFilters={allActiveFilters}
-            setAllActiveFilters={setAllActiveFilters}
-          />
-        )}
+        <div className={tableContainer}>
+          {dateRange && (
+            <TableSectionContainer
+              config={config}
+              dateRange={dateRange}
+              selectedTable={selectedTable}
+              userFilterSelection={userFilterSelection}
+              apiData={apiData}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              apiError={apiError}
+              selectedPivot={selectedPivot}
+              setSelectedPivot={setSelectedPivot}
+              serverSidePagination={serverSidePagination}
+              selectedTab={selectedTab}
+              tabChangeHandler={setSelectedTab}
+              handleIgnorePivots={setIgnorePivots}
+              allTablesSelected={allTablesSelected}
+              handleConfigUpdate={() => setConfigUpdated(true)}
+              tableColumnSortData={tableColumnSortData}
+              setTableColumnSortData={setTableColumnSortData}
+              hasPublishedReports={!!publishedReports}
+              publishedReports={publishedReports}
+              resetFilters={resetFilters}
+              setResetFilters={setResetFilters}
+              setDetailViewState={setDetailViewState}
+              detailViewState={detailViewState}
+              customFormatting={selectedTable?.customFormatting}
+              summaryValues={summaryValues}
+              setSummaryValues={setSummaryValues}
+              allActiveFilters={allActiveFilters}
+              setAllActiveFilters={setAllActiveFilters}
+            />
+          )}
+        </div>
       </div>
       <div className={activeTab === 2 ? '' : 'hidden'}>
         {selectedTable && initReports && <PublishedReports reports={publishedReports} dataset={config} />}

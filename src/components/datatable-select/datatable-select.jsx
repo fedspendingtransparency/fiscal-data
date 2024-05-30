@@ -51,10 +51,10 @@ export const DataTableSelect = ({ apis, selectedTable, setSelectedTable, allTabl
               />
             )}
             {!selectedTable && (
-              <>
+              <div data-testid="tableSelectPlaceholder">
                 <div className={placeholderText}>Data Table</div>
-                <div className={placeholderDropdown} data-testid="placeholder" />
-              </>
+                <div className={placeholderDropdown} />
+              </div>
             )}
           </div>
         </div>

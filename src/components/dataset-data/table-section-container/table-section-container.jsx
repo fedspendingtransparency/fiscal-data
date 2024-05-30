@@ -29,6 +29,7 @@ import {
   detailViewBack,
   detailViewIcon,
   sectionBorder,
+  tableSection,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
 import { useSetRecoilState } from 'recoil';
@@ -322,7 +323,7 @@ const TableSectionContainer = ({
               customFormatConfig={selectedTable?.customFormatting}
             />
           )}
-          <div style={{ minHeight: '538px' }}>
+          <div className={tableSection}>
             {(apiData || serverSidePagination || apiError) && (
               <ChartTableToggle
                 legend={legend}
