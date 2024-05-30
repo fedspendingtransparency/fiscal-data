@@ -86,10 +86,13 @@ const Preview = ({ selectedFile }) => {
       if (isPdf) {
         if (isChromium) {
           return (
-            <div>
-              <embed src={selectedFile.path} title={altText} style={{ width: '100%', height: '600px', border: '0' }} data-test-id="embedElement" />
-              <div>Hello, this a test message confirming chromium detection</div>
-            </div>
+            <embed
+              src={selectedFile.path}
+              title={altText}
+              type="application/pdf"
+              style={{ width: '100%', height: '600px', border: '0' }}
+              data-test-id="embedElement"
+            />
           );
         } else {
           return (
