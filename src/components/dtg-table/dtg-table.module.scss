@@ -11,6 +11,11 @@ $borderRadius: 5px;
   }
 }
 
+.overlayContainer {
+  background-color: white;
+  margin: 0 -1px -1px;
+}
+
 .overlayContainer,
 .overlayContainerNoFooter {
   position: relative;

@@ -28,6 +28,7 @@ import {
   detailViewButton,
   detailViewBack,
   detailViewIcon,
+  sectionBorder,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
 import { useSetRecoilState } from 'recoil';
@@ -261,135 +262,139 @@ const TableSectionContainer = ({
   }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData, config?.customNoChartMessage]);
 
   return (
-    <div data-test-id="table-container">
-      <div className={titleContainer}>
-        <div className={headerWrapper}>
-          {!!detailViewState && selectedTab === 0 && (
-            <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailViewCloseButton">
-              <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
-              <span className={detailViewBack} data-testid="backButton">
-                Back
-              </span>
-            </button>
-          )}
-          <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
-          {!!detailViewState ? (
-            <h3 className={header} data-testid="tableName" id="main-data-table-title">
-              {`${tableName} > ${detailViewState}`}
-            </h3>
-          ) : (
-            <h3 className={header} data-testid="tableName" id="main-data-table-title">
-              {tableName}
-            </h3>
-          )}
-          {!!hasPivotOptions && <PivotToggle clickHandler={pivotToggler} open={showPivotBar} />}
-          <Experimental featureId="chartingConfigurationTool">
-            <DynamicConfig
-              selectedTable={selectedTable}
-              handleIgnorePivots={handleIgnorePivots}
-              handlePivotsUpdated={handlePivotConfigUpdated}
-              refreshTable={refreshTable}
-            />
-          </Experimental>
-        </div>
-        {dateFieldForChart === 'CHART_DATE' && (
-          <div className={noticeContainer}>
-            <AggregationNotice />
+    <>
+      <div data-test-id="table-container" className={sectionBorder}>
+        <div className={titleContainer}>
+          <div className={headerWrapper}>
+            {!!detailViewState && selectedTab === 0 && (
+              <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailViewCloseButton">
+                <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
+                <span className={detailViewBack} data-testid="backButton">
+                  Back
+                </span>
+              </button>
+            )}
+            <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
+            {!!detailViewState ? (
+              <h3 className={header} data-testid="tableName" id="main-data-table-title">
+                {`${tableName} > ${detailViewState}`}
+              </h3>
+            ) : (
+              <h3 className={header} data-testid="tableName" id="main-data-table-title">
+                {tableName}
+              </h3>
+            )}
+            {!!hasPivotOptions && <PivotToggle clickHandler={pivotToggler} open={showPivotBar} />}
+            <Experimental featureId="chartingConfigurationTool">
+              <DynamicConfig
+                selectedTable={selectedTable}
+                handleIgnorePivots={handleIgnorePivots}
+                handlePivotsUpdated={handlePivotConfigUpdated}
+                refreshTable={refreshTable}
+              />
+            </Experimental>
           </div>
-        )}
-        <div className={barContainer}>
-          <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
-            <PivotOptions table={selectedTable} pivotSelection={selectedPivot} setSelectedPivot={setSelectedPivot} pivotsUpdated={pivotsUpdated} />
-          </div>
-        </div>
-      </div>
-      <div className={tableContainer}>
-        {isLoading && (
-          <div data-testid="loadingSection">
-            <div className={loadingSection} />
-            <div className={loadingIcon}>
-              <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...
+          {dateFieldForChart === 'CHART_DATE' && (
+            <div className={noticeContainer}>
+              <AggregationNotice />
+            </div>
+          )}
+          <div className={barContainer}>
+            <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
+              <PivotOptions table={selectedTable} pivotSelection={selectedPivot} setSelectedPivot={setSelectedPivot} pivotsUpdated={pivotsUpdated} />
             </div>
           </div>
-        )}
-        {!!detailViewState && (
-          <SummaryTable
-            summaryTable={config?.detailView?.summaryTableFields}
-            summaryValues={summaryValues}
-            columnConfig={tableProps?.columnConfig}
-            customFormatConfig={selectedTable?.customFormatting}
-          />
-        )}
-        {(apiData || serverSidePagination || apiError) && (
-          <ChartTableToggle
-            legend={legend}
-            selectedTab={selectedTab}
-            showToggleChart={!noChartMessage}
-            showToggleTable={tableProps?.selectColumns}
-            userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
-            onToggleLegend={legendToggler}
-            emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
-            unchartable={noChartMessage !== undefined}
-            currentTab={selectedTab}
-            onTabChange={tabChangeHandler}
-            selectedTable={selectedTable}
-            setResetFilters={setResetFilters}
-            textFilteringDisabled={manualPagination}
-            pivotSelected={selectedPivot}
-            table={
-              tableProps ? (
-                <DtgTable
-                  selectColumnPanel={selectColumnPanel}
-                  setDetailViewState={setDetailViewState}
-                  detailViewState={detailViewState}
-                  setSummaryValues={setSummaryValues}
-                  pivotSelected={selectedPivot}
-                  setSelectColumnPanel={setSelectColumnPanel}
-                  tableProps={tableProps}
-                  perPage={perPage}
-                  setPerPage={setPerPage}
-                  tableColumnSortData={tableColumnSortData}
-                  setTableColumnSortData={setTableColumnSortData}
-                  resetFilters={resetFilters}
-                  setResetFilters={setResetFilters}
-                  tableMeta={tableMeta}
-                  manualPagination={manualPagination}
-                  setManualPagination={setManualPagination}
-                  reactTable
-                  rawDataTable
-                  setIsLoading={setIsLoading}
-                  isLoading={isLoading}
-                  sorting={reactTableSorting}
-                  setSorting={setReactTableSort}
-                  allActiveFilters={allActiveFilters}
-                  setAllActiveFilters={setAllActiveFilters}
-                />
-              ) : (
-                ''
-              )
-            }
-            chart={
-              noChartMessage && !ignorePivots ? (
-                noChartMessage
-              ) : (
-                <DatasetChart
-                  legend={legend}
-                  dateRange={dateRange}
-                  data={userFilteredData ? userFilteredData : chartData ? chartData : apiData}
-                  slug={config.slug}
-                  currentTable={selectedTable}
-                  dateField={dateFieldForChart}
-                  isVisible={selectedTab === 1}
-                  selectedPivot={selectedPivot}
-                />
-              )
-            }
-            allTablesSelected={allTablesSelected}
-            filtersActive={allActiveFilters?.length > 0}
-          />
-        )}
+        </div>
+        <div className={tableContainer}>
+          {isLoading && (
+            <div data-testid="loadingSection">
+              <div className={loadingSection} />
+              <div className={loadingIcon}>
+                <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...
+              </div>
+            </div>
+          )}
+          {!!detailViewState && (
+            <SummaryTable
+              summaryTable={config?.detailView?.summaryTableFields}
+              summaryValues={summaryValues}
+              columnConfig={tableProps?.columnConfig}
+              customFormatConfig={selectedTable?.customFormatting}
+            />
+          )}
+          <div style={{ minHeight: '538px' }}>
+            {(apiData || serverSidePagination || apiError) && (
+              <ChartTableToggle
+                legend={legend}
+                selectedTab={selectedTab}
+                showToggleChart={!noChartMessage}
+                showToggleTable={tableProps?.selectColumns}
+                userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
+                onToggleLegend={legendToggler}
+                emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
+                unchartable={noChartMessage !== undefined}
+                currentTab={selectedTab}
+                onTabChange={tabChangeHandler}
+                selectedTable={selectedTable}
+                setResetFilters={setResetFilters}
+                textFilteringDisabled={manualPagination}
+                pivotSelected={selectedPivot}
+                table={
+                  tableProps ? (
+                    <DtgTable
+                      selectColumnPanel={selectColumnPanel}
+                      setDetailViewState={setDetailViewState}
+                      detailViewState={detailViewState}
+                      setSummaryValues={setSummaryValues}
+                      pivotSelected={selectedPivot}
+                      setSelectColumnPanel={setSelectColumnPanel}
+                      tableProps={tableProps}
+                      perPage={perPage}
+                      setPerPage={setPerPage}
+                      tableColumnSortData={tableColumnSortData}
+                      setTableColumnSortData={setTableColumnSortData}
+                      resetFilters={resetFilters}
+                      setResetFilters={setResetFilters}
+                      tableMeta={tableMeta}
+                      manualPagination={manualPagination}
+                      setManualPagination={setManualPagination}
+                      reactTable
+                      rawDataTable
+                      setIsLoading={setIsLoading}
+                      isLoading={isLoading}
+                      sorting={reactTableSorting}
+                      setSorting={setReactTableSort}
+                      allActiveFilters={allActiveFilters}
+                      setAllActiveFilters={setAllActiveFilters}
+                    />
+                  ) : (
+                    ''
+                  )
+                }
+                chart={
+                  noChartMessage && !ignorePivots ? (
+                    noChartMessage
+                  ) : (
+                    <DatasetChart
+                      legend={legend}
+                      dateRange={dateRange}
+                      data={userFilteredData ? userFilteredData : chartData ? chartData : apiData}
+                      slug={config.slug}
+                      currentTable={selectedTable}
+                      dateField={dateFieldForChart}
+                      isVisible={selectedTab === 1}
+                      selectedPivot={selectedPivot}
+                    />
+                  )
+                }
+                allTablesSelected={allTablesSelected}
+                filtersActive={allActiveFilters?.length > 0}
+              />
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

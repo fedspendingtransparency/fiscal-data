@@ -4,11 +4,14 @@
 $table-container-margin: 8rem;
 
 .titleContainer {
-  border: 1px solid $dd-border-color;
+  border-bottom: 1px solid $dd-border-color;
   position: relative;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
   z-index: $table-title;
+}
+
+.sectionBorder {
+  border: solid #d6d7d9 1px;
+  border-radius: 5px;
 }
 
 .detailViewButton {
