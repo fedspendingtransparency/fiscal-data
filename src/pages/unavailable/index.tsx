@@ -1,27 +1,32 @@
 import React from 'react';
-import { graphql } from 'gatsby';
 import PageHelmet from '../../components/page-helmet/page-helmet';
+import SiteLayout from '../../components/siteLayout/siteLayout';
+import PageUnavailableText from '../../components/page-unavailable/page-unavilable-text';
 
 const UnavailableContent = ({ fallback }) => {
-  const pageTitle = fallback ? 'Content Currently Unavailable' : 'Page Not Found';
+  const pageTitle = fallback ? 'Content Currently Unavailable' : 'Site Outage Page';
 
   return (
     <>
       <div>
-        Hello world!
-        {/*<PageHelmet data-testid="helmet" pageTitle={pageTitle} />*/}
+        <PageHelmet data-testid="helmet" pageTitle={pageTitle} />
+        <div data-testid="unavailableWrapper">
+          <PageUnavailableText fallback={fallback} />
+        </div>
       </div>
     </>
   );
 };
 
-const Unavailable = () => {
+const Unavailable = ({ pageContext, data, fallback }) => {
   return (
     <>
-      <div>
-        Hello world!
-        {/*<PageHelmet data-testid="helmet" pageTitle={pageTitle} />*/}
-      </div>
+      {!fallback && (
+        <SiteLayout>
+          <UnavailableContent fallback={fallback} />
+        </SiteLayout>
+      )}
+      {fallback && <UnavailableContent fallback={fallback} />}
     </>
   );
 };
