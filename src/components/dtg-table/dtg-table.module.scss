@@ -110,9 +110,8 @@ $borderRadius: 5px;
 .overlay {
   z-index: $dtg-table-overlay;
   height: calc(100% - 5.5rem);
-  width: calc(100% + 0.15rem);
+  width: 100%;
   position: absolute;
-  left: -0.15rem;
   background-color: rgba(255, 255, 255, 0.85);
   transition: opacity 0.5s 0.5s, left 0.5s ease-in-out;
   display: block;
