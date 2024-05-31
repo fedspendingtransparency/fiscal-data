@@ -5,7 +5,7 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageUnavailableText from '../../components/page-unavailable/page-unavailable-text';
 
 const UnavailableContent = ({ fallback }) => {
-  const pageTitle = fallback ? 'Content Currently Unavailable' : 'Site Outage Page';
+  const pageTitle: string = fallback ? 'Content Currently Unavailable' : 'Site Outage Page';
 
   return (
     <div className={siteUnavailable}>
