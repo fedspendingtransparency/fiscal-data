@@ -77,6 +77,20 @@ const explainerPagesSource = {
     relatedDatasets: ['015-BFS-2014Q3-080', '015-BFS-2014Q3-096', '015-BFS-2014Q1-11', '015-BFS-2014Q3-056'],
     isAFG: false,
   },
+  'embed-chart': {
+    slug: '/embed-chart/',
+    breadCrumbLinkName: 'embed-chart',
+    seoConfig: {
+      pageTitle: 'embed-chart d',
+      description: `embed-chart.`,
+    },
+    prodReady: false,
+    heroImage: {
+      heading: 'embed-chart',
+      subHeading: '',
+    },
+    isAFG: false,
+  },
 };
 
 const freshExplainerPages = () => {
