@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import notFoundGraphic from './page-error-graphic';
+import notFoundGraphic from '../page-glitch-graphic/page-glitch-graphic';
 import PageErrorText from './page-error-text';
 
 describe('404 Not Found Text', () => {

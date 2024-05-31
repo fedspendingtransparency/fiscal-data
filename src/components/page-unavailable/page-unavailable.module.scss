@@ -25,10 +25,6 @@ $lead-text-max: 550px;
   margin: 0 0 1rem;
 }
 
-.graphicPlacement {
-  width: 100vw;
-}
-
 @media screen and (max-width: $breakpoint-sm - 1px) {
   .graphicPlacement {
     transform: translateX(-1rem);
@@ -52,9 +48,5 @@ $lead-text-max: 550px;
     top: 0;
     width: calc(100vw - #{$lead-text-max});
     transform: translateY(-1rem);
-  }
-
-  .notFoundGraphic {
-    max-width: 830px;
   }
 }

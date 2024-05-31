@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import PageUnavailableText from './page-unavailable-text';
-import notFoundGraphic from '../pageError/page-error-graphic';
+import notFoundGraphic from '../page-glitch-graphic/page-glitch-graphic';
 
 describe('Unavailable Text', () => {
   let component = renderer.create();

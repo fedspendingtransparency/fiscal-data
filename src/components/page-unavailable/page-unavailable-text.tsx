@@ -1,6 +1,6 @@
 import CustomLink from '../links/custom-link/custom-link';
 import React from 'react';
-import NotFoundGraphic from '../pageError/page-error-graphic';
+import GlitchGraphic from '../page-glitch-graphic/page-glitch-graphic';
 import { graphicPlacement, headerSubText, textBox, unavailableHeader, pText } from '../page-unavailable/page-unavailable.module.scss';
 
 export const Wrapper = ({ children }) => {
@@ -10,7 +10,7 @@ export const Wrapper = ({ children }) => {
 const NotFoundGraphicHolder = () => {
   return (
     <div className={graphicPlacement}>
-      <NotFoundGraphic />
+      <GlitchGraphic />
     </div>
   );
 };
