@@ -52,9 +52,9 @@ const UnavailableText = () => {
     <>
       <Header2>We will be back shortly.</Header2>
       <p className={pText}>
-        Our team is working diligently to address the issue. Please check back later or contact us via email at
+        Our team is working diligently to address the issue. Please check back later or contact us via email at {}
         <CustomLink url={'mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us'}>fiscaldata@fiscal.treasury.gov</CustomLink>
-        for further assistance. Thank you!
+        {} for further assistance. Thank you!
       </p>
     </>
   );
