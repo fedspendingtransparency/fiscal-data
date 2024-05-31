@@ -1,7 +1,7 @@
 import CustomLink from '../links/custom-link/custom-link';
 import React from 'react';
 import NotFoundGraphic from '../pageError/page-error-graphic';
-import { graphicPlacement, headerSubText, notFoundHeader, pText, textBox } from '../pageError/page-error.module.scss';
+import { graphicPlacement, headerSubText, textBox, unavailableHeader, pText } from '../page-unavailable/page-unavailable.module.scss';
 
 export const Wrapper = ({ children }) => {
   return <div className={textBox}>{children}</div>;
@@ -33,7 +33,7 @@ const FallbackText = () => {
 
 const Header = ({ children }) => {
   return (
-    <h1 className={notFoundHeader}>
+    <h1 className={unavailableHeader}>
       <span>{children}</span>
     </h1>
   );
@@ -64,11 +64,6 @@ const PageUnavailableText = ({ fallback }) => (
   <Wrapper>
     <Header>Fiscal Data is unavailable right now.</Header>
     {fallback ? <FallbackText /> : <UnavailableText />}
-    {/*<PTag>*/}
-    {/*  Want to get in touch or send in general comments about the site? Contact us via email at{' '}*/}
-    {/*  <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">fiscaldata@fiscal.treasury.gov</CustomLink> for further assistance.*/}
-    {/*  Thank you!*/}
-    {/*</PTag>*/}
     <NotFoundGraphicHolder />
   </Wrapper>
 );

@@ -1,0 +1,60 @@
+@import '../../variables.module.scss';
+
+$site-content-width: 1140px;
+$lead-text-max: 550px;
+
+.unavailableHeader {
+  font-weight: $semi-bold-weight;
+  color: $primary;
+  margin: 2rem 0 1rem;
+  font-size: 48px;
+}
+
+.headerSubText {
+  color: $primary;
+  margin: 2rem 0 1rem;
+  font-size: 32px;
+}
+
+.textBox {
+  max-width: $lead-text-max;
+  position: relative;
+}
+
+.pText {
+  margin: 0 0 1rem;
+}
+
+.graphicPlacement {
+  width: 100vw;
+}
+
+@media screen and (max-width: $breakpoint-sm - 1px) {
+  .graphicPlacement {
+    transform: translateX(-1rem);
+  }
+}
+
+@media screen and (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg - 1px) {
+  .graphicPlacement {
+    transform: translateX(-2rem);
+  }
+}
+@media screen and (min-width: $breakpoint-lg) {
+  .unavailableHeader {
+    margin-top: 7rem;
+    font-size: 56px;
+  }
+
+  .graphicPlacement {
+    position: absolute;
+    left: $lead-text-max;
+    top: 0;
+    width: calc(100vw - #{$lead-text-max});
+    transform: translateY(-1rem);
+  }
+
+  .notFoundGraphic {
+    max-width: 830px;
+  }
+}
