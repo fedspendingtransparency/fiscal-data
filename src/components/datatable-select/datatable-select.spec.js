@@ -3,6 +3,7 @@ import renderer from 'react-test-renderer';
 import DataTableSelect, { allTablesOption } from './datatable-select';
 import { dataTableSelectWrapper } from './datatable-select.module.scss';
 import ComboCurrencySelect from '../combo-select/combo-currency-select/combo-currency-select';
+import { render } from '@testing-library/react';
 
 describe('DatatableSelect', () => {
   const earliestDate = 'test early date';
@@ -59,5 +60,31 @@ describe('DatatableSelect', () => {
     });
     const instance2 = component2.root;
     expect(instance2.findAllByProps({ className: dataTableSelectWrapper }).length).toBe(0);
+  });
+
+  it('renders a placeholder while no table is selected (during loading)', () => {
+    const { getByTestId } = render(
+      <DataTableSelect
+        apis={apisArr}
+        selectedTable={null}
+        setSelectedTable={mockSetSelectedTable}
+        earliestDate={earliestDate}
+        latestDate={latestDate}
+      />
+    );
+    expect(getByTestId('tableSelectPlaceholder')).toBeInTheDocument();
+  });
+
+  it('when a table is selected the placeholder does not render', () => {
+    const { queryByTestId } = render(
+      <DataTableSelect
+        apis={apisArr}
+        selectedTable={apisArr[0]}
+        setSelectedTable={mockSetSelectedTable}
+        earliestDate={earliestDate}
+        latestDate={latestDate}
+      />
+    );
+    expect(queryByTestId('tableSelectPlaceholder')).not.toBeInTheDocument();
   });
 });
