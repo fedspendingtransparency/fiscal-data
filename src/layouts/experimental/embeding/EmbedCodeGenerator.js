@@ -1,7 +1,7 @@
 import React from 'react';
 
 const EmbedCodeGenerator = () => {
-  const embedCode = `<iframe src="${window.location.origin}/embed-chart" width="600" height="400" frameborder="1" title="savings bonds chart" />`;
+  const embedCode = `<iframe src="${window.location.origin}/embed-chart/" width="600" height="400" frameborder="1" title="savings bonds chart" />`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(embedCode);
