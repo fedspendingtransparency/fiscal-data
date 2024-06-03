@@ -89,6 +89,7 @@ const explainerPagesSource = {
       heading: 'embed-chart',
       subHeading: '',
     },
+    relatedDatasets: [''],
     isAFG: false,
   },
 };
