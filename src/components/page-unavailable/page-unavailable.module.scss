@@ -25,6 +25,27 @@ $lead-text-max: 550px;
   margin: 0 0 1rem;
 }
 
+.logo {
+  transition: 0.125s;
+  padding-bottom: 0.25rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .logo {
+    width: 8.25rem;
+    padding-bottom: .5rem;
+  }
+}
+
+.imagePlacement {
+  width: calc(100% + 1.5rem);
+  margin-left: -0.75rem;
+}
+
+.graphicPlacement {
+  width: 100vw;
+}
+
 @media screen and (max-width: $breakpoint-sm - 1px) {
   .graphicPlacement {
     transform: translateX(-1rem);

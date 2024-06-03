@@ -1,7 +1,9 @@
 import CustomLink from '../links/custom-link/custom-link';
 import React from 'react';
 import GlitchGraphic from '../page-glitch-graphic/page-glitch-graphic';
-import { graphicPlacement, headerSubText, textBox, unavailableHeader, pText } from '../page-unavailable/page-unavailable.module.scss';
+import { graphicPlacement, headerSubText, textBox, unavailableHeader, pText, logo } from '../page-unavailable/page-unavailable.module.scss';
+import { StaticImage } from 'gatsby-plugin-image';
+import { withWindowSize } from 'react-fns';
 
 export const Wrapper = ({ children }) => {
   return <div className={textBox}>{children}</div>;
@@ -60,13 +62,29 @@ const UnavailableText = () => {
   );
 };
 
-const PageUnavailableText = ({ fallback }) => (
-  <Wrapper>
-    <Header>Fiscal Data is unavailable right now.</Header>
-    {fallback ? <FallbackText /> : <UnavailableText />}
-    <NotFoundGraphicHolder />
-  </Wrapper>
-);
+const PageUnavailableText = ({ fallback, width }) => {
+  const defaultLogoWidth = 192;
+  const defaultLogoHeight = 55;
+  const reducedImageSize = 130;
+
+  return (
+    <Wrapper>
+      <div className={logo} data-testid="logoContainer">
+        <StaticImage
+          src="../../images/logos/fd-logo.svg"
+          loading="eager"
+          placeholder="none"
+          alt="Fiscal Data logo"
+          height={defaultLogoHeight}
+          width={defaultLogoWidth}
+        />
+      </div>
+      <Header>Fiscal Data is unavailable right now.</Header>
+      {fallback ? <FallbackText /> : <UnavailableText />}
+      <NotFoundGraphicHolder />
+    </Wrapper>
+  );
+};
 
 export const UnavailableComponents = {
   h1: Header,
@@ -75,4 +93,4 @@ export const UnavailableComponents = {
   p: PTag,
   Wrapper,
 };
-export default PageUnavailableText;
+export default withWindowSize(PageUnavailableText);
