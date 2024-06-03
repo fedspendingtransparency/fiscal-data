@@ -12,3 +12,20 @@
     padding-top: 0.125rem;
   }
 }
+
+.placeholderText {
+  font-size: $font-size-18;
+  padding: 4.8px 0;
+}
+
+.placeholderButton {
+  height: 3rem;
+  width: 70%;
+  background-color: #d9d9d9;
+  margin-top: 1rem;
+  border-radius: .125rem;
+}
+
+.tableContainer {
+  min-height: 44.125rem;
+}

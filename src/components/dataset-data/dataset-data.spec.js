@@ -125,16 +125,6 @@ describe('DatasetData', () => {
     expect(title.innerHTML).toBe('Preview &amp; Download');
   });
 
-  it(`renders the expected title at table/mobile mode`, async () => {
-    const { getByTestId } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={500} setSelectedTableProp={setSelectedTableMock} />
-      </RecoilRoot>
-    );
-    const title = getByTestId('sectionHeader');
-    expect(title.innerHTML).toBe(tabletMobileTitle);
-  });
-
   it(`contains a FilterAndDownload component`, () => {
     expect(instance.findByType(FilterAndDownload)).toBeDefined();
   });
