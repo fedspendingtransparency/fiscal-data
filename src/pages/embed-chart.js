@@ -1,5 +1,4 @@
 import React from 'react';
-import HowSavingsBondsSoldChart from '../layouts/explainer/sections/treasury-savings-bonds/how-savings-bonds-finance-government/how-savings-bonds-finance-chart/how-savings-bonds-sold-chart';
 import AFGDebtChart from '../layouts/explainer/sections/overview/debt-chart/debt-chart';
 import Experimental from '../components/experimental/experimental';
 
