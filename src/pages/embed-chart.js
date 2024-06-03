@@ -4,10 +4,6 @@ import AFGDebtChart from '../layouts/explainer/sections/overview/debt-chart/debt
 import Experimental from '../components/experimental/experimental';
 
 const EmbedChartPage = () => {
-  const chartData = [
-    { name: 'Marketable', value: 60, percent: 60, securityType: 'Marketable' },
-    { name: 'Nonmarketable', value: 40, percent: 40, securityType: 'Nonmarketable' },
-  ];
   return (
     <Experimental exclude={true}>
       <div style={{ width: '100%', height: '100vh' }}>
