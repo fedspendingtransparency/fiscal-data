@@ -47,8 +47,6 @@ const ExperimentalPage = () => {
       </AnnouncementBanner>
       <SiteLayout>
         <h2>FootNote Paragraph</h2>
-        <GenerateEmbedPage />
-        <EmbedChartPage />
         <p>
           empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna eleifend ut. Nulla facilisi. Ut tempus orci nibh, vitae tristique erat
           finibus egestas. Nullam ut nisl fringilla, condimentum ex eu, suscipit tortor. In ultrices justo lorem. Donec a scelerisque quam.
