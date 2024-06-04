@@ -1,5 +1,5 @@
 import React from 'react';
-import AFGDebtChart from '../layouts/explainer/sections/overview/debt-chart/debt-chart';
+import AFGDebtChart from '../../layouts/explainer/sections/overview/debt-chart/debt-chart';
 
 const EmbedChartPage = () => {
   return (

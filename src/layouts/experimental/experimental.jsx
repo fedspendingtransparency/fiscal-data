@@ -13,7 +13,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import ContentUnavailable from '../../components/site-header/banner-content/banner-content';
 import AnnouncementBanner from '../../components/announcement-banner/announcement-banner';
 import GenerateEmbedPage from './embeding/generate-embed';
-import EmbedChartPage from '../../pages/embed-chart';
+import EmbedChartPage from '../../pages/embeded';
 
 const fallbackComponent = () => {
   return <div className={fallback}>Something went wrong. Please refresh the page to try again.</div>;
@@ -48,7 +48,6 @@ const ExperimentalPage = () => {
       <SiteLayout>
         <h2>FootNote Paragraph</h2>
         <GenerateEmbedPage />
-        <iframe src="http://localhost:8000/embed-chart" width="600" height="400" frameBorder="1" title="savings bonds chart" />
         <EmbedChartPage />
         <p>
           empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna eleifend ut. Nulla facilisi. Ut tempus orci nibh, vitae tristique erat
