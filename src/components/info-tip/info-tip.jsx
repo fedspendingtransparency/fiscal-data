@@ -91,6 +91,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
     if (clickEvent) {
       clickEvent();
     }
+    return false;
   };
 
   const handleMouseLeave = () => {
@@ -151,7 +152,6 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
           vertical: 'top',
           horizontal: 'center',
         }}
-        disableRestoreFocus
       >
         <div className={`${popupContainer} ${popupContainerStyle}`} data-testid="popupContainer" onMouseLeave={handleClose} role={'presentation'}>
           {getHeader()}

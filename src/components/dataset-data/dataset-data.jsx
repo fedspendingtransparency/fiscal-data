@@ -13,22 +13,18 @@ import { getApiData } from './dataset-data-api-helper/dataset-data-api-helper';
 import { TableCache } from './table-cache/table-cache';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import { breakpointSm } from '../../variables.module.scss';
-import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { detailViewNotice, lockIcon } from './dataset-data.module.scss';
+import { detailViewNotice, lockIcon, placeholderText, placeholderButton, tableContainer } from './dataset-data.module.scss';
 
 import { queryClient } from '../../../react-query-client';
 
-export const desktopTitle = 'Preview & Download';
-export const tabletMobileTitle = 'Preview';
-
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
-  const title = width >= pxToNumber(breakpointSm) ? desktopTitle : tabletMobileTitle;
   // config.apis should always be available; but, fallback in case
+  const title = 'Preview & Download';
+
   const apis = config ? config.apis : [null];
   const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
   const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
@@ -264,6 +260,12 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 datatableBanner={config.datatableBanner}
                 hideButtons={detailApi && !detailViewState}
               />
+            )}
+            {!selectedTable && (
+              <div data-testid="dateRangePlaceholder">
+                <h3 className={placeholderText}>Date Range</h3>
+                <div className={placeholderButton} />
+              </div>
             )}
             {detailApi && !detailViewState && (
               <div className={detailViewNotice}>
