@@ -46,12 +46,6 @@ $lead-text-max: 550px;
   width: 100vw;
 }
 
-@media screen and (max-width: $breakpoint-sm - 1px) {
-  .graphicPlacement {
-    //transform: translateX(-1rem);
-  }
-}
-
 @media screen and (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg - 1px) {
   .graphicPlacement {
     transform: translateX(-2rem);
