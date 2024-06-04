@@ -50,7 +50,7 @@ const DownloadItemButton = ({
       );
     } else if (directCSVDownload) {
       return (
-        <CSVLink className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`} data={smallTableCSVData} filename={'data.csv'}>
+        <CSVLink className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`} data={smallTableCSVData} filename="data.csv">
           {children}
         </CSVLink>
       );
@@ -83,8 +83,8 @@ const DownloadItemButton = ({
           className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
           href={href}
           download={download}
-          target={'_blank'}
-          rel={'noreferrer noopener'}
+          target="_blank"
+          rel="noreferrer noopener"
           onClick={clickFunction}
           data-testid="download-button"
         >

@@ -235,23 +235,32 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
     if (!table.getFilteredRowModel()?.flatRows[0]?.original.columnName) {
-      let CSVData = [];
-      const CSVHeaders = [];
-      table.getHeaderGroups()[0].headers.map(header => {
-        CSVHeaders.push(header.column.columnDef.header);
+      let downloadData = [];
+      const downloadHeaders = [];
+      const downloadHeaderKeys = [];
+      table.getHeaderGroups()[0].headers.forEach(header => {
+        downloadHeaders.push(header.column.columnDef.header);
+        downloadHeaderKeys.push(header.column.columnDef.accessorKey);
       });
-      table.getFilteredRowModel().flatRows.map(row => {
-        CSVData.push(row.original);
+
+      //Filter data by visible columns
+      table.getRowModel().flatRows.forEach(row => {
+        const visibleRow = {};
+        const allData = row.original;
+        downloadHeaderKeys.forEach(key => {
+          visibleRow[key] = allData[key];
+        });
+        downloadData.push(visibleRow);
       });
-      setSmallTableJSONData(JSON.stringify({ data: CSVData }));
-      setSmallTableXMLData(json2xml(JSON.stringify({ data: CSVData }), { compact: true }));
-      CSVData = CSVData.map(entry => {
+      setSmallTableJSONData(JSON.stringify({ data: downloadData }));
+      setSmallTableXMLData(json2xml(JSON.stringify({ data: downloadData }), { compact: true }));
+      downloadData = downloadData.map(entry => {
         return Object.values(entry);
       });
-      CSVData.unshift(CSVHeaders);
-      setSmallTableCSVData(CSVData);
+      downloadData.unshift(downloadHeaders);
+      setSmallTableCSVData(downloadData);
     }
-  }, [columnVisibility, table.getFilteredRowModel(), table.getVisibleFlatColumns()]);
+  }, [columnVisibility, table.getRowModel(), table.getVisibleFlatColumns()]);
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);

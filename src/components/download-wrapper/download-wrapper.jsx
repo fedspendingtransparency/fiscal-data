@@ -186,66 +186,19 @@ const DownloadWrapper = ({
 
   const determineDirectDownload = () => {
     if (tableSize <= 6000) {
-      if (selectedFileType === 'csv') {
-        return (
-          <DownloadItemButton
-            icon={icon}
-            label={downloadLabel}
-            disabled={disableButton}
-            handleClick={downloadClickHandler}
-            directCSVDownload={true}
-            directJSONDownload={false}
-            directXMLDownload={false}
-          />
-        );
-      } else if (selectedFileType === 'json') {
-        return (
-          <DownloadItemButton
-            icon={icon}
-            label={downloadLabel}
-            disabled={disableButton}
-            handleClick={downloadClickHandler}
-            directCSVDownload={false}
-            directJSONDownload={true}
-            directXMLDownload={false}
-          />
-        );
-      } else if (selectedFileType === 'xml') {
-        return (
-          <DownloadItemButton
-            icon={icon}
-            label={downloadLabel}
-            disabled={disableButton}
-            handleClick={downloadClickHandler}
-            directCSVDownload={false}
-            directJSONDownload={false}
-            directXMLDownload={true}
-          />
-        );
-      } else {
-        return (
-          <DownloadItemButton
-            icon={icon}
-            label={downloadLabel}
-            disabled={disableButton}
-            handleClick={downloadClickHandler}
-            directCSVDownload={false}
-            directJSONDownload={false}
-            directXMLDownload={false}
-          />
-        );
-      }
-    } else {
       return (
         <DownloadItemButton
           icon={icon}
           label={downloadLabel}
           disabled={disableButton}
           handleClick={downloadClickHandler}
-          directCSVDownload={false}
-          directJSONDownload={false}
+          directCSVDownload={selectedFileType === 'csv'}
+          directJSONDownload={selectedFileType === 'json'}
+          directXMLDownload={selectedFileType === 'xml'}
         />
       );
+    } else {
+      return <DownloadItemButton icon={icon} label={downloadLabel} disabled={disableButton} handleClick={downloadClickHandler} />;
     }
   };
 
