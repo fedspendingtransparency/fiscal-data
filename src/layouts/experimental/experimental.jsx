@@ -12,8 +12,6 @@ import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
 import { ErrorBoundary } from 'react-error-boundary';
 import ContentUnavailable from '../../components/site-header/banner-content/banner-content';
 import AnnouncementBanner from '../../components/announcement-banner/announcement-banner';
-import GenerateEmbedPage from './embeding/generate-embed';
-import EmbedChartPage from '../../pages/embeded';
 
 const fallbackComponent = () => {
   return <div className={fallback}>Something went wrong. Please refresh the page to try again.</div>;
