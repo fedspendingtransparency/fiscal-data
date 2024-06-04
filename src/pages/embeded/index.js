@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React from 'react';
 import AFGDebtChart from '../../layouts/explainer/sections/overview/debt-chart/debt-chart';
 

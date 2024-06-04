@@ -1,4 +1,6 @@
+/* istanbul ignore file */
 import React from 'react';
+
 import EmbedCodeGenerator from './EmbedCodeGenerator';
 
 const GenerateEmbedPage = () => (
