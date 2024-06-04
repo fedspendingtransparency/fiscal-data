@@ -3,12 +3,7 @@
 $site-content-width: 1140px;
 $lead-text-max: 550px;
 
-.textBox {
-  max-width: $lead-text-max;
-  position: relative;
-}
-
-.notFoundHeader {
+.unavailableHeader {
   font-weight: $semi-bold-weight;
   color: $primary;
   margin: 2rem 0 1rem;
@@ -21,16 +16,25 @@ $lead-text-max: 550px;
   font-size: 32px;
 }
 
-.linkList {
-  list-style-type: none;
-  padding: 0;
-  li:not(:last-child) {
-    margin-bottom: 5px;
-  }
+.textBox {
+  max-width: $lead-text-max;
+  position: relative;
 }
 
 .pText {
   margin: 0 0 1rem;
+}
+
+.logo {
+  transition: 0.125s;
+  padding-bottom: 0.25rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .logo {
+    width: 8.25rem;
+    padding-bottom: .5rem;
+  }
 }
 
 .imagePlacement {
@@ -47,13 +51,14 @@ $lead-text-max: 550px;
     transform: translateX(-1rem);
   }
 }
+
 @media screen and (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg - 1px) {
   .graphicPlacement {
     transform: translateX(-2rem);
   }
 }
 @media screen and (min-width: $breakpoint-lg) {
-  .notFoundHeader {
+  .unavailableHeader {
     margin-top: 7rem;
     font-size: 56px;
   }
@@ -66,24 +71,3 @@ $lead-text-max: 550px;
     transform: translateY(-1rem);
   }
 }
-
-// @media screen and (min-width: $breakpoint-lg) {
-//     .notFoundGraphic {
-//       position: absolute;
-//       top: 80px;
-//       right: 0;
-//       width: calc((100vw - 1140px) / 2 + 550px);
-//       max-width: none;
-//       max-height: $lead-text-max;
-//       object-fit: contain;
-//       object-position: left;
-//       margin-left: inherit;
-//       margin-top: 3rem;
-//     }
-//   }
-
-// @media screen and (min-width: $breakpoint-lg) and (max-width: 1110px) {
-//   .notFoundGraphic {
-//     max-width: calc(100vw - 570px)
-//   }
-// }
