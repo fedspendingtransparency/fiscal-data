@@ -185,13 +185,17 @@ const DownloadWrapper = ({
   }, [globalDisableDownloadButton]);
 
   const determineDirectDownload = () => {
-    if (tableSize <= 6000) {
+    //TODO Use max table size variable
+    //TODO Block to experimental mode
+    if (tableSize <= 20000) {
       return (
         <DownloadItemButton
           icon={icon}
           label={downloadLabel}
           disabled={disableButton}
           handleClick={downloadClickHandler}
+          selectedTable={selectedTable}
+          dateRange={dateRange}
           directCSVDownload={selectedFileType === 'csv'}
           directJSONDownload={selectedFileType === 'json'}
           directXMLDownload={selectedFileType === 'xml'}
