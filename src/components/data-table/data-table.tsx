@@ -234,7 +234,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
-    if (!table.getFilteredRowModel()?.flatRows[0]?.original.columnName) {
+    if (!table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
       let downloadData = [];
       const downloadHeaders = [];
       const downloadHeaderKeys = [];
@@ -244,7 +244,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       });
 
       //Filter data by visible columns
-      table.getRowModel().flatRows.forEach(row => {
+      table.getSortedRowModel().flatRows.forEach(row => {
         const visibleRow = {};
         const allData = row.original;
         downloadHeaderKeys.forEach(key => {
@@ -260,7 +260,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       downloadData.unshift(downloadHeaders);
       setSmallTableCSVData(downloadData);
     }
-  }, [columnVisibility, table.getRowModel(), table.getVisibleFlatColumns()]);
+  }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns()]);
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
