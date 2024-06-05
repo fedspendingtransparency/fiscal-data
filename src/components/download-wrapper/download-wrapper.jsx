@@ -15,7 +15,9 @@ import { ensureDoubleDigitDate, formatDate } from './helpers';
 import globalConstants from '../../helpers/constants';
 import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
 import { useRecoilValue } from 'recoil';
-import { smallTableDownloadDataCSV, tableRowLengthState } from '../../recoil/smallTableDownloadData';
+import { tableRowLengthState } from '../../recoil/smallTableDownloadData';
+import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
+import Experimental from '../experimental/experimental';
 
 const gaEventLabels = globalConstants.gaEventLabels;
 export const cancelEventLabelStr = gaEventLabels.cancelDL;
@@ -185,21 +187,26 @@ const DownloadWrapper = ({
   }, [globalDisableDownloadButton]);
 
   const determineDirectDownload = () => {
-    //TODO Use max table size variable
-    //TODO Block to experimental mode
-    if (tableSize <= 20000) {
+    if (tableSize <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       return (
-        <DownloadItemButton
-          icon={icon}
-          label={downloadLabel}
-          disabled={disableButton}
-          handleClick={downloadClickHandler}
-          selectedTable={selectedTable}
-          dateRange={dateRange}
-          directCSVDownload={selectedFileType === 'csv'}
-          directJSONDownload={selectedFileType === 'json'}
-          directXMLDownload={selectedFileType === 'xml'}
-        />
+        <>
+          <Experimental featureId="direct-download">
+            <DownloadItemButton
+              icon={icon}
+              label={downloadLabel}
+              disabled={disableButton}
+              handleClick={downloadClickHandler}
+              selectedTable={selectedTable}
+              dateRange={dateRange}
+              directCSVDownload={selectedFileType === 'csv'}
+              directJSONDownload={selectedFileType === 'json'}
+              directXMLDownload={selectedFileType === 'xml'}
+            />
+          </Experimental>
+          <Experimental featureId="direct-download" exclude>
+            <DownloadItemButton icon={icon} label={downloadLabel} disabled={disableButton} handleClick={downloadClickHandler} />
+          </Experimental>
+        </>
       );
     } else {
       return <DownloadItemButton icon={icon} label={downloadLabel} disabled={disableButton} handleClick={downloadClickHandler} />;
@@ -248,7 +255,6 @@ const DownloadWrapper = ({
           </div>
         )}
       </div>
-
       <DownloadToggle onChange={toggleButtonChange} />
       <div>{determineDirectDownload()}</div>
       <div>
