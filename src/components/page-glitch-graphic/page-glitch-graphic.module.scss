@@ -1,0 +1,11 @@
+@import '../../variables.module.scss';
+
+.glitchGraphic {
+  width: 100%;
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .glitchGraphic {
+    max-width: 830px;
+  }
+}

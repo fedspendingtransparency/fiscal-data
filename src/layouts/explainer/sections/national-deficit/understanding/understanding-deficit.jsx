@@ -9,8 +9,13 @@ import DeficitComparisonBarChart from './deficit-comparison-bar-chart/deficit-co
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { nationalDeficitSectionConfigs } from '../national-deficit';
+import useFetchSurplusCount from './deficit-surplus-count-helper';
 
 const UnderstandingDeficit = ({ sectionId }) => {
+  const currentYear = new Date().getFullYear();
+  const startYear = currentYear - 50;
+  const surplusCount = useFetchSurplusCount(startYear);
+
   const spending = (
     <GlossaryPopoverDefinition term="spending" page="Deficit Explainer">
       spending
@@ -85,7 +90,7 @@ const UnderstandingDeficit = ({ sectionId }) => {
           </p>
           <p>
             The opposite of a budget deficit is a budget {surplus}, which occurs when the federal government collects more money than it spends. The
-            U.S. has experienced a fiscal year-end budget surplus five times in the last 50 years, most recently in 2001.
+            U.S. has experienced a fiscal year-end budget surplus {surplusCount} times in the last 50 years, most recently in 2001.
           </p>
           <p>When there is no deficit or surplus due to spending and revenue being equal, the budget is considered {balanced}.</p>
         </div>

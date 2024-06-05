@@ -11,7 +11,7 @@ const ResetTableContainer = ({ tableProps, perPage, setPerPage }) => {
   return (
     <div className={sectionContainer}>
       <div className={buttonContainer}>
-        <ResetTableSection active={activeFilters?.length > 0} resetColumns={() => setResetFilters(true)} sideBorder={false} />
+        <ResetTableSection active={activeFilters?.length > 0} resetColumns={() => setResetFilters(true)} />
       </div>
       <DtgTable
         tableProps={tableProps}

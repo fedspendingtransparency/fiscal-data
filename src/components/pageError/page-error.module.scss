@@ -38,10 +38,6 @@ $lead-text-max: 550px;
   margin-left: -0.75rem;
 }
 
-.notFoundGraphic {
-  width: 100%;
-}
-
 .graphicPlacement {
   width: 100vw;
 }
@@ -68,10 +64,6 @@ $lead-text-max: 550px;
     top: 0;
     width: calc(100vw - #{$lead-text-max});
     transform: translateY(-1rem);
-  }
-
-  .notFoundGraphic {
-    max-width: 830px;
   }
 }
 

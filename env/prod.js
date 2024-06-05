@@ -5,8 +5,5 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.fiscaldata.treasury.gov/main',
   EXCLUDED_PAGE_PATHS: [],
-  NOTIFICATION_BANNER_TEXT: '',
-  NOTIFICATION_BANNER_DISPLAY_PAGES: [],
-  NOTIFICATION_BANNER_DISPLAY_PATHS: [],
   ADDITIONAL_ENDPOINTS: {},
 };

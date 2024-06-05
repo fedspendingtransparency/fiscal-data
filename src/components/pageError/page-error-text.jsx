@@ -1,6 +1,6 @@
 import React from 'react';
 import { notFoundHeader, headerSubText, graphicPlacement, pText, linkList, textBox } from './page-error.module.scss';
-import NotFoundGraphic from './page-error-graphic';
+import GlitchGraphic from '../page-glitch-graphic/page-glitch-graphic';
 import CustomLink from '../links/custom-link/custom-link';
 
 const Header = ({ children }) => {
@@ -22,7 +22,7 @@ const Header2 = ({ children }) => {
 const NotFoundGraphicHolder = () => {
   return (
     <div className={graphicPlacement}>
-      <NotFoundGraphic />
+      <GlitchGraphic />
     </div>
   );
 };
@@ -86,7 +86,8 @@ const PageErrorText = ({ fallback }) => (
     {fallback ? <FallbackText /> : <NotFoundText />}
     <PTag>
       Want to get in touch or send in general comments about the site? Contact us via email at{' '}
-      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">fiscaldata@fiscal.treasury.gov</CustomLink> for further assistance. Thank you!
+      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">fiscaldata@fiscal.treasury.gov</CustomLink> for further assistance.
+      Thank you!
     </PTag>
     <NotFoundGraphicHolder />
   </Wrapper>

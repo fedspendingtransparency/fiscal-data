@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { dataTableSelectWrapper, dropdownDisplay, header } from './datatable-select.module.scss';
+import { dataTableSelectWrapper, dropdownDisplay, header, placeholderDropdown, placeholderText } from './datatable-select.module.scss';
 import LocationAware from '../location-aware/location-aware';
 import ComboCurrencySelect from '../combo-select/combo-currency-select/combo-currency-select';
 
@@ -35,19 +35,27 @@ export const DataTableSelect = ({ apis, selectedTable, setSelectedTable, allTabl
 
   return (
     <>
-      {showDatasetDropdown && (
+      {(apis?.length > 1 || showDatasetDropdown) && (
         <div className={`${dataTableSelectWrapper} dataTableSelectWrapper`} data-test-id="dataTableSelectWrapper">
           <h3 className={header}>Choose Data Table:</h3>
           <div className={dropdownDisplay}>
-            <ComboCurrencySelect
-              changeHandler={changeHandler}
-              options={options}
-              label={label}
-              optionLabelKey="tableName"
-              selectedOption={allTablesSelected ? options[0] : selectedTable}
-              searchBarLabel="Search data tables"
-              containerBorder
-            />
+            {selectedTable && (
+              <ComboCurrencySelect
+                changeHandler={changeHandler}
+                options={options}
+                label={label}
+                optionLabelKey="tableName"
+                selectedOption={allTablesSelected ? options[0] : selectedTable}
+                searchBarLabel="Search data tables"
+                containerBorder
+              />
+            )}
+            {!selectedTable && (
+              <div data-testid="tableSelectPlaceholder">
+                <div className={placeholderText}>Data Table</div>
+                <div className={placeholderDropdown} />
+              </div>
+            )}
           </div>
         </div>
       )}

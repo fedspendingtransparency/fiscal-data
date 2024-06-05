@@ -1,12 +1,12 @@
 import React from 'react';
-import NotFoundGraphic from './page-error-graphic';
+import GlitchGraphic from './page-glitch-graphic';
 import renderer from 'react-test-renderer';
 
 describe('Not Found Graphic', () => {
   let instance;
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(<NotFoundGraphic />);
+    component = renderer.create(<GlitchGraphic />);
   });
   instance = component.root;
 

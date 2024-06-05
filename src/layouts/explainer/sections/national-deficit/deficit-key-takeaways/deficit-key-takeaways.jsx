@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 import reactStringReplace from 'react-string-replace';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import { faChartColumn, faCoins, faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons';
 import { deficitExplainerLightSecondary, deficitExplainerPrimary } from '../national-deficit.module.scss';
 
+import useFetchSurplusCount from '../understanding/deficit-surplus-count-helper';
+
 const DeficitKeyTakeaways = () => {
+  const currentYear = new Date().getFullYear();
+  const startYear = currentYear - 50;
+  const surplus = useFetchSurplusCount(startYear);
+
   const thirdTakeawayText = `To pay for government programs while operating under a deficit, the federal
     government borrows money by selling U.S. Treasury bonds, bills, and other securities.
     The national debt is the accumulation of this borrowing along with associated interest
@@ -26,8 +32,8 @@ const DeficitKeyTakeaways = () => {
       icon: faChartColumn,
     },
     {
-      text: `In the last 50 years, the federal government budget has run a surplus five times,
-    most recently in 2001.`,
+      text: `In the last 50 years, the federal government budget has run a surplus ${surplus} times,
+      most recently in 2001.`,
       icon: faCoins,
     },
     {
