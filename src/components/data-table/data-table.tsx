@@ -185,11 +185,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: manualPagination,
-    // columnResizeMode: 'onChange',
-    defaultColumn: {
-      // size: undefined,
-      // whiteSpace: 'nowrap',
-    },
   }) as Table<Record<string, unknown>>;
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore

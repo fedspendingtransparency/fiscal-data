@@ -28,7 +28,6 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes, al
                 console.log('cell.column.getSize(): ', cell.column.getSize());
                 console.log('cell.column.columnDef.size: ', cell.column.columnDef.size);
               }
-              // console.log('display: ', flexRender(cell.column.columnDef.cell, cell.getContext()));
               return (
                 <td
                   key={cell.id}
@@ -37,11 +36,8 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes, al
                     fillCell ? cellBorder : null,
                     wrapStyle ? wrap : noWrap,
                   ])}
-                  // 150 is a default value from React Table
                   style={{
-                    verticalAlign: 'top',
-                    // width: cell.column.getSize() !== 150 ? cell.column.getSize() : undefined,
-                    // whiteSpace: cell.column.getSize() !== 150 ? 'wrap' : 'nowrap',
+                    verticalAlign: 'top'
                   }}
                 >
                   {display ? <div /> : flexRender(cell.column.columnDef.cell, cell.getContext())}
