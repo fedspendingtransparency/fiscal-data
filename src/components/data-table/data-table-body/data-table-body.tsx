@@ -23,11 +23,6 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes, al
               const cellValue = cell.getValue();
               const display = !cellValue || cellValue === 'null';
               const wrapStyle = allowColumnWrap?.includes(cell.column.id);
-              // console.log('wrapStyle: ', wrapStyle);
-              if (cellValue === 'Treasury General Account (TGA) Opening Balance') {
-                console.log('cell.column.getSize(): ', cell.column.getSize());
-                console.log('cell.column.columnDef.size: ', cell.column.columnDef.size);
-              }
               return (
                 <td
                   key={cell.id}
