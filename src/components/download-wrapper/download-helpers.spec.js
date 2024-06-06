@@ -2,6 +2,7 @@ import { API_BASE_URL } from 'gatsby-env-variables';
 
 import {
   calcDictionaryDownloadSize,
+  constructDownloadFileName,
   convertDataDictionaryToCsv,
   dateRangeUrl,
   getDateRangeForFiltration,
@@ -133,5 +134,13 @@ describe('Dataset Helper function collection', () => {
 
   it('calculates the approx filesize size of the CSV download', () => {
     expect(calcDictionaryDownloadSize('0123456789')).toEqual('1 KB');
+  });
+
+  it('constructs a download file name', () => {
+    const dateRange = { from: new Date('12-01-2001'), to: new Date('12-01-2020') };
+    const selectedTable = { downloadName: 'testDownloadName' };
+    const downloadName = constructDownloadFileName(dateRange, selectedTable);
+
+    expect(downloadName).toBe('testDownloadName_20011201_20201201');
   });
 });

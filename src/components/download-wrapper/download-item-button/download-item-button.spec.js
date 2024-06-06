@@ -5,6 +5,9 @@ import { faTable } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { optionIcon } from './download-item-button.module.scss';
 import Analytics from '../../../utils/analytics/analytics';
+import { RecoilRoot } from 'recoil';
+import { render } from '@testing-library/react';
+import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 
 jest.useFakeTimers();
 describe('DownloadItemButton for static file', () => {
@@ -13,7 +16,11 @@ describe('DownloadItemButton for static file', () => {
   const downloadStr = 'dummyDownload';
   let component = {};
   renderer.act(() => {
-    component = renderer.create(<DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />);
+    component = renderer.create(
+      <RecoilRoot>
+        <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
+      </RecoilRoot>
+    );
   });
   const instance = component.root;
   const anchor = instance.findByType('a');
@@ -48,87 +55,128 @@ describe('DownloadItemButton for static file', () => {
   });
 });
 
+describe('DownloadItemButton for direct download file', () => {
+  const csvIcon = <FontAwesomeIcon icon={faTable} data-test-id="table-icon" size="1x" />;
+  const mockedCSVState = [
+    ['Apple', 'Banana'],
+    [1, 2],
+    [3, 4],
+  ];
+  const mockedJSONState = 'JSON String';
+  const mockedXMLState = 'XML String';
+
+  it('direct CSV download', () => {
+    const { getByTestId } = render(
+      <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataCSV, mockedCSVState)}>
+        <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} directCSVDownload />
+      </RecoilRoot>
+    );
+    expect(getByTestId('csv-download-button')).toBeInTheDocument();
+  });
+
+  it('direct XML download', () => {
+    const { getByTestId } = render(
+      <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataXML, mockedXMLState)}>
+        <DownloadItemButton label="XML" fileSize="123MB" icon={csvIcon} directXMLDownload />
+      </RecoilRoot>
+    );
+
+    expect(getByTestId('xml-download-button')).toBeInTheDocument();
+  });
+
+  it('direct JSON download', () => {
+    const { getByTestId } = render(
+      <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataJSON, mockedJSONState)}>
+        <DownloadItemButton label="JSON" fileSize="123MB" icon={csvIcon} directJSONDownload />
+      </RecoilRoot>
+    );
+    expect(getByTestId('json-download-button')).toBeInTheDocument();
+  });
+});
+
 describe('DownloadItemButton for asyncAction', () => {
   const csvIcon = <FontAwesomeIcon icon={faTable} data-test-id="table-icon" size="1x" />;
-  const asyncActionMock = jest.fn();
-  let component = {};
-  renderer.act(() => {
-    component = renderer.create(<DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} asyncAction={asyncActionMock} />);
-  });
-  jest.runAllTimers();
-  const instance = component.root;
-  const button = instance.findByType('button');
-  const asyncActionSpy = jest.spyOn(instance.props, 'asyncAction');
 
-  it('renders a button', () => {
-    expect(button).toBeDefined();
+  it('sets the label and fileSize as provided', () => {
+    const { getByText } = render(
+      <RecoilRoot>
+        <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} />
+      </RecoilRoot>
+    );
+
+    expect(getByText('CSV')).toBeInTheDocument();
+    expect(getByText('(123MB)')).toBeInTheDocument();
   });
-  it('sets the label as provided', () => {
-    expect(
-      button
-        .findByProps({ className: 'labelText' })
-        .props.children.join('')
-        .trim()
-    ).toEqual('CSV');
-  });
-  it('sets the fileSize as provided', () => {
-    expect(
-      button
-        .findByProps({ className: 'fileSize' })
-        .props.children.join('')
-        .trim()
-    ).toEqual('(123MB)');
-  });
+
   it('calls the asyncAction provided when clicked', () => {
-    renderer.act(() => {
-      button.props.onClick();
-    });
+    const asyncActionMock = jest.fn();
+
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} asyncAction={asyncActionMock} />
+      </RecoilRoot>
+    );
     jest.runAllTimers();
+    const asyncActionSpy = jest.spyOn(asyncActionMock);
+    const button = getByRole('button');
+    button.click();
     expect(asyncActionSpy).toHaveBeenCalled();
   });
+
   it('tracks when a published report downloads is clicked', () => {
-    let component2 = {};
-    renderer.act(() => {
-      component2 = renderer.create(<DownloadItemButton download={'fileName'} />);
-    });
-    const instance2 = component2.root;
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DownloadItemButton download="fileName" />
+      </RecoilRoot>
+    );
+
     const spy = jest.spyOn(Analytics, 'event');
 
-    const thisLink = instance2.findByType('a');
-    renderer.act(() => thisLink.props.onClick());
+    const thisLink = getByTestId('download-button');
+
+    thisLink.click();
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith({ action: 'fileName', category: 'Data Download' });
   });
 
   it('tracks when a dataset file is downloaded', () => {
-    let component2 = {};
-    renderer.act(() => {
-      component2 = renderer.create(<DownloadItemButton />);
-    });
-    const instance2 = component2.root;
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DownloadItemButton />
+      </RecoilRoot>
+    );
+
     const spy = jest.spyOn(Analytics, 'event');
     spy.mockClear();
+    const thisLink = getByTestId('download-button');
 
-    const thisLink = instance2.findByType('a');
-    renderer.act(() => thisLink.props.onClick());
+    thisLink.click();
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({ label: downloadFileEventStr }));
   });
 
-  it('shows a disabled button when the disabled prop is passed in and a download link without it', () => {
-    renderer.act(() => {
-      component = renderer.create(<DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} />);
-    });
-    let instance = component.root;
-    expect(instance.findByType('a')).toBeDefined();
+  it('shows a a download link when the disabled prop is not passed in', () => {
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} />
+      </RecoilRoot>
+    );
 
-    let component3 = {};
-    renderer.act(() => {
-      component3 = renderer.create(<DownloadItemButton disabled />);
-    });
-    instance = component3.root;
-    expect(instance.findByProps({ disabled: true })).toBeDefined();
+    const thisLink = getByTestId('download-button');
+
+    expect(thisLink).not.toBeDisabled();
+  });
+
+  it('shows a disabled button when the disabled prop is passed in', () => {
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DownloadItemButton disabled />
+      </RecoilRoot>
+    );
+    const thisLink = getByTestId('download-button');
+
+    expect(thisLink).toBeDisabled();
   });
 });

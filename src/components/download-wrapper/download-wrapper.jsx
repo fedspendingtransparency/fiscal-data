@@ -190,22 +190,17 @@ const DownloadWrapper = ({
     if (tableSize <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       return (
         <>
-          <Experimental featureId="direct-download">
-            <DownloadItemButton
-              icon={icon}
-              label={downloadLabel}
-              disabled={disableButton}
-              handleClick={downloadClickHandler}
-              selectedTable={selectedTable}
-              dateRange={dateRange}
-              directCSVDownload={selectedFileType === 'csv'}
-              directJSONDownload={selectedFileType === 'json'}
-              directXMLDownload={selectedFileType === 'xml'}
-            />
-          </Experimental>
-          <Experimental featureId="direct-download" exclude>
-            <DownloadItemButton icon={icon} label={downloadLabel} disabled={disableButton} handleClick={downloadClickHandler} />
-          </Experimental>
+          <DownloadItemButton
+            icon={icon}
+            label={downloadLabel}
+            disabled={disableButton}
+            handleClick={downloadClickHandler}
+            selectedTable={selectedTable}
+            dateRange={dateRange}
+            directCSVDownload={selectedFileType === 'csv'}
+            directJSONDownload={selectedFileType === 'json'}
+            directXMLDownload={selectedFileType === 'xml'}
+          />
         </>
       );
     } else {
@@ -256,7 +251,12 @@ const DownloadWrapper = ({
         )}
       </div>
       <DownloadToggle onChange={toggleButtonChange} />
-      <div>{determineDirectDownload()}</div>
+      <div>
+        <Experimental featureId="direct-download" exclude>
+          <DownloadItemButton icon={icon} label={downloadLabel} disabled={disableButton} handleClick={downloadClickHandler} />
+        </Experimental>
+        <Experimental featureId="direct-download">{determineDirectDownload()}</Experimental>
+      </div>
       <div>
         <DownloadItemButton label="Download Data Dictionary" fileSize={ddSize} asyncAction={metadataDownloader} />
       </div>

@@ -5,6 +5,7 @@ import FilterSection from './filter-section/filter-section';
 import Preview from './preview/preview';
 import { reports, dataset } from './test-helper';
 import DownloadReport from './download-report/download-report';
+import { RecoilRoot } from 'recoil';
 
 describe('Published Reports', () => {
   let component = renderer.create();
@@ -13,7 +14,11 @@ describe('Published Reports', () => {
   beforeEach(() => {
     global.fetch = jest.fn(() => Promise.resolve({ ok: true }));
     renderer.act(() => {
-      component = renderer.create(<PublishedReports reports={reports} dataset={dataset} />);
+      component = renderer.create(
+        <RecoilRoot>
+          <PublishedReports reports={reports} dataset={dataset} />
+        </RecoilRoot>
+      );
     });
     instance = component.root;
     previewSection = instance.findByType(Preview);

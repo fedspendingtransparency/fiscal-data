@@ -7,6 +7,7 @@ import fetchMock from 'jest-fetch-mock';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import * as helpers from './download-helpers';
 import { render } from '@testing-library/react';
+import { RecoilRoot } from 'recoil';
 jest.useFakeTimers();
 
 describe('Download Report Component', () => {
@@ -22,7 +23,11 @@ describe('Download Report Component', () => {
   });
 
   beforeEach(() => {
-    component = renderer.create(<DownloadReport reportFile={reports[0]} />);
+    component = renderer.create(
+      <RecoilRoot>
+        <DownloadReport reportFile={reports[0]} />
+      </RecoilRoot>
+    );
 
     instance = component.root;
   });
@@ -32,7 +37,11 @@ describe('Download Report Component', () => {
   });
 
   it('displays the proper group name', () => {
-    const { getByText } = render(<DownloadReport reportFile={reports[0]} />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <DownloadReport reportFile={reports[0]} />
+      </RecoilRoot>
+    );
     expect(getByText('Entire (.pdf)')).toBeInTheDocument();
   });
 
@@ -40,7 +49,11 @@ describe('Download Report Component', () => {
   sets the download button to disabled and does not call getFileSize`, () => {
     getFileSizeSpy.mockClear();
     renderer.act(() => {
-      component = renderer.create(<DownloadReport />);
+      component = renderer.create(
+        <RecoilRoot>
+          <DownloadReport />
+        </RecoilRoot>
+      );
     });
     instance = component.root;
     expect(instance.findByProps({ 'data-testid': 'reportFileDate' }).children).toEqual(['N/A']);
