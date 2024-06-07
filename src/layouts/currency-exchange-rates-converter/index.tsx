@@ -299,7 +299,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           'Bank and Financial Accounts (FBAR) reporting.'
         }
         descriptionGenerator={false}
-        keywords=""
+        keywords="us treasury exchange rates, us dollar, foreign currency, exchange rates converter"
         image=""
         canonical=""
         datasetDetails=""

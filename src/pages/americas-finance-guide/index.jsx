@@ -90,7 +90,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
             'and accessible to all. Explore U.S. revenue, spending, deficit, and debt with this ' +
             'open-source guide to federal finance data.'
           }
-          keywords=""
+          keywords="america's finance guide, us treasury, fiscal data, us government financial data, debt, deficit, revenue, spending"
           image=""
           canonical=""
           datasetDetails=""
