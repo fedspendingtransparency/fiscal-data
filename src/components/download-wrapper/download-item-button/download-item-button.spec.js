@@ -96,7 +96,7 @@ describe('DownloadItemButton for direct download file', () => {
 
 describe('DownloadItemButton for asyncAction', () => {
   const csvIcon = <FontAwesomeIcon icon={faTable} data-test-id="table-icon" size="1x" />;
-
+  const asyncActionMock = jest.fn();
   it('sets the label and fileSize as provided', () => {
     const { getByText } = render(
       <RecoilRoot>
@@ -109,18 +109,15 @@ describe('DownloadItemButton for asyncAction', () => {
   });
 
   it('calls the asyncAction provided when clicked', () => {
-    const asyncActionMock = jest.fn();
-
     const { getByRole } = render(
       <RecoilRoot>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} asyncAction={asyncActionMock} />
       </RecoilRoot>
     );
     jest.runAllTimers();
-    const asyncActionSpy = jest.spyOn(asyncActionMock);
     const button = getByRole('button');
     button.click();
-    expect(asyncActionSpy).toHaveBeenCalled();
+    expect(asyncActionMock).toHaveBeenCalled();
   });
 
   it('tracks when a published report downloads is clicked', () => {
