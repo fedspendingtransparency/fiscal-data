@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charSet="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Site Outage Page | U.S. Treasury Fiscal Data</title>
+
+  <style>
+    body{
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+    .siteUnavailable {
+      max-width: 1140px;
+      margin: 0 auto 1rem;
+      padding: 2.75rem 0.75rem 0;
+    }
+    .unavailableWrapper {
+      margin-bottom: 1rem;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+    .logo {
+      transition: 0.125s;
+      padding-bottom: 0.25rem;
+    }
+    .unavailableHeader {
+      font-weight: 600;
+      color: #0071bc;
+      margin: 2rem 0 1rem;
+      font-size: 48px;
+    }
+    .headerSubText {
+      color: #0071bc;
+      margin: 2rem 0 1rem;
+      font-size: 32px;
+    }
+    .textBox {
+      max-width: 550px;
+      position: relative;
+    }
+    .pText {
+      margin: 0 0 1rem;
+    }
+    .graphicPlacement {
+      width: 100vw;
+    }
+    .glitchGraphic {
+      width: 100%;
+    }
+    @media screen and (min-width: 992px) {
+      .glitchGraphic {
+        max-width: 830px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="siteUnavailable">
+    <div data-testid="unavailableWrapper" class="unavailableWrapper">
+      <div class="textBox">
+        <div class="logo" data-testid="logoContainer">
+          <img role="presentation" src="../../images/logos/fd-logo.svg">
+        </div>
+        <h1 class="unavailableHeader">
+          <span>Fiscal Data is unavailable right now.</span>
+        </h1>
+        <h2>
+          <span class="headerSubText">We will be back shortly.</span>
+        </h2>
+        <p class="pText">
+          Our team is working diligently to address the issue. Please check back later or contact us via email at
+          <a href="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us" class="primary" data-testid="mail-to link">fiscaldata@fiscal.treasury.gov</a>
+          for further assistance. Thank you!
+        </p>
+      </div>
+      <div class="graphicPlacement">
+        <img class="glitchGraphic" src="../../../public/not-found/404gif.gif" alt="Page Unavailable" role="presentation">
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
