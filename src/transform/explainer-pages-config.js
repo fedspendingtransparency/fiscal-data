@@ -5,6 +5,8 @@ const explainerPagesSource = {
     seoConfig: {
       pageTitle: 'Understanding the National Debt',
       description: `Learn how the national debt works and how it impacts you.`,
+      keywords:
+        'us national debt, federal debt, national debt by year, debt held by public, intragovernmental holdings, debt ceiling, national debt to gdp',
     },
     prodReady: true,
     heroImage: {
@@ -21,6 +23,7 @@ const explainerPagesSource = {
       pageTitle: 'National Deficit',
       description: `Learn about the national deficit, the difference between budget deficit and
       debt, and how the deficit has changed over time.`,
+      keywords: 'national deficit, federal deficit, us deficit, deficit spending, surplus, balanced budget, national deficit by year',
     },
     prodReady: true,
     heroImage: {
@@ -37,6 +40,9 @@ const explainerPagesSource = {
       pageTitle: 'Federal Spending',
       description: `Explore federal spending by category or agency and learn how much the United
       States government spends each year.`,
+      keywords:
+        'federal spending, us government spending, us government spending chart, discretionary spending, mandatory ' +
+        'spending, federal spending by year, federal spending by category, federal spending by agency, government spending as percent of gdp',
     },
     prodReady: true,
     heroImage: {
@@ -53,6 +59,9 @@ const explainerPagesSource = {
       pageTitle: 'Government Revenue',
       description: `Learn how much the U.S. government collects in revenue, and what types of
       revenue it brings in.`,
+      keywords:
+        'government revenue, tax revenue, government revenue sources, us tax revenue by year, government revenue to gdp ' +
+        'ratio, largest federal revenue source',
     },
     prodReady: true,
     heroImage: {
@@ -68,6 +77,7 @@ const explainerPagesSource = {
     seoConfig: {
       pageTitle: 'Treasury Savings Bonds Explained ',
       description: `Learn how U.S. government savings bonds work, including types of savings bonds, and how you might have a savings bond ready to redeem.`,
+      keywords: 'treasury savings bonds, savings bonds history, savings bonds over time, savings bonds and inflation, matured savings bonds',
     },
     prodReady: true,
     heroImage: {
