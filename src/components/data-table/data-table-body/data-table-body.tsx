@@ -1,7 +1,7 @@
 import { rightAlign } from '../data-table-helper';
 import { flexRender, Table } from '@tanstack/react-table';
 import React, { FunctionComponent } from 'react';
-import { fillCellGrey, fillCellWhite, cellBorder, rightAlignText, wrap, noWrap } from './data-table-body.module.scss';
+import { fillCellGrey, fillCellWhite, cellBorder, rightAlignText, hidden } from './data-table-body.module.scss';
 import classNames from 'classnames';
 
 interface IDataTableBody {
@@ -29,9 +29,11 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes, al
                   className={classNames([
                     `${rightAlign(dataTypes[cell.column.id]) ? rightAlignText : null}`,
                     fillCell ? cellBorder : null,
-                    wrapStyle ? wrap : noWrap,
+                    wrapStyle ? null : hidden,
                   ])}
-                  style={{ verticalAlign: 'top' }}
+                  style={{
+                    verticalAlign: 'top'
+                  }}
                 >
                   {display ? <div /> : flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
