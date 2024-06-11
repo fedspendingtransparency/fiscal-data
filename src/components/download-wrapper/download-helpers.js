@@ -182,3 +182,11 @@ export const populateFileSizes = async (setAllFileSizes, tableName) => {
   }
   setAllFileSizes(fileSizeObj);
 };
+
+export const constructDownloadFileName = (dateRange, selectedTable) => {
+  if (dateRange?.from && dateRange?.to && selectedTable?.downloadName) {
+    const from = format(dateRange.from, 'yyyyMMdd');
+    const to = format(dateRange.to, 'yyyyMMdd');
+    return selectedTable.downloadName + '_' + from + '_' + to;
+  }
+};

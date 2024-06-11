@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
+import { json2xml } from 'xml-js';
 import {
   getCoreRowModel,
   getPaginationRowModel,
@@ -22,6 +23,8 @@ import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
+import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../recoil/smallTableDownloadData';
+import { useSetRecoilState } from 'recoil';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -98,6 +101,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setTableSorting,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
+  const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
+  const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
+  const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
 
   useEffect(() => {
     if (!detailViewState) {
@@ -228,7 +234,33 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
-  }, [columnVisibility, table.getFilteredRowModel(), table.getVisibleFlatColumns()]);
+    if (!table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
+      let downloadData = [];
+      const downloadHeaders = [];
+      const downloadHeaderKeys = [];
+      table.getHeaderGroups()[0].headers.forEach(header => {
+        downloadHeaders.push(header.column.columnDef.header);
+        downloadHeaderKeys.push(header.column.columnDef.accessorKey);
+      });
+
+      //Filter data by visible columns
+      table.getSortedRowModel().flatRows.forEach(row => {
+        const visibleRow = {};
+        const allData = row.original;
+        downloadHeaderKeys.forEach(key => {
+          visibleRow[key] = allData[key];
+        });
+        downloadData.push(visibleRow);
+      });
+      setSmallTableJSONData(JSON.stringify({ data: downloadData }));
+      setSmallTableXMLData(json2xml(JSON.stringify({ 'root-element': { data: { 'data-element': downloadData } } }), { compact: true }));
+      downloadData = downloadData.map(entry => {
+        return Object.values(entry);
+      });
+      downloadData.unshift(downloadHeaders);
+      setSmallTableCSVData(downloadData);
+    }
+  }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns()]);
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);

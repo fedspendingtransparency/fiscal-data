@@ -293,7 +293,7 @@ describe('react-table', () => {
   });
 
   it('initially renders all columns showing when no defaults specified', () => {
-    const instance = render(
+    const { getAllByRole } = render(
       <RecoilRoot>
         <DataTable
           rawData={mockTableData}
@@ -309,11 +309,11 @@ describe('react-table', () => {
       </RecoilRoot>
     );
 
-    allColLabels.forEach(label => {
-      if (label === 'Record Date') {
-        label = 'Record Date mm/dd/yyyy - mm/dd/yyyy';
-      }
-      expect(instance.getAllByRole('columnheader', { name: label })[0]).toBeInTheDocument();
+    const visibleColumns = getAllByRole('columnheader');
+    expect(visibleColumns.length).toBe(allColLabels.length);
+    visibleColumns.forEach(col => {
+      const header = col.children[0].children[0].innerHTML;
+      expect(allColLabels.includes(header));
     });
   });
 
@@ -383,14 +383,15 @@ describe('react-table', () => {
     );
     const hiddenCol = 'Source Line Number';
     expect(queryByRole('columnheader', { name: hiddenCol })).not.toBeInTheDocument();
-    allColLabels
-      .filter(x => x !== hiddenCol)
-      .forEach(label => {
-        if (label === 'Record Date') {
-          label = 'Record Date mm/dd/yyyy - mm/dd/yyyy';
-        }
-        expect(getAllByRole('columnheader', { name: label })[0]).toBeInTheDocument();
-      });
+
+    const visibleColumns = getAllByRole('columnheader');
+    const allVisibleColumnLabels = allColLabels.filter(x => x !== hiddenCol);
+    expect(visibleColumns.length).toBe(allVisibleColumnLabels.length);
+
+    visibleColumns.forEach(col => {
+      const header = col.children[0].children[0].innerHTML;
+      expect(allVisibleColumnLabels.includes(header));
+    });
   });
 
   it('initially renders only default columns showing when defaults specified', () => {

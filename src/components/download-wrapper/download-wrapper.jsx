@@ -15,6 +15,9 @@ import { ensureDoubleDigitDate, formatDate } from './helpers';
 import globalConstants from '../../helpers/constants';
 import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
 import { useRecoilValue } from 'recoil';
+import { tableRowLengthState } from '../../recoil/smallTableDownloadData';
+import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
+import Experimental from '../experimental/experimental';
 
 const gaEventLabels = globalConstants.gaEventLabels;
 export const cancelEventLabelStr = gaEventLabels.cancelDL;
@@ -51,6 +54,7 @@ const DownloadWrapper = ({
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
   const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
+  const tableSize = useRecoilValue(tableRowLengthState);
 
   const makeDownloadButtonAvailable = () => {
     if (datasetDownloadInProgress) {
@@ -182,6 +186,28 @@ const DownloadWrapper = ({
     setDisableButton(globalDisableDownloadButton);
   }, [globalDisableDownloadButton]);
 
+  const determineDirectDownload = () => {
+    if (tableSize <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+      return (
+        <>
+          <DownloadItemButton
+            icon={icon}
+            label={downloadLabel}
+            disabled={disableButton}
+            handleClick={downloadClickHandler}
+            selectedTable={selectedTable}
+            dateRange={dateRange}
+            directCSVDownload={selectedFileType === 'csv'}
+            directJSONDownload={selectedFileType === 'json'}
+            directXMLDownload={selectedFileType === 'xml'}
+          />
+        </>
+      );
+    } else {
+      return <DownloadItemButton icon={icon} label={downloadLabel} disabled={disableButton} handleClick={downloadClickHandler} />;
+    }
+  };
+
   return (
     <div className={wrapper} data-test-id="wrapper">
       <DownloadModal open={open} onClose={onClose} downloadsPrepared={downloadsPrepared} setCancelDownloadRequest={handleCancelRequest} />
@@ -224,10 +250,12 @@ const DownloadWrapper = ({
           </div>
         )}
       </div>
-
       <DownloadToggle onChange={toggleButtonChange} />
       <div>
-        <DownloadItemButton icon={icon} label={downloadLabel} disabled={disableButton} handleClick={downloadClickHandler} />
+        <Experimental featureId="direct-download" exclude>
+          <DownloadItemButton icon={icon} label={downloadLabel} disabled={disableButton} handleClick={downloadClickHandler} />
+        </Experimental>
+        <Experimental featureId="direct-download">{determineDirectDownload()}</Experimental>
       </div>
       <div>
         <DownloadItemButton label="Download Data Dictionary" fileSize={ddSize} asyncAction={metadataDownloader} />

@@ -121,6 +121,7 @@
     "query-string": "^5.1.1",
     "react": "^17.0.2",
     "react-chartjs-2": "^5.2.0",
+    "react-csv": "^2.2.2",
     "react-day-picker": "^8.8.2",
     "react-device-detect": "^2.2.3",
     "react-dom": "^17.0.2",
@@ -149,7 +150,8 @@
     "typeface-roboto": "0.0.75",
     "typeface-roboto-mono": "0.0.75",
     "use-onclickoutside": "^0.4.1",
-    "whatwg-fetch": "^3.6.19"
+    "whatwg-fetch": "^3.6.19",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@axe-core/react": "^4.6.0",
