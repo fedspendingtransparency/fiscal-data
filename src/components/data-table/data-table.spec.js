@@ -313,7 +313,6 @@ describe('react-table', () => {
     expect(visibleColumns.length).toBe(allColLabels.length);
     visibleColumns.forEach(col => {
       const header = col.children[0].children[0].innerHTML;
-      console.log(col.children[0].children[0].innerHTML);
       expect(allColLabels.includes(header));
     });
   });
