@@ -3,7 +3,7 @@
 .siteUnavailable {
   max-width: $main-width;
   margin: 0 auto 1rem;
-  padding: 0 0.75rem;
+  padding: 2.75rem 0.75rem 0;
 }
 .unavailableWrapper {
   margin-bottom: 1rem;
@@ -12,12 +12,6 @@
 @media screen and (min-width: $breakpoint-lg) and (max-width: 1204px) {
   .unavailableWrapper {
     display: flex;
-  }
-}
-
-@media screen and (min-width: $breakpoint-sm) {
-  .siteUnavailable {
-    padding: 1.25rem 2rem;
   }
 }
 

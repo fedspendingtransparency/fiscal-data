@@ -33,7 +33,7 @@ const DeficitKeyTakeaways = () => {
     },
     {
       text: `In the last 50 years, the federal government budget has run a surplus ${surplus} times,
-      most recently in 2001`,
+      most recently in 2001.`,
       icon: faCoins,
     },
     {
