@@ -78,6 +78,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
       if (item.securityType === 'Nonmarketable') {
         nonMarkPercent += item.percent;
       }
+      setNonMarketablePercent(parseFloat(nonMarkPercent.toFixed(1)));
     });
 
     nonMarkPercent = parseFloat(nonMarkPercent.toFixed(1));
@@ -110,6 +111,10 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const savingsBondCallOut = data2WidthPercentage.map((item, index) => {
     if (item.name === 'United States Savings Securities') {
       item.name = 'Savings Bonds';
+      if (savingBondsIndex === null) {
+        setSavingBondsIndex(`data02-${index}`);
+        setSavingBondPercentage(item.percent);
+      }
     }
     return item;
   });
@@ -128,9 +133,20 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const chartCopy = {
     title: `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of ${monthYear}`,
     altText: `A pie chart showing the percentage of U.S. debt held by the public that is marketable versus non-marketable. As of
-    ${monthYear}, non-marketable securities make up % percent, and savings bonds make up ${
-      data2WidthPercentage.find(d => d.name === 'Savings Bonds')?.percent
-    }% percent of the debt held by the public.`,
+    ${monthYear} , non-marketable securities make up ${nonMarketablePercent} percent, and savings bonds make up  ${savingBondPercentage}
+    percent of the debt held by the public.`,
+  };
+
+  const onLegendEnter = (security: string) => {
+    setActiveSecurityType(security);
+  };
+
+  const onChartLeave = () => {
+    setActiveSecurityType(null);
+  };
+
+  const onPieEnter = (data: ChartDataItem, index: number, dataset: string) => {
+    setActiveIndex(`${dataset}-${index}`);
   };
 
   const handleKeyDown = (event: KeyboardEvent<SVGElement>) => {
@@ -204,6 +220,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   startAngle={-270}
                   endAngle={90}
                   isAnimationActive
+                  onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
                 >
                   {aggregatedDataforPie.map((entry, index) => (
                     <Cell
@@ -229,6 +246,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   activeIndex={savingsBondCallOut.findIndex(item => item.name === 'Savings Bonds')}
                   activeShape={ChartTopNotch}
                   isAnimationActive
+                  onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}
                 >
                   {consolidatedDataArray.map((entry, index) => (
                     <Cell
@@ -252,7 +270,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <CustomLegend onLegendEnter={() => {}} onChartLeave={() => {}} primaryColor={color} secondaryColor={color2} />
+          <CustomLegend onLegendEnter={onLegendEnter} onChartLeave={onChartLeave} primaryColor={color} secondaryColor={color2} />
         </div>
       </ChartContainer>
     </>
