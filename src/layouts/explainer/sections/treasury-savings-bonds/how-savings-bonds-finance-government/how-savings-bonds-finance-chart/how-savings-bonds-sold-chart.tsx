@@ -138,6 +138,9 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     ${monthYear} , non-marketable securities make up ${nonMarketablePercent} percent, and savings bonds make up  ${savingBondPercentage}
     percent of the debt held by the public.`,
   };
+  const onLegendEnter = (security: string) => {
+    setActiveSecurityType(security);
+  };
 
   const handleKeyDown = (event: KeyboardEvent<SVGElement>) => {
     const { key } = event;
@@ -178,6 +181,10 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const handleMouseLeave = () => {
     setHoveredSlice(null);
     setTooltipVisible(false);
+  };
+
+  const onChartLeave = () => {
+    setActiveSecurityType(null);
   };
 
   useEffect(() => {
