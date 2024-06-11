@@ -45,13 +45,15 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const [chartWidth, setChartWidth] = useState<number>(400);
   const [activeSliceIndex, setActiveSliceIndex] = useState<number | null>(null); // State for active slice animation
 
-  const pieRef = useRef(null); // Reference to the pie chart for event handling
+  const pieRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setAnimationDone(true);
     }, 2000);
     return () => clearTimeout(timer);
   });
+
   useEffect(() => {
     basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
       if (res.data) {
@@ -76,7 +78,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
       if (item.securityType === 'Nonmarketable') {
         nonMarkPercent += item.percent;
       }
-      setNonMarketablePercent(parseFloat(nonMarkPercent.toFixed(1)));
     });
 
     nonMarkPercent = parseFloat(nonMarkPercent.toFixed(1));
@@ -127,8 +128,9 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const chartCopy = {
     title: `Savings Bonds Sold as a Percentage of Total Debt Held by the Public, as of ${monthYear}`,
     altText: `A pie chart showing the percentage of U.S. debt held by the public that is marketable versus non-marketable. As of
-    ${monthYear} , non-marketable securities make up ${nonMarketablePercent} percent, and savings bonds make up  ${savingBondPercentage}
-    percent of the debt held by the public.`,
+    ${monthYear}, non-marketable securities make up % percent, and savings bonds make up ${
+      data2WidthPercentage.find(d => d.name === 'Savings Bonds')?.percent
+    }% percent of the debt held by the public.`,
   };
 
   const handleKeyDown = (event: KeyboardEvent<SVGElement>) => {
@@ -143,7 +145,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
       setFocusedSlice(newFocusedSlice);
       setTooltipData(chartData[newFocusedSlice]);
       setTooltipVisible(true);
-      setActiveSliceIndex(newFocusedSlice); // Update active slice for animation
     }
   };
 
@@ -151,7 +152,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     setFocusedSlice(index);
     setTooltipData(chartData[index]);
     setTooltipVisible(true);
-    setActiveSliceIndex(index); // Update active slice for animation
 
     // Simulate mouse enter for the focused element
     if (pieRef.current) {
@@ -169,7 +169,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const handleBlur = () => {
     setFocusedSlice(null);
     setTooltipVisible(false);
-    setActiveSliceIndex(null); // Clear active slice for animation
   };
 
   useEffect(() => {
@@ -204,8 +203,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   outerRadius="74.5%"
                   startAngle={-270}
                   endAngle={90}
-                  activeIndex={activeSliceIndex}
-                  activeShape={ChartTopNotch}
                   isAnimationActive
                 >
                   {aggregatedDataforPie.map((entry, index) => (
@@ -229,7 +226,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   outerRadius="90%"
                   startAngle={-270}
                   endAngle={90}
-                  activeIndex={activeSliceIndex}
+                  activeIndex={savingsBondCallOut.findIndex(item => item.name === 'Savings Bonds')}
                   activeShape={ChartTopNotch}
                   isAnimationActive
                 >
