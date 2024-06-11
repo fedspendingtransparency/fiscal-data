@@ -194,7 +194,10 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   }, [focusedSlice]);
 
   const getOpacity = (index: number) => (focusedSlice === index ? 0.4 : 1);
-
+  // const getOpacity = (dataset: string, index: number, entry: ChartDataItem) => {
+  //   const isActiveType = entry.securityType === activeSecurityType;
+  //   return activeIndex === `${dataset}-${index}` || activeIndex === null ? (isActiveType ? 0.4 : 1) : 0.4;
+  // };
   return (
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={historyChartDate} footer={footer}>
