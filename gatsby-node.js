@@ -272,7 +272,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     createNode(node);
   });
 
-  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=0270cf2d85494f99aeab578067ad5d9c`;
+  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=41b56eb5e4f5472ca610239b734d279c`;
   const getBLSData = async () => {
     return new Promise((resolve, reject) => {
       fetch(blsPublicApiUrl)
