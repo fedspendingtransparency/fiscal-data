@@ -36,7 +36,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const [nonMarketablePercent, setNonMarketablePercent] = useState<number | null>(null);
   const [animationDone, setAnimationDone] = useState<boolean>(false);
   const [focusedSlice, setFocusedSlice] = useState<number | null>(null);
-  const [hoveredSlice, setHoveredSlice] = useState<number | null>(null); // New state for hovered slice
+  const [hoveredSlice, setHoveredSlice] = useState<number | null>(null);
   const [tooltipData, setTooltipData] = useState<ChartDataItem | null>(null);
   const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
   const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
@@ -266,7 +266,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <CustomLegend onLegendEnter={() => {}} onChartLeave={() => {}} primaryColor={color} secondaryColor={color2} />
+          <CustomLegend onLegendEnter={onLegendEnter} onChartLeave={onChartLeave} primaryColor={color} secondaryColor={color2} />
         </div>
       </ChartContainer>
     </>
