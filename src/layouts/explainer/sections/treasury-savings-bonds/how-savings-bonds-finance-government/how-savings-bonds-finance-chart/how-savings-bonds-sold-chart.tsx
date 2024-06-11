@@ -36,14 +36,16 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const [nonMarketablePercent, setNonMarketablePercent] = useState<number | null>(null);
   const [animationDone, setAnimationDone] = useState<boolean>(false);
   const [focusedSlice, setFocusedSlice] = useState<number | null>(null);
+  const [hoveredSlice, setHoveredSlice] = useState<number | null>(null); // New state for hovered slice
   const [tooltipData, setTooltipData] = useState<ChartDataItem | null>(null);
   const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
   const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
-  const [activeIndex, setActiveIndex] = useState<string | null>(null);
-  const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
   const [chartHeight, setChartHeight] = useState<number>(400);
   const [chartWidth, setChartWidth] = useState<number>(400);
-  const [activeSliceIndex, setActiveSliceIndex] = useState<number | null>(null); // State for active slice animation
+  const [activeIndex, setActiveIndex] = useState<string | null>(null);
+  const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
+  const [activeSliceIndex, setActiveSliceIndex] = useState<number | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number } | null>(null);
 
   const pieRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +54,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
       setAnimationDone(true);
     }, 2000);
     return () => clearTimeout(timer);
-  });
+  }, []);
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
@@ -137,18 +139,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     percent of the debt held by the public.`,
   };
 
-  const onLegendEnter = (security: string) => {
-    setActiveSecurityType(security);
-  };
-
-  const onChartLeave = () => {
-    setActiveSecurityType(null);
-  };
-
-  const onPieEnter = (data: ChartDataItem, index: number, dataset: string) => {
-    setActiveIndex(`${dataset}-${index}`);
-  };
-
   const handleKeyDown = (event: KeyboardEvent<SVGElement>) => {
     const { key } = event;
     if (focusedSlice !== null) {
@@ -168,22 +158,25 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     setFocusedSlice(index);
     setTooltipData(chartData[index]);
     setTooltipVisible(true);
-
-    // Simulate mouse enter for the focused element
-    if (pieRef.current) {
-      const event = new MouseEvent('mouseenter', {
-        bubbles: true,
-        cancelable: true,
-      });
-      const cells = pieRef.current.querySelectorAll('.recharts-sector');
-      if (cells[index]) {
-        cells[index].dispatchEvent(event);
-      }
+    const bbox = pieRef.current?.querySelectorAll('.recharts-selector')[index]?.getBoundingClientRect();
+    if (bbox) {
+      setTooltipPosition({ x: bbox.left - bbox.width / 2, y: bbox.top + window.scrollY - 20 });
     }
   };
 
   const handleBlur = () => {
     setFocusedSlice(null);
+    setTooltipVisible(false);
+  };
+
+  const handleMouseEnter = (index: number) => {
+    setHoveredSlice(index);
+    setTooltipData(chartData[index]);
+    setTooltipVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredSlice(null);
     setTooltipVisible(false);
   };
 
@@ -193,11 +186,13 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     return () => window.removeEventListener('keydown', handleKeyDownGlobal);
   }, [focusedSlice]);
 
-  const getOpacity = (index: number) => (focusedSlice === index ? 0.4 : 1);
-  // const getOpacity = (dataset: string, index: number, entry: ChartDataItem) => {
-  //   const isActiveType = entry.securityType === activeSecurityType;
-  //   return activeIndex === `${dataset}-${index}` || activeIndex === null ? (isActiveType ? 0.4 : 1) : 0.4;
-  // };
+  const getOpacity = (index: number) => {
+    if (hoveredSlice === index || focusedSlice === index) {
+      return 0.4;
+    }
+    return 1;
+  };
+
   return (
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={historyChartDate} footer={footer}>
@@ -207,7 +202,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
               <PieChart
                 width={chartWidth}
                 height={chartHeight}
-                onMouseLeave={handleBlur}
+                onMouseLeave={handleMouseLeave}
                 role="img"
                 aria-labelledby="chart-title"
                 tabIndex={0}
@@ -223,7 +218,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   startAngle={-270}
                   endAngle={90}
                   isAnimationActive
-                  onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
                 >
                   {aggregatedDataforPie.map((entry, index) => (
                     <Cell
@@ -234,6 +228,8 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                       aria-label={`${entry.name}: ${entry.percent}%`}
                       onFocus={() => handleFocus(index)}
                       onBlur={handleBlur}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={handleMouseLeave}
                     />
                   ))}
                 </Pie>
@@ -249,7 +245,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   activeIndex={savingsBondCallOut.findIndex(item => item.name === 'Savings Bonds')}
                   activeShape={ChartTopNotch}
                   isAnimationActive
-                  onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}
                 >
                   {consolidatedDataArray.map((entry, index) => (
                     <Cell
@@ -260,20 +255,18 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                       aria-label={`${entry.name}: ${entry.percent}%`}
                       onFocus={() => handleFocus(index)}
                       onBlur={handleBlur}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={handleMouseLeave}
                     />
                   ))}
                 </Pie>
                 {tooltipVisible && tooltipData && (
-                  <Tooltip
-                    content={<CustomTooltip payload={[tooltipData]} />}
-                    isAnimationActive={false}
-                    position={{ x: chartWidth / 2, y: chartHeight / 2 }}
-                  />
+                  <Tooltip content={<CustomTooltip payload={[tooltipData]} />} isAnimationActive={false} position={tooltipPosition} />
                 )}
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <CustomLegend onLegendEnter={onLegendEnter} onChartLeave={onChartLeave} primaryColor={color} secondaryColor={color2} />
+          <CustomLegend onLegendEnter={() => {}} onChartLeave={() => {}} primaryColor={color} secondaryColor={color2} />
         </div>
       </ChartContainer>
     </>
