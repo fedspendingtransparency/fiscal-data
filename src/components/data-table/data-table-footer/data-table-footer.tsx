@@ -25,7 +25,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
   const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
   useEffect(() => {
     setFilteredRowLength(table.getFilteredRowModel().rows.length);
-    manualPagination ? setTableRowSizeData(pagingProps.maxRows) : setTableRowSizeData(table.getFilteredRowModel().rows.length);
+    setTableRowSizeData(manualPagination ? null : table.getFilteredRowModel().rows.length);
   }, [table.getFilteredRowModel(), pagingProps]);
 
   const visibleRows = table => {
