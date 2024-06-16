@@ -284,7 +284,7 @@ describe('revenue trends over time section', () => {
     fireEvent.mouseOver(getByTestId('chartParentTrends'));
     jest.runAllTimers();
     expect(datalayerSpy).toHaveBeenCalledWith({
-      event: 'chart-hover-federal-rev-trends',
+      event: 'dap_event',
     });
     fireEvent.mouseLeave(getByTestId('chartParentTrends'));
   });

@@ -9,7 +9,8 @@ import {
   mockRevenueData,
   mockCallOutData,
   mockRevenueData_decreased,
-  mockRevenueData_NoChange, mockBeaGDPDataForRevenueChart,
+  mockRevenueData_NoChange,
+  mockBeaGDPDataForRevenueChart,
 } from '../../../../../explainer-test-helper';
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
@@ -47,7 +48,9 @@ describe('Total Revenue Chart', () => {
 
   it('chart fires on mouse over leave - for percentage of GDP', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />);
+    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(
+      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
+    );
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(2));
     expect(await getAllByText('Total Revenue').length).toBe(3);
     expect(await getByTestId('customSlices')).toBeInTheDocument();
@@ -64,7 +67,9 @@ describe('Total Revenue Chart', () => {
 
   it('chart fires on mouse over leave - for total revenue', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />);
+    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(
+      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
+    );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await getAllByText('Total Revenue').length).toBe(3);
     expect(await getByTestId('customSlices')).toBeInTheDocument();
@@ -86,7 +91,7 @@ describe('Total Revenue Chart', () => {
     fireEvent.mouseOver(getByRole('presentation'));
     jest.runAllTimers();
     expect(datalayerSpy).toHaveBeenCalledWith({
-      event: 'chart-hover-total-revenue',
+      event: 'dap_event',
     });
     fireEvent.mouseLeave(getByRole('presentation'));
   });

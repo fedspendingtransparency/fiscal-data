@@ -116,7 +116,7 @@ describe('The Growing National Debt', () => {
     historicalDebt.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
-      action: `Citation Click`,
+      action: `Debt Citation Click`,
       label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
     });
     spy.mockClear();
@@ -124,7 +124,7 @@ describe('The Growing National Debt', () => {
     bls.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
-      action: `Citation Click`,
+      action: `Debt Citation Click`,
       label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
     });
     spy.mockClear();
