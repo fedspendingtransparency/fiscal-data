@@ -92,6 +92,8 @@ describe('Total Revenue Chart', () => {
     jest.runAllTimers();
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'dap_event',
+      event_category: 'Fiscal Data - Explainers',
+      event_label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
     });
     fireEvent.mouseLeave(getByRole('presentation'));
   });

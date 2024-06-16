@@ -179,7 +179,11 @@ describe('National Debt Over the Last 100 Years Chart', () => {
       category: 'Explainers',
       label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
     });
-    expect(ga4Spy).toHaveBeenCalledWith({ event: 'dap_event' });
+    expect(ga4Spy).toHaveBeenCalledWith({
+      event: 'dap_event',
+      event_category: 'Debt Citation Click',
+      event_label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
+    });
     jest.useRealTimers();
   });
 });
