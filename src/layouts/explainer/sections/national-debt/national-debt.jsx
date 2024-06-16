@@ -131,7 +131,7 @@ const treasurySecurities = (
 );
 
 const bls = (
-  <CustomLink url="https://www.bls.gov/developers" onClick={() => analyticsClickHandler('Debt Citation Click', 'DS&M')}>
+  <CustomLink url="https://www.bls.gov/developers" onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}>
     Bureau of Labor Statistics
   </CustomLink>
 );
