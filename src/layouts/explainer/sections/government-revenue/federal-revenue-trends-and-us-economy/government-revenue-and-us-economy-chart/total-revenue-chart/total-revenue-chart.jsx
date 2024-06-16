@@ -59,7 +59,6 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({});
 
-
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {
       Analytics.event({
@@ -71,7 +70,9 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     ga4Timer = setTimeout(() => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-        event: 'chart-hover-total-revenue',
+        event: 'dap_event',
+        event_category: 'Fiscal Data - Explainers',
+        event_label: `Revenue - Federal Revenue Trends and the U.S. Economy`,
       });
     }, 3000);
   };

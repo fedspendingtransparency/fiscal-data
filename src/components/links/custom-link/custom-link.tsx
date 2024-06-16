@@ -56,6 +56,13 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
         category: gaEvent.eventCategory.replace('Fiscal Data - ', ''),
         action: gaEvent.eventAction,
         label: gaEvent.eventLabel,
+        eventLabel: gaEvent.eventLabel,
+      });
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'dap_event',
+        event_category: gaEvent.eventCategory.replace('Fiscal Data - ', ''),
+        event_label: gaEvent.eventLabel,
       });
     }
   };

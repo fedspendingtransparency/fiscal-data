@@ -103,7 +103,7 @@ const debtToThePenny = (
 const mspd = (
   <CustomLink
     url="/datasets/monthly-statement-public-debt/"
-    onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+    onClick={() => analyticsClickHandler('Debt Citation Click', 'DS&M')}
     id="Monthly Statement of the Public Debt"
   >
     Monthly Statement of the Public Debt (MSPD)
@@ -113,7 +113,7 @@ const mspd = (
 const historicalDebt = (
   <CustomLink
     url="/datasets/historical-debt-outstanding/"
-    onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+    onClick={() => analyticsClickHandler('Debt Citation Click', 'DS&M')}
     id="Historical Debt Outstanding"
   >
     Historical Debt Outstanding
@@ -123,7 +123,7 @@ const historicalDebt = (
 const treasurySecurities = (
   <CustomLink
     url="/datasets/average-interest-rates-treasury-securities/"
-    onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+    onClick={() => analyticsClickHandler('Debt Citation Click', 'DS&M')}
     id="Average Interest Rates on U.S. Treasury Securities"
   >
     Average Interest Rates on U.S. Treasury Securities
@@ -131,7 +131,7 @@ const treasurySecurities = (
 );
 
 const bls = (
-  <CustomLink url="https://www.bls.gov/developers" onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}>
+  <CustomLink url="https://www.bls.gov/developers" onClick={() => analyticsClickHandler('Debt Citation Click', 'DS&M')}>
     Bureau of Labor Statistics
   </CustomLink>
 );
@@ -139,7 +139,7 @@ const bls = (
 const bea = (
   <CustomLink
     url="https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey"
-    onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+    onClick={() => analyticsClickHandler('Debt Citation Click', 'DS&M')}
   >
     Bureau of Economic Analysis
   </CustomLink>
@@ -148,7 +148,7 @@ const bea = (
 const github = (
   <CustomLink
     url="https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation"
-    onClick={() => analyticsClickHandler('Citation Click', 'DS&M Github')}
+    onClick={() => analyticsClickHandler('Debt Citation Click', 'DS&M Github')}
   >
     GitHub repository
   </CustomLink>
@@ -156,7 +156,7 @@ const github = (
 const historyOfTheDebt = (
   <CustomLink
     url="https://treasurydirect.gov/government/historical-debt-outstanding/"
-    onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+    onClick={() => analyticsClickHandler('Debt Citation Click', 'DS&M')}
   >
     history of the debt
   </CustomLink>

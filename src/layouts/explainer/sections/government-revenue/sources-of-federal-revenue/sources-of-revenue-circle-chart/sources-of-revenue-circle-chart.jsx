@@ -235,7 +235,9 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     ga4Timer = setTimeout(() => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-        event: 'chart-hover-federal-rev',
+        event: 'dap_event',
+        event_category: 'Fiscal Data - Explainers',
+        event_label: `Revenue - Sources of Federal Revenue`,
       });
     }, 3000);
   };

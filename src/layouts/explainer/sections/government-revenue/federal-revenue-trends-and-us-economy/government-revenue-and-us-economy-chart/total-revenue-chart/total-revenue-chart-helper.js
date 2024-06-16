@@ -49,6 +49,12 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
       action: 'Chart Click',
       label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
     });
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'dap_event',
+      event_category: 'Fiscal Data - Explainers\n',
+      event_label: `Revenue - Federal Revenue Trends and the U.S. Economy`,
+    });
   };
 
   const toggleClickHandler = selectedChartView => {
