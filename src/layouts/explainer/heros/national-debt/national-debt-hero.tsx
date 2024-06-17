@@ -27,10 +27,9 @@ const NationalDebtHero = (): JSX.Element => {
 
   const clickHandler = () => {
     Analytics.event({
-      category: 'Fiscal Data - Explainers',
+      category: 'Explainers',
       action: `Debt Citation Click`,
       label: `Debt - What is the national debt?`,
-      event: 'dap_event',
     });
   };
 

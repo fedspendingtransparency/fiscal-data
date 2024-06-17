@@ -62,10 +62,9 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {
       Analytics.event({
-        category: 'Fiscal Data - Explainers\n',
+        category: 'Explainers',
         action: 'Chart Hover',
         label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
-        event: 'dap_event',
       });
     }, 3000);
     ga4Timer = setTimeout(() => {

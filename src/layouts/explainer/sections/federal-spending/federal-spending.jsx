@@ -16,10 +16,9 @@ export const federalSpendingSectionIds = [
 
 export const analyticsClickHandler = section => {
   Analytics.event({
-    category: 'Fiscal Data - Explainers',
+    category: 'Explainers',
     action: 'Spending Citation Click',
     label: `Spending - ${section}`,
-    event: 'dap_event',
   });
 };
 

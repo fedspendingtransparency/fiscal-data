@@ -15,10 +15,9 @@ export const spendingLink = copy => (
 );
 export const analyticsClickHandler = (action, section) => {
   Analytics.event({
-    category: 'Fiscal Data - Explainers',
+    category: 'Explainers',
     action: `Debt - ${action}`,
     label: `Debt - ${section}`,
-    event: 'dap_event',
   });
 };
 

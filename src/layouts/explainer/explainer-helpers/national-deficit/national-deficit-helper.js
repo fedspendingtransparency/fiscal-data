@@ -3,10 +3,9 @@ import React from 'react';
 import Analytics from '../../../../utils/analytics/analytics';
 const analyticsClickHandler = section => {
   Analytics.event({
-    category: 'Fiscal Data - Explainers',
+    category: 'Explainers',
     action: 'Deficit Citation Click',
     label: `Deficit - ${section}`,
-    event: 'dap_event',
   });
 };
 

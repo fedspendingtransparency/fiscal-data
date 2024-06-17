@@ -33,10 +33,9 @@ describe('Dive deeper into the debt', () => {
     resources.forEach(resource => {
       resource.click();
       expect(spy).toHaveBeenCalledWith({
-        category: 'Fiscal Data - Explainers',
+        category: 'Explainers',
         action: `Debt - Citation Click`,
         label: 'Debt - Dive Deeper into the Debt',
-        event: 'dap_event',
       });
       spy.mockClear();
     });

@@ -253,10 +253,9 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   const handleMouseEnterInterestChart = () => {
     gaTimerDualChart = setTimeout(() => {
       Analytics.event({
-        category: 'Fiscal Data - Explainers',
+        category: 'Explainers',
         action: 'Chart Hover',
         label: 'Debt - Interest Rate and Total Debt',
-        event: 'dap_event',
       });
     }, 3000);
     ga4Timer = setTimeout(() => {

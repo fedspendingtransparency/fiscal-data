@@ -106,8 +106,7 @@ describe('Total Revenue Chart', () => {
     getByTestId('leftChartToggle').click();
     expect(spy).toHaveBeenCalledWith({
       action: 'Revenue Citation Click',
-      category: 'Fiscal Data - Explainers',
-      event: 'dap_event',
+      category: 'Explainers',
       label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
     });
     spy.mockClear();

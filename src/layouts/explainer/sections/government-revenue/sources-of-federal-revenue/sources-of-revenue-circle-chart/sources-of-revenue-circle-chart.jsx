@@ -227,10 +227,9 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const handleMouseEnterChart = () => {
     gaTimerRevenueCircle = setTimeout(() => {
       Analytics.event({
-        category: 'Fiscal Data - Explainers',
+        category: 'Explainers',
         action: 'Chart Hover',
         label: 'Revenue - Sources of Federal Revenue',
-        event: 'dap_event',
       });
     }, 3000);
     ga4Timer = setTimeout(() => {
