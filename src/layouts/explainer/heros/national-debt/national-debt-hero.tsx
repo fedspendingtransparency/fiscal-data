@@ -28,7 +28,7 @@ const NationalDebtHero = (): JSX.Element => {
   const clickHandler = () => {
     Analytics.event({
       category: 'Explainers',
-      action: `Citation Click`,
+      action: `Debt Citation Click`,
       label: `Debt - What is the national debt?`,
     });
   };

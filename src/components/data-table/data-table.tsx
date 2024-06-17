@@ -253,6 +253,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
         downloadData.push(visibleRow);
       });
       setSmallTableJSONData(JSON.stringify({ data: downloadData }));
+
       setSmallTableXMLData(json2xml(JSON.stringify({ 'root-element': { data: { 'data-element': downloadData } } }), { compact: true }));
       downloadData = downloadData.map(entry => {
         return Object.values(entry);

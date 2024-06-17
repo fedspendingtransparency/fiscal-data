@@ -4,6 +4,7 @@ import { SpendingOverview } from './overview/spending-overview';
 import { SpendingCategories } from './spending-categories/spending-categories';
 import SpendingDifference from './spending-difference/spending-difference';
 import { SpendingTrends } from './spending-trends/spending-trends';
+import Analytics from '../../../../utils/analytics/analytics';
 
 export const federalSpendingSectionIds = [
   'key-takeaways',
@@ -12,6 +13,14 @@ export const federalSpendingSectionIds = [
   'the-difference-between-mandatory-discretionary-and-supplemental-spending',
   'spending-trends-over-time-and-the-us-economy',
 ];
+
+export const analyticsClickHandler = section => {
+  Analytics.event({
+    category: 'Explainers',
+    action: 'Spending Citation Click',
+    label: `Spending - ${section}`,
+  });
+};
 
 const federalSpendingSection = [
   {
@@ -25,24 +34,28 @@ const federalSpendingSection = [
     id: federalSpendingSectionIds[1],
     title: 'Federal Spending Overview',
     component: cpiData => <SpendingOverview />,
+    onClick: () => analyticsClickHandler('Spending - Federal Spending Overview'),
   },
   {
     index: 2,
     id: federalSpendingSectionIds[2],
     title: 'Spending Categories',
     component: cpiData => <SpendingCategories />,
+    onClick: () => analyticsClickHandler('Spending - Spending Categories\n'),
   },
   {
     index: 3,
     id: federalSpendingSectionIds[3],
     title: 'The Difference Between Mandatory, Discretionary, and Supplemental Spending',
     component: cpiData => <SpendingDifference />,
+    onClick: () => analyticsClickHandler('Spending - Difference Between Mandatory, Discretionary, and Supplemental Spending'),
   },
   {
     index: 4,
     id: federalSpendingSectionIds[4],
     title: 'Spending Trends Over Time and the U.S. Economy',
     component: cpiData => <SpendingTrends cpiDataByYear={cpiData.cpiDataByYear} />,
+    onClick: () => analyticsClickHandler('Spending - Spending Trends Over Time and the U.S. Economy'),
   },
 ];
 
