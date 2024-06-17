@@ -16,15 +16,10 @@ export const federalSpendingSectionIds = [
 
 export const analyticsClickHandler = section => {
   Analytics.event({
-    category: 'Explainers',
+    category: 'Fiscal Data - Explainers',
     action: 'Spending Citation Click',
     label: `Spending - ${section}`,
-  });
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
     event: 'dap_event',
-    event_category: 'Fiscal Data - Explainers',
-    event_label: `Spending - ${section}`,
   });
 };
 

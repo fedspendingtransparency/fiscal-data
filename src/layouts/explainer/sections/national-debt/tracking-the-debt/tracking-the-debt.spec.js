@@ -12,9 +12,10 @@ describe('Tracking the debt', () => {
 
     fiscalService.click();
     expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: `Citation Click`,
+      category: 'Fiscal Data - Explainers',
+      action: `Debt - Citation Click`,
       label: 'Debt - Tracking the Debt',
+      event: 'dap_event',
     });
     spy.mockClear();
   });

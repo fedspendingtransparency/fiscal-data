@@ -146,17 +146,16 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const handleChartMouseEnter = () => {
     gaTimerDebt100Yrs = setTimeout(() => {
       Analytics.event({
-        category: 'Explainers',
+        category: 'Fiscal Data - Explainers',
         action: 'Chart Hover',
         label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
+        event: 'dap_event',
       });
     }, 3000);
     ga4Timer = setTimeout(() => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-        event: 'dap_event',
-        event_category: 'Debt Citation Click',
-        event_label: `Debt - U.S. Federal Debt Trends Over the Last 100 Years`,
+        event: 'chart-hover-debt-100y',
       });
     }, 3000);
   };

@@ -156,17 +156,19 @@ describe('Breaking Down the Debt', () => {
 
     mspd.click();
     expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: `Citation Click`,
+      category: 'Fiscal Data - Explainers',
+      action: `Debt - Citation Click`,
       label: 'Debt - Intragovernmental Holdings and Debt Held by the Public',
+      event: 'dap_event',
     });
     spy.mockClear();
 
     averageInterestRates.click();
     expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: `Citation Click`,
+      category: 'Fiscal Data - Explainers',
+      action: `Debt - Citation Click`,
       label: 'Debt - Interest Rate and Total Debt',
+      event: 'dap_event',
     });
     spy.mockClear();
   });

@@ -176,14 +176,11 @@ describe('National Debt Over the Last 100 Years Chart', () => {
     jest.advanceTimersByTime(3001);
     expect(gaSpy).toHaveBeenCalledWith({
       action: 'Chart Hover',
-      category: 'Explainers',
+      category: 'Fiscal Data - Explainers',
       label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
-    });
-    expect(ga4Spy).toHaveBeenCalledWith({
       event: 'dap_event',
-      event_category: 'Debt Citation Click',
-      event_label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
     });
+    expect(ga4Spy).toHaveBeenCalledWith({ event: 'chart-hover-debt-100y' });
     jest.useRealTimers();
   });
 });

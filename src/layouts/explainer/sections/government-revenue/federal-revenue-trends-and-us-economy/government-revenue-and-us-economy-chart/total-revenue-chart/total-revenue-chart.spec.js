@@ -91,9 +91,7 @@ describe('Total Revenue Chart', () => {
     fireEvent.mouseOver(getByRole('presentation'));
     jest.runAllTimers();
     expect(datalayerSpy).toHaveBeenCalledWith({
-      event: 'dap_event',
-      event_category: 'Fiscal Data - Explainers',
-      event_label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
+      event: 'chart-hover-total-revenue',
     });
     fireEvent.mouseLeave(getByRole('presentation'));
   });
@@ -107,8 +105,9 @@ describe('Total Revenue Chart', () => {
     expect(await getByTestId('leftChartToggle')).toBeInTheDocument();
     getByTestId('leftChartToggle').click();
     expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: 'Chart Click',
+      action: 'Revenue Citation Click',
+      category: 'Fiscal Data - Explainers',
+      event: 'dap_event',
       label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
     });
     spy.mockClear();

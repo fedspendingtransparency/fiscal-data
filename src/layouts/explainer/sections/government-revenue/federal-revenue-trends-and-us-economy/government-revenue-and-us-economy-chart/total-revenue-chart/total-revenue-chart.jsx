@@ -62,17 +62,16 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {
       Analytics.event({
-        category: 'Explainers',
+        category: 'Fiscal Data - Explainers\n',
         action: 'Chart Hover',
         label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
+        event: 'dap_event',
       });
     }, 3000);
     ga4Timer = setTimeout(() => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-        event: 'dap_event',
-        event_category: 'Fiscal Data - Explainers',
-        event_label: `Revenue - Federal Revenue Trends and the U.S. Economy`,
+        event: 'chart-hover-total-revenue',
       });
     }, 3000);
   };

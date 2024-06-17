@@ -55,9 +55,10 @@ describe('National Debt Hero', () => {
 
     debtToThePenny.click();
     expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: `Citation Click`,
+      category: 'Fiscal Data - Explainers',
+      action: `Debt Citation Click`,
       label: `Debt - What is the national debt?`,
+      event: 'dap_event',
     });
     spy.mockClear();
   });

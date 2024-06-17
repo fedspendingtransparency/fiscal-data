@@ -164,14 +164,13 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
         category: 'Explainers',
         action: 'Chart Hover',
         label: 'Revenue - Federal Revenue Trends Over Time',
+        event: 'dap_event',
       });
     }, 3000);
     ga4Timer = setTimeout(() => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-        event: 'dap_event',
-        event_category: 'Fiscal Data - Explainers',
-        event_label: `Revenue - Federal Revenue Trends Over Time`,
+        event: 'chart-hover-federal-rev-trends',
       });
     }, 3000);
   };
