@@ -18,9 +18,6 @@ export const analyticsClickHandler = (action, section) => {
     category: 'Explainers',
     action: action,
     label: `Debt - ${section}`,
-  });
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
     event: 'dap_event',
     event_category: 'Debt Citation Click',
     event_label: `Debt - ${section}`,
