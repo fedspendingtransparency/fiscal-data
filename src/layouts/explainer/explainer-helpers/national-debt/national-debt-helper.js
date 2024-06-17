@@ -16,7 +16,7 @@ export const spendingLink = copy => (
 export const analyticsClickHandler = (action, section) => {
   Analytics.event({
     category: 'Explainers',
-    action: `Debt - ${action}`,
+    action: `Debt ${action}`,
     label: `Debt - ${section}`,
   });
 };
