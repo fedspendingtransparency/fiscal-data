@@ -84,7 +84,7 @@ const DownloadItemButton = ({
         <a
           className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
           data-testid="xml-download-button"
-          href={`data:text/application/xml;charset=utf-8,${encodeURIComponent(smallTableXMLData)}`}
+          href={`data:application/xml;charset=utf-8,${encodeURIComponent(smallTableXMLData)}`}
           download={downloadName + '.xml'}
         >
           {children}
