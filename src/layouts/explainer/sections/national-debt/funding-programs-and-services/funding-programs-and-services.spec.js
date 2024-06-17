@@ -16,7 +16,7 @@ describe('Funding Programs & Services', () => {
 
     usaSpending[1].click();
     expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
+      category: 'Fiscal Data - Explainers',
       action: `Debt - Citation Click`,
       label: 'Debt - Funding Programs & Services',
       event: 'dap_event',
@@ -25,7 +25,7 @@ describe('Funding Programs & Services', () => {
 
     usaSpending[0].click();
     expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
+      category: 'Fiscal Data - Explainers',
       action: `Debt - Citation Click`,
       label: 'Debt - What are the major spending categories?',
       event: 'dap_event',
@@ -44,8 +44,9 @@ describe('Funding Programs & Services', () => {
     budgetFunction.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Fiscal Data - Explainers',
-      action: `Debt - Citation Clic`,
+      action: `Debt - Citation Click`,
       label: 'Debt - What are the major spending categories?',
+      event: 'dap_event',
     });
     spy.mockClear();
   });
