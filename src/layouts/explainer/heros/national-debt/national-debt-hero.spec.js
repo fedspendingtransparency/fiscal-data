@@ -56,7 +56,7 @@ describe('National Debt Hero', () => {
     debtToThePenny.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
-      action: `Citation Click`,
+      action: `Debt Citation Click`,
       label: `Debt - What is the national debt?`,
     });
     spy.mockClear();

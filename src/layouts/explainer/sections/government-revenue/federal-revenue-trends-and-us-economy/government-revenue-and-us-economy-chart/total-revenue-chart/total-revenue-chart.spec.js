@@ -9,7 +9,8 @@ import {
   mockRevenueData,
   mockCallOutData,
   mockRevenueData_decreased,
-  mockRevenueData_NoChange, mockBeaGDPDataForRevenueChart,
+  mockRevenueData_NoChange,
+  mockBeaGDPDataForRevenueChart,
 } from '../../../../../explainer-test-helper';
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
@@ -47,7 +48,9 @@ describe('Total Revenue Chart', () => {
 
   it('chart fires on mouse over leave - for percentage of GDP', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />);
+    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(
+      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
+    );
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(2));
     expect(await getAllByText('Total Revenue').length).toBe(3);
     expect(await getByTestId('customSlices')).toBeInTheDocument();
@@ -64,7 +67,9 @@ describe('Total Revenue Chart', () => {
 
   it('chart fires on mouse over leave - for total revenue', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />);
+    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(
+      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
+    );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await getAllByText('Total Revenue').length).toBe(3);
     expect(await getByTestId('customSlices')).toBeInTheDocument();
@@ -100,8 +105,8 @@ describe('Total Revenue Chart', () => {
     expect(await getByTestId('leftChartToggle')).toBeInTheDocument();
     getByTestId('leftChartToggle').click();
     expect(spy).toHaveBeenCalledWith({
+      action: 'Revenue Citation Click',
       category: 'Explainers',
-      action: 'Chart Click',
       label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
     });
     spy.mockClear();
