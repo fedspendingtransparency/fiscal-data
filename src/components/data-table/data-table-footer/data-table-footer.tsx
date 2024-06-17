@@ -3,8 +3,6 @@ import PaginationControls from '../../pagination/pagination-controls';
 import React, { FunctionComponent, useEffect } from 'react';
 import { Table } from '@tanstack/react-table';
 import { range } from '../data-table.module.scss';
-import { useSetRecoilState } from 'recoil';
-import { tableRowLengthState } from '../../../recoil/smallTableDownloadData';
 
 interface IDataTableFooter {
   table: Table<Record<string, unknown>>;
@@ -12,6 +10,7 @@ interface IDataTableFooter {
   pagingProps;
   manualPagination: boolean;
   rowsShowing: { begin: number; end: number };
+  setTableDownload?: (rowCount: number) => void;
 }
 
 const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
@@ -20,12 +19,14 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
   pagingProps,
   manualPagination,
   rowsShowing: rowRange,
+  setTableDownload,
 }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
-  const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
   useEffect(() => {
     setFilteredRowLength(table.getFilteredRowModel().rows.length);
-    setTableRowSizeData(manualPagination ? null : table.getFilteredRowModel().rows.length);
+    if (setTableDownload) {
+      setTableDownload(manualPagination ? null : table.getFilteredRowModel().rows.length);
+    }
   }, [table.getFilteredRowModel(), pagingProps]);
 
   const visibleRows = table => {
