@@ -44,8 +44,8 @@
     box-shadow: 0 0 0 4px $primary-blue;
   }
 
-  :hover {
-    pointer-events: none;
+  &:hover {
+    border: solid 1px $font-body-copy;
   }
 
   .icon {
