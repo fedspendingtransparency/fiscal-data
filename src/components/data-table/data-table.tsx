@@ -23,7 +23,12 @@ import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
-import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../recoil/smallTableDownloadData';
+import {
+  smallTableDownloadDataCSV,
+  smallTableDownloadDataJSON,
+  smallTableDownloadDataXML,
+  tableRowLengthState,
+} from '../../recoil/smallTableDownloadData';
 import { useSetRecoilState } from 'recoil';
 
 type DataTableProps = {
@@ -104,6 +109,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
+  const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
 
   useEffect(() => {
     if (!detailViewState) {
@@ -252,14 +258,22 @@ const DataTable: FunctionComponent<DataTableProps> = ({
         });
         downloadData.push(visibleRow);
       });
-      setSmallTableJSONData(JSON.stringify({ data: downloadData }));
-
-      setSmallTableXMLData(json2xml(JSON.stringify({ 'root-element': { data: { 'data-element': downloadData } } }), { compact: true }));
-      downloadData = downloadData.map(entry => {
-        return Object.values(entry);
-      });
-      downloadData.unshift(downloadHeaders);
-      setSmallTableCSVData(downloadData);
+      if (!nonRawDataColumns) {
+        const xmlData = {
+          'root-element': {
+            data: downloadData.map(row => ({
+              'data-element': row,
+            })),
+          },
+        };
+        setSmallTableJSONData(JSON.stringify({ data: downloadData }));
+        setSmallTableXMLData(json2xml(JSON.stringify(xmlData), { compact: true }));
+        downloadData = downloadData.map(entry => {
+          return Object.values(entry);
+        });
+        downloadData.unshift(downloadHeaders);
+        setSmallTableCSVData(downloadData);
+      }
     }
   }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns()]);
 
@@ -328,6 +342,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           pagingProps={pagingProps}
           manualPagination={manualPagination}
           rowsShowing={rowsShowing}
+          setTableDownload={nonRawDataColumns ? null : setTableRowSizeData}
         />
       )}
     </>

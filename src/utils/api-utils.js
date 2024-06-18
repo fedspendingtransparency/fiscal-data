@@ -12,7 +12,20 @@ export const getIFetch = () => (apiKey ? authenticatingFetch(apiKey, fetch) : fe
 export const apiPrefix = `${API_BASE_URL}/services/api/fiscal_service/`;
 
 export const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-export const monthFullNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'NoNovemberv', 'December'];
+export const monthFullNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 
 export const MAX_PAGE_SIZE = 10000;
 export const REACT_TABLE_MAX_NON_PAGINATED_SIZE = 20000;
@@ -120,19 +133,27 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   return getIFetch()(uri).then(response => response.json());
 };
 
-export const calculatePercentage = (data) => {
-  if(!Array.isArray(data)){
-    return[];
+export const calculatePercentage = data => {
+  if (!Array.isArray(data)) {
+    return [];
   }
-  const total = data.reduce((acc, curr) => acc + curr.value,
-  0);
+  const total = data.reduce((acc, curr) => acc + curr.value, 0);
   return data.map(item => ({
     ...item,
-    percent: Number(((item.value / total) * 100).toFixed(1))
+    percent: Number(((item.value / total) * 100).toFixed(1)),
   }));
 };
 
-export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewValue, detailViewFilterParam, queryClient) => {
+export const datatableRequest = async (
+  table,
+  dateRange,
+  selectedPivot,
+  canceledObj,
+  tableCache,
+  detailViewValue,
+  detailViewFilterParam,
+  queryClient
+) => {
   const endpoint = table.endpoint;
   const dateField = table.dateField;
   const { pivotView, pivotValue } = selectedPivot ? selectedPivot : {};
