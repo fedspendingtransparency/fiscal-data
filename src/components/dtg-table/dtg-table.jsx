@@ -243,29 +243,37 @@ export default function DtgTable({
     }
   };
 
+  const updateTable = resetPage => {
+    setApiError(false);
+    const ssp = tableProps.serverSidePagination;
+    ssp !== undefined && ssp !== null ? getPagedData(resetPage) : getCurrentData();
+    return () => {
+      loadCanceled = true;
+    };
+  };
+
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       updateSmallFractionDataType();
       setCurrentPage(1);
-      setApiError(false);
-      const ssp = tableProps.serverSidePagination;
-      ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
-      return () => {
-        loadCanceled = true;
-      };
+      updateTable(true);
     }
-  }, [tableSorting, filteredDateRange, selectedTable, dateRange]);
+  }, [tableSorting, filteredDateRange, selectedTable]);
+
+  useMemo(() => {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
+      // setReactTableData(null);
+      updateSmallFractionDataType();
+      setCurrentPage(1);
+      updateTable(true);
+    }
+  }, [dateRange]);
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       //prevent hook from triggering twice on pivot selection
       if ((pivotSelected?.pivotValue && !tableProps.serverSidePagination) || !pivotSelected?.pivotValue) {
-        setApiError(false);
-        const ssp = tableProps.serverSidePagination;
-        ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
-        return () => {
-          loadCanceled = true;
-        };
+        updateTable(false);
       }
     }
   }, [tableProps.serverSidePagination, itemsPerPage, currentPage]);
@@ -343,6 +351,7 @@ export default function DtgTable({
   }, [pivotSelected, rawData]);
 
   useMemo(() => {
+    console.log(tableMeta);
     if (
       tableData.length > 0 &&
       tableMeta &&
@@ -360,6 +369,7 @@ export default function DtgTable({
           setManualPagination(false);
         }
       } else {
+        // Large table date range change
         if (!(reactTableData?.pivotApplied && !updatedData(tableData, reactTableData?.data.slice(0, itemsPerPage)))) {
           setReactTableData({ data: tableData, meta: tableMeta });
           setManualPagination(true);
@@ -367,6 +377,8 @@ export default function DtgTable({
       }
     } else if (data && !rawDataTable && !rawData) {
       setReactTableData({ data: data });
+    } else if (tableData && data.length === 0 && !rawData && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+      setReactTableData({ data: tableData, meta: tableMeta });
     }
   }, [tableData, tableMeta, rawData, dePaginated]);
 
