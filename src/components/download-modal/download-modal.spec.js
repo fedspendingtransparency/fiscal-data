@@ -1,5 +1,6 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
+
 import DownloadModal, { downloadModalSubText, downloadModalTitleMulti } from './download-modal';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
 import { act, render } from '@testing-library/react';
