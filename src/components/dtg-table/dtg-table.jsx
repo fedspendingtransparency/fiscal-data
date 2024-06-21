@@ -262,7 +262,6 @@ export default function DtgTable({
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
-      // setReactTableData(null);
       updateSmallFractionDataType();
       setCurrentPage(1);
       updateTable(true);
@@ -351,7 +350,6 @@ export default function DtgTable({
   }, [pivotSelected, rawData]);
 
   useMemo(() => {
-    console.log(tableMeta);
     if (
       tableData.length > 0 &&
       tableMeta &&
@@ -369,7 +367,6 @@ export default function DtgTable({
           setManualPagination(false);
         }
       } else {
-        // Large table date range change
         if (!(reactTableData?.pivotApplied && !updatedData(tableData, reactTableData?.data.slice(0, itemsPerPage)))) {
           setReactTableData({ data: tableData, meta: tableMeta });
           setManualPagination(true);
