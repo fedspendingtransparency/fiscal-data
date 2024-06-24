@@ -28,7 +28,7 @@ import { useInView } from 'react-intersection-observer';
 import { chartInViewProps } from '../../../../explainer-helpers/explainer-charting-helper';
 
 const SurplusIllustration = ({ width }) => {
-  const { getGAEvent } = useGAEventTracking(null, 'Deficit');
+  const { getGAEvent } = useGAEventTracking(null, 'DeficitExplainer');
 
   const edgeBreakPoint = pxToNumber(1188);
   const centerBreakPoint = pxToNumber(1128);

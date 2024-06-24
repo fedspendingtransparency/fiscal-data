@@ -398,8 +398,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
             <Accordion
               title="Why can't the government just print more money?"
               openEventNumber="26"
-              closeEventNumber="27"
-              explainerGAEvent="Debt"
+              explainerGAEvent="DebtExplainer"
               ga4ID="print-money"
             >
               While the Treasury prints actual dollar bills, “printing money” is also a term that is sometimes used to describe a means of{' '}
