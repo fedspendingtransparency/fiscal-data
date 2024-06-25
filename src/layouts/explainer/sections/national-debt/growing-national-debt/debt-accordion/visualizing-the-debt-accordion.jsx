@@ -76,9 +76,8 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
         title={`Visualizing the debt - How much is $${nationalDebtValue} trillion dollars?`}
         containerClass={growingNationalDebtSectionAccordion}
         openEventNumber="20"
-        closeEventNumber="21"
         dynamicGaEventValue={dynamicGaEventValue}
-        explainerGAEvent="Debt"
+        explainerGAEvent="DebtExplainer"
         ga4ID="viz-debt"
       >
         <div className={accordionHeader}>

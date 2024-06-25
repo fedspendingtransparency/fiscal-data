@@ -84,8 +84,7 @@ const SpendingCategoriesAccordion = () => {
           altStyleAccordion={{ padding: '9px 16px' }}
           containerClass={fundingProgramAccordion}
           openEventNumber="11"
-          closeEventNumber="12"
-          explainerGAEvent="Debt"
+          explainerGAEvent="DebtExplainer"
         >
           <div className={spendingCategoriesAccordionContent}>
             <p>

@@ -22,7 +22,7 @@ let gaTimerChart;
 let ga4Timer;
 
 export const DeficitTrendsBarChart = ({ width }) => {
-  const { getGAEvent } = useGAEventTracking(null, 'Deficit');
+  const { getGAEvent } = useGAEventTracking(null, 'DeficitExplainer');
 
   const desktop = width >= pxToNumber(breakpointLg);
   const [date, setDate] = useState(new Date());
