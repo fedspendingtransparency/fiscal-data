@@ -9,10 +9,10 @@ import { StaticQuery, useStaticQuery } from 'gatsby';
 import { mockUseStaticGlossaryData } from '../glossary/test-helper';
 import { createHistory, createMemorySource, LocationProvider } from '@gatsbyjs/reach-router';
 import 'gatsby-env-variables';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import GLOBALS from '../../helpers/constants';
-import { RecoilRoot } from "recoil";
-import fetchMock from "fetch-mock";
+import { RecoilRoot } from 'recoil';
+import fetchMock from 'fetch-mock';
 
 jest.useFakeTimers();
 
@@ -22,7 +22,6 @@ const renderWithRouter = (ui, routeStr, { route = routeStr, history = createHist
     history,
   };
 };
-
 
 describe('SiteHeader', () => {
   beforeEach(() => {
@@ -38,17 +37,18 @@ describe('SiteHeader', () => {
     fetchMock.get(`https://www.transparency.treasury.gov/services/api/fiscal_service/v1/reference/fiscal_data/announcements`, {
       data: [
         {
-          "announcement_description": "We're aware of an issue impacting multiple datasets and are working to address it.",
-          "type": "general",
-          "path": "/datasets/",
-          "recursive_path": "true"
+          announcement_description: "We're aware of an issue impacting multiple datasets and are working to address it.",
+          type: 'general',
+          path: '/datasets/',
+          recursive_path: 'true',
         },
         {
-          "announcement_description": "We're working to correct an issue with this dataset. Please find the static data at https://fiscaldata.treasury.gov/static-data/published-reports/debt_to_penny.pdf",
-          "type": "dataset",
-          "path": "/datasets/debt-to-the-penny/",
-          "recursive_path": "false"
-        }
+          announcement_description:
+            "We're working to correct an issue with this dataset. Please find the static data at https://fiscaldata.treasury.gov/static-data/published-reports/debt_to_penny.pdf",
+          type: 'dataset',
+          path: '/datasets/debt-to-the-penny/',
+          recursive_path: 'false',
+        },
       ],
     });
   });
@@ -188,21 +188,23 @@ describe('SiteHeader', () => {
     spy.mockClear();
   });
 
-  it('displays announcement banner for specified pages', async() => {
+  it('displays announcement banner for specified pages', async () => {
     const { getByTestId } = renderWithRouter(
       <RecoilRoot>
         <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />
-      </RecoilRoot>, '/datasets/'
+      </RecoilRoot>,
+      '/datasets/'
     );
     await waitFor(() => getByTestId('announcement-banner'));
     expect(getByTestId('announcement-banner')).toBeInTheDocument();
   });
 
-  it('displays multiple announcement banners for specified pages where root path has a recursively appearing banner', async() => {
+  it('displays multiple announcement banners for specified pages where root path has a recursively appearing banner', async () => {
     const { getAllByTestId } = renderWithRouter(
       <RecoilRoot>
         <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />
-      </RecoilRoot>, '/datasets/debt-to-the-penny/'
+      </RecoilRoot>,
+      '/datasets/debt-to-the-penny/'
     );
     await waitFor(() => getAllByTestId('announcement-banner'));
     expect(getAllByTestId('announcement-banner').length).toEqual(2);
@@ -212,7 +214,8 @@ describe('SiteHeader', () => {
     const { queryByTestId } = renderWithRouter(
       <RecoilRoot>
         <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />
-      </RecoilRoot>, '/americas-finance-guide/national-debt/'
+      </RecoilRoot>,
+      '/americas-finance-guide/national-debt/'
     );
     expect(queryByTestId('announcement-banner')).not.toBeInTheDocument();
   });
