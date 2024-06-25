@@ -187,7 +187,7 @@ const DownloadWrapper = ({
   }, [globalDisableDownloadButton]);
 
   const determineDirectDownload = () => {
-    if (tableSize !== null && tableSize <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+    if (tableSize !== null && tableSize <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !allTablesSelected) {
       return (
         <>
           <DownloadItemButton
