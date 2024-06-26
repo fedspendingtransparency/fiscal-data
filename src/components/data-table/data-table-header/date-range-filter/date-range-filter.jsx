@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, version } from 'react';
 import moment from 'moment/moment';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
@@ -27,6 +27,7 @@ import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableF
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
+  // console.log('version::: ', version);
   const textHighlighted = { backgroundColor: '#E8F5FF' };
   const noTextHighLight = { backgroundColor: '' };
 
@@ -134,6 +135,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       }
     }
     return () => {
+      console.log('in return that is calling handleEventListener');
       document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
     };
   }, [active]);
