@@ -68,6 +68,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   };
 
   const todayOnClick = e => {
+    console.log('i clicked on today');
     if (!e.key || e.key === 'Enter') {
       setSelected({
         from: Date.now(),
@@ -114,6 +115,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   // used to close dropdown when clicking outside
   useEffect(() => {
+    console.log('in useEffect for closing dropdown');
     if (active) {
       document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
       setBeginTextStyle(textHighlighted);
@@ -121,6 +123,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setBeginTextStyle(noTextHighLight);
       setEndTextStyle(noTextHighLight);
       if (filterDisplayBeginDate && filterDisplayEndDate === 'mm/dd/yyyy') {
+        console.log('in IF inside the useEffect for closing dropdown');
         setSelected(undefined);
         onFilterChange(undefined);
       }
@@ -131,6 +134,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   }, [active]);
 
   useEffect(() => {
+    console.log('in useEffect that has a lot of moment and date setting stuff ');
     if (selected?.from && selected?.to) {
       const start = moment(selected?.from);
       const end = moment(selected?.to);
