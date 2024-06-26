@@ -93,6 +93,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const handleTextBoxClick = e => {
     if (!e.key || e.key === 'Enter') {
+      console.log('setting active in handleTextBoxClick: ', active);
       setActive(!active);
     }
   };
@@ -103,12 +104,14 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
       e.relatedTarget !== displayRef.current
     ) {
+      console.log('setting active in handleTextBoxBlur: ', active);
       setActive(false);
     }
   };
 
   const handleEventListener = e => {
     if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
+      console.log('setting active in handleEventListener: ', active);
       setActive(false);
     }
   };
@@ -117,13 +120,15 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   useEffect(() => {
     console.log('in useEffect for closing dropdown');
     if (active) {
+      console.log('in closing dropdown IF');
       document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
       setBeginTextStyle(textHighlighted);
     } else {
+      console.log('in closing dropdown ELSE');
       setBeginTextStyle(noTextHighLight);
       setEndTextStyle(noTextHighLight);
       if (filterDisplayBeginDate && filterDisplayEndDate === 'mm/dd/yyyy') {
-        console.log('in IF inside the useEffect for closing dropdown');
+        console.log('in ELSES IF inside the useEffect for closing dropdown');
         setSelected(undefined);
         onFilterChange(undefined);
       }
