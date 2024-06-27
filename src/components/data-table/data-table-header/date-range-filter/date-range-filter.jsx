@@ -103,22 +103,23 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
+  // ah ha ha! This one is the problem!
   const handleTextBoxBlur = e => {
-    if (
-      !dropdownRef.current?.contains(e?.relatedTarget) &&
-      e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
-      e.relatedTarget !== displayRef.current
-    ) {
-      console.log('setting active in handleTextBoxBlur: ', active);
-      setActive(false);
-    }
+    // if (
+    //   !dropdownRef.current?.contains(e?.relatedTarget) &&
+    //   e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
+    //   e.relatedTarget !== displayRef.current
+    // ) {
+    //   console.log('setting active in handleTextBoxBlur: ', active);
+    //   setActive(false);
+    // }
   };
 
   const handleEventListener = e => {
-    // if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
-    //   console.log('setting active in handleEventListener: ', active);
-    //   setActive(false);
-    // }
+    if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
+      console.log('setting active in handleEventListener: ', active);
+      setActive(false);
+    }
   };
 
   // hooks seem to work
