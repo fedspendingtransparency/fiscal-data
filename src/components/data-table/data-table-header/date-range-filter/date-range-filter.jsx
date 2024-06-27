@@ -25,7 +25,7 @@ import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-d
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
-let mouseOverDropdown = null;
+const mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
   // console.log('version::: ', version);
   const textHighlighted = { backgroundColor: '#E8F5FF' };
@@ -46,18 +46,18 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const displayRef = useRef();
 
   const onFilterChange = val => {
-    if (val) {
-      if (!allActiveFilters?.includes(column.id)) {
-        setAllActiveFilters([...allActiveFilters, column.id]);
-      }
-    } else {
-      setFilterDisplayBeginDate('mm/dd/yyyy');
-      setFilterDisplayEndDate('mm/dd/yyyy');
-      if (allActiveFilters?.includes(column.id)) {
-        const currentFilters = allActiveFilters.filter(value => value !== column.id);
-        setAllActiveFilters(currentFilters);
-      }
-    }
+    // if (val) {
+    //   if (!allActiveFilters?.includes(column.id)) {
+    //     setAllActiveFilters([...allActiveFilters, column.id]);
+    //   }
+    // } else {
+    //   setFilterDisplayBeginDate('mm/dd/yyyy');
+    //   setFilterDisplayEndDate('mm/dd/yyyy');
+    //   if (allActiveFilters?.includes(column.id)) {
+    //     const currentFilters = allActiveFilters.filter(value => value !== column.id);
+    //     setAllActiveFilters(currentFilters);
+    //   }
+    // }
   };
 
   const getDaysArray = (start, end) => {
@@ -69,27 +69,27 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   };
 
   const todayOnClick = e => {
-    console.log('i clicked on today');
-    if (!e.key || e.key === 'Enter') {
-      setSelected({
-        from: Date.now(),
-        to: Date.now(),
-      });
-      const start = moment(Date.now()).format('M/DD/YYYY');
-      const end = moment(Date.now()).format('M/DD/YYYY');
-      onFilterChange(`${start} - ${end}`);
-      setFilterDisplayBeginDate(start);
-      setFilterDisplayEndDate(end);
-    }
+    // console.log('i clicked on today');
+    // if (!e.key || e.key === 'Enter') {
+    //   setSelected({
+    //     from: Date.now(),
+    //     to: Date.now(),
+    //   });
+    //   const start = moment(Date.now()).format('M/DD/YYYY');
+    //   const end = moment(Date.now()).format('M/DD/YYYY');
+    //   onFilterChange(`${start} - ${end}`);
+    //   setFilterDisplayBeginDate(start);
+    //   setFilterDisplayEndDate(end);
+    // }
   };
 
   const clearOnClick = e => {
-    if (!e.key || e.key === 'Enter') {
-      setSelected(undefined);
-      onFilterChange(undefined);
-      setEndTextStyle(noTextHighLight);
-      setBeginTextStyle(noTextHighLight);
-    }
+    // if (!e.key || e.key === 'Enter') {
+    //   setSelected(undefined);
+    //   onFilterChange(undefined);
+    //   setEndTextStyle(noTextHighLight);
+    //   setBeginTextStyle(noTextHighLight);
+    // }
   };
 
   const handleTextBoxClick = e => {
@@ -100,21 +100,21 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   };
 
   const handleTextBoxBlur = e => {
-    if (
-      !dropdownRef.current?.contains(e?.relatedTarget) &&
-      e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
-      e.relatedTarget !== displayRef.current
-    ) {
-      console.log('setting active in handleTextBoxBlur: ', active);
-      setActive(false);
-    }
+    // if (
+    //   !dropdownRef.current?.contains(e?.relatedTarget) &&
+    //   e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
+    //   e.relatedTarget !== displayRef.current
+    // ) {
+    //   console.log('setting active in handleTextBoxBlur: ', active);
+    //   setActive(false);
+    // }
   };
 
   const handleEventListener = e => {
-    if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
-      console.log('setting active in handleEventListener: ', active);
-      setActive(false);
-    }
+    // if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
+    //   console.log('setting active in handleEventListener: ', active);
+    //   setActive(false);
+    // }
   };
 
   // used to close dropdown when clicking outside
@@ -202,27 +202,27 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         {active && (
           <div
             className={`${dropdown} ${isLastColumn && lastColumn}`}
-            onMouseOver={() => {
-              mouseOverDropdown = true;
-            }}
-            onFocus={() => {
-              mouseOverDropdown = true;
-            }}
-            onMouseLeave={() => {
-              mouseOverDropdown = false;
-            }}
+            // onMouseOver={() => {
+            //   mouseOverDropdown = true;
+            // }}
+            // onFocus={() => {
+            //   mouseOverDropdown = true;
+            // }}
+            // onMouseLeave={() => {
+            //   mouseOverDropdown = false;
+            // }}
             role="presentation"
             data-testid="Date Picker Dropdown"
           >
             <div className={datePickerContainer}>
               <DayPicker
                 mode="range"
-                selected={selected}
-                onSelect={setSelected}
-                modifiersClassNames={{
-                  selected: datePickerSelected,
-                  range_middle: datePickerRangeMiddle,
-                }}
+                // selected={selected}
+                // onSelect={setSelected}
+                // modifiersClassNames={{
+                //   selected: datePickerSelected,
+                //   range_middle: datePickerRangeMiddle,
+                // }}
                 fromYear={1900}
                 toYear={2099}
                 captionLayout="dropdown-buttons"
