@@ -73,10 +73,10 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
           event: `${referrer} - Citation Click`,
           citationClickEventLabel: undefined,
         });
-      } else if (referrer === 'Dataset') {
+      } else if (context === 'Dataset Search Page') {
         Analytics.event({
           category: `${context}`,
-          action: `Dataset Search Page Click`,
+          action: `${context} Click`,
           label: dataset.name,
         });
         // GA4 Data Layer - Dataset Click
