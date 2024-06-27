@@ -46,18 +46,18 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const displayRef = useRef();
 
   const onFilterChange = val => {
-    // if (val) {
-    //   if (!allActiveFilters?.includes(column.id)) {
-    //     setAllActiveFilters([...allActiveFilters, column.id]);
-    //   }
-    // } else {
-    //   setFilterDisplayBeginDate('mm/dd/yyyy');
-    //   setFilterDisplayEndDate('mm/dd/yyyy');
-    //   if (allActiveFilters?.includes(column.id)) {
-    //     const currentFilters = allActiveFilters.filter(value => value !== column.id);
-    //     setAllActiveFilters(currentFilters);
-    //   }
-    // }
+    if (val) {
+      if (!allActiveFilters?.includes(column.id)) {
+        setAllActiveFilters([...allActiveFilters, column.id]);
+      }
+    } else {
+      setFilterDisplayBeginDate('mm/dd/yyyy');
+      setFilterDisplayEndDate('mm/dd/yyyy');
+      if (allActiveFilters?.includes(column.id)) {
+        const currentFilters = allActiveFilters.filter(value => value !== column.id);
+        setAllActiveFilters(currentFilters);
+      }
+    }
   };
 
   const getDaysArray = (start, end) => {
@@ -92,6 +92,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     // }
   };
 
+  // this one works (we think)
   const handleTextBoxClick = e => {
     if (!e.key || e.key === 'Enter') {
       console.log('setting active in handleTextBoxClick: ', active);
