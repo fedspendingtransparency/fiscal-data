@@ -45,6 +45,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const dropdownRef = useRef();
   const displayRef = useRef();
 
+  // this works
   const onFilterChange = val => {
     if (val) {
       if (!allActiveFilters?.includes(column.id)) {
@@ -69,18 +70,18 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   };
 
   const todayOnClick = e => {
-    // console.log('i clicked on today');
-    // if (!e.key || e.key === 'Enter') {
-    //   setSelected({
-    //     from: Date.now(),
-    //     to: Date.now(),
-    //   });
-    //   const start = moment(Date.now()).format('M/DD/YYYY');
-    //   const end = moment(Date.now()).format('M/DD/YYYY');
-    //   onFilterChange(`${start} - ${end}`);
-    //   setFilterDisplayBeginDate(start);
-    //   setFilterDisplayEndDate(end);
-    // }
+    console.log('i clicked on today');
+    if (!e.key || e.key === 'Enter') {
+      setSelected({
+        from: Date.now(),
+        to: Date.now(),
+      });
+      const start = moment(Date.now()).format('M/DD/YYYY');
+      const end = moment(Date.now()).format('M/DD/YYYY');
+      onFilterChange(`${start} - ${end}`);
+      setFilterDisplayBeginDate(start);
+      setFilterDisplayEndDate(end);
+    }
   };
 
   const clearOnClick = e => {
