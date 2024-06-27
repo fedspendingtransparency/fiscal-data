@@ -118,57 +118,57 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   };
 
   // used to close dropdown when clicking outside
-  useEffect(() => {
-    console.log('in useEffect for closing dropdown');
-    if (active) {
-      console.log('in closing dropdown IF');
-      document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
-      setBeginTextStyle(textHighlighted);
-    } else {
-      console.log('in closing dropdown ELSE');
-      setBeginTextStyle(noTextHighLight);
-      setEndTextStyle(noTextHighLight);
-      if (filterDisplayBeginDate && filterDisplayEndDate === 'mm/dd/yyyy') {
-        console.log('in ELSES IF inside the useEffect for closing dropdown');
-        setSelected(undefined);
-        onFilterChange(undefined);
-      }
-    }
-    return () => {
-      console.log('in return that is calling handleEventListener');
-      document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
-    };
-  }, [active]);
-
-  useEffect(() => {
-    console.log('in useEffect that has a lot of moment and date setting stuff ');
-    if (selected?.from && selected?.to) {
-      const start = moment(selected?.from);
-      const end = moment(selected?.to);
-      setFilteredDateRange({ from: start, to: end });
-      column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
-      onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
-      setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
-      setFilterDisplayEndDate(end.format('M/DD/YYYY'));
-      setEndTextStyle(noTextHighLight);
-      setActive(false);
-    } else {
-      column.setFilterValue([]);
-      setFilteredDateRange(null);
-      onFilterChange('');
-    }
-    if (selected?.from && !selected?.to) {
-      const start = moment(selected?.from);
-      setEndTextStyle(textHighlighted);
-      setBeginTextStyle(noTextHighLight);
-      setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
-    }
-  }, [selected]);
-
-  useEffect(() => {
-    setSelected(undefined);
-    setActive(false);
-  }, [resetFilters]);
+  // useEffect(() => {
+  //   console.log('in useEffect for closing dropdown');
+  //   if (active) {
+  //     console.log('in closing dropdown IF');
+  //     document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
+  //     setBeginTextStyle(textHighlighted);
+  //   } else {
+  //     console.log('in closing dropdown ELSE');
+  //     setBeginTextStyle(noTextHighLight);
+  //     setEndTextStyle(noTextHighLight);
+  //     if (filterDisplayBeginDate && filterDisplayEndDate === 'mm/dd/yyyy') {
+  //       console.log('in ELSES IF inside the useEffect for closing dropdown');
+  //       setSelected(undefined);
+  //       onFilterChange(undefined);
+  //     }
+  //   }
+  //   return () => {
+  //     console.log('in return that is calling handleEventListener');
+  //     document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
+  //   };
+  // }, [active]);
+  //
+  // useEffect(() => {
+  //   console.log('in useEffect that has a lot of moment and date setting stuff ');
+  //   if (selected?.from && selected?.to) {
+  //     const start = moment(selected?.from);
+  //     const end = moment(selected?.to);
+  //     setFilteredDateRange({ from: start, to: end });
+  //     column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
+  //     onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
+  //     setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
+  //     setFilterDisplayEndDate(end.format('M/DD/YYYY'));
+  //     setEndTextStyle(noTextHighLight);
+  //     setActive(false);
+  //   } else {
+  //     column.setFilterValue([]);
+  //     setFilteredDateRange(null);
+  //     onFilterChange('');
+  //   }
+  //   if (selected?.from && !selected?.to) {
+  //     const start = moment(selected?.from);
+  //     setEndTextStyle(textHighlighted);
+  //     setBeginTextStyle(noTextHighLight);
+  //     setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
+  //   }
+  // }, [selected]);
+  //
+  // useEffect(() => {
+  //   setSelected(undefined);
+  //   setActive(false);
+  // }, [resetFilters]);
 
   return (
     <>
