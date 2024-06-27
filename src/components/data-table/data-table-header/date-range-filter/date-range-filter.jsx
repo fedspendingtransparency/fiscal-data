@@ -105,21 +105,22 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   // ah ha ha! This one is the problem!
   const handleTextBoxBlur = e => {
-    // if (
-    //   !dropdownRef.current?.contains(e?.relatedTarget) &&
-    //   e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
-    //   e.relatedTarget !== displayRef.current
-    // ) {
-    //   console.log('setting active in handleTextBoxBlur: ', active);
-    //   setActive(false);
-    // }
-  };
-
-  const handleEventListener = e => {
-    if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
-      console.log('setting active in handleEventListener: ', active);
+    if (
+      !dropdownRef.current?.contains(e?.relatedTarget) &&
+      e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
+      e.relatedTarget !== displayRef.current
+    ) {
+      console.log('setting active in handleTextBoxBlur: ', active);
       setActive(false);
     }
+  };
+
+  // ah ha ha! This one is ALSO the problem! issue: click on month dropdown and immediately disappears. dropdown does not appear
+  const handleEventListener = e => {
+    // if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
+    //   console.log('setting active in handleEventListener: ', active);
+    //   setActive(false);
+    // }
   };
 
   // hooks seem to work
