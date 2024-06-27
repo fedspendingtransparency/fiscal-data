@@ -104,14 +104,14 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   };
 
   const handleTextBoxBlur = e => {
-    // if (
-    //   !dropdownRef.current?.contains(e?.relatedTarget) &&
-    //   e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
-    //   e.relatedTarget !== displayRef.current
-    // ) {
-    //   console.log('setting active in handleTextBoxBlur: ', active);
-    //   setActive(false);
-    // }
+    if (
+      !dropdownRef.current?.contains(e?.relatedTarget) &&
+      e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
+      e.relatedTarget !== displayRef.current
+    ) {
+      console.log('setting active in handleTextBoxBlur: ', active);
+      setActive(false);
+    }
   };
 
   const handleEventListener = e => {
@@ -121,6 +121,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     // }
   };
 
+  // hooks seem to work
   // used to close dropdown when clicking outside
   useEffect(() => {
     console.log('in useEffect for closing dropdown');
