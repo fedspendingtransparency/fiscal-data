@@ -215,27 +215,27 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         {active && (
           <div
             className={`${dropdown} ${isLastColumn && lastColumn}`}
-            // onMouseOver={() => {
-            //   mouseOverDropdown = true;
-            // }}
-            // onFocus={() => {
-            //   mouseOverDropdown = true;
-            // }}
-            // onMouseLeave={() => {
-            //   mouseOverDropdown = false;
-            // }}
+            onMouseOver={() => {
+              mouseOverDropdown = true;
+            }}
+            onFocus={() => {
+              mouseOverDropdown = true;
+            }}
+            onMouseLeave={() => {
+              mouseOverDropdown = false;
+            }}
             role="presentation"
             data-testid="Date Picker Dropdown"
           >
             <div className={datePickerContainer}>
               <DayPicker
                 mode="range"
-                // selected={selected}
-                // onSelect={setSelected}
-                // modifiersClassNames={{
-                //   selected: datePickerSelected,
-                //   range_middle: datePickerRangeMiddle,
-                // }}
+                selected={selected}
+                onSelect={setSelected}
+                modifiersClassNames={{
+                  selected: datePickerSelected,
+                  range_middle: datePickerRangeMiddle,
+                }}
                 fromYear={1900}
                 toYear={2099}
                 captionLayout="dropdown-buttons"
