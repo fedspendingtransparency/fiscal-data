@@ -110,7 +110,10 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
       e.relatedTarget !== displayRef.current
     ) {
-      console.log('setting active in handleTextBoxBlur: ', active);
+      console.log('dropdownRef.current: ', dropdownRef.current);
+      console.log('e?.relatedTarget: ', e?.relatedTarget);
+      console.log('displayRef.current: ', displayRef.current);
+      console.log('setting active in handleTextBoxBlur to false');
       setActive(false);
     }
   };
