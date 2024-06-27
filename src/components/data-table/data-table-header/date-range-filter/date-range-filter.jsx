@@ -69,6 +69,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     return arr;
   };
 
+  // this works
   const todayOnClick = e => {
     console.log('i clicked on today');
     if (!e.key || e.key === 'Enter') {
@@ -85,12 +86,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   };
 
   const clearOnClick = e => {
-    // if (!e.key || e.key === 'Enter') {
-    //   setSelected(undefined);
-    //   onFilterChange(undefined);
-    //   setEndTextStyle(noTextHighLight);
-    //   setBeginTextStyle(noTextHighLight);
-    // }
+    if (!e.key || e.key === 'Enter') {
+      setSelected(undefined);
+      onFilterChange(undefined);
+      setEndTextStyle(noTextHighLight);
+      setBeginTextStyle(noTextHighLight);
+    }
   };
 
   // this one works (we think)
