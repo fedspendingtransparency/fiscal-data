@@ -90,11 +90,10 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
           aria-haspopup="true"
           aria-expanded={droppedDown}
           aria-label={selectedOption ? `Select ${selectedOption.label}` : `Select ${optionSelected.label}`}
+          title={optionSelected ? optionSelected.label : ''}
           onClick={toggleDropdown}
         >
-          <div className={labels} title={optionSelected ? optionSelected.label : ''}>
-            {optionSelected ? optionSelected.label : ''}
-          </div>
+          <div className={labels}>{optionSelected ? optionSelected.label : ''}</div>
           <FontAwesomeIcon icon={droppedDown ? faChevronUp : faChevronDown} size="sm" className={icon} />
         </button>
         {droppedDown && (
