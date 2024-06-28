@@ -47,6 +47,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const [chartAltText, setChartAltText] = useState('');
   const [elementToFocus, setElementToFocus] = useState(null);
 
+  const [chartGAHover, setChartGAHover] = useState(false);
+
   const chartParent = 'chartParent';
 
   useEffect(() => {
@@ -225,19 +227,22 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   };
 
   const handleMouseEnterChart = () => {
-    gaTimerRevenueCircle = setTimeout(() => {
-      Analytics.event({
-        category: 'Explainers',
-        action: 'Chart Hover',
-        label: 'Revenue - Sources of Federal Revenue',
-      });
-    }, 3000);
-    ga4Timer = setTimeout(() => {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'chart-hover-federal-rev',
-      });
-    }, 3000);
+    if (!chartGAHover) {
+      setChartGAHover(true);
+      gaTimerRevenueCircle = setTimeout(() => {
+        Analytics.event({
+          category: 'Explainers',
+          action: 'Chart Hover',
+          label: 'Revenue - Sources of Federal Revenue',
+        });
+      }, 3000);
+      ga4Timer = setTimeout(() => {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'chart-hover-federal-rev',
+        });
+      }, 3000);
+    }
   };
 
   const HandleLabelClick = (node, e) => {
@@ -254,13 +259,22 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       e.preventDefault();
       e.stopPropagation();
     }
-    gaTimerRevenueCircle = setTimeout(() => {
-      Analytics.event({
-        category: 'Explainers',
-        action: 'Chart Hover',
-        label: 'Revenue - Sources of Federal Revenue',
-      });
-    }, 3000);
+    if (!chartGAHover) {
+      setChartGAHover(true);
+      gaTimerRevenueCircle = setTimeout(() => {
+        Analytics.event({
+          category: 'Explainers',
+          action: 'Chart Hover',
+          label: 'Revenue - Sources of Federal Revenue',
+        });
+      }, 3000);
+      ga4Timer = setTimeout(() => {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'chart-hover-federal-rev',
+        });
+      }, 3000);
+    }
     if (node.id !== categoryName) {
       decreaseOpacity();
       increaseOpacity(node);
@@ -281,6 +295,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const HandleChartMouseLeave = () => {
     clearTimeout(gaTimerRevenueCircle);
     clearTimeout(ga4Timer);
+    setChartGAHover(false);
     if (chartData !== {}) {
       decreaseOpacity();
       highlightDefaultCircle();
