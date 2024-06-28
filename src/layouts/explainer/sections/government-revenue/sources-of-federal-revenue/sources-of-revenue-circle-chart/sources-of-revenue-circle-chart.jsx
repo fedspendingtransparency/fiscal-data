@@ -228,8 +228,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const handleMouseEnterChart = () => {
     if (!chartGAHover) {
-      setChartGAHover(true);
       gaTimerRevenueCircle = setTimeout(() => {
+        setChartGAHover(true);
         Analytics.event({
           category: 'Explainers',
           action: 'Chart Hover',
@@ -260,8 +260,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       e.stopPropagation();
     }
     if (!chartGAHover) {
-      setChartGAHover(true);
       gaTimerRevenueCircle = setTimeout(() => {
+        setChartGAHover(true);
         Analytics.event({
           category: 'Explainers',
           action: 'Chart Hover',
@@ -292,10 +292,9 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   };
 
-  const HandleChartMouseLeave = () => {
+  const handleChartMouseLeave = () => {
     clearTimeout(gaTimerRevenueCircle);
     clearTimeout(ga4Timer);
-    setChartGAHover(false);
     if (chartData !== {}) {
       decreaseOpacity();
       highlightDefaultCircle();
@@ -307,6 +306,11 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       }
     }
   };
+  const handleOuterChartMouseLeave = () => {
+    setChartGAHover(false);
+    handleChartMouseLeave();
+  };
+
   return (
     <>
       <div className={visWithCallout}>
@@ -328,8 +332,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                 className={chartSize}
                 data-testid="chartParent"
                 onMouseEnter={handleMouseEnterChart}
-                onMouseLeave={HandleChartMouseLeave}
-                onClick={HandleChartMouseLeave}
+                onMouseLeave={handleOuterChartMouseLeave}
+                onClick={handleOuterChartMouseLeave}
               >
                 <CirclePacking
                   data={chartData}
@@ -349,12 +353,12 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                       width={width}
                       HandleMouseEnter={HandleMouseEnter}
                       HandleClick={HandleLabelClick}
-                      HandleMouseLeave={HandleChartMouseLeave}
+                      HandleMouseLeave={handleChartMouseLeave}
                     />
                   )}
                   animate={false}
                   onMouseEnter={(node, e) => HandleMouseEnter(node, e)}
-                  onMouseLeave={HandleChartMouseLeave}
+                  onMouseLeave={handleChartMouseLeave}
                   onClick={(node, e) => HandleMouseEnter(node, e)}
                 />
               </div>
