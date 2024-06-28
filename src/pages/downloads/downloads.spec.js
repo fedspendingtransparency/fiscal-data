@@ -1,6 +1,6 @@
 import Downloads, { DownloadsPage } from './index';
 import { render } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { from, throwError } from 'rxjs';
 import React from 'react';
 import globalConstants from '../../helpers/constants';

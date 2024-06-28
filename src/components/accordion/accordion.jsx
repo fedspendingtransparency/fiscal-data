@@ -13,7 +13,6 @@ const Accordion = ({
   altStyleAccordion,
   children,
   openEventNumber,
-  closeEventNumber,
   explainerGAEvent,
   ga4ID,
   tabindex,
@@ -21,9 +20,8 @@ const Accordion = ({
   const [open, setOpen] = useState(defaultOpen || false);
 
   const { getGAEvent } = useGAEventTracking(null, explainerGAEvent);
-
   const triggerGAEvent = isOpen => {
-    const gaEvent = isOpen ? getGAEvent(openEventNumber) : getGAEvent(closeEventNumber);
+    const gaEvent = isOpen ? getGAEvent(openEventNumber) : null;
     gaEvent &&
       Analytics.event({
         category: gaEvent.eventCategory.replace('Fiscal Data - ', ''),

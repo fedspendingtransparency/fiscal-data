@@ -134,8 +134,7 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
           <Accordion
             title="What is the Treasury Doing to Reduce Matured Unredeemed Debt?"
             openEventNumber="26"
-            closeEventNumber="27"
-            explainerGAEvent="Debt"
+            explainerGAEvent="DebtExplainer"
             ga4ID="print-money"
           >
             Treasury’s efforts to increase the redemption of MUD are complicated by issues such as the age and quality of MUD records, a paper-based

@@ -7,15 +7,13 @@ type DsmProps = {
   pageName?: string;
 };
 
-const analyticsEventMap: Record<string, { openEventNumber: string; closeEventNumber?: string; explainerGAEvent: string }> = {
+const analyticsEventMap: Record<string, { openEventNumber: string; explainerGAEvent: string }> = {
   'national-debt': {
     openEventNumber: '40',
-    closeEventNumber: '41',
     explainerGAEvent: 'DebtExplainer',
   },
   'national-deficit': {
     openEventNumber: '26',
-    closeEventNumber: '27',
     explainerGAEvent: 'DeficitExplainer',
   },
   'federal-spending': {

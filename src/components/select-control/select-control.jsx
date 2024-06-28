@@ -51,19 +51,18 @@ const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandle
   return (
     <>
       {label && <label className={selector_label}>{label}</label>}
-      <div className={`${selector_container} ${className ? className : ''}`} onBlur={onBlurHandler} onFocus={onFocusHandler} role={'presentation'}>
+      <div className={`${selector_container} ${className ? className : ''}`} onBlur={onBlurHandler} onFocus={onFocusHandler} role="presentation">
         <button
           name="dropdownToggle"
-          data-testid={'toggle-button'}
+          data-testid="toggle-button"
           className={selector_button}
           aria-haspopup="true"
           aria-expanded={droppedDown}
           aria-label={ariaLabeler(optionSelected[labelKey], ariaLabel, label)}
           onClick={toggleDropdown}
+          title={optionSelected[labelKey]}
         >
-          <div className={labels} title={optionSelected[labelKey]}>
-            {optionSelected[labelKey]}
-          </div>
+          <div className={labels}>{optionSelected[labelKey]}</div>
           <FontAwesomeIcon icon={faChevronDown} size="sm" className={icon} />
         </button>
         {droppedDown && (

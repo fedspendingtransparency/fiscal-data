@@ -70,7 +70,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const [scrolled, setScrolled] = useState(false);
   const [animationComplete, setAnimationComplete] = useState(false);
 
-  const { getGAEvent } = useGAEventTracking(null, 'Spending');
+  const { getGAEvent } = useGAEventTracking(null, 'SpendingExplainer');
 
   const handleClick = eventNumber => {
     const gaEvent = getGAEvent(eventNumber);
