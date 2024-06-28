@@ -254,7 +254,13 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       e.preventDefault();
       e.stopPropagation();
     }
-
+    gaTimerRevenueCircle = setTimeout(() => {
+      Analytics.event({
+        category: 'Explainers',
+        action: 'Chart Hover',
+        label: 'Revenue - Sources of Federal Revenue',
+      });
+    }, 3000);
     if (node.id !== categoryName) {
       decreaseOpacity();
       increaseOpacity(node);
