@@ -107,7 +107,7 @@ describe('Total Revenue Chart', () => {
     expect(spy).toHaveBeenCalledWith({
       action: 'Chart Toggle',
       category: 'Explainers',
-      label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
+      label: 'Revenue - Total Revenue / Revenue Percentage of GDP',
     });
     spy.mockClear();
   });
