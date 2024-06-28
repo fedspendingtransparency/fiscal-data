@@ -46,8 +46,8 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
   const toggleButtonEvent = () => {
     return Analytics.event({
       category: 'Explainers',
-      action: 'Revenue Citation Click',
-      label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
+      action: 'Chart Toggle',
+      label: 'Revenue - Total Revenue / Revenue Percentage of GDP',
     });
   };
 
