@@ -70,7 +70,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
   const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({});
 
-  const { getGAEvent } = useGAEventTracking(null, 'Spending');
+  const { getGAEvent } = useGAEventTracking(null, 'SpendingExplainer');
 
   const handleClick = eventNumber => {
     const gaEvent = getGAEvent(eventNumber);
