@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 import reactStringReplace from 'react-string-replace';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
