@@ -228,8 +228,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const handleMouseEnterChart = () => {
     if (!chartGAHover) {
+      setChartGAHover(true);
       gaTimerRevenueCircle = setTimeout(() => {
-        setChartGAHover(true);
         Analytics.event({
           category: 'Explainers',
           action: 'Chart Hover',
@@ -259,22 +259,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       e.preventDefault();
       e.stopPropagation();
     }
-    if (!chartGAHover) {
-      gaTimerRevenueCircle = setTimeout(() => {
-        setChartGAHover(true);
-        Analytics.event({
-          category: 'Explainers',
-          action: 'Chart Hover',
-          label: 'Revenue - Sources of Federal Revenue',
-        });
-      }, 3000);
-      ga4Timer = setTimeout(() => {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: 'chart-hover-federal-rev',
-        });
-      }, 3000);
-    }
     if (node.id !== categoryName) {
       decreaseOpacity();
       increaseOpacity(node);
@@ -292,9 +276,11 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   };
 
-  const handleChartMouseLeave = () => {
-    clearTimeout(gaTimerRevenueCircle);
-    clearTimeout(ga4Timer);
+  const handleChartMouseLeave = circleHover => {
+    if (!circleHover) {
+      clearTimeout(gaTimerRevenueCircle);
+      clearTimeout(ga4Timer);
+    }
     if (chartData !== {}) {
       decreaseOpacity();
       highlightDefaultCircle();
@@ -358,7 +344,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                   )}
                   animate={false}
                   onMouseEnter={(node, e) => HandleMouseEnter(node, e)}
-                  onMouseLeave={handleChartMouseLeave}
+                  onMouseLeave={() => handleChartMouseLeave(true)}
                   onClick={(node, e) => HandleMouseEnter(node, e)}
                 />
               </div>
