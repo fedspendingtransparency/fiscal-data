@@ -105,19 +105,21 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   // ah ha ha! This one is the problem! issue: click on month dropdown, select a month, and immediately disappears.
   const handleTextBoxBlur = e => {
-    console.log('in handleTextBoxBlur');
-    if (
-      !dropdownRef.current?.contains(e?.relatedTarget) &&
-      e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
-      e.relatedTarget !== displayRef.current
-    ) {
-      console.log('dropdownRef.current: ', dropdownRef.current);
-      console.log('e?.relatedTarget: ', e?.relatedTarget);
-      console.log('displayRef.current: ', displayRef.current);
-      console.log('active before setting to false: ', active);
-      console.log('setting active in handleTextBoxBlur to false');
-      setActive(false);
-    }
+    console.log('event in handleTextBoxBlur:: ', e);
+
+    // console.log('in handleTextBoxBlur');
+    // if (
+    //   !dropdownRef.current?.contains(e?.relatedTarget) &&
+    //   e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
+    //   e.relatedTarget !== displayRef.current
+    // ) {
+    //   console.log('dropdownRef.current: ', dropdownRef.current);
+    //   console.log('e?.relatedTarget: ', e?.relatedTarget);
+    //   console.log('displayRef.current: ', displayRef.current);
+    //   console.log('active before setting to false: ', active);
+    //   console.log('setting active in handleTextBoxBlur to false');
+    //   setActive(false);
+    // }
   };
 
   // ah ha ha! This one is ALSO the problem! issue: click on month dropdown and immediately disappears. dropdown does not appear
@@ -210,8 +212,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           )}
         </div>
       </div>
-      {/*<div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">*/}
-      <div ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
+      <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
+      {/*<div ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">*/}
         {active && (
           <div
             className={`${dropdown} ${isLastColumn && lastColumn}`}
