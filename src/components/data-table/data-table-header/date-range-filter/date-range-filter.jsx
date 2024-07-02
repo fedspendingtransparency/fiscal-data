@@ -104,19 +104,17 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   // ah ha ha! This one is the problem! issue: click on month dropdown, select a month, and immediately disappears.
   const handleTextBoxBlur = e => {
-    console.log(e.target.localName);
-    // if (
-    //   !dropdownRef.current?.contains(e?.relatedTarget) &&
-    //   e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
-    //   e.relatedTarget !== displayRef.current
-    // ) {
-    // console.log('dropdownRef.current: ', dropdownRef.current);
-    // console.log('e?.relatedTarget: ', e?.relatedTarget);
-    // console.log('displayRef.current: ', displayRef.current);
-    // console.log('active before setting to false: ', active);
-    // console.log('setting active in handleTextBoxBlur to false');
-    // setActive(false);
-    // }
+    if (
+      !dropdownRef.current?.contains(e?.relatedTarget) &&
+      e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
+      e.relatedTarget !== displayRef.current &&
+      e.relatedTarget !== dropdownRef.current
+    ) {
+      // console.log('dropdownRef.current: ', dropdownRef.current);
+      console.log('e.relatedTarget: ', e?.relatedTarget);
+      console.log('e', e);
+      setActive(false);
+    }
   };
 
   // ah ha ha! This one is ALSO the problem! issue: click on month dropdown and immediately disappears. dropdown does not appear
@@ -192,7 +190,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   }, [resetFilters]);
 
   return (
-    <div onBlur={() => console.log('outer blur', mouseOverDropdown)}>
+    <>
       <div className={active ? glow : null}>
         <div
           className={dateEntryBox}
@@ -260,7 +258,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 
