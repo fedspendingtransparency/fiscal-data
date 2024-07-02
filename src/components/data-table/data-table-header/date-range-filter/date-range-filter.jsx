@@ -25,7 +25,7 @@ import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-d
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
-const mouseOverDropdown = null;
+let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
   // console.log('version::: ', version);
   const textHighlighted = { backgroundColor: '#E8F5FF' };
@@ -71,7 +71,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   // this works
   const todayOnClick = e => {
-    console.log('i clicked on today');
     if (!e.key || e.key === 'Enter') {
       setSelected({
         from: Date.now(),
@@ -98,62 +97,72 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   // this one works (we think)
   const handleTextBoxClick = e => {
     if (!e.key || e.key === 'Enter') {
-      console.log('setting active in handleTextBoxClick: ', active);
+      // console.log('setting active in handleTextBoxClick: ', active);
       setActive(!active);
     }
   };
 
   // ah ha ha! This one is the problem! issue: click on month dropdown, select a month, and immediately disappears.
   const handleTextBoxBlur = e => {
-    console.log('in handleTextBoxBlur');
-    if (
-      !dropdownRef.current?.contains(e?.relatedTarget) &&
-      e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
-      e.relatedTarget !== displayRef.current
-    ) {
-      console.log('dropdownRef.current: ', dropdownRef.current);
-      console.log('e?.relatedTarget: ', e?.relatedTarget);
-      console.log('displayRef.current: ', displayRef.current);
-      console.log('active before setting to false: ', active);
-      console.log('setting active in handleTextBoxBlur to false');
-      setActive(false);
-    }
+    console.log(e.target.localName);
+    // if (
+    //   !dropdownRef.current?.contains(e?.relatedTarget) &&
+    //   e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
+    //   e.relatedTarget !== displayRef.current
+    // ) {
+    // console.log('dropdownRef.current: ', dropdownRef.current);
+    // console.log('e?.relatedTarget: ', e?.relatedTarget);
+    // console.log('displayRef.current: ', displayRef.current);
+    // console.log('active before setting to false: ', active);
+    // console.log('setting active in handleTextBoxBlur to false');
+    // setActive(false);
+    // }
   };
 
   // ah ha ha! This one is ALSO the problem! issue: click on month dropdown and immediately disappears. dropdown does not appear
   const handleEventListener = e => {
-    // if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
-    //   console.log('setting active in handleEventListener: ', active);
-    //   setActive(false);
-    // }
+    console.log(
+      'handleEventListener',
+      '\nmouseOverDropdown',
+      mouseOverDropdown,
+      '\ndisplayRef.current',
+      displayRef.current,
+      '\ndisplayRef.current?.contains(e?.target)',
+      displayRef.current?.contains(e?.target),
+      '\ne.target',
+      e.target
+    );
+    if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
+      setActive(false);
+    }
   };
 
   // hooks seem to work
   // used to close dropdown when clicking outside
   useEffect(() => {
-    console.log('in useEffect for closing dropdown');
+    // console.log('in useEffect for closing dropdown');
     if (active) {
-      console.log('in closing dropdown IF');
+      // console.log('in closing dropdown IF');
       document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
       setBeginTextStyle(textHighlighted);
     } else {
-      console.log('in closing dropdown ELSE');
+      // console.log('in closing dropdown ELSE');
       setBeginTextStyle(noTextHighLight);
       setEndTextStyle(noTextHighLight);
       if (filterDisplayBeginDate && filterDisplayEndDate === 'mm/dd/yyyy') {
-        console.log('in ELSES IF inside the useEffect for closing dropdown');
+        // console.log('in ELSES IF inside the useEffect for closing dropdown');
         setSelected(undefined);
         onFilterChange(undefined);
       }
     }
     return () => {
-      console.log('in return that is calling handleEventListener');
+      // console.log('in return that is calling handleEventListener');
       document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
     };
   }, [active]);
 
   useEffect(() => {
-    console.log('in useEffect that has a lot of moment and date setting stuff ');
+    // console.log('in useEffect that has a lot of moment and date setting stuff ');
     if (selected?.from && selected?.to) {
       const start = moment(selected?.from);
       const end = moment(selected?.to);
@@ -183,7 +192,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   }, [resetFilters]);
 
   return (
-    <>
+    <div onBlur={() => console.log('outer blur', mouseOverDropdown)}>
       <div className={active ? glow : null}>
         <div
           className={dateEntryBox}
@@ -210,8 +219,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           )}
         </div>
       </div>
-      {/*<div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">*/}
-      <div ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
+      <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
         {active && (
           <div
             className={`${dropdown} ${isLastColumn && lastColumn}`}
@@ -252,7 +260,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
