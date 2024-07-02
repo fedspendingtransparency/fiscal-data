@@ -108,9 +108,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       !dropdownRef.current?.contains(e?.relatedTarget) &&
       e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
       e.relatedTarget !== displayRef.current &&
-      e.relatedTarget !== dropdownRef.current
+      e.relatedTarget !== null
     ) {
-      // console.log('dropdownRef.current: ', dropdownRef.current);
       console.log('e.relatedTarget: ', e?.relatedTarget);
       console.log('e', e);
       setActive(false);
