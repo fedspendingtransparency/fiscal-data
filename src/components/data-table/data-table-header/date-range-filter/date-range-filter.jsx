@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, version } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment/moment';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
@@ -27,7 +27,6 @@ import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableF
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
-  // console.log('version::: ', version);
   const textHighlighted = { backgroundColor: '#E8F5FF' };
   const noTextHighLight = { backgroundColor: '' };
 
@@ -45,7 +44,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const dropdownRef = useRef();
   const displayRef = useRef();
 
-  // this works
   const onFilterChange = val => {
     if (val) {
       if (!allActiveFilters?.includes(column.id)) {
@@ -69,7 +67,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     return arr;
   };
 
-  // this works
   const todayOnClick = e => {
     if (!e.key || e.key === 'Enter') {
       setSelected({
@@ -84,7 +81,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
-  // this works
   const clearOnClick = e => {
     if (!e.key || e.key === 'Enter') {
       setSelected(undefined);
@@ -94,15 +90,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
-  // this one works (we think)
   const handleTextBoxClick = e => {
     if (!e.key || e.key === 'Enter') {
-      // console.log('setting active in handleTextBoxClick: ', active);
       setActive(!active);
     }
   };
 
-  // ah ha ha! This one is the problem! issue: click on month dropdown, select a month, and immediately disappears.
   const handleTextBoxBlur = e => {
     if (
       !dropdownRef.current?.contains(e?.relatedTarget) &&
@@ -110,56 +103,34 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       e.relatedTarget !== displayRef.current &&
       e.relatedTarget !== null
     ) {
-      console.log('e.relatedTarget: ', e?.relatedTarget);
-      console.log('e', e);
       setActive(false);
     }
   };
 
-  // ah ha ha! This one is ALSO the problem! issue: click on month dropdown and immediately disappears. dropdown does not appear
   const handleEventListener = e => {
-    console.log(
-      'handleEventListener',
-      '\nmouseOverDropdown',
-      mouseOverDropdown,
-      '\ndisplayRef.current',
-      displayRef.current,
-      '\ndisplayRef.current?.contains(e?.target)',
-      displayRef.current?.contains(e?.target),
-      '\ne.target',
-      e.target
-    );
     if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
       setActive(false);
     }
   };
 
-  // hooks seem to work
-  // used to close dropdown when clicking outside
   useEffect(() => {
-    // console.log('in useEffect for closing dropdown');
     if (active) {
-      // console.log('in closing dropdown IF');
       document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
       setBeginTextStyle(textHighlighted);
     } else {
-      // console.log('in closing dropdown ELSE');
       setBeginTextStyle(noTextHighLight);
       setEndTextStyle(noTextHighLight);
       if (filterDisplayBeginDate && filterDisplayEndDate === 'mm/dd/yyyy') {
-        // console.log('in ELSES IF inside the useEffect for closing dropdown');
         setSelected(undefined);
         onFilterChange(undefined);
       }
     }
     return () => {
-      // console.log('in return that is calling handleEventListener');
       document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
     };
   }, [active]);
 
   useEffect(() => {
-    // console.log('in useEffect that has a lot of moment and date setting stuff ');
     if (selected?.from && selected?.to) {
       const start = moment(selected?.from);
       const end = moment(selected?.to);
