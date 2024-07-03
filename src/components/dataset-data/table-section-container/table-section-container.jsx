@@ -379,7 +379,7 @@ const TableSectionContainer = ({
                     <DatasetChart
                       legend={legend}
                       dateRange={dateRange}
-                      data={userFilteredData ? userFilteredData : chartData ? chartData : apiData}
+                      data={userFilteredData ? userFilteredData : chartData}
                       slug={config.slug}
                       currentTable={selectedTable}
                       dateField={dateFieldForChart}
