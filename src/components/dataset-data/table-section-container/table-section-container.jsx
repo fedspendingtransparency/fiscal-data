@@ -92,7 +92,6 @@ const TableSectionContainer = ({
   }, [userFilterUnmatchedForDateRange]);
 
   const fetchAllTableData = async (sortParam, to, from, totalCount) => {
-    console.log('fetch all data');
     if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
       return await basicFetch(
         `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
@@ -139,7 +138,6 @@ const TableSectionContainer = ({
               queryKey: ['tableData', selectedTable, from, to],
               queryFn: () => fetchAllTableData(sortParam, to, from, totalCount),
             });
-            console.log(data);
             return data;
           } catch (error) {
             console.warn(error);
