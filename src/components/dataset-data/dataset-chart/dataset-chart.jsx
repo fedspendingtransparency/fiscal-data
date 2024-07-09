@@ -158,7 +158,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
 
       const chartData = thinDataAsNeededForChart(data.data, slug, dateField, currentTable);
 
-      if (chartData.length > 0) {
+      if (chartData.length > 0 && localChartFields.length > 0) {
         setAxisHasBillions(determineIfAxisWillHaveBillions(chartData));
         chartHooks = drawChart(
           chartData,
