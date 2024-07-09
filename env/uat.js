@@ -21,6 +21,19 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03', '015-BFS-2014Q1-11'],
       currentDateButton: 'byDay',
     },
+    '015-BFS-2014Q3-052': {
+      slug: '/top-treasury-offset-program/',
+      seoConfig: {
+        pageTitle: 'Treasury Offset Program (TOP)',
+        description:
+          'This dataset shows how Treasury offsets federal payments, such as tax refunds, to ' +
+          'pay off delinquent debts such as unpaid child support.',
+        keywords: 'Debt, Revenue',
+      },
+      topics: ['debt', 'revenue'],
+      relatedDatasets: ['015-BFS-2020Q4-xx', '015-BFS-2014Q1-03', '015-BFS-2014Q1-13', '015-BFS-2017Q2-003'],
+      currentDateButton: 'byMonth',
+    },
   },
   ADDITIONAL_ENDPOINTS: {
     '160': {
@@ -142,6 +155,13 @@ module.exports = {
         'fytd_redeemed_amt',
         'daily_ending_balance_amt',
       ],
+    },
+    '299': {
+      endpoint: 'v1/debt/treasury_offset_program',
+      dateField: 'record_date',
+      downloadName: 'treasury_offset_program',
+      alwaysSortWith: ['record_date, src_line_nbr'],
+      selectColumn: [],
     },
   },
 };
