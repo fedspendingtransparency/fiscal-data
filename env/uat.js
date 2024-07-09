@@ -24,7 +24,7 @@ module.exports = {
     '015-BFS-2014Q3-052': {
       slug: '/top-treasury-offset-program/',
       seoConfig: {
-        pageTitle: 'Treasury Offset Program (TOP) | U.S. Treasury Fiscal Data',
+        pageTitle: 'Treasury Offset Program (TOP)',
         description:
           'This dataset shows how Treasury offsets federal payments, such as tax refunds, to ' +
           'pay off delinquent debts such as unpaid child support.',
