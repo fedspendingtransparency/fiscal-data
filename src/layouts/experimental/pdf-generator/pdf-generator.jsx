@@ -216,11 +216,11 @@ const PDFGenerator = () => {
           {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
         </PDFDownloadLink>
       ) : null}
-      {test ? (
-        <PDFViewer style={styles.container} fileName="testPDF.pdf">
-          <PDFBody />
-        </PDFViewer>
-      ) : null}
+      {/*{test ? (*/}
+      {/*  <PDFViewer style={styles.container} fileName="testPDF.pdf">*/}
+      {/*    <PDFBody />*/}
+      {/*  </PDFViewer>*/}
+      {/*) : null}*/}
     </div>
   );
 };
