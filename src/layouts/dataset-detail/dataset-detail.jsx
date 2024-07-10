@@ -14,6 +14,7 @@ import DatasetIntroduction from '../../components/dataset-introduction/dataset-i
 import BannerCallout from '../../components/banner-callout/banner-callout';
 import { bannerCalloutContainer } from '../../components/masthead/masthead.module.scss';
 import Experimental from '../../components/experimental/experimental';
+import ReportsSection from '../../components/published-reports/reports-section/reports-section';
 
 export const query = graphql`
   query relatedDatasets($relatedDatasets: [String]) {
@@ -87,7 +88,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           dictionary={pageContext.config.dictionary}
         />
         <Experimental featureId="publishedReportsSection">
-          <p>this is a test</p>
+          <ReportsSection/>
         </Experimental>
         <DatasetData
           setSelectedTableProp={setSelectedTable}
