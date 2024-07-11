@@ -13,6 +13,7 @@ const DownloadReportTable = () => {
           <th></th>
         </tr>
       </thead>
+
       {/*map or forEach each row here */}
       <DownloadReportTableRow/>
       <DownloadReportTableRow/>

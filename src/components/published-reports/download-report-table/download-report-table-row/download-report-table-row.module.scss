@@ -1,0 +1,9 @@
+@import '../../../../variables.module.scss';
+
+tr {
+  border: 1px solid $light-grey-border;
+
+  td:first-child {
+    padding: 1rem;
+  }
+}
