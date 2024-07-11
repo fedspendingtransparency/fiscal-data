@@ -307,9 +307,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           footer={footer}
           altText={chartAltText}
           date={recordDate}
-          customTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
-          customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
-          customFooterStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
         >
           {chartData !== {} ? (
             <div className={dataContent}>

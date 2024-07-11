@@ -262,8 +262,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             footer={footer}
             date={lastUpdatedDate}
             customFooterSpacing={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
-            customTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_16, color: '#666666' } : {}}
-            customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
           >
             <div
               className={lineChart}

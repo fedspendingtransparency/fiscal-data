@@ -123,7 +123,6 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
               }
               footer={chartFooter}
               date={date}
-              customFooterStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12, marginTop: '15px' } : null}
             >
               <div data-testid="breakdownChart" className={barChartContainer}>
                 <Bar
