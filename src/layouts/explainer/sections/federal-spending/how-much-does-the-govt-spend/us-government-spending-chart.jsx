@@ -18,6 +18,7 @@ import {
   percentToggleUnchecked,
   toggleContainer,
   spendingChartContainer,
+  header,
 } from './us-government-spending-chart.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -177,7 +178,7 @@ const USGovernmentSpendingChart = ({ width }) => {
   };
 
   const chartToggleHeader = (
-    <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '100%' }}>
+    <div className={header}>
       <ChartToggle
         leftButtonConfig={leftButtonConfig}
         rightButtonConfig={rightButtonConfig}

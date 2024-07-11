@@ -83,6 +83,12 @@
   font-size: $font-size-48;
 }
 
+.header {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
 .toggleContainer {
   display: flex;
   justify-content: flex-end;
