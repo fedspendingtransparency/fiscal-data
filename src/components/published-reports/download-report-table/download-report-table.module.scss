@@ -1,6 +1,7 @@
 @import '../../../variables.module.scss';
 
 .table {
+  display: table;
   width: 100%;
   border-collapse: collapse;
 
@@ -8,14 +9,24 @@
     border: 1px solid $light-grey-border;
     background-color: $api-header;
     text-align: left;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    //padding-top: 0.5rem;
+    //padding-bottom: 0.5rem;
+    //padding-left: 1rem;
+    //padding-right: 1rem;
   }
 
   th {
-    //padding: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  th:first-child {
+    padding-left: 1rem;
+    width: 55%;
+  }
+
+  th:last-child {
+    padding-right: 1rem;
   }
 }
 
