@@ -10,10 +10,6 @@
     border: 1px solid $light-grey-border;
     background-color: $api-header;
     text-align: left;
-    //padding-top: 0.5rem;
-    //padding-bottom: 0.5rem;
-    //padding-left: 1rem;
-    //padding-right: 1rem;
   }
 
   th {
@@ -30,9 +26,5 @@
   th:last-child {
     padding-right: 1rem;
   }
-
-  //td{
-  //  border: 1px solid $light-grey-border;
-  //}
 }
 

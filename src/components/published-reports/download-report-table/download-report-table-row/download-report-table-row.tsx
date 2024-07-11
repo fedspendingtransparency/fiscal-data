@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { tr } from './download-report-table-row.module.scss';
+import { fileDescription } from './download-report-table-row.module.scss';
 
 const DownloadReportTableRow = () => {
   return (
-    <tr className={tr}>
+    <tr className={fileDescription}>
       <td>help</td>
       <td>help</td>
       <td>help</td>
