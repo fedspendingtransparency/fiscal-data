@@ -1,8 +1,8 @@
 import React from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
-import { header, subHeader, headerContainer } from './debt-over-last-100y-linechart.module.scss';
 import numeral from 'numeral';
 import Analytics from '../../../../../../utils/analytics/analytics';
+import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
 
 const analyticsClickHandler = (action, section) => {
   Analytics.event({
@@ -37,7 +37,7 @@ const footer = (
   </p>
 );
 
-export const getChartCopy = (minYear, maxYear, selectedChartView) => {
+export const getChartCopy = maxYear => {
   return {
     title: `U.S. National Debt Over the Last 100 Years`,
     subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
@@ -50,22 +50,7 @@ export const getChartCopy = (minYear, maxYear, selectedChartView) => {
 
 export const dataHeader = headingValues => {
   const { fiscalYear, totalDebt } = headingValues;
-  return (
-    <div className={headerContainer}>
-      <div>
-        <div className={header} data-testid="dynamic-year-header">
-          {fiscalYear}
-        </div>
-        <span className={subHeader}>Fiscal Year</span>
-      </div>
-      <div>
-        <div className={header} data-testid="dynamic-value-header">
-          {totalDebt}
-        </div>
-        <span className={subHeader}>Total Debt</span>
-      </div>
-    </div>
-  );
+  return <ChartDataHeader fiscalYear={fiscalYear} right={{ label: 'Total Debt', value: totalDebt }} />;
 };
 
 export const chartConfigs = {

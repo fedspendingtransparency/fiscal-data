@@ -2,14 +2,12 @@ import { chart, chartContainer, headerContainer, footerContainer, chartSubTitle,
 import React from 'react';
 import { format } from 'date-fns';
 
-const ChartContainer = ({ title, subTitle = null, altText, header, footer, date, children, customHeaderStyles = {}, customTestId = null }) => {
+const ChartContainer = ({ title, subTitle = null, altText, header, footer, date, children, customTestId = null }) => {
   return (
     <div className={chartContainer} role="figure" aria-label={altText}>
       <div className={chartTitle}>{title}</div>
       <div className={`${chartSubTitle} chartContainerSubTitle`}>{subTitle}</div>
-      <div className={`${headerContainer} chartContainerHeader`} style={{ ...customHeaderStyles }}>
-        {header}
-      </div>
+      <div className={`${headerContainer} chartContainerHeader`}>{header}</div>
       <div data-testid={customTestId ? customTestId : 'chart'} className={`${chart} chartContainerChart`}>
         {children}
       </div>

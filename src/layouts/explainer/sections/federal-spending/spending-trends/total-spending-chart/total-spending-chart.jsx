@@ -342,7 +342,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
               date={lastUpdatedDate}
               header={dataHeader(chartToggleConfig, totalSpendingHeadingValues, handleClick)}
               altText={chartAltText}
-              customHeaderStyles={{ marginTop: '0.5rem', marginBottom: '0' }}
             >
               <div
                 className={lineChart}

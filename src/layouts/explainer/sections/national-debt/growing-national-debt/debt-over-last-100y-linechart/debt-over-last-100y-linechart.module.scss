@@ -1,72 +1,28 @@
 @import 'src/variables.module';
 
-:global(.chartContainerHeader) {
-  //font-size: $font-size-14 !important;
-  align-items: center;
-  margin-top: 1rem;
-}
-
 .container {
   overflow: hidden;
+  :global(.chartContainerHeader) {
+    align-items: center;
+    margin-top: 1rem;
+  }
 
   .lineChart {
     width: 100%;
     margin-top: 0.625rem;
   }
-
-  .headerContainer {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-
-    div {
-      text-align: center;
-
-      .header {
-        font-weight: bold;
-        font-size: $font-size-36;
-        min-width: 140px;
-      }
-
-      .subHeader {
-        font-weight: $semi-bold-weight;
-        font-size: $font-size-14;
-      }
-    }
-  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  :global(.chartContainerHeader) {
-    margin-top: 0.125rem;
-    margin-bottom: 0 !important;
-  }
-
-  :global(.chartContainerFooter) {
-    p {
-      margin-top: 0.75rem;
-    }
-  }
   .container {
-    .headerContainer {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 0.75rem !important;
+    :global(.chartContainerHeader) {
+      margin-top: 0.125rem;
+      margin-bottom: 0 !important;
+    }
 
-      div {
-        text-align: center;
-        min-width: 110px !important;
-
-        .header {
-          font-size: $font-size-24;
-          line-height: $font-size-24;
-        }
-
-        .subHeader {
-          font-size: $font-size-10;
-          margin: 0 1rem;
-        }
+    :global(.chartContainerFooter) {
+      p {
+        margin-top: 0.75rem;
       }
     }
   }

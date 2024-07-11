@@ -3,7 +3,7 @@ import { breakpointLg, debtExplainerPrimary, fontSize_10 } from '../../../../../
 import React, { useEffect, useState } from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import { container, lineChartContainer, header, headerContainer, subHeader } from './debt-trends-over-time-chart.module.scss';
+import { container, lineChartContainer } from './debt-trends-over-time-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -26,8 +26,9 @@ import { useRecoilValueLoadable } from 'recoil';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
 import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { useInView } from 'react-intersection-observer';
-import { getShortForm } from "../../../../../../utils/rounding-utils";
-import { getChangeLabel } from "../../../../heros/hero-helper";
+import { getShortForm } from '../../../../../../utils/rounding-utils';
+import { getChangeLabel } from '../../../../heros/hero-helper';
+import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
 
 let gaTimerDebtTrends;
 let ga4Timer;
@@ -113,14 +114,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
   }, [isLoadingDebtTrends]);
 
-  const customHeaderStyles = {
-    marginTop: '1rem',
-  };
-
-  const customFooterSpacing = {
-    marginTop: '2rem',
-  };
-
   const handleMouseMove = slice => {
     const debtData = slice.points[0].data;
     if (debtData) {
@@ -156,28 +149,21 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   };
 
   const headerContent = () => (
-    <div className={headerContainer}>
-      <div>
-        <div className={header}>{lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear}</div>
-        <span className={subHeader}>Fiscal Year</span>
-      </div>
-      <div>
-        <div className={header}>{lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue}</div>
-        <span className={subHeader}>Debt to GDP</span>
-      </div>
-    </div>
+    <>
+      <ChartDataHeader
+        fiscalYear={lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear}
+        right={{ label: 'Debt to GDP', value: lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue }}
+      />
+    </>
   );
 
   const footerContent = (
     <>
-    <p>
-      Visit the {historicalDebtOutstanding} dataset to explore and download this data. The GDP data is sourced from the {beaLink}.
-    </p>
-    <p>
-      Please note: This chart is updated as new GDP data is released, even if new debt data is available.
-    </p>
+      <p>
+        Visit the {historicalDebtOutstanding} dataset to explore and download this data. The GDP data is sourced from the {beaLink}.
+      </p>
+      <p>Please note: This chart is updated as new GDP data is released, even if new debt data is available.</p>
     </>
-
   );
 
   const { ref, inView } = useInView({
@@ -202,8 +188,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               footer={footerContent}
               date={getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`)}
               altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
-              customHeaderStyles={customHeaderStyles}
-              customFooterSpacing={customFooterSpacing}
             >
               <div
                 className={lineChartContainer}
@@ -277,10 +261,10 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
           </div>
           <VisualizationCallout color={debtExplainerPrimary}>
             <p>
-              The average GDP for fiscal year {lastDebtValue.x} was ${getShortForm(lastGDPValue.actual)},
-              which was {getChangeLabel(lastGDPValue.actual, lastRawDebtValue, true)} the U.S. debt of ${getShortForm(lastRawDebtValue)}.
-              This resulted in a Debt to GDP Ratio of {lastDebtValue.y} percent.
-              Generally, a higher Debt to GDP ratio indicates a government will have greater difficulty in repaying its debt.
+              The average GDP for fiscal year {lastDebtValue.x} was ${getShortForm(lastGDPValue.actual)}, which was{' '}
+              {getChangeLabel(lastGDPValue.actual, lastRawDebtValue, true)} the U.S. debt of ${getShortForm(lastRawDebtValue)}. This resulted in a
+              Debt to GDP Ratio of {lastDebtValue.y} percent. Generally, a higher Debt to GDP ratio indicates a government will have greater
+              difficulty in repaying its debt.
             </p>
           </VisualizationCallout>
         </div>

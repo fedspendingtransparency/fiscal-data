@@ -141,7 +141,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     }
   };
 
-  const { title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altText: chartAltText } = getChartCopy(minYear, maxYear);
+  const { title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altText: chartAltText } = getChartCopy(maxYear);
 
   const handleChartMouseEnter = () => {
     gaTimerDebt100Yrs = setTimeout(() => {
@@ -163,12 +163,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     clearTimeout(ga4Timer);
   };
 
-  const customHeaderStyles = {
-    marginTop: '1rem',
-  };
-  const customFooterSpacing = {
-    marginTop: '2rem',
-  };
   const { ref, inView } = useInView(chartInViewProps);
 
   return (
@@ -188,8 +182,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
               date={lastUpdatedDate}
               header={dataHeader(totalDebtHeadingValues)}
               altText={chartAltText}
-              customHeaderStyles={customHeaderStyles}
-              customFooterSpacing={customFooterSpacing}
             >
               <div
                 className={lineChart}
