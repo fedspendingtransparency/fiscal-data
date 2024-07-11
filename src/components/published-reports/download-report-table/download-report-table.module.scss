@@ -5,7 +5,7 @@
   width: 100%;
   border-collapse: collapse;
 
-  tr {
+  thead {
     border: 1px solid $light-grey-border;
     background-color: $api-header;
     text-align: left;
@@ -16,6 +16,7 @@
   }
 
   th {
+    font-weight: 600;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }

@@ -5,12 +5,14 @@ import DownloadReportTableRow from './download-report-table-row/download-report-
 const DownloadReportTable = () => {
   return (
     <table className={table}>
-      <tr>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Size</th>
-        <th></th>
-      </tr>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Size</th>
+          <th></th>
+        </tr>
+      </thead>
       {/*map or forEach each row here */}
       <DownloadReportTableRow/>
       <DownloadReportTableRow/>
