@@ -1,4 +1,4 @@
-import HowMuchDoesTheGovtSpend from './how-much-does-the-govt-spend';
+import UsGovernmentSpendingChart from './us-government-spending-chart';
 import { render } from '@testing-library/react';
 import React from 'react';
 import fetchMock from 'fetch-mock';
@@ -231,12 +231,12 @@ describe('Federal spending explainer page sections', () => {
   });
 
   it('renders', () => {
-    const instance = render(<HowMuchDoesTheGovtSpend />);
+    const instance = render(<UsGovernmentSpendingChart />);
     expect(instance).toBeTruthy();
   });
 
   it('has the right sections, toggle view', async () => {
-    const { getByText, getByTestId } = render(<HowMuchDoesTheGovtSpend />);
+    const { getByText, getByTestId } = render(<UsGovernmentSpendingChart />);
     await waitFor(() => {
       expect(getByTestId('toggle-button-agency')).toBeInTheDocument();
       expect(getByTestId('toggle-button-category')).toBeInTheDocument();
@@ -258,7 +258,7 @@ describe('Federal spending explainer page sections', () => {
 
     window.dispatchEvent(new Event('resize'));
 
-    const { getByText, getByTestId } = render(<HowMuchDoesTheGovtSpend />);
+    const { getByText, getByTestId } = render(<UsGovernmentSpendingChart />);
 
     await waitFor(() => {
       expect(getByTestId('toggle-button-agency')).toBeInTheDocument();
@@ -271,7 +271,7 @@ describe('Federal spending explainer page sections', () => {
   });
 
   it('dollar / percent toggle renders and is functional', async () => {
-    const { getByText, getByTestId } = render(<HowMuchDoesTheGovtSpend />);
+    const { getByText, getByTestId } = render(<UsGovernmentSpendingChart />);
     await waitFor(() => {
       expect(getByText('Dollars')).toBeInTheDocument();
       expect(getByTestId('switch')).toBeInTheDocument();

@@ -4,7 +4,7 @@ import { visWithCallout } from '../../../explainer.module.scss';
 import Accordion from '../../../../../components/accordion/accordion';
 import { spendingCategoriesContent } from './spending-categories.module.scss';
 import { spendingAccordion, spendingExplainerPrimary } from '../federal-spending.module.scss';
-import HowMuchDoesTheGovtSpend from '../how-much-does-the-govt-spend/how-much-does-the-govt-spend';
+import USGovernmentSpendingChart from '../how-much-does-the-govt-spend/us-government-spending-chart';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
@@ -50,7 +50,7 @@ export const SpendingCategories = () => {
         agencies for federal spending in FY {latestCompleteFiscalYear}.
       </p>
       <div className={visWithCallout}>
-        <HowMuchDoesTheGovtSpend />
+        <USGovernmentSpendingChart />
         <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
             For more details on U.S. government spending by category and agency, visit USAspending.gov’s {spendingExplorer} and {agencyProfile} pages.
