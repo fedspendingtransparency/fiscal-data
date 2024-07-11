@@ -1,0 +1,22 @@
+import React, { FunctionComponent } from 'react';
+import { table } from './download-report-table.module.scss';
+import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
+
+const DownloadReportTable = () => {
+  return (
+    <table className={table}>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Size</th>
+        <th></th>
+      </tr>
+      {/*map or forEach each row here */}
+      <DownloadReportTableRow/>
+      <DownloadReportTableRow/>
+      <DownloadReportTableRow/>
+    </table>
+  )
+}
+
+export default DownloadReportTable;

@@ -1,0 +1,21 @@
+@import '../../../variables.module.scss';
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  tr {
+    border: 1px solid $light-grey-border;
+    background-color: $api-header;
+    text-align: left;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  th {
+    //padding: 0;
+  }
+}
+

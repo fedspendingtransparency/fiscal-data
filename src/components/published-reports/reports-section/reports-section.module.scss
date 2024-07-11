@@ -1,0 +1,10 @@
+@import '../../../variables.module.scss';
+
+.sectionHeader {
+  @include headingStyle5;
+  width: 100%;
+  padding-bottom: 1rem;
+  margin: 0;
+  box-sizing: inherit;
+  padding-top: 1rem;
+}
