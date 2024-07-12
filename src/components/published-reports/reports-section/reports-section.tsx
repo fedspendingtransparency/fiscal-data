@@ -5,8 +5,6 @@ import { publishDate } from './reports-section.module.scss';
 import DatasetAboutTabs from '../../dataset-properties-tabs/dataset-properties-tabs';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 
-// interface ReportsSection {}
-
 export const title = 'Reports and Files';
 
 // const ReportsSection: FunctionComponent<ReportsSection> = () => {
