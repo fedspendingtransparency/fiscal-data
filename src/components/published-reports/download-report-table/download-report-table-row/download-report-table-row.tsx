@@ -5,10 +5,8 @@ import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import pdf from '../../../../../static/images/file-type-icons/file_type_pdf_icon.svg';
 import xls from '../../../../../static/images/file-type-icons/file_type_xls_icon.svg';
 
-const DownloadReportTableRow = ({ fileName }) => {
-  fileName = 'pdf';
-
-  const fileTypeImage = (): {} => {
+const DownloadReportTableRow: FunctionComponent<{ fileName: string }> = ({ fileName }) => {
+  const fileTypeImage = () => {
     switch (fileName) {
       case 'pdf':
         console.log('filename: ', fileName);
@@ -19,23 +17,25 @@ const DownloadReportTableRow = ({ fileName }) => {
     }
   };
 
-  const downloadFile= () => {
+  const downloadFile = () => {
     console.log('I clicked download!');
     return;
-  }
+  };
+
+  const fileImage: string = fileTypeImage();
 
   return (
     <tr className={fileDescription}>
       <td>
         <div className={downloadName}>
-          <img src={fileTypeImage()} alt="file type icon" />
+          <img src={fileImage} alt="file type icon" />
           <div>Entire.pdf</div>
         </div>
       </td>
       <td>February 01, 2024</td>
       <td>2KB</td>
       <td className={downloadIcon}>
-        <div className={center} onClick={downloadFile}>
+        <div role="button" className={center} onClick={downloadFile}>
           <FontAwesomeIcon icon={faCloudArrowDown} />
           <div>Download</div>
         </div>

@@ -3,8 +3,10 @@
 .table {
   display: table;
   width: 100%;
-  border-collapse: collapse;
+  //border-collapse: collapse;
   border: 1px solid $light-grey-border;
+  border-spacing: 0;
+  border-radius: 3px;
 
   thead {
     border: 1px solid $light-grey-border;
@@ -16,6 +18,9 @@
     font-weight: 600;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+  }
+  td {
+    border-top:  1px solid $light-grey-border;
   }
 
   th:first-child {
