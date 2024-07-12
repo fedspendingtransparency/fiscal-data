@@ -11,7 +11,7 @@ export const title = 'Reports and Files';
 const ReportsSection= () => {
   return (
     <>
-      <DatasetSectionContainer title={title} id="dataset-properties">
+      <DatasetSectionContainer title={title} id="reports-and-files">
         <div className={publishDate}>Published Date</div>
         <DownloadReportTable />
       </DatasetSectionContainer>
