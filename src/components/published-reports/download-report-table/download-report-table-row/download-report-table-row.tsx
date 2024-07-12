@@ -3,6 +3,7 @@ import { fileDescription, downloadIcon, center, downloadName } from './download-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import pdf from '../../../../../static/images/file-type-icons/file_type_pdf_icon.svg';
+import xls from '../../../../../static/images/file-type-icons/file_type_xls_icon.svg';
 
 const DownloadReportTableRow = ({ fileName }) => {
   fileName = 'pdf';
@@ -13,8 +14,15 @@ const DownloadReportTableRow = ({ fileName }) => {
         console.log('filename: ', fileName);
         console.log('pdf: ', pdf);
         return pdf;
+      default:
+        return xls;
     }
   };
+
+  const downloadFile= () => {
+    console.log('I clicked download!');
+    return;
+  }
 
   return (
     <tr className={fileDescription}>
@@ -27,7 +35,7 @@ const DownloadReportTableRow = ({ fileName }) => {
       <td>February 01, 2024</td>
       <td>2KB</td>
       <td className={downloadIcon}>
-        <div className={center}>
+        <div className={center} onClick={downloadFile}>
           <FontAwesomeIcon icon={faCloudArrowDown} />
           <div>Download</div>
         </div>

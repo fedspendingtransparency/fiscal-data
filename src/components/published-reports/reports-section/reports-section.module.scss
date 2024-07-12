@@ -8,3 +8,16 @@
   box-sizing: inherit;
   padding-top: 1rem;
 }
+
+.publishDate {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  // will probably move this styling to the actual datepicker component
+  border: 1px solid $light-grey-border;
+  height: 40px;
+  width: 263px;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+}
