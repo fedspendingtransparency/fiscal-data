@@ -6,13 +6,18 @@ import pdf from '../../../../../static/images/file-type-icons/file_type_pdf_icon
 import xls from '../../../../../static/images/file-type-icons/file_type_xls_icon.svg';
 
 const DownloadReportTableRow: FunctionComponent<{ fileName: string }> = ({ fileName }) => {
+
+  // grab the file extension
+  const regex = /(?<=\.).+/;
+  let fileType = fileName.match(regex)?.toString();
+
   const fileTypeImage = () => {
-    switch (fileName) {
+    switch (fileType) {
       case 'pdf':
-        console.log('filename: ', fileName);
-        console.log('pdf: ', pdf);
         return pdf;
       default:
+        // making the fileType have a default value if null for alt image purposes
+        fileType = 'xls';
         return xls;
     }
   };
@@ -26,13 +31,14 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string }> = ({ fileN
   };
 
   const fileImage: string = fileTypeImage();
+  console.log('fileImage: ', fileImage);
 
   return (
-    <tr className={fileDescription}>
+    <tr className={fileDescription} data-testId="file-download-row">
       <td>
         <div className={downloadName}>
-          <img src={fileImage} alt="file type icon" />
-          <div>Entire.pdf</div>
+          <img src={fileImage} alt={`${fileType} icon`}/>
+          <div>{fileName}</div>
         </div>
       </td>
       <td>February 01, 2024</td>

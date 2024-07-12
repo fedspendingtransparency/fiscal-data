@@ -4,7 +4,7 @@ import DownloadReportTableRow from './download-report-table-row/download-report-
 
 const DownloadReportTable: FunctionComponent = () => {
   return (
-    <table className={table}>
+    <table className={table} data-testId="reportsSectionTable">
       <thead>
         <tr>
           <th>Name</th>
@@ -13,11 +13,14 @@ const DownloadReportTable: FunctionComponent = () => {
           <th></th>
         </tr>
       </thead>
-
-      {/*map or forEach each row here */}
-      <DownloadReportTableRow fileName="pdf" />
-      <DownloadReportTableRow fileName="pdf" />
-      <DownloadReportTableRow fileName="pdf" />
+      <tbody>
+        {/*map or forEach each row here */}
+        <DownloadReportTableRow fileName="Entire.pdf" />
+        <DownloadReportTableRow fileName="Entire.xls" />
+        <DownloadReportTableRow fileName="STRIPS.pdf" />
+        <DownloadReportTableRow fileName="Placeholder" />
+        <DownloadReportTableRow fileName="Balance Sheet.pdf" />
+      </tbody>
     </table>
   );
 };
