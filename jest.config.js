@@ -1,5 +1,4 @@
 module.exports = {
-  name: 'tests',
   displayName: 'Standard Tests',
   rootDir: './',
   transform: {
@@ -10,7 +9,6 @@ module.exports = {
     '.+\\.(css|styl|less|sass|scss)$': `<rootDir>/jest-test-config/identity-obj-proxy-esm.js`,
     '.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `<rootDir>/__mocks__/file-mock.js`,
     '^gatsby-core-utils/(.*)$': `gatsby-core-utils/dist/$1`,
-    '^gatsby-page-utils/(.*)$': `gatsby-page-utils/dist/$1`,
     '^gatsby-plugin-utils/(.*)$': [`gatsby-plugin-utils/dist/$1`, `gatsby-plugin-utils/$1`],
     '^csv-stringify/sync': '<rootDir>/node_modules/csv-stringify/dist/cjs/sync.cjs',
     'rehype-raw': '<rootDir>/__mocks__/react-markdown.js',
@@ -28,8 +26,8 @@ module.exports = {
     TextEncoder: require('util').TextEncoder,
     TextDecoder: require('util').TextDecoder,
   },
-  testURL: `http://localhost`,
   testEnvironment: 'jsdom',
+  testEnvironmentOptions: { url: `http://localhost` },
   setupFiles: [`<rootDir>/loadershim.js`],
   verbose: true,
   setupFilesAfterEnv: [`<rootDir>/jest.setup.js`],

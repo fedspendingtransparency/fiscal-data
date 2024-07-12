@@ -2,28 +2,28 @@
 
 exports[`DatasetData correctly prepares pivoted data with aggregation and summing and handles non-numeric
   values 1`] = `
-Object {
-  "data": Array [
-    Object {
+{
+  "data": [
+    {
       "CHART_DATE": "2020-05-01",
       "Federal Bank": 1010.1010000000001,
       "Medical Safe": 3020202,
       "record_calendar_year__record_calendar_month": "May 2020",
     },
-    Object {
+    {
       "CHART_DATE": "2020-04-01",
       "Federal Bank": "1000.0001",
       "Medical Safe": 3000000.7,
       "record_calendar_year__record_calendar_month": "Apr 2020",
     },
   ],
-  "meta": Object {
-    "dataTypes": Object {
+  "meta": {
+    "dataTypes": {
       "Federal Bank": "CURRENCY",
       "Medical Safe": "CURRENCY",
       "record_calendar_year__record_calendar_month": "AGGREGATION_DATE",
     },
-    "labels": Object {
+    "labels": {
       "Federal Bank": "Federal Bank",
       "Medical Safe": "Medical Safe",
       "record_calendar_year__record_calendar_month": "Time Period",
@@ -34,9 +34,9 @@ Object {
 `;
 
 exports[`DatasetData correctly prepares pivoted data without aggregation 1`] = `
-Object {
-  "data": Array [
-    Object {
+{
+  "data": [
+    {
       "Federal Financing Bank": "2.685",
       "Total Marketable": "1.964",
       "Treasury Bills": "0.596",
@@ -46,7 +46,7 @@ Object {
       "Treasury Notes": "2.069",
       "reporting_date": "2020-04-30",
     },
-    Object {
+    {
       "Federal Financing Bank": "2.385",
       "Total Marketable": "1.264",
       "Treasury Bills": "1.596",
@@ -55,8 +55,8 @@ Object {
       "reporting_date": "2020-05-31",
     },
   ],
-  "meta": Object {
-    "dataTypes": Object {
+  "meta": {
+    "dataTypes": {
       "Federal Financing Bank": "PERCENTAGE",
       "Total Marketable": "PERCENTAGE",
       "Treasury Bills": "PERCENTAGE",
@@ -67,7 +67,7 @@ Object {
       "Treasury Notes": "PERCENTAGE",
       "reporting_date": "DATE",
     },
-    "labels": Object {
+    "labels": {
       "Federal Financing Bank": "Federal Financing Bank",
       "Total Marketable": "Total Marketable",
       "Treasury Bills": "Treasury Bills",

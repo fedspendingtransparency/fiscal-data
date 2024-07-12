@@ -1,5 +1,5 @@
 import DeficitChart from './deficit-chart';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
 import {
@@ -14,13 +14,13 @@ describe('AFG Deficit Chart', () => {
   }
   window.ResizeObserver = ResizeObserver;
 
-  beforeEach(() => {
+  beforeAll(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers);
     jest.useFakeTimers();
   });
 
-  afterEach(() => {
+  afterAll(() => {
     jest.resetModules();
     global.fetch.mockReset();
   });
@@ -52,18 +52,21 @@ describe('AFG Deficit Chart with Surplus Year', () => {
   }
   window.ResizeObserver = ResizeObserver;
 
-  beforeEach(() => {
+  beforeAll(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, afgOverviewDeficitChart_surplus);
     jest.useFakeTimers();
   });
 
-  afterEach(() => {
+  afterAll(() => {
     jest.resetModules();
     global.fetch.mockReset();
   });
   it('adds surplus to legend if any surplus years are included', async () => {
-    const { findByText } = render(<DeficitChart />);
+    const { findByText, findByTestId, getByTestId } = render(<DeficitChart />);
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+
     expect(await findByText('Spending')).toBeInTheDocument();
     expect(await findByText('Revenue')).toBeInTheDocument();
     expect(await findByText('Deficit')).toBeInTheDocument();

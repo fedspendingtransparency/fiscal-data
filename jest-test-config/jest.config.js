@@ -1,5 +1,4 @@
 module.exports = {
-  name: 'tests',
   displayName: 'Standard Tests',
   rootDir: '../',
   transform: {
@@ -18,7 +17,7 @@ module.exports = {
   globals: {
     __PATH_PREFIX__: ``,
   },
-  testURL: `http://localhost`,
+  testEnvironmentOptions: { url: `http://localhost` },
   setupFiles: [`<rootDir>/loadershim.js`],
   verbose: true,
   setupFilesAfterEnv: [`<rootDir>/jest.setup.js`],
