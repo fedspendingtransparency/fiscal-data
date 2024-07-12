@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, KeyboardEvent } from 'react';
 import { fileDescription, downloadIcon, center, downloadName } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +17,10 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string }> = ({ fileN
     }
   };
 
-  const downloadFile = () => {
+  const downloadFile = (e?: KeyboardEvent) => {
+    if (e?.key && e.key !== 'Enter') {
+      return;
+    }
     console.log('I clicked download!');
     return;
   };
@@ -35,7 +38,7 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string }> = ({ fileN
       <td>February 01, 2024</td>
       <td>2KB</td>
       <td className={downloadIcon}>
-        <div role="button" className={center} onClick={downloadFile}>
+        <div role="button" tabIndex={0} className={center} onClick={() => downloadFile()} onKeyDown={e => downloadFile(e)}>
           <FontAwesomeIcon icon={faCloudArrowDown} />
           <div>Download</div>
         </div>
