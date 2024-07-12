@@ -6,4 +6,33 @@
   td:first-child {
     padding: 1rem;
   }
+
+  td:last-child {
+    padding: 1rem;
+  }
+
+  td {
+    //border: 1px solid pink;
+  }
+
+  .downloadName {
+    display: flex;
+    justify-content: flex-start;
+
+    img {
+      padding-right: 1.5rem;
+    }
+  }
+
+  .downloadIcon {
+    color: $primary;
+    //text-align: center;
+    //width: 10%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .center{
+    text-align: center;
+  }
 }
