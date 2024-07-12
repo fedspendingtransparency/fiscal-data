@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { fileDescription, downloadIcon, center, downloadName } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCloudArrowDown}  from '@fortawesome/free-solid-svg-icons';
-import { pdf } from '../../../../../static/images/file-type-icons/file_type_pdf_icon.svg';
+import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import pdf from '../../../../../static/images/file-type-icons/file_type_pdf_icon.svg';
 
-const DownloadReportTableRow = ({fileName}) => {
+const DownloadReportTableRow = ({ fileName }) => {
   fileName = 'pdf';
 
   const fileTypeImage = (): {} => {
@@ -16,12 +16,11 @@ const DownloadReportTableRow = ({fileName}) => {
     }
   };
 
-
   return (
     <tr className={fileDescription}>
       <td>
         <div className={downloadName}>
-          <img src={fileTypeImage()} alt="file type icon"/>
+          <img src={fileTypeImage()} alt="file type icon" />
           <div>Entire.pdf</div>
         </div>
       </td>
@@ -29,12 +28,12 @@ const DownloadReportTableRow = ({fileName}) => {
       <td>2KB</td>
       <td className={downloadIcon}>
         <div className={center}>
-          <FontAwesomeIcon icon={faCloudArrowDown}/>
+          <FontAwesomeIcon icon={faCloudArrowDown} />
           <div>Download</div>
         </div>
       </td>
     </tr>
-  )
-}
+  );
+};
 
 export default DownloadReportTableRow;
