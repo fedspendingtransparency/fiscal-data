@@ -8,6 +8,7 @@ import {
   downloadInfo,
   downloadName,
   downloadButtonName,
+  startName,
 } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +19,14 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; mobileView?:
   // grab the file extension
   const regex = /(?<=\.).+/;
   let fileType = fileName.match(regex)?.toString();
+
+  const splitName = (name, index) => {
+    const start = name.substring(0, index);
+    const end = name.substring(index);
+    return { start: start, end: end };
+  };
+  const displayName = splitName(fileName, fileName.length - 8);
+
   const fileTypeImage = () => {
     switch (fileType) {
       case 'pdf':
@@ -45,7 +54,10 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; mobileView?:
           <td>
             <div className={downloadFileContainer}>
               <img src={fileImage} alt={`${fileType} icon`} />
-              <div className={downloadName}>{fileName}</div>
+              <div className={downloadName}>
+                <span className={startName}>{displayName.start}</span>
+                <span>{displayName.end}</span>
+              </div>
             </div>
           </td>
           <td>February 01, 2024</td>
@@ -57,7 +69,10 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; mobileView?:
           <div className={downloadFileContainer}>
             <img src={fileImage} alt={`${fileType} icon`} />
             <div>
-              <div className={downloadName}>{fileName}</div>
+              <div className={downloadName}>
+                <span className={startName}>{displayName.start}</span>
+                <span>{displayName.end}</span>
+              </div>
               <div className={downloadInfo}>
                 <div className={fileDate}>February 01, 2024</div>
                 <div>2KB</div>

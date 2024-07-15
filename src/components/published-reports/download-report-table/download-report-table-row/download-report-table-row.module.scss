@@ -1,6 +1,11 @@
 @import '../../../../variables.module.scss';
 
 .fileDescription {
+
+  &:hover {
+    background-color: #eff6fb;
+    cursor: pointer;
+  }
   border: 1px solid $light-grey-border;
 
   td:first-child {
@@ -22,6 +27,10 @@
 
     .downloadName {
       font-weight: $semi-bold-weight;
+
+      .startName {
+        text-overflow: ellipsis;
+      }
     }
 
     .downloadInfo {

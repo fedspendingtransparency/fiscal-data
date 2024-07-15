@@ -35,8 +35,8 @@ export const DownloadReportTable: FunctionComponent<{ width?: number }> = ({ wid
         <DownloadReportTableRow fileName="Entire.pdf" mobileView={mobileView} />
         <DownloadReportTableRow fileName="Entire.xls" mobileView={mobileView} />
         <DownloadReportTableRow fileName="STRIPS.pdf" mobileView={mobileView} />
-        <DownloadReportTableRow fileName="Placeholder" mobileView={mobileView} />
-        <DownloadReportTableRow fileName="Balance Sheet.pdf" mobileView={mobileView} />
+        <DownloadReportTableRow fileName="Placeholder.pdf" mobileView={mobileView} />
+        <DownloadReportTableRow fileName="An_Extra_Extra_Long_Download_File_Name.pdf" mobileView={mobileView} />
       </tbody>
     </table>
   );
