@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import DownloadReportTableRow from './download-report-table-row';
-import ReportsSection from '../../reports-section/reports-section';
 import userEvent from '@testing-library/user-event';
 
 describe('Download report table row component', () => {

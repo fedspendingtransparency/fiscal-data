@@ -26,7 +26,7 @@ export const DownloadReportTable: FunctionComponent<{ width?: number }> = ({ wid
         {mobileView && (
           <tr>
             <th>Name</th>
-            <th></th>
+            {/*<th></th>*/}
           </tr>
         )}
       </thead>

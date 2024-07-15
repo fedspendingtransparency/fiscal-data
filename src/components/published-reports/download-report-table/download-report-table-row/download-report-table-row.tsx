@@ -9,6 +9,7 @@ import {
   downloadName,
   downloadButtonName,
   startName,
+  downloadItem,
 } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -78,7 +79,7 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; mobileView?:
         <td>
           <div className={downloadFileContainer}>
             <img src={fileImage} alt={`${fileType} icon`} />
-            <div style={{ width: '100%' }}>
+            <div className={downloadItem}>
               <div className={downloadName}>
                 <div className={startName}>{displayName.start}</div>
                 <div>{displayName.end}</div>
@@ -87,17 +88,13 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; mobileView?:
                 <div className={fileDate}>February 01, 2024</div>
                 <div>2KB</div>
               </div>
-              {/*<DownloadButton />*/}
+            </div>
+            <div className={downloadIcon}>
+              <DownloadButton />
             </div>
           </div>
         </td>
       )}
-      <td className={downloadIcon}>
-        <div role="button" tabIndex={0} className={center} onClick={() => downloadFile()} onKeyDown={e => downloadFile(e)}>
-          <FontAwesomeIcon icon={faCloudArrowDown} />
-          <div className={downloadButtonName}>Download</div>
-        </div>
-      </td>
     </tr>
   );
 };

@@ -6,6 +6,7 @@
     background-color: #eff6fb;
     cursor: pointer;
   }
+
   border: 1px solid $light-grey-border;
 
   td:first-child {
@@ -24,14 +25,16 @@
     img {
       padding-right: 1rem;
     }
+    .downloadItem {
+      // 117 => width of download button + width of file type img
+      width: calc(100% - 117px);
+    }
 
     .downloadName {
       font-weight: $semi-bold-weight;
-      //overflow: scroll;
-      //width: 50%;
-      //overflow: hidden;
-      //text-overflow: ellipsis;
-display: flex;
+      margin-right: 1rem;
+      display: flex;
+
       .startName {
         overflow: hidden;
 
@@ -43,6 +46,7 @@ display: flex;
       display: flex;
       flex-wrap: wrap;
       margin-top: 0.25rem;
+
       .fileDate {
         margin-right: 1rem;
         white-space: nowrap;

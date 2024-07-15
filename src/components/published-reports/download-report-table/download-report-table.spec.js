@@ -20,7 +20,7 @@ describe('Download Report Table', () => {
 
   it('renders the desktop table rows', () => {
     const { getByRole, getAllByRole } = render(<DownloadReportTable width={breakpointLg + 1} />);
-    expect(getByRole('cell', { name: 'pdf icon Entire.pdf' })).toBeInTheDocument();
+    expect(getByRole('cell', { name: 'pdf icon En tire.pdf' })).toBeInTheDocument();
     expect(getAllByRole('cell', { name: 'February 01, 2024' }).length).toBeGreaterThan(0);
     expect(getAllByRole('cell', { name: '2KB' }).length).toBeGreaterThan(0);
   });
@@ -34,6 +34,6 @@ describe('Download Report Table', () => {
 
   it('renders the mobile table rows', () => {
     const { getByRole } = render(<DownloadReportTable width={breakpointLg - 1} />);
-    expect(getByRole('cell', { name: 'pdf icon Entire.pdf February 01, 2024 2KB' })).toBeInTheDocument();
+    expect(getByRole('row', { name: 'pdf icon En tire.pdf February 01, 2024 2KB Download' })).toBeInTheDocument();
   });
 });
