@@ -11,7 +11,7 @@
     padding: 1rem;
   }
 
-  .downloadName {
+  .downloadFileContainer {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -19,7 +19,22 @@
     img {
       padding-right: 1rem;
     }
+
+    .downloadName {
+      font-weight: $semi-bold-weight;
+    }
+
+    .downloadInfo {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 0.25rem;
+      .fileDate {
+        margin-right: 1rem;
+        white-space: nowrap;
+      }
+    }
   }
+
 
   .downloadIcon {
     color: $primary;
@@ -28,7 +43,12 @@
     justify-content: flex-end;
   }
 
-  .center{
+  .downloadButtonName {
+    font-weight: $semi-bold-weight;
+    margin-top: .1875rem;
+  }
+
+  .center {
     text-align: center;
   }
 }

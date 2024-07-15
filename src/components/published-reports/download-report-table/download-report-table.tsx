@@ -1,28 +1,45 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { table } from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
+import { withWindowSize } from 'react-fns';
+import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../variables.module.scss';
 
-const DownloadReportTable: FunctionComponent = () => {
+export const DownloadReportTable: FunctionComponent<{ width?: number }> = ({ width }) => {
+  const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
+
+  useEffect(() => {
+    setMobileView(pxToNumber(breakpointLg) > width);
+  }, [width]);
+
   return (
-    <table className={table} data-testId="reportsSectionTable">
+    <table className={table} data-testid="reportsSectionTable">
       <thead>
-        <tr>
-          <th>Name</th>
-          <th>Date</th>
-          <th>Size</th>
-          <th></th>
-        </tr>
+        {!mobileView && (
+          <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Size</th>
+            <th></th>
+          </tr>
+        )}
+        {mobileView && (
+          <tr>
+            <th>Name</th>
+            <th></th>
+          </tr>
+        )}
       </thead>
       <tbody>
         {/*map or forEach each row here */}
-        <DownloadReportTableRow fileName="Entire.pdf" />
-        <DownloadReportTableRow fileName="Entire.xls" />
-        <DownloadReportTableRow fileName="STRIPS.pdf" />
-        <DownloadReportTableRow fileName="Placeholder" />
-        <DownloadReportTableRow fileName="Balance Sheet.pdf" />
+        <DownloadReportTableRow fileName="Entire.pdf" mobileView={mobileView} />
+        <DownloadReportTableRow fileName="Entire.xls" mobileView={mobileView} />
+        <DownloadReportTableRow fileName="STRIPS.pdf" mobileView={mobileView} />
+        <DownloadReportTableRow fileName="Placeholder" mobileView={mobileView} />
+        <DownloadReportTableRow fileName="Balance Sheet.pdf" mobileView={mobileView} />
       </tbody>
     </table>
   );
 };
 
-export default DownloadReportTable;
+export default withWindowSize(DownloadReportTable);
