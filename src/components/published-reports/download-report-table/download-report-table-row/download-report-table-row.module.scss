@@ -27,8 +27,14 @@
 
     .downloadName {
       font-weight: $semi-bold-weight;
-
+      //overflow: scroll;
+      //width: 50%;
+      //overflow: hidden;
+      //text-overflow: ellipsis;
+display: flex;
       .startName {
+        overflow: hidden;
+
         text-overflow: ellipsis;
       }
     }

@@ -47,6 +47,13 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; mobileView?:
 
   const fileImage: string = fileTypeImage();
 
+  const DownloadButton = () => (
+    <div role="button" tabIndex={0} className={center} onClick={() => downloadFile()} onKeyDown={e => downloadFile(e)}>
+      <FontAwesomeIcon icon={faCloudArrowDown} />
+      <div className={downloadButtonName}>Download</div>
+    </div>
+  );
+
   return (
     <tr className={fileDescription} data-testid="file-download-row">
       {!mobileView && (
@@ -62,21 +69,25 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; mobileView?:
           </td>
           <td>February 01, 2024</td>
           <td>2KB</td>
+          <td className={downloadIcon}>
+            <DownloadButton />
+          </td>
         </>
       )}
       {mobileView && (
         <td>
           <div className={downloadFileContainer}>
             <img src={fileImage} alt={`${fileType} icon`} />
-            <div>
+            <div style={{ width: '100%' }}>
               <div className={downloadName}>
-                <span className={startName}>{displayName.start}</span>
-                <span>{displayName.end}</span>
+                <div className={startName}>{displayName.start}</div>
+                <div>{displayName.end}</div>
               </div>
               <div className={downloadInfo}>
                 <div className={fileDate}>February 01, 2024</div>
                 <div>2KB</div>
               </div>
+              {/*<DownloadButton />*/}
             </div>
           </div>
         </td>
