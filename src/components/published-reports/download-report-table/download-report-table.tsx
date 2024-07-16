@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { table } from './download-report-table.module.scss';
+import { table, date } from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -18,7 +18,7 @@ export const DownloadReportTable: FunctionComponent<{ width?: number }> = ({ wid
         {!mobileView && (
           <tr>
             <th>Name</th>
-            <th>Date</th>
+            <th className={date}>Date</th>
             <th>Size</th>
             <th></th>
           </tr>
