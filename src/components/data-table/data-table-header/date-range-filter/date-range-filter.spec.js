@@ -3,7 +3,7 @@ import DateRangeFilter from './date-range-filter';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
-describe.skip('date range filter', () => {
+describe('date range filter', () => {
   Date.now = jest.fn(() => new Date('2023-01-02 12:00:00 GMT-0600'));
   const mockColumn = { id: 'testId', setFilterValue: jest.fn() };
   const mockTable = {};
