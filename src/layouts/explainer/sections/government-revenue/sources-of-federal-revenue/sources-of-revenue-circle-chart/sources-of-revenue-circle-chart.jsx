@@ -47,6 +47,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const [chartAltText, setChartAltText] = useState('');
   const [elementToFocus, setElementToFocus] = useState(null);
 
+  const [chartGAHover, setChartGAHover] = useState(false);
+
   const chartParent = 'chartParent';
 
   useEffect(() => {
@@ -225,19 +227,22 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   };
 
   const handleMouseEnterChart = () => {
-    gaTimerRevenueCircle = setTimeout(() => {
-      Analytics.event({
-        category: 'Explainers',
-        action: 'Chart Hover',
-        label: 'Revenue - Sources of Federal Revenue',
-      });
-    }, 3000);
-    ga4Timer = setTimeout(() => {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'chart-hover-federal-rev',
-      });
-    }, 3000);
+    if (!chartGAHover) {
+      setChartGAHover(true);
+      gaTimerRevenueCircle = setTimeout(() => {
+        Analytics.event({
+          category: 'Explainers',
+          action: 'Chart Hover',
+          label: 'Revenue - Sources of Federal Revenue',
+        });
+      }, 3000);
+      ga4Timer = setTimeout(() => {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'chart-hover-federal-rev',
+        });
+      }, 3000);
+    }
   };
 
   const HandleLabelClick = (node, e) => {
@@ -254,7 +259,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       e.preventDefault();
       e.stopPropagation();
     }
-
     if (node.id !== categoryName) {
       decreaseOpacity();
       increaseOpacity(node);
@@ -272,9 +276,11 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   };
 
-  const HandleChartMouseLeave = () => {
-    clearTimeout(gaTimerRevenueCircle);
-    clearTimeout(ga4Timer);
+  const handleChartMouseLeave = circleHover => {
+    if (!circleHover) {
+      clearTimeout(gaTimerRevenueCircle);
+      clearTimeout(ga4Timer);
+    }
     if (chartData !== {}) {
       decreaseOpacity();
       highlightDefaultCircle();
@@ -286,6 +292,11 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       }
     }
   };
+  const handleOuterChartMouseLeave = () => {
+    setChartGAHover(false);
+    handleChartMouseLeave();
+  };
+
   return (
     <>
       <div className={visWithCallout}>
@@ -307,8 +318,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                 className={chartSize}
                 data-testid="chartParent"
                 onMouseEnter={handleMouseEnterChart}
-                onMouseLeave={HandleChartMouseLeave}
-                onClick={HandleChartMouseLeave}
+                onMouseLeave={handleOuterChartMouseLeave}
+                onClick={handleOuterChartMouseLeave}
               >
                 <CirclePacking
                   data={chartData}
@@ -328,12 +339,12 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                       width={width}
                       HandleMouseEnter={HandleMouseEnter}
                       HandleClick={HandleLabelClick}
-                      HandleMouseLeave={HandleChartMouseLeave}
+                      HandleMouseLeave={handleChartMouseLeave}
                     />
                   )}
                   animate={false}
                   onMouseEnter={(node, e) => HandleMouseEnter(node, e)}
-                  onMouseLeave={HandleChartMouseLeave}
+                  onMouseLeave={() => handleChartMouseLeave(true)}
                   onClick={(node, e) => HandleMouseEnter(node, e)}
                 />
               </div>

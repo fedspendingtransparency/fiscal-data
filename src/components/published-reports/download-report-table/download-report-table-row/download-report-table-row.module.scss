@@ -1,0 +1,73 @@
+@import '../../../../variables.module.scss';
+
+.fileDescription {
+
+  &:hover {
+    background-color: #eff6fb;
+    cursor: pointer;
+  }
+
+  border: 1px solid $light-grey-border;
+
+  td:first-child {
+    padding: 1rem;
+  }
+
+  td:last-child {
+    padding: 1rem;
+  }
+
+  .downloadFileContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    img {
+      padding-right: 1rem;
+    }
+    .downloadItem {
+      // 117 => width of download button + width of file type img
+      width: calc(100% - 117px);
+    }
+
+    .downloadName {
+      font-weight: $semi-bold-weight;
+      margin-right: 1rem;
+      display: flex;
+
+      .startName {
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+      }
+    }
+
+    .downloadInfo {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 0.25rem;
+
+      .fileDate {
+        margin-right: 1rem;
+        white-space: nowrap;
+      }
+    }
+  }
+
+
+  .downloadIcon {
+    color: $primary;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .downloadButtonName {
+    font-weight: $semi-bold-weight;
+    margin-top: .1875rem;
+  }
+
+  .center {
+    text-align: center;
+  }
+}

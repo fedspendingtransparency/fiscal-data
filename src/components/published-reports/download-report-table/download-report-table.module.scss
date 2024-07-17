@@ -1,0 +1,39 @@
+@import '../../../variables.module.scss';
+
+.table {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border: 1px solid $light-grey-border;
+  border-spacing: 0;
+  border-radius: 3px;
+
+  thead {
+    border: 1px solid $light-grey-border;
+    background-color: $api-header;
+    text-align: left;
+  }
+
+  th {
+    font-weight: $semi-bold-weight;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  td {
+    border-top:  1px solid $light-grey-border;
+  }
+
+  th:first-child {
+    padding-left: 1rem;
+    width: 55%;
+  }
+
+  .date{
+    width: 20%;
+  }
+
+  th:last-child {
+    padding-right: 1rem;
+  }
+}
+

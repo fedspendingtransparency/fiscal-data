@@ -1,0 +1,22 @@
+@import '../../../variables.module.scss';
+
+.sectionHeader {
+  @include headingStyle5;
+  width: 100%;
+  padding-bottom: 1rem;
+  margin: 0;
+  box-sizing: inherit;
+  padding-top: 1rem;
+}
+
+.publishDate {
+  margin-bottom: 1rem;
+
+  // will probably move this styling to the actual datepicker component
+  border: 1px solid $light-grey-border;
+  height: 40px;
+  width: 263px;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+}

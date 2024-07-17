@@ -13,6 +13,8 @@ import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-
 import DatasetIntroduction from '../../components/dataset-introduction/dataset-introduction';
 import BannerCallout from '../../components/banner-callout/banner-callout';
 import { bannerCalloutContainer } from '../../components/masthead/masthead.module.scss';
+import Experimental from '../../components/experimental/experimental';
+import ReportsSection from '../../components/published-reports/reports-section/reports-section';
 
 export const query = graphql`
   query relatedDatasets($relatedDatasets: [String]) {
@@ -85,6 +87,9 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           techSpecs={pageConfig.techSpecs}
           dictionary={pageContext.config.dictionary}
         />
+        <Experimental featureId="publishedReportsSection">
+          <ReportsSection/>
+        </Experimental>
         <DatasetData
           setSelectedTableProp={setSelectedTable}
           finalDatesNotFound={finalDatesNotFound}

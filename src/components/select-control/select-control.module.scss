@@ -72,7 +72,6 @@
   max-height: 400px;
   border: 1px solid white;
   box-shadow: 0 0 0 4px white;
-
 }
 .nested_selector_list {
   margin-top: 0.33rem;
@@ -225,6 +224,7 @@
       color: $primary
     }
   }
+
 
   &:hover {
     background-color: #f1f1f1;

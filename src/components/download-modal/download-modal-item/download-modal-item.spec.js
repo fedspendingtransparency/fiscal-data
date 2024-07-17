@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import DownloadModalItem from './download-modal-item';
 import globalConstants from '../../../helpers/constants';

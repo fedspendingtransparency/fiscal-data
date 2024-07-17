@@ -4,7 +4,7 @@ module.exports = {
   API_BASE_URL: 'https://api.uat.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
-  EXPERIMENTAL_WHITELIST: ['experimental-page', 'afg-overview', 'direct-download'],
+  EXPERIMENTAL_WHITELIST: ['experimental-page', 'afg-overview', 'direct-download', 'publishedReportsSection'],
   ADDITIONAL_DATASETS: {
     '015-BFS-2024Q1-002': {
       slug: '/daily-government-account-series/',
@@ -20,6 +20,19 @@ module.exports = {
       topics: ['debt', 'financial-summaries'],
       relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03', '015-BFS-2014Q1-11'],
       currentDateButton: 'byDay',
+    },
+    '015-BFS-2014Q3-052': {
+      slug: '/top-treasury-offset-program/',
+      seoConfig: {
+        pageTitle: 'Treasury Offset Program (TOP)',
+        description:
+          'This dataset shows how Treasury offsets federal payments, such as tax refunds, to ' +
+          'pay off delinquent debts such as unpaid child support.',
+        keywords: 'Debt, Revenue',
+      },
+      topics: ['debt', 'revenue'],
+      relatedDatasets: ['015-BFS-2020Q4-xx', '015-BFS-2014Q1-03', '015-BFS-2014Q1-13', '015-BFS-2017Q2-003'],
+      currentDateButton: 'byMonth',
     },
   },
   ADDITIONAL_ENDPOINTS: {
@@ -142,6 +155,13 @@ module.exports = {
         'fytd_redeemed_amt',
         'daily_ending_balance_amt',
       ],
+    },
+    '299': {
+      endpoint: 'v1/debt/treasury_offset_program',
+      dateField: 'record_date',
+      downloadName: 'treasury_offset_program',
+      alwaysSortWith: ['record_date, src_line_nbr'],
+      selectColumn: [],
     },
   },
 };

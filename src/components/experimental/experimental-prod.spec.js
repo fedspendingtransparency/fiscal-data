@@ -1,5 +1,5 @@
 import { render, cleanup } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import Experimental from './experimental';
 import React from 'react';
 import 'gatsby-env-variables';

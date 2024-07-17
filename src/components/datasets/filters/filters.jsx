@@ -29,7 +29,7 @@ export const lastUpdatedInfoTipAnalyticsObject = {
 
 export const dateRangeAnalyticsObject = {
   category: 'Dataset Search Page',
-  action: 'Date Range Click',
+  action: 'Start Date Range Click',
   // GA4 event
   event: 'Start Date Range Click',
 };

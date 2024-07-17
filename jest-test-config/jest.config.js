@@ -1,5 +1,4 @@
 module.exports = {
-  name: 'tests',
   displayName: 'Standard Tests',
   rootDir: '../',
   transform: {
@@ -14,11 +13,11 @@ module.exports = {
   },
   testMatch: ['<rootDir>/**/__tests__/*.{js,jsx}', '<rootDir>/**/**.spec.{js,jsx}'],
   testPathIgnorePatterns: [`node_modules`, `.cache`, `public`],
-  transformIgnorePatterns: [`node_modules/(?!(gatsby)/)`],
+  transformIgnorePatterns: [`node_modules/(?!(gatsby)|d3-color|@react-pdf/renderer)`],
   globals: {
     __PATH_PREFIX__: ``,
   },
-  testURL: `http://localhost`,
+  testEnvironmentOptions: { url: `http://localhost` },
   setupFiles: [`<rootDir>/loadershim.js`],
   verbose: true,
   setupFilesAfterEnv: [`<rootDir>/jest.setup.js`],
