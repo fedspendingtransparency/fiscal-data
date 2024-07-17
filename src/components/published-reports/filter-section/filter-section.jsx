@@ -254,6 +254,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
   useEffect(() => {
     // called on page initialization and when reports updates
     if (reportGroups[currentlySelectedGroupIndex.current]) {
+      console.log('report groups', reportGroups);
       setSelectedReportGroup(reportGroups[currentlySelectedGroupIndex.current]);
       if (!currentReport) {
         const latestReport = getLatestReport(reportGroups[currentlySelectedGroupIndex.current].value);

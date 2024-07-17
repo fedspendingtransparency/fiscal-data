@@ -11,7 +11,7 @@ export const ReportButtons = {
 const CurrentReportToggle = ({ onChange, reports, filteredByDateSelection, activeState, setActiveState }) => {
   const [latestReport, setLatestReport] = useState(null);
   const [reportOptions, setReportOptions] = useState([null, null, null]);
-
+  console.log('reports', reports);
   const previousReportGroupId = useRef();
 
   const initButtonsForReportGroup = () => {

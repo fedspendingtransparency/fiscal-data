@@ -6,6 +6,7 @@ import DownloadReport from './download-report/download-report';
 import { isEqual } from 'date-fns';
 
 const PublishedReports = ({ reports, dataset }) => {
+  console.log('published reports', reports, dataset);
   const [selectedReportGroup, setSelectedReportGroup] = useState(reports);
   const [selectedFile, setSelectedFile] = useState(null);
   const [reportToShow, setReportToShow] = useState(null);
@@ -22,8 +23,8 @@ const PublishedReports = ({ reports, dataset }) => {
     if (
       reportToShow &&
       selectedFile.report_group_desc === reportToShow.report_group_desc &&
-        isEqual(selectedFile.report_date, reportToShow.report_date) &&
-        isEqual(selectedFile.path, reportToShow.path)
+      isEqual(selectedFile.report_date, reportToShow.report_date) &&
+      isEqual(selectedFile.path, reportToShow.path)
     )
       return;
 

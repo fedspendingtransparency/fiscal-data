@@ -47,7 +47,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
   const [selectedTable, setSelectedTable] = useState({});
   const updatedPageConfig = useMetadataUpdater(pageContext);
   const updatedDatasetData = useMetadataUpdater(data.allDatasets.datasets);
-
+  console.log(pageContext);
   const canonical = `/datasets${pageContext.config.slug}`;
 
   const bannerCallout = pageContext.config.bannerCallout;
@@ -87,9 +87,9 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           techSpecs={pageConfig.techSpecs}
           dictionary={pageContext.config.dictionary}
         />
-        <Experimental featureId="publishedReportsSection">
-          <ReportsSection/>
-        </Experimental>
+        {/*<Experimental featureId="publishedReportsSection">*/}
+        <ReportsSection publishedReportsProp={pageConfig.publishedReports} />
+        {/*</Experimental>*/}
         <DatasetData
           setSelectedTableProp={setSelectedTable}
           finalDatesNotFound={finalDatesNotFound}

@@ -4,8 +4,10 @@ import DownloadReportTableRow from './download-report-table-row/download-report-
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
+import { getDateLabelForReport } from '../../../helpers/dataset-detail/report-helpers';
 
-export const DownloadReportTable: FunctionComponent<{ width?: number }> = ({ width }) => {
+export const DownloadReportTable: FunctionComponent<{ reports; isDaily: boolean; width?: number }> = ({ reports, isDaily, width }) => {
+  console.log(reports);
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
 
   useEffect(() => {
@@ -31,11 +33,11 @@ export const DownloadReportTable: FunctionComponent<{ width?: number }> = ({ wid
       </thead>
       <tbody>
         {/*map or forEach each row here */}
-        <DownloadReportTableRow fileName="Entire.pdf" mobileView={mobileView} />
-        <DownloadReportTableRow fileName="Entire.xls" mobileView={mobileView} />
-        <DownloadReportTableRow fileName="STRIPS.pdf" mobileView={mobileView} />
-        <DownloadReportTableRow fileName="Placeholder.pdf" mobileView={mobileView} />
-        <DownloadReportTableRow fileName="An_Extra_Extra_Long_Download_File_Name.pdf" mobileView={mobileView} />
+        {reports?.map((report, i) => {
+          return (
+            <DownloadReportTableRow fileName={report.report_group_desc} date={getDateLabelForReport(report, true)} mobileView={mobileView} key={i} />
+          );
+        })}
       </tbody>
     </table>
   );

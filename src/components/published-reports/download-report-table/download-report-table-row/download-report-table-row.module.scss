@@ -34,6 +34,7 @@
       font-weight: $semi-bold-weight;
       margin-right: 1rem;
       display: flex;
+      white-space: nowrap;
 
       .startName {
         overflow: hidden;

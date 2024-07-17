@@ -16,27 +16,33 @@ import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import pdf from '../../../../../static/images/file-type-icons/file_type_pdf_icon.svg';
 import xls from '../../../../../static/images/file-type-icons/file_type_xls_icon.svg';
 
-const DownloadReportTableRow: FunctionComponent<{ fileName: string; mobileView?: boolean }> = ({ fileName, mobileView }) => {
+const DownloadReportTableRow: FunctionComponent<{ fileName: string; date; mobileView?: boolean }> = ({ fileName, date, mobileView }) => {
   // grab the file extension
-  const regex = /(?<=\.).+/;
-  let fileType = fileName.match(regex)?.toString();
+  // const regex = /(?<=\.).+/;
+  // let fileType = fileName.match(regex)?.toString();
 
   const splitName = (name, index) => {
     const start = name.substring(0, index);
     const end = name.substring(index);
+    console.log(start, end);
     return { start: start, end: end };
   };
   const displayName = splitName(fileName, fileName.length - 8);
 
   const fileTypeImage = () => {
-    switch (fileType) {
-      case 'pdf':
-        return pdf;
-      default:
-        // making the fileType have a default value if null for alt image purposes
-        fileType = 'xls';
-        return xls;
+    if (fileName.includes('.pdf')) {
+      return pdf;
+    } else if (fileName.includes('.xls')) {
+      return xls;
     }
+    // switch (fileType) {
+    //   case 'pdf':
+    //     return pdf;
+    //   default:
+    //     // making the fileType have a default value if null for alt image purposes
+    //     fileType = 'xls';
+    //     return xls;
+    // }
   };
 
   const downloadFile = (e?: KeyboardEvent) => {
@@ -61,14 +67,14 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; mobileView?:
         <>
           <td>
             <div className={downloadFileContainer}>
-              <img src={fileImage} alt={`${fileType} icon`} />
+              <img src={fileImage} alt={` icon`} />
               <div className={downloadName}>
                 <span className={startName}>{displayName.start}</span>
                 <span>{displayName.end}</span>
               </div>
             </div>
           </td>
-          <td>February 01, 2024</td>
+          <td>{date}</td>
           <td>2KB</td>
           <td className={downloadIcon}>
             <DownloadButton />
@@ -78,14 +84,14 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; mobileView?:
       {mobileView && (
         <td>
           <div className={downloadFileContainer}>
-            <img src={fileImage} alt={`${fileType} icon`} />
+            <img src={fileImage} alt={` icon`} />
             <div className={downloadItem}>
               <div className={downloadName}>
                 <div className={startName}>{displayName.start}</div>
                 <div>{displayName.end}</div>
               </div>
               <div className={downloadInfo}>
-                <div className={fileDate}>February 01, 2024</div>
+                <div className={fileDate}>{date}</div>
                 <div>2KB</div>
               </div>
             </div>
