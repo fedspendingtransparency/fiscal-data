@@ -36,13 +36,11 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
         setDroppedDown(false);
       }
     };
-
     if (droppedDown) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
     }
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
