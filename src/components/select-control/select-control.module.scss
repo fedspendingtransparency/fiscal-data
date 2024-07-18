@@ -87,6 +87,7 @@
   background-color: $content-section-background;
   white-space: normal;
   z-index: $select-control;
+  overflow-y: scroll;
   .selector_option {
     font-weight: normal;
     display: block;
