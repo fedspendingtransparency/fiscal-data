@@ -6,7 +6,7 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { getDateLabelForReport } from '../../../helpers/dataset-detail/report-helpers';
 
-export const DownloadReportTable: FunctionComponent<{ reports; isDaily: boolean; width?: number }> = ({ reports, isDaily, width }) => {
+export const DownloadReportTable: FunctionComponent<{ reports; isDailyReport: boolean; width?: number }> = ({ reports, isDailyReport, width }) => {
   console.log(reports);
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
 
@@ -32,10 +32,15 @@ export const DownloadReportTable: FunctionComponent<{ reports; isDaily: boolean;
         )}
       </thead>
       <tbody>
-        {/*map or forEach each row here */}
         {reports?.map((report, i) => {
           return (
-            <DownloadReportTableRow fileName={report.report_group_desc} date={getDateLabelForReport(report, true)} mobileView={mobileView} key={i} />
+            <DownloadReportTableRow
+              fileName={report.report_group_desc}
+              date={getDateLabelForReport(report, isDailyReport)}
+              mobileView={mobileView}
+              path={report.path}
+              key={i}
+            />
           );
         })}
       </tbody>

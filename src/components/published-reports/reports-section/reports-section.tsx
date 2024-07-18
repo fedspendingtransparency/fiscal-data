@@ -12,6 +12,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp }> = ({ published
   const [latestMonth, setLatestMonth] = useState();
   const [latestYear, setLatestYear] = useState();
   const [currentReports, setCurrentReports] = useState();
+  const [isDailyReport, setIsDailyReport] = useState();
 
   const isReportGroupDailyFrequency = reports => {
     let yearRepresented = 0;
@@ -38,7 +39,6 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp }> = ({ published
 
   useEffect(() => {
     // todo - Use a better manner of reassigning the report_date prop to jsdates.
-    console.log(publishedReportsProp);
     if (publishedReportsProp?.length > 0) {
       const sortedReports = getPublishedDates(publishedReportsProp).sort((a, b) => b.report_date - a.report_date);
       const latestReportDate = sortedReports[0].report_date;
@@ -49,6 +49,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp }> = ({ published
       setLatestMonth(month);
       setPublishedReports(sortedReports);
       const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
+      setIsDailyReport(isDaily);
       const filteredReports = sortedReports.filter(
         x =>
           x.report_date.toString().includes(month) &&
@@ -59,8 +60,6 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp }> = ({ published
       if (filteredReports.length > 0) {
         setCurrentReports(filteredReports);
       }
-      console.log(month, year, filteredReports);
-      console.log(sortedReports);
     }
   }, [publishedReportsProp]);
 
@@ -72,7 +71,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp }> = ({ published
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={title} id="reports-and-files">
         <div className={publishDate}>Published Date</div>
-        <DownloadReportTable reports={currentReports} />
+        <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
       </DatasetSectionContainer>
     </div>
   );

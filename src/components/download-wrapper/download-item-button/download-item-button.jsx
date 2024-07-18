@@ -28,7 +28,7 @@ const DownloadItemButton = ({
   const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
   const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
   const [downloadName, setDownloadName] = useState(null);
-
+  console.log(download);
   useEffect(() => {
     setDownloadName(constructDownloadFileName(dateRange, selectedTable));
   }, [dateRange, selectedTable]);
