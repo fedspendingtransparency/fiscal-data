@@ -1,17 +1,15 @@
-import { ColumnDef, Table } from '@tanstack/react-table';
 import React from 'react';
 import moment from 'moment';
+import { ColumnDef } from '@tanstack/react-table';
 import { currencyFormatter, numberFormatter, customNumberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
 import CustomLink from '../links/custom-link/custom-link';
 import { updateTableButton, downloadLinkContainer, downloadLinkIcon } from './data-table.module.scss';
-import { ENV_ID } from 'gatsby-env-variables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 const customFormat = (stringValue, decimalPlaces) => {
-  // if block is to show "-$123,123.23" instead of "$-123,123.23"
   const absVal = Math.abs(stringValue);
   let returnString = '$' + absVal.toFixed(decimalPlaces).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   if (Number(stringValue) < 0) {

@@ -38,6 +38,9 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 }: CustomLinkProps) => {
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
+  const [isVerified, setIsVerified] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const thisurl = typeof window !== 'undefined' ? window.location.href : '';
   const urlSplit = thisurl.split('/');
@@ -46,17 +49,49 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 
   const { getGAEvent } = useGAEventTracking(null, explainerPageName);
 
-  const onClickEventHandler = () => {
+  const verifyFile = async () => {
+    try {
+      const response = await fetch(urlOrHref, { method: 'HEAD' });
+      if (response.ok) {
+        setIsVerified(true);
+        window.location.href = urlOrHref; // Redirect to the URL
+      } else {
+        setIsVerified(false);
+        setErrorMessage('File not available');
+      }
+    } catch (error) {
+      setIsVerified(false);
+      setErrorMessage('Error checking file');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onClickEventHandler = async e => {
+    e.preventDefault();
     if (onClick) {
       return onClick();
     } else if (eventNumber) {
       const gaEvent = getGAEvent(eventNumber);
       Analytics.event({
-        //Until we generalize this use of useGAEventTracking, then we have to remove the "Fiscal Data - "that is added in analytics.js as _prefix
         category: gaEvent.eventCategory.replace('Fiscal Data - ', ''),
         action: gaEvent.eventAction,
         label: gaEvent.eventLabel,
       });
+    }
+
+    if (urlOrHref.endsWith('.pdf') || urlOrHref.endsWith('.xml')) {
+      setIsLoading(true);
+      await verifyFile();
+
+      // Retry logic after 5 seconds if the file is not available
+      if (!isVerified) {
+        setTimeout(() => {
+          verifyFile();
+        }, 5000);
+      }
+    } else {
+      window.location.href = urlOrHref; // For other links, just navigate to the URL
     }
   };
 
@@ -73,6 +108,14 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
       setUrlOrHref(curPath.replace(externalUrl, ''));
     }
   }, [ext, url, href]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isVerified && errorMessage) {
+    return <div>{errorMessage}</div>;
+  }
 
   switch (true) {
     case ext || ['http', 'tel'].some(protocol => urlOrHref.startsWith(protocol)):
@@ -97,29 +140,16 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
       );
 
     case urlOrHref.endsWith('.pdf'):
-      return (
-        <a href={urlOrHref} className="primary" download data-testid={dataTestId || 'download-link'}>
-          {children}
-        </a>
-      );
-
     case urlOrHref.endsWith('.xml'):
       return (
-        <a href={urlOrHref} className="primary" download data-testid={dataTestId || 'download-link'}>
+        <a href={urlOrHref} onClick={onClickEventHandler} className="primary" data-testid={dataTestId || 'download-link'}>
           {children}
         </a>
       );
 
     default:
       return (
-        <Link
-          to={urlOrHref}
-          className="primary"
-          download={urlOrHref.endsWith('.pdf')}
-          data-testid={dataTestId || 'internal-link'}
-          onClick={onClickEventHandler}
-          id={id}
-        >
+        <Link to={urlOrHref} className="primary" data-testid={dataTestId || 'internal-link'} onClick={onClickEventHandler} id={id}>
           {children}
         </Link>
       );
