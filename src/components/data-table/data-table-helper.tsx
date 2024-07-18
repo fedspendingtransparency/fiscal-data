@@ -1,15 +1,17 @@
+import { ColumnDef, Table } from '@tanstack/react-table';
 import React from 'react';
 import moment from 'moment';
-import { ColumnDef } from '@tanstack/react-table';
 import { currencyFormatter, numberFormatter, customNumberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
-import CustomLink from '../links/custom-link/custom-link';
+// import CustomLink from '../links/custom-link/custom-link';
 import { updateTableButton, downloadLinkContainer, downloadLinkIcon } from './data-table.module.scss';
+import { ENV_ID } from 'gatsby-env-variables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 const customFormat = (stringValue, decimalPlaces) => {
+  // if block is to show "-$123,123.23" instead of "$-123,123.23"
   const absVal = Math.abs(stringValue);
   let returnString = '$' + absVal.toFixed(decimalPlaces).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   if (Number(stringValue) < 0) {
@@ -19,6 +21,47 @@ const customFormat = (stringValue, decimalPlaces) => {
 };
 
 const tablesWithPublishedReportLinks = ['Treasury Securities Auctions Data', 'Reference CPI Numbers and Daily Index Ratios Summary Table'];
+
+const CustomLink = ({ url, children }) => {
+  const [isVerified, setIsVerified] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
+
+  const handleClick = async e => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      if (response.ok) {
+        setIsVerified(true);
+        window.location.href = url; // Redirect to the URL
+      } else {
+        setIsVerified(false);
+        setErrorMessage('File not available');
+      }
+    } catch (error) {
+      setIsVerified(false);
+      setErrorMessage('Error checking file');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isVerified && errorMessage) {
+    return <div>{errorMessage}</div>;
+  }
+
+  return (
+    <a href={url} onClick={handleClick}>
+      {children}
+    </a>
+  );
+};
 
 const publishedReportsLinkWrapper = (url, value) => {
   return (
