@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   selector_label,
   selector_nestedOption,
@@ -17,7 +17,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
 export const ariaLabeler = (selectedOptionLabel, ariaLabel, label) => {
-  // if ariaLabel is set, use it. if not use the label. Otherwise, use default text.
   const ariaLabelText = ariaLabel ? ariaLabel : label ? label : 'selection';
   return `Change ${ariaLabelText} from ${selectedOptionLabel}`;
 };
@@ -25,10 +24,29 @@ export const ariaLabeler = (selectedOptionLabel, ariaLabel, label) => {
 const NestSelectControl = ({ label, options, selectedOption, changeHandler, className }) => {
   const [droppedDown, setDroppedDown] = useState(false);
   const [optionSelected, setOptionSelected] = useState(selectedOption);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     setOptionSelected(selectedOption);
   }, [options, selectedOption]);
+
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDroppedDown(false);
+      }
+    };
+
+    if (droppedDown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [droppedDown]);
 
   const updateSelection = selection => {
     setDroppedDown(false);
@@ -38,17 +56,6 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
 
   const toggleDropdown = () => {
     setDroppedDown(!droppedDown);
-  };
-
-  let timeOutId;
-  const onBlurHandler = () => {
-    timeOutId = setTimeout(() => {
-      setDroppedDown(false);
-    });
-  };
-
-  const onFocusHandler = () => {
-    clearTimeout(timeOutId);
   };
 
   const renderOption = (option, isYear = false) => {
@@ -78,8 +85,7 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
       {label && <label className={selector_label}>{label}</label>}
       <div
         className={`${nested_selector_container} ${className ? className : ''}`}
-        onBlur={onBlurHandler}
-        onFocus={onFocusHandler}
+        ref={dropdownRef}
         role="presentation"
         data-testid="nested-dropdown"
       >
@@ -110,4 +116,5 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
     </>
   );
 };
+
 export default NestSelectControl;
