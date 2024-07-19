@@ -6,8 +6,8 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { getDateLabelForReport } from '../../../helpers/dataset-detail/report-helpers';
 
+// Exporting here for unit testing purposes
 export const DownloadReportTable: FunctionComponent<{ reports; isDailyReport: boolean; width?: number }> = ({ reports, isDailyReport, width }) => {
-  console.log(reports);
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
 
   useEffect(() => {

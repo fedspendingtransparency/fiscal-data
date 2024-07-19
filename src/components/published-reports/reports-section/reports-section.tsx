@@ -8,9 +8,9 @@ import { getPublishedDates } from '../../../helpers/dataset-detail/report-helper
 export const title = 'Reports and Files';
 
 const ReportsSection: FunctionComponent<{ publishedReportsProp }> = ({ publishedReportsProp }) => {
-  const [publishedReports, setPublishedReports] = useState([]);
-  const [latestMonth, setLatestMonth] = useState();
-  const [latestYear, setLatestYear] = useState();
+  // const [publishedReports, setPublishedReports] = useState([]);
+  // const [latestMonth, setLatestMonth] = useState();
+  // const [latestYear, setLatestYear] = useState();
   const [currentReports, setCurrentReports] = useState();
   const [isDailyReport, setIsDailyReport] = useState();
 
@@ -45,15 +45,15 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp }> = ({ published
       const day = latestReportDate.getDate();
       const month = latestReportDate.toLocaleString('default', { month: 'short' });
       const year = latestReportDate.getFullYear();
-      setLatestYear(year);
-      setLatestMonth(month);
-      setPublishedReports(sortedReports);
+      // setLatestYear(year);
+      // setLatestMonth(month);
+      // setPublishedReports(sortedReports);
       const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
       setIsDailyReport(isDaily);
       const filteredReports = sortedReports.filter(
-        x =>
-          x.report_date.toString().includes(month) &&
-          x.report_date.toString().includes(year) &&
+        report =>
+          report.report_date.toString().includes(month) &&
+          report.report_date.toString().includes(year) &&
           ((!!isDaily && x.report_date.toString().includes(day)) || !isDaily)
       );
       console.log('filtered reports', filteredReports, isDaily);

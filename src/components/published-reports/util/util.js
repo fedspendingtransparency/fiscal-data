@@ -1,3 +1,6 @@
+import pdf from '../../../../static/images/file-type-icons/file_type_pdf_icon.svg';
+import xls from '../../../../static/images/file-type-icons/file_type_xls_icon.svg';
+
 export const getYearReportOptions = reports => {
   const yearsFound = [];
 
@@ -101,4 +104,21 @@ export const getMonthOptions = reports => {
     value: null,
   });
   return options;
+};
+
+export const splitFileName = (name, index) => {
+  const start = name.substring(0, index);
+  const end = name.substring(index);
+  return { start: start, end: end };
+};
+
+export const getFileTypeImage = fileType => {
+  switch (fileType) {
+    case '.pdf':
+      return pdf;
+    default:
+      // making the fileType have a default value if null for alt image purposes
+      // fileType = 'xls';
+      return xls;
+  }
 };

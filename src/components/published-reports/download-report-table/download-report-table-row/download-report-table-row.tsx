@@ -1,4 +1,4 @@
-import React, { FunctionComponent, KeyboardEvent } from 'react';
+import React, { FunctionComponent, KeyboardEvent, useState, useEffect } from 'react';
 import {
   fileDescription,
   downloadIcon,
@@ -13,9 +13,9 @@ import {
 } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
-import pdf from '../../../../../static/images/file-type-icons/file_type_pdf_icon.svg';
-import xls from '../../../../../static/images/file-type-icons/file_type_xls_icon.svg';
-import { API_BASE_URL, BASE_URL } from 'gatsby-env-variables';
+
+import { BASE_URL } from 'gatsby-env-variables';
+import { getFileTypeImage, splitFileName } from '../../util/util';
 
 const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string; path: string; mobileView?: boolean }> = ({
   fileName,
@@ -23,105 +23,90 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string
   path,
   mobileView,
 }) => {
-  // grab the file extension
-  // const regex = /(?<=\.).+/;
-  // let fileType = fileName.match(regex)?.toString();
+  const [downloaded, setDownloaded] = useState(false);
 
+  // grab the file extension
+  const regex = /\(([^)]+)\)/;
+  const fileTypeMatch = fileName.match(regex);
+  const apiFileType = fileTypeMatch[0];
+  const fileType = fileTypeMatch[1];
+  // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
+  const fullDisplayName = fileName.split(' ' + apiFileType)[0] + fileType;
+  //Split file name so overflow ellipsis can be used in the middle of the name
+  const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
+  console.log(fileDisplayName);
+  //extract the download file name from the file path
   const splitPath = path.split('/');
   const downloadFileName = splitPath[splitPath.length - 1];
-  console.log(downloadFileName);
 
-  const splitName = (name, index) => {
-    const start = name.substring(0, index);
-    const end = name.substring(index);
-    console.log(start, end);
-    return { start: start, end: end };
-  };
-  const displayName = splitName(fileName, fileName.length - 8);
-
-  const fileTypeImage = () => {
-    if (fileName.includes('.pdf')) {
-      return pdf;
-    } else if (fileName.includes('.xls')) {
-      return xls;
-    }
-    // switch (fileType) {
-    //   case 'pdf':
-    //     return pdf;
-    //   default:
-    //     // making the fileType have a default value if null for alt image purposes
-    //     fileType = 'xls';
-    //     return xls;
-    // }
-  };
-
-  const downloadFile = (e?: KeyboardEvent) => {
-    if (e?.key && e.key !== 'Enter') {
-      return;
-    }
-    console.log('download', `${BASE_URL}${path}`);
-    return;
-  };
-
-  const fileImage: string = fileTypeImage();
+  const fileTypeImage: string = getFileTypeImage(fileType);
 
   const DownloadButton = () => (
     <div className={center}>
       <FontAwesomeIcon icon={faCloudArrowDown} />
-      <div className={downloadButtonName}>Download</div>
+      <div className={downloadButtonName}>{downloaded ? 'Downloaded' : 'Download'}</div>
     </div>
   );
 
+  const onDownloadClick = () => {
+    if (!downloaded) {
+      setDownloaded(true);
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setDownloaded(false);
+    }, [3000]);
+  }, []);
+
   return (
-    <tr
-      className={fileDescription}
-      data-testid="file-download-row"
-      role="button"
-      tabIndex={0}
-      onClick={() => downloadFile()}
-      onKeyDown={e => downloadFile(e)}
-    >
-      {!mobileView && (
-        <>
-          <td>
-            <div className={downloadFileContainer}>
-              <img src={fileImage} alt={` icon`} />
-              <div className={downloadName}>
-                <span className={startName}>{displayName.start}</span>
-                <span>{displayName.end}</span>
-              </div>
-            </div>
-          </td>
-          <td>{date}</td>
-          <td>2KB</td>
-          <td className={downloadIcon}>
-            <DownloadButton />
-          </td>
-        </>
-      )}
-      {mobileView && (
-        <td>
-          <a href={BASE_URL + path} download={downloadFileName}>
-            <div className={downloadFileContainer}>
-              <img src={fileImage} alt={` icon`} />
-              <div className={downloadItem}>
-                <div className={downloadName}>
-                  <div className={startName}>{displayName.start}</div>
-                  <div>{displayName.end}</div>
+    <>
+      {fileDisplayName?.start && fileDisplayName?.end && (
+        <tr className={fileDescription} data-testid="file-download-row" role="button" tabIndex={0}>
+          {!mobileView && (
+            <>
+              <td>
+                <div className={downloadFileContainer}>
+                  <img src={fileTypeImage} alt={`${fileType} icon`} />
+                  <div className={downloadName}>
+                    <span className={startName}>{fileDisplayName.start}</span>
+                    <span>{fileDisplayName.end}</span>
+                  </div>
                 </div>
-                <div className={downloadInfo}>
-                  <div className={fileDate}>{date}</div>
-                  <div>2KB</div>
-                </div>
-              </div>
-              <div className={downloadIcon}>
+              </td>
+              <td>{date}</td>
+              <td>2KB</td>
+              <td className={downloadIcon}>
                 <DownloadButton />
-              </div>
-            </div>
-          </a>
-        </td>
+              </td>
+            </>
+          )}
+          {mobileView && (
+            <td>
+              <a href={BASE_URL + path} download={downloadFileName} target="_blank" rel="noreferrer noopener" onClick={onDownloadClick}>
+                <div className={downloadFileContainer}>
+                  <img src={fileTypeImage} alt={`${fileType} icon`} />
+                  <div className={downloadItem}>
+                    <div className={downloadName}>
+                      <div className={startName}>{fileDisplayName.start}</div>
+                      <div>{fileDisplayName.end}</div>
+                    </div>
+                    <div className={downloadInfo}>
+                      <div className={fileDate}>{date}</div>
+                      <div>2KB</div>
+                    </div>
+                  </div>
+                  <div className={downloadIcon}>
+                    <DownloadButton />
+                  </div>
+                </div>
+              </a>
+            </td>
+          )}
+        </tr>
       )}
-    </tr>
+    </>
   );
 };
 
