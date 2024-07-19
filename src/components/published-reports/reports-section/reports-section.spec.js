@@ -17,4 +17,16 @@ describe('Reports Section component', () => {
     const { getByTestId } = render(<ReportsSection />);
     expect(getByTestId('reportsSectionTable')).toBeInTheDocument();
   });
+
+  it('renders published reports tip', () => {
+    const reportTip = 'A tip for viewing the reports';
+    const { getByText } = render(<ReportsSection dataset={{ publishedReportsTip: reportTip }} />);
+    expect(getByText(reportTip)).toBeInTheDocument();
+    expect(getByText('Note:')).toBeInTheDocument();
+  });
+
+  it('does not render the note section when a published report tip is not available', () => {
+    const { queryByText } = render(<ReportsSection />);
+    expect(queryByText('Note:')).not.toBeInTheDocument();
+  });
 });

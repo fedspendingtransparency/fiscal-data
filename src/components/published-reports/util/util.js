@@ -1,5 +1,7 @@
 import pdf from '../../../../static/images/file-type-icons/file_type_pdf_icon.svg';
 import xls from '../../../../static/images/file-type-icons/file_type_xls_icon.svg';
+import txt from '../../../../static/images/file-type-icons/file_type_txt_icon.svg';
+import xml from '../../../../static/images/file-type-icons/file_type_xml_icon.svg';
 
 export const getYearReportOptions = reports => {
   const yearsFound = [];
@@ -116,6 +118,10 @@ export const getFileTypeImage = fileType => {
   switch (fileType) {
     case '.pdf':
       return pdf;
+    case '.txt':
+      return txt;
+    case '.xml':
+      return xml;
     default:
       // making the fileType have a default value if null for alt image purposes
       // fileType = 'xls';

@@ -25,15 +25,27 @@
 
   th:first-child {
     padding-left: 1rem;
-    width: 55%;
+    //width: 55%;
   }
 
-  .date{
-    width: 20%;
-  }
 
   th:last-child {
     padding-right: 1rem;
   }
+
+  .headerRow {
+    display: flex;
+  }
+  .name {
+    width: 57%
+  }
+  .date{
+    width: 21%;
+  }
+
+  .size {
+
+  }
+
 }
 

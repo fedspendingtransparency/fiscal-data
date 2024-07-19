@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { table, date } from './download-report-table.module.scss';
+import { table, date, headerRow, name, size } from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -19,10 +19,11 @@ export const DownloadReportTable: FunctionComponent<{ reports; isDailyReport: bo
       <thead>
         {!mobileView && (
           <tr>
-            <th>Name</th>
-            <th className={date}>Date</th>
-            <th>Size</th>
-            <th></th>
+            <th className={headerRow}>
+              <div className={name}>Name</div>
+              <div className={date}>Date</div>
+              <div className={size}>Size</div>
+            </th>
           </tr>
         )}
         {mobileView && (
@@ -36,7 +37,8 @@ export const DownloadReportTable: FunctionComponent<{ reports; isDailyReport: bo
           return (
             <DownloadReportTableRow
               fileName={report.report_group_desc}
-              date={getDateLabelForReport(report, isDailyReport)}
+              date={getDateLabelForReport(report, isDailyReport, true)}
+              fileSize={'2KB'}
               mobileView={mobileView}
               path={report.path}
               key={i}

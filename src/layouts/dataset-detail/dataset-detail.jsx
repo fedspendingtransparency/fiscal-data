@@ -88,7 +88,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           dictionary={pageContext.config.dictionary}
         />
         {/*<Experimental featureId="publishedReportsSection">*/}
-        <ReportsSection publishedReportsProp={pageConfig.publishedReports} />
+        <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
         {/*</Experimental>*/}
         <DatasetData
           setSelectedTableProp={setSelectedTable}

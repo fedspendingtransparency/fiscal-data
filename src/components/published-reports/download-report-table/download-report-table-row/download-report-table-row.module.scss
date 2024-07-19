@@ -55,6 +55,12 @@
     }
   }
 
+  .downloadButton {
+    color: $font-body-copy;
+    display: flex;
+    justify-content: space-between;
+  }
+
 
   .downloadIcon {
     color: $primary;
@@ -70,5 +76,9 @@
 
   .center {
     text-align: center;
+  }
+
+  .downloadedIcon {
+    color: #2E8540;
   }
 }
