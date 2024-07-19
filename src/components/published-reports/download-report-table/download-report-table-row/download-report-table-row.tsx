@@ -1,4 +1,4 @@
-import React, { FunctionComponent, KeyboardEvent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import {
   fileDescription,
   downloadIcon,
@@ -10,16 +10,19 @@ import {
   downloadButtonName,
   startName,
   downloadItem,
+  downloadedIcon,
+  downloadButton,
 } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faCloudArrowDown, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 import { BASE_URL } from 'gatsby-env-variables';
 import { getFileTypeImage, splitFileName } from '../../util/util';
 
-const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string; path: string; mobileView?: boolean }> = ({
+const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string; fileSize: string; path: string; mobileView?: boolean }> = ({
   fileName,
   date,
+  fileSize,
   path,
   mobileView,
 }) => {
@@ -34,7 +37,6 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string
   const fullDisplayName = fileName.split(' ' + apiFileType)[0] + fileType;
   //Split file name so overflow ellipsis can be used in the middle of the name
   const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
-  console.log(fileDisplayName);
   //extract the download file name from the file path
   const splitPath = path.split('/');
   const downloadFileName = splitPath[splitPath.length - 1];
@@ -42,10 +44,20 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string
   const fileTypeImage: string = getFileTypeImage(fileType);
 
   const DownloadButton = () => (
-    <div className={center}>
-      <FontAwesomeIcon icon={faCloudArrowDown} />
-      <div className={downloadButtonName}>{downloaded ? 'Downloaded' : 'Download'}</div>
-    </div>
+    <>
+      {downloaded && (
+        <div className={`${center} ${downloadedIcon}`}>
+          <FontAwesomeIcon icon={faCircleCheck} />
+          <div className={downloadButtonName}>Downloaded</div>
+        </div>
+      )}
+      {!downloaded && (
+        <div className={center}>
+          <FontAwesomeIcon icon={faCloudArrowDown} />
+          <div className={downloadButtonName}>Download</div>
+        </div>
+      )}
+    </>
   );
 
   const onDownloadClick = () => {
@@ -57,8 +69,8 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string
   useEffect(() => {
     setTimeout(() => {
       setDownloaded(false);
-    }, [3000]);
-  }, []);
+    }, 3000);
+  }, [downloaded]);
 
   return (
     <>
@@ -76,7 +88,7 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string
                 </div>
               </td>
               <td>{date}</td>
-              <td>2KB</td>
+              <td>{fileSize}</td>
               <td className={downloadIcon}>
                 <DownloadButton />
               </td>
@@ -94,7 +106,7 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string
                     </div>
                     <div className={downloadInfo}>
                       <div className={fileDate}>{date}</div>
-                      <div>2KB</div>
+                      <div>{fileSize}</div>
                     </div>
                   </div>
                   <div className={downloadIcon}>
