@@ -252,10 +252,7 @@ const DownloadWrapper = ({
       </div>
       <DownloadToggle onChange={toggleButtonChange} />
       <div>
-        <Experimental featureId="direct-download" exclude>
-          <DownloadItemButton icon={icon} label={downloadLabel} disabled={disableButton} handleClick={downloadClickHandler} />
-        </Experimental>
-        <Experimental featureId="direct-download">{determineDirectDownload()}</Experimental>
+        <>{determineDirectDownload()}</>
       </div>
       <div>
         <DownloadItemButton label="Download Data Dictionary" fileSize={ddSize} asyncAction={metadataDownloader} />

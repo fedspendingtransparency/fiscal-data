@@ -4,7 +4,7 @@ module.exports = {
   API_BASE_URL: 'https://api.uat.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
-  EXPERIMENTAL_WHITELIST: ['experimental-page', 'afg-overview', 'direct-download', 'publishedReportsSection'],
+  EXPERIMENTAL_WHITELIST: ['experimental-page', 'afg-overview', 'publishedReportsSection'],
   ADDITIONAL_DATASETS: {
     '015-BFS-2024Q1-002': {
       slug: '/daily-government-account-series/',
