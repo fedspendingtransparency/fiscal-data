@@ -177,7 +177,7 @@ module.exports = {
     },
     // FIP
     '308': {
-      endpoint: '/v1/accounting/od/fip_principal_outstanding_table1',
+      endpoint: 'v1/accounting/od/fip_principal_outstanding_table1',
       dateField: 'record_date',
       downloadName: 'FIP_PO_Principal_Outstanding',
       alwaysSortWith: ['-record_date,account_nbr,src_line_nbr'],
@@ -185,7 +185,7 @@ module.exports = {
     },
     // FIP
     '309': {
-      endpoint: '/v1/accounting/od/fip_principal_outstanding_table2',
+      endpoint: 'v1/accounting/od/fip_principal_outstanding_table2',
       dateField: 'record_date',
       downloadName: 'FIP_PO_Total_Outstanding_Inflation_Comp',
       alwaysSortWith: ['-record_date,account_nbr,src_line_nbr'],
