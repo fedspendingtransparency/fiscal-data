@@ -5,6 +5,7 @@ import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { getDateLabelForReport } from '../../../helpers/dataset-detail/report-helpers';
+import { IReports } from '../reports-section/reports-section';
 
 // Exporting here for unit testing purposes
 export const DownloadReportTable: FunctionComponent<{ reports; isDailyReport: boolean; width?: number }> = ({ reports, isDailyReport, width }) => {
@@ -33,7 +34,7 @@ export const DownloadReportTable: FunctionComponent<{ reports; isDailyReport: bo
         )}
       </thead>
       <tbody>
-        {reports?.map((report, i) => {
+        {reports?.map((report: IReports, i: number) => {
           return (
             <DownloadReportTableRow
               fileName={report.report_group_desc}

@@ -47,7 +47,6 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
   const [selectedTable, setSelectedTable] = useState({});
   const updatedPageConfig = useMetadataUpdater(pageContext);
   const updatedDatasetData = useMetadataUpdater(data.allDatasets.datasets);
-  console.log(pageContext);
   const canonical = `/datasets${pageContext.config.slug}`;
 
   const bannerCallout = pageContext.config.bannerCallout;

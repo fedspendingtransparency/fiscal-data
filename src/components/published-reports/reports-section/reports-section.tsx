@@ -6,7 +6,7 @@ import DatasetSectionContainer from '../../dataset-section-container/dataset-sec
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 
 export const title = 'Reports and Files';
-interface IReports {
+export interface IReports {
   path: string;
   report_date: Date;
   report_group_desc: string;
