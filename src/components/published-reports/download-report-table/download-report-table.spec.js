@@ -22,9 +22,9 @@ describe('Download Report Table', () => {
   });
 
   it('renders the desktop table rows', () => {
-    const { getByRole, getAllByRole } = render(<DownloadReportTable reports={mockReports} width={breakpointLg + 1} />);
-    expect(getByRole('button', { name: 'Download file.pdf' })).toBeInTheDocument();
-    expect(getByRole('button', { name: 'Download another_file.xml' })).toBeInTheDocument();
+    const { getByRole } = render(<DownloadReportTable reports={mockReports} width={breakpointLg + 1} />);
+    expect(getByRole('link', { name: 'Download file.pdf' })).toBeInTheDocument();
+    expect(getByRole('link', { name: 'Download another_file.xml' })).toBeInTheDocument();
   });
 
   it('renders the mobile table headers', () => {
@@ -36,7 +36,7 @@ describe('Download Report Table', () => {
 
   it('renders the mobile table rows', () => {
     const { getByRole } = render(<DownloadReportTable width={breakpointLg - 1} reports={mockReports} />);
-    expect(getByRole('button', { name: 'Download file.pdf' })).toBeInTheDocument();
-    expect(getByRole('button', { name: 'Download another_file.xml' })).toBeInTheDocument();
+    expect(getByRole('link', { name: 'Download file.pdf' })).toBeInTheDocument();
+    expect(getByRole('link', { name: 'Download another_file.xml' })).toBeInTheDocument();
   });
 });
