@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FunctionComponent } from 'react';
 import DownloadReportTable from '../download-report-table/download-report-table';
-import { publishDate, reportsTip, note, tip } from './reports-section.module.scss';
+import { publishDate, reportsTip, note } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 
@@ -14,14 +14,17 @@ export interface IReports {
   report_group_sort_order_number: string;
 }
 
-const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; dataset }> = ({ publishedReportsProp, dataset }) => {
+interface IDataset {
+  publishedReportsTip?: string;
+}
+
+const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; dataset: IDataset }> = ({ publishedReportsProp, dataset }) => {
   const [currentReports, setCurrentReports] = useState<IReports[]>();
   const [isDailyReport, setIsDailyReport] = useState<boolean>();
   const isReportGroupDailyFrequency = (reports: IReports[]): boolean => {
     let yearRepresented = 0;
     let monthRepresented = 0;
     let groupDescRepresented = '';
-
     let isDaily = false;
     for (let i = 0; i < reports.length; i++) {
       const reportYear = reports[i].report_date.getFullYear();
@@ -51,7 +54,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
       const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
       setIsDailyReport(isDaily);
       const filteredReports = sortedReports.filter(
-        report =>
+        (report: IReports) =>
           report.report_date.toString().includes(month) &&
           report.report_date.toString().includes(year) &&
           ((!!isDaily && report.report_date.toString().includes(day)) || !isDaily)
@@ -62,7 +65,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     }
   }, [publishedReportsProp]);
 
-  const getDisplayStatus = reports => {
+  const getDisplayStatus = (reports: IReports[]) => {
     return reports && reports.length > 0 ? 'block' : 'none';
   };
 

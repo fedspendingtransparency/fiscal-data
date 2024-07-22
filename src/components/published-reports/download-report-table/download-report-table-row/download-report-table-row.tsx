@@ -68,13 +68,13 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
   const DownloadButton = () => (
     <>
       {downloaded && (
-        <div className={`${center} ${downloadedIcon}`}>
+        <div className={` ${downloadedIcon} ${center}`} data-testid="download-icon" aria-describedby="Download Icon">
           <FontAwesomeIcon icon={faCircleCheck} />
           <div className={downloadButtonName}>Downloaded</div>
         </div>
       )}
       {!downloaded && (
-        <div className={center}>
+        <div className={center} data-testid="download-icon" aria-describedby="Download Icon">
           <FontAwesomeIcon icon={faCloudArrowDown} />
           <div className={downloadButtonName}>Download</div>
         </div>
@@ -107,7 +107,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
   return (
     <>
       {displayName?.start && displayName?.end && (
-        <tr className={fileDescription} data-testid="file-download-row" role="button" tabIndex={0}>
+        <tr className={fileDescription} data-testid="file-download-row">
           <td>
             <a
               href={reportLocation}
@@ -116,6 +116,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
               rel="noreferrer noopener"
               onClick={onDownloadClick}
               className={downloadButton}
+              aria-label={`Download ${fileName}`}
             >
               {!mobileView && (
                 <>

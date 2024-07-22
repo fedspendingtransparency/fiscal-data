@@ -1,10 +1,9 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { table, date, headerRow, name, size } from './download-report-table.module.scss';
+import { table, date, headerRow, name } from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
-import { getDateLabelForReport } from '../../../helpers/dataset-detail/report-helpers';
 import { IReports } from '../reports-section/reports-section';
 
 // Exporting here for unit testing purposes
@@ -20,14 +19,14 @@ export const DownloadReportTable: FunctionComponent<{ reports: IReports[]; isDai
   }, [width]);
 
   return (
-    <table className={table} data-testid="reportsSectionTable">
+    <table className={table}>
       <thead>
         {!mobileView && (
           <tr>
             <th className={headerRow}>
               <div className={name}>Name</div>
               <div className={date}>Date</div>
-              <div className={size}>Size</div>
+              <div>Size</div>
             </th>
           </tr>
         )}

@@ -17,7 +17,6 @@ const DownloadReport = ({ reportFile, isPublishedReport }) => {
   const updateData = () => {
     const curReportFile = reportFile || {};
     const location = curReportFile.path;
-    console.log(curReportFile);
     setReportLocation(location || null);
     // TODO: Use this name logic
     setFileName(location ? location.split('/').slice(-1)[0] : 'report');
