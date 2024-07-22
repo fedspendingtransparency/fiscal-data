@@ -124,7 +124,6 @@ export const getFileTypeImage = fileType => {
       return xml;
     default:
       // making the fileType have a default value if null for alt image purposes
-      // fileType = 'xls';
       return xls;
   }
 };

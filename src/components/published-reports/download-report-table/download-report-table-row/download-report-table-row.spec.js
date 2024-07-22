@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, act, fireEvent } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
 import DownloadReportTableRow from './download-report-table-row';
 import userEvent from '@testing-library/user-event';
 
@@ -7,6 +7,8 @@ describe('Download report table row component', () => {
   const mockReports = [
     { path: '/test/file/path/file.pdf', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'The Download File (.pdf)' },
     { path: '/test/file/path/another_file.xml', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.xml)' },
+    { path: '/test/file/path/another_file.xls', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.xls)' },
+    { path: '/test/file/path/another_file.txt', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.txt)' },
   ];
 
   beforeEach(() => {
@@ -23,9 +25,19 @@ describe('Download report table row component', () => {
     expect(getByAltText('.pdf icon')).toBeInTheDocument();
   });
 
-  it('renders a xls icon with a xls filename', () => {
+  it('renders a xml icon with a xls filename', () => {
     const { getByAltText } = render(<DownloadReportTableRow reportFile={mockReports[1]} />);
     expect(getByAltText('.xml icon')).toBeInTheDocument();
+  });
+
+  it('renders a txt icon with a txt filename', () => {
+    const { getByAltText } = render(<DownloadReportTableRow reportFile={mockReports[3]} />);
+    expect(getByAltText('.txt icon')).toBeInTheDocument();
+  });
+
+  it('renders a xls icon with a xls filename', () => {
+    const { getByAltText } = render(<DownloadReportTableRow reportFile={mockReports[2]} />);
+    expect(getByAltText('.xls icon')).toBeInTheDocument();
   });
 
   it('renders a clickable download button', async () => {
