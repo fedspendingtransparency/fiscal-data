@@ -21,9 +21,9 @@ import { IReports } from '../../reports-section/reports-section';
 import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
 
-const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; mobileView?: boolean }> = ({
+const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyReport: boolean; mobileView?: boolean }> = ({
   reportFile,
-
+  isDailyReport,
   mobileView,
 }) => {
   const [downloaded, setDownloaded] = useState(false);
@@ -43,7 +43,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; mobileVi
       setReportLocation(location || null);
       const name = location ? location.split('/').slice(-1)[0] : 'report';
       setFileName(name);
-      setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile, curReportFile.daily) : 'N/A');
+      setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile, isDailyReport, true) : 'N/A');
       if (location) {
         getFileSize(location).then(size => {
           setFileSize(size);

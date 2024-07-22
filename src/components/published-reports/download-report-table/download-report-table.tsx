@@ -8,7 +8,11 @@ import { getDateLabelForReport } from '../../../helpers/dataset-detail/report-he
 import { IReports } from '../reports-section/reports-section';
 
 // Exporting here for unit testing purposes
-export const DownloadReportTable: FunctionComponent<{ reports; isDailyReport: boolean; width?: number }> = ({ reports, isDailyReport, width }) => {
+export const DownloadReportTable: FunctionComponent<{ reports: IReports[]; isDailyReport: boolean; width?: number }> = ({
+  reports,
+  isDailyReport,
+  width,
+}) => {
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
 
   useEffect(() => {
@@ -35,16 +39,7 @@ export const DownloadReportTable: FunctionComponent<{ reports; isDailyReport: bo
       </thead>
       <tbody>
         {reports?.map((report: IReports, i: number) => {
-          return (
-            <DownloadReportTableRow
-              reportFile={report}
-              fileName={report.report_group_desc}
-              date={getDateLabelForReport(report, isDailyReport, true)}
-              mobileView={mobileView}
-              path={report.path}
-              key={i}
-            />
-          );
+          return <DownloadReportTableRow reportFile={report} isDailyReport={isDailyReport} mobileView={mobileView} key={i} />;
         })}
       </tbody>
     </table>
