@@ -100,7 +100,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (
       !dropdownRef.current?.contains(e?.relatedTarget) &&
       e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
-      e.relatedTarget !== displayRef.current
+      e.relatedTarget !== displayRef.current &&
+      e.relatedTarget !== null
     ) {
       setActive(false);
     }
@@ -112,7 +113,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
-  // used to close dropdown when clicking outside
   useEffect(() => {
     if (active) {
       document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
