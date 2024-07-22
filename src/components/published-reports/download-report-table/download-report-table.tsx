@@ -37,9 +37,9 @@ export const DownloadReportTable: FunctionComponent<{ reports; isDailyReport: bo
         {reports?.map((report: IReports, i: number) => {
           return (
             <DownloadReportTableRow
+              reportFile={report}
               fileName={report.report_group_desc}
               date={getDateLabelForReport(report, isDailyReport, true)}
-              fileSize={'2KB'}
               mobileView={mobileView}
               path={report.path}
               key={i}

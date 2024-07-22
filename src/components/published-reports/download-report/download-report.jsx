@@ -17,8 +17,9 @@ const DownloadReport = ({ reportFile, isPublishedReport }) => {
   const updateData = () => {
     const curReportFile = reportFile || {};
     const location = curReportFile.path;
-
+    console.log(curReportFile);
     setReportLocation(location || null);
+    // TODO: Use this name logic
     setFileName(location ? location.split('/').slice(-1)[0] : 'report');
     setGroupName(curReportFile.report_group_desc || '');
     setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile, curReportFile.daily) : 'N/A');

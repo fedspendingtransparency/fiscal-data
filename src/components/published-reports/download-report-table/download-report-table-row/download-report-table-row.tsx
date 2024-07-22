@@ -16,33 +16,54 @@ import {
 } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-
-import { BASE_URL } from 'gatsby-env-variables';
 import { getFileTypeImage, splitFileName } from '../../util/util';
+import { IReports } from '../../reports-section/reports-section';
+import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
+import { getFileSize } from '../../download-report/download-helpers';
 
-const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string; fileSize: string; path: string; mobileView?: boolean }> = ({
-  fileName,
-  date,
-  fileSize,
-  path,
+const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; mobileView?: boolean }> = ({
+  reportFile,
+
   mobileView,
 }) => {
   const [downloaded, setDownloaded] = useState(false);
+  const [fileSize, setFileSize] = useState(null);
+  const [reportLocation, setReportLocation] = useState(null);
+  const [fileName, setFileName] = useState(null);
+  const [fileType, setFileType] = useState(null);
+  const [displayName, setDisplayName] = useState(null);
+  const [publishedDate, setPublishedDate] = useState(null);
+  const [fileTypeImage, setFileTypeImage] = useState(null);
 
-  // grab the file extension
-  const regex = /\(([^)]+)\)/;
-  const fileTypeMatch = fileName.match(regex);
-  const apiFileType = fileTypeMatch[0];
-  const fileType = fileTypeMatch[1];
-  // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
-  const fullDisplayName = fileName.split(' ' + apiFileType)[0] + fileType;
-  //Split file name so overflow ellipsis can be used in the middle of the name
-  const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
-  //extract the download file name from the file path
-  const splitPath = path.split('/');
-  const downloadFileName = splitPath[splitPath.length - 1];
+  const updateData = () => {
+    if (reportFile) {
+      const curReportFile: IReports = reportFile;
+      const location = curReportFile.path;
 
-  const fileTypeImage: string = getFileTypeImage(fileType);
+      setReportLocation(location || null);
+      const name = location ? location.split('/').slice(-1)[0] : 'report';
+      setFileName(name);
+      setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile, curReportFile.daily) : 'N/A');
+      if (location) {
+        getFileSize(location).then(size => {
+          setFileSize(size);
+        });
+      }
+      // grab the file extension
+      const fileTypeRegex = /\(([^)]+)\)/;
+      const groupName = curReportFile.report_group_desc;
+      const fileTypeMatch = groupName.match(fileTypeRegex);
+      const apiFileType = fileTypeMatch[0];
+      const downloadFileType = fileTypeMatch[1];
+      // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
+      const fullDisplayName = groupName.split(' ' + apiFileType)[0] + downloadFileType;
+      //Split file name so overflow ellipsis can be used in the middle of the name
+      const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
+      setDisplayName(fileDisplayName || '');
+      setFileType(downloadFileType);
+      setFileTypeImage(getFileTypeImage(downloadFileType));
+    }
+  };
 
   const DownloadButton = () => (
     <>
@@ -68,19 +89,29 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string
   };
 
   useEffect(() => {
+    updateData();
+  }, [reportFile]);
+
+  useEffect(() => {
+    updateData();
+  }, []);
+
+  useEffect(() => {
     setTimeout(() => {
-      setDownloaded(false);
+      if (downloaded) {
+        setDownloaded(false);
+      }
     }, 3000);
   }, [downloaded]);
 
   return (
     <>
-      {fileDisplayName?.start && fileDisplayName?.end && (
+      {displayName?.start && displayName?.end && (
         <tr className={fileDescription} data-testid="file-download-row" role="button" tabIndex={0}>
           <td>
             <a
-              href={BASE_URL + path}
-              download={downloadFileName}
+              href={reportLocation}
+              download={fileName}
               target="_blank"
               rel="noreferrer noopener"
               onClick={onDownloadClick}
@@ -91,10 +122,10 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string
                   <div className={downloadFileContainer}>
                     <div className={downloadName}>
                       <img src={fileTypeImage} alt={`${fileType} icon`} />
-                      <span className={startName}>{fileDisplayName.start}</span>
-                      <span>{fileDisplayName.end}</span>
+                      <span className={startName}>{displayName.start}</span>
+                      <span>{displayName.end}</span>
                     </div>
-                    <div className={fileDate}>{date}</div>
+                    <div className={fileDate}>{publishedDate}</div>
                     <div className={downloadSize}>{fileSize}</div>
                     <div className={downloadIcon}>
                       <DownloadButton />
@@ -107,11 +138,11 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string
                   <img src={fileTypeImage} alt={`${fileType} icon`} />
                   <div className={downloadItem}>
                     <div className={downloadName}>
-                      <div className={startName}>{fileDisplayName.start}</div>
-                      <div>{fileDisplayName.end}</div>
+                      <div className={startName}>{displayName.start}</div>
+                      <div>{displayName.end}</div>
                     </div>
                     <div className={downloadInfo}>
-                      <div className={fileDate}>{date}</div>
+                      <div className={fileDate}>{publishedDate}</div>
                       <div>{fileSize}</div>
                     </div>
                   </div>
