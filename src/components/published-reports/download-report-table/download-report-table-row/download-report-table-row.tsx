@@ -5,6 +5,7 @@ import {
   center,
   downloadFileContainer,
   fileDate,
+  downloadSize,
   downloadInfo,
   downloadName,
   downloadButtonName,
@@ -76,27 +77,32 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string
     <>
       {fileDisplayName?.start && fileDisplayName?.end && (
         <tr className={fileDescription} data-testid="file-download-row" role="button" tabIndex={0}>
-          {!mobileView && (
-            <>
-              <td>
-                <div className={downloadFileContainer}>
-                  <img src={fileTypeImage} alt={`${fileType} icon`} />
-                  <div className={downloadName}>
-                    <span className={startName}>{fileDisplayName.start}</span>
-                    <span>{fileDisplayName.end}</span>
+          <td>
+            <a
+              href={BASE_URL + path}
+              download={downloadFileName}
+              target="_blank"
+              rel="noreferrer noopener"
+              onClick={onDownloadClick}
+              className={downloadButton}
+            >
+              {!mobileView && (
+                <>
+                  <div className={downloadFileContainer}>
+                    <div className={downloadName}>
+                      <img src={fileTypeImage} alt={`${fileType} icon`} />
+                      <span className={startName}>{fileDisplayName.start}</span>
+                      <span>{fileDisplayName.end}</span>
+                    </div>
+                    <div className={fileDate}>{date}</div>
+                    <div className={downloadSize}>{fileSize}</div>
+                    <div className={downloadIcon}>
+                      <DownloadButton />
+                    </div>
                   </div>
-                </div>
-              </td>
-              <td>{date}</td>
-              <td>{fileSize}</td>
-              <td className={downloadIcon}>
-                <DownloadButton />
-              </td>
-            </>
-          )}
-          {mobileView && (
-            <td>
-              <a href={BASE_URL + path} download={downloadFileName} target="_blank" rel="noreferrer noopener" onClick={onDownloadClick}>
+                </>
+              )}
+              {mobileView && (
                 <div className={downloadFileContainer}>
                   <img src={fileTypeImage} alt={`${fileType} icon`} />
                   <div className={downloadItem}>
@@ -113,9 +119,9 @@ const DownloadReportTableRow: FunctionComponent<{ fileName: string; date: string
                     <DownloadButton />
                   </div>
                 </div>
-              </a>
-            </td>
-          )}
+              )}
+            </a>
+          </td>
         </tr>
       )}
     </>
