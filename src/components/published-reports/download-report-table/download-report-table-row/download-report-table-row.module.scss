@@ -32,8 +32,9 @@
 
     .downloadName {
       font-weight: $semi-bold-weight;
-      margin-right: 1rem;
       display: flex;
+      white-space: nowrap;
+      align-items: center;
 
       .startName {
         overflow: hidden;
@@ -54,6 +55,10 @@
     }
   }
 
+  .downloadButton {
+    color: $font-body-copy;
+  }
+
 
   .downloadIcon {
     color: $primary;
@@ -69,5 +74,23 @@
 
   .center {
     text-align: center;
+  }
+
+  .downloadedIcon {
+    color: #2E8540;
+  }
+}
+
+@media  screen and (min-width: $breakpoint-lg){
+  .downloadName {
+    width: 57%;
+  }
+  .fileDate {
+    width: 21%;
+  }
+
+  .downloadSize {
+    //remaining space minus the download icon
+    width: calc(22% - 70px)
   }
 }

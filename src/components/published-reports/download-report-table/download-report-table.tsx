@@ -1,11 +1,17 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { table, date } from './download-report-table.module.scss';
+import { table, date, headerRow, name } from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
+import { IReports } from '../reports-section/reports-section';
 
-export const DownloadReportTable: FunctionComponent<{ width?: number }> = ({ width }) => {
+// Exporting here for unit testing purposes
+export const DownloadReportTable: FunctionComponent<{ reports: IReports[]; isDailyReport: boolean; width?: number }> = ({
+  reports,
+  isDailyReport,
+  width,
+}) => {
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
 
   useEffect(() => {
@@ -13,14 +19,15 @@ export const DownloadReportTable: FunctionComponent<{ width?: number }> = ({ wid
   }, [width]);
 
   return (
-    <table className={table} data-testid="reportsSectionTable">
+    <table className={table}>
       <thead>
         {!mobileView && (
           <tr>
-            <th>Name</th>
-            <th className={date}>Date</th>
-            <th>Size</th>
-            <th></th>
+            <th className={headerRow}>
+              <div className={name}>Name</div>
+              <div className={date}>Date</div>
+              <div>Size</div>
+            </th>
           </tr>
         )}
         {mobileView && (
@@ -30,12 +37,9 @@ export const DownloadReportTable: FunctionComponent<{ width?: number }> = ({ wid
         )}
       </thead>
       <tbody>
-        {/*map or forEach each row here */}
-        <DownloadReportTableRow fileName="Entire.pdf" mobileView={mobileView} />
-        <DownloadReportTableRow fileName="Entire.xls" mobileView={mobileView} />
-        <DownloadReportTableRow fileName="STRIPS.pdf" mobileView={mobileView} />
-        <DownloadReportTableRow fileName="Placeholder.pdf" mobileView={mobileView} />
-        <DownloadReportTableRow fileName="An_Extra_Extra_Long_Download_File_Name.pdf" mobileView={mobileView} />
+        {reports?.map((report: IReports, i: number) => {
+          return <DownloadReportTableRow reportFile={report} isDailyReport={isDailyReport} mobileView={mobileView} key={i} />;
+        })}
       </tbody>
     </table>
   );

@@ -17,7 +17,6 @@ const DownloadReport = ({ reportFile, isPublishedReport }) => {
   const updateData = () => {
     const curReportFile = reportFile || {};
     const location = curReportFile.path;
-
     setReportLocation(location || null);
     setFileName(location ? location.split('/').slice(-1)[0] : 'report');
     setGroupName(curReportFile.report_group_desc || '');

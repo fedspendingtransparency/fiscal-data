@@ -11,18 +11,20 @@ jest.mock('../../variables.module.scss', () => {
 });
 
 describe('Download Report Table', () => {
+  const mockReports = [
+    { path: '/test/file/path/file.pdf', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'The Download File (.pdf)' },
+    { path: '/test/file/path/another_file.xml', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.xml)' },
+  ];
+
   it('renders the desktop table headers', () => {
     const { getByRole } = render(<DownloadReportTable width={breakpointLg + 1} />);
-    expect(getByRole('columnheader', { name: 'Name' })).toBeInTheDocument();
-    expect(getByRole('columnheader', { name: 'Date' })).toBeInTheDocument();
-    expect(getByRole('columnheader', { name: 'Size' })).toBeInTheDocument();
+    expect(getByRole('columnheader', { name: 'Name Date Size' })).toBeInTheDocument();
   });
 
   it('renders the desktop table rows', () => {
-    const { getByRole, getAllByRole } = render(<DownloadReportTable width={breakpointLg + 1} />);
-    expect(getByRole('cell', { name: 'pdf icon En tire.pdf' })).toBeInTheDocument();
-    expect(getAllByRole('cell', { name: 'February 01, 2024' }).length).toBeGreaterThan(0);
-    expect(getAllByRole('cell', { name: '2KB' }).length).toBeGreaterThan(0);
+    const { getByRole } = render(<DownloadReportTable reports={mockReports} width={breakpointLg + 1} />);
+    expect(getByRole('link', { name: 'Download file.pdf' })).toBeInTheDocument();
+    expect(getByRole('link', { name: 'Download another_file.xml' })).toBeInTheDocument();
   });
 
   it('renders the mobile table headers', () => {
@@ -33,7 +35,8 @@ describe('Download Report Table', () => {
   });
 
   it('renders the mobile table rows', () => {
-    const { getByRole } = render(<DownloadReportTable width={breakpointLg - 1} />);
-    expect(getByRole('row', { name: 'pdf icon En tire.pdf February 01, 2024 2KB Download' })).toBeInTheDocument();
+    const { getByRole } = render(<DownloadReportTable width={breakpointLg - 1} reports={mockReports} />);
+    expect(getByRole('link', { name: 'Download file.pdf' })).toBeInTheDocument();
+    expect(getByRole('link', { name: 'Download another_file.xml' })).toBeInTheDocument();
   });
 });
