@@ -128,6 +128,7 @@ const ChartTableToggle = ({
       <AntTabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">
         <AntTab
           label="Table"
+          role="tab"
           data-testid="tableTab"
           icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />}
           {...a11yProps(0)}
@@ -135,6 +136,7 @@ const ChartTableToggle = ({
         />
         <AntTab
           label="Chart"
+          role="tab"
           data-testid="chartTab"
           className="datasetChartEnabled"
           icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
@@ -148,6 +150,7 @@ const ChartTableToggle = ({
             showToggle={showToggleChart}
             onToggleLegend={onToggleLegend}
             selectedTab={selectedTab === 1}
+            role="tab"
           />
         ) : (
           !pivotSelected?.pivotValue && (
@@ -157,6 +160,7 @@ const ChartTableToggle = ({
               showToggle={showToggleTable}
               onToggleLegend={onToggleLegend}
               selectedTab={selectedTab === 0}
+              role="tab"
             />
           )
         )}
