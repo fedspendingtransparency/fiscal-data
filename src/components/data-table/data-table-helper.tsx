@@ -142,7 +142,7 @@ export const columnsConstructorData = (
               accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const val = getValue();
-                return val === '*' ? val : currencyFormatter.format(getValue());
+                return val === '*' || val === '(*)' ? null : currencyFormatter.format(getValue());
               },
             } as ColumnDef<string, string>;
           } else if (rawData.meta.dataTypes[property]?.includes('CURRENCY') && /\d/.test(rawData.meta.dataTypes[property].split('CURRENCY')[1])) {
@@ -153,7 +153,7 @@ export const columnsConstructorData = (
               accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const val = getValue();
-                return val === '*' ? val : customFormat(getValue(), decimalPlaces);
+                return val === '*' || val === '(*)' ? null : customFormat(getValue(), decimalPlaces);
               },
             } as ColumnDef<string, string>;
           } else if (rawData.meta.dataTypes[property] === 'STRING') {
