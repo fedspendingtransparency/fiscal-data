@@ -216,7 +216,7 @@ export const mockTableData = {
     {
       record_date: '2023-07-10',
       debt_held_public_amt: '25588803096223.83',
-      intragov_hold_amt: '6892303235964.87',
+      intragov_hold_amt: '*',
       tot_pub_debt_out_amt: '32481106332188.70',
       src_line_nbr: '1',
       record_fiscal_year: '2023',
