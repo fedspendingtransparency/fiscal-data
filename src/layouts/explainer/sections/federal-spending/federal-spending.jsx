@@ -34,28 +34,28 @@ const federalSpendingSection = [
     id: federalSpendingSectionIds[1],
     title: 'Federal Spending Overview',
     component: cpiData => <SpendingOverview />,
-    onClick: () => analyticsClickHandler('Spending - Federal Spending Overview'),
+    onClick: () => analyticsClickHandler('Federal Spending Overview'),
   },
   {
     index: 2,
     id: federalSpendingSectionIds[2],
     title: 'Spending Categories',
     component: cpiData => <SpendingCategories />,
-    onClick: () => analyticsClickHandler('Spending - Spending Categories\n'),
+    onClick: () => analyticsClickHandler('Spending Categories'),
   },
   {
     index: 3,
     id: federalSpendingSectionIds[3],
     title: 'The Difference Between Mandatory, Discretionary, and Supplemental Spending',
     component: cpiData => <SpendingDifference />,
-    onClick: () => analyticsClickHandler('Spending - Difference Between Mandatory, Discretionary, and Supplemental Spending'),
+    onClick: () => analyticsClickHandler('Difference Between Mandatory, Discretionary, and Supplemental Spending'),
   },
   {
     index: 4,
     id: federalSpendingSectionIds[4],
     title: 'Spending Trends Over Time and the U.S. Economy',
     component: cpiData => <SpendingTrends cpiDataByYear={cpiData.cpiDataByYear} />,
-    onClick: () => analyticsClickHandler('Spending - Spending Trends Over Time and the U.S. Economy'),
+    onClick: () => analyticsClickHandler('Spending Trends Over Time and the U.S. Economy'),
   },
 ];
 

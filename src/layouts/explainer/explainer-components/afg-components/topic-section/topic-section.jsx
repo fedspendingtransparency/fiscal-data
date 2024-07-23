@@ -292,6 +292,7 @@ const TopicSection = ({ fiscalYear, width }) => {
       linkUrl: '/americas-finance-guide/government-revenue/',
       linkText: 'Learn more about government revenue',
       eventNumber: '5',
+      eventName: 'revenue',
     },
     {
       id: 'federal-spending',
@@ -302,6 +303,7 @@ const TopicSection = ({ fiscalYear, width }) => {
       linkUrl: '/americas-finance-guide/federal-spending/',
       linkText: 'Learn more about federal spending',
       eventNumber: '5',
+      eventName: 'spending',
     },
     {
       id: 'national-deficit',
@@ -311,6 +313,7 @@ const TopicSection = ({ fiscalYear, width }) => {
       linkUrl: '/americas-finance-guide/national-deficit/',
       linkText: 'Learn more about national deficit',
       eventNumber: '6',
+      eventName: 'deficit',
     },
     {
       id: 'national-debt',
@@ -320,6 +323,7 @@ const TopicSection = ({ fiscalYear, width }) => {
       linkUrl: '/americas-finance-guide/national-debt/',
       linkText: 'Learn more about national debt',
       eventNumber: '7',
+      eventName: 'debt',
     },
   ];
 
