@@ -806,7 +806,7 @@ export const mockSavingsBondLastFiscalYearCurrentMonth = {
 };
 
 const mockSavingsBondsSoldByTypeFYData = { data: [{ record_fiscal_year: 2024, record_date: '2024-12-12' }], meta: { 'total-pages': 100 } };
-
+const mockPreviousYearDate = { data: [{ record_date: '2023-07-30' }] };
 export const mockSavingsBondFetchResponses = () => {
   fetchMock.get(
     `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&sort=-record_date&page[size]=1`,
@@ -837,6 +837,12 @@ export const mockSavingsBondFetchResponses = () => {
     IBondMockData,
     { overwriteRoutes: true },
     { repeat: 2 }
+  );
+  fetchMock.get(
+    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_date:lte:2023-02-28`,
+    mockPreviousYearDate,
+    { overwriteRoutes: true },
+    { repeat: 0 }
   );
 };
 
