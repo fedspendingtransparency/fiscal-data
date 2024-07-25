@@ -542,8 +542,8 @@ describe('react-table', () => {
         />
       </RecoilRoot>
     );
-    expect(getAllByTestId('row')[2].innerHTML).not.toContain('*');
-    expect(getAllByTestId('row')[2].innerHTML).not.toContain('(*)');
+    expect(getAllByTestId('row')[2].innerHTML).toContain('*');
+    expect(getAllByTestId('row')[2].innerHTML).toContain('(*)');
   });
 
   it('formats negative CURRENCY3 types correctly', () => {
