@@ -34,7 +34,8 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   const getHeroData = () => {
     basicFetch(`${securitiesSalesUrl}`).then(res => {
       if (res.data) {
-        setPriorFiscalYear((parseInt(res.data[0].record_fiscal_year) - 1).toString());
+        const priorFY = (parseInt(res.data[0].record_fiscal_year) - 1).toString();
+        setPriorFiscalYear(priorFY);
         setPriorCalendarYear((parseInt(res.data[0].record_calendar_year) - 1).toString());
         setRecordCalendarMonth(res.data[0].record_calendar_month);
         const filterCurrentFY = `filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${res.data[0].record_fiscal_year}`;
@@ -44,19 +45,24 @@ const TreasurySavingsBondsHero = (): ReactElement => {
           if (res2.data) {
             const currentTotalSavingsBonds = sumSavingsBondsAmount(res2.data);
             setTotalSavingsBondsInvested(currentTotalSavingsBonds);
-            const filterPriorFY = `filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${(
-              parseInt(res.data[0].record_fiscal_year) - 1
-            ).toString()},record_calendar_month:eq:${res.data[0].record_calendar_month}`;
-            const priorFYEndpoint = `v1/accounting/od/securities_sales?${filterPriorFY}`;
-            const priorFYReqUrl = `${apiPrefix}${priorFYEndpoint}`;
-            basicFetch(`${priorFYReqUrl}`).then(res3 => {
-              if (res3.data) {
-                const previousTotalSavingsBonds = sumSavingsBondsAmount(res3.data);
-                setSavingsBondChangeLabel(getChangeLabel(currentTotalSavingsBonds, previousTotalSavingsBonds, false));
-                const changeDiff = currentTotalSavingsBonds - previousTotalSavingsBonds;
-                setSavingsBondChange(changeDiff);
-                const percentChange = (changeDiff / previousTotalSavingsBonds) * 100;
-                setSavingsBondPercentChange(percentChange);
+            const priorYearFilter = `filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${priorFY},record_calendar_month:eq:${res.data[0].record_calendar_month}&sort=-record_date&page[size]=1`;
+            basicFetch(`${apiPrefix}v1/accounting/od/securities_sales?${priorYearFilter}`).then(priorYearRecordDate => {
+              if (priorYearRecordDate.data) {
+                const filterPriorFY = `filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${(
+                  parseInt(res.data[0].record_fiscal_year) - 1
+                ).toString()},record_date:lte:${priorYearRecordDate.data[0].record_date}`;
+                const priorFYEndpoint = `v1/accounting/od/securities_sales?${filterPriorFY}`;
+                const priorFYReqUrl = `${apiPrefix}${priorFYEndpoint}`;
+                basicFetch(`${priorFYReqUrl}`).then(res3 => {
+                  if (res3.data) {
+                    const previousTotalSavingsBonds = sumSavingsBondsAmount(res3.data);
+                    setSavingsBondChangeLabel(getChangeLabel(currentTotalSavingsBonds, previousTotalSavingsBonds, false));
+                    const changeDiff = currentTotalSavingsBonds - previousTotalSavingsBonds;
+                    setSavingsBondChange(changeDiff);
+                    const percentChange = (changeDiff / previousTotalSavingsBonds) * 100;
+                    setSavingsBondPercentChange(percentChange);
+                  }
+                });
               }
             });
           }
