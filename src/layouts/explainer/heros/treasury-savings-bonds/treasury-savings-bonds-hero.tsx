@@ -48,7 +48,6 @@ const TreasurySavingsBondsHero = (): ReactElement => {
             const priorYearFilter = `filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${priorFY},record_calendar_month:eq:${res.data[0].record_calendar_month}&sort=-record_date&page[size]=1`;
             basicFetch(`${apiPrefix}v1/accounting/od/securities_sales?${priorYearFilter}`).then(priorYearRecordDate => {
               if (priorYearRecordDate.data) {
-                console.log(priorYearRecordDate.data);
                 const filterPriorFY = `filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${(
                   parseInt(res.data[0].record_fiscal_year) - 1
                 ).toString()},record_date:lte:${priorYearRecordDate.data[0].record_date}`;
