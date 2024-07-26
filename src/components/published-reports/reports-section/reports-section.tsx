@@ -10,7 +10,7 @@ export interface IReports {
   path: string;
   report_date: Date;
   report_group_desc: string;
-  report_group_id: '-1';
+  report_group_id: string;
   report_group_sort_order_number: string;
 }
 
@@ -59,6 +59,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
           report.report_date.toString().includes(year) &&
           ((!!isDaily && report.report_date.toString().includes(day)) || !isDaily)
       );
+      console.log(filteredReports);
       if (filteredReports.length > 0) {
         setCurrentReports(filteredReports);
       }
