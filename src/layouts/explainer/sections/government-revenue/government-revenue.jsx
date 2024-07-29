@@ -14,11 +14,11 @@ const governmentRevenueSectionIds = [
   'federal-revenue-trends-and-the-us-economy',
 ];
 
-export const analyticsClickHandler = section => {
+export const analyticsClickHandler = () => {
   Analytics.event({
     category: 'Explainers',
     action: 'Revenue Citation Click',
-    label: `Revenue - ${section}`,
+    label: `Revenue`,
   });
 };
 
@@ -28,35 +28,35 @@ const governmentRevenueSections = [
     id: governmentRevenueSectionIds[0],
     title: 'Key Takeaways',
     component: cpiData => <RevenueKeyTakeaways />,
-    onClick: () => analyticsClickHandler('Key Takeaways'),
+    onClick: () => analyticsClickHandler(),
   },
   {
     index: 1,
     id: governmentRevenueSectionIds[1],
     title: 'Federal Revenue Overview',
     component: cpiData => <FederalRevenueOverview />,
-    onClick: () => analyticsClickHandler('Federal Revenue Overview'),
+    onClick: () => analyticsClickHandler(),
   },
   {
     index: 2,
     id: governmentRevenueSectionIds[2],
     title: 'Sources of Federal Revenue',
     component: cpiData => <SourcesOfFederalRevenue />,
-    onClick: () => analyticsClickHandler('Sources of Federal Revenue'),
+    onClick: () => analyticsClickHandler(),
   },
   {
     index: 3,
     id: governmentRevenueSectionIds[3],
     title: 'Federal Revenue Trends Over Time',
     component: cpiData => <FederalRevenueTrendsOverTime cpiDataByYear={cpiData.cpiDataByYear} />,
-    onClick: () => analyticsClickHandler('Federal Revenue Trends Over Time'),
+    onClick: () => analyticsClickHandler(),
   },
   {
     index: 4,
     id: governmentRevenueSectionIds[4],
     title: 'Federal Revenue Trends and the U.S. Economy',
     component: cpiData => <FederalRevenueTrendsAndUSEconomy cpiDataByYear={cpiData.cpiDataByYear} />,
-    onClick: () => analyticsClickHandler('Federal Revenue Trends and the U.S. Economy'),
+    onClick: () => analyticsClickHandler(),
   },
 ];
 

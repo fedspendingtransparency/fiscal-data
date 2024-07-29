@@ -26,17 +26,17 @@ import { useRecoilValueLoadable } from 'recoil';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
 import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { useInView } from 'react-intersection-observer';
-import { getShortForm } from "../../../../../../utils/rounding-utils";
-import { getChangeLabel } from "../../../../heros/hero-helper";
+import { getShortForm } from '../../../../../../utils/rounding-utils';
+import { getChangeLabel } from '../../../../heros/hero-helper';
 
 let gaTimerDebtTrends;
 let ga4Timer;
 
-const analyticsClickHandler = (action, section) => {
+const analyticsClickHandler = action => {
   Analytics.event({
     category: 'Explainers',
     action: action,
-    label: `Debt - ${section}`,
+    label: `Debt`,
   });
 };
 
@@ -58,13 +58,13 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const chartHeight = 490;
 
   const historicalDebtOutstanding = (
-    <CustomLink url={slug} onClick={() => analyticsClickHandler('Citation Click', 'Federal Debt Trends Over Time')} id="Historical Debt Outstanding">
+    <CustomLink url={slug} onClick={() => analyticsClickHandler('Citation Click')} id="Historical Debt Outstanding">
       {name}
     </CustomLink>
   );
 
   const beaLink = (
-    <CustomLink url="https://www.bea.gov/" onClick={() => analyticsClickHandler('Citation Click', 'Federal Debt Trends Over Time')}>
+    <CustomLink url="https://www.bea.gov/" onClick={() => analyticsClickHandler('Citation Click')}>
       Bureau of Economic Analysis
     </CustomLink>
   );
@@ -170,14 +170,11 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
   const footerContent = (
     <>
-    <p>
-      Visit the {historicalDebtOutstanding} dataset to explore and download this data. The GDP data is sourced from the {beaLink}.
-    </p>
-    <p>
-      Please note: This chart is updated as new GDP data is released, even if new debt data is available.
-    </p>
+      <p>
+        Visit the {historicalDebtOutstanding} dataset to explore and download this data. The GDP data is sourced from the {beaLink}.
+      </p>
+      <p>Please note: This chart is updated as new GDP data is released, even if new debt data is available.</p>
     </>
-
   );
 
   const { ref, inView } = useInView({
@@ -277,10 +274,10 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
           </div>
           <VisualizationCallout color={debtExplainerPrimary}>
             <p>
-              The average GDP for fiscal year {lastDebtValue.x} was ${getShortForm(lastGDPValue.actual)},
-              which was {getChangeLabel(lastGDPValue.actual, lastRawDebtValue, true)} the U.S. debt of ${getShortForm(lastRawDebtValue)}.
-              This resulted in a Debt to GDP Ratio of {lastDebtValue.y} percent.
-              Generally, a higher Debt to GDP ratio indicates a government will have greater difficulty in repaying its debt.
+              The average GDP for fiscal year {lastDebtValue.x} was ${getShortForm(lastGDPValue.actual)}, which was{' '}
+              {getChangeLabel(lastGDPValue.actual, lastRawDebtValue, true)} the U.S. debt of ${getShortForm(lastRawDebtValue)}. This resulted in a
+              Debt to GDP Ratio of {lastDebtValue.y} percent. Generally, a higher Debt to GDP ratio indicates a government will have greater
+              difficulty in repaying its debt.
             </p>
           </VisualizationCallout>
         </div>
