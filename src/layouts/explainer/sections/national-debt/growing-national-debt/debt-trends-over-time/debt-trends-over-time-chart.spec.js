@@ -118,7 +118,7 @@ describe('Debt Trends Over Time Chart', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Citation Click`,
-      label: 'Debt - Federal Debt Trends Over Time',
+      label: 'Debt',
     });
     spy.mockClear();
 
@@ -126,7 +126,7 @@ describe('Debt Trends Over Time Chart', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Citation Click`,
-      label: 'Debt - Federal Debt Trends Over Time',
+      label: 'Debt',
     });
     spy.mockClear();
   });
