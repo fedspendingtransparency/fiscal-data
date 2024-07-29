@@ -139,7 +139,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
                   <img src={fileTypeImage} alt={`${fileType} icon`} />
                   <div className={downloadItem}>
                     <div className={downloadName}>
-                      <div className={startName}>{displayName.start + 's'}</div>
+                      <div className={startName}>{displayName.start}</div>
                       <div>{displayName.end}</div>
                     </div>
                     <div className={downloadInfo}>
