@@ -10,8 +10,8 @@ export interface IReports {
   path: string;
   report_date: Date;
   report_group_desc: string;
-  report_group_id: string | number;
-  report_group_sort_order_nbr: string | number;
+  report_group_id: number;
+  report_group_sort_order_nbr: number;
 }
 
 interface IDataset {

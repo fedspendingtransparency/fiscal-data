@@ -59,7 +59,6 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
       const fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
       //Split file name so overflow ellipsis can be used in the middle of the name
       const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
-      console.log(fileDisplayName);
       setDisplayName(fileDisplayName || '');
       setFileType(downloadFileType);
       setFileTypeImage(getFileTypeImage(downloadFileType));
