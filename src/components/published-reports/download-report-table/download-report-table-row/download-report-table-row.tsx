@@ -13,6 +13,7 @@ import {
   downloadItem,
   downloadedIcon,
   downloadButton,
+  endName,
 } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
@@ -140,7 +141,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
                   <div className={downloadItem}>
                     <div className={downloadName}>
                       <div className={startName}>{displayName.start}</div>
-                      <div>{displayName.end}</div>
+                      <div className={endName}>{displayName.end}</div>
                     </div>
                     <div className={downloadInfo}>
                       <div className={fileDate}>{publishedDate}</div>

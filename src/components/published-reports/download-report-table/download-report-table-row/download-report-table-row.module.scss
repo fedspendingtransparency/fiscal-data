@@ -44,6 +44,12 @@ $download-name-end-width: 70px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: pre;
+        max-width: fit-content;
+        width: calc(100% - $download-name-end-width);
+      }
+
+      .endName {
+        width: $download-name-end-width;
       }
     }
 
