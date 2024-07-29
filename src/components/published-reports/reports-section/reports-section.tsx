@@ -11,7 +11,7 @@ export interface IReports {
   report_date: Date;
   report_group_desc: string;
   report_group_id: string;
-  report_group_sort_order_number: string;
+  report_group_sort_order_nbr: string;
 }
 
 interface IDataset {
@@ -59,7 +59,8 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
           report.report_date.toString().includes(year) &&
           ((!!isDaily && report.report_date.toString().includes(day)) || !isDaily)
       );
-      console.log(filteredReports);
+      filteredReports.sort((a, b) => a.report_group_sort_order_nbr - b.report_group_sort_order_nbr);
+
       if (filteredReports.length > 0) {
         setCurrentReports(filteredReports);
       }
