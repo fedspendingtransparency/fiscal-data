@@ -25,9 +25,8 @@ const AfgTopicCard = ({
   id,
   pageName,
   width,
-  eventName,
 }) => {
-  const { gaEvent } = useGAEventTracking(eventNumber, `${citationClickPage} - ${eventName}`);
+  const { gaEvent } = useGAEventTracking(eventNumber, `${citationClickPage}`);
 
   const onClickEventHandler = () => {
     if (eventNumber) {
