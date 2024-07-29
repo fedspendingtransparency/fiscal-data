@@ -56,9 +56,10 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
       const apiFileType = fileTypeMatch[0];
       const downloadFileType = fileTypeMatch[1];
       // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
-      const fullDisplayName = groupName.split(' ' + apiFileType)[0] + downloadFileType;
+      const fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
       //Split file name so overflow ellipsis can be used in the middle of the name
       const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
+      console.log(fileDisplayName);
       setDisplayName(fileDisplayName || '');
       setFileType(downloadFileType);
       setFileTypeImage(getFileTypeImage(downloadFileType));
@@ -139,7 +140,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
                   <img src={fileTypeImage} alt={`${fileType} icon`} />
                   <div className={downloadItem}>
                     <div className={downloadName}>
-                      <div className={startName}>{displayName.start}</div>
+                      <div className={startName}>{displayName.start + 's'}</div>
                       <div>{displayName.end}</div>
                     </div>
                     <div className={downloadInfo}>

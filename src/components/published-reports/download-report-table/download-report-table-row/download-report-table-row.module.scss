@@ -1,7 +1,12 @@
 @import '../../../../variables.module.scss';
 
-.fileDescription {
+$file-type-img-width: 48px;
+$download-button-width: 5.625rem;
+$download-name-mobile-width: 57%;
+$download-file-date-mobile-width: 21%;
+$download-name-end-width: 70px;
 
+.fileDescription {
   &:hover {
     background-color: #eff6fb;
     cursor: pointer;
@@ -26,8 +31,7 @@
       padding-right: 1rem;
     }
     .downloadItem {
-      // 117 => width of download button + width of file type img
-      width: calc(100% - 117px);
+      width: calc(100% - $download-button-width - $file-type-img-width);
     }
 
     .downloadName {
@@ -39,6 +43,7 @@
       .startName {
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: pre;
       }
     }
 
@@ -64,7 +69,7 @@
     cursor: pointer;
     display: flex;
     justify-content: flex-end;
-    min-width: 5.625rem;
+    width: $download-button-width;
   }
 
   .downloadButtonName {
@@ -83,14 +88,14 @@
 
 @media  screen and (min-width: $breakpoint-lg){
   .downloadName {
-    width: 57%;
+    width: $download-name-mobile-width;
   }
   .fileDate {
-    width: 21%;
+    width: $download-file-date-mobile-width;
   }
 
   .downloadSize {
     //remaining space minus the download icon
-    width: calc(22% - 5.625rem);
+    width: calc(100% - $download-name-mobile-width - $download-file-date-mobile-width - $download-button-width);
   }
 }
