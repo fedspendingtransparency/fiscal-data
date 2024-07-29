@@ -10,8 +10,8 @@ export interface IReports {
   path: string;
   report_date: Date;
   report_group_desc: string;
-  report_group_id: '-1';
-  report_group_sort_order_number: string;
+  report_group_id: number;
+  report_group_sort_order_nbr: number;
 }
 
 interface IDataset {
@@ -26,11 +26,12 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     let monthRepresented = 0;
     let groupDescRepresented = '';
     let isDaily = false;
+    // sort by report_group_id so report groups will be compared in order
+    reports.sort((a, b) => a.report_group_id - b.report_group_id);
     for (let i = 0; i < reports.length; i++) {
       const reportYear = reports[i].report_date.getFullYear();
       const reportMonth = reports[i].report_date.getMonth();
       const groupDesc = reports[i].report_group_desc;
-      // TODO Update logic to cover all reports
       if (yearRepresented === reportYear && monthRepresented === reportMonth && groupDescRepresented === groupDesc) {
         isDaily = true;
         break;
@@ -59,6 +60,8 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
           report.report_date.toString().includes(year) &&
           ((!!isDaily && report.report_date.toString().includes(day)) || !isDaily)
       );
+      filteredReports.sort((a, b) => a.report_group_sort_order_nbr - b.report_group_sort_order_nbr);
+
       if (filteredReports.length > 0) {
         setCurrentReports(filteredReports);
       }

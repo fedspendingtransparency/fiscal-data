@@ -13,6 +13,7 @@ import {
   downloadItem,
   downloadedIcon,
   downloadButton,
+  endName,
 } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
@@ -56,7 +57,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
       const apiFileType = fileTypeMatch[0];
       const downloadFileType = fileTypeMatch[1];
       // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
-      const fullDisplayName = groupName.split(' ' + apiFileType)[0] + downloadFileType;
+      const fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
       //Split file name so overflow ellipsis can be used in the middle of the name
       const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
       setDisplayName(fileDisplayName || '');
@@ -140,7 +141,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
                   <div className={downloadItem}>
                     <div className={downloadName}>
                       <div className={startName}>{displayName.start}</div>
-                      <div>{displayName.end}</div>
+                      <div className={endName}>{displayName.end}</div>
                     </div>
                     <div className={downloadInfo}>
                       <div className={fileDate}>{publishedDate}</div>
