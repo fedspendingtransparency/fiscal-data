@@ -14,7 +14,7 @@ describe('Tracking the debt', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt - Tracking the Debt',
+      label: 'Debt',
     });
     spy.mockClear();
   });

@@ -13,15 +13,15 @@ export const spendingLink = copy => (
     {copy}
   </CustomLink>
 );
-export const analyticsClickHandler = (action, section) => {
+export const analyticsClickHandler = action => {
   Analytics.event({
     category: 'Explainers',
     action: `Debt ${action}`,
-    label: `Debt - ${section}`,
+    label: `Debt`,
   });
 };
 
-const diveDeeperCitationClick = () => analyticsClickHandler('Citation Click', 'Dive Deeper into the Debt');
+const diveDeeperCitationClick = () => analyticsClickHandler('Citation Click');
 
 export const debtLearnMoreLinks = [
   {

@@ -5,7 +5,7 @@ const analyticsClickHandler = section => {
   Analytics.event({
     category: 'Explainers',
     action: 'Deficit Citation Click',
-    label: `Deficit - ${section}`,
+    label: `Deficit`,
   });
 };
 
@@ -14,38 +14,38 @@ export const deficitLearnMoreLinks = [
     title: 'America’s Fiscal Future',
     url: 'https://www.gao.gov/americas-fiscal-future',
     eventNumber: '19',
-    onClick: () => analyticsClickHandler("America's Fiscal Future"),
+    onClick: () => analyticsClickHandler(),
   },
   {
     title: 'An Update to the Budget and Economic Outlook: 2021 to 2031',
     url: 'https://www.cbo.gov/publication/57339',
     eventNumber: '20',
-    onClick: () => analyticsClickHandler('An Update to the Budget and Economic Outlook'),
+    onClick: () => analyticsClickHandler(),
   },
   {
     title: 'Congressional Budget Office Topics – Budget',
     url: 'https://www.cbo.gov/topics/budget',
     eventNumber: '21',
-    onClick: () => analyticsClickHandler('Budget'),
+    onClick: () => analyticsClickHandler(),
   },
   {
     title: 'Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19',
     url: 'https://crsreports.congress.gov/product/pdf/R/R46729',
     eventNumber: '22',
-    onClick: () => analyticsClickHandler('Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19'),
+    onClick: () => analyticsClickHandler(),
   },
   {
     title: 'President’s Budget – Historical Tables',
     url: 'https://www.whitehouse.gov/omb/historical-tables/',
     eventNumber: '23',
-    onClick: () => analyticsClickHandler('Historical Tables'),
+    onClick: () => analyticsClickHandler(),
   },
   {
     title: 'FY 2022 Final Monthly Treasury Statement',
     url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202209.pdf',
     eventNumber: '24',
     id: 'Monthly Treasury Statement',
-    onClick: () => analyticsClickHandler('Monthly Treasury Statement'),
+    onClick: () => analyticsClickHandler(),
   },
 ];
 
@@ -65,7 +65,7 @@ const github = (
   <CustomLink
     url="https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation"
     eventNumber="29"
-    onClick={() => analyticsClickHandler('DS&M Github')}
+    onClick={() => analyticsClickHandler()}
   >
     GitHub repository
   </CustomLink>

@@ -18,7 +18,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt - Funding Programs & Services',
+      label: 'Debt',
     });
     spy.mockClear();
 
@@ -26,7 +26,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt - What are the major spending categories?',
+      label: 'Debt',
     });
     spy.mockClear();
 
@@ -34,7 +34,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt - What are the major spending categories?',
+      label: 'Debt',
     });
     spy.mockClear();
 
@@ -42,7 +42,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt - What are the major spending categories?',
+      label: 'Debt',
     });
     spy.mockClear();
   });

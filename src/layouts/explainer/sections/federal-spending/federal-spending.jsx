@@ -14,11 +14,11 @@ export const federalSpendingSectionIds = [
   'spending-trends-over-time-and-the-us-economy',
 ];
 
-export const analyticsClickHandler = section => {
+export const analyticsClickHandler = () => {
   Analytics.event({
     category: 'Explainers',
     action: 'Spending Citation Click',
-    label: `Spending - ${section}`,
+    label: `Spending`,
   });
 };
 
@@ -34,28 +34,28 @@ const federalSpendingSection = [
     id: federalSpendingSectionIds[1],
     title: 'Federal Spending Overview',
     component: cpiData => <SpendingOverview />,
-    onClick: () => analyticsClickHandler('Spending - Federal Spending Overview'),
+    onClick: () => analyticsClickHandler(),
   },
   {
     index: 2,
     id: federalSpendingSectionIds[2],
     title: 'Spending Categories',
     component: cpiData => <SpendingCategories />,
-    onClick: () => analyticsClickHandler('Spending - Spending Categories\n'),
+    onClick: () => analyticsClickHandler(),
   },
   {
     index: 3,
     id: federalSpendingSectionIds[3],
     title: 'The Difference Between Mandatory, Discretionary, and Supplemental Spending',
     component: cpiData => <SpendingDifference />,
-    onClick: () => analyticsClickHandler('Spending - Difference Between Mandatory, Discretionary, and Supplemental Spending'),
+    onClick: () => analyticsClickHandler(),
   },
   {
     index: 4,
     id: federalSpendingSectionIds[4],
     title: 'Spending Trends Over Time and the U.S. Economy',
     component: cpiData => <SpendingTrends cpiDataByYear={cpiData.cpiDataByYear} />,
-    onClick: () => analyticsClickHandler('Spending - Spending Trends Over Time and the U.S. Economy'),
+    onClick: () => analyticsClickHandler(),
   },
 ];
 

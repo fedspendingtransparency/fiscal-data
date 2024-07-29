@@ -158,7 +158,7 @@ describe('Breaking Down the Debt', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt - Intragovernmental Holdings and Debt Held by the Public',
+      label: 'Debt',
     });
     spy.mockClear();
 
@@ -166,7 +166,7 @@ describe('Breaking Down the Debt', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt - Interest Rate and Total Debt',
+      label: 'Debt',
     });
     spy.mockClear();
   });
