@@ -17,6 +17,13 @@ describe('SiteFooter', () => {
     expect(getByTestId('logo')).toBeDefined();
   });
 
+  //copyright
+  it('contains the copyright date', () => {
+    const { getByText } = render(<SiteFooter />);
+    const copyrightDate = new Date().getFullYear();
+    expect(getByText(copyrightDate, { exact: false })).toBeDefined();
+  });
+
   //faq link
   it('contains the link to the faq page', () => {
     const { getByText } = render(<SiteFooter />);
