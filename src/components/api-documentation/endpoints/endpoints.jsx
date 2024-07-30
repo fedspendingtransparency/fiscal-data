@@ -124,7 +124,7 @@ const Endpoints = () => {
         <p>
           Many datasets are associated with only one data table, and thus, one API endpoint. There are some datasets comprised of more than one data
           table, and therefore have more than one endpoint. Find more details on{' '}
-          <ScrollLink to="list-of-endpoints-table" className={`primary`} smooth={true} duration={600} delay={200}>
+          <ScrollLink tabIndex={0} to="list-of-endpoints-table" className="primary" smooth={true} duration={600} delay={200}>
             Multi-Endpoint Datasets
           </ScrollLink>{' '}
           below.
