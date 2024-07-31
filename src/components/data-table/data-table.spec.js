@@ -443,6 +443,7 @@ describe('react-table', () => {
     );
     expect(getAllByTestId('row')[0].innerHTML).toContain('4%');
   });
+
   it('formats SMALL_FRACTION types correctly', () => {
     const { getAllByTestId } = render(
       <RecoilRoot>
@@ -524,6 +525,27 @@ describe('react-table', () => {
     );
     expect(getAllByTestId('row')[0].innerHTML).toContain('$6,884,574,686,385.150');
   });
+
+  it('formats * CURRENCY3 types correctly', () => {
+    const { getAllByTestId } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={defaultColumnsTypeCheckMock}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+    expect(getAllByTestId('row')[2].innerHTML).toContain('*');
+    expect(getAllByTestId('row')[2].innerHTML).not.toContain('(*)');
+  });
+
   it('formats negative CURRENCY3 types correctly', () => {
     const { getAllByTestId } = render(
       <RecoilRoot>

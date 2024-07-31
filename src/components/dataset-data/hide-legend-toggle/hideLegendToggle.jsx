@@ -3,10 +3,10 @@ import { selectColumnsIcon, icon, toggleContainer, toggleButton } from './hideLe
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 
-const HideLegendToggle = ({ displayText, displayIcon, showToggle, onToggleLegend, selectedTab }) => {
+const HideLegendToggle = ({ displayText, displayIcon, showToggle, onToggleLegend, selectedTab, role }) => {
   return (
     <>
-      <div className={toggleContainer}>
+      <div className={toggleContainer} role={role}>
         {selectedTab && showToggle && (
           <button className={toggleButton} onClick={onToggleLegend} onKeyPress={onToggleLegend}>
             <span>

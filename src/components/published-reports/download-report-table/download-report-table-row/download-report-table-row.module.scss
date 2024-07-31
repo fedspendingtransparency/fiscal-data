@@ -1,7 +1,12 @@
 @import '../../../../variables.module.scss';
 
-.fileDescription {
+$file-type-img-width: 48px;
+$download-button-width: 5.625rem;
+$download-name-mobile-width: 57%;
+$download-file-date-mobile-width: 21%;
+$download-name-end-width: 70px;
 
+.fileDescription {
   &:hover {
     background-color: #eff6fb;
     cursor: pointer;
@@ -26,19 +31,25 @@
       padding-right: 1rem;
     }
     .downloadItem {
-      // 117 => width of download button + width of file type img
-      width: calc(100% - 117px);
+      width: calc(100% - $download-button-width - $file-type-img-width);
     }
 
     .downloadName {
       font-weight: $semi-bold-weight;
-      margin-right: 1rem;
       display: flex;
+      white-space: nowrap;
+      align-items: center;
 
       .startName {
         overflow: hidden;
-
         text-overflow: ellipsis;
+        white-space: pre;
+        max-width: fit-content;
+        width: calc(100% - $download-name-end-width);
+      }
+
+      .endName {
+        width: $download-name-end-width;
       }
     }
 
@@ -54,12 +65,17 @@
     }
   }
 
+  .downloadButton {
+    color: $font-body-copy;
+  }
+
 
   .downloadIcon {
     color: $primary;
     cursor: pointer;
     display: flex;
     justify-content: flex-end;
+    width: $download-button-width;
   }
 
   .downloadButtonName {
@@ -69,5 +85,23 @@
 
   .center {
     text-align: center;
+  }
+
+  .downloadedIcon {
+    color: #2E8540;
+  }
+}
+
+@media  screen and (min-width: $breakpoint-lg){
+  .downloadName {
+    width: $download-name-mobile-width;
+  }
+  .fileDate {
+    width: $download-file-date-mobile-width;
+  }
+
+  .downloadSize {
+    //remaining space minus the download icon
+    width: calc(100% - $download-name-mobile-width - $download-file-date-mobile-width - $download-button-width);
   }
 }

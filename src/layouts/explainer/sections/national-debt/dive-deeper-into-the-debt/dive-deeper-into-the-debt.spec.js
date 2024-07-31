@@ -35,7 +35,7 @@ describe('Dive deeper into the debt', () => {
       expect(spy).toHaveBeenCalledWith({
         category: 'Explainers',
         action: `Debt Citation Click`,
-        label: 'Debt - Dive Deeper into the Debt',
+        label: 'Debt',
       });
       spy.mockClear();
     });

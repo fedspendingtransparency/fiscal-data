@@ -67,7 +67,7 @@ describe('Data Sources & Methodologies', () => {
       expect(spy).toHaveBeenCalledWith({
         category: 'Explainers',
         action: `Debt Citation Click`,
-        label: 'Debt - DS&M',
+        label: 'Debt',
       });
       spy.mockClear();
     });
@@ -76,7 +76,7 @@ describe('Data Sources & Methodologies', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt - DS&M Github',
+      label: 'Debt',
     });
     spy.mockClear();
   });

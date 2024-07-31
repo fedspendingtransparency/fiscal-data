@@ -106,7 +106,7 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
           </Tabs>
         </div>
         {tabs.map((c, index) => (
-          <TabPanel key={index} index={index} value={value}>
+          <TabPanel role="tab" key={index} index={index} value={value}>
             {c.content}
           </TabPanel>
         ))}

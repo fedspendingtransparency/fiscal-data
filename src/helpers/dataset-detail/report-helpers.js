@@ -1,4 +1,4 @@
-import { monthNames } from '../../utils/api-utils';
+import { monthFullNames, monthNames } from '../../utils/api-utils';
 import { isDate } from 'date-fns';
 
 export const getPublishedDates = reports => {
@@ -16,11 +16,11 @@ export const getPublishedDates = reports => {
   return reports;
 };
 
-export const getDateLabelForReport = (_report, isDailyReport) => {
+export const getDateLabelForReport = (_report, isDailyReport, fullMonth) => {
   const report = _report || {};
   const publishedDate = report.report_date;
   if (publishedDate instanceof Date) {
-    const monthName = monthNames[publishedDate.getMonth()];
+    const monthName = fullMonth ? monthFullNames[publishedDate.getMonth()] : monthNames[publishedDate.getMonth()];
     const dayInclusion = isDailyReport ? ' ' + publishedDate.getDate() + ',' : '';
     return `${monthName}${dayInclusion} ${publishedDate.getFullYear()}`;
   } else {

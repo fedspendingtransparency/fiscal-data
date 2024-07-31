@@ -61,7 +61,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
         Analytics.event({
           category: `Explainers`,
           action: 'Citation Click',
-          label: `${referrer} - ${context}`,
+          label: `${referrer}`,
         });
         // GA4 Data Layer - Dataset Click
         ga4DataLayerPush({

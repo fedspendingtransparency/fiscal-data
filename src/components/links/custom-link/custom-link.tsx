@@ -38,7 +38,6 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 }: CustomLinkProps) => {
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
-
   const thisurl = typeof window !== 'undefined' ? window.location.href : '';
   const urlSplit = thisurl.split('/');
   const pageName = urlSplit[urlSplit.length - 2];

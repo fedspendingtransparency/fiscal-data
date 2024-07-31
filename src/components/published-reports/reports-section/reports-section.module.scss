@@ -20,3 +20,13 @@
   align-items: center;
   padding-left: 1rem;
 }
+
+.reportsTip {
+  display: flex;
+  margin-top: 1rem;
+  font-size: $font-size-14;
+  .note {
+    font-weight: $semi-bold-weight;
+    padding-right: 0.25rem;
+  }
+}
