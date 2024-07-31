@@ -7,6 +7,7 @@ import { CSVLink } from 'react-csv';
 import { useRecoilValue } from 'recoil';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import { constructDownloadFileName } from '../download-helpers';
+import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
 
 export const downloadFileEventStr = globalConstants.gaEventLabels.downloadFile;
 const DownloadItemButton = ({
@@ -20,21 +21,21 @@ const DownloadItemButton = ({
   disabled,
   selectedTable,
   dateRange,
-  directCSVDownload,
-  directJSONDownload,
-  directXMLDownload,
+  selectedFileType,
+  dapGaEventLabel,
 }) => {
   const smallTableCSVData = useRecoilValue(smallTableDownloadDataCSV);
   const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
   const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
   const [downloadName, setDownloadName] = useState(null);
+  // const dapGaEventLabel = useRecoilValue(reactTableFilteredDateRangeState);
 
   useEffect(() => {
     setDownloadName(constructDownloadFileName(dateRange, selectedTable));
   }, [dateRange, selectedTable]);
 
-  const clickFunction = () => {
-    if (handleClick) {
+  const clickFunction = directDownload => {
+    if (handleClick && !directDownload) {
       handleClick();
     }
 
@@ -42,11 +43,13 @@ const DownloadItemButton = ({
       // Downloading a published report
       Analytics.event({
         category: 'Data Download',
-        action: download,
+        action: 'Published Report Download',
+        label: download,
       });
     } else {
       // Downloading raw data.
-      generateAnalyticsEvent(downloadFileEventStr);
+      console.log('Event label', dapGaEventLabel);
+      generateAnalyticsEvent(dapGaEventLabel, downloadFileEventStr);
     }
   };
 
@@ -57,35 +60,38 @@ const DownloadItemButton = ({
           {children}
         </button>
       );
-    } else if (directCSVDownload && smallTableCSVData.length > 0) {
+    } else if (selectedFileType === 'csv' && smallTableCSVData.length > 0) {
       return (
         <CSVLink
           data-testid="csv-download-button"
           className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
           data={smallTableCSVData}
           filename={downloadName + '.csv'}
+          onClick={() => clickFunction(true)}
         >
           {children}
         </CSVLink>
       );
-    } else if (directJSONDownload && smallTableJSONData.length > 0) {
+    } else if (selectedFileType === 'json' && smallTableJSONData.length > 0) {
       return (
         <a
           className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
           data-testid="json-download-button"
           href={`data:text/plain;charset=utf-8,${encodeURIComponent(smallTableJSONData)}`}
           download={downloadName + '.json'}
+          onClick={() => clickFunction(true)}
         >
           {children}
         </a>
       );
-    } else if (directXMLDownload && smallTableXMLData.length > 0) {
+    } else if (selectedFileType === 'xml' && smallTableXMLData.length > 0) {
       return (
         <a
           className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
           data-testid="xml-download-button"
           href={`data:application/xml;charset=utf-8,${encodeURIComponent(smallTableXMLData)}`}
           download={downloadName + '.xml'}
+          onClick={() => clickFunction(true)}
         >
           {children}
         </a>
@@ -98,7 +104,7 @@ const DownloadItemButton = ({
           download={download}
           target="_blank"
           rel="noreferrer noopener"
-          onClick={clickFunction}
+          onClick={() => clickFunction(false)}
           data-testid="download-button"
         >
           {children}

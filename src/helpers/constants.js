@@ -99,8 +99,8 @@ const globalConstants = {
   gaEventLabels: {
     cancelDL: 'Cancel Download',
     closeDLDialog: 'Close Download Dialog Box',
-    copyDLLink: 'Copy DL Link',
-    downloadFile: 'Download File',
+    copyDLLink: 'Copy Download Link',
+    downloadFile: 'Raw Data Download',
     stickyHideDetails: 'Hide Download Details',
     stickyMaximize: 'Maximize Download Bar',
     stickyMinimize: 'Minimize Download Bar',
