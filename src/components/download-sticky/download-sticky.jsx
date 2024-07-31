@@ -214,16 +214,16 @@ const DownloadSticky = () => {
   };
 
   const toggleDetailsEvent = () => {
-    const gaEventLabel = expanded ? dsTextContent.gaHideDetails : dsTextContent.gaShowDetails;
+    const gaEventAction = expanded ? dsTextContent.gaHideDetails : dsTextContent.gaShowDetails;
 
-    generateAnalyticsEvent(gaEventLabel);
+    generateAnalyticsEvent(dapGaEventLabel, gaEventAction + ' Click');
     setExpanded(!expanded);
   };
 
   const toggleMinimizeEvent = () => {
-    const gaEventLabel = minimized ? dsTextContent.gaMaximizeSticky : dsTextContent.gaMinimizeSticky;
+    const gaEventAction = minimized ? dsTextContent.gaMaximizeSticky : dsTextContent.gaMinimizeSticky;
 
-    generateAnalyticsEvent(dapGaEventLabel, gaEventLabel + ' Click');
+    generateAnalyticsEvent(dapGaEventLabel, gaEventAction + ' Click');
     setMinimized(!minimized);
   };
 

@@ -20,8 +20,8 @@ import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 
 const gaEventLabels = globalConstants.gaEventLabels;
-export const cancelEventLabelStr = gaEventLabels.cancelDL;
-export const closeEventLabelStr = gaEventLabels.closeDLDialog;
+export const cancelEventActionStr = gaEventLabels.cancelDL + ' Click';
+export const closeEventActionStr = gaEventLabels.closeDLDialog + ' Click';
 
 const DownloadWrapper = ({
   selectedTable,
@@ -51,7 +51,6 @@ const DownloadWrapper = ({
   const [icon, setIcon] = useState(null);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
   const setDapGaEventLabel = useSetRecoilState(reactTableFilteredDateRangeState);
-  // const dapGaEventLabel = useRecoilValue(reactTableFilteredDateRangeState);
   const [gaEventLabel, setGaEventLabel] = useState();
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
@@ -77,7 +76,7 @@ const DownloadWrapper = ({
   };
 
   const handleCancelRequest = value => {
-    generateAnalyticsEvent(gaEventLabel, cancelEventLabelStr + ' Click');
+    generateAnalyticsEvent(gaEventLabel, cancelEventActionStr);
     if (setCancelDownloadRequest) {
       setCancelDownloadRequest(value);
     }
@@ -131,7 +130,7 @@ const DownloadWrapper = ({
   };
 
   const onClose = () => {
-    generateAnalyticsEvent(gaEventLabel, closeEventLabelStr + ' Click');
+    generateAnalyticsEvent(gaEventLabel, closeEventActionStr);
     setOpen(false);
   };
 
@@ -168,7 +167,6 @@ const DownloadWrapper = ({
 
   useEffect(() => {
     setDapGaEventLabel(gaEventLabel);
-    console.log(dataset, gaEventLabel);
   }, [gaEventLabel]);
 
   useEffect(() => {
@@ -231,13 +229,7 @@ const DownloadWrapper = ({
 
   return (
     <div className={wrapper} data-test-id="wrapper">
-      <DownloadModal
-        open={open}
-        onClose={onClose}
-        downloadsPrepared={downloadsPrepared}
-        setCancelDownloadRequest={handleCancelRequest}
-        gaLabel={gaEventLabel}
-      />
+      <DownloadModal open={open} onClose={onClose} downloadsPrepared={downloadsPrepared} setCancelDownloadRequest={handleCancelRequest} />
       <div className={downloadDescription}>
         <div data-test-id="tableName" className={describer}>
           <strong>Data Table:</strong>

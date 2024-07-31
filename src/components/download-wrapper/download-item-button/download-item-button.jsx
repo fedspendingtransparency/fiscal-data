@@ -28,7 +28,6 @@ const DownloadItemButton = ({
   const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
   const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
   const [downloadName, setDownloadName] = useState(null);
-  // const dapGaEventLabel = useRecoilValue(reactTableFilteredDateRangeState);
 
   useEffect(() => {
     setDownloadName(constructDownloadFileName(dateRange, selectedTable));
@@ -48,7 +47,6 @@ const DownloadItemButton = ({
       });
     } else {
       // Downloading raw data.
-      console.log('Event label', dapGaEventLabel);
       generateAnalyticsEvent(dapGaEventLabel, downloadFileEventStr);
     }
   };

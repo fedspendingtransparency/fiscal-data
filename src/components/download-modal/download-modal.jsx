@@ -18,7 +18,7 @@ export const downloadModalSubText = 'Your download progress status will show on 
  * @param setCancelDownloadRequest {Function} - method to call to cancel a download/queued download
  */
 
-const DownloadModal = ({ open, onClose, setCancelDownloadRequest, gaLabel }) => {
+const DownloadModal = ({ open, onClose, setCancelDownloadRequest }) => {
   const siteDownloads = useContext(downloadsContext);
   const { setDownloadModalIsOpen, downloadModalIsOpen, downloadsInProgress, downloadQueue, resumedDownloads } = siteDownloads;
 
@@ -51,19 +51,19 @@ const DownloadModal = ({ open, onClose, setCancelDownloadRequest, gaLabel }) => 
       <div className={downloadItemsContainer} data-testid="download-items-container">
         {resumedPrepared &&
           resumedPrepared.map((download, index) => (
-            <DownloadModalItem key={index} download={download} cancelDownloadRequest={setCancelDownloadRequest} resumed gaLabel={gaLabel} />
+            <DownloadModalItem key={index} download={download} cancelDownloadRequest={setCancelDownloadRequest} resumed />
           ))}
         {downloadsInProgress &&
           downloadsInProgress.map((download, index) => (
-            <DownloadModalItem download={download} key={index} cancelDownloadRequest={setCancelDownloadRequest} gaLabel={gaLabel} />
+            <DownloadModalItem download={download} key={index} cancelDownloadRequest={setCancelDownloadRequest} />
           ))}
         {resumedInProgress &&
           resumedInProgress.map((download, index) => (
-            <DownloadModalItem key={index} download={download} cancelDownloadRequest={setCancelDownloadRequest} resumed gaLabel={gaLabel} />
+            <DownloadModalItem key={index} download={download} cancelDownloadRequest={setCancelDownloadRequest} resumed />
           ))}
         {downloadQueue &&
           downloadQueue.map((download, index) => (
-            <DownloadModalItem download={download} key={index} cancelDownloadRequest={setCancelDownloadRequest} gaLabel={gaLabel} />
+            <DownloadModalItem download={download} key={index} cancelDownloadRequest={setCancelDownloadRequest} />
           ))}
       </div>
       <button onClick={onClose} className={`${closeButton} closeDownloadButton`} data-testid="download-modal-close-button" aria-label="Close">

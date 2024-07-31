@@ -35,10 +35,9 @@ import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilt
  * @param download {Object}
  * @param cancelDownloadRequest {Function} - call to cancel download/queued download
  * @param resumed {Boolean} - true if download is resumed from a prior session and devoid of progress tracking
- * @param gaLabel {String} - used for GA Dap events
  */
 
-const DownloadModalItem = ({ download, cancelDownloadRequest, resumed = false, gaLabel }) => {
+const DownloadModalItem = ({ download, cancelDownloadRequest, resumed = false }) => {
   const fileNameArr = download.filename?.split('_');
   const fileName = fileNameArr ? `${fileNameArr.slice(0, fileNameArr.length - 2).join('_')}.zip` : download.filename;
   const dapGaEventLabel = useRecoilValue(reactTableFilteredDateRangeState);

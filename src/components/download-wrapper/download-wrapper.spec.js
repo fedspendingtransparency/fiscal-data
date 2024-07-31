@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { act, render } from '@testing-library/react';
-import DownloadWrapper, { cancelEventLabelStr } from './download-wrapper';
+import DownloadWrapper, { cancelEventActionStr } from './download-wrapper';
 import DownloadItemButton from './download-item-button/download-item-button';
 import Analytics from '../../utils/analytics/analytics';
 import { enableFetchMocks } from 'jest-fetch-mock';
@@ -261,7 +261,7 @@ describe('DownloadWrapper', () => {
       modal.props.setCancelDownloadRequest(true);
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ label: cancelEventLabelStr }));
+    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ label: cancelEventActionStr }));
   });
 
   it('displays detailViewFilter selection when applied', () => {
