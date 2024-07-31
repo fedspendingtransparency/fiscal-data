@@ -41,7 +41,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const [combinedIncomeAmount, setCombinedIncomeAmount] = useState(0);
   const [combinedIncomePercent, setCombinedIncomePercent] = useState(0);
 
-  const [chartData, setChartData] = useState({});
+  const [chartData, setChartData] = useState({ children: [] });
   const [categoryData, setCategoryData] = useState(null);
 
   const [chartAltText, setChartAltText] = useState('');
@@ -61,6 +61,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       if (res.data[0]) {
         setFiscalYear(res.data[0].record_fiscal_year);
         setTotalRevenue(res.data[0]?.current_fytd_rcpt_outly_amt);
+        console.log(totalRevenue, 'total revenue');
       }
     });
     const categoryUrl = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10';
@@ -187,6 +188,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         percent: Number(exciseTax.value) / totalRev,
       });
       setChartData({ children: data });
+      console.log(chartData, 'chart data');
 
       if (chartAltText === '') {
         const altTextData = data.slice().sort((a, b) => b.value - a.value);
@@ -296,7 +298,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     setChartGAHover(false);
     handleChartMouseLeave();
   };
-
+  console.log(chartData, 'chartDATATATA');
   return (
     <>
       <div className={visWithCallout}>
@@ -311,7 +313,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
           customFooterStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
         >
-          {chartData !== {} ? (
+          {chartData.children && chartData.children.length > 0 ? (
             <div className={dataContent}>
               <div
                 role="presentation"
