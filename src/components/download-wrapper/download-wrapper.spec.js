@@ -260,8 +260,10 @@ describe('DownloadWrapper', () => {
     renderer.act(() => {
       modal.props.setCancelDownloadRequest(true);
     });
-
-    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ label: cancelEventActionStr }));
+    const gaLabel =
+      'Table Name: undefined, Type: csv, Date Range: Wed Jan 01 2020 00:00:00 GMT-0600 (Central Standard Time)-Sun Nov 01 2020 00:00:00 GMT-0500 (Central Daylight Time)';
+    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ action: cancelEventActionStr }));
   });
 
   it('displays detailViewFilter selection when applied', () => {
