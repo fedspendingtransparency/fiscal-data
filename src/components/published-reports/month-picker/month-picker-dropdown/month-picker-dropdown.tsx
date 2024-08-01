@@ -51,12 +51,15 @@ const MonthPickerDropdown: FunctionComponent = ({
     <div className={dropdownContainer}>
       <div className={publishedDateLabel}>Published Date</div>
       <div className={selectedDateDisplay}>{selectedDate}</div>
-      <button className={yearButton} onClick={() => setShowYears(!showYears)} style={!!scrollAdjust ? { paddingRight: scrollAdjust + 'px' } : null}>
+      <button className={yearButton} onClick={() => setShowYears(!showYears)}>
         {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretDown : faCaretUp} />
       </button>
       <div className={dropdownList}>
-        <ScrollContainer deps={[yearDropdownOptions, monthDropdownOptions, showYears, selectedMonth, selectedYear]} setScrollAdjust={setScrollAdjust}>
-          {showYears && (
+        {showYears && (
+          <ScrollContainer
+            deps={[yearDropdownOptions, monthDropdownOptions, showYears, selectedMonth, selectedYear]}
+            setScrollAdjust={setScrollAdjust}
+          >
             <ul>
               {yearDropdownOptions?.map((option, i) => (
                 <li key={i}>
@@ -66,8 +69,13 @@ const MonthPickerDropdown: FunctionComponent = ({
                 </li>
               ))}
             </ul>
-          )}
-          {!showYears && (
+          </ScrollContainer>
+        )}
+        {!showYears && (
+          <ScrollContainer
+            deps={[yearDropdownOptions, monthDropdownOptions, showYears, selectedMonth, selectedYear]}
+            setScrollAdjust={setScrollAdjust}
+          >
             <ul>
               {monthDropdownOptions?.map((option, i) => (
                 <li key={i}>
@@ -77,8 +85,8 @@ const MonthPickerDropdown: FunctionComponent = ({
                 </li>
               ))}
             </ul>
-          )}
-        </ScrollContainer>
+          </ScrollContainer>
+        )}
       </div>
     </div>
   );

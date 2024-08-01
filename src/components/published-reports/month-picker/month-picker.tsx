@@ -1,23 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
 import MonthPickerDropdown from './month-picker-dropdown/month-picker-dropdown';
-import { publishedDateLabel, datePickerButton } from './month-picker.module.scss';
+import { publishedDateLabel, datePickerButton, glow } from './month-picker.module.scss';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const monthDropdownOptions = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+const monthDropdownList = ['December', 'November', 'October', 'September', 'August', 'July', 'June', 'May', 'April', 'March', 'February', 'January'];
 
 const yearDropdownOptions = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
 
@@ -27,16 +14,18 @@ const MonthPicker: FunctionComponent = () => {
 
   return (
     <>
-      <button className={datePickerButton} onClick={() => setOpen(!open)}>
-        <div>
-          <span className={publishedDateLabel}>Published Date: </span>
-          {selectedDate}
-        </div>
-        <FontAwesomeIcon icon={open ? faCaretUp : faCaretDown} />
-      </button>
+      <div className={open ? glow : null}>
+        <button className={datePickerButton} onClick={() => setOpen(!open)}>
+          <div>
+            <span className={publishedDateLabel}>Published Date: </span>
+            {selectedDate}
+          </div>
+          <FontAwesomeIcon icon={open ? faCaretUp : faCaretDown} />
+        </button>
+      </div>
       {open && (
         <MonthPickerDropdown
-          monthDropdownOptions={monthDropdownOptions}
+          monthDropdownOptions={monthDropdownList}
           yearDropdownOptions={yearDropdownOptions}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
