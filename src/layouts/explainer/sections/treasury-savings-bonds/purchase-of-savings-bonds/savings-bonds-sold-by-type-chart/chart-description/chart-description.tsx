@@ -10,6 +10,7 @@ const ChartDescription = () => {
     <div className={descriptionsContainer}>
       <ScrollContainer
         customContainerStyle={{ height: 'fit-content' }}
+        customChildStyle={{ paddingRight: '17px' }}
         gradientColor="#f1f1f1"
         testId="SavingsBondsChart"
         bottomGradient

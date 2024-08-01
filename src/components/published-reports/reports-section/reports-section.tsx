@@ -4,6 +4,8 @@ import DownloadReportTable from '../download-report-table/download-report-table'
 import { publishDate, reportsTip, note } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
+import MonthPickerDropdown from '../month-picker/month-picker-dropdown/month-picker-dropdown';
+import MonthPicker from '../month-picker/month-picker';
 
 export const title = 'Reports and Files';
 export interface IReports {
@@ -75,7 +77,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   return (
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={title} id="reports-and-files">
-        <div className={publishDate}>Published Date</div>
+        <MonthPicker />
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
         {dataset?.publishedReportsTip && (
           <div className={reportsTip}>

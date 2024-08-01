@@ -1,0 +1,19 @@
+@import '../../../variables.module.scss';
+
+.datePickerButton {
+  font-size: $font-size-16;
+  background: none;
+  border: 1px solid $light-grey-border;
+  border-radius: 3px;
+  display: flex;
+  align-items: flex-start;
+  color: $font-body-copy;
+  padding: 10px 1rem;
+  width: 320px;
+  margin-bottom: 1rem;
+
+  .publishedDateLabel {
+    font-weight: $semi-bold-weight;
+    white-space: pre;
+  }
+}
