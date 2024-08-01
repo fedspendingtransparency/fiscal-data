@@ -6,7 +6,8 @@
   border: 1px solid $light-grey-border;
   border-radius: 3px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
   color: $font-body-copy;
   padding: 10px 1rem;
   width: 320px;

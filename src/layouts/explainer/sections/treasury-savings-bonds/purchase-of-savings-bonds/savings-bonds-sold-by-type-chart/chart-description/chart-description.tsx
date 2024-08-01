@@ -7,10 +7,9 @@ const ChartDescription = () => {
   const descriptionList = ['AD', 'E', 'EE', 'F', 'G', 'H', 'I', 'J', 'K', 'HH'];
 
   return (
-    <div className={descriptionsContainer}>
+    <div className={descriptionsContainer} style={{ paddingTop: '1.5rem' }}>
       <ScrollContainer
         customContainerStyle={{ height: 'fit-content' }}
-        customChildStyle={{ paddingRight: '17px' }}
         gradientColor="#f1f1f1"
         testId="SavingsBondsChart"
         bottomGradient
