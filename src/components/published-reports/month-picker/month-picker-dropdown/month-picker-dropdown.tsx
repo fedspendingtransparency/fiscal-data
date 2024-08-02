@@ -34,6 +34,7 @@ const MonthPickerDropdown: FunctionComponent = ({
   const [showYears, setShowYears] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(monthDropdownOptions[monthDropdownOptions.length - 1]);
   const [selectedYear, setSelectedYear] = useState(yearDropdownOptions[0]);
+
   const handleMonthClick = (month: string) => {
     setSelectedMonth(month);
   };
@@ -50,8 +51,17 @@ const MonthPickerDropdown: FunctionComponent = ({
     }
   };
 
+  const handleBlur = e => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      console.log('blurrrr 2');
+      // handleClose();
+    } else {
+      console.log('blurrrr 3', e.currentTarget, e.relatedTarget);
+    }
+  };
+
   return (
-    <div className={dropdownContainer}>
+    <div className={dropdownContainer} onBlur={e => handleBlur(e)} role="presentation">
       <div className={publishedDateLabel}>Published Date</div>
       <div className={selectedDateDisplay}>{selectedMonth + ' ' + selectedYear}</div>
       <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Open Year Dropdown">

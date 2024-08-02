@@ -77,7 +77,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={title} id="reports-and-files">
         {!isDailyReport && <MonthPicker />}
-        {isDailyReport && <div className={publishDate}>Published Date</div>}
+        {isDailyReport && <div className={publishDate}>Published Date:</div>}
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
         {dataset?.publishedReportsTip && (
           <div className={reportsTip}>
