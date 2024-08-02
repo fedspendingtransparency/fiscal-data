@@ -12,13 +12,17 @@ describe('Month Picker', () => {
     expect(within(button).getByText('May 2023')).toBeInTheDocument();
   });
 
-  it('Open date picker dropdown on click', () => {
+  it('Opens and closes date picker dropdown on click', () => {
     const { getByRole, getAllByRole } = render(<MonthPicker />);
     const button = getByRole('button');
     act(() => {
       fireEvent.click(button);
     });
     expect(getAllByRole('button').length).toBeGreaterThan(1);
+    act(() => {
+      fireEvent.click(button);
+    });
+    expect(getAllByRole('button').length).toBe(1);
   });
 
   it('Opens date picker dropdown on enter key press', () => {
@@ -30,5 +34,9 @@ describe('Month Picker', () => {
       userEvent.keyboard('Enter');
     });
     expect(getAllByRole('button').length).toBeGreaterThan(1);
+    act(() => {
+      userEvent.keyboard('Enter');
+    });
+    expect(getAllByRole('button').length).toBe(1);
   });
 });

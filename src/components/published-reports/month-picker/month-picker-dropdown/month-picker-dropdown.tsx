@@ -9,8 +9,13 @@ import {
   selected,
   yearButton,
   arrowIcon,
+  buttonContainer,
+  applyButton,
+  cancelButton,
+  checkIcon,
 } from './month-picker-dropdown.module.scss';
 import ScrollContainer from '../../../scroll-container/scroll-container';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 interface IMonthPickerDropdown {
   monthDropdownOptions: string[];
@@ -18,19 +23,21 @@ interface IMonthPickerDropdown {
   handleClick: () => void;
   selectedDate: string;
   setSelectedDate: (date: string) => void;
+  handleClose: () => void;
+  handleApplyDate: () => void;
 }
 
 const MonthPickerDropdown: FunctionComponent = ({
   monthDropdownOptions,
   yearDropdownOptions,
   handleClick,
-  selectedDate,
   setSelectedDate,
+  handleClose,
+  handleApplyDate,
 }: IMonthPickerDropdown) => {
   const [showYears, setShowYears] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState('May');
-  const [selectedYear, setSelectedYear] = useState('2023');
-  const [scrollAdjust, setScrollAdjust] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(monthDropdownOptions[monthDropdownOptions.length - 1]);
+  const [selectedYear, setSelectedYear] = useState(yearDropdownOptions[0]);
   const handleMonthClick = (month: string) => {
     if (handleClick) {
       // handleClick();
@@ -43,23 +50,23 @@ const MonthPickerDropdown: FunctionComponent = ({
     setSelectedYear(year);
   };
 
-  useEffect(() => {
+  const handleApply = () => {
+    if (handleApplyDate) {
+      handleApplyDate();
+    }
     setSelectedDate(selectedMonth + ' ' + selectedYear);
-  }, [selectedYear, selectedMonth]);
+  };
 
   return (
     <div className={dropdownContainer}>
       <div className={publishedDateLabel}>Published Date</div>
-      <div className={selectedDateDisplay}>{selectedDate}</div>
-      <button className={yearButton} onClick={() => setShowYears(!showYears)}>
+      <div className={selectedDateDisplay}>{selectedMonth + ' ' + selectedYear}</div>
+      <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Select Year">
         {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretDown : faCaretUp} />
       </button>
       <div className={dropdownList}>
         {showYears && (
-          <ScrollContainer
-            deps={[yearDropdownOptions, monthDropdownOptions, showYears, selectedMonth, selectedYear]}
-            setScrollAdjust={setScrollAdjust}
-          >
+          <ScrollContainer deps={[yearDropdownOptions, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
             <ul>
               {yearDropdownOptions?.map((option, i) => (
                 <li key={i}>
@@ -72,10 +79,7 @@ const MonthPickerDropdown: FunctionComponent = ({
           </ScrollContainer>
         )}
         {!showYears && (
-          <ScrollContainer
-            deps={[yearDropdownOptions, monthDropdownOptions, showYears, selectedMonth, selectedYear]}
-            setScrollAdjust={setScrollAdjust}
-          >
+          <ScrollContainer deps={[yearDropdownOptions, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
             <ul>
               {monthDropdownOptions?.map((option, i) => (
                 <li key={i}>
@@ -87,6 +91,15 @@ const MonthPickerDropdown: FunctionComponent = ({
             </ul>
           </ScrollContainer>
         )}
+      </div>
+      <div className={buttonContainer}>
+        <button className={cancelButton} onClick={handleClose}>
+          Cancel
+        </button>
+        <button className={applyButton} onClick={handleApply}>
+          <FontAwesomeIcon icon={faCheck} className={checkIcon} />
+          Apply
+        </button>
       </div>
     </div>
   );

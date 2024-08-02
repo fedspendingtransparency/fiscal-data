@@ -15,7 +15,6 @@ const ScrollContainer = ({
   testId = '',
   customChildStyle = null,
   customContainerStyle = null,
-  setScrollAdjust,
   children,
 }) => {
   const [scrollTop, setScrollTop] = useState(true);
@@ -37,10 +36,6 @@ const ScrollContainer = ({
     const scrollWidth = scrollContainer?.offsetWidth - scrollContainer?.clientWidth;
     if (scrollWidth) {
       setScrollBarWidth(scrollWidth);
-    }
-    if (setScrollAdjust) {
-      console.log('scrollWidth', scrollWidth);
-      setScrollAdjust(scrollWidth);
     }
   }, []);
 

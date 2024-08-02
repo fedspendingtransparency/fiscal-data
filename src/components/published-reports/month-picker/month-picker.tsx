@@ -4,13 +4,12 @@ import { publishedDateLabel, datePickerButton, glow } from './month-picker.modul
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const monthDropdownList = ['December', 'November', 'October', 'September', 'August', 'July', 'June', 'May', 'April', 'March', 'February', 'January'];
+const monthDropdownList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'];
+const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
 
-const yearDropdownOptions = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
-
-const MonthPicker: FunctionComponent = () => {
+const MonthPicker: FunctionComponent = ({ monthDropdownOptions = monthDropdownList, yearDropdownOptions = yearDropdownList }) => {
   const [open, setOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('May 2023');
+  const [selectedDate, setSelectedDate] = useState('August 2024');
 
   return (
     <>
@@ -25,10 +24,12 @@ const MonthPicker: FunctionComponent = () => {
       </div>
       {open && (
         <MonthPickerDropdown
-          monthDropdownOptions={monthDropdownList}
+          monthDropdownOptions={monthDropdownOptions}
           yearDropdownOptions={yearDropdownOptions}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
+          handleClose={() => setOpen(false)}
+          handleApplyDate={() => setOpen(false)}
         />
       )}
     </>
