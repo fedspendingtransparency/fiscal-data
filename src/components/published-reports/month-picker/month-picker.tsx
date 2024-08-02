@@ -14,7 +14,7 @@ const MonthPicker: FunctionComponent = ({ monthDropdownOptions = monthDropdownLi
   return (
     <>
       <div className={open ? glow : null}>
-        <button className={datePickerButton} onClick={() => setOpen(!open)}>
+        <button className={datePickerButton} onClick={() => setOpen(!open)} aria-label="Select Published Report Date">
           <div>
             <span className={publishedDateLabel}>Published Date: </span>
             {selectedDate}
@@ -29,7 +29,6 @@ const MonthPicker: FunctionComponent = ({ monthDropdownOptions = monthDropdownLi
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
           handleClose={() => setOpen(false)}
-          handleApplyDate={() => setOpen(false)}
         />
       )}
     </>

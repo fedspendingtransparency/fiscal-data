@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -20,28 +20,21 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 interface IMonthPickerDropdown {
   monthDropdownOptions: string[];
   yearDropdownOptions: string[];
-  handleClick: () => void;
   selectedDate: string;
   setSelectedDate: (date: string) => void;
   handleClose: () => void;
-  handleApplyDate: () => void;
 }
 
 const MonthPickerDropdown: FunctionComponent = ({
   monthDropdownOptions,
   yearDropdownOptions,
-  handleClick,
   setSelectedDate,
   handleClose,
-  handleApplyDate,
 }: IMonthPickerDropdown) => {
   const [showYears, setShowYears] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(monthDropdownOptions[monthDropdownOptions.length - 1]);
   const [selectedYear, setSelectedYear] = useState(yearDropdownOptions[0]);
   const handleMonthClick = (month: string) => {
-    if (handleClick) {
-      // handleClick();
-    }
     setSelectedMonth(month);
   };
 
@@ -51,17 +44,17 @@ const MonthPickerDropdown: FunctionComponent = ({
   };
 
   const handleApply = () => {
-    if (handleApplyDate) {
-      handleApplyDate();
-    }
     setSelectedDate(selectedMonth + ' ' + selectedYear);
+    if (handleClose) {
+      handleClose();
+    }
   };
 
   return (
     <div className={dropdownContainer}>
       <div className={publishedDateLabel}>Published Date</div>
       <div className={selectedDateDisplay}>{selectedMonth + ' ' + selectedYear}</div>
-      <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Select Year">
+      <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Open Year Dropdown">
         {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretDown : faCaretUp} />
       </button>
       <div className={dropdownList}>
@@ -70,7 +63,7 @@ const MonthPickerDropdown: FunctionComponent = ({
             <ul>
               {yearDropdownOptions?.map((option, i) => (
                 <li key={i}>
-                  <button className={option === selectedYear && selected} onClick={() => handleYearClick(option)}>
+                  <button className={option === selectedYear ? selected : null} onClick={() => handleYearClick(option)}>
                     {option}
                   </button>
                 </li>
@@ -83,7 +76,7 @@ const MonthPickerDropdown: FunctionComponent = ({
             <ul>
               {monthDropdownOptions?.map((option, i) => (
                 <li key={i}>
-                  <button className={option === selectedMonth && selected} onClick={() => handleMonthClick(option)}>
+                  <button className={option === selectedMonth ? selected : null} onClick={() => handleMonthClick(option)}>
                     {option}
                   </button>
                 </li>
@@ -96,7 +89,7 @@ const MonthPickerDropdown: FunctionComponent = ({
         <button className={cancelButton} onClick={handleClose}>
           Cancel
         </button>
-        <button className={applyButton} onClick={handleApply}>
+        <button className={applyButton} onClick={handleApply} aria-label="Apply Selected Date">
           <FontAwesomeIcon icon={faCheck} className={checkIcon} />
           Apply
         </button>
