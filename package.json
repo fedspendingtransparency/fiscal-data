@@ -19,7 +19,7 @@
     "start": "npm run develop",
     "clean": "gatsby clean",
     "serve": "gatsby serve",
-    "serve-cypress": "bash ./run-cypress.sh",
+    "serve-cypress": "./run-cypress.sh",
     "test": "jest --logHeapUsage",
     "test:coverage": "jest --coverage",
     "test:silent": "jest --coverage --silent",
