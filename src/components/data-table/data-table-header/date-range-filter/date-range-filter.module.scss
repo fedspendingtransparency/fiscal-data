@@ -17,22 +17,17 @@
   width: 112px;
   border: 0  !important;
   border-width: 0px !important;
+  &:focus {
+    border: none  !important;
+    border-width: 0px !important;
+  }
   &:active {
     box-shadow: 0 0 0 0.25rem #e8f5ff;
     border-radius: 0.125rem;
     border: 0  !important;
     border-width: 0px !important;
   }
-  input {
-    border: 0 !important;
-    border-width: 0px !important;
-    &:active {
-      box-shadow: 0 0 0 0.25rem #e8f5ff;
-      border-radius: 0.125rem;
-      border: 0  !important;
-      border-width: 0px !important;
-    }
-  }
+
 }
 
 .dateTextBegin {
@@ -43,16 +38,25 @@
   text-overflow: ellipsis;
   width: 112px;
   border: none;
+  font-size: $font-size-16;
+  border-radius: 4px;
+  height: 95%;
   &:active {
     box-shadow: 0 0 0 0.25rem #e8f5ff;
     border-radius: 0.125rem;
-    border: 1px solid $primary;
-  }
-  input {
     border: none;
   }
-}
 
+}
+input {
+  border: none !important;
+  &:active,
+  &:focus {
+    border: none !important;
+    border-radius: 0.125rem;
+    box-shadow: 0 0 0 0.25rem #e8f5ff;
+  }
+}
 .dateDivider {
   padding-left: 2.5px;
   padding-right: 2.5px;

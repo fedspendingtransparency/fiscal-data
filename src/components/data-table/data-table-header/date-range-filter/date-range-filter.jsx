@@ -182,39 +182,37 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
-          <div className={dateTextBegin} style={beginTextStyle}>
-            <input
-              type="text"
-              placeholder="Start"
-              value={filterDisplayBeginDate}
-              onChange={e => {
-                setFilterDisplayBeginDate(e.target.value);
-                if (validateDate(e.target.value)) {
-                  setErrorMessage('');
-                } else {
-                  setErrorMessage('Invalid date range. Please check the entered dates and try again.');
-                }
-              }}
-              onFocus={() => handleTextBoxClick(true)}
-            />
-          </div>
+          <input
+            className={dateTextBegin}
+            type="text"
+            placeholder="Start"
+            value={filterDisplayBeginDate}
+            onChange={e => {
+              setFilterDisplayBeginDate(e.target.value);
+              if (validateDate(e.target.value)) {
+                setErrorMessage('');
+              } else {
+                setErrorMessage('Invalid date range. Please check the entered dates and try again.');
+              }
+            }}
+            onFocus={() => handleTextBoxClick(true)}
+          />
           <div className={dateDivider}> |</div>
-          <div className={dateTextEnd} style={endTextStyle}>
-            <input
-              type="text"
-              value={filterDisplayEndDate}
-              placeholder="End"
-              onChange={e => {
-                setFilterDisplayEndDate(e.target.value);
-                if (validateDate(e.target.value)) {
-                  setErrorMessage('');
-                } else {
-                  setErrorMessage('Invalid date range. Please check the entered dates and try again.');
-                }
-              }}
-              onFocus={() => handleTextBoxClick(false)}
-            />
-          </div>
+          <input
+            className={dateTextBegin}
+            type="text"
+            value={filterDisplayEndDate}
+            placeholder="End"
+            onChange={e => {
+              setFilterDisplayEndDate(e.target.value);
+              if (validateDate(e.target.value)) {
+                setErrorMessage('');
+              } else {
+                setErrorMessage('Invalid date range. Please check the entered dates and try again.');
+              }
+            }}
+            onFocus={() => handleTextBoxClick(false)}
+          />
           {selected ? (
             <span onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
