@@ -246,7 +246,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const handleDateChange = (selectedDateOption: DropdownOption) => {
     setSelectedDate(selectedDateOption);
-    console.log(selectedDateOption);
     analyticsHandler('Published Date Selection', selectedDateOption.value);
     if (selectedDateOption) {
       const newCurrency = data.find(
