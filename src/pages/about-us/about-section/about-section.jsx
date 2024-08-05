@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link as ScrollLink } from 'react-scroll';
 import globalConstants from '../../../helpers/constants';
 import SectionContent from '../../../components/api-documentation/section-content/section-content';
 import '../../../styles.scss';
@@ -187,9 +186,9 @@ const AboutUs = () => {
         <SectionContent id="more-information" headingLevel={3} title="More Information">
           <p>
             For more information, see the{' '}
-            <ScrollLink tabIndex={0} to="faq" data-test-id="faq" className="primary" smooth={true} duration={600} delay={200}>
+            <CustomLink url="#faq" data-testid="faq">
               FAQs
-            </ScrollLink>{' '}
+            </CustomLink>{' '}
             or <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">Contact Us</CustomLink>.
           </p>
         </SectionContent>
