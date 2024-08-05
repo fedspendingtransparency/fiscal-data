@@ -1,42 +1,51 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useRef, useState } from 'react';
 import MonthPickerDropdown from './month-picker-dropdown/month-picker-dropdown';
 import { publishedDateLabel, datePickerButton, glow } from './month-picker.module.scss';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import useOnClickOutside from 'use-onclickoutside';
 
 const monthDropdownList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'];
 const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
 
-const MonthPicker: FunctionComponent = ({ monthDropdownOptions = monthDropdownList, yearDropdownOptions = yearDropdownList }) => {
+interface IMonthPicker {
+  monthDropdownOptions: string[];
+  yearDropdownOptions: string[];
+}
+
+const MonthPicker: FunctionComponent = ({ monthDropdownOptions = monthDropdownList, yearDropdownOptions = yearDropdownList }: IMonthPicker) => {
   const [active, setActive] = useState(false);
   const [selectedDate, setSelectedDate] = useState('August 2024');
   const dropdownRef = useRef(null);
+  /* accessibility-enabling event handlers for interpreting focus state on control */
 
-  const handleBlur = e => {
-    if (!e.currentTarget.contains(e.relatedTarget)) {
-      console.log('blurrrr');
-      setActive(false);
+  const handleMouseBlur = (event: MouseEvent) => {
+    if (event) {
+      const currentTarget = event.target as HTMLElement;
+      const relatedTarget = event.relatedTarget as HTMLElement;
+      const mouseEvent = event.type !== 'blur';
+      if (mouseEvent && !currentTarget?.parentElement?.contains(relatedTarget)) {
+        setTimeout(() => {
+          setActive(false);
+        });
+      }
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  useOnClickOutside(dropdownRef, handleMouseBlur);
+
+  const handleKeyboardBlur = (event: Event) => {
+    if (event) {
+      const parent = dropdownRef.current;
+      const related = event?.relatedTarget;
+      if (!parent.outerText.includes(related.outerText) && related?.id !== 'gatsby-focus-wrapper') {
         setActive(false);
       }
-    };
-    if (active) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
     }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [active]);
+  };
 
   return (
-    <div onBlur={e => handleBlur(e)} role="presentation" ref={dropdownRef}>
+    <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation">
       <div className={active ? glow : null}>
         <button className={datePickerButton} onClick={() => setActive(!active)} aria-label="Select Published Report Date">
           <div>
@@ -53,6 +62,9 @@ const MonthPicker: FunctionComponent = ({ monthDropdownOptions = monthDropdownLi
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
           handleClose={() => setActive(false)}
+          setActive={setActive}
+          dropdownOnBlurHandler={handleMouseBlur}
+          parentRef={dropdownRef}
         />
       )}
     </div>
