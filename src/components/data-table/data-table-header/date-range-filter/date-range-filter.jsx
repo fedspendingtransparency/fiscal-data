@@ -20,7 +20,7 @@ import {
   lastColumn,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
@@ -39,6 +39,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const [beginTextStyle, setBeginTextStyle] = useState(noTextHighLight);
   const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
+  const [isStartFocused, setIsStartFocused] = useState(false);
+  const [isEndFocused, setIsEndFocused] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
 
   const dropdownRef = useRef();
@@ -50,8 +53,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         setAllActiveFilters([...allActiveFilters, column.id]);
       }
     } else {
-      setFilterDisplayBeginDate('mm/dd/yyyy');
-      setFilterDisplayEndDate('mm/dd/yyyy');
+      setFilterDisplayBeginDate('Start');
+      setFilterDisplayEndDate('End');
       if (allActiveFilters?.includes(column.id)) {
         const currentFilters = allActiveFilters.filter(value => value !== column.id);
         setAllActiveFilters(currentFilters);
@@ -90,9 +93,14 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
-  const handleTextBoxClick = e => {
-    if (!e.key || e.key === 'Enter') {
-      setActive(!active);
+  const handleTextBoxClick = isStart => {
+    setActive(true);
+    if (isStart) {
+      setIsStartFocused(true);
+      setIsEndFocused(false);
+    } else {
+      setIsStartFocused(false);
+      setIsEndFocused(true);
     }
   };
 
@@ -108,16 +116,22 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   };
 
   const handleEventListener = e => {
-    if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
+    if (!dropdownRef.current?.contains(e.target) && !displayRef.current?.contains(e.target)) {
       setActive(false);
     }
   };
 
+  const validateDate = date => {
+    return moment(date, 'MM/DD/YYYY', true).isValid();
+  };
+
   useEffect(() => {
     if (active) {
-      document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
-      setBeginTextStyle(textHighlighted);
+      document.addEventListener('click', handleEventListener);
+      setBeginTextStyle(isStartFocused ? textHighlighted : noTextHighLight);
+      setEndTextStyle(isEndFocused ? textHighlighted : noTextHighLight);
     } else {
+      document.removeEventListener('click', handleEventListener);
       setBeginTextStyle(noTextHighLight);
       setEndTextStyle(noTextHighLight);
       if (filterDisplayBeginDate && filterDisplayEndDate === 'mm/dd/yyyy') {
@@ -125,10 +139,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         onFilterChange(undefined);
       }
     }
-    return () => {
-      document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
-    };
-  }, [active]);
+  }, [active, isStartFocused, isEndFocused]);
 
   useEffect(() => {
     if (selected?.from && selected?.to) {
@@ -164,26 +175,50 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       <div className={active ? glow : null}>
         <div
           className={dateEntryBox}
-          onClick={handleTextBoxClick}
-          onKeyDown={e => handleTextBoxClick(e)}
+          onClick={() => handleTextBoxClick(true)}
+          onKeyDown={e => handleTextBoxClick(true)}
           role="button"
           tabIndex={0}
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
           <div className={dateTextBegin} style={beginTextStyle}>
-            {filterDisplayBeginDate}
+            <input
+              type="text"
+              value={filterDisplayBeginDate}
+              onChange={e => {
+                setFilterDisplayBeginDate(e.target.value);
+                if (validateDate(e.target.value)) {
+                  setErrorMessage('');
+                } else {
+                  setErrorMessage('Invalid date range. Please check the entered dates and try again.');
+                }
+              }}
+              onFocus={() => handleTextBoxClick(true)}
+            />
           </div>
-          <div className={dateDivider}> - </div>
+          <div className={dateDivider}> |</div>
           <div className={dateTextEnd} style={endTextStyle}>
-            {filterDisplayEndDate}
+            <input
+              type="text"
+              value={filterDisplayEndDate}
+              onChange={e => {
+                setFilterDisplayEndDate(e.target.value);
+                if (validateDate(e.target.value)) {
+                  setErrorMessage('');
+                } else {
+                  setErrorMessage('Invalid date range. Please check the entered dates and try again.');
+                }
+              }}
+              onFocus={() => handleTextBoxClick(false)}
+            />
           </div>
           {selected ? (
             <span onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
             </span>
           ) : (
-            <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
+            <FontAwesomeIcon icon={faCalendar} className={calendarIcon} />
           )}
         </div>
       </div>
@@ -227,6 +262,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             </div>
           </div>
         )}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
       </div>
     </>
   );
