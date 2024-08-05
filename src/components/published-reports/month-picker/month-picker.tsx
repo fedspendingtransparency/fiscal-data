@@ -13,12 +13,15 @@ interface IMonthPicker {
   yearDropdownOptions: string[];
 }
 
-const MonthPicker: FunctionComponent = ({ monthDropdownOptions = monthDropdownList, yearDropdownOptions = yearDropdownList }: IMonthPicker) => {
+const MonthPicker: FunctionComponent<IMonthPicker> = ({
+  monthDropdownOptions = monthDropdownList,
+  yearDropdownOptions = yearDropdownList,
+}: IMonthPicker) => {
   const [active, setActive] = useState(false);
   const [selectedDate, setSelectedDate] = useState('August 2024');
   const dropdownRef = useRef(null);
-  /* accessibility-enabling event handlers for interpreting focus state on control */
 
+  /* accessibility-enabling event handlers for interpreting focus state on control */
   const handleMouseBlur = (event: MouseEvent) => {
     if (event) {
       const currentTarget = event.target as HTMLElement;
@@ -34,10 +37,10 @@ const MonthPicker: FunctionComponent = ({ monthDropdownOptions = monthDropdownLi
 
   useOnClickOutside(dropdownRef, handleMouseBlur);
 
-  const handleKeyboardBlur = (event: Event) => {
+  const handleKeyboardBlur = (event: FocusEvent) => {
     if (event) {
       const parent = dropdownRef.current;
-      const related = event?.relatedTarget;
+      const related = event?.relatedTarget as HTMLElement;
       if (!parent.outerText.includes(related.outerText) && related?.id !== 'gatsby-focus-wrapper') {
         setActive(false);
       }
@@ -62,9 +65,6 @@ const MonthPicker: FunctionComponent = ({ monthDropdownOptions = monthDropdownLi
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
           handleClose={() => setActive(false)}
-          setActive={setActive}
-          dropdownOnBlurHandler={handleMouseBlur}
-          parentRef={dropdownRef}
         />
       )}
     </div>

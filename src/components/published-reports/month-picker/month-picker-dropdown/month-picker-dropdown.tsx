@@ -25,7 +25,7 @@ interface IMonthPickerDropdown {
   handleClose: () => void;
 }
 
-const MonthPickerDropdown: FunctionComponent = ({
+const MonthPickerDropdown: FunctionComponent<IMonthPickerDropdown> = ({
   monthDropdownOptions,
   yearDropdownOptions,
   setSelectedDate,
