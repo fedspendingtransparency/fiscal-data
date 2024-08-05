@@ -53,8 +53,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         setAllActiveFilters([...allActiveFilters, column.id]);
       }
     } else {
-      setFilterDisplayBeginDate('Start');
-      setFilterDisplayEndDate('End');
+      setFilterDisplayBeginDate('');
+      setFilterDisplayEndDate('');
       if (allActiveFilters?.includes(column.id)) {
         const currentFilters = allActiveFilters.filter(value => value !== column.id);
         setAllActiveFilters(currentFilters);
@@ -185,6 +185,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <div className={dateTextBegin} style={beginTextStyle}>
             <input
               type="text"
+              placeholder="Start"
               value={filterDisplayBeginDate}
               onChange={e => {
                 setFilterDisplayBeginDate(e.target.value);
@@ -202,6 +203,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             <input
               type="text"
               value={filterDisplayEndDate}
+              placeholder="End"
               onChange={e => {
                 setFilterDisplayEndDate(e.target.value);
                 if (validateDate(e.target.value)) {

@@ -15,14 +15,23 @@
   margin-bottom: 10.5px;
   margin-top: 10.5px;
   width: 112px;
-  border: none;
+  border: 0  !important;
+  border-width: 0px !important;
   &:active {
     box-shadow: 0 0 0 0.25rem #e8f5ff;
     border-radius: 0.125rem;
-    border: 1px solid $primary;
+    border: 0  !important;
+    border-width: 0px !important;
   }
   input {
-    border: none;
+    border: 0 !important;
+    border-width: 0px !important;
+    &:active {
+      box-shadow: 0 0 0 0.25rem #e8f5ff;
+      border-radius: 0.125rem;
+      border: 0  !important;
+      border-width: 0px !important;
+    }
   }
 }
 
