@@ -1,8 +1,8 @@
 @import 'src/variables.module.scss';
 
 .glow {
-  box-shadow: 0 0 0 0.25rem #e8f5ff;
-  border-radius: 0.125rem;
+  //box-shadow: 0 0 0 0.25rem #e8f5ff;
+  //border-radius: 0.125rem;
 
   .dateEntryBox {
     border: 1px solid $primary;
@@ -15,12 +15,14 @@
   margin-bottom: 10.5px;
   margin-top: 10.5px;
   width: 112px;
-
+  border: none;
+  &:active {
+    box-shadow: 0 0 0 0.25rem #e8f5ff;
+    border-radius: 0.125rem;
+    border: 1px solid $primary;
+  }
   input {
     border: none;
-    &:hover {
-      border: #666666;
-    }
   }
 }
 
@@ -31,10 +33,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 112px;
+  border: none;
+  &:active {
+    box-shadow: 0 0 0 0.25rem #e8f5ff;
+    border-radius: 0.125rem;
+    border: 1px solid $primary;
+  }
   input {
     border: none;
   }
-
 }
 
 .dateDivider {
