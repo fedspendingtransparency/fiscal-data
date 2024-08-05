@@ -323,7 +323,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                       publishedDateInfoIcon.body,
                       'effective-date-info-tip',
                       true,
-                      () => handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date'),
+                      () => handleMouseEnterInfoTip('Additional Published Date Info', 'eff-date'),
                       handleInfoTipClose
                     )}
                     className={box}
