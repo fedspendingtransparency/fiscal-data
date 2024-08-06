@@ -68,7 +68,7 @@ describe('DownloadItemButton for direct download file', () => {
   it('direct CSV download', () => {
     const { getByTestId } = render(
       <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataCSV, mockedCSVState)}>
-        <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} directCSVDownload />
+        <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} selectedFileType="csv" />
       </RecoilRoot>
     );
     expect(getByTestId('csv-download-button')).toBeInTheDocument();
@@ -77,7 +77,7 @@ describe('DownloadItemButton for direct download file', () => {
   it('direct XML download', () => {
     const { getByTestId } = render(
       <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataXML, mockedXMLState)}>
-        <DownloadItemButton label="XML" fileSize="123MB" icon={csvIcon} directXMLDownload />
+        <DownloadItemButton label="XML" fileSize="123MB" icon={csvIcon} selectedFileType="xml" />
       </RecoilRoot>
     );
 
@@ -87,7 +87,7 @@ describe('DownloadItemButton for direct download file', () => {
   it('direct JSON download', () => {
     const { getByTestId } = render(
       <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataJSON, mockedJSONState)}>
-        <DownloadItemButton label="JSON" fileSize="123MB" icon={csvIcon} directJSONDownload />
+        <DownloadItemButton label="JSON" fileSize="123MB" icon={csvIcon} selectedFileType="json" />
       </RecoilRoot>
     );
     expect(getByTestId('json-download-button')).toBeInTheDocument();
@@ -134,13 +134,13 @@ describe('DownloadItemButton for asyncAction', () => {
     thisLink.click();
 
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith({ action: 'fileName', category: 'Data Download' });
+    expect(spy).toHaveBeenCalledWith({ action: 'Published Report Download', label: 'fileName', category: 'Data Download' });
   });
 
   it('tracks when a dataset file is downloaded', () => {
     const { getByTestId } = render(
       <RecoilRoot>
-        <DownloadItemButton />
+        <DownloadItemButton dapGaEventLabel="test" />
       </RecoilRoot>
     );
 
@@ -151,7 +151,7 @@ describe('DownloadItemButton for asyncAction', () => {
     thisLink.click();
 
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ label: downloadFileEventStr }));
+    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ action: downloadFileEventStr, label: 'test' }));
   });
 
   it('shows a a download link when the disabled prop is not passed in', () => {

@@ -2,6 +2,8 @@ import * as React from 'react';
 import { copyButton, cancelButton as cancelButtonStyle } from './buttons.module.scss';
 import { generateAnalyticsEvent } from '../../layouts/dataset-detail/helper';
 import globalConstants from '../../helpers/constants';
+import { useRecoilValue } from 'recoil';
+import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 
 export const gaCopyLabelStr = globalConstants.gaEventLabels.copyDLLink;
 const cancelButton = (
@@ -24,14 +26,16 @@ const cancelButton = (
   );
 };
 
-const copyToClipboardButton = (copyText: string, label = 'Copy Link'): JSX.Element => {
+const copyToClipboardButton = (copyText: string, gaLabel: string, label = 'Copy Link'): JSX.Element => {
   if (!copyText) {
     console.info('copyToClipboardButton called without text to copy');
     return null;
   }
 
   const copyAction = (): void => {
-    generateAnalyticsEvent(gaCopyLabelStr);
+    if (gaLabel) {
+      generateAnalyticsEvent(gaLabel, gaCopyLabelStr + ' Click');
+    }
     window.navigator.clipboard
       .writeText(copyText)
       .then(() => {

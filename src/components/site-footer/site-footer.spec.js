@@ -5,6 +5,7 @@ import SiteFooter, { siteFooterColumns } from './site-footer';
 import DownloadSticky from '../download-sticky/download-sticky';
 import ResumeDownloadModal from '../download-modal/resume-download-modal/resume-download-modal';
 import Analytics from '../../utils/analytics/analytics';
+import { RecoilRoot } from 'recoil';
 
 describe('SiteFooter', () => {
   /**
@@ -13,41 +14,72 @@ describe('SiteFooter', () => {
 
   //logo
   it('contains the logo', () => {
-    const { getByTestId } = render(<SiteFooter />);
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     expect(getByTestId('logo')).toBeDefined();
+  });
+
+  //copyright
+  it('contains the copyright date', () => {
+    const { getByText } = render(<SiteFooter />);
+    const copyrightDate = new Date().getFullYear();
+    expect(getByText(copyrightDate, { exact: false })).toBeDefined();
   });
 
   //faq link
   it('contains the link to the faq page', () => {
-    const { getByText } = render(<SiteFooter />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     const faqLink = getByText(siteFooterColumns[0].links[0].title);
     expect(faqLink).toBeDefined();
   });
 
   //contact us
   it('contains the link to the contact us page', () => {
-    const { getByText } = render(<SiteFooter />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     const contactLink = getByText(siteFooterColumns[0].links[1].title);
     expect(contactLink).toBeDefined();
   });
 
   //about
   it('contains the link to the about us page', () => {
-    const { getByText } = render(<SiteFooter />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     const aboutLink = getByText(siteFooterColumns[1].links[0].title);
     expect(aboutLink).toBeDefined();
   });
 
   //release calendar
   it('contains the link to the release calendar page', () => {
-    const { getByText } = render(<SiteFooter />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     const aboutLink = getByText(siteFooterColumns[1].links[1].title);
     expect(aboutLink).toBeDefined();
   });
 
   //subscribe
   it('contains the link to the subscribe page', () => {
-    const { getByText } = render(<SiteFooter />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     const subscribeLink = getByText(siteFooterColumns[1].links[2].title);
     expect(subscribeLink).toBeDefined();
   });
@@ -58,46 +90,74 @@ describe('SiteFooter', () => {
 
   //usaspending
   it('contains the link to the usaSpending page', () => {
-    const { getByText } = render(<SiteFooter />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     const usaSpendLink = getByText(siteFooterColumns[2].links[0].title);
     expect(usaSpendLink).toBeDefined();
   });
 
   //a11y
   it('contains the link to the accessibility page', () => {
-    const { getByText } = render(<SiteFooter />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     const accessLink = getByText('Accessibility');
     expect(accessLink).toBeDefined();
   });
 
   //privacy
   it('contains the link to the privacy page', () => {
-    const { getByText } = render(<SiteFooter />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     const privacyLink = getByText('Privacy Policy');
     expect(privacyLink).toBeDefined();
   });
 
   //foia
   it('contains the link to the foia page', () => {
-    const { getByText } = render(<SiteFooter />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     const foiaLink = getByText('Freedom of Information Act');
     expect(foiaLink).toBeDefined();
   });
 
   it('incorporates the download sticky footer component', () => {
-    const instance = renderer.create(<SiteFooter />).root;
+    const instance = renderer.create(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    ).root;
     expect(instance.findByType(DownloadSticky)).toBeDefined();
   });
 
   it('incorporates the ResumeDownloadModal component', () => {
-    const instance = renderer.create(<SiteFooter />).root;
+    const instance = renderer.create(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    ).root;
     expect(instance.findByType(ResumeDownloadModal)).toBeDefined();
   });
 
   it('calls the appropriate analytics event when links are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     const pageTitle = 'test page title';
-    const { getByTestId, getByText } = render(<SiteFooter />);
+    const { getByTestId, getByText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     document.title = pageTitle;
 
     const logo = getByTestId('logo');
