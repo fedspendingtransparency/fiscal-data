@@ -53,7 +53,9 @@
 input {
   &:focus {
     border: 0;
-    outline: none;
+    outline:  1px solid $primary;
+    box-shadow: 0 0 0 0.25rem #e8f5ff;
+    border-radius: 0.125rem;
   }
 }
 input[type="date"]::-webkit-calendar-picker-indicator {
