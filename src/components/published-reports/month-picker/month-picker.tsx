@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState } from 'react';
+import React, { FocusEventHandler, FunctionComponent, useRef, useState } from 'react';
 import MonthPickerDropdown from './month-picker-dropdown/month-picker-dropdown';
 import { publishedDateLabel, datePickerButton, glow, datePickerContainer } from './month-picker.module.scss';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
@@ -37,8 +37,9 @@ const MonthPicker: FunctionComponent<IMonthPicker> = ({
 
   useOnClickOutside(dropdownRef, handleMouseBlur);
 
-  const handleKeyboardBlur = (event: FocusEvent) => {
+  const handleKeyboardBlur: FocusEventHandler = event => {
     if (event) {
+      console.log(event);
       const parent = dropdownRef.current;
       const related = event?.relatedTarget as HTMLElement;
       if (!parent?.outerText.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
