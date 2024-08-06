@@ -57,28 +57,10 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-050', '015-BFS-2014Q3-049', '015-BFS-2014Q1-14', '015-BFS-2014Q3-048'],
       currentDateButton: 'byDay',
       "detailView": {
-        "apiId": 316,
-        "field": "operation_date",
-        "label": "Operation Date",
-        // "dateRangeLockCopy": "To filter data by date range, select a CUSIP from the table below.",
-        "summaryTableFields": [
-          "operation_date",
-          "operation_start_time_est",
-          "operation_close_time_est",
-          "settlement_date"
-        ],
-        "selectColumns": [
-          "operation_date",
-          "operation_start_time_est",
-          "operation_close_time_est",
-          "settlement_date"
-        ]
-      },
-      "detailView": {
         "apiId": 317,
         "field": "operation_date",
         "label": "Operation Date",
-        // "dateRangeLockCopy": "To filter data by date range, select a CUSIP from the table below.",
+        "dateRangeLockCopy": "To filter data by date range, select a CUSIP from the table below.",
         "summaryTableFields": [
           "operation_date",
           "operation_start_time_est",
@@ -86,11 +68,12 @@ module.exports = {
           "settlement_date"
         ],
         "selectColumns": [
-          "operation_date",
-          "operation_start_time_est",
-          "operation_close_time_est",
-          "settlement_date"
-        ]
+          "cusip_nbr",
+          "coupon_rate_pct",
+          "maturity_date",
+          "par_amt_accepted",
+          "weighted_avg_accepted_price"
+        ],
       }
     },
   },

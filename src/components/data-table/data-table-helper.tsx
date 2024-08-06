@@ -20,7 +20,7 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-const tablesWithPublishedReportLinks = ['Treasury Securities Auctions Data', 'Reference CPI Numbers and Daily Index Ratios Summary Table'];
+const tablesWithPublishedReportLinks = ['Treasury Securities Auctions Data', 'Reference CPI Numbers and Daily Index Ratios Summary Table', 'Buybacks Operations'];
 
 const publishedReportsLinkWrapper = (url, value) => {
   return (
@@ -58,7 +58,25 @@ const publishedReportsLinksProcessor = (tableName, property, value) => {
     } else {
       return value;
     }
-  } else {
+  }
+  if (tableName === 'Buybacks Operations') {
+    switch(property) {
+      case 'results_pdf':
+      case 'results_xml':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/result/${value}`, value);
+      case 'final_ann_pdf':
+      case 'final_ann_xml':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/announcement/${value}`, value);
+      case 'tentative_ann_xml':
+      case 'tentative_ann_pdf':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/tentative/${value}`, value);
+      case 'special_ann_pdf':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/special-announcement/${value}`, value);
+      default:
+        return value;
+    }
+  }
+  else {
     return value;
   }
 };
