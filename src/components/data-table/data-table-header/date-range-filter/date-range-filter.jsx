@@ -9,19 +9,17 @@ import {
   datePickerContainer,
   calendarIcon,
   xIcon,
-  dateTextEnd,
-  dateTextBegin,
-  buttonContainer,
-  datePickerButton,
-  datePickerSelected,
-  datePickerRangeMiddle,
   dateDivider,
   glow,
   lastColumn,
+  datePickerButton,
+  datePickerSelected,
+  datePickerRangeMiddle,
+  buttonContainer,
+  dateTextBegin,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
@@ -64,7 +62,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const getDaysArray = (start, end) => {
     const arr = [];
-    for (let dt = convertDate(start); dt <= convertDate(end); dt.setDate(dt.getDate() + 1)) {
+    for (let dt = new Date(start); dt <= new Date(end); dt.setDate(dt.getDate() + 1)) {
       arr.push(moment(new Date(dt)).format('YYYY-MM-DD'));
     }
     return arr;
@@ -73,11 +71,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const todayOnClick = e => {
     if (!e.key || e.key === 'Enter') {
       setSelected({
-        from: Date.now(),
-        to: Date.now(),
+        from: new Date(),
+        to: new Date(),
       });
-      const start = moment(Date.now()).format('YYYY-MM-DD');
-      const end = moment(Date.now()).format('YYYY-MM-DD');
+      const start = moment(new Date()).format('YYYY-MM-DD');
+      const end = moment(new Date()).format('YYYY-MM-DD');
       onFilterChange(`${start} - ${end}`);
       setFilterDisplayBeginDate(start);
       setFilterDisplayEndDate(end);
@@ -125,12 +123,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     const date = e.target.value;
     if (isStart) {
       setFilterDisplayBeginDate(date);
-      setSelected({ ...selected, from: new Date(date) });
+      setSelected(prev => ({ ...prev, from: new Date(date) }));
       setIsStartFocused(false);
       setIsEndFocused(true);
     } else {
       setFilterDisplayEndDate(date);
-      setSelected({ ...selected, to: new Date(date) });
+      setSelected(prev => ({ ...prev, to: new Date(date) }));
       setIsStartFocused(false);
       setIsEndFocused(false);
       setActive(false);
@@ -204,21 +202,25 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           ref={displayRef}
         >
           <input
+            className={dateTextBegin}
             type="date"
             value={filterDisplayBeginDate}
             onChange={e => handleDateInputChange(e, true)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, true)}
             onFocus={() => handleTextBoxClick(true)}
+            placeholder="Start"
           />
           <div className={dateDivider}>|</div>
           <input
+            className={dateTextBegin}
             type="date"
             value={filterDisplayEndDate}
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, false)}
             onFocus={() => handleTextBoxClick(false)}
+            placeholder="End"
           />
           {selected ? (
             <span onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
