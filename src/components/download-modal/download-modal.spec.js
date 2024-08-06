@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import DownloadModal, { downloadModalSubText, downloadModalTitleMulti } from './download-modal';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
 import { act, render } from '@testing-library/react';
+import { RecoilRoot } from 'recoil';
 
 const mockTable = { apiId: '100100' };
 const mockDataset = {
@@ -75,9 +76,11 @@ describe('download modal', () => {
     // destructuring allows for specific query functions to be made available
     // with the context of what was created in render
     const { getByTestId } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadModal open={true} onClose={onClose} />
-      </downloadsContext.Provider>
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadModal open={true} onClose={onClose} />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     expect(mockSiteProviderValue.setDownloadModalIsOpen.mock.calls[0]).toBeTruthy();
     expect(getByTestId('download-modal-title')).toHaveTextContent(downloadModalTitleMulti);
@@ -88,9 +91,11 @@ describe('download modal', () => {
 
   it('calls the close function when the close button is clicked', () => {
     const { getByTestId } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadModal open={true} onClose={onClose} />
-      </downloadsContext.Provider>
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadModal open={true} onClose={onClose} />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     getByTestId('download-modal-close-button').click();
     expect(onClose).toHaveBeenCalled();
@@ -98,9 +103,11 @@ describe('download modal', () => {
 
   it('shows a download modal item for each dataset in progress or queued for download', () => {
     const { getByTestId } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadModal open={true} onClose={onClose} />
-      </downloadsContext.Provider>
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadModal open={true} onClose={onClose} />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
 
     // 2 prepared, 1 preparing, 2 queued
@@ -112,9 +119,11 @@ describe('download modal', () => {
 
     const mockSetCancelDownloadRequest = jest.fn();
     const { getAllByText } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadModal open={true} onClose={onClose} setCancelDownloadRequest={mockSetCancelDownloadRequest} />
-      </downloadsContext.Provider>
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadModal open={true} onClose={onClose} setCancelDownloadRequest={mockSetCancelDownloadRequest} />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     jest.advanceTimersByTime(1000);
     const cancelButtons = getAllByText('Cancel Download');

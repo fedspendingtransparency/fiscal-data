@@ -9,6 +9,7 @@ import ResumeDownloadModal, {
 } from './resume-download-modal';
 import React from 'react';
 import { downloadsContext } from '../../persist/download-persist/downloads-persist';
+import { RecoilRoot } from 'recoil';
 
 describe('resume download modal (with react testing-library)', () => {
   const mockDownloadPrepared = [
@@ -96,9 +97,11 @@ describe('resume download modal (with react testing-library)', () => {
 
   it('when a single download is present and still preparing, renders appropriate title and subtitle', () => {
     const { queryByText, queryByTestId } = render(
-      <downloadsContext.Provider value={mockSiteProviderValueInProgress}>
-        <ResumeDownloadModal />
-      </downloadsContext.Provider>
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValueInProgress}>
+          <ResumeDownloadModal />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     expect(queryByText(resumeDownloadTitle)).toBeTruthy();
     expect(queryByText(resumeCompletedDownloadTitle)).toBeFalsy();
@@ -110,18 +113,22 @@ describe('resume download modal (with react testing-library)', () => {
 
   it('when a single download is present and still preparing, renders a DownloadModalItems container ', () => {
     const { queryByTestId } = render(
-      <downloadsContext.Provider value={mockSiteProviderValueInProgress}>
-        <ResumeDownloadModal />
-      </downloadsContext.Provider>
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValueInProgress}>
+          <ResumeDownloadModal />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     expect(queryByTestId('download-items-container')).toBeDefined();
   });
 
   it('when multiple downloads are present, renders appropriate title and subtitle and buttons', () => {
     const { queryByText, getByTestId } = render(
-      <downloadsContext.Provider value={mockSiteProviderValueMulti}>
-        <ResumeDownloadModal />
-      </downloadsContext.Provider>
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValueMulti}>
+          <ResumeDownloadModal />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     expect(queryByText(resumeDownloadTitleMulti)).toBeTruthy();
     expect(queryByText(resumeDownloadSubtitleMulti)).toBeTruthy();
