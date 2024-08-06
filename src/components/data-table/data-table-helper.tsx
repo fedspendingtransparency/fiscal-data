@@ -111,7 +111,7 @@ export const columnsConstructorData = (
                 }
 
                 if (tableName === 'Demand Deposit Rate' && property === 'daily_factor') {
-                  formattedValue = Number(value).toFixed(8);
+                  formattedValue = Number(value);
                 }
 
                 return formattedValue;
