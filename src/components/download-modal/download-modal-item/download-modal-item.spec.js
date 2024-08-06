@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import DownloadModalItem from './download-modal-item';
 import globalConstants from '../../../helpers/constants';
 import { exportsForUnitTests } from '../../../helpers/download-service/download-service';
+import { RecoilRoot } from 'recoil';
 
 jest.useFakeTimers();
 
@@ -72,7 +73,11 @@ describe('download modal item', () => {
   };
 
   it('Renders a "prepared" download item', async () => {
-    component = <DownloadModalItem datasetId={testId} download={mockPreparedDownload} />;
+    component = (
+      <RecoilRoot>
+        <DownloadModalItem datasetId={testId} download={mockPreparedDownload} />
+      </RecoilRoot>
+    );
     const { getByTestId, queryByTestId } = render(component);
 
     expect(getByTestId('title')).toHaveTextContent('Ready for download.');
@@ -84,7 +89,11 @@ describe('download modal item', () => {
   });
 
   it('Renders a "preparing" download item', async () => {
-    component = <DownloadModalItem download={mockDownload} />;
+    component = (
+      <RecoilRoot>
+        <DownloadModalItem download={mockDownload} />
+      </RecoilRoot>
+    );
     const { getByTestId } = render(component);
 
     expect(getByTestId('title')).toHaveTextContent('Currently preparing:');
@@ -99,19 +108,31 @@ describe('download modal item', () => {
   });
 
   it('renders a an indefinite spinner for a resumed "preparing" download item', async () => {
-    component = <DownloadModalItem download={mockDownload} resumed />;
+    component = (
+      <RecoilRoot>
+        <DownloadModalItem download={mockDownload} resumed />
+      </RecoilRoot>
+    );
     const { queryAllByTestId } = render(component);
     expect(queryAllByTestId('spinner-icon').length).toBeTruthy();
   });
 
   it('does not render a an indefinite spinner for a regular "preparing" download item', async () => {
-    component = <DownloadModalItem download={mockDownload} />;
+    component = (
+      <RecoilRoot>
+        <DownloadModalItem download={mockDownload} />
+      </RecoilRoot>
+    );
     const { queryAllByTestId } = render(component);
     expect(queryAllByTestId('spinner-icon').length).toStrictEqual(0);
   });
 
   it('Renders a "queued" download item', async () => {
-    component = <DownloadModalItem download={mockQueuedDownload} />;
+    component = (
+      <RecoilRoot>
+        <DownloadModalItem download={mockQueuedDownload} />
+      </RecoilRoot>
+    );
     const { getByTestId } = render(component);
 
     expect(getByTestId('title')).toHaveTextContent('Queued for download next:');

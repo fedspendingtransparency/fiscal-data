@@ -47,7 +47,7 @@ describe('Download Modal Buttons', () => {
 
   it('has a copy function that returns a button with a passed in label', () => {
     const labelText = 'Dummy Label';
-    const copyButton = buttons.copyToClipboardButton('Dummy Text', labelText);
+    const copyButton = buttons.copyToClipboardButton('Dummy Text', 'Test', labelText);
     expect(copyButton.type).toStrictEqual('button');
     expect(copyButton.props.children).toStrictEqual(labelText);
   });
@@ -55,9 +55,9 @@ describe('Download Modal Buttons', () => {
   it("copy button copies the passed in text to the user's clipboard when clicked and fires a GA event", () => {
     const textToCopy = 'Dummy Text';
     const gaSpy = jest.spyOn(gaHelper, 'generateAnalyticsEvent');
-    const copyButton = buttons.copyToClipboardButton(textToCopy);
+    const copyButton = buttons.copyToClipboardButton(textToCopy, 'Test');
     copyButton.props.onClick();
     expect(writeTextSpy).toHaveBeenCalledWith(textToCopy);
-    expect(gaSpy).toHaveBeenCalledWith(gaCopyLabelStr);
+    expect(gaSpy).toHaveBeenCalledWith('Test', gaCopyLabelStr + ' Click');
   });
 });

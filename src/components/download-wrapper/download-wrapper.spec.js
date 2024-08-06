@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { act, render } from '@testing-library/react';
-import DownloadWrapper, { cancelEventLabelStr } from './download-wrapper';
+import DownloadWrapper, { cancelEventActionStr } from './download-wrapper';
 import DownloadItemButton from './download-item-button/download-item-button';
 import Analytics from '../../utils/analytics/analytics';
 import { enableFetchMocks } from 'jest-fetch-mock';
@@ -260,8 +260,10 @@ describe('DownloadWrapper', () => {
     renderer.act(() => {
       modal.props.setCancelDownloadRequest(true);
     });
-
-    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ label: cancelEventLabelStr }));
+    const gaLabel =
+      'Table Name: undefined, Type: csv, Date Range: Wed Jan 01 2020 00:00:00 GMT-0600 (Central Standard Time)-Sun Nov 01 2020 00:00:00 GMT-0500 (Central Daylight Time)';
+    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ action: cancelEventActionStr }));
   });
 
   it('displays detailViewFilter selection when applied', () => {
