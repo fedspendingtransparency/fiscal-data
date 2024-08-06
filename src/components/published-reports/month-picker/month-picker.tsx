@@ -39,7 +39,6 @@ const MonthPicker: FunctionComponent<IMonthPicker> = ({
 
   const handleKeyboardBlur: FocusEventHandler = event => {
     if (event) {
-      console.log(event);
       const parent = dropdownRef.current;
       const related = event?.relatedTarget as HTMLElement;
       if (!parent?.outerText.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
