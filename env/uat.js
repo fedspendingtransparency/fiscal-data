@@ -34,18 +34,6 @@ module.exports = {
       relatedDatasets: ['015-BFS-2020Q4-xx', '015-BFS-2014Q1-03', '015-BFS-2014Q1-13', '015-BFS-2017Q2-003'],
       currentDateButton: 'byMonth',
     },
-    '015-BFS-2024Q1-001': {
-      slug: '/federal-investments-program-principal-outstanding/',
-      seoConfig: {
-        pageTitle: 'Federal Investments Program: Principal Outstanding',
-        description:
-          'All securities held by type of security and for each Government Account Series Investment agency.',
-        keywords: 'Financial Summaries',
-      },
-      topics: ['financial-summaries'],
-      relatedDatasets: ['015-BFS-2014Q3-098', '015-BFS-2014Q3-051'],
-      currentDateButton: 'byMonth',
-    },
     '015-BFS-2024Q2-001': {
       slug: '/treasury-securities-buybacks/',
       seoConfig: {
@@ -203,22 +191,6 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'treasury_offset_program',
       alwaysSortWith: ['record_date, src_line_nbr'],
-      selectColumn: [],
-    },
-    // FIP
-    '308': {
-      endpoint: 'v1/accounting/od/fip_principal_outstanding_table1',
-      dateField: 'record_date',
-      downloadName: 'FIP_PO_Principal_Outstanding',
-      alwaysSortWith: ['-record_date,account_nbr,src_line_nbr'],
-      selectColumn: [],
-    },
-    // FIP
-    '309': {
-      endpoint: 'v1/accounting/od/fip_principal_outstanding_table2',
-      dateField: 'record_date',
-      downloadName: 'FIP_PO_Total_Outstanding_Inflation_Comp',
-      alwaysSortWith: ['-record_date,account_nbr,src_line_nbr'],
       selectColumn: [],
     },
     // Buybacks

@@ -1,6 +1,5 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
-import { Link as ScrollLink } from 'react-scroll';
 import { graphql, useStaticQuery } from 'gatsby';
 import { code, sectionBreak } from '../../../pages/api-documentation/api.module.scss';
 import { endpointTableSpacing, listOfEndpointsTable } from './endpoints.module.scss';
@@ -124,10 +123,7 @@ const Endpoints = () => {
         <p>
           Many datasets are associated with only one data table, and thus, one API endpoint. There are some datasets comprised of more than one data
           table, and therefore have more than one endpoint. Find more details on{' '}
-          <ScrollLink to="list-of-endpoints-table" className={`primary`} smooth={true} duration={600} delay={200}>
-            Multi-Endpoint Datasets
-          </ScrollLink>{' '}
-          below.
+          <CustomLink url="#list-of-endpoints-table">Multi-Endpoint Datasets</CustomLink> below.
         </p>
       </SectionContent>
       <SectionContent id="list-of-endpoints" headingLevel={3} title="List of Endpoints">

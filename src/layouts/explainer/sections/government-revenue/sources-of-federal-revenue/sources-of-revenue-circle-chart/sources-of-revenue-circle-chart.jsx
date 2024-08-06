@@ -41,7 +41,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const [combinedIncomeAmount, setCombinedIncomeAmount] = useState(0);
   const [combinedIncomePercent, setCombinedIncomePercent] = useState(0);
 
-  const [chartData, setChartData] = useState({});
+  const [chartData, setChartData] = useState({ children: [] });
   const [categoryData, setCategoryData] = useState(null);
 
   const [chartAltText, setChartAltText] = useState('');
@@ -296,7 +296,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     setChartGAHover(false);
     handleChartMouseLeave();
   };
-
   return (
     <>
       <div className={visWithCallout}>
@@ -311,7 +310,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
           customFooterStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
         >
-          {chartData !== {} ? (
+          {chartData.children && chartData.children.length > 0 ? (
             <div className={dataContent}>
               <div
                 role="presentation"

@@ -73,7 +73,7 @@ export const siteFooterColumns = [
 
 const SiteFooter = () => {
   const fiscalURL = globalConstants.FISCAL_TREASURY_URL;
-
+  const copyrightDate = new Date().getFullYear();
   const clickHandler = action => {
     Analytics.event({
       category: 'Sitewide Navigation',
@@ -122,7 +122,7 @@ const SiteFooter = () => {
       </div>
       <div className={footerBottom}>
         <div className={bottomContent}>
-          <div className={copyright}>&copy; 2020 Data Transparency</div>
+          <div className={copyright}>&copy; {copyrightDate} Data Transparency</div>
           <div className={footerBottomLinks}>
             <CustomLink href={`${fiscalURL}/accessibility.html`}>Accessibility</CustomLink>
             <CustomLink href={`${fiscalURL}/privacy.html`}>Privacy Policy</CustomLink>

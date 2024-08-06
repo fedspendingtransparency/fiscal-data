@@ -27,6 +27,8 @@ import {
 import { faCheckCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDate } from '../../download-wrapper/helpers';
+import { useRecoilValue } from 'recoil';
+import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
 
 /**
  *
@@ -38,6 +40,7 @@ import { formatDate } from '../../download-wrapper/helpers';
 const DownloadModalItem = ({ download, cancelDownloadRequest, resumed = false }) => {
   const fileNameArr = download.filename?.split('_');
   const fileName = fileNameArr ? `${fileNameArr.slice(0, fileNameArr.length - 2).join('_')}.zip` : download.filename;
+  const dapGaEventLabel = useRecoilValue(reactTableFilteredDateRangeState);
 
   const formatDateRange = range => {
     const from = formatDate(new Date(range?.from));
@@ -130,7 +133,7 @@ const DownloadModalItem = ({ download, cancelDownloadRequest, resumed = false })
                   {download.statusPath}
                 </div>
                 <div className={`${copyLinkButton} copyLinkButton`} data-testid="copy-link-button">
-                  {buttons.copyToClipboardButton(download.statusPath)}
+                  {buttons.copyToClipboardButton(download.statusPath, dapGaEventLabel)}
                 </div>
               </div>
             </div>

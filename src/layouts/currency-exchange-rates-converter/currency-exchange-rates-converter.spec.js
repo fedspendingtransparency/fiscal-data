@@ -219,7 +219,7 @@ it('calls the appropriate analytics event when Effective Date info tip is hovere
   expect(spy).toHaveBeenCalledWith({
     category: 'Exchange Rates Converter',
     action: `Additional Info Hover`,
-    label: 'Additional Effective Date Info',
+    label: 'Additional Published Date Info',
   });
   jest.runAllTimers();
 });
