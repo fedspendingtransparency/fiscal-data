@@ -20,7 +20,7 @@ import {
   lastColumn,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
@@ -34,8 +34,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     from: undefined,
     to: undefined,
   });
-  const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState('mm/dd/yyyy');
-  const [filterDisplayEndDate, setFilterDisplayEndDate] = useState('mm/dd/yyyy');
+  const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState('');
+  const [filterDisplayEndDate, setFilterDisplayEndDate] = useState('');
   const [beginTextStyle, setBeginTextStyle] = useState(noTextHighLight);
   const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
@@ -76,8 +76,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         from: Date.now(),
         to: Date.now(),
       });
-      const start = moment(Date.now()).format('M/DD/YYYY');
-      const end = moment(Date.now()).format('M/DD/YYYY');
+      const start = moment(Date.now()).format('YYYY-MM-DD');
+      const end = moment(Date.now()).format('YYYY-MM-DD');
       onFilterChange(`${start} - ${end}`);
       setFilterDisplayBeginDate(start);
       setFilterDisplayEndDate(end);
@@ -121,8 +121,29 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
-  const validateDate = date => {
-    return moment(date, 'MM/DD/YYYY', true).isValid();
+  const handleDateInputChange = (e, isStart) => {
+    const date = e.target.value;
+    if (isStart) {
+      setFilterDisplayBeginDate(date);
+      setSelected({ ...selected, from: new Date(date) });
+      setIsStartFocused(false);
+      setIsEndFocused(true);
+    } else {
+      setFilterDisplayEndDate(date);
+      setSelected({ ...selected, to: new Date(date) });
+      setIsStartFocused(false);
+      setIsEndFocused(false);
+      setActive(false);
+    }
+  };
+
+  const handleKeyDown = (e, isStart) => {
+    if (e.key === 'Enter') {
+      handleDateInputChange(e, isStart);
+      if (isStart) {
+        setIsEndFocused(true);
+      }
+    }
   };
 
   useEffect(() => {
@@ -134,7 +155,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       document.removeEventListener('click', handleEventListener);
       setBeginTextStyle(noTextHighLight);
       setEndTextStyle(noTextHighLight);
-      if (filterDisplayBeginDate && filterDisplayEndDate === 'mm/dd/yyyy') {
+      if (filterDisplayBeginDate && filterDisplayEndDate === '') {
         setSelected(undefined);
         onFilterChange(undefined);
       }
@@ -147,9 +168,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       const end = moment(selected?.to);
       setFilteredDateRange({ from: start, to: end });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
-      onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
-      setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
-      setFilterDisplayEndDate(end.format('M/DD/YYYY'));
+      onFilterChange(`${start.format('YYYY-MM-DD')} - ${end.format('YYYY-MM-DD')}`);
+      setFilterDisplayBeginDate(start.format('YYYY-MM-DD'));
+      setFilterDisplayEndDate(end.format('YYYY-MM-DD'));
       setEndTextStyle(noTextHighLight);
       setActive(false);
     } else {
@@ -161,7 +182,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       const start = moment(selected?.from);
       setEndTextStyle(textHighlighted);
       setBeginTextStyle(noTextHighLight);
-      setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
+      setFilterDisplayBeginDate(start.format('YYYY-MM-DD'));
     }
   }, [selected]);
 
@@ -183,34 +204,20 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           ref={displayRef}
         >
           <input
-            className={dateTextBegin}
-            type="text"
-            placeholder="Start"
+            type="date"
             value={filterDisplayBeginDate}
-            onChange={e => {
-              setFilterDisplayBeginDate(e.target.value);
-              if (validateDate(e.target.value)) {
-                setErrorMessage('');
-              } else {
-                setErrorMessage('Invalid date range. Please check the entered dates and try again.');
-              }
-            }}
+            onChange={e => handleDateInputChange(e, true)}
+            onBlur={e => handleTextBoxBlur(e)}
+            onKeyDown={e => handleKeyDown(e, true)}
             onFocus={() => handleTextBoxClick(true)}
           />
-          <div className={dateDivider}> |</div>
+          <div className={dateDivider}>|</div>
           <input
-            className={dateTextBegin}
-            type="text"
+            type="date"
             value={filterDisplayEndDate}
-            placeholder="End"
-            onChange={e => {
-              setFilterDisplayEndDate(e.target.value);
-              if (validateDate(e.target.value)) {
-                setErrorMessage('');
-              } else {
-                setErrorMessage('Invalid date range. Please check the entered dates and try again.');
-              }
-            }}
+            onChange={e => handleDateInputChange(e, false)}
+            onBlur={e => handleTextBoxBlur(e)}
+            onKeyDown={e => handleKeyDown(e, false)}
             onFocus={() => handleTextBoxClick(false)}
           />
           {selected ? (
@@ -218,7 +225,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
             </span>
           ) : (
-            <FontAwesomeIcon icon={faCalendar} className={calendarIcon} />
+            <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
           )}
         </div>
       </div>

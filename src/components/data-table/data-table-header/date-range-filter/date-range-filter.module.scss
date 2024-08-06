@@ -5,7 +5,7 @@
   //border-radius: 0.125rem;
 
   .dateEntryBox {
-    border: 1px solid $primary;
+    //border: 1px solid $primary;
   }
 }
 
@@ -18,11 +18,14 @@
   border: 0  !important;
   border-width: 0px !important;
   &:focus {
+    box-shadow: 0 0 0 0.25rem #e8f5ff;
+    border: 1px solid $primary;
     border: none  !important;
     border-width: 0px !important;
   }
   &:active {
     box-shadow: 0 0 0 0.25rem #e8f5ff;
+    border: 1px solid $primary;
     border-radius: 0.125rem;
     border: 0  !important;
     border-width: 0px !important;
@@ -31,9 +34,9 @@
 }
 
 .dateTextBegin {
-  margin-left: 10px;
   margin-bottom: 10.5px;
   margin-top: 10.5px;
+  padding-left: 8px;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 112px;
@@ -42,20 +45,20 @@
   border-radius: 4px;
   height: 95%;
   &:active {
-    box-shadow: 0 0 0 0.25rem #e8f5ff;
-    border-radius: 0.125rem;
+    border: 4px solid $primary;
+    border-radius: 0.25rem;
     border: none;
   }
-
 }
 input {
-  border: none !important;
-  &:active,
   &:focus {
-    border: none !important;
-    border-radius: 0.125rem;
-    box-shadow: 0 0 0 0.25rem #e8f5ff;
+    border: 0;
+    outline: none;
   }
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
 }
 .dateDivider {
   padding-left: 2.5px;
