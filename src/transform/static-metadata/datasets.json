@@ -568,5 +568,17 @@
     "topics": ["financial-summaries", "revenue"],
     "relatedDatasets": ["015-BFS-2014Q1-13", "015-BFS-2014Q1-03", "015-BFS-2014Q1-07"],
     "currentDateButton": "byMonth"
+  },
+  "015-BFS-2024Q1-001": {
+    "slug": "/federal-investments-program-principal-outstanding/",
+    "seoConfig": {
+      "pageTitle": "Federal Investments Program: Principal Outstanding",
+      "description":
+      "All securities held by type of security and for each Government Account Series Investment agency.",
+      "keywords": "Financial Summaries"
+    },
+    "topics": ["financial-summaries"],
+    "relatedDatasets": ["015-BFS-2014Q3-098", "015-BFS-2014Q3-051"],
+    "currentDateButton": "byMonth"
   }
 }
