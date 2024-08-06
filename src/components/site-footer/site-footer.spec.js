@@ -24,7 +24,11 @@ describe('SiteFooter', () => {
 
   //copyright
   it('contains the copyright date', () => {
-    const { getByText } = render(<SiteFooter />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
     const copyrightDate = new Date().getFullYear();
     expect(getByText(copyrightDate, { exact: false })).toBeDefined();
   });
