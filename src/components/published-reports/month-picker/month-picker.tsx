@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useRef, useState } from 'react';
 import MonthPickerDropdown from './month-picker-dropdown/month-picker-dropdown';
-import { publishedDateLabel, datePickerButton, glow } from './month-picker.module.scss';
+import { publishedDateLabel, datePickerButton, glow, datePickerContainer } from './month-picker.module.scss';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useOnClickOutside from 'use-onclickoutside';
@@ -41,14 +41,14 @@ const MonthPicker: FunctionComponent<IMonthPicker> = ({
     if (event) {
       const parent = dropdownRef.current;
       const related = event?.relatedTarget as HTMLElement;
-      if (!parent.outerText.includes(related.outerText) && related?.id !== 'gatsby-focus-wrapper') {
+      if (!parent?.outerText.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
         setActive(false);
       }
     }
   };
 
   return (
-    <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation">
+    <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation" className={datePickerContainer}>
       <div className={active ? glow : null}>
         <button className={datePickerButton} onClick={() => setActive(!active)} aria-label="Select Published Report Date">
           <div>

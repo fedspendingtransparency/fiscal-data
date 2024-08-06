@@ -7,7 +7,7 @@ const ChartDescription = () => {
   const descriptionList = ['AD', 'E', 'EE', 'F', 'G', 'H', 'I', 'J', 'K', 'HH'];
 
   return (
-    <div className={descriptionsContainer} style={{ paddingTop: '1.5rem' }}>
+    <div className={descriptionsContainer}>
       <ScrollContainer
         customContainerStyle={{ height: 'fit-content' }}
         gradientColor="#f1f1f1"

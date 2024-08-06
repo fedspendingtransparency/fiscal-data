@@ -129,41 +129,39 @@ const ComboSelectDropdown = ({
               inputRef={inputRef}
             />
           </div>
-          <div style={{ paddingTop: '1.5rem' }}>
-            <ScrollContainer deps={[filteredOptions, selectedOption, filterValue]}>
-              {filteredOptions.length === 0 ? (
-                <div className={noMatch}>
-                  No match for <span className={unmatchedTerm}>'{filterValue}'</span>. Please revise your search and try again.
-                </div>
-              ) : (
-                <ul className={dropdownList} data-testid="dropdown-list" style={{ height: filteredOptions.length > 5 ? '11.875rem' : '' }}>
-                  {filteredOptions.map((option, index) => {
-                    return (
-                      <React.Fragment key={index}>
-                        <li
-                          className={classNames([
-                            dropdownListItem,
-                            option[optionLabelKey] === selectedOption[optionLabelKey] ? dropdownListItem_Selected : '',
-                          ])}
+          <ScrollContainer deps={[filteredOptions, selectedOption, filterValue]}>
+            {filteredOptions.length === 0 ? (
+              <div className={noMatch}>
+                No match for <span className={unmatchedTerm}>'{filterValue}'</span>. Please revise your search and try again.
+              </div>
+            ) : (
+              <ul className={dropdownList} data-testid="dropdown-list" style={{ height: filteredOptions.length > 5 ? '11.875rem' : '' }}>
+                {filteredOptions.map((option, index) => {
+                  return (
+                    <React.Fragment key={index}>
+                      <li
+                        className={classNames([
+                          dropdownListItem,
+                          option[optionLabelKey] === selectedOption[optionLabelKey] ? dropdownListItem_Selected : '',
+                        ])}
+                      >
+                        <button
+                          className={dropdownListItem_Button}
+                          onClick={() => updateSelection(option, true)}
+                          disabled={required && !option.value}
+                          title={required && !option.value && disabledMessage ? disabledMessage : null}
+                          aria-label={option[optionLabelKey]}
+                          data-testid="dropdown-list-option"
                         >
-                          <button
-                            className={dropdownListItem_Button}
-                            onClick={() => updateSelection(option, true)}
-                            disabled={required && !option.value}
-                            title={required && !option.value && disabledMessage ? disabledMessage : null}
-                            aria-label={option[optionLabelKey]}
-                            data-testid="dropdown-list-option"
-                          >
-                            {underlineMatchedString(option[optionLabelKey], filterValue)}
-                          </button>
-                        </li>
-                      </React.Fragment>
-                    );
-                  })}
-                </ul>
-              )}
-            </ScrollContainer>
-          </div>
+                          {underlineMatchedString(option[optionLabelKey], filterValue)}
+                        </button>
+                      </li>
+                    </React.Fragment>
+                  );
+                })}
+              </ul>
+            )}
+          </ScrollContainer>
         </div>
       )}
     </>

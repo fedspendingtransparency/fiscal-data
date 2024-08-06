@@ -70,7 +70,7 @@ const GlossaryListContainer: FunctionComponent<IGlossaryList> = ({ sortedTermLis
       {selectedTerm ? (
         <GlossaryDefinition glossaryTerm={selectedTerm} />
       ) : (
-        <div style={{ paddingTop: '1.5rem' }}>
+        <>
           <ScrollContainer deps={[displayList, selectedTerm]} customChildStyle={{ marginBottom: '12.825rem', paddingRight: '1rem' }}>
             {displayList.length ? (
               <GlossaryDisplayList sortedList={displayList} filter={filter} selectedTermHandler={setSelectedTerm} setTabReset={setTabReset} />
@@ -78,7 +78,7 @@ const GlossaryListContainer: FunctionComponent<IGlossaryList> = ({ sortedTermLis
               <NoGlossaryMatch filter={filter} />
             )}
           </ScrollContainer>
-        </div>
+        </>
       )}
     </>
   );
