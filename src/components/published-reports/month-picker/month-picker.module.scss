@@ -1,32 +1,63 @@
-@import '../../../variables.module.scss';
+@import '../../../variables.module';
 
-.datePickerContainer {
-  width: fit-content;
+.publishedDateLabel, .selectedDateDisplay {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
 }
 
-.datePickerButton {
+.yearButton {
   font-size: $font-size-16;
   background: none;
-  border: 1px solid $light-grey-border;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  border: none;
   color: $font-body-copy;
-  padding: 0.625rem 1rem;
-  width: 20rem;
+  font-weight: $semi-bold-weight;
+  padding: 0.625rem 1rem 0.625rem 0;
+  margin-top: 1rem;
+  width: 100%;
 
-  .publishedDateLabel {
-    font-weight: $semi-bold-weight;
-    white-space: pre;
+  .arrowIcon {
+    padding-left: 0.5rem;
   }
 }
 
-  .glow {
-    box-shadow: 0 0 0 0.25rem $primary-blue;
-    border-radius: 0.125rem;
-    width: fit-content;
-    .datePickerButton {
-      border: 1px solid $primary;
+.dropdownList {
+  overflow-y: auto;
+  margin-top: -1.5rem;
+
+  ul {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    height: 12.375rem;
+  }
+
+  li {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    button {
+      font-size: $font-size-16;
+      background: none;
+      border: none;
+      color: $font-body-copy;
+      padding: .5rem .75rem;
+      width: 100%;
+      border-radius: 3px;
+
+      &.selected {
+        background-color: #EFF6FB;
+        color: #0071BC;
+      }
     }
   }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .yearButton {
+    padding-right: 0;
+  }
+}

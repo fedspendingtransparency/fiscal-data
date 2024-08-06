@@ -1,85 +1,80 @@
 import React from 'react';
-import { render, within, act, fireEvent } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
 import MonthPicker from './month-picker';
-import userEvent from '@testing-library/user-event';
 
 describe('Month Picker', () => {
-  const monthDropdownList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'];
-  const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
-
-  it('Default button', () => {
-    const { getByRole } = render(<MonthPicker monthDropdownOptions={monthDropdownList} yearDropdownOptions={yearDropdownList} />);
-    const button = getByRole('button');
-    expect(button).toBeInTheDocument();
-    expect(within(button).getByText('Published Date:')).toBeInTheDocument();
-    expect(within(button).getByText('August 2024')).toBeInTheDocument();
+  const mockDropdownOptions = ['March', 'April', 'May'];
+  const mockYearDropdownOptions = ['2020', '2019', 2018];
+  it('Renders provided month options as buttons', () => {
+    const { getByRole } = render(
+      <MonthPicker
+        monthDropdownOptions={mockDropdownOptions}
+        yearDropdownOptions={mockYearDropdownOptions}
+        setSelectedDate={jest.fn()}
+        handleClose={jest.fn()}
+        selectedDate="August 2024"
+      />
+    );
+    expect(getByRole('button', { name: mockDropdownOptions[0] })).toBeInTheDocument();
+    expect(getByRole('button', { name: mockDropdownOptions[1] })).toBeInTheDocument();
+    expect(getByRole('button', { name: mockDropdownOptions[2] })).toBeInTheDocument();
   });
 
-  it('Opens and closes date picker dropdown on click', () => {
-    const { getByRole, getAllByRole } = render(<MonthPicker monthDropdownOptions={monthDropdownList} yearDropdownOptions={yearDropdownList} />);
-    const button = getByRole('button');
+  it('Renders year button', () => {
+    const { getByRole, queryByRole } = render(
+      <MonthPicker
+        monthDropdownOptions={mockDropdownOptions}
+        yearDropdownOptions={mockYearDropdownOptions}
+        setSelectedDate={jest.fn()}
+        handleClose={jest.fn()}
+        selectedDate="August 2024"
+      />
+    );
+    const yearButton = getByRole('button', { name: 'Open Year Dropdown' });
+    expect(yearButton).toBeInTheDocument();
     act(() => {
-      fireEvent.click(button);
+      yearButton.click();
     });
-    expect(getAllByRole('button').length).toBeGreaterThan(1);
-    act(() => {
-      fireEvent.click(button);
-    });
-    expect(getAllByRole('button').length).toBe(1);
+    expect(queryByRole('button', { name: mockDropdownOptions[0] })).not.toBeInTheDocument();
   });
 
-  it('Opens date picker dropdown on enter key press', () => {
-    const { getByRole, getAllByRole } = render(<MonthPicker monthDropdownOptions={monthDropdownList} yearDropdownOptions={yearDropdownList} />);
-    const button = getByRole('button', { name: 'Select Published Report Date' });
-    act(() => {
-      userEvent.tab();
-      expect(button).toHaveFocus();
-      userEvent.keyboard('{Enter}');
-    });
-    expect(getAllByRole('button').length).toBeGreaterThan(1);
-    act(() => {
-      userEvent.keyboard('{Enter}');
-    });
-    expect(getAllByRole('button').length).toBe(1);
-  });
+  it('renders Apply button', () => {
+    const mockHandleCloseFn = jest.fn();
+    const mockSetSelectedDateFn = jest.fn();
 
-  it('updates selected date ', () => {
-    const { getByRole, getAllByRole } = render(<MonthPicker monthDropdownOptions={monthDropdownList} yearDropdownOptions={yearDropdownList} />);
-    const button = getByRole('button', { name: 'Select Published Report Date' });
-    act(() => {
-      fireEvent.click(button);
-    });
-    expect(getAllByRole('button').length).toBeGreaterThan(1);
-    act(() => {
-      fireEvent.click(getByRole('button', { name: 'March' }));
-      fireEvent.click(getByRole('button', { name: 'Open Year Dropdown' }));
-    });
-    act(() => {
-      fireEvent.click(getByRole('button', { name: '2022' }));
-    });
+    const { getByRole } = render(
+      <MonthPicker
+        monthDropdownOptions={mockDropdownOptions}
+        yearDropdownOptions={mockYearDropdownOptions}
+        handleClose={mockHandleCloseFn}
+        setSelectedDate={mockSetSelectedDateFn}
+        selectedDate="August 2024"
+      />
+    );
     act(() => {
       fireEvent.click(getByRole('button', { name: 'Apply Selected Date' }));
     });
-
-    expect(within(button).getByText('March 2022')).toBeInTheDocument();
+    expect(mockHandleCloseFn).toHaveBeenCalled();
+    expect(mockSetSelectedDateFn).toHaveBeenCalled();
   });
 
-  it('cancels selected date ', () => {
-    const { getByRole, getAllByRole } = render(<MonthPicker monthDropdownOptions={monthDropdownList} yearDropdownOptions={yearDropdownList} />);
-    const button = getByRole('button', { name: 'Select Published Report Date' });
-    expect(within(button).getByText('August 2024')).toBeInTheDocument();
+  it('renders Cancel button', () => {
+    const mockHandleCloseFn = jest.fn();
+    const mockSetSelectedDateFn = jest.fn();
 
-    act(() => {
-      fireEvent.click(button);
-    });
-    expect(getAllByRole('button').length).toBeGreaterThan(1);
-    act(() => {
-      fireEvent.click(getByRole('button', { name: 'March' }));
-    });
+    const { getByRole } = render(
+      <MonthPicker
+        monthDropdownOptions={mockDropdownOptions}
+        yearDropdownOptions={mockYearDropdownOptions}
+        handleClose={mockHandleCloseFn}
+        setSelectedDate={mockSetSelectedDateFn}
+        selectedDate="August 2024"
+      />
+    );
     act(() => {
       fireEvent.click(getByRole('button', { name: 'Cancel' }));
     });
-
-    expect(within(button).getByText('August 2024')).toBeInTheDocument();
+    expect(mockHandleCloseFn).toHaveBeenCalled();
+    expect(mockSetSelectedDateFn).not.toHaveBeenCalled();
   });
 });

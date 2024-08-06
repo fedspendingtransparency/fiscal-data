@@ -1,74 +1,82 @@
-import React, { FocusEventHandler, FunctionComponent, useRef, useState } from 'react';
-import MonthPickerDropdown from './month-picker-dropdown/month-picker-dropdown';
-import { publishedDateLabel, datePickerButton, glow, datePickerContainer } from './month-picker.module.scss';
+import React, { FunctionComponent, useState } from 'react';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import useOnClickOutside from 'use-onclickoutside';
+import { dropdownList, selected, yearButton, arrowIcon } from './month-picker.module.scss';
+import ScrollContainer from '../../scroll-container/scroll-container';
+import ReportDateDropdown from '../report-date-dropdown/report-date-dropdown';
 
-const monthDropdownList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'];
-const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
-
-interface IMonthPicker {
-  monthDropdownOptions?: string[];
-  yearDropdownOptions?: string[];
+interface IMonthPickerDropdown {
+  monthDropdownOptions: string[];
+  yearDropdownOptions: string[];
+  selectedDate: string;
+  setSelectedDate: (date: string) => void;
+  handleClose: () => void;
 }
 
-const MonthPicker: FunctionComponent<IMonthPicker> = ({
-  monthDropdownOptions = monthDropdownList,
-  yearDropdownOptions = yearDropdownList,
-}: IMonthPicker) => {
-  const [active, setActive] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('August 2024');
-  const dropdownRef = useRef(null);
+const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
+  monthDropdownOptions,
+  yearDropdownOptions,
+  setSelectedDate,
+  selectedDate,
+  handleClose,
+}: IMonthPickerDropdown) => {
+  const [showYears, setShowYears] = useState(false);
+  const date = selectedDate.split(' ');
+  const [selectedMonth, setSelectedMonth] = useState(date[0]);
+  const [selectedYear, setSelectedYear] = useState(date[1]);
 
-  /* accessibility-enabling event handlers for interpreting focus state on control */
-  const handleMouseBlur = (event: MouseEvent) => {
-    if (event) {
-      const currentTarget = event.target as HTMLElement;
-      const relatedTarget = event.relatedTarget as HTMLElement;
-      const mouseEvent = event.type !== 'blur';
-      if (mouseEvent && !currentTarget?.parentElement?.contains(relatedTarget)) {
-        setTimeout(() => {
-          setActive(false);
-        });
-      }
-    }
+  const handleMonthClick = (month: string) => {
+    setSelectedMonth(month);
   };
 
-  useOnClickOutside(dropdownRef, handleMouseBlur);
+  const handleYearClick = (year: string) => {
+    setShowYears(false);
+    setSelectedYear(year);
+  };
 
-  const handleKeyboardBlur: FocusEventHandler = event => {
-    if (event) {
-      console.log(event);
-      const parent = dropdownRef.current;
-      const related = event?.relatedTarget as HTMLElement;
-      if (!parent?.outerText.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
-        setActive(false);
-      }
+  const handleApply = () => {
+    setSelectedDate(selectedMonth + ' ' + selectedYear);
+    if (handleClose) {
+      handleClose();
     }
   };
 
   return (
-    <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation" className={datePickerContainer}>
-      <div className={active ? glow : null}>
-        <button className={datePickerButton} onClick={() => setActive(!active)} aria-label="Select Published Report Date">
-          <div>
-            <span className={publishedDateLabel}>Published Date: </span>
-            {selectedDate}
-          </div>
-          <FontAwesomeIcon icon={active ? faCaretUp : faCaretDown} />
+    <ReportDateDropdown handleClose={handleClose} handleApply={handleApply} displayDate={selectedMonth + ' ' + selectedYear}>
+      <>
+        <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Open Year Dropdown">
+          {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretDown : faCaretUp} />
         </button>
-      </div>
-      {active && (
-        <MonthPickerDropdown
-          monthDropdownOptions={monthDropdownOptions}
-          yearDropdownOptions={yearDropdownOptions}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          handleClose={() => setActive(false)}
-        />
-      )}
-    </div>
+        <div className={dropdownList}>
+          {showYears && (
+            <ScrollContainer deps={[yearDropdownOptions, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
+              <ul>
+                {yearDropdownOptions?.map((option, i) => (
+                  <li key={i}>
+                    <button className={option === selectedYear ? selected : null} onClick={() => handleYearClick(option)}>
+                      {option}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </ScrollContainer>
+          )}
+          {!showYears && (
+            <ScrollContainer deps={[yearDropdownOptions, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
+              <ul>
+                {monthDropdownOptions?.map((option, i) => (
+                  <li key={i}>
+                    <button className={option === selectedMonth ? selected : null} onClick={() => handleMonthClick(option)}>
+                      {option}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </ScrollContainer>
+          )}
+        </div>
+      </>
+    </ReportDateDropdown>
   );
 };
 
