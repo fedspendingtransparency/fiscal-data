@@ -9,8 +9,8 @@ const monthDropdownList = ['January', 'February', 'March', 'April', 'May', 'June
 const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
 
 interface IMonthPicker {
-  monthDropdownOptions: string[];
-  yearDropdownOptions: string[];
+  monthDropdownOptions?: string[];
+  yearDropdownOptions?: string[];
 }
 
 const MonthPicker: FunctionComponent<IMonthPicker> = ({
