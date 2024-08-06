@@ -246,6 +246,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const handleDateChange = (selectedDateOption: DropdownOption) => {
     setSelectedDate(selectedDateOption);
+    analyticsHandler('Published Date Selection', selectedDateOption.value);
     if (selectedDateOption) {
       const newCurrency = data.find(
         record =>
@@ -321,7 +322,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                       publishedDateInfoIcon.body,
                       'effective-date-info-tip',
                       true,
-                      () => handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date'),
+                      () => handleMouseEnterInfoTip('Additional Published Date Info', 'eff-date'),
                       handleInfoTipClose
                     )}
                     className={box}
