@@ -48,7 +48,7 @@ module.exports = {
         "apiId": 317,
         "field": "operation_date",
         "label": "Operation Date",
-        "dateRangeLockCopy": "To filter data by date range, select a Operation Date from the table below.",
+        "dateRangeLockCopy": "To filter data by date range, select an Operation Date from the table below.",
         "summaryTableFields": [
           "operation_date",
           "operation_start_time_est",
