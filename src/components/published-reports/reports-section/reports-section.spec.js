@@ -47,7 +47,7 @@ describe('Reports Section component', () => {
 
   it('renders a date picker', () => {
     const { getByText } = render(<ReportsSection />);
-    expect(getByText('Published Date')).toBeInTheDocument();
+    expect(getByText('Published Date:')).toBeInTheDocument();
   });
 
   it('renders a download table', () => {
