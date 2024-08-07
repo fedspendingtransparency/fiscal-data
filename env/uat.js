@@ -49,6 +49,36 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-093'],
       currentDateButton: 'byMonth',
     },
+    '015-BFS-2024Q2-001': {
+      slug: '/treasury-securities-buybacks/',
+      seoConfig: {
+        pageTitle: 'Treasury Securities Buybacks',
+        description:
+          'The Treasury Securities Buybacks dataset contains data related to the U.S. Treasury\'s buyback operations.',
+      },
+      topics: ['debt', 'auctions'],
+      relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-050', '015-BFS-2014Q3-049', '015-BFS-2014Q1-14', '015-BFS-2014Q3-048'],
+      currentDateButton: 'byDay',
+      "detailView": {
+        "apiId": 317,
+        "field": "operation_date",
+        "label": "Operation Date",
+        "dateRangeLockCopy": "To filter data by date range, select an Operation Date from the table below.",
+        "summaryTableFields": [
+          "operation_date",
+          "operation_start_time_est",
+          "operation_close_time_est",
+          "settlement_date"
+        ],
+        "selectColumns": [
+          "cusip_nbr",
+          "coupon_rate_pct",
+          "maturity_date",
+          "par_amt_accepted",
+          "weighted_avg_accepted_price"
+        ],
+      }
+    },
   },
   ADDITIONAL_ENDPOINTS: {
     '160': {
@@ -198,6 +228,34 @@ module.exports = {
       downloadName: 'UTF_Federal_Activity_Statement ',
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
       selectColumn: ['fed_act_statement', 'eff_date', 'shares_per_par', 'trans_descr_code', 'memo_no', 'location_code', 'acct_no'],
+    },
+    // Buybacks
+    '316': {
+      endpoint: 'v1/accounting/od/buybacks_operations',
+      dateField: 'operation_date',
+      downloadName: 'Buybacks_Operations',
+      alwaysSortWith: ['-operation_date'],
+      selectColumns: [
+        'operation_date',
+        'operation_start_time_est',
+        'operation_close_time_est',
+        'settlement_date',
+        'tentative_ann_pdf',
+        'tentative_ann_xml',
+        'final_ann_pdf',
+        'final_ann_xml',
+        'results_pdf',
+        'results_xml',
+        'special_ann_pdf'
+      ],
+    },
+    // Buybacks
+    '317': {
+      endpoint: 'v1/accounting/od/buybacks_security_details',
+      dateField: 'operation_date',
+      downloadName: 'Buybacks_Security_Details',
+      alwaysSortWith: ['-operation_date,maturity_date'],
+      selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
     },
   },
 };

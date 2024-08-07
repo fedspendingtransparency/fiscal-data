@@ -58,7 +58,7 @@ const ScrollContainer = ({
         data-testid="topScrollGradient"
       />
       <div className={container} style={customContainerStyle}>
-        <div className={listItems} style={{ ...customChildStyle, paddingRight: scrollBarWidth + 'px' }} data-testid={dataTestId}>
+        <div className={listItems} style={{ ...customChildStyle }} data-testid={dataTestId}>
           {children}
         </div>
       </div>
