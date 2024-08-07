@@ -9,10 +9,12 @@
   box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
   padding-top: 1rem;
   margin-top: 0.5rem;
+  cursor: pointer;
 
   .publishedDateLabel {
     font-size: $font-size-14;
     margin-bottom: 0.5rem;
+    margin-right: .25rem;
   }
 
   .selectedDateDisplay {
@@ -38,6 +40,7 @@
     margin-left: 1rem;
     display: flex;
     align-items: center;
+    padding: .5rem 1rem;
 
     .checkIcon {
       padding-right: .5rem;
@@ -53,11 +56,9 @@
   }
 
   .applyButton, .cancelButton {
-    padding: .5rem 1rem;
     font-weight: $semi-bold-weight;
     font-size: $font-size-16;
     cursor: pointer;
-
   }
 
 }

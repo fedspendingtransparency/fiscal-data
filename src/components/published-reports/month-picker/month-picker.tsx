@@ -44,8 +44,8 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   return (
     <ReportDateDropdown handleClose={handleClose} handleApply={handleApply} displayDate={selectedMonth + ' ' + selectedYear}>
       <>
-        <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Open Year Dropdown">
-          {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretDown : faCaretUp} />
+        <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">
+          {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretUp : faCaretDown} />
         </button>
         <div className={dropdownList}>
           {showYears && (

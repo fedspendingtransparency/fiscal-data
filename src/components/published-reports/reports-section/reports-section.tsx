@@ -55,6 +55,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
       const year = latestReportDate.getFullYear();
       const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
       setIsDailyReport(isDaily);
+      // console.log(isDaily, day, month, year);
       const filteredReports = sortedReports.filter(
         (report: IReports) =>
           report.report_date.toString().includes(month) &&
