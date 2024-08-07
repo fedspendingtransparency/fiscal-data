@@ -43,9 +43,9 @@ module.exports = {
           'and report type. The reports represent data supporting the Account Statement, Transaction Statement, ' +
           'and the Federal Activity Statement reports. The Unemployment Trust Fund is made up of 59 U.S. Treasury ' +
           'accounts, including an account for each state and some territories.',
-        keywords: 'Debt, Interest and Exchange Rates',
+        keywords: 'Debt, Financial Summaries',
       },
-      topics: ['debt', 'interest-exchange-rates'],
+      topics: ['debt', 'financial-summaries'],
       relatedDatasets: ['015-BFS-2014Q3-093'],
       currentDateButton: 'byMonth',
     },
@@ -53,31 +53,19 @@ module.exports = {
       slug: '/treasury-securities-buybacks/',
       seoConfig: {
         pageTitle: 'Treasury Securities Buybacks',
-        description:
-          'The Treasury Securities Buybacks dataset contains data related to the U.S. Treasury\'s buyback operations.',
+        description: "The Treasury Securities Buybacks dataset contains data related to the U.S. Treasury's buyback operations.",
       },
       topics: ['debt', 'auctions'],
       relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-050', '015-BFS-2014Q3-049', '015-BFS-2014Q1-14', '015-BFS-2014Q3-048'],
       currentDateButton: 'byDay',
-      "detailView": {
-        "apiId": 317,
-        "field": "operation_date",
-        "label": "Operation Date",
-        "dateRangeLockCopy": "To filter data by date range, select an Operation Date from the table below.",
-        "summaryTableFields": [
-          "operation_date",
-          "operation_start_time_est",
-          "operation_close_time_est",
-          "settlement_date"
-        ],
-        "selectColumns": [
-          "cusip_nbr",
-          "coupon_rate_pct",
-          "maturity_date",
-          "par_amt_accepted",
-          "weighted_avg_accepted_price"
-        ],
-      }
+      detailView: {
+        apiId: 317,
+        field: 'operation_date',
+        label: 'Operation Date',
+        dateRangeLockCopy: 'To filter data by date range, select an Operation Date from the table below.',
+        summaryTableFields: ['operation_date', 'operation_start_time_est', 'operation_close_time_est', 'settlement_date'],
+        selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
+      },
     },
   },
   ADDITIONAL_ENDPOINTS: {
@@ -125,7 +113,7 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'GAS_HeldByThePublic_DailyActivity',
       alwaysSortWith: ['-record_date', 'src_line_nbr'],
-      selectColumn: [],
+      selectColumns: [],
       // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
       dataDisplays: [
         {
@@ -152,7 +140,7 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'GAS_IntragovernmentalHoldings_DailyActivity',
       alwaysSortWith: ['-record_date', 'src_line_nbr'],
-      selectColumn: [],
+      selectColumns: [],
       // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
       dataDisplays: [
         {
@@ -179,7 +167,7 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'GAS_DailyActivity_Totals',
       alwaysSortWith: ['-record_date', 'src_line_nbr'],
-      selectColumn: [],
+      selectColumns: [],
       // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
       dataDisplays: [
         {
@@ -206,28 +194,49 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'treasury_offset_program',
       alwaysSortWith: ['record_date', 'src_line_nbr'],
-      selectColumn: [],
+      selectColumns: [],
     },
     '305': {
       endpoint: 'v1/accounting/od/utf_account_statement',
       dateField: 'eff_date',
       downloadName: 'UTF_Account_Statement ',
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
-      selectColumn: ['acct_statement', 'eff_date', 'shares_per_par', 'trans_code', 'trans_descr_code', 'memo_no', 'location_code', 'acct_no'],
+      selectColumns: [
+        'acct_statement',
+        'eff_date',
+        'shares_per_par',
+        'trans_cd',
+        'trans_desc_cd',
+        'memo_nbr',
+        'location_cd',
+        'acct_nbr',
+        'acct_desc',
+        'report_type',
+      ],
     },
     '306': {
       endpoint: 'v1/accounting/od/utf_transaction_statement',
       dateField: 'eff_date',
       downloadName: 'UTF_Transaction_Statement ',
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
-      selectColumn: ['transaction_statement', 'eff_date', 'shares_per_par', 'trans_descr_code', 'memo_no', 'location_code', 'acct_no'],
+      selectColumns: [
+        'trans_statement',
+        'eff_date',
+        'shares_per_par',
+        'trans_desc_cd',
+        'memo_nbr',
+        'location_cd',
+        'acct_nbr',
+        'acct_desc',
+        'report_type',
+      ],
     },
     '307': {
       endpoint: 'v1/accounting/od/utf_federal_activity_statement',
       dateField: 'eff_date',
       downloadName: 'UTF_Federal_Activity_Statement ',
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
-      selectColumn: ['fed_act_statement', 'eff_date', 'shares_per_par', 'trans_descr_code', 'memo_no', 'location_code', 'acct_no'],
+      selectColumns: ['fed_act_statement', 'eff_date', 'shares_per_par', 'trans_desc_cd', 'memo_nbr', 'location_cd', 'acct_nbr', 'acct_desc'],
     },
     // Buybacks
     '316': {
@@ -246,7 +255,7 @@ module.exports = {
         'final_ann_xml',
         'results_pdf',
         'results_xml',
-        'special_ann_pdf'
+        'special_ann_pdf',
       ],
     },
     // Buybacks
