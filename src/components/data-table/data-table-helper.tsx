@@ -23,15 +23,21 @@ const customFormat = (stringValue, decimalPlaces) => {
 const tablesWithPublishedReportLinks = ['Treasury Securities Auctions Data', 'Reference CPI Numbers and Daily Index Ratios Summary Table', 'Buybacks Operations'];
 
 const publishedReportsLinkWrapper = (url, value) => {
+  const multiLinks: string[] = value.split(',');
+
   return (
-    <CustomLink url={url}>
-      <div className={downloadLinkContainer}>
-        <div className={downloadLinkIcon}>
-          <FontAwesomeIcon icon={faCloudArrowDown} />
-        </div>
-        {value}
-      </div>
-    </CustomLink>
+    <>
+      {multiLinks.map((link: string) => (
+        <CustomLink url={`${url}${link.trim()}`}>
+          <div className={downloadLinkContainer}>
+            <div className={downloadLinkIcon}>
+              <FontAwesomeIcon icon={faCloudArrowDown} />
+            </div>
+            {link.trim()}
+          </div>
+        </CustomLink>
+      ))}
+    </>
   );
 };
 
@@ -40,21 +46,21 @@ const publishedReportsLinksProcessor = (tableName, property, value) => {
     switch (property) {
       case 'pdf_filenm_announcemt':
       case 'xml_filenm_announcemt':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/announcements/${value}`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/announcements/`, value);
       case 'pdf_filenm_comp_results':
       case 'xml_filenm_comp_results':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/results/${value}`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/results/`, value);
       case 'pdf_filenm_noncomp_results':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/ncr/${value}`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/ncr/`, value);
       case 'pdf_filenm_spec_announcemt':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/spec-ann/${value}`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/auctions-query/spec-ann/`, value);
       default:
         return value;
     }
   }
   if (tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table') {
     if (property === 'pdf_link' || property === 'xml_link') {
-      return publishedReportsLinkWrapper(`/static-data/published-reports/tips-cpi/${value}`, value);
+      return publishedReportsLinkWrapper(`/static-data/published-reports/tips-cpi/`, value);
     } else {
       return value;
     }
@@ -63,15 +69,15 @@ const publishedReportsLinksProcessor = (tableName, property, value) => {
     switch(property) {
       case 'results_pdf':
       case 'results_xml':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/result/${value}`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/result/`, value);
       case 'final_ann_pdf':
       case 'final_ann_xml':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/announcement/${value}`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/announcement/`, value);
       case 'tentative_ann_xml':
       case 'tentative_ann_pdf':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/tentative/${value}`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/tentative/`, value);
       case 'special_ann_pdf':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/special-announcement/${value}`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/special-announcement/`, value);
       default:
         return value;
     }
