@@ -58,7 +58,7 @@ const MonthPickerDropdown: FunctionComponent<IMonthPickerDropdown> = ({
       <div className={publishedDateLabel}>Published Date</div>
       <div className={selectedDateDisplay}>{selectedMonth + ' ' + selectedYear}</div>
       <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Open Year Dropdown">
-        {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretDown : faCaretUp} />
+        {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretUp : faCaretDown} />
       </button>
       <div className={dropdownList}>
         {showYears && (
