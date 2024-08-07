@@ -34,6 +34,21 @@ module.exports = {
       relatedDatasets: ['015-BFS-2020Q4-xx', '015-BFS-2014Q1-03', '015-BFS-2014Q1-13', '015-BFS-2017Q2-003'],
       currentDateButton: 'byMonth',
     },
+    '015-BFS-2014Q3-053': {
+      slug: '/unemployment-trust-funds-report-selection/',
+      seoConfig: {
+        pageTitle: 'Unemployment Trust Funds Report Selection',
+        description:
+          'Unemployment Trust Fund Report Selection offers numerous reports by month, year, state, federal, ' +
+          'and report type. The reports represent data supporting the Account Statement, Transaction Statement, ' +
+          'and the Federal Activity Statement reports. The Unemployment Trust Fund is made up of 59 U.S. Treasury ' +
+          'accounts, including an account for each state and some territories.',
+        keywords: 'Debt, Interest and Exchange Rates',
+      },
+      topics: ['debt', 'interest-exchange-rates'],
+      relatedDatasets: ['015-BFS-2014Q3-093'],
+      currentDateButton: 'byMonth',
+    },
   },
   ADDITIONAL_ENDPOINTS: {
     '160': {
@@ -79,7 +94,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
       dateField: 'record_date',
       downloadName: 'GAS_HeldByThePublic_DailyActivity',
-      alwaysSortWith: ['-record_date, src_line_nbr'],
+      alwaysSortWith: ['-record_date', 'src_line_nbr'],
       selectColumn: [],
       // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
       dataDisplays: [
@@ -106,7 +121,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/gas_intragov_holdings_daily_activity',
       dateField: 'record_date',
       downloadName: 'GAS_IntragovernmentalHoldings_DailyActivity',
-      alwaysSortWith: ['-record_date, src_line_nbr'],
+      alwaysSortWith: ['-record_date', 'src_line_nbr'],
       selectColumn: [],
       // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
       dataDisplays: [
@@ -133,7 +148,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/gas_daily_activity_totals',
       dateField: 'record_date',
       downloadName: 'GAS_DailyActivity_Totals',
-      alwaysSortWith: ['-record_date, src_line_nbr'],
+      alwaysSortWith: ['-record_date', 'src_line_nbr'],
       selectColumn: [],
       // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
       dataDisplays: [
@@ -160,8 +175,29 @@ module.exports = {
       endpoint: 'v1/debt/treasury_offset_program',
       dateField: 'record_date',
       downloadName: 'treasury_offset_program',
-      alwaysSortWith: ['record_date, src_line_nbr'],
+      alwaysSortWith: ['record_date', 'src_line_nbr'],
       selectColumn: [],
+    },
+    '305': {
+      endpoint: 'v1/accounting/od/utf_account_statement',
+      dateField: 'eff_date',
+      downloadName: 'UTF_Account_Statement ',
+      alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
+      selectColumn: ['acct_statement', 'eff_date', 'shares_per_par', 'trans_code', 'trans_descr_code', 'memo_no', 'location_code', 'acct_no'],
+    },
+    '306': {
+      endpoint: 'v1/accounting/od/utf_transaction_statement',
+      dateField: 'eff_date',
+      downloadName: 'UTF_Transaction_Statement ',
+      alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
+      selectColumn: ['transaction_statement', 'eff_date', 'shares_per_par', 'trans_descr_code', 'memo_no', 'location_code', 'acct_no'],
+    },
+    '307': {
+      endpoint: 'v1/accounting/od/utf_federal_activity_statement',
+      dateField: 'eff_date',
+      downloadName: 'UTF_Federal_Activity_Statement ',
+      alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
+      selectColumn: ['fed_act_statement', 'eff_date', 'shares_per_par', 'trans_descr_code', 'memo_no', 'location_code', 'acct_no'],
     },
   },
 };
