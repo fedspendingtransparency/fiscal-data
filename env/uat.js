@@ -199,7 +199,19 @@ module.exports = {
       dateField: 'operation_date',
       downloadName: 'Buybacks_Operations',
       alwaysSortWith: ['-operation_date'],
-      selectColumn: ['operation_date, operation_start_time_est, operation_close_time_est, settlement_date, tentative_ann_pdf, tentative_ann_xml, final_ann_pdf, final_ann_xml, results_pdf, results_xml, special_ann_pdf'],
+      selectColumns: [
+        'operation_date',
+        'operation_start_time_est',
+        'operation_close_time_est',
+        'settlement_date',
+        'tentative_ann_pdf',
+        'tentative_ann_xml',
+        'final_ann_pdf',
+        'final_ann_xml',
+        'results_pdf',
+        'results_xml',
+        'special_ann_pdf'
+      ],
     },
     // Buybacks
     '317': {
@@ -207,7 +219,7 @@ module.exports = {
       dateField: 'operation_date',
       downloadName: 'Buybacks_Security_Details',
       alwaysSortWith: ['-operation_date,maturity_date'],
-      selectColumn: ['cusip_nbr, coupon_rate_pct, maturity_date, par_amt_accepted, weighted_avg_accepted_price'],
+      selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
     },
   },
 };
