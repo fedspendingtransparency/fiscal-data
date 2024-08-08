@@ -17,9 +17,10 @@ import {
   datePickerRangeMiddle,
   buttonContainer,
   dateTextBegin,
+  errorBox,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
@@ -91,6 +92,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       onFilterChange(undefined);
       setEndTextStyle(noTextHighLight);
       setBeginTextStyle(noTextHighLight);
+      setErrorMessage('');
     }
   };
 
@@ -124,18 +126,27 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const handleDateInputChange = (e, isStart) => {
     const date = e.target.value;
-    if (isStart && date[0] !== '0') {
-      console.log(date);
-      setFilterDisplayBeginDate(date);
-      setSelected(prev => ({ ...prev, from: new Date(date) }));
-      setIsStartFocused(false);
-      setIsEndFocused(true);
-    } else if (!isStart && date[0] !== '0') {
-      setFilterDisplayEndDate(date);
-      setSelected(prev => ({ ...prev, to: new Date(date) }));
-      setIsStartFocused(false);
-      setIsEndFocused(false);
-      setActive(false);
+    if (moment(date, 'YYYY-MM-DD', true).isValid()) {
+      setErrorMessage('');
+      if (isStart && date[0] !== '0') {
+        console.log(date);
+        setFilterDisplayBeginDate(date);
+        setSelected(prev => ({ ...prev, from: new Date(date) }));
+        setIsStartFocused(false);
+        setIsEndFocused(true);
+      } else if (!isStart && date[0] !== '0') {
+        setFilterDisplayEndDate(date);
+        setSelected(prev => ({ ...prev, to: new Date(date) }));
+        setIsStartFocused(false);
+        setIsEndFocused(false);
+        setActive(false);
+    } else {
+      setErrorMessage('Invalid date range. Please check the entered dates and try again.');
+      if (isStart) {
+        setFilterDisplayBeginDate('');
+      } else {
+        setFilterDisplayEndDate('');
+      }
     }
   };
 
@@ -206,7 +217,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     <>
       <div className={active ? glow : null}>
         <div
-          className={dateEntryBox}
+          className={`${dateEntryBox} ${errorMessage ? 'error' : ''}`}
           onClick={() => handleTextBoxClick(true)}
           onKeyDown={e => handleTextBoxClick(true)}
           role="button"
@@ -215,7 +226,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           ref={displayRef}
         >
           <input
-            className={dateTextBegin}
+            className={`${dateTextBegin} ${errorMessage ? 'error' : ''}`}
             type="date"
             // value={filterDisplayBeginDate}
             onChange={e => handleDateInputChange(e, true)}
@@ -242,12 +253,13 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
             </span>
           ) : (
-            <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
+            <FontAwesomeIcon icon={faCalendar} className={calendarIcon} />
           )}
         </div>
+        {errorMessage && <div className={errorBox}>{errorMessage}</div>}
       </div>
       <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
-        {active && (
+        {active && !errorMessage && (
           <div
             className={`${dropdown} ${isLastColumn && lastColumn}`}
             onMouseOver={() => {
@@ -276,17 +288,16 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
                 captionLayout="dropdown-buttons"
               />
             </div>
-            <div className={buttonContainer}>
-              <div role="button" onClick={todayOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Today">
-                Today
-              </div>
-              <div role="button" onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Clear">
-                Clear
-              </div>
-            </div>
+            {/*<div className={buttonContainer}>*/}
+            {/*  <div role="button" onClick={todayOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Today">*/}
+            {/*    Today*/}
+            {/*  </div>*/}
+            {/*  <div role="button" onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Clear">*/}
+            {/*    Clear*/}
+            {/*  </div>*/}
+            {/*</div>*/}
           </div>
         )}
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
       </div>
     </>
   );
