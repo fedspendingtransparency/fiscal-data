@@ -45,6 +45,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const dropdownRef = useRef();
   const displayRef = useRef();
 
+  const startDateRef = useRef();
+  const endDateRef = useRef();
+
   const onFilterChange = val => {
     if (val) {
       if (!allActiveFilters?.includes(column.id)) {
@@ -121,12 +124,13 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const handleDateInputChange = (e, isStart) => {
     const date = e.target.value;
-    if (isStart) {
+    if (isStart && date[0] !== '0') {
+      console.log(date);
       setFilterDisplayBeginDate(date);
       setSelected(prev => ({ ...prev, from: new Date(date) }));
       setIsStartFocused(false);
       setIsEndFocused(true);
-    } else {
+    } else if (!isStart && date[0] !== '0') {
       setFilterDisplayEndDate(date);
       setSelected(prev => ({ ...prev, to: new Date(date) }));
       setIsStartFocused(false);
@@ -162,24 +166,33 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   useEffect(() => {
     if (selected?.from && selected?.to) {
+      console.log('selected updated, from and to');
       const start = moment(selected?.from);
       const end = moment(selected?.to);
       setFilteredDateRange({ from: start, to: end });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start.format('YYYY-MM-DD')} - ${end.format('YYYY-MM-DD')}`);
+      startDateRef.current.value = start.format('YYYY-MM-DD');
+      endDateRef.current.value = end.format('YYYY-MM-DD');
       setFilterDisplayBeginDate(start.format('YYYY-MM-DD'));
       setFilterDisplayEndDate(end.format('YYYY-MM-DD'));
       setEndTextStyle(noTextHighLight);
       setActive(false);
     } else {
-      column.setFilterValue([]);
-      setFilteredDateRange(null);
-      onFilterChange('');
+      console.log('selected updated, else');
+
+      // column.setFilterValue([]);
+      // setFilteredDateRange(null);
+      // onFilterChange('');
+      // startDateRef.current.value = '';
+      // endDateRef.current.value = '';
     }
     if (selected?.from && !selected?.to) {
+      console.log('selected updated, from and not to');
       const start = moment(selected?.from);
       setEndTextStyle(textHighlighted);
       setBeginTextStyle(noTextHighLight);
+      startDateRef.current.value = start.format('YYYY-MM-DD');
       setFilterDisplayBeginDate(start.format('YYYY-MM-DD'));
     }
   }, [selected]);
@@ -204,23 +217,25 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <input
             className={dateTextBegin}
             type="date"
-            value={filterDisplayBeginDate}
+            // value={filterDisplayBeginDate}
             onChange={e => handleDateInputChange(e, true)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, true)}
             onFocus={() => handleTextBoxClick(true)}
             placeholder="Start"
+            ref={startDateRef}
           />
           <div className={dateDivider}>|</div>
           <input
             className={dateTextBegin}
             type="date"
-            value={filterDisplayEndDate}
+            // value={filterDisplayEndDate}
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, false)}
             onFocus={() => handleTextBoxClick(false)}
             placeholder="End"
+            ref={endDateRef}
           />
           {selected ? (
             <span onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
