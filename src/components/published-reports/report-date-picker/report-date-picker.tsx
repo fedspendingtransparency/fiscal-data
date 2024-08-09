@@ -62,22 +62,22 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
     <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation" className={datePickerContainer}>
       <div className={active ? glow : null}>
         <button className={datePickerButton} onClick={() => setActive(!active)} aria-label="Select Published Report Date">
-          <>
+          <div>
             <span className={publishedDateLabel}>Published Date: </span>
             {`${formatReportDate(selectedDate, true, isDailyReport)}`}
-          </>
+          </div>
           <FontAwesomeIcon icon={active ? faCaretUp : faCaretDown} />
         </button>
       </div>
-      {/*{active && !isDailyReport && (*/}
-      {/*  <MonthPicker*/}
-      {/*    monthDropdownOptions={monthDropdownOptions}*/}
-      {/*    yearDropdownOptions={yearDropdownOptions}*/}
-      {/*    selectedDate={selectedDate}*/}
-      {/*    setSelectedDate={setSelectedDate}*/}
-      {/*    handleClose={() => setActive(false)}*/}
-      {/*  />*/}
-      {/*)}*/}
+      {active && !isDailyReport && (
+        <MonthPicker
+          monthDropdownOptions={monthDropdownOptions}
+          yearDropdownOptions={yearDropdownOptions}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          handleClose={() => setActive(false)}
+        />
+      )}
       {active && isDailyReport && (
         <ReportDayPicker
           handleClose={() => setActive(false)}

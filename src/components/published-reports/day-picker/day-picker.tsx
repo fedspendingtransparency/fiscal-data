@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import ReportDateDropdown from '../report-date-dropdown/report-date-dropdown';
 import { DayPicker } from 'react-day-picker';
 import '../../data-table/data-table-header/date-range-filter/day-picker-overrides.css';

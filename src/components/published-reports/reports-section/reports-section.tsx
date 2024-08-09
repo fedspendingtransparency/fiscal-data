@@ -33,7 +33,6 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     let isDaily = false;
     // sort by report_group_id so report groups will be compared in order
     reports.sort((a, b) => a.report_group_id - b.report_group_id);
-    console.log(reports);
     for (let i = 0; i < reports.length; i++) {
       const reportYear = reports[i].report_date.getFullYear();
       const reportMonth = reports[i].report_date.getMonth();
@@ -59,16 +58,13 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
       setLatestReportDate(latestReport);
       setEarliestReportDate(earliestReport);
       const allDates = [];
-      console.log(sortedReports);
       const day = latestReport.getDate();
       const month = latestReport.toLocaleString('default', { month: 'short' });
       const year = latestReport.getFullYear();
       sortedReports.map(report => allDates.push(report.report_date.toDateString()));
-      console.log(allDates);
       setAllReportDates(allDates);
       const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
       setIsDailyReport(isDaily);
-      // console.log(isDaily, day, month, year);
       // sortedReports.sort((a, b) => a.report_group_id - b.report_group_id);
 
       const filteredReports = sortedReports.filter(
@@ -78,7 +74,6 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
           ((isDaily && report.report_date.toString().includes(day)) || !isDaily)
       );
       filteredReports.sort((a, b) => a.report_group_sort_order_nbr - b.report_group_sort_order_nbr);
-      console.log(filteredReports);
       if (filteredReports.length > 0) {
         setCurrentReports(filteredReports);
       }

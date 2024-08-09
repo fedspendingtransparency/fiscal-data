@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { dropdownList, selected, yearButton, arrowIcon } from './month-picker.module.scss';
 import ScrollContainer from '../../scroll-container/scroll-container';
 import ReportDateDropdown from '../report-date-dropdown/report-date-dropdown';
+import { monthFullNames } from '../../../utils/api-utils';
 
 interface IMonthPickerDropdown {
   monthDropdownOptions: string[];
   yearDropdownOptions: string[];
-  selectedDate: string;
-  setSelectedDate: (date: string) => void;
+  selectedDate: Date;
+  setSelectedDate: (date: Date) => void;
   handleClose: () => void;
 }
 
@@ -21,9 +22,8 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   handleClose,
 }: IMonthPickerDropdown) => {
   const [showYears, setShowYears] = useState(false);
-  const date = selectedDate.split(' ');
-  const [selectedMonth, setSelectedMonth] = useState(date[0]);
-  const [selectedYear, setSelectedYear] = useState(date[1]);
+  const [selectedMonth, setSelectedMonth] = useState(monthFullNames[selectedDate.getMonth()]);
+  const [selectedYear, setSelectedYear] = useState<string>(selectedDate.getFullYear().toString());
 
   const handleMonthClick = (month: string) => {
     setSelectedMonth(month);
@@ -35,7 +35,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   };
 
   const handleApply = () => {
-    setSelectedDate(selectedMonth + ' ' + selectedYear);
+    setSelectedDate(new Date(selectedMonth + ' ' + selectedYear));
     if (handleClose) {
       handleClose();
     }
