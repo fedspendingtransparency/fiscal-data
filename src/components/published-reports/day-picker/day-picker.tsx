@@ -12,7 +12,7 @@ interface IReportDayPicker {
 }
 
 const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({ handleClose, setSelectedDate, selectedDate }: IReportDayPicker) => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date(selectedDate));
   const handleApply = () => {
     setSelectedDate(currentDate.toDateString());
     if (handleClose) {

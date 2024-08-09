@@ -22,6 +22,7 @@ interface IDataset {
 const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; dataset: IDataset }> = ({ publishedReportsProp, dataset }) => {
   const [currentReports, setCurrentReports] = useState<IReports[]>();
   const [isDailyReport, setIsDailyReport] = useState<boolean>();
+  const [latestReportDate, setLatestReportDate] = useState<Date>();
 
   const isReportGroupDailyFrequency = (reports: IReports[]): boolean => {
     let yearRepresented = 0;
@@ -51,10 +52,11 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     // todo - Use a better manner of reassigning the report_date prop to jsdates.
     if (publishedReportsProp?.length > 0) {
       const sortedReports = getPublishedDates(publishedReportsProp).sort((a, b) => b.report_date - a.report_date);
-      const latestReportDate = sortedReports[0].report_date;
-      const day = latestReportDate.getDate();
-      const month = latestReportDate.toLocaleString('default', { month: 'short' });
-      const year = latestReportDate.getFullYear();
+      const latestReport = sortedReports[0].report_date;
+      setLatestReportDate(latestReport);
+      const day = latestReport.getDate();
+      const month = latestReport.toLocaleString('default', { month: 'short' });
+      const year = latestReport.getFullYear();
       const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
       setIsDailyReport(isDaily);
       // console.log(isDaily, day, month, year);
@@ -81,7 +83,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   return (
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={title} id="reports-and-files">
-        <ReportDatePicker isDailyReport={isDailyReport} />
+        {latestReportDate && <ReportDatePicker isDailyReport={isDailyReport} latestReportDate={latestReportDate} />}
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
         {dataset?.publishedReportsTip && (
           <div className={reportsTip}>

@@ -13,15 +13,18 @@ interface IMonthPicker {
   monthDropdownOptions?: string[];
   yearDropdownOptions?: string[];
   isDailyReport: boolean;
+  latestReportDate: Date;
 }
 
 const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
   monthDropdownOptions = monthDropdownList,
   yearDropdownOptions = yearDropdownList,
   isDailyReport,
+  latestReportDate,
 }: IMonthPicker) => {
+  console.log(latestReportDate);
   const [active, setActive] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('August 2024');
+  const [selectedDate, setSelectedDate] = useState(latestReportDate?.toDateString());
   const dropdownRef = useRef(null);
 
   /* accessibility-enabling event handlers for interpreting focus state on control */
