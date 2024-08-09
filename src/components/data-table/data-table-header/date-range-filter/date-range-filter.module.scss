@@ -21,19 +21,18 @@
   &:focus::before {
     opacity: 0;
   }
-  &::-webkit-datetime-edit {
+
+  &:not(:placeholder-shown)::before {
     opacity: 0;
   }
+
   &:focus::-webkit-datetime-edit {
     opacity: 1;
   }
-
-  &::-webkit-datetime-edit-text,
-  &::-webkit-datetime-edit-month-field,
-  &::-webkit-datetime-edit-day-field,
-  &::-webkit-datetime-edit-year-field{
+  &::-webkit-datetime-edit {
     opacity: 1;
   }
+
 }
 
 .dateTextBegin {
