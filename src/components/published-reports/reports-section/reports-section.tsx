@@ -65,7 +65,6 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
       setAllReportDates(allDates);
       const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
       setIsDailyReport(isDaily);
-      // sortedReports.sort((a, b) => a.report_group_id - b.report_group_id);
 
       const filteredReports = sortedReports.filter(
         (report: IReports) =>
