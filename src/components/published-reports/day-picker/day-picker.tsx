@@ -4,24 +4,25 @@ import { DayPicker } from 'react-day-picker';
 import '../../data-table/data-table-header/date-range-filter/day-picker-overrides.css';
 import 'react-day-picker/dist/style.css';
 import { datePickerSelected } from '../../data-table/data-table-header/date-range-filter/date-range-filter.module.scss';
+import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';
 
 interface IReportDayPicker {
   handleClose: () => void;
-  selectedDate: string;
-  setSelectedDate: (date: string) => void;
+  selectedDate: Date;
+  setSelectedDate: (date: Date) => void;
 }
 
 const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({ handleClose, setSelectedDate, selectedDate }: IReportDayPicker) => {
-  const [currentDate, setCurrentDate] = useState(new Date(selectedDate));
+  const [currentDate, setCurrentDate] = useState<Date>(selectedDate);
   const handleApply = () => {
-    setSelectedDate(currentDate.toDateString());
+    setSelectedDate(currentDate);
     if (handleClose) {
       handleClose();
     }
   };
 
   return (
-    <ReportDateDropdown handleClose={handleClose} handleApply={handleApply} displayDate={currentDate.toDateString()}>
+    <ReportDateDropdown handleClose={handleClose} handleApply={handleApply} displayDate={formatReportDate(currentDate, true, true)}>
       <div>
         <DayPicker
           mode="single"
@@ -33,6 +34,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({ handleClose, set
           modifiersClassNames={{
             selected: datePickerSelected,
           }}
+          defaultMonth={selectedDate}
         />
       </div>
     </ReportDateDropdown>

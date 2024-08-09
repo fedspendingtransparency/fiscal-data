@@ -5,6 +5,7 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useOnClickOutside from 'use-onclickoutside';
 import ReportDayPicker from '../day-picker/day-picker';
+import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';
 
 const monthDropdownList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'];
 const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
@@ -24,7 +25,7 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
 }: IMonthPicker) => {
   console.log(latestReportDate);
   const [active, setActive] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(latestReportDate?.toDateString());
+  const [selectedDate, setSelectedDate] = useState<Date>(latestReportDate);
   const dropdownRef = useRef(null);
 
   /* accessibility-enabling event handlers for interpreting focus state on control */
@@ -57,22 +58,22 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
     <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation" className={datePickerContainer}>
       <div className={active ? glow : null}>
         <button className={datePickerButton} onClick={() => setActive(!active)} aria-label="Select Published Report Date">
-          <div>
+          <>
             <span className={publishedDateLabel}>Published Date: </span>
-            {selectedDate}
-          </div>
+            {`${formatReportDate(selectedDate, true, isDailyReport)}`}
+          </>
           <FontAwesomeIcon icon={active ? faCaretUp : faCaretDown} />
         </button>
       </div>
-      {active && !isDailyReport && (
-        <MonthPicker
-          monthDropdownOptions={monthDropdownOptions}
-          yearDropdownOptions={yearDropdownOptions}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          handleClose={() => setActive(false)}
-        />
-      )}
+      {/*{active && !isDailyReport && (*/}
+      {/*  <MonthPicker*/}
+      {/*    monthDropdownOptions={monthDropdownOptions}*/}
+      {/*    yearDropdownOptions={yearDropdownOptions}*/}
+      {/*    selectedDate={selectedDate}*/}
+      {/*    setSelectedDate={setSelectedDate}*/}
+      {/*    handleClose={() => setActive(false)}*/}
+      {/*  />*/}
+      {/*)}*/}
       {active && isDailyReport && (
         <ReportDayPicker handleClose={() => setActive(false)} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
       )}
