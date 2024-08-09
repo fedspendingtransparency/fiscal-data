@@ -165,11 +165,15 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       console.log('selected updated, from and to');
       const start = moment(selected?.from);
       const end = moment(selected?.to);
-      setFilteredDateRange({ from: start, to: end });
-      column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
-      onFilterChange(`${start.format('YYYY-MM-DD')} - ${end.format('YYYY-MM-DD')}`);
-      startDateRef.current.value = start.format('YYYY-MM-DD');
-      endDateRef.current.value = end.format('YYYY-MM-DD');
+
+      const correctFrom = start.isBefore(end) ? start : end;
+      const correctTo = start.isBefore(end) ? end : start;
+
+      setFilteredDateRange({ from: correctFrom, to: correctTo });
+      column.setFilterValue(getDaysArray(correctFrom.format('YYYY-MM-DD'), correctTo.format('YYYY-MM-DD')));
+      onFilterChange(`${correctFrom.format('YYYY-MM-DD')} - ${correctTo.format('YYYY-MM-DD')}`);
+      startDateRef.current.value = correctFrom.format('YYYY-MM-DD');
+      endDateRef.current.value = correctTo.format('YYYY-MM-DD');
       setEndTextStyle(noTextHighLight);
       setActive(false);
     } else {
@@ -268,14 +272,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
                 captionLayout="dropdown-buttons"
               />
             </div>
-            {/*<div className={buttonContainer}>*/}
-            {/*  <div role="button" onClick={todayOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Today">*/}
-            {/*    Today*/}
-            {/*  </div>*/}
-            {/*  <div role="button" onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Clear">*/}
-            {/*    Clear*/}
-            {/*  </div>*/}
-            {/*</div>*/}
           </div>
         )}
       </div>
