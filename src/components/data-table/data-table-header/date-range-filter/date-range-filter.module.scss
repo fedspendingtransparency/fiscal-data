@@ -3,26 +3,41 @@
 .glow {
 }
 
-.dateTextEnd {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 10.5px;
-  margin-top: 10.5px;
-  width: 112px;
-  border: 0  !important;
-  border-width: 0px !important;
-  &:focus {
-    box-shadow: 0 0 0 0.25rem #e8f5ff;
-    border: 1px solid $primary;
-    border: none  !important;
-    border-width: 0px !important;
+.dateInput {
+  position: relative;
+  width: 100%;
+
+  &::before {
+    content: attr(data-placeholder);
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #666666;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    opacity: 1;
   }
-  &:active {
-    box-shadow: 0 0 0 0.25rem #e8f5ff;
-    border: 1px solid $primary;
-    border-radius: 0.125rem;
-    border: 0  !important;
-    border-width: 0px !important;
+
+  &:focus::before {
+    opacity: 0;
+  }
+  &:not(:placeholder-shown)::before {
+    opacity: 0;
+  }
+
+  &::-webkit-datetime-edit {
+    opacity: 1;
+  }
+
+  &::-webkit-datetime-edit-text {
+    opacity: 1;
+  }
+
+  &::-webkit-datetime-edit-month-field,
+  &::-webkit-datetime-edit-day-field,
+  &::-webkit-datetime-edit-year-field{
+    opacity: 1;
   }
 }
 
@@ -93,6 +108,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-right: 0.5rem;
     margin-top: 0.25rem;
     cursor: pointer;
+    background-color: white;
   }
 }
 

@@ -18,6 +18,7 @@ import {
   buttonContainer,
   dateTextBegin,
   errorBox,
+  dateInput,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
@@ -69,18 +70,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     return arr;
   };
 
-  const todayOnClick = e => {
-    if (!e.key || e.key === 'Enter') {
-      setSelected({
-        from: new Date(),
-        to: new Date(),
-      });
-      const start = moment(new Date()).format('YYYY-MM-DD');
-      const end = moment(new Date()).format('YYYY-MM-DD');
-      onFilterChange(`${start} - ${end}`);
-    }
-  };
-
   const clearOnClick = e => {
     if (!e.key || e.key === 'Enter') {
       setSelected(undefined);
@@ -128,6 +117,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         setSelected(prev => ({ ...prev, from: new Date(date) }));
         setIsStartFocused(false);
         setIsEndFocused(true);
+        endDateRef.current.focus();
       } else if (!isStart && date[0] !== '0') {
         setSelected(prev => ({ ...prev, to: new Date(date) }));
         setIsStartFocused(false);
@@ -143,7 +133,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (e.key === 'Enter') {
       handleDateInputChange(e, isStart);
       if (isStart) {
-        setIsEndFocused(true);
+        endDateRef.current.focus();
+      } else {
+        setActive(false);
       }
     }
   };
@@ -212,13 +204,14 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           ref={displayRef}
         >
           <input
-            className={`${dateTextBegin} ${errorMessage ? 'error' : ''}`}
+            className={`${dateTextBegin} ${errorMessage ? 'error' : ''} ${dateInput}`}
             type="date"
             onChange={e => handleDateInputChange(e, true)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, true)}
             onFocus={() => handleTextBoxClick(true)}
-            placeholder="Start"
+            placeholder="YYYY-MM-DD"
+            data-placeholder={'Start'}
             ref={startDateRef}
           />
           <div className={dateDivider}>|</div>
