@@ -15,25 +15,20 @@
     transform: translateY(-50%);
     color: #666666;
     pointer-events: none;
-    transition: opacity 0.3s ease;
     opacity: 1;
   }
 
   &:focus::before {
     opacity: 0;
   }
-  &:not(:placeholder-shown)::before {
+  &::-webkit-datetime-edit {
     opacity: 0;
   }
-
-  &::-webkit-datetime-edit {
+  &:focus::-webkit-datetime-edit {
     opacity: 1;
   }
 
-  &::-webkit-datetime-edit-text {
-    opacity: 1;
-  }
-
+  &::-webkit-datetime-edit-text,
   &::-webkit-datetime-edit-month-field,
   &::-webkit-datetime-edit-day-field,
   &::-webkit-datetime-edit-year-field{
@@ -57,6 +52,11 @@
     border-radius: 0.25rem;
     border: none;
   }
+  &:hover {
+    outline: 1px solid #666666;
+  }
+
+  cursor: text;
 }
 input {
   &:focus {

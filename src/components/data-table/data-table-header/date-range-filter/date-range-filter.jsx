@@ -21,7 +21,7 @@ import {
   dateInput,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
@@ -210,19 +210,18 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, true)}
             onFocus={() => handleTextBoxClick(true)}
-            placeholder="YYYY-MM-DD"
             data-placeholder={'Start'}
             ref={startDateRef}
           />
           <div className={dateDivider}>|</div>
           <input
-            className={dateTextBegin}
+            className={`${dateTextBegin} ${errorMessage ? 'error' : ''} ${dateInput}`}
             type="date"
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, false)}
             onFocus={() => handleTextBoxClick(false)}
-            placeholder="End"
+            data-placeholder={'End'}
             ref={endDateRef}
           />
           {selected ? (
@@ -230,7 +229,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
               <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
             </span>
           ) : (
-            <FontAwesomeIcon icon={faCalendar} className={calendarIcon} />
+            <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
           )}
         </div>
         {errorMessage && <div className={errorBox}>{errorMessage}</div>}
