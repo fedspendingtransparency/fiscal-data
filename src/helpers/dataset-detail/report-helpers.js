@@ -17,7 +17,6 @@ export const getPublishedDates = reports => {
 };
 
 export const formatReportDate = (publishedDate, fullMonth, isDailyReport) => {
-  console.log(publishedDate);
   const monthName = fullMonth ? monthFullNames[publishedDate.getMonth()] : monthNames[publishedDate.getMonth()];
   const dayInclusion = isDailyReport ? ' ' + publishedDate.getDate() + ',' : '';
   return `${monthName}${dayInclusion} ${publishedDate.getFullYear()}`;

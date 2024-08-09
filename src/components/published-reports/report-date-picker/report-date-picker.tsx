@@ -1,10 +1,10 @@
 import React, { FocusEventHandler, FunctionComponent, useRef, useState } from 'react';
-import MonthPicker from '../month-picker/month-picker';
+import MonthPicker from './month-picker/month-picker';
 import { publishedDateLabel, datePickerButton, glow, datePickerContainer } from './report-date-picker.module.scss';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useOnClickOutside from 'use-onclickoutside';
-import ReportDayPicker from '../day-picker/day-picker';
+import ReportDayPicker from './report-day-picker/report-day-picker';
 import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';
 
 const monthDropdownList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'];
@@ -27,7 +27,6 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
   earliestReportDate,
   allReportDates,
 }: IMonthPicker) => {
-  console.log(latestReportDate);
   const [active, setActive] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(latestReportDate);
   const dropdownRef = useRef(null);
@@ -52,7 +51,7 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
     if (event) {
       const parent = dropdownRef.current;
       const related = event?.relatedTarget as HTMLElement;
-      if (!parent?.outerText.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
+      if (!parent?.outerText?.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
         setActive(false);
       }
     }

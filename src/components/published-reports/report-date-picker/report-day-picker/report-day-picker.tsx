@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
 import ReportDateDropdown from '../report-date-dropdown/report-date-dropdown';
 import { DayPicker } from 'react-day-picker';
-import '../../data-table/data-table-header/date-range-filter/day-picker-overrides.css';
+import '../../../data-table/data-table-header/date-range-filter/day-picker-overrides.css';
 import 'react-day-picker/dist/style.css';
-import { datePickerSelected } from '../../data-table/data-table-header/date-range-filter/date-range-filter.module.scss';
-import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';
+import { datePickerSelected } from './report-day-picker.module.scss';
+import { formatReportDate } from '../../../../helpers/dataset-detail/report-helpers';
 
 interface IReportDayPicker {
   handleClose: () => void;
@@ -25,7 +25,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
 }: IReportDayPicker) => {
   const [currentDate, setCurrentDate] = useState<Date>(selectedDate);
   const handleApply = () => {
-    setSelectedDate(currentDate);
+    setSelectedDate(currentDate !== undefined ? currentDate : latestReportDate);
     if (handleClose) {
       handleClose();
     }
@@ -36,22 +36,24 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
   };
 
   return (
-    <ReportDateDropdown handleClose={handleClose} handleApply={handleApply} displayDate={formatReportDate(currentDate, true, true)}>
-      <div>
-        <DayPicker
-          mode="single"
-          selected={currentDate}
-          onSelect={setCurrentDate}
-          fromDate={earliestReportDate}
-          toDate={latestReportDate}
-          captionLayout="dropdown-buttons"
-          modifiersClassNames={{
-            selected: datePickerSelected,
-          }}
-          disabled={isDisabled}
-          defaultMonth={latestReportDate}
-        />
-      </div>
+    <ReportDateDropdown
+      handleClose={handleClose}
+      handleApply={handleApply}
+      displayDate={currentDate !== undefined && formatReportDate(currentDate, true, true)}
+    >
+      <DayPicker
+        mode="single"
+        selected={currentDate}
+        onSelect={setCurrentDate}
+        fromDate={earliestReportDate}
+        toDate={latestReportDate}
+        captionLayout="dropdown-buttons"
+        modifiersClassNames={{
+          selected: datePickerSelected,
+        }}
+        disabled={isDisabled}
+        defaultMonth={latestReportDate}
+      />
     </ReportDateDropdown>
   );
 };

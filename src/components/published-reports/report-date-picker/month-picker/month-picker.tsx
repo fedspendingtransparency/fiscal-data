@@ -2,9 +2,9 @@ import React, { FunctionComponent, useState } from 'react';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { dropdownList, selected, yearButton, arrowIcon } from './month-picker.module.scss';
-import ScrollContainer from '../../scroll-container/scroll-container';
+import ScrollContainer from '../../../scroll-container/scroll-container';
 import ReportDateDropdown from '../report-date-dropdown/report-date-dropdown';
-import { monthFullNames } from '../../../utils/api-utils';
+import { monthFullNames } from '../../../../utils/api-utils';
 
 interface IMonthPickerDropdown {
   monthDropdownOptions: string[];

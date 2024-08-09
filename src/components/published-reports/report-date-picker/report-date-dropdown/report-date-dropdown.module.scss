@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@import '../../../../variables.module';
 
 
 .dropdownContainer {
@@ -27,7 +27,8 @@
     border-radius: 3px;
     display: flex;
     align-items: center;
-    padding: .5rem 1rem;
+    padding: 0 1rem;
+    min-height: 38px;
   }
 }
 
