@@ -33,8 +33,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     from: undefined,
     to: undefined,
   });
-  const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState('');
-  const [filterDisplayEndDate, setFilterDisplayEndDate] = useState('');
+
   const [beginTextStyle, setBeginTextStyle] = useState(noTextHighLight);
   const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
@@ -55,8 +54,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         setAllActiveFilters([...allActiveFilters, column.id]);
       }
     } else {
-      setFilterDisplayBeginDate('');
-      setFilterDisplayEndDate('');
       if (allActiveFilters?.includes(column.id)) {
         const currentFilters = allActiveFilters.filter(value => value !== column.id);
         setAllActiveFilters(currentFilters);
@@ -81,8 +78,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       const start = moment(new Date()).format('YYYY-MM-DD');
       const end = moment(new Date()).format('YYYY-MM-DD');
       onFilterChange(`${start} - ${end}`);
-      setFilterDisplayBeginDate(start);
-      setFilterDisplayEndDate(end);
     }
   };
 
@@ -130,22 +125,16 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setErrorMessage('');
       if (isStart && date[0] !== '0') {
         console.log(date);
-        setFilterDisplayBeginDate(date);
         setSelected(prev => ({ ...prev, from: new Date(date) }));
         setIsStartFocused(false);
         setIsEndFocused(true);
       } else if (!isStart && date[0] !== '0') {
-        setFilterDisplayEndDate(date);
         setSelected(prev => ({ ...prev, to: new Date(date) }));
         setIsStartFocused(false);
         setIsEndFocused(false);
         setActive(false);
-    } else {
-      setErrorMessage('Invalid date range. Please check the entered dates and try again.');
-      if (isStart) {
-        setFilterDisplayBeginDate('');
       } else {
-        setFilterDisplayEndDate('');
+        setErrorMessage('Invalid date range. Please check the entered dates and try again.');
       }
     }
   };
@@ -168,10 +157,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       document.removeEventListener('click', handleEventListener);
       setBeginTextStyle(noTextHighLight);
       setEndTextStyle(noTextHighLight);
-      if (filterDisplayBeginDate && filterDisplayEndDate === '') {
-        setSelected(undefined);
-        onFilterChange(undefined);
-      }
     }
   }, [active, isStartFocused, isEndFocused]);
 
@@ -185,8 +170,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       onFilterChange(`${start.format('YYYY-MM-DD')} - ${end.format('YYYY-MM-DD')}`);
       startDateRef.current.value = start.format('YYYY-MM-DD');
       endDateRef.current.value = end.format('YYYY-MM-DD');
-      setFilterDisplayBeginDate(start.format('YYYY-MM-DD'));
-      setFilterDisplayEndDate(end.format('YYYY-MM-DD'));
       setEndTextStyle(noTextHighLight);
       setActive(false);
     } else {
@@ -204,7 +187,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setEndTextStyle(textHighlighted);
       setBeginTextStyle(noTextHighLight);
       startDateRef.current.value = start.format('YYYY-MM-DD');
-      setFilterDisplayBeginDate(start.format('YYYY-MM-DD'));
     }
   }, [selected]);
 
