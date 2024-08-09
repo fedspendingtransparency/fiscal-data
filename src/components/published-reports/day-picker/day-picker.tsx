@@ -10,15 +10,29 @@ interface IReportDayPicker {
   handleClose: () => void;
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
+  latestReportDate: Date;
+  earliestReportDate: Date;
+  allReportDates: string[];
 }
 
-const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({ handleClose, setSelectedDate, selectedDate }: IReportDayPicker) => {
+const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
+  handleClose,
+  setSelectedDate,
+  selectedDate,
+  latestReportDate,
+  earliestReportDate,
+  allReportDates,
+}: IReportDayPicker) => {
   const [currentDate, setCurrentDate] = useState<Date>(selectedDate);
   const handleApply = () => {
     setSelectedDate(currentDate);
     if (handleClose) {
       handleClose();
     }
+  };
+
+  const isDisabled = (day: Date) => {
+    return !allReportDates.includes(day.toDateString());
   };
 
   return (
@@ -28,13 +42,14 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({ handleClose, set
           mode="single"
           selected={currentDate}
           onSelect={setCurrentDate}
-          fromYear={1900}
-          toYear={2099}
+          fromDate={earliestReportDate}
+          toDate={latestReportDate}
           captionLayout="dropdown-buttons"
           modifiersClassNames={{
             selected: datePickerSelected,
           }}
-          defaultMonth={selectedDate}
+          disabled={isDisabled}
+          defaultMonth={latestReportDate}
         />
       </div>
     </ReportDateDropdown>

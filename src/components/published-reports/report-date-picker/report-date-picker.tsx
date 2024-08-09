@@ -15,6 +15,8 @@ interface IMonthPicker {
   yearDropdownOptions?: string[];
   isDailyReport: boolean;
   latestReportDate: Date;
+  earliestReportDate: Date;
+  allReportDates: string[];
 }
 
 const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
@@ -22,6 +24,8 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
   yearDropdownOptions = yearDropdownList,
   isDailyReport,
   latestReportDate,
+  earliestReportDate,
+  allReportDates,
 }: IMonthPicker) => {
   console.log(latestReportDate);
   const [active, setActive] = useState(false);
@@ -75,7 +79,14 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
       {/*  />*/}
       {/*)}*/}
       {active && isDailyReport && (
-        <ReportDayPicker handleClose={() => setActive(false)} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+        <ReportDayPicker
+          handleClose={() => setActive(false)}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          latestReportDate={latestReportDate}
+          earliestReportDate={earliestReportDate}
+          allReportDates={allReportDates}
+        />
       )}
     </div>
   );

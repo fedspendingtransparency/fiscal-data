@@ -23,6 +23,8 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   const [currentReports, setCurrentReports] = useState<IReports[]>();
   const [isDailyReport, setIsDailyReport] = useState<boolean>();
   const [latestReportDate, setLatestReportDate] = useState<Date>();
+  const [earliestReportDate, setEarliestReportDate] = useState<Date>();
+  const [allReportDates, setAllReportDates] = useState<string[]>();
 
   const isReportGroupDailyFrequency = (reports: IReports[]): boolean => {
     let yearRepresented = 0;
@@ -53,10 +55,17 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     if (publishedReportsProp?.length > 0) {
       const sortedReports = getPublishedDates(publishedReportsProp).sort((a, b) => b.report_date - a.report_date);
       const latestReport = sortedReports[0].report_date;
+      const earliestReport = sortedReports[sortedReports.length - 1].report_date;
       setLatestReportDate(latestReport);
+      setEarliestReportDate(earliestReport);
+      const allDates = [];
+      console.log(sortedReports);
       const day = latestReport.getDate();
       const month = latestReport.toLocaleString('default', { month: 'short' });
       const year = latestReport.getFullYear();
+      sortedReports.map(report => allDates.push(report.report_date.toDateString()));
+      console.log(allDates);
+      setAllReportDates(allDates);
       const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
       setIsDailyReport(isDaily);
       // console.log(isDaily, day, month, year);
@@ -83,7 +92,14 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   return (
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={title} id="reports-and-files">
-        {latestReportDate && <ReportDatePicker isDailyReport={isDailyReport} latestReportDate={latestReportDate} />}
+        {latestReportDate && (
+          <ReportDatePicker
+            isDailyReport={isDailyReport}
+            latestReportDate={latestReportDate}
+            earliestReportDate={earliestReportDate}
+            allReportDates={allReportDates}
+          />
+        )}
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
         {dataset?.publishedReportsTip && (
           <div className={reportsTip}>
