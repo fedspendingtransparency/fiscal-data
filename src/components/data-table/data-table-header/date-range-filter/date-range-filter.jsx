@@ -175,11 +175,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     } else {
       console.log('selected updated, else');
 
-      // column.setFilterValue([]);
-      // setFilteredDateRange(null);
-      // onFilterChange('');
-      // startDateRef.current.value = '';
-      // endDateRef.current.value = '';
+      column.setFilterValue([]);
+      setFilteredDateRange(null);
+      onFilterChange('');
+      startDateRef.current.value = '';
+      endDateRef.current.value = '';
     }
     if (selected?.from && !selected?.to) {
       console.log('selected updated, from and not to');
@@ -210,7 +210,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <input
             className={`${dateTextBegin} ${errorMessage ? 'error' : ''}`}
             type="date"
-            // value={filterDisplayBeginDate}
             onChange={e => handleDateInputChange(e, true)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, true)}
@@ -222,7 +221,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <input
             className={dateTextBegin}
             type="date"
-            // value={filterDisplayEndDate}
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, false)}
