@@ -4,7 +4,7 @@ import { publishedDateLabel, datePickerButton, glow, datePickerContainer } from 
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useOnClickOutside from 'use-onclickoutside';
-import { DayPicker } from 'react-day-picker';
+import ReportDayPicker from '../day-picker/day-picker';
 
 const monthDropdownList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'];
 const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
@@ -70,7 +70,9 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
           handleClose={() => setActive(false)}
         />
       )}
-      {active && isDailyReport && <DayPicker />}
+      {active && isDailyReport && (
+        <ReportDayPicker handleClose={() => setActive(false)} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+      )}
     </div>
   );
 };

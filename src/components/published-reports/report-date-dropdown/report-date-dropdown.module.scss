@@ -11,6 +11,11 @@
   margin-top: 0.5rem;
   cursor: pointer;
 
+  .publishedDateLabel, .selectedDateDisplay {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+
   .publishedDateLabel {
     font-size: $font-size-14;
     margin-bottom: 0.5rem;

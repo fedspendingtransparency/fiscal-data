@@ -22,6 +22,7 @@ interface IDataset {
 const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; dataset: IDataset }> = ({ publishedReportsProp, dataset }) => {
   const [currentReports, setCurrentReports] = useState<IReports[]>();
   const [isDailyReport, setIsDailyReport] = useState<boolean>();
+
   const isReportGroupDailyFrequency = (reports: IReports[]): boolean => {
     let yearRepresented = 0;
     let monthRepresented = 0;
@@ -29,6 +30,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     let isDaily = false;
     // sort by report_group_id so report groups will be compared in order
     reports.sort((a, b) => a.report_group_id - b.report_group_id);
+    console.log(reports);
     for (let i = 0; i < reports.length; i++) {
       const reportYear = reports[i].report_date.getFullYear();
       const reportMonth = reports[i].report_date.getMonth();
@@ -56,14 +58,16 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
       const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
       setIsDailyReport(isDaily);
       // console.log(isDaily, day, month, year);
+      // sortedReports.sort((a, b) => a.report_group_id - b.report_group_id);
+
       const filteredReports = sortedReports.filter(
         (report: IReports) =>
           report.report_date.toString().includes(month) &&
           report.report_date.toString().includes(year) &&
-          ((!!isDaily && report.report_date.toString().includes(day)) || !isDaily)
+          ((isDaily && report.report_date.toString().includes(day)) || !isDaily)
       );
       filteredReports.sort((a, b) => a.report_group_sort_order_nbr - b.report_group_sort_order_nbr);
-
+      console.log(filteredReports);
       if (filteredReports.length > 0) {
         setCurrentReports(filteredReports);
       }
