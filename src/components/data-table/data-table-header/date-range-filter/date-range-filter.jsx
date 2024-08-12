@@ -8,14 +8,11 @@ import {
   dropdown,
   datePickerContainer,
   calendarIcon,
-  xIcon,
   dateDivider,
   lastColumn,
   datePickerSelected,
   datePickerRangeMiddle,
   dateTextBegin,
-  errorBox,
-  error,
   datePickerButton,
   buttonContainer,
 } from './date-range-filter.module.scss';
@@ -35,8 +32,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const [active, setActive] = useState(false);
   const [isStartFocused, setIsStartFocused] = useState(false);
   const [isEndFocused, setIsEndFocused] = useState(false);
-  const [startDateError, setStartDateError] = useState('');
-  const [endDateError, setEndDateError] = useState('');
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
 
   const dropdownRef = useRef();
@@ -84,8 +79,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (!e.key || e.key === 'Enter') {
       setSelected(undefined);
       onFilterChange(undefined);
-      setStartDateError('');
-      setEndDateError('');
     }
   };
 
@@ -110,7 +103,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setActive(false);
       if (startDateRef.current.value.length < 10) {
         startDateRef.current.value = '';
-        setStartDateError('');
         setSelected(undefined);
         onFilterChange(undefined);
       }
@@ -126,8 +118,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const handleDateInputChange = (e, isStart) => {
     const date = e.target.value;
     if (date.length === 10 && moment(date, 'YYYY-MM-DD', true).isValid()) {
-      setStartDateError('');
-      setEndDateError('');
       if (isStart && date[0] !== '0') {
         const fromDate = getDateWithoutTimeZoneAdjust(new Date(date));
         setSelected(prev => ({ ...prev, from: fromDate }));
@@ -212,7 +202,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           ref={displayRef}
         >
           <input
-            className={`${dateTextBegin} ${startDateError ? error : ''}`}
+            className={dateTextBegin}
             type="date"
             onChange={e => handleDateInputChange(e, true)}
             onBlur={e => handleTextBoxBlur(e)}
@@ -224,7 +214,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           />
           <div className={dateDivider}>|</div>
           <input
-            className={`${dateTextBegin} ${endDateError ? error : ''}`}
+            className={dateTextBegin}
             type="date"
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
@@ -238,12 +228,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         </div>
       </div>
       <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
-        {(startDateError || endDateError) && (
-          <div className={errorBox} data-testid="error-message">
-            {startDateError || endDateError}
-          </div>
-        )}
-        {active && !startDateError && !endDateError && (
+        {active && (
           <div
             className={`${dropdown} ${isLastColumn && lastColumn}`}
             onMouseOver={() => {

@@ -26,13 +26,6 @@
       outline: 1px solid $primary;
     }
   }
- .error {
-    outline:  1px solid red;
-    &:focus {
-      border: 0;
-      outline:  1px solid red;
-    }
-  }
   cursor: text;
 }
 input[type="date"]::before {
@@ -60,15 +53,7 @@ input {
     border-radius: 0.125rem;
   }
 }
-input.error {
-  outline:  1px solid red;
-  &:focus {
-    border: 0;
-    outline:  1px solid red;
-    box-shadow: 0 0 0 0.25rem #e8f5ff;
-    border-radius: 0.125rem;
-  }
-}
+
 input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
@@ -151,22 +136,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       cursor: pointer;
     }
   }
-}
-
-.errorBox {
-  position: absolute;
-  background-color: white;
-  padding: 0.5rem;
-  border-radius: 4px;
-  box-shadow: 0.25rem 0.25rem #f1f1f1;
-  z-index: 1;
-  top: 5.5rem;
-  left: 0;
-}
-
-input.error {
-  border: 1px solid red;
-  outline: none;
 }
 
 .lastColumn {
