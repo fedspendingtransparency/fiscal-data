@@ -97,10 +97,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .calendarIcon {
     font-size: $font-size-16;
     margin-right: 0.5rem;
+    padding-left: .5rem;
   }
 
   .xIcon {
     font-size: $font-size-16;
+    padding-left: .5rem;
     margin-right: 0.5rem;
     margin-top: 0.25rem;
     cursor: pointer;
