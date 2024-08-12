@@ -130,6 +130,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       } else {
         setErrorMessage('Invalid date range. Please check the entered dates and try again.');
       }
+    } else {
+      setErrorMessage('Invalid date range. Please check the entered dates and try again.');
     }
   };
 
@@ -240,7 +242,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
           )}
         </div>
-        {errorMessage && <div className={errorBox}>{errorMessage}</div>}
+        {errorMessage && (
+          <div className={errorBox} data-testid="error-message">
+            {errorMessage}
+          </div>
+        )}
       </div>
       <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
         {active && !errorMessage && (
