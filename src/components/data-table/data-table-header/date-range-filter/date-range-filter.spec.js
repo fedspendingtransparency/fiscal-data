@@ -49,21 +49,6 @@ describe('DateRangeFilter Component', () => {
     expect(dateInput.value).toBe('2023-08-10');
   });
 
-  it('shows an error message for an invalid date', () => {
-    render(
-      <RecoilRoot>
-        <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} allActiveFilters={[]} setAllActiveFilters={mockSetAllActiveFilters} />
-      </RecoilRoot>
-    );
-
-    const dateInput = screen.getByPlaceholderText('Start');
-    fireEvent.change(dateInput, { target: { value: '0010-12-20' } });
-    const errorMessage = screen.getByText('Invalid date range. Please check the entered dates and try again.');
-    expect(errorMessage).toBeInTheDocument(), expect(dateInput).toHaveClass('error');
-    fireEvent.change(dateInput, { target: { value: '2020-12-20' } });
-    expect(screen.queryByText('Invalid date range. Please check the entered dates and try again.')).not.toBeInTheDocument();
-  });
-
   it('clears the selected dates when clear button is clicked', () => {
     render(
       <RecoilRoot>

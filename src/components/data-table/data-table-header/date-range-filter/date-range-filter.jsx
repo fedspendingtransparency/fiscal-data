@@ -141,12 +141,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         setIsEndFocused(false);
         setActive(false);
       }
-    } else if (date.length === 9 && date[0] !== '00') {
-      if (isStart) {
-        setStartDateError('Invalid date range. Please check the entered dates and try again.');
-      } else {
-        setEndDateError('Invalid date range. Please check the entered dates and try again.');
-      }
     }
   };
 
