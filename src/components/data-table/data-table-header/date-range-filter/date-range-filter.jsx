@@ -103,11 +103,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       e.relatedTarget !== null
     ) {
       setActive(false);
-      if (startDateRef.current.value.length < 10) {
-        startDateRef.current.value = '';
-        setSelected(undefined);
-        onFilterChange(undefined);
-      }
     }
   };
 
@@ -123,25 +118,33 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       const parsedDate = getDateWithoutTimeZoneAdjust(new Date(date));
 
       if (isStart && date[0] !== '0') {
-        setSelected(prev => ({ ...prev, from: parsedDate }));
-        if (selected?.to) {
-          console.log('Away');
-          setIsStartFocused(false);
-          setIsEndFocused(false);
-          setActive(false);
-        } else {
-          setIsEndFocused(true);
-          console.log('filledout');
+        setSelected(prev => {
+          const updated = { ...prev, from: parsedDate };
+          if (updated.to && moment(updated.from).isAfter(updated.to)) {
+            // Ensure the start date is before the end date
+            [updated.from, updated.to] = [updated.to, updated.from];
+          }
+          return updated;
+        });
+
+        if (!selected?.to) {
           endDateRef.current.focus();
+        } else {
+          setActive(false);
         }
       } else if (!isStart && date[0] !== '0') {
-        setSelected(prev => ({ ...prev, to: parsedDate }));
+        setSelected(prev => {
+          const updated = { ...prev, to: parsedDate };
+          if (updated.from && moment(updated.from).isAfter(updated.to)) {
+            // Ensure the start date is before the end date
+            [updated.from, updated.to] = [updated.to, updated.from];
+          }
+          return updated;
+        });
+
         if (!selected?.from) {
-          setIsStartFocused(true);
           startDateRef.current.focus();
         } else {
-          setIsStartFocused(false);
-          setIsEndFocused(false);
           setActive(false);
         }
       }
@@ -151,7 +154,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const handleKeyDown = (e, isStart) => {
     if (e.key === 'Enter') {
       handleDateInputChange(e, isStart);
-      if (isStart) {
+      if (isStart && selected?.from) {
         endDateRef.current.focus();
       } else {
         setActive(false);
@@ -174,12 +177,10 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       const correctFrom = start.isBefore(end) ? start : end;
       const correctTo = start.isBefore(end) ? end : start;
 
-      // Ensure filtering between correct dates
       setFilteredDateRange({ from: correctFrom, to: correctTo });
       column.setFilterValue(getDaysArray(correctFrom.format('YYYY-MM-DD'), correctTo.format('YYYY-MM-DD')));
       onFilterChange(`${correctFrom.format('YYYY-MM-DD')} - ${correctTo.format('YYYY-MM-DD')}`);
 
-      // Set the correct values in the inputs
       startDateRef.current.value = correctFrom.format('YYYY-MM-DD');
       endDateRef.current.value = correctTo.format('YYYY-MM-DD');
       setActive(false);

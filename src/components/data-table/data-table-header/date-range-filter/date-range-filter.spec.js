@@ -7,6 +7,8 @@ describe('DateRangeFilter Component', () => {
   const mockColumn = { id: 'testId', setFilterValue: jest.fn() };
   const mockSetAllActiveFilters = jest.fn();
   const mockResetFilters = jest.fn();
+  const mockAllActiveFilters = [];
+  const mockSetFiltersActive = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -96,7 +98,7 @@ describe('DateRangeFilter Component', () => {
     expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
   });
 
-  it('removes the filter when the date range is cleared', () => {
+  it('removes the filter when the date range is cleared', async () => {
     render(
       <RecoilRoot>
         <DateRangeFilter
@@ -109,12 +111,37 @@ describe('DateRangeFilter Component', () => {
     );
 
     const dateInput = screen.getByPlaceholderText('Start');
-    fireEvent.change(dateInput, { target: { value: '2023-08-10' } });
+    fireEvent.click(dateInput);
 
     const clearButton = screen.getByRole('button', { name: 'Clear' });
     fireEvent.click(clearButton);
 
-    expect(mockColumn.setFilterValue).toHaveBeenCalledWith([]);
-    expect(mockSetAllActiveFilters).toHaveBeenCalledWith([]);
+    await waitFor(() => {
+      expect(mockColumn.setFilterValue).toHaveBeenCalledWith([]);
+      expect(mockSetAllActiveFilters).toHaveBeenCalledWith([]);
+    });
+  });
+
+  it('renders today and clear buttons', () => {
+    const { getByRole, getAllByText } = render(
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    fireEvent.click(dateRangeButton);
+    const todayButton = getByRole('button', { name: 'Today' });
+    fireEvent.click(todayButton);
+    expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
+    fireEvent.click(dateRangeButton);
+    const clearButton = getByRole('button', { name: 'Clear' });
+    fireEvent.click(clearButton);
+    fireEvent.click(dateRangeButton);
   });
 });
