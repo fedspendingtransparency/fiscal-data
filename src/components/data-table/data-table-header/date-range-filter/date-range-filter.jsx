@@ -121,7 +121,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         setSelected(prev => {
           const updated = { ...prev, from: parsedDate };
           if (updated.to && moment(updated.from).isAfter(updated.to)) {
-            // Ensure the start date is before the end date
             [updated.from, updated.to] = [updated.to, updated.from];
           }
           return updated;
@@ -136,7 +135,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         setSelected(prev => {
           const updated = { ...prev, to: parsedDate };
           if (updated.from && moment(updated.from).isAfter(updated.to)) {
-            // Ensure the start date is before the end date
             [updated.from, updated.to] = [updated.to, updated.from];
           }
           return updated;
@@ -207,6 +205,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <input
             className={dateTextBegin}
             type="date"
+            aria-label="Start"
+            data-testid="Start-Button"
             onChange={e => handleDateInputChange(e, true)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, true)}
