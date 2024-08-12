@@ -10,14 +10,12 @@ import {
   calendarIcon,
   xIcon,
   dateDivider,
-  glow,
   lastColumn,
-  datePickerButton,
   datePickerSelected,
   datePickerRangeMiddle,
-  buttonContainer,
   dateTextBegin,
   errorBox,
+  error,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
@@ -122,8 +120,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       } else {
         setErrorMessage('Invalid date range. Please check the entered dates and try again.');
       }
-    } else {
-      setErrorMessage('Invalid date range. Please check the entered dates and try again.');
     }
   };
 
@@ -179,9 +175,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   return (
     <>
-      <div className={active ? glow : null}>
+      <div className={active}>
         <div
-          className={`${dateEntryBox} ${errorMessage ? 'error' : ''}`}
+          className={dateEntryBox}
           onClick={() => handleTextBoxClick(true)}
           onKeyDown={e => handleTextBoxClick(true)}
           role="button"
@@ -190,7 +186,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           ref={displayRef}
         >
           <input
-            className={`${dateTextBegin} ${errorMessage ? 'error' : ''}`}
+            className={`${dateTextBegin} ${errorMessage ? error : ''}`}
             type="date"
             onChange={e => handleDateInputChange(e, true)}
             onBlur={e => handleTextBoxBlur(e)}
@@ -202,7 +198,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           />
           <div className={dateDivider}>|</div>
           <input
-            className={`${dateTextBegin} ${errorMessage ? 'error' : ''}`}
+            className={`${dateTextBegin} ${errorMessage ? error : ''}`}
             type="date"
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
