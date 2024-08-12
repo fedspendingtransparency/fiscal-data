@@ -1,8 +1,5 @@
 @import 'src/variables.module.scss';
 
-.glow {
-}
-
 .dateTextBegin {
   margin-bottom: 10.5px;
   margin-top: 10.5px;
@@ -18,9 +15,10 @@
     border: 4px solid $primary;
     border-radius: 0.25rem;
     border: none;
+    outline: 1px solid $primary;
   }
   &:hover {
-    outline: 1px solid #666666;
+    outline: 1px solid $primary;
   }
 
   cursor: text;
@@ -142,7 +140,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     :first-child {
       margin-right: 2rem;
     }
-
     .datePickerButton {
       color: $primary;
       text-decoration: underline;

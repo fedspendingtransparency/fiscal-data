@@ -27,16 +27,11 @@ import { getDateWithoutTimeZoneAdjust } from '../../../../utils/date-utils';
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
-  const textHighlighted = { backgroundColor: '#E8F5FF' };
-  const noTextHighLight = { backgroundColor: '' };
-
   const [selected, setSelected] = useState({
     from: undefined,
     to: undefined,
   });
 
-  const [beginTextStyle, setBeginTextStyle] = useState(noTextHighLight);
-  const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
   const [isStartFocused, setIsStartFocused] = useState(false);
   const [isEndFocused, setIsEndFocused] = useState(false);
@@ -76,8 +71,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (!e.key || e.key === 'Enter') {
       setSelected(undefined);
       onFilterChange(undefined);
-      setEndTextStyle(noTextHighLight);
-      setBeginTextStyle(noTextHighLight);
       setErrorMessage('');
     }
   };
@@ -115,7 +108,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (moment(date, 'YYYY-MM-DD', true).isValid()) {
       setErrorMessage('');
       if (isStart && date[0] !== '0') {
-        console.log(date);
         const fromDate = getDateWithoutTimeZoneAdjust(new Date(date));
         setSelected(prev => ({ ...prev, from: fromDate }));
         setIsStartFocused(false);
@@ -149,36 +141,25 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   useEffect(() => {
     if (active) {
       document.addEventListener('click', handleEventListener);
-      setBeginTextStyle(isStartFocused ? textHighlighted : noTextHighLight);
-      setEndTextStyle(isEndFocused ? textHighlighted : noTextHighLight);
     } else {
       document.removeEventListener('click', handleEventListener);
-      setBeginTextStyle(noTextHighLight);
-      setEndTextStyle(noTextHighLight);
     }
   }, [active, isStartFocused, isEndFocused]);
 
   useEffect(() => {
     if (selected?.from && selected?.to) {
-      console.log('selected updated, from and to');
       const start = moment(selected?.from);
 
       const end = moment(selected?.to);
-      console.log('start: ', start, end);
       const correctFrom = start.isBefore(end) ? start : end;
       const correctTo = start.isBefore(end) ? end : start;
-      console.log(correctFrom, correctTo, ' corrected');
       setFilteredDateRange({ from: correctFrom, to: correctTo });
       column.setFilterValue(getDaysArray(correctFrom.format('YYYY-MM-DD'), correctTo.format('YYYY-MM-DD')));
       onFilterChange(`${correctFrom.format('YYYY-MM-DD')} - ${correctTo.format('YYYY-MM-DD')}`);
-      console.log(onFilterChange);
       startDateRef.current.value = correctFrom.format('YYYY-MM-DD');
       endDateRef.current.value = correctTo.format('YYYY-MM-DD');
-      setEndTextStyle(noTextHighLight);
       setActive(false);
     } else {
-      console.log('selected updated, else');
-
       column.setFilterValue([]);
       setFilteredDateRange(null);
       onFilterChange('');
@@ -186,10 +167,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       endDateRef.current.value = '';
     }
     if (selected?.from && !selected?.to) {
-      console.log('selected updated, from and not to');
       const start = moment(selected?.from);
-      setEndTextStyle(textHighlighted);
-      setBeginTextStyle(noTextHighLight);
       startDateRef.current.value = start.format('YYYY-MM-DD');
     }
   }, [selected]);
