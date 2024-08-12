@@ -144,7 +144,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       }
     }
   };
-
   useEffect(() => {
     if (active) {
       document.addEventListener('click', handleEventListener);
@@ -224,7 +223,19 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             required
             ref={endDateRef}
           />
-          <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
+          <FontAwesomeIcon
+            icon={faCalendarDay}
+            className={calendarIcon}
+            onClick={e => {
+              e.stopPropagation();
+              setActive(prevState => !prevState);
+            }}
+            onKeyDown={e => {
+              e.stopPropagation();
+              setActive(prevState => !prevState);
+            }}
+            tabIndex={0}
+          />
         </div>
       </div>
       <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
