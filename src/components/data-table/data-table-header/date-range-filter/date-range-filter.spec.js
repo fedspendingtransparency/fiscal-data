@@ -49,7 +49,7 @@ describe('DateRangeFilter Component', () => {
     expect(dateInput.value).toBe('2023-08-10');
   });
 
-  it('shows an error message for an invalid date', async () => {
+  it('shows an error message for an invalid date', () => {
     render(
       <RecoilRoot>
         <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} allActiveFilters={[]} setAllActiveFilters={mockSetAllActiveFilters} />
@@ -59,7 +59,9 @@ describe('DateRangeFilter Component', () => {
     const dateInput = screen.getByPlaceholderText('Start');
     fireEvent.change(dateInput, { target: { value: '0010-12-20' } });
     const errorMessage = screen.getByText('Invalid date range. Please check the entered dates and try again.');
-    await waitFor(() => expect(errorMessage).toBeInTheDocument(), expect(dateInput).toHaveClass('error'));
+    expect(errorMessage).toBeInTheDocument(), expect(dateInput).toHaveClass('error');
+    fireEvent.change(dateInput, { target: { value: '2020-12-20' } });
+    expect(screen.queryByText('Invalid date range. Please check the entered dates and try again.')).not.toBeInTheDocument();
   });
 
   it('clears the selected dates when clear button is clicked', () => {
@@ -101,11 +103,33 @@ describe('DateRangeFilter Component', () => {
       </RecoilRoot>
     );
 
-    fireEvent.doubleClick(document.body);
-    expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
     const dateInput = screen.getByPlaceholderText('Start');
     fireEvent.focus(dateInput);
     const dropdown = screen.getByTestId('Date Picker Dropdown');
     expect(dropdown).toBeInTheDocument();
+    fireEvent.click(document.body);
+    expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
+  });
+
+  it('removes the filter when the date range is cleared', () => {
+    render(
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          allActiveFilters={['testId']}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+
+    const dateInput = screen.getByPlaceholderText('Start');
+    fireEvent.change(dateInput, { target: { value: '2023-08-10' } });
+
+    const clearButton = screen.getByRole('button', { name: 'Clear dates' });
+    fireEvent.click(clearButton);
+
+    expect(mockColumn.setFilterValue).toHaveBeenCalledWith([]);
+    expect(mockSetAllActiveFilters).toHaveBeenCalledWith([]);
   });
 });
