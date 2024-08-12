@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@import '../../../variables.module';
 
 .datePickerContainer {
   width: fit-content;
@@ -15,12 +15,10 @@
   color: $font-body-copy;
   padding: 0.625rem 1rem;
   width: 20rem;
-  cursor: pointer;
 
   .publishedDateLabel {
     font-weight: $semi-bold-weight;
     white-space: pre;
-    margin-right: .25rem;
   }
 }
 

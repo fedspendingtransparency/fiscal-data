@@ -4,7 +4,7 @@ import DownloadReportTable from '../download-report-table/download-report-table'
 import { reportsTip, note, publishDate } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
-import MonthPicker from '../month-picker/month-picker';
+import ReportDatePicker from '../report-date-picker/report-date-picker';
 
 export const title = 'Reports and Files';
 export interface IReports {
@@ -22,6 +22,10 @@ interface IDataset {
 const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; dataset: IDataset }> = ({ publishedReportsProp, dataset }) => {
   const [currentReports, setCurrentReports] = useState<IReports[]>();
   const [isDailyReport, setIsDailyReport] = useState<boolean>();
+  const [latestReportDate, setLatestReportDate] = useState<Date>();
+  const [earliestReportDate, setEarliestReportDate] = useState<Date>();
+  const [allReportDates, setAllReportDates] = useState<string[]>();
+
   const isReportGroupDailyFrequency = (reports: IReports[]): boolean => {
     let yearRepresented = 0;
     let monthRepresented = 0;
@@ -49,20 +53,26 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     // todo - Use a better manner of reassigning the report_date prop to jsdates.
     if (publishedReportsProp?.length > 0) {
       const sortedReports = getPublishedDates(publishedReportsProp).sort((a, b) => b.report_date - a.report_date);
-      const latestReportDate = sortedReports[0].report_date;
-      const day = latestReportDate.getDate();
-      const month = latestReportDate.toLocaleString('default', { month: 'short' });
-      const year = latestReportDate.getFullYear();
+      const latestReport = sortedReports[0].report_date;
+      const earliestReport = sortedReports[sortedReports.length - 1].report_date;
+      setLatestReportDate(latestReport);
+      setEarliestReportDate(earliestReport);
+      const allDates = [];
+      const day = latestReport.getDate();
+      const month = latestReport.toLocaleString('default', { month: 'short' });
+      const year = latestReport.getFullYear();
+      sortedReports.map(report => allDates.push(report.report_date.toDateString()));
+      setAllReportDates(allDates);
       const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
       setIsDailyReport(isDaily);
+
       const filteredReports = sortedReports.filter(
         (report: IReports) =>
           report.report_date.toString().includes(month) &&
           report.report_date.toString().includes(year) &&
-          ((!!isDaily && report.report_date.toString().includes(day)) || !isDaily)
+          ((isDaily && report.report_date.toString().includes(day)) || !isDaily)
       );
       filteredReports.sort((a, b) => a.report_group_sort_order_nbr - b.report_group_sort_order_nbr);
-
       if (filteredReports.length > 0) {
         setCurrentReports(filteredReports);
       }
@@ -76,8 +86,14 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   return (
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={title} id="reports-and-files">
-        {!isDailyReport && <MonthPicker />}
-        {isDailyReport && <div className={publishDate}>Published Date:</div>}
+        {latestReportDate && (
+          <ReportDatePicker
+            isDailyReport={isDailyReport}
+            latestReportDate={latestReportDate}
+            earliestReportDate={earliestReportDate}
+            allReportDates={allReportDates}
+          />
+        )}
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
         {dataset?.publishedReportsTip && (
           <div className={reportsTip}>

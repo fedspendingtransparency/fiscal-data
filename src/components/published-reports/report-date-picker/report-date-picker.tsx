@@ -1,9 +1,11 @@
 import React, { FocusEventHandler, FunctionComponent, useRef, useState } from 'react';
-import MonthPickerDropdown from './month-picker-dropdown/month-picker-dropdown';
-import { publishedDateLabel, datePickerButton, glow, datePickerContainer } from './month-picker.module.scss';
+import MonthPicker from './month-picker/month-picker';
+import { publishedDateLabel, datePickerButton, glow, datePickerContainer } from './report-date-picker.module.scss';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useOnClickOutside from 'use-onclickoutside';
+import ReportDayPicker from './report-day-picker/report-day-picker';
+import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';
 
 const monthDropdownList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'];
 const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
@@ -11,14 +13,22 @@ const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022'
 interface IMonthPicker {
   monthDropdownOptions?: string[];
   yearDropdownOptions?: string[];
+  isDailyReport: boolean;
+  latestReportDate: Date;
+  earliestReportDate: Date;
+  allReportDates: string[];
 }
 
-const MonthPicker: FunctionComponent<IMonthPicker> = ({
+const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
   monthDropdownOptions = monthDropdownList,
   yearDropdownOptions = yearDropdownList,
+  isDailyReport,
+  latestReportDate,
+  earliestReportDate,
+  allReportDates,
 }: IMonthPicker) => {
   const [active, setActive] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('August 2024');
+  const [selectedDate, setSelectedDate] = useState<Date>(latestReportDate);
   const dropdownRef = useRef(null);
 
   /* accessibility-enabling event handlers for interpreting focus state on control */
@@ -41,7 +51,7 @@ const MonthPicker: FunctionComponent<IMonthPicker> = ({
     if (event) {
       const parent = dropdownRef.current;
       const related = event?.relatedTarget as HTMLElement;
-      if (!parent?.outerText.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
+      if (!parent?.outerText?.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
         setActive(false);
       }
     }
@@ -53,13 +63,13 @@ const MonthPicker: FunctionComponent<IMonthPicker> = ({
         <button className={datePickerButton} onClick={() => setActive(!active)} aria-label="Select Published Report Date">
           <div>
             <span className={publishedDateLabel}>Published Date: </span>
-            {selectedDate}
+            {`${formatReportDate(selectedDate, true, isDailyReport)}`}
           </div>
           <FontAwesomeIcon icon={active ? faCaretUp : faCaretDown} />
         </button>
       </div>
-      {active && (
-        <MonthPickerDropdown
+      {active && !isDailyReport && (
+        <MonthPicker
           monthDropdownOptions={monthDropdownOptions}
           yearDropdownOptions={yearDropdownOptions}
           selectedDate={selectedDate}
@@ -67,8 +77,18 @@ const MonthPicker: FunctionComponent<IMonthPicker> = ({
           handleClose={() => setActive(false)}
         />
       )}
+      {active && isDailyReport && (
+        <ReportDayPicker
+          handleClose={() => setActive(false)}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          latestReportDate={latestReportDate}
+          earliestReportDate={earliestReportDate}
+          allReportDates={allReportDates}
+        />
+      )}
     </div>
   );
 };
 
-export default MonthPicker;
+export default ReportDatePicker;
