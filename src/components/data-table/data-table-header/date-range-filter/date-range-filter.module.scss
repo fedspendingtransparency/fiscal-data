@@ -3,38 +3,6 @@
 .glow {
 }
 
-.dateInput {
-  position: relative;
-  width: 100%;
-
-  &::before {
-    content: attr(data-placeholder);
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    color: #666666;
-    pointer-events: none;
-    opacity: 1;
-  }
-
-  &:focus::before {
-    opacity: 0;
-  }
-
-  &:not(:placeholder-shown)::before {
-    opacity: 0;
-  }
-
-  &:focus::-webkit-datetime-edit {
-    opacity: 1;
-  }
-  &::-webkit-datetime-edit {
-    opacity: 1;
-  }
-
-}
-
 .dateTextBegin {
   margin-bottom: 10.5px;
   margin-top: 10.5px;
@@ -56,6 +24,23 @@
   }
 
   cursor: text;
+}
+input[type="date"]::before {
+  color: #666666;
+  content: attr(placeholder);
+  bottom: 16px;
+  position: absolute;
+}
+input[type="date"] {
+  color: #ffffff;
+}
+input[type="date"]:focus,
+input[type="date"]:valid {
+  color: #666666;
+}
+input[type="date"]:focus::before,
+input[type="date"]:valid::before {
+  content: "" !important;
 }
 input {
   &:focus {

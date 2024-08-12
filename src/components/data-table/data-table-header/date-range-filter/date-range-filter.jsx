@@ -18,12 +18,12 @@ import {
   buttonContainer,
   dateTextBegin,
   errorBox,
-  dateInput,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
+import { getDateWithoutTimeZoneAdjust } from '../../../../utils/date-utils';
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
@@ -64,7 +64,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const getDaysArray = (start, end) => {
     const arr = [];
-    for (let dt = new Date(start); dt <= new Date(end); dt.setDate(dt.getDate() + 1)) {
+    const startDate = getDateWithoutTimeZoneAdjust(new Date(start));
+    const endDate = getDateWithoutTimeZoneAdjust(new Date(end));
+    for (let dt = startDate; dt <= endDate; dt.setDate(dt.getDate() + 1)) {
       arr.push(moment(new Date(dt)).format('YYYY-MM-DD'));
     }
     return arr;
@@ -114,12 +116,14 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setErrorMessage('');
       if (isStart && date[0] !== '0') {
         console.log(date);
-        setSelected(prev => ({ ...prev, from: new Date(date) }));
+        const fromDate = getDateWithoutTimeZoneAdjust(new Date(date));
+        setSelected(prev => ({ ...prev, from: fromDate }));
         setIsStartFocused(false);
         setIsEndFocused(true);
         endDateRef.current.focus();
       } else if (!isStart && date[0] !== '0') {
-        setSelected(prev => ({ ...prev, to: new Date(date) }));
+        const toDate = getDateWithoutTimeZoneAdjust(new Date(date));
+        setSelected(prev => ({ ...prev, to: toDate }));
         setIsStartFocused(false);
         setIsEndFocused(false);
         setActive(false);
@@ -156,14 +160,16 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (selected?.from && selected?.to) {
       console.log('selected updated, from and to');
       const start = moment(selected?.from);
-      const end = moment(selected?.to);
 
+      const end = moment(selected?.to);
+      console.log('start: ', start, end);
       const correctFrom = start.isBefore(end) ? start : end;
       const correctTo = start.isBefore(end) ? end : start;
-
+      console.log(correctFrom, correctTo, ' corrected');
       setFilteredDateRange({ from: correctFrom, to: correctTo });
       column.setFilterValue(getDaysArray(correctFrom.format('YYYY-MM-DD'), correctTo.format('YYYY-MM-DD')));
       onFilterChange(`${correctFrom.format('YYYY-MM-DD')} - ${correctTo.format('YYYY-MM-DD')}`);
+      console.log(onFilterChange);
       startDateRef.current.value = correctFrom.format('YYYY-MM-DD');
       endDateRef.current.value = correctTo.format('YYYY-MM-DD');
       setEndTextStyle(noTextHighLight);
@@ -204,24 +210,26 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           ref={displayRef}
         >
           <input
-            className={`${dateTextBegin} ${errorMessage ? 'error' : ''} ${dateInput}`}
+            className={`${dateTextBegin} ${errorMessage ? 'error' : ''}`}
             type="date"
             onChange={e => handleDateInputChange(e, true)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, true)}
             onFocus={() => handleTextBoxClick(true)}
-            data-placeholder={'Start'}
+            placeholder="Start"
+            required
             ref={startDateRef}
           />
           <div className={dateDivider}>|</div>
           <input
-            className={`${dateTextBegin} ${errorMessage ? 'error' : ''} ${dateInput}`}
+            className={`${dateTextBegin} ${errorMessage ? 'error' : ''}`}
             type="date"
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, false)}
             onFocus={() => handleTextBoxClick(false)}
-            data-placeholder={'End'}
+            placeholder="End"
+            required
             ref={endDateRef}
           />
           {selected ? (
