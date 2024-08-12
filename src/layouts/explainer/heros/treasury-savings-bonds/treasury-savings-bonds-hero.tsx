@@ -117,7 +117,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
         <div className={footNotesPillData}>
           <p>
             Compared to the same period last year ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)}), investments in
-            savings bonds have {savingsBondChangeLabel} by {getShortForm(savingsBondChange.toString(), false)}.
+            savings bonds have {savingsBondChangeLabel} by ${getShortForm(savingsBondChange.toString(), false)}.
           </p>
           {getPillData(
             savingsBondChange,
