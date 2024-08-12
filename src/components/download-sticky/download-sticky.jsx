@@ -35,6 +35,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import buttons from '../buttons/buttons';
 import globalConstants from '../../helpers/constants';
 import { generateAnalyticsEvent } from '../../layouts/dataset-detail/helper';
+import { useRecoilValue } from 'recoil';
+import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 
 const gaEventLabels = globalConstants.gaEventLabels;
 export const dsTextContent = {
@@ -103,6 +105,7 @@ const DownloadSticky = () => {
   const [resumedInProgress, setResumedInProgress] = useState([]);
   const [triggerCleanupAfterClose, setTriggerCleanupAfterClose] = useState(0);
   const [allPrepared, setAllPrepared] = useState([]);
+  const dapGaEventLabel = useRecoilValue(reactTableFilteredDateRangeState);
 
   const fileFromPath = download => {
     let path;
@@ -211,16 +214,16 @@ const DownloadSticky = () => {
   };
 
   const toggleDetailsEvent = () => {
-    const gaEventLabel = expanded ? dsTextContent.gaHideDetails : dsTextContent.gaShowDetails;
+    const gaEventAction = expanded ? dsTextContent.gaHideDetails : dsTextContent.gaShowDetails;
 
-    generateAnalyticsEvent(gaEventLabel);
+    generateAnalyticsEvent(dapGaEventLabel, gaEventAction + ' Click');
     setExpanded(!expanded);
   };
 
   const toggleMinimizeEvent = () => {
-    const gaEventLabel = minimized ? dsTextContent.gaMaximizeSticky : dsTextContent.gaMinimizeSticky;
+    const gaEventAction = minimized ? dsTextContent.gaMaximizeSticky : dsTextContent.gaMinimizeSticky;
 
-    generateAnalyticsEvent(gaEventLabel);
+    generateAnalyticsEvent(dapGaEventLabel, gaEventAction + ' Click');
     setMinimized(!minimized);
   };
 
@@ -366,7 +369,7 @@ const DownloadSticky = () => {
                       <div className={noticeText}>{multipleDownloads ? dsTextContent.planToLeaveMulti : dsTextContent.planToLeaveSingle}</div>
                       {!multipleDownloads && (
                         <div className={`${noticeButtonContainer} copyLinkButton`}>
-                          {buttons.copyToClipboardButton(allInProgress[0].statusPath, dsTextContent.copyLinkLabel)}
+                          {buttons.copyToClipboardButton(allInProgress[0].statusPath, dapGaEventLabel, dsTextContent.copyLinkLabel)}
                         </div>
                       )}
                     </div>
@@ -405,7 +408,7 @@ const DownloadSticky = () => {
                         <div className={filename}>{resumedDownload.filename}</div>
                         {resumedDownload.statusPath && (
                           <div className={`${noticeButtonContainer} copyLinkButton`}>
-                            {buttons.copyToClipboardButton(resumedDownload.statusPath, dsTextContent.copyLinkLabel)}
+                            {buttons.copyToClipboardButton(resumedDownload.statusPath, dapGaEventLabel, dsTextContent.copyLinkLabel)}
                           </div>
                         )}
                       </div>
@@ -418,7 +421,7 @@ const DownloadSticky = () => {
                       <div className={filename}>{downloadInProgress.filename}</div>
                       {downloadInProgress.statusPath && (
                         <div className={`${noticeButtonContainer} copyLinkButton`}>
-                          {buttons.copyToClipboardButton(downloadInProgress.statusPath, dsTextContent.copyLinkLabel)}
+                          {buttons.copyToClipboardButton(downloadInProgress.statusPath, dapGaEventLabel, dsTextContent.copyLinkLabel)}
                         </div>
                       )}
                     </div>

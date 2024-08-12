@@ -7,6 +7,9 @@ import { minimizedStyle, collapsed } from './download-sticky.module.scss';
 import '@testing-library/jest-dom';
 import { StickyFooterComponent } from '../sticky-footer/sticky-footer';
 import * as gaHelper from '../../layouts/dataset-detail/helper';
+import { RecoilRoot } from 'recoil';
+import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
+import { smallTableDownloadDataCSV } from '../../recoil/smallTableDownloadData';
 
 jest.useFakeTimers();
 describe('DownloadSticky component', () => {
@@ -52,9 +55,11 @@ describe('DownloadSticky component', () => {
     let component = null;
     act(() => {
       component = render(
-        <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DownloadSticky />
-        </downloadsContext.Provider>
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadSticky />
+          </downloadsContext.Provider>
+        </RecoilRoot>
       );
     });
     jest.runAllTimers();
@@ -75,9 +80,11 @@ describe('DownloadSticky component', () => {
     let component = null;
     act(() => {
       component = render(
-        <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DownloadSticky />
-        </downloadsContext.Provider>
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadSticky />
+          </downloadsContext.Provider>
+        </RecoilRoot>
       );
     });
     jest.runAllTimers();
@@ -98,9 +105,11 @@ describe('DownloadSticky component', () => {
     let component = null;
     act(() => {
       component = render(
-        <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DownloadSticky />
-        </downloadsContext.Provider>
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadSticky />
+          </downloadsContext.Provider>
+        </RecoilRoot>
       );
     });
     jest.runAllTimers();
@@ -121,9 +130,11 @@ describe('DownloadSticky component', () => {
 
     act(() => {
       component = render(
-        <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DownloadSticky />
-        </downloadsContext.Provider>
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadSticky />
+          </downloadsContext.Provider>
+        </RecoilRoot>
       );
     });
     jest.runAllTimers();
@@ -147,9 +158,11 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText, queryByTestId } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadSticky />
-      </downloadsContext.Provider>
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadSticky />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     jest.runAllTimers();
 
@@ -172,9 +185,11 @@ describe('DownloadSticky component', () => {
     const gaSpy = jest.spyOn(gaHelper, 'generateAnalyticsEvent');
 
     const { queryByText, queryByTestId, getByTestId } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadSticky />
-      </downloadsContext.Provider>
+      <RecoilRoot initializeState={snapshot => snapshot.set(reactTableFilteredDateRangeState, 'Table Info')}>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadSticky />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     jest.runAllTimers();
 
@@ -188,7 +203,7 @@ describe('DownloadSticky component', () => {
       minimizeToggle.click();
     });
 
-    expect(gaSpy).toHaveBeenCalledWith(dsTextContent.gaMinimizeSticky);
+    expect(gaSpy).toHaveBeenCalledWith('Table Info', dsTextContent.gaMinimizeSticky + ' Click');
     expect(getByTestId('download-sticky-content')).toHaveClass(minimizedStyle);
     expect(queryByTestId('minimize-symbol')).not.toBeTruthy();
     expect(queryByTestId('maximize-symbol')).toBeTruthy();
@@ -204,7 +219,7 @@ describe('DownloadSticky component', () => {
       minimizeToggle.click();
     });
 
-    expect(gaSpy).toHaveBeenCalledWith(dsTextContent.gaMaximizeSticky);
+    expect(gaSpy).toHaveBeenCalledWith('Table Info', dsTextContent.gaMaximizeSticky + ' Click');
   });
 
   it('contains the expected text content with one or more downloads waiting in the queue', () => {
@@ -235,9 +250,11 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText, queryAllByText } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadSticky />
-      </downloadsContext.Provider>
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadSticky />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     jest.runAllTimers();
 
@@ -279,10 +296,12 @@ describe('DownloadSticky component', () => {
       displayForTestCase: true,
     };
 
-    const { queryByText, queryAllByText } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadSticky />
-      </downloadsContext.Provider>
+    const { queryByText } = render(
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadSticky />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     jest.runAllTimers();
 
@@ -339,10 +358,12 @@ describe('DownloadSticky component', () => {
       downloadsPrepared: mockPreparedDownloads,
     };
 
-    const { queryByText, queryAllByText } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadSticky />
-      </downloadsContext.Provider>
+    const { queryByText } = render(
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadSticky />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     jest.runAllTimers();
 
@@ -380,9 +401,11 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText, queryAllByText, getByTestId } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadSticky />
-      </downloadsContext.Provider>
+      <RecoilRoot initializeState={snapshot => snapshot.set(reactTableFilteredDateRangeState, 'Table Info')}>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadSticky />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     jest.runAllTimers();
 
@@ -396,7 +419,7 @@ describe('DownloadSticky component', () => {
       collapseToggleButton.click();
     });
 
-    expect(gaSpy).toHaveBeenCalledWith(dsTextContent.gaShowDetails);
+    expect(gaSpy).toHaveBeenCalledWith('Table Info', dsTextContent.gaShowDetails + ' Click');
     expect(queryByText(dsTextContent.hideLabel)).toBeTruthy();
     expect(queryByText(dsTextContent.showLabel)).not.toBeTruthy();
     expect(queryAllByText(dsTextContent.queuedStatus).length).toEqual(2);
@@ -408,7 +431,7 @@ describe('DownloadSticky component', () => {
     jest.runAllTimers();
 
     expect(getByTestId('downloads-list')).toHaveClass(collapsed);
-    expect(gaSpy).toHaveBeenCalledWith(dsTextContent.gaHideDetails);
+    expect(gaSpy).toHaveBeenCalledWith('Table Info', dsTextContent.gaHideDetails + ' Click');
   });
 
   it('contains the expected text content with one item complete when returning to site', () => {
@@ -432,10 +455,12 @@ describe('DownloadSticky component', () => {
       downloadsPrepared: [],
     };
 
-    const { queryByText, queryAllByText } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadSticky />
-      </downloadsContext.Provider>
+    const { queryByText } = render(
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadSticky />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     jest.runAllTimers();
 
@@ -476,9 +501,11 @@ describe('DownloadSticky component', () => {
     let component = null;
     renderer.act(() => {
       component = renderer.create(
-        <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DownloadSticky />
-        </downloadsContext.Provider>
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadSticky />
+          </downloadsContext.Provider>
+        </RecoilRoot>
       );
     });
     jest.runAllTimers();
@@ -539,10 +566,12 @@ describe('DownloadSticky component', () => {
       downloadsPrepared: mockDownloadsPrepared,
     };
 
-    const { queryByText, queryAllByText } = render(
-      <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadSticky />
-      </downloadsContext.Provider>
+    const { queryAllByText } = render(
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadSticky />
+        </downloadsContext.Provider>
+      </RecoilRoot>
     );
     jest.runAllTimers();
 

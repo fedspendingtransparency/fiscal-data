@@ -46,8 +46,15 @@ describe('Reports Section component', () => {
   });
 
   it('renders a date picker', () => {
-    const { getByText } = render(<ReportsSection />);
-    expect(getByText('Published Date')).toBeInTheDocument();
+    const { getByText } = render(
+      <ReportsSection
+        publishedReportsProp={[
+          { report_date: new Date('8/8/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)' },
+          { report_date: new Date('8/7/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)' },
+        ]}
+      />
+    );
+    expect(getByText('Published Date:')).toBeInTheDocument();
   });
 
   it('renders a download table', () => {

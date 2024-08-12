@@ -14,14 +14,14 @@ import { generateAnalyticsEvent } from '../../layouts/dataset-detail/helper';
 import { ensureDoubleDigitDate, formatDate } from './helpers';
 import globalConstants from '../../helpers/constants';
 import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { tableRowLengthState } from '../../recoil/smallTableDownloadData';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
-import Experimental from '../experimental/experimental';
+import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 
 const gaEventLabels = globalConstants.gaEventLabels;
-export const cancelEventLabelStr = gaEventLabels.cancelDL;
-export const closeEventLabelStr = gaEventLabels.closeDLDialog;
+export const cancelEventActionStr = gaEventLabels.cancelDL + ' Click';
+export const closeEventActionStr = gaEventLabels.closeDLDialog + ' Click';
 
 const DownloadWrapper = ({
   selectedTable,
@@ -50,6 +50,8 @@ const DownloadWrapper = ({
   const [changeMadeToCriteria, setChangeMadeToCriteria] = useState(false);
   const [icon, setIcon] = useState(null);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
+  const setDapGaEventLabel = useSetRecoilState(reactTableFilteredDateRangeState);
+  const [gaEventLabel, setGaEventLabel] = useState();
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
@@ -74,7 +76,7 @@ const DownloadWrapper = ({
   };
 
   const handleCancelRequest = value => {
-    generateAnalyticsEvent(cancelEventLabelStr);
+    generateAnalyticsEvent(gaEventLabel, cancelEventActionStr);
     if (setCancelDownloadRequest) {
       setCancelDownloadRequest(value);
     }
@@ -128,7 +130,7 @@ const DownloadWrapper = ({
   };
 
   const onClose = () => {
-    generateAnalyticsEvent(closeEventLabelStr);
+    generateAnalyticsEvent(gaEventLabel, closeEventActionStr);
     setOpen(false);
   };
 
@@ -156,6 +158,16 @@ const DownloadWrapper = ({
     makeDownloadButtonAvailable();
     setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress));
   }, [allTablesSelected, selectedFileType, selectedTable, dateRange]);
+
+  useEffect(() => {
+    if (dateRange?.from && dateRange?.to) {
+      setGaEventLabel(`Table Name: ${selectedTable?.tableName}, Type: ${selectedFileType}, Date Range: ${dateRange.from}-${dateRange.to}`);
+    }
+  }, [selectedTable, dateRange, selectedFileType]);
+
+  useEffect(() => {
+    setDapGaEventLabel(gaEventLabel);
+  }, [gaEventLabel]);
 
   useEffect(() => {
     if (dateRange) {
@@ -197,14 +209,21 @@ const DownloadWrapper = ({
             handleClick={downloadClickHandler}
             selectedTable={selectedTable}
             dateRange={dateRange}
-            directCSVDownload={selectedFileType === 'csv'}
-            directJSONDownload={selectedFileType === 'json'}
-            directXMLDownload={selectedFileType === 'xml'}
+            selectedFileType={selectedFileType}
+            dapGaEventLabel={gaEventLabel}
           />
         </>
       );
     } else {
-      return <DownloadItemButton icon={icon} label={downloadLabel} disabled={disableButton} handleClick={downloadClickHandler} />;
+      return (
+        <DownloadItemButton
+          icon={icon}
+          label={downloadLabel}
+          disabled={disableButton}
+          handleClick={downloadClickHandler}
+          dapGaEventLabel={gaEventLabel}
+        />
+      );
     }
   };
 
