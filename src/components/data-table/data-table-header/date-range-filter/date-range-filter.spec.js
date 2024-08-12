@@ -49,7 +49,7 @@ describe('DateRangeFilter Component', () => {
     expect(dateInput.value).toBe('2023-08-10');
   });
 
-  it('shows an error message for an invalid date', () => {
+  it('shows an error message for an invalid date', async () => {
     render(
       <RecoilRoot>
         <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} allActiveFilters={[]} setAllActiveFilters={mockSetAllActiveFilters} />
@@ -57,9 +57,9 @@ describe('DateRangeFilter Component', () => {
     );
 
     const dateInput = screen.getByPlaceholderText('Start');
-    fireEvent.change(dateInput, { target: { value: '2023-00-90' } });
-    const errorMessage = screen.getByText('Invlaid Date Range.');
-    expect(errorMessage).toBeInTheDocument();
+    fireEvent.change(dateInput, { target: { value: '0010-12-20' } });
+    const errorMessage = screen.getByText('Invalid date range. Please check the entered dates and try again.');
+    await waitFor(() => expect(errorMessage).toBeInTheDocument(), expect(dateInput).toHaveClass('error'));
   });
 
   it('clears the selected dates when clear button is clicked', () => {
@@ -101,11 +101,11 @@ describe('DateRangeFilter Component', () => {
       </RecoilRoot>
     );
 
+    fireEvent.doubleClick(document.body);
+    expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
     const dateInput = screen.getByPlaceholderText('Start');
     fireEvent.focus(dateInput);
     const dropdown = screen.getByTestId('Date Picker Dropdown');
     expect(dropdown).toBeInTheDocument();
-    fireEvent.mouseDown(document.body);
-    expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
   });
 });

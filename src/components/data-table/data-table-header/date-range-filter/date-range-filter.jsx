@@ -242,13 +242,13 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
           )}
         </div>
+      </div>
+      <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
         {errorMessage && (
           <div className={errorBox} data-testid="error-message">
             {errorMessage}
           </div>
         )}
-      </div>
-      <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
         {active && !errorMessage && (
           <div
             className={`${dropdown} ${isLastColumn && lastColumn}`}
