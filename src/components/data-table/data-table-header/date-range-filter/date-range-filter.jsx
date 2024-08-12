@@ -108,6 +108,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       e.relatedTarget !== null
     ) {
       setActive(false);
+      if (startDateRef.current.value.length < 10) {
+        startDateRef.current.value = '';
+        setStartDateError('');
+        setSelected(undefined);
+        onFilterChange(undefined);
+      }
     }
   };
 
@@ -119,7 +125,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const handleDateInputChange = (e, isStart) => {
     const date = e.target.value;
-    if (moment(date, 'YYYY-MM-DD', true).isValid()) {
+    if (date.length === 10 && moment(date, 'YYYY-MM-DD', true).isValid()) {
       setStartDateError('');
       setEndDateError('');
       if (isStart && date[0] !== '0') {
@@ -134,12 +140,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         setIsStartFocused(false);
         setIsEndFocused(false);
         setActive(false);
+      }
+    } else if (date.length === 9 && date[0] !== '00') {
+      if (isStart) {
+        setStartDateError('Invalid date range. Please check the entered dates and try again.');
       } else {
-        if (isStart) {
-          setStartDateError('Invalid date range. Please check the entered dates and try again.');
-        } else {
-          setEndDateError('Invalid date range. Please check the entered dates and try again.');
-        }
+        setEndDateError('Invalid date range. Please check the entered dates and try again.');
       }
     }
   };
@@ -166,7 +172,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   useEffect(() => {
     if (selected?.from && selected?.to) {
       const start = moment(selected?.from);
-
       const end = moment(selected?.to);
       const correctFrom = start.isBefore(end) ? start : end;
       const correctTo = start.isBefore(end) ? end : start;
@@ -176,6 +181,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       startDateRef.current.value = correctFrom.format('YYYY-MM-DD');
       endDateRef.current.value = correctTo.format('YYYY-MM-DD');
       setActive(false);
+    } else if (selected?.from) {
+      const start = moment(selected?.from);
+      startDateRef.current.value = start.format('YYYY-MM-DD');
+    } else if (selected?.to) {
+      const end = moment(selected?.to);
+      endDateRef.current.value = end.format('YYYY-MM-DD');
     } else {
       column.setFilterValue([]);
       setFilteredDateRange(null);
