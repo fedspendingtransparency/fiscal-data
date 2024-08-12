@@ -17,8 +17,14 @@
     border: none;
     outline: 1px solid $primary;
   }
-  &:hover {
+  &:focus {
     outline: 1px solid $primary;
+  }
+  &:hover {
+    outline: 1px solid #666666;
+    &:focus {
+      outline: 1px solid $primary;
+    }
   }
 
   cursor: text;
