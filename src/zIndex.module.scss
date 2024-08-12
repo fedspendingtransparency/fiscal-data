@@ -43,10 +43,11 @@ $filter-download-left-content: $above + $table-loading-icon; // parent of select
 $published-reports-preview: $above + $backdrop;
 $published-reports-left-content: $above + $published-reports-preview;
 $published-reports-year-select: $above + $published-reports-left-content;
+$published-reports-date-picker: $above + $filter-download-left-content;
 // api quick guide
 $dataset-details-example-loading-icon: $above + $backdrop; // example request and response loading icon
 // nav
-$dataset-detail-nav: $above + $filter-download-left-content; // $filter-download-left-content is the highest in DDP, $dataset-detail-nav z-index:5
+$dataset-detail-nav: $above + $published-reports-date-picker; // $published-reports-date-picker is the highest in DDP
 //combo-select-dropdown
 $combo-select-dropdown: $above + $backdrop;
 
