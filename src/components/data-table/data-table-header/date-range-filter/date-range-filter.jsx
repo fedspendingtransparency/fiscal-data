@@ -16,6 +16,8 @@ import {
   dateTextBegin,
   errorBox,
   error,
+  datePickerButton,
+  buttonContainer,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
@@ -64,6 +66,18 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       arr.push(moment(new Date(dt)).format('YYYY-MM-DD'));
     }
     return arr;
+  };
+
+  const todayOnClick = e => {
+    if (!e.key || e.key === 'Enter') {
+      setSelected({
+        from: Date.now(),
+        to: Date.now(),
+      });
+      const start = moment(Date.now()).format('M/DD/YYYY');
+      const end = moment(Date.now()).format('M/DD/YYYY');
+      onFilterChange(`${start} - ${end}`);
+    }
   };
 
   const clearOnClick = e => {
@@ -215,13 +229,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             required
             ref={endDateRef}
           />
-          {selected ? (
-            <span onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} role="button" aria-label="Clear dates">
-              <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
-            </span>
-          ) : (
-            <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
-          )}
+          <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
         </div>
       </div>
       <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
@@ -258,6 +266,14 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
                 toYear={2099}
                 captionLayout="dropdown-buttons"
               />
+            </div>
+            <div className={buttonContainer}>
+              <div role="button" onClick={todayOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Today">
+                Today
+              </div>
+              <div role="button" onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Clear">
+                Clear
+              </div>
             </div>
           </div>
         )}

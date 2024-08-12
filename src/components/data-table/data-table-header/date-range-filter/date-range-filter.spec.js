@@ -74,7 +74,7 @@ describe('DateRangeFilter Component', () => {
     const dateInput = screen.getByPlaceholderText('Start');
     fireEvent.change(dateInput, { target: { value: '2023-08-10' } });
 
-    const clearButton = screen.getByRole('button', { name: 'Clear dates' });
+    const clearButton = screen.getByRole('button', { name: 'Clear' });
     fireEvent.click(clearButton);
 
     expect(dateInput.value).toBe('');
@@ -126,7 +126,7 @@ describe('DateRangeFilter Component', () => {
     const dateInput = screen.getByPlaceholderText('Start');
     fireEvent.change(dateInput, { target: { value: '2023-08-10' } });
 
-    const clearButton = screen.getByRole('button', { name: 'Clear dates' });
+    const clearButton = screen.getByRole('button', { name: 'Clear' });
     fireEvent.click(clearButton);
 
     expect(mockColumn.setFilterValue).toHaveBeenCalledWith([]);
