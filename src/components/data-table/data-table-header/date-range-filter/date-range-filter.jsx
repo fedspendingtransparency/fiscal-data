@@ -15,7 +15,6 @@ import {
   dateTextBegin,
   datePickerButton,
   buttonContainer,
-  dateTextEnd,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';

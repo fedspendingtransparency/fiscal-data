@@ -13,20 +13,31 @@
   height: 95%;
   cursor: text;
 
-  &:active,
-  &:focus,
-  &:hover {
+  &:active {
     border: none;
     outline: 1px solid $primary;
+  }
+
+  &:focus {
+    outline: 1px solid $primary;
+  }
+
+  &:hover {
+    outline: 1px solid #666666;
+
     &:focus {
       outline: 1px solid $primary;
+      & + .dateDivider,
+      & + .dateDivider {
+        visibility: hidden;
+      }
     }
   }
 
   &:focus + .dateDivider,
   &:hover + .dateDivider,
-  &:focus ~ .dateDivider,
-  &:hover ~ .dateDivider {
+  &:focus + .dateDivider,
+  &:hover + .dateDivider {
     visibility: hidden;
   }
 }
@@ -36,10 +47,17 @@ input[type="date"]::before {
   content: attr(placeholder);
   bottom: 16px;
   position: absolute;
+
 }
 
 input[type="date"] {
   color: #ffffff;
+  &:focus + .dateDivider,
+  &:hover + .dateDivider,
+  &:focus ~ .dateDivider,
+  &:hover ~ .dateDivider {
+    visibility: hidden;
+  }
 }
 
 input[type="date"]:focus,
@@ -68,6 +86,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .dateDivider {
   color: #D9D9D9;
+  z-index: 1;
+  position: relative;
 }
 
 .dateEntryBox {
