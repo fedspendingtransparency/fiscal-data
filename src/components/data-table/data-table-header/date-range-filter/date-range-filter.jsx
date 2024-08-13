@@ -15,6 +15,7 @@ import {
   dateTextBegin,
   datePickerButton,
   buttonContainer,
+  hideDivider,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
@@ -32,6 +33,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const [active, setActive] = useState(false);
   const [isStartFocused, setIsStartFocused] = useState(false);
   const [isEndFocused, setIsEndFocused] = useState(false);
+  const [isDividerHidden, setIsDividerHidden] = useState(false);
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
 
   const dropdownRef = useRef();
@@ -97,6 +99,10 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
+  const handleTextBoxHoverOrFocus = () => {
+    setIsDividerHidden(true);
+  };
+
   const handleTextBoxBlur = e => {
     if (
       !dropdownRef.current?.contains(e?.relatedTarget) &&
@@ -105,6 +111,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       e.relatedTarget !== null
     ) {
       setActive(false);
+      setIsDividerHidden(false);
     }
   };
 
@@ -162,6 +169,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
+  const handleMouseLeave = () => {
+    if (!isStartFocused && !isEndFocused) {
+      setIsDividerHidden(false);
+    }
+  };
+
   useEffect(() => {
     if (active) {
       document.addEventListener('click', handleEventListener);
@@ -196,11 +209,13 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     <>
       <div className={active}>
         <div
-          className={dateEntryBox}
+          className={`${dateEntryBox} ${isDividerHidden ? hideDivider : ''}`}
           onClick={() => handleTextBoxClick(true)}
           onKeyDown={e => handleTextBoxClick(true)}
           role="button"
           tabIndex={0}
+          onMouseEnter={handleTextBoxHoverOrFocus}
+          onMouseLeave={handleMouseLeave}
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
@@ -212,7 +227,10 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             onChange={e => handleDateInputChange(e, true)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, true)}
-            onFocus={() => handleTextBoxClick(true)}
+            onFocus={() => {
+              handleTextBoxClick(true);
+              handleTextBoxHoverOrFocus();
+            }}
             placeholder="Start"
             required
             ref={startDateRef}
@@ -224,7 +242,10 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, false)}
-            onFocus={() => handleTextBoxClick(false)}
+            onFocus={() => {
+              handleTextBoxClick(false);
+              handleTextBoxHoverOrFocus();
+            }}
             placeholder="End"
             required
             ref={endDateRef}
