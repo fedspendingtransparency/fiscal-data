@@ -238,7 +238,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <input
             className={dateTextBegin}
             type="date"
-            aria-label="Date Start Input"
+            aria-label="Start"
             data-testid="Start-Button"
             onChange={e => handleDateInputChange(e, true)}
             onBlur={e => handleTextBoxBlur(e)}
@@ -257,7 +257,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <input
             className={dateTextBegin}
             type="date"
-            aria-label="Date End Input"
+            aria-label="End"
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, false)}
