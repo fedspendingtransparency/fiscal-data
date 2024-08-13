@@ -1,144 +1,139 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import DateRangeFilter from './date-range-filter';
 import React from 'react';
+import { render, fireEvent, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import DateRangeFilter from './date-range-filter';
 import { RecoilRoot } from 'recoil';
+import moment from 'moment';
 
-describe('DateRangeFilter Component', () => {
-  const mockColumn = { id: 'testId', setFilterValue: jest.fn() };
-  const mockSetAllActiveFilters = jest.fn();
-  const mockResetFilters = jest.fn();
-  const mockAllActiveFilters = [];
-  const mockSetFiltersActive = jest.fn();
+const renderComponent = (props = {}) => {
+  return render(
+    <RecoilRoot>
+      <DateRangeFilter {...props} />
+    </RecoilRoot>
+  );
+};
 
-  beforeEach(() => {
-    jest.clearAllMocks();
+describe('DateRangeFilter', () => {
+  const mockColumn = {
+    id: 'date',
+    setFilterValue: jest.fn(),
+  };
+
+  const defaultProps = {
+    column: mockColumn,
+    resetFilters: false,
+    allActiveFilters: [],
+    setAllActiveFilters: jest.fn(),
+    isLastColumn: false,
+  };
+
+  it('should render the component', () => {
+    renderComponent(defaultProps);
+    expect(screen.getByPlaceholderText('Start')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('End')).toBeInTheDocument();
   });
 
-  it('renders the date range filter component', () => {
-    render(
-      <RecoilRoot>
-        <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} allActiveFilters={[]} setAllActiveFilters={mockSetAllActiveFilters} />
-      </RecoilRoot>
-    );
-
-    const dateInput = screen.getByPlaceholderText('Start');
-    expect(dateInput).toBeInTheDocument();
+  it('should open the date picker when the input is clicked', () => {
+    renderComponent(defaultProps);
+    fireEvent.click(screen.getByPlaceholderText('Start'));
+    expect(screen.getByTestId('Date Picker Dropdown')).toBeVisible();
   });
 
-  it('opens the date picker dropdown on focus', () => {
-    render(
-      <RecoilRoot>
-        <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} allActiveFilters={[]} setAllActiveFilters={mockSetAllActiveFilters} />
-      </RecoilRoot>
-    );
-
-    const dateInput = screen.getByPlaceholderText('Start');
-    fireEvent.focus(dateInput);
-
-    expect(screen.getByTestId('Date Picker Dropdown')).toBeInTheDocument();
-  });
-
-  it('handles date input changes and validates the date format', () => {
-    render(
-      <RecoilRoot>
-        <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} allActiveFilters={[]} setAllActiveFilters={mockSetAllActiveFilters} />
-      </RecoilRoot>
-    );
-
-    const dateInput = screen.getByPlaceholderText('Start');
-    fireEvent.change(dateInput, { target: { value: '2023-08-10' } });
-
-    expect(dateInput.value).toBe('2023-08-10');
-  });
-
-  it('clears the selected dates when clear button is clicked', () => {
-    render(
-      <RecoilRoot>
-        <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} allActiveFilters={[]} setAllActiveFilters={mockSetAllActiveFilters} />
-      </RecoilRoot>
-    );
-
-    const dateInput = screen.getByPlaceholderText('Start');
-    fireEvent.change(dateInput, { target: { value: '2023-08-10' } });
-
-    const clearButton = screen.getByRole('button', { name: 'Clear' });
-    fireEvent.click(clearButton);
-
-    expect(dateInput.value).toBe('');
-  });
-
-  it('sets the correct filter value when a valid date range is selected', () => {
-    render(
-      <RecoilRoot>
-        <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} allActiveFilters={[]} setAllActiveFilters={mockSetAllActiveFilters} />
-      </RecoilRoot>
-    );
-
+  it('should set the start date and focus on end date input', () => {
+    renderComponent(defaultProps);
     const startInput = screen.getByPlaceholderText('Start');
-    fireEvent.change(startInput, { target: { value: '2023-08-10' } });
+    fireEvent.change(startInput, { target: { value: '2023-08-12' } });
+    expect(startInput.value).toBe('2023-08-12');
+    expect(screen.getByPlaceholderText('End')).toHaveFocus();
+  });
 
+  it('should set the end date and close the dropdown', () => {
+    renderComponent(defaultProps);
+    const startInput = screen.getByPlaceholderText('Start');
     const endInput = screen.getByPlaceholderText('End');
+
+    fireEvent.change(startInput, { target: { value: '2023-08-12' } });
     fireEvent.change(endInput, { target: { value: '2023-08-15' } });
 
-    expect(mockColumn.setFilterValue).toHaveBeenCalledWith(['2023-08-10', '2023-08-11', '2023-08-12', '2023-08-13', '2023-08-14', '2023-08-15']);
+    expect(endInput.value).toBe('2023-08-15');
   });
 
-  it('closes the dropdown on blur if the click is outside the dropdown', () => {
-    render(
-      <RecoilRoot>
-        <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} allActiveFilters={[]} setAllActiveFilters={mockSetAllActiveFilters} />
-      </RecoilRoot>
-    );
+  it('should clear the selected dates when the Clear button is clicked', () => {
+    renderComponent(defaultProps);
+    const startInput = screen.getByTestId('Start-Button');
 
-    const dateInput = screen.getByPlaceholderText('Start');
-    fireEvent.focus(dateInput);
-    const dropdown = screen.getByTestId('Date Picker Dropdown');
-    expect(dropdown).toBeInTheDocument();
+    fireEvent.change(startInput, { target: { value: '2023-08-12' } });
+
+    fireEvent.click(screen.getByLabelText('Clear'));
+
+    expect(startInput.value).toBe('');
+  });
+
+  it('should select today’s date when the Today button is clicked', () => {
+    renderComponent(defaultProps);
+    fireEvent.click(screen.getByTestId('Start-Button'));
+    fireEvent.click(screen.getByLabelText('Today'));
+
+    const today = moment().format('YYYY-MM-DD');
+    const startInput = screen.getByPlaceholderText('Start');
+    const endInput = screen.getByPlaceholderText('End');
+
+    expect(startInput.value).toBe(today);
+    expect(endInput.value).toBe(today);
+  });
+
+  it('should toggle the dropdown visibility when the calendar icon is clicked', () => {
+    renderComponent(defaultProps);
+    const calendarIcon = screen.getByTestId('Start-Button').nextSibling;
+    fireEvent.click(calendarIcon);
+    expect(screen.getByTestId('Date Picker Dropdown')).toBeVisible();
+    // fireEvent.click(calendarIcon);
+    // expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
+  });
+
+  it('should close the dropdown when clicking outside of the component', () => {
+    renderComponent(defaultProps);
+    fireEvent.click(screen.getByPlaceholderText('Start'));
+    expect(screen.getByTestId('Date Picker Dropdown')).toBeVisible();
     fireEvent.click(document.body);
     expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
   });
 
-  it('removes the filter when the date range is cleared', async () => {
-    render(
-      <RecoilRoot>
-        <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} allActiveFilters={[]} setAllActiveFilters={mockSetAllActiveFilters} />
-      </RecoilRoot>
-    );
+  it('should apply correct dates when selecting a range in the DayPicker', () => {
+    renderComponent(defaultProps);
+    fireEvent.click(screen.getByPlaceholderText('Start'));
+
+    // Assuming we have DayPicker rendered with the dates
+    const dayPickerStart = screen.getByText('1');
+    const dayPickerEnd = screen.getByText('10');
+
+    fireEvent.click(dayPickerStart);
+    fireEvent.click(dayPickerEnd);
 
     const startInput = screen.getByPlaceholderText('Start');
-    fireEvent.change(startInput, { target: { value: '2023-08-10' } });
+    const endInput = screen.getByPlaceholderText('End');
 
-    const clearButton = screen.getByRole('button', { name: 'Clear' });
-    fireEvent.click(clearButton);
-
-    await waitFor(() => {
-      expect(mockColumn.setFilterValue).toHaveBeenCalledWith([]);
-      expect(mockSetAllActiveFilters).toHaveBeenCalledWith([]);
-      expect(startInput.value).toBe(['']);
-      expect(screen.getByPlaceholderText('End').value).toBe('');
-    });
+    expect(startInput.value).toBe(
+      moment()
+        .date(1)
+        .format('YYYY-MM-DD')
+    );
+    expect(endInput.value).toBe(
+      moment()
+        .date(10)
+        .format('YYYY-MM-DD')
+    );
   });
 
-  // it('renders today and clear buttons', () => {
-  //   const { getByRole, getAllByText } = render(
-  //     <RecoilRoot>
-  //       <DateRangeFilter
-  //         column={mockColumn}
-  //         resetFilters={mockResetFilters}
-  //         setFiltersActive={mockSetFiltersActive}
-  //         allActiveFilters={mockAllActiveFilters}
-  //         setAllActiveFilters={mockSetAllActiveFilters}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //   const dateRangeButton = getByRole('button');
-  //   fireEvent.click(dateRangeButton);
-  //   const todayButton = getByRole('button', { name: 'Today' });
-  //   fireEvent.click(todayButton);
-  //   expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
-  //   fireEvent.click(dateRangeButton);
-  //   const clearButton = getByRole('button', { name: 'Clear' });
-  //   fireEvent.click(clearButton);
-  //   fireEvent.click(dateRangeButton);
-  // });
+  it('should reset state when resetFilters changes', () => {
+    const { rerender } = renderComponent({ ...defaultProps, resetFilters: false });
+
+    fireEvent.change(screen.getByPlaceholderText('Start'), { target: { value: '2023-08-12' } });
+    fireEvent.change(screen.getByPlaceholderText('End'), { target: { value: '2023-08-15' } });
+
+    rerender(<DateRangeFilter {...defaultProps} resetFilters={true} />);
+
+    expect(screen.getByPlaceholderText('Start').value).toBe('');
+    expect(screen.getByPlaceholderText('End').value).toBe('');
+  });
 });

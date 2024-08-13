@@ -77,10 +77,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const clearOnClick = e => {
     if (!e.key || e.key === 'Enter') {
-      setSelected(undefined);
-      onFilterChange(undefined);
+      setSelected({ from: undefined, to: undefined });
+      setFilteredDateRange({ from: undefined, to: undefined });
+      column.setFilterValue(undefined);
       startDateRef.current.value = '';
       endDateRef.current.value = '';
+      onFilterChange(undefined);
     }
   };
 
