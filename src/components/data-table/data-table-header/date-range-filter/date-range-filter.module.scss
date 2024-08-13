@@ -3,10 +3,10 @@
 .dateTextBegin {
   margin-bottom: 10.5px;
   margin-top: 10.5px;
-  padding-left: 8px;
+  padding-left: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 112px;
+  width: 96px;
   border: none;
   font-size: $font-size-16;
   border-radius: 4px;
@@ -27,18 +27,7 @@
 
     &:focus {
       outline: 1px solid $primary;
-      & + .dateDivider,
-      & + .dateDivider {
-        visibility: hidden;
-      }
     }
-  }
-
-  &:focus + .dateDivider,
-  &:hover + .dateDivider,
-  &:focus + .dateDivider,
-  &:hover + .dateDivider {
-    visibility: hidden;
   }
 }
 
@@ -47,17 +36,10 @@ input[type="date"]::before {
   content: attr(placeholder);
   bottom: 16px;
   position: absolute;
-
 }
 
 input[type="date"] {
   color: #ffffff;
-  &:focus + .dateDivider,
-  &:hover + .dateDivider,
-  &:focus ~ .dateDivider,
-  &:hover ~ .dateDivider {
-    visibility: hidden;
-  }
 }
 
 input[type="date"]:focus,
@@ -70,7 +52,7 @@ input[type="date"]:valid::before {
   content: "" !important;
 }
 
-input {
+input[type="date"] {
   &:focus {
     border: 0;
     outline: 1px solid $primary;
@@ -95,7 +77,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .dateEntryBox {
   border: 1px solid #d9d9d9;
-  min-width: 248px;
+  width: 248px;
   height: 26.4px;
   border-radius: 0.25rem;
   display: flex;
@@ -108,7 +90,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   .calendarIcon {
     font-size: $font-size-16;
-    margin: 0 0.5rem;
+    margin: 0 0.25rem;
   }
 }
 

@@ -18,7 +18,7 @@ import {
   hideDivider,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 import { getDateWithoutTimeZoneAdjust } from '../../../../utils/date-utils';
@@ -118,6 +118,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const handleEventListener = e => {
     if (!dropdownRef.current?.contains(e.target) && !displayRef.current?.contains(e.target)) {
       setActive(false);
+      setIsDividerHidden(false);
     }
   };
 
@@ -139,6 +140,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           endDateRef.current.focus();
         } else {
           setActive(false);
+          setIsDividerHidden(false);
         }
       } else if (!isStart && value[0] !== '0') {
         setSelected(prev => {
@@ -153,6 +155,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           startDateRef.current.focus();
         } else {
           setActive(false);
+          setIsDividerHidden(false);
         }
       }
     }
@@ -165,14 +168,13 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         endDateRef.current.focus();
       } else {
         setActive(false);
+        setIsDividerHidden(false);
       }
     }
   };
 
   const handleMouseLeave = () => {
-    if (!isStartFocused && !isEndFocused) {
-      setIsDividerHidden(false);
-    }
+    setIsDividerHidden(false);
   };
 
   const handleCalendarSelect = range => {
@@ -184,6 +186,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       endDateRef.current.value = moment(range?.to).format('YYYY-MM-DD');
       handleDateInputChange({ target: { value: endDateRef.current.value } }, false);
     }
+    setIsDividerHidden(false);
   };
 
   useEffect(() => {
@@ -208,14 +211,15 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       startDateRef.current.value = correctFrom.format('YYYY-MM-DD');
       endDateRef.current.value = correctTo.format('YYYY-MM-DD');
       setActive(false);
+      setIsDividerHidden(false);
     }
   }, [selected]);
 
   useEffect(() => {
     setSelected(undefined);
     setActive(false);
+    setIsDividerHidden(false);
   }, [resetFilters]);
-
   return (
     <>
       <div className={active}>
@@ -233,7 +237,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <input
             className={dateTextBegin}
             type="date"
-            aria-label="Start"
+            aria-label="Date Start Input"
             data-testid="Start-Button"
             onChange={e => handleDateInputChange(e, true)}
             onBlur={e => handleTextBoxBlur(e)}
@@ -246,10 +250,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             required
             ref={startDateRef}
           />
-          <div className={dateDivider}>|</div>
+          <div className={`${dateDivider} ${isDividerHidden ? hideDivider : ''}`}>|</div>
           <input
             className={dateTextBegin}
             type="date"
+            aria-label="Date End Input"
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, false)}
