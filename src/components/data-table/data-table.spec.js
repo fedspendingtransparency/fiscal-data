@@ -413,7 +413,7 @@ describe('react-table', () => {
 
     // default col in table
     defaultColLabels.forEach(index => {
-      if (index === 'Record Date Start | End') {
+      if (index === 'Record Date') {
         index = 'Record Date Start | End';
       }
       expect(getAllByRole('columnheader', { name: index })[0]).toBeInTheDocument();
