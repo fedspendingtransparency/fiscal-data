@@ -79,7 +79,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const clearOnClick = e => {
     if (!e.key || e.key === 'Enter') {
-      setSelected({ from: undefined, to: undefined });
+      setSelected(undefined);
       setFilteredDateRange({ from: undefined, to: undefined });
       column.setFilterValue(undefined);
       startDateRef.current.value = '';
@@ -216,9 +216,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   }, [selected]);
 
   useEffect(() => {
-    setSelected(undefined);
-    setActive(false);
-    setIsDividerHidden(false);
+    if (resetFilters) {
+      setSelected(undefined);
+      setActive(false);
+      startDateRef.current.value = '';
+      endDateRef.current.value = '';
+    }
   }, [resetFilters]);
   return (
     <>
