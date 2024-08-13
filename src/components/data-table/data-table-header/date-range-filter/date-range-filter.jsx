@@ -121,12 +121,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
-  const handleDateInputChange = (e, isStart) => {
-    const date = e.target.value;
-    if (moment(date, 'YYYY-MM-DD', true).isValid()) {
-      const parsedDate = getDateWithoutTimeZoneAdjust(new Date(date));
+  const handleDateInputChange = (e, isStart, date = null) => {
+    const value = date || e.target.value;
+    if (moment(value, 'YYYY-MM-DD', true).isValid()) {
+      const parsedDate = getDateWithoutTimeZoneAdjust(new Date(value));
 
-      if (isStart && date[0] !== '0') {
+      if (isStart && value[0] !== '0') {
         setSelected(prev => {
           const updated = { ...prev, from: parsedDate };
           if (updated.to && moment(updated.from).isAfter(updated.to)) {
@@ -140,7 +140,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         } else {
           setActive(false);
         }
-      } else if (!isStart && date[0] !== '0') {
+      } else if (!isStart && value[0] !== '0') {
         setSelected(prev => {
           const updated = { ...prev, to: parsedDate };
           if (updated.from && moment(updated.from).isAfter(updated.to)) {
@@ -172,6 +172,17 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const handleMouseLeave = () => {
     if (!isStartFocused && !isEndFocused) {
       setIsDividerHidden(false);
+    }
+  };
+
+  const handleCalendarSelect = range => {
+    setSelected(range);
+    if (isStartFocused) {
+      startDateRef.current.value = moment(range?.from).format('YYYY-MM-DD');
+      handleDateInputChange({ target: { value: startDateRef.current.value } }, true);
+    } else if (isEndFocused) {
+      endDateRef.current.value = moment(range?.to).format('YYYY-MM-DD');
+      handleDateInputChange({ target: { value: endDateRef.current.value } }, false);
     }
   };
 
@@ -285,7 +296,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
               <DayPicker
                 mode="range"
                 selected={selected}
-                onSelect={setSelected}
+                onSelect={handleCalendarSelect}
                 modifiersClassNames={{
                   selected: datePickerSelected,
                   range_middle: datePickerRangeMiddle,
