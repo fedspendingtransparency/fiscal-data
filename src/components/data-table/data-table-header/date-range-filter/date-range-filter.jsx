@@ -229,8 +229,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           onKeyDown={e => handleTextBoxClick(true)}
           role="button"
           tabIndex={0}
-          onMouseEnter={handleTextBoxHoverOrFocus}
-          onMouseLeave={handleMouseLeave}
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
@@ -246,6 +244,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
               handleTextBoxClick(true);
               handleTextBoxHoverOrFocus();
             }}
+            onMouseEnter={handleTextBoxHoverOrFocus}
+            onMouseLeave={handleMouseLeave}
             placeholder="Start"
             required
             ref={startDateRef}
@@ -262,6 +262,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
               handleTextBoxClick(false);
               handleTextBoxHoverOrFocus();
             }}
+            onMouseEnter={handleTextBoxHoverOrFocus}
+            onMouseLeave={handleMouseLeave}
             placeholder="End"
             required
             ref={endDateRef}
@@ -269,6 +271,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <FontAwesomeIcon
             icon={faCalendarDay}
             className={calendarIcon}
+            aria-label="Calendar Icon"
             onClick={e => {
               e.stopPropagation();
               setActive(prevState => !prevState);
