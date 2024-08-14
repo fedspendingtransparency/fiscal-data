@@ -253,7 +253,15 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             required
             ref={startDateRef}
           />
-          <div className={`${dateDivider} ${isDividerHidden ? hideDivider : ''}`}>|</div>
+          <div
+            className={`${dateDivider} ${isDividerHidden ? hideDivider : ''}`}
+            role="presentation"
+            onClick={() => {
+              setActive(prevState => !prevState);
+            }}
+          >
+            |
+          </div>
           <input
             className={dateTextBegin}
             type="date"
@@ -281,8 +289,10 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
               setActive(prevState => !prevState);
             }}
             onKeyDown={e => {
-              e.stopPropagation();
-              setActive(prevState => !prevState);
+              if (e.key === 'Enter') {
+                e.stopPropagation();
+                setActive(prevState => !prevState);
+              }
             }}
             tabIndex={0}
           />
