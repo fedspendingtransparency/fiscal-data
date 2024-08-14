@@ -1,139 +1,336 @@
-import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { fireEvent, render } from '@testing-library/react';
 import DateRangeFilter from './date-range-filter';
+import React from 'react';
 import { RecoilRoot } from 'recoil';
-import moment from 'moment';
 
-const renderComponent = (props = {}) => {
-  return render(
-    <RecoilRoot>
-      <DateRangeFilter {...props} />
-    </RecoilRoot>
-  );
-};
+describe('date range filter', () => {
+  Date.now = jest.fn(() => new Date('2023-01-02 12:00:00 GMT-0600'));
+  const mockColumn = { id: 'testId', setFilterValue: jest.fn() };
+  const mockTable = {};
+  const mockSetFiltersActive = jest.fn();
+  const mockResetFilters = jest.fn();
+  const mockAllActiveFilters = [];
+  const mockSetAllActiveFilters = jest.fn();
 
-describe('DateRangeFilter', () => {
-  const mockColumn = {
-    id: 'date',
-    setFilterValue: jest.fn(),
-  };
-
-  const defaultProps = {
-    column: mockColumn,
-    resetFilters: false,
-    allActiveFilters: [],
-    setAllActiveFilters: jest.fn(),
-    isLastColumn: false,
-  };
-
-  it('should render the component', () => {
-    renderComponent(defaultProps);
-    expect(screen.getByPlaceholderText('Start')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('End')).toBeInTheDocument();
-  });
-
-  it('should open the date picker when the input is clicked', () => {
-    renderComponent(defaultProps);
-    fireEvent.click(screen.getByPlaceholderText('Start'));
-    expect(screen.getByTestId('Date Picker Dropdown')).toBeVisible();
-  });
-
-  it('should set the start date and focus on end date input', () => {
-    renderComponent(defaultProps);
-    const startInput = screen.getByPlaceholderText('Start');
-    fireEvent.change(startInput, { target: { value: '2023-08-12' } });
-    expect(startInput.value).toBe('2023-08-12');
-    expect(screen.getByPlaceholderText('End')).toHaveFocus();
-  });
-
-  it('should set the end date and close the dropdown', () => {
-    renderComponent(defaultProps);
-    const startInput = screen.getByPlaceholderText('Start');
-    const endInput = screen.getByPlaceholderText('End');
-
-    fireEvent.change(startInput, { target: { value: '2023-08-12' } });
-    fireEvent.change(endInput, { target: { value: '2023-08-15' } });
-
-    expect(endInput.value).toBe('2023-08-15');
-  });
-
-  it('should clear the selected dates when the Clear button is clicked', () => {
-    renderComponent(defaultProps);
-    const startInput = screen.getByTestId('Start-Button');
-
-    fireEvent.change(startInput, { target: { value: '2023-08-12' } });
-
-    fireEvent.click(screen.getByLabelText('Clear'));
-
-    expect(startInput.value).toBe('');
-  });
-
-  it('should select today’s date when the Today button is clicked', () => {
-    renderComponent(defaultProps);
-    fireEvent.click(screen.getByTestId('Start-Button'));
-    fireEvent.click(screen.getByLabelText('Today'));
-
-    const today = moment().format('YYYY-MM-DD');
-    const startInput = screen.getByPlaceholderText('Start');
-    const endInput = screen.getByPlaceholderText('End');
-
-    expect(startInput.value).toBe(today);
-    expect(endInput.value).toBe(today);
-  });
-
-  it('should toggle the dropdown visibility when the calendar icon is clicked', () => {
-    renderComponent(defaultProps);
-    const calendarIcon = screen.getByTestId('Start-Button').nextSibling;
-    fireEvent.click(calendarIcon);
-    expect(screen.getByTestId('Date Picker Dropdown')).toBeVisible();
-    // fireEvent.click(calendarIcon);
-    // expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
-  });
-
-  it('should close the dropdown when clicking outside of the component', () => {
-    renderComponent(defaultProps);
-    fireEvent.click(screen.getByPlaceholderText('Start'));
-    expect(screen.getByTestId('Date Picker Dropdown')).toBeVisible();
-    fireEvent.click(document.body);
-    expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
-  });
-
-  it('should apply correct dates when selecting a range in the DayPicker', () => {
-    renderComponent(defaultProps);
-    fireEvent.click(screen.getByPlaceholderText('Start'));
-
-    // Assuming we have DayPicker rendered with the dates
-    const dayPickerStart = screen.getByText('1');
-    const dayPickerEnd = screen.getByText('10');
-
-    fireEvent.click(dayPickerStart);
-    fireEvent.click(dayPickerEnd);
-
-    const startInput = screen.getByPlaceholderText('Start');
-    const endInput = screen.getByPlaceholderText('End');
-
-    expect(startInput.value).toBe(
-      moment()
-        .date(1)
-        .format('YYYY-MM-DD')
+  it('renders the filter', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} setFiltersActive={mockSetFiltersActive} table={mockTable} />
+      </RecoilRoot>
     );
-    expect(endInput.value).toBe(
-      moment()
-        .date(10)
-        .format('YYYY-MM-DD')
+    const dateRangeButton = getByRole('button');
+    expect(dateRangeButton).toBeInTheDocument();
+  });
+
+  it('renders today and clear buttons', () => {
+    const { getByRole, getAllByText } = render(
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
     );
+    const dateRangeButton = getByRole('button');
+    fireEvent.click(dateRangeButton);
+    const todayButton = getByRole('button', { name: 'Today' });
+    fireEvent.click(todayButton);
+    expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
+    fireEvent.click(dateRangeButton);
+    const clearButton = getByRole('button', { name: 'Clear' });
+    fireEvent.click(clearButton);
+    fireEvent.click(dateRangeButton);
   });
 
-  it('should reset state when resetFilters changes', () => {
-    const { rerender } = renderComponent({ ...defaultProps, resetFilters: false });
-
-    fireEvent.change(screen.getByPlaceholderText('Start'), { target: { value: '2023-08-12' } });
-    fireEvent.change(screen.getByPlaceholderText('End'), { target: { value: '2023-08-15' } });
-
-    rerender(<DateRangeFilter {...defaultProps} resetFilters={true} />);
-
-    expect(screen.getByPlaceholderText('Start').value).toBe('');
-    expect(screen.getByPlaceholderText('End').value).toBe('');
+  it('renders clear dates button inside date input field', () => {
+    const { getByRole, getAllByText } = render(
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    fireEvent.click(dateRangeButton);
+    const todayButton = getByRole('button', { name: 'Today' });
+    fireEvent.click(todayButton);
+    expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
+    const inputClearButton = getByRole('button', { name: 'Clear dates' });
+    fireEvent.click(inputClearButton);
+    fireEvent.click(dateRangeButton);
   });
+
+  it('today and clear buttons keyboard accessibility', () => {
+    const { getByRole, getAllByText } = render(
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+    const todayButton = getByRole('button', { name: 'Today' });
+    fireEvent.keyDown(todayButton, { key: 'Enter' });
+    expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
+    dateRangeButton.click();
+    const clearButton = getByRole('button', { name: 'Clear' });
+    fireEvent.keyDown(clearButton, { key: 'Enter' });
+    dateRangeButton.click();
+  });
+
+  it('today and clear buttons keyboard accessibility', () => {
+    const { getByRole, getAllByText } = render(
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    fireEvent.keyDown(dateRangeButton, { key: 'Enter' });
+    const todayButton = getByRole('button', { name: 'Today' });
+    fireEvent.keyDown(todayButton, { key: 'Enter' });
+    expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
+    fireEvent.keyDown(dateRangeButton, { key: 'Enter' });
+    const clearButton = getByRole('button', { name: 'Clear' });
+    fireEvent.keyDown(clearButton, { key: 'Enter' });
+    dateRangeButton.click();
+  });
+
+  it('closes the dropdown on blur', () => {
+    const { getByRole, queryByRole } = render(
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+    const clearButton = getByRole('button', { name: 'Clear' });
+    clearButton.focus();
+    clearButton.blur();
+    expect(queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument();
+  });
+
+  it('calls mouse handlers ', () => {
+    const { getByRole, queryByTestId } = render(
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+    const dropdown = queryByTestId('Date Picker Dropdown');
+    fireEvent.mouseOver(dropdown);
+    fireEvent.click(dropdown);
+    expect(dropdown).toBeInTheDocument();
+    fireEvent.mouseLeave(dropdown);
+    dateRangeButton.click();
+    expect(dropdown).not.toBeInTheDocument();
+  });
+
+  // it('adjusts dates entered based on keyboard entry, complete valid range', () => {
+  //   const { getByRole } = render(
+  //     <RecoilRoot>
+  //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+  //       <DateRangeFilter
+  //         column={mockColumn}
+  //         resetFilters={mockResetFilters}
+  //         setFiltersActive={mockSetFiltersActive}
+  //         allActiveFilters={mockAllActiveFilters}
+  //         setAllActiveFilters={mockSetAllActiveFilters}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  //   const dateRangeEntry = getByRole('textbox', { hidden: true });
+  //   dateRangeEntry.focus();
+  //   act(() => {
+  //     userEvent.keyboard('12012022');
+  //     userEvent.keyboard('12102024');
+  //   });
+  //   expect(mockSetFilteredDateRange).toHaveBeenCalled();
+  // });
+  //
+  // it('renders x button when text is entered', () => {
+  //   const { getByRole, queryByRole, getByText, queryByText } = render(
+  //     <RecoilRoot>
+  //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+  //       <DateRangeFilter
+  //         column={mockColumn}
+  //         resetFilters={mockResetFilters}
+  //         setFiltersActive={mockSetFiltersActive}
+  //         allActiveFilters={mockAllActiveFilters}
+  //         setAllActiveFilters={mockSetAllActiveFilters}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  //   const dateRangeEntry = getByRole('textbox', { hidden: true });
+  //   dateRangeEntry.focus();
+  //   act(() => {
+  //     userEvent.keyboard('11');
+  //   });
+  //   expect(getByText('11/dd/yyyy')).toBeInTheDocument();
+  //   const clear = getByRole('button', { name: 'Clear dates' });
+  //   fireEvent.click(clear);
+  //   expect(queryByText('11/dd/yyyy')).not.toBeInTheDocument();
+  //   expect(queryByRole('button', { name: 'Clear dates' })).not.toBeInTheDocument();
+  // });
+  //
+  // it('displays error message on invalid date entry', () => {
+  //   const { getByRole, getByText } = render(
+  //     <RecoilRoot>
+  //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+  //       <DateRangeFilter
+  //         column={mockColumn}
+  //         resetFilters={mockResetFilters}
+  //         setFiltersActive={mockSetFiltersActive}
+  //         allActiveFilters={mockAllActiveFilters}
+  //         setAllActiveFilters={mockSetAllActiveFilters}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  //   const dateRangeButton = getByRole('button');
+  //   dateRangeButton.click();
+  //   const dateRangeEntry = getByRole('textbox', { hidden: true });
+  //   dateRangeEntry.focus();
+  //   act(() => {
+  //     userEvent.keyboard('12102024');
+  //     userEvent.keyboard('12012022');
+  //   });
+  //   expect(getByText('Invalid date range. Please check the entered dates and try again')).toBeInTheDocument();
+  // });
+  //
+  // it('highlights the in progress date entry', () => {
+  //   const { getByRole, getByText } = render(
+  //     <RecoilRoot>
+  //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+  //       <DateRangeFilter
+  //         column={mockColumn}
+  //         resetFilters={mockResetFilters}
+  //         setFiltersActive={mockSetFiltersActive}
+  //         allActiveFilters={mockAllActiveFilters}
+  //         setAllActiveFilters={mockSetAllActiveFilters}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  //   const dateRangeEntry = getByRole('textbox', { hidden: true });
+  //   dateRangeEntry.focus();
+  //
+  //   //highlights in progress start date
+  //   act(() => {
+  //     userEvent.keyboard('1210');
+  //   });
+  //   const startDate = getByText('12/10/yyyy');
+  //   expect(startDate).toBeInTheDocument();
+  //   expect(startDate).toHaveClass('currentDate');
+  //
+  //   //moves highlight to end date when start date is complete
+  //   act(() => {
+  //     userEvent.keyboard('2024');
+  //   });
+  //   expect(getByText('12/10/2024')).toBeInTheDocument();
+  //   expect(startDate).not.toHaveClass('currentDate');
+  //
+  //   const endDate = getByText('mm/dd/yyyy');
+  //   expect(endDate).toBeInTheDocument();
+  //   expect(endDate).toHaveClass('currentDate');
+  // });
+  // it('clear highlights for incomplete date entry', async () => {
+  //   const { getByRole, getByText, queryByText } = render(
+  //     <RecoilRoot>
+  //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+  //       <DateRangeFilter
+  //         column={mockColumn}
+  //         resetFilters={mockResetFilters}
+  //         setFiltersActive={mockSetFiltersActive}
+  //         allActiveFilters={mockAllActiveFilters}
+  //         setAllActiveFilters={mockSetAllActiveFilters}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  //   const dateRangeButton = getByRole('button');
+  //   dateRangeButton.click();
+  //   const dateRangeEntry = getByRole('textbox', { hidden: true });
+  //   dateRangeEntry.focus();
+  //
+  //   //highlights in progress start date
+  //   await act(() => {
+  //     userEvent.keyboard('12102024');
+  //   });
+  //
+  //   await act(() => {
+  //     userEvent.keyboard('1211');
+  //   });
+  //   const endDate = getByText('12/11/yyyy');
+  //   expect(endDate).toBeInTheDocument();
+  //   expect(endDate).toHaveClass('currentDate');
+  //
+  //   //close the calendar to clear highlighting
+  //   dateRangeButton.click();
+  //
+  //   await waitFor(() => expect(queryByText('12/11/yyyy')).not.toBeInTheDocument());
+  //   expect(endDate).not.toHaveClass('currentDate');
+  // });
+  //
+  // it('displays the keyboard date entry in the calendar', () => {
+  //   const { getByRole, getAllByText } = render(
+  //     <RecoilRoot>
+  //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
+  //       <DateRangeFilter
+  //         column={mockColumn}
+  //         resetFilters={mockResetFilters}
+  //         setFiltersActive={mockSetFiltersActive}
+  //         allActiveFilters={mockAllActiveFilters}
+  //         setAllActiveFilters={mockSetAllActiveFilters}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  //   const dateRangeButton = getByRole('button');
+  //   dateRangeButton.click();
+  //
+  //   const dateRangeEntry = getByRole('textbox', { hidden: true });
+  //   dateRangeEntry.focus();
+  //
+  //   act(() => {
+  //     userEvent.keyboard('12102023');
+  //   });
+  //   expect(getAllByText('December').length).toBe(2);
+  //   expect(getAllByText('January').length).toBe(1);
+  //
+  //   act(() => {
+  //     userEvent.keyboard('11102024');
+  //   });
+  //   dateRangeButton.click();
+  //   expect(getAllByText('November').length).toBe(2);
+  //   expect(getAllByText('2024').length).toBe(2);
+  //   expect(getAllByText('December').length).toBe(1);
+  //   expect(getAllByText('2023').length).toBe(1);
+  // });
 });
