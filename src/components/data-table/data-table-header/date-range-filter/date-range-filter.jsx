@@ -90,13 +90,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const handleTextBoxClick = isStart => {
     setActive(true);
-    if (isStart) {
-      setIsStartFocused(true);
-      setIsEndFocused(false);
-    } else {
-      setIsStartFocused(false);
-      setIsEndFocused(true);
-    }
+    setIsStartFocused(isStart);
+    setIsEndFocused(!isStart);
+    setIsDividerHidden(true);
   };
 
   const handleTextBoxHoverOrFocus = () => {

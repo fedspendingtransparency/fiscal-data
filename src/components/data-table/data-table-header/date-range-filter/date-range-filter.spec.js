@@ -87,13 +87,11 @@ describe('DateRangeFilter', () => {
     const calendarIcon = screen.getByTestId('Start-Button').nextSibling;
     fireEvent.click(calendarIcon);
     expect(screen.getByTestId('Date Picker Dropdown')).toBeVisible();
-    // fireEvent.click(calendarIcon);
-    // expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
   });
 
   it('should close the dropdown when clicking outside of the component', () => {
     renderComponent(defaultProps);
-    fireEvent.click(screen.getByPlaceholderText('Start'));
+    fireEvent.click(screen.getByTestId('Start-Button'));
     expect(screen.getByTestId('Date Picker Dropdown')).toBeVisible();
     fireEvent.click(document.body);
     expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
@@ -103,9 +101,8 @@ describe('DateRangeFilter', () => {
     renderComponent(defaultProps);
     fireEvent.click(screen.getByPlaceholderText('Start'));
 
-    // Assuming we have DayPicker rendered with the dates
-    const dayPickerStart = screen.getByText('1');
-    const dayPickerEnd = screen.getByText('10');
+    const dayPickerStart = screen.getByText('1000');
+    const dayPickerEnd = screen.getByText('1200');
 
     fireEvent.click(dayPickerStart);
     fireEvent.click(dayPickerEnd);

@@ -114,7 +114,7 @@ describe('react-table', () => {
         />
       </RecoilRoot>
     );
-    expect(getByRole('columnheader', { name: 'Record Date Start | End' })).toBeInTheDocument();
+    expect(getByRole('columnheader', { name: 'Record Date Start | End Open record_date Filter' })).toBeInTheDocument();
   });
 
   it('Able to interact with headers for column sort', () => {
@@ -137,10 +137,10 @@ describe('react-table', () => {
       </RecoilRoot>
     );
     // Column header
-    expect(getByRole('columnheader', { name: 'Record Date Start | End' })).toBeInTheDocument();
+    expect(getByRole('columnheader', { name: 'Record Date Start | End Open record_date Filter' })).toBeInTheDocument();
     // Rows render
     expect(getAllByTestId('row').length).toEqual(6);
-    const header = getByRole('columnheader', { name: 'Record Date Start | End' });
+    const header = getByRole('columnheader', { name: 'Record Date Start | End Open record_date Filter' });
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
@@ -173,10 +173,10 @@ describe('react-table', () => {
       </RecoilRoot>
     );
     // Column header
-    expect(getByRole('columnheader', { name: 'Record Date Start | End' })).toBeInTheDocument();
+    expect(getByRole('columnheader', { name: 'Record Date Start | End Open record_date Filter' })).toBeInTheDocument();
     // Rows render
     expect(getAllByTestId('row').length).toEqual(6);
-    const header = getByRole('columnheader', { name: 'Record Date Start | End' });
+    const header = getByRole('columnheader', { name: 'Record Date Start | End Open record_date Filter' });
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
@@ -276,7 +276,7 @@ describe('react-table', () => {
       </RecoilRoot>
     );
 
-    const header = getByRole('columnheader', { name: 'Record Date Start | End' });
+    const header = getByRole('columnheader', { name: 'Record Date Start | End Open record_date Filter' });
     expect(header).toBeInTheDocument();
     // Rows render
     expect(getAllByTestId('row').length).toEqual(2);
@@ -334,7 +334,7 @@ describe('react-table', () => {
       </RecoilRoot>
     );
 
-    const header = getByRole('columnheader', { name: 'Record Date Start | End' });
+    const header = getByRole('columnheader', { name: 'Record Date Start | End Open record_date Filter' });
     expect(header).toBeInTheDocument();
     expect(getByText('Showing', { exact: false })).toBeInTheDocument();
     expect(getByText('rows of 0 rows', { exact: false })).toBeInTheDocument();
@@ -357,7 +357,7 @@ describe('react-table', () => {
       </RecoilRoot>
     );
 
-    const header = getByRole('columnheader', { name: 'Record Date Start | End' });
+    const header = getByRole('columnheader', { name: 'Record Date Start | End Open record_date Filter' });
     expect(header).toBeInTheDocument();
     expect(getByText('Showing', { exact: false })).toBeInTheDocument();
     expect(getByText('1 - 1', { exact: false })).toBeInTheDocument();
@@ -414,7 +414,7 @@ describe('react-table', () => {
     // default col in table
     defaultColLabels.forEach(index => {
       if (index === 'Record Date') {
-        index = 'Record Date Start | End';
+        index = 'Record Date Start | End Open record_date Filter';
       }
       expect(getAllByRole('columnheader', { name: index })[0]).toBeInTheDocument();
     });
