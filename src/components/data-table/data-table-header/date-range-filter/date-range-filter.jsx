@@ -226,18 +226,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   return (
     <>
       <div className={active}>
-        <div
-          className={`${dateEntryBox} ${isDividerHidden ? hideDivider : ''}`}
-          // onClick={() => handleTextBoxClick(true)}
-          // onKeyDown={e => handleTextBoxClick(true)}
-          // role="button"
-          // tabIndex={0}
-          aria-label={`Open ${column.id} Filter`}
-          ref={displayRef}
-        >
+        <div className={`${dateEntryBox} ${isDividerHidden ? hideDivider : ''}`} ref={displayRef}>
           <input
             className={dateTextBegin}
             type="date"
+            max="9999-12-31"
             aria-label="Start"
             data-testid="Start-Button"
             onChange={e => handleDateInputChange(e, true)}
@@ -266,6 +259,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             className={dateTextBegin}
             type="date"
             aria-label="End"
+            max="9999-12-31"
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, false)}
@@ -283,7 +277,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             icon={faCalendarDay}
             className={calendarIcon}
             aria-hidden={false}
-            aria-label="Calendar Icon"
+            aria-label={`Open ${column.id} Filter`}
             onClick={e => {
               e.stopPropagation();
               setActive(prevState => !prevState);
