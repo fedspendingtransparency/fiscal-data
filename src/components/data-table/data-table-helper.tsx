@@ -22,21 +22,28 @@ const customFormat = (stringValue, decimalPlaces) => {
 
 const tablesWithPublishedReportLinks = ['Treasury Securities Auctions Data', 'Reference CPI Numbers and Daily Index Ratios Summary Table', 'Buybacks Operations'];
 
-const publishedReportsLinkWrapper = (url, value) => {
+const publishedReportsLinkWrapper = (url: string, value: string, alias?: string) => {
   const multiLinks: string[] = value.split(',');
 
   return (
     <>
-      {multiLinks.map((link: string) => (
-        <CustomLink url={`${url}${link.trim()}`}>
-          <div className={downloadLinkContainer}>
-            <div className={downloadLinkIcon}>
-              <FontAwesomeIcon icon={faCloudArrowDown} />
+      {multiLinks.map((link: string) => {
+        if (url.includes('buybacks')) {
+          if (link.endsWith('p1.pdf') || link.endsWith('_1.pdf')) alias = 'Summary';
+          else if (link.endsWith('p2.pdf') || link.endsWith('_2.pdf')) alias = 'Detail';
+        }
+
+        return (
+          <CustomLink url={`${url}${link.trim()}`}>
+            <div className={downloadLinkContainer}>
+              <div className={downloadLinkIcon}>
+                <FontAwesomeIcon icon={faCloudArrowDown} />
+              </div>
+              {alias ? alias : link.trim()}
             </div>
-            {link.trim()}
-          </div>
-        </CustomLink>
-      ))}
+          </CustomLink>
+        );
+      })}
     </>
   );
 };
@@ -66,23 +73,25 @@ const publishedReportsLinksProcessor = (tableName, property, value) => {
     }
   }
   if (tableName === 'Buybacks Operations') {
-    switch(property) {
+    switch (property) {
       case 'results_pdf':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/result/`, value, 'PDF');
       case 'results_xml':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/result/`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/result/`, value, 'XML');
       case 'final_ann_pdf':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/announcement/`, value, 'PDF');
       case 'final_ann_xml':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/announcement/`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/announcement/`, value, 'XML');
       case 'tentative_ann_xml':
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/tentative/`, value, 'XML');
       case 'tentative_ann_pdf':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/tentative/`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/tentative/`, value, 'PDF');
       case 'special_ann_pdf':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/special-announcement/`, value);
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/special-announcement/`, value, 'PDF');
       default:
         return value;
     }
-  }
-  else {
+  } else {
     return value;
   }
 };
@@ -92,7 +101,7 @@ export const columnsConstructorData = (
   hideColumns: string[],
   tableName: string,
   columnConfig,
-  customFormatConfig
+  customFormatConfig,
 ): any => {
   if (rawData.meta && columnConfig) {
     return columnConfig
@@ -236,7 +245,7 @@ export const getColumnFilter: (
   allActiveFilters: string[],
   setAllActiveFilters: (val: string[]) => void,
   manualPagination: boolean,
-  isLastColumn: boolean
+  isLastColumn: boolean,
 ) => JSX.Element = (header, type, resetFilters, allActiveFilters, setAllActiveFilters, manualPagination, isLastColumn) => {
   if (type === 'DATE') {
     return (
@@ -289,7 +298,7 @@ export const getSortedColumnsData = (
   table: Table<Record<string, unknown>>,
   setTableColumnSortData: (map: Record<string, string>) => void,
   hideColumns: string[],
-  dataTypes
+  dataTypes,
 ): void => {
   if (setTableColumnSortData) {
     const columns = table.getVisibleFlatColumns();
