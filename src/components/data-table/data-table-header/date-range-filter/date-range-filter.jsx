@@ -67,13 +67,15 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const todayOnClick = e => {
     if (!e.key || e.key === 'Enter') {
+      const today = moment().format('YYYY-MM-DD');
       setSelected({
-        from: Date.now(),
-        to: Date.now(),
+        from: today,
+        to: today,
       });
-      const start = moment(Date.now()).format('M/DD/YYYY');
-      const end = moment(Date.now()).format('M/DD/YYYY');
-      onFilterChange(`${start} - ${end}`);
+      startDateRef.current.value = today;
+      endDateRef.current.value = today;
+      setFilteredDateRange({ from: today, to: today });
+      onFilterChange(`${today} - ${today}`);
     }
   };
 
