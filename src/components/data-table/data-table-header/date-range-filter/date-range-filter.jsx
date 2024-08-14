@@ -18,7 +18,7 @@ import {
   hideDivider,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 import { getDateWithoutTimeZoneAdjust } from '../../../../utils/date-utils';
@@ -79,7 +79,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const clearOnClick = e => {
     if (!e.key || e.key === 'Enter') {
-      setSelected({ from: undefined, to: undefined });
+      setSelected(undefined);
       setFilteredDateRange({ from: undefined, to: undefined });
       column.setFilterValue(undefined);
       startDateRef.current.value = '';
@@ -118,6 +118,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const handleEventListener = e => {
     if (!dropdownRef.current?.contains(e.target) && !displayRef.current?.contains(e.target)) {
       setActive(false);
+      setIsDividerHidden(false);
     }
   };
 
@@ -139,6 +140,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           endDateRef.current.focus();
         } else {
           setActive(false);
+          setIsDividerHidden(false);
         }
       } else if (!isStart && value[0] !== '0') {
         setSelected(prev => {
@@ -153,6 +155,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           startDateRef.current.focus();
         } else {
           setActive(false);
+          setIsDividerHidden(false);
         }
       }
     }
@@ -165,14 +168,13 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         endDateRef.current.focus();
       } else {
         setActive(false);
+        setIsDividerHidden(false);
       }
     }
   };
 
   const handleMouseLeave = () => {
-    if (!isStartFocused && !isEndFocused) {
-      setIsDividerHidden(false);
-    }
+    setIsDividerHidden(false);
   };
 
   const handleCalendarSelect = range => {
@@ -184,6 +186,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       endDateRef.current.value = moment(range?.to).format('YYYY-MM-DD');
       handleDateInputChange({ target: { value: endDateRef.current.value } }, false);
     }
+    setIsDividerHidden(false);
   };
 
   useEffect(() => {
@@ -208,14 +211,18 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       startDateRef.current.value = correctFrom.format('YYYY-MM-DD');
       endDateRef.current.value = correctTo.format('YYYY-MM-DD');
       setActive(false);
+      setIsDividerHidden(false);
     }
   }, [selected]);
 
   useEffect(() => {
-    setSelected(undefined);
-    setActive(false);
+    if (resetFilters) {
+      setSelected(undefined);
+      setActive(false);
+      startDateRef.current.value = '';
+      endDateRef.current.value = '';
+    }
   }, [resetFilters]);
-
   return (
     <>
       <div className={active}>
@@ -225,8 +232,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           onKeyDown={e => handleTextBoxClick(true)}
           role="button"
           tabIndex={0}
-          onMouseEnter={handleTextBoxHoverOrFocus}
-          onMouseLeave={handleMouseLeave}
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
@@ -242,14 +247,17 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
               handleTextBoxClick(true);
               handleTextBoxHoverOrFocus();
             }}
+            onMouseEnter={handleTextBoxHoverOrFocus}
+            onMouseLeave={handleMouseLeave}
             placeholder="Start"
             required
             ref={startDateRef}
           />
-          <div className={dateDivider}>|</div>
+          <div className={`${dateDivider} ${isDividerHidden ? hideDivider : ''}`}>|</div>
           <input
             className={dateTextBegin}
             type="date"
+            aria-label="End"
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, false)}
@@ -257,6 +265,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
               handleTextBoxClick(false);
               handleTextBoxHoverOrFocus();
             }}
+            onMouseEnter={handleTextBoxHoverOrFocus}
+            onMouseLeave={handleMouseLeave}
             placeholder="End"
             required
             ref={endDateRef}
@@ -264,6 +274,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <FontAwesomeIcon
             icon={faCalendarDay}
             className={calendarIcon}
+            aria-label="Calendar Icon"
             onClick={e => {
               e.stopPropagation();
               setActive(prevState => !prevState);
