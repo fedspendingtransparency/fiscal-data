@@ -90,7 +90,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   .calendarIcon {
     font-size: $font-size-16;
-    margin: 0 0.25rem;
+    padding: 5px 8px 5px 5px;
+    outline: none;
   }
 }
 

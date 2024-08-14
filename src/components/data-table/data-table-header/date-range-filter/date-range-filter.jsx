@@ -228,10 +228,10 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       <div className={active}>
         <div
           className={`${dateEntryBox} ${isDividerHidden ? hideDivider : ''}`}
-          onClick={() => handleTextBoxClick(true)}
-          onKeyDown={e => handleTextBoxClick(true)}
-          role="button"
-          tabIndex={0}
+          // onClick={() => handleTextBoxClick(true)}
+          // onKeyDown={e => handleTextBoxClick(true)}
+          // role="button"
+          // tabIndex={0}
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
@@ -274,6 +274,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <FontAwesomeIcon
             icon={faCalendarDay}
             className={calendarIcon}
+            aria-hidden={false}
             aria-label="Calendar Icon"
             onClick={e => {
               e.stopPropagation();
