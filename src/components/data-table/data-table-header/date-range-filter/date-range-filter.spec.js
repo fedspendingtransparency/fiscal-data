@@ -35,7 +35,7 @@ describe('DateRangeFilter', () => {
 
   it('should open the date picker when the input is clicked', () => {
     renderComponent(defaultProps);
-    fireEvent.click(screen.getByPlaceholderText('Start'));
+    fireEvent.focus(screen.getByPlaceholderText('Start'));
     expect(screen.getByTestId('Date Picker Dropdown')).toBeVisible();
   });
 
@@ -71,7 +71,7 @@ describe('DateRangeFilter', () => {
 
   it('should select today’s date when the Today button is clicked', () => {
     renderComponent(defaultProps);
-    fireEvent.click(screen.getByTestId('Start-Button'));
+    fireEvent.focus(screen.getByTestId('Start-Button'));
     fireEvent.click(screen.getByLabelText('Today'));
 
     const today = moment().format('YYYY-MM-DD');
@@ -87,13 +87,11 @@ describe('DateRangeFilter', () => {
     const calendarIcon = screen.getByTestId('Start-Button').nextSibling;
     fireEvent.click(calendarIcon);
     expect(screen.getByTestId('Date Picker Dropdown')).toBeVisible();
-    // fireEvent.click(calendarIcon);
-    // expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
   });
 
   it('should close the dropdown when clicking outside of the component', () => {
     renderComponent(defaultProps);
-    fireEvent.click(screen.getByPlaceholderText('Start'));
+    fireEvent.focus(screen.getByTestId('Start-Button'));
     expect(screen.getByTestId('Date Picker Dropdown')).toBeVisible();
     fireEvent.click(document.body);
     expect(screen.queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
@@ -101,9 +99,8 @@ describe('DateRangeFilter', () => {
 
   it('should apply correct dates when selecting a range in the DayPicker', () => {
     renderComponent(defaultProps);
-    fireEvent.click(screen.getByPlaceholderText('Start'));
+    fireEvent.focus(screen.getByPlaceholderText('Start'));
 
-    // Assuming we have DayPicker rendered with the dates
     const dayPickerStart = screen.getByText('1');
     const dayPickerEnd = screen.getByText('10');
 
