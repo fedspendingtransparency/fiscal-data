@@ -67,15 +67,13 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const todayOnClick = e => {
     if (!e.key || e.key === 'Enter') {
-      const today = moment().format('YYYY-MM-DD');
       setSelected({
-        from: today,
-        to: today,
+        from: Date.now(),
+        to: Date.now(),
       });
-      startDateRef.current.value = today;
-      endDateRef.current.value = today;
-      setFilteredDateRange({ from: today, to: today });
-      onFilterChange(`${today} - ${today}`);
+      const start = moment(Date.now()).format('M/DD/YYYY');
+      const end = moment(Date.now()).format('M/DD/YYYY');
+      onFilterChange(`${start} - ${end}`);
     }
   };
 
@@ -92,9 +90,13 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const handleTextBoxClick = isStart => {
     setActive(true);
-    setIsStartFocused(isStart);
-    setIsEndFocused(!isStart);
-    setIsDividerHidden(true);
+    if (isStart) {
+      setIsStartFocused(true);
+      setIsEndFocused(false);
+    } else {
+      setIsStartFocused(false);
+      setIsEndFocused(true);
+    }
   };
 
   const handleTextBoxHoverOrFocus = () => {
@@ -224,11 +226,18 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   return (
     <>
       <div className={active}>
-        <div className={`${dateEntryBox} ${isDividerHidden ? hideDivider : ''}`} ref={displayRef}>
+        <div
+          className={`${dateEntryBox} ${isDividerHidden ? hideDivider : ''}`}
+          onClick={() => handleTextBoxClick(true)}
+          onKeyDown={e => handleTextBoxClick(true)}
+          role="button"
+          tabIndex={0}
+          aria-label={`Open ${column.id} Filter`}
+          ref={displayRef}
+        >
           <input
             className={dateTextBegin}
             type="date"
-            max="9999-12-31"
             aria-label="Start"
             data-testid="Start-Button"
             onChange={e => handleDateInputChange(e, true)}
@@ -244,20 +253,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             required
             ref={startDateRef}
           />
-          <div
-            className={`${dateDivider} ${isDividerHidden ? hideDivider : ''}`}
-            role="presentation"
-            onClick={() => {
-              setActive(prevState => !prevState);
-            }}
-          >
-            |
-          </div>
+          <div className={`${dateDivider} ${isDividerHidden ? hideDivider : ''}`}>|</div>
           <input
             className={dateTextBegin}
             type="date"
             aria-label="End"
-            max="9999-12-31"
             onChange={e => handleDateInputChange(e, false)}
             onBlur={e => handleTextBoxBlur(e)}
             onKeyDown={e => handleKeyDown(e, false)}
@@ -274,17 +274,14 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <FontAwesomeIcon
             icon={faCalendarDay}
             className={calendarIcon}
-            aria-hidden={false}
-            aria-label={`Open ${column.id} Filter`}
+            aria-label="Calendar Icon"
             onClick={e => {
               e.stopPropagation();
               setActive(prevState => !prevState);
             }}
             onKeyDown={e => {
-              if (e.key === 'Enter') {
-                e.stopPropagation();
-                setActive(prevState => !prevState);
-              }
+              e.stopPropagation();
+              setActive(prevState => !prevState);
             }}
             tabIndex={0}
           />
