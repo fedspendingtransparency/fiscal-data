@@ -25,7 +25,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
   const [allReportDates, setAllReportDates] = useState<string[]>();
-
+  const [allReportYears, setAllReportYears] = useState<string[]>();
   const isReportGroupDailyFrequency = (reports: IReports[]): boolean => {
     let yearRepresented = 0;
     let monthRepresented = 0;
@@ -54,27 +54,39 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     if (publishedReportsProp?.length > 0) {
       const sortedReports = getPublishedDates(publishedReportsProp).sort((a, b) => b.report_date - a.report_date);
       const latestReport = sortedReports[0].report_date;
-      const earliestReport = sortedReports[sortedReports.length - 1].report_date;
-      setLatestReportDate(latestReport);
-      setEarliestReportDate(earliestReport);
-      const allDates = [];
-      const day = latestReport.getDate();
-      const month = latestReport.toLocaleString('default', { month: 'short' });
-      const year = latestReport.getFullYear();
-      sortedReports.map(report => allDates.push(report.report_date.toDateString()));
-      setAllReportDates(allDates);
-      const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
-      setIsDailyReport(isDaily);
+      if (latestReport.toString() !== 'Invalid Date') {
+        const earliestReport = sortedReports[sortedReports.length - 1].report_date;
+        setLatestReportDate(latestReport);
+        setEarliestReportDate(earliestReport);
+        const allDates = [];
+        const allYears = [];
 
-      const filteredReports = sortedReports.filter(
-        (report: IReports) =>
-          report.report_date.toString().includes(month) &&
-          report.report_date.toString().includes(year) &&
-          ((isDaily && report.report_date.toString().includes(day)) || !isDaily)
-      );
-      filteredReports.sort((a, b) => a.report_group_sort_order_nbr - b.report_group_sort_order_nbr);
-      if (filteredReports.length > 0) {
-        setCurrentReports(filteredReports);
+        const day = latestReport.getDate();
+        const month = latestReport.toLocaleString('default', { month: 'short' });
+        const year = latestReport.getFullYear();
+        const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
+        setIsDailyReport(isDaily);
+
+        if (isDaily) {
+          sortedReports.map((report: IReports) => allDates.push(report.report_date.toDateString()));
+        } else {
+          sortedReports.forEach((report: IReports) => {
+            const reportDt = report.report_date;
+            const dateStr = reportDt.toLocaleString('default', { month: 'long', year: 'numeric' });
+            allDates.push(dateStr);
+            allYears.push(reportDt.getFullYear());
+          });
+        }
+        setAllReportDates(allDates);
+        setAllReportYears(allYears);
+        const filteredReports = sortedReports.filter((report: IReports) => {
+          const dateStr = report.report_date.toString();
+          return dateStr.includes(month) && dateStr.includes(year) && ((isDaily && dateStr.includes(day)) || !isDaily);
+        });
+        filteredReports.sort((a, b) => a.report_group_sort_order_nbr - b.report_group_sort_order_nbr);
+        if (filteredReports.length > 0) {
+          setCurrentReports(filteredReports);
+        }
       }
     }
   }, [publishedReportsProp]);
@@ -92,6 +104,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
             latestReportDate={latestReportDate}
             earliestReportDate={earliestReportDate}
             allReportDates={allReportDates}
+            allReportYears={allReportYears}
           />
         )}
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />

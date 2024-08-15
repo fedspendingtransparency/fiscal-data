@@ -13,6 +13,7 @@ interface IReportDayPicker {
   latestReportDate: Date;
   earliestReportDate: Date;
   allReportDates: string[];
+  active: boolean;
 }
 
 const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
@@ -22,6 +23,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
   latestReportDate,
   earliestReportDate,
   allReportDates,
+  active,
 }: IReportDayPicker) => {
   const [currentDate, setCurrentDate] = useState<Date>(selectedDate);
   const handleApply = () => {
@@ -36,25 +38,29 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
   };
 
   return (
-    <ReportDateDropdown
-      handleClose={handleClose}
-      handleApply={handleApply}
-      displayDate={currentDate !== undefined && formatReportDate(currentDate, true, true)}
-    >
-      <DayPicker
-        mode="single"
-        selected={currentDate}
-        onSelect={setCurrentDate}
-        fromDate={earliestReportDate}
-        toDate={latestReportDate}
-        captionLayout="dropdown-buttons"
-        modifiersClassNames={{
-          selected: datePickerSelected,
-        }}
-        disabled={isDisabled}
-        defaultMonth={latestReportDate}
-      />
-    </ReportDateDropdown>
+    <>
+      {active && (
+        <ReportDateDropdown
+          handleClose={handleClose}
+          handleApply={handleApply}
+          displayDate={currentDate !== undefined && formatReportDate(currentDate, true, true)}
+        >
+          <DayPicker
+            mode="single"
+            selected={currentDate}
+            onSelect={setCurrentDate}
+            fromDate={earliestReportDate}
+            toDate={latestReportDate}
+            captionLayout="dropdown-buttons"
+            modifiersClassNames={{
+              selected: datePickerSelected,
+            }}
+            disabled={isDisabled}
+            defaultMonth={latestReportDate}
+          />
+        </ReportDateDropdown>
+      )}
+    </>
   );
 };
 
