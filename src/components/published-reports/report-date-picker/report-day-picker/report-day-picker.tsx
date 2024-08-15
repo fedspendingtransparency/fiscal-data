@@ -3,7 +3,6 @@ import ReportDateDropdown from '../report-date-dropdown/report-date-dropdown';
 import { DayPicker } from 'react-day-picker';
 import '../../../data-table/data-table-header/date-range-filter/day-picker-overrides.css';
 import 'react-day-picker/dist/style.css';
-// @ts-ignore
 import { datePickerSelected } from './report-day-picker.module.scss';
 import { formatReportDate } from '../../../../helpers/dataset-detail/report-helpers';
 

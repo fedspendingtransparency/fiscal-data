@@ -4,17 +4,17 @@ import ReportDatePicker from './report-date-picker';
 import userEvent from '@testing-library/user-event';
 
 describe('Month Picker', () => {
-  const monthDropdownList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'];
   const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
+  const mockSelectedDate = new Date('8/8/2024');
 
   it('Default button', () => {
     const { getByRole } = render(
       <ReportDatePicker
-        monthDropdownOptions={monthDropdownList}
-        yearDropdownOptions={yearDropdownList}
         latestReportDate={new Date('8/8/2024')}
         earliestReportDate={new Date('8/8/2016')}
         allReportDates={[]}
+        allReportYears={yearDropdownList}
+        selectedDate={mockSelectedDate}
       />
     );
     const button = getByRole('button');
@@ -26,11 +26,11 @@ describe('Month Picker', () => {
   it('Opens and closes date picker dropdown on click', () => {
     const { getByRole, getAllByRole } = render(
       <ReportDatePicker
-        monthDropdownOptions={monthDropdownList}
-        yearDropdownOptions={yearDropdownList}
         latestReportDate={new Date('8/8/2024')}
         earliestReportDate={new Date('8/8/2016')}
         allReportDates={[]}
+        allReportYears={yearDropdownList}
+        selectedDate={mockSelectedDate}
       />
     );
     const button = getByRole('button');
@@ -47,11 +47,11 @@ describe('Month Picker', () => {
   it('Opens date picker dropdown on enter key press', () => {
     const { getByRole, getAllByRole } = render(
       <ReportDatePicker
-        monthDropdownOptions={monthDropdownList}
-        yearDropdownOptions={yearDropdownList}
         latestReportDate={new Date('8/8/2024')}
         earliestReportDate={new Date('8/8/2016')}
         allReportDates={[]}
+        allReportYears={yearDropdownList}
+        selectedDate={mockSelectedDate}
       />
     );
     const button = getByRole('button', { name: 'Select Published Report Date' });
@@ -68,13 +68,15 @@ describe('Month Picker', () => {
   });
 
   it('updates selected date ', () => {
+    const mockSetSelectedDate = jest.fn();
     const { getByRole, getAllByRole } = render(
       <ReportDatePicker
-        monthDropdownOptions={monthDropdownList}
-        yearDropdownOptions={yearDropdownList}
         latestReportDate={new Date('8/8/2024')}
         earliestReportDate={new Date('8/8/2016')}
-        allReportDates={[]}
+        allReportDates={['March 2022']}
+        allReportYears={yearDropdownList}
+        selectedDate={mockSelectedDate}
+        setSelectedDate={mockSetSelectedDate}
       />
     );
     const button = getByRole('button', { name: 'Select Published Report Date' });
@@ -93,17 +95,17 @@ describe('Month Picker', () => {
       fireEvent.click(getByRole('button', { name: 'Apply Selected Date' }));
     });
 
-    expect(within(button).getByText('March 2022')).toBeInTheDocument();
+    expect(mockSetSelectedDate).toHaveBeenCalledWith(new Date('2024-08-01T05:00:00.000Z'));
   });
 
   it('cancels selected date ', () => {
     const { getByRole, getAllByRole } = render(
       <ReportDatePicker
-        monthDropdownOptions={monthDropdownList}
-        yearDropdownOptions={yearDropdownList}
         latestReportDate={new Date('8/8/2024')}
         earliestReportDate={new Date('8/8/2016')}
         allReportDates={[]}
+        allReportYears={yearDropdownList}
+        selectedDate={mockSelectedDate}
       />
     );
     const button = getByRole('button', { name: 'Select Published Report Date' });
@@ -125,12 +127,11 @@ describe('Month Picker', () => {
   it('cancels selected date for daily reports', () => {
     const { getByRole, getAllByRole } = render(
       <ReportDatePicker
-        monthDropdownOptions={monthDropdownList}
-        yearDropdownOptions={yearDropdownList}
         latestReportDate={new Date('8/8/2024')}
         earliestReportDate={new Date('8/8/2016')}
         allReportDates={[]}
         isDailyReport={true}
+        selectedDate={mockSelectedDate}
       />
     );
     const button = getByRole('button', { name: 'Select Published Report Date' });
@@ -151,11 +152,11 @@ describe('Month Picker', () => {
   it('closes dropdown on blur', () => {
     const { getByRole, queryByText, getByText } = render(
       <ReportDatePicker
-        monthDropdownOptions={monthDropdownList}
-        yearDropdownOptions={yearDropdownList}
         latestReportDate={new Date('8/8/2024')}
         earliestReportDate={new Date('8/8/2016')}
         allReportDates={[]}
+        allReportYears={yearDropdownList}
+        selectedDate={mockSelectedDate}
       />
     );
     const button = getByRole('button');

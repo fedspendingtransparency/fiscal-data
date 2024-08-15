@@ -23,7 +23,6 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   active,
   allReportYears,
 }: IMonthPickerDropdown) => {
-  console.log(allReportDates);
   const [showYears, setShowYears] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(monthFullNames[selectedDate.getMonth()]);
   const [selectedYear, setSelectedYear] = useState<string>(selectedDate.getFullYear().toString());
@@ -31,7 +30,6 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   const allYears = [...new Set(allReportYears)];
   const monthDropdownOptions = monthFullNames;
 
-  console.log(allYears);
   const handleMonthClick = (month: string) => {
     setSelectedMonth(month);
   };
@@ -78,7 +76,6 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
                   <ul>
                     {monthDropdownOptions?.map((option, i) => {
                       const disabled = !allReportDates.includes(option + ' ' + selectedYear);
-                      console.log(option + ' ' + selectedYear);
                       return (
                         <li key={i}>
                           <button className={option === selectedMonth ? selected : null} disabled={disabled} onClick={() => handleMonthClick(option)}>

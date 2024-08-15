@@ -8,8 +8,6 @@ import ReportDayPicker from './report-day-picker/report-day-picker';
 import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';
 
 interface IMonthPicker {
-  monthDropdownOptions?: string[];
-  yearDropdownOptions?: string[];
   isDailyReport: boolean;
   latestReportDate: Date;
   earliestReportDate: Date;
