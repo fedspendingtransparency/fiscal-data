@@ -276,7 +276,7 @@ export const modifiedColumnsDetailView = (columns: any[], handleClick, columnKey
         ...column,
         cell: ({ getValue }) => {
           const columnValue = getValue();
-          const formattedValue = moment(columnValue, 'YYYY-MM-DD').format('M/D/YYYY');
+          const formattedValue = moment(columnValue, 'YYYY-MM-DD').format('MM/DD/YYYY');
           return (
             <button onClick={e => handleClick(e, columnValue)} className={updateTableButton}>
               {formattedValue}
