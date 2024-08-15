@@ -291,7 +291,7 @@ const TopicSection = ({ fiscalYear, width }) => {
       body: revenueBody,
       linkUrl: '/americas-finance-guide/government-revenue/',
       linkText: 'Learn more about government revenue',
-      eventNumber: '5',
+      eventNumber: '4',
     },
     {
       id: 'federal-spending',
