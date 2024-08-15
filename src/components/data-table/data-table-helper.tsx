@@ -28,6 +28,8 @@ const publishedReportsLinkWrapper = (url: string, value: string, alias?: string)
   return (
     <>
       {multiLinks.map((link: string) => {
+        // checking for buybacks to determine between summary and detail pdfs
+        // if another dataset is set up with this logic, let's revisit how to build this
         if (url.includes('buybacks')) {
           if (link.endsWith('p1.pdf') || link.endsWith('_1.pdf')) alias = 'Summary';
           else if (link.endsWith('p2.pdf') || link.endsWith('_2.pdf')) alias = 'Detail';
