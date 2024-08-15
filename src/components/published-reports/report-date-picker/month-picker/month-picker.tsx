@@ -10,7 +10,7 @@ interface IMonthPickerDropdown {
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
   handleClose: () => void;
-  allReportDates;
+  allReportDates: string[];
   active: boolean;
   allReportYears: string[];
 }

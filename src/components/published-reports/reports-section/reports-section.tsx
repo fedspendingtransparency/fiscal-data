@@ -53,7 +53,6 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   };
 
   const updateReportSelection = (date, isDaily, sortedReports) => {
-    console.log(date);
     if (date) {
       const day = date.getDate();
       const month = date.toLocaleString('default', { month: 'short' });
