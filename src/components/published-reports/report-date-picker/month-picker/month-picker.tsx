@@ -29,20 +29,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   const [selectedYear, setSelectedYear] = useState<string>(selectedDate.getFullYear().toString());
 
   const allYears = [...new Set(allReportYears)];
-  const monthDropdownOptions = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+  const monthDropdownOptions = monthFullNames;
 
   console.log(allYears);
   const handleMonthClick = (month: string) => {

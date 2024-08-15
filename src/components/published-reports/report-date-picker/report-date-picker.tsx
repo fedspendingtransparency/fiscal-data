@@ -15,6 +15,8 @@ interface IMonthPicker {
   earliestReportDate: Date;
   allReportDates: string[];
   allReportYears: string[];
+  selectedDate: Date;
+  setSelectedDate: (value: Date) => void;
 }
 
 const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
@@ -23,9 +25,10 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
   earliestReportDate,
   allReportDates,
   allReportYears,
+  selectedDate,
+  setSelectedDate,
 }: IMonthPicker) => {
   const [active, setActive] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date>(latestReportDate);
   const dropdownRef = useRef(null);
 
   /* accessibility-enabling event handlers for interpreting focus state on control */

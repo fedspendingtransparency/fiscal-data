@@ -21,11 +21,14 @@ interface IDataset {
 
 const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; dataset: IDataset }> = ({ publishedReportsProp, dataset }) => {
   const [currentReports, setCurrentReports] = useState<IReports[]>();
+  const [allReports, setAllReports] = useState<IReports[]>();
   const [isDailyReport, setIsDailyReport] = useState<boolean>();
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
   const [allReportDates, setAllReportDates] = useState<string[]>();
   const [allReportYears, setAllReportYears] = useState<string[]>();
+  const [selectedDate, setSelectedDate] = useState<Date>();
+
   const isReportGroupDailyFrequency = (reports: IReports[]): boolean => {
     let yearRepresented = 0;
     let monthRepresented = 0;
@@ -49,6 +52,24 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     return isDaily;
   };
 
+  const updateReportSelection = (date, isDaily, sortedReports) => {
+    console.log(date);
+    if (date) {
+      const day = date.getDate();
+      const month = date.toLocaleString('default', { month: 'short' });
+      const year = date.getFullYear();
+
+      const filteredReports = sortedReports.filter((report: IReports) => {
+        const dateStr = report.report_date.toString();
+        return dateStr.includes(month) && dateStr.includes(year) && ((isDaily && dateStr.includes(day)) || !isDaily);
+      });
+      filteredReports.sort((a, b) => a.report_group_sort_order_nbr - b.report_group_sort_order_nbr);
+      if (filteredReports.length > 0) {
+        setCurrentReports(filteredReports);
+      }
+    }
+  };
+
   useEffect(() => {
     // todo - Use a better manner of reassigning the report_date prop to jsdates.
     if (publishedReportsProp?.length > 0) {
@@ -58,15 +79,12 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
         const earliestReport = sortedReports[sortedReports.length - 1].report_date;
         setLatestReportDate(latestReport);
         setEarliestReportDate(earliestReport);
+        setSelectedDate(latestReport);
         const allDates = [];
         const allYears = [];
 
-        const day = latestReport.getDate();
-        const month = latestReport.toLocaleString('default', { month: 'short' });
-        const year = latestReport.getFullYear();
         const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
         setIsDailyReport(isDaily);
-
         if (isDaily) {
           sortedReports.map((report: IReports) => allDates.push(report.report_date.toDateString()));
         } else {
@@ -77,19 +95,18 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
             allYears.push(reportDt.getFullYear());
           });
         }
+        setAllReports(sortedReports);
         setAllReportDates(allDates);
         setAllReportYears(allYears);
-        const filteredReports = sortedReports.filter((report: IReports) => {
-          const dateStr = report.report_date.toString();
-          return dateStr.includes(month) && dateStr.includes(year) && ((isDaily && dateStr.includes(day)) || !isDaily);
-        });
-        filteredReports.sort((a, b) => a.report_group_sort_order_nbr - b.report_group_sort_order_nbr);
-        if (filteredReports.length > 0) {
-          setCurrentReports(filteredReports);
-        }
+
+        updateReportSelection(latestReport, isDaily, sortedReports);
       }
     }
   }, [publishedReportsProp]);
+
+  useEffect(() => {
+    updateReportSelection(selectedDate, isDailyReport, allReports);
+  }, [selectedDate]);
 
   const getDisplayStatus = (reports: IReports[]) => {
     return reports && reports.length > 0 ? 'block' : 'none';
@@ -105,6 +122,8 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
             earliestReportDate={earliestReportDate}
             allReportDates={allReportDates}
             allReportYears={allReportYears}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
           />
         )}
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
