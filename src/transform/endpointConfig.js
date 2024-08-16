@@ -1965,13 +1965,6 @@ const endpointConfig = {
         dimensionField: 'account_type',
         roundingDenomination: 'millions',
         lastRowSnapshot: true,
-        filters: [
-          {
-            key: 'account_type',
-            operator: 'eq',
-            value: 'Treasury General Account (TGA) Opening Balance',
-          },
-        ],
       },
     ],
     valueFieldOptions: ['open_today_bal', 'open_month_bal', 'open_fiscal_year_bal'],
