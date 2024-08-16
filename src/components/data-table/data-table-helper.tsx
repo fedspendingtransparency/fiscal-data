@@ -20,7 +20,11 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-const tablesWithPublishedReportLinks = ['Treasury Securities Auctions Data', 'Reference CPI Numbers and Daily Index Ratios Summary Table', 'Buybacks Operations'];
+const tablesWithPublishedReportLinks = [
+  'Treasury Securities Auctions Data',
+  'Reference CPI Numbers and Daily Index Ratios Summary Table',
+  'Buybacks Operations',
+];
 
 const publishedReportsLinkWrapper = (url, value) => {
   const multiLinks: string[] = value.split(',');
@@ -66,7 +70,7 @@ const publishedReportsLinksProcessor = (tableName, property, value) => {
     }
   }
   if (tableName === 'Buybacks Operations') {
-    switch(property) {
+    switch (property) {
       case 'results_pdf':
       case 'results_xml':
         return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/result/`, value);
@@ -81,8 +85,7 @@ const publishedReportsLinksProcessor = (tableName, property, value) => {
       default:
         return value;
     }
-  }
-  else {
+  } else {
     return value;
   }
 };
@@ -273,9 +276,13 @@ export const modifiedColumnsDetailView = (columns: any[], handleClick, columnKey
         ...column,
         cell: ({ getValue }) => {
           const columnValue = getValue();
+          let formattedValue = columnValue;
+          if (moment(columnValue, 'YYYY-MM-DD', true).isValid()) {
+            formattedValue = moment(columnValue, 'YYYY-MM-DD').format('MM/DD/YYYY');
+          }
           return (
             <button onClick={e => handleClick(e, columnValue)} className={updateTableButton}>
-              {columnValue}
+              {formattedValue}
             </button>
           );
         },

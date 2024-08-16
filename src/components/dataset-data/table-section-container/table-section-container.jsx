@@ -91,6 +91,18 @@ const TableSectionContainer = ({
     setDisableDownloadButton(userFilterUnmatchedForDateRange);
   }, [userFilterUnmatchedForDateRange]);
 
+  const formatDate = detailViewState => {
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/; // Matches YYYY-MM-DD format
+    if (datePattern.test(detailViewState)) {
+      const dateParts = detailViewState.split('-');
+      const [year, month, day] = dateParts;
+      return `${month}/${day}/${year}`;
+    }
+    return detailViewState; // Return the original string if it's not a date
+  };
+
+  const formattedDetailViewState = detailViewState ? formatDate(detailViewState) : '';
+
   const fetchAllTableData = async (sortParam, to, from, totalCount) => {
     if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
       return await basicFetch(
@@ -299,7 +311,7 @@ const TableSectionContainer = ({
             <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
             {!!detailViewState ? (
               <h3 className={header} data-testid="tableName" id="main-data-table-title">
-                {`${tableName} > ${detailViewState}`}
+                {`${tableName} > ${formattedDetailViewState}`}
               </h3>
             ) : (
               <h3 className={header} data-testid="tableName" id="main-data-table-title">

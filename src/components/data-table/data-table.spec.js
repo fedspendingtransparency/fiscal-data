@@ -612,7 +612,7 @@ describe('react-table', () => {
         />
       </RecoilRoot>
     );
-    const detailViewButton = getByRole('button', { name: '2023-07-12' });
+    const detailViewButton = getByRole('button', { name: '07/12/2023' });
     expect(detailViewButton).toBeInTheDocument();
 
     detailViewButton.click();
