@@ -7,28 +7,26 @@ import useOnClickOutside from 'use-onclickoutside';
 import ReportDayPicker from './report-day-picker/report-day-picker';
 import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';
 
-const monthDropdownList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'];
-const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
-
 interface IMonthPicker {
-  monthDropdownOptions?: string[];
-  yearDropdownOptions?: string[];
   isDailyReport: boolean;
   latestReportDate: Date;
   earliestReportDate: Date;
   allReportDates: string[];
+  allReportYears: string[];
+  selectedDate: Date;
+  setSelectedDate: (value: Date) => void;
 }
 
 const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
-  monthDropdownOptions = monthDropdownList,
-  yearDropdownOptions = yearDropdownList,
   isDailyReport,
   latestReportDate,
   earliestReportDate,
   allReportDates,
+  allReportYears,
+  selectedDate,
+  setSelectedDate,
 }: IMonthPicker) => {
   const [active, setActive] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date>(latestReportDate);
   const dropdownRef = useRef(null);
 
   /* accessibility-enabling event handlers for interpreting focus state on control */
@@ -68,16 +66,17 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
           <FontAwesomeIcon icon={active ? faCaretUp : faCaretDown} />
         </button>
       </div>
-      {active && !isDailyReport && (
+      {!isDailyReport && (
         <MonthPicker
-          monthDropdownOptions={monthDropdownOptions}
-          yearDropdownOptions={yearDropdownOptions}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
           handleClose={() => setActive(false)}
+          allReportDates={allReportDates}
+          active={active}
+          allReportYears={allReportYears}
         />
       )}
-      {active && isDailyReport && (
+      {isDailyReport && (
         <ReportDayPicker
           handleClose={() => setActive(false)}
           selectedDate={selectedDate}
@@ -85,6 +84,7 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
           latestReportDate={latestReportDate}
           earliestReportDate={earliestReportDate}
           allReportDates={allReportDates}
+          active={active}
         />
       )}
     </div>

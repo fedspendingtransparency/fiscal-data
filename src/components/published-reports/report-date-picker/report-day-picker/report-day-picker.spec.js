@@ -19,6 +19,7 @@ describe('Report Day Picker', () => {
         latestReportDate={new Date('8/8/2024')}
         earliestReportDate={new Date('8/8/2022')}
         allReportDates={allDates}
+        active={true}
       />
     );
     const dayButton = getByRole('gridcell', { name: '7' });
@@ -36,6 +37,7 @@ describe('Report Day Picker', () => {
         latestReportDate={new Date('8/8/2024')}
         earliestReportDate={new Date('8/8/2022')}
         allReportDates={allDates}
+        active={true}
       />
     );
     const dayButton = getByRole('gridcell', { name: '10' });
@@ -54,6 +56,7 @@ describe('Report Day Picker', () => {
         latestReportDate={new Date('8/8/2024')}
         earliestReportDate={new Date('8/8/2022')}
         allReportDates={allDates}
+        active={true}
       />
     );
     act(() => {
@@ -75,6 +78,7 @@ describe('Report Day Picker', () => {
         latestReportDate={new Date('8/8/2024')}
         earliestReportDate={new Date('8/8/2022')}
         allReportDates={allDates}
+        active={true}
       />
     );
     act(() => {

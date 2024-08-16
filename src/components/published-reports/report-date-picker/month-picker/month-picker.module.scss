@@ -50,6 +50,11 @@
         color: $primary;
       }
 
+      &:disabled {
+        cursor: default;
+        opacity: 0.5;
+      }
+
       &:hover {
         background-color: $body-background;
         transition: background-color 0.2s ease;

@@ -7,23 +7,28 @@ import ReportDateDropdown from '../report-date-dropdown/report-date-dropdown';
 import { monthFullNames } from '../../../../utils/api-utils';
 
 interface IMonthPickerDropdown {
-  monthDropdownOptions: string[];
-  yearDropdownOptions: string[];
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
   handleClose: () => void;
+  allReportDates: string[];
+  active: boolean;
+  allReportYears: string[];
 }
 
 const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
-  monthDropdownOptions,
-  yearDropdownOptions,
   setSelectedDate,
   selectedDate,
   handleClose,
+  allReportDates,
+  active,
+  allReportYears,
 }: IMonthPickerDropdown) => {
   const [showYears, setShowYears] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(monthFullNames[selectedDate.getMonth()]);
   const [selectedYear, setSelectedYear] = useState<string>(selectedDate.getFullYear().toString());
+
+  const allYears = [...new Set(allReportYears)];
+  const monthDropdownOptions = monthFullNames;
 
   const handleMonthClick = (month: string) => {
     setSelectedMonth(month);
@@ -42,41 +47,51 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   };
 
   return (
-    <ReportDateDropdown handleClose={handleClose} handleApply={handleApply} displayDate={selectedMonth + ' ' + selectedYear}>
-      <>
-        <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">
-          {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretUp : faCaretDown} />
-        </button>
-        <div className={dropdownList}>
-          {showYears && (
-            <ScrollContainer deps={[yearDropdownOptions, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
-              <ul>
-                {yearDropdownOptions?.map((option, i) => (
-                  <li key={i}>
-                    <button className={option === selectedYear ? selected : null} onClick={() => handleYearClick(option)}>
-                      {option}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </ScrollContainer>
-          )}
-          {!showYears && (
-            <ScrollContainer deps={[yearDropdownOptions, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
-              <ul>
-                {monthDropdownOptions?.map((option, i) => (
-                  <li key={i}>
-                    <button className={option === selectedMonth ? selected : null} onClick={() => handleMonthClick(option)}>
-                      {option}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </ScrollContainer>
-          )}
-        </div>
-      </>
-    </ReportDateDropdown>
+    <>
+      {active && (
+        <ReportDateDropdown handleClose={handleClose} handleApply={handleApply} displayDate={selectedMonth + ' ' + selectedYear}>
+          <>
+            <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">
+              {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretUp : faCaretDown} />
+            </button>
+            <div className={dropdownList}>
+              {showYears && (
+                <ScrollContainer deps={[allYears, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
+                  <ul>
+                    {allYears?.map((option, i) => {
+                      const disabled = !allReportDates.includes(selectedMonth + ' ' + option);
+                      return (
+                        <li key={i}>
+                          <button className={option === selectedYear ? selected : null} disabled={disabled} onClick={() => handleYearClick(option)}>
+                            {option}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </ScrollContainer>
+              )}
+              {!showYears && (
+                <ScrollContainer deps={[allYears, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
+                  <ul>
+                    {monthDropdownOptions?.map((option, i) => {
+                      const disabled = !allReportDates.includes(option + ' ' + selectedYear);
+                      return (
+                        <li key={i}>
+                          <button className={option === selectedMonth ? selected : null} disabled={disabled} onClick={() => handleMonthClick(option)}>
+                            {option}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </ScrollContainer>
+              )}
+            </div>
+          </>
+        </ReportDateDropdown>
+      )}
+    </>
   );
 };
 
