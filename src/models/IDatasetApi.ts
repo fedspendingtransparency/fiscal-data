@@ -23,6 +23,7 @@ export interface IDatasetApi {
     field: string;
     notice: string;
     optionValues: string[];
+    dataUnmatchedHeader: string;
     dataUnmatchedMessage: string;
   };
   valueFieldOptions: unknown | null;

@@ -65,6 +65,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     loadByPage = shouldUseLoadByPage(selectedPivot);
 
     if (loadByPage) {
+      console.log('here');
       setServerSidePagination(selectedTable.endpoint);
     } else {
       setServerSidePagination(null);
@@ -175,7 +176,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       } else {
         clearDisplayData();
         let canceledObj = { isCanceled: false, abortController: new AbortController() };
-
+        console.log('??????????????????');
         if (!loadByPage || ignorePivots) {
           getApiData(
             dateRange,

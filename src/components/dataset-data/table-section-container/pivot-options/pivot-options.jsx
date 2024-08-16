@@ -3,6 +3,7 @@ import { containerBar, formControl, selectLabel, dropdownContainer } from './piv
 import SelectControl from '../../../select-control/select-control';
 
 const PivotOptions = ({ table, pivotSelection, setSelectedPivot, pivotsUpdated }) => {
+  console.log(table, pivotSelection, pivotsUpdated);
   const [pivotOptions, setPivotOptions] = useState();
   const [pivotFields, setPivotFields] = useState();
 
@@ -54,8 +55,10 @@ const PivotOptions = ({ table, pivotSelection, setSelectedPivot, pivotsUpdated }
         pivotView: table.dataDisplays ? table.dataDisplays[0] : null,
         pivotValue: localPivotFields && table.dataDisplays[0].dimensionField ? localPivotFields[0] : null,
       };
-      setSelectedPivot(pivot);
-      setPivotOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
+      if (pivot?.pivotView) {
+        setSelectedPivot(pivot);
+        setPivotOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
+      }
     }
   }, [table, pivotsUpdated]);
 

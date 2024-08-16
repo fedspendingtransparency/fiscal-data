@@ -89,8 +89,11 @@ export const getMessageForUnmatchedUserFilter = (selectedTable: { userFilter?: {
   <>
     {selectedTable.userFilter && selectedTable.userFilter.label && selectedTable.userFilter.dataUnmatchedMessage && (
       <NotShownMessage
-        heading={`The ${selectedTable.userFilter.label} specified does not have
-                available data within the date range selected.`}
+        heading={
+          selectedTable.userFilter?.dataUnmatchedHeader
+            ? selectedTable.userFilter?.dataUnmatchedHeader
+            : `The ${selectedTable.userFilter.label} specified does not have available data within the date range selected.`
+        }
         bodyText={selectedTable.userFilter.dataUnmatchedMessage}
       />
     )}
