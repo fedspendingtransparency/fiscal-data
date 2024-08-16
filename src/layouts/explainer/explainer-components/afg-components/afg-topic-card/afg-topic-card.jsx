@@ -32,8 +32,8 @@ const AfgTopicCard = ({
     if (eventNumber) {
       Analytics.event({
         category: gaEvent.eventCategory.replace('Fiscal Data - ', ''),
-        action: gaEvent.eventAction,
-        label: gaEvent.eventLabel,
+        action: `AFG Overview Citation Click`,
+        label: pageName,
       });
     }
   };
