@@ -30,7 +30,6 @@ const RangePresets = ({
   const [dateRange, setCurDateRange] = useState(null);
   const [presets, setPresets] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
-  // console.log(selectedTable.apiFilter);
   const basePreset = [{ label: 'All', key: 'all', years: null }];
   const possiblePresets = [
     { label: '1 Year', key: '1yr', years: 1 },

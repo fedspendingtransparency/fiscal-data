@@ -93,14 +93,16 @@ const TableSectionContainer = ({
   }, [userFilterUnmatchedForDateRange]);
 
   const fetchAllTableData = async (sortParam, to, from, totalCount) => {
+    const apiFilterParam =
+      selectedTable?.apiFilter?.field && userFilterSelection?.value ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}` : '';
     if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
       return await basicFetch(
         `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-          `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
+          `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
       ).then(async page1res => {
         const page2res = await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+            `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
         );
         page1res.data = page1res.data.concat(page2res.data);
         return page1res;
@@ -108,21 +110,20 @@ const TableSectionContainer = ({
     } else if (totalCount <= MAX_PAGE_SIZE) {
       return basicFetch(
         `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-          `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
+          `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=${totalCount}`
       );
     }
   };
 
   const fetchTableMeta = async (sortParam, to, from) => {
+    const apiFilterParam =
+      selectedTable?.apiFilter?.field && userFilterSelection?.value ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}` : '';
+    console.log('apiFilterParam', selectedTable?.apiFilter?.field, userFilterSelection?.value, apiFilterParam);
     return basicFetch(
       `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-        `:lte:${to}&sort=${sortParam}&page[size]=${1}`
+        `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=${1}`
     );
   };
-
-  // useEffect(() => {
-  //   console.log('userFilter', userFilterSelection);
-  // }, [userFilterSelection]);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -131,16 +132,17 @@ const TableSectionContainer = ({
     let meta;
     return await queryClient
       .ensureQueryData({
-        queryKey: ['tableDataMeta', selectedTable, from, to],
+        queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
         queryFn: () => fetchTableMeta(sortParam, to, from),
       })
       .then(async res => {
+        console.log(res);
         const totalCount = res.meta['total-count'];
         if (!selectedPivot?.pivotValue) {
           meta = res.meta;
           try {
             const data = await queryClient.ensureQueryData({
-              queryKey: ['tableData', selectedTable, from, to],
+              queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
               queryFn: () => fetchAllTableData(sortParam, to, from, totalCount),
             });
             return data;
@@ -273,6 +275,7 @@ const TableSectionContainer = ({
   const dateFieldForChart = getDateFieldForChart();
 
   useEffect(() => {
+    console.log('tableProps?.rawData', tableProps?.rawData);
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
 
