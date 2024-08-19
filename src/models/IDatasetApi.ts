@@ -26,5 +26,13 @@ export interface IDatasetApi {
     dataUnmatchedHeader: string;
     dataUnmatchedMessage: string;
   };
+  apiFilter?: {
+    label: string;
+    field: string;
+    notice: string;
+    optionValues: string[];
+    dataUnmatchedHeader: string;
+    dataUnmatchedMessage: string;
+  };
   valueFieldOptions: unknown | null;
 }

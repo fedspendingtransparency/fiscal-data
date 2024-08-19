@@ -201,7 +201,7 @@ module.exports = {
       dateField: 'eff_date',
       downloadName: 'UTF_Account_Statement ',
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
-      userFilter: {
+      apiFilter: {
         field: 'acct_desc',
         label: 'Account Description',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
@@ -225,7 +225,7 @@ module.exports = {
       dateField: 'eff_date',
       downloadName: 'UTF_Transaction_Statement ',
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
-      userFilter: {
+      apiFilter: {
         field: 'acct_desc',
         label: 'Account Description',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
@@ -248,7 +248,7 @@ module.exports = {
       dateField: 'eff_date',
       downloadName: 'UTF_Federal_Activity_Statement ',
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
-      userFilter: {
+      apiFilter: {
         field: 'acct_desc',
         label: 'Account Description',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',

@@ -397,6 +397,14 @@ exports.createSchemaCustomization = ({ actions }) => {
       dataUnmatchedHeader: String,
       dataUnmatchedMessage: String
     }
+    type ApiFilter {
+      field: String,
+      label: String,
+      notice: String,
+      optionValues: [String!],
+      dataUnmatchedHeader: String,
+      dataUnmatchedMessage: String
+    }
     type SEOConfig {
       title: String,
       description: String,
@@ -431,6 +439,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       hideColumns: [String],
       selectColumns: [String!],
       userFilter: UserFilter,
+      apiFilter: ApiFilter,
       apiNotesAndLimitations: String,
       customFormatting: [CustomFormatConfig!]
     }
@@ -562,6 +571,14 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
             selectColumns
             userFilter {
+              field
+              label
+              notice
+              optionValues
+              dataUnmatchedHeader
+              dataUnmatchedMessage
+            }
+            apiFilter {
               field
               label
               notice
@@ -706,6 +723,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           res.json().then(body => body.data.map(row => row[api.userFilter.field]).sort((a, b) => a.localeCompare(b)))
         );
         api.userFilter.optionValues = [...new Set(options)]; // uniquify results
+      }
+      if (api.apiFilter) {
+        let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+        filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
+        filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
+
+        const options = await fetch(filterOptionsUrl).then(res =>
+          res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+        );
+        api.apiFilter.optionValues = [...new Set(options)]; // uniquify results
       }
     }
     createPage({

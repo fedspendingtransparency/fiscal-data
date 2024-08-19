@@ -69,6 +69,7 @@ const TableSectionContainer = ({
   setAllActiveFilters,
 }) => {
   const tableName = selectedTable.tableName;
+  // console.log(selectedTable);
   const [showPivotBar, setShowPivotBar] = useState(true);
   const [tableProps, setTableProps] = useState();
   const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
@@ -118,6 +119,10 @@ const TableSectionContainer = ({
         `:lte:${to}&sort=${sortParam}&page[size]=${1}`
     );
   };
+
+  useEffect(() => {
+    console.log('userFilter', userFilterSelection);
+  }, [userFilterSelection]);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -353,7 +358,7 @@ const TableSectionContainer = ({
                 showToggleChart={!noChartMessage}
                 showToggleTable={tableProps?.selectColumns}
                 userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
-                userFilterEmptyDefault={true}
+                // userFilterEmptyDefault={true}
                 onToggleLegend={legendToggler}
                 emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
                 unchartable={noChartMessage !== undefined}
@@ -373,6 +378,7 @@ const TableSectionContainer = ({
                       pivotSelected={selectedPivot}
                       setSelectColumnPanel={setSelectColumnPanel}
                       tableProps={tableProps}
+                      selectedTable={selectedTable}
                       perPage={perPage}
                       setPerPage={setPerPage}
                       tableColumnSortData={tableColumnSortData}
@@ -384,6 +390,7 @@ const TableSectionContainer = ({
                       setManualPagination={setManualPagination}
                       reactTable
                       rawDataTable
+                      userFilterSelection={userFilterSelection}
                       setIsLoading={setIsLoading}
                       isLoading={isLoading}
                       sorting={reactTableSorting}

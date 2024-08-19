@@ -45,6 +45,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [ignorePivots, setIgnorePivots] = useState(false);
   const [configUpdated, setConfigUpdated] = useState(false);
   const [userFilterSelection, setUserFilterSelection] = useState(null);
+  const [apiFilterSelection, setApiFilterSelection] = useState(null);
   const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const [tableCaches] = useState({});
   const [resetFilters, setResetFilters] = useState(false);
@@ -64,8 +65,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const clearDisplayData = () => {
     loadByPage = shouldUseLoadByPage(selectedPivot);
 
+    console.log('set serverside paginated', loadByPage);
     if (loadByPage) {
-      console.log('here');
       setServerSidePagination(selectedTable.endpoint);
     } else {
       setServerSidePagination(null);
@@ -172,6 +173,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       const cache = tableCaches[displayedTable.apiId];
       const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
       if (cachedDisplay) {
+        console.log('!!!!!!!!!!!!!!!!!!!!', userFilterSelection);
         updateDataDisplay(cachedDisplay);
       } else {
         clearDisplayData();
@@ -281,6 +283,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             dateRange={dateRange}
             selectedTable={selectedTable}
             userFilterSelection={userFilterSelection}
+            userFilterTable={true}
             apiData={apiData}
             isLoading={isLoading}
             setIsLoading={setIsLoading}

@@ -54,6 +54,7 @@ export default function DtgTable({
   setSorting,
   allActiveFilters,
   setAllActiveFilters,
+  selectedTable,
 }) {
   const {
     dePaginated,
@@ -63,7 +64,7 @@ export default function DtgTable({
     tableName,
     shouldPage,
     excludeCols,
-    selectedTable,
+    // selectedTable,
     selectedPivot,
     dateRange,
     config,
@@ -76,7 +77,7 @@ export default function DtgTable({
     publishedReports,
     customFormatting,
   } = tableProps;
-
+  console.log(selectedTable);
   const [reactTableData, setReactTableData] = useState(null);
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
@@ -137,6 +138,7 @@ export default function DtgTable({
   };
 
   const getPagedData = resetPage => {
+    console.log('the paged request');
     if (debounce || loadCanceled) {
       clearTimeout(debounce);
     }
@@ -148,7 +150,8 @@ export default function DtgTable({
   };
 
   const makePagedRequest = async resetPage => {
-    if (selectedTable && selectedTable.endpoint && !loadCanceled) {
+    console.log(selectedTable.apiFilter, selectedTable);
+    if (selectedTable && selectedTable.endpoint && !loadCanceled && !selectedTable?.apiFilter) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
       const from =
@@ -204,6 +207,15 @@ export default function DtgTable({
             clearTimeout(loadTimer);
           }
         });
+    } else if (selectedTable?.apiFilter) {
+      setIsLoading(false);
+      setEmptyDataMessage(
+        <NotShownMessage
+          heading="Select an account in the filter section above to display the data."
+          bodyText={`With the current Date Range selected we are unable to render a
+                    preview at this time.`}
+        />
+      );
     }
   };
 
@@ -244,6 +256,7 @@ export default function DtgTable({
   };
 
   const updateTable = resetPage => {
+    console.log('updateTable');
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
     ssp !== undefined && ssp !== null ? getPagedData(resetPage) : getCurrentData();
@@ -259,6 +272,15 @@ export default function DtgTable({
       updateTable(true);
     }
   }, [tableSorting, filteredDateRange, selectedTable]);
+
+  // useEffect(() => {
+  //   console.log(' in use memo', selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE, userFilterTable, selectedTable);
+  //   if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE && userFilterTable) {
+  //     updateSmallFractionDataType();
+  //     setCurrentPage(1);
+  //     updateTable(true);
+  //   }
+  // }, [selectedTable]);
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
@@ -407,45 +429,52 @@ export default function DtgTable({
               </div>
             </>
           )}
-          <ErrorBoundary FallbackComponent={() => <></>}>
-            <DataTable
-              rawData={reactTableData}
-              detailViewState={detailViewState}
-              setDetailViewState={setDetailViewState}
-              nonRawDataColumns={!rawDataTable ? columnConfig : null}
-              detailColumnConfig={detailColumnConfig}
-              detailViewAPI={detailViewAPIConfig}
-              detailView={config?.detailView}
-              defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
-              setTableColumnSortData={setTableColumnSortData}
-              hideCellLinks={true}
-              shouldPage={shouldPage}
-              pagingProps={pagingProps}
-              showPaginationControls={showPaginationControls}
-              hasPublishedReports={hasPublishedReports}
-              publishedReports={publishedReports}
-              setSelectColumnPanel={setSelectColumnPanel}
-              selectColumnPanel={selectColumnPanel}
-              resetFilters={resetFilters}
-              setResetFilters={setResetFilters}
-              hideColumns={hideColumns}
-              tableName={tableName}
-              manualPagination={manualPagination}
-              maxRows={maxRows}
-              rowsShowing={rowsShowing}
-              columnConfig={columnConfig}
-              allowColumnWrap={allowColumnWrap}
-              aria={tableProps.aria}
-              pivotSelected={pivotSelected?.pivotValue}
-              setSummaryValues={setSummaryValues}
-              customFormatting={customFormatting}
-              sorting={sorting}
-              setSorting={setSorting}
-              allActiveFilters={allActiveFilters}
-              setAllActiveFilters={setAllActiveFilters}
-              setTableSorting={setTableSorting}
-            />
-          </ErrorBoundary>
+          <div>
+            {/* Empty Data Message */}
+            {emptyDataMessage && emptyDataMessage}
+            {/* Table */}
+          </div>
+          {!emptyDataMessage && (
+            <ErrorBoundary FallbackComponent={() => <></>}>
+              <DataTable
+                rawData={reactTableData}
+                detailViewState={detailViewState}
+                setDetailViewState={setDetailViewState}
+                nonRawDataColumns={!rawDataTable ? columnConfig : null}
+                detailColumnConfig={detailColumnConfig}
+                detailViewAPI={detailViewAPIConfig}
+                detailView={config?.detailView}
+                defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
+                setTableColumnSortData={setTableColumnSortData}
+                hideCellLinks={true}
+                shouldPage={shouldPage}
+                pagingProps={pagingProps}
+                showPaginationControls={showPaginationControls}
+                hasPublishedReports={hasPublishedReports}
+                publishedReports={publishedReports}
+                setSelectColumnPanel={setSelectColumnPanel}
+                selectColumnPanel={selectColumnPanel}
+                resetFilters={resetFilters}
+                setResetFilters={setResetFilters}
+                hideColumns={hideColumns}
+                tableName={tableName}
+                manualPagination={manualPagination}
+                maxRows={maxRows}
+                rowsShowing={rowsShowing}
+                columnConfig={columnConfig}
+                allowColumnWrap={allowColumnWrap}
+                aria={tableProps.aria}
+                pivotSelected={pivotSelected?.pivotValue}
+                setSummaryValues={setSummaryValues}
+                customFormatting={customFormatting}
+                sorting={sorting}
+                setSorting={setSorting}
+                allActiveFilters={allActiveFilters}
+                setAllActiveFilters={setAllActiveFilters}
+                setTableSorting={setTableSorting}
+              />
+            </ErrorBoundary>
+          )}
         </div>
       )}
       {!reactTable && (

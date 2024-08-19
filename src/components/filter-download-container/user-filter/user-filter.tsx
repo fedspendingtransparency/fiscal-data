@@ -22,9 +22,9 @@ type UserFilterProps = {
   setResetFilters?: (x: boolean) => void;
 };
 
-const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserFilter, apiData, setResetFilters }) => {
+const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserFilter, apiData, setResetFilters, apiFilter }) => {
   const defaultSelection = { label: '(None selected)', value: null };
-
+  // console.log(apiData);
   const [userFilterOptions, setUserFilterOptions] = useState(null);
   const [selectedFilterOption, setSelectedFilterOption] = useState(defaultSelection);
 
@@ -44,19 +44,27 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
       options = selectedTable.userFilter.optionValues.map(val => ({ label: val, value: val }));
       options.unshift(defaultSelection);
       setUserFilterOptions(options);
+    } else if (selectedTable?.apiFilter?.optionValues && userFilterOptions === null) {
+      options = selectedTable.apiFilter.optionValues.map(val => ({ label: val, value: val }));
+      options.unshift(defaultSelection);
+      setUserFilterOptions(options);
     }
   };
 
+  // useEffect(() => {
+  //   establishOptions();
+  // }, [apiData]);
+
   useEffect(() => {
     establishOptions();
-  }, [apiData]);
+  }, []);
 
   return (
     <>
-      {selectedTable.userFilter && userFilterOptions && (
+      {(selectedTable.userFilter || selectedTable.apiFilter) && userFilterOptions && (
         <div className={userFilterWrapper}>
           <ComboCurrencySelect
-            label={`${selectedTable.userFilter.label}:`}
+            label={`${selectedTable.userFilter ? selectedTable.userFilter.label : selectedTable.apiFilter.label}:`}
             labelClass={filterLabel}
             options={userFilterOptions}
             changeHandler={updateUserFilter}
