@@ -108,7 +108,7 @@ const checkError = (response, urlAttempted) => {
   }
 };
 
-export const pagedDatatableRequest = async (table, from, to, selectedPivot, pageNum, pageSize, tableColumnSortData) => {
+export const pagedDatatableRequest = async (table, from, to, selectedPivot, pageNum, pageSize, tableColumnSortData, filterField, filterValue) => {
   const dateField = table.dateField;
   // redemption_tables and sb_value are exception scenarios where the date string needs to
   // be YYYY-MM.
@@ -125,10 +125,12 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
     tableColumnSortParams = buildTableColumnSortParams(tableColumnSortData);
     tableColumnSort = tableColumnSortParams.sort;
   }
+  const filterParam = filterField && filterValue ? `,${filterField}:eq:${filterValue.value}` : '';
+  console.log('filterParam', filterParam, filterValue);
 
   const uri =
     `${apiPrefix}${table.endpoint}?filter=${dateField}:gte:${fromStr},${dateField}` +
-    `:lte:${toStr}&sort=${tableColumnSort ? tableColumnSort : sortParam}&page[number]=${pageNum}&page[size]=${pageSize}`;
+    `:lte:${toStr}${filterParam}&sort=${tableColumnSort ? tableColumnSort : sortParam}&page[number]=${pageNum}&page[size]=${pageSize}`;
 
   return getIFetch()(uri).then(response => response.json());
 };

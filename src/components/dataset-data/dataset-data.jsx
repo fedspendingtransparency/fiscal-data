@@ -65,7 +65,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const clearDisplayData = () => {
     loadByPage = shouldUseLoadByPage(selectedPivot);
 
-    console.log('set serverside paginated', loadByPage);
+    // console.log('set serverside paginated', loadByPage);
     if (loadByPage) {
       setServerSidePagination(selectedTable.endpoint);
     } else {
@@ -173,12 +173,12 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       const cache = tableCaches[displayedTable.apiId];
       const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
       if (cachedDisplay) {
-        console.log('!!!!!!!!!!!!!!!!!!!!', userFilterSelection);
+        // console.log('!!!!!!!!!!!!!!!!!!!!', userFilterSelection);
         updateDataDisplay(cachedDisplay);
       } else {
         clearDisplayData();
         let canceledObj = { isCanceled: false, abortController: new AbortController() };
-        console.log('??????????????????');
+        // console.log('??????????????????');
         if (!loadByPage || ignorePivots) {
           getApiData(
             dateRange,

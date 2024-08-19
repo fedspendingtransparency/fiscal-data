@@ -120,9 +120,9 @@ const TableSectionContainer = ({
     );
   };
 
-  useEffect(() => {
-    console.log('userFilter', userFilterSelection);
-  }, [userFilterSelection]);
+  // useEffect(() => {
+  //   console.log('userFilter', userFilterSelection);
+  // }, [userFilterSelection]);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -175,7 +175,7 @@ const TableSectionContainer = ({
 
     if (userFilterSelection?.value && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
-      console.log('displayData', displayData);
+      // console.log('displayData', displayData);
       setUserFilteredData({ ...apiData, data: displayData });
     } else {
       setUserFilteredData(null);

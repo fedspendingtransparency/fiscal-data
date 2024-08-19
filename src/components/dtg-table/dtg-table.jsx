@@ -55,6 +55,7 @@ export default function DtgTable({
   allActiveFilters,
   setAllActiveFilters,
   selectedTable,
+  userFilterSelection,
 }) {
   const {
     dePaginated,
@@ -77,7 +78,6 @@ export default function DtgTable({
     publishedReports,
     customFormatting,
   } = tableProps;
-  console.log(selectedTable);
   const [reactTableData, setReactTableData] = useState(null);
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
@@ -150,8 +150,8 @@ export default function DtgTable({
   };
 
   const makePagedRequest = async resetPage => {
-    console.log(selectedTable.apiFilter, selectedTable);
-    if (selectedTable && selectedTable.endpoint && !loadCanceled && !selectedTable?.apiFilter) {
+    // console.log(selectedTable.apiFilter, selectedTable);
+    if (selectedTable && selectedTable.endpoint && !loadCanceled && (!selectedTable?.apiFilter || userFilterSelection)) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
       const from =
@@ -163,7 +163,17 @@ export default function DtgTable({
           ? filteredDateRange?.to.format('YYYY-MM-DD')
           : formatDateForApi(dateRange.to);
       const startPage = resetPage ? 1 : currentPage;
-      pagedDatatableRequest(selectedTable, from, to, selectedPivot, startPage, itemsPerPage, tableColumnSortData)
+      pagedDatatableRequest(
+        selectedTable,
+        from,
+        to,
+        selectedPivot,
+        startPage,
+        itemsPerPage,
+        tableColumnSortData,
+        selectedTable?.apiFilter?.field,
+        userFilterSelection
+      )
         .then(res => {
           if (!loadCanceled) {
             setEmptyDataMessage(null);
@@ -256,9 +266,9 @@ export default function DtgTable({
   };
 
   const updateTable = resetPage => {
-    console.log('updateTable');
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
+    console.log('updateTable', ssp);
     ssp !== undefined && ssp !== null ? getPagedData(resetPage) : getCurrentData();
     return () => {
       loadCanceled = true;
@@ -266,12 +276,14 @@ export default function DtgTable({
   };
 
   useMemo(() => {
+    // console.log(1);
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
+      console.log('Use Memo ', userFilterSelection);
       updateSmallFractionDataType();
       setCurrentPage(1);
       updateTable(true);
     }
-  }, [tableSorting, filteredDateRange, selectedTable]);
+  }, [tableSorting, filteredDateRange, selectedTable, userFilterSelection]);
 
   // useEffect(() => {
   //   console.log(' in use memo', selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE, userFilterTable, selectedTable);
