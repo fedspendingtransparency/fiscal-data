@@ -152,7 +152,8 @@ describe('DownloadWrapper', () => {
     });
     expect(spy).toHaveBeenCalledWith({
       category: 'Dataset Dictionary Download',
-      action: 'Mock Dataset',
+      action: 'Data Dictionary Click',
+      label: 'Mock Dataset',
     });
   });
 

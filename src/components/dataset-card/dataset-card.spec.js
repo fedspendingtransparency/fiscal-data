@@ -68,8 +68,8 @@ describe('DatasetCard', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith({
       category: `${context} Click`,
-      action: `from ${referrer}`,
-      value: mockConfig.name,
+      action: `Related Dataset Click`,
+      label: mockConfig.name,
     });
   });
 

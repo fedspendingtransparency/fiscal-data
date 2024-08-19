@@ -82,9 +82,9 @@ describe('Preview component', () => {
       );
     });
     expect(spy).toHaveBeenCalledWith({
-      action: 'load pdf preview',
-      category: 'Published Report Preview',
-      value: 'helloAgain.pdf',
+      action: 'Published Report Preview',
+      category: 'Fiscal Data - Published Report Preview',
+      label: 'helloAgain.pdf',
     });
 
     expect(datalayerSpy).toHaveBeenCalledWith({
