@@ -350,7 +350,13 @@ const TableSectionContainer = ({
           )}
           <div className={barContainer}>
             <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
-              <PivotOptions table={selectedTable} pivotSelection={selectedPivot} setSelectedPivot={setSelectedPivot} pivotsUpdated={pivotsUpdated} />
+              <PivotOptions
+                datasetName={config.name}
+                table={selectedTable}
+                pivotSelection={selectedPivot}
+                setSelectedPivot={setSelectedPivot}
+                pivotsUpdated={pivotsUpdated}
+              />
             </div>
           </div>
         </div>
