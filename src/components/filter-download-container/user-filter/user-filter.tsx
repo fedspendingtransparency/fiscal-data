@@ -51,13 +51,13 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
     }
   };
 
-  // useEffect(() => {
-  //   establishOptions();
-  // }, [apiData]);
-
   useEffect(() => {
     establishOptions();
-  }, []);
+  }, [apiData]);
+
+  useEffect(() => {
+    setSelectedFilterOption(defaultSelection);
+  }, [selectedTable]);
 
   return (
     <>
@@ -91,7 +91,13 @@ export const determineUserFilterUnmatchedForDateRange = (
   userFilteredData?: {
     data?: [{ [key: string]: string }] | [];
   }
-): boolean => selectedTable?.userFilter?.label && userFilterSelection?.value && userFilteredData?.data && userFilteredData?.data.length === 0;
+): boolean => {
+  if (selectedTable?.userFilter) {
+    return selectedTable?.userFilter?.label && userFilterSelection?.value && userFilteredData?.data && userFilteredData?.data.length === 0;
+  } else if (selectedTable?.apiFilter) {
+    return selectedTable?.apiFilter?.label && userFilterSelection?.value && userFilteredData?.data && userFilteredData?.data.length === 0;
+  }
+};
 
 export const getMessageForUnmatchedUserFilter = (selectedTable: { userFilter?: { [key: string]: unknown } }): JSX.Element => (
   <>

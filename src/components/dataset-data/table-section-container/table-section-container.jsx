@@ -117,11 +117,13 @@ const TableSectionContainer = ({
 
   const fetchTableMeta = async (sortParam, to, from) => {
     const apiFilterParam =
-      selectedTable?.apiFilter?.field && userFilterSelection?.value ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}` : '';
+      selectedTable?.apiFilter?.field && userFilterSelection?.value !== null
+        ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
+        : '';
     console.log('apiFilterParam', selectedTable?.apiFilter?.field, userFilterSelection?.value, apiFilterParam);
     return basicFetch(
       `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-        `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=${1}`
+        `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=1`
     );
   };
 
