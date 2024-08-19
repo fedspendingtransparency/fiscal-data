@@ -42,9 +42,9 @@ const Preview = ({ selectedFile }) => {
           eventLabel: selectedFile.path,
         });
         Analytics.event({
-          category: 'Published Report Preview',
-          action: 'load pdf preview',
-          value: selectedFile.path,
+          category: 'Fiscal Data - Published Report Preview',
+          action: 'Published Report Preview',
+          label: selectedFile.path,
         });
       } else if (txtTextBool) {
         getIFetch()(selectedFile.path)

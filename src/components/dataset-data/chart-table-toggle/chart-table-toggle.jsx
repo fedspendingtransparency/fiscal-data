@@ -79,6 +79,7 @@ const AntTab = withStyles({
 
 const ChartTableToggle = ({
   currentTab,
+  datasetName,
   onTabChange,
   table,
   allTablesSelected,
@@ -106,7 +107,8 @@ const ChartTableToggle = ({
     if (newValue === 1) {
       Analytics.event({
         category: 'Chart Enabled',
-        action: table.props.tableProps.tableName,
+        action: 'Chart Click',
+        label: `${datasetName}, ${table.props.tableProps.tableName}`,
       });
     }
   };
