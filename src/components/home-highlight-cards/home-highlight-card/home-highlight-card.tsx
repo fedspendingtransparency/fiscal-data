@@ -135,7 +135,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
 
   const analyticsEvent: (string) => void = (action: string) => {
     Analytics.event({
-      category: 'Fiscal Data - Homepage Cards',
+      category: 'Homepage Cards',
       action: `${action}`,
       label: `${title}`,
     });
