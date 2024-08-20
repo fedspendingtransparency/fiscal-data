@@ -13,6 +13,13 @@ type UserFilterProps = {
       optionValues: string[];
       dataUnmatchedMessage: string;
     };
+    apiFilter?: {
+      label: string;
+      field: string;
+      notice: string;
+      optionValues: string[];
+      dataUnmatchedMessage: string;
+    };
   };
   onUserFilter: (selection: { label: string | number; value?: string | number | null }) => void;
   apiData: {
@@ -83,6 +90,7 @@ export default UserFilter;
 export const determineUserFilterUnmatchedForDateRange = (
   selectedTable: {
     userFilter?: { [key: string]: unknown };
+    apiFilter?: { [key: string]: unknown };
   },
   userFilterSelection?: {
     label: string;
@@ -99,7 +107,10 @@ export const determineUserFilterUnmatchedForDateRange = (
   }
 };
 
-export const getMessageForUnmatchedUserFilter = (selectedTable: { userFilter?: { [key: string]: unknown } }): JSX.Element => (
+export const getMessageForUnmatchedUserFilter = (selectedTable: {
+  userFilter?: { [key: string]: unknown };
+  apiFilter?: { [key: string]: unknown };
+}): JSX.Element => (
   <>
     {selectedTable.userFilter && selectedTable.userFilter.label && selectedTable.userFilter.dataUnmatchedMessage && (
       <NotShownMessage
@@ -109,6 +120,16 @@ export const getMessageForUnmatchedUserFilter = (selectedTable: { userFilter?: {
             : `The ${selectedTable.userFilter.label} specified does not have available data within the date range selected.`
         }
         bodyText={selectedTable.userFilter.dataUnmatchedMessage}
+      />
+    )}
+    {selectedTable.apiFilter && selectedTable.apiFilter.label && selectedTable.apiFilter.dataUnmatchedMessage && (
+      <NotShownMessage
+        heading={
+          selectedTable.apiFilter?.dataUnmatchedHeader
+            ? selectedTable.apiFilter?.dataUnmatchedHeader
+            : `The ${selectedTable.apiFilter.label} specified does not have available data within the date range selected.`
+        }
+        bodyText={selectedTable.apiFilter.dataUnmatchedMessage}
       />
     )}
   </>

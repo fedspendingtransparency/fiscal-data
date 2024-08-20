@@ -69,7 +69,6 @@ const TableSectionContainer = ({
   setAllActiveFilters,
 }) => {
   const tableName = selectedTable.tableName;
-  // console.log(selectedTable);
   const [showPivotBar, setShowPivotBar] = useState(true);
   const [tableProps, setTableProps] = useState();
   const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
@@ -108,64 +107,87 @@ const TableSectionContainer = ({
         return page1res;
       });
     } else if (totalCount <= MAX_PAGE_SIZE) {
-      return basicFetch(
-        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-          `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=${totalCount}`
-      );
+      if (totalCount !== 0) {
+        return basicFetch(
+          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+            `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=${totalCount}`
+        );
+      } else {
+        console.log('Page size = 0');
+        setIsLoading(false);
+        setUserFilterUnmatchedForDateRange(true);
+        return null;
+      }
     }
   };
 
   const fetchTableMeta = async (sortParam, to, from) => {
+    console.log('Fetching table meta');
     const apiFilterParam =
       selectedTable?.apiFilter?.field && userFilterSelection?.value !== null
         ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
         : '';
-    console.log('apiFilterParam', selectedTable?.apiFilter?.field, userFilterSelection?.value, apiFilterParam);
+    // console.log('apiFilterParam', selectedTable?.apiFilter?.field, userFilterSelection?.value, apiFilterParam);
     return basicFetch(
       `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
         `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=1`
     );
   };
 
+  useEffect(() => {
+    console.log('isLoading', isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    console.log('userFilterUnmatchedForDateRange', userFilterUnmatchedForDateRange);
+  }, [userFilterUnmatchedForDateRange]);
+
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
     const to = formatDateForApi(dateRange.to);
     const sortParam = buildSortParams(selectedTable, selectedPivot);
     let meta;
-    return await queryClient
-      .ensureQueryData({
-        queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
-        queryFn: () => fetchTableMeta(sortParam, to, from),
-      })
-      .then(async res => {
-        console.log(res);
-        const totalCount = res.meta['total-count'];
-        if (!selectedPivot?.pivotValue) {
-          meta = res.meta;
-          try {
-            const data = await queryClient.ensureQueryData({
-              queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
-              queryFn: () => fetchAllTableData(sortParam, to, from, totalCount),
-            });
-            return data;
-          } catch (error) {
-            console.warn(error);
+    if (!selectedTable?.apiFilter || (selectedTable.apiFilter && userFilterSelection !== null)) {
+      return await queryClient
+        .ensureQueryData({
+          queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
+          queryFn: () => fetchTableMeta(sortParam, to, from),
+        })
+        .then(async res => {
+          // console.log(res);
+          const totalCount = res.meta['total-count'];
+          if (!selectedPivot?.pivotValue) {
+            meta = res.meta;
+            try {
+              const data = await queryClient.ensureQueryData({
+                queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
+                queryFn: () => fetchAllTableData(sortParam, to, from, totalCount),
+              });
+              return data;
+            } catch (error) {
+              console.warn(error);
+            }
           }
-        }
-      })
-      .catch(err => {
-        if (err.name === 'AbortError') {
-          console.info('Action cancelled.');
-        } else {
-          console.error('API error', err);
-          setApiError(err);
-        }
-      })
-      .finally(() => {
-        if (meta) {
-          setTableMeta(meta);
-        }
-      });
+        })
+        .catch(err => {
+          if (err.name === 'AbortError') {
+            console.info('Action cancelled.');
+          } else {
+            console.error('API error', err);
+            setApiError(err);
+          }
+        })
+        .finally(() => {
+          if (meta) {
+            setTableMeta(meta);
+          }
+        });
+    } else {
+      console.log('Skip get depaginated data');
+      setUserFilteredData(null);
+      setIsLoading(false);
+      return;
+    }
   };
 
   const refreshTable = async () => {
@@ -277,7 +299,7 @@ const TableSectionContainer = ({
   const dateFieldForChart = getDateFieldForChart();
 
   useEffect(() => {
-    console.log('tableProps?.rawData', tableProps?.rawData);
+    // console.log('tableProps?.rawData', tableProps?.rawData);
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
 

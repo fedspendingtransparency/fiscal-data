@@ -138,7 +138,7 @@ export default function DtgTable({
   };
 
   const getPagedData = resetPage => {
-    console.log('the paged request');
+    // console.log('the paged request');
     if (debounce || loadCanceled) {
       clearTimeout(debounce);
     }
@@ -150,8 +150,8 @@ export default function DtgTable({
   };
 
   const makePagedRequest = async resetPage => {
-    // console.log(selectedTable.apiFilter, selectedTable);
     if (selectedTable && selectedTable.endpoint && !loadCanceled && (!selectedTable?.apiFilter || userFilterSelection)) {
+      console.log('Make paged request');
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
       const from =
@@ -178,6 +178,7 @@ export default function DtgTable({
           if (!loadCanceled) {
             setEmptyDataMessage(null);
             if (res.data.length < 1) {
+              console.log('Paged request was empty');
               setIsLoading(false);
               clearTimeout(loadTimer);
               setEmptyDataMessage(
@@ -219,13 +220,7 @@ export default function DtgTable({
         });
     } else if (selectedTable?.apiFilter) {
       setIsLoading(false);
-      setEmptyDataMessage(
-        <NotShownMessage
-          heading="Select an account in the filter section above to display the data."
-          bodyText={`With the current Date Range selected we are unable to render a
-                    preview at this time.`}
-        />
-      );
+      setEmptyDataMessage(<NotShownMessage heading="Select an account in the filter section above to display the " />);
     }
   };
 
@@ -268,7 +263,6 @@ export default function DtgTable({
   const updateTable = resetPage => {
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
-    console.log('updateTable', ssp);
     ssp !== undefined && ssp !== null ? getPagedData(resetPage) : getCurrentData();
     return () => {
       loadCanceled = true;
@@ -276,25 +270,17 @@ export default function DtgTable({
   };
 
   useMemo(() => {
-    // console.log(1);
+    console.log(1);
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
-      console.log('Use Memo ', userFilterSelection);
       updateSmallFractionDataType();
       setCurrentPage(1);
       updateTable(true);
     }
   }, [tableSorting, filteredDateRange, selectedTable, userFilterSelection]);
 
-  // useEffect(() => {
-  //   console.log(' in use memo', selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE, userFilterTable, selectedTable);
-  //   if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE && userFilterTable) {
-  //     updateSmallFractionDataType();
-  //     setCurrentPage(1);
-  //     updateTable(true);
-  //   }
-  // }, [selectedTable]);
-
   useMemo(() => {
+    console.log(2);
+
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       updateSmallFractionDataType();
       setCurrentPage(1);
@@ -303,6 +289,7 @@ export default function DtgTable({
   }, [dateRange]);
 
   useMemo(() => {
+    console.log(3);
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       //prevent hook from triggering twice on pivot selection
       if ((pivotSelected?.pivotValue && !tableProps.serverSidePagination) || !pivotSelected?.pivotValue) {
@@ -416,11 +403,11 @@ export default function DtgTable({
   return (
     <div className={overlayContainer}>
       {/* Loading Indicator */}
-      {!isLoading && reactTable && !reactTableData && (
+      {!isLoading && reactTable && !reactTableData && !userFilterSelection && (
         <>
           <div data-test-id="loading-overlay" className={overlay} />
           <div className={loadingIcon}>
-            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
+            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading.......
           </div>
         </>
       )}
@@ -444,7 +431,6 @@ export default function DtgTable({
           <div>
             {/* Empty Data Message */}
             {emptyDataMessage && emptyDataMessage}
-            {/* Table */}
           </div>
           {!emptyDataMessage && (
             <ErrorBoundary FallbackComponent={() => <></>}>

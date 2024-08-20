@@ -41,6 +41,7 @@ const makeApiCall = async (
   detailViewFilterParam,
   queryClient
 ) => {
+  console.log('make api call');
   const loadTimer = setTimeout(() => setIsLoading(true), loadTimerDelay);
   try {
     const data = await datatableRequest(
