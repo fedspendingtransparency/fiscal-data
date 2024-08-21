@@ -92,6 +92,7 @@ const TableSectionContainer = ({
   }, [userFilterUnmatchedForDateRange]);
 
   const fetchAllTableData = async (sortParam, to, from, totalCount) => {
+    console.log('fetch depaginated data');
     const apiFilterParam =
       selectedTable?.apiFilter?.field && userFilterSelection?.value ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}` : '';
     if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
@@ -112,11 +113,6 @@ const TableSectionContainer = ({
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
             `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=${totalCount}`
         );
-      } else {
-        console.log('Page size = 0');
-        setIsLoading(false);
-        setUserFilterUnmatchedForDateRange(true);
-        return null;
       }
     }
   };
@@ -154,18 +150,26 @@ const TableSectionContainer = ({
           queryFn: () => fetchTableMeta(sortParam, to, from),
         })
         .then(async res => {
-          // console.log(res);
+          console.log('table meta', res);
           const totalCount = res.meta['total-count'];
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
-            try {
-              const data = await queryClient.ensureQueryData({
-                queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
-                queryFn: () => fetchAllTableData(sortParam, to, from, totalCount),
-              });
-              return data;
-            } catch (error) {
-              console.warn(error);
+            if (totalCount !== 0) {
+              try {
+                const data = await queryClient.ensureQueryData({
+                  queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
+                  queryFn: () => fetchAllTableData(sortParam, to, from, totalCount),
+                });
+                console.log('depaginated data', data, userFilterSelection);
+                return data;
+              } catch (error) {
+                console.warn(error);
+              }
+            } else if (totalCount === 0) {
+              console.log('Skip get depaginated data');
+              setIsLoading(false);
+              setUserFilterUnmatchedForDateRange(true);
+              return null;
             }
           }
         })
@@ -179,14 +183,10 @@ const TableSectionContainer = ({
         })
         .finally(() => {
           if (meta) {
+            console.log('setting meta');
             setTableMeta(meta);
           }
         });
-    } else {
-      console.log('Skip get depaginated data');
-      setUserFilteredData(null);
-      setIsLoading(false);
-      return;
     }
   };
 

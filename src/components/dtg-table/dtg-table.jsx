@@ -138,7 +138,6 @@ export default function DtgTable({
   };
 
   const getPagedData = resetPage => {
-    // console.log('the paged request');
     if (debounce || loadCanceled) {
       clearTimeout(debounce);
     }
@@ -150,7 +149,12 @@ export default function DtgTable({
   };
 
   const makePagedRequest = async resetPage => {
-    if (selectedTable && selectedTable.endpoint && !loadCanceled && (!selectedTable?.apiFilter || userFilterSelection)) {
+    if (
+      selectedTable &&
+      selectedTable.endpoint &&
+      !loadCanceled &&
+      (!selectedTable?.apiFilter || (userFilterSelection && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
+    ) {
       console.log('Make paged request');
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
@@ -219,8 +223,8 @@ export default function DtgTable({
           }
         });
     } else if (selectedTable?.apiFilter) {
-      setIsLoading(false);
-      setEmptyDataMessage(<NotShownMessage heading="Select an account in the filter section above to display the " />);
+      // setIsLoading(false);
+      // setEmptyDataMessage(<NotShownMessage heading="Select an account in the filter section above to display the " />);
     }
   };
 
@@ -276,7 +280,7 @@ export default function DtgTable({
       setCurrentPage(1);
       updateTable(true);
     }
-  }, [tableSorting, filteredDateRange, selectedTable, userFilterSelection]);
+  }, [tableSorting, filteredDateRange, selectedTable]);
 
   useMemo(() => {
     console.log(2);
@@ -345,8 +349,32 @@ export default function DtgTable({
       }
     } else if (data && !rawDataTable) {
       setReactTableData({ data: data });
+    } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+      if (dePaginated !== null && dePaginated !== undefined) {
+        console.log('setting react table data');
+        // large dataset tables <= 20000 rows
+        setReactTableData(dePaginated);
+        setManualPagination(false);
+        setIsLoading(false);
+      }
     }
   }, [rawData, dePaginated]);
+
+  // useMemo(() => {
+  //   if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+  //     if (dePaginated !== null && dePaginated !== undefined) {
+  //       console.log('setting react table data');
+  //       // large dataset tables <= 20000 rows
+  //       setReactTableData(dePaginated);
+  //       setManualPagination(false);
+  //       setIsLoading(false);
+  //     }
+  //   }
+  // }, [dePaginated]);
+
+  useEffect(() => {
+    console.log('depaginated...', dePaginated);
+  }, [dePaginated]);
 
   const activePivot = (data, pivot) => {
     return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
