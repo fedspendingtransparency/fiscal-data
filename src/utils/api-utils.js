@@ -572,3 +572,33 @@ export const buildSortParams = (table, _selectedPivot) => {
   }
   return sortParamValue;
 };
+
+export const fetchTableMeta = async (sortParam, to, from, selectedTable, apiFilterParam) => {
+  return basicFetch(
+    `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+      `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=1`
+  );
+};
+
+export const fetchAllTableData = async (sortParam, to, from, totalCount, selectedTable, apiFilterParam) => {
+  if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
+    return await basicFetch(
+      `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+        `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
+    ).then(async page1res => {
+      const page2res = await basicFetch(
+        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+          `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+      );
+      page1res.data = page1res.data.concat(page2res.data);
+      return page1res;
+    });
+  } else if (totalCount <= MAX_PAGE_SIZE) {
+    if (totalCount !== 0) {
+      return basicFetch(
+        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+          `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=${totalCount}`
+      );
+    }
+  }
+};

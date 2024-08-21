@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faTable, faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeftLong, faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
 import DtgTable from '../../dtg-table/dtg-table';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
@@ -13,23 +13,23 @@ import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import { apiPrefix, basicFetch, buildSortParams, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
+import { buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi } from '../../../utils/api-utils';
 import {
+  active,
   barContainer,
   barExpander,
-  headerWrapper,
-  noticeContainer,
-  titleContainer,
-  active,
+  detailViewBack,
+  detailViewButton,
+  detailViewIcon,
   header,
+  headerWrapper,
   loadingIcon,
   loadingSection,
-  tableContainer,
-  detailViewButton,
-  detailViewBack,
-  detailViewIcon,
+  noticeContainer,
   sectionBorder,
+  tableContainer,
   tableSection,
+  titleContainer,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
 import { useSetRecoilState } from 'recoil';
@@ -92,64 +92,44 @@ const TableSectionContainer = ({
     setDisableDownloadButton(userFilterUnmatchedForDateRange);
   }, [userFilterUnmatchedForDateRange]);
 
-  const fetchAllTableData = async (sortParam, to, from, totalCount) => {
-    const apiFilterParam =
-      selectedTable?.apiFilter?.field && userFilterSelection?.value ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}` : '';
-    if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
-      return await basicFetch(
-        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-          `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
-      ).then(async page1res => {
-        const page2res = await basicFetch(
-          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
-        );
-        page1res.data = page1res.data.concat(page2res.data);
-        return page1res;
-      });
-    } else if (totalCount <= MAX_PAGE_SIZE) {
-      if (totalCount !== 0) {
-        return basicFetch(
-          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=${totalCount}`
-        );
-      }
-    }
-  };
+  useEffect(() => {
+    console.log('apiFilterDefault', apiFilterDefault);
+    setDisableDownloadButton(apiFilterDefault);
+  }, [apiFilterDefault]);
 
-  const fetchTableMeta = async (sortParam, to, from) => {
-    const apiFilterParam =
-      selectedTable?.apiFilter?.field && userFilterSelection?.value !== null
-        ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
-        : '';
-    return basicFetch(
-      `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-        `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=1`
-    );
-  };
+  useEffect(() => {
+    if (selectedTable?.apiFilter && userFilterSelection?.value === null) {
+      console.log('user filter', userFilterSelection);
+      setApiFilterDefault(true);
+    }
+  }, [userFilterSelection]);
 
   const getDepaginatedData = async () => {
-    const from = formatDateForApi(dateRange.from);
-    const to = formatDateForApi(dateRange.to);
-    const sortParam = buildSortParams(selectedTable, selectedPivot);
-    let meta;
-    if (!selectedTable?.apiFilter || (selectedTable.apiFilter && userFilterSelection !== null)) {
+    if (!selectedTable?.apiFilter || (selectedTable.apiFilter && userFilterSelection !== null && userFilterSelection?.value !== null)) {
+      const from = formatDateForApi(dateRange.from);
+      const to = formatDateForApi(dateRange.to);
+      const sortParam = buildSortParams(selectedTable, selectedPivot);
+      const apiFilterParam =
+        selectedTable?.apiFilter?.field && userFilterSelection?.value !== null
+          ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
+          : '';
+      let meta;
       return await queryClient
         .ensureQueryData({
           queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
-          queryFn: () => fetchTableMeta(sortParam, to, from),
+          queryFn: () => fetchTableMeta(sortParam, to, from, selectedTable, apiFilterParam),
         })
         .then(async res => {
           const totalCount = res.meta['total-count'];
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
+            console.log('meta', meta);
             if (totalCount !== 0) {
               try {
-                const data = await queryClient.ensureQueryData({
+                return await queryClient.ensureQueryData({
                   queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
-                  queryFn: () => fetchAllTableData(sortParam, to, from, totalCount),
+                  queryFn: () => fetchAllTableData(sortParam, to, from, totalCount, selectedTable, apiFilterParam),
                 });
-                return data;
               } catch (error) {
                 console.warn(error);
               }
@@ -175,8 +155,12 @@ const TableSectionContainer = ({
         });
     } else {
       setIsLoading(false);
-      // setTableMeta(null);
-      // setApiFilterDefault(true);
+      if (selectedTable.apiFilter && userFilterSelection?.value === null) {
+        console.log('setting to default');
+        setApiFilterDefault(true);
+        setTableMeta(null);
+        return null;
+      }
     }
   };
 
@@ -291,7 +275,7 @@ const TableSectionContainer = ({
     console.log('use effect');
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
-    setApiFilterDefault(selectedTable?.apiFilter && userFilterSelection === null);
+    setApiFilterDefault(selectedTable?.apiFilter && userFilterSelection?.value === null);
 
     setNoChartMessage(
       SetNoChartMessage(

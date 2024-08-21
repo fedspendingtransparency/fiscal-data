@@ -337,6 +337,7 @@ export default function DtgTable({
   };
 
   useMemo(() => {
+    console.log('depaginated', dePaginated);
     if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
       if (dePaginated !== null && dePaginated !== undefined) {
         // large dataset tables <= 20000 rows
@@ -350,13 +351,13 @@ export default function DtgTable({
     } else if (data && !rawDataTable) {
       setReactTableData({ data: data });
     } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      if (dePaginated !== null && dePaginated !== undefined) {
-        console.log('setting react table data');
-        // large dataset tables <= 20000 rows
-        setReactTableData(dePaginated);
-        setManualPagination(false);
-        setIsLoading(false);
-      }
+      // if (dePaginated !== null && dePaginated !== undefined) {
+      console.log('setting react table data');
+      // large dataset tables <= 20000 rows
+      setReactTableData(dePaginated);
+      setManualPagination(false);
+      setIsLoading(false);
+      // }
     }
   }, [rawData, dePaginated]);
 
