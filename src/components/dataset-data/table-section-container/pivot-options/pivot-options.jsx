@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { containerBar, formControl, selectLabel, dropdownContainer } from './pivot-options.module.scss';
 import SelectControl from '../../../select-control/select-control';
+import Analytics from '../../../../utils/analytics/analytics';
 
-const PivotOptions = ({ table, pivotSelection, setSelectedPivot, pivotsUpdated }) => {
+const PivotOptions = ({ datasetName, table, pivotSelection, setSelectedPivot, pivotsUpdated }) => {
   const [pivotOptions, setPivotOptions] = useState();
   const [pivotFields, setPivotFields] = useState();
 
@@ -28,12 +29,24 @@ const PivotOptions = ({ table, pivotSelection, setSelectedPivot, pivotsUpdated }
       valueField = setAppropriatePivotValue(curPivotFields);
     }
 
+    Analytics.event({
+      category: 'Fiscal Data - Chart Enabled',
+      action: 'Pivot View Click',
+      label: `${view.title}, ${datasetName}, ${table.tableName}`,
+    });
+
     setSelectedPivot({ pivotView: view, pivotValue: valueField });
     setPivotOptions(view.dimensionField ? curPivotFields : [{ prettyName: '— N / A —' }]);
   };
 
   const pivotValueChangeHandler = valueField => {
     if (valueField?.prettyName !== '— N / A —') {
+      Analytics.event({
+        category: 'Fiscal Data - Chart Enabled',
+        action: 'Pivot Value Click',
+        label: `${valueField?.prettyName}, ${datasetName}, ${table.tableName}`,
+      });
+
       setSelectedPivot({ pivotView: pivotSelection.pivotView, pivotValue: valueField });
     }
   };

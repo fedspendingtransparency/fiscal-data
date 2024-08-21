@@ -87,8 +87,8 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
       } else {
         Analytics.event({
           category: `${context} Click`,
-          action: `from ${referrer}`,
-          value: dataset.name,
+          action: `Related Dataset Click`,
+          label: dataset.name,
         });
         // GA4 Data Layer - Dataset Click
         ga4DataLayerPush({

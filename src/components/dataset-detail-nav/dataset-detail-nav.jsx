@@ -3,6 +3,7 @@ import { container, menu, activeMenu, desktopLinks, content, hoverMenu } from '.
 import { Link, scroller } from 'react-scroll';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import globalConstants from '../../helpers/constants';
+import Analytics from '../../utils/analytics/analytics';
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
 const scrollDuration = globalConstants.config.smooth_scroll.duration;
 
@@ -52,6 +53,11 @@ const DDNav = () => {
     }
 
     if (id) {
+      Analytics.event({
+        category: 'Fiscal Data - Dataset Sub Nav',
+        action: 'Dataset Sub Nav Click',
+        label: id,
+      });
       updateAddressPath(id, window.location);
       setHover(null);
       setIsClickInitiatedScroll(true);

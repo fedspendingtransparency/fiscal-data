@@ -35,6 +35,7 @@ import SummaryTable from './summary-table/summary-table';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 import { queryClient } from '../../../../react-query-client';
+import Analytics from '../../../utils/analytics/analytics';
 
 const TableSectionContainer = ({
   config,
@@ -258,6 +259,13 @@ const TableSectionContainer = ({
 
   const legendToggler = e => {
     if (e.key === undefined || e.key === 'Enter') {
+      if (legend) {
+        Analytics.event({
+          category: 'Fiscal Data - Chart Enabled',
+          action: 'Hide Legend Click',
+          label: `${config.name}, ${selectedTable.tableName}`,
+        });
+      }
       e.preventDefault();
       setLegend(!legend);
       setLegendToggledByUser(true);
@@ -266,6 +274,13 @@ const TableSectionContainer = ({
   };
 
   const pivotToggler = () => {
+    if (showPivotBar) {
+      Analytics.event({
+        category: 'Fiscal Data - Chart Enabled',
+        action: 'Hide Pivot Options Click',
+        label: `${config.name}, ${selectedTable.tableName}`,
+      });
+    }
     setShowPivotBar(!showPivotBar);
   };
   const getDateFieldForChart = () => {
@@ -335,7 +350,13 @@ const TableSectionContainer = ({
           )}
           <div className={barContainer}>
             <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
-              <PivotOptions table={selectedTable} pivotSelection={selectedPivot} setSelectedPivot={setSelectedPivot} pivotsUpdated={pivotsUpdated} />
+              <PivotOptions
+                datasetName={config.name}
+                table={selectedTable}
+                pivotSelection={selectedPivot}
+                setSelectedPivot={setSelectedPivot}
+                pivotsUpdated={pivotsUpdated}
+              />
             </div>
           </div>
         </div>
@@ -360,6 +381,7 @@ const TableSectionContainer = ({
             {(apiData || serverSidePagination || apiError) && (
               <ChartTableToggle
                 legend={legend}
+                datasetName={config.name}
                 selectedTab={selectedTab}
                 showToggleChart={!noChartMessage}
                 showToggleTable={tableProps?.selectColumns}
