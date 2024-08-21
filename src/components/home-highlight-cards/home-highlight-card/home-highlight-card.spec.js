@@ -133,7 +133,7 @@ describe('HomeHighlightCard', () => {
       fireEvent.click(getByTestId('highlight-link'));
 
       expect(Analytics.event).toHaveBeenCalledWith({
-        category: 'Fiscal Data - Homepage Cards',
+        category: 'Homepage Cards',
         action: ANALYTICS_CLICK_ACTION,
         label: 'test title',
       });
@@ -153,7 +153,7 @@ describe('HomeHighlightCard', () => {
       act(() => jest.advanceTimersByTime(3000));
 
       expect(Analytics.event).toHaveBeenCalledWith({
-        category: 'Fiscal Data - Homepage Cards',
+        category: 'Homepage Cards',
         action: ANALYTICS_CHART_ACTION,
         label: 'test title',
       });
@@ -191,7 +191,7 @@ describe('HomeHighlightCard', () => {
       act(() => jest.advanceTimersByTime(3000));
 
       expect(Analytics.event).toHaveBeenCalledWith({
-        category: 'Fiscal Data - Homepage Cards',
+        category: 'Homepage Cards',
         action: ANALYTICS_CARD_ACTION,
         label: 'test title',
       });
