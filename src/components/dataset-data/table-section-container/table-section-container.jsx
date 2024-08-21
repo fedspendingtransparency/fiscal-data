@@ -278,7 +278,7 @@ const TableSectionContainer = ({
     console.log('use effect', selectedTable?.apiFilter, userFilterSelection, userFilterSelection?.value === null);
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
-    setApiFilterDefault(selectedTable?.apiFilter && (userFilterSelection === null || userFilterSelection?.value === null));
+    setApiFilterDefault(!allTablesSelected && selectedTable?.apiFilter && (userFilterSelection === null || userFilterSelection?.value === null));
 
     setNoChartMessage(
       SetNoChartMessage(

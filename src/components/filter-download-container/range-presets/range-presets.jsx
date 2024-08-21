@@ -280,7 +280,14 @@ const RangePresets = ({
           {selectedTable.userFilter && (
             <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} setResetFilters={setResetFilters} />
           )}
-          {selectedTable.apiFilter && <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} setResetFilters={setResetFilters} />}
+          {selectedTable.apiFilter && (
+            <UserFilter
+              selectedTable={selectedTable}
+              onUserFilter={onUserFilter}
+              setResetFilters={setResetFilters}
+              allTablesSelected={allTablesSelected}
+            />
+          )}
           {datatableBanner && <DatatableBanner bannerNotice={datatableBanner} />}
         </>
       )}

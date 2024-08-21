@@ -149,15 +149,12 @@ export default function DtgTable({
   };
 
   const makePagedRequest = async resetPage => {
-    console.log('Make paged request', userFilterSelection, tableMeta, tableMeta && tableMeta['total-count']);
-
     if (
       selectedTable &&
       selectedTable.endpoint &&
       !loadCanceled &&
       (!selectedTable?.apiFilter || (userFilterSelection && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
     ) {
-      console.log('Make paged request through condition');
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
       const from =
@@ -224,9 +221,6 @@ export default function DtgTable({
             clearTimeout(loadTimer);
           }
         });
-    } else if (selectedTable?.apiFilter) {
-      // setIsLoading(false);
-      // setEmptyDataMessage(<NotShownMessage heading="Select an account in the filter section above to display the " />);
     }
   };
 
@@ -276,28 +270,14 @@ export default function DtgTable({
   };
 
   useMemo(() => {
-    console.log(1);
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
-      console.log(2);
-
       updateSmallFractionDataType();
       setCurrentPage(1);
       updateTable(true);
     }
   }, [tableSorting, filteredDateRange, selectedTable, dateRange, tableMeta]);
 
-  // useMemo(() => {
-  //   console.log(2);
-  //
-  //   if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
-  //     updateSmallFractionDataType();
-  //     setCurrentPage(1);
-  //     updateTable(true);
-  //   }
-  // }, [dateRange]);
-
   useMemo(() => {
-    console.log(3);
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       //prevent hook from triggering twice on pivot selection
       if ((pivotSelected?.pivotValue && !tableProps.serverSidePagination) || !pivotSelected?.pivotValue) {
