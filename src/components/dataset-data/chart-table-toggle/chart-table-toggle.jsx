@@ -92,7 +92,7 @@ const ChartTableToggle = ({
   selectedTab,
   chart,
   userFilterUnmatchedForDateRange,
-  userFilterEmptyDefault,
+  apiFilterDefault,
   filtersActive,
   setResetFilters,
   textFilteringDisabled,
@@ -119,7 +119,7 @@ const ChartTableToggle = ({
   } else if (userFilterUnmatchedForDateRange) {
     console.log('userFilterUnmatchedForDateRange');
     emptyDataMessage = getMessageForUnmatchedUserFilter(selectedTable);
-  } else if (userFilterEmptyDefault) {
+  } else if (apiFilterDefault) {
     emptyDataMessage = <NotShownMessage bodyText="Select an account in the filter section above to display the data." />;
   } else if (emptyData) {
     emptyDataMessage = <NotShownMessage heading="Change selections in order to preview data" bodyText={emptyDataMessageBody} />;

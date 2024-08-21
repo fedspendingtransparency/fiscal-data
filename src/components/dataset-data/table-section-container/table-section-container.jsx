@@ -78,6 +78,7 @@ const TableSectionContainer = ({
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
+  const [apiFilterDefault, setApiFilterDefault] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const [reactTableSorting, setReactTableSort] = useState([]);
@@ -92,7 +93,6 @@ const TableSectionContainer = ({
   }, [userFilterUnmatchedForDateRange]);
 
   const fetchAllTableData = async (sortParam, to, from, totalCount) => {
-    console.log('fetch depaginated data');
     const apiFilterParam =
       selectedTable?.apiFilter?.field && userFilterSelection?.value ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}` : '';
     if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
@@ -118,25 +118,15 @@ const TableSectionContainer = ({
   };
 
   const fetchTableMeta = async (sortParam, to, from) => {
-    console.log('Fetching table meta');
     const apiFilterParam =
       selectedTable?.apiFilter?.field && userFilterSelection?.value !== null
         ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
         : '';
-    // console.log('apiFilterParam', selectedTable?.apiFilter?.field, userFilterSelection?.value, apiFilterParam);
     return basicFetch(
       `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
         `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=1`
     );
   };
-
-  useEffect(() => {
-    console.log('isLoading', isLoading);
-  }, [isLoading]);
-
-  useEffect(() => {
-    console.log('userFilterUnmatchedForDateRange', userFilterUnmatchedForDateRange);
-  }, [userFilterUnmatchedForDateRange]);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -150,7 +140,6 @@ const TableSectionContainer = ({
           queryFn: () => fetchTableMeta(sortParam, to, from),
         })
         .then(async res => {
-          console.log('table meta', res);
           const totalCount = res.meta['total-count'];
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
@@ -160,13 +149,11 @@ const TableSectionContainer = ({
                   queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
                   queryFn: () => fetchAllTableData(sortParam, to, from, totalCount),
                 });
-                console.log('depaginated data', data, userFilterSelection);
                 return data;
               } catch (error) {
                 console.warn(error);
               }
             } else if (totalCount === 0) {
-              console.log('Skip get depaginated data');
               setIsLoading(false);
               setUserFilterUnmatchedForDateRange(true);
               return null;
@@ -183,10 +170,13 @@ const TableSectionContainer = ({
         })
         .finally(() => {
           if (meta) {
-            console.log('setting meta');
             setTableMeta(meta);
           }
         });
+    } else {
+      setIsLoading(false);
+      // setTableMeta(null);
+      // setApiFilterDefault(true);
     }
   };
 
@@ -201,7 +191,6 @@ const TableSectionContainer = ({
 
     if (userFilterSelection?.value && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
-      // console.log('displayData', displayData);
       setUserFilteredData({ ...apiData, data: displayData });
     } else {
       setUserFilteredData(null);
@@ -299,9 +288,10 @@ const TableSectionContainer = ({
   const dateFieldForChart = getDateFieldForChart();
 
   useEffect(() => {
-    // console.log('tableProps?.rawData', tableProps?.rawData);
+    console.log('use effect');
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
+    setApiFilterDefault(selectedTable?.apiFilter && userFilterSelection === null);
 
     setNoChartMessage(
       SetNoChartMessage(
@@ -365,7 +355,7 @@ const TableSectionContainer = ({
             <div data-testid="loadingSection">
               <div className={loadingSection} />
               <div className={loadingIcon}>
-                <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...
+                <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...!
               </div>
             </div>
           )}
@@ -385,7 +375,7 @@ const TableSectionContainer = ({
                 showToggleChart={!noChartMessage}
                 showToggleTable={tableProps?.selectColumns}
                 userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
-                // userFilterEmptyDefault={true}
+                apiFilterDefault={apiFilterDefault}
                 onToggleLegend={legendToggler}
                 emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
                 unchartable={noChartMessage !== undefined}

@@ -360,22 +360,6 @@ export default function DtgTable({
     }
   }, [rawData, dePaginated]);
 
-  // useMemo(() => {
-  //   if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-  //     if (dePaginated !== null && dePaginated !== undefined) {
-  //       console.log('setting react table data');
-  //       // large dataset tables <= 20000 rows
-  //       setReactTableData(dePaginated);
-  //       setManualPagination(false);
-  //       setIsLoading(false);
-  //     }
-  //   }
-  // }, [dePaginated]);
-
-  useEffect(() => {
-    console.log('depaginated...', dePaginated);
-  }, [dePaginated]);
-
   const activePivot = (data, pivot) => {
     return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
   };
@@ -431,7 +415,7 @@ export default function DtgTable({
   return (
     <div className={overlayContainer}>
       {/* Loading Indicator */}
-      {!isLoading && reactTable && !reactTableData && !userFilterSelection && (
+      {!isLoading && reactTable && !reactTableData && !selectedTable?.apiFilter && (
         <>
           <div data-test-id="loading-overlay" className={overlay} />
           <div className={loadingIcon}>
@@ -458,7 +442,7 @@ export default function DtgTable({
           )}
           <div>
             {/* Empty Data Message */}
-            {emptyDataMessage && emptyDataMessage}
+            {/*{emptyDataMessage && emptyDataMessage}*/}
           </div>
           {!emptyDataMessage && (
             <ErrorBoundary FallbackComponent={() => <></>}>
