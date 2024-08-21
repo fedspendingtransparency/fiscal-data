@@ -13,7 +13,7 @@ import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import { buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi } from '../../../utils/api-utils';
+import { buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
 import {
   active,
   barContainer,
@@ -88,17 +88,6 @@ const TableSectionContainer = ({
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
-  const theDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
-
-  useEffect(() => {
-    setDisableDownloadButton(userFilterUnmatchedForDateRange || apiFilterDefault);
-  }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
-
-  useEffect(() => {
-    if (selectedTable?.apiFilter && userFilterSelection?.value === null) {
-      setApiFilterDefault(true);
-    }
-  }, [userFilterSelection]);
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && userFilterSelection !== null && userFilterSelection?.value !== null)) {
@@ -119,13 +108,26 @@ const TableSectionContainer = ({
           const totalCount = res.meta['total-count'];
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
-            console.log('meta', meta);
-            if (totalCount !== 0) {
+            console.log(
+              'meta: ',
+              meta,
+              '\nselectedTable: ',
+              selectedTable,
+              '\nfrom: ',
+              from,
+              '\nto: ',
+              to,
+              '\nuserFilterSelection: ',
+              userFilterSelection
+            );
+            if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {
               try {
-                return await queryClient.ensureQueryData({
+                const data = await queryClient.ensureQueryData({
                   queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
                   queryFn: () => fetchAllTableData(sortParam, to, from, totalCount, selectedTable, apiFilterParam),
                 });
+                console.log(data);
+                return data;
               } catch (error) {
                 console.warn(error);
               }
@@ -239,6 +241,16 @@ const TableSectionContainer = ({
     setReactTableSort([]);
     setUserFilterSelection(null);
   }, [selectedTable]);
+
+  useEffect(() => {
+    setDisableDownloadButton(userFilterUnmatchedForDateRange || apiFilterDefault);
+  }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
+
+  useEffect(() => {
+    if (selectedTable?.apiFilter && userFilterSelection?.value === null) {
+      setApiFilterDefault(true);
+    }
+  }, [userFilterSelection]);
 
   const legendToggler = e => {
     if (e.key === undefined || e.key === 'Enter') {
