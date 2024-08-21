@@ -90,6 +90,7 @@ const globalConstants = {
         card: 'Card Hover',
         chart: 'Chart Hover',
         click: 'Click to Dataset',
+        label: 'Homepage Cards',
       },
     },
     releaseCalendar: {
