@@ -54,7 +54,11 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   let fieldsAsArray;
   let defaultParamsWithColumnSelect = [];
   if (userFilter?.value) {
-    filterAddendum = `,${api.userFilter.field}:eq:${userFilter.value}`;
+    if (api?.userFilter) {
+      filterAddendum = `,${api.userFilter.field}:eq:${userFilter.value}`;
+    } else if (api?.apiFilter) {
+      filterAddendum = `,${api.apiFilter.field}:eq:${userFilter.value}`;
+    }
   }
   if (detailViewFilter) {
     filterAddendum = `,${detailViewFilter.field}:eq:${detailViewFilter.value}`;
