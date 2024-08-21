@@ -95,7 +95,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
   const ANALYTICS_CARD_ACTION: string = globalConstants.config.homepage.analyticsActions.card;
   const ANALYTICS_CHART_ACTION: string = globalConstants.config.homepage.analyticsActions.chart;
   const ANALYTICS_CLICK_ACTION: string = globalConstants.config.homepage.analyticsActions.click;
-  console.log(ANALYTICS_CARD_ACTION);
+
   const getApiData = async () => {
     const dateField = api ? api.dateField : '';
     const sorts = data?.sorts ? data.sorts : undefined;
