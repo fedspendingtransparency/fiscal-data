@@ -32,7 +32,7 @@ import {
   titleContainer,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 import { queryClient } from '../../../../react-query-client';
 
@@ -43,6 +43,7 @@ const TableSectionContainer = ({
   apiData,
   apiError,
   userFilterSelection,
+  setUserFilterSelection,
   selectedPivot,
   setSelectedPivot,
   serverSidePagination,
@@ -78,7 +79,7 @@ const TableSectionContainer = ({
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
-  const [apiFilterDefault, setApiFilterDefault] = useState(false);
+  const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const [reactTableSorting, setReactTableSort] = useState([]);
@@ -87,19 +88,14 @@ const TableSectionContainer = ({
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
+  const theDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
 
   useEffect(() => {
-    setDisableDownloadButton(userFilterUnmatchedForDateRange);
-  }, [userFilterUnmatchedForDateRange]);
-
-  useEffect(() => {
-    console.log('apiFilterDefault', apiFilterDefault);
-    setDisableDownloadButton(apiFilterDefault);
-  }, [apiFilterDefault]);
+    setDisableDownloadButton(userFilterUnmatchedForDateRange || apiFilterDefault);
+  }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
 
   useEffect(() => {
     if (selectedTable?.apiFilter && userFilterSelection?.value === null) {
-      console.log('user filter', userFilterSelection);
       setApiFilterDefault(true);
     }
   }, [userFilterSelection]);
@@ -153,14 +149,8 @@ const TableSectionContainer = ({
             setTableMeta(meta);
           }
         });
-    } else {
+    } else if (selectedTable?.apiFilter && userFilterSelection === null) {
       setIsLoading(false);
-      if (selectedTable.apiFilter && userFilterSelection?.value === null) {
-        console.log('setting to default');
-        setApiFilterDefault(true);
-        setTableMeta(null);
-        return null;
-      }
     }
   };
 
@@ -247,6 +237,7 @@ const TableSectionContainer = ({
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
     setReactTableSort([]);
+    setUserFilterSelection(null);
   }, [selectedTable]);
 
   const legendToggler = e => {
@@ -272,10 +263,10 @@ const TableSectionContainer = ({
   const dateFieldForChart = getDateFieldForChart();
 
   useEffect(() => {
-    console.log('use effect');
+    console.log('use effect', selectedTable?.apiFilter, userFilterSelection, userFilterSelection?.value === null);
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
-    setApiFilterDefault(selectedTable?.apiFilter && userFilterSelection?.value === null);
+    setApiFilterDefault(selectedTable?.apiFilter && (userFilterSelection === null || userFilterSelection?.value === null));
 
     setNoChartMessage(
       SetNoChartMessage(
