@@ -95,7 +95,8 @@ const DownloadWrapper = ({
   const metadataDownloader = async () => {
     Analytics.event({
       category: 'Dataset Dictionary Download',
-      action: dataset.name,
+      action: 'Data Dictionary Click',
+      label: dataset.name,
     });
     return triggerDataDictionaryDownload(dataDictionaryCsv, dataset.name);
   };

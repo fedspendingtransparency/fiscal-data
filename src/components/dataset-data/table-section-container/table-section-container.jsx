@@ -35,6 +35,7 @@ import SummaryTable from './summary-table/summary-table';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 import { queryClient } from '../../../../react-query-client';
+import Analytics from '../../../utils/analytics/analytics';
 
 const TableSectionContainer = ({
   config,
@@ -88,6 +89,18 @@ const TableSectionContainer = ({
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
+
+  const formatDate = detailViewState => {
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/; // Matches YYYY-MM-DD format
+    if (datePattern.test(detailViewState)) {
+      const dateParts = detailViewState.split('-');
+      const [year, month, day] = dateParts;
+      return `${month}/${day}/${year}`;
+    }
+    return detailViewState; // Return the original string if it's not a date
+  };
+
+  const formattedDetailViewState = detailViewState ? formatDate(detailViewState) : '';
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && userFilterSelection !== null && userFilterSelection?.value !== null)) {
@@ -240,6 +253,13 @@ const TableSectionContainer = ({
 
   const legendToggler = e => {
     if (e.key === undefined || e.key === 'Enter') {
+      if (legend) {
+        Analytics.event({
+          category: 'Fiscal Data - Chart Enabled',
+          action: 'Hide Legend Click',
+          label: `${config.name}, ${selectedTable.tableName}`,
+        });
+      }
       e.preventDefault();
       setLegend(!legend);
       setLegendToggledByUser(true);
@@ -248,6 +268,13 @@ const TableSectionContainer = ({
   };
 
   const pivotToggler = () => {
+    if (showPivotBar) {
+      Analytics.event({
+        category: 'Fiscal Data - Chart Enabled',
+        action: 'Hide Pivot Options Click',
+        label: `${config.name}, ${selectedTable.tableName}`,
+      });
+    }
     setShowPivotBar(!showPivotBar);
   };
   const getDateFieldForChart = () => {
@@ -294,7 +321,7 @@ const TableSectionContainer = ({
             <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
             {!!detailViewState ? (
               <h3 className={header} data-testid="tableName" id="main-data-table-title">
-                {`${tableName} > ${detailViewState}`}
+                {`${tableName} > ${formattedDetailViewState}`}
               </h3>
             ) : (
               <h3 className={header} data-testid="tableName" id="main-data-table-title">
@@ -318,7 +345,13 @@ const TableSectionContainer = ({
           )}
           <div className={barContainer}>
             <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
-              <PivotOptions table={selectedTable} pivotSelection={selectedPivot} setSelectedPivot={setSelectedPivot} pivotsUpdated={pivotsUpdated} />
+              <PivotOptions
+                datasetName={config.name}
+                table={selectedTable}
+                pivotSelection={selectedPivot}
+                setSelectedPivot={setSelectedPivot}
+                pivotsUpdated={pivotsUpdated}
+              />
             </div>
           </div>
         </div>
@@ -343,6 +376,7 @@ const TableSectionContainer = ({
             {(apiData || serverSidePagination || apiError) && (
               <ChartTableToggle
                 legend={legend}
+                datasetName={config.name}
                 selectedTab={selectedTab}
                 showToggleChart={!noChartMessage}
                 showToggleTable={tableProps?.selectColumns}
