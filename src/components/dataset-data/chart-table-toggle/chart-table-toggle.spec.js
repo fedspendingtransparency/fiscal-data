@@ -139,4 +139,69 @@ describe('Chart Table Toggle 0', () => {
 
     expect(queryByRole('button', { name: 'Select Columns' })).not.toBeInTheDocument();
   });
+
+  it('displays the default message for data tables with an apiFilter config', () => {
+    const { getByText } = render(
+      <ChartTableToggle
+        currentTab={0}
+        onTabChange={onTabChange}
+        table={mockTable}
+        chart={mockChart}
+        unchartable={true}
+        selectedTable={{
+          apiFilter: {
+            dataDefaultHeader: 'Default Header',
+            dataDefaultMessage: 'Default Message',
+          },
+        }}
+        apiFilterDefault={true}
+      />
+    );
+    expect(getByText('Default Header')).toBeInTheDocument();
+    expect(getByText('Default Message')).toBeInTheDocument();
+  });
+
+  it('displays the unmatched date range message for data tables with an apiFilter config', () => {
+    const { getByText } = render(
+      <ChartTableToggle
+        currentTab={0}
+        onTabChange={onTabChange}
+        table={mockTable}
+        chart={mockChart}
+        unchartable={true}
+        selectedTable={{
+          apiFilter: {
+            label: 'label',
+            dataUnmatchedHeader: 'Default Header',
+            dataUnmatchedMessage: 'Default Message',
+          },
+        }}
+        userFilterUnmatchedForDateRange={true}
+      />
+    );
+    expect(getByText('Default Header')).toBeInTheDocument();
+    expect(getByText('Default Message')).toBeInTheDocument();
+  });
+
+  it('displays the unmatched date range message for data tables with an userFilter config', () => {
+    const { getByText } = render(
+      <ChartTableToggle
+        currentTab={0}
+        onTabChange={onTabChange}
+        table={mockTable}
+        chart={mockChart}
+        unchartable={true}
+        selectedTable={{
+          userFilter: {
+            label: 'label',
+            dataUnmatchedHeader: 'Default Header',
+            dataUnmatchedMessage: 'Default Message',
+          },
+        }}
+        userFilterUnmatchedForDateRange={true}
+      />
+    );
+    expect(getByText('Default Header')).toBeInTheDocument();
+    expect(getByText('Default Message')).toBeInTheDocument();
+  });
 });

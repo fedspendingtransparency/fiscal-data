@@ -121,14 +121,12 @@ const ChartTableToggle = ({
   } else if (userFilterUnmatchedForDateRange) {
     emptyDataMessage = getMessageForUnmatchedUserFilter(selectedTable);
   } else if (apiFilterDefault) {
-    console.log(selectedTable);
     emptyDataMessage = getMessageForDefaultApiFilter(selectedTable);
   } else if (emptyData) {
     emptyDataMessage = <NotShownMessage heading="Change selections in order to preview data" bodyText={emptyDataMessageBody} />;
   }
 
   const emptyChartMessage = !unchartable || allTablesSelected ? emptyDataMessage : null;
-
   return (
     <div>
       <AntTabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">

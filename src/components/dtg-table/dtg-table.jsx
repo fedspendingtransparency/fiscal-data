@@ -399,7 +399,7 @@ export default function DtgTable({
         <>
           <div data-test-id="loading-overlay" className={overlay} />
           <div className={loadingIcon}>
-            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading.......
+            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
           </div>
         </>
       )}

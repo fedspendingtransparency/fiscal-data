@@ -23,7 +23,7 @@ type UserFilterProps = {
     };
   };
   onUserFilter: (selection: { label: string | number; value?: string | number | null }) => void;
-  apiData: {
+  apiData?: {
     data?: [{ [key: string]: string }];
     meta?: { [key: string]: string | Record<string, unknown> };
   };
@@ -64,6 +64,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
   }, [apiData]);
 
   useEffect(() => {
+    establishOptions();
     setSelectedFilterOption(defaultSelection);
   }, [selectedTable]);
 
@@ -78,7 +79,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
             changeHandler={updateUserFilter}
             selectedOption={selectedFilterOption}
             containerBorder={true}
-            searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : null}
+            searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : undefined}
           />
         </div>
       )}

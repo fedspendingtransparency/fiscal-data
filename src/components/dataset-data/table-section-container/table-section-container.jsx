@@ -360,7 +360,7 @@ const TableSectionContainer = ({
             <div data-testid="loadingSection">
               <div className={loadingSection} />
               <div className={loadingIcon}>
-                <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...!
+                <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...
               </div>
             </div>
           )}

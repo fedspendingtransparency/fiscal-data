@@ -40,6 +40,7 @@ describe('TableSectionContainer initial state', () => {
           apiData={{}}
           setSelectedPivot={mockSetSelectedPivot}
           config={mockConfig}
+          setUserFilterSelection={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -66,6 +67,7 @@ describe('TableSectionContainer while loading', () => {
           isLoading={true}
           apiError={false}
           setSelectedPivot={mockSetSelectedPivot}
+          setUserFilterSelection={jest.fn()}
           selectedPivot={selectedPivot}
         />
       </RecoilRoot>
@@ -102,6 +104,7 @@ describe('TableSectionContainer with data', () => {
           isLoading={false}
           apiError={false}
           selectedPivot={selectedPivot}
+          setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
         />
       </RecoilRoot>
@@ -136,6 +139,7 @@ describe('TableSectionContainer with data', () => {
             isLoading={false}
             apiError={false}
             selectedPivot={selectedPivot}
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
           />
         </RecoilRoot>
@@ -160,6 +164,7 @@ describe('TableSectionContainer with userFilter Options', () => {
             apiData={mockApiDataUserFilterable}
             isLoading={false}
             apiError={false}
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={jest.fn()}
           />
         </RecoilRoot>
@@ -193,6 +198,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           selectedPivot={selectedPivot}
           isLoading={false}
           apiError={false}
+          setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
         />
       </RecoilRoot>
@@ -217,6 +223,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           selectedPivot={selectedPivot}
           isLoading={false}
           apiError={false}
+          setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
         />
       </RecoilRoot>
@@ -240,6 +247,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           selectedPivot={selectedPivot}
           isLoading={false}
           apiError={false}
+          setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
         />
       </RecoilRoot>
@@ -261,6 +269,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           selectedPivot={selectedPivotWithRoundingDenomination}
           isLoading={false}
           apiError={false}
+          setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
         />
       </RecoilRoot>
@@ -281,6 +290,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             apiError={false}
             selectedPivot={selectedPivot}
             serverSidePagination="ssp-endpoint"
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
           />
         </RecoilRoot>
@@ -308,6 +318,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             isLoading={false}
             apiError={false}
             selectedPivot={selectedPivot}
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
           />
         </RecoilRoot>
@@ -337,6 +348,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             isLoading={false}
             apiError={false}
             selectedPivot={selectedPivot}
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
           />
         </RecoilRoot>
@@ -361,6 +373,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             isLoading={false}
             apiError={false}
             selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
           />
         </RecoilRoot>
@@ -387,6 +400,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             isLoading={false}
             apiError={false}
             selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
           />
         </RecoilRoot>
@@ -409,6 +423,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             isLoading={false}
             apiError={false}
             selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
           />
         </RecoilRoot>
@@ -431,6 +446,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             isLoading={false}
             apiError={false}
             selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
           />
         </RecoilRoot>
@@ -460,6 +476,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             isLoading={false}
             apiError={false}
             selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
           />
         </RecoilRoot>
@@ -496,6 +513,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             isLoading={false}
             apiError={false}
             selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
           />
         </RecoilRoot>
@@ -525,6 +543,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             isLoading={false}
             apiError={false}
             selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
           />
         </RecoilRoot>
@@ -547,10 +566,30 @@ describe('TableSectionContainer with Pivot Options', () => {
           apiError={false}
           setSelectedPivot={mockSetSelectedPivot}
           selectedPivot={selectedPivot}
+          setUserFilterSelection={jest.fn()}
           detailViewState="123"
         />
       </RecoilRoot>
     );
     expect(queryByTestId('tableName')).toBeInTheDocument();
+  });
+
+  it('api filter...', () => {
+    const { queryByTestId } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={selectedTableLessFields}
+          apiData={{ data: [], meta: { labels: {} } }}
+          isLoading={true}
+          apiError={false}
+          setSelectedPivot={mockSetSelectedPivot}
+          selectedPivot={selectedPivot}
+          setUserFilterSelection={jest.fn()}
+          detailViewState="123"
+        />
+      </RecoilRoot>
+    );
   });
 });

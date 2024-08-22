@@ -28,9 +28,28 @@ describe('UserFilter Component', () => {
       value: null,
     });
   });
+  it('sends expected properties to combo-select control for the apiFilter', async () => {
+    const { getByTestId } = render(<UserFilter selectedTable={mockTableApiFilter} onUserFilter={jest.fn()} />);
 
-  it(`supplies a utility function that determines if the userFilter selection is
-  unmatched for a given date range`, () => {
+    const comboSelectProps = comboSelectSpy.mock.calls[0][0];
+
+    expect(comboSelectProps['label']).toEqual(`${mockTable.userFilter.label}:`);
+    const optionsFromBuildTimeData = mockTable.userFilter.optionValues.map(optionValue => ({ label: optionValue, value: optionValue }));
+    expect(comboSelectProps['options']).toEqual(
+      [
+        {
+          label: '(None selected)',
+          value: null,
+        },
+      ].concat(optionsFromBuildTimeData.slice(0, 4))
+    );
+    expect(comboSelectProps['selectedOption']).toEqual({
+      label: '(None selected)',
+      value: null,
+    });
+  });
+
+  it(`supplies a utility function that determines if the userFilter selection is unmatched for a given date range`, () => {
     // conditions are met for true
     let result = determineUserFilterUnmatchedForDateRange(mockTable, { label: 'Estonia', value: 'Estonia' }, { data: [] });
     expect(result).toStrictEqual(true);
@@ -41,6 +60,20 @@ describe('UserFilter Component', () => {
 
     // data rows are present after filtering, so false
     result = determineUserFilterUnmatchedForDateRange(mockTable, { label: 'Denmark', value: 'Denmark' }, { data: [mockData.data[5]] });
+    expect(result).toBeFalsy();
+  });
+
+  it(`supplies a utility function that determines if the apiFilter selection is unmatched for a given date range`, () => {
+    // conditions are met for true
+    let result = determineUserFilterUnmatchedForDateRange(mockTableApiFilter, { label: 'A', value: 'A' }, { data: [] });
+    expect(result).toStrictEqual(true);
+
+    // selected table doesn't have defined userFilter, so false
+    result = determineUserFilterUnmatchedForDateRange({}, { label: 'Estonia', value: 'Estonia' }, { data: [] });
+    expect(result).toBeFalsy();
+
+    // data rows are present after filtering, so false
+    result = determineUserFilterUnmatchedForDateRange(mockTableApiFilter, { label: 'B', value: 'B' }, { data: [mockDataApiFilter.data[1]] });
     expect(result).toBeFalsy();
   });
 
@@ -66,6 +99,18 @@ describe('UserFilter Component', () => {
       notice: 'this is some info related to the user-filterable data',
       optionValues: ['Albania', 'Belgium', 'Croatia'],
       dataUnmatchedMessage: 'Cannot find a currency match for these dates.',
+    },
+  };
+
+  const mockTableApiFilter = {
+    apiId: '1137',
+    apiFilter: {
+      label: 'Account Description',
+      field: 'acct_desc',
+      notice: 'this is some info related to the user-filterable data',
+      optionValues: ['A', 'B', 'C'],
+      dataUnmatchedMessage: 'Cannot find account match for these dates.',
+      dataSearchLabel: 'Search accounts',
     },
   };
 
@@ -110,6 +155,30 @@ describe('UserFilter Component', () => {
         record_date: '2022-01-01',
         rate: '2.4',
         ccd: 'Croatia',
+      },
+    ],
+  };
+  const mockDataApiFilter = {
+    data: [
+      {
+        record_date: '2023-01-01',
+        val: '1.1',
+        acct_desc: 'A',
+      },
+      {
+        record_date: '2023-01-01',
+        val: '1.2',
+        ccd: 'A',
+      },
+      {
+        record_date: '2023-01-01',
+        val: '1.3',
+        acct_desc: 'B',
+      },
+      {
+        record_date: '2022-01-01',
+        val: '1.4',
+        acct_desc: 'C',
       },
     ],
   };

@@ -45,7 +45,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [ignorePivots, setIgnorePivots] = useState(false);
   const [configUpdated, setConfigUpdated] = useState(false);
   const [userFilterSelection, setUserFilterSelection] = useState(null);
-  const [apiFilterSelection, setApiFilterSelection] = useState(null);
   const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const [tableCaches] = useState({});
   const [resetFilters, setResetFilters] = useState(false);
