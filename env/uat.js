@@ -285,7 +285,7 @@ module.exports = {
       downloadName: 'FBP_Balances',
       alwaysSortWith: ['-record_date','-segment_desc','maturity_date'],
       hideColumns: [],
-      selectColumns: ['record_date', 'account_nbr', 'account_desc', 'security_nbr', 'segment_desc', 'loans_receivable_amt', 'interest_receivable_amt', 'maturity_date', 'interest_rate_pc'],
+      selectColumns: ['record_date', 'account_nbr', 'account_desc', 'security_nbr', 'segment_desc', 'loans_receivable_amt', 'interest_receivable_amt', 'maturity_date', 'interest_rate_pct'],
     },
     // FBP
     '314': {
@@ -294,7 +294,7 @@ module.exports = {
       downloadName: 'FBP_FutureDatedTransactions',
       alwaysSortWith: ['-record_date','security_nbr'],
       hideColumns: [],
-      selectColumns: ['record_date', 'account_nbr', 'account_desc', 'security_nbr', 'segment_desc', 'loans_receivable_amt', 'interest_receivable_amt', 'effective_date', 'settle_date', 'transaction_cd', 'memo_nb'],
+      selectColumns: ['record_date', 'account_nbr', 'account_desc', 'security_nbr', 'segment_desc', 'loans_receivable_amt', 'interest_receivable_amt', 'effective_date', 'settle_date', 'transaction_cd', 'memo_nbr'],
     },
   },
 };
