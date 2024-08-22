@@ -17,6 +17,7 @@ import {
   mockTableWithUserFilterAvailable,
   mockApiDataUserFilterable,
   selectedPivotWithRoundingDenomination,
+  mockTableWithApiFilterAvailable,
 } from './testHelpers';
 import * as setNoChartMessageMod from './set-no-chart-message';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
@@ -573,23 +574,29 @@ describe('TableSectionContainer with Pivot Options', () => {
     );
     expect(queryByTestId('tableName')).toBeInTheDocument();
   });
+});
 
-  it('api filter...', () => {
-    const { queryByTestId } = render(
+describe('Table with API filter', () => {
+  it('Initializes table with an api filter', () => {
+    const mockSetIsLoading = jest.fn();
+
+    const { getAllByText } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
-          selectedTable={selectedTableLessFields}
-          apiData={{ data: [], meta: { labels: {} } }}
+          selectedTable={mockTableWithApiFilterAvailable}
           isLoading={true}
+          setIsLoading={mockSetIsLoading}
           apiError={false}
-          setSelectedPivot={mockSetSelectedPivot}
-          selectedPivot={selectedPivot}
           setUserFilterSelection={jest.fn()}
-          detailViewState="123"
+          userFilterSelection={null}
+          setSelectedPivot={jest.fn()}
         />
       </RecoilRoot>
     );
+    expect(mockSetIsLoading).toHaveBeenCalledWith(false);
+    expect(getAllByText('Default Header.')[0]).toBeInTheDocument();
+    expect(getAllByText('Default Message.')[0]).toBeInTheDocument();
   });
 });

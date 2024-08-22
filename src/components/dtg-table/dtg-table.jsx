@@ -54,7 +54,6 @@ export default function DtgTable({
   setSorting,
   allActiveFilters,
   setAllActiveFilters,
-  selectedTable,
   userFilterSelection,
 }) {
   const {
@@ -65,7 +64,7 @@ export default function DtgTable({
     tableName,
     shouldPage,
     excludeCols,
-    // selectedTable,
+    selectedTable,
     selectedPivot,
     dateRange,
     config,
@@ -333,7 +332,7 @@ export default function DtgTable({
     } else if (data && !rawDataTable) {
       setReactTableData({ data: data });
     } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      // large dataset tables <= 20000 rows TODO documentation
+      // user filter tables <= 20000 rows
       setReactTableData(dePaginated);
       setManualPagination(false);
       setIsLoading(false);
