@@ -137,30 +137,10 @@ export const getMessageForUnmatchedUserFilter = (selectedTable: {
   </>
 );
 
-export const getMessageForDefaultApiFilter = (selectedTable: {
-  userFilter?: { [key: string]: unknown };
-  apiFilter?: { [key: string]: unknown };
-}): JSX.Element => (
+export const getMessageForDefaultApiFilter = (selectedTable: { apiFilter?: { [key: string]: unknown } }): JSX.Element => (
   <>
-    {selectedTable.userFilter && selectedTable.userFilter.label && selectedTable.userFilter.dataUnmatchedMessage && (
-      <NotShownMessage
-        heading={
-          selectedTable.userFilter?.dataUnmatchedHeader
-            ? selectedTable.userFilter?.dataUnmatchedHeader
-            : `The ${selectedTable.userFilter.label} specified does not have available data within the date range selected.`
-        }
-        bodyText={selectedTable.userFilter.dataUnmatchedMessage}
-      />
-    )}
-    {selectedTable.apiFilter && selectedTable.apiFilter.label && selectedTable.apiFilter.dataUnmatchedMessage && (
-      <NotShownMessage
-        heading={
-          selectedTable.apiFilter?.dataUnmatchedHeader
-            ? selectedTable.apiFilter?.dataUnmatchedHeader
-            : `The ${selectedTable.apiFilter.label} specified does not have available data within the date range selected.`
-        }
-        bodyText={selectedTable.apiFilter.dataUnmatchedMessage}
-      />
+    {selectedTable?.apiFilter && selectedTable.apiFilter?.dataDefaultHeader && selectedTable.apiFilter?.dataDefaultMessage && (
+      <NotShownMessage heading={selectedTable.apiFilter.dataDefaultHeader} bodyText={selectedTable.apiFilter.dataDefaultMessage} />
     )}
   </>
 );
