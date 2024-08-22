@@ -193,7 +193,7 @@ module.exports = {
       endpoint: 'v1/debt/treasury_offset_program',
       dateField: 'record_date',
       downloadName: 'treasury_offset_program',
-      alwaysSortWith: ['record_date', 'src_line_nbr'],
+      alwaysSortWith: ['-record_date', 'src_line_nbr'],
       selectColumns: [],
     },
     '305': {
