@@ -181,7 +181,6 @@ export default function DtgTable({
           if (!loadCanceled) {
             setEmptyDataMessage(null);
             if (res.data.length < 1) {
-              console.log('Paged request was empty');
               setIsLoading(false);
               clearTimeout(loadTimer);
               setEmptyDataMessage(
@@ -321,7 +320,6 @@ export default function DtgTable({
   };
 
   useMemo(() => {
-    console.log('depaginated', dePaginated);
     if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
       if (dePaginated !== null && dePaginated !== undefined) {
         // large dataset tables <= 20000 rows
@@ -335,13 +333,9 @@ export default function DtgTable({
     } else if (data && !rawDataTable) {
       setReactTableData({ data: data });
     } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      // if (dePaginated !== null && dePaginated !== undefined) {
-      console.log('setting react table data');
-      // large dataset tables <= 20000 rows
-      setReactTableData(dePaginated);
+      // large dataset tables <= 20000 rows TODO documentation
       setManualPagination(false);
       setIsLoading(false);
-      // }
     }
   }, [rawData, dePaginated]);
 

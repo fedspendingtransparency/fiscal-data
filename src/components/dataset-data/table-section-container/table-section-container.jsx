@@ -108,26 +108,12 @@ const TableSectionContainer = ({
           const totalCount = res.meta['total-count'];
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
-            console.log(
-              'meta: ',
-              meta,
-              '\nselectedTable: ',
-              selectedTable,
-              '\nfrom: ',
-              from,
-              '\nto: ',
-              to,
-              '\nuserFilterSelection: ',
-              userFilterSelection
-            );
             if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {
               try {
-                const data = await queryClient.ensureQueryData({
+                return await queryClient.ensureQueryData({
                   queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
                   queryFn: () => fetchAllTableData(sortParam, to, from, totalCount, selectedTable, apiFilterParam),
                 });
-                console.log(data);
-                return data;
               } catch (error) {
                 console.warn(error);
               }
@@ -275,7 +261,6 @@ const TableSectionContainer = ({
   const dateFieldForChart = getDateFieldForChart();
 
   useEffect(() => {
-    console.log('use effect', selectedTable?.apiFilter, userFilterSelection, userFilterSelection?.value === null);
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
     setApiFilterDefault(!allTablesSelected && selectedTable?.apiFilter && (userFilterSelection === null || userFilterSelection?.value === null));

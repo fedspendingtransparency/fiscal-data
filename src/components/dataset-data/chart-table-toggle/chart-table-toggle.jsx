@@ -117,7 +117,6 @@ const ChartTableToggle = ({
   if (allTablesSelected) {
     emptyDataMessage = <NotShownMessage heading={allTablesSelectedBody} />;
   } else if (userFilterUnmatchedForDateRange) {
-    console.log('userFilterUnmatchedForDateRange');
     emptyDataMessage = getMessageForUnmatchedUserFilter(selectedTable);
   } else if (apiFilterDefault) {
     emptyDataMessage = <NotShownMessage bodyText="Select an account in the filter section above to display the data." />;
