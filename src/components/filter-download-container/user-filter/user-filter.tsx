@@ -77,6 +77,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
             changeHandler={updateUserFilter}
             selectedOption={selectedFilterOption}
             containerBorder={true}
+            searchBarLabel="Search account descriptions"
           />
         </div>
       )}

@@ -334,6 +334,7 @@ export default function DtgTable({
       setReactTableData({ data: data });
     } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       // large dataset tables <= 20000 rows TODO documentation
+      setReactTableData(dePaginated);
       setManualPagination(false);
       setIsLoading(false);
     }
