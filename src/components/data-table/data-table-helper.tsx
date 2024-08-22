@@ -138,8 +138,8 @@ export const columnsConstructorData = (
               header: name,
               filterFn: 'arrIncludesSome',
               cell: ({ getValue }) => {
-                const dateFormat = tableName === 'Buybacks Operations' ? 'MM/DD/YYYY' : 'M/D/YYYY';
-                return moment(getValue()).format(dateFormat);
+                const customFormat = customFormatConfig?.find(config => config.type === 'DATE' && config.fields.includes(property));
+                return moment(getValue()).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
               },
             } as ColumnDef<string, Date>;
           } else if (rawData.meta.dataTypes[property] === 'NUMBER') {

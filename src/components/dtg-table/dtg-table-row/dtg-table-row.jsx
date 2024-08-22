@@ -40,8 +40,10 @@ export const formatCellValue = (cellData, type, tableName, property, customForma
     formattedData = `${cellData}%`;
   } else if (type === 'DATE') {
     // .replace() resolves weird -1 day issue https://stackoverflow.com/a/31732581/564406
+
     const date = new Date(cellData.replace(/-/g, '/'));
-    formattedData = dateFormatter.format(date);
+    const customFormat = customFormatConfig?.find(config => config.type === 'DATE' && config.fields.includes(property));
+    formattedData = customFormat?.dateFormat ? moment(date).format(customFormat?.dateFormat) : dateFormatter.format(date);
   } else if (type === 'SMALL_FRACTION') {
     formattedData = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(cellData);
   } else if (type === 'STRING') {

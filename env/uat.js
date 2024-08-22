@@ -242,6 +242,13 @@ module.exports = {
     '316': {
       endpoint: 'v1/accounting/od/buybacks_operations',
       dateField: 'operation_date',
+      customFormatting: [
+        {
+          type: 'DATE',
+          fields: ['operation_date', 'settlement_date', 'maturity_date'],
+          dateFormat: 'MM/DD/YYYY',
+        },
+      ],
       downloadName: 'Buybacks_Operations',
       alwaysSortWith: ['-operation_date'],
       selectColumns: [

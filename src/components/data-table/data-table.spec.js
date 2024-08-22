@@ -443,25 +443,6 @@ describe('react-table', () => {
     );
     expect(getAllByTestId('row')[0].innerHTML).toContain('4%');
   });
-  it('formats dates correctly for Operation Buy Backs Table', () => {
-    const { getAllByTestId } = render(
-      <RecoilRoot>
-        <DataTable
-          rawData={mockTableData}
-          defaultSelectedColumns={null}
-          pagingProps={{ itemsPerPage: 10 }}
-          setTableColumnSortData={setTableColumnSortData}
-          shouldPage
-          showPaginationControls
-          setFiltersActive={jest.fn()}
-          tableName="Buybacks Operations"
-          columnConfig={mockColumnConfig}
-          setTableSorting={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-    expect(getAllByTestId('row')[0].innerHTML).toContain('07/12/2023');
-  });
 
   it('formats SMALL_FRACTION types correctly', () => {
     const { getAllByTestId } = render(

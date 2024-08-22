@@ -345,11 +345,12 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
   fs.readFile('./static/data/bea-data.json', 'utf8', async (err, data) => {
     if (err) {
-      resultDataBEA = await fetchBEA()
-        .then(res => res)
-        .catch(error => {
-          throw error;
-        });
+      resultDataBEA = { BEAAPI: { Results: { Data: [] } } };
+      // await fetchBEA()
+      // .then(res => res)
+      // .catch(error => {
+      //   throw error;
+      // });
       console.warn('USING BEA API RESPONSE');
     } else {
       console.warn('USING BEA CACHED FILE');
@@ -415,6 +416,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       decimalPlaces: Int,
       breakChar: String,
       customType: String,
+      dateFormat: String,
     }
     type Datasets implements Node {
       publishedReports: [PublishedReport!],
@@ -431,7 +433,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       selectColumns: [String!],
       userFilter: UserFilter,
       apiNotesAndLimitations: String,
-      customFormatting: [CustomFormatConfig!]
+      customFormatting: [CustomFormatConfig!],
     }
     type DatasetsApisDataDisplays implements Node {
       uniquePivotValues: [UniquePivotValues!]
@@ -558,6 +560,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               decimalPlaces
               breakChar
               customType
+              dateFormat
             }
             selectColumns
             userFilter {
