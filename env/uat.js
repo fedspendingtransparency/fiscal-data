@@ -293,7 +293,7 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'FBP_FutureDatedTransactions',
       alwaysSortWith: ['-record_date','security_nbr'],
-      hideColumns: [''],
+      hideColumns: [],
       selectColumns: ['record_date', 'account_nbr', 'account_desc', 'security_nbr', 'segment_desc', 'loans_receivable_amt', 'interest_receivable_amt', 'effective_date', 'settle_date', 'transaction_cd', 'memo_nb'],
     },
   },
