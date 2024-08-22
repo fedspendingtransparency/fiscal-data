@@ -170,6 +170,7 @@ export const mockTableWithApiFilterAvailable = {
   apiId: 4,
   tableName: 'Exchange Rates',
   isLargeDataset: true,
+  dataDefaultHeader: true,
   fields: [
     { columnName: 'facility_desc', prettyName: 'Facility Description', dataType: 'string' },
     { columnName: 'book_value_amt', prettyName: 'Book Value', dataType: 'string' },
@@ -181,8 +182,8 @@ export const mockTableWithApiFilterAvailable = {
     notice: 'hello',
     optionValues: ['Building', 'Room', 'Venue', 'Campus', 'Auditorium'],
     dataUnmatchedMessage: 'Sorry, no facilities of that type for the date range.',
-    dataDefaultMessage: 'Default Message.',
     dataDefaultHeader: 'Default Header.',
+    dataDefaultMessage: 'Default Message.',
   },
 };
 

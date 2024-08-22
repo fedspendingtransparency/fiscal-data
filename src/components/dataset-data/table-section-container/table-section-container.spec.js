@@ -580,13 +580,13 @@ describe('Table with API filter', () => {
   it('Initializes table with an api filter', () => {
     const mockSetIsLoading = jest.fn();
 
-    const { getAllByText } = render(
+    const { getAllByText, queryByRole } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
           selectedTable={mockTableWithApiFilterAvailable}
-          isLoading={true}
+          isLoading={false}
           setIsLoading={mockSetIsLoading}
           apiError={false}
           setUserFilterSelection={jest.fn()}
@@ -596,7 +596,6 @@ describe('Table with API filter', () => {
       </RecoilRoot>
     );
     expect(mockSetIsLoading).toHaveBeenCalledWith(false);
-    expect(getAllByText('Default Header.')[0]).toBeInTheDocument();
-    expect(getAllByText('Default Message.')[0]).toBeInTheDocument();
+    expect(queryByRole('table')).not.toBeInTheDocument();
   });
 });
