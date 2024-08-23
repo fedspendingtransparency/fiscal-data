@@ -419,10 +419,6 @@ export default function DtgTable({
               </div>
             </>
           )}
-          <div>
-            {/* Empty Data Message */}
-            {/*{emptyDataMessage && emptyDataMessage}*/}
-          </div>
           {!emptyDataMessage && (
             <ErrorBoundary FallbackComponent={() => <></>}>
               <DataTable
