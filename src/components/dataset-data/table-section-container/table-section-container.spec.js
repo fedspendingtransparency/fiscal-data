@@ -593,6 +593,7 @@ describe('formatDate function', () => {
           apiError={false}
           setSelectedPivot={jest.fn()}
           detailViewState={new Date(2023, 5, 1)}
+          setUserFilterSelection={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -604,7 +605,7 @@ describe('Table with API filter', () => {
   it('Initializes table with an api filter', () => {
     const mockSetIsLoading = jest.fn();
 
-    const { getAllByText, queryByRole } = render(
+    const { queryByRole } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
