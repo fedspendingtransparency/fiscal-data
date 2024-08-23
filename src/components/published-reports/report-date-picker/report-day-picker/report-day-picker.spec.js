@@ -29,7 +29,7 @@ describe('Report Day Picker', () => {
     expect(getByText('August 7, 2024')).toBeInTheDocument();
   });
   it('renders disabled buttons for unavailable report dates', () => {
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <ReportDayPicker
         handleClose={jest.fn()}
         selectedDate={new Date('8/8/2024')}

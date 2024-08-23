@@ -124,6 +124,7 @@ describe('Month Picker', () => {
 
     expect(within(button).getByText('August 2024')).toBeInTheDocument();
   });
+
   it('cancels selected date for daily reports', () => {
     const { getByRole, getAllByRole } = render(
       <ReportDatePicker
