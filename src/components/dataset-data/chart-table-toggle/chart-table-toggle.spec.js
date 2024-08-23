@@ -13,6 +13,7 @@ describe('Chart Table Toggle 0', () => {
   };
   const gaSpy = jest.spyOn(Analytics, 'event');
   const dummyTableName = 'Oh how the turntables have turned';
+  const dummyDatasetName = 'dataset';
   const tableProps = {
     props: {
       tableProps: {
@@ -45,7 +46,14 @@ describe('Chart Table Toggle 0', () => {
 
   it('tracks when the chart is enabled', () => {
     const { getByTestId } = render(
-      <ChartTableToggle currentTab={0} emptyData table={tableProps} onTabChange={spyProps.onTabChange} chart={mockChart} />
+      <ChartTableToggle
+        datasetName={dummyDatasetName}
+        currentTab={0}
+        emptyData
+        table={tableProps}
+        onTabChange={spyProps.onTabChange}
+        chart={mockChart}
+      />
     );
 
     const tabSpy = jest.spyOn(spyProps, 'onTabChange');
@@ -56,7 +64,8 @@ describe('Chart Table Toggle 0', () => {
     expect(tabSpy).toHaveBeenCalledWith(1);
     expect(gaSpy).toHaveBeenCalledWith({
       category: 'Chart Enabled',
-      action: dummyTableName,
+      action: 'Chart Click',
+      label: `${dummyDatasetName}, ${dummyTableName}`,
     });
   });
 
