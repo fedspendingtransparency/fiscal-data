@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { dropdownList, selected, yearButton, arrowIcon } from './month-picker.module.scss';
@@ -45,6 +45,14 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
       handleClose();
     }
   };
+
+  useEffect(() => {
+    if (!active) {
+      setSelectedMonth(monthFullNames[selectedDate.getMonth()]);
+      setSelectedYear(selectedDate.getFullYear().toString());
+      setShowYears(false);
+    }
+  }, [active]);
 
   return (
     <>

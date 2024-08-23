@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 describe('Month Picker', () => {
   const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
   const mockSelectedDate = new Date('8/8/2024');
+  const mockSetSelectedDate = jest.fn();
 
   it('Default button', () => {
     const { getByRole } = render(
@@ -68,7 +69,6 @@ describe('Month Picker', () => {
   });
 
   it('updates selected date ', () => {
-    const mockSetSelectedDate = jest.fn();
     const { getByRole, getAllByRole } = render(
       <ReportDatePicker
         latestReportDate={new Date('8/8/2024')}
@@ -124,6 +124,7 @@ describe('Month Picker', () => {
 
     expect(within(button).getByText('August 2024')).toBeInTheDocument();
   });
+
   it('cancels selected date for daily reports', () => {
     const { getByRole, getAllByRole } = render(
       <ReportDatePicker
@@ -168,5 +169,33 @@ describe('Month Picker', () => {
       fireEvent.blur(button);
     });
     expect(queryByText('Published Date')).not.toBeInTheDocument();
+  });
+
+  it('resets an incomplete date selection on close', () => {
+    const { getByRole } = render(
+      <ReportDatePicker
+        latestReportDate={new Date('8/8/2024')}
+        earliestReportDate={new Date('8/8/2016')}
+        allReportDates={[]}
+        isDailyReport={true}
+        selectedDate={mockSelectedDate}
+        setSelectedDate={mockSetSelectedDate}
+      />
+    );
+    const button = getByRole('button', { name: 'Select Published Report Date' });
+    expect(within(button).getByText('August 8, 2024')).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(button);
+    });
+    const dayButton = getByRole('gridcell', { name: '2' });
+    act(() => {
+      fireEvent.click(dayButton);
+    });
+    act(() => {
+      fireEvent.click(button);
+    });
+    // set selected date is called to reset the date
+    expect(mockSetSelectedDate).toHaveBeenCalled();
   });
 });
