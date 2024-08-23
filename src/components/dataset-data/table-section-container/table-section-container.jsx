@@ -35,6 +35,7 @@ import SummaryTable from './summary-table/summary-table';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 import { queryClient } from '../../../../react-query-client';
+import moment from 'moment/moment';
 import Analytics from '../../../utils/analytics/analytics';
 
 const TableSectionContainer = ({
@@ -93,13 +94,8 @@ const TableSectionContainer = ({
   }, [userFilterUnmatchedForDateRange]);
 
   const formatDate = detailViewState => {
-    const datePattern = /^\d{4}-\d{2}-\d{2}$/; // Matches YYYY-MM-DD format
-    if (datePattern.test(detailViewState)) {
-      const dateParts = detailViewState.split('-');
-      const [year, month, day] = dateParts;
-      return `${month}/${day}/${year}`;
-    }
-    return detailViewState; // Return the original string if it's not a date
+    const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
+    return moment(detailViewState).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
   };
 
   const formattedDetailViewState = detailViewState ? formatDate(detailViewState) : '';
@@ -350,13 +346,7 @@ const TableSectionContainer = ({
           )}
           <div className={barContainer}>
             <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
-              <PivotOptions
-                datasetName={config.name}
-                table={selectedTable}
-                pivotSelection={selectedPivot}
-                setSelectedPivot={setSelectedPivot}
-                pivotsUpdated={pivotsUpdated}
-              />
+              <PivotOptions table={selectedTable} pivotSelection={selectedPivot} setSelectedPivot={setSelectedPivot} pivotsUpdated={pivotsUpdated} />
             </div>
           </div>
         </div>
@@ -381,7 +371,6 @@ const TableSectionContainer = ({
             {(apiData || serverSidePagination || apiError) && (
               <ChartTableToggle
                 legend={legend}
-                datasetName={config.name}
                 selectedTab={selectedTab}
                 showToggleChart={!noChartMessage}
                 showToggleTable={tableProps?.selectColumns}
