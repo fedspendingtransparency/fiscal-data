@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faTable, faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeftLong, faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
 import DtgTable from '../../dtg-table/dtg-table';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
@@ -13,26 +13,26 @@ import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import { apiPrefix, basicFetch, buildSortParams, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
+import { buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
 import {
+  active,
   barContainer,
   barExpander,
-  headerWrapper,
-  noticeContainer,
-  titleContainer,
-  active,
+  detailViewBack,
+  detailViewButton,
+  detailViewIcon,
   header,
+  headerWrapper,
   loadingIcon,
   loadingSection,
-  tableContainer,
-  detailViewButton,
-  detailViewBack,
-  detailViewIcon,
+  noticeContainer,
   sectionBorder,
+  tableContainer,
   tableSection,
+  titleContainer,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 import { queryClient } from '../../../../react-query-client';
 import moment from 'moment/moment';
@@ -45,6 +45,7 @@ const TableSectionContainer = ({
   apiData,
   apiError,
   userFilterSelection,
+  setUserFilterSelection,
   selectedPivot,
   setSelectedPivot,
   serverSidePagination,
@@ -80,6 +81,7 @@ const TableSectionContainer = ({
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
+  const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const [reactTableSorting, setReactTableSort] = useState([]);
@@ -89,10 +91,6 @@ const TableSectionContainer = ({
   const [chartData, setChartData] = useState(null);
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
 
-  useEffect(() => {
-    setDisableDownloadButton(userFilterUnmatchedForDateRange);
-  }, [userFilterUnmatchedForDateRange]);
-
   const formatDate = detailViewState => {
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
     return moment(detailViewState).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
@@ -100,72 +98,57 @@ const TableSectionContainer = ({
 
   const formattedDetailViewState = detailViewState ? formatDate(detailViewState) : '';
 
-  const fetchAllTableData = async (sortParam, to, from, totalCount) => {
-    if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
-      return await basicFetch(
-        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-          `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
-      ).then(async page1res => {
-        const page2res = await basicFetch(
-          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
-        );
-        page1res.data = page1res.data.concat(page2res.data);
-        return page1res;
-      });
-    } else if (totalCount <= MAX_PAGE_SIZE) {
-      return basicFetch(
-        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-          `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
-      );
-    }
-  };
-
-  const fetchTableMeta = async (sortParam, to, from) => {
-    return basicFetch(
-      `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-        `:lte:${to}&sort=${sortParam}&page[size]=${1}`
-    );
-  };
-
   const getDepaginatedData = async () => {
-    const from = formatDateForApi(dateRange.from);
-    const to = formatDateForApi(dateRange.to);
-    const sortParam = buildSortParams(selectedTable, selectedPivot);
-    let meta;
-    return await queryClient
-      .ensureQueryData({
-        queryKey: ['tableDataMeta', selectedTable, from, to],
-        queryFn: () => fetchTableMeta(sortParam, to, from),
-      })
-      .then(async res => {
-        const totalCount = res.meta['total-count'];
-        if (!selectedPivot?.pivotValue) {
-          meta = res.meta;
-          try {
-            const data = await queryClient.ensureQueryData({
-              queryKey: ['tableData', selectedTable, from, to],
-              queryFn: () => fetchAllTableData(sortParam, to, from, totalCount),
-            });
-            return data;
-          } catch (error) {
-            console.warn(error);
+    if (!selectedTable?.apiFilter || (selectedTable.apiFilter && userFilterSelection !== null && userFilterSelection?.value !== null)) {
+      const from = formatDateForApi(dateRange.from);
+      const to = formatDateForApi(dateRange.to);
+      const sortParam = buildSortParams(selectedTable, selectedPivot);
+      const apiFilterParam =
+        selectedTable?.apiFilter?.field && userFilterSelection?.value !== null
+          ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
+          : '';
+      let meta;
+      return await queryClient
+        .ensureQueryData({
+          queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
+          queryFn: () => fetchTableMeta(sortParam, to, from, selectedTable, apiFilterParam),
+        })
+        .then(async res => {
+          const totalCount = res.meta['total-count'];
+          if (!selectedPivot?.pivotValue) {
+            meta = res.meta;
+            if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {
+              try {
+                return await queryClient.ensureQueryData({
+                  queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
+                  queryFn: () => fetchAllTableData(sortParam, to, from, totalCount, selectedTable, apiFilterParam),
+                });
+              } catch (error) {
+                console.warn(error);
+              }
+            } else if (totalCount === 0) {
+              setIsLoading(false);
+              setUserFilterUnmatchedForDateRange(true);
+              return null;
+            }
           }
-        }
-      })
-      .catch(err => {
-        if (err.name === 'AbortError') {
-          console.info('Action cancelled.');
-        } else {
-          console.error('API error', err);
-          setApiError(err);
-        }
-      })
-      .finally(() => {
-        if (meta) {
-          setTableMeta(meta);
-        }
-      });
+        })
+        .catch(err => {
+          if (err.name === 'AbortError') {
+            console.info('Action cancelled.');
+          } else {
+            console.error('API error', err);
+            setApiError(err);
+          }
+        })
+        .finally(() => {
+          if (meta) {
+            setTableMeta(meta);
+          }
+        });
+    } else if (selectedTable?.apiFilter && userFilterSelection === null) {
+      setIsLoading(false);
+    }
   };
 
   const refreshTable = async () => {
@@ -251,7 +234,18 @@ const TableSectionContainer = ({
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
     setReactTableSort([]);
+    setUserFilterSelection(null);
   }, [selectedTable]);
+
+  useEffect(() => {
+    setDisableDownloadButton(userFilterUnmatchedForDateRange || apiFilterDefault);
+  }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
+
+  useEffect(() => {
+    if (selectedTable?.apiFilter && userFilterSelection?.value === null) {
+      setApiFilterDefault(true);
+    }
+  }, [userFilterSelection]);
 
   const legendToggler = e => {
     if (e.key === undefined || e.key === 'Enter') {
@@ -293,6 +287,7 @@ const TableSectionContainer = ({
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
 
+    setApiFilterDefault(!allTablesSelected && selectedTable?.apiFilter && (userFilterSelection === null || userFilterSelection?.value === null));
     setNoChartMessage(
       SetNoChartMessage(
         selectedTable,
@@ -375,6 +370,7 @@ const TableSectionContainer = ({
                 showToggleChart={!noChartMessage}
                 showToggleTable={tableProps?.selectColumns}
                 userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
+                apiFilterDefault={apiFilterDefault}
                 onToggleLegend={legendToggler}
                 emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
                 unchartable={noChartMessage !== undefined}
@@ -394,6 +390,7 @@ const TableSectionContainer = ({
                       pivotSelected={selectedPivot}
                       setSelectColumnPanel={setSelectColumnPanel}
                       tableProps={tableProps}
+                      selectedTable={selectedTable}
                       perPage={perPage}
                       setPerPage={setPerPage}
                       tableColumnSortData={tableColumnSortData}
@@ -405,6 +402,7 @@ const TableSectionContainer = ({
                       setManualPagination={setManualPagination}
                       reactTable
                       rawDataTable
+                      userFilterSelection={userFilterSelection}
                       setIsLoading={setIsLoading}
                       isLoading={isLoading}
                       sorting={reactTableSorting}

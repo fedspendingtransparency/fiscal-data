@@ -10,7 +10,7 @@ import NotShownMessage from '../table-section-container/not-shown-message/not-sh
 import Analytics from '../../../utils/analytics/analytics';
 import HideLegendToggle from '../hide-legend-toggle/hideLegendToggle';
 import { tabIcon } from './chart-table-toggle.module.scss';
-import { getMessageForUnmatchedUserFilter } from '../../filter-download-container/user-filter/user-filter';
+import { getMessageForDefaultApiFilter, getMessageForUnmatchedUserFilter } from '../../filter-download-container/user-filter/user-filter';
 import { faSlidersH, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import ResetTableSection from '../../data-table/reset-table-section/reset-table-section';
 
@@ -93,6 +93,7 @@ const ChartTableToggle = ({
   selectedTab,
   chart,
   userFilterUnmatchedForDateRange,
+  apiFilterDefault,
   filtersActive,
   setResetFilters,
   textFilteringDisabled,
@@ -119,12 +120,13 @@ const ChartTableToggle = ({
     emptyDataMessage = <NotShownMessage heading={allTablesSelectedBody} />;
   } else if (userFilterUnmatchedForDateRange) {
     emptyDataMessage = getMessageForUnmatchedUserFilter(selectedTable);
+  } else if (apiFilterDefault) {
+    emptyDataMessage = getMessageForDefaultApiFilter(selectedTable);
   } else if (emptyData) {
     emptyDataMessage = <NotShownMessage heading="Change selections in order to preview data" bodyText={emptyDataMessageBody} />;
   }
 
   const emptyChartMessage = !unchartable || allTablesSelected ? emptyDataMessage : null;
-
   return (
     <div>
       <AntTabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">

@@ -30,7 +30,6 @@ const RangePresets = ({
   const [dateRange, setCurDateRange] = useState(null);
   const [presets, setPresets] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
-
   const basePreset = [{ label: 'All', key: 'all', years: null }];
   const possiblePresets = [
     { label: '1 Year', key: '1yr', years: 1 },
@@ -280,6 +279,14 @@ const RangePresets = ({
           )}
           {selectedTable.userFilter && (
             <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} setResetFilters={setResetFilters} />
+          )}
+          {selectedTable.apiFilter && (
+            <UserFilter
+              selectedTable={selectedTable}
+              onUserFilter={onUserFilter}
+              setResetFilters={setResetFilters}
+              allTablesSelected={allTablesSelected}
+            />
           )}
           {datatableBanner && <DatatableBanner bannerNotice={datatableBanner} />}
         </>
