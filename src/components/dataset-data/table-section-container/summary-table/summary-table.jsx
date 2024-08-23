@@ -6,14 +6,14 @@ const SummaryTable = ({ summaryValues, summaryTable, columnConfig, customFormatC
   const summaryHeaders = {};
 
   summaryTable.forEach(header => {
-    const col = columnConfig?.find(configVal => configVal.property === header);
+    const col = columnConfig.find(configVal => configVal.property === header);
     summaryHeaders[header] = col?.name;
     summaryTypes[header] = col?.type;
   });
 
   return (
     <>
-      {summaryValues && summaryValues.length > 0 && (
+      {summaryValues && (
         <div className={tableContainer}>
           <div className={tableHeader}>Summary</div>
           <div className={detailContainer}>
