@@ -431,7 +431,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       selectColumns: [String!],
       userFilter: UserFilter,
       apiNotesAndLimitations: String,
-      customFormatting: [CustomFormatConfig!],
+      customFormatting: [CustomFormatConfig!]
     }
     type DatasetsApisDataDisplays implements Node {
       uniquePivotValues: [UniquePivotValues!]
