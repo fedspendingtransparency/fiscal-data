@@ -86,17 +86,6 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
       eventLabel: label,
     });
   };
-  const analyticsEvent = title => {
-    Analytics.event({
-      category: 'Explainers',
-      action: `Sub Nav Click`,
-      label: title,
-    });
-    ga4DataLayerPush({
-      event: 'Sub Nav Click',
-      eventLabel: title,
-    });
-  };
 
   return (
     <>
