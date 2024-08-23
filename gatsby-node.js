@@ -427,6 +427,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       decimalPlaces: Int,
       breakChar: String,
       customType: String,
+      dateFormat: String,
     }
     type Datasets implements Node {
       publishedReports: [PublishedReport!],
@@ -444,7 +445,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       userFilter: UserFilter,
       apiFilter: ApiFilter,
       apiNotesAndLimitations: String,
-      customFormatting: [CustomFormatConfig!]
+      customFormatting: [CustomFormatConfig!],
     }
     type DatasetsApisDataDisplays implements Node {
       uniquePivotValues: [UniquePivotValues!]
@@ -571,6 +572,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               decimalPlaces
               breakChar
               customType
+              dateFormat
             }
             selectColumns
             userFilter {

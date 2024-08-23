@@ -19,6 +19,8 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import Link from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { Grid } from '@material-ui/core';
+import Analytics from '../../../utils/analytics/analytics';
+import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explainerTile }) => {
   let desktopImage, mobileImage;
@@ -74,19 +76,21 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
     );
 
   const analyticsHandler = (event, label) => {
-    if (event && label) {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: event,
-        eventLabel: label,
-      });
-    }
+    Analytics.event({
+      category: 'Homepage Navigation',
+      action: 'Citation Click',
+      label: label,
+    });
+    ga4DataLayerPush({
+      event: event,
+      eventLabel: label,
+    });
   };
 
   return (
     <>
       {content.path ? (
-        <Link to={content.path} data-testid={'tile-link'} onClick={() => analyticsHandler('Homepage - Citation Click', content.analyticsName)}>
+        <Link to={content.path} data-testid={'tile-link'} onClick={() => analyticsHandler('Citation Click', content.analyticsName)}>
           {card}
         </Link>
       ) : (

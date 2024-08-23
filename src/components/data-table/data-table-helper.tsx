@@ -37,11 +37,15 @@ const publishedReportsLinkWrapper = (url: string, value: string, alias?: string)
         // checking for buybacks to determine between summary and detail pdfs
         // if another dataset is set up with this logic, let's revisit how to build this
         if (url.includes('buybacks')) {
-          if ((link.toLowerCase().startsWith('ofbbr') && link.toLowerCase().endsWith('p1.pdf')) ||
-            (link.toUpperCase().startsWith('BBSR_') && link.toLowerCase().endsWith('_1.pdf'))){
+          if (
+            (link.toLowerCase().startsWith('ofbbr') && link.toLowerCase().endsWith('p1.pdf')) ||
+            (link.toUpperCase().startsWith('BBSR_') && link.toLowerCase().endsWith('_1.pdf'))
+          ) {
             alias = 'Summary';
-          } else if ((link.toLowerCase().startsWith('ofbbr') && link.toLowerCase().endsWith('p2.pdf')) ||
-            (link.toUpperCase().startsWith('BBDR_') && link.toLowerCase().endsWith('_1.pdf'))) {
+          } else if (
+            (link.toLowerCase().startsWith('ofbbr') && link.toLowerCase().endsWith('p2.pdf')) ||
+            (link.toUpperCase().startsWith('BBDR_') && link.toLowerCase().endsWith('_1.pdf'))
+          ) {
             alias = 'Detail';
           }
         }
@@ -114,7 +118,7 @@ export const columnsConstructorData = (
   hideColumns: string[],
   tableName: string,
   columnConfig,
-  customFormatConfig,
+  customFormatConfig
 ): any => {
   if (rawData.meta && columnConfig) {
     return columnConfig
@@ -134,7 +138,8 @@ export const columnsConstructorData = (
               header: name,
               filterFn: 'arrIncludesSome',
               cell: ({ getValue }) => {
-                return moment(getValue()).format('M/D/YYYY');
+                const customFormat = customFormatConfig?.find(config => config.type === 'DATE' && config.fields.includes(property));
+                return moment(getValue()).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
               },
             } as ColumnDef<string, Date>;
           } else if (rawData.meta.dataTypes[property] === 'NUMBER') {
@@ -258,7 +263,7 @@ export const getColumnFilter: (
   allActiveFilters: string[],
   setAllActiveFilters: (val: string[]) => void,
   manualPagination: boolean,
-  isLastColumn: boolean,
+  isLastColumn: boolean
 ) => JSX.Element = (header, type, resetFilters, allActiveFilters, setAllActiveFilters, manualPagination, isLastColumn) => {
   if (type === 'DATE') {
     return (
@@ -315,7 +320,7 @@ export const getSortedColumnsData = (
   table: Table<Record<string, unknown>>,
   setTableColumnSortData: (map: Record<string, string>) => void,
   hideColumns: string[],
-  dataTypes,
+  dataTypes
 ): void => {
   if (setTableColumnSortData) {
     const columns = table.getVisibleFlatColumns();
