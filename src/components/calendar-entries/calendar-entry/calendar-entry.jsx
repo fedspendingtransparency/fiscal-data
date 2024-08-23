@@ -12,7 +12,7 @@ import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analy
 
 export const releaseCalendarDatasetClickEvent = {
   category: 'Release Calendar',
-  action: 'Citation Click',
+  action: 'Dataset Click',
 };
 
 const CalendarEntry = ({ dataset, earliestDate }) => {
