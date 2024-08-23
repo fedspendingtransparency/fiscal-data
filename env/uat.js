@@ -53,7 +53,7 @@ module.exports = {
       slug: '/treasury-securities-buybacks/',
       seoConfig: {
         pageTitle: 'Treasury Securities Buybacks',
-        description: "The Treasury Securities Buybacks dataset contains data related to the U.S. Treasury's buyback operations.",
+        description: 'The Treasury Securities Buybacks dataset contains data related to the U.S. Treasury\'s buyback operations.',
       },
       topics: ['debt', 'auctions'],
       relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-050', '015-BFS-2014Q3-049', '015-BFS-2014Q1-14', '015-BFS-2014Q3-048'],
@@ -66,6 +66,17 @@ module.exports = {
         summaryTableFields: ['operation_date', 'operation_start_time_est', 'operation_close_time_est', 'settlement_date'],
         selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
       },
+    },
+    '015-BFS-2024Q1-003': {
+      slug: '/fbp-detailed-principal-accrued-interest/',
+      seoConfig: {
+        pageTitle: 'Federal Borrowings Program: Detailed Principal and Accrued Interest',
+        description: 'U.S. Treasury loans and interest receivable balances associated with each individual borrowing agency\'s expenditure Treasury Account Symbol.',
+        keywords: 'Debt, Financial Summaries',
+      },
+      topics: ['debt', 'financial-summaries'],
+      relatedDatasets: ['015-BFS-2014Q3-038', '015-BFS-2014Q3-037'],
+      currentDateButton: 'byMonth',
     },
   },
   ADDITIONAL_ENDPOINTS: {
@@ -193,7 +204,7 @@ module.exports = {
       endpoint: 'v1/debt/treasury_offset_program',
       dateField: 'record_date',
       downloadName: 'treasury_offset_program',
-      alwaysSortWith: ['record_date', 'src_line_nbr'],
+      alwaysSortWith: ['-record_date', 'src_line_nbr'],
       selectColumns: [],
     },
     '305': {
@@ -266,6 +277,24 @@ module.exports = {
       alwaysSortWith: ['-operation_date,maturity_date'],
       hideColumns: ['operation_date'],
       selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
+    },
+    // FBP
+    '313': {
+      endpoint: 'v1/accounting/od/fbp_balances',
+      dateField: 'record_date',
+      downloadName: 'FBP_Balances',
+      alwaysSortWith: ['-record_date','-segment_desc','maturity_date'],
+      hideColumns: [],
+      selectColumns: ['record_date', 'account_nbr', 'account_desc', 'security_nbr', 'segment_desc', 'loans_receivable_amt', 'interest_receivable_amt', 'maturity_date', 'interest_rate_pct'],
+    },
+    // FBP
+    '314': {
+      endpoint: 'v1/accounting/od/fbp_future_dated_transactions',
+      dateField: 'record_date',
+      downloadName: 'FBP_FutureDatedTransactions',
+      alwaysSortWith: ['-record_date','security_nbr'],
+      hideColumns: [],
+      selectColumns: ['record_date', 'account_nbr', 'account_desc', 'security_nbr', 'segment_desc', 'loans_receivable_amt', 'interest_receivable_amt', 'effective_date', 'settle_date', 'transaction_cd', 'memo_nbr'],
     },
   },
 };
