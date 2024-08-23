@@ -26,6 +26,7 @@ import GLOBALS from '../../../helpers/constants';
 import { render, fireEvent } from '@testing-library/react';
 import NotShownMessage from './not-shown-message/not-shown-message';
 import { RecoilRoot } from 'recoil';
+import { formatDate } from './table-section-container';
 
 describe('TableSectionContainer initial state', () => {
   let component, instance;
@@ -552,5 +553,29 @@ describe('TableSectionContainer with Pivot Options', () => {
       </RecoilRoot>
     );
     expect(queryByTestId('tableName')).toBeInTheDocument();
+  });
+});
+describe('formatDate function', () => {
+  it('formats date based on custom format if provided', () => {
+    const selectedTable = {
+      ...selectedTableLessFields,
+      customFormatting: [{ type: 'DATE', dateFormat: 'MM/DD/YYYY' }],
+    };
+
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={selectedTable}
+          apiData={mockApiData}
+          isLoading={false}
+          apiError={false}
+          setSelectedPivot={jest.fn()}
+          detailViewState={new Date(2023, 5, 1)}
+        />
+      </RecoilRoot>
+    );
+    expect(getByTestId('tableName').textContent).toContain('Table 1 > 06/01/2023');
   });
 });
