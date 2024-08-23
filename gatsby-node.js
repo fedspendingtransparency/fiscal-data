@@ -345,12 +345,11 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
   fs.readFile('./static/data/bea-data.json', 'utf8', async (err, data) => {
     if (err) {
-      resultDataBEA = { BEAAPI: { Results: { Data: [] } } };
-      // await fetchBEA()
-      // .then(res => res)
-      // .catch(error => {
-      //   throw error;
-      // });
+      resultDataBEA = await fetchBEA()
+        .then(res => res)
+        .catch(error => {
+          throw error;
+        });
       console.warn('USING BEA API RESPONSE');
     } else {
       console.warn('USING BEA CACHED FILE');
