@@ -182,7 +182,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                 endAngle={90}
                 onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
               >
-                {aggregatedDataforPie.map((entry, index) => (
+                {aggregatedDataforPie.map((entry: any, index) => (
                   <Cell
                     key={`cell-data01-${index}`}
                     fill={entry.securityType === 'Nonmarketable' ? color2 : color}
@@ -204,7 +204,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                 endAngle={90}
                 onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}
               >
-                {consolidateDataArray.map((entry, index) => (
+                {consolidateDataArray.map((entry: any, index) => (
                   <Cell
                     key={`cell-data02-${index}`}
                     fill={entry.securityType === 'Nonmarketable' ? color2 : color}
