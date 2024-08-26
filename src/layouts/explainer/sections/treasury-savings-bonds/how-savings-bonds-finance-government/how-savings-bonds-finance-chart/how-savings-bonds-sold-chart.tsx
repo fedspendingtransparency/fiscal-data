@@ -187,6 +187,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                     key={`cell-data01-${index}`}
                     fill={entry.securityType === 'Nonmarketable' ? color2 : color}
                     opacity={getOpacity('data01', index, entry)}
+                    aria-label={`${entry.name}: ${entry.value} (${entry.percent}%`}
                   />
                 ))}
               </Pie>
@@ -208,6 +209,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                     key={`cell-data02-${index}`}
                     fill={entry.securityType === 'Nonmarketable' ? color2 : color}
                     opacity={getOpacity('data02', index, entry)}
+                    aria-label={`${entry.name}: ${entry.value} (${entry.percent}%`}
                   />
                 ))}
               </Pie>
