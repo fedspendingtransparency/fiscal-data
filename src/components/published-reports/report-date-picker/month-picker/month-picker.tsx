@@ -56,7 +56,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
 
   return (
     <>
-      {active && (
+      {true && (
         <ReportDateDropdown handleClose={handleClose} handleApply={handleApply} displayDate={selectedMonth + ' ' + selectedYear}>
           <>
             <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">

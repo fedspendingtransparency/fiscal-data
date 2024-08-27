@@ -1,0 +1,32 @@
+@import 'src/variables.module';
+
+
+.inputLabel {
+  margin-bottom: 0.5rem;
+}
+
+.helpLabel {
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+.inputLabel, .helpLabel {
+  font-size: $font-size-14;
+  margin-right: .25rem;
+}
+
+.selectedDateDisplay {
+  border: 1px solid $light-grey-border;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  min-height: 38px;
+  width: calc(100% - 2rem - 2px);
+
+  input {
+    font-size: $font-size-16;
+    color: $font-body-copy;
+    font-family: "Source Sans Pro", sans-serif;
+  }
+}

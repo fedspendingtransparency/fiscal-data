@@ -7,9 +7,11 @@ import {
   dropdownContainer,
   publishedDateLabel,
   selectedDateDisplay,
+  inputContainer,
 } from './report-date-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import DateTextInput from '../date-text-input/date-text-input';
 
 interface IReportDateDropdown {
   handleClose: () => void;
@@ -22,8 +24,9 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({ handleClos
   return (
     <>
       <div className={dropdownContainer}>
-        <div className={publishedDateLabel}>Published Date</div>
-        <div className={selectedDateDisplay}>{displayDate}</div>
+        <div className={inputContainer}>
+          <DateTextInput label="Published Date (Example: May 1998 or 05/1998)" />
+        </div>
         {children}
         <div className={buttonContainer}>
           <button className={cancelButton} onClick={handleClose}>
