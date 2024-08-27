@@ -86,11 +86,32 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
       eventLabel: label,
     });
   };
-
+  let gaTimerDebt100Yrs;
+  let ga4Timer;
+  const handleMouseEnter = label => {
+    gaTimerDebt100Yrs = setTimeout(() => {
+      Analytics.event({
+        category: 'Homepage Cards',
+        action: 'Card Hover',
+        label: label,
+      });
+    }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'dap_event',
+      });
+    }, 3000);
+  };
   return (
     <>
       {content.path ? (
-        <Link to={content.path} data-testid={'tile-link'} onClick={() => analyticsHandler('Citation Click', content.analyticsName)}>
+        <Link
+          to={content.path}
+          data-testid={'tile-link'}
+          onClick={() => analyticsHandler('Citation Click', content.analyticsName)}
+          onMouseEnter={() => handleMouseEnter(content.analyticsName)}
+        >
           {card}
         </Link>
       ) : (
