@@ -30,7 +30,7 @@ const PivotOptions = ({ datasetName, table, pivotSelection, setSelectedPivot, pi
     }
 
     Analytics.event({
-      category: 'Fiscal Data - Chart Enabled',
+      category: 'Chart Enabled',
       action: 'Pivot View Click',
       label: `${view.title}, ${datasetName}, ${table.tableName}`,
     });
@@ -42,7 +42,7 @@ const PivotOptions = ({ datasetName, table, pivotSelection, setSelectedPivot, pi
   const pivotValueChangeHandler = valueField => {
     if (valueField?.prettyName !== '— N / A —') {
       Analytics.event({
-        category: 'Fiscal Data - Chart Enabled',
+        category: 'Chart Enabled',
         action: 'Pivot Value Click',
         label: `${valueField?.prettyName}, ${datasetName}, ${table.tableName}`,
       });

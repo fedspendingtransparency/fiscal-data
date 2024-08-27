@@ -42,7 +42,7 @@ const Preview = ({ selectedFile }) => {
           eventLabel: selectedFile.path,
         });
         Analytics.event({
-          category: 'Fiscal Data - Published Report Preview',
+          category: 'Published Report Preview',
           action: 'Published Report Preview',
           label: selectedFile.path,
         });
