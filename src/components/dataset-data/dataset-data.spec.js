@@ -453,7 +453,7 @@ describe('DatasetData', () => {
 
     expect(analyticsSpy).toHaveBeenLastCalledWith({
       action: 'Published Report Preview',
-      category: 'Fiscal Data - Published Report Preview',
+      category: 'Published Report Preview',
       label: '/downloads/mspd_reports/opdm092020.pdf',
     });
     analyticsSpy.mockClear();
