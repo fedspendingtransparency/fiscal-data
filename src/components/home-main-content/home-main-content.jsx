@@ -4,10 +4,19 @@ import HomeHighlightCards from '../home-highlight-cards/home-highlight-cards';
 import { mainContent, sectionHeader, highlightCardsHeader } from './home-main-content.module.scss';
 import { faChartColumn } from '@fortawesome/free-solid-svg-icons';
 import CustomLink from '../links/custom-link/custom-link';
+import Analytics from '../../utils/analytics/analytics';
+import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
 
 const HomeMainContent = () => {
+  const analyticsHandler = label => {
+    Analytics.event({
+      category: 'Homepage Navigation',
+      action: 'Citation Click',
+      label: label,
+    });
+  };
   const datasetSearchPage = (
-    <CustomLink url="/datasets/" id="Dataset Search">
+    <CustomLink url="/datasets/" id="Dataset Search" onClick={() => analyticsHandler('Dataset Search')}>
       Dataset Search page
     </CustomLink>
   );
