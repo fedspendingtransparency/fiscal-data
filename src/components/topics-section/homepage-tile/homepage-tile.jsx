@@ -99,7 +99,6 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
   };
   const handleMouseLeave = () => {
     clearTimeout(homepageTile);
-    console.log('here');
   };
   return (
     <>
