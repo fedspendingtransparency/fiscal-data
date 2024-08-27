@@ -86,10 +86,10 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
       eventLabel: label,
     });
   };
-  let gaTimerDebt100Yrs;
+  let homepageTile;
   let ga4Timer;
   const handleMouseEnter = label => {
-    gaTimerDebt100Yrs = setTimeout(() => {
+    homepageTile = setTimeout(() => {
       Analytics.event({
         category: 'Homepage Cards',
         action: 'Card Hover',
