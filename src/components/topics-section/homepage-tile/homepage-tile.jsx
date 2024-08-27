@@ -96,12 +96,6 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
         label: label,
       });
     }, 3000);
-    ga4Timer = setTimeout(() => {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'dap_event',
-      });
-    }, 3000);
   };
   return (
     <>
