@@ -8,7 +8,6 @@ import { ga4DataLayerPush } from '../../../../helpers/google-analytics/google-an
 export const topicIconAnalyticsEvent = {
   category: 'Dataset Search Page',
   action: 'Topics Filter Click',
-  name: 'dap_event',
 };
 
 const Topic = ({ active, filterKey, label, onChange, image }) => {
