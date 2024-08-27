@@ -119,7 +119,7 @@ describe('react-table', () => {
 
   it('Able to interact with headers for column sort', () => {
     const mockSorting = jest.fn();
-    const { getAllByTestId, getByRole } = render(
+    const { getAllByRole, getByRole } = render(
       <RecoilRoot>
         <DataTable
           rawData={mockTableData}
@@ -139,18 +139,18 @@ describe('react-table', () => {
     // Column header
     expect(getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' })).toBeInTheDocument();
     // Rows render
-    expect(getAllByTestId('row').length).toEqual(6);
+    expect(getAllByRole('row').length).toEqual(7);
     const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
-    expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
+    expect(getAllByRole('row')[1].innerHTML).toContain('7/12/2023');
     fireEvent.click(sortButton);
     // Now sorted in desc order
     expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
     fireEvent.click(sortButton);
     fireEvent.click(sortButton);
     //Sorting should be reset
-    expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
+    expect(getAllByRole('row')[1].innerHTML).toContain('7/12/2023');
   });
 
   it('column sort keyboard accessibility', () => {
