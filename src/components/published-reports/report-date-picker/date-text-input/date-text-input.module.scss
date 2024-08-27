@@ -9,10 +9,13 @@
   font-style: italic;
   margin-top: 0.25rem;
 }
+.inputLabel, .selectedDateDisplay, .helpLabel {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 
 .inputLabel, .helpLabel {
   font-size: $font-size-14;
-  margin-right: .25rem;
 }
 
 .selectedDateDisplay {
@@ -22,7 +25,7 @@
   align-items: center;
   padding: 0 1rem;
   min-height: 38px;
-  width: calc(100% - 2rem - 2px);
+  width: calc(100% - 5rem - 2px);
 
   input {
     font-size: $font-size-16;

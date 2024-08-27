@@ -5,15 +5,19 @@ import { monthFullNames, monthNames } from '../../../../utils/api-utils';
 
 interface iDateTextInput {
   label: string;
+  validInput: boolean;
+  setValidInput: (inputState: boolean) => void;
+  inputFocus: boolean;
+  setInputFocus: (focusState: boolean) => void;
+  setSelectedDate: (date: string) => void;
 }
 
-const DateTextInput: FunctionComponent<iDateTextInput> = ({ label }) => {
+const DateTextInput: FunctionComponent<iDateTextInput> = ({ label, validInput, setValidInput, inputFocus, setInputFocus, setSelectedDate }) => {
   const dateInputRef = useRef();
   const helpText = 'Press Enter/Return to confirm.';
-  const [inputFocus, setInputFocus] = useState(false);
 
   const isValidMonth = (monthInput: string) => {
-    return monthFullNames.includes(monthInput) || monthNames.includes(monthInput);
+    return monthFullNames.includes(monthInput);
   };
 
   const isValidYear = (yearInput: number) => {
@@ -28,22 +32,35 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({ label }) => {
       if (splitDate.length === 2) {
         const month = splitDate[0];
         const year = Number(splitDate[1]);
-
-        if (isValidMonth(month) && isValidYear(year)) {
-          console.log('Valid month!');
-        }
+        console.log('input is valid', month, year, input);
+        return isValidMonth(month) && isValidYear(year);
+        // if (isValidMonth(month) && isValidYear(year)) {
+        //   setValidInput(true);
+        // }
       }
     }
-    return isValidDateObject;
+    return false;
   };
 
   const handleOnKeyDown = e => {
+    const input = e.target.value;
     if (e.code === 'Enter') {
-      const input = e.target.value;
       if (isValid(input)) {
+        setValidInput(true);
         console.log(e, input);
+      } else {
+        console.log('invalid error state');
+        //set error state
       }
     }
+  };
+  const handleOnChange = e => {
+    const input = e.target.value;
+    if (validInput && !isValid(input)) {
+      setValidInput(false);
+      console.log('else key input invalid', input);
+    }
+    console.log('here', validInput, input);
   };
 
   const handleOnFocus = e => {
@@ -52,7 +69,10 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({ label }) => {
   };
 
   const handleOnBlur = e => {
-    console.log('focus');
+    console.log('blur');
+    if (!validInput && dateInputRef?.current?.value) {
+      dateInputRef.current.value = '';
+    }
     setInputFocus(false);
   };
 
@@ -66,8 +86,9 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({ label }) => {
         onKeyDown={handleOnKeyDown}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
+        onChange={handleOnChange}
       />
-      <div className={helpLabel} aria-hidden={inputFocus} style={inputFocus ? null : { display: 'none' }}>
+      <div className={helpLabel} aria-hidden={inputFocus && !validInput} style={inputFocus && !validInput ? null : { display: 'none' }}>
         {helpText}
       </div>
     </>

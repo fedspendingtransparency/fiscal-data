@@ -1,14 +1,5 @@
-import React, { FunctionComponent, ReactElement } from 'react';
-import {
-  applyButton,
-  buttonContainer,
-  cancelButton,
-  checkIcon,
-  dropdownContainer,
-  publishedDateLabel,
-  selectedDateDisplay,
-  inputContainer,
-} from './report-date-dropdown.module.scss';
+import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import { applyButton, buttonContainer, cancelButton, checkIcon, dropdownContainer, inputContainer } from './report-date-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import DateTextInput from '../date-text-input/date-text-input';
@@ -16,23 +7,48 @@ import DateTextInput from '../date-text-input/date-text-input';
 interface IReportDateDropdown {
   handleClose: () => void;
   handleApply: () => void;
-  displayDate: string;
+  setSelectedDate: (date: Date) => void;
+  setSelectedMonth: (month: string) => void;
+  setSelectedYear: (year: string) => void;
   children: ReactElement;
 }
 
-const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({ handleClose, handleApply, displayDate, children }: IReportDateDropdown) => {
+const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
+  handleClose,
+  handleApply,
+  setSelectedDate,
+  setSelectedMonth,
+  setSelectedYear,
+  children,
+}: IReportDateDropdown) => {
+  const [validInput, setValidInput] = useState(false);
+  const [inputFocus, setInputFocus] = useState(false);
+
+  useEffect(() => {
+    if (validInput) {
+      setSelectedMonth('June');
+      setSelectedYear('2023');
+    }
+  }, [validInput]);
   return (
     <>
       <div className={dropdownContainer}>
         <div className={inputContainer}>
-          <DateTextInput label="Published Date (Example: May 1998 or 05/1998)" />
+          <DateTextInput
+            label="Published Date (Example: May 1998 or 05/1998)"
+            validInput={validInput}
+            setValidInput={setValidInput}
+            inputFocus={inputFocus}
+            setInputFocus={setInputFocus}
+            setSelectedDate={setSelectedDate}
+          />
         </div>
         {children}
         <div className={buttonContainer}>
           <button className={cancelButton} onClick={handleClose}>
             Cancel
           </button>
-          <button className={applyButton} onClick={handleApply} aria-label="Apply Selected Date">
+          <button className={applyButton} onClick={handleApply} aria-label="Apply Selected Date" disabled={inputFocus && !validInput}>
             <FontAwesomeIcon icon={faCheck} className={checkIcon} />
             Apply
           </button>
