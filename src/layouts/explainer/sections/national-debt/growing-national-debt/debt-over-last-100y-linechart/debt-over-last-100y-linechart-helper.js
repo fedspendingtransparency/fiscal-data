@@ -8,15 +8,14 @@ const analyticsClickHandler = (action, section) => {
   Analytics.event({
     category: 'Explainers',
     action: action,
-    label: `Debt - ${section}`,
+    label: `${section}`,
   });
 };
 
 const hdoLink = (
   <CustomLink
     url="/datasets/historical-debt-outstanding/"
-    eventNumber="15"
-    // onClick={() => analyticsClickHandler('Citation Click', 'U.S. Federal Debt Trends Over the Last 100 Years')}
+    onClick={() => analyticsClickHandler('Debt Citation Click', 'Historical Debt Outstanding')}
     id="Historical Debt Outstanding"
   >
     Historical Debt Outstanding
@@ -24,10 +23,7 @@ const hdoLink = (
 );
 
 const bls = (
-  <CustomLink
-    url="https://www.bls.gov/developers/"
-    onClick={() => analyticsClickHandler('Citation Click', 'U.S. Federal Debt Trends Over the Last 100 Years')}
-  >
+  <CustomLink url="https://www.bls.gov/developers/" onClick={() => analyticsClickHandler('Debt Citation Click', 'Bureau of Labor Statistics')}>
     Bureau of Labor Statistics
   </CustomLink>
 );
