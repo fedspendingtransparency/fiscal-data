@@ -2,8 +2,15 @@ import Analytics from '../../../../utils/analytics/analytics';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import React from 'react';
 
+const analyticsCitationHandler = section => {
+  Analytics.event({
+    category: 'Explainers',
+    action: `Debt Citation Click`,
+    label: `${section}`,
+  });
+};
 export const deficitLink = (
-  <CustomLink url="/americas-finance-guide/national-deficit/" id="National Deficit">
+  <CustomLink url="/americas-finance-guide/national-deficit/" id="National Deficit" onClick={() => analyticsCitationHandler('National Deficit')}>
     deficit
   </CustomLink>
 );

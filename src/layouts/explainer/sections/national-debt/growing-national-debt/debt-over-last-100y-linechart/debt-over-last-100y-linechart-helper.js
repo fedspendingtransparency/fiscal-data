@@ -15,7 +15,8 @@ const analyticsClickHandler = (action, section) => {
 const hdoLink = (
   <CustomLink
     url="/datasets/historical-debt-outstanding/"
-    onClick={() => analyticsClickHandler('Citation Click', 'U.S. Federal Debt Trends Over the Last 100 Years')}
+    eventNumber="15"
+    // onClick={() => analyticsClickHandler('Citation Click', 'U.S. Federal Debt Trends Over the Last 100 Years')}
     id="Historical Debt Outstanding"
   >
     Historical Debt Outstanding
