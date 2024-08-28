@@ -119,7 +119,7 @@ describe('react-table', () => {
 
   it('Able to interact with headers for column sort', () => {
     const mockSorting = jest.fn();
-    const { getAllByTestId, getAllByRole, getByRole } = render(
+    const { getAllByTestId, getByRole } = render(
       <RecoilRoot>
         <DataTable
           rawData={mockTableData}
