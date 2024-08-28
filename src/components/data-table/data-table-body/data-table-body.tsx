@@ -18,7 +18,7 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes, al
       {table.getRowModel().rows.map(row => {
         fillCell = !fillCell;
         return (
-          <tr key={row.id} className={fillCell ? fillCellGrey : fillCellWhite} role={'row'}>
+          <tr key={row.id} className={fillCell ? fillCellGrey : fillCellWhite} data-testid={'row'}>
             {row.getVisibleCells().map(cell => {
               const cellValue = cell.getValue();
               const display = !cellValue || cellValue === 'null';
