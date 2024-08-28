@@ -55,7 +55,7 @@
         opacity: 0.5;
       }
 
-      &:hover {
+      &:hover:not([disabled]) {
         background-color: $body-background;
         transition: background-color 0.2s ease;
       }

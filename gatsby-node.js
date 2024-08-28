@@ -394,7 +394,19 @@ exports.createSchemaCustomization = ({ actions }) => {
       label: String,
       notice: String,
       optionValues: [String!],
+      dataUnmatchedHeader: String,
       dataUnmatchedMessage: String
+    }
+    type ApiFilter {
+      field: String,
+      label: String,
+      notice: String,
+      optionValues: [String!],
+      dataUnmatchedHeader: String,
+      dataUnmatchedMessage: String,
+      dataDefaultHeader: String,
+      dataDefaultMessage: String,
+      dataSearchLabel: String
     }
     type SEOConfig {
       title: String,
@@ -431,6 +443,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       hideColumns: [String],
       selectColumns: [String!],
       userFilter: UserFilter,
+      apiFilter: ApiFilter,
       apiNotesAndLimitations: String,
       customFormatting: [CustomFormatConfig!],
     }
@@ -567,7 +580,19 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               label
               notice
               optionValues
+              dataUnmatchedHeader
               dataUnmatchedMessage
+            }
+            apiFilter {
+              field
+              label
+              notice
+              optionValues
+              dataUnmatchedHeader
+              dataUnmatchedMessage
+              dataDefaultHeader
+              dataDefaultMessage
+              dataSearchLabel
             }
             downloadName
             earliestDate
@@ -696,15 +721,27 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   });
 
   for (const config of result.data.allDatasets.datasets) {
-    if (config.apis[0].userFilter) {
-      let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
-      filterOptionsUrl += `${config.apis[0].endpoint}?fields=${config.apis[0].userFilter.field}`;
-      filterOptionsUrl += `&page[size]=10000&sort=${config.apis[0].userFilter.field}`;
+    for (const api of config.apis) {
+      if (api.userFilter) {
+        let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+        filterOptionsUrl += `${api.endpoint}?fields=${api.userFilter.field}`;
+        filterOptionsUrl += `&page[size]=10000&sort=${api.userFilter.field}`;
 
-      const options = await fetch(filterOptionsUrl).then(res =>
-        res.json().then(body => body.data.map(row => row[config.apis[0].userFilter.field]).sort((a, b) => a.localeCompare(b)))
-      );
-      config.apis[0].userFilter.optionValues = [...new Set(options)]; // uniquify results
+        const options = await fetch(filterOptionsUrl).then(res =>
+          res.json().then(body => body.data.map(row => row[api.userFilter.field]).sort((a, b) => a.localeCompare(b)))
+        );
+        api.userFilter.optionValues = [...new Set(options)]; // uniquify results
+      }
+      if (api.apiFilter) {
+        let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+        filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
+        filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
+
+        const options = await fetch(filterOptionsUrl).then(res =>
+          res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+        );
+        api.apiFilter.optionValues = [...new Set(options)]; // uniquify results
+      }
     }
     createPage({
       path: `/datasets${config.slug}`,

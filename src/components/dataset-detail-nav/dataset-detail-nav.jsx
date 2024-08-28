@@ -54,7 +54,7 @@ const DDNav = () => {
 
     if (id) {
       Analytics.event({
-        category: 'Fiscal Data - Dataset Sub Nav',
+        category: 'Dataset Sub Nav',
         action: 'Dataset Sub Nav Click',
         label: id,
       });

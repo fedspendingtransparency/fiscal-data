@@ -175,7 +175,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       } else {
         clearDisplayData();
         let canceledObj = { isCanceled: false, abortController: new AbortController() };
-
         if (!loadByPage || ignorePivots) {
           getApiData(
             dateRange,
@@ -280,6 +279,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             dateRange={dateRange}
             selectedTable={selectedTable}
             userFilterSelection={userFilterSelection}
+            setUserFilterSelection={setUserFilterSelection}
             apiData={apiData}
             isLoading={isLoading}
             setIsLoading={setIsLoading}

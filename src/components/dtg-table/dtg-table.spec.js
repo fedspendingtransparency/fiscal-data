@@ -13,6 +13,7 @@ import PaginationControls from '../pagination/pagination-controls';
 import * as ApiUtils from '../../utils/api-utils';
 import * as helpers from './dtg-table-helper';
 import { RecoilRoot } from 'recoil';
+import { render } from '@testing-library/react';
 
 describe('DTG table component', () => {
   jest.useFakeTimers();
@@ -242,6 +243,26 @@ describe('DTG table component', () => {
     expect(rowsShowing.props.children).toMatch('Showing 1 - 3 rows of 3 rows');
     expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
     requestSpy.mockClear();
+  });
+
+  it('assigns data with a userFilterSelection', () => {
+    const mockSetIsLoading = jest.fn();
+    const mockSetManualPagination = jest.fn();
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DtgTable
+          tableMeta={{ 'total-count': 500 }}
+          userFilterSelection={{ value: 'A' }}
+          tableProps={{ dePaginated: { data: ['hello'] } }}
+          rawDataTable={true}
+          setManualPagination={mockSetManualPagination}
+          setIsLoading={mockSetIsLoading}
+        />
+      </RecoilRoot>
+    );
+    expect(getByRole('table')).toBeInTheDocument();
+    expect(mockSetManualPagination).toHaveBeenCalledWith(false);
+    expect(mockSetIsLoading).toHaveBeenCalledWith(false);
   });
 });
 

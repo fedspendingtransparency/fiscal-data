@@ -108,7 +108,7 @@ const checkError = (response, urlAttempted) => {
   }
 };
 
-export const pagedDatatableRequest = async (table, from, to, selectedPivot, pageNum, pageSize, tableColumnSortData) => {
+export const pagedDatatableRequest = async (table, from, to, selectedPivot, pageNum, pageSize, tableColumnSortData, filterField, filterValue) => {
   const dateField = table.dateField;
   // redemption_tables and sb_value are exception scenarios where the date string needs to
   // be YYYY-MM.
@@ -125,10 +125,11 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
     tableColumnSortParams = buildTableColumnSortParams(tableColumnSortData);
     tableColumnSort = tableColumnSortParams.sort;
   }
+  const filterParam = filterField && filterValue ? `,${filterField}:eq:${filterValue.value}` : '';
 
   const uri =
     `${apiPrefix}${table.endpoint}?filter=${dateField}:gte:${fromStr},${dateField}` +
-    `:lte:${toStr}&sort=${tableColumnSort ? tableColumnSort : sortParam}&page[number]=${pageNum}&page[size]=${pageSize}`;
+    `:lte:${toStr}${filterParam}&sort=${tableColumnSort ? tableColumnSort : sortParam}&page[number]=${pageNum}&page[size]=${pageSize}`;
 
   return getIFetch()(uri).then(response => response.json());
 };
@@ -570,4 +571,34 @@ export const buildSortParams = (table, _selectedPivot) => {
     sortParamValue = `-${table.dateField}`;
   }
   return sortParamValue;
+};
+
+export const fetchTableMeta = async (sortParam, to, from, selectedTable, apiFilterParam) => {
+  return basicFetch(
+    `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+      `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=1`
+  );
+};
+
+export const fetchAllTableData = async (sortParam, to, from, totalCount, selectedTable, apiFilterParam) => {
+  if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
+    return await basicFetch(
+      `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+        `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
+    ).then(async page1res => {
+      const page2res = await basicFetch(
+        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+          `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+      );
+      page1res.data = page1res.data.concat(page2res.data);
+      return page1res;
+    });
+  } else if (totalCount <= MAX_PAGE_SIZE) {
+    if (totalCount !== 0) {
+      return basicFetch(
+        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+          `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=${totalCount}`
+      );
+    }
+  }
 };

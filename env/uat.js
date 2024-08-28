@@ -212,6 +212,15 @@ module.exports = {
       dateField: 'eff_date',
       downloadName: 'UTF_Account_Statement ',
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
+      apiFilter: {
+        field: 'acct_desc',
+        label: 'Account Description',
+        dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+        dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+        dataDefaultHeader: 'This table requires additional filters.',
+        dataDefaultMessage: 'Select an account in the filter section above to display the data.',
+        dataSearchLabel: 'Search account descriptions',
+      },
       selectColumns: [
         'acct_statement',
         'eff_date',
@@ -230,6 +239,15 @@ module.exports = {
       dateField: 'eff_date',
       downloadName: 'UTF_Transaction_Statement ',
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
+      apiFilter: {
+        field: 'acct_desc',
+        label: 'Account Description',
+        dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+        dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+        dataDefaultHeader: 'This table requires additional filters.',
+        dataDefaultMessage: 'Select an account in the filter section above to display the data.',
+        dataSearchLabel: 'Search account descriptions',
+      },
       selectColumns: [
         'trans_statement',
         'eff_date',
@@ -247,6 +265,15 @@ module.exports = {
       dateField: 'eff_date',
       downloadName: 'UTF_Federal_Activity_Statement ',
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
+      apiFilter: {
+        field: 'acct_desc',
+        label: 'Account Description',
+        dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+        dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+        dataDefaultHeader: 'This table requires additional filters.',
+        dataDefaultMessage: 'Select an account in the filter section above to display the data.',
+        dataSearchLabel: 'Search account descriptions',
+      },
       selectColumns: ['fed_act_statement', 'eff_date', 'shares_per_par', 'trans_desc_cd', 'memo_nbr', 'location_cd', 'acct_nbr', 'acct_desc'],
     },
     // Buybacks
