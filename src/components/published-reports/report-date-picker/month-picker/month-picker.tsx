@@ -76,7 +76,11 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
                       const disabled = !allReportDates.includes(selectedMonth + ' ' + option);
                       return (
                         <li key={i}>
-                          <button className={option === selectedYear ? selected : null} disabled={disabled} onClick={() => handleYearClick(option)}>
+                          <button
+                            className={option.toString() === selectedYear ? selected : null}
+                            disabled={disabled}
+                            onClick={() => handleYearClick(option)}
+                          >
                             {option}
                           </button>
                         </li>

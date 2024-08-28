@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { FunctionComponent } from 'react';
 import { selectedDateDisplay, inputLabel, helpLabel } from './date-text-input.module.scss';
-import { monthFullNames, monthNames } from '../../../../utils/api-utils';
+import { monthFullNames } from '../../../../utils/api-utils';
 
 interface iDateTextInput {
   label: string;
@@ -15,9 +15,11 @@ interface iDateTextInput {
 const DateTextInput: FunctionComponent<iDateTextInput> = ({ label, validInput, setValidInput, inputFocus, setInputFocus, setSelectedDate }) => {
   const dateInputRef = useRef();
   const helpText = 'Press Enter/Return to confirm.';
+  const invalidDateText = 'Invalid date. Please check input and format.';
+  const [errorMessage, setErrorMessage] = useState<string>();
 
   const isValidMonth = (monthInput: string) => {
-    return monthFullNames.includes(monthInput);
+    return monthFullNames.includes(monthInput) || (Number(monthInput) <= 12 && Number(monthInput) > 0);
   };
 
   const isValidYear = (yearInput: number) => {
@@ -25,52 +27,52 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({ label, validInput, s
   };
 
   const isValid = (input: string) => {
-    const inputDate = new Date(input);
-    const isValidDateObject = inputDate.getTime() === inputDate.getTime();
-    if (isValidDateObject) {
-      const splitDate = input.split(' ');
-      if (splitDate.length === 2) {
-        const month = splitDate[0];
-        const year = Number(splitDate[1]);
-        console.log('input is valid', month, year, input);
-        return isValidMonth(month) && isValidYear(year);
-        // if (isValidMonth(month) && isValidYear(year)) {
-        //   setValidInput(true);
-        // }
-      }
+    const splitTextDate = input.split(' ');
+    const splitNumericDate = input.split('/');
+    let month;
+    let year;
+    let numeric = false;
+    if (splitTextDate.length === 2) {
+      month = splitTextDate[0];
+      year = Number(splitTextDate[1]);
+    } else if (splitNumericDate.length === 2) {
+      month = splitNumericDate[0];
+      year = Number(splitNumericDate[1]);
+      numeric = true;
     }
-    return false;
+    const validEntry = isValidMonth(month) && isValidYear(year);
+    if (validEntry) {
+      setValidInput(true);
+      setErrorMessage(null);
+      if (numeric) {
+        const monthText = monthFullNames[Number(month) - 1];
+        dateInputRef.current.value = monthText + ' ' + year;
+      }
+    } else {
+      setErrorMessage(invalidDateText);
+    }
   };
 
   const handleOnKeyDown = e => {
     const input = e.target.value;
     if (e.code === 'Enter') {
-      if (isValid(input)) {
-        setValidInput(true);
-        console.log(e, input);
-      } else {
-        console.log('invalid error state');
-        //set error state
-      }
+      isValid(input);
     }
   };
+
   const handleOnChange = e => {
     const input = e.target.value;
     if (validInput && !isValid(input)) {
       setValidInput(false);
-      console.log('else key input invalid', input);
     }
-    console.log('here', validInput, input);
   };
 
-  const handleOnFocus = e => {
-    console.log('focus');
+  const handleOnFocus = () => {
     setInputFocus(true);
   };
 
   const handleOnBlur = e => {
-    console.log('blur');
-    if (!validInput && dateInputRef?.current?.value) {
+    if (!validInput && dateInputRef?.current) {
       dateInputRef.current.value = '';
     }
     setInputFocus(false);
@@ -89,7 +91,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({ label, validInput, s
         onChange={handleOnChange}
       />
       <div className={helpLabel} aria-hidden={inputFocus && !validInput} style={inputFocus && !validInput ? null : { display: 'none' }}>
-        {helpText}
+        {errorMessage ? errorMessage : helpText}
       </div>
     </>
   );
