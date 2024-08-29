@@ -64,6 +64,21 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-038', '015-BFS-2014Q3-037'],
       currentDateButton: 'byMonth',
     },
+    '015-BFS-2014Q3-053': {
+      slug: '/unemployment-trust-funds-report-selection/',
+      seoConfig: {
+        pageTitle: 'Unemployment Trust Funds Report Selection',
+        description:
+          'Unemployment Trust Fund Report Selection offers numerous reports by month, year, state, federal, ' +
+          'and report type. The reports represent data supporting the Account Statement, Transaction Statement, ' +
+          'and the Federal Activity Statement reports. The Unemployment Trust Fund is made up of 59 U.S. Treasury ' +
+          'accounts, including an account for each state and some territories.',
+        keywords: 'Debt, Financial Summaries',
+      },
+      topics: ['debt', 'financial-summaries'],
+      relatedDatasets: ['015-BFS-2014Q3-093'],
+      currentDateButton: 'byMonth',
+    },
   },
   ADDITIONAL_ENDPOINTS: {
     '160': {
@@ -268,6 +283,75 @@ module.exports = {
         'transaction_cd',
         'memo_nbr',
       ],
+    },
+    '305': {
+      endpoint: 'v1/accounting/od/utf_account_statement',
+      dateField: 'eff_date',
+      downloadName: 'UTF_Account_Statement ',
+      alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
+      apiFilter: {
+        field: 'acct_desc',
+        label: 'Account Description',
+        dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+        dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+        dataDefaultHeader: 'This table requires additional filters.',
+        dataDefaultMessage: 'Select an account in the filter section above to display the data.',
+        dataSearchLabel: 'Search account descriptions',
+      },
+      selectColumns: [
+        'acct_statement',
+        'eff_date',
+        'shares_per_par',
+        'trans_cd',
+        'trans_desc_cd',
+        'memo_nbr',
+        'location_cd',
+        'acct_nbr',
+        'acct_desc',
+        'report_type',
+      ],
+    },
+    '306': {
+      endpoint: 'v1/accounting/od/utf_transaction_statement',
+      dateField: 'eff_date',
+      downloadName: 'UTF_Transaction_Statement ',
+      alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
+      apiFilter: {
+        field: 'acct_desc',
+        label: 'Account Description',
+        dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+        dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+        dataDefaultHeader: 'This table requires additional filters.',
+        dataDefaultMessage: 'Select an account in the filter section above to display the data.',
+        dataSearchLabel: 'Search account descriptions',
+      },
+      selectColumns: [
+        'trans_statement',
+        'eff_date',
+        'shares_per_par',
+        'trans_desc_cd',
+        'memo_nbr',
+        'location_cd',
+        'acct_nbr',
+        'acct_desc',
+        'report_type',
+      ],
+    },
+    '307': {
+      endpoint: 'v1/accounting/od/utf_federal_activity_statement',
+      dateField: 'eff_date',
+      downloadName: 'UTF_Federal_Activity_Statement ',
+      alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
+      apiFilter: {
+        field: 'acct_desc',
+        label: 'Account Description',
+        dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+        dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+        dataDefaultHeader: 'This table requires additional filters.',
+        dataDefaultMessage: 'Select an account in the filter section above to display the data.',
+        dataSearchLabel: 'Search account descriptions',
+      },
+      selectColumns: ['fed_act_statement', 'eff_date', 'shares_per_par', 'trans_desc_cd', 'memo_nbr', 'location_cd', 'acct_nbr', 'acct_desc'],
     },
   },
 };
