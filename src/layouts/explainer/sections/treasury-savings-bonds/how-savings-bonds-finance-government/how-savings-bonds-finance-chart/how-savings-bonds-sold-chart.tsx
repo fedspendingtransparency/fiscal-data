@@ -96,6 +96,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const aggregatedDataforPie = Object.values(aggregateData);
 
   const data1WidthPercentage = calculatePercentage(aggregatedDataforPie);
+  console.log(data1WidthPercentage);
   const data2WidthPercentage = calculatePercentage(consolidateDataArray);
 
   const savingsBondCallOut = data2WidthPercentage.map((item, index) => {
@@ -182,12 +183,12 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                 endAngle={90}
                 onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
               >
-                {aggregatedDataforPie.map((entry: any, index) => (
+                {data1WidthPercentage.map((entry: any, index) => (
                   <Cell
                     key={`cell-data01-${index}`}
                     fill={entry.securityType === 'Nonmarketable' ? color2 : color}
                     opacity={getOpacity('data01', index, entry)}
-                    aria-label={`${entry.name}: ${entry.value} (${entry.percent}%`}
+                    aria-label={`${entry.name}: Value: ${entry.value} Percent: ${entry.percent.toFixed(2)}%`}
                   />
                 ))}
               </Pie>
@@ -209,7 +210,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                     key={`cell-data02-${index}`}
                     fill={entry.securityType === 'Nonmarketable' ? color2 : color}
                     opacity={getOpacity('data02', index, entry)}
-                    aria-label={`${entry.name}: ${entry.value} (${entry.percent}%`}
+                    aria-label={`${entry.name}: Value: ${entry.value} Percent: ${entry.percent.toFixed(2)}%`}
                   />
                 ))}
               </Pie>
