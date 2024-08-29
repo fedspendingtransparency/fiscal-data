@@ -16,7 +16,9 @@ export const SetNoChartMessage = (
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
   if (allTablesSelected) {
-    return <NotShownMessage heading='With the current "All Data Tables" selection, we are unable to render a Table or Chart at this time.' />;
+    const allTablesMessage =
+      'With the current "All Data Tables" selection, you may download the data, but the table and chart previews are not applicable.';
+    return <NotShownMessage heading={allTablesMessage} />;
   } else if (dataDisplays && dataDisplays.every(dd => dd.chartType === 'none')) {
     if (customNotShownMessage && selectedTable.apiId !== 141) {
       const copy = (
