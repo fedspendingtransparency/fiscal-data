@@ -745,25 +745,30 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
         filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
         filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
-        let options;
 
 
         if (api.apiFilter.fieldFilter) {
+          let multiOptions = {};
+
           for (const val of api.apiFilter.fieldFilter.value) {
             const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
 
             console.warn('newUrl:::: ', newUrl);
 
-            options = await fetch(newUrl).then(res =>
+            const options = await fetch(newUrl).then(res =>
               res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
             );
           }
+        } else {
+          const options = await fetch(filterOptionsUrl).then(res =>
+            res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+          );
+
+          // api.apiFilter.optionValues = [...new Set(options)]; // uniquify results
+          api.apiFilter.optionValues = {all: [...new Set(options)]}; // uniquify results
         }
 
-        options = await fetch(filterOptionsUrl).then(res =>
-          res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
-        );
-        api.apiFilter.optionValues = [...new Set(options)]; // uniquify results
+
       }
     }
     createPage({
