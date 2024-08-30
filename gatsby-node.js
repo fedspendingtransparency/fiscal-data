@@ -746,29 +746,27 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
         filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
 
-
         if (api.apiFilter.fieldFilter) {
-          let multiOptions = {};
+          const multiOptions = {};
 
           for (const val of api.apiFilter.fieldFilter.value) {
             const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
 
             console.warn('newUrl:::: ', newUrl);
-
             const options = await fetch(newUrl).then(res =>
               res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
             );
+            multiOptions[val] = options;
           }
+          api.apiFilter.optionValues = multiOptions; // uniquify results
         } else {
           const options = await fetch(filterOptionsUrl).then(res =>
             res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
           );
 
           // api.apiFilter.optionValues = [...new Set(options)]; // uniquify results
-          api.apiFilter.optionValues = {all: [...new Set(options)]}; // uniquify results
+          api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
         }
-
-
       }
     }
     createPage({

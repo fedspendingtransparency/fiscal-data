@@ -17,9 +17,13 @@ type UserFilterProps = {
       label: string;
       field: string;
       notice: string;
-      optionValues: string[];
+      optionValues: { key: string };
       dataUnmatchedMessage: string;
       dataSearchLabel: string;
+      filterFields: {
+        value: string;
+        fields: string[];
+      };
     };
   };
   onUserFilter: (selection: { label: string | number; value?: string | number | null }) => void;
@@ -53,7 +57,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
       options.unshift(defaultSelection);
       setUserFilterOptions(options);
     } else if (selectedTable?.apiFilter?.optionValues && userFilterOptions === null) {
-      options = selectedTable.apiFilter.optionValues.map(val => ({ label: val, value: val }));
+      options = selectedTable.apiFilter.optionValues['Federal'].map(val => ({ label: val, value: val }));
       options.unshift(defaultSelection);
       setUserFilterOptions(options);
     }
