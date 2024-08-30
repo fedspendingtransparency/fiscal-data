@@ -50,7 +50,6 @@ export default function determineDateRange(table, preset, currentDateButton) {
   }
   let dateRangeObj = Object.assign(DATE_RANGE_OBJ);
   const years = preset.years;
-  console.log(table);
 
   if (years && !isNaN(Number(years))) {
     let selectionPathStr = `${years}_year`;
@@ -88,7 +87,6 @@ export default function determineDateRange(table, preset, currentDateButton) {
       min: table.earliestDate,
       selectionPath: 'current_report',
     };
-    console.log(dateRangeObj);
   } else {
     return null;
   }

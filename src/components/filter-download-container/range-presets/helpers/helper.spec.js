@@ -32,17 +32,13 @@ describe('Range Presets Helpers - determineDateRange', () => {
     expect(determineDateRange(currentTable, { label: 'Last 30 Days', key: 'current', years: null }).from).toEqual(new Date(expectedLast30DayDate));
   });
 
-  // it('sets the date range to the entire month of the most recent date available, ' +
-  //   'when currentDateButton is set to byMonth', () => {
-  //   expect(determineDateRange(TABLE_OBJ, PRESETS.current, 'byMonth').selectionPath)
-  // .toStrictEqual(PRESETS.current.expectedPath);
-  //
-  //   expect(formatDate(determineDateRange(TABLE_OBJ, PRESETS.current, 'byMonth').from))
-  // .toStrictEqual('01/01/2021');
-  //
-  //   expect(formatDate(determineDateRange(TABLE_OBJ, PRESETS.current, 'byMonth').to))
-  // .toStrictEqual('01/06/2021');
-  // });
+  it('sets the date range to the entire month of the most recent date available, when currentDateButton is set to byFullMonth', () => {
+    expect(determineDateRange(TABLE_OBJ, PRESETS.current, 'byFullMonth').selectionPath).toStrictEqual(PRESETS.current.expectedPath);
+
+    expect(formatDate(determineDateRange(TABLE_OBJ, PRESETS.current, 'byFullMonth').from)).toStrictEqual('01/01/2021');
+
+    expect(formatDate(determineDateRange(TABLE_OBJ, PRESETS.current, 'byFullMonth').to)).toStrictEqual('01/06/2021');
+  });
 });
 
 describe('Range Presets Helpers - generateFormattedDate', () => {
