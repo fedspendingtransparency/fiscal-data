@@ -34,6 +34,21 @@ module.exports = {
       relatedDatasets: ['015-BFS-2020Q4-xx', '015-BFS-2014Q1-03', '015-BFS-2014Q1-13', '015-BFS-2017Q2-003'],
       currentDateButton: 'byMonth',
     },
+    '015-BFS-2014Q3-053': {
+      slug: '/unemployment-trust-funds-report-selection/',
+      seoConfig: {
+        pageTitle: 'Unemployment Trust Funds Report Selection',
+        description:
+          'Unemployment Trust Fund Report Selection offers numerous reports by month, year, state, federal, ' +
+          'and report type. The reports represent data supporting the Account Statement, Transaction Statement, ' +
+          'and the Federal Activity Statement reports. The Unemployment Trust Fund is made up of 59 U.S. Treasury ' +
+          'accounts, including an account for each state and some territories.',
+        keywords: 'Debt, Financial Summaries',
+      },
+      topics: ['debt', 'financial-summaries'],
+      relatedDatasets: ['015-BFS-2014Q3-093'],
+      currentDateButton: 'byFullMonth',
+    },
     '015-BFS-2024Q2-001': {
       slug: '/treasury-securities-buybacks/',
       seoConfig: {
@@ -62,21 +77,6 @@ module.exports = {
       },
       topics: ['debt', 'financial-summaries'],
       relatedDatasets: ['015-BFS-2014Q3-038', '015-BFS-2014Q3-037'],
-      currentDateButton: 'byMonth',
-    },
-    '015-BFS-2014Q3-053': {
-      slug: '/unemployment-trust-funds-report-selection/',
-      seoConfig: {
-        pageTitle: 'Unemployment Trust Funds Report Selection',
-        description:
-          'Unemployment Trust Fund Report Selection offers numerous reports by month, year, state, federal, ' +
-          'and report type. The reports represent data supporting the Account Statement, Transaction Statement, ' +
-          'and the Federal Activity Statement reports. The Unemployment Trust Fund is made up of 59 U.S. Treasury ' +
-          'accounts, including an account for each state and some territories.',
-        keywords: 'Debt, Financial Summaries',
-      },
-      topics: ['debt', 'financial-summaries'],
-      relatedDatasets: ['015-BFS-2014Q3-093'],
       currentDateButton: 'byMonth',
     },
   },

@@ -44,7 +44,7 @@ export const DATE_RANGE_OBJ = {
   selectionPath: '',
 };
 
-export default function determineDateRange(table, preset) {
+export default function determineDateRange(table, preset, currentDateButton) {
   if (!table || !preset) {
     return null;
   }
@@ -68,13 +68,15 @@ export default function determineDateRange(table, preset) {
   } else if (preset.key === 'current') {
     const toDateForCurrentDateButton = convertDate(table.latestDate);
     let fromDateForCurrentDateButton;
-
     if (preset.label === 'Last 30 Days') {
       const date = new Date(table.latestDate);
       // 30 days including the most recent data
       const calculatedDate = date.setDate(date.getDate() - 29);
-      const newCalculatedDate = new Date(calculatedDate);
-      fromDateForCurrentDateButton = newCalculatedDate;
+      fromDateForCurrentDateButton = new Date(calculatedDate);
+    } else if (currentDateButton === 'byFullMonth') {
+      const date = new Date(table.latestDate);
+      const calculatedDate = date.setDate(1);
+      fromDateForCurrentDateButton = new Date(calculatedDate);
     } else {
       fromDateForCurrentDateButton = toDateForCurrentDateButton;
     }
