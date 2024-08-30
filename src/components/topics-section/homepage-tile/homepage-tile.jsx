@@ -22,6 +22,7 @@ import { Grid } from '@material-ui/core';
 import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
+let homepageTile;
 const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explainerTile }) => {
   let desktopImage, mobileImage;
   if (images) {
@@ -87,10 +88,28 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
     });
   };
 
+  const handleMouseEnter = label => {
+    homepageTile = setTimeout(() => {
+      Analytics.event({
+        category: 'Homepage Cards',
+        action: 'Card Hover',
+        label: label,
+      });
+    }, 3000);
+  };
+  const handleMouseLeave = () => {
+    clearTimeout(homepageTile);
+  };
   return (
     <>
       {content.path ? (
-        <Link to={content.path} data-testid={'tile-link'} onClick={() => analyticsHandler('Citation Click', content.analyticsName)}>
+        <Link
+          to={content.path}
+          data-testid={'tile-link'}
+          onClick={() => analyticsHandler('Citation Click', content.analyticsName)}
+          onMouseEnter={() => handleMouseEnter(content.analyticsName)}
+          onMouseLeave={handleMouseLeave}
+        >
           {card}
         </Link>
       ) : (

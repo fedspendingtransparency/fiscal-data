@@ -40,7 +40,7 @@ describe('Menu Dropdown', () => {
     const { queryByTestId, getByRole } = render(
       <MenuDropdown content={mockTopicsContent} setActiveDropdown={setActiveDropdown} activeDropdown={activeDropdown} />
     );
-    const topicsButton = getByRole('button', { name: 'Topics' });
+    const topicsButton = getByRole('button', { name: 'Page links for Topics' });
     let dropdownContent;
 
     fireEvent.mouseEnter(topicsButton);
@@ -59,7 +59,7 @@ describe('Menu Dropdown', () => {
     const { getByText, getByRole } = render(
       <MenuDropdown content={mockTopicsContent} setActiveDropdown={setActiveDropdown} activeDropdown={activeDropdown} />
     );
-    const topicsButton = getByRole('button', { name: 'Topics' });
+    const topicsButton = getByRole('button', { name: 'Page links for Topics' });
 
     act(() => {
       fireEvent.mouseEnter(topicsButton);
@@ -71,7 +71,7 @@ describe('Menu Dropdown', () => {
 
   it('renders the children for dropdown content', () => {
     const { getByRole } = render(<MenuDropdown content={mockToolsContent} setActiveDropdown={setActiveDropdown} activeDropdown={activeDropdown} />);
-    const toolsButton = getByRole('button', { name: 'Tools' });
+    const toolsButton = getByRole('button', { name: 'Page links for Tools' });
 
     act(() => {
       fireEvent.mouseEnter(toolsButton);

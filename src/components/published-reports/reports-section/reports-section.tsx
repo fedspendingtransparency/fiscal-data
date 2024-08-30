@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FunctionComponent } from 'react';
 import DownloadReportTable from '../download-report-table/download-report-table';
-import { reportsTip, note, publishDate } from './reports-section.module.scss';
+import { reportsTip, note } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 import ReportDatePicker from '../report-date-picker/report-date-picker';
@@ -56,13 +56,16 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
 
   const updateReportSelection = (date, isDaily, sortedReports) => {
     if (date) {
-      const day = date.getDate();
-      const month = date.toLocaleString('default', { month: 'short' });
-      const year = date.getFullYear();
+      const selectedDay = date.getDate();
+      const selectedMonth = date.toLocaleString('default', { month: 'short' });
+      const selectedYear = date.getFullYear();
 
       const filteredReports = sortedReports.filter((report: IReports) => {
-        const dateStr = report.report_date.toString();
-        return dateStr.includes(month) && dateStr.includes(year) && ((isDaily && dateStr.includes(day)) || !isDaily);
+        const reportDate = new Date(report.report_date);
+        const reportDay = reportDate.getDate();
+        const reportMonth = reportDate.toLocaleString('default', { month: 'short' });
+        const reportYear = reportDate.getFullYear();
+        return selectedMonth === reportMonth && selectedYear === reportYear && ((isDaily && selectedDay === reportDay) || !isDaily);
       });
       filteredReports.sort((a, b) => a.report_group_sort_order_nbr - b.report_group_sort_order_nbr);
       if (filteredReports.length > 0) {

@@ -251,7 +251,7 @@ const TableSectionContainer = ({
     if (e.key === undefined || e.key === 'Enter') {
       if (legend) {
         Analytics.event({
-          category: 'Fiscal Data - Chart Enabled',
+          category: 'Chart Enabled',
           action: 'Hide Legend Click',
           label: `${config.name}, ${selectedTable.tableName}`,
         });
@@ -266,7 +266,7 @@ const TableSectionContainer = ({
   const pivotToggler = () => {
     if (showPivotBar) {
       Analytics.event({
-        category: 'Fiscal Data - Chart Enabled',
+        category: 'Chart Enabled',
         action: 'Hide Pivot Options Click',
         label: `${config.name}, ${selectedTable.tableName}`,
       });
@@ -341,7 +341,13 @@ const TableSectionContainer = ({
           )}
           <div className={barContainer}>
             <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
-              <PivotOptions table={selectedTable} pivotSelection={selectedPivot} setSelectedPivot={setSelectedPivot} pivotsUpdated={pivotsUpdated} />
+              <PivotOptions
+                datasetName={config?.name}
+                table={selectedTable}
+                pivotSelection={selectedPivot}
+                setSelectedPivot={setSelectedPivot}
+                pivotsUpdated={pivotsUpdated}
+              />
             </div>
           </div>
         </div>
@@ -375,6 +381,7 @@ const TableSectionContainer = ({
                 emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
                 unchartable={noChartMessage !== undefined}
                 currentTab={selectedTab}
+                datasetName={config?.name}
                 onTabChange={tabChangeHandler}
                 selectedTable={selectedTable}
                 setResetFilters={setResetFilters}

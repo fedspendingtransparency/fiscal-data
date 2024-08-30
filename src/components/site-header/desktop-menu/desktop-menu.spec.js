@@ -51,7 +51,7 @@ describe('Desktop Menu', () => {
     const { getByRole } = render(
       <DesktopMenu glossaryClickHandler={glossaryClickHandler} clickHandler={clickHandler} setActiveDropdown={setActiveDropdown} />
     );
-    expect(getByRole('button', { name: 'Topics' })).toBeInTheDocument();
+    expect(getByRole('button', { name: 'Page links for Topics' })).toBeInTheDocument();
   });
 
   it('displays the topics drop down when mousing over topics button', () => {
@@ -59,7 +59,7 @@ describe('Desktop Menu', () => {
       <DesktopMenu glossaryClickHandler={glossaryClickHandler} clickHandler={clickHandler} setActiveDropdown={setActiveDropdown} />
     );
     act(() => {
-      fireEvent.mouseEnter(getByRole('button', { name: 'Topics' }));
+      fireEvent.mouseEnter(getByRole('button', { name: 'Page links for Topics' }));
       jest.runAllTimers();
     });
     expect(getByRole('link', { name: 'Overview' })).toBeInTheDocument();
@@ -75,7 +75,7 @@ describe('Desktop Menu', () => {
       <DesktopMenu glossaryClickHandler={glossaryClickHandler} clickHandler={clickHandler} setActiveDropdown={setActiveDropdown} />
     );
     act(() => {
-      fireEvent.mouseEnter(getByRole('button', { name: 'Tools' }));
+      fireEvent.mouseEnter(getByRole('button', { name: 'Page links for Tools' }));
       jest.runAllTimers();
     });
     expect(getByRole('link', { name: 'Currency Exchange Rates Converter' })).toBeInTheDocument();
@@ -86,7 +86,7 @@ describe('Desktop Menu', () => {
       <DesktopMenu glossaryClickHandler={glossaryClickHandler} clickHandler={clickHandler} setActiveDropdown={setActiveDropdown} />
     );
     act(() => {
-      fireEvent.mouseEnter(getByRole('button', { name: 'Resources' }));
+      fireEvent.mouseEnter(getByRole('button', { name: 'Page links for Resources' }));
       jest.runAllTimers();
     });
     expect(getByRole('button', { name: 'Glossary' })).toBeInTheDocument();
@@ -112,7 +112,7 @@ describe('Desktop Menu', () => {
       <DesktopMenu glossaryClickHandler={glossaryClickHandler} clickHandler={clickHandler} setActiveDropdown={setActiveDropdown} />
     );
 
-    getByRole('button', { name: 'Topics' }).focus();
+    getByRole('button', { name: 'Page links for Topics' }).focus();
     await waitFor(() => {
       expect(queryByTestId('dropdownContent')).toBeTruthy();
     });

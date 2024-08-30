@@ -5,7 +5,7 @@ describe('setNoChartMessage helper', () => {
   it('returns an unable-to-render message when All Data Tables is selected', async () => {
     const notShownMessage = SetNoChartMessage(mockTableWithNoChartAvailable, selectedPivot, mockDateRange, true);
     expect(notShownMessage.props.heading).toEqual(
-      'With the current "All Data Tables" selection, we are unable to render a Table or Chart at this time.'
+      'With the current "All Data Tables" selection, you may download the data, but the table and chart previews are not applicable.'
     );
   });
 

@@ -83,7 +83,7 @@ describe('Preview component', () => {
     });
     expect(spy).toHaveBeenCalledWith({
       action: 'Published Report Preview',
-      category: 'Fiscal Data - Published Report Preview',
+      category: 'Published Report Preview',
       label: 'helloAgain.pdf',
     });
 
