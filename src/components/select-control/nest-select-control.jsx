@@ -22,6 +22,7 @@ export const ariaLabeler = (selectedOptionLabel, ariaLabel, label) => {
 };
 
 const NestSelectControl = ({ label, options, selectedOption, changeHandler, className }) => {
+  console.log(options);
   const [droppedDown, setDroppedDown] = useState(false);
   const [optionSelected, setOptionSelected] = useState(selectedOption);
   const dropdownRef = useRef(null);

@@ -20,9 +20,9 @@ type UserFilterProps = {
       optionValues: { key: string };
       dataUnmatchedMessage: string;
       dataSearchLabel: string;
-      filterFields: {
-        value: string;
-        fields: string[];
+      fieldFilter: {
+        value: string[];
+        field: string;
       };
     };
   };
@@ -52,14 +52,30 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
 
   const establishOptions = () => {
     let options = null;
+    let nestedOptions = null;
+
     if (selectedTable?.userFilter?.optionValues && userFilterOptions === null) {
       options = selectedTable.userFilter.optionValues.map(val => ({ label: val, value: val }));
       options.unshift(defaultSelection);
       setUserFilterOptions(options);
     } else if (selectedTable?.apiFilter?.optionValues && userFilterOptions === null) {
-      options = selectedTable.apiFilter.optionValues['Federal'].map(val => ({ label: val, value: val }));
-      options.unshift(defaultSelection);
-      setUserFilterOptions(options);
+      if (selectedTable.apiFilter.fieldFilter?.value) {
+        const filterOptions = selectedTable.apiFilter.fieldFilter.value;
+        nestedOptions = [{ default: true, ...defaultSelection }];
+        for (let i = 0; i < filterOptions.length; i++) {
+          const filter = filterOptions[i];
+          const nestedChildren = selectedTable.apiFilter.optionValues[filter].map(val => ({ label: val, value: val }));
+          nestedOptions.push({ label: filter, children: nestedChildren });
+        }
+      } else {
+        options = selectedTable.apiFilter.optionValues['all'].map(val => ({ label: val, value: val }));
+      }
+      if (nestedOptions) {
+        setUserFilterOptions(nestedOptions);
+      } else {
+        options.unshift(defaultSelection);
+        setUserFilterOptions(options);
+      }
     }
   };
 
@@ -79,7 +95,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
           <ComboCurrencySelect
             label={`${selectedTable.userFilter ? selectedTable.userFilter.label : selectedTable.apiFilter.label}:`}
             labelClass={filterLabel}
-            options={userFilterOptions}
+            options={userFilterOptions[1].children}
             changeHandler={updateUserFilter}
             selectedOption={selectedFilterOption}
             containerBorder={true}
