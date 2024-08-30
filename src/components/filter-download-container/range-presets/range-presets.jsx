@@ -74,7 +74,7 @@ const RangePresets = ({
   };
 
   const prepUpdateDateRange = preset => {
-    const curDateRange = determineDateRange(availableDateRange, preset);
+    const curDateRange = determineDateRange(availableDateRange, preset, currentDateButton);
     updateDateRange(curDateRange);
   };
 
@@ -174,6 +174,7 @@ const RangePresets = ({
 
   useEffect(() => {
     if (!finalDatesNotFound) {
+      console.log(selectedTable, currentDateButton);
       const availableRangeForSelection = allTablesSelected ? allTablesDateRange : prepAvailableDates(selectedTable);
       setAvailableDateRange(availableRangeForSelection);
       const curPresets = placeApplicableYearPresets(availableRangeForSelection);
