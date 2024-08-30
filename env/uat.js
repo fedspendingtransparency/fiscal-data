@@ -297,6 +297,10 @@ module.exports = {
         dataDefaultHeader: 'This table requires additional filters.',
         dataDefaultMessage: 'Select an account in the filter section above to display the data.',
         dataSearchLabel: 'Search account descriptions',
+        fieldFilter: {
+          field: 'report_type',
+          value: ['State', 'Federal']
+        }
       },
       selectColumns: [
         'acct_statement',

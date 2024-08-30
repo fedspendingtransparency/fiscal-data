@@ -389,6 +389,10 @@ exports.createSchemaCustomization = ({ actions }) => {
       columnName: String,
       prettyName: String
     }
+    type FieldFilter {
+      field: String,
+      value: [String]
+    }
     type UserFilter {
       field: String,
       label: String,
@@ -406,7 +410,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       dataUnmatchedMessage: String,
       dataDefaultHeader: String,
       dataDefaultMessage: String,
-      dataSearchLabel: String
+      dataSearchLabel: String,
+      fieldFilter: FieldFilter
     }
     type SEOConfig {
       title: String,
@@ -593,6 +598,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               dataDefaultHeader
               dataDefaultMessage
               dataSearchLabel
+              fieldFilter {
+                field
+                value
+              }
             }
             downloadName
             earliestDate
@@ -736,8 +745,22 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
         filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
         filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
+        let options;
 
-        const options = await fetch(filterOptionsUrl).then(res =>
+
+        if (api.apiFilter.fieldFilter) {
+          for (const val of api.apiFilter.fieldFilter.value) {
+            const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
+
+            console.warn('newUrl:::: ', newUrl);
+
+            options = await fetch(newUrl).then(res =>
+              res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+            );
+          }
+        }
+
+        options = await fetch(filterOptionsUrl).then(res =>
           res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
         );
         api.apiFilter.optionValues = [...new Set(options)]; // uniquify results

@@ -91,6 +91,8 @@ const TableSectionContainer = ({
   const [chartData, setChartData] = useState(null);
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
 
+  console.log('selectedTable:::: ', selectedTable);
+
   const formatDate = detailViewState => {
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
     return moment(detailViewState).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
