@@ -61,6 +61,7 @@ describe('Month Picker', () => {
       expect(button).toHaveFocus();
       userEvent.keyboard('{Enter}');
     });
+    expect(button).toHaveClass('glow');
     expect(getAllByRole('button').length).toBeGreaterThan(1);
     act(() => {
       userEvent.keyboard('{Enter}');

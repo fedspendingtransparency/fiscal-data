@@ -59,6 +59,7 @@ const RangePresets = ({
 
     setActivePresetKey(preset.key);
     setIsCustomDateRange(preset.key === customPreset.key);
+    console.log(dateRange);
 
     if (preset.key !== customPreset.key) {
       prepUpdateDateRange(preset);
@@ -75,6 +76,7 @@ const RangePresets = ({
 
   const prepUpdateDateRange = preset => {
     const curDateRange = determineDateRange(availableDateRange, preset);
+    console.log(curDateRange);
     updateDateRange(curDateRange);
   };
 
@@ -181,6 +183,7 @@ const RangePresets = ({
       if (currentDateButton) {
         const latestDate = availableRangeForSelection.to;
         let buttonLabel;
+        console.log(availableRangeForSelection);
 
         const month = latestDate.getMonth();
         const date = latestDate.getDate();

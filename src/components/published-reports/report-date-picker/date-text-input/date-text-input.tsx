@@ -26,7 +26,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({ label, validInput, s
     return yearInput >= 1000 && yearInput <= 9999;
   };
 
-  const isValid = (input: string) => {
+  const isValid = (input: string, reset: boolean) => {
     const splitTextDate = input.split(' ');
     const splitNumericDate = input.split('/');
     let month;
