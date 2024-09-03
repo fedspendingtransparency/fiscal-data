@@ -3,6 +3,7 @@ import { userFilterWrapper, filterLabel } from './user-filter.module.scss';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 import DatatableBanner from '../datatable-banner/datatable-banner';
+import NestSelectControl from '../../select-control/nest-select-control';
 
 type UserFilterProps = {
   selectedTable?: {
@@ -61,7 +62,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
     } else if (selectedTable?.apiFilter?.optionValues && userFilterOptions === null) {
       if (selectedTable.apiFilter.fieldFilter?.value) {
         const filterOptions = selectedTable.apiFilter.fieldFilter.value;
-        nestedOptions = [{ default: true, ...defaultSelection }];
+        nestedOptions = [{ default: true, children: [defaultSelection]}];
         for (let i = 0; i < filterOptions.length; i++) {
           const filter = filterOptions[i];
           const nestedChildren = selectedTable.apiFilter.optionValues[filter].map(val => ({ label: val, value: val }));
@@ -89,19 +90,28 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
   }, [selectedTable]);
   // TODO: Update Combo Currency Select component to accept the nested dropdown format for options
   // Nested dropdown format : [{default: true, children: none selected options}, {label: 'State', children: state dropdown options}, {label: 'Federal', children: federal dropdown options}]
+  console.log('userFilterOptions: ', userFilterOptions);
+
   return (
     <>
       {(selectedTable.userFilter || selectedTable.apiFilter) && userFilterOptions && !allTablesSelected && (
         <div className={userFilterWrapper}>
-          <ComboCurrencySelect
-            label={`${selectedTable.userFilter ? selectedTable.userFilter.label : selectedTable.apiFilter.label}:`}
-            labelClass={filterLabel}
-            // options={userFilterOptions[2]}
+          {/*<ComboCurrencySelect*/}
+          {/*  label={`${selectedTable.userFilter ? selectedTable.userFilter.label : selectedTable.apiFilter.label}:`}*/}
+          {/*  labelClass={filterLabel}*/}
+          {/*  // options={userFilterOptions[2]}*/}
+          {/*  options={userFilterOptions}*/}
+          {/*  changeHandler={updateUserFilter}*/}
+          {/*  selectedOption={selectedFilterOption}*/}
+          {/*  containerBorder={true}*/}
+          {/*  searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : undefined}*/}
+          {/*/>*/}
+
+          {/*this gets the look, but we lose the search functionality */}
+          <NestSelectControl
             options={userFilterOptions}
-            changeHandler={updateUserFilter}
             selectedOption={selectedFilterOption}
-            containerBorder={true}
-            searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : undefined}
+            changeHandler={updateUserFilter}
           />
         </div>
       )}
