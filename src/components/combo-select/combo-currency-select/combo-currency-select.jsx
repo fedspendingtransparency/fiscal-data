@@ -109,8 +109,7 @@ const ComboCurrencySelect = ({
   const ref = React.useRef(null);
   useOnClickOutside(ref, onBlurHandler);
 
-  // const labelText = yearFilter ? `Year (${options[options.length - 1][optionLabelKey]} - ${options[0][optionLabelKey]})` : label;
-  const labelText = yearFilter ? `Year (${opChild[opChild.length - 1][optionLabelKey]} - ${opChild[0][optionLabelKey]})` : label;
+  const labelText = yearFilter ? `Year (${options[options.length - 1][optionLabelKey]} - ${options[0][optionLabelKey]})` : label;
 
   const dropdownStyle = () => {
     let containerClasses;
