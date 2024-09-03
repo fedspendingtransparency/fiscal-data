@@ -213,7 +213,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   return (
     <DatasetSectionContainer id="data-table" title={title}>
       {ENV_ID === 'uat' ? '' : <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />}
-      {/*<ReportDataToggle onChange={setActiveTab} reports={publishedReports} />*/}
       <div className={activeTab === 1 ? '' : 'hidden'}>
         {tableColumnSortData && (
           <FilterAndDownload
