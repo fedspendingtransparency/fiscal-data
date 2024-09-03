@@ -55,6 +55,21 @@ const ComboCurrencySelect = ({
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
   const [searchBarActive, setSearchBarActive] = useState(false);
 
+  console.log('options IN COMBO: ', options);
+
+  options.forEach((obj) => {
+    console.log('obj.label::: ', obj.label);  // none, state, or federal
+
+  })
+
+  console.log('options.label: ', options.label);
+  // const opChild = options.children ? options.children : options;  // for userFilterOptions[2]
+
+  // Hardcoding to not but the page
+  // for some reason this get looped as many results as they have
+  // ex: array of 1 = 1 option, array of 2 = 4 options (the 2 options repeated), array of 3 = 6 options
+  const opChild = [{label: 'ALABAMA', value: 'ALABAMA'}]
+
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
       XRAnalyticsHandler('Foreign Country-Currency Selected', selection[optionLabelKey]);
@@ -102,7 +117,8 @@ const ComboCurrencySelect = ({
   const ref = React.useRef(null);
   useOnClickOutside(ref, onBlurHandler);
 
-  const labelText = yearFilter ? `Year (${options[options.length - 1][optionLabelKey]} - ${options[0][optionLabelKey]})` : label;
+  // const labelText = yearFilter ? `Year (${options[options.length - 1][optionLabelKey]} - ${options[0][optionLabelKey]})` : label;
+  const labelText = yearFilter ? `Year (${opChild[opChild.length - 1][optionLabelKey]} - ${opChild[0][optionLabelKey]})` : label;
 
   const dropdownStyle = () => {
     let containerClasses;
@@ -170,7 +186,7 @@ const ComboCurrencySelect = ({
           searchBarActive={searchBarActive}
           setSearchBarActive={setSearchBarActive}
           inputRef={inputRef}
-          options={options}
+          options={opChild}
           yearFilter={yearFilter}
           changeHandler={changeHandler}
           timeOutId={timeOutId}

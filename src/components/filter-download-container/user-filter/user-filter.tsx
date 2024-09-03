@@ -87,7 +87,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
     establishOptions();
     setSelectedFilterOption(defaultSelection);
   }, [selectedTable]);
-  // TODO: Update Combo Currency Select component to accept the nested dropdown format
+  // TODO: Update Combo Currency Select component to accept the nested dropdown format for options
   // Nested dropdown format : [{default: true, children: none selected options}, {label: 'State', children: state dropdown options}, {label: 'Federal', children: federal dropdown options}]
   return (
     <>
@@ -96,7 +96,8 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
           <ComboCurrencySelect
             label={`${selectedTable.userFilter ? selectedTable.userFilter.label : selectedTable.apiFilter.label}:`}
             labelClass={filterLabel}
-            options={userFilterOptions[1].children}
+            // options={userFilterOptions[2]}
+            options={userFilterOptions}
             changeHandler={updateUserFilter}
             selectedOption={selectedFilterOption}
             containerBorder={true}
