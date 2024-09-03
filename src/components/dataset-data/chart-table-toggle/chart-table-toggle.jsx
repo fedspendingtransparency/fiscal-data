@@ -14,7 +14,8 @@ import { getMessageForDefaultApiFilter, getMessageForUnmatchedUserFilter } from 
 import { faSlidersH, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import ResetTableSection from '../../data-table/reset-table-section/reset-table-section';
 
-export const allTablesSelectedBody = 'With the current "All Data Tables" selection, we are unable to render a Table or Chart at this time.';
+export const allTablesSelectedBody =
+  'With the current "All Data Tables" selection, you may download the data, but the table and chart previews are not applicable.';
 export const emptyDataMessageBody = 'With the current Date Range selected we are unable to render a preview at this time.';
 const TabPanel = ({ children, value, index, ...other }) => {
   return (
