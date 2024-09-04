@@ -18,6 +18,12 @@
     padding: 0;
     margin: 0;
 
+    .sectionLabel {
+      margin: .5rem 1rem;
+      font-size: $font-size-14;
+      font-weight: $semi-bold-weight;
+    }
+
     .dropdownListItem {
       display: block;
       color: $font-body-copy;

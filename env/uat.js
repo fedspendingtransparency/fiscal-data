@@ -299,8 +299,8 @@ module.exports = {
         dataSearchLabel: 'Search account descriptions',
         fieldFilter: {
           field: 'report_type',
-          value: ['State', 'Federal']
-        }
+          value: ['Federal', 'State'],
+        },
       },
       selectColumns: [
         'acct_statement',
@@ -328,6 +328,10 @@ module.exports = {
         dataDefaultHeader: 'This table requires additional filters.',
         dataDefaultMessage: 'Select an account in the filter section above to display the data.',
         dataSearchLabel: 'Search account descriptions',
+        fieldFilter: {
+          field: 'report_type',
+          value: ['Federal', 'State'],
+        },
       },
       selectColumns: [
         'trans_statement',

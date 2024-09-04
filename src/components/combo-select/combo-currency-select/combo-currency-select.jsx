@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { selector_label } from '../../select-control/select-control.module.scss';
 import useOnClickOutside from 'use-onclickoutside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -49,18 +49,19 @@ const ComboCurrencySelect = ({
   isExchangeTool,
   containerBorder,
   searchBarLabel = 'Search currencies',
+  hasChildren,
 }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
   const [searchBarActive, setSearchBarActive] = useState(false);
 
-  console.log('options IN COMBO: ', options);
-
-  options.forEach((obj) => {
-    console.log('obj.label::: ', obj.label);  // none, state, or federal
-
-  })
+  // useEffect(() => {
+  //   console.log('options IN COMBO: ', options);
+  //   options.forEach(obj => {
+  //     console.log('obj.label::: ', obj.label); // none, state, or federal
+  //   });
+  // }, []);
 
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
@@ -182,6 +183,7 @@ const ComboCurrencySelect = ({
           changeHandler={changeHandler}
           timeOutId={timeOutId}
           searchBarLabel={searchBarLabel}
+          hasChildren={hasChildren}
         />
       </div>
     </>
