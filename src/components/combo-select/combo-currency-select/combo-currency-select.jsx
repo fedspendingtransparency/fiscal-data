@@ -49,6 +49,7 @@ const ComboCurrencySelect = ({
   isExchangeTool,
   containerBorder,
   searchBarLabel = 'Search currencies',
+  hasChildren,
 }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
@@ -175,6 +176,7 @@ const ComboCurrencySelect = ({
           changeHandler={changeHandler}
           timeOutId={timeOutId}
           searchBarLabel={searchBarLabel}
+          hasChildren={hasChildren}
         />
       </div>
     </>

@@ -28,6 +28,7 @@ describe('UserFilter Component', () => {
       value: null,
     });
   });
+
   it('sends expected properties to combo-select control for the apiFilter', async () => {
     const { getByTestId } = render(<UserFilter selectedTable={mockTableApiFilter} onUserFilter={jest.fn()} />);
 
@@ -47,6 +48,15 @@ describe('UserFilter Component', () => {
       label: '(None selected)',
       value: null,
     });
+  });
+
+  it('sends expected properties to combo-select control for the apiFilter with multiple dropdown categories', async () => {
+    const { getByText, getByRole } = render(<UserFilter selectedTable={mockTableApiFilterMultiCategory} onUserFilter={jest.fn()} />);
+    const filterDropdown = getByRole('button');
+    expect(getByText('(None selected)')).toBeInTheDocument();
+    fireEvent.click(filterDropdown);
+    expect(getByText('State')).toBeInTheDocument();
+    expect(getByText('Federal')).toBeInTheDocument();
   });
 
   it(`supplies a utility function that determines if the userFilter selection is unmatched for a given date range`, () => {
@@ -108,9 +118,25 @@ describe('UserFilter Component', () => {
       label: 'Account Description',
       field: 'acct_desc',
       notice: 'this is some info related to the user-filterable data',
-      optionValues: ['A', 'B', 'C'],
+      optionValues: { all: ['A', 'B', 'C'] },
       dataUnmatchedMessage: 'Cannot find account match for these dates.',
       dataSearchLabel: 'Search accounts',
+    },
+  };
+
+  const mockTableApiFilterMultiCategory = {
+    apiId: '1137',
+    apiFilter: {
+      label: 'Account Description',
+      field: 'acct_desc',
+      notice: 'this is some info related to the user-filterable data',
+      optionValues: { State: ['A', 'B', 'C'], Federal: ['E', 'F', 'G', 'H'] },
+      dataUnmatchedMessage: 'Cannot find account match for these dates.',
+      dataSearchLabel: 'Search accounts',
+      fieldFilter: {
+        field: 'report_type',
+        value: ['Federal', 'State'],
+      },
     },
   };
 
