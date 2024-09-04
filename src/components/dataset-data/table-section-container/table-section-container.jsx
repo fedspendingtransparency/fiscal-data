@@ -129,6 +129,7 @@ const TableSectionContainer = ({
             } else if (totalCount === 0) {
               setIsLoading(false);
               setUserFilterUnmatchedForDateRange(true);
+              setManualPagination(false);
               return null;
             }
           }
@@ -244,6 +245,7 @@ const TableSectionContainer = ({
   useEffect(() => {
     if (selectedTable?.apiFilter && userFilterSelection?.value === null) {
       setApiFilterDefault(true);
+      setManualPagination(false);
     }
   }, [userFilterSelection]);
 
