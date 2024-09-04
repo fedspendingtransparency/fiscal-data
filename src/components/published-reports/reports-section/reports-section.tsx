@@ -14,7 +14,6 @@ export interface IReports {
   report_group_id: number;
   report_group_sort_order_nbr: number;
 }
-
 interface IDataset {
   publishedReportsTip?: string;
 }

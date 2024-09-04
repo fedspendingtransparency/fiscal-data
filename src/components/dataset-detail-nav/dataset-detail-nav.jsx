@@ -4,6 +4,8 @@ import { Link, scroller } from 'react-scroll';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import globalConstants from '../../helpers/constants';
 import Analytics from '../../utils/analytics/analytics';
+import ENV_ID from 'gatsby-env-variables';
+
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
 const scrollDuration = globalConstants.config.smooth_scroll.duration;
 
@@ -20,7 +22,7 @@ const scrollOptionsOffset = {
   offset: scrollOffset,
 };
 
-const DDNav = () => {
+const DDNav = ({ hasPublishedReports }) => {
   const [hover, setHover] = useState(null);
   const [scrollToId, setScrollToId] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
@@ -32,9 +34,18 @@ const DDNav = () => {
       title: 'Introduction',
       id: 'introduction',
     },
+    ...(hasPublishedReports
+      ? [
+          {
+            title: 'Reports and Files',
+            id: 'reports-and-files',
+          },
+        ]
+      : []),
+
     {
-      title: 'Preview & Download',
-      id: 'preview-and-download',
+      title: `${ENV_ID === 'uat' ? 'Data Table' : 'Preview & Download'}`,
+      id: 'data-table',
     },
     {
       title: 'Dataset Properties',
