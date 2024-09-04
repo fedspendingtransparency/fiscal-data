@@ -3,7 +3,6 @@ import { userFilterWrapper, filterLabel } from './user-filter.module.scss';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 import DatatableBanner from '../datatable-banner/datatable-banner';
-import NestSelectControl from '../../select-control/nest-select-control';
 
 type UserFilterProps = {
   selectedTable?: {
