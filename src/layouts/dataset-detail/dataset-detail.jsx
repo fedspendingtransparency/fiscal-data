@@ -86,7 +86,9 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           techSpecs={pageConfig.techSpecs}
           dictionary={pageContext.config.dictionary}
         />
-        {ENV_ID === 'uat' ? <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} /> : ''}
+        <Experimental featureId="publishedReportsSection">
+          <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
+        </Experimental>
         <DatasetData
           setSelectedTableProp={setSelectedTable}
           finalDatesNotFound={finalDatesNotFound}
