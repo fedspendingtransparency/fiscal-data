@@ -10,6 +10,7 @@ import {
   unmatchedTerm,
   noMatch,
   sectionLabel,
+  dropdownListItem_child,
 } from './combo-select-dropdown.module.scss';
 import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
@@ -123,8 +124,14 @@ const ComboSelectDropdown = ({
     }
   };
 
-  const filteredOptionButton = option => (
-    <li className={classNames([dropdownListItem, option[optionLabelKey] === selectedOption[optionLabelKey] ? dropdownListItem_Selected : ''])}>
+  const filteredOptionButton = (option, child) => (
+    <li
+      className={classNames([
+        dropdownListItem,
+        option[optionLabelKey] === selectedOption[optionLabelKey] && dropdownListItem_Selected,
+        child && dropdownListItem_child,
+      ])}
+    >
       <button
         className={dropdownListItem_Button}
         onClick={() => updateSelection(option, true)}
@@ -175,7 +182,7 @@ const ComboSelectDropdown = ({
                       <React.Fragment key={index}>
                         {section.children.length > 0 && <div className={sectionLabel}>{section.label}</div>}
                         {section.children.map((option, i) => {
-                          return <React.Fragment key={i}>{filteredOptionButton(option)}</React.Fragment>;
+                          return <React.Fragment key={i}>{filteredOptionButton(option, true)}</React.Fragment>;
                         })}
                       </React.Fragment>
                     );
