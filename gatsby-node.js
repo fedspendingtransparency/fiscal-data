@@ -763,8 +763,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           const options = await fetch(filterOptionsUrl).then(res =>
             res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
           );
-
-          // api.apiFilter.optionValues = [...new Set(options)]; // uniquify results
           api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
         }
       }

@@ -182,6 +182,10 @@ const ComboSelectDropdown = ({
                       </>
                     );
                   })}
+                {!hasChildren &&
+                  filteredOptions.map((option, index) => {
+                    return <>{filteredOptionButton(option, index)}</>;
+                  })}
               </ul>
             )}
           </ScrollContainer>

@@ -59,7 +59,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
       options = selectedTable.userFilter.optionValues.map(val => ({ label: val, value: val }));
       options.unshift(defaultSelection);
       setUserFilterOptions(options);
-    } else if (selectedTable?.apiFilter?.optionValues && userFilterOptions === null) {
+    } else if (selectedTable?.apiFilter?.optionValues) {
       if (selectedTable.apiFilter.fieldFilter?.value) {
         const filterOptions = selectedTable.apiFilter.fieldFilter.value;
         nestedOptions = [{ default: true, children: [defaultSelection] }];
@@ -88,11 +88,6 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
     establishOptions();
     setSelectedFilterOption(defaultSelection);
   }, [selectedTable]);
-  // TODO: Update Combo Currency Select component to accept the nested dropdown format for options
-  // Nested dropdown format : [{default: true, children: none selected options}, {label: 'State', children: state dropdown options}, {label: 'Federal', children: federal dropdown options}]
-  useEffect(() => {
-    console.log('userFilterOptions: ', userFilterOptions);
-  }, [userFilterOptions]);
 
   return (
     <>
@@ -101,21 +96,13 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
           <ComboCurrencySelect
             label={`${selectedTable.userFilter ? selectedTable.userFilter.label : selectedTable.apiFilter.label}:`}
             labelClass={filterLabel}
-            // options={userFilterOptions[2]}
             options={userFilterOptions}
             changeHandler={updateUserFilter}
             selectedOption={selectedFilterOption}
             containerBorder={true}
             searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : undefined}
-            hasChildren
+            hasChildren={userFilterOptions[0]?.children}
           />
-
-          {/*this gets the look, but we lose the search functionality */}
-          {/*<NestSelectControl*/}
-          {/*  options={userFilterOptions}*/}
-          {/*  selectedOption={selectedFilterOption}*/}
-          {/*  changeHandler={updateUserFilter}*/}
-          {/*/>*/}
         </div>
       )}
       {selectedTable?.userFilter?.notice && <DatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
