@@ -751,8 +751,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
           for (const val of api.apiFilter.fieldFilter.value) {
             const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
-
-            console.warn('newUrl:::: ', newUrl);
             const options = await fetch(newUrl).then(res =>
               res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
             );

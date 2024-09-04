@@ -352,7 +352,7 @@ module.exports = {
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
       apiFilter: {
         field: 'acct_desc',
-        label: 'Choose a Federal or State Account',
+        label: 'Choose a State Account',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
         dataDefaultHeader: 'This table requires additional filters.',

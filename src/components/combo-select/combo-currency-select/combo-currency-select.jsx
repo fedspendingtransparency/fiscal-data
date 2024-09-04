@@ -51,7 +51,6 @@ const ComboCurrencySelect = ({
   searchBarLabel = 'Search currencies',
   hasChildren,
 }) => {
-  console.log(options);
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
