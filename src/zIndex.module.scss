@@ -30,6 +30,7 @@ $dtg-table: $backdrop;
 $dtg-table-overlay: $above + $dtg-table;
 $dtg-table-loading-icon: $above + $dtg-table-overlay;
 $dtg-api-error: $dtg-table-loading-icon;
+$dtg-table-dropdown: $above + $combo-select-dropdown;
 // table container
 $table-loading-section: $above + $backdrop;
 $table-title: $above + $table-loading-section;
