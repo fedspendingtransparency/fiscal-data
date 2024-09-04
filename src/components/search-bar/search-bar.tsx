@@ -1,4 +1,4 @@
-import { search, searchIcon, searchIconHover, searchLabel, glow, disabledBackground } from './search-bar.module.scss';
+import { search, searchIcon, searchIconHover, searchLabel, glow, disabledBackground, clearButton } from './search-bar.module.scss';
 import { InputAdornment, ThemeProvider } from '@mui/material';
 import { searchBarTheme, useStyles } from '../glossary/glossary-header/theme';
 import Box from '@mui/material/Box';
@@ -69,16 +69,9 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
 
   const icon =
     filter?.length > 0 && handleClear ? (
-      <FontAwesomeIcon
-        icon={faTimesCircle as IconProp}
-        className={`${searchIcon} ${searchIconHover}`}
-        role="button"
-        onClick={clearBox}
-        onKeyDown={clearBox}
-        tabIndex={0}
-        aria-label="Clear search bar"
-        border
-      />
+      <button onClick={clearBox} onKeyDown={clearBox} aria-label="Clear search bar" className={clearButton}>
+        <FontAwesomeIcon icon={faTimesCircle as IconProp} className={`${searchIcon} ${searchIconHover}`} border />
+      </button>
     ) : (
       <FontAwesomeIcon icon={faMagnifyingGlass as IconProp} className={searchIcon} />
     );

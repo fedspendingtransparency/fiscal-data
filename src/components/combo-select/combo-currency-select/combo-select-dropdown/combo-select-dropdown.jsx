@@ -123,21 +123,19 @@ const ComboSelectDropdown = ({
     }
   };
 
-  const filteredOptionButton = (option, index) => (
-    <React.Fragment key={index}>
-      <li className={classNames([dropdownListItem, option[optionLabelKey] === selectedOption[optionLabelKey] ? dropdownListItem_Selected : ''])}>
-        <button
-          className={dropdownListItem_Button}
-          onClick={() => updateSelection(option, true)}
-          disabled={required && !option.value}
-          title={required && !option.value && disabledMessage ? disabledMessage : null}
-          aria-label={option[optionLabelKey]}
-          data-testid="dropdown-list-option"
-        >
-          {underlineMatchedString(option[optionLabelKey], filterValue)}
-        </button>
-      </li>
-    </React.Fragment>
+  const filteredOptionButton = option => (
+    <li className={classNames([dropdownListItem, option[optionLabelKey] === selectedOption[optionLabelKey] ? dropdownListItem_Selected : ''])}>
+      <button
+        className={dropdownListItem_Button}
+        onClick={() => updateSelection(option, true)}
+        disabled={required && !option.value}
+        title={required && !option.value && disabledMessage ? disabledMessage : null}
+        aria-label={option[optionLabelKey]}
+        data-testid="dropdown-list-option"
+      >
+        {underlineMatchedString(option[optionLabelKey], filterValue)}
+      </button>
+    </li>
   );
 
   return (
@@ -174,17 +172,17 @@ const ComboSelectDropdown = ({
                 {hasChildren &&
                   filteredOptions.map((section, index) => {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         {section.children.length > 0 && <div className={sectionLabel}>{section.label}</div>}
-                        {section.children.map(option => {
-                          return <>{filteredOptionButton(option, index)}</>;
+                        {section.children.map((option, i) => {
+                          return <React.Fragment key={i}>{filteredOptionButton(option)}</React.Fragment>;
                         })}
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 {!hasChildren &&
                   filteredOptions.map((option, index) => {
-                    return <>{filteredOptionButton(option, index)}</>;
+                    return <React.Fragment key={index}>{filteredOptionButton(option)}</React.Fragment>;
                   })}
               </ul>
             )}
