@@ -47,14 +47,14 @@ const ComboSelectDropdown = ({
       filteredList = opts.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
       setNoResults(filteredList.length === 0);
     } else if (hasChildren) {
-      let temp;
-      let allResults = 0;
+      let sectionResults;
+      let allResultsLength = 0;
       opts.forEach(section => {
-        temp = section.children.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
-        allResults += temp.length;
-        filteredList.push({ label: section.label, children: temp });
+        sectionResults = section.children.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
+        allResultsLength += sectionResults.length;
+        filteredList.push({ label: section.label, children: sectionResults });
       });
-      setNoResults(allResults === 0);
+      setNoResults(allResultsLength === 0);
     } else {
       filteredList = opts;
     }
