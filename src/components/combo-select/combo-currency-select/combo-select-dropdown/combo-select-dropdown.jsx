@@ -38,20 +38,22 @@ const ComboSelectDropdown = ({
 }) => {
   const [filterValue, setFilterValue] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
+  const [noResults, setNoResults] = useState(false);
 
   const filterOptionsByEntry = (opts, entry) => {
-    console.log('here');
     let filteredList = [];
     if (entry?.length && !hasChildren) {
       filteredList = opts.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
+      setNoResults(filteredList.length === 0);
     } else if (hasChildren) {
       let temp;
+      let allResults = 0;
       opts.forEach(section => {
         temp = section.children.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
-        console.log(temp, section);
+        allResults += temp.length;
         filteredList.push({ label: section.label, children: temp });
       });
-      console.log(opts);
+      setNoResults(allResults === 0);
     } else {
       filteredList = opts;
     }
@@ -163,19 +165,18 @@ const ComboSelectDropdown = ({
             />
           </div>
           <ScrollContainer deps={[filteredOptions, selectedOption, filterValue]}>
-            {filteredOptions.length === 0 ? (
+            {noResults ? (
               <div className={noMatch}>
                 No match for <span className={unmatchedTerm}>'{filterValue}'</span>. Please revise your search and try again.
               </div>
             ) : (
-              <ul className={dropdownList} data-testid="dropdown-list" style={{ height: filteredOptions.length > 5 ? '11.875rem' : '12rem' }}>
+              <ul className={dropdownList} data-testid="dropdown-list" style={{ maxHeight: '11.875rem' }}>
                 {hasChildren &&
                   filteredOptions.map((section, index) => {
                     return (
                       <>
-                        <div className={sectionLabel}>{section.label}</div>
+                        {section.children.length > 0 && <div className={sectionLabel}>{section.label}</div>}
                         {section.children.map(option => {
-                          // console.log(option, option[optionLabelKey]);
                           return <>{filteredOptionButton(option, index)}</>;
                         })}
                       </>

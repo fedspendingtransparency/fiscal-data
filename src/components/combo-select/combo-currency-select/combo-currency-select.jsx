@@ -56,13 +56,6 @@ const ComboCurrencySelect = ({
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
   const [searchBarActive, setSearchBarActive] = useState(false);
 
-  // useEffect(() => {
-  //   console.log('options IN COMBO: ', options);
-  //   options.forEach(obj => {
-  //     console.log('obj.label::: ', obj.label); // none, state, or federal
-  //   });
-  // }, []);
-
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
       XRAnalyticsHandler('Foreign Country-Currency Selected', selection[optionLabelKey]);

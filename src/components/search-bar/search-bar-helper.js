@@ -6,6 +6,5 @@ export const underlineMatchedString = (term, filter) => {
   const filterString = filter.replace(/[/\\^$*+?.()|[\]{}]/g, '\\$1');
   const regex = new RegExp(`(${filterString})`, 'ig');
   const strReplace = reactStringReplace(term, regex, match => <span className={matchedSubstring}>{match}</span>);
-  // console.log(term, filter, filter.length ? strReplace : term);
   return filter.length ? <span>{strReplace}</span> : <span>{term}</span>;
 };
