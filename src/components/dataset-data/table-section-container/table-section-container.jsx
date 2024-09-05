@@ -92,11 +92,16 @@ const TableSectionContainer = ({
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
 
   const formatDate = detailDate => {
+    const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView.field)?.dataType;
+    console.log(
+      selectedTable.fields.find(field => field.columnName === config.detailView.field),
+      config.detailView.field
+    );
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
-    return moment(detailDate).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
+    return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
   };
 
-  const formattedDetailViewState = detailViewState?.value ? formatDate(detailViewState.value) : '';
+  const formattedDetailViewState = formatDate(detailViewState?.value);
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && userFilterSelection !== null && userFilterSelection?.value !== null)) {
