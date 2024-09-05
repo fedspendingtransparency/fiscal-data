@@ -91,12 +91,12 @@ const TableSectionContainer = ({
   const [chartData, setChartData] = useState(null);
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
 
-  const formatDate = detailViewState => {
+  const formatDate = detailDate => {
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
-    return moment(detailViewState).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
+    return moment(detailDate).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
   };
 
-  const formattedDetailViewState = detailViewState ? formatDate(detailViewState) : '';
+  const formattedDetailViewState = detailViewState?.value ? formatDate(detailViewState.value) : '';
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && userFilterSelection !== null && userFilterSelection?.value !== null)) {

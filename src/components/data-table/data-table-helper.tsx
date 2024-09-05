@@ -296,6 +296,7 @@ export const rightAlign = (type: string): boolean => {
 export const modifiedColumnsDetailView = (columns: any[], handleClick, columnKey: string) => {
   return columns.map(column => {
     if (column.accessorKey.toLowerCase() === columnKey) {
+      console.log(column);
       return {
         ...column,
         cell: ({ getValue }) => {

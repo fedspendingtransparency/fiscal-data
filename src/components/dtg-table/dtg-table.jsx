@@ -322,14 +322,24 @@ export default function DtgTable({
     if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
       if (dePaginated !== null && dePaginated !== undefined) {
         // large dataset tables <= 20000 rows
+
         setReactTableData(dePaginated);
         setManualPagination(false);
         setIsLoading(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-        setReactTableData(rawData);
+        console.log(6, detailViewState, detailViewAPIConfig, config?.detailView, rawData);
+        if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
+          const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
+          console.log(detailViewFilteredData);
+          setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });
+        } else {
+          setReactTableData(rawData);
+        }
         setManualPagination(false);
       }
     } else if (data && !rawDataTable) {
+      console.log(7);
+
       setReactTableData({ data: data });
     } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       // user filter tables <= 20000 rows
@@ -372,21 +382,29 @@ export default function DtgTable({
       if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
         // data with current date range < 20000
         if (rawData) {
+          console.log(1);
           setReactTableData(rawData);
           setManualPagination(false);
         } else if (dePaginated) {
+          console.log(2);
+
           setReactTableData(dePaginated);
           setManualPagination(false);
         }
       } else {
         if (!(reactTableData?.pivotApplied && !updatedData(tableData, reactTableData?.data.slice(0, itemsPerPage)))) {
+          console.log(3);
+
           setReactTableData({ data: tableData, meta: tableMeta });
           setManualPagination(true);
         }
       }
     } else if (data && !rawDataTable && !rawData) {
+      console.log(4, detailViewState, detailViewAPIConfig);
       setReactTableData({ data: data });
     } else if (tableData && data.length === 0 && !rawData && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+      console.log(5);
+
       setReactTableData({ data: tableData, meta: tableMeta });
     }
   }, [tableData, tableMeta, rawData, dePaginated]);

@@ -145,18 +145,11 @@ export const calculatePercentage = data => {
   }));
 };
 
-export const datatableRequest = async (
-  table,
-  dateRange,
-  selectedPivot,
-  canceledObj,
-  tableCache,
-  detailViewValue,
-  detailViewFilterParam,
-  queryClient
-) => {
+export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewState, detailView, queryClient) => {
   const endpoint = table.endpoint;
   const dateField = table.dateField;
+  const detailViewValue = detailViewState?.value;
+  const detailViewSecondary = detailViewState?.secondary;
   const { pivotView, pivotValue } = selectedPivot ? selectedPivot : {};
   if (pivotView && pivotView.dimensionField && pivotValue && pivotView.aggregateOn) {
     const pivotedData = await fetchPivotData(
@@ -188,10 +181,18 @@ export const datatableRequest = async (
       dateRanges.forEach(range => {
         const from = formatDateForApi(range.from);
         const to = formatDateForApi(range.to);
-        const uri =
-          detailViewFilterParam && detailViewValue
-            ? `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam},${detailViewFilterParam}:eq:${detailViewValue}&sort=${sortParamValue}`
-            : `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}&sort=${sortParamValue}`;
+        const detailViewFilterParam = detailView?.field;
+
+        // detailViewFilterParam && detailViewValue
+        const detailViewFilter = detailViewFilterParam && detailViewValue ? `,${detailViewFilterParam}:eq:${detailViewValue}` : '';
+        // if (detailViewSecondary) {
+        //   const secondaryDetailViewFilterParam = detailView?.secondaryField;
+        //   console.log('here', `,${detailViewFilterParam}:eq:${detailViewValue}` + `,${secondaryDetailViewFilterParam}:eq:${detailViewSecondary}`);
+        //   detailViewFilter = detailViewFilter + `,${secondaryDetailViewFilterParam}:eq:${detailViewSecondary}`;
+        // }
+
+        const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}${detailViewFilter}&sort=${sortParamValue}`;
+        console.log(uri);
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
             res.range = range;

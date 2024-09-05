@@ -38,21 +38,12 @@ const makeApiCall = async (
   canceledObj,
   tableCache,
   detailViewValue,
-  detailViewFilterParam,
+  detailView,
   queryClient
 ) => {
   const loadTimer = setTimeout(() => setIsLoading(true), loadTimerDelay);
   try {
-    const data = await datatableRequest(
-      selectedTable,
-      dateRange,
-      selectedPivot,
-      canceledObj,
-      tableCache,
-      detailViewValue,
-      detailViewFilterParam,
-      queryClient
-    );
+    const data = await datatableRequest(selectedTable, dateRange, selectedPivot, canceledObj, tableCache, detailViewValue, detailView, queryClient);
 
     if (!canceledObj.isCanceled) {
       await onDataReturned(data, dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache);
@@ -83,7 +74,7 @@ export const getApiData = async (
   _canceledObj,
   _tableCache,
   _detailViewValue,
-  _detailViewFilterParam,
+  _detailView,
   _queryClient
 ) => {
   if (_dateRange && _dateRange.from && _dateRange.to && _selectedTable && _selectedTable.endpoint && _selectedPivot) {
@@ -97,7 +88,7 @@ export const getApiData = async (
       _canceledObj,
       _tableCache,
       _detailViewValue,
-      _detailViewFilterParam,
+      _detailView,
       _queryClient
     );
   }

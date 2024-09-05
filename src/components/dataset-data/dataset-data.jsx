@@ -157,7 +157,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         tableCaches[detailApi.apiId] = new TableCache();
       }
       setDetailViewDownloadFilter(
-        !!detailViewState ? { field: config.detailView.field, label: config.detailView.label, value: detailViewState } : null
+        !!detailViewState ? { field: config.detailView.field, label: config.detailView.label, value: detailViewState.value } : null
       );
     }
   }, [detailViewState]);
@@ -184,7 +184,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             canceledObj,
             tableCaches[displayedTable.apiId],
             detailViewState,
-            config?.detailView?.field,
+            config?.detailView,
             queryClient
           ).then(() => {
             // nothing to cancel if the request completes normally.

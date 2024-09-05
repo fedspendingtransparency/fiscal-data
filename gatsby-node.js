@@ -417,6 +417,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       apiId: Int,
       field: String,
       label: String,
+      secondaryField: String,
       dateRangeLockCopy: String,
       summaryTableFields: [String],
       selectColumns: [String],
@@ -502,6 +503,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             apiId
             field
             label
+            secondaryField
             dateRangeLockCopy
             summaryTableFields
             selectColumns
