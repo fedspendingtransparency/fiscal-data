@@ -183,16 +183,9 @@ export const datatableRequest = async (table, dateRange, selectedPivot, canceled
         const to = formatDateForApi(range.to);
         const detailViewFilterParam = detailView?.field;
 
-        // detailViewFilterParam && detailViewValue
         const detailViewFilter = detailViewFilterParam && detailViewValue ? `,${detailViewFilterParam}:eq:${detailViewValue}` : '';
-        // if (detailViewSecondary) {
-        //   const secondaryDetailViewFilterParam = detailView?.secondaryField;
-        //   console.log('here', `,${detailViewFilterParam}:eq:${detailViewValue}` + `,${secondaryDetailViewFilterParam}:eq:${detailViewSecondary}`);
-        //   detailViewFilter = detailViewFilter + `,${secondaryDetailViewFilterParam}:eq:${detailViewSecondary}`;
-        // }
 
         const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}${detailViewFilter}&sort=${sortParamValue}`;
-        console.log(uri);
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
             res.range = range;

@@ -22,7 +22,7 @@ import {
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
-import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData, modifiedColumnsDetailView } from './data-table-helper';
+import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData } from './data-table-helper';
 import {
   smallTableDownloadDataCSV,
   smallTableDownloadDataJSON,
@@ -119,32 +119,13 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   }, [rawData]);
 
-  const handleClick = (e, columnValue) => {
-    e.preventDefault();
-    const summaryData = rawData.data.find(data => data[detailView?.field] === columnValue);
-    setSummaryValues(summaryData);
-    if (setDetailViewState) {
-      let secondaryValue = null;
-      const detailState: { value?: string; secondary?: string } = {};
-      if (detailView?.secondaryField) {
-        secondaryValue = summaryData[detailView.secondaryField];
-        console.log(summaryData, secondaryValue);
-        detailState.secondary = secondaryValue;
-      }
-      console.log(secondaryValue);
-      detailState.value = columnValue;
-      setDetailViewState(detailState);
-    }
-  };
-
   const allColumns = React.useMemo(() => {
     const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
 
-    let baseColumns = nonRawDataColumns
+    const baseColumns = nonRawDataColumns
       ? columnsConstructorGeneric(nonRawDataColumns)
       : columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
 
-    baseColumns = modifiedColumnsDetailView(baseColumns, handleClick, detailView?.field);
     return baseColumns;
   }, [rawData, configOption]);
 
@@ -339,7 +320,14 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
                 />
-                <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
+                <DataTableBody
+                  table={table}
+                  dataTypes={dataTypes}
+                  allowColumnWrap={allowColumnWrap}
+                  detailViewConfig={detailView}
+                  setDetailViewState={setDetailViewState}
+                  setSummaryValues={setSummaryValues}
+                />
               </table>
             </div>
           </div>

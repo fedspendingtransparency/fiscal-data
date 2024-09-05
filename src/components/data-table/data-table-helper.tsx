@@ -293,30 +293,6 @@ export const rightAlign = (type: string): boolean => {
   return types.includes(type) || type?.includes('CURRENCY');
 };
 
-export const modifiedColumnsDetailView = (columns: any[], handleClick, columnKey: string) => {
-  return columns.map(column => {
-    if (column.accessorKey.toLowerCase() === columnKey) {
-      console.log(column);
-      return {
-        ...column,
-        cell: ({ getValue }) => {
-          const columnValue = getValue();
-          let formattedValue = columnValue;
-          if (moment(columnValue, 'YYYY-MM-DD', true).isValid()) {
-            formattedValue = moment(columnValue, 'YYYY-MM-DD').format('MM/DD/YYYY');
-          }
-          return (
-            <button onClick={e => handleClick(e, columnValue)} className={updateTableButton}>
-              {formattedValue}
-            </button>
-          );
-        },
-      };
-    }
-    return column;
-  });
-};
-
 export const getSortedColumnsData = (
   table: Table<Record<string, unknown>>,
   setTableColumnSortData: (map: Record<string, string>) => void,

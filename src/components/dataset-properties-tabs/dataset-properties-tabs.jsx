@@ -67,22 +67,22 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
   };
 
   const tabs = [
-    // {
-    //   label: 'Data Dictionary',
-    //   content: <DataDictionary datasetName={config.name} apis={config.apis} perPage={dictionaryPerPage} setPerPage={setDictionaryPerPage} />,
-    // },
-    // {
-    //   label: 'Data Tables',
-    //   content: <DataTablesTab datasetName={config.name} apis={config.apis} />,
-    // },
-    // {
-    //   label: 'Metadata',
-    //   content: <MetadataTab config={config} />,
-    // },
-    // {
-    //   label: 'Notes & Known Limitations',
-    //   content: <NotesAndLimitations bodyText={config.notesAndKnownLimitations} apis={config.apis} />,
-    // },
+    {
+      label: 'Data Dictionary',
+      content: <DataDictionary datasetName={config.name} apis={config.apis} perPage={dictionaryPerPage} setPerPage={setDictionaryPerPage} />,
+    },
+    {
+      label: 'Data Tables',
+      content: <DataTablesTab datasetName={config.name} apis={config.apis} />,
+    },
+    {
+      label: 'Metadata',
+      content: <MetadataTab config={config} />,
+    },
+    {
+      label: 'Notes & Known Limitations',
+      content: <NotesAndLimitations bodyText={config.notesAndKnownLimitations} apis={config.apis} />,
+    },
   ];
 
   useEffect(() => {
