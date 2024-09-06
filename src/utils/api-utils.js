@@ -151,12 +151,13 @@ export const datatableRequest = async (
   selectedPivot,
   canceledObj,
   tableCache,
-  detailViewValue,
+  detailViewState,
   detailViewFilterParam,
   queryClient
 ) => {
   const endpoint = table.endpoint;
   const dateField = table.dateField;
+  const detailViewValue = detailViewState?.value;
   const { pivotView, pivotValue } = selectedPivot ? selectedPivot : {};
   if (pivotView && pivotView.dimensionField && pivotValue && pivotView.aggregateOn) {
     const pivotedData = await fetchPivotData(
@@ -188,10 +189,10 @@ export const datatableRequest = async (
       dateRanges.forEach(range => {
         const from = formatDateForApi(range.from);
         const to = formatDateForApi(range.to);
-        const uri =
-          detailViewFilterParam && detailViewValue
-            ? `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam},${detailViewFilterParam}:eq:${detailViewValue}&sort=${sortParamValue}`
-            : `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}&sort=${sortParamValue}`;
+
+        const detailViewFilter = detailViewFilterParam && detailViewValue ? `,${detailViewFilterParam}:eq:${detailViewValue}` : '';
+
+        const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}${detailViewFilter}&sort=${sortParamValue}`;
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
             res.range = range;

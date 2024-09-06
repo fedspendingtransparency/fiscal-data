@@ -612,11 +612,11 @@ describe('react-table', () => {
         />
       </RecoilRoot>
     );
-    const detailViewButton = getByRole('button', { name: '07/12/2023' });
+    const detailViewButton = getByRole('button', { name: '7/12/2023' });
     expect(detailViewButton).toBeInTheDocument();
 
-    detailViewButton.click();
-    expect(setDetailViewSpy).toHaveBeenCalledWith('2023-07-12');
+    userEvent.click(detailViewButton);
+    expect(setDetailViewSpy).toHaveBeenCalledWith({ secondary: null, value: '2023-07-12' });
     expect(setSummaryValuesSpy).toHaveBeenCalledWith(mockTableData.data[0]);
   });
 });

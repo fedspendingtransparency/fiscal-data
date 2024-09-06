@@ -7,7 +7,7 @@ $borderRadius: 5px;
   width: 100%;
   order: 1;
 
-  .rawDataTableContainer, nonRawDataTableContainer {
+  .rawDataTableContainer, .nonRawDataTableContainer {
     position: relative;
     box-sizing: border-box;
     border-top: 0;
@@ -30,15 +30,6 @@ $borderRadius: 5px;
   .divTable {
     border-bottom: 1px solid lightgray;
     width: fit-content;
-  }
-  .updateTableButton {
-    background-color: transparent;
-    border: none;
-    color: $primary;
-    text-decoration: underline;
-    cursor: pointer;
-    font-size: $font-size-16;
-    font-weight: 400;
   }
 
   th,

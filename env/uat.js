@@ -62,6 +62,7 @@ module.exports = {
         apiId: 317,
         field: 'operation_date',
         label: 'Operation Date',
+        secondaryField: 'operation_start_time_est',
         dateRangeLockCopy: 'To filter data by date range, select an Operation Date from the table below.',
         summaryTableFields: ['operation_date', 'operation_start_time_est', 'operation_close_time_est', 'settlement_date'],
         selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],

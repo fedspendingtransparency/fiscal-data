@@ -70,6 +70,7 @@ describe('Api Utils function library', () => {
       ],
     ]);
   });
+
   it('adds custom filter when detailViewValue and detailViewFilterParam are provided', async () => {
     global.fetch = jest.fn().mockReturnValueOnce(
       Promise.resolve({
@@ -84,16 +85,14 @@ describe('Api Utils function library', () => {
       selectedPivot,
       { isCanceled: false, abortController: { signal: null } },
       new TableCache(),
-      '2022-10-10',
+      { value: '2022-10-10', secondary: null },
       'index_date',
       new QueryClient()
     );
     expect(global.fetch.mock.calls).toEqual([
       [
-        'https://www.transparency.treasury.gov/services/api/' +
-          'fiscal_service/testEndpoint?filter=test_date_field' +
-          ':gte:2021-01-01,test_date_field:lte:2021-02-01,index_date:eq:2022-10-10' +
-          '&sort=field1,field2,field3&page%5Bnumber%5D=1&page%5Bsize%5D=10000',
+        'https://www.transparency.treasury.gov/services/api/fiscal_service/testEndpoint?filter=test_date_field:gte:2021-01-01,' +
+          'test_date_field:lte:2021-02-01,index_date:eq:2022-10-10&sort=field1,field2,field3&page%5Bnumber%5D=1&page%5Bsize%5D=10000',
         { signal: null },
       ],
     ]);

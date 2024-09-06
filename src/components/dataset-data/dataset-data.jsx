@@ -157,7 +157,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         tableCaches[detailApi.apiId] = new TableCache();
       }
       setDetailViewDownloadFilter(
-        !!detailViewState ? { field: config.detailView.field, label: config.detailView.label, value: detailViewState } : null
+        !!detailViewState ? { field: config.detailView.field, label: config.detailView.label, value: detailViewState.value } : null
       );
     }
   }, [detailViewState]);

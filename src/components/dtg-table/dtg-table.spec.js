@@ -8,6 +8,7 @@ import {
   TestData,
   TestDataOneRow,
   MoreTestData,
+  DetailViewTestData,
 } from './test-data';
 import PaginationControls from '../pagination/pagination-controls';
 import * as ApiUtils from '../../utils/api-utils';
@@ -313,5 +314,30 @@ describe('DtgTable component with shouldPage property and tableData with only on
 
   it('does not render pagination controls when fewer rows than the lowest available rows-per-page option in the pagination controls', () => {
     expect(instance19.findAllByType(PaginationControls).length).toStrictEqual(1);
+  });
+});
+
+describe('DTG Table detail view', () => {
+  it('renders table with detail view', () => {
+    const detailViewState = { value: 'Brennah', secondary: 'Smith' };
+    const mockSetIsLoading = jest.fn();
+    const mockSetManualPagination = jest.fn();
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DtgTable
+          tableProps={{
+            rawData: { data: DetailViewTestData },
+            selectedTable: { rowCount: 12 },
+            shouldPage: true,
+            config: { detailView: { field: 'first', secondaryField: 'last', apiId: 1 }, apis: [{ apiId: 1 }] },
+          }}
+          detailViewState={detailViewState}
+          setManualPagination={mockSetManualPagination}
+          setIsLoading={mockSetIsLoading}
+        />
+      </RecoilRoot>
+    );
+
+    expect(getByRole('table')).toBeInTheDocument();
   });
 });
