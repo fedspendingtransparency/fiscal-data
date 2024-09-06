@@ -11,7 +11,7 @@
 10,"Click on the ""Share this page:"" options",Fiscal Data - Explainers,Share Click,Spending - Share on <title of sharing option>,
 11,Click on the link to USAspending.gov,Fiscal Data - Explainers,Spending Citation Click,Spending,
 12,"Click on the button labeled ""Agency"" within the chart",Fiscal Data - Explainers,Chart Toggle,Spending - Spending Categories,
-13,"Click on the toggle to ""Dollars""",Fiscal Data - Explainers,Chart Toggle,Spending
+13,"Click on the toggle to ""Dollars""",Fiscal Data - Explainers,Chart Toggle,Spending,
 14,Click on the link to USAspending.gov Spending Explorer,Fiscal Data - Explainers,Spending Citation Click,Spending Explorer,
 15,Click on the link to Monthly Treasury Statement,Fiscal Data - Explainers,Spending Citation Click,Spending - Spending Categories,
 16,"Expand the accordion labeled ""What does the future of Social Security and Medicare look like?""",Fiscal Data - Explainers,Accordion Expand Click,Spending - Spending Categories,
@@ -28,7 +28,7 @@
 27,Click on the link to the github repo,Fiscal Data - Explainers,Spending Citation Click,Spending,
 28,Click on the link to the Monthly Treasury Statement,Fiscal Data - Explainers,Spending Citation Click,Spending,
 29,Click on the link to the Interest Expense on Debt Outstanding,Fiscal Data - Explainers,Spending Citation Click,Spending,
-30,Click on the link to the Daily Treasury Statement,Fiscal Data - Explainers,Spending Citation Click,Monthly Treasury Statemen,
+30,Click on the link to the Daily Treasury Statement,Fiscal Data - Explainers,Spending Citation Click,Monthly Treasury Statement,
 31,Click on the link to the Financial Report of the U.S. Government,Fiscal Data - Explainers,Spending Citation Click,Spending,
 32,"Click on the button labeled ""Category"" within the chart",Fiscal Data - Explainers,Chart Toggle,Spending - Spending Categories,
 33,"Click on the toggle to ""Percentage""",Fiscal Data - Explainers,Chart Toggle,Spending - Spending Categories,
