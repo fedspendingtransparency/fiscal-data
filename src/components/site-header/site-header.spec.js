@@ -134,8 +134,8 @@ describe('SiteHeader', () => {
     const logo = getByTestId('logo');
     const searchButton = getByTestId('search');
     const aboutButton = getByTestId('about');
-    const topicsButton = getByRole('button', { name: 'Topics' });
-    const resourcesButton = getByRole('button', { name: 'Resources' });
+    const topicsButton = getByRole('button', { name: 'Page links for Topics' });
+    const resourcesButton = getByRole('button', { name: 'Page links for Resources' });
 
     logo.click();
     expect(spy).toHaveBeenCalledWith({
@@ -228,7 +228,7 @@ describe('SiteHeader', () => {
     );
 
     act(() => {
-      fireEvent.mouseEnter(getByRole('button', { name: 'Resources' }));
+      fireEvent.mouseEnter(getByRole('button', { name: 'Page links for Resources' }));
       jest.runAllTimers();
     });
     const glossaryButton = getByRole('button', { name: 'Glossary' });
@@ -248,7 +248,7 @@ describe('SiteHeader', () => {
     );
 
     act(() => {
-      fireEvent.mouseEnter(getByRole('button', { name: 'Resources' }));
+      fireEvent.mouseEnter(getByRole('button', { name: 'Page links for Resources' }));
       jest.runAllTimers();
     });
     const glossaryButton = getByRole('button', { name: 'Glossary' });

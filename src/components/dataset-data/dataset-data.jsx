@@ -18,12 +18,10 @@ import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFiltere
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { detailViewNotice, lockIcon, placeholderText, placeholderButton, tableContainer } from './dataset-data.module.scss';
-
 import { queryClient } from '../../../react-query-client';
-
+import ENV_ID from 'gatsby-env-variables';
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
   // config.apis should always be available; but, fallback in case
-  const title = 'Preview & Download';
 
   const apis = config ? config.apis : [null];
   const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
@@ -56,7 +54,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;
-
+  const title = ENV_ID === 'uat' ? 'Data Table' : 'Preview & Download';
   const shouldUseLoadByPage = pivot => {
     return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
@@ -213,8 +211,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   }, [selectedTable]);
 
   return (
-    <DatasetSectionContainer id="preview-and-download" title={title}>
-      <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
+    <DatasetSectionContainer id="data-table" title={title}>
+      {ENV_ID === 'uat' ? '' : <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />}
       <div className={activeTab === 1 ? '' : 'hidden'}>
         {tableColumnSortData && (
           <FilterAndDownload

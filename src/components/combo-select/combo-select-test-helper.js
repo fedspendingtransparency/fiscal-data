@@ -65,3 +65,29 @@ export const mockOptions = [
     value: 'Nice3-lettuce',
   },
 ];
+
+export const mockOptionsWithChildren = [
+  {
+    default: true,
+    children: [
+      {
+        label: '(None selected)',
+        value: null,
+      },
+    ],
+  },
+  {
+    label: 'Section 1',
+    children: [
+      { label: 'A', value: 'a' },
+      { label: 'B', value: 'b' },
+    ],
+  },
+  {
+    label: 'Section 2',
+    children: [
+      { label: 'C', value: 'c' },
+      { label: 'D', value: 'd' },
+    ],
+  },
+];

@@ -75,8 +75,7 @@ const RangePresets = ({
   };
 
   const prepUpdateDateRange = preset => {
-    const curDateRange = determineDateRange(availableDateRange, preset);
-    console.log(curDateRange);
+    const curDateRange = determineDateRange(availableDateRange, preset, currentDateButton);
     updateDateRange(curDateRange);
   };
 

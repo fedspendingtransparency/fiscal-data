@@ -35,6 +35,7 @@ export interface IDatasetApi {
     dataUnmatchedMessage: string;
     dataDefaultHeader: string;
     dataDefaultMessage: string;
+    fieldFilter: {};
   };
   valueFieldOptions: unknown | null;
 }

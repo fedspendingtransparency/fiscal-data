@@ -1,8 +1,8 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, act, waitForElementToBeRemoved } from '@testing-library/react';
 import ComboSelectDropdown from './combo-select-dropdown';
-import { mockOptions } from '../../combo-select-test-helper';
-import { act } from 'react-test-renderer';
+import { mockOptions, mockOptionsWithChildren } from '../../combo-select-test-helper';
+import userEvent from '@testing-library/user-event';
 
 describe('Combo Select Dropdown', () => {
   jest.useFakeTimers();
@@ -82,19 +82,19 @@ describe('Combo Select Dropdown', () => {
         updateSelection={updateSelectionSpy}
         changeHandler={changeHandlerSpy}
         setDropdownActive={jest.fn()}
+        setMouseOverDropdown={jest.fn()}
       />
     );
 
     const searchBar = getByRole('textbox');
-    fireEvent.click(searchBar);
+    userEvent.click(searchBar);
 
     act(() => {
       fireEvent.change(searchBar, { target: { value: 'test' } });
     });
 
-    const clearButton = getByRole('button', { hidden: true });
-    expect(clearButton).toHaveClass('fa-circle-xmark');
-    fireEvent.click(clearButton);
+    const clearButton = getByRole('button', { name: 'Clear search bar' });
+    userEvent.click(clearButton);
 
     expect(changeHandlerSpy).toHaveBeenCalledWith(null);
   });
@@ -127,7 +127,7 @@ describe('Combo Select Dropdown', () => {
     });
 
     const filteredOptions = getAllByRole('button');
-    expect(filteredOptions.length).toEqual(3);
+    expect(filteredOptions.length).toEqual(4);
   });
 
   it('resets scroll top when active is true', () => {
@@ -145,5 +145,57 @@ describe('Combo Select Dropdown', () => {
 
     expect(getByTestId('topScrollGradient')).toHaveClass('scrollContainerTop');
     expect(getByTestId('topScrollGradient')).not.toHaveClass('scrollGradient');
+  });
+});
+
+describe('combo select dropdown with child sections', () => {
+  it('renders section headers and children as buttons', () => {
+    const setMouseOverDropdownSpy = jest.fn();
+    const onBlurHandlerSpy = jest.fn();
+    const defaultSelection = mockOptionsWithChildren[0].children;
+
+    const { getByText, getByRole } = render(
+      <ComboSelectDropdown
+        active={true}
+        options={mockOptionsWithChildren}
+        selectedOption={defaultSelection}
+        setMouseOverDropdown={setMouseOverDropdownSpy}
+        dropdownOnBlurHandler={onBlurHandlerSpy}
+        hasChildren
+      />
+    );
+
+    expect(getByText('Section 1')).toBeInTheDocument();
+    expect(getByText('Section 2')).toBeInTheDocument();
+    expect(getByRole('button', { name: 'A' })).toBeInTheDocument();
+  });
+
+  it('filters children on search', () => {
+    const setMouseOverDropdownSpy = jest.fn();
+    const onBlurHandlerSpy = jest.fn();
+    const defaultSelection = mockOptionsWithChildren[0].children;
+    const changeHandlerSpy = jest.fn();
+
+    const { getByText, getByRole } = render(
+      <ComboSelectDropdown
+        active={true}
+        options={mockOptionsWithChildren}
+        selectedOption={defaultSelection}
+        setMouseOverDropdown={setMouseOverDropdownSpy}
+        dropdownOnBlurHandler={onBlurHandlerSpy}
+        hasChildren
+        changeHandler={changeHandlerSpy}
+        setDropdownActive={jest.fn()}
+      />
+    );
+
+    const searchBar = getByRole('textbox');
+    userEvent.click(searchBar);
+    userEvent.keyboard('A');
+
+    const clearButton = getByRole('button', { name: 'Clear search bar' });
+    userEvent.click(clearButton);
+
+    expect(changeHandlerSpy).toHaveBeenCalledWith(null);
   });
 });
