@@ -8,7 +8,12 @@
 .helpLabel {
   font-style: italic;
   margin-top: 0.25rem;
+
+  &.errorStateLabel {
+
+  }
 }
+
 .inputLabel, .selectedDateDisplay, .helpLabel {
   margin-left: 1.25rem;
   margin-right: 1.25rem;
@@ -17,6 +22,7 @@
 .inputLabel, .helpLabel {
   font-size: $font-size-14;
 }
+
 
 .selectedDateDisplay {
   border: 1px solid $light-grey-border;
@@ -31,5 +37,14 @@
     font-size: $font-size-16;
     color: $font-body-copy;
     font-family: "Source Sans Pro", sans-serif;
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &.errorState {
+    border: 1px solid #e21c3d !important;
   }
 }

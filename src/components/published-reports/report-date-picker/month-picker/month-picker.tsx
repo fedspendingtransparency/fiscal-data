@@ -56,7 +56,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
 
   return (
     <>
-      {true && (
+      {active && (
         <ReportDateDropdown
           handleClose={handleClose}
           handleApply={handleApply}
@@ -77,7 +77,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
                       return (
                         <li key={i}>
                           <button
-                            className={option.toString() === selectedYear ? selected : null}
+                            className={option.toString() === selectedYear.toString() ? selected : null}
                             disabled={disabled}
                             onClick={() => handleYearClick(option)}
                           >

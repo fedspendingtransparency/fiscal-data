@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FunctionComponent } from 'react';
-import { selectedDateDisplay, inputLabel, helpLabel } from './date-text-input.module.scss';
+import { selectedDateDisplay, inputLabel, helpLabel, errorState, errorStateLabel } from './date-text-input.module.scss';
 import { monthFullNames } from '../../../../utils/api-utils';
 
 interface iDateTextInput {
@@ -9,14 +9,26 @@ interface iDateTextInput {
   setValidInput: (inputState: boolean) => void;
   inputFocus: boolean;
   setInputFocus: (focusState: boolean) => void;
-  setSelectedDate: (date: string) => void;
+  setSelectedMonth: (month: string) => void;
+  setSelectedYear: (year: string) => void;
+  handleApply: () => void;
 }
 
-const DateTextInput: FunctionComponent<iDateTextInput> = ({ label, validInput, setValidInput, inputFocus, setInputFocus, setSelectedDate }) => {
+const DateTextInput: FunctionComponent<iDateTextInput> = ({
+  label,
+  validInput,
+  setValidInput,
+  inputFocus,
+  setInputFocus,
+  setSelectedMonth,
+  setSelectedYear,
+  handleApply,
+}) => {
   const dateInputRef = useRef();
   const helpText = 'Press Enter/Return to confirm.';
   const invalidDateText = 'Invalid date. Please check input and format.';
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [invalidInput, setInvalidInput] = useState(false);
 
   const isValidMonth = (monthInput: string) => {
     return monthFullNames.includes(monthInput) || (Number(monthInput) <= 12 && Number(monthInput) > 0);
@@ -26,11 +38,11 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({ label, validInput, s
     return yearInput >= 1000 && yearInput <= 9999;
   };
 
-  const isValid = (input: string, reset: boolean) => {
+  const isValid = (input: string, reset?: boolean) => {
     const splitTextDate = input.split(' ');
     const splitNumericDate = input.split('/');
-    let month;
-    let year;
+    let month = '';
+    let year: number;
     let numeric = false;
     if (splitTextDate.length === 2) {
       month = splitTextDate[0];
@@ -42,16 +54,26 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({ label, validInput, s
     }
     const validEntry = isValidMonth(month) && isValidYear(year);
     if (validEntry) {
-      setValidInput(true);
+      let inputMonth = month;
       setErrorMessage(null);
       if (numeric) {
         const monthText = monthFullNames[Number(month) - 1];
+        inputMonth = monthText;
         dateInputRef.current.value = monthText + ' ' + year;
       }
+      setSelectedMonth(inputMonth);
+      setSelectedYear(year.toString());
+      setValidInput(true);
     } else {
-      setErrorMessage(invalidDateText);
+      setInvalidInput(true);
     }
   };
+
+  useEffect(() => {
+    if (validInput) {
+      handleApply();
+    }
+  }, [validInput]);
 
   const handleOnKeyDown = e => {
     const input = e.target.value;
@@ -62,9 +84,9 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({ label, validInput, s
 
   const handleOnChange = e => {
     const input = e.target.value;
-    if (validInput && !isValid(input)) {
-      setValidInput(false);
-    }
+    // if (validInput && !isValid(input)) {
+    //   setValidInput(false);
+    // }
   };
 
   const handleOnFocus = () => {
@@ -83,15 +105,19 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({ label, validInput, s
       <div className={inputLabel}>{label}</div>
       <input
         type="text"
-        className={selectedDateDisplay}
+        className={`${selectedDateDisplay} ${invalidInput && errorState}`}
         ref={dateInputRef}
         onKeyDown={handleOnKeyDown}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
         onChange={handleOnChange}
       />
-      <div className={helpLabel} aria-hidden={inputFocus && !validInput} style={inputFocus && !validInput ? null : { display: 'none' }}>
-        {errorMessage ? errorMessage : helpText}
+      <div
+        className={`${helpLabel} ${invalidInput && errorStateLabel}`}
+        aria-hidden={inputFocus && !validInput}
+        style={inputFocus && !validInput ? null : { display: 'none' }}
+      >
+        {invalidInput ? invalidDateText : helpText}
       </div>
     </>
   );
