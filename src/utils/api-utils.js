@@ -145,7 +145,16 @@ export const calculatePercentage = data => {
   }));
 };
 
-export const datatableRequest = async (table, dateRange, selectedPivot, canceledObj, tableCache, detailViewState, detailView, queryClient) => {
+export const datatableRequest = async (
+  table,
+  dateRange,
+  selectedPivot,
+  canceledObj,
+  tableCache,
+  detailViewState,
+  detailViewFilterParam,
+  queryClient
+) => {
   const endpoint = table.endpoint;
   const dateField = table.dateField;
   const detailViewValue = detailViewState?.value;
@@ -180,7 +189,6 @@ export const datatableRequest = async (table, dateRange, selectedPivot, canceled
       dateRanges.forEach(range => {
         const from = formatDateForApi(range.from);
         const to = formatDateForApi(range.to);
-        const detailViewFilterParam = detailView?.field;
 
         const detailViewFilter = detailViewFilterParam && detailViewValue ? `,${detailViewFilterParam}:eq:${detailViewValue}` : '';
 
