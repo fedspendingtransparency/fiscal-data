@@ -86,7 +86,7 @@ describe('Api Utils function library', () => {
       { isCanceled: false, abortController: { signal: null } },
       new TableCache(),
       { value: '2022-10-10', secondary: null },
-      { field: 'index_date' },
+      'index_date',
       new QueryClient()
     );
     expect(global.fetch.mock.calls).toEqual([
