@@ -14,6 +14,9 @@ interface iDateTextInput {
   handleApply: () => void;
 }
 
+export const invalidDateText = 'Invalid date. Please check input and format.';
+export const helpText = 'Press Enter/Return to confirm.';
+
 const DateTextInput: FunctionComponent<iDateTextInput> = ({
   label,
   validInput,
@@ -25,8 +28,6 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   handleApply,
 }) => {
   const dateInputRef = useRef();
-  const helpText = 'Press Enter/Return to confirm.';
-  const invalidDateText = 'Invalid date. Please check input and format.';
   const [errorMessage, setErrorMessage] = useState<string>();
   const [invalidInput, setInvalidInput] = useState(false);
 
@@ -65,13 +66,14 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       setSelectedYear(year.toString());
       setValidInput(true);
     } else {
+      setValidInput(false);
       setInvalidInput(true);
     }
   };
 
   useEffect(() => {
     if (validInput) {
-      handleApply();
+      // handleApply();
     }
   }, [validInput]);
 
@@ -111,6 +113,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
         onChange={handleOnChange}
+        placeholder="test"
       />
       <div
         className={`${helpLabel} ${invalidInput && errorStateLabel}`}

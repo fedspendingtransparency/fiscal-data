@@ -1,6 +1,7 @@
-import DateTextInput from './date-text-input';
-import { fireEvent, render } from '@testing-library/react';
+import DateTextInput, { helpText, invalidDateText } from './date-text-input';
+import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react';
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 
 describe('Date Text Entry', () => {
   it('displays input label', () => {
@@ -17,6 +18,79 @@ describe('Date Text Entry', () => {
     const { getByRole, getByText } = render(<DateTextInput label="Report Date" />);
     const inputBox = getByRole('textbox');
     fireEvent.focus(inputBox);
-    expect(getByText('Press Enter/Return to confirm.'));
+    expect(getByText(helpText));
+  });
+
+  it('validates the entry on enter key press and removes help text if valid', () => {
+    const setSelectedMonthSpy = jest.fn();
+    const setSelectedYearSpy = jest.fn();
+    const setValidInputSpy = jest.fn();
+    const { getByRole, getByText } = render(
+      <DateTextInput
+        label="Report Date"
+        setInputFocus={jest.fn()}
+        setSelectedMonth={setSelectedMonthSpy}
+        setSelectedYear={setSelectedYearSpy}
+        setValidInput={setValidInputSpy}
+      />
+    );
+    const inputBox = getByRole('textbox');
+    expect(getByText(helpText));
+
+    userEvent.type(inputBox, 'June 2021');
+    userEvent.keyboard('{Enter}');
+
+    expect(setSelectedYearSpy).toHaveBeenCalledWith('2021');
+    expect(setSelectedMonthSpy).toHaveBeenCalledWith('June');
+    expect(setValidInputSpy).toHaveBeenCalledWith(true);
+  });
+
+  it('validates the entry on enter key press for numerical date entry', () => {
+    const setSelectedMonthSpy = jest.fn();
+    const setSelectedYearSpy = jest.fn();
+    const setValidInputSpy = jest.fn();
+    const { getByRole, getByText } = render(
+      <DateTextInput
+        label="Report Date"
+        setInputFocus={jest.fn()}
+        setSelectedMonth={setSelectedMonthSpy}
+        setSelectedYear={setSelectedYearSpy}
+        setValidInput={setValidInputSpy}
+      />
+    );
+    const inputBox = getByRole('textbox');
+    expect(getByText(helpText));
+
+    userEvent.type(inputBox, '06/2021');
+    userEvent.keyboard('{Enter}');
+
+    expect(setSelectedYearSpy).toHaveBeenCalledWith('2021');
+    expect(setSelectedMonthSpy).toHaveBeenCalledWith('June');
+    expect(setValidInputSpy).toHaveBeenCalledWith(true);
+  });
+
+  it('validates the entry on enter key press and shows error text if invalid', () => {
+    const setSelectedMonthSpy = jest.fn();
+    const setSelectedYearSpy = jest.fn();
+    const setValidInputSpy = jest.fn();
+    const { getByRole, getByText } = render(
+      <DateTextInput
+        label="Report Date"
+        setInputFocus={jest.fn()}
+        setSelectedMonth={setSelectedMonthSpy}
+        setSelectedYear={setSelectedYearSpy}
+        setValidInput={setValidInputSpy}
+      />
+    );
+    const inputBox = getByRole('textbox');
+    expect(getByText(helpText));
+
+    userEvent.type(inputBox, 'jun 20211');
+    userEvent.keyboard('{Enter}');
+
+    expect(setSelectedYearSpy).not.toHaveBeenCalled();
+    expect(setSelectedMonthSpy).not.toHaveBeenCalled();
+    expect(setValidInputSpy).toHaveBeenCalledWith(false);
+    expect(getByText(invalidDateText)).toBeInTheDocument();
   });
 });
