@@ -51,6 +51,34 @@ export const TestData = [
   },
 ];
 
+export const DetailViewTestData = [
+  {
+    first: 'Brennah',
+    middle: 'McRae',
+    last: 'Francis',
+  },
+  {
+    first: 'Brennah',
+    middle: 'McRae',
+    last: 'Smith',
+  },
+  {
+    first: 'Brennah',
+    middle: 'McRae',
+    last: 'Joe',
+  },
+  {
+    first: 'Brennah',
+    middle: 'McRae',
+    last: 'Baker',
+  },
+  {
+    first: 'Brennah',
+    middle: 'McRae',
+    last: 'Rose',
+  },
+];
+
 export const MoreTestData = [
   {
     first: 'Brennah',

@@ -44,7 +44,7 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({
         return (
           <tr key={row.id} className={fillCell ? fillCellGrey : fillCellWhite} data-testid="row">
             {rowConfig.map(cell => {
-              const cellValue = cell.getValue().toString();
+              const cellValue = cell.getValue()?.toString();
               const display = !cellValue || cellValue === 'null';
               const wrapStyle = allowColumnWrap?.includes(cell.column.id);
               const detailViewButton = detailViewConfig?.field === cell.column.id;
