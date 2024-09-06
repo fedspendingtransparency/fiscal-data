@@ -32,7 +32,7 @@ import {
   titleContainer,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 import { queryClient } from '../../../../react-query-client';
 import moment from 'moment/moment';
@@ -92,11 +92,7 @@ const TableSectionContainer = ({
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
 
   const formatDate = detailDate => {
-    const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView.field)?.dataType;
-    console.log(
-      selectedTable.fields.find(field => field.columnName === config.detailView.field),
-      config.detailView.field
-    );
+    const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
     return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
   };

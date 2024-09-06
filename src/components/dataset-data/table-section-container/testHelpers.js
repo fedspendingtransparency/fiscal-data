@@ -113,7 +113,7 @@ export const selectedTableLessFields = {
   fields: [
     { columnName: 'facility_desc', prettyName: 'Facility Description', dataType: 'string' },
     { columnName: 'book_value_amt', prettyName: 'Book Value', dataType: 'string' },
-    { columnName: 'report_date', prettyName: 'Report Date', dataType: 'date' },
+    { columnName: 'report_date', prettyName: 'Report Date', dataType: 'DATE' },
   ],
   dataDisplays: [
     { chartType: 'none', dimensionField: null, title: 'Complete Table' },
@@ -192,6 +192,13 @@ export const mockConfig = {
   slug: 'mock/slug/here',
   apis: [selectedTableLessFields, selectedTableMoreFields, mockTableWithNoChartAvailable, mockTableWithPivot],
   detailView: { apiId: 4, summaryTableFields: ['first', 'age', 'c'], field: 'first' },
+};
+
+export const mockDetailConfig = {
+  name: 'my name',
+  slug: 'mock/slug/here',
+  apis: [selectedTableLessFields, selectedTableMoreFields],
+  detailView: { apiId: 4, summaryTableFields: ['facility_desc', 'book_value_amt', 'report_date'], field: 'report_date' },
 };
 
 export const pivotFields = [

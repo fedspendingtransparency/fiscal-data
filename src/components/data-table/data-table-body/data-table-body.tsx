@@ -23,10 +23,8 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({
 }) => {
   let fillCell = false;
 
-  const findRowValues = row => row.find(config => config.column.id === detailViewConfig.secondaryField)?.row.original;
-
   const handleDetailClick = (rowConfig, cellValue) => {
-    const currentRow = findRowValues(rowConfig);
+    const currentRow = rowConfig[0]?.row.original;
     const secondaryFilterValue = detailViewConfig?.secondaryField ? currentRow[detailViewConfig.secondaryField] : null;
     setDetailViewState({ value: cellValue, secondary: secondaryFilterValue });
     setSummaryValues(currentRow);

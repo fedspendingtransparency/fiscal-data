@@ -18,6 +18,7 @@ import {
   mockApiDataUserFilterable,
   selectedPivotWithRoundingDenomination,
   mockTableWithApiFilterAvailable,
+  mockDetailConfig,
 } from './testHelpers';
 import * as setNoChartMessageMod from './set-no-chart-message';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
@@ -585,14 +586,14 @@ describe('formatDate function', () => {
     const { getByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
-          config={mockConfig}
+          config={mockDetailConfig}
           dateRange={mockDateRange}
           selectedTable={selectedTable}
           apiData={mockApiData}
           isLoading={false}
           apiError={false}
           setSelectedPivot={jest.fn()}
-          detailViewState={new Date(2023, 5, 1)}
+          detailViewState={{ value: new Date(2023, 5, 1) }}
           setUserFilterSelection={jest.fn()}
         />
       </RecoilRoot>

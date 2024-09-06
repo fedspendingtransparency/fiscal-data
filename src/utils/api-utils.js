@@ -149,7 +149,6 @@ export const datatableRequest = async (table, dateRange, selectedPivot, canceled
   const endpoint = table.endpoint;
   const dateField = table.dateField;
   const detailViewValue = detailViewState?.value;
-  const detailViewSecondary = detailViewState?.secondary;
   const { pivotView, pivotValue } = selectedPivot ? selectedPivot : {};
   if (pivotView && pivotView.dimensionField && pivotValue && pivotView.aggregateOn) {
     const pivotedData = await fetchPivotData(
