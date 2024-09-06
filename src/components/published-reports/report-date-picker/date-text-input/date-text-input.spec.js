@@ -1,5 +1,5 @@
 import DateTextInput, { helpText, invalidDateText } from './date-text-input';
-import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 
@@ -15,13 +15,23 @@ describe('Date Text Entry', () => {
   });
 
   it('display help text when focus is on input field', () => {
-    const { getByRole, getByText } = render(<DateTextInput label="Report Date" />);
+    const { getByRole, getByText } = render(<DateTextInput label="Report Date" setInputFocus={jest.fn()} validInput={false} />);
     const inputBox = getByRole('textbox');
-    fireEvent.focus(inputBox);
+    userEvent.tab();
+    expect(inputBox).toHaveFocus();
     expect(getByText(helpText));
   });
 
-  it('validates the entry on enter key press and removes help text if valid', () => {
+  it('hides help text on input field blur', () => {
+    const { getByRole, queryByText } = render(<DateTextInput label="Report Date" setInputFocus={jest.fn()} />);
+    const inputBox = getByRole('textbox');
+    userEvent.tab();
+    expect(inputBox).toHaveFocus();
+    userEvent.tab();
+    expect(queryByText(helpText)).not.toBeInTheDocument();
+  });
+
+  it('validates the entry on enter key press', () => {
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
     const setValidInputSpy = jest.fn();
@@ -35,7 +45,6 @@ describe('Date Text Entry', () => {
       />
     );
     const inputBox = getByRole('textbox');
-    expect(getByText(helpText));
 
     userEvent.type(inputBox, 'June 2021');
     userEvent.keyboard('{Enter}');
@@ -59,7 +68,6 @@ describe('Date Text Entry', () => {
       />
     );
     const inputBox = getByRole('textbox');
-    expect(getByText(helpText));
 
     userEvent.type(inputBox, '06/2021');
     userEvent.keyboard('{Enter}');
@@ -83,9 +91,9 @@ describe('Date Text Entry', () => {
       />
     );
     const inputBox = getByRole('textbox');
-    expect(getByText(helpText));
 
-    userEvent.type(inputBox, 'jun 20211');
+    userEvent.tab();
+    userEvent.keyboard('jun 20211');
     userEvent.keyboard('{Enter}');
 
     expect(setSelectedYearSpy).not.toHaveBeenCalled();

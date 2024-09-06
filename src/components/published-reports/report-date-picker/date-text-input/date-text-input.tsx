@@ -16,6 +16,7 @@ interface iDateTextInput {
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
 export const helpText = 'Press Enter/Return to confirm.';
+export const noReportMatch = 'No reports or files available for this date.';
 
 const DateTextInput: FunctionComponent<iDateTextInput> = ({
   label,
@@ -26,6 +27,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   setSelectedMonth,
   setSelectedYear,
   handleApply,
+  allReportDates,
 }) => {
   const dateInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -56,17 +58,29 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     const validEntry = isValidMonth(month) && isValidYear(year);
     if (validEntry) {
       let inputMonth = month;
-      setErrorMessage(null);
+      setInvalidInput(false);
+
       if (numeric) {
         const monthText = monthFullNames[Number(month) - 1];
         inputMonth = monthText;
         dateInputRef.current.value = monthText + ' ' + year;
       }
-      setSelectedMonth(inputMonth);
-      setSelectedYear(year.toString());
-      setValidInput(true);
+
+      const reportMatch = allReportDates.includes(inputMonth + ' ' + year);
+      console.log(reportMatch);
+      if (!reportMatch) {
+        setErrorMessage(noReportMatch);
+        setInvalidInput(true);
+      } else {
+        setErrorMessage(null);
+        setSelectedMonth(inputMonth);
+        setSelectedYear(year.toString());
+        setValidInput(true);
+      }
+      // check for matching report
     } else {
       setValidInput(false);
+      setErrorMessage(invalidDateText);
       setInvalidInput(true);
     }
   };
@@ -115,13 +129,9 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
         onChange={handleOnChange}
         placeholder="test"
       />
-      <div
-        className={`${helpLabel} ${invalidInput && errorStateLabel}`}
-        aria-hidden={inputFocus && !validInput}
-        style={inputFocus && !validInput ? null : { display: 'none' }}
-      >
-        {invalidInput ? invalidDateText : helpText}
-      </div>
+      {inputFocus && !validInput && !invalidInput && <div className={helpLabel}>{helpText}</div>}
+      {inputFocus && !validInput && errorMessage && <div className={errorStateLabel}>{errorMessage}</div>}
+      {/*{inputFocus && !validInput && errorMessage && <div className={errorStateLabel}>{errorMessage}</div>}*/}
     </>
   );
 };

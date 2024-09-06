@@ -5,24 +5,26 @@
   margin-bottom: 0.5rem;
 }
 
-.helpLabel {
-  font-style: italic;
+.helpLabel, .errorStateLabel {
   margin-top: 0.25rem;
-
-  &.errorStateLabel {
-
-  }
 }
 
-.inputLabel, .selectedDateDisplay, .helpLabel {
+.helpLabel {
+  font-style: italic;
+}
+
+.errorStateLabel {
+  color: #e21c3d;
+}
+
+.inputLabel, .selectedDateDisplay, .helpLabel, .errorStateLabel {
   margin-left: 1.25rem;
   margin-right: 1.25rem;
 }
 
-.inputLabel, .helpLabel {
+.inputLabel, .helpLabel, .errorStateLabel {
   font-size: $font-size-14;
 }
-
 
 .selectedDateDisplay {
   border: 1px solid $light-grey-border;

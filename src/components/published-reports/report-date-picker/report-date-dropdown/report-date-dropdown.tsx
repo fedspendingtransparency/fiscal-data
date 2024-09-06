@@ -7,10 +7,11 @@ import DateTextInput from '../date-text-input/date-text-input';
 interface IReportDateDropdown {
   handleClose: () => void;
   handleApply: () => void;
-  setSelectedDate: (date: Date) => void;
   setSelectedMonth: (month: string) => void;
   setSelectedYear: (year: string) => void;
   children: ReactElement;
+  validInput: boolean;
+  setValidInput: (inputState: boolean) => void;
 }
 
 const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
@@ -18,10 +19,12 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
   handleApply,
   setSelectedMonth,
   setSelectedYear,
-  setSelectedDate,
   children,
+  validInput,
+  setValidInput,
+  allReportDates,
 }: IReportDateDropdown) => {
-  const [validInput, setValidInput] = useState(false);
+  // const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
 
   return (
@@ -37,6 +40,7 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
             setSelectedMonth={setSelectedMonth}
             setSelectedYear={setSelectedYear}
             handleApply={handleApply}
+            allReportDates={allReportDates}
           />
         </div>
         {children}

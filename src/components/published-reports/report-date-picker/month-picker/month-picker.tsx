@@ -26,6 +26,8 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   const [showYears, setShowYears] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(monthFullNames[selectedDate.getMonth()]);
   const [selectedYear, setSelectedYear] = useState<string>(selectedDate.getFullYear().toString());
+  const [validInput, setValidInput] = useState(false);
+  // const [errorMessage, setErrorMessage] = useState<string>(null);
 
   const allYears = [...new Set(allReportYears)];
   const monthDropdownOptions = monthFullNames;
@@ -54,15 +56,30 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
     }
   }, [active]);
 
+  // useEffect(() => {
+  //   if (validInput) {
+  //     const reportMatch = allReportDates.includes(selectedMonth + ' ' + selectedYear);
+  //     console.log(reportMatch);
+  //     if (!reportMatch) {
+  //       setErrorMessage(noReportMatch);
+  //     } else {
+  //       setErrorMessage(null);
+  //     }
+  //   }
+  // }, [validInput]);
+
   return (
     <>
       {active && (
         <ReportDateDropdown
           handleClose={handleClose}
           handleApply={handleApply}
-          setSelectedDate={setSelectedDate}
           setSelectedMonth={setSelectedMonth}
           setSelectedYear={setSelectedYear}
+          validInput={validInput}
+          setValidInput={setValidInput}
+          allReportDates={allReportDates}
+          // errorMessage={errorMessage}
         >
           <>
             <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">
