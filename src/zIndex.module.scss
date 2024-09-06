@@ -24,12 +24,16 @@ $mobile-menu-sticky: $above + $mobile-menu-list;
 // desktop sub nav
 $desktop-menu-sticky: $above + $illustration-whiteout;
 
+//combo-select-dropdown
+$combo-select-dropdown: $above + $backdrop;
+
 // dataset detail
 // table
 $dtg-table: $backdrop;
 $dtg-table-overlay: $above + $dtg-table;
 $dtg-table-loading-icon: $above + $dtg-table-overlay;
 $dtg-api-error: $dtg-table-loading-icon;
+$dtg-table-dropdown: $above + $combo-select-dropdown;
 // table container
 $table-loading-section: $above + $backdrop;
 $table-title: $above + $table-loading-section;
@@ -48,8 +52,7 @@ $published-reports-date-picker: $above + $filter-download-left-content;
 $dataset-details-example-loading-icon: $above + $backdrop; // example request and response loading icon
 // nav
 $dataset-detail-nav: $above + $published-reports-date-picker; // $published-reports-date-picker is the highest in DDP
-//combo-select-dropdown
-$combo-select-dropdown: $above + $backdrop;
+
 
 // download dataset sticky footer
 $download-sticky-footer: $above + $filter-download-left-content; // published-reports-year-select is the highest on DDP, $download-sticky-footer z-index:5

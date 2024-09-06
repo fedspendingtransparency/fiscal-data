@@ -18,6 +18,15 @@
     padding: 0;
     margin: 0;
 
+    .sectionLabel {
+      margin: .5rem 1rem;
+      font-size: $font-size-14;
+      font-weight: $semi-bold-weight;
+      text-transform: uppercase;
+    }
+
+
+
     .dropdownListItem {
       display: block;
       color: $font-body-copy;
@@ -28,6 +37,10 @@
       &.dropdownListItem_Selected {
         background-color: #e8f5ff;
         color: $primary;
+      }
+
+      &.dropdownListItem_child {
+        padding-left: 2rem;
       }
 
       .dropdownListItem_Button {

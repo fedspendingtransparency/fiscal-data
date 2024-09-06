@@ -17,9 +17,13 @@ type UserFilterProps = {
       label: string;
       field: string;
       notice: string;
-      optionValues: string[];
+      optionValues: { key: string };
       dataUnmatchedMessage: string;
       dataSearchLabel: string;
+      fieldFilter: {
+        value: string[];
+        field: string;
+      };
     };
   };
   onUserFilter: (selection: { label: string | number; value?: string | number | null }) => void;
@@ -48,14 +52,30 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
 
   const establishOptions = () => {
     let options = null;
+    let nestedOptions = null;
+
     if (selectedTable?.userFilter?.optionValues && userFilterOptions === null) {
       options = selectedTable.userFilter.optionValues.map(val => ({ label: val, value: val }));
       options.unshift(defaultSelection);
       setUserFilterOptions(options);
-    } else if (selectedTable?.apiFilter?.optionValues && userFilterOptions === null) {
-      options = selectedTable.apiFilter.optionValues.map(val => ({ label: val, value: val }));
-      options.unshift(defaultSelection);
-      setUserFilterOptions(options);
+    } else if (selectedTable?.apiFilter?.optionValues) {
+      if (selectedTable.apiFilter.fieldFilter?.value) {
+        const filterOptions = selectedTable.apiFilter.fieldFilter.value;
+        nestedOptions = [{ default: true, children: [defaultSelection] }];
+        for (let i = 0; i < filterOptions.length; i++) {
+          const filter = filterOptions[i];
+          const nestedChildren = selectedTable.apiFilter.optionValues[filter].map(val => ({ label: val, value: val }));
+          nestedOptions.push({ label: filter, children: nestedChildren });
+        }
+      } else {
+        options = selectedTable.apiFilter.optionValues['all'].map(val => ({ label: val, value: val }));
+      }
+      if (nestedOptions) {
+        setUserFilterOptions(nestedOptions);
+      } else {
+        options.unshift(defaultSelection);
+        setUserFilterOptions(options);
+      }
     }
   };
 
@@ -80,6 +100,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
             selectedOption={selectedFilterOption}
             containerBorder={true}
             searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : undefined}
+            hasChildren={userFilterOptions[0]?.children}
           />
         </div>
       )}
