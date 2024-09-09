@@ -35,12 +35,10 @@
   min-height: 38px;
   width: calc(100% - 5rem - 2px);
 
-  input {
-    font-size: $font-size-16;
-    color: $font-body-copy;
-    font-family: "Source Sans Pro", sans-serif;
-    outline: none;
-  }
+  font-size: $font-size-16;
+  color: $font-body-copy;
+  font-family: "Source Sans Pro", sans-serif;
+  outline: none;
 
   &:focus-visible {
     outline: none;

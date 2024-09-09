@@ -34,7 +34,6 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
 }) => {
   const dateInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [invalidInput, setInvalidInput] = useState(false);
 
   const isValidMonth = (monthInput: string) => {
     return monthFullNames.includes(monthInput) || (Number(monthInput) <= 12 && Number(monthInput) > 0);
@@ -61,7 +60,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     const validEntry = isValidMonth(month) && isValidYear(year);
     if (validEntry) {
       let inputMonth = month;
-      setInvalidInput(false);
+      setErrorMessage(null);
 
       if (numeric) {
         const monthText = monthFullNames[Number(month) - 1];
@@ -70,29 +69,19 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       }
 
       const reportMatch = allDates.includes(inputMonth + ' ' + year);
-      console.log(reportMatch);
       if (!reportMatch) {
         setErrorMessage(noReportMatch);
-        setInvalidInput(true);
       } else {
         setErrorMessage(null);
         setSelectedMonth(inputMonth);
         setSelectedYear(year.toString());
         setValidInput(true);
       }
-      // check for matching report
     } else {
       setValidInput(false);
       setErrorMessage(invalidDateText);
-      setInvalidInput(true);
     }
   };
-
-  useEffect(() => {
-    if (validInput) {
-      // handleApply();
-    }
-  }, [validInput]);
 
   const handleOnKeyDown = e => {
     const input = e.target.value;
@@ -101,38 +90,37 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     }
   };
 
-  const handleOnChange = e => {
-    const input = e.target.value;
-    // if (validInput && !isValid(input)) {
-    //   setValidInput(false);
-    // }
+  const handleOnChange = () => {
+    setValidInput(false);
+    setErrorMessage(null);
   };
 
-  const handleOnFocus = () => {
-    setInputFocus(true);
-  };
-
-  const handleOnBlur = e => {
+  const handleOnBlur = () => {
     if (!validInput && dateInputRef?.current) {
-      dateInputRef.current.value = '';
+      dateInputRef.current.value = selectedDate;
     }
     setInputFocus(false);
   };
+
+  useEffect(() => {
+    if (dateInputRef?.current) {
+      dateInputRef.current.value = selectedDate;
+    }
+  }, [selectedDate]);
 
   return (
     <>
       <div className={inputLabel}>{label}</div>
       <input
         type="text"
-        className={`${selectedDateDisplay} ${invalidInput && errorState}`}
+        className={`${selectedDateDisplay} ${!!errorMessage && errorState}`}
         ref={dateInputRef}
         onKeyDown={handleOnKeyDown}
-        onFocus={handleOnFocus}
+        onFocus={() => setInputFocus(true)}
         onBlur={handleOnBlur}
         onChange={handleOnChange}
-        defaultValue={selectedDate}
       />
-      {inputFocus && !validInput && !invalidInput && <div className={helpLabel}>{helpText}</div>}
+      {inputFocus && !validInput && !errorMessage && <div className={helpLabel}>{helpText}</div>}
       {inputFocus && !validInput && errorMessage && <div className={errorStateLabel}>{errorMessage}</div>}
     </>
   );
