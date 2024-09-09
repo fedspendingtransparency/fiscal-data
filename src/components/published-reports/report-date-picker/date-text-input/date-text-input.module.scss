@@ -32,8 +32,8 @@
   display: flex;
   align-items: center;
   padding: 0 1rem;
-  min-height: 38px;
-  width: calc(100% - 5rem - 2px);
+  min-height: 2.374rem;
+  width: calc(100% - 5.125rem);
 
   font-size: $font-size-16;
   color: $font-body-copy;
@@ -42,6 +42,9 @@
 
   &:focus-visible {
     outline: none;
+    box-shadow: 0 0 0 0.25rem #e8f5ff;
+    border-radius: 0.125rem;
+    border: 1px solid $primary;
   }
 
   &.errorState {

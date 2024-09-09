@@ -12,7 +12,7 @@ interface IReportDateDropdown {
   children: ReactElement;
   allDates: string[];
   selectedDate: string;
-  helpText;
+  helpText: string;
 }
 
 const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({

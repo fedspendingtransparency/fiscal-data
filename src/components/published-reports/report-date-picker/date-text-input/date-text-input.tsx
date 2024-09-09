@@ -13,6 +13,7 @@ interface iDateTextInput {
   setSelectedYear: (year: string) => void;
   allDates: string[];
   selectedDate: string;
+  helpText: string;
 }
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
