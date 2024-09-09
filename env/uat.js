@@ -71,7 +71,7 @@ module.exports = {
     '015-BFS-2024Q1-003': {
       slug: '/fbp-detailed-principal-accrued-interest/',
       seoConfig: {
-        pageTitle: 'Federal Borrowings Program: Detailed Principal and Accrued Interest',
+        pageTitle: 'Federal Borrowings Program: Detailed Principal and Accrued Interest Report',
         description:
           "U.S. Treasury loans and interest receivable balances associated with each individual borrowing agency's expenditure Treasury Account Symbol.",
         keywords: 'Debt, Financial Summaries',
