@@ -32,7 +32,7 @@ import {
   titleContainer,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 import { queryClient } from '../../../../react-query-client';
 import moment from 'moment/moment';
@@ -91,12 +91,13 @@ const TableSectionContainer = ({
   const [chartData, setChartData] = useState(null);
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
 
-  const formatDate = detailViewState => {
+  const formatDate = detailDate => {
+    const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
-    return moment(detailViewState).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
+    return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
   };
 
-  const formattedDetailViewState = detailViewState ? formatDate(detailViewState) : '';
+  const formattedDetailViewState = formatDate(detailViewState?.value);
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && userFilterSelection !== null && userFilterSelection?.value !== null)) {
@@ -129,6 +130,7 @@ const TableSectionContainer = ({
             } else if (totalCount === 0) {
               setIsLoading(false);
               setUserFilterUnmatchedForDateRange(true);
+              setManualPagination(false);
               return null;
             }
           }
@@ -244,6 +246,7 @@ const TableSectionContainer = ({
   useEffect(() => {
     if (selectedTable?.apiFilter && userFilterSelection?.value === null) {
       setApiFilterDefault(true);
+      setManualPagination(false);
     }
   }, [userFilterSelection]);
 

@@ -29,7 +29,7 @@ describe('set table config', () => {
 
   it('sets appropriate type on columns in config', () => {
     const config = setTableConfig(mockConfig, selectedTableLessFields, {});
-    expect(config.columnConfig[2].type).toBe('date');
+    expect(config.columnConfig[2].type).toBe('DATE');
   });
 
   it('sets the config for pivot tables and only includes the intended columns and correctly excludes the datefield when aggregation is applied', () => {

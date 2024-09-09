@@ -19,6 +19,7 @@ import {
   mockDetailViewColumnConfig,
   mockDetailApiData,
 } from './data-table-test-helper';
+import userEvent from '@testing-library/user-event';
 
 describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
@@ -144,11 +145,11 @@ describe('react-table', () => {
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
-    fireEvent.click(sortButton);
+    userEvent.click(sortButton);
     // Now sorted in desc order
     expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
-    fireEvent.click(sortButton);
-    fireEvent.click(sortButton);
+    userEvent.click(sortButton);
+    userEvent.click(sortButton);
     //Sorting should be reset
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
   });
@@ -221,9 +222,8 @@ describe('react-table', () => {
     expect(getAllByTestId('row')[0].innerHTML).toContain('$25,633,821,130,387.02');
 
     //clear results to view full table
-    const clearButton = within(header).getAllByRole('button', { hidden: true })[1];
-    expect(clearButton).toHaveClass('fa-circle-xmark');
-    fireEvent.click(clearButton);
+    const clearButton = within(header).getByRole('button', { name: 'Clear search bar' });
+    userEvent.click(clearButton);
     expect(getAllByTestId('row').length).toEqual(6);
   });
 
@@ -286,7 +286,7 @@ describe('react-table', () => {
     expect(getByText('rows of 6 rows', { exact: false })).toBeInTheDocument();
     expect(getByTestId('page-next-button')).toBeInTheDocument();
 
-    fireEvent.click(getByTestId('page-next-button'));
+    userEvent.click(getByTestId('page-next-button'));
 
     expect(getByText('Showing', { exact: false })).toBeInTheDocument();
     expect(getByText('3 - 4', { exact: false })).toBeInTheDocument();
@@ -612,11 +612,11 @@ describe('react-table', () => {
         />
       </RecoilRoot>
     );
-    const detailViewButton = getByRole('button', { name: '07/12/2023' });
+    const detailViewButton = getByRole('button', { name: '7/12/2023' });
     expect(detailViewButton).toBeInTheDocument();
 
-    detailViewButton.click();
-    expect(setDetailViewSpy).toHaveBeenCalledWith('2023-07-12');
+    userEvent.click(detailViewButton);
+    expect(setDetailViewSpy).toHaveBeenCalledWith({ secondary: null, value: '2023-07-12' });
     expect(setSummaryValuesSpy).toHaveBeenCalledWith(mockTableData.data[0]);
   });
 });

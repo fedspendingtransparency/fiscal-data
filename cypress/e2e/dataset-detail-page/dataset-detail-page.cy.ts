@@ -96,7 +96,7 @@ describe('Dataset detail page validation', () => {
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' })
           .invoke('val')
           .should('eq', table.column.searchTerm);
-        cy.get('svg[aria-label="Clear search bar"]');
+        cy.findByRole('button', { name: 'Clear search bar' });
         if (table.column.dailySearchResults) {
           cy.get('td:contains("' + table.column.searchTerm + '")')
             .its('length')

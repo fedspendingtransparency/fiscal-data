@@ -389,6 +389,10 @@ exports.createSchemaCustomization = ({ actions }) => {
       columnName: String,
       prettyName: String
     }
+    type FieldFilter {
+      field: String,
+      value: [String]
+    }
     type UserFilter {
       field: String,
       label: String,
@@ -406,7 +410,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       dataUnmatchedMessage: String,
       dataDefaultHeader: String,
       dataDefaultMessage: String,
-      dataSearchLabel: String
+      dataSearchLabel: String,
+      fieldFilter: FieldFilter
     }
     type SEOConfig {
       title: String,
@@ -417,6 +422,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       apiId: Int,
       field: String,
       label: String,
+      secondaryField: String,
       dateRangeLockCopy: String,
       summaryTableFields: [String],
       selectColumns: [String],
@@ -502,6 +508,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             apiId
             field
             label
+            secondaryField
             dateRangeLockCopy
             summaryTableFields
             selectColumns
@@ -593,6 +600,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               dataDefaultHeader
               dataDefaultMessage
               dataSearchLabel
+              fieldFilter {
+                field
+                value
+              }
             }
             downloadName
             earliestDate
@@ -737,10 +748,23 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
         filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
 
-        const options = await fetch(filterOptionsUrl).then(res =>
-          res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
-        );
-        api.apiFilter.optionValues = [...new Set(options)]; // uniquify results
+        if (api.apiFilter.fieldFilter) {
+          const multiOptions = {};
+
+          for (const val of api.apiFilter.fieldFilter.value) {
+            const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
+            const options = await fetch(newUrl).then(res =>
+              res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+            );
+            multiOptions[val] = options;
+          }
+          api.apiFilter.optionValues = multiOptions; // uniquify results
+        } else {
+          const options = await fetch(filterOptionsUrl).then(res =>
+            res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+          );
+          api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
+        }
       }
     }
     createPage({

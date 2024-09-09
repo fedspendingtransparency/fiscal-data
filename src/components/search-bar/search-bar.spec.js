@@ -2,6 +2,7 @@ import { fireEvent, render, within } from '@testing-library/react';
 import { act } from 'react-test-renderer';
 import React from 'react';
 import SearchBar from './search-bar';
+import userEvent from '@testing-library/user-event';
 
 describe('', () => {
   const changeHandlerSpy = jest.fn();
@@ -58,18 +59,17 @@ describe('', () => {
       />
     );
 
-    const clearButton = getByRole('button', { hidden: true });
-    expect(clearButton).toHaveClass('fa-circle-xmark');
-    fireEvent.click(clearButton);
+    const clearButton = getByRole('button', { name: 'Clear search bar' });
+    userEvent.click(clearButton);
     expect(clearHandlerSpy).toHaveBeenCalled();
   });
 
   it('sets search bar as active on click and not active on blur', () => {
     const { getByRole } = render(
       <SearchBar
-        label={'Test Label'}
+        label="Test Label"
         onChange={changeHandlerSpy}
-        filter={'test'}
+        filter="test"
         width={200}
         handleClear={clearHandlerSpy}
         active={false}
@@ -79,7 +79,7 @@ describe('', () => {
 
     const searchBar = getByRole('textbox');
 
-    fireEvent.click(searchBar);
+    userEvent.click(searchBar);
     expect(setActiveSpy).toHaveBeenCalledWith(true);
 
     fireEvent.blur(searchBar);

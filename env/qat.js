@@ -19,7 +19,7 @@ module.exports = {
       },
       topics: ['debt', 'financial-summaries'],
       relatedDatasets: ['015-BFS-2014Q3-093'],
-      currentDateButton: 'byMonth',
+      currentDateButton: 'byFullMonth',
     },
   },
   USE_MOCK_RELEASE_CALENDAR_DATA_ON_API_FAIL: true,
@@ -31,7 +31,7 @@ module.exports = {
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
       apiFilter: {
         field: 'acct_desc',
-        label: 'Account Description',
+        label: 'Choose a Federal or State Account',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
         dataDefaultHeader: 'This table requires additional filters.',
@@ -58,7 +58,7 @@ module.exports = {
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
       apiFilter: {
         field: 'acct_desc',
-        label: 'Account Description',
+        label: 'Choose a Federal or State Account',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
         dataDefaultHeader: 'This table requires additional filters.',
@@ -84,7 +84,7 @@ module.exports = {
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
       apiFilter: {
         field: 'acct_desc',
-        label: 'Account Description',
+        label: 'Choose a Federal or State Account',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
         dataDefaultHeader: 'This table requires additional filters.',

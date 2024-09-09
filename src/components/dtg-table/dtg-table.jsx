@@ -326,7 +326,12 @@ export default function DtgTable({
         setManualPagination(false);
         setIsLoading(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-        setReactTableData(rawData);
+        if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
+          const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
+          setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });
+        } else {
+          setReactTableData(rawData);
+        }
         setManualPagination(false);
       }
     } else if (data && !rawDataTable) {

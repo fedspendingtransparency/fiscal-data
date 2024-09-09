@@ -9,6 +9,8 @@ import {
   searchBarContainer,
   unmatchedTerm,
   noMatch,
+  sectionLabel,
+  dropdownListItem_child,
 } from './combo-select-dropdown.module.scss';
 import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
@@ -33,13 +35,28 @@ const ComboSelectDropdown = ({
   changeHandler,
   timeOutId,
   searchBarLabel,
+  hasChildren,
 }) => {
   const [filterValue, setFilterValue] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
+  const [noResults, setNoResults] = useState(false);
+
   const filterOptionsByEntry = (opts, entry) => {
-    let filteredList = opts;
-    if (entry?.length) {
+    let filteredList = [];
+    if (entry?.length && !hasChildren) {
       filteredList = opts.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
+      setNoResults(filteredList.length === 0);
+    } else if (hasChildren) {
+      let sectionResults;
+      let allResultsLength = 0;
+      opts.forEach(section => {
+        sectionResults = section.children.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
+        allResultsLength += sectionResults.length;
+        filteredList.push({ label: section.label, children: sectionResults });
+      });
+      setNoResults(allResultsLength === 0);
+    } else {
+      filteredList = opts;
     }
     return filteredList;
   };
@@ -65,6 +82,7 @@ const ComboSelectDropdown = ({
       setDropdownActive(true);
     }
   };
+
   const onFilterChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilterValue(val);
@@ -78,6 +96,7 @@ const ComboSelectDropdown = ({
       setDropdownActive(false);
     }
   }, [options]);
+
   const handleBlur = event => {
     // prevents dropdown from close when tabbing into a child
     if (event) {
@@ -105,6 +124,27 @@ const ComboSelectDropdown = ({
     }
   };
 
+  const filteredOptionButton = (option, child) => (
+    <li
+      className={classNames([
+        dropdownListItem,
+        option[optionLabelKey] === selectedOption[optionLabelKey] && dropdownListItem_Selected,
+        child && dropdownListItem_child,
+      ])}
+    >
+      <button
+        className={dropdownListItem_Button}
+        onClick={() => updateSelection(option, true)}
+        disabled={required && !option.value}
+        title={required && !option.value && disabledMessage ? disabledMessage : null}
+        aria-label={option[optionLabelKey]}
+        data-testid="dropdown-list-option"
+      >
+        {underlineMatchedString(option[optionLabelKey], filterValue)}
+      </button>
+    </li>
+  );
+
   return (
     <>
       {active && (
@@ -130,35 +170,27 @@ const ComboSelectDropdown = ({
             />
           </div>
           <ScrollContainer deps={[filteredOptions, selectedOption, filterValue]}>
-            {filteredOptions.length === 0 ? (
+            {noResults ? (
               <div className={noMatch}>
                 No match for <span className={unmatchedTerm}>'{filterValue}'</span>. Please revise your search and try again.
               </div>
             ) : (
-              <ul className={dropdownList} data-testid="dropdown-list" style={{ height: filteredOptions.length > 5 ? '11.875rem' : '' }}>
-                {filteredOptions.map((option, index) => {
-                  return (
-                    <React.Fragment key={index}>
-                      <li
-                        className={classNames([
-                          dropdownListItem,
-                          option[optionLabelKey] === selectedOption[optionLabelKey] ? dropdownListItem_Selected : '',
-                        ])}
-                      >
-                        <button
-                          className={dropdownListItem_Button}
-                          onClick={() => updateSelection(option, true)}
-                          disabled={required && !option.value}
-                          title={required && !option.value && disabledMessage ? disabledMessage : null}
-                          aria-label={option[optionLabelKey]}
-                          data-testid="dropdown-list-option"
-                        >
-                          {underlineMatchedString(option[optionLabelKey], filterValue)}
-                        </button>
-                      </li>
-                    </React.Fragment>
-                  );
-                })}
+              <ul className={dropdownList} data-testid="dropdown-list" style={{ maxHeight: '11.875rem' }}>
+                {hasChildren &&
+                  filteredOptions.map((section, index) => {
+                    return (
+                      <React.Fragment key={index}>
+                        {section.children.length > 0 && <div className={sectionLabel}>{section.label}</div>}
+                        {section.children.map((option, i) => {
+                          return <React.Fragment key={i}>{filteredOptionButton(option, true)}</React.Fragment>;
+                        })}
+                      </React.Fragment>
+                    );
+                  })}
+                {!hasChildren &&
+                  filteredOptions.map((option, index) => {
+                    return <React.Fragment key={index}>{filteredOptionButton(option)}</React.Fragment>;
+                  })}
               </ul>
             )}
           </ScrollContainer>
