@@ -16,7 +16,6 @@ interface iDateTextInput {
 }
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
-export const helpText = 'Press Enter/Return to confirm.';
 export const noReportMatch = 'No reports or files available for this date.';
 
 const DateTextInput: FunctionComponent<iDateTextInput> = ({
@@ -29,6 +28,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   setSelectedYear,
   allDates,
   selectedDate,
+  helpText,
 }) => {
   const dateInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -60,7 +60,6 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       let inputMonth = month;
 
       if (numeric) {
-        console.log(input);
         const monthText = monthFullNames[Number(month) - 1];
         inputMonth = monthText;
         dateInputRef.current.value = monthText + ' ' + year;

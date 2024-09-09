@@ -1,7 +1,8 @@
-import DateTextInput, { helpText, invalidDateText, noReportMatch } from './date-text-input';
-import { fireEvent, render } from '@testing-library/react';
+import DateTextInput, { invalidDateText, noReportMatch } from './date-text-input';
+import { render } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
+import { helpText } from '../month-picker/month-picker';
 
 describe('Date Text Entry', () => {
   it('displays input label', () => {
@@ -15,7 +16,9 @@ describe('Date Text Entry', () => {
   });
 
   it('display help text when focus is on input field', () => {
-    const { getByRole, getByText } = render(<DateTextInput label="Report Date" setInputFocus={jest.fn()} validInput={false} inputFocus={true} />);
+    const { getByRole, getByText } = render(
+      <DateTextInput label="Report Date" setInputFocus={jest.fn()} validInput={false} inputFocus={true} helpText={helpText} />
+    );
     const inputBox = getByRole('textbox', { name: 'Enter report date' });
     userEvent.tab();
     expect(inputBox).toHaveFocus();
@@ -23,7 +26,7 @@ describe('Date Text Entry', () => {
   });
 
   it('hides help text on input field blur', () => {
-    const { getByRole, queryByText } = render(<DateTextInput label="Report Date" setInputFocus={jest.fn()} />);
+    const { getByRole, queryByText } = render(<DateTextInput label="Report Date" setInputFocus={jest.fn()} helpText={helpText} />);
     const inputBox = getByRole('textbox');
     userEvent.tab();
     expect(inputBox).toHaveFocus();

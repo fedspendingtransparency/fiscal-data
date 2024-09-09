@@ -15,6 +15,8 @@ interface IMonthPickerDropdown {
   allReportYears: string[];
 }
 
+export const helpText = 'Press Enter/Return to confirm.';
+
 const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   setSelectedDate,
   selectedDate,
@@ -64,6 +66,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
           setSelectedYear={setSelectedYear}
           allDates={allReportDates}
           selectedDate={selectedMonth + ' ' + selectedYear}
+          helpText={helpText}
         >
           <>
             <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">

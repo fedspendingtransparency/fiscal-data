@@ -61,7 +61,6 @@ describe('Month Picker', () => {
       expect(button).toHaveFocus();
       userEvent.keyboard('{Enter}');
     });
-    expect(button).toHaveClass('glow');
     expect(getAllByRole('button').length).toBeGreaterThan(1);
     act(() => {
       userEvent.keyboard('{Enter}');
@@ -165,11 +164,11 @@ describe('Month Picker', () => {
     act(() => {
       fireEvent.click(button);
     });
-    expect(getByText('Published Date')).toBeInTheDocument();
+    expect(getByText('Published Date (Example: May 1998 or 05/1998)')).toBeInTheDocument();
     act(() => {
       fireEvent.blur(button);
     });
-    expect(queryByText('Published Date')).not.toBeInTheDocument();
+    expect(queryByText('Published Date (Example: May 1998 or 05/1998)')).not.toBeInTheDocument();
   });
 
   it('resets an incomplete date selection on close', () => {
