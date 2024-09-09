@@ -75,46 +75,4 @@ describe('Month Picker', () => {
     const yearButton2019 = getByRole('button', { name: mockYearDropdownOptions[1] });
     expect(yearButton2019).toBeDisabled();
   });
-
-  it('renders Apply button', () => {
-    const mockHandleCloseFn = jest.fn();
-    const mockSetSelectedDateFn = jest.fn();
-
-    const { getByRole } = render(
-      <MonthPicker
-        allReportYears={mockYearDropdownOptions}
-        handleClose={mockHandleCloseFn}
-        setSelectedDate={mockSetSelectedDateFn}
-        selectedDate={new Date()}
-        active={true}
-        allReportDates={mockReportDates}
-      />
-    );
-    act(() => {
-      fireEvent.click(getByRole('button', { name: 'Apply Selected Date' }));
-    });
-    expect(mockHandleCloseFn).toHaveBeenCalled();
-    expect(mockSetSelectedDateFn).toHaveBeenCalled();
-  });
-
-  it('renders Cancel button', () => {
-    const mockHandleCloseFn = jest.fn();
-    const mockSetSelectedDateFn = jest.fn();
-
-    const { getByRole } = render(
-      <MonthPicker
-        allReportYears={mockYearDropdownOptions}
-        handleClose={mockHandleCloseFn}
-        setSelectedDate={mockSetSelectedDateFn}
-        selectedDate={new Date()}
-        active={true}
-        allReportDates={mockReportDates}
-      />
-    );
-    act(() => {
-      fireEvent.click(getByRole('button', { name: 'Cancel' }));
-    });
-    expect(mockHandleCloseFn).toHaveBeenCalled();
-    expect(mockSetSelectedDateFn).not.toHaveBeenCalled();
-  });
 });

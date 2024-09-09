@@ -10,8 +10,6 @@ interface IReportDateDropdown {
   setSelectedMonth: (month: string) => void;
   setSelectedYear: (year: string) => void;
   children: ReactElement;
-  validInput: boolean;
-  setValidInput: (inputState: boolean) => void;
   allDates: string[];
   selectedDate: string;
 }
@@ -22,11 +20,10 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
   setSelectedMonth,
   setSelectedYear,
   children,
-  validInput,
-  setValidInput,
   allDates,
   selectedDate,
 }: IReportDateDropdown) => {
+  const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
 
   return (
@@ -41,7 +38,6 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
             setInputFocus={setInputFocus}
             setSelectedMonth={setSelectedMonth}
             setSelectedYear={setSelectedYear}
-            handleApply={handleApply}
             allDates={allDates}
             selectedDate={selectedDate}
           />

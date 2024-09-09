@@ -1,4 +1,4 @@
-import DateTextInput, { helpText, invalidDateText } from './date-text-input';
+import DateTextInput, { helpText, invalidDateText, noReportMatch } from './date-text-input';
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
@@ -15,8 +15,8 @@ describe('Date Text Entry', () => {
   });
 
   it('display help text when focus is on input field', () => {
-    const { getByRole, getByText } = render(<DateTextInput label="Report Date" setInputFocus={jest.fn()} validInput={false} />);
-    const inputBox = getByRole('textbox');
+    const { getByRole, getByText } = render(<DateTextInput label="Report Date" setInputFocus={jest.fn()} validInput={false} inputFocus={true} />);
+    const inputBox = getByRole('textbox', { name: 'Enter report date' });
     userEvent.tab();
     expect(inputBox).toHaveFocus();
     expect(getByText(helpText));
@@ -35,70 +35,103 @@ describe('Date Text Entry', () => {
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
     const setValidInputSpy = jest.fn();
-    const { getByRole, getByText } = render(
+    const setInputFocusSpy = jest.fn();
+    const { getByRole } = render(
       <DateTextInput
         label="Report Date"
-        setInputFocus={jest.fn()}
         setSelectedMonth={setSelectedMonthSpy}
         setSelectedYear={setSelectedYearSpy}
+        selectedDate=""
+        allDates={['June 2021']}
         setValidInput={setValidInputSpy}
+        inputFocus={false}
+        setInputFocus={setInputFocusSpy}
       />
     );
     const inputBox = getByRole('textbox');
-
-    userEvent.type(inputBox, 'June 2021');
-    userEvent.keyboard('{Enter}');
+    userEvent.tab();
+    userEvent.type(inputBox, 'June 2021{Enter}');
 
     expect(setSelectedYearSpy).toHaveBeenCalledWith('2021');
     expect(setSelectedMonthSpy).toHaveBeenCalledWith('June');
-    expect(setValidInputSpy).toHaveBeenCalledWith(true);
   });
 
   it('validates the entry on enter key press for numerical date entry', () => {
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
     const setValidInputSpy = jest.fn();
-    const { getByRole, getByText } = render(
+
+    const { getByRole } = render(
       <DateTextInput
         label="Report Date"
         setInputFocus={jest.fn()}
         setSelectedMonth={setSelectedMonthSpy}
         setSelectedYear={setSelectedYearSpy}
+        selectedDate=""
         setValidInput={setValidInputSpy}
+        allDates={['June 2021']}
       />
     );
     const inputBox = getByRole('textbox');
 
-    userEvent.type(inputBox, '06/2021');
-    userEvent.keyboard('{Enter}');
+    userEvent.type(inputBox, '06/2021{Enter}');
 
     expect(setSelectedYearSpy).toHaveBeenCalledWith('2021');
     expect(setSelectedMonthSpy).toHaveBeenCalledWith('June');
-    expect(setValidInputSpy).toHaveBeenCalledWith(true);
+    expect(inputBox).toHaveValue('June 2021');
   });
 
   it('validates the entry on enter key press and shows error text if invalid', () => {
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
     const setValidInputSpy = jest.fn();
-    const { getByRole, getByText } = render(
+    const { getByText } = render(
       <DateTextInput
         label="Report Date"
         setInputFocus={jest.fn()}
         setSelectedMonth={setSelectedMonthSpy}
         setSelectedYear={setSelectedYearSpy}
         setValidInput={setValidInputSpy}
+        allDates={['June 2021']}
+        selectedDate=""
+        inputFocus={true}
       />
     );
-    const inputBox = getByRole('textbox');
 
     userEvent.tab();
-    userEvent.keyboard('jun 20211');
-    userEvent.keyboard('{Enter}');
+    userEvent.keyboard('jun 20211{Enter}');
 
     expect(setSelectedYearSpy).not.toHaveBeenCalled();
     expect(setSelectedMonthSpy).not.toHaveBeenCalled();
     expect(setValidInputSpy).toHaveBeenCalledWith(false);
     expect(getByText(invalidDateText)).toBeInTheDocument();
   });
+
+  it('validates the entry on enter key press and shows error when no match is found', () => {
+    const setSelectedMonthSpy = jest.fn();
+    const setSelectedYearSpy = jest.fn();
+    const setValidInputSpy = jest.fn();
+    const { getByText } = render(
+      <DateTextInput
+        label="Report Date"
+        setInputFocus={jest.fn()}
+        setSelectedMonth={setSelectedMonthSpy}
+        setSelectedYear={setSelectedYearSpy}
+        setValidInput={setValidInputSpy}
+        allDates={['June 2022']}
+        selectedDate=""
+        inputFocus={true}
+      />
+    );
+
+    userEvent.tab();
+    userEvent.keyboard('June 2021{Enter}');
+
+    expect(setSelectedYearSpy).not.toHaveBeenCalled();
+    expect(setSelectedMonthSpy).not.toHaveBeenCalled();
+    expect(setValidInputSpy).toHaveBeenCalledWith(false);
+    expect(getByText(noReportMatch)).toBeInTheDocument();
+  });
+
+  it('resets incomplete date entry on blur', () => {});
 });

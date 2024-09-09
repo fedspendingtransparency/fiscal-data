@@ -11,7 +11,6 @@ interface iDateTextInput {
   setInputFocus: (focusState: boolean) => void;
   setSelectedMonth: (month: string) => void;
   setSelectedYear: (year: string) => void;
-  handleApply: () => void;
   allDates: string[];
   selectedDate: string;
 }
@@ -28,7 +27,6 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   setInputFocus,
   setSelectedMonth,
   setSelectedYear,
-  handleApply,
   allDates,
   selectedDate,
 }) => {
@@ -43,7 +41,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     return yearInput >= 1000 && yearInput <= 9999;
   };
 
-  const isValid = (input: string, reset?: boolean) => {
+  const isValid = (input: string) => {
     const splitTextDate = input.split(' ');
     const splitNumericDate = input.split('/');
     let month = '';
@@ -60,15 +58,15 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     const validEntry = isValidMonth(month) && isValidYear(year);
     if (validEntry) {
       let inputMonth = month;
-      setErrorMessage(null);
 
       if (numeric) {
+        console.log(input);
         const monthText = monthFullNames[Number(month) - 1];
         inputMonth = monthText;
         dateInputRef.current.value = monthText + ' ' + year;
       }
 
-      const reportMatch = allDates.includes(inputMonth + ' ' + year);
+      const reportMatch = allDates?.includes(inputMonth + ' ' + year);
       if (!reportMatch) {
         setErrorMessage(noReportMatch);
       } else {
@@ -108,6 +106,10 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     }
   }, [selectedDate]);
 
+  const handleFocus = () => {
+    setInputFocus(true);
+  };
+
   return (
     <>
       <div className={inputLabel}>{label}</div>
@@ -116,9 +118,10 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
         className={`${selectedDateDisplay} ${!!errorMessage && errorState}`}
         ref={dateInputRef}
         onKeyDown={handleOnKeyDown}
-        onFocus={() => setInputFocus(true)}
+        onFocus={handleFocus}
         onBlur={handleOnBlur}
         onChange={handleOnChange}
+        aria-label="Enter report date"
       />
       {inputFocus && !validInput && !errorMessage && <div className={helpLabel}>{helpText}</div>}
       {inputFocus && !validInput && errorMessage && <div className={errorStateLabel}>{errorMessage}</div>}
