@@ -1,18 +1,19 @@
 import ReportDateDropdown from './report-date-dropdown';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 
 describe('Report Date Dropdown', () => {
   it('renders Cancel button', () => {
     const mockHandleCloseFn = jest.fn();
 
     const { getByRole } = render(
-      <ReportDateDropdown handleClose={mockHandleCloseFn} handleApply={jest.fn()} displayDate="August 2024">
+      <ReportDateDropdown handleClose={mockHandleCloseFn} handleApply={jest.fn()}>
         <div>children</div>
       </ReportDateDropdown>
     );
     act(() => {
-      fireEvent.click(getByRole('button', { name: 'Cancel' }));
+      userEvent.click(getByRole('button', { name: 'Cancel' }));
     });
     expect(mockHandleCloseFn).toHaveBeenCalled();
   });
@@ -21,22 +22,36 @@ describe('Report Date Dropdown', () => {
     const mockHandleApplyFn = jest.fn();
 
     const { getByRole } = render(
-      <ReportDateDropdown handleClose={jest.fn()} handleApply={mockHandleApplyFn} displayDate="August 2024">
+      <ReportDateDropdown handleClose={jest.fn()} handleApply={mockHandleApplyFn}>
         <div>children</div>
       </ReportDateDropdown>
     );
     act(() => {
-      fireEvent.click(getByRole('button', { name: 'Apply Selected Date' }));
+      userEvent.click(getByRole('button', { name: 'Apply Selected Date' }));
     });
     expect(mockHandleApplyFn).toHaveBeenCalled();
   });
 
-  it('renders the published date display', () => {
-    const { getByText } = render(
+  it('initializes the text box with the currently selected date', () => {
+    const { getByRole } = render(
+      <ReportDateDropdown handleClose={jest.fn()} handleApply={jest.fn()} selectedDate="August 2024">
+        <div>children</div>
+      </ReportDateDropdown>
+    );
+    expect(getByRole('textbox')).toHaveValue('August 2024');
+  });
+
+  it('disables apply button when input is in focus', () => {
+    const { getByRole } = render(
       <ReportDateDropdown handleClose={jest.fn()} handleApply={jest.fn()} displayDate="August 2024">
         <div>children</div>
       </ReportDateDropdown>
     );
-    expect(getByText('August 2024')).toBeInTheDocument();
+
+    const input = getByRole('textbox');
+    const apply = getByRole('button', { name: 'Apply Selected Date' });
+    userEvent.tab();
+    expect(input).toHaveFocus();
+    expect(apply).toBeDisabled();
   });
 });

@@ -1,0 +1,58 @@
+@import 'src/variables.module';
+
+
+.inputLabel {
+  margin-bottom: 0.5rem;
+}
+
+.helpLabel, .errorStateLabel {
+  margin-top: 0.25rem;
+}
+
+.helpLabel {
+  font-style: italic;
+}
+
+.errorStateLabel {
+  color: #e21c3d;
+}
+
+.inputLabel, .selectedDateDisplay, .helpLabel, .errorStateLabel {
+  margin-left: 1.25rem;
+  margin-right: 1.25rem;
+}
+
+.inputLabel, .helpLabel, .errorStateLabel {
+  font-size: $font-size-14;
+}
+
+.selectedDateDisplay {
+  border: 1px solid $light-grey-border;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  min-height: 2.374rem;
+  width: calc(100% - 5.125rem);
+
+  font-size: $font-size-16;
+  color: $font-body-copy;
+  font-family: "Source Sans Pro", sans-serif;
+  outline: none;
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:not(.errorState) {
+    &:focus-visible {
+      box-shadow: 0 0 0 0.25rem #e8f5ff;
+      border-radius: 0.125rem;
+      border: 1px solid $primary;
+    }
+  }
+
+  &.errorState {
+    border: 1px solid #e21c3d !important;
+  }
+}

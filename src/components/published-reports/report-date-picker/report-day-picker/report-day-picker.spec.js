@@ -11,7 +11,7 @@ describe('Report Day Picker', () => {
   ];
 
   it('Updates selected date on calendar button click', () => {
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <ReportDayPicker
         handleClose={jest.fn()}
         selectedDate={new Date('8/8/2024')}
@@ -23,11 +23,13 @@ describe('Report Day Picker', () => {
       />
     );
     const dayButton = getByRole('gridcell', { name: '7' });
+    const input = getByRole('textbox');
     act(() => {
       fireEvent.click(dayButton);
     });
-    expect(getByText('August 7, 2024')).toBeInTheDocument();
+    expect(input).toHaveValue('August 7, 2024');
   });
+
   it('renders disabled buttons for unavailable report dates', () => {
     const { getByRole } = render(
       <ReportDayPicker
