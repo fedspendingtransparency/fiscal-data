@@ -191,12 +191,15 @@ const initTooltip = ({
   const placeTooltips = () => {
     const layerClass = 'dots';
     const mappedData = mapData();
+
+    if (mappedData.length === 0) return;
     const groupedData = groupBy(mappedData, 'field');
     const box = container.node().getBoundingClientRect();
     const containerWidth = box.width - chartDimensions.yAxisWidth;
 
-    container.select(`g.${layerClass}`).remove();
-    container.select(`g.${pointLayerClass}`).remove();
+    container.selectAll(`g.${layerClass}`).remove();
+    container.selectAll(`g.${pointLayerClass}`).remove();
+    container.selectAll(`g.${tooltipClass}`).remove();
 
     pointLayer = container
       .append('g')
@@ -206,6 +209,9 @@ const initTooltip = ({
     dots.length = 0;
 
     Object.keys(groupedData).forEach(key => {
+      if (!visibleFields.includes(key)) {
+        return;
+      }
       const group = groupedData[key];
       const radius = calculateRadius(containerWidth, group.length);
       dots.push(
