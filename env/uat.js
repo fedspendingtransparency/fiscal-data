@@ -261,6 +261,8 @@ module.exports = {
         'interest_receivable_amt',
         'maturity_date',
         'interest_rate_pct',
+        'amortization_amt',
+        'capitalized_int_receivable_amt',
       ],
     },
     // FBP
@@ -282,6 +284,8 @@ module.exports = {
         'settle_date',
         'transaction_cd',
         'memo_nbr',
+        'amortization_amt',
+        'capitalized_int_receivable_amt',
       ],
     },
     '305': {
