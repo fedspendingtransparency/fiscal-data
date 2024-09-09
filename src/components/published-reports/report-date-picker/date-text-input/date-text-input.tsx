@@ -97,6 +97,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     if (!validInput && dateInputRef?.current) {
       dateInputRef.current.value = selectedDate;
     }
+    setErrorMessage(null);
     setInputFocus(false);
   };
 

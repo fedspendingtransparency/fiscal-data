@@ -42,9 +42,14 @@
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 0.25rem #e8f5ff;
-    border-radius: 0.125rem;
-    border: 1px solid $primary;
+  }
+
+  &:not(.errorState) {
+    &:focus-visible {
+      box-shadow: 0 0 0 0.25rem #e8f5ff;
+      border-radius: 0.125rem;
+      border: 1px solid $primary;
+    }
   }
 
   &.errorState {
