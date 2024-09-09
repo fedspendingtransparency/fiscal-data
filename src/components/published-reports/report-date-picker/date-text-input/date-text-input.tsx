@@ -12,6 +12,8 @@ interface iDateTextInput {
   setSelectedMonth: (month: string) => void;
   setSelectedYear: (year: string) => void;
   handleApply: () => void;
+  allDates: string[];
+  selectedDate: string;
 }
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
@@ -27,7 +29,8 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   setSelectedMonth,
   setSelectedYear,
   handleApply,
-  allReportDates,
+  allDates,
+  selectedDate,
 }) => {
   const dateInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -66,7 +69,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
         dateInputRef.current.value = monthText + ' ' + year;
       }
 
-      const reportMatch = allReportDates.includes(inputMonth + ' ' + year);
+      const reportMatch = allDates.includes(inputMonth + ' ' + year);
       console.log(reportMatch);
       if (!reportMatch) {
         setErrorMessage(noReportMatch);
@@ -127,11 +130,10 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
         onChange={handleOnChange}
-        placeholder="test"
+        defaultValue={selectedDate}
       />
       {inputFocus && !validInput && !invalidInput && <div className={helpLabel}>{helpText}</div>}
       {inputFocus && !validInput && errorMessage && <div className={errorStateLabel}>{errorMessage}</div>}
-      {/*{inputFocus && !validInput && errorMessage && <div className={errorStateLabel}>{errorMessage}</div>}*/}
     </>
   );
 };
