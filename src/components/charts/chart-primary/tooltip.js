@@ -35,6 +35,12 @@ const initTooltip = ({
   toolTipDateKey,
   roundingDenomination,
 }) => {
+  if (!visibleFields || visibleFields.length === 0) {
+    container.selectAll(`g.dots`).remove();
+    container.selectAll(`g.tooltip`).remove();
+    container.selectAll(`g.tooltips`).remove();
+    container.selectAll(`g.pointLayer`).remove();
+  }
   const mapData = () =>
     data
       .reduce((accumulator, r) => {
@@ -198,8 +204,9 @@ const initTooltip = ({
     const containerWidth = box.width - chartDimensions.yAxisWidth;
 
     container.selectAll(`g.${layerClass}`).remove();
-    container.selectAll(`g.${pointLayerClass}`).remove();
-    container.selectAll(`g.${tooltipClass}`).remove();
+    container.selectAll(`g.tooltip`).remove();
+    container.selectAll(`g.tooltips`).remove();
+    container.selectAll(`g.pointLayer`).remove();
 
     pointLayer = container
       .append('g')
