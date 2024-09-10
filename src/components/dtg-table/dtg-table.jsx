@@ -153,8 +153,9 @@ export default function DtgTable({
       selectedTable.endpoint &&
       !loadCanceled &&
       (!selectedTable?.apiFilter ||
-        selectedTable?.apiFilter?.displayDefaultData ||
-        (userFilterSelection && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
+        ((selectedTable?.apiFilter?.displayDefaultData || userFilterSelection) &&
+          tableMeta &&
+          tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
     ) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
@@ -337,7 +338,7 @@ export default function DtgTable({
       }
     } else if (data && !rawDataTable) {
       setReactTableData({ data: data });
-    } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+    } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE && dePaginated !== null) {
       // user filter tables <= 20000 rows
       setReactTableData(dePaginated);
       setManualPagination(false);
@@ -380,7 +381,7 @@ export default function DtgTable({
         if (rawData) {
           setReactTableData(rawData);
           setManualPagination(false);
-        } else if (dePaginated) {
+        } else if (dePaginated && !userFilterSelection) {
           setReactTableData(dePaginated);
           setManualPagination(false);
         }
@@ -394,10 +395,6 @@ export default function DtgTable({
       setReactTableData({ data: data });
     } else if (tableData && data.length === 0 && !rawData && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       setReactTableData({ data: tableData, meta: tableMeta });
-    } else if (selectedTable?.apiFilter?.displayDefaultData && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      // setReactTableData(dePaginated);
-      // setManualPagination(false);
-      // setIsLoading(false);
     }
   }, [tableData, tableMeta, rawData, dePaginated]);
 
