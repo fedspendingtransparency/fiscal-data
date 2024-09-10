@@ -404,6 +404,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     type ApiFilter {
       field: String,
       label: String,
+      displayDefaultData: Boolean,
       notice: String,
       optionValues: [String!],
       dataUnmatchedHeader: String,
@@ -593,6 +594,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             apiFilter {
               field
               label
+              displayDefaultData
               notice
               optionValues
               dataUnmatchedHeader

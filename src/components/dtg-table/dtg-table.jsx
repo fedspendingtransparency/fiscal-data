@@ -152,7 +152,9 @@ export default function DtgTable({
       selectedTable &&
       selectedTable.endpoint &&
       !loadCanceled &&
-      (!selectedTable?.apiFilter || (userFilterSelection && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
+      (!selectedTable?.apiFilter ||
+        selectedTable?.apiFilter?.displayDefaultData ||
+        (userFilterSelection && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
     ) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
@@ -185,8 +187,7 @@ export default function DtgTable({
               setEmptyDataMessage(
                 <NotShownMessage
                   heading="Change selections in order to preview data"
-                  bodyText={`With the current Date Range selected we are unable to render a
-                    preview at this time.`}
+                  bodyText="With the current Date Range selected we are unable to render a preview at this time."
                 />
               );
             }
@@ -393,6 +394,10 @@ export default function DtgTable({
       setReactTableData({ data: data });
     } else if (tableData && data.length === 0 && !rawData && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       setReactTableData({ data: tableData, meta: tableMeta });
+    } else if (selectedTable?.apiFilter?.displayDefaultData && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+      // setReactTableData(dePaginated);
+      // setManualPagination(false);
+      // setIsLoading(false);
     }
   }, [tableData, tableMeta, rawData, dePaginated]);
 

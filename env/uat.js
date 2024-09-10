@@ -263,6 +263,14 @@ module.exports = {
         'maturity_date',
         'interest_rate_pct',
       ],
+      apiFilter: {
+        field: 'account_nbr',
+        label: 'Choose an Account Number:',
+        displayDefaultData: true,
+        dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+        dataUnmatchedMessage: 'Select a different account number and/or date range in order to preview the data.',
+        dataSearchLabel: 'Search account numbers',
+      },
     },
     // FBP
     '314': {
@@ -284,6 +292,14 @@ module.exports = {
         'transaction_cd',
         'memo_nbr',
       ],
+      apiFilter: {
+        field: 'account_nbr',
+        label: 'Choose an Account Number:',
+        displayDefaultData: true,
+        dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+        dataUnmatchedMessage: 'Select a different account number and/or date range in order to preview the data.',
+        dataSearchLabel: 'Search account numbers',
+      },
     },
     '305': {
       endpoint: 'v1/accounting/od/utf_account_statement',

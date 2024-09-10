@@ -29,6 +29,7 @@ export interface IDatasetApi {
   apiFilter?: {
     label: string;
     field: string;
+    displayDefaultData: boolean;
     notice: string;
     optionValues: string[];
     dataUnmatchedHeader: string;
