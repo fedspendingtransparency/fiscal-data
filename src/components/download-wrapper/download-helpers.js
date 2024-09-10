@@ -25,7 +25,6 @@ export const dateRangeUrl = (endpointPath, dateFilter, dateField, limit, format,
     params.format = 'json';
   }
   const queryParams = params !== {} ? '?' + queryString.stringify(params) : '';
-  // console.log('queryParams: ', queryParams);
   return apiPrefix + endpointPath + queryParams;
 };
 
@@ -70,7 +69,6 @@ export const getDataForDownload = (dataset, api, dateRange, format) => {
 };
 
 export const replaceNbsps = str => {
-  // console.log('in replaceNbsps!!!!!!!!!!!!!!!!!!!');
   const re = new RegExp(String.fromCharCode(160), 'g');
   return str.replace(re, ' ');
 };
@@ -80,7 +78,6 @@ const addDataset = (fields, dataset) => {
 };
 
 export const convertDataDictionaryToCsv = dataset => {
-  // console.log('in convertDataDictionaryToCsv: ', dataset);
   const apis = dataset.apis;
   if (apis && apis[0] && apis[0].fields && apis[0].fields.length) {
     const allTableFields = apis.reduce((flattened, current) => {
@@ -135,12 +132,10 @@ export const calcDictionaryDownloadSize = csvData => {
 };
 
 export const triggerDataDictionaryDownload = (csvData, datasetName) => {
-  // console.log('in triggerDataDictionaryDownload: ', csvData, datasetName);
   return fileDownload(csvData, suggestDictionaryDownloadName(datasetName));
 };
 
 const makeHeadRequests = async (filePath, fetchHeadOption, failedRequestsNbr) => {
-  // console.log('in makeHeadRequests');
   if (failedRequestsNbr <= 3) {
     return postAPI(filePath, fetchHeadOption)
       .then(res => {

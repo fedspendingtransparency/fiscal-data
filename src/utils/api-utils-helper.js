@@ -200,15 +200,6 @@ const dataTables = [
  * collection of APIs as built from buildDownloadObject above.
  */
 export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter, tableColumnSortData, filteredDateRange, detailViewFilter) => {
-  console.log('in buildDownloadRequestArray*********** ');
-  console.log('apis ', apis);
-  console.log('dateRange ', dateRange);
-  console.log('fileType ', fileType);
-  console.log('userFilter ', userFilter);
-  console.log('tableColumnSortData ', tableColumnSortData);
-  console.log('filteredDateRange ', filteredDateRange);
-  console.log('detailViewFilter ', detailViewFilter);
-
   if (!apis || !dateRange || !fileType) {
     console.warn('Invalid params passed to buildDownloadRequestArray');
     return null;

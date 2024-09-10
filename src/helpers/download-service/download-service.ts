@@ -197,7 +197,6 @@ const beginPollingInProgressFileRequests = setterFn => {
 };
 
 const fetchDataset = datasetMsg => {
-  console.log('in fetchDataset: ', `${DATA_DOWNLOAD_BASE_URL}${datasetMsg.status_path.charAt(0) === '/' ? '' : '/'}${datasetMsg.status_path}`);
   return fetchAsObservable(`${DATA_DOWNLOAD_BASE_URL}${datasetMsg.status_path.charAt(0) === '/' ? '' : '/'}${datasetMsg.status_path}`);
 };
 
@@ -265,7 +264,6 @@ const updateViaPolling = (datasetMsg, setterFn) => {
 };
 
 const fetchAsObservable = (url: string): Observable<Response> => {
-  console.log('in fetchAsObservable%%%%%%%%%%%%%%%%%%% ', url);
   return from(fetch(url));
 };
 
@@ -293,7 +291,6 @@ const initiateDownload = (
   filteredDateRange?: { from: string; to: string },
   detailViewFilter?: { field: string; value: string }
 ): string => {
-  console.log('in initiateDownload');
   const downloadRequestMessage = buildDownloadRequestArray(
     apis,
     dateRange,
