@@ -265,7 +265,7 @@ module.exports = {
       ],
       apiFilter: {
         field: 'account_nbr',
-        label: 'Choose an Account Number:',
+        label: 'Choose an Account Number',
         displayDefaultData: true,
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account number and/or date range in order to preview the data.',
@@ -294,7 +294,7 @@ module.exports = {
       ],
       apiFilter: {
         field: 'account_nbr',
-        label: 'Choose an Account Number:',
+        label: 'Choose an Account Number',
         displayDefaultData: true,
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account number and/or date range in order to preview the data.',
