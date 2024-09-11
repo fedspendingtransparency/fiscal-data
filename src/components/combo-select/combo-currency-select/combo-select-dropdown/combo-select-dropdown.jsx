@@ -40,8 +40,6 @@ const ComboSelectDropdown = ({
   const [filterValue, setFilterValue] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [noResults, setNoResults] = useState(false);
-  const [scrollingWithScrollbar, setScrollingWithScrollbar] = useState(false);
-  const [tabbingThroughList, setTabbingThroughList] = useState(false);
   const dropdownRef = useRef(null);
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = [];
