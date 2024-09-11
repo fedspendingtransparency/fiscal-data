@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import {
   dropdownContainer,
@@ -40,7 +40,9 @@ const ComboSelectDropdown = ({
   const [filterValue, setFilterValue] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [noResults, setNoResults] = useState(false);
-
+  const [scrollingWithScrollbar, setScrollingWithScrollbar] = useState(false);
+  const [tabbingThroughList, setTabbingThroughList] = useState(false);
+  const dropdownRef = useRef(null);
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = [];
     if (entry?.length && !hasChildren) {
@@ -96,20 +98,26 @@ const ComboSelectDropdown = ({
       setDropdownActive(false);
     }
   }, [options]);
+  const handleDropdownInteraction = event => {
+    event.stopPropagation();
+  };
 
-  const handleBlur = event => {
-    // prevents dropdown from close when tabbing into a child
-    if (event) {
-      const relatedTarget = event.relatedTarget;
-      const isStillInDropdown = relatedTarget && event.currentTarget.contains(relatedTarget);
-
-      if (!isStillInDropdown) {
-        timeOutId = setTimeout(() => {
-          setDropdownActive(false);
-        });
-      }
+  const handleClickOutside = event => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdownActive(false);
     }
   };
+
+  useEffect(() => {
+    if (active) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [active]);
 
   const filteredOptionButton = (option, child) => (
     <li
@@ -140,9 +148,9 @@ const ComboSelectDropdown = ({
           data-testid="dropdown-container"
           onMouseOver={() => setMouseOverDropdown(true)}
           onMouseLeave={() => setMouseOverDropdown(false)}
-          onBlur={handleBlur}
+          ref={dropdownRef}
           onFocus={() => setMouseOverDropdown(true)}
-          onMouseDown={e => e.stopPropagation()}
+          onMouseDown={handleDropdownInteraction}
           role="presentation"
         >
           <div className={searchBarContainer}>
