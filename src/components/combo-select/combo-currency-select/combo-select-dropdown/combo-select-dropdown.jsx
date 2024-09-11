@@ -95,9 +95,6 @@ const ComboSelectDropdown = ({
       setDropdownActive(false);
     }
   }, [options]);
-  const handleDropdownInteraction = event => {
-    event.stopPropagation();
-  };
 
   const filteredOptionButton = (option, child) => (
     <li
@@ -129,7 +126,7 @@ const ComboSelectDropdown = ({
           onMouseOver={() => setMouseOverDropdown(true)}
           onMouseLeave={() => setMouseOverDropdown(false)}
           onFocus={() => setMouseOverDropdown(true)}
-          onMouseDown={handleDropdownInteraction}
+          onMouseDown={e => e.stopPropagation()}
           role="presentation"
         >
           <div className={searchBarContainer}>
