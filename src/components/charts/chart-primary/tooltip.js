@@ -35,6 +35,12 @@ const initTooltip = ({
   toolTipDateKey,
   roundingDenomination,
 }) => {
+  if (!visibleFields || visibleFields.length === 0) {
+    container.selectAll(`g.dots`).remove();
+    container.selectAll(`g.tooltip`).remove();
+    container.selectAll(`g.tooltips`).remove();
+    container.selectAll(`g.pointLayer`).remove();
+  }
   const mapData = () =>
     data
       .reduce((accumulator, r) => {
@@ -191,12 +197,16 @@ const initTooltip = ({
   const placeTooltips = () => {
     const layerClass = 'dots';
     const mappedData = mapData();
+
+    if (mappedData.length === 0) return;
     const groupedData = groupBy(mappedData, 'field');
     const box = container.node().getBoundingClientRect();
     const containerWidth = box.width - chartDimensions.yAxisWidth;
 
-    container.select(`g.${layerClass}`).remove();
-    container.select(`g.${pointLayerClass}`).remove();
+    container.selectAll(`g.${layerClass}`).remove();
+    container.selectAll(`g.tooltip`).remove();
+    container.selectAll(`g.tooltips`).remove();
+    container.selectAll(`g.pointLayer`).remove();
 
     pointLayer = container
       .append('g')
@@ -206,6 +216,9 @@ const initTooltip = ({
     dots.length = 0;
 
     Object.keys(groupedData).forEach(key => {
+      if (!visibleFields.includes(key)) {
+        return;
+      }
       const group = groupedData[key];
       const radius = calculateRadius(containerWidth, group.length);
       dots.push(
