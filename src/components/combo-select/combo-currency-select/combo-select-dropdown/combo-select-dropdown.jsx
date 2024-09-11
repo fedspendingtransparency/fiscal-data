@@ -96,14 +96,21 @@ const ComboSelectDropdown = ({
       setDropdownActive(false);
     }
   }, [options]);
-  const handleDropdownInteraction = event => {
-    event.stopPropagation();
-  };
+
+  let ignoreClick = false;
 
   const handleClickOutside = event => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      ignoreClick = true;
       setDropdownActive(false);
     }
+  };
+  const handleDropdownInteraction = event => {
+    event.stopPropagation();
+    if (!ignoreClick) {
+      setDropdownActive(prevState => !prevState);
+    }
+    ignoreClick = false;
   };
 
   useEffect(() => {
