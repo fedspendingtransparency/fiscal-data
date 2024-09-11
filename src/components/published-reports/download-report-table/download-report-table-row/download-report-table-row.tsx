@@ -54,8 +54,17 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
       const fileTypeRegex = /\(([^)]+)\)/;
       const groupName = curReportFile.report_group_desc;
       const fileTypeMatch = groupName.match(fileTypeRegex);
-      const apiFileType = fileTypeMatch[0];
-      const downloadFileType = fileTypeMatch[1];
+      let apiFileType;
+      let downloadFileType;
+      if (fileTypeMatch) {
+        apiFileType = fileTypeMatch[0];
+        downloadFileType = fileTypeMatch[1];
+      } else {
+        const splitReportPath = curReportFile.path.split('.');
+        const reportFileType = splitReportPath[splitReportPath.length - 1];
+        apiFileType = '(.' + reportFileType + ')';
+        downloadFileType = '.' + reportFileType;
+      }
       // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
       const fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
       //Split file name so overflow ellipsis can be used in the middle of the name
