@@ -40,7 +40,6 @@ const ComboSelectDropdown = ({
   const [filterValue, setFilterValue] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [noResults, setNoResults] = useState(false);
-  const dropdownRef = useRef(null);
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = [];
     if (entry?.length && !hasChildren) {
@@ -96,33 +95,9 @@ const ComboSelectDropdown = ({
       setDropdownActive(false);
     }
   }, [options]);
-
-  let ignoreClick = false;
-
-  const handleClickOutside = event => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      ignoreClick = true;
-      setDropdownActive(false);
-    }
-  };
   const handleDropdownInteraction = event => {
     event.stopPropagation();
-    if (!ignoreClick) {
-      setDropdownActive(prevState => !prevState);
-    }
-    ignoreClick = false;
   };
-
-  useEffect(() => {
-    if (active) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [active]);
 
   const filteredOptionButton = (option, child) => (
     <li
@@ -153,7 +128,6 @@ const ComboSelectDropdown = ({
           data-testid="dropdown-container"
           onMouseOver={() => setMouseOverDropdown(true)}
           onMouseLeave={() => setMouseOverDropdown(false)}
-          ref={dropdownRef}
           onFocus={() => setMouseOverDropdown(true)}
           onMouseDown={handleDropdownInteraction}
           role="presentation"
