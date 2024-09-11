@@ -12,7 +12,7 @@ interface IReportDateDropdown {
   children: ReactElement;
   allDates: string[];
   selectedDate: string;
-  helpText: string;
+  daily?: boolean;
 }
 
 const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
@@ -23,17 +23,17 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
   children,
   allDates,
   selectedDate,
-  helpText,
+  daily,
 }: IReportDateDropdown) => {
   const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
-
+  const label = daily ? 'Published Date (Example: May 1, 1998 or 05/01/1998)' : 'Published Date (Example: May 1998 or 05/1998)';
   return (
     <>
       <div className={dropdownContainer}>
         <div className={inputContainer}>
           <DateTextInput
-            label="Published Date (Example: May 1998 or 05/1998)"
+            label={label}
             validInput={validInput}
             setValidInput={setValidInput}
             inputFocus={inputFocus}
@@ -42,7 +42,7 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
             setSelectedYear={setSelectedYear}
             allDates={allDates}
             selectedDate={selectedDate}
-            helpText={helpText}
+            daily={daily}
           />
         </div>
         {children}

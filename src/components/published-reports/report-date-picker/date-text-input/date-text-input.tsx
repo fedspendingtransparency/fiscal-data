@@ -13,11 +13,12 @@ interface iDateTextInput {
   setSelectedYear: (year: string) => void;
   allDates: string[];
   selectedDate: string;
-  helpText: string;
+  daily: boolean;
 }
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
 export const noReportMatch = 'No reports or files available for this date.';
+export const helpText = 'Press Enter/Return to confirm.';
 
 const DateTextInput: FunctionComponent<iDateTextInput> = ({
   label,
@@ -29,7 +30,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   setSelectedYear,
   allDates,
   selectedDate,
-  helpText,
+  daily,
 }) => {
   const dateInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState<string>();
