@@ -43,11 +43,17 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     return yearInput >= 1000 && yearInput <= 9999;
   };
 
+  const isValidDay = (dayInput: number) => {
+    return dayInput <= 31 && dayInput > 0;
+  };
+
   const isValid = (input: string) => {
     const splitTextDate = input.split(' ');
     const splitNumericDate = input.split('/');
+    console.log(splitNumericDate);
     let month = '';
     let year: number;
+    let day: number;
     let numeric = false;
     if (splitTextDate.length === 2) {
       const monthEntry = splitTextDate[0].toLowerCase();
@@ -62,18 +68,28 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       month = splitNumericDate[0];
       year = Number(splitNumericDate[1]);
       numeric = true;
+    } else if (splitNumericDate.length === 3) {
+      month = splitNumericDate[0];
+      day = Number(splitNumericDate[1]);
+      year = Number(splitNumericDate[2]);
+      console.log(month, day, year);
+      numeric = true;
     }
-    const validEntry = isValidMonth(month) && isValidYear(year);
+
+    const validEntry = isValidMonth(month) && isValidYear(year) && (!day || isValidDay(day));
+    let formattedDate;
     if (validEntry) {
       let inputMonth = month;
-
+      console.log('valid');
       if (numeric) {
         const monthText = monthFullNames[Number(month) - 1];
         inputMonth = monthText;
-        dateInputRef.current.value = monthText + ' ' + year;
+        formattedDate = day ? monthText + ' ' + day + ', ' + year : monthText + ' ' + year;
+        dateInputRef.current.value = formattedDate;
       }
 
-      const reportMatch = allDates?.includes(inputMonth + ' ' + year);
+      console.log(allDates, formattedDate);
+      const reportMatch = allDates?.includes(formattedDate);
       if (!reportMatch) {
         setErrorMessage(noReportMatch);
       } else {
@@ -91,6 +107,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   const handleOnKeyDown = e => {
     const input = e.target.value;
     if (e.code === 'Enter') {
+      console.log('here');
       isValid(input);
     }
   };

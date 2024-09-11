@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactElement, useState } from 'react';
 import { applyButton, buttonContainer, cancelButton, checkIcon, dropdownContainer, inputContainer } from './report-date-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -28,6 +28,7 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
   const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
   const label = daily ? 'Published Date (Example: May 1, 1998 or 05/01/1998)' : 'Published Date (Example: May 1998 or 05/1998)';
+  console.log(allDates);
   return (
     <>
       <div className={dropdownContainer}>

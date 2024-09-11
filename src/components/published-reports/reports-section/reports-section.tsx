@@ -5,6 +5,7 @@ import { reportsTip, note } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 import ReportDatePicker from '../report-date-picker/report-date-picker';
+import { monthFullNames } from '../../../utils/api-utils';
 
 export const title = 'Reports and Files';
 export interface IReports {
@@ -90,7 +91,15 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
         const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
         setIsDailyReport(isDaily);
         if (isDaily) {
-          sortedReports.map((report: IReports) => allDates.push(report.report_date.toDateString()));
+          sortedReports.map((report: IReports) => {
+            const reportDt = report.report_date;
+            const reportMonth = monthFullNames[reportDt.getMonth()];
+            const reportDay = reportDt.getDate();
+            const reportYear = reportDt.getFullYear();
+            console.log(reportMonth);
+            const dateStr = reportMonth + ' ' + reportDay + ', ' + reportYear;
+            allDates.push(dateStr);
+          });
         } else {
           sortedReports.forEach((report: IReports) => {
             const reportDt = report.report_date;
@@ -99,6 +108,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
             allYears.push(reportDt.getFullYear());
           });
         }
+        console.log(allDates);
         setAllReports(sortedReports);
         setAllReportDates(allDates);
         setAllReportYears(allYears);
