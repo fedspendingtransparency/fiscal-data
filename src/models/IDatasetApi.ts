@@ -28,6 +28,7 @@ export interface IDatasetApi {
   };
   apiFilter?: {
     label: string;
+    downloadLabel: string;
     field: string;
     displayDefaultData: boolean;
     notice: string;

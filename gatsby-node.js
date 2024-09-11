@@ -403,6 +403,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
     type ApiFilter {
       field: String,
+      downloadLabel: String,
       label: String,
       displayDefaultData: Boolean,
       notice: String,
@@ -593,6 +594,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
             apiFilter {
               field
+              downloadLabel
               label
               displayDefaultData
               notice
