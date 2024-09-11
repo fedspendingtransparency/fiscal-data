@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FunctionComponent } from 'react';
 import { selectedDateDisplay, inputLabel, helpLabel, errorState, errorStateLabel } from './date-text-input.module.scss';
-import { monthFullNames } from '../../../../utils/api-utils';
+import { monthFullNames, monthNames } from '../../../../utils/api-utils';
 
 interface iDateTextInput {
   label: string;
@@ -35,7 +35,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const isValidMonth = (monthInput: string) => {
-    return monthFullNames.includes(monthInput) || (Number(monthInput) <= 12 && Number(monthInput) > 0);
+    return monthFullNames.includes(monthInput) || monthNames.includes(monthInput) || (Number(monthInput) <= 12 && Number(monthInput) > 0);
   };
 
   const isValidYear = (yearInput: number) => {
@@ -49,7 +49,13 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     let year: number;
     let numeric = false;
     if (splitTextDate.length === 2) {
-      month = splitTextDate[0];
+      const monthEntry = splitTextDate[0].toLowerCase();
+      month = monthEntry.charAt(0).toUpperCase() + monthEntry.slice(1);
+
+      const abbreviatedIndex = monthNames.indexOf(month);
+      if (abbreviatedIndex >= 0) {
+        month = monthFullNames[abbreviatedIndex];
+      }
       year = Number(splitTextDate[1]);
     } else if (splitNumericDate.length === 2) {
       month = splitNumericDate[0];

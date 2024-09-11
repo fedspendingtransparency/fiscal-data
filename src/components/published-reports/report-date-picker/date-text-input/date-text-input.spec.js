@@ -59,6 +59,56 @@ describe('Date Text Entry', () => {
     expect(setSelectedMonthSpy).toHaveBeenCalledWith('June');
   });
 
+  it('validates the entry on enter key press for lower case month', () => {
+    const setSelectedMonthSpy = jest.fn();
+    const setSelectedYearSpy = jest.fn();
+    const setValidInputSpy = jest.fn();
+    const setInputFocusSpy = jest.fn();
+    const { getByRole } = render(
+      <DateTextInput
+        label="Report Date"
+        setSelectedMonth={setSelectedMonthSpy}
+        setSelectedYear={setSelectedYearSpy}
+        selectedDate=""
+        allDates={['June 2021']}
+        setValidInput={setValidInputSpy}
+        inputFocus={false}
+        setInputFocus={setInputFocusSpy}
+      />
+    );
+    const inputBox = getByRole('textbox');
+    userEvent.tab();
+    userEvent.type(inputBox, 'june 2021{Enter}');
+
+    expect(setSelectedYearSpy).toHaveBeenCalledWith('2021');
+    expect(setSelectedMonthSpy).toHaveBeenCalledWith('June');
+  });
+
+  it('validates the entry on enter key press for abbreviated month', () => {
+    const setSelectedMonthSpy = jest.fn();
+    const setSelectedYearSpy = jest.fn();
+    const setValidInputSpy = jest.fn();
+    const setInputFocusSpy = jest.fn();
+    const { getByRole } = render(
+      <DateTextInput
+        label="Report Date"
+        setSelectedMonth={setSelectedMonthSpy}
+        setSelectedYear={setSelectedYearSpy}
+        selectedDate=""
+        allDates={['June 2021']}
+        setValidInput={setValidInputSpy}
+        inputFocus={false}
+        setInputFocus={setInputFocusSpy}
+      />
+    );
+    const inputBox = getByRole('textbox');
+    userEvent.tab();
+    userEvent.type(inputBox, 'Jun 2021{Enter}');
+
+    expect(setSelectedYearSpy).toHaveBeenCalledWith('2021');
+    expect(setSelectedMonthSpy).toHaveBeenCalledWith('June');
+  });
+
   it('validates the entry on enter key press for numerical date entry', () => {
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
