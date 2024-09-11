@@ -100,23 +100,10 @@ const ComboSelectDropdown = ({
   const handleBlur = event => {
     // prevents dropdown from close when tabbing into a child
     if (event) {
-      let dropdownChild;
-      switch (event.target.localName) {
-        case 'input':
-          dropdownChild = true;
-          break;
-        case 'svg':
-          dropdownChild = filteredOptions.length > 0;
-          break;
-        case 'button':
-          dropdownChild = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.contains(event.relatedTarget);
-          break;
-        default:
-          dropdownChild = false;
-          break;
-      }
-      setMouseOverDropdown(false);
-      if (!dropdownChild) {
+      const relatedTarget = event.relatedTarget;
+      const isStillInDropdown = relatedTarget && event.currentTarget.contains(relatedTarget);
+
+      if (!isStillInDropdown) {
         timeOutId = setTimeout(() => {
           setDropdownActive(false);
         });
@@ -155,6 +142,7 @@ const ComboSelectDropdown = ({
           onMouseLeave={() => setMouseOverDropdown(false)}
           onBlur={handleBlur}
           onFocus={() => setMouseOverDropdown(true)}
+          onMouseDown={e => e.stopPropagation()}
           role="presentation"
         >
           <div className={searchBarContainer}>
