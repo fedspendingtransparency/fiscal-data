@@ -7,7 +7,6 @@ import { CSVLink } from 'react-csv';
 import { useRecoilValue } from 'recoil';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import { constructDownloadFileName } from '../download-helpers';
-import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
 
 export const downloadFileEventStr = globalConstants.gaEventLabels.downloadFile;
 const DownloadItemButton = ({
