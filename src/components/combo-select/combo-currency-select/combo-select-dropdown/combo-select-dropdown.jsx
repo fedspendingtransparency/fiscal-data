@@ -97,7 +97,7 @@ const ComboSelectDropdown = ({
     }
   }, [options]);
   const handleBlur = event => {
-    if (!dropdownRef.current?.contains(event.relatedTarget)) {
+    if (!dropdownRef.current?.contains(event.relatedTarget) && event.relatedTarget !== null) {
       setDropdownActive(false);
     }
   };
@@ -108,7 +108,6 @@ const ComboSelectDropdown = ({
         option[optionLabelKey] === selectedOption[optionLabelKey] && dropdownListItem_Selected,
         child && dropdownListItem_child,
       ])}
-      onBlur={isLast ? handleBlur : null}
     >
       <button
         className={dropdownListItem_Button}
@@ -116,6 +115,7 @@ const ComboSelectDropdown = ({
         disabled={required && !option.value}
         title={required && !option.value && disabledMessage ? disabledMessage : null}
         aria-label={option[optionLabelKey]}
+        onBlur={isLast ? handleBlur : null}
         data-testid="dropdown-list-option"
       >
         {underlineMatchedString(option[optionLabelKey], filterValue)}
