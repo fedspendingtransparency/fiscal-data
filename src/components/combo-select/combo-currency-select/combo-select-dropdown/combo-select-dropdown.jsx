@@ -70,6 +70,7 @@ const ComboSelectDropdown = ({
       },
     });
     setFilterValue('');
+    setNoResults(false);
   };
 
   const filterDropdown = val => {
