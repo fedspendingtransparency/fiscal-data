@@ -40,6 +40,7 @@ const ComboSelectDropdown = ({
   const [filterValue, setFilterValue] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [noResults, setNoResults] = useState(false);
+  const dropdownRef = useRef(null);
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = [];
     if (entry?.length && !hasChildren) {
@@ -95,14 +96,19 @@ const ComboSelectDropdown = ({
       setDropdownActive(false);
     }
   }, [options]);
-
-  const filteredOptionButton = (option, child) => (
+  const handleBlur = event => {
+    if (!dropdownRef.current?.contains(event.relatedTarget)) {
+      setDropdownActive(false);
+    }
+  };
+  const filteredOptionButton = (option, child, isLast = false) => (
     <li
       className={classNames([
         dropdownListItem,
         option[optionLabelKey] === selectedOption[optionLabelKey] && dropdownListItem_Selected,
         child && dropdownListItem_child,
       ])}
+      onBlur={isLast ? handleBlur : null}
     >
       <button
         className={dropdownListItem_Button}
@@ -154,14 +160,16 @@ const ComboSelectDropdown = ({
                       <React.Fragment key={index}>
                         {section.children.length > 0 && <div className={sectionLabel}>{section.label}</div>}
                         {section.children.map((option, i) => {
-                          return <React.Fragment key={i}>{filteredOptionButton(option, true)}</React.Fragment>;
+                          const isLastOption = index === filteredOptions.length - 1 && i === section.children.length - 1;
+                          return <React.Fragment key={i}>{filteredOptionButton(option, true, isLastOption)}</React.Fragment>;
                         })}
                       </React.Fragment>
                     );
                   })}
                 {!hasChildren &&
                   filteredOptions.map((option, index) => {
-                    return <React.Fragment key={index}>{filteredOptionButton(option)}</React.Fragment>;
+                    const isLastOption = index === filteredOptions.length - 1;
+                    return <React.Fragment key={index}>{filteredOptionButton(option, false, isLastOption)}</React.Fragment>;
                   })}
               </ul>
             )}
