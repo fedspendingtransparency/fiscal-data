@@ -401,13 +401,19 @@ exports.createSchemaCustomization = ({ actions }) => {
       dataUnmatchedHeader: String,
       dataUnmatchedMessage: String
     }
+    type OptionLabels {
+      value: String,
+      label: String,
+    }
     type ApiFilter {
       field: String,
+      labelField: String,
       downloadLabel: String,
       label: String,
       displayDefaultData: Boolean,
       notice: String,
       optionValues: [String!],
+      optionLabels: [OptionLabels],
       dataUnmatchedHeader: String,
       dataUnmatchedMessage: String,
       dataDefaultHeader: String,
@@ -594,11 +600,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
             apiFilter {
               field
+              labelField
               downloadLabel
               label
               displayDefaultData
               notice
               optionValues
+              optionLabels {
+                label
+                value
+              }
               dataUnmatchedHeader
               dataUnmatchedMessage
               dataDefaultHeader
@@ -750,7 +761,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       if (api.apiFilter) {
         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
         filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
+        if (api.apiFilter?.labelField) {
+          filterOptionsUrl += `,${api.apiFilter.labelField}`;
+        }
         filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
+        console.log(filterOptionsUrl);
 
         if (api.apiFilter.fieldFilter) {
           const multiOptions = {};
@@ -764,10 +779,19 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           }
           api.apiFilter.optionValues = multiOptions; // uniquify results
         } else {
-          const options = await fetch(filterOptionsUrl).then(res =>
-            res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+          let options;
+          const labelOptions = {};
+          // const labelOptions = [];
+          await fetch(filterOptionsUrl).then(res =>
+            res.json().then(body => {
+              const test = body.data;
+              // test.forEach(row => labelOptions.push({ value: row[api.apiFilter.field], label: row[api.apiFilter.labelField] }));
+              test.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
+              options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
+            })
           );
           api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
+          api.apiFilter.optionLabels = labelOptions;
         }
       }
     }
