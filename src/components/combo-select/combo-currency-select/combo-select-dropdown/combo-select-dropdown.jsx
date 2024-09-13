@@ -173,6 +173,10 @@ const ComboSelectDropdown = ({
                   })}
                 {!hasChildren &&
                   filteredOptions.map((option, index) => {
+                    return <React.Fragment key={index}>{filteredOptionButton(option)}</React.Fragment>;
+          onMouseDown={e => e.stopPropagation()}
+                          const isLastOption = index === filteredOptions.length - 1 && i === section.children.length - 1;
+                          return <React.Fragment key={i}>{filteredOptionButton(option, true, isLastOption)}</React.Fragment>;
                     const isLastOption = index === filteredOptions.length - 1;
                     return <React.Fragment key={index}>{filteredOptionButton(option, false, isLastOption)}</React.Fragment>;
                   })}
