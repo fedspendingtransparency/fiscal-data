@@ -137,8 +137,8 @@ const ComboSelectDropdown = ({
           data-testid="dropdown-container"
           onMouseOver={() => setMouseOverDropdown(true)}
           onMouseLeave={() => setMouseOverDropdown(false)}
+          onBlur={handleBlur}
           onFocus={() => setMouseOverDropdown(true)}
-          onMouseDown={e => e.stopPropagation()}
           role="presentation"
         >
           <div className={searchBarContainer}>
@@ -166,8 +166,7 @@ const ComboSelectDropdown = ({
                       <React.Fragment key={index}>
                         {section.children.length > 0 && <div className={sectionLabel}>{section.label}</div>}
                         {section.children.map((option, i) => {
-                          const isLastOption = index === filteredOptions.length - 1 && i === section.children.length - 1;
-                          return <React.Fragment key={i}>{filteredOptionButton(option, true, isLastOption)}</React.Fragment>;
+                          return <React.Fragment key={i}>{filteredOptionButton(option, true)}</React.Fragment>;
                         })}
                       </React.Fragment>
                     );
