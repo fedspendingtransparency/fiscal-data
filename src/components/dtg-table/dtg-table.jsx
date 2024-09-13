@@ -152,7 +152,10 @@ export default function DtgTable({
       selectedTable &&
       selectedTable.endpoint &&
       !loadCanceled &&
-      (!selectedTable?.apiFilter || (userFilterSelection && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
+      (!selectedTable?.apiFilter ||
+        ((selectedTable?.apiFilter?.displayDefaultData || userFilterSelection) &&
+          tableMeta &&
+          tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
     ) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
@@ -185,8 +188,7 @@ export default function DtgTable({
               setEmptyDataMessage(
                 <NotShownMessage
                   heading="Change selections in order to preview data"
-                  bodyText={`With the current Date Range selected we are unable to render a
-                    preview at this time.`}
+                  bodyText="With the current Date Range selected we are unable to render a preview at this time."
                 />
               );
             }
@@ -336,7 +338,7 @@ export default function DtgTable({
       }
     } else if (data && !rawDataTable) {
       setReactTableData({ data: data });
-    } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+    } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE && dePaginated !== null) {
       // user filter tables <= 20000 rows
       setReactTableData(dePaginated);
       setManualPagination(false);
@@ -379,7 +381,7 @@ export default function DtgTable({
         if (rawData) {
           setReactTableData(rawData);
           setManualPagination(false);
-        } else if (dePaginated) {
+        } else if (dePaginated && !userFilterSelection) {
           setReactTableData(dePaginated);
           setManualPagination(false);
         }

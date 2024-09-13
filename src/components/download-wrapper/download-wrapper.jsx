@@ -253,12 +253,12 @@ const DownloadWrapper = ({
             {dateString}
           </div>
         </div>
-        {selectedTable?.userFilter && (
+        {(selectedTable?.userFilter || selectedTable?.apiFilter) && (
           <div className={describer}>
-            <strong data-testid="userFilterLabel">{selectedTable.userFilter.label}:</strong>
-            <div data-testid="userFilterValue" className={dateStringStyle}>
-              {selectedUserFilter && selectedUserFilter.value ? selectedUserFilter.label : '(None selected)'}
-            </div>
+            <strong data-testid="userFilterLabel">
+              {selectedTable?.userFilter ? selectedTable.userFilter.label : selectedTable.apiFilter.downloadLabel}:
+            </strong>
+            <div data-testid="userFilterValue">{selectedUserFilter && selectedUserFilter?.value ? selectedUserFilter?.label : '(None selected)'}</div>
           </div>
         )}
         {selectedDetailViewFilter && (

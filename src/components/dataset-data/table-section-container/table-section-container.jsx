@@ -99,13 +99,15 @@ const TableSectionContainer = ({
 
   const formattedDetailViewState = formatDate(detailViewState?.value);
 
+  const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
+
   const getDepaginatedData = async () => {
-    if (!selectedTable?.apiFilter || (selectedTable.apiFilter && userFilterSelection !== null && userFilterSelection?.value !== null)) {
+    if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
       const from = formatDateForApi(dateRange.from);
       const to = formatDateForApi(dateRange.to);
       const sortParam = buildSortParams(selectedTable, selectedPivot);
       const apiFilterParam =
-        selectedTable?.apiFilter?.field && userFilterSelection?.value !== null
+        selectedTable?.apiFilter?.field && userFilterSelection?.value !== null && userFilterSelection?.value !== undefined
           ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
           : '';
       let meta;
@@ -240,11 +242,11 @@ const TableSectionContainer = ({
   }, [selectedTable]);
 
   useEffect(() => {
-    setDisableDownloadButton(userFilterUnmatchedForDateRange || apiFilterDefault);
+    setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
   }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
 
   useEffect(() => {
-    if (selectedTable?.apiFilter && userFilterSelection?.value === null) {
+    if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
       setApiFilterDefault(true);
       setManualPagination(false);
     }
@@ -379,7 +381,7 @@ const TableSectionContainer = ({
                 showToggleChart={!noChartMessage}
                 showToggleTable={tableProps?.selectColumns}
                 userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
-                apiFilterDefault={apiFilterDefault}
+                apiFilterDefault={apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData}
                 onToggleLegend={legendToggler}
                 emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
                 unchartable={noChartMessage !== undefined}

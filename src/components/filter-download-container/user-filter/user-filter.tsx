@@ -16,11 +16,13 @@ type UserFilterProps = {
     apiFilter?: {
       label: string;
       field: string;
+      labelField?: string;
       notice: string;
       optionValues: { key: string };
+      optionLabels?: { key: string };
       dataUnmatchedMessage: string;
       dataSearchLabel: string;
-      fieldFilter: {
+      fieldFilter?: {
         value: string[];
         field: string;
       };
@@ -53,9 +55,10 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
   const establishOptions = () => {
     let options = null;
     let nestedOptions = null;
-
     if (selectedTable?.userFilter?.optionValues && userFilterOptions === null) {
-      options = selectedTable.userFilter.optionValues.map(val => ({ label: val, value: val }));
+      options = selectedTable.userFilter.optionValues.map(val => {
+        return { label: val, value: val };
+      });
       options.unshift(defaultSelection);
       setUserFilterOptions(options);
     } else if (selectedTable?.apiFilter?.optionValues) {
@@ -68,7 +71,15 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
           nestedOptions.push({ label: filter, children: nestedChildren });
         }
       } else {
-        options = selectedTable.apiFilter.optionValues['all'].map(val => ({ label: val, value: val }));
+        if (selectedTable.apiFilter?.optionLabels) {
+          const allLabels = selectedTable.apiFilter.optionLabels;
+          options = selectedTable.apiFilter.optionValues['all'].map(val => {
+            const label = allLabels[val];
+            if (label) return { label: label, value: val };
+          });
+        } else {
+          options = selectedTable.apiFilter.optionValues['all'].map(val => ({ label: val, value: val }));
+        }
       }
       if (nestedOptions) {
         setUserFilterOptions(nestedOptions);
