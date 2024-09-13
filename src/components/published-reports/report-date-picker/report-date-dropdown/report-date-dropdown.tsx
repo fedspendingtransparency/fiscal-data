@@ -9,6 +9,7 @@ interface IReportDateDropdown {
   handleApply: () => void;
   setSelectedMonth: (month: string) => void;
   setSelectedYear: (year: string) => void;
+  setCurrentDate: (date: Date) => void;
   children: ReactElement;
   allDates: string[];
   selectedDate: string;
@@ -20,6 +21,7 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
   handleApply,
   setSelectedMonth,
   setSelectedYear,
+  setCurrentDate,
   children,
   allDates,
   selectedDate,
@@ -44,6 +46,7 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
             allDates={allDates}
             selectedDate={selectedDate}
             daily={daily}
+            setCurrentDate={setCurrentDate}
           />
         </div>
         {children}

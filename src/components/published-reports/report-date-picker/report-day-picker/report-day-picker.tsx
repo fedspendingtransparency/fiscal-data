@@ -5,6 +5,7 @@ import '../../../data-table/data-table-header/date-range-filter/day-picker-overr
 import 'react-day-picker/dist/style.css';
 import { datePickerSelected } from './report-day-picker.module.scss';
 import { formatReportDate } from '../../../../helpers/dataset-detail/report-helpers';
+import { monthFullNames } from '../../../../utils/api-utils';
 
 interface IReportDayPicker {
   handleClose: () => void;
@@ -34,7 +35,11 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
   };
 
   const isDisabled = (day: Date) => {
-    return !allReportDates.includes(day.toDateString());
+    const reportMonth = monthFullNames[day.getMonth()];
+    const reportDay = day.getDate();
+    const reportYear = day.getFullYear();
+    const dateStr = reportMonth + ' ' + reportDay + ', ' + reportYear;
+    return !allReportDates.includes(dateStr);
   };
 
   useEffect(() => {
@@ -49,6 +54,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
         <ReportDateDropdown
           handleClose={handleClose}
           handleApply={handleApply}
+          setCurrentDate={setCurrentDate}
           selectedDate={currentDate !== undefined && formatReportDate(currentDate, true, true)}
           allDates={allReportDates}
           daily
@@ -64,7 +70,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
               selected: datePickerSelected,
             }}
             disabled={isDisabled}
-            defaultMonth={latestReportDate}
+            defaultMonth={currentDate}
           />
         </ReportDateDropdown>
       )}

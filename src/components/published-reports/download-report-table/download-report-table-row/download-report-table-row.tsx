@@ -53,16 +53,18 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyR
       // grab the file extension
       const groupName = curReportFile.report_group_desc;
       const splitReportPath = curReportFile.path.split('.');
-      const reportFileType = splitReportPath[splitReportPath.length - 1];
-      const apiFileType = '(.' + reportFileType + ')';
-      const downloadFileType = '.' + reportFileType;
-      // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
-      const fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
-      //Split file name so overflow ellipsis can be used in the middle of the name
-      const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
-      setDisplayName(fileDisplayName || '');
-      setFileType(downloadFileType);
-      setFileTypeImage(getFileTypeImage(downloadFileType));
+      if (splitReportPath.length > 0) {
+        const reportFileType = splitReportPath[splitReportPath.length - 1];
+        const apiFileType = '(.' + reportFileType + ')';
+        const downloadFileType = '.' + reportFileType;
+        // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
+        const fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
+        //Split file name so overflow ellipsis can be used in the middle of the name
+        const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
+        setDisplayName(fileDisplayName || '');
+        setFileType(downloadFileType);
+        setFileTypeImage(getFileTypeImage(downloadFileType));
+      }
     }
   };
 

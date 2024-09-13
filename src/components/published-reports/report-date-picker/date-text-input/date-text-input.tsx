@@ -14,6 +14,7 @@ interface iDateTextInput {
   allDates: string[];
   selectedDate: string;
   daily: boolean;
+  setCurrentDate: (date: Date) => void;
 }
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
@@ -31,6 +32,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   allDates,
   selectedDate,
   daily,
+  setCurrentDate,
 }) => {
   const dateInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -94,8 +96,15 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
         setErrorMessage(noReportMatch);
       } else {
         setErrorMessage(null);
-        setSelectedMonth(inputMonth);
-        setSelectedYear(year.toString());
+        if (setSelectedMonth) {
+          setSelectedMonth(inputMonth);
+        }
+        if (setSelectedYear) {
+          setSelectedYear(year.toString());
+        }
+        if (setCurrentDate) {
+          setCurrentDate(new Date(formattedDate));
+        }
         setValidInput(true);
       }
     } else {
