@@ -16,12 +16,13 @@ type UserFilterProps = {
     apiFilter?: {
       label: string;
       field: string;
+      labelField?: string;
       notice: string;
       optionValues: { key: string };
-      optionLabels: { key: string };
+      optionLabels?: { key: string };
       dataUnmatchedMessage: string;
       dataSearchLabel: string;
-      fieldFilter: {
+      fieldFilter?: {
         value: string[];
         field: string;
       };
