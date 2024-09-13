@@ -71,7 +71,7 @@ module.exports = {
     '015-BFS-2024Q1-003': {
       slug: '/fbp-detailed-principal-accrued-interest/',
       seoConfig: {
-        pageTitle: 'Federal Borrowings Program: Detailed Principal and Accrued Interest',
+        pageTitle: 'Federal Borrowings Program: Detailed Principal and Accrued Interest Report',
         description:
           "U.S. Treasury loans and interest receivable balances associated with each individual borrowing agency's expenditure Treasury Account Symbol.",
         keywords: 'Debt, Financial Summaries',
@@ -262,6 +262,8 @@ module.exports = {
         'interest_receivable_amt',
         'maturity_date',
         'interest_rate_pct',
+        'amortization_amt',
+        'capitalized_int_receivable_amt',
       ],
       apiFilter: {
         field: 'account_nbr',
@@ -293,6 +295,8 @@ module.exports = {
         'settle_date',
         'transaction_cd',
         'memo_nbr',
+        'amortization_amt',
+        'capitalized_int_receivable_amt',
       ],
       apiFilter: {
         field: 'account_nbr',

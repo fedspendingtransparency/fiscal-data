@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import {
   dropdownContainer,
@@ -40,7 +40,7 @@ const ComboSelectDropdown = ({
   const [filterValue, setFilterValue] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [noResults, setNoResults] = useState(false);
-
+  const dropdownRef = useRef(null);
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = [];
     if (entry?.length && !hasChildren) {
@@ -70,6 +70,7 @@ const ComboSelectDropdown = ({
       },
     });
     setFilterValue('');
+    setNoResults(false);
   };
 
   const filterDropdown = val => {
@@ -98,33 +99,11 @@ const ComboSelectDropdown = ({
   }, [options]);
 
   const handleBlur = event => {
-    // prevents dropdown from close when tabbing into a child
-    if (event) {
-      let dropdownChild;
-      switch (event.target.localName) {
-        case 'input':
-          dropdownChild = true;
-          break;
-        case 'svg':
-          dropdownChild = filteredOptions.length > 0;
-          break;
-        case 'button':
-          dropdownChild = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.contains(event.relatedTarget);
-          break;
-        default:
-          dropdownChild = false;
-          break;
-      }
-      setMouseOverDropdown(false);
-      if (!dropdownChild) {
-        timeOutId = setTimeout(() => {
-          setDropdownActive(false);
-        });
-      }
+    if (!dropdownRef.current?.contains(event.relatedTarget) && event.relatedTarget !== null) {
+      setDropdownActive(false);
     }
   };
-
-  const filteredOptionButton = (option, child) => {
+  const filteredOptionButton = (option, child, isLast = false) => {
     if (option) {
       return (
         <li
@@ -140,6 +119,7 @@ const ComboSelectDropdown = ({
             disabled={required && !option.value}
             title={required && !option.value && disabledMessage ? disabledMessage : null}
             aria-label={option[optionLabelKey]}
+            onBlur={isLast ? handleBlur : null}
             data-testid="dropdown-list-option"
           >
             {underlineMatchedString(option[optionLabelKey], filterValue)}
@@ -194,6 +174,11 @@ const ComboSelectDropdown = ({
                 {!hasChildren &&
                   filteredOptions.map((option, index) => {
                     return <React.Fragment key={index}>{filteredOptionButton(option)}</React.Fragment>;
+          onMouseDown={e => e.stopPropagation()}
+                          const isLastOption = index === filteredOptions.length - 1 && i === section.children.length - 1;
+                          return <React.Fragment key={i}>{filteredOptionButton(option, true, isLastOption)}</React.Fragment>;
+                    const isLastOption = index === filteredOptions.length - 1;
+                    return <React.Fragment key={index}>{filteredOptionButton(option, false, isLastOption)}</React.Fragment>;
                   })}
               </ul>
             )}

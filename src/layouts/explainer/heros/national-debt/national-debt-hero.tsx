@@ -25,11 +25,11 @@ const NationalDebtHero = (): JSX.Element => {
     getCurrentNationalDebt();
   }, [data.state]);
 
-  const clickHandler = () => {
+  const clickHandler = (eventLabel ?: string) => {
     Analytics.event({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: `Debt - What is the national debt?`,
+      label: eventLabel ? eventLabel : `Debt - What is the national debt?`,
     });
   };
 
@@ -45,7 +45,7 @@ const NationalDebtHero = (): JSX.Element => {
       </div>
       <div className={`${counterSourceInfo} ${debt}`}>
         Updated daily from the{' '}
-        <CustomLink url="/datasets/debt-to-the-penny" onClick={() => clickHandler()} id="Debt to the Penny">
+        <CustomLink url="/datasets/debt-to-the-penny" onClick={() => clickHandler('Debt to the Penny')} id="Debt to the Penny">
           Debt to the Penny
         </CustomLink>{' '}
         dataset.
