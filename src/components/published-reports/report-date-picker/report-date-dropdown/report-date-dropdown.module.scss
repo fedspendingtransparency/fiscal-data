@@ -14,21 +14,6 @@
     margin-left: 1.5rem;
     margin-right: 1.5rem;
   }
-
-  .publishedDateLabel {
-    font-size: $font-size-14;
-    margin-bottom: 0.5rem;
-    margin-right: .25rem;
-  }
-
-  .selectedDateDisplay {
-    border: 1px solid $light-grey-border;
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    padding: 0 1rem;
-    min-height: 38px;
-  }
 }
 
 .buttonContainer {
@@ -45,7 +30,10 @@
     display: flex;
     align-items: center;
     padding: .5rem 1rem;
-
+    &:disabled {
+      cursor: default;
+      opacity: 50%;
+    }
     .checkIcon {
       padding-right: .5rem;
       color: white;
@@ -68,5 +56,4 @@
     font-size: $font-size-16;
     cursor: pointer;
   }
-
 }

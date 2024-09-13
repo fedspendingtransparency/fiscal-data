@@ -49,7 +49,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
         <ReportDateDropdown
           handleClose={handleClose}
           handleApply={handleApply}
-          displayDate={currentDate !== undefined && formatReportDate(currentDate, true, true)}
+          selectedDate={currentDate !== undefined && formatReportDate(currentDate, true, true)}
         >
           <DayPicker
             mode="single"

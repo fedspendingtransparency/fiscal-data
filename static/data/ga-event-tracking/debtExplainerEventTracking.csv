@@ -1,6 +1,7 @@
 Number,Trigger,eventCategory,eventAction,eventLabel
 1,Click on the Explainers drop-down on the top of page navigation (ribbon),Fiscal Data - Sitewide Navigation,Topics Click,<title of explainer / insight page selected>
-2,"Click on link to Debt to the Penny within the ""What is the national debt?"" section",Fiscal Data - Explainers,Debt Citation Click,Debt - What is the national debt?
+2,"Click on link to Debt to the Penny within the ""What is the national debt?"" section",Fiscal Data - Explainers,Debt Citation Click,Debt to the Penny
+
 3,"Click on ""Key Takeaways"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Debt - Key Takeaways
 4,"Click on ""The National Debt Explained"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Debt - The National Debt Explained
 5,"Click on ""Funding Programs & Services"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Debt - Funding Programs & Services
@@ -13,7 +14,7 @@ Number,Trigger,eventCategory,eventAction,eventLabel
 12,"Collapse the accordion labeled ""What are the major spending categories?""",Fiscal Data - Explainers,Accordion Collapse Click,Debt - What are the major spending categories?
 13,Click on link to USAspending.gov,Fiscal Data - Explainers,Debt Citation Click,Debt - Funding Programs & Services
 14,"Hover (>= 3 secs) over chart data points for ""U.S. Federal Debt Trends Over the Last 100 Years""",Fiscal Data - Explainers,Chart Hover,Debt - U.S. Federal Debt Trends Over the Last 100 Years
-15,Click on link to Historical Debt Outstanding dataset,Fiscal Data - Explainers,Debt Citation Click,Debt - U.S. Federal Debt Trends Over the Last 100 Years
+15,Click on link to Historical Debt Outstanding dataset,Fiscal Data - Explainers,Debt Citation Click,Historical Debt Outstanding
 16,Click on link to Bureau of Labor Statistics,Fiscal Data - Explainers,Debt Citation Click,Debt - U.S. Federal Debt Trends Over the Last 100 Years
 17,"Hover (>= 3 secs) over chart data points for ""Federal Debt Trends Over Time, 1948 - 2021""",Fiscal Data - Explainers,Chart Hover,Debt - Federal Debt Trends Over Time
 18,Click on link to Historical Debt Outstanding dataset,Fiscal Data - Explainers,Debt Citation Click,Debt - Federal Debt Trends Over Time
@@ -48,6 +49,6 @@ Number,Trigger,eventCategory,eventAction,eventLabel
 47,"Click on the ""Monthly Statement of the Public Debt (MSPD)"" link in the DS&M accordion",Fiscal Data - Explainers,Debt Citation Click,Debt - DS&M
 48,"Click on the ""Historical Debt Outstanding"" link in the DS&M accordion",Fiscal Data - Explainers,Debt Citation Click,Debt - DS&M
 49,"Click on the ""Average Interest Rates on U.S. Treasury Securities"" link in the DS&M accordion",Fiscal Data - Explainers,Debt Citation Click,Debt - DS&M
-50,"Click on the ""Bureau of Labor Statistics"" link in the DS&M accordion",Fiscal Data - Explainers,DebtCitation Click,Debt - DS&M
+50,"Click on the ""Bureau of Labor Statistics"" link in the DS&M accordion",Fiscal Data - Explainers,Debt Citation Click,Debt - DS&M
 51,"Click on the ""Bureau of Economic Analysis"" link in the DS&M accordion",Fiscal Data - Explainers,Debt Citation Click,Debt - DS&M
 52,"Click on the ""Github repository"" link in the DS&M accordion",Fiscal Data - Explainers,Debt Citation Click,Debt - DS&M Github
