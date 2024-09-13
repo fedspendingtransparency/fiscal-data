@@ -19,6 +19,7 @@ import {
   selectedPivotWithRoundingDenomination,
   mockTableWithApiFilterAvailable,
   mockDetailConfig,
+  mockTableWithApiFilterAvailableDisplayDefaultData,
 } from './testHelpers';
 import * as setNoChartMessageMod from './set-no-chart-message';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
@@ -623,5 +624,24 @@ describe('Table with API filter', () => {
     );
     expect(mockSetIsLoading).toHaveBeenCalledWith(false);
     expect(queryByRole('table')).not.toBeInTheDocument();
+  });
+  it('Initializes table with an api filter and dispalyDefaultData is true', async () => {
+    const mockSetIsLoading = jest.fn();
+    render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithApiFilterAvailableDisplayDefaultData}
+          isLoading={false}
+          setIsLoading={mockSetIsLoading}
+          apiError={false}
+          setUserFilterSelection={jest.fn()}
+          userFilterSelection={null}
+          setSelectedPivot={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+    expect(mockSetIsLoading).not.toHaveBeenCalledWith(false);
   });
 });

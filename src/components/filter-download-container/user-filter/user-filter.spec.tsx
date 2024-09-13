@@ -1,7 +1,7 @@
 import { render, within } from '@testing-library/react';
 import React from 'react';
 import UserFilter, { determineUserFilterUnmatchedForDateRange } from './user-filter';
-import { fireEvent } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 
 describe('UserFilter Component', () => {
   const ComboCurrencySelect = jest.requireActual('../../combo-select/combo-currency-select/combo-currency-select');
@@ -50,11 +50,11 @@ describe('UserFilter Component', () => {
     });
   });
 
-  it('sends expected properties to combo-select control for the apiFilter with multiple dropdown categories', async () => {
+  it('sends expected properties to combo-select control for the apiFilter with multiple dropdown categories', () => {
     const { getByText, getByRole } = render(<UserFilter selectedTable={mockTableApiFilterMultiCategory} onUserFilter={jest.fn()} />);
     const filterDropdown = getByRole('button');
     expect(getByText('(None selected)')).toBeInTheDocument();
-    fireEvent.click(filterDropdown);
+    userEvent.click(filterDropdown);
     expect(getByText('State')).toBeInTheDocument();
     expect(getByText('Federal')).toBeInTheDocument();
   });
@@ -87,16 +87,25 @@ describe('UserFilter Component', () => {
     expect(result).toBeFalsy();
   });
 
+  it('uses api filter options labels when available', () => {
+    const { getByRole } = render(<UserFilter selectedTable={mockTableApiFilterOptionLabels} onUserFilter={jest.fn()} />);
+    const filterDropdown = getByRole('button');
+    userEvent.click(filterDropdown);
+    expect(getByRole('button', { name: '123' })).toBeInTheDocument();
+    expect(getByRole('button', { name: '456' })).toBeInTheDocument();
+    expect(getByRole('button', { name: '789' })).toBeInTheDocument();
+  });
+
   it('calls reset filter function when the user filter changes ', () => {
     const resetFilterSpy = jest.fn();
     const { getByRole, getByTestId } = render(
       <UserFilter selectedTable={mockTable} onUserFilter={jest.fn()} apiData={mockData} setResetFilters={resetFilterSpy} />
     );
     const dropdown = getByRole('button');
-    fireEvent.click(dropdown);
+    userEvent.click(dropdown);
     const list = getByTestId('dropdown-list');
     const button = within(list).getAllByRole('button')[0];
-    fireEvent.click(button);
+    userEvent.click(button);
 
     expect(resetFilterSpy).toHaveBeenCalledWith(true);
   });
@@ -137,6 +146,20 @@ describe('UserFilter Component', () => {
         field: 'report_type',
         value: ['Federal', 'State'],
       },
+    },
+  };
+
+  const mockTableApiFilterOptionLabels = {
+    apiId: '1137',
+    apiFilter: {
+      label: 'Account Description',
+      field: 'acct_nbr',
+      labelField: 'acct_desc',
+      notice: 'this is some info related to the user-filterable data',
+      optionLabels: { A: '123', B: '456', C: '789' },
+      optionValues: { all: ['A', 'B', 'C'] },
+      dataUnmatchedMessage: 'Cannot find account match for these dates.',
+      dataSearchLabel: 'Search accounts',
     },
   };
 

@@ -265,6 +265,16 @@ module.exports = {
         'amortization_amt',
         'capitalized_int_receivable_amt',
       ],
+      apiFilter: {
+        field: 'account_nbr',
+        labelField: 'account_desc',
+        downloadLabel: 'Account Description',
+        label: 'Choose an Account Description',
+        displayDefaultData: true,
+        dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+        dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+        dataSearchLabel: 'Search account descriptions',
+      },
     },
     // FBP
     '314': {
@@ -288,6 +298,16 @@ module.exports = {
         'amortization_amt',
         'capitalized_int_receivable_amt',
       ],
+      apiFilter: {
+        field: 'account_nbr',
+        labelField: 'account_desc',
+        downloadLabel: 'Account Description',
+        label: 'Choose an Account Description',
+        displayDefaultData: true,
+        dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+        dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+        dataSearchLabel: 'Search account descriptions',
+      },
     },
     '305': {
       endpoint: 'v1/accounting/od/utf_account_statement',
@@ -296,6 +316,7 @@ module.exports = {
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
       apiFilter: {
         field: 'acct_desc',
+        downloadLabel: 'Account',
         label: 'Choose a Federal or State Account',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
@@ -327,6 +348,7 @@ module.exports = {
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
       apiFilter: {
         field: 'acct_desc',
+        downloadLabel: 'Account',
         label: 'Choose a Federal or State Account',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
@@ -357,6 +379,7 @@ module.exports = {
       alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
       apiFilter: {
         field: 'acct_desc',
+        downloadLabel: 'Account',
         label: 'Choose a State Account',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',

@@ -125,7 +125,7 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
     tableColumnSortParams = buildTableColumnSortParams(tableColumnSortData);
     tableColumnSort = tableColumnSortParams.sort;
   }
-  const filterParam = filterField && filterValue ? `,${filterField}:eq:${filterValue.value}` : '';
+  const filterParam = filterField && filterValue?.value ? `,${filterField}:eq:${filterValue.value}` : '';
 
   const uri =
     `${apiPrefix}${table.endpoint}?filter=${dateField}:gte:${fromStr},${dateField}` +
