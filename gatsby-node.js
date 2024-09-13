@@ -778,11 +778,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         } else {
           let options;
           const labelOptions = {};
-          // const labelOptions = [];
           await fetch(filterOptionsUrl).then(res =>
             res.json().then(body => {
               const test = body.data;
-              // test.forEach(row => labelOptions.push({ value: row[api.apiFilter.field], label: row[api.apiFilter.labelField] }));
               test.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
               options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
             })
