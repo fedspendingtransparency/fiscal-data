@@ -766,7 +766,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
         if (api.apiFilter.fieldFilter) {
           const multiOptions = {};
-
           for (const val of api.apiFilter.fieldFilter.value) {
             const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
             const options = await fetch(newUrl).then(res =>
@@ -775,18 +774,25 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             multiOptions[val] = options;
           }
           api.apiFilter.optionValues = multiOptions; // uniquify results
-        } else {
+        } else if (api.apiFilter.labelField) {
           let options;
           const labelOptions = {};
           await fetch(filterOptionsUrl).then(res =>
             res.json().then(body => {
-              const test = body.data;
-              test.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
+              const filterLabels = body.data;
+              if (api.apiFilter?.labelField) {
+                filterLabels.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
+              }
               options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
             })
           );
           api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
           api.apiFilter.optionLabels = labelOptions;
+        } else {
+          const options = await fetch(filterOptionsUrl).then(res =>
+            res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+          );
+          api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
         }
       }
     }

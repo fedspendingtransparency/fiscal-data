@@ -97,32 +97,37 @@ const ComboSelectDropdown = ({
       setDropdownActive(false);
     }
   }, [options]);
+
   const handleBlur = event => {
     if (!dropdownRef.current?.contains(event.relatedTarget) && event.relatedTarget !== null) {
       setDropdownActive(false);
     }
   };
-  const filteredOptionButton = (option, child, isLast = false) => (
-    <li
-      className={classNames([
-        dropdownListItem,
-        option[optionLabelKey] === selectedOption[optionLabelKey] && dropdownListItem_Selected,
-        child && dropdownListItem_child,
-      ])}
-    >
-      <button
-        className={dropdownListItem_Button}
-        onClick={() => updateSelection(option, true)}
-        disabled={required && !option.value}
-        title={required && !option.value && disabledMessage ? disabledMessage : null}
-        aria-label={option[optionLabelKey]}
-        onBlur={isLast ? handleBlur : null}
-        data-testid="dropdown-list-option"
-      >
-        {underlineMatchedString(option[optionLabelKey], filterValue)}
-      </button>
-    </li>
-  );
+  const filteredOptionButton = (option, child, isLast = false) => {
+    if (option) {
+      return (
+        <li
+          className={classNames([
+            dropdownListItem,
+            option[optionLabelKey] === selectedOption[optionLabelKey] && dropdownListItem_Selected,
+            child && dropdownListItem_child,
+          ])}
+        >
+          <button
+            className={dropdownListItem_Button}
+            onClick={() => updateSelection(option, true)}
+            disabled={required && !option.value}
+            title={required && !option.value && disabledMessage ? disabledMessage : null}
+            aria-label={option[optionLabelKey]}
+            onBlur={isLast ? handleBlur : null}
+            data-testid="dropdown-list-option"
+          >
+            {underlineMatchedString(option[optionLabelKey], filterValue)}
+          </button>
+        </li>
+      );
+    }
+  };
 
   return (
     <>
@@ -132,8 +137,8 @@ const ComboSelectDropdown = ({
           data-testid="dropdown-container"
           onMouseOver={() => setMouseOverDropdown(true)}
           onMouseLeave={() => setMouseOverDropdown(false)}
+          onBlur={handleBlur}
           onFocus={() => setMouseOverDropdown(true)}
-          onMouseDown={e => e.stopPropagation()}
           role="presentation"
         >
           <div className={searchBarContainer}>
@@ -161,8 +166,7 @@ const ComboSelectDropdown = ({
                       <React.Fragment key={index}>
                         {section.children.length > 0 && <div className={sectionLabel}>{section.label}</div>}
                         {section.children.map((option, i) => {
-                          const isLastOption = index === filteredOptions.length - 1 && i === section.children.length - 1;
-                          return <React.Fragment key={i}>{filteredOptionButton(option, true, isLastOption)}</React.Fragment>;
+                          return <React.Fragment key={i}>{filteredOptionButton(option, true)}</React.Fragment>;
                         })}
                       </React.Fragment>
                     );

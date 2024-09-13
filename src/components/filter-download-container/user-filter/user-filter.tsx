@@ -41,7 +41,6 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
   const defaultSelection = { label: '(None selected)', value: null };
   const [userFilterOptions, setUserFilterOptions] = useState(null);
   const [selectedFilterOption, setSelectedFilterOption] = useState(defaultSelection);
-
   const updateUserFilter = selection => {
     if (selection !== null) {
       setSelectedFilterOption(selection);
@@ -70,16 +69,14 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
           const nestedChildren = selectedTable.apiFilter.optionValues[filter].map(val => ({ label: val, value: val }));
           nestedOptions.push({ label: filter, children: nestedChildren });
         }
+      } else if (selectedTable.apiFilter?.optionLabels) {
+        const allLabels = selectedTable.apiFilter.optionLabels;
+        options = selectedTable.apiFilter.optionValues['all'].map(val => {
+          const label = allLabels[val];
+          if (label) return { label: label, value: val };
+        });
       } else {
-        if (selectedTable.apiFilter?.optionLabels) {
-          const allLabels = selectedTable.apiFilter.optionLabels;
-          options = selectedTable.apiFilter.optionValues['all'].map(val => {
-            const label = allLabels[val];
-            if (label) return { label: label, value: val };
-          });
-        } else {
-          options = selectedTable.apiFilter.optionValues['all'].map(val => ({ label: val, value: val }));
-        }
+        options = selectedTable.apiFilter.optionValues['all'].map(val => ({ label: val, value: val }));
       }
       if (nestedOptions) {
         setUserFilterOptions(nestedOptions);
