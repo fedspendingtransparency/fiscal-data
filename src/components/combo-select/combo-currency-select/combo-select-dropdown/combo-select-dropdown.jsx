@@ -125,7 +125,7 @@ const ComboSelectDropdown = ({
             {underlineMatchedString(option[optionLabelKey], filterValue)}
           </button>
         </li>
-      )
+      );
     }
   };
 
