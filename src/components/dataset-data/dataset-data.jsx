@@ -54,7 +54,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;
-  const title = ENV_ID === 'uat' ? 'Data Table' : 'Preview & Download';
+  const title = ENV_ID === 'uat' ? 'Data Preview' : 'Preview & Download';
   const shouldUseLoadByPage = pivot => {
     return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
