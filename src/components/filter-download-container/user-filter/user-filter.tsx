@@ -54,10 +54,8 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
   const establishOptions = () => {
     let options = null;
     let nestedOptions = null;
-    console.log(selectedTable?.apiFilter?.optionLabels);
     if (selectedTable?.userFilter?.optionValues && userFilterOptions === null) {
       options = selectedTable.userFilter.optionValues.map(val => {
-        console.log(val);
         return { label: val, value: val };
       });
       options.unshift(defaultSelection);

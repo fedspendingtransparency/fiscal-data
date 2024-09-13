@@ -402,7 +402,6 @@ exports.createSchemaCustomization = ({ actions }) => {
       dataUnmatchedMessage: String
     }
     type OptionLabels {
-      value: String,
       label: String,
     }
     type ApiFilter {
@@ -413,7 +412,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       displayDefaultData: Boolean,
       notice: String,
       optionValues: [String!],
-      optionLabels: [OptionLabels],
+      optionLabels: OptionLabels,
       dataUnmatchedHeader: String,
       dataUnmatchedMessage: String,
       dataDefaultHeader: String,
@@ -608,7 +607,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               optionValues
               optionLabels {
                 label
-                value
               }
               dataUnmatchedHeader
               dataUnmatchedMessage
@@ -765,7 +763,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           filterOptionsUrl += `,${api.apiFilter.labelField}`;
         }
         filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
-        console.log(filterOptionsUrl);
 
         if (api.apiFilter.fieldFilter) {
           const multiOptions = {};

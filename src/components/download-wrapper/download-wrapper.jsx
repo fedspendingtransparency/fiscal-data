@@ -258,9 +258,7 @@ const DownloadWrapper = ({
             <strong data-testid="userFilterLabel">
               {selectedTable?.userFilter ? selectedTable.userFilter.label : selectedTable.apiFilter.downloadLabel}:
             </strong>
-            <div data-testid="userFilterValue" className={dateStringStyle}>
-              {selectedUserFilter && selectedUserFilter?.value ? selectedUserFilter?.label : '(None selected)'}
-            </div>
+            <div data-testid="userFilterValue">{selectedUserFilter && selectedUserFilter?.value ? selectedUserFilter?.label : '(None selected)'}</div>
           </div>
         )}
         {selectedDetailViewFilter && (
