@@ -241,7 +241,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/buybacks_security_details',
       dateField: 'operation_date',
       downloadName: 'Buybacks_Security_Details',
-      alwaysSortWith: ['-operation_date,maturity_date'],
+      alwaysSortWith: ['-operation_date', 'maturity_date'],
       hideColumns: ['operation_date'],
       selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
     },
