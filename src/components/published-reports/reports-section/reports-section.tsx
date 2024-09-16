@@ -96,7 +96,6 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
             const reportMonth = monthFullNames[reportDt.getMonth()];
             const reportDay = reportDt.getDate();
             const reportYear = reportDt.getFullYear();
-            console.log(reportMonth);
             const dateStr = reportMonth + ' ' + reportDay + ', ' + reportYear;
             allDates.push(dateStr);
           });
@@ -108,7 +107,6 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
             allYears.push(reportDt.getFullYear());
           });
         }
-        console.log(allDates);
         setAllReports(sortedReports);
         setAllReportDates(allDates);
         setAllReportYears(allYears);

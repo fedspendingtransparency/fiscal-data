@@ -7,9 +7,9 @@ import DateTextInput from '../date-text-input/date-text-input';
 interface IReportDateDropdown {
   handleClose: () => void;
   handleApply: () => void;
-  setSelectedMonth: (month: string) => void;
-  setSelectedYear: (year: string) => void;
-  setCurrentDate: (date: Date) => void;
+  setSelectedMonth?: (month: string) => void;
+  setSelectedYear?: (year: string) => void;
+  setCurrentDate?: (date: Date) => void;
   children: ReactElement;
   allDates: string[];
   selectedDate: string;
@@ -30,7 +30,7 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
   const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
   const label = daily ? 'Published Date (Example: May 1, 1998 or 05/01/1998)' : 'Published Date (Example: May 1998 or 05/1998)';
-  console.log(allDates);
+
   return (
     <>
       <div className={dropdownContainer}>
@@ -45,7 +45,6 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
             setSelectedYear={setSelectedYear}
             allDates={allDates}
             selectedDate={selectedDate}
-            daily={daily}
             setCurrentDate={setCurrentDate}
           />
         </div>

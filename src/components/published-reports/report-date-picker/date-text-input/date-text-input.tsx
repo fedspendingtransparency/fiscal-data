@@ -13,7 +13,6 @@ interface iDateTextInput {
   setSelectedYear: (year: string) => void;
   allDates: string[];
   selectedDate: string;
-  daily: boolean;
   setCurrentDate: (date: Date) => void;
 }
 
@@ -31,7 +30,6 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   setSelectedYear,
   allDates,
   selectedDate,
-  daily,
   setCurrentDate,
 }) => {
   const dateInputRef = useRef();
@@ -49,48 +47,61 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     return dayInput <= 31 && dayInput > 0;
   };
 
-  const isValid = (input: string) => {
+  const formatMonth = (monthEntry: string) => {
+    let month = monthEntry.charAt(0).toUpperCase() + monthEntry.slice(1);
+    const abbreviatedIndex = monthNames.indexOf(month);
+    if (abbreviatedIndex >= 0) {
+      month = monthFullNames[abbreviatedIndex];
+    }
+    return month;
+  };
+
+  const parseInput = (input: string) => {
     const splitTextDate = input.split(' ');
     const splitNumericDate = input.split('/');
-    console.log(splitNumericDate);
     let month = '';
     let year: number;
     let day: number;
     let numeric = false;
     if (splitTextDate.length === 2) {
+      //Monthly date text entry, ex: May 2021
       const monthEntry = splitTextDate[0].toLowerCase();
-      month = monthEntry.charAt(0).toUpperCase() + monthEntry.slice(1);
-
-      const abbreviatedIndex = monthNames.indexOf(month);
-      if (abbreviatedIndex >= 0) {
-        month = monthFullNames[abbreviatedIndex];
-      }
+      month = formatMonth(monthEntry);
       year = Number(splitTextDate[1]);
+    } else if (splitTextDate.length === 3) {
+      const monthEntry = splitTextDate[0].toLowerCase();
+      month = formatMonth(monthEntry);
+      const dayEntry = splitTextDate[1];
+      day = Number(dayEntry.split(',')[0]);
+      year = Number(splitTextDate[2]);
     } else if (splitNumericDate.length === 2) {
+      //Monthly date numeric entry, ex: 1/2024
       month = splitNumericDate[0];
       year = Number(splitNumericDate[1]);
       numeric = true;
     } else if (splitNumericDate.length === 3) {
+      //Daily date numeric entry, ex: 1/1/2024
       month = splitNumericDate[0];
       day = Number(splitNumericDate[1]);
       year = Number(splitNumericDate[2]);
-      console.log(month, day, year);
       numeric = true;
     }
+    return { month, day, year, numeric };
+  };
 
+  const isValid = (input: string) => {
+    const { month, day, year, numeric } = parseInput(input);
     const validEntry = isValidMonth(month) && isValidYear(year) && (!day || isValidDay(day));
-    let formattedDate;
+    let formattedDate: string;
     if (validEntry) {
       let inputMonth = month;
-      console.log('valid');
       if (numeric) {
         const monthText = monthFullNames[Number(month) - 1];
         inputMonth = monthText;
-        formattedDate = day ? monthText + ' ' + day + ', ' + year : monthText + ' ' + year;
-        dateInputRef.current.value = formattedDate;
       }
+      formattedDate = day ? inputMonth + ' ' + day + ', ' + year : inputMonth + ' ' + year;
+      dateInputRef.current.value = formattedDate;
 
-      console.log(allDates, formattedDate);
       const reportMatch = allDates?.includes(formattedDate);
       if (!reportMatch) {
         setErrorMessage(noReportMatch);
@@ -116,7 +127,6 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   const handleOnKeyDown = e => {
     const input = e.target.value;
     if (e.code === 'Enter') {
-      console.log('here');
       isValid(input);
     }
   };
