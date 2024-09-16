@@ -99,8 +99,29 @@ const ComboSelectDropdown = ({
   }, [options]);
 
   const handleBlur = event => {
-    if (!dropdownRef.current?.contains(event.relatedTarget) && event.relatedTarget !== null) {
-      setDropdownActive(false);
+    // prevents dropdown from close when tabbing into a child
+    if (event) {
+      let dropdownChild;
+      switch (event.target.localName) {
+        case 'input':
+          dropdownChild = true;
+          break;
+        case 'svg':
+          dropdownChild = filteredOptions.length > 0;
+          break;
+        case 'button':
+          dropdownChild = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.contains(event.relatedTarget);
+          break;
+        default:
+          dropdownChild = false;
+          break;
+      }
+      setMouseOverDropdown(false);
+      if (!dropdownChild) {
+        timeOutId = setTimeout(() => {
+          setDropdownActive(false);
+        });
+      }
     }
   };
   const filteredOptionButton = (option, child, isLast = false) => {
@@ -137,6 +158,7 @@ const ComboSelectDropdown = ({
           data-testid="dropdown-container"
           onMouseOver={() => setMouseOverDropdown(true)}
           onMouseLeave={() => setMouseOverDropdown(false)}
+          onMouseDown={event => event.stopPropagation()}
           onBlur={handleBlur}
           onFocus={() => setMouseOverDropdown(true)}
           role="presentation"
