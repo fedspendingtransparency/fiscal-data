@@ -100,7 +100,18 @@ const ComboSelectDropdown = ({
 
   const handleBlur = event => {
     // prevents dropdown from close when tabbing into a child
+    // if (event) {
+    //   const relatedTarget = event.relatedTarget;
+    //   const ifFocusInsideDropdown = dropdownRef.current && dropdownRef.current.contains(relatedTarget);
+    //   if (!ifFocusInsideDropdown) {
+    //     setMouseOverDropdown(false);
+    //     timeOutId = setTimeout(() => {
+    //       setDropdownActive(false);
+    //     });
+    //   }
+    // }
     if (event) {
+      const relatedTarget = event.relatedTarget;
       let dropdownChild;
       switch (event.target.localName) {
         case 'input':
@@ -110,7 +121,7 @@ const ComboSelectDropdown = ({
           dropdownChild = filteredOptions.length > 0;
           break;
         case 'button':
-          dropdownChild = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.contains(event.relatedTarget);
+          dropdownChild = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.contains(relatedTarget);
           break;
         default:
           dropdownChild = false;
@@ -142,6 +153,7 @@ const ComboSelectDropdown = ({
             aria-label={option[optionLabelKey]}
             onBlur={isLast ? handleBlur : null}
             data-testid="dropdown-list-option"
+            onMouseDown={event => event.stopPropagation()}
           >
             {underlineMatchedString(option[optionLabelKey], filterValue)}
           </button>
