@@ -67,6 +67,7 @@ type DataTableProps = {
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;
   setTableSorting?: (value: SortingState) => void;
+  disableDateRangeFilter: boolean;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -104,6 +105,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   allActiveFilters,
   setAllActiveFilters,
   setTableSorting,
+  disableDateRangeFilter,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
@@ -128,7 +130,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
     return baseColumns;
   }, [rawData, configOption]);
-
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -319,6 +320,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                   manualPagination={manualPagination}
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
+                  disableDateRangeFilter={disableDateRangeFilter}
                 />
                 <DataTableBody
                   table={table}

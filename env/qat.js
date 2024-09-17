@@ -116,6 +116,7 @@ module.exports = {
       },
       selectColumns: ['fed_act_statement', 'eff_date', 'shares_per_par', 'trans_desc_cd', 'memo_nbr', 'location_cd', 'acct_nbr', 'acct_desc'],
     },
+    //FBP
     '313': {
       endpoint: 'v1/accounting/od/fbp_balances',
       dateField: 'record_date',
@@ -141,6 +142,7 @@ module.exports = {
         downloadLabel: 'Account Description',
         label: 'Choose an Account Description',
         displayDefaultData: true,
+        disableDateRangeFilter: true,
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
         dataSearchLabel: 'Search account descriptions',
@@ -174,6 +176,7 @@ module.exports = {
         downloadLabel: 'Account Description',
         label: 'Choose an Account Description',
         displayDefaultData: true,
+        disableDateRangeFilter: true,
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
         dataSearchLabel: 'Search account descriptions',
