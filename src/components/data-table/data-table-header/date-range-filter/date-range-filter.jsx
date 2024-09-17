@@ -168,7 +168,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           onClick={!disableDateRangeFilter ? handleTextBoxClick : null}
           onKeyDown={e => (!disableDateRangeFilter ? handleTextBoxClick(e) : null)}
           role="button"
-          tabIndex={0}
+          tabIndex={!disableDateRangeFilter ? 0 : -1}
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
