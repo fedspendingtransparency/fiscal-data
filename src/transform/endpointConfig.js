@@ -2409,14 +2409,14 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/fip_statement_of_account_table1',
     dateField: 'record_date',
     downloadName: 'FIP_SOA_CARS_Reporting',
-    alwaysSortWith: ['account_number_tas, -record_date, src_line_nbr'],
+    alwaysSortWith: ['account_number_tas', '-record_date', 'src_line_nbr'],
     selectColumns: ['account_number_tas', 'account_name', 'date_range', 'line_item_nm', 'decrease', 'increase'],
   },
   '303': {
     endpoint: 'v1/accounting/od/fip_statement_of_account_table2',
     dateField: 'record_date',
     downloadName: 'FIP_SOA_Account_Pos_Summary',
-    alwaysSortWith: ['account_number_tas, -record_date, src_line_nbr'],
+    alwaysSortWith: ['account_number_tas', '-record_date', 'src_line_nbr'],
     selectColumns: [
       'account_number_tas',
       'account_name',
@@ -2432,7 +2432,7 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/fip_statement_of_account_table3',
     dateField: 'record_date',
     downloadName: 'FIP_SOA_Transaction_Detail',
-    alwaysSortWith: ['account_number_tas, -record_date, src_line_nbr'],
+    alwaysSortWith: ['account_number_tas', '-record_date', 'src_line_nbr'],
     selectColumns: [
       'account_number_tas',
       'account_name',
@@ -2453,7 +2453,7 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/receipts_by_department',
     dateField: 'record_date',
     downloadName: 'Receipts_By_Department',
-    alwaysSortWith: ['-record_date, src_line_nbr'],
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
     selectColumns: [],
   },
   // FIP
@@ -2461,7 +2461,7 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/fip_principal_outstanding_table1',
     dateField: 'record_date',
     downloadName: 'FIP_PO_Principal_Outstanding',
-    alwaysSortWith: ['-record_date,account_nbr,src_line_nbr'],
+    alwaysSortWith: ['-record_date' , 'account_nbr', 'src_line_nbr'],
     selectColumn: [],
   },
   // FIP
@@ -2469,7 +2469,7 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/fip_principal_outstanding_table2',
     dateField: 'record_date',
     downloadName: 'FIP_PO_Total_Outstanding_Inflation_Comp',
-    alwaysSortWith: ['-record_date,account_nbr,src_line_nbr'],
+    alwaysSortWith: ['-record_date', 'account_nbr', 'src_line_nbr'],
     selectColumn: [],
   },
 };
