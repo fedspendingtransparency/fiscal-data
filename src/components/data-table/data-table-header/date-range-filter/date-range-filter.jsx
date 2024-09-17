@@ -164,8 +164,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       <div className={active ? glow : null}>
         <div
           className={dateEntryBox}
-          // onClick={handleTextBoxClick}
-          // onKeyDown={e => handleTextBoxClick(e)}
+          onClick={handleTextBoxClick}
+          onKeyDown={e => handleTextBoxClick(e)}
           role="button"
           tabIndex={0}
           aria-label={`Open ${column.id} Filter`}
