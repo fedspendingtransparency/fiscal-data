@@ -89,6 +89,7 @@ const TableSectionContainer = ({
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
+  const [disableDateRange, setDisableDateRange] = useState();
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
 
   const formatDate = detailDate => {
@@ -421,6 +422,7 @@ const TableSectionContainer = ({
                       setSorting={setReactTableSort}
                       allActiveFilters={allActiveFilters}
                       setAllActiveFilters={setAllActiveFilters}
+                      disableDateRangeFilter={selectedTable?.apiFilter?.displayDefaultData}
                     />
                   ) : (
                     ''

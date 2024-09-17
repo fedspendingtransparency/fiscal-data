@@ -26,7 +26,9 @@
   padding-left: 2.5px;
   padding-right: 2.5px;
 }
-
+.disableDisplay{
+  background-color: #f1f1f1;
+}
 
 .dateEntryBox {
   border: 1px solid #d9d9d9;
@@ -41,6 +43,7 @@
   white-space: nowrap;
   margin-top: 0.25rem;
   color: $font-body-copy;
+
 
   .calendarIcon {
     font-size: $font-size-16;

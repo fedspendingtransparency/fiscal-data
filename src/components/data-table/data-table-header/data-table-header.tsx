@@ -27,6 +27,7 @@ interface IDataTableHeader {
   manualPagination: boolean;
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;
+  disableDateRangeFilter: boolean;
 }
 
 const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
@@ -36,6 +37,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   manualPagination,
   allActiveFilters,
   setAllActiveFilters,
+  disableDateRangeFilter,
 }) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
@@ -133,7 +135,16 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
                       <div className={columnMinWidth}>
-                        {getColumnFilter(header, columnDataType, resetFilters, allActiveFilters, setAllActiveFilters, manualPagination, isLastColumn)}
+                        {getColumnFilter(
+                          header,
+                          columnDataType,
+                          resetFilters,
+                          allActiveFilters,
+                          setAllActiveFilters,
+                          manualPagination,
+                          isLastColumn,
+                          disableDateRangeFilter
+                        )}
                       </div>
                     </>
                   )}

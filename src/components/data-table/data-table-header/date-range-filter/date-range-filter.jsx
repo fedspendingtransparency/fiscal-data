@@ -18,6 +18,7 @@ import {
   dateDivider,
   glow,
   lastColumn,
+  disableDisplay,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
@@ -26,7 +27,7 @@ import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
 let mouseOverDropdown = null;
-const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn }) => {
+const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn, disableDateRangeFilter }) => {
   const textHighlighted = { backgroundColor: '#E8F5FF' };
   const noTextHighLight = { backgroundColor: '' };
 
@@ -163,9 +164,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     <>
       <div className={active ? glow : null}>
         <div
-          className={dateEntryBox}
-          onClick={handleTextBoxClick}
-          onKeyDown={e => handleTextBoxClick(e)}
+          className={`${disableDateRangeFilter ? disableDisplay : ''} ${dateEntryBox}`}
+          onClick={!disableDateRangeFilter ? handleTextBoxClick : null}
+          onKeyDown={e => (!disableDateRangeFilter ? handleTextBoxClick(e) : null)}
           role="button"
           tabIndex={0}
           aria-label={`Open ${column.id} Filter`}
