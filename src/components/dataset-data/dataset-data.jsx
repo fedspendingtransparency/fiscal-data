@@ -17,7 +17,7 @@ import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { detailViewNotice, lockIcon, placeholderText, placeholderButton, tableContainer } from './dataset-data.module.scss';
+import { detailViewNotice, lockIcon, placeholderText, placeholderButton } from './dataset-data.module.scss';
 import { queryClient } from '../../../react-query-client';
 import ENV_ID from 'gatsby-env-variables';
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {

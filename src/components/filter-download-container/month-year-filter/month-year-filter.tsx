@@ -2,6 +2,8 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { monthFullNames } from '../../../utils/api-utils';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 import { filterLabel } from '../user-filter/user-filter.module.scss';
+import { useSetRecoilState } from 'recoil';
+import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
 
 const generateYearOptions = (earliestDate, latestDate) => {
   const startYear = new Date(earliestDate).getFullYear();
@@ -38,8 +40,10 @@ type MonthYearFilterProps = {
 };
 
 const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTable, userFilterOptions }) => {
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getFullYear());
-  const [selectedYear, setSelectedYear] = useState(new Date().getMonth() + 1);
+  const defaultMonth = new Date().getMonth();
+  const [selectedMonth, setSelectedMonth] = useState({ value: defaultMonth + 1, label: monthFullNames[defaultMonth] });
+  const defaultYear = new Date().getFullYear();
+  const [selectedYear, setSelectedYear] = useState({ value: defaultYear, label: defaultYear });
   const [availableMonths, setAvailableMonths] = useState([]);
   const [availableYears, setAvailableYears] = useState([]);
   const months = monthFullNames.map((month, index) => ({
@@ -47,6 +51,8 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
     value: index + 1,
   }));
   const years = generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate);
+
+  const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
 
   // const [availableYears, setAvailableYears] = useState([]);
   // useEffect(() => {
@@ -63,14 +69,17 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   //   console.log(availableMonths, availableYears);
   // }, [selectedTable, apiData]);
 
+  // useEffect(() => {
+  //   if (selectedTable.apiFilter.disableDateRangeFilter) {
+  //     onUserFilter({
+  //       year: selectedYear,
+  //       month: selectedMonth,
+  //     });
+  //   }
+  // }, [selectedMonth, selectedYear, selectedTable]);
   useEffect(() => {
-    if (selectedTable.apiFilter.disableDateRangeFilter) {
-      onUserFilter({
-        year: selectedYear,
-        month: selectedMonth,
-      });
-    }
-  }, [selectedMonth, selectedYear, selectedTable]);
+    console.log(selectedMonth, selectedYear);
+  }, [selectedMonth, selectedYear]);
   // useEffect(() => {
   //   if (selectedTable) {
   //     const earliestYear = new Date(selectedTable.earliestDate).getFullYear();
@@ -102,22 +111,19 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
           labelClass={filterLabel}
           options={months}
           changeHandler={e => setSelectedMonth(e.value)}
-          selectedOption={{ label: monthFullNames[selectedMonth - 1], value: selectedMonth }}
+          selectedOption={selectedMonth}
           containerBorder={true}
           searchBarLabel="Search Months"
-          hasChildren={userFilterOptions[0]?.children}
         />
-
         <ComboCurrencySelect
           label="Year"
           labelClass={filterLabel}
           options={years}
-          changeHandler={setSelectedYear}
+          changeHandler={e => setSelectedYear(e.value)}
           selectedOption={selectedYear}
           searchBarLabel="Search Years"
           containerBorder={true}
         />
-        {console.log('selected year', selectedYear)}
       </div>
     </>
   );

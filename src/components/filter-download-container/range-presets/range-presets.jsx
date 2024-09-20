@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { header, presetContainer, radio, toggleButton, selected } from './range-presets.module.scss';
+import { header } from './range-presets.module.scss';
 import { monthNames } from '../../../utils/api-utils';
 import { addDays, subQuarters, differenceInYears } from 'date-fns';
 import determineDateRange, { generateAnalyticsEvent, generateFormattedDate, prepAvailableDates } from './helpers/helper';
