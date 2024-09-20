@@ -54,15 +54,14 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   useEffect(() => {
     const startDate = new Date(defaultYear, defaultMonth, 1);
     const endDate = new Date(defaultYear, defaultMonth + 1, 0);
-    console.log({ from: startDate, to: endDate });
-
+    setSelectedMonth({ value: defaultMonth + 1, label: monthFullNames[defaultMonth] });
+    setSelectedYear({ value: defaultYear, label: defaultYear });
     setDateRange({ from: startDate, to: endDate });
-  }, []);
+  }, [selectedTable]);
 
   useEffect(() => {
     const startDate = new Date(selectedYear.value, selectedMonth.value - 1, 1);
     const endDate = new Date(selectedYear.value, selectedMonth.value, 0);
-    console.log({ from: startDate, to: endDate });
     setDateRange({ from: startDate, to: endDate });
   }, [selectedMonth, selectedYear]);
 

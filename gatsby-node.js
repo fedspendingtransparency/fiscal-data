@@ -401,10 +401,6 @@ exports.createSchemaCustomization = ({ actions }) => {
       dataUnmatchedHeader: String,
       dataUnmatchedMessage: String
     }
-    type DefaultFilters {
-    defaultMonth: String,
-    defaultYear: String,
-    }
     type OptionLabels {
       label: String,
     }
@@ -459,7 +455,6 @@ exports.createSchemaCustomization = ({ actions }) => {
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
       hideColumns: [String],
-      defaultFilters: DefaultFilters,
       selectColumns: [String!],
       userFilter: UserFilter,
       apiFilter: ApiFilter,

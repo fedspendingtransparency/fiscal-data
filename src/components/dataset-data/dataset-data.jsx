@@ -95,7 +95,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   const handleDateRangeChange = range => {
     if (range && isValidDateRange(range.from, range.to, config.techSpecs.earliestDate, config.techSpecs.latestDate)) {
-      console.log('here');
       setDateRange(range);
     }
   };
@@ -204,10 +203,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       }
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
-
-  useEffect(() => {
-    console.log('dataset data date range', dateRange);
-  }, [dateRange]);
 
   useEffect(() => {
     if (allTablesSelected) {

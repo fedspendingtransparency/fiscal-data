@@ -120,7 +120,6 @@ const TableSectionContainer = ({
           const totalCount = res.meta['total-count'];
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
-            console.log('meta', meta, dateRange);
             if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {
               try {
                 return await queryClient.ensureQueryData({
@@ -219,7 +218,6 @@ const TableSectionContainer = ({
   }, [apiData, userFilterSelection, apiError]);
 
   useEffect(async () => {
-    console.log('tablesection date range', dateRange);
     if (serverSidePagination || userFilterSelection) {
       await refreshTable();
     }
