@@ -421,7 +421,7 @@ const TableSectionContainer = ({
                       setSorting={setReactTableSort}
                       allActiveFilters={allActiveFilters}
                       setAllActiveFilters={setAllActiveFilters}
-                      disableDateRangeFilter={selectedTable?.apiFilter?.displayDefaultData}
+                      disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}
                     />
                   ) : (
                     ''

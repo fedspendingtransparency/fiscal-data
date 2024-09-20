@@ -1,0 +1,14 @@
+@import '../../../variables.module.scss';
+
+
+.monthYearContainer{
+  display: flex;
+  gap: 2rem;
+}
+
+.filterLabel {
+  font-size: $font-size-18;
+  font-weight: $semi-bold-weight;
+  margin-bottom: 1rem;
+  padding: 0;
+}
