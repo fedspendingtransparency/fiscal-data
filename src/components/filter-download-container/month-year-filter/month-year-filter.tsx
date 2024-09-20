@@ -1,9 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { monthFullNames } from '../../../utils/api-utils';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
-import { filterLabel } from '../user-filter/user-filter.module.scss';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
+import { monthYearContainer, filterLabel } from './month-year-filter.module.scss';
 
 const generateYearOptions = (earliestDate, latestDate) => {
   const startYear = new Date(earliestDate).getFullYear();
@@ -67,7 +65,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
 
   return (
     <>
-      <div>
+      <div className={monthYearContainer}>
         <ComboCurrencySelect
           label="Month"
           labelClass={filterLabel}
