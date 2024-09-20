@@ -47,7 +47,9 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
     label: month,
     value: index + 1,
   }));
-  const years = generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate);
+  useEffect(() => {
+    setYears(generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate));
+  }, [selectedTable]);
 
   useEffect(() => {
     const startDate = new Date(defaultYear, defaultMonth, 1);
