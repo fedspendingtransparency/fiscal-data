@@ -53,8 +53,7 @@ type UserFilterProps = {
 
 const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserFilter, apiData, setResetFilters, allTablesSelected }) => {
   const defaultSelection = { label: '(None selected)', value: null };
-  const currentMonth = (new Date().getMonth() + 1).toString().padStart(2, '0');
-  const currentyear = new Date().getFullYear();
+
   const [userFilterOptions, setUserFilterOptions] = useState(null);
   const [selectedFilterOption, setSelectedFilterOption] = useState(defaultSelection);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getFullYear());
@@ -188,7 +187,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
               <ComboCurrencySelect
                 label={`Month`}
                 labelClass={filterLabel}
-                options={availableMonths.map(month => ({ label: monthFullNames[month - 1], value: month }))}
+                options={months}
                 changeHandler={e => setSelectedMonth(e.value)}
                 selectedOption={{ label: monthFullNames[selectedMonth - 1], value: selectedMonth }}
                 containerBorder={true}
