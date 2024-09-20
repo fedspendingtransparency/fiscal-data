@@ -268,8 +268,6 @@ module.exports = {
         'interest_rate_pct',
         'amortization_amt',
         'capitalized_int_receivable_amt',
-        'record_calendar_year',
-        'record_calendar_month',
       ],
       apiFilter: {
         field: 'account_nbr',

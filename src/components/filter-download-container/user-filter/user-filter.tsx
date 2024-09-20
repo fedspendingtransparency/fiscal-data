@@ -62,19 +62,19 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
   const [availableYears, setAvailableYears] = useState([]);
 
   // const [availableYears, setAvailableYears] = useState([]);
-  useEffect(() => {
-    if (selectedTable?.selectColumns) {
-      const years = new Set();
-      const months = new Set();
-      apiData?.data.forEach(row => {
-        years.add(row[selectedTable.selectColumns.record_calendar_year]);
-        months.add(row[selectedTable.selectColumns.record_calendar_month]);
-      });
-      setAvailableYears(Array.from(years).sort((a, b) => b - a));
-      setAvailableMonths(Array.from(months).sort((a, b) => a - b));
-    }
-    console.log(availableMonths, availableYears);
-  }, [selectedTable, apiData]);
+  // useEffect(() => {
+  //   if (selectedTable?.selectColumns) {
+  //     const years = new Set();
+  //     const months = new Set();
+  //     apiData?.data.forEach(row => {
+  //       years.add(row[selectedTable.selectColumns.record_calendar_year]);
+  //       months.add(row[selectedTable.selectColumns.record_calendar_month]);
+  //     });
+  //     setAvailableYears(Array.from(years).sort((a, b) => b - a));
+  //     setAvailableMonths(Array.from(months).sort((a, b) => a - b));
+  //   }
+  //   console.log(availableMonths, availableYears);
+  // }, [selectedTable, apiData]);
 
   useEffect(() => {
     if (selectedTable.apiFilter.disableDateRangeFilter) {
