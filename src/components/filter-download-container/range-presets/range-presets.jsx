@@ -6,7 +6,6 @@ import determineDateRange, { generateAnalyticsEvent, generateFormattedDate, prep
 import DatePickers from '../datepickers/datepickers';
 import UserFilter from '../user-filter/user-filter';
 import DatatableBanner from '../datatable-banner/datatable-banner';
-import { isValidDateRange } from '../../../helpers/dates/date-helpers';
 
 const RangePresets = ({
   currentDateButton,
@@ -80,8 +79,6 @@ const RangePresets = ({
   };
 
   const updateDateRange = curDateRange => {
-    console.log(curDateRange);
-
     if (curDateRange) {
       setPickerDateRange(availableDateRange);
       setCurDateRange(curDateRange);

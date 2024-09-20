@@ -102,7 +102,6 @@ const TableSectionContainer = ({
   const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
 
   const getDepaginatedData = async () => {
-    console.log('here');
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
       const from = formatDateForApi(dateRange.from);
       const to = formatDateForApi(dateRange.to);
@@ -121,7 +120,7 @@ const TableSectionContainer = ({
           const totalCount = res.meta['total-count'];
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
-            console.log('meta', meta);
+            console.log('meta', meta, dateRange);
             if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {
               try {
                 return await queryClient.ensureQueryData({
@@ -158,7 +157,6 @@ const TableSectionContainer = ({
   };
 
   const refreshTable = async () => {
-    console.log('refresh table');
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
@@ -170,9 +168,7 @@ const TableSectionContainer = ({
     if (userFilterSelection?.value && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
       setUserFilteredData({ ...apiData, data: displayData });
-      console.log(apiData?.data);
     } else {
-      console.log('here 2');
       setUserFilteredData(null);
     }
 
@@ -223,7 +219,7 @@ const TableSectionContainer = ({
   }, [apiData, userFilterSelection, apiError]);
 
   useEffect(async () => {
-    console.log('userFilterSelection', userFilterSelection, dateRange);
+    console.log('tablesection date range', dateRange);
     if (serverSidePagination || userFilterSelection) {
       await refreshTable();
     }

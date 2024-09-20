@@ -201,6 +201,10 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
 
   useEffect(() => {
+    console.log('dataset data date range', dateRange);
+  }, [dateRange]);
+
+  useEffect(() => {
     if (allTablesSelected) {
       setTableColumnSortData([]);
     }
@@ -209,10 +213,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   useEffect(() => {
     setTableColumnSortData([]);
   }, [selectedTable]);
-
-  useEffect(() => {
-    console.log('dateRange', dateRange);
-  }, [dateRange]);
 
   return (
     <DatasetSectionContainer id="data-table" title={title}>
