@@ -91,7 +91,6 @@ const TableSectionContainer = ({
   const [chartData, setChartData] = useState(null);
 
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
-  console.log(apiData);
   const formatDate = detailDate => {
     const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');

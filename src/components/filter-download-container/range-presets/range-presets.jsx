@@ -44,7 +44,6 @@ const RangePresets = ({
   const fallbackPresets = ['1yr', 'current', 'all'];
 
   const allTablesDateRange = prepAvailableDates(datasetDateRange);
-  console.log('apiData', apiData);
   /**
    * DATE RANGE
    */
