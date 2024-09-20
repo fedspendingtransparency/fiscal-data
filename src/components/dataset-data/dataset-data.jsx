@@ -211,7 +211,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   }, [selectedTable]);
 
   useEffect(() => {
-    console.log(dateRange);
+    console.log('dateRange', dateRange);
   }, [dateRange]);
 
   return (
@@ -242,7 +242,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             />
             {selectedTable && (
               <RangePresets
-                setDateRange={handleDateRangeChange}
+                setDateRange={setDateRange}
+                handleDateRangeChange={handleDateRangeChange}
                 selectedTable={!!detailViewState ? detailApi : selectedTable}
                 apiData={apiData}
                 onUserFilter={setUserFilterSelection}

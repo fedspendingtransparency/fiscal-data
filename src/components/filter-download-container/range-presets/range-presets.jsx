@@ -6,6 +6,7 @@ import determineDateRange, { generateAnalyticsEvent, generateFormattedDate, prep
 import DatePickers from '../datepickers/datepickers';
 import UserFilter from '../user-filter/user-filter';
 import DatatableBanner from '../datatable-banner/datatable-banner';
+import { isValidDateRange } from '../../../helpers/dates/date-helpers';
 
 const RangePresets = ({
   currentDateButton,
@@ -15,6 +16,7 @@ const RangePresets = ({
   apiData,
   onUserFilter,
   setDateRange,
+  handleDateRangeChange,
   setIsFiltered,
   setIsCustomDateRange,
   allTablesSelected,
@@ -62,7 +64,7 @@ const RangePresets = ({
     if (preset.key !== customPreset.key) {
       prepUpdateDateRange(preset);
     } else {
-      setDateRange(dateRange);
+      handleDateRangeChange(dateRange);
     }
 
     if (preset.key === 'all') {
@@ -83,7 +85,7 @@ const RangePresets = ({
     if (curDateRange) {
       setPickerDateRange(availableDateRange);
       setCurDateRange(curDateRange);
-      setDateRange(curDateRange);
+      handleDateRangeChange(curDateRange);
     }
   };
 
@@ -115,7 +117,7 @@ const RangePresets = ({
           const adjustedRange = fitDateRangeToTable(dateRange, availableDateRange);
           setPickerDateRange(availableDateRange);
           setCurDateRange(adjustedRange);
-          setDateRange(adjustedRange);
+          handleDateRangeChange(adjustedRange);
         } else {
           prepUpdateDateRange(curSelectedOption);
         }
