@@ -20,6 +20,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { detailViewNotice, lockIcon, placeholderText, placeholderButton } from './dataset-data.module.scss';
 import { queryClient } from '../../../react-query-client';
 import ENV_ID from 'gatsby-env-variables';
+import UserFilter from '../filter-download-container/user-filter/user-filter';
+import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
   // config.apis should always be available; but, fallback in case
 
@@ -93,6 +95,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   const handleDateRangeChange = range => {
     if (range && isValidDateRange(range.from, range.to, config.techSpecs.earliestDate, config.techSpecs.latestDate)) {
+      console.log('here');
       setDateRange(range);
     }
   };
@@ -133,7 +136,9 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   useEffect(() => {
     if (selectedTable) {
-      setDateRange(null);
+      if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
+        setDateRange(null);
+      }
       setSelectedPivot(null);
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
@@ -241,27 +246,49 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
               latestDate={config.techSpecs.latestDate}
             />
             {selectedTable && (
-              <RangePresets
-                setDateRange={setDateRange}
-                handleDateRangeChange={handleDateRangeChange}
-                selectedTable={!!detailViewState ? detailApi : selectedTable}
-                apiData={apiData}
-                onUserFilter={setUserFilterSelection}
-                setIsFiltered={setIsFiltered}
-                currentDateButton={config.currentDateButton}
-                datePreset={config.datePreset}
-                customRangePreset={config.customRangePreset}
-                setIsCustomDateRange={setIsCustomDateRange}
-                allTablesSelected={allTablesSelected}
-                datasetDateRange={{
-                  earliestDate: config.techSpecs.earliestDate,
-                  latestDate: config.techSpecs.latestDate,
-                }}
-                finalDatesNotFound={finalDatesNotFound}
-                setResetFilters={setResetFilters}
-                datatableBanner={config.datatableBanner}
-                hideButtons={detailApi && !detailViewState}
-              />
+              <>
+                {!selectedTable?.apiFilter?.disableDateRangeFilter && (
+                  <RangePresets
+                    setDateRange={setDateRange}
+                    handleDateRangeChange={handleDateRangeChange}
+                    selectedTable={!!detailViewState ? detailApi : selectedTable}
+                    apiData={apiData}
+                    onUserFilter={setUserFilterSelection}
+                    setIsFiltered={setIsFiltered}
+                    currentDateButton={config.currentDateButton}
+                    datePreset={config.datePreset}
+                    customRangePreset={config.customRangePreset}
+                    setIsCustomDateRange={setIsCustomDateRange}
+                    allTablesSelected={allTablesSelected}
+                    datasetDateRange={{
+                      earliestDate: config.techSpecs.earliestDate,
+                      latestDate: config.techSpecs.latestDate,
+                    }}
+                    finalDatesNotFound={finalDatesNotFound}
+                    setResetFilters={setResetFilters}
+                    datatableBanner={config.datatableBanner}
+                    hideButtons={detailApi && !detailViewState}
+                  />
+                )}
+                {selectedTable.userFilter && (
+                  <UserFilter
+                    selectedTable={selectedTable}
+                    onUserFilter={setUserFilterSelection}
+                    apiData={apiData}
+                    setResetFilters={setResetFilters}
+                  />
+                )}
+                {selectedTable.apiFilter && (
+                  <UserFilter
+                    selectedTable={selectedTable}
+                    onUserFilter={setUserFilterSelection}
+                    setResetFilters={setResetFilters}
+                    allTablesSelected={allTablesSelected}
+                    setDateRange={setDateRange}
+                  />
+                )}
+                {config.datatableBanner && <DatatableBanner bannerNotice={config.datatableBanner} />}
+              </>
             )}
             {!selectedTable && (
               <div data-testid="dateRangePlaceholder">

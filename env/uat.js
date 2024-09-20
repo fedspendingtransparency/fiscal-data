@@ -251,10 +251,6 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'FBP_Balances',
       alwaysSortWith: ['-record_date', '-segment_desc', 'maturity_date'],
-      defaultFilters: {
-        defaultMonth: new Date().getMonth() + 1,
-        defaultYear: new Date().getFullYear(),
-      },
       hideColumns: [],
       selectColumns: [
         'record_date',
@@ -285,13 +281,9 @@ module.exports = {
     // FBP
     '314': {
       endpoint: 'v1/accounting/od/fbp_future_dated_transactions',
-      dateField: 'record_date',
+      dateField: 'settle_date',
       downloadName: 'FBP_FutureDatedTransactions',
       alwaysSortWith: ['-record_date', 'security_nbr'],
-      defaultFilter: {
-        defaultMonth: new Date().getMonth() + 1,
-        defaultYear: new Date().getFullYear(),
-      },
       hideColumns: [],
       selectColumns: [
         'record_date',
