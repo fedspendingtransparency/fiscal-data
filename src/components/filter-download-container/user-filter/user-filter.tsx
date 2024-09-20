@@ -39,9 +39,17 @@ type UserFilterProps = {
   };
   setResetFilters?: (x: boolean) => void;
   allTablesSelected?: boolean;
+  setDateRange: (range: { from: Date; to: Date }) => void;
 };
 
-const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserFilter, apiData, setResetFilters, allTablesSelected }) => {
+const UserFilter: FunctionComponent<UserFilterProps> = ({
+  selectedTable,
+  onUserFilter,
+  apiData,
+  setResetFilters,
+  allTablesSelected,
+  setDateRange,
+}) => {
   const defaultSelection = { label: '(None selected)', value: null };
 
   const [userFilterOptions, setUserFilterOptions] = useState(null);
@@ -57,7 +65,6 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
     }
   };
 
-  // console.log(selectedTable, 'selectedTableselectedTableselectedTableselectedTableselectedTable');
   const establishOptions = () => {
     let options = null;
     let nestedOptions = null;
@@ -117,7 +124,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
             searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : undefined}
             hasChildren={userFilterOptions[0]?.children}
           />
-          {selectedTable.apiFilter.disableDateRangeFilter && <MonthYearFilter selectedTable={selectedTable} userFilterOptions={userFilterOptions} />}
+          {selectedTable?.apiFilter?.disableDateRangeFilter && <MonthYearFilter selectedTable={selectedTable} setDateRange={setDateRange} />}
         </div>
       )}
       {selectedTable?.userFilter?.notice && <DatatableBanner bannerNotice={selectedTable.userFilter.notice} />}

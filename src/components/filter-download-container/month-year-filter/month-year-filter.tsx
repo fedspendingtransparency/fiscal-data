@@ -36,10 +36,10 @@ type MonthYearFilterProps = {
       };
     };
   };
-  userFilterOptions;
+  setDateRange: (range: { from: Date; to: Date }) => void;
 };
 
-const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTable, userFilterOptions }) => {
+const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTable, setDateRange }) => {
   const defaultMonth = new Date().getMonth();
   const [selectedMonth, setSelectedMonth] = useState({ value: defaultMonth + 1, label: monthFullNames[defaultMonth] });
   const defaultYear = new Date().getFullYear();
@@ -51,18 +51,20 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   }));
   const years = generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate);
 
-  const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
-  const filteredDateRange = useRecoilState(reactTableFilteredDateRangeState);
+  useEffect(() => {
+    const startDate = new Date(defaultYear, defaultMonth, 1);
+    const endDate = new Date(defaultYear, defaultMonth + 1, 0);
+    console.log({ from: startDate, to: endDate });
+
+    setDateRange({ from: startDate, to: endDate });
+  }, []);
 
   useEffect(() => {
     const startDate = new Date(selectedYear.value, selectedMonth.value - 1, 1);
     const endDate = new Date(selectedYear.value, selectedMonth.value, 0);
-    setFilteredDateRange({ from: startDate, to: endDate });
+    console.log({ from: startDate, to: endDate });
+    setDateRange({ from: startDate, to: endDate });
   }, [selectedMonth, selectedYear]);
-
-  useEffect(() => {
-    console.log(filteredDateRange);
-  }, [filteredDateRange]);
 
   return (
     <>

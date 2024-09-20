@@ -210,6 +210,10 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     setTableColumnSortData([]);
   }, [selectedTable]);
 
+  useEffect(() => {
+    console.log(dateRange);
+  }, [dateRange]);
+
   return (
     <DatasetSectionContainer id="data-table" title={title}>
       {ENV_ID === 'uat' ? '' : <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />}
