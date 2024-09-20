@@ -581,10 +581,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             dateField
             alwaysSortWith
             hideColumns
-            defaultFilters {
-              defaultMonth
-              defaultYear
-            }
             customFormatting {
               type
               fields
