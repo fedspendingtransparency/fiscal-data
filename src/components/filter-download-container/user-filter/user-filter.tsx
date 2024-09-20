@@ -5,18 +5,7 @@ import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-
 import DatatableBanner from '../datatable-banner/datatable-banner';
 import { monthFullNames } from '../../../utils/api-utils';
 import { mockSavingsBondLastFiscalYearCurrentMonth } from '../../../layouts/explainer/explainer-test-helper';
-
-const generateYearOptions = (earliestDate, latestDate) => {
-  const startYear = new Date(earliestDate).getFullYear();
-  const endYear = new Date(latestDate).getFullYear();
-  const yearOptions = [];
-
-  for (let year = endYear; year >= startYear; year--) {
-    yearOptions.push({ label: year.toString(), value: year });
-  }
-
-  return yearOptions;
-};
+import MonthYearFilter from '../month-year-filter/month-year-filter';
 
 type UserFilterProps = {
   selectedTable?: {
@@ -56,45 +45,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
 
   const [userFilterOptions, setUserFilterOptions] = useState(null);
   const [selectedFilterOption, setSelectedFilterOption] = useState(defaultSelection);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getFullYear());
-  const [selectedYear, setSelectedYear] = useState(new Date().getMonth() + 1);
-  const [availableMonths, setAvailableMonths] = useState([]);
-  const [availableYears, setAvailableYears] = useState([]);
 
-  // const [availableYears, setAvailableYears] = useState([]);
-  // useEffect(() => {
-  //   if (selectedTable?.selectColumns) {
-  //     const years = new Set();
-  //     const months = new Set();
-  //     apiData?.data.forEach(row => {
-  //       years.add(row[selectedTable.selectColumns.record_calendar_year]);
-  //       months.add(row[selectedTable.selectColumns.record_calendar_month]);
-  //     });
-  //     setAvailableYears(Array.from(years).sort((a, b) => b - a));
-  //     setAvailableMonths(Array.from(months).sort((a, b) => a - b));
-  //   }
-  //   console.log(availableMonths, availableYears);
-  // }, [selectedTable, apiData]);
-
-  useEffect(() => {
-    if (selectedTable.apiFilter.disableDateRangeFilter) {
-      onUserFilter({
-        year: selectedYear,
-        month: selectedMonth,
-      });
-    }
-  }, [selectedMonth, selectedYear, selectedTable]);
-  // useEffect(() => {
-  //   if (selectedTable) {
-  //     const earliestYear = new Date(selectedTable.earliestDate).getFullYear();
-  //     const latestyear = new Date(selectedTable.lastUpdated).getFullYear();
-  //     const years = Array.from({ length: latestyear - earliestYear + 1 }, (_, i) => {
-  //       const year = earliestYear + i;
-  //       return { label: year.toString(), value: year };
-  //     });
-  //     setAvailableYears(years);
-  //   }
-  // }, [selectedTable]);
   const updateUserFilter = selection => {
     if (selection !== null) {
       setSelectedFilterOption(selection);
@@ -104,18 +55,6 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
       }
     }
   };
-
-  const months = monthFullNames.map((month, index) => ({
-    label: month,
-    value: index + 1,
-  }));
-  const years = generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate);
-
-  // const applyFilter = () => {
-  //   if (selectedMonth?.value && selectedYear?.value) {
-  //     onUserFilter({ month: selectedMonth.value, year: selectedYear.value });
-  //   }
-  // };
 
   console.log(selectedTable, 'selectedTableselectedTableselectedTableselectedTableselectedTable');
   const establishOptions = () => {
@@ -154,11 +93,6 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
     }
   };
 
-  // useEffect(() => {
-  //   // Reapply the filter whenever month or year changes
-  //   applyFilter();
-  // }, [selectedMonth, selectedYear]);
-
   useEffect(() => {
     establishOptions();
   }, [apiData]);
@@ -182,31 +116,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
             searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : undefined}
             hasChildren={userFilterOptions[0]?.children}
           />
-          <div>
-            <span>
-              <ComboCurrencySelect
-                label={`Month`}
-                labelClass={filterLabel}
-                options={months}
-                changeHandler={e => setSelectedMonth(e.value)}
-                selectedOption={{ label: monthFullNames[selectedMonth - 1], value: selectedMonth }}
-                containerBorder={true}
-                searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : undefined}
-                hasChildren={userFilterOptions[0]?.children}
-              />
-            </span>
-            <span>
-              <ComboCurrencySelect
-                label={`Year`}
-                labelClass={filterLabel}
-                options={years}
-                changeHandler={setSelectedYear}
-                selectedOption={selectedYear}
-                containerBorder={true}
-              />
-              {console.log('selected year', selectedYear)}
-            </span>
-          </div>
+          <MonthYearFilter selectedTable={selectedTable} userFilterOptions={userFilterOptions} />
         </div>
       )}
       {selectedTable?.userFilter?.notice && <DatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
