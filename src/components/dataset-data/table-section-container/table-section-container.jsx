@@ -91,7 +91,7 @@ const TableSectionContainer = ({
   const [chartData, setChartData] = useState(null);
 
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
-
+  console.log(apiData);
   const formatDate = detailDate => {
     const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
@@ -168,6 +168,7 @@ const TableSectionContainer = ({
     if (userFilterSelection?.value && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
       setUserFilteredData({ ...apiData, data: displayData });
+      console.log(apiData?.data);
     } else {
       setUserFilteredData(null);
     }

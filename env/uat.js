@@ -251,6 +251,10 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'FBP_Balances',
       alwaysSortWith: ['-record_date', '-segment_desc', 'maturity_date'],
+      defaultFilters: {
+        defaultMonth: new Date().getMonth() + 1,
+        defaultYear: new Date().getFullYear(),
+      },
       hideColumns: [],
       selectColumns: [
         'record_date',
@@ -264,6 +268,8 @@ module.exports = {
         'interest_rate_pct',
         'amortization_amt',
         'capitalized_int_receivable_amt',
+        'record_calendar_year',
+        'record_calendar_month',
       ],
       apiFilter: {
         field: 'account_nbr',
@@ -283,6 +289,10 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'FBP_FutureDatedTransactions',
       alwaysSortWith: ['-record_date', 'security_nbr'],
+      defaultFilter: {
+        defaultMonth: new Date().getMonth() + 1,
+        defaultYear: new Date().getFullYear(),
+      },
       hideColumns: [],
       selectColumns: [
         'record_date',
