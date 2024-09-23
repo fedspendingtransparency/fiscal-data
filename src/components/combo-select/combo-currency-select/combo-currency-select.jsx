@@ -134,7 +134,7 @@ const ComboCurrencySelect = ({
         role="presentation"
       >
         {labelText !== '' ? (
-          <div className={`${selector_label} ${labelClass}`} data-testid="label">
+          <div className={`${selector_label} ${labelClass}`} data-testid="label" id={labelText + 'dropdown'}>
             {labelText}
             {required && <span className="required">*</span>}
           </div>
@@ -146,6 +146,7 @@ const ComboCurrencySelect = ({
               onClick={toggleDropdown}
               data-testid="dropdownToggle"
               title={selectedOption ? selectedOption[optionLabelKey] : ':'}
+              aria-labelledby={labelText + 'dropdown'}
             >
               <div className={selectedText}>{selectedOption ? selectedOption[optionLabelKey] : ':'}</div>
               <div className={dropdownIcon}>
