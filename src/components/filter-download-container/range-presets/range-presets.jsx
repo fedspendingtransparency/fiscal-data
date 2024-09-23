@@ -4,8 +4,6 @@ import { monthNames } from '../../../utils/api-utils';
 import { addDays, subQuarters, differenceInYears } from 'date-fns';
 import determineDateRange, { generateAnalyticsEvent, generateFormattedDate, prepAvailableDates } from './helpers/helper';
 import DatePickers from '../datepickers/datepickers';
-import UserFilter from '../user-filter/user-filter';
-import DatatableBanner from '../datatable-banner/datatable-banner';
 
 const RangePresets = ({
   currentDateButton,
@@ -13,16 +11,12 @@ const RangePresets = ({
   customRangePreset,
   selectedTable,
   apiData,
-  onUserFilter,
-  setDateRange,
   handleDateRangeChange,
   setIsFiltered,
   setIsCustomDateRange,
   allTablesSelected,
   datasetDateRange,
   finalDatesNotFound,
-  setResetFilters,
-  datatableBanner,
   hideButtons,
 }) => {
   const [activePresetKey, setActivePresetKey] = useState(null);

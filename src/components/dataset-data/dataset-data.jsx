@@ -282,9 +282,9 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                     setDateRange={setDateRange}
                   />
                 )}
-                {config.datatableBanner && <DatatableBanner bannerNotice={config.datatableBanner} />}
               </>
             )}
+            {config.datatableBanner && <DatatableBanner bannerNotice={config.datatableBanner} />}
             {!selectedTable && (
               <div data-testid="dateRangePlaceholder">
                 <h3 className={placeholderText}>Date Range</h3>

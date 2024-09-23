@@ -15,6 +15,7 @@ import {
   mockLocationWithTablePathName,
   mockPivotableData,
   mockAccumulableData,
+  bannerTableConfig,
 } from './test-helper';
 import * as DatasetDataHelpers from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
@@ -565,6 +566,16 @@ describe('DatasetData', () => {
     await updateTable('Table 2');
     rangePresets = instance.findByType(RangePresets);
     expect(rangePresets.props.allTablesSelected).toBeFalsy();
+  });
+
+  it(`renders the datatable banner when datatableBanner exists`, () => {
+    const bannerText = 'This is a test';
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={bannerTableConfig} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    expect(getByTestId('datatable-banner')).toHaveTextContent(bannerText);
   });
 });
 
