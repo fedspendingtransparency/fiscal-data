@@ -73,8 +73,9 @@ describe('The ComboSelect Component for general text use', () => {
     fireEvent.click(comboBox);
 
     const list = getByTestId('dropdown-container');
+    list.focus();
     expect(list).toBeInTheDocument();
-    fireEvent.mouseDown(document.body);
+    fireEvent.blur(list);
 
     await waitFor(() => {
       expect(queryByTestId('dropdown-container')).not.toBeInTheDocument();
@@ -127,8 +128,7 @@ describe('The ComboSelect Component for general text use', () => {
     const list = getByTestId('dropdown-list');
 
     fireEvent.mouseLeave(list);
-    fireEvent.mouseDown(document.body);
-
+    fireEvent.blur(list);
     await waitFor(() => {
       expect(queryByTestId('dropdown-list')).not.toBeInTheDocument();
     });
