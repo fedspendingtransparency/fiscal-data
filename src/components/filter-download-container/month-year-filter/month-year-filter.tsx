@@ -3,12 +3,13 @@ import { monthFullNames } from '../../../utils/api-utils';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 import { monthYearContainer, filterLabel } from './month-year-filter.module.scss';
 
-const generateYearOptions = (earliestDate, latestDate) => {
+const generateYearOptions = (earliestDate: Date, latestDate: Date) => {
   const startYear = new Date(earliestDate).getFullYear();
   const endYear = new Date(latestDate).getFullYear();
   const yearOptions = [];
 
   for (let year = endYear; year >= startYear; year--) {
+    console.log(year);
     yearOptions.push({ label: year.toString(), value: year });
   }
 
@@ -42,6 +43,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   const [selectedMonth, setSelectedMonth] = useState({ value: defaultMonth + 1, label: monthFullNames[defaultMonth] });
   const defaultYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState({ value: defaultYear, label: defaultYear });
+  const [years, setYears] = useState<{ label: string; value: string }[]>();
 
   const months = monthFullNames.map((month, index) => ({
     label: month,
@@ -65,28 +67,44 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
     setDateRange({ from: startDate, to: endDate });
   }, [selectedMonth, selectedYear]);
 
+  const updateYear = selection => {
+    console.log('year selection', selection);
+    if (selection !== null) {
+      setSelectedYear(selection);
+    }
+  };
+  const updateMonth = selection => {
+    console.log('month selection', selection);
+
+    if (selection !== null) {
+      setSelectedMonth(selection);
+    }
+  };
+
   return (
     <>
-      <div className={monthYearContainer}>
-        <ComboCurrencySelect
-          label="Month"
-          labelClass={filterLabel}
-          options={months}
-          changeHandler={setSelectedMonth}
-          selectedOption={selectedMonth}
-          containerBorder={true}
-          searchBarLabel="Search Months"
-        />
-        <ComboCurrencySelect
-          label="Year"
-          labelClass={filterLabel}
-          options={years}
-          changeHandler={setSelectedYear}
-          selectedOption={selectedYear}
-          searchBarLabel="Search Years"
-          containerBorder={true}
-        />
-      </div>
+      {years && (
+        <div className={monthYearContainer}>
+          <ComboCurrencySelect
+            label="Month"
+            labelClass={filterLabel}
+            options={months}
+            changeHandler={updateMonth}
+            selectedOption={selectedMonth}
+            containerBorder={true}
+            searchBarLabel="Search Months"
+          />
+          <ComboCurrencySelect
+            label="Year"
+            labelClass={filterLabel}
+            options={years}
+            changeHandler={updateYear}
+            selectedOption={selectedYear}
+            searchBarLabel="Search Years"
+            containerBorder={true}
+          />
+        </div>
+      )}
     </>
   );
 };
