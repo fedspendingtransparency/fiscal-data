@@ -16,7 +16,6 @@ import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 import ScrollContainer from '../../../scroll-container/scroll-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
-
 const ComboSelectDropdown = ({
   active,
   setDropdownActive,
@@ -60,7 +59,6 @@ const ComboSelectDropdown = ({
     }
     return filteredList;
   };
-
   const clearFilter = () => {
     changeHandler(null);
     // fire artificial event to reset field
@@ -72,7 +70,6 @@ const ComboSelectDropdown = ({
     setFilterValue('');
     setNoResults(false);
   };
-
   const filterDropdown = val => {
     const localFilteredOptions = yearFilter ? filterYearOptions(options, val) : filterOptionsByEntry(options, val);
     setFilteredOptions(localFilteredOptions);
@@ -83,13 +80,11 @@ const ComboSelectDropdown = ({
       setDropdownActive(true);
     }
   };
-
   const onFilterChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilterValue(val);
     filterDropdown(val);
   };
-
   useEffect(() => {
     setFilteredOptions(options);
     if (filterValue !== '') {
@@ -145,7 +140,6 @@ const ComboSelectDropdown = ({
       </button>
     </li>
   );
-
   return (
     <>
       {active && (
@@ -154,8 +148,8 @@ const ComboSelectDropdown = ({
           data-testid="dropdown-container"
           onMouseOver={() => setMouseOverDropdown(true)}
           onMouseLeave={() => setMouseOverDropdown(false)}
+          onBlur={handleBlur}
           onFocus={() => setMouseOverDropdown(true)}
-          onMouseDown={e => e.stopPropagation()}
           role="presentation"
         >
           <div className={searchBarContainer}>
@@ -183,8 +177,7 @@ const ComboSelectDropdown = ({
                       <React.Fragment key={index}>
                         {section.children.length > 0 && <div className={sectionLabel}>{section.label}</div>}
                         {section.children.map((option, i) => {
-                          const isLastOption = index === filteredOptions.length - 1 && i === section.children.length - 1;
-                          return <React.Fragment key={i}>{filteredOptionButton(option, true, isLastOption)}</React.Fragment>;
+                          return <React.Fragment key={i}>{filteredOptionButton(option, true)}</React.Fragment>;
                         })}
                       </React.Fragment>
                     );
@@ -201,5 +194,4 @@ const ComboSelectDropdown = ({
     </>
   );
 };
-
 export default ComboSelectDropdown;
