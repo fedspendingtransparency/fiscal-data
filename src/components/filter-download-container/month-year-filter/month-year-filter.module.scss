@@ -4,6 +4,7 @@
 .monthYearContainer{
   display: flex;
   gap: 2rem;
+  margin-top: 1.5rem;
 }
 
 .filterLabel {
@@ -11,5 +12,9 @@
   font-weight: $semi-bold-weight;
   margin-bottom: 1rem;
   padding: 0;
-  min-width: 8.75rem;
+  min-width: 20rem;
+}
+
+.filterContainer {
+  position: relative;
 }

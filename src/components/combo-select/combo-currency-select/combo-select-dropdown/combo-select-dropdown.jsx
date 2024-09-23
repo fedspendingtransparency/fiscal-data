@@ -76,7 +76,7 @@ const ComboSelectDropdown = ({
   const filterDropdown = val => {
     const localFilteredOptions = yearFilter ? filterYearOptions(options, val) : filterOptionsByEntry(options, val);
     setFilteredOptions(localFilteredOptions);
-    if (localFilteredOptions.length === 1 && localFilteredOptions[0].value && localFilteredOptions[0].value.toString() === val) {
+    if (localFilteredOptions.length === 1 && localFilteredOptions[0].label && localFilteredOptions[0].label.toString() === val) {
       updateSelection(localFilteredOptions[0], false);
     } else {
       clearTimeout(timeOutId);
