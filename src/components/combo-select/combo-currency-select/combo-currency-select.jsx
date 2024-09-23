@@ -145,10 +145,10 @@ const ComboCurrencySelect = ({
               className={classNames([dropdownInput, !isExchangeTool ? dropdownInputWeight : null])}
               onClick={toggleDropdown}
               data-testid="dropdownToggle"
-              title={selectedOption ? selectedOption[optionLabelKey] : ':'}
+              title={selectedOption[optionLabelKey]}
               aria-labelledby={labelText + 'dropdown'}
             >
-              <div className={selectedText}>{selectedOption ? selectedOption[optionLabelKey] : ':'}</div>
+              <div className={selectedText}>{selectedOption[optionLabelKey]}</div>
               <div className={dropdownIcon}>
                 {dropdownActive ? (
                   <FontAwesomeIcon className={icon} icon={faChevronUp} data-testid="collapse-dropdown" aria-label="collapse dropdown" />

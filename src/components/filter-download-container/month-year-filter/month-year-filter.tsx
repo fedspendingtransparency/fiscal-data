@@ -9,7 +9,7 @@ const generateYearOptions = (earliestDate: Date, latestDate: Date) => {
   const yearOptions = [];
 
   for (let year = endYear; year >= startYear; year--) {
-    yearOptions.push({ label: year.toString(), value: year });
+    yearOptions.push({ label: year, value: year });
   }
 
   return yearOptions;

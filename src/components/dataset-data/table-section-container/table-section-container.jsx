@@ -217,7 +217,7 @@ const TableSectionContainer = ({
     await refreshTable();
   }, [apiData, userFilterSelection, apiError]);
 
-  useEffect(async () => {
+  useMemo(async () => {
     if (serverSidePagination || userFilterSelection) {
       await refreshTable();
     }

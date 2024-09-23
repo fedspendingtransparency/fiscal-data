@@ -152,7 +152,7 @@ module.exports = {
     // FBP
     '314': {
       endpoint: 'v1/accounting/od/fbp_future_dated_transactions',
-      dateField: 'record_date',
+      dateField: 'settle_date',
       downloadName: 'FBP_FutureDatedTransactions',
       alwaysSortWith: ['-record_date', 'security_nbr'],
       hideColumns: [],
