@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { monthFullNames } from '../../../utils/api-utils';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
-import { monthYearContainer, filterLabel, filterContainer } from './month-year-filter.module.scss';
+import { monthYearContainer, filterLabel, filterContainer, selectorContainer } from './month-year-filter.module.scss';
 
 const generateYearOptions = (earliestDate: Date, latestDate: Date) => {
   const startYear = new Date(earliestDate).getFullYear();
@@ -87,27 +87,28 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
     <>
       {years && months && (
         <div className={monthYearContainer}>
-          <div className={filterContainer}>
-            <ComboCurrencySelect
-              label="Month"
-              labelClass={filterLabel}
-              options={months}
-              changeHandler={updateMonth}
-              selectedOption={selectedMonth}
-              searchBarLabel="Search Months"
-              containerBorder
-            />
-          </div>
-          <div className={filterContainer}>
-            <ComboCurrencySelect
-              label="Year"
-              labelClass={filterLabel}
-              options={years}
-              changeHandler={updateYear}
-              selectedOption={selectedYear}
-              searchBarLabel="Search Years"
-              containerBorder
-            />
+          <div className={filterLabel}>Choose a Date:</div>
+          <div className={selectorContainer}>
+            <div className={filterContainer}>
+              <ComboCurrencySelect
+                label="Month"
+                options={months}
+                changeHandler={updateMonth}
+                selectedOption={selectedMonth}
+                searchBarLabel="Search Months"
+                containerBorder
+              />
+            </div>
+            <div className={filterContainer}>
+              <ComboCurrencySelect
+                label="Year"
+                options={years}
+                changeHandler={updateYear}
+                selectedOption={selectedYear}
+                searchBarLabel="Search Years"
+                containerBorder
+              />
+            </div>
           </div>
         </div>
       )}
