@@ -16,7 +16,6 @@ import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 import ScrollContainer from '../../../scroll-container/scroll-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
-
 const ComboSelectDropdown = ({
   active,
   setDropdownActive,
@@ -88,6 +87,9 @@ const ComboSelectDropdown = ({
     const val = event && event.target ? event.target.value : '';
     setFilterValue(val);
     filterDropdown(val);
+    if (val === '') {
+      setNoResults(false);
+    }
   };
 
   useEffect(() => {
