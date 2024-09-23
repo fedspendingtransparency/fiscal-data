@@ -18,3 +18,9 @@
 .filterContainer {
   position: relative;
 }
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .monthYearContainer{
+    flex-direction: column;
+  }
+}

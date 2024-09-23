@@ -9,7 +9,6 @@ const generateYearOptions = (earliestDate: Date, latestDate: Date) => {
   const yearOptions = [];
 
   for (let year = endYear; year >= startYear; year--) {
-    console.log(year);
     yearOptions.push({ label: year.toString(), value: year });
   }
 
@@ -74,14 +73,11 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   }, [selectedMonth, selectedYear]);
 
   const updateYear = selection => {
-    console.log('year selection', selection);
     if (selection !== null) {
       setSelectedYear(selection);
     }
   };
   const updateMonth = selection => {
-    console.log('month selection', selection);
-
     if (selection !== null) {
       setSelectedMonth(selection);
     }
