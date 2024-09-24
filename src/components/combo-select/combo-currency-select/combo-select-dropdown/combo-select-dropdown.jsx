@@ -73,7 +73,7 @@ const ComboSelectDropdown = ({
   const filterDropdown = val => {
     const localFilteredOptions = yearFilter ? filterYearOptions(options, val) : filterOptionsByEntry(options, val);
     setFilteredOptions(localFilteredOptions);
-    if (localFilteredOptions.length === 1 && localFilteredOptions[0].value && localFilteredOptions[0].value.toString() === val) {
+    if (localFilteredOptions.length === 1 && localFilteredOptions[0].label && localFilteredOptions[0].label.toString() === val) {
       updateSelection(localFilteredOptions[0], false);
     } else {
       clearTimeout(timeOutId);
@@ -84,6 +84,9 @@ const ComboSelectDropdown = ({
     const val = event && event.target ? event.target.value : '';
     setFilterValue(val);
     filterDropdown(val);
+    if (val === '') {
+      setNoResults(false);
+    }
   };
   useEffect(() => {
     setFilteredOptions(options);
