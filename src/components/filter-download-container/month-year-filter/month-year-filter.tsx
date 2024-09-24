@@ -48,8 +48,8 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   const [selectedMonth, setSelectedMonth] = useState({ value: defaultMonth + 1, label: monthFullNames[defaultMonth] });
   const defaultYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState({ value: defaultYear, label: defaultYear });
-  const [years, setYears] = useState<{ label: string; value: string }[]>();
-  const [months, setMonths] = useState();
+  const [years, setYears] = useState<{ label: number; value: number }[]>();
+  const [months, setMonths] = useState<{ label: string; value: number }[]>();
   useEffect(() => {
     setYears(generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate));
   }, [selectedTable]);
@@ -72,12 +72,12 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
     setDateRange({ from: startDate, to: endDate });
   }, [selectedMonth, selectedYear]);
 
-  const updateYear = selection => {
+  const updateYear = (selection: { label: number; value: number }) => {
     if (selection !== null) {
       setSelectedYear(selection);
     }
   };
-  const updateMonth = selection => {
+  const updateMonth = (selection: { label: string; value: number }) => {
     if (selection !== null) {
       setSelectedMonth(selection);
     }
