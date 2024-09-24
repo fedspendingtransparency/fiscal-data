@@ -43,13 +43,23 @@ const ComboSelectDropdown = ({
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = [];
     if (entry?.length && !hasChildren) {
-      filteredList = opts.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
+      filteredList = opts.filter(opt =>
+        opt[optionLabelKey]
+          .toString()
+          .toUpperCase()
+          .includes(entry.toUpperCase())
+      );
       setNoResults(filteredList.length === 0);
     } else if (hasChildren) {
       let sectionResults;
       let allResultsLength = 0;
       opts.forEach(section => {
-        sectionResults = section.children.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
+        sectionResults = section.children.filter(opt =>
+          opt[optionLabelKey]
+            .toString()
+            .toUpperCase()
+            .includes(entry.toUpperCase())
+        );
         allResultsLength += sectionResults.length;
         filteredList.push({ label: section.label, children: sectionResults });
       });
