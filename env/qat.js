@@ -139,6 +139,7 @@ module.exports = {
       apiFilter: {
         field: 'account_nbr',
         labelField: 'account_desc',
+        displayAllTablesResults: true,
         downloadLabel: 'Account Description',
         label: 'Choose an Account Description',
         disableDateRangeFilter: true,
@@ -174,6 +175,7 @@ module.exports = {
       apiFilter: {
         field: 'account_nbr',
         labelField: 'account_desc',
+        displayAllTablesResults: true,
         downloadLabel: 'Account Description',
         label: 'Choose an Account Description',
         disableDateRangeFilter: true,
