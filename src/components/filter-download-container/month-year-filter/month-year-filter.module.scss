@@ -3,14 +3,18 @@
 
 .monthYearContainer{
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
   margin-top: 1.5rem;
+}
+
+.selectorContainer {
+  display: flex;
+  gap: 2rem;
 }
 
 .filterLabel {
   font-size: $font-size-18;
   font-weight: $semi-bold-weight;
-  margin-bottom: 1rem;
   padding: 0;
   min-width: 20rem;
 }
@@ -18,10 +22,11 @@
 .filterContainer {
   z-index: $month-year-dropdown;
   position: relative;
+  min-width: 20rem;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .monthYearContainer{
+  .selectorContainer {
     flex-direction: column;
   }
 }
