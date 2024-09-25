@@ -1188,6 +1188,7 @@ const endpointConfig = {
     endpoint: 'v2/accounting/od/debt_outstanding',
     dateField: 'record_date',
     downloadName: 'HstDebt',
+    selectColumns: ['record_date', 'debt_outstanding_amt'],
   },
   '146': {
     endpoint: 'v2/accounting/od/avg_interest_rates',
