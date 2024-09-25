@@ -55,6 +55,7 @@ export default function DtgTable({
   allActiveFilters,
   setAllActiveFilters,
   userFilterSelection,
+  disableDateRangeFilter,
 }) {
   const {
     dePaginated,
@@ -464,6 +465,7 @@ export default function DtgTable({
                 allActiveFilters={allActiveFilters}
                 setAllActiveFilters={setAllActiveFilters}
                 setTableSorting={setTableSorting}
+                disableDateRangeFilter={disableDateRangeFilter}
               />
             </ErrorBoundary>
           )}

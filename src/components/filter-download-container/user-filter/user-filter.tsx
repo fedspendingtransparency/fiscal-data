@@ -3,6 +3,9 @@ import { userFilterWrapper, filterLabel } from './user-filter.module.scss';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 import DatatableBanner from '../datatable-banner/datatable-banner';
+import { monthFullNames } from '../../../utils/api-utils';
+import { mockSavingsBondLastFiscalYearCurrentMonth } from '../../../layouts/explainer/explainer-test-helper';
+import MonthYearFilter from '../month-year-filter/month-year-filter';
 
 type UserFilterProps = {
   selectedTable?: {
@@ -26,6 +29,7 @@ type UserFilterProps = {
         value: string[];
         field: string;
       };
+      disableDateRangeFilter: boolean;
     };
   };
   onUserFilter: (selection: { label: string | number; value?: string | number | null }) => void;
@@ -35,12 +39,22 @@ type UserFilterProps = {
   };
   setResetFilters?: (x: boolean) => void;
   allTablesSelected?: boolean;
+  setDateRange: (range: { from: Date; to: Date }) => void;
 };
 
-const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserFilter, apiData, setResetFilters, allTablesSelected }) => {
+const UserFilter: FunctionComponent<UserFilterProps> = ({
+  selectedTable,
+  onUserFilter,
+  apiData,
+  setResetFilters,
+  allTablesSelected,
+  setDateRange,
+}) => {
   const defaultSelection = { label: '(None selected)', value: null };
+
   const [userFilterOptions, setUserFilterOptions] = useState(null);
   const [selectedFilterOption, setSelectedFilterOption] = useState(defaultSelection);
+
   const updateUserFilter = selection => {
     if (selection !== null) {
       setSelectedFilterOption(selection);
@@ -110,6 +124,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
             searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : undefined}
             hasChildren={userFilterOptions[0]?.children}
           />
+          {selectedTable?.apiFilter?.disableDateRangeFilter && <MonthYearFilter selectedTable={selectedTable} setDateRange={setDateRange} />}
         </div>
       )}
       {selectedTable?.userFilter?.notice && <DatatableBanner bannerNotice={selectedTable.userFilter.notice} />}

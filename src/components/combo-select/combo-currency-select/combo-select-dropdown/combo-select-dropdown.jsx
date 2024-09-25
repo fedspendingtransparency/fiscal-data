@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import {
   dropdownContainer,
@@ -16,7 +16,6 @@ import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 import ScrollContainer from '../../../scroll-container/scroll-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
-
 const ComboSelectDropdown = ({
   active,
   setDropdownActive,
@@ -40,17 +39,27 @@ const ComboSelectDropdown = ({
   const [filterValue, setFilterValue] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [noResults, setNoResults] = useState(false);
-  const dropdownRef = useRef(null);
+
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = [];
     if (entry?.length && !hasChildren) {
-      filteredList = opts.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
+      filteredList = opts.filter(opt =>
+        opt[optionLabelKey]
+          .toString()
+          .toUpperCase()
+          .includes(entry.toUpperCase())
+      );
       setNoResults(filteredList.length === 0);
     } else if (hasChildren) {
       let sectionResults;
       let allResultsLength = 0;
       opts.forEach(section => {
-        sectionResults = section.children.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
+        sectionResults = section.children.filter(opt =>
+          opt[optionLabelKey]
+            .toString()
+            .toUpperCase()
+            .includes(entry.toUpperCase())
+        );
         allResultsLength += sectionResults.length;
         filteredList.push({ label: section.label, children: sectionResults });
       });
@@ -60,7 +69,6 @@ const ComboSelectDropdown = ({
     }
     return filteredList;
   };
-
   const clearFilter = () => {
     changeHandler(null);
     // fire artificial event to reset field
@@ -72,24 +80,24 @@ const ComboSelectDropdown = ({
     setFilterValue('');
     setNoResults(false);
   };
-
   const filterDropdown = val => {
     const localFilteredOptions = yearFilter ? filterYearOptions(options, val) : filterOptionsByEntry(options, val);
     setFilteredOptions(localFilteredOptions);
-    if (localFilteredOptions.length === 1 && localFilteredOptions[0].value && localFilteredOptions[0].value.toString() === val) {
+    if (localFilteredOptions.length === 1 && localFilteredOptions[0].label && localFilteredOptions[0].label.toString() === val) {
       updateSelection(localFilteredOptions[0], false);
     } else {
       clearTimeout(timeOutId);
       setDropdownActive(true);
     }
   };
-
   const onFilterChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilterValue(val);
     filterDropdown(val);
+    if (val === '') {
+      setNoResults(false);
+    }
   };
-
   useEffect(() => {
     setFilteredOptions(options);
     if (filterValue !== '') {
@@ -100,18 +108,7 @@ const ComboSelectDropdown = ({
 
   const handleBlur = event => {
     // prevents dropdown from close when tabbing into a child
-    // if (event) {
-    //   const relatedTarget = event.relatedTarget;
-    //   const ifFocusInsideDropdown = dropdownRef.current && dropdownRef.current.contains(relatedTarget);
-    //   if (!ifFocusInsideDropdown) {
-    //     setMouseOverDropdown(false);
-    //     timeOutId = setTimeout(() => {
-    //       setDropdownActive(false);
-    //     });
-    //   }
-    // }
     if (event) {
-      const relatedTarget = event.relatedTarget;
       let dropdownChild;
       switch (event.target.localName) {
         case 'input':
@@ -121,7 +118,7 @@ const ComboSelectDropdown = ({
           dropdownChild = filteredOptions.length > 0;
           break;
         case 'button':
-          dropdownChild = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.contains(relatedTarget);
+          dropdownChild = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.contains(event.relatedTarget);
           break;
         default:
           dropdownChild = false;
@@ -135,33 +132,27 @@ const ComboSelectDropdown = ({
       }
     }
   };
-  const filteredOptionButton = (option, child, isLast = false) => {
-    if (option) {
-      return (
-        <li
-          className={classNames([
-            dropdownListItem,
-            option[optionLabelKey] === selectedOption[optionLabelKey] && dropdownListItem_Selected,
-            child && dropdownListItem_child,
-          ])}
-        >
-          <button
-            className={dropdownListItem_Button}
-            onClick={() => updateSelection(option, true)}
-            disabled={required && !option.value}
-            title={required && !option.value && disabledMessage ? disabledMessage : null}
-            aria-label={option[optionLabelKey]}
-            onBlur={isLast ? handleBlur : null}
-            data-testid="dropdown-list-option"
-            onMouseDown={event => event.stopPropagation()}
-          >
-            {underlineMatchedString(option[optionLabelKey], filterValue)}
-          </button>
-        </li>
-      );
-    }
-  };
 
+  const filteredOptionButton = (option, child) => (
+    <li
+      className={classNames([
+        dropdownListItem,
+        option[optionLabelKey] === selectedOption[optionLabelKey] && dropdownListItem_Selected,
+        child && dropdownListItem_child,
+      ])}
+    >
+      <button
+        className={dropdownListItem_Button}
+        onClick={() => updateSelection(option, true)}
+        disabled={required && !option.value}
+        title={required && !option.value && disabledMessage ? disabledMessage : null}
+        aria-label={option[optionLabelKey]}
+        data-testid="dropdown-list-option"
+      >
+        {underlineMatchedString(option[optionLabelKey], filterValue)}
+      </button>
+    </li>
+  );
   return (
     <>
       {active && (
@@ -170,7 +161,6 @@ const ComboSelectDropdown = ({
           data-testid="dropdown-container"
           onMouseOver={() => setMouseOverDropdown(true)}
           onMouseLeave={() => setMouseOverDropdown(false)}
-          onMouseDown={event => event.stopPropagation()}
           onBlur={handleBlur}
           onFocus={() => setMouseOverDropdown(true)}
           role="presentation"
@@ -207,8 +197,7 @@ const ComboSelectDropdown = ({
                   })}
                 {!hasChildren &&
                   filteredOptions.map((option, index) => {
-                    const isLastOption = index === filteredOptions.length - 1;
-                    return <React.Fragment key={index}>{filteredOptionButton(option, false, isLastOption)}</React.Fragment>;
+                    return <React.Fragment key={index}>{filteredOptionButton(option)}</React.Fragment>;
                   })}
               </ul>
             )}
@@ -218,5 +207,4 @@ const ComboSelectDropdown = ({
     </>
   );
 };
-
 export default ComboSelectDropdown;

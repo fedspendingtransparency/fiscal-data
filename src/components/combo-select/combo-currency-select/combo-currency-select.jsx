@@ -15,6 +15,7 @@ import {
   fullBorderContainer,
   dropdownInputWeight,
   selectedText,
+  icon,
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 import classNames from 'classnames';
@@ -133,7 +134,7 @@ const ComboCurrencySelect = ({
         role="presentation"
       >
         {labelText !== '' ? (
-          <div className={`${selector_label} ${labelClass}`} data-testid="label">
+          <div className={`${selector_label} ${labelClass}`} data-testid="label" id={labelText + 'dropdown'}>
             {labelText}
             {required && <span className="required">*</span>}
           </div>
@@ -145,13 +146,14 @@ const ComboCurrencySelect = ({
               onClick={toggleDropdown}
               data-testid="dropdownToggle"
               title={selectedOption[optionLabelKey]}
+              aria-labelledby={labelText + 'dropdown'}
             >
               <div className={selectedText}>{selectedOption[optionLabelKey]}</div>
               <div className={dropdownIcon}>
                 {dropdownActive ? (
-                  <FontAwesomeIcon icon={faChevronUp} data-testid="collapse-dropdown" aria-label="collapse dropdown" />
+                  <FontAwesomeIcon className={icon} icon={faChevronUp} data-testid="collapse-dropdown" aria-label="collapse dropdown" />
                 ) : (
-                  <FontAwesomeIcon icon={faChevronDown} data-testid="expand-dropdown" aria-label="expand dropdown" />
+                  <FontAwesomeIcon className={icon} icon={faChevronDown} data-testid="expand-dropdown" aria-label="expand dropdown" />
                 )}
               </div>
             </button>

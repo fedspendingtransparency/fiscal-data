@@ -49,25 +49,7 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-093'],
       currentDateButton: 'byFullMonth',
     },
-    '015-BFS-2024Q2-001': {
-      slug: '/treasury-securities-buybacks/',
-      seoConfig: {
-        pageTitle: 'Treasury Securities Buybacks',
-        description: "The Treasury Securities Buybacks dataset contains data related to the U.S. Treasury's buyback operations.",
-      },
-      topics: ['debt', 'auctions'],
-      relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-050', '015-BFS-2014Q3-049', '015-BFS-2014Q1-14', '015-BFS-2014Q3-048'],
-      currentDateButton: 'byDay',
-      detailView: {
-        apiId: 317,
-        field: 'operation_date',
-        label: 'Operation Date',
-        secondaryField: 'operation_start_time_est',
-        dateRangeLockCopy: 'To filter data by date range, select an Operation Date from the table below.',
-        summaryTableFields: ['operation_date', 'operation_start_time_est', 'operation_close_time_est', 'settlement_date'],
-        selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
-      },
-    },
+
     '015-BFS-2024Q1-003': {
       slug: '/fbp-detailed-principal-accrued-interest/',
       seoConfig: {
@@ -209,42 +191,6 @@ module.exports = {
       alwaysSortWith: ['-record_date', 'src_line_nbr'],
       selectColumns: [],
     },
-    // Buybacks
-    '316': {
-      endpoint: 'v1/accounting/od/buybacks_operations',
-      dateField: 'operation_date',
-      customFormatting: [
-        {
-          type: 'DATE',
-          fields: ['operation_date', 'settlement_date', 'maturity_date'],
-          dateFormat: 'MM/DD/YYYY',
-        },
-      ],
-      downloadName: 'Buybacks_Operations',
-      alwaysSortWith: ['-operation_date'],
-      selectColumns: [
-        'operation_date',
-        'operation_start_time_est',
-        'operation_close_time_est',
-        'settlement_date',
-        'tentative_ann_pdf',
-        'tentative_ann_xml',
-        'final_ann_pdf',
-        'final_ann_xml',
-        'results_pdf',
-        'results_xml',
-        'special_ann_pdf',
-      ],
-    },
-    // Buybacks
-    '317': {
-      endpoint: 'v1/accounting/od/buybacks_security_details',
-      dateField: 'operation_date',
-      downloadName: 'Buybacks_Security_Details',
-      alwaysSortWith: ['-operation_date,maturity_date'],
-      hideColumns: ['operation_date'],
-      selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
-    },
     // FBP
     '313': {
       endpoint: 'v1/accounting/od/fbp_balances',
@@ -270,7 +216,9 @@ module.exports = {
         labelField: 'account_desc',
         downloadLabel: 'Account Description',
         label: 'Choose an Account Description',
-        displayDefaultData: true,
+        disableDateRangeFilter: true,
+        dataDefaultHeader: 'This table requires additional filters.',
+        dataDefaultMessage: 'Select an account in the filter section above to display the data.',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
         dataSearchLabel: 'Search account descriptions',
@@ -279,7 +227,7 @@ module.exports = {
     // FBP
     '314': {
       endpoint: 'v1/accounting/od/fbp_future_dated_transactions',
-      dateField: 'record_date',
+      dateField: 'settle_date',
       downloadName: 'FBP_FutureDatedTransactions',
       alwaysSortWith: ['-record_date', 'security_nbr'],
       hideColumns: [],
@@ -303,7 +251,9 @@ module.exports = {
         labelField: 'account_desc',
         downloadLabel: 'Account Description',
         label: 'Choose an Account Description',
-        displayDefaultData: true,
+        disableDateRangeFilter: true,
+        dataDefaultHeader: 'This table requires additional filters.',
+        dataDefaultMessage: 'Select an account in the filter section above to display the data.',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
         dataSearchLabel: 'Search account descriptions',

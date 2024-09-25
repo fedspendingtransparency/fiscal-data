@@ -410,6 +410,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       downloadLabel: String,
       label: String,
       displayDefaultData: Boolean,
+      disableDateRangeFilter: Boolean,
       notice: String,
       optionValues: [String!],
       optionLabels: OptionLabels,
@@ -603,6 +604,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               downloadLabel
               label
               displayDefaultData
+              disableDateRangeFilter
               notice
               optionValues
               optionLabels {

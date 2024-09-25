@@ -2409,14 +2409,14 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/fip_statement_of_account_table1',
     dateField: 'record_date',
     downloadName: 'FIP_SOA_CARS_Reporting',
-    alwaysSortWith: ['account_number_tas, -record_date, src_line_nbr'],
+    alwaysSortWith: ['account_number_tas', '-record_date', 'src_line_nbr'],
     selectColumns: ['account_number_tas', 'account_name', 'date_range', 'line_item_nm', 'decrease', 'increase'],
   },
   '303': {
     endpoint: 'v1/accounting/od/fip_statement_of_account_table2',
     dateField: 'record_date',
     downloadName: 'FIP_SOA_Account_Pos_Summary',
-    alwaysSortWith: ['account_number_tas, -record_date, src_line_nbr'],
+    alwaysSortWith: ['account_number_tas', '-record_date', 'src_line_nbr'],
     selectColumns: [
       'account_number_tas',
       'account_name',
@@ -2432,7 +2432,7 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/fip_statement_of_account_table3',
     dateField: 'record_date',
     downloadName: 'FIP_SOA_Transaction_Detail',
-    alwaysSortWith: ['account_number_tas, -record_date, src_line_nbr'],
+    alwaysSortWith: ['account_number_tas', '-record_date', 'src_line_nbr'],
     selectColumns: [
       'account_number_tas',
       'account_name',
@@ -2453,7 +2453,7 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/receipts_by_department',
     dateField: 'record_date',
     downloadName: 'Receipts_By_Department',
-    alwaysSortWith: ['-record_date, src_line_nbr'],
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
     selectColumns: [],
   },
   // FIP
@@ -2461,7 +2461,7 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/fip_principal_outstanding_table1',
     dateField: 'record_date',
     downloadName: 'FIP_PO_Principal_Outstanding',
-    alwaysSortWith: ['-record_date,account_nbr,src_line_nbr'],
+    alwaysSortWith: ['-record_date', 'account_nbr', 'src_line_nbr'],
     selectColumn: [],
   },
   // FIP
@@ -2469,8 +2469,44 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/fip_principal_outstanding_table2',
     dateField: 'record_date',
     downloadName: 'FIP_PO_Total_Outstanding_Inflation_Comp',
-    alwaysSortWith: ['-record_date,account_nbr,src_line_nbr'],
+    alwaysSortWith: ['-record_date', 'account_nbr', 'src_line_nbr'],
     selectColumn: [],
+  },
+  // Buybacks
+  '316': {
+    endpoint: 'v1/accounting/od/buybacks_operations',
+    dateField: 'operation_date',
+    customFormatting: [
+      {
+        type: 'DATE',
+        fields: ['operation_date', 'settlement_date', 'maturity_date'],
+        dateFormat: 'MM/DD/YYYY',
+      },
+    ],
+    downloadName: 'Buybacks_Operations',
+    alwaysSortWith: ['-operation_date'],
+    selectColumns: [
+      'operation_date',
+      'operation_start_time_est',
+      'operation_close_time_est',
+      'settlement_date',
+      'tentative_ann_pdf',
+      'tentative_ann_xml',
+      'final_ann_pdf',
+      'final_ann_xml',
+      'results_pdf',
+      'results_xml',
+      'special_ann_pdf',
+    ],
+  },
+  // Buybacks
+  '317': {
+    endpoint: 'v1/accounting/od/buybacks_security_details',
+    dateField: 'operation_date',
+    downloadName: 'Buybacks_Security_Details',
+    alwaysSortWith: ['-operation_date', 'maturity_date'],
+    hideColumns: ['operation_date'],
+    selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
   },
 };
 
