@@ -1162,6 +1162,7 @@ const endpointConfig = {
     endpoint: 'v2/accounting/od/debt_to_penny',
     dateField: 'record_date',
     downloadName: 'DebtPenny',
+    selectColumns: ['record_date', 'debt_held_public_amt', 'intragov_hold_amt', 'tot_pub_debt_out_amt'],
   },
   '144': {
     endpoint: 'v2/accounting/od/gold_reserve',
