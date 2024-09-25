@@ -384,7 +384,11 @@ const TableSectionContainer = ({
                 apiFilterDefault={apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData}
                 onToggleLegend={legendToggler}
                 emptyData={
-                  !isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !tableMeta?.count === 0 && !apiError
+                  !isLoading &&
+                  !serverSidePagination &&
+                  (!apiData || !apiData.data || !apiData.data.length) &&
+                  (!tableMeta || tableMeta?.count !== 0) &&
+                  !apiError
                 }
                 unchartable={noChartMessage !== undefined}
                 currentTab={selectedTab}
