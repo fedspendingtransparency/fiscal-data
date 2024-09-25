@@ -1251,6 +1251,7 @@ const endpointConfig = {
     endpoint: 'v2/accounting/od/gift_contributions',
     downloadName: 'GiftContr',
     dateField: 'record_date',
+    selectColumns: ['record_date', 'contribution_amt'],
   },
   '149': {
     endpoint: 'v2/accounting/od/record_setting_auction',
