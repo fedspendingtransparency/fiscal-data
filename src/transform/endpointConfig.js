@@ -1229,6 +1229,7 @@ const endpointConfig = {
       },
     ],
     valueFieldOptions: ['avg_interest_rate_amt'],
+    selectColumns: ['record_date', 'security_type_desc', 'security_desc', 'avg_interest_rate_amt'],
   },
   '147': {
     endpoint: 'v2/accounting/od/interest_uninvested',
