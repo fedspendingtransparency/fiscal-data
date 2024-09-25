@@ -387,7 +387,7 @@ const TableSectionContainer = ({
                   !isLoading &&
                   !serverSidePagination &&
                   (!apiData || !apiData.data || !apiData.data.length) &&
-                  (!tableMeta || tableMeta?.count !== 0) &&
+                  (!tableMeta || tableMeta?.count === 0) &&
                   !apiError
                 }
                 unchartable={noChartMessage !== undefined}
