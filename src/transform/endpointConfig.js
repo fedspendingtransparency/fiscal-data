@@ -1275,6 +1275,7 @@ const endpointConfig = {
       },
     ],
     valueFieldOptions: ['month_expense_amt', 'fytd_expense_amt'],
+    selectColumns: ['record_date', 'expense_catg_desc', 'expense_group_desc', 'expense_type_desc', 'month_expense_amt', 'fytd_expense_amt'],
   },
   '151': {
     endpoint: 'v2/accounting/od/redemption_tables',
