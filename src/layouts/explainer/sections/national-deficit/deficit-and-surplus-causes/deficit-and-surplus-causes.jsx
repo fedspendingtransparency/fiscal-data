@@ -1,7 +1,6 @@
 import React from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
-import { analyticsClickHandler } from '../../../explainer-helpers/national-debt/national-debt-helper';
 
 const DeficitAndSurplusCauses = () => {
   const federalCovidResponseLink = (

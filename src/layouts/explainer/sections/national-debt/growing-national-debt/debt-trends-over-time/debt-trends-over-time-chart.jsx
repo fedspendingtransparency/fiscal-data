@@ -32,11 +32,11 @@ import { getChangeLabel } from '../../../../heros/hero-helper';
 let gaTimerDebtTrends;
 let ga4Timer;
 
-const analyticsClickHandler = action => {
+const analyticsClickHandler = (action, label) => {
   Analytics.event({
     category: 'Explainers',
     action: action,
-    label: `Debt`,
+    label: label,
   });
 };
 
@@ -58,13 +58,13 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const chartHeight = 490;
 
   const historicalDebtOutstanding = (
-    <CustomLink url={slug} onClick={() => analyticsClickHandler('Debt Citation Click')} id="Historical Debt Outstanding">
+    <CustomLink url={slug} onClick={() => analyticsClickHandler('Debt Citation Click', name)} id="Historical Debt Outstanding">
       {name}
     </CustomLink>
   );
 
   const beaLink = (
-    <CustomLink url="https://www.bea.gov/" onClick={() => analyticsClickHandler('Debt Citation Click')}>
+    <CustomLink url="https://www.bea.gov/" onClick={() => analyticsClickHandler('Debt Citation Click', 'Bureau of Economic Analysis')}>
       Bureau of Economic Analysis
     </CustomLink>
   );
