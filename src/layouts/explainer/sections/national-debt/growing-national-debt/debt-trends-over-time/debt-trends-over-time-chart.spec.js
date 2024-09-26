@@ -117,16 +117,16 @@ describe('Debt Trends Over Time Chart', () => {
     historicalDebt.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
-      action: `Citation Click`,
-      label: 'Debt',
+      action: `Debt Citation Click`,
+      label: 'Historical Debt Outstanding',
     });
     spy.mockClear();
 
     bea.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
-      action: `Citation Click`,
-      label: 'Debt',
+      action: `Debt Citation Click`,
+      label: 'Bureau of Economic Analysis',
     });
     spy.mockClear();
   });

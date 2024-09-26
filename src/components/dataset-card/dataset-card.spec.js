@@ -75,14 +75,14 @@ describe('DatasetCard', () => {
 
   it('tracks when dataset card is clicked from explainer page', () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const { getByText } = render(<DatasetCard dataset={mockConfig} context={'Related Datasets'} referrer={'Spending'} explainer={true} />);
+    const { getByText } = render(<DatasetCard dataset={mockConfig} context="Related Datasets" referrer="Spending" explainer={true} />);
     const datasetCard = getByText('Debt to the Penny');
 
     datasetCard.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
-      action: `Citation Click`,
-      label: 'Spending',
+      action: `Spending Citation Click`,
+      label: 'Debt to the Penny',
     });
     spy.mockClear();
   });

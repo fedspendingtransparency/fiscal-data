@@ -9,7 +9,7 @@ import SpendingCategoriesAccordion from './spending-categories-accordion/spendin
 
 const FundingProgramsAndServices = () => {
   const usaSpending = (
-    <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsClickHandler('Debt Citation Click', 'Funding Programs & Services')}>
+    <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsClickHandler('Citation Click', 'Funding Programs & Services')}>
       USAspending.gov
     </CustomLink>
   );
