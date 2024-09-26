@@ -87,6 +87,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
           const label = allLabels[val];
           if (label) return { label: label, value: val };
         });
+        options.sort((a, b) => a.label.localeCompare(b.label));
       } else {
         options = selectedTable.apiFilter.optionValues['all'].map(val => ({ label: val, value: val }));
       }
