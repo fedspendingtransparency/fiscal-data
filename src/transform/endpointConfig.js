@@ -1162,6 +1162,7 @@ const endpointConfig = {
     endpoint: 'v2/accounting/od/debt_to_penny',
     dateField: 'record_date',
     downloadName: 'DebtPenny',
+    selectColumns: ['record_date', 'debt_held_public_amt', 'intragov_hold_amt', 'tot_pub_debt_out_amt'],
   },
   '144': {
     endpoint: 'v2/accounting/od/gold_reserve',
@@ -1188,6 +1189,7 @@ const endpointConfig = {
     endpoint: 'v2/accounting/od/debt_outstanding',
     dateField: 'record_date',
     downloadName: 'HstDebt',
+    selectColumns: ['record_date', 'debt_outstanding_amt'],
   },
   '146': {
     endpoint: 'v2/accounting/od/avg_interest_rates',
@@ -1229,6 +1231,7 @@ const endpointConfig = {
       },
     ],
     valueFieldOptions: ['avg_interest_rate_amt'],
+    selectColumns: ['record_date', 'security_type_desc', 'security_desc', 'avg_interest_rate_amt'],
   },
   '147': {
     endpoint: 'v2/accounting/od/interest_uninvested',
@@ -1251,6 +1254,7 @@ const endpointConfig = {
     endpoint: 'v2/accounting/od/gift_contributions',
     downloadName: 'GiftContr',
     dateField: 'record_date',
+    selectColumns: ['record_date', 'contribution_amt'],
   },
   '149': {
     endpoint: 'v2/accounting/od/record_setting_auction',
@@ -1275,6 +1279,7 @@ const endpointConfig = {
       },
     ],
     valueFieldOptions: ['month_expense_amt', 'fytd_expense_amt'],
+    selectColumns: ['record_date', 'expense_catg_desc', 'expense_group_desc', 'expense_type_desc', 'month_expense_amt', 'fytd_expense_amt'],
   },
   '151': {
     endpoint: 'v2/accounting/od/redemption_tables',

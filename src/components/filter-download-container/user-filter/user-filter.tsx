@@ -130,6 +130,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
         </div>
       )}
       {selectedTable?.userFilter?.notice && <DatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
+      {selectedTable?.apiFilter?.notice && <DatatableBanner bannerNotice={selectedTable.apiFilter.notice} />}
     </>
   );
 };
