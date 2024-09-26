@@ -207,8 +207,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   useEffect(() => {
     if (allTablesSelected) {
       setTableColumnSortData([]);
-      setUserFilterSelection(null);
     }
+    setUserFilterSelection(null);
   }, [allTablesSelected]);
 
   useEffect(() => {
