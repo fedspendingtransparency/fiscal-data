@@ -273,6 +273,7 @@ module.exports = {
         dataDefaultHeader: 'This table requires additional filters.',
         dataDefaultMessage: 'Select an account in the filter section above to display the data.',
         dataSearchLabel: 'Search account descriptions',
+        notice: `Effective Dates on Fiscal Data may differ from the published effective dates for corresponding reports on TreasuryDirect.`,
         fieldFilter: {
           field: 'report_type',
           value: ['Federal', 'State'],
@@ -305,6 +306,7 @@ module.exports = {
         dataDefaultHeader: 'This table requires additional filters.',
         dataDefaultMessage: 'Select an account in the filter section above to display the data.',
         dataSearchLabel: 'Search account descriptions',
+        notice: `Effective Dates on Fiscal Data may differ from the published effective dates for corresponding reports on TreasuryDirect.`,
         fieldFilter: {
           field: 'report_type',
           value: ['Federal', 'State'],
@@ -336,6 +338,7 @@ module.exports = {
         dataDefaultHeader: 'This table requires additional filters.',
         dataDefaultMessage: 'Select an account in the filter section above to display the data.',
         dataSearchLabel: 'Search account descriptions',
+        notice: `Effective Dates on Fiscal Data may differ from the published effective dates for corresponding reports on TreasuryDirect.`,
       },
       selectColumns: ['fed_act_statement', 'eff_date', 'shares_per_par', 'trans_desc_cd', 'memo_nbr', 'location_cd', 'acct_nbr', 'acct_desc'],
     },
