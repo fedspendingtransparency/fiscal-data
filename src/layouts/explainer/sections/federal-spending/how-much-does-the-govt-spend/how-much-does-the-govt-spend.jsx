@@ -147,13 +147,16 @@ const HowMuchDoesTheGovtSpend = () => {
     </CustomLink>
   );
 
+  const usaSpending = (
+    <CustomLink url="https://www.usaspending.gov/" eventNumber="34">
+      USAspending
+    </CustomLink>
+  );
+
   const footer = (
     <div className={footerStyle}>
-      Please note: Values displayed are outlays, which is money that is actually paid out by the government. Other sources, such as {' '}
-      <CustomLink url="https://www.usaspending.gov/" eventNumber="34">
-        USAspending
-      </CustomLink>
-      , may display spending as obligations, which is money that is promised to be paid, but may not yet be delivered.
+      Please note: Values displayed are outlays, which is money that is actually paid out by the government. Other sources, such as {usaSpending}, may
+      display spending as obligations, which is money that is promised to be paid, but may not yet be delivered.
       <p>Visit the {mts} dataset to explore and download this data.</p>
     </div>
   );

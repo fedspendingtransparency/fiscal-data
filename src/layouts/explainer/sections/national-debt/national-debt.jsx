@@ -95,7 +95,7 @@ const nationalDebtSections = [
 export default nationalDebtSections;
 
 const debtToThePenny = (
-  <CustomLink url="/datasets/debt-to-the-penny/" onClick={() => analyticsClickHandler('Citation Click')} id="Debt to the Penny">
+  <CustomLink url="/datasets/debt-to-the-penny/" onClick={() => analyticsClickHandler('Debt Citation Click')} id="Debt to the Penny">
     Debt to the Penny
   </CustomLink>
 );
@@ -103,7 +103,7 @@ const debtToThePenny = (
 const mspd = (
   <CustomLink
     url="/datasets/monthly-statement-public-debt/"
-    onClick={() => analyticsClickHandler('Citation Click')}
+    onClick={() => analyticsClickHandler('Debt Citation Click')}
     id="Monthly Statement of the Public Debt"
   >
     Monthly Statement of the Public Debt (MSPD)
@@ -111,7 +111,11 @@ const mspd = (
 );
 
 const historicalDebt = (
-  <CustomLink url="/datasets/historical-debt-outstanding/" onClick={() => analyticsClickHandler('Citation Click')} id="Historical Debt Outstanding">
+  <CustomLink
+    url="/datasets/historical-debt-outstanding/"
+    onClick={() => analyticsClickHandler('Debt Citation Click')}
+    id="Historical Debt Outstanding"
+  >
     Historical Debt Outstanding
   </CustomLink>
 );
@@ -119,7 +123,7 @@ const historicalDebt = (
 const treasurySecurities = (
   <CustomLink
     url="/datasets/average-interest-rates-treasury-securities/"
-    onClick={() => analyticsClickHandler('Citation Click')}
+    onClick={() => analyticsClickHandler('Debt Citation Click')}
     id="Average Interest Rates on U.S. Treasury Securities"
   >
     Average Interest Rates on U.S. Treasury Securities
@@ -127,7 +131,7 @@ const treasurySecurities = (
 );
 
 const bls = (
-  <CustomLink url="https://www.bls.gov/developers" onClick={() => analyticsClickHandler('Citation Click')}>
+  <CustomLink url="https://www.bls.gov/developers" onClick={() => analyticsClickHandler('Debt Citation Click')}>
     Bureau of Labor Statistics
   </CustomLink>
 );
@@ -135,7 +139,7 @@ const bls = (
 const bea = (
   <CustomLink
     url="https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey"
-    onClick={() => analyticsClickHandler('Citation Click')}
+    onClick={() => analyticsClickHandler('Debt Citation Click')}
   >
     Bureau of Economic Analysis
   </CustomLink>
@@ -144,13 +148,13 @@ const bea = (
 const github = (
   <CustomLink
     url="https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation"
-    onClick={() => analyticsClickHandler('Citation Click')}
+    onClick={() => analyticsClickHandler('Debt Citation Click')}
   >
     GitHub repository
   </CustomLink>
 );
 const historyOfTheDebt = (
-  <CustomLink url="https://treasurydirect.gov/government/historical-debt-outstanding/" onClick={() => analyticsClickHandler('Citation Click')}>
+  <CustomLink url="https://treasurydirect.gov/government/historical-debt-outstanding/" onClick={() => analyticsClickHandler('Debt Citation Click')}>
     history of the debt
   </CustomLink>
 );

@@ -28,7 +28,7 @@ export const analyticsClickHandler = action => {
   });
 };
 
-const diveDeeperCitationClick = () => analyticsClickHandler('Citation Click');
+const diveDeeperCitationClick = () => analyticsClickHandler('Debt Citation Click');
 
 export const debtLearnMoreLinks = [
   {

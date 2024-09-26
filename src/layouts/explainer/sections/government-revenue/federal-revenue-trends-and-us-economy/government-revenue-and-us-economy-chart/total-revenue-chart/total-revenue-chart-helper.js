@@ -14,9 +14,17 @@ const mts = (
   </CustomLink>
 );
 
-const bls = <CustomLink url={'https://www.bls.gov/developers/'}>Bureau of Labor Statistics</CustomLink>;
+const bls = (
+  <CustomLink url="https://www.bls.gov/developers/" eventNumber="25">
+    Bureau of Labor Statistics
+  </CustomLink>
+);
 
-const bea = <CustomLink url={'https://www.bea.gov/'}>Bureau of Economic Analysis</CustomLink>;
+const bea = (
+  <CustomLink url="https://www.bea.gov/" eventNumber="26">
+    Bureau of Economic Analysis
+  </CustomLink>
+);
 
 const footer = (
   <p>

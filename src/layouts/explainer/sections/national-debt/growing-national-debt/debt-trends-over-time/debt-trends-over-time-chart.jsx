@@ -58,13 +58,13 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const chartHeight = 490;
 
   const historicalDebtOutstanding = (
-    <CustomLink url={slug} onClick={() => analyticsClickHandler('Citation Click')} id="Historical Debt Outstanding">
+    <CustomLink url={slug} onClick={() => analyticsClickHandler('Debt Citation Click')} id="Historical Debt Outstanding">
       {name}
     </CustomLink>
   );
 
   const beaLink = (
-    <CustomLink url="https://www.bea.gov/" onClick={() => analyticsClickHandler('Citation Click')}>
+    <CustomLink url="https://www.bea.gov/" onClick={() => analyticsClickHandler('Debt Citation Click')}>
       Bureau of Economic Analysis
     </CustomLink>
   );

@@ -52,7 +52,10 @@ const SpendingCategoriesAccordion = () => {
   ];
 
   const usaSpending_majorSpendingCategories = (
-    <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}>
+    <CustomLink
+      url="https://www.usaspending.gov/"
+      onClick={() => analyticsClickHandler('Spending Citation Click', 'What are the major spending categories?')}
+    >
       USAspending.gov
     </CustomLink>
   );
@@ -60,7 +63,7 @@ const SpendingCategoriesAccordion = () => {
   const objectClass = (
     <CustomLink
       url="https://www.usaspending.gov/#/explorer/object_class"
-      onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}
+      onClick={() => analyticsClickHandler('Spending Citation Click', 'What are the major spending categories?')}
     >
       Object Class
     </CustomLink>
@@ -69,7 +72,7 @@ const SpendingCategoriesAccordion = () => {
   const budgetFunction = (
     <CustomLink
       url="https://www.usaspending.gov/explorer/budget_function"
-      onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}
+      onClick={() => analyticsClickHandler('Spending Citation Click', 'What are the major spending categories?')}
     >
       Budget Function
     </CustomLink>
