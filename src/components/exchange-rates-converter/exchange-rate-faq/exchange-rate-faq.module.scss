@@ -9,7 +9,43 @@
   padding-top: 20px;
   padding-bottom: 20px;
 }
+.exchangeRateFAQ {
+    :global(.accordionHeading) {
+      font-size: $font-size-18;
+      color: #0071BC;
+      border: none;
+      padding: 0.75rem 1rem;
+    }
 
+    :global(.accordionToggle) {
+      svg path {
+        color: #0071BC;
+      }
+    }
+
+    @media screen and (max-width: $breakpoint-sm - 1) {
+      :global(.accordionToggle) {
+        padding-left: 1.5rem;
+      }
+    }
+
+    @media screen and (max-width: $breakpoint-lg - 1) {
+      margin-top: 2rem;
+    }
+
+    :global(.accordionContent) {
+      padding-right: 1.25rem;
+      padding-left: 1.25rem;
+      padding-bottom: 1.5rem;
+      border: none;
+    }
+
+    :global(.accordionOpen),
+    :global(.accordionClosed) {
+      border: solid 0.06rem #d9d9d9;
+      border-radius: 0.13rem;
+    }
+}
 .container {
   display: flex;
   align-items: center;

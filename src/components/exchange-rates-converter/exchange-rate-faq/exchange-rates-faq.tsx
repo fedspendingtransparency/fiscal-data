@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { footer, title, container } from './exchange-rate-faq.module.scss';
+import { footer, title, container, exchangeRateFAQ } from './exchange-rate-faq.module.scss';
 import Accordion from '../../accordion/accordion';
 import CustomLink from '../../links/custom-link/custom-link';
 import { countDecimals, dateStringConverter } from '../currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
@@ -59,30 +59,32 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
     <div className={container}>
       <div>
         <h2 className={title}>Frequently Asked Questions</h2>
-        <Accordion
-          title="What does the future of Social Security and Medicare look like?"
-          openEventNumber="16"
-          explainerGAEvent="SpendingExplainer"
-          ga4ID="social-sec"
-        >
-          pasta
-        </Accordion>
-        <Accordion
-          title="What does the future of Social Security and Medicare look like?"
-          openEventNumber="16"
-          explainerGAEvent="SpendingExplainer"
-          ga4ID="social-sec"
-        >
-          pasta
-        </Accordion>
-        <Accordion
-          title="What does the future of Social Security and Medicare look like?"
-          openEventNumber="16"
-          explainerGAEvent="SpendingExplainer"
-          ga4ID="social-sec"
-        >
-          pasta
-        </Accordion>
+        <div className={exchangeRateFAQ}>
+          <Accordion
+            title="What does the future of Social Security and Medicare look like?"
+            openEventNumber="16"
+            explainerGAEvent="SpendingExplainer"
+            ga4ID="social-sec"
+          >
+            pasta
+          </Accordion>
+          <Accordion
+            title="What does the future of Social Security and Medicare look like?"
+            openEventNumber="16"
+            explainerGAEvent="SpendingExplainer"
+            ga4ID="social-sec"
+          >
+            pasta
+          </Accordion>
+          <Accordion
+            title="What does the future of Social Security and Medicare look like?"
+            openEventNumber="16"
+            explainerGAEvent="SpendingExplainer"
+            ga4ID="social-sec"
+          >
+            pasta
+          </Accordion>
+        </div>
       </div>
       <div>
         <h2 className={title}>Related Resources</h2>
