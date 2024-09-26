@@ -1,7 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import SiteLayout from '../../components/siteLayout/siteLayout';
-import PageHelmet from '../../components/page-helmet/page-helmet';
-import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import {
   title,
   container,
@@ -13,9 +10,8 @@ import {
   legalDisclaimer,
   boxWidth,
 } from './currency-exchange-rates-converter.module.scss';
-import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
-import CurrencyEntryBox from '../../components/exchange-rates-converter/currency-entry-box/currency-entry-box';
-import NestSelectControl from '../../components/select-control/nest-select-control';
+import CurrencyEntryBox from '../currency-entry-box/currency-entry-box';
+import NestSelectControl from '../../select-control/nest-select-control';
 import {
   dateStringConverter,
   breadCrumbLinks,
@@ -26,13 +22,12 @@ import {
   enforceTrailingZero,
   labelIcon,
 } from './currency-exchange-rates-converter-helper';
-import CustomLink from '../../components/links/custom-link/custom-link';
-import Analytics from '../../utils/analytics/analytics';
-import BannerCallout from '../../components/banner-callout/banner-callout';
-import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
+
+import CustomLink from '../../links/custom-link/custom-link';
+import Analytics from '../../../utils/analytics/analytics';
+import BannerCallout from '../../banner-callout/banner-callout';
+import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 import { graphql, useStaticQuery } from 'gatsby';
-import CurrencyExchange from '../../components/exchange-rates-converter/currency-exchange-rates-converter/currency-exchange-rates-converter';
-import CurrencyExchangeFAQ from '../../components/exchange-rates-converter/exchange-rate-faq/exchange-rates-faq';
 
 let gaInfoTipTimer;
 let gaCurrencyTimer;
@@ -54,7 +49,7 @@ type DropdownOption = {
   children?: DropdownOption[];
 };
 
-const CurrencyExchangeRatesConverter: FunctionComponent = () => {
+const CurrencyExchange: FunctionComponent = () => {
   const allExchangeRatesData = useStaticQuery(
     graphql`
       query {
@@ -293,49 +288,81 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   };
 
   return (
-    <SiteLayout isPreProd={false}>
-      <PageHelmet
-        pageTitle="Currency Exchange Rates Converter Tool"
-        description={
-          'Fiscal Data’s Currency Exchange Rates Converter Tool gives accurate and reliable currency ' +
-          'exchange rates based on trusted U.S. Treasury data. This tool can be used for the IRS Report of Foreign ' +
-          'Bank and Financial Accounts (FBAR) reporting.'
-        }
-        descriptionGenerator={false}
-        keywords="us treasury exchange rates, us dollar, foreign currency, exchange rates converter"
-        image=""
-        canonical=""
-        datasetDetails=""
-      />
-      <div className={breadCrumbsContainer}>
-        <BreadCrumbs links={breadCrumbLinks} />
-      </div>
-      <ExchangeRatesBanner text="Currency Exchange Rates Converter" copy={socialCopy} />
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <CurrencyExchange />
-        <CurrencyExchangeFAQ />
-      </div>
-
-      <div className={legalDisclaimer}>
-        <div>
-          <span> Important Legal Disclosures and Information</span>
-          <p>
-            The Treasury Reporting Rates of Exchange dataset provides the U.S. government's authoritative foreign currency exchange rates for federal
-            agencies to consistently report U.S. dollar equivalents. For more information on the calculation of exchange rates used by federal
-            agencies, please see the{' '}
-            <CustomLink
-              url="https://tfm.fiscal.treasury.gov/v1/p2/c320"
-              onClick={() => analyticsHandler('Citation Click', 'Treasury Financial Manual')}
-            >
-              Treasury Financial Manual, volume 1, part 2, section 3235
-            </CustomLink>
-            . This Exchange Rate Converter Tool is designed to make foreign currency exchange data values easier to access for federal agency
-            reporting purposes.
-          </p>
+    <div className={container} onBlur={handleInfoTipClose} role="presentation">
+      <h2 className={title}>Check foreign currency rates against the U.S. Dollar.</h2>
+      {nonUSCurrency !== null && (
+        <div data-testid="box-container" className={boxWidth}>
+          {data && (
+            <div className={currencyBoxContainer}>
+              <div className={selector}>
+                <NestSelectControl
+                  label={labelIcon(
+                    'Published Date',
+                    publishedDateInfoIcon.body,
+                    'effective-date-info-tip',
+                    true,
+                    () => handleMouseEnterInfoTip('Additional Published Date Info', 'eff-date'),
+                    handleInfoTipClose
+                  )}
+                  className={box}
+                  options={groupDateOption}
+                  selectedOption={selectedDate}
+                  changeHandler={handleDateChange}
+                />
+              </div>
+            </div>
+          )}
+          <div className={currencyBoxContainer}>
+            <CurrencyEntryBox
+              selectedCurrency={{
+                label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
+                value: nonUSCurrency,
+              }}
+              defaultCurrency={nonUSCurrency.country_currency_desc}
+              currencyValue={nonUSCurrencyExchangeValue}
+              dropdown
+              options={dropdownOptions}
+              onCurrencyChange={handleCurrencyChange}
+              onCurrencyValueChange={handleChangeNonUSCurrency}
+              testId="non-us-box"
+              header="FOREIGN CURRENCY"
+              tooltipDiplay={true}
+              tooltip={currencySelectionInfoIcon.body}
+            />
+            <CurrencyEntryBox
+              defaultCurrency="U.S. Dollar"
+              currencyValue={usDollarValue}
+              onCurrencyValueChange={useHandleChangeUSDollar}
+              testId="us-box"
+              header="U.S. DOLLAR"
+              tooltipDiplay={false}
+              tooltip=""
+            />
+          </div>
         </div>
-      </div>
-    </SiteLayout>
+      )}
+      {nonUSCurrency !== null && nonUSCurrency.exchange_rate && !inputWarning && (
+        <>
+          <h2 className={title}>BASED CONVERSION RATE</h2>
+          <span data-testid="exchange-values">
+            1.00 U.S. Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
+          </span>
+        </>
+      )}
+      {inputWarning && <BannerCallout bannerCallout={XRWarningBanner} bannerType="warningXR" />}
+      {/*<span className={footer}>*/}
+      {/*  The Currency Exchange Rates Converter tool is powered by the{' '}*/}
+      {/*  <CustomLink*/}
+      {/*    url="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange"*/}
+      {/*    onClick={() => analyticsHandler('Citation Click', 'Treasury Reporting Rates of Exchange Dataset')}*/}
+      {/*    id="Treasury Reporting Rates of Exchange"*/}
+      {/*  >*/}
+      {/*    Treasury Reporting Rates of Exchange*/}
+      {/*  </CustomLink>{' '}*/}
+      {/*  dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.*/}
+      {/*</span>*/}
+    </div>
   );
 };
 
-export default CurrencyExchangeRatesConverter;
+export default CurrencyExchange;
