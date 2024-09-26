@@ -125,6 +125,7 @@ const ComboSelectDropdown = ({
           break;
       }
       setMouseOverDropdown(false);
+
       if (!dropdownChild) {
         timeOutId = setTimeout(() => {
           setDropdownActive(false);
@@ -159,6 +160,7 @@ const ComboSelectDropdown = ({
         <div
           className={dropdownContainer}
           data-testid="dropdown-container"
+          onMouseDown={e => e.stopPropagation()}
           onMouseOver={() => setMouseOverDropdown(true)}
           onMouseLeave={() => setMouseOverDropdown(false)}
           onBlur={handleBlur}
