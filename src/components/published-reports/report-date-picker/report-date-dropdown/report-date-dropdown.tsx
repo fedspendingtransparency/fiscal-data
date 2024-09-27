@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactElement, useState } from 'react';
 import { applyButton, buttonContainer, cancelButton, checkIcon, dropdownContainer, inputContainer } from './report-date-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -7,12 +7,13 @@ import DateTextInput from '../date-text-input/date-text-input';
 interface IReportDateDropdown {
   handleClose: () => void;
   handleApply: () => void;
-  setSelectedMonth: (month: string) => void;
-  setSelectedYear: (year: string) => void;
+  setSelectedMonth?: (month: string) => void;
+  setSelectedYear?: (year: string) => void;
+  setCurrentDate?: (date: Date) => void;
   children: ReactElement;
   allDates: string[];
   selectedDate: string;
-  helpText: string;
+  daily?: boolean;
 }
 
 const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
@@ -20,20 +21,22 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
   handleApply,
   setSelectedMonth,
   setSelectedYear,
+  setCurrentDate,
   children,
   allDates,
   selectedDate,
-  helpText,
+  daily,
 }: IReportDateDropdown) => {
   const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
+  const label = daily ? 'Published Date (Example: May 1, 1998 or 05/01/1998)' : 'Published Date (Example: May 1998 or 05/1998)';
 
   return (
     <>
       <div className={dropdownContainer}>
         <div className={inputContainer}>
           <DateTextInput
-            label="Published Date (Example: May 1998 or 05/1998)"
+            label={label}
             validInput={validInput}
             setValidInput={setValidInput}
             inputFocus={inputFocus}
@@ -42,7 +45,7 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
             setSelectedYear={setSelectedYear}
             allDates={allDates}
             selectedDate={selectedDate}
-            helpText={helpText}
+            setCurrentDate={setCurrentDate}
           />
         </div>
         {children}

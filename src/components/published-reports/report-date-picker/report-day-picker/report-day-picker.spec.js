@@ -1,14 +1,10 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import ReportDayPicker from './report-day-picker';
+import userEvent from '@testing-library/user-event';
 
 describe('Report Day Picker', () => {
-  const allDates = [
-    new Date('8/8/2024').toDateString(),
-    new Date('8/7/2024').toDateString(),
-    new Date('8/8/2023').toDateString(),
-    new Date('8/8/2022').toDateString(),
-  ];
+  const allDates = ['August 8, 2024', 'August 7, 2024', 'August 8, 2023', 'August 8, 2022'];
 
   it('Updates selected date on calendar button click', () => {
     const { getByRole } = render(
@@ -23,9 +19,9 @@ describe('Report Day Picker', () => {
       />
     );
     const dayButton = getByRole('gridcell', { name: '7' });
-    const input = getByRole('textbox');
+    const input = getByRole('textbox', { name: 'Enter report date' });
     act(() => {
-      fireEvent.click(dayButton);
+      userEvent.click(dayButton);
     });
     expect(input).toHaveValue('August 7, 2024');
   });
@@ -62,7 +58,7 @@ describe('Report Day Picker', () => {
       />
     );
     act(() => {
-      fireEvent.click(getByRole('button', { name: 'Apply Selected Date' }));
+      userEvent.click(getByRole('button', { name: 'Apply Selected Date' }));
     });
     expect(mockHandleCloseFn).toHaveBeenCalled();
     expect(mockSetSelectedDateFn).toHaveBeenCalled();
@@ -84,7 +80,7 @@ describe('Report Day Picker', () => {
       />
     );
     act(() => {
-      fireEvent.click(getByRole('button', { name: 'Cancel' }));
+      userEvent.click(getByRole('button', { name: 'Cancel' }));
     });
     expect(mockHandleCloseFn).toHaveBeenCalled();
     expect(mockSetSelectedDateFn).not.toHaveBeenCalled();

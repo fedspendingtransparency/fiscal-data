@@ -32,6 +32,7 @@ module.exports = {
       topics: ['debt', 'financial-summaries'],
       relatedDatasets: ['015-BFS-2014Q3-038', '015-BFS-2014Q3-037'],
       currentDateButton: 'byMonth',
+      displayApiFilterForAllTables: true
     },
   },
   USE_MOCK_RELEASE_CALENDAR_DATA_ON_API_FAIL: true,

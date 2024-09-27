@@ -242,7 +242,7 @@ const TableSectionContainer = ({
   }, [selectedTable]);
 
   useEffect(() => {
-    setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
+    setDisableDownloadButton(userFilterUnmatchedForDateRange || ((apiFilterDefault || config.displayApiFilterForAllTables) && !selectedTable?.apiFilter?.displayDefaultData));
   }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
 
   useEffect(() => {
