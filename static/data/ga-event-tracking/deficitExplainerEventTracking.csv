@@ -1,6 +1,6 @@
 ﻿Number,Trigger,eventCategory,eventAction,eventLabel
 1,Click on the Explainers drop-down on the top of page navigation (ribbon),Fiscal Data - Sitewide Navigation,Topics Click,<title of explainer / insight page selected>
-2,"Click on link to MTS dataset within the ""What is the national deficit?"" section",Fiscal Data - Explainers,Deficit Citation Click,Deficit
+2,"Click on link to MTS dataset within the ""What is the national deficit?"" section",Fiscal Data - Explainers,Deficit Citation Click,Monthly Treasury Statement (MTS)
 3,"Click on ""Key Takeaways"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Deficit - Key Takeaways
 4,"Click on ""Understanding the National Deficit"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Deficit - Understanding the National Deficit
 5,"Click on ""The Causes of Deficits and Surpluses"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Deficit - The Causes of Deficits and Surpluses

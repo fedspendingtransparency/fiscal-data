@@ -2,7 +2,7 @@
 1,Hover on the Explainers drop-down on the top of page navigation (ribbon),Fiscal Data - Sitewide Navigation,Topics Click,<title of explainer / insight page selected>
 2,Click on a page within the navigation drop down,Fiscal Data - Sitewide Navigation,Topics Click,<title of explainer / insight page selected>
 3,Click on a page within the subnavigation,Fiscal Data - Sitewide Navigation,Left Nav Click,<title of explainer / insight page selected>
-4,Click on the link to the MTS,Fiscal Data - Explainers,Revenue Citation Click,Revenue,
+4,Click on the link to the MTS,Fiscal Data - Explainers,Revenue Citation Click,Monthly Treasury Statement (MTS),
 5,"Click on ""Key Takeaways"" in the left nav bar",Fiscal Data - Explainers,Left Nav Click,Revenue - Key  Takeaways
 6,"Click on ""Federal Revenue Overview"" in the left nav bar",Fiscal Data - Explainers,Left Nav Click,Revenue - Federal Revenue Overview
 7,"Click on ""Sources of Federal Revenue"" in the left nav bar",Fiscal Data - Explainers,Left Nav Click,Revenue - Sources of Federal Revenue
@@ -10,7 +10,7 @@
 9,"Click on ""Federal Revenue Compared to GDP"" in the left nav bar",Fiscal Data - Explainers,Left Nav Click,Revenue - Federal Revenue Compared to GDP
 10,"Click on the ""Share this page:"" options",Fiscal Data - Explainers,Share Click,Revenue - Share on <title of sharing option>
 11,Hover over chart bubbles for Sources of Federal Revenue,Fiscal Data - Explainers,Chart Hover,Revenue - Sources of Federal Revenue
-12,Click on the link to the MTS,Fiscal Data - Explainers,Revenue Citation Click,Revenue,
+12,Click on the link to the MTS,Fiscal Data - Explainers,Revenue Citation Click,Monthly Treasury Statement (MTS),
 13,"Click the accordion labeled, ""Why does the Federal Reserve send money to the federal government?""",Fiscal Data - Explainers,Accordian Expand Click,Revenue - Sources of Federal Revenue
 14,Click on the link to irs.gov,Fiscal Data - Explainers,Revenue Citation Click,Revenue,
 15,Hover over the chart data for US Federal Revenue Trends Over Time,Fiscal Data - Explainers,Chart Hover,Revenue - Federal Revenue Trends Over Time
