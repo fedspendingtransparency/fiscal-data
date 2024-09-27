@@ -366,7 +366,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
                     Visit the{' '}
                     <CustomLink
                       url="/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities"
-                      onClick={() => analyticsClickHandler('Citation Click', 'Interest Rate and Total Debt')}
+                      onClick={() => analyticsClickHandler('Citation Click', 'Average Interest Rates on U.S. Treasury Securities')}
                       id="Average Interest Rates on U.S. Treasury Securities"
                     >
                       Average Interest Rates on U.S. Treasury Securities
@@ -374,7 +374,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
                     and{' '}
                     <CustomLink
                       url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
-                      onClick={() => analyticsClickHandler('Citation Click', 'Interest Rate and Total Debt')}
+                      onClick={() => analyticsClickHandler('Citation Click', 'U.S. Treasury Monthly Statement of the Public Debt (MSPD)')}
                       id="U.S. Treasury Monthly Statement of the Public Debt"
                     >
                       U.S. Treasury Monthly Statement of the Public Debt (MSPD)

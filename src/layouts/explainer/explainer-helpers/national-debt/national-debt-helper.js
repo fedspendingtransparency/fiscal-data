@@ -24,7 +24,6 @@ export const analyticsClickHandler = (action, eventLabel) => {
   Analytics.event({
     category: 'Explainers',
     action: `Debt ${action}`,
-    // label: `Debt`,
     label: eventLabel? eventLabel : `Debt`,
   });
 };
