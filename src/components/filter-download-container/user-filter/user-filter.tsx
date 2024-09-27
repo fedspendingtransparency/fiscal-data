@@ -28,6 +28,7 @@ type UserFilterProps = {
         field: string;
       };
       disableDateRangeFilter: boolean;
+      futureDated: boolean;
     };
   };
   onUserFilter: (selection: { label: string | number; value?: string | number | null }) => void;
