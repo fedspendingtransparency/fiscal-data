@@ -188,6 +188,7 @@ module.exports = {
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account and/or date range in order to preview the data.',
         dataSearchLabel: 'Search account descriptions',
+        futureDated: true,
       },
     },
   },

@@ -399,7 +399,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       notice: String,
       optionValues: [String!],
       dataUnmatchedHeader: String,
-      dataUnmatchedMessage: String
+      dataUnmatchedMessage: String,
     }
     type OptionLabels {
       label: String,
@@ -420,7 +420,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       dataDefaultHeader: String,
       dataDefaultMessage: String,
       dataSearchLabel: String,
-      fieldFilter: FieldFilter
+      fieldFilter: FieldFilter,
+      futureDated: Boolean
     }
     type SEOConfig {
       title: String,
@@ -623,6 +624,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 field
                 value
               }
+              futureDated
             }
             downloadName
             earliestDate

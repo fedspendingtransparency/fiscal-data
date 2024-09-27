@@ -9,6 +9,12 @@ describe('Month year filter', () => {
     latestDate: new Date(2024, 8, 1),
   };
 
+  const mockFutureDatedTable = {
+    apiFilter: {
+      futureDated: true,
+    },
+  };
+
   beforeAll(() => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date(2024, 8, 1));
@@ -52,5 +58,20 @@ describe('Month year filter', () => {
     userEvent.click(updatedYearButton);
     yearButton = getByRole('button', { name: 'Year' });
     expect(yearButton).toContainHTML('2022');
+  });
+
+  it('updates month on select with future dated value', () => {
+    const { getByRole } = render(<MonthYearFilter setDateRange={jest.fn()} selectedTable={mockFutureDatedTable} />);
+    let monthButton = getByRole('button', { name: 'Month' });
+    expect(monthButton).toContainHTML('September');
+    userEvent.click(monthButton);
+    const decemberButton = getByRole('button', { name: 'December' });
+    userEvent.click(decemberButton);
+    monthButton = getByRole('button', { name: 'Month' });
+    expect(monthButton).toContainHTML('December');
+    userEvent.click(monthButton);
+    const augustButton = getByRole('button', { name: 'August' });
+    userEvent.click(augustButton);
+    expect(monthButton).toContainHTML('August');
   });
 });

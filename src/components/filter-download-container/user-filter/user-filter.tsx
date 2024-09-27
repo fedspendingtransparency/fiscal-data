@@ -29,6 +29,7 @@ type UserFilterProps = {
       };
       disableDateRangeFilter: boolean;
       displayApiFilterForAllTables: boolean;
+      futureDated: boolean;
     };
   };
   onUserFilter: (selection: { label: string | number; value?: string | number | null }) => void;
