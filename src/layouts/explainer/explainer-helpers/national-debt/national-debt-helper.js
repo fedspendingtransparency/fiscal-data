@@ -20,11 +20,12 @@ export const spendingLink = copy => (
     {copy}
   </CustomLink>
 );
-export const analyticsClickHandler = action => {
+export const analyticsClickHandler = (action, eventLabel) => {
   Analytics.event({
     category: 'Explainers',
     action: `Debt ${action}`,
-    label: `Debt`,
+    // label: `Debt`,
+    label: eventLabel? eventLabel : `Debt`,
   });
 };
 

@@ -92,7 +92,8 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
       Visit the{' '}
       <CustomLink
         url={slug}
-        onClick={() => analyticsClickHandler('Citation Click', 'Intragovernmental Holdings and Debt Held by the Public')}
+        // onClick={() => analyticsClickHandler('Citation Click', 'Intragovernmental Holdings and Debt Held by the Public')}
+        onClick={() => analyticsClickHandler('Citation Click', 'U.S. Treasury Monthly Statement of the Public Debt (MSPD)')}
         id="U.S. Treasury Monthly Statement of the Public Debt"
       >
         {name}
