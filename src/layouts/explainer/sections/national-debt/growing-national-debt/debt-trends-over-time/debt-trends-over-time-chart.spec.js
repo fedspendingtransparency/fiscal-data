@@ -76,7 +76,6 @@ describe('Debt Trends Over Time Chart', () => {
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
     const chartSlice = await getByTestId('debtTrendsChart').querySelector('div > div > svg > g > g > rect:nth-child(1)');
-
     expect(chartSlice).toBeInTheDocument();
   });
 
@@ -86,19 +85,21 @@ describe('Debt Trends Over Time Chart', () => {
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
       </RecoilRoot>
     );
-    // explicitly declare that the chart is not scrolled into view
-    mockAllIsIntersecting(false);
+    act(() => {
+      // explicitly declare that the chart is not scrolled into view
+      mockAllIsIntersecting(false);
+    });
 
     const latestDateComponents = await findAllByText('2021');
     expect(latestDateComponents[0]).toBeInTheDocument();
 
-    await act(async () => {
+    act(() => {
       mockAllIsIntersecting(true);
-      const dateComponents = await findAllByText('2011');
-      expect(dateComponents[0]).toBeInTheDocument();
-      const valueComponent = await findAllByText('80%');
-      expect(valueComponent[0]).toBeInTheDocument();
     });
+    const dateComponents = await findAllByText('2011');
+    expect(dateComponents[0]).toBeInTheDocument();
+    const valueComponent = await findAllByText('80%');
+    expect(valueComponent[0]).toBeInTheDocument();
   });
 
   it('calls the appropriate analytics event when links are clicked on', async () => {
@@ -117,16 +118,16 @@ describe('Debt Trends Over Time Chart', () => {
     historicalDebt.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
-      action: `Citation Click`,
-      label: 'Debt',
+      action: `Debt Citation Click`,
+      label: 'Historical Debt Outstanding',
     });
     spy.mockClear();
 
     bea.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
-      action: `Citation Click`,
-      label: 'Debt',
+      action: `Debt Citation Click`,
+      label: 'Bureau of Economic Analysis',
     });
     spy.mockClear();
   });
@@ -140,8 +141,10 @@ describe('Debt Trends Over Time Chart', () => {
     );
 
     const chart = await findByTestId('debtTrendsChart');
-    fireEvent.mouseOver(chart);
-    jest.advanceTimersByTime(5000);
+    act(() => {
+      fireEvent.mouseOver(chart);
+      jest.advanceTimersByTime(5000);
+    });
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Chart Hover`,

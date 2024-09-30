@@ -4,7 +4,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Bar } from '@nivo/bar';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { nationalDebtSectionConfigs } from '../../national-debt';
-import { analyticsClickHandler } from '../../../../explainer-helpers/national-debt/national-debt-helper';
+import { analyticsCitationHandler } from '../../../../explainer-helpers/national-debt/national-debt-helper';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import {
   fontBodyCopy,
@@ -90,11 +90,7 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
   const chartFooter = (
     <p>
       Visit the{' '}
-      <CustomLink
-        url={slug}
-        onClick={() => analyticsClickHandler('Citation Click', 'Intragovernmental Holdings and Debt Held by the Public')}
-        id="U.S. Treasury Monthly Statement of the Public Debt"
-      >
+      <CustomLink url={slug} onClick={() => analyticsCitationHandler(name)} id="U.S. Treasury Monthly Statement of the Public Debt">
         {name}
       </CustomLink>{' '}
       to explore and download this data.
