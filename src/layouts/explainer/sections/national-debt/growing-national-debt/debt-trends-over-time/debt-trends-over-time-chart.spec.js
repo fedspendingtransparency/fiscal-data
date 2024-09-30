@@ -118,7 +118,7 @@ describe('Debt Trends Over Time Chart', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Citation Click`,
-      label: 'Debt',
+      label: 'Historical Debt Outstanding',
     });
     spy.mockClear();
 
