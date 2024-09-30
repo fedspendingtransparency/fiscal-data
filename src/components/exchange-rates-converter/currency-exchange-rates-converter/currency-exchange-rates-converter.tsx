@@ -9,6 +9,8 @@ import {
   box,
   legalDisclaimer,
   boxWidth,
+  baseContainer,
+  conversionTitle,
 } from './currency-exchange-rates-converter.module.scss';
 import CurrencyEntryBox from '../currency-entry-box/currency-entry-box';
 import NestSelectControl from '../../select-control/nest-select-control';
@@ -342,25 +344,14 @@ const CurrencyExchange: FunctionComponent = () => {
         </div>
       )}
       {nonUSCurrency !== null && nonUSCurrency.exchange_rate && !inputWarning && (
-        <>
-          <h2 className={title}>BASED CONVERSION RATE</h2>
+        <div className={baseContainer}>
+          <h2 className={conversionTitle}>BASED CONVERSION RATE</h2>
           <span data-testid="exchange-values">
             1.00 U.S. Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
           </span>
-        </>
+        </div>
       )}
       {inputWarning && <BannerCallout bannerCallout={XRWarningBanner} bannerType="warningXR" />}
-      {/*<span className={footer}>*/}
-      {/*  The Currency Exchange Rates Converter tool is powered by the{' '}*/}
-      {/*  <CustomLink*/}
-      {/*    url="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange"*/}
-      {/*    onClick={() => analyticsHandler('Citation Click', 'Treasury Reporting Rates of Exchange Dataset')}*/}
-      {/*    id="Treasury Reporting Rates of Exchange"*/}
-      {/*  >*/}
-      {/*    Treasury Reporting Rates of Exchange*/}
-      {/*  </CustomLink>{' '}*/}
-      {/*  dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.*/}
-      {/*</span>*/}
     </div>
   );
 };

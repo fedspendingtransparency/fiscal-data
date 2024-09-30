@@ -12,6 +12,7 @@ import {
   box,
   legalDisclaimer,
   boxWidth,
+  componenentContianer,
 } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
 import CurrencyEntryBox from '../../components/exchange-rates-converter/currency-entry-box/currency-entry-box';
@@ -311,7 +312,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         <BreadCrumbs links={breadCrumbLinks} />
       </div>
       <ExchangeRatesBanner text="Currency Exchange Rates Converter" copy={socialCopy} />
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
+      <div className={componenentContianer}>
         <CurrencyExchange />
         <CurrencyExchangeFAQ />
       </div>

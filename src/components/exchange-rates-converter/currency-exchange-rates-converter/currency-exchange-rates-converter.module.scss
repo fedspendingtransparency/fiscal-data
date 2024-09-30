@@ -12,7 +12,6 @@
 
 .container {
   display: flex;
-  align-items: center;
   flex-direction: column;
   margin: 0 1.25rem;
 
@@ -20,10 +19,14 @@
     margin: 0;
     font-size: $font-size-18;
     font-weight: $semi-bold-weight;
-    //text-align: center;
     color: #555555;
   }
-
+.conversionTitle {
+  margin: 0;
+  font-size: $font-size-12;
+  font-weight: $semi-bold-weight;
+  color: #555555;
+}
   .selectText {
     max-width: 34.563rem;
     text-align: center;
@@ -148,9 +151,6 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .container {
-    .title {
-      margin: 0 3rem;
-    }
 
     .boxWidth {
       width: 100%;
@@ -159,7 +159,10 @@
     .currencyBoxContainer {
       flex-direction: column;
     }
-
+    .currencyBox {
+      margin: 0;
+      width: 100%;
+    }
     .footer {
       margin-bottom: 4rem;
     }
@@ -183,6 +186,11 @@
     }
   }
   .currencyBoxContainer {
+    width: 100%;
+
+  }
+  .currencyBox {
+    margin: 0;
     width: 100%;
   }
 }

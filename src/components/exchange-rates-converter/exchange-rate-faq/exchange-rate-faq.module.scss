@@ -54,7 +54,7 @@
 }
 .container {
   display: flex;
-  align-items: center;
+
   flex-direction: column;
   margin: 0 1.25rem;
   max-width: 25.25rem;
@@ -190,13 +190,13 @@
     gap: 2px;
   }
 }
+.baseContainer {
+
+}
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .container {
-    .title {
-      margin: 0 3rem;
-    }
-
+    max-width: none;
     .boxWidth {
       width: 100%;
     }

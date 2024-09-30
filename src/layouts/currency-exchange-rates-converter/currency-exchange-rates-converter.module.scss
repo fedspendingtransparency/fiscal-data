@@ -12,7 +12,6 @@
 
 .container {
   display: flex;
-  align-items: center;
   flex-direction: column;
   margin: 0 1.25rem;
 
@@ -24,6 +23,15 @@
     color: #555555;
   }
 
+  }
+.componenentContianer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  @media screen and (max-width: $breakpoint-lg) {
+    flex-direction: column;
+
+  }
   .selectText {
     max-width: 34.563rem;
     text-align: center;
