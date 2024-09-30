@@ -1,18 +1,31 @@
 @import 'src/variables.module';
 
-:global(.infoTipPopoverContents) {
-  font-size: $font-size-14;
-}
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 1.25rem;
+  max-width: 25.25rem;
 
-.breadCrumbsContainer {
-  margin: 0 auto;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-.exchangeRateFAQ {
-.containerClass{
-    margin-bottom: .5rem;
+
+  .title {
+    margin: 1.5rem 0 0.5rem 0;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    text-align: left;
+    color: #555555;
   }
+  .headTitle{
+    margin: 0 0 0.5rem 0;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    text-align: left;
+    color: #555555;
+  }
+  .exchangeRateFAQ {
+    .containerClass {
+      margin-bottom: 0.5rem;
+    }
+
     :global(.accordionHeading) {
       font-size: $font-size-18;
       color: #0071BC;
@@ -26,20 +39,8 @@
       }
     }
 
-    @media screen and (max-width: $breakpoint-sm - 1) {
-      :global(.accordionToggle) {
-        padding-left: 1.5rem;
-      }
-    }
-
-    @media screen and (max-width: $breakpoint-lg - 1) {
-      margin-top: 2rem;
-    }
-
     :global(.accordionContent) {
-      padding-right: 1.25rem;
-      padding-left: 1.25rem;
-      padding-bottom: 1.5rem;
+      padding: 0 1.25rem 1.5rem;
       border: none;
     }
 
@@ -47,49 +48,6 @@
     :global(.accordionClosed) {
       border: solid 0.06rem #d9d9d9;
       border-radius: 0.13rem;
-    }
-}
-.link{
-
-}
-.container {
-  display: flex;
-
-  flex-direction: column;
-  margin: 0 1.25rem;
-  max-width: 25.25rem;
-
-
-  .title {
-    margin: 1.5rem 0 .5rem 0 ;
-    font-size: $font-size-16;
-    font-weight: $semi-bold-weight;
-    text-align: left;
-    color: #555555;
-  }
-  .headTitle {
-    margin: 0 0 .5rem 0 ;
-    font-size: $font-size-16;
-    font-weight: $semi-bold-weight;
-    text-align: left;
-    color: #555555;
-  }
-
-  .selectText {
-    max-width: 34.563rem;
-    text-align: center;
-
-    .icon {
-      height: 0.875rem;
-    }
-  }
-
-  .currencyBoxContainer {
-    display: flex;
-    flex-direction: row;
-    margin: 2rem 0;
-    &:first-child {
-      margin-right: 3rem;
     }
   }
 
@@ -100,140 +58,15 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-lg) {
-  .breadCrumbsContainer {
-    max-width: calc(#{$site-content-width} + 2rem);
-    padding-left: 2rem;
-  }
-}
-
-.selectorContainer {
-  display: flex;
-  justify-content: center;
-  padding: 1.2rem 2rem 0.5625rem;
-  max-width: 34.563rem;
-  margin-bottom: 1.5rem;
-  border: solid 1px #d9d9d9;
-  border-radius: 2px;
-  background: var(--primary-white, #fff);
-  box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.1);
-}
-.labelName{
-  font-size: $font-size-14;
-  font-weight: 400;
-}
-
-.selector {
-  margin-right: 0.5rem;
-  font-weight: 600;
-  width: 50%;
-  @media screen and (max-width: $breakpoint-lg - 1) {
-    width: 100%;
-  }
-}
-
-.box {
-  width: 100%;
-  height: 2.75rem;
-  margin-top: -1.8px;
-}
-
-.effectiveDateContainer {
-  font-weight: 600;
-  gap: 13.4px;
-  margin-left: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  width: 8.75rem;
-  margin-top: 0.3rem;
-
-  .icon {
-    height: 0.875rem;
-  }
-}
-
-.effectiveDateText {
-  font-weight: normal;
-}
-
-.legalDisclaimer {
-  width: 100%;
-  height: 10rem;
-  background-color: #f1f1f1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  span {
-    font-size: 1rem;
-    display: table;
-    color: #555555;
-    padding-top: 1.8rem;
-    margin-left: 9.375rem;
-    font-weight: $semi-bold-weight;
-  }
-  p {
-    margin: 12px 9.375rem 0;
-    font-size: 0.875rem;
-    max-width: 71.25rem;
-    padding-bottom: 2rem;
-  }
-}
-
-@media screen and (max-width: $breakpoint-sm - 1) {
-  .selectorContainer {
-    height: 9rem;
-    flex-wrap: wrap;
-  }
-
-  .box {
-    //width: 100%;
-  }
-
-  .effectiveDateContainer {
-    margin-top: -30px;
-    margin-right: 8.35rem;
-    gap: 2px;
-  }
-}
-.baseContainer {
-
-}
-
 @media screen and (max-width: $breakpoint-lg - 1) {
   .container {
     max-width: none;
-    .boxWidth {
-      width: 100%;
-    }
-
-    .currencyBoxContainer {
-      flex-direction: column;
-    }
-
-    .footer {
-      margin-bottom: 4rem;
-    }
   }
-}
-
-@media screen and (max-width: $breakpoint-lg - 1) {
-  .breadCrumbsContainer {
-    width: calc(100% - 13px);
-    padding-left: 13px;
-  }
-  .legalDisclaimer {
-    height: 19rem;
-
-    span {
-      margin-left: 1.25rem;
-    }
-
-    p {
-      margin: 20px 20px 37px 1.25rem;
-    }
-  }
-  .currencyBoxContainer {
-    width: 100%;
+  .headTitle{
+    margin: 1.5rem 0 0.5rem 0;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    text-align: left;
+    color: #555555;
   }
 }
