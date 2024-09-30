@@ -235,6 +235,7 @@ const TableSectionContainer = ({
   }, [window.innerWidth]);
 
   useEffect(() => {
+    console.log('selectedTable:: ', selectedTable);
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
     setReactTableSort([]);
@@ -242,11 +243,24 @@ const TableSectionContainer = ({
   }, [selectedTable]);
 
   useEffect(() => {
-    setDisableDownloadButton(userFilterUnmatchedForDateRange || ((apiFilterDefault || config.displayApiFilterForAllTables) && !selectedTable?.apiFilter?.displayDefaultData));
-  }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
+    console.log('allTablesSelected: ', allTablesSelected);
+    console.log('userFilterSelection?.value: ', userFilterSelection?.value);
+    if (allTablesSelected && config?.displayApiFilterForAllTables) {
+      setDisableDownloadButton(userFilterSelection?.value === null);
+    }
+    // if (userFilterSelection?.value === null) setDisableDownloadButton(true);
+
+  }, [allTablesSelected]);
+
+  useEffect(() => {
+    setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
+    // setDisableDownloadButton(userFilterUnmatchedForDateRange || ((apiFilterDefault || config.displayApiFilterForAllTables) && !selectedTable?.apiFilter?.displayDefaultData));
+
+    }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
 
   useEffect(() => {
     if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
+
       setApiFilterDefault(true);
       setManualPagination(false);
     }

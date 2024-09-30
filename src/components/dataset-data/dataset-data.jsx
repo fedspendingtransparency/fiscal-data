@@ -205,6 +205,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
 
   useEffect(() => {
+    console.log('allTablesSelected: ', allTablesSelected);
     if (allTablesSelected) {
       setTableColumnSortData([]);
     }
