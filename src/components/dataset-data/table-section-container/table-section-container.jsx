@@ -235,26 +235,22 @@ const TableSectionContainer = ({
   }, [window.innerWidth]);
 
   useEffect(() => {
-    console.log('selectedTable:: ', selectedTable);
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
     setReactTableSort([]);
     setUserFilterSelection(null);
-  }, [selectedTable]);
+  }, [selectedTable, allTablesSelected]);
 
   useEffect(() => {
-    console.log('allTablesSelected: ', allTablesSelected);
-    console.log('userFilterSelection?.value: ', userFilterSelection?.value);
     if (allTablesSelected && config?.displayApiFilterForAllTables) {
-      setDisableDownloadButton(userFilterSelection?.value === null);
+      setDisableDownloadButton(!userFilterSelection || userFilterSelection?.value === null);
     }
-    // if (userFilterSelection?.value === null) setDisableDownloadButton(true);
-
-  }, [allTablesSelected]);
+  }, [userFilterSelection]);
 
   useEffect(() => {
-    setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
-    // setDisableDownloadButton(userFilterUnmatchedForDateRange || ((apiFilterDefault || config.displayApiFilterForAllTables) && !selectedTable?.apiFilter?.displayDefaultData));
+    if (!allTablesSelected) {
+      setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
+    }
 
     }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
 
