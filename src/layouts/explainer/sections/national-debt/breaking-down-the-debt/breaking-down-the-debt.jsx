@@ -9,7 +9,7 @@ import VisualizationCallout from '../../../../../components/visualization-callou
 import Multichart from '../../../multichart/multichart';
 import Accordion from '../../../../../components/accordion/accordion';
 import { chartPatternBackground, nationalDebtSectionConfigs } from '../national-debt';
-import { spendingLink } from '../../../explainer-helpers/national-debt/national-debt-helper';
+import { analyticsCitationHandler, spendingLink } from '../../../explainer-helpers/national-debt/national-debt-helper';
 import { analyticsClickHandler } from '../../../explainer-helpers/national-debt/national-debt-helper';
 import React, { useEffect, useState } from 'react';
 import { breakpointLg, fontSize_10, fontSize_14, debtExplainerPrimary, debtExplainerLightSecondary } from '../../../../../variables.module.scss';
@@ -366,7 +366,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
                     Visit the{' '}
                     <CustomLink
                       url="/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities"
-                      onClick={() => analyticsClickHandler('Citation Click', 'Interest Rate and Total Debt')}
+                      onClick={() => analyticsCitationHandler('Average Interest Rates on U.S. Treasury Securities')}
                       id="Average Interest Rates on U.S. Treasury Securities"
                     >
                       Average Interest Rates on U.S. Treasury Securities
@@ -374,7 +374,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
                     and{' '}
                     <CustomLink
                       url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
-                      onClick={() => analyticsClickHandler('Citation Click', 'Interest Rate and Total Debt')}
+                      onClick={() => analyticsCitationHandler('U.S. Treasury Monthly Statement of the Public Debt')}
                       id="U.S. Treasury Monthly Statement of the Public Debt"
                     >
                       U.S. Treasury Monthly Statement of the Public Debt (MSPD)

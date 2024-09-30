@@ -158,7 +158,7 @@ describe('Breaking Down the Debt', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt',
+      label: 'U.S. Treasury Monthly Statement of the Public Debt (MSPD)',
     });
     spy.mockClear();
 
@@ -166,7 +166,7 @@ describe('Breaking Down the Debt', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt',
+      label: 'Average Interest Rates on U.S. Treasury Securities',
     });
     spy.mockClear();
   });
