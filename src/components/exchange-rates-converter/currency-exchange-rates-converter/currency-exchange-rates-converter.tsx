@@ -11,6 +11,7 @@ import {
   boxWidth,
   baseContainer,
   conversionTitle,
+  headTitle,
 } from './currency-exchange-rates-converter.module.scss';
 import CurrencyEntryBox from '../currency-entry-box/currency-entry-box';
 import NestSelectControl from '../../select-control/nest-select-control';
@@ -291,7 +292,7 @@ const CurrencyExchange: FunctionComponent = () => {
 
   return (
     <div className={container} onBlur={handleInfoTipClose} role="presentation">
-      <h2 className={title}>Check foreign currency rates against the U.S. Dollar.</h2>
+      <h2 className={headTitle}>Check foreign currency rates against the U.S. Dollar.</h2>
       {nonUSCurrency !== null && (
         <div data-testid="box-container" className={boxWidth}>
           {data && (

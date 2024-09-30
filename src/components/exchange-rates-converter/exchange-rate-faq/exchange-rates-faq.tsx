@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { footer, title, container, exchangeRateFAQ, containerClass } from './exchange-rate-faq.module.scss';
+import { footer, title, container, exchangeRateFAQ, containerClass, headTitle } from './exchange-rate-faq.module.scss';
 import Accordion from '../../accordion/accordion';
 import CustomLink from '../../links/custom-link/custom-link';
 import { dateStringConverter } from '../currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
@@ -83,7 +83,7 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
   return (
     <div className={container}>
       <div>
-        <h2 className={title}>Frequently Asked Questions</h2>
+        <h2 className={headTitle}>Frequently Asked Questions</h2>
         <div className={exchangeRateFAQ}>
           {faqs.map((faq, index) => (
             <Accordion

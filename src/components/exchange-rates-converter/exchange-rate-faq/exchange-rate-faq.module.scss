@@ -61,12 +61,18 @@
 
 
   .title {
-    margin: 0;
+    margin: 1.5rem 0 .5rem 0 ;
     font-size: $font-size-16;
     font-weight: $semi-bold-weight;
     text-align: left;
     color: #555555;
-    margin-bottom: .5rem;
+  }
+  .headTitle {
+    margin: 0 0 .5rem 0 ;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    text-align: left;
+    color: #555555;
   }
 
   .selectText {

@@ -15,14 +15,24 @@
   flex-direction: column;
   margin: 0 1.25rem;
 
+
   .title {
-    margin: 0;
-    font-size: $font-size-18;
+    margin: 1.5rem 0 .5rem 0 ;
+    font-size: $font-size-16;
     font-weight: $semi-bold-weight;
+    color: #555555;
+
+  }
+  .headTitle {
+    margin: 0 0 .5rem 0 ;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    text-align: left;
     color: #555555;
   }
 .conversionTitle {
   margin: 0;
+  margin-bottom: .5rem;
   font-size: $font-size-12;
   font-weight: $semi-bold-weight;
   color: #555555;

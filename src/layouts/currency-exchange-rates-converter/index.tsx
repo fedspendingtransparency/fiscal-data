@@ -34,7 +34,7 @@ import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytic
 import { graphql, useStaticQuery } from 'gatsby';
 import CurrencyExchange from '../../components/exchange-rates-converter/currency-exchange-rates-converter/currency-exchange-rates-converter';
 import CurrencyExchangeFAQ from '../../components/exchange-rates-converter/exchange-rate-faq/exchange-rates-faq';
-
+import Experimental from '../../components/experimental/experimental';
 let gaInfoTipTimer;
 let gaCurrencyTimer;
 let ga4Timer;
@@ -316,7 +316,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         <CurrencyExchange />
         <CurrencyExchangeFAQ />
       </div>
-
       <div className={legalDisclaimer}>
         <div>
           <span> Important Legal Disclosures and Information</span>

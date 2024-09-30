@@ -13,7 +13,7 @@ type ExternalLinkProps = {
 const ExternalLink: FunctionComponent<ExternalLinkProps> = ({ url, children, onClick, dataTestId = 'external-link', externalIcon }) => (
   <>
     {externalIcon ? (
-      <div style={{ display: 'inline-flex', marginBottom: '1rem' }}>
+      <div style={{ display: 'inline-flex', marginBottom: '.5' }}>
         <FontAwesomeIcon icon={faExternalLink} style={{ marginRight: '.5rem', color: '#0071bc', paddingTop: '.25rem' }} />
         <a
           className="primary"
