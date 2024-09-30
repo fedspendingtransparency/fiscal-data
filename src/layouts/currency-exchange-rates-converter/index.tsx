@@ -311,7 +311,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         <BreadCrumbs links={breadCrumbLinks} />
       </div>
       <ExchangeRatesBanner text="Currency Exchange Rates Converter" copy={socialCopy} />
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
         <CurrencyExchange />
         <CurrencyExchangeFAQ />
       </div>

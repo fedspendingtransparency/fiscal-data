@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { footer, title, container, exchangeRateFAQ } from './exchange-rate-faq.module.scss';
+import { footer, title, container, exchangeRateFAQ, containerClass, link } from './exchange-rate-faq.module.scss';
 import Accordion from '../../accordion/accordion';
 import CustomLink from '../../links/custom-link/custom-link';
 import { countDecimals, dateStringConverter } from '../currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
@@ -61,40 +61,78 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
         <h2 className={title}>Frequently Asked Questions</h2>
         <div className={exchangeRateFAQ}>
           <Accordion
-            title="What does the future of Social Security and Medicare look like?"
+            title="How is this foreign currency converter different from others?"
             openEventNumber="16"
             explainerGAEvent="SpendingExplainer"
             ga4ID="social-sec"
+            containerClass={containerClass}
           >
-            pasta
+            This currency converter is powered by data from the Treasury Reporting Rates of Exchange dataset. The data represents the U.S.
+            government’s authoritative exchange rates and is available quarterly. Other currency converters may be available more frequently, but
+            those are not official rates from the U.S. Treasury and are more likely powered by financial exchanges or market data contributors.
           </Accordion>
           <Accordion
             title="What does the future of Social Security and Medicare look like?"
             openEventNumber="16"
             explainerGAEvent="SpendingExplainer"
             ga4ID="social-sec"
+            containerClass={containerClass}
           >
-            pasta
+            You should always check the latest IRS guidance on how to complete tax forms. Although the intended purpose of this data is to ensure
+            consistency for foreign currency units and U.S. dollar equivalents across all reporting done by agencies of the government, the exchange
+            rates on Fiscal Data represent the U.S. government’s authoritative exchange rates and can also be used for your IRS tax forms. For
+            questions on completing those forms, reference the Related Resources section on this page for helpful links or visit Let us help you |
+            IRS.gov.
           </Accordion>
-          <Accordion
-            title="What does the future of Social Security and Medicare look like?"
-            openEventNumber="16"
-            explainerGAEvent="SpendingExplainer"
-            ga4ID="social-sec"
-          >
-            pasta
+          <Accordion title="Why can’t I see a real-time exchange rate?" openEventNumber="16" explainerGAEvent="SpendingExplainer" ga4ID="social-sec">
+            The U.S. Treasury publishes this data quarterly. The data is not available on a more frequent cadence at this time.
           </Accordion>
         </div>
       </div>
       <div>
         <h2 className={title}>Related Resources</h2>
-        <CustomLink
-          external={true}
-          url="https://www.irs.gov/businesses/small-businesses-self-employed/report-of-foreign-bank-and-financial-accounts-fbar"
-          id="Report of Foreign Bank and Finacial Accounts (FBAR) IRS.gov"
-        >
-          Report of Foreign Bank and Finacial Accounts (FBAR) IRS.gov
-        </CustomLink>
+        <div>
+          <CustomLink
+            external={true}
+            url="https://www.irs.gov/businesses/small-businesses-self-employed/report-of-foreign-bank-and-financial-accounts-fbar"
+            id="Report of Foreign Bank and Finacial Accounts (FBAR) IRS.gov"
+            displayIcon={true}
+          >
+            Report of Foreign Bank and Finacial Accounts (FBAR) IRS.gov
+          </CustomLink>
+          <CustomLink
+            external={true}
+            url="https://www.irs.gov/forms-pubs/about-form-8938"
+            id="Report of Foreign Bank and Finacial Accounts (FBAR) IRS.gov"
+            displayIcon={true}
+          >
+            About Form 8938, Statement of Specified Foreign Financial Assets | IRS.gov
+          </CustomLink>
+          <CustomLink
+            external={true}
+            url="https://www.irs.gov/individuals/international-taxpayers/foreign-currency-and-currency-exchange-rates"
+            id="Report of Foreign Bank and Finacial Accounts (FBAR) IRS.gov"
+            displayIcon={true}
+          >
+            Foreign currency and currency exchange rates | IRS.gov
+          </CustomLink>
+          <CustomLink
+            external={true}
+            url="https://www.irs.gov/individuals/international-taxpayers/yearly-average-currency-exchange-rates"
+            id="Report of Foreign Bank and Finacial Accounts (FBAR) IRS.gov"
+            displayIcon={true}
+          >
+            Yearly Average Currency Exchange Rates | IRS.gov
+          </CustomLink>
+          <CustomLink
+            external={true}
+            url="https://www.irs.gov/individuals/international-taxpayers/us-citizens-and-residents-abroad-filing-requirements"
+            id="Report of Foreign Bank and Finacial Accounts (FBAR) IRS.gov"
+            displayIcon={true}
+          >
+            U.S. citizens and residents abroad filing requirements | IRS.gov
+          </CustomLink>
+        </div>
       </div>
       <div>
         <h2 className={title}>Data Source</h2>

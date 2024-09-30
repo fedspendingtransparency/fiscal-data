@@ -10,6 +10,9 @@
   padding-bottom: 20px;
 }
 .exchangeRateFAQ {
+.containerClass{
+    margin-bottom: .5rem;
+  }
     :global(.accordionHeading) {
       font-size: $font-size-18;
       color: #0071BC;
@@ -46,6 +49,9 @@
       border-radius: 0.13rem;
     }
 }
+.link{
+
+}
 .container {
   display: flex;
   align-items: center;
@@ -56,10 +62,11 @@
 
   .title {
     margin: 0;
-    font-size: $font-size-18;
+    font-size: $font-size-16;
     font-weight: $semi-bold-weight;
     text-align: left;
     color: #555555;
+    margin-bottom: .5rem;
   }
 
   .selectText {
