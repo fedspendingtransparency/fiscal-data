@@ -8,15 +8,17 @@ import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 const CurrencyExchangeFAQ: FunctionComponent = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      allExchangeRatesData {
-        exchangeRatesData: nodes {
-          record_date
+  const data = useStaticQuery(
+    graphql`
+      query {
+        allExchangeRatesData {
+          exchangeRatesData: nodes {
+            record_date
+          }
         }
       }
-    }
-  `).allExchangeRatesData.exchangeRatesData;
+    `
+  ).allExchangeRatesData.exchangeRatesData;
 
   const [datasetDate, setDatasetDate] = useState<string>('');
 
@@ -43,13 +45,31 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
   const faqs = [
     {
       title: 'How is this foreign currency converter different from others?',
-      content:
-        'This currency converter is powered by data from the Treasury Reporting Rates of Exchange dataset. The data represents the U.S. government’s authoritative exchange rates and is available quarterly. Other currency converters may be available more frequently, but those are not official rates from the U.S. Treasury and are more likely powered by financial exchanges or market data contributors.',
+      content: (
+        <>
+          This currency converter is powered by data from the{' '}
+          {
+            <CustomLink url="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange">
+              Treasury Reporting Rates of Exchange
+            </CustomLink>
+          }{' '}
+          dataset. The data represents the U.S. government’s authoritative exchange rates and is available quarterly. Other currency converters may be
+          available more frequently, but those are not official rates from the U.S. Treasury and are more likely powered by financial exchanges or
+          market data contributors.
+        </>
+      ),
     },
     {
       title: 'Can I use these exchange rates for my IRS tax forms?',
-      content:
-        'You should always check the latest IRS guidance on how to complete tax forms. Although the intended purpose of this data is to ensure consistency for foreign currency units and U.S. dollar equivalents across all reporting done by agencies of the government, the exchange rates on Fiscal Data represent the U.S. government’s authoritative exchange rates and can also be used for your IRS tax forms. For questions on completing those forms, reference the Related Resources section on this page for helpful links or visit Let us help you | IRS.gov.',
+      content: (
+        <>
+          You should always check the latest IRS guidance on how to complete tax forms. Although the intended purpose of this data is to ensure
+          consistency for foreign currency units and U.S. dollar equivalents across all reporting done by agencies of the government, the exchange
+          rates on Fiscal Data represent the U.S. government’s authoritative exchange rates and can also be used for your IRS tax forms. For questions
+          on completing those forms, reference the Related Resources section on this page for helpful links or visit{' '}
+          <CustomLink url="https://www.irs.gov/help/let-us-help-you">Let us help you | IRS.gov</CustomLink>.
+        </>
+      ),
     },
     {
       title: 'Why can’t I see a real-time exchange rate?',
@@ -90,8 +110,8 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
               key={index}
               title={faq.title}
               openEventNumber="16"
-              explainerGAEvent="SpendingExplainer"
-              ga4ID="currency-exchange-faq"
+              explainerGAEvent="CurrencyExchangeRatesConverter"
+              ga4ID="Exchange Rates Converter"
               containerClass={containerClass}
             >
               {faq.content}
@@ -103,25 +123,28 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
         <h2 className={title}>Related Resources</h2>
         <div>
           {relatedResources.map((resource, index) => (
-            <CustomLink key={index} external url={resource.url} id={resource.text} displayIcon>
-              {resource.text}
-            </CustomLink>
+            //UNCOMMENT FOR FDG-9484
+            // <CustomLink key={index} external url={resource.url} id={resource.text} displayIcon>
+            //   {resource.text}
+            // </CustomLink>
+            <></>
           ))}
         </div>
       </div>
       <div>
         <h2 className={title}>Data Source</h2>
-        <span className={footer}>
-          The Currency Exchange Rates Converter tool is powered by the{' '}
-          <CustomLink
-            url="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange"
-            onClick={() => analyticsHandler('Citation Click', 'Treasury Reporting Rates of Exchange Dataset')}
-            id="Treasury Reporting Rates of Exchange"
-          >
-            Treasury Reporting Rates of Exchange
-          </CustomLink>{' '}
-          dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.
-        </span>
+        {/*UNCOMMENT FOR FDG-9482 */}
+        {/*<span className={footer}>*/}
+        {/*  The Currency Exchange Rates Converter tool is powered by the{' '}*/}
+        {/*  <CustomLink*/}
+        {/*    url="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange"*/}
+        {/*    onClick={() => analyticsHandler('Citation Click', 'Treasury Reporting Rates of Exchange Dataset')}*/}
+        {/*    id="Treasury Reporting Rates of Exchange"*/}
+        {/*  >*/}
+        {/*    Treasury Reporting Rates of Exchange*/}
+        {/*  </CustomLink>{' '}*/}
+        {/*  dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.*/}
+        {/*</span>*/}
       </div>
     </div>
   );
