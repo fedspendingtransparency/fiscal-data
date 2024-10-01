@@ -239,14 +239,24 @@ const TableSectionContainer = ({
     setHasPivotOptions(hasPivotOptions);
     setReactTableSort([]);
     setUserFilterSelection(null);
-  }, [selectedTable]);
+  }, [selectedTable, allTablesSelected]);
 
   useEffect(() => {
-    setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
-  }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
+    if (allTablesSelected && config?.displayApiFilterForAllTables) {
+      setDisableDownloadButton(!userFilterSelection || userFilterSelection?.value === null);
+    }
+  }, [userFilterSelection]);
+
+  useEffect(() => {
+    if (!allTablesSelected) {
+      setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
+    }
+
+    }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
 
   useEffect(() => {
     if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
+
       setApiFilterDefault(true);
       setManualPagination(false);
     }

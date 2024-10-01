@@ -207,8 +207,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   useEffect(() => {
     if (allTablesSelected) {
       setTableColumnSortData([]);
-      setUserFilterSelection(null);
     }
+    setUserFilterSelection(null);
   }, [allTablesSelected]);
 
   useEffect(() => {
@@ -281,6 +281,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                     setResetFilters={setResetFilters}
                     allTablesSelected={allTablesSelected}
                     setDateRange={setDateRange}
+                    displayApiFilterForAllTables={config.displayApiFilterForAllTables}
                   />
                 )}
               </>

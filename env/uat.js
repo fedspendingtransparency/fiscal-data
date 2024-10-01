@@ -49,7 +49,6 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-093'],
       currentDateButton: 'byFullMonth',
     },
-
     '015-BFS-2024Q1-003': {
       slug: '/fbp-detailed-principal-accrued-interest/',
       seoConfig: {
@@ -61,6 +60,7 @@ module.exports = {
       topics: ['debt', 'financial-summaries'],
       relatedDatasets: ['015-BFS-2014Q3-038', '015-BFS-2014Q3-037'],
       currentDateButton: 'byMonth',
+      displayApiFilterForAllTables: true,
     },
   },
   ADDITIONAL_ENDPOINTS: {
@@ -259,6 +259,7 @@ module.exports = {
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account and/or date range in order to preview the data.',
         dataSearchLabel: 'Search account descriptions',
+        futureDated: true,
       },
     },
     '305': {
