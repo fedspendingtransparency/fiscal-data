@@ -8,7 +8,7 @@ import { breadCrumbLinks, socialCopy } from './currency-exchange-rates-converter
 import CustomLink from '../../components/links/custom-link/custom-link';
 import Analytics from '../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
-import CurrencyExchange from '../../components/exchange-rates-converter/currency-exchange-rates-converter/currency-exchange-rates-converter';
+import CurrencyExchangeRateTool from '../../components/exchange-rates-converter/currency-exchange-rates-converter/currency-exchange-rates-converter';
 import CurrencyExchangeFAQ from '../../components/exchange-rates-converter/exchange-rate-faq/exchange-rates-faq';
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
@@ -46,7 +46,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       </div>
       <ExchangeRatesBanner text="Currency Exchange Rates Converter" copy={socialCopy} />
       <div className={componenentContianer}>
-        <CurrencyExchange />
+        <CurrencyExchangeRateTool />
         <CurrencyExchangeFAQ />
       </div>
       <div className={legalDisclaimer}>

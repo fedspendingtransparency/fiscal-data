@@ -124,7 +124,7 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
         <div>
           {relatedResources.map((resource, index) => (
             //UNCOMMENT FOR FDG-9484
-            // <CustomLink key={index} external url={resource.url} id={resource.text} displayIcon>
+            // <CustomLink key={index} external url={resource.url} id={resource.text} >
             //   {resource.text}
             // </CustomLink>
             <></>

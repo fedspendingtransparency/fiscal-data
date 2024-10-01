@@ -35,7 +35,7 @@ type DropdownOption = {
   children?: DropdownOption[];
 };
 
-const CurrencyExchange: FunctionComponent = () => {
+const CurrencyExchangeRateTool: FunctionComponent = () => {
   const allExchangeRatesData = useStaticQuery(
     graphql`
       query {
@@ -340,4 +340,4 @@ const CurrencyExchange: FunctionComponent = () => {
   );
 };
 
-export default CurrencyExchange;
+export default CurrencyExchangeRateTool;
