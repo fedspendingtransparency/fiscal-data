@@ -95,7 +95,7 @@ const nationalDebtSections = [
 export default nationalDebtSections;
 
 const debtToThePenny = (
-  <CustomLink url="/datasets/debt-to-the-penny/" onClick={() => analyticsClickHandler('Citation Click')} id="Debt to the Penny">
+  <CustomLink url="/datasets/debt-to-the-penny/" onClick={() => analyticsClickHandler('Citation Click', 'Debt to the Penny')} id="Debt to the Penny">
     Debt to the Penny
   </CustomLink>
 );
@@ -103,7 +103,7 @@ const debtToThePenny = (
 const mspd = (
   <CustomLink
     url="/datasets/monthly-statement-public-debt/"
-    onClick={() => analyticsClickHandler('Citation Click')}
+    onClick={() => analyticsClickHandler('Citation Click', 'Monthly Treasury Statement (MTS)')}
     id="Monthly Statement of the Public Debt"
   >
     Monthly Statement of the Public Debt (MSPD)
@@ -111,7 +111,7 @@ const mspd = (
 );
 
 const historicalDebt = (
-  <CustomLink url="/datasets/historical-debt-outstanding/" onClick={() => analyticsClickHandler('Citation Click')} id="Historical Debt Outstanding">
+  <CustomLink url="/datasets/historical-debt-outstanding/" onClick={() => analyticsClickHandler('Citation Click', 'Historical Debt Outstanding')} id="Historical Debt Outstanding">
     Historical Debt Outstanding
   </CustomLink>
 );
@@ -119,7 +119,7 @@ const historicalDebt = (
 const treasurySecurities = (
   <CustomLink
     url="/datasets/average-interest-rates-treasury-securities/"
-    onClick={() => analyticsClickHandler('Citation Click')}
+    onClick={() => analyticsClickHandler('Citation Click', 'Average Interest Rates onf U.S. Treasury Securities')}
     id="Average Interest Rates on U.S. Treasury Securities"
   >
     Average Interest Rates on U.S. Treasury Securities
