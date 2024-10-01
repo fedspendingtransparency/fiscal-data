@@ -399,7 +399,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       notice: String,
       optionValues: [String!],
       dataUnmatchedHeader: String,
-      dataUnmatchedMessage: String
+      dataUnmatchedMessage: String,
     }
     type OptionLabels {
       label: String,
@@ -407,9 +407,11 @@ exports.createSchemaCustomization = ({ actions }) => {
     type ApiFilter {
       field: String,
       labelField: String,
+      displayAllTablesResults: Boolean,
       downloadLabel: String,
       label: String,
       displayDefaultData: Boolean,
+      disableDateRangeFilter: Boolean,
       notice: String,
       optionValues: [String!],
       optionLabels: OptionLabels,
@@ -418,7 +420,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       dataDefaultHeader: String,
       dataDefaultMessage: String,
       dataSearchLabel: String,
-      fieldFilter: FieldFilter
+      fieldFilter: FieldFilter,
+      futureDated: Boolean
     }
     type SEOConfig {
       title: String,
@@ -450,6 +453,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       customRangePreset: String,
       selectColumns: [String],
       detailView: DetailView,
+      displayApiFilterForAllTables: Boolean,
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
@@ -511,6 +515,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          displayApiFilterForAllTables
           detailView {
             apiId
             field
@@ -600,9 +605,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             apiFilter {
               field
               labelField
+              displayAllTablesResults
               downloadLabel
               label
               displayDefaultData
+              disableDateRangeFilter
               notice
               optionValues
               optionLabels {
@@ -617,6 +624,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 field
                 value
               }
+              futureDated
             }
             downloadName
             earliestDate
@@ -745,6 +753,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   });
 
   for (const config of result.data.allDatasets.datasets) {
+    const allResults = [];
+    let allResultsLabels = {};
     for (const api of config.apis) {
       if (api.userFilter) {
         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
@@ -760,11 +770,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
         filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
         if (api.apiFilter?.labelField) {
-          filterOptionsUrl += `,${api.apiFilter.labelField}`;
+          filterOptionsUrl += `,${api.apiFilter.labelField}&page[size]=10000&sort=${api.apiFilter.labelField}`;
+        } else {
+          filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
         }
-        filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
 
         if (api.apiFilter.fieldFilter) {
+          // Tables with subheaders within the dropdown (ex. UTF)
           const multiOptions = {};
           for (const val of api.apiFilter.fieldFilter.value) {
             const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
@@ -775,6 +787,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           }
           api.apiFilter.optionValues = multiOptions; // uniquify results
         } else if (api.apiFilter.labelField) {
+          //Different field used for value vs label (ex. FBP)
           let options;
           const labelOptions = {};
           await fetch(filterOptionsUrl).then(res =>
@@ -786,14 +799,29 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
             })
           );
-          api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
-          api.apiFilter.optionLabels = labelOptions;
+          if (!api.apiFilter.displayAllTablesResults) {
+            api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
+            api.apiFilter.optionLabels = labelOptions;
+          } else {
+            allResults.push(...new Set(options));
+            allResultsLabels = { ...allResultsLabels, ...labelOptions };
+          }
         } else {
           const options = await fetch(filterOptionsUrl).then(res =>
             res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
           );
-          api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
+          if (!api.apiFilter.displayAllTablesResults) {
+            api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
+          } else {
+            allResults.push(...new Set(options));
+          }
         }
+      }
+    }
+    if (allResults.length > 0) {
+      for (const api of config.apis) {
+        api.apiFilter.optionValues = { all: [...new Set(allResults)] }; // uniquify results
+        api.apiFilter.optionLabels = allResultsLabels;
       }
     }
     createPage({

@@ -33,13 +33,13 @@ describe('Range Presets Component, without the current report radio option', () 
         <RangePresets
           selectedTable={selectedTable}
           setIsFiltered={setIsFilteredMock}
-          setDateRange={setDateRangeMock}
+          handleDateRangeChange={setDateRangeMock}
           setIsCustomDateRange={setIsCustomDateRangeMock}
         />
       );
     });
     instance = component.root;
-    setDateRangeSpy = jest.spyOn(instance.props, 'setDateRange');
+    setDateRangeSpy = jest.spyOn(instance.props, 'handleDateRangeChange');
     isFilteredSpy = jest.spyOn(instance.props, 'setIsFiltered');
   });
 
@@ -89,7 +89,7 @@ describe('Range Presets Component, without the current report radio option', () 
         <RangePresets
           selectedTable={newTable}
           setIsFiltered={setIsFilteredMock}
-          setDateRange={setDateRangeMock}
+          handleDateRangeChange={setDateRangeMock}
           setIsCustomDateRange={setIsCustomDateRangeMock}
         />
       );
@@ -118,7 +118,7 @@ describe('Range Presets Component, without the current report radio option', () 
         <RangePresets
           selectedTable={newTable}
           setIsFiltered={setIsFilteredMock}
-          setDateRange={setDateRangeMock}
+          handleDateRangeChange={setDateRangeMock}
           setIsCustomDateRange={setIsCustomDateRangeMock}
         />
       );
@@ -137,7 +137,7 @@ describe('Range Presets Component, without the current report radio option', () 
         <RangePresets
           selectedTable={mockTable}
           setIsFiltered={setIsFilteredMock}
-          setDateRange={setDateRangeMock}
+          handleDateRangeChange={setDateRangeMock}
           setIsCustomDateRange={setIsCustomDateRangeMock}
           currentDateButton={true}
         />
@@ -166,7 +166,7 @@ describe('Range Presets Component, without the current report radio option', () 
         <RangePresets
           selectedTable={mockTable}
           setIsFiltered={setIsFilteredMock}
-          setDateRange={setDateRangeMock}
+          handleDateRangeChange={setDateRangeMock}
           setIsCustomDateRange={setIsCustomDateRangeMock}
           currentDateButton={true}
           datePreset={'current'}
@@ -198,7 +198,7 @@ describe('Range Presets Component, without the current report radio option', () 
         <RangePresets
           selectedTable={selectedTable}
           setIsFiltered={setIsFilteredMock}
-          setDateRange={setDateRangeMock}
+          handleDateRangeChange={setDateRangeMock}
           setIsCustomDateRange={setIsCustomDateRangeMock}
           datasetDateRange={{ earliestDate: selectedTable.earliestDate, latestDate: selectedTable.latestDate }}
           datePreset={'custom'}
@@ -296,14 +296,14 @@ describe('Range Presets Component, without the current report radio option', () 
     // Change to a table whose range is later with no dates overlapping current custom dateRange
     setDateRangeMock.mockClear();
     renderer.act(() => {
-      component.update(<RangePresets selectedTable={mockFarLateTable} setIsFiltered={setIsFilteredMock} setDateRange={setDateRangeMock} />);
+      component.update(<RangePresets selectedTable={mockFarLateTable} setIsFiltered={setIsFilteredMock} handleDateRangeChange={setDateRangeMock} />);
     });
     expect(testReformatter(setDateRangeSpy.mock.calls[0][0])).toEqual('2021-01-01 - 2021-01-01');
 
     // Change to a table whose range is later but overlaps custom range
     setDateRangeMock.mockClear();
     renderer.act(() => {
-      component.update(<RangePresets selectedTable={mockLateTable} setIsFiltered={setIsFilteredMock} setDateRange={setDateRangeMock} />);
+      component.update(<RangePresets selectedTable={mockLateTable} setIsFiltered={setIsFilteredMock} handleDateRangeChange={setDateRangeMock} />);
     });
     expect(testReformatter(setDateRangeSpy.mock.calls[0][0])).toEqual('2010-01-01 - 2020-01-01');
     expect(testReformatter(datePickers.props.selectedDateRange)).toEqual('2010-01-01 - 2020-01-01');
@@ -311,7 +311,7 @@ describe('Range Presets Component, without the current report radio option', () 
     // Early without overlap
     setDateRangeMock.mockClear();
     renderer.act(() => {
-      component.update(<RangePresets selectedTable={mockFarEarlyTable} setIsFiltered={setIsFilteredMock} setDateRange={setDateRangeMock} />);
+      component.update(<RangePresets selectedTable={mockFarEarlyTable} setIsFiltered={setIsFilteredMock} handleDateRangeChange={setDateRangeMock} />);
     });
     expect(testReformatter(setDateRangeSpy.mock.calls[0][0])).toEqual('1999-01-01 - 1999-01-01');
     expect(testReformatter(datePickers.props.selectedDateRange)).toEqual('1999-01-01 - 1999-01-01');
@@ -319,7 +319,7 @@ describe('Range Presets Component, without the current report radio option', () 
     // Overlapping early
     setDateRangeMock.mockClear();
     renderer.act(() => {
-      component.update(<RangePresets selectedTable={mockEarlyTable} setIsFiltered={setIsFilteredMock} setDateRange={setDateRangeMock} />);
+      component.update(<RangePresets selectedTable={mockEarlyTable} setIsFiltered={setIsFilteredMock} handleDateRangeChange={setDateRangeMock} />);
     });
     expect(testReformatter(setDateRangeSpy.mock.calls[0][0])).toEqual('2004-01-01 - 2011-01-01');
     expect(testReformatter(datePickers.props.selectedDateRange)).toEqual('2004-01-01 - 2011-01-01');
@@ -327,7 +327,7 @@ describe('Range Presets Component, without the current report radio option', () 
     // Inset on both ends
     setDateRangeMock.mockClear();
     renderer.act(() => {
-      component.update(<RangePresets selectedTable={mockInteriorTable} setIsFiltered={setIsFilteredMock} setDateRange={setDateRangeMock} />);
+      component.update(<RangePresets selectedTable={mockInteriorTable} setIsFiltered={setIsFilteredMock} handleDateRangeChange={setDateRangeMock} />);
     });
     expect(testReformatter(setDateRangeSpy.mock.calls[0][0])).toEqual('2005-01-01 - 2015-01-01');
     expect(testReformatter(datePickers.props.selectedDateRange)).toEqual('2005-01-01 - 2015-01-01');
@@ -335,7 +335,7 @@ describe('Range Presets Component, without the current report radio option', () 
     // Overlapping both ends
     setDateRangeMock.mockClear();
     renderer.act(() => {
-      component.update(<RangePresets selectedTable={selectedTable} setIsFiltered={setIsFilteredMock} setDateRange={setDateRangeMock} />);
+      component.update(<RangePresets selectedTable={selectedTable} setIsFiltered={setIsFilteredMock} handleDateRangeChange={setDateRangeMock} />);
     });
     expect(testReformatter(setDateRangeSpy.mock.calls[0][0])).toEqual('2004-01-01 - 2020-01-01');
     expect(testReformatter(datePickers.props.selectedDateRange)).toEqual('2004-01-01 - 2020-01-01');
@@ -350,7 +350,7 @@ describe('Range Presets Component, without the current report radio option', () 
           selectedTable={mockTableRange}
           allTablesSelected={false}
           setIsFiltered={setIsFilteredMock}
-          setDateRange={setDateRangeMock}
+          handleDateRangeChange={setDateRangeMock}
           datasetDateRange={{ earliestDate: '1998/01/01', latestDate: '2021/06/01' }}
           setIsCustomDateRange={jest.fn}
         />
@@ -373,7 +373,7 @@ describe('Range Presets Component, without the current report radio option', () 
           selectedTable={mockTableRange}
           allTablesSelected={true}
           setIsFiltered={setIsFilteredMock}
-          setDateRange={setDateRangeMock}
+          handleDateRangeChange={setDateRangeMock}
           datasetDateRange={{ earliestDate: '1998/01/01', latestDate: '2021/06/01' }}
           setIsCustomDateRange={jest.fn}
         />
@@ -411,14 +411,14 @@ describe('Current report button available', () => {
         <RangePresets
           selectedTable={selectedTable}
           setIsFiltered={setIsFilteredMock}
-          setDateRange={setDateRangeMock}
+          handleDateRangeChange={setDateRangeMock}
           setIsCustomDateRange={setIsCustomDateRangeMock}
           currentDateButton={'byMonth'}
         />
       );
     });
     instance = component.root;
-    setDateRangeSpy = jest.spyOn(instance.props, 'setDateRange');
+    setDateRangeSpy = jest.spyOn(instance.props, 'handleDateRangeChange');
   });
 
   it('updates the selected radio button when pressed', async () => {
@@ -471,7 +471,7 @@ describe('Current report button available', () => {
         <RangePresets
           selectedTable={selectedTable}
           setIsFiltered={setIsFilteredMock}
-          setDateRange={setDateRangeMock}
+          handleDateRangeChange={setDateRangeMock}
           setIsCustomDateRange={setIsCustomDateRangeMock}
           currentDateButton={'byDay'}
         />
@@ -495,7 +495,7 @@ describe('Current report button available', () => {
         <RangePresets
           selectedTable={selectedTable}
           setIsFiltered={setIsFilteredMock}
-          setDateRange={setDateRangeMock}
+          handleDateRangeChange={setDateRangeMock}
           setIsCustomDateRange={setIsCustomDateRangeMock}
           currentDateButton={'byLast30Days'}
         />
@@ -530,26 +530,12 @@ describe('Range Presets Component - datatable banner', () => {
   const setIsFilteredMock = jest.fn();
   const setIsCustomDateRangeMock = jest.fn();
 
-  it(`renders the datatable banner when datatableBanner exists`, () => {
-    const bannerText = 'This is a test';
-    const { getByTestId } = render(
-      <RangePresets
-        selectedTable={selectedTable}
-        setIsFiltered={setIsFilteredMock}
-        setDateRange={setDateRangeMock}
-        setIsCustomDateRange={setIsCustomDateRangeMock}
-        datatableBanner={bannerText}
-      />
-    );
-    expect(getByTestId('datatable-banner')).toHaveTextContent(bannerText);
-  });
-
   it(`does not render the datatable banner when no datatableBanner is passed in`, () => {
     const { queryByTestId } = render(
       <RangePresets
         selectedTable={selectedTable}
         setIsFiltered={setIsFilteredMock}
-        setDateRange={setDateRangeMock}
+        handleDateRangeChange={setDateRangeMock}
         setIsCustomDateRange={setIsCustomDateRangeMock}
       />
     );

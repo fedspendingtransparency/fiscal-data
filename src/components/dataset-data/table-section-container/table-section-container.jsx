@@ -89,8 +89,8 @@ const TableSectionContainer = ({
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
-  const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
 
+  const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
   const formatDate = detailDate => {
     const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
@@ -242,7 +242,7 @@ const TableSectionContainer = ({
   }, [selectedTable]);
 
   useEffect(() => {
-    setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
+    setDisableDownloadButton(userFilterUnmatchedForDateRange || ((apiFilterDefault || config.displayApiFilterForAllTables) && !selectedTable?.apiFilter?.displayDefaultData));
   }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
 
   useEffect(() => {
@@ -383,7 +383,13 @@ const TableSectionContainer = ({
                 userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
                 apiFilterDefault={apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData}
                 onToggleLegend={legendToggler}
-                emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
+                emptyData={
+                  !isLoading &&
+                  !serverSidePagination &&
+                  (!apiData || !apiData.data || !apiData.data.length) &&
+                  (!tableMeta || tableMeta?.count === 0) &&
+                  !apiError
+                }
                 unchartable={noChartMessage !== undefined}
                 currentTab={selectedTab}
                 datasetName={config?.name}
@@ -421,6 +427,7 @@ const TableSectionContainer = ({
                       setSorting={setReactTableSort}
                       allActiveFilters={allActiveFilters}
                       setAllActiveFilters={setAllActiveFilters}
+                      disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}
                     />
                   ) : (
                     ''

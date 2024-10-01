@@ -4,8 +4,6 @@ import { monthNames } from '../../../utils/api-utils';
 import { addDays, subQuarters, differenceInYears } from 'date-fns';
 import determineDateRange, { generateAnalyticsEvent, generateFormattedDate, prepAvailableDates } from './helpers/helper';
 import DatePickers from '../datepickers/datepickers';
-import UserFilter from '../user-filter/user-filter';
-import DatatableBanner from '../datatable-banner/datatable-banner';
 
 const RangePresets = ({
   currentDateButton,
@@ -13,15 +11,12 @@ const RangePresets = ({
   customRangePreset,
   selectedTable,
   apiData,
-  onUserFilter,
-  setDateRange,
+  handleDateRangeChange,
   setIsFiltered,
   setIsCustomDateRange,
   allTablesSelected,
   datasetDateRange,
   finalDatesNotFound,
-  setResetFilters,
-  datatableBanner,
   hideButtons,
 }) => {
   const [activePresetKey, setActivePresetKey] = useState(null);
@@ -44,7 +39,6 @@ const RangePresets = ({
   const fallbackPresets = ['1yr', 'current', 'all'];
 
   const allTablesDateRange = prepAvailableDates(datasetDateRange);
-
   /**
    * DATE RANGE
    */
@@ -63,7 +57,7 @@ const RangePresets = ({
     if (preset.key !== customPreset.key) {
       prepUpdateDateRange(preset);
     } else {
-      setDateRange(dateRange);
+      handleDateRangeChange(dateRange);
     }
 
     if (preset.key === 'all') {
@@ -82,7 +76,7 @@ const RangePresets = ({
     if (curDateRange) {
       setPickerDateRange(availableDateRange);
       setCurDateRange(curDateRange);
-      setDateRange(curDateRange);
+      handleDateRangeChange(curDateRange);
     }
   };
 
@@ -114,7 +108,7 @@ const RangePresets = ({
           const adjustedRange = fitDateRangeToTable(dateRange, availableDateRange);
           setPickerDateRange(availableDateRange);
           setCurDateRange(adjustedRange);
-          setDateRange(adjustedRange);
+          handleDateRangeChange(adjustedRange);
         } else {
           prepUpdateDateRange(curSelectedOption);
         }
@@ -277,18 +271,6 @@ const RangePresets = ({
           {activePresetKey === customPreset.key && (
             <DatePickers selectedDateRange={dateRange} availableDateRange={pickerDateRange} setSelectedDates={updateDateRange} />
           )}
-          {selectedTable.userFilter && (
-            <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} setResetFilters={setResetFilters} />
-          )}
-          {selectedTable.apiFilter && (
-            <UserFilter
-              selectedTable={selectedTable}
-              onUserFilter={onUserFilter}
-              setResetFilters={setResetFilters}
-              allTablesSelected={allTablesSelected}
-            />
-          )}
-          {datatableBanner && <DatatableBanner bannerNotice={datatableBanner} />}
         </>
       )}
     </>
