@@ -55,16 +55,16 @@ describe('CurrencyExchangeFAQ Component', () => {
     expect(getByText('Can I use these exchange rates for my IRS tax forms?')).toBeInTheDocument();
     expect(getByText('Why can’t I see a real-time exchange rate?')).toBeInTheDocument();
   });
-  //UNCOMMENT FOR OTHER TICKET
-  // it('renders all related resources', () => {
-  //   const { getByText } = render(<CurrencyExchangeFAQ />);
-  //
-  //   expect(getByText('Report of Foreign Bank and Financial Accounts (FBAR) | IRS.gov')).toBeInTheDocument();
-  //   expect(getByText('About Form 8938, Statement of Specified Foreign Financial Assets | IRS.gov')).toBeInTheDocument();
-  //   expect(getByText('Foreign currency and currency exchange rates | IRS.gov')).toBeInTheDocument();
-  //   expect(getByText('Yearly Average Currency Exchange Rates | IRS.gov')).toBeInTheDocument();
-  //   expect(getByText('U.S. citizens and residents abroad filing requirements | IRS.gov')).toBeInTheDocument();
-  // });
+
+  it('renders all related resources', () => {
+    const { getByText } = render(<CurrencyExchangeFAQ />);
+
+    expect(getByText('Report of Foreign Bank and Financial Accounts (FBAR) | IRS.gov')).toBeInTheDocument();
+    expect(getByText('About Form 8938, Statement of Specified Foreign Financial Assets | IRS.gov')).toBeInTheDocument();
+    expect(getByText('Foreign currency and currency exchange rates | IRS.gov')).toBeInTheDocument();
+    expect(getByText('Yearly Average Currency Exchange Rates | IRS.gov')).toBeInTheDocument();
+    expect(getByText('U.S. citizens and residents abroad filing requirements | IRS.gov')).toBeInTheDocument();
+  });
   //
   // it('renders the correct dataset date', () => {
   //   const { getByText } = render(<CurrencyExchangeFAQ />);
