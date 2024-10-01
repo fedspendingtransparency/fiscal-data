@@ -14,11 +14,11 @@ export const federalSpendingSectionIds = [
   'spending-trends-over-time-and-the-us-economy',
 ];
 
-export const analyticsClickHandler = () => {
+export const analyticsClickHandler = (eventLabel) => {
   Analytics.event({
     category: 'Explainers',
     action: 'Spending Citation Click',
-    label: `Spending`,
+    label: eventLabel ? eventLabel : `Spending`,
   });
 };
 

@@ -1,11 +1,13 @@
 import React from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
+import { analyticsClickHandler } from '../../sections/federal-spending/federal-spending'
 
 const mts = (
   <CustomLink
     url="/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government"
     eventNumber="23"
     id="Monthly Treasury Statement"
+    onClick={() => analyticsClickHandler('Monthly Treasury Statement (MTS)')}
   >
     Monthly Treasury Statement
   </CustomLink>
