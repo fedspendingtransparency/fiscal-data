@@ -66,7 +66,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
 
   const XRWarningBanner = { banner: 'XRPageWarning' };
 
-  const analyticsHandler = (action, label) => {
+  const analyticsHandlers = (action, label) => {
     if (action && label) {
       Analytics.event({
         category: 'Exchange Rates Converter',
@@ -82,7 +82,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
 
   const handleMouseEnterInfoTip = (label, ga4ID) => {
     gaInfoTipTimer = setTimeout(() => {
-      analyticsHandler('Additional Info Hover', label);
+      analyticsHandlers('Additional Info Hover', label);
     }, 3000);
     ga4Timer = setTimeout(() => {
       ga4DataLayerPush({
@@ -197,7 +197,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
 
     if (!isNaN(parseFloat(event.target.value))) {
       gaCurrencyTimer = setTimeout(() => {
-        analyticsHandler('USD Value Entered', event.target.value);
+        analyticsHandlers('USD Value Entered', event.target.value);
       }, 3000);
 
       product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
@@ -217,7 +217,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
     setNonUSCurrencyExchangeValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
       gaCurrencyTimer = window.setTimeout(() => {
-        analyticsHandler('Foreign Currency Value Entered', event.target.value);
+        analyticsHandlers('Foreign Currency Value Entered', event.target.value);
       }, 3000);
       quotient = parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate);
       quotient = quotient.toFixed(2);
@@ -229,7 +229,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
 
   const handleDateChange = (selectedDateOption: DropdownOption) => {
     setSelectedDate(selectedDateOption);
-    analyticsHandler('Published Date Selection', selectedDateOption.value);
+    analyticsHandlers('Published Date Selection', selectedDateOption.value);
     if (selectedDateOption) {
       const newCurrency = data.find(
         record =>

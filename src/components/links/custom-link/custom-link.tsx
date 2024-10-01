@@ -15,7 +15,6 @@ type CustomLinkProps = {
   eventNumber?: string;
   id?: string;
   tabindex?: number;
-  displayIcon?: boolean;
 };
 
 const analyticsEventMap: Record<string, string> = {

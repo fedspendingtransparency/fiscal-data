@@ -276,6 +276,21 @@ it('calls the appropriate analytics event when Foreign Currency info tip is hove
   jest.runAllTimers();
 });
 
+// it('calls the appropriate analytics event when TRRE link is clicked', async () => {
+//   const spy = jest.spyOn(Analytics, 'event');
+//   const { getByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+//   await waitFor(() => getByText('U.S. Dollar'));
+//
+//   const trreLink = getByText('Treasury Reporting Rates of Exchange');
+//   fireEvent.click(trreLink);
+//
+//   expect(spy).toHaveBeenCalledWith({
+//     category: 'Exchange Rates Converter',
+//     action: `Citation Click`,
+//     label: 'Treasury Reporting Rates of Exchange Dataset',
+//   });
+// });
+
 it('calls the appropriate analytics event when Treasury Financial Manual link is clicked', async () => {
   const spy = jest.spyOn(Analytics, 'event');
   const { getByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
