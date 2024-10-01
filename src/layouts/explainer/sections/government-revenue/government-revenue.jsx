@@ -14,11 +14,11 @@ const governmentRevenueSectionIds = [
   'federal-revenue-trends-and-the-us-economy',
 ];
 
-export const analyticsClickHandler = () => {
+export const analyticsClickHandler = (eventLabel) => {
   Analytics.event({
     category: 'Explainers',
     action: 'Revenue Citation Click',
-    label: `Revenue`,
+    label: eventLabel ? eventLabel: `Revenue`,
   });
 };
 

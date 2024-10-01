@@ -1,11 +1,13 @@
 import React from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
+import { analyticsClickHandler } from '../../../explainer/sections/government-revenue/government-revenue';
 
 const mts = (
   <CustomLink
     url="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
     eventNumber="24"
     id="Monthly Treasury Statement"
+    onClick={() => analyticsClickHandler('Monthly Treasury Statement (MTS)')}
   >
     Monthly Treasury Statement (MTS)
   </CustomLink>
