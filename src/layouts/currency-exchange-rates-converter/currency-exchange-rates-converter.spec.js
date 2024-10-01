@@ -123,51 +123,36 @@ describe('exchange rates converter', () => {
     expect(usBox.value).toBe('');
   });
 
-  // it('renders the most recent effective date', async () => {
-  //   const { getByText, getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
-  //   await waitFor(() => getByText('U.S. Dollar'));
-  //   const dropdown = getByTestId('nested-dropdown');
-  //   const dropdownButton = within(dropdown).getByTestId('toggle-button');
-  //   expect(within(dropdownButton).getByText('December 31, 2023')).toBeInTheDocument();
-  //
-  //   fireEvent.click(dropdownButton);
-  //
-  //   const dateButtonDec2022 = within(dropdown).getByRole('button', { name: 'December 31, 2022' });
-  //
-  //   fireEvent.click(dateButtonDec2022);
-  //
-  //   expect(getByText('December 31, 2022 to September 30, 2024', { exact: false })).toBeInTheDocument();
-  // });
-  // it('displays -- when the selected currency is not available for a given date', async () => {
-  //   const { getByText, getByTestId, getAllByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
-  //   await waitFor(() => getByText('U.S. Dollar'));
-  //   const dropdown = getByTestId('dropdown-button-container');
-  //   let dropdownButton = within(dropdown).getByTestId('dropdownToggle');
-  //   expect(within(dropdownButton).getByText('Euro Zone-Euro')).toBeInTheDocument();
-  //
-  //   fireEvent.click(dropdownButton);
-  //   const dropdownList = getByTestId('dropdown-container');
-  //
-  //   const newCurrency = within(dropdownList).getByRole('button', { name: 'Other OtherDollar2' });
-  //
-  //   fireEvent.click(newCurrency);
-  //   dropdownButton = within(dropdown).getByTestId('dropdownToggle');
-  //
-  //   expect(within(dropdownButton).getByText('Other OtherDollar2')).toBeInTheDocument();
-  //
-  //   const dateDropdown = getByTestId('nested-dropdown');
-  //   const dateDropdownButton = within(dateDropdown).getByTestId('toggle-button');
-  //   expect(within(dateDropdownButton).getByText('December 31, 2023')).toBeInTheDocument();
-  //
-  //   fireEvent.click(dateDropdownButton);
-  //
-  //   const dateButtonDec2022 = within(dateDropdown).getByRole('button', { name: 'December 31, 2022' });
-  //
-  //   fireEvent.click(dateButtonDec2022);
-  //
-  //   expect(getAllByText('--').length).toBe(2);
-  //   expect(getByText('No exchange rate available', { exact: false })).toBeInTheDocument();
-  // });
+  it('displays -- when the selected currency is not available for a given date', async () => {
+    const { getByText, getByTestId, getAllByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+    await waitFor(() => getByText('U.S. Dollar'));
+    const dropdown = getByTestId('dropdown-button-container');
+    let dropdownButton = within(dropdown).getByTestId('dropdownToggle');
+    expect(within(dropdownButton).getByText('Euro Zone-Euro')).toBeInTheDocument();
+
+    fireEvent.click(dropdownButton);
+    const dropdownList = getByTestId('dropdown-container');
+
+    const newCurrency = within(dropdownList).getByRole('button', { name: 'Other OtherDollar2' });
+
+    fireEvent.click(newCurrency);
+    dropdownButton = within(dropdown).getByTestId('dropdownToggle');
+
+    expect(within(dropdownButton).getByText('Other OtherDollar2')).toBeInTheDocument();
+
+    const dateDropdown = getByTestId('nested-dropdown');
+    const dateDropdownButton = within(dateDropdown).getByTestId('toggle-button');
+    expect(within(dateDropdownButton).getByText('December 31, 2023')).toBeInTheDocument();
+
+    fireEvent.click(dateDropdownButton);
+
+    const dateButtonDec2022 = within(dateDropdown).getByRole('button', { name: 'December 31, 2022' });
+
+    fireEvent.click(dateButtonDec2022);
+
+    expect(getAllByText('--').length).toBe(2);
+    expect(getByText('No exchange rate available', { exact: false })).toBeInTheDocument();
+  });
 });
 
 it('does not call analytic event when Effective Date info tip is hovered over and left before 3 seconds', async () => {
