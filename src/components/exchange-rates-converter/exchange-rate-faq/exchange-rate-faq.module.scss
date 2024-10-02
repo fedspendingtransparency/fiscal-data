@@ -37,10 +37,9 @@ display: flex;
     }
   }
   .exchangeRateFAQ {
-    .containerClass {
+    .containerClass:not(:last-child) {
       margin-bottom: 0.5rem;
     }
-
     :global(.accordionHeading) {
       font-size: $font-size-16;
       color: #0071BC;
