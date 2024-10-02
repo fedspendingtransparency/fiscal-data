@@ -1,11 +1,13 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { footer, title, container, exchangeRateFAQ, containerClass, headTitle } from './exchange-rate-faq.module.scss';
+import { footer, title, container, exchangeRateFAQ, containerClass, headTitle, externalIcon, relatedResource } from './exchange-rate-faq.module.scss';
 import Accordion from '../../accordion/accordion';
 import CustomLink from '../../links/custom-link/custom-link';
 import { dateStringConverter } from '../currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import { graphql, useStaticQuery } from 'gatsby';
 import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
 
 const CurrencyExchangeFAQ: FunctionComponent = () => {
   const data = useStaticQuery(
@@ -116,11 +118,12 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
         <h2 className={title}>Related Resources</h2>
         <div>
           {relatedResources.map((resource, index) => (
-            //UNCOMMENT FOR FDG-9484
-            // <CustomLink key={index} external url={resource.url} id={resource.text} >
-            //   {resource.text}
-            // </CustomLink>
-            <></>
+            <div className={relatedResource}>
+              <FontAwesomeIcon icon={faExternalLink} className={externalIcon} />
+              <CustomLink key={index} external url={resource.url} id={resource.text}>
+                {resource.text}
+              </CustomLink>
+            </div>
           ))}
         </div>
       </div>
