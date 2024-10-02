@@ -1,16 +1,20 @@
 @import 'src/variables.module';
 
 .relatedResource {
-display: flex;
+  margin-bottom: 0.5rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
   .externalIcon {
     color: $primary;
     margin-right: .5rem;
     margin-top: .25rem;
   }
-}
 
-.relatedResource:not(:last-child) {
-  margin-bottom: 0.5rem;
+  .linkText {
+    display: flex;
+    align-items: flex-start;
+  }
 }
 .container {
   display: flex;

@@ -1,5 +1,15 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { footer, title, container, exchangeRateFAQ, containerClass, headTitle, externalIcon, relatedResource } from './exchange-rate-faq.module.scss';
+import {
+  footer,
+  title,
+  container,
+  exchangeRateFAQ,
+  containerClass,
+  headTitle,
+  externalIcon,
+  relatedResource,
+  linkText,
+} from './exchange-rate-faq.module.scss';
 import Accordion from '../../accordion/accordion';
 import CustomLink from '../../links/custom-link/custom-link';
 import { dateStringConverter } from '../currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
@@ -119,9 +129,11 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
         <div>
           {relatedResources.map((resource, index) => (
             <div className={relatedResource}>
-              <FontAwesomeIcon icon={faExternalLink} className={externalIcon} />
               <CustomLink key={index} external url={resource.url} id={resource.text}>
-                {resource.text}
+                <div className={linkText}>
+                  <FontAwesomeIcon icon={faExternalLink} className={externalIcon} />
+                  <span>{resource.text}</span>
+                </div>
               </CustomLink>
             </div>
           ))}
