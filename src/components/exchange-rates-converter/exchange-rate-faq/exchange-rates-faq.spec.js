@@ -65,9 +65,9 @@ describe('CurrencyExchangeFAQ Component', () => {
     expect(getByText('Yearly Average Currency Exchange Rates | IRS.gov')).toBeInTheDocument();
     expect(getByText('U.S. citizens and residents abroad filing requirements | IRS.gov')).toBeInTheDocument();
   });
-  //
-  // it('renders the correct dataset date', () => {
-  //   const { getByText } = render(<CurrencyExchangeFAQ />);
-  //   expect(getByText(/December 31, 2022 to September 30, 2023\./)).toBeInTheDocument();
-  // });
+
+  it('renders the correct dataset date', () => {
+    const { getByText } = render(<CurrencyExchangeFAQ />);
+    expect(getByText(/December 31, 2022 to September 30, 2023\./)).toBeInTheDocument();
+  });
 });
