@@ -242,21 +242,25 @@ const TableSectionContainer = ({
   }, [selectedTable, allTablesSelected]);
 
   useEffect(() => {
-    if (allTablesSelected && config?.displayApiFilterForAllTables) {
-      setDisableDownloadButton(!userFilterSelection || userFilterSelection?.value === null);
+    if (allTablesSelected) {
+      if (config?.displayApiFilterForAllTables) {
+        setDisableDownloadButton(!userFilterSelection || userFilterSelection?.value === null);
+      } else {
+        setDisableDownloadButton(false);
+      }
     }
   }, [userFilterSelection]);
 
   useEffect(() => {
     if (!allTablesSelected) {
       setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
+    } else if (!config?.displayApiFilterForAllTables) {
+      setDisableDownloadButton(false);
     }
-
-    }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
+  }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
 
   useEffect(() => {
     if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
-
       setApiFilterDefault(true);
       setManualPagination(false);
     }
