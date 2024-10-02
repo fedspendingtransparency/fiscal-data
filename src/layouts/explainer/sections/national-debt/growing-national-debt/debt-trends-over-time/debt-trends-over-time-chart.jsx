@@ -28,17 +28,10 @@ import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShould
 import { useInView } from 'react-intersection-observer';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { getChangeLabel } from '../../../../heros/hero-helper';
+import { analyticsCitationHandler } from '../../../../explainer-helpers/national-debt/national-debt-helper';
 
 let gaTimerDebtTrends;
 let ga4Timer;
-
-const analyticsClickHandler = action => {
-  Analytics.event({
-    category: 'Explainers',
-    action: action,
-    label: `Debt`,
-  });
-};
 
 export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [lineChartHoveredYear, setLineChartHoveredYear] = useState('');
@@ -58,13 +51,13 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const chartHeight = 490;
 
   const historicalDebtOutstanding = (
-    <CustomLink url={slug} onClick={() => analyticsClickHandler('Citation Click')} id="Historical Debt Outstanding">
+    <CustomLink url={slug} onClick={() => analyticsCitationHandler('Historical Debt Outstanding')} id="Historical Debt Outstanding">
       {name}
     </CustomLink>
   );
 
   const beaLink = (
-    <CustomLink url="https://www.bea.gov/" onClick={() => analyticsClickHandler('Citation Click')}>
+    <CustomLink url="https://www.bea.gov/" onClick={() => analyticsCitationHandler('Bureau of Economic Analysis')}>
       Bureau of Economic Analysis
     </CustomLink>
   );
