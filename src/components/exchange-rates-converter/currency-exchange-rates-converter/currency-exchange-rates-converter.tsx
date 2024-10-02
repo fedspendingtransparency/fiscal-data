@@ -342,7 +342,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
         <div>
           <div className={conversionContainer}>
             <FontAwesomeIcon icon={faArrowRightArrowLeft} className={arrowsIcon} />
-            <div className={conversionTitle}>BASED CONVERSION RATE</div>
+            <div className={conversionTitle}>BASE CONVERSION RATE</div>
           </div>
           <span data-testid="exchange-values">
             1.00 U.S. Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
