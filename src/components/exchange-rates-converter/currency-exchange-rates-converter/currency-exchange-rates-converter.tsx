@@ -1,5 +1,14 @@
 import React, { FunctionComponent, useEffect, useState, useMemo } from 'react';
-import { container, currencyBoxContainer, boxWidth, conversionTitle, headTitle, selector } from './currency-exchange-rates-converter.module.scss';
+import {
+  container,
+  currencyBoxContainer,
+  boxWidth,
+  conversionTitle,
+  headTitle,
+  selector,
+  arrowsIcon,
+  conversionContainer,
+} from './currency-exchange-rates-converter.module.scss';
 import CurrencyEntryBox from '../currency-entry-box/currency-entry-box';
 import NestSelectControl from '../../select-control/nest-select-control';
 import {
@@ -14,6 +23,8 @@ import Analytics from '../../../utils/analytics/analytics';
 import BannerCallout from '../../banner-callout/banner-callout';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 import { graphql, useStaticQuery } from 'gatsby';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 let gaInfoTipTimer;
 let gaCurrencyTimer;
@@ -329,7 +340,10 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
       )}
       {nonUSCurrency && nonUSCurrency.exchange_rate && !inputWarning && (
         <div>
-          <h2 className={conversionTitle}>BASED CONVERSION RATE</h2>
+          <div className={conversionContainer}>
+            <FontAwesomeIcon icon={faArrowRightArrowLeft} className={arrowsIcon} />
+            <div className={conversionTitle}>BASED CONVERSION RATE</div>
+          </div>
           <span data-testid="exchange-values">
             1.00 U.S. Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
           </span>

@@ -12,6 +12,14 @@
     text-align: left;
     color: #555555;
   }
+  .arrowsIcon {
+    margin-right: .5rem;
+
+  }
+  .conversionContainer{
+    margin: 1.25rem 0 .5rem 0;
+    display: flex;
+  }
 
   .currencyBoxContainer {
     display: flex;
@@ -24,9 +32,8 @@
   }
 
   .conversionTitle {
-    margin: 1.5rem 0 0.5rem 0;
     font-size: $font-size-12;
-    font-weight: $semi-bold-weight;
+    font-weight: 700;
     color: #555555;
   }
 }

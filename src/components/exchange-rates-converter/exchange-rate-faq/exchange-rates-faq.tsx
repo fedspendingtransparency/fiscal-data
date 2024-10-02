@@ -141,18 +141,17 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
       </div>
       <div>
         <h2 className={title}>Data Source</h2>
-        {/*UNCOMMENT FOR FDG-9482 */}
-        {/*<span className={footer}>*/}
-        {/*  The Currency Exchange Rates Converter tool is powered by the{' '}*/}
-        {/*  <CustomLink*/}
-        {/*    url="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange"*/}
-        {/*    onClick={() => analyticsHandler('Citation Click', 'Treasury Reporting Rates of Exchange Dataset')}*/}
-        {/*    id="Treasury Reporting Rates of Exchange"*/}
-        {/*  >*/}
-        {/*    Treasury Reporting Rates of Exchange*/}
-        {/*  </CustomLink>{' '}*/}
-        {/*  dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.*/}
-        {/*</span>*/}
+        <span className={footer}>
+          The Currency Exchange Rates Converter tool is powered by the{' '}
+          <CustomLink
+            url="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange"
+            onClick={() => analyticsHandler('Citation Click', 'Treasury Reporting Rates of Exchange Dataset')}
+            id="Treasury Reporting Rates of Exchange"
+          >
+            Treasury Reporting Rates of Exchange
+          </CustomLink>{' '}
+          dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.
+        </span>
       </div>
     </div>
   );
