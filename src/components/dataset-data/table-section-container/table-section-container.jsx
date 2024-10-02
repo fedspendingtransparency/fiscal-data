@@ -246,7 +246,6 @@ const TableSectionContainer = ({
       if (config?.displayApiFilterForAllTables) {
         setDisableDownloadButton(!userFilterSelection || userFilterSelection?.value === null);
       } else {
-        console.log('here 2');
         setDisableDownloadButton(false);
       }
     }
