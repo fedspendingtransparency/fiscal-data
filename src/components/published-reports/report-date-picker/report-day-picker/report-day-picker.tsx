@@ -27,6 +27,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
   active,
 }: IReportDayPicker) => {
   const [currentDate, setCurrentDate] = useState<Date>(selectedDate);
+  const [month, setMonth] = useState<Date>(selectedDate);
   const handleApply = () => {
     setSelectedDate(currentDate !== undefined ? currentDate : latestReportDate);
     if (handleClose) {
@@ -47,6 +48,10 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
       setCurrentDate(selectedDate);
     }
   }, [active]);
+
+  useEffect(() => {
+    setMonth(currentDate);
+  }, [currentDate]);
 
   return (
     <>
@@ -71,6 +76,8 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
             }}
             disabled={isDisabled}
             defaultMonth={selectedDate}
+            onMonthChange={setMonth}
+            month={month}
           />
         </ReportDateDropdown>
       )}

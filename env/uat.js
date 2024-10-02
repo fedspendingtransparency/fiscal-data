@@ -4,7 +4,7 @@ module.exports = {
   API_BASE_URL: 'https://api.uat.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
-  EXPERIMENTAL_WHITELIST: ['experimental-page', 'afg-overview', 'publishedReportsSection', 'currencyExchangeFAQ'],
+  EXPERIMENTAL_WHITELIST: ['experimental-page', 'afg-overview', 'publishedReportsSection'],
   ADDITIONAL_DATASETS: {
     '015-BFS-2024Q1-002': {
       slug: '/daily-government-account-series/',
@@ -196,7 +196,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/fbp_balances',
       dateField: 'record_date',
       downloadName: 'FBP_Balances',
-      alwaysSortWith: ['-sort_order_primary', '-sort_order_secondary', 'maturity_date'],
+      alwaysSortWith: ['sort_order_primary', 'sort_order_secondary', 'maturity_date'],
       hideColumns: [],
       selectColumns: [
         'record_date',
@@ -230,7 +230,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/fbp_future_dated_transactions',
       dateField: 'settle_date',
       downloadName: 'FBP_FutureDatedTransactions',
-      alwaysSortWith: ['-sort_order_primary', '-sort_order_secondary', 'security_nbr'],
+      alwaysSortWith: ['sort_order_primary', 'sort_order_secondary', 'security_nbr'],
       hideColumns: [],
       selectColumns: [
         'record_date',

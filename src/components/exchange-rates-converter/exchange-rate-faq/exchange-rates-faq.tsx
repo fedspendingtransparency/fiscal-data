@@ -106,14 +106,7 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
         <h2 className={headTitle}>Frequently Asked Questions</h2>
         <div className={exchangeRateFAQ}>
           {faqs.map((faq, index) => (
-            <Accordion
-              key={index}
-              title={faq.title}
-              openEventNumber="16"
-              explainerGAEvent="CurrencyExchangeRatesConverter"
-              ga4ID="Exchange Rates Converter"
-              containerClass={containerClass}
-            >
+            <Accordion key={index} title={faq.title} containerClass={containerClass}>
               {faq.content}
             </Accordion>
           ))}
@@ -123,9 +116,11 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
         <h2 className={title}>Related Resources</h2>
         <div>
           {relatedResources.map((resource, index) => (
-            <CustomLink key={index} external url={resource.url} id={resource.text} displayIcon>
-              {resource.text}
-            </CustomLink>
+            //UNCOMMENT FOR FDG-9484
+            // <CustomLink key={index} external url={resource.url} id={resource.text} >
+            //   {resource.text}
+            // </CustomLink>
+            <></>
           ))}
         </div>
       </div>

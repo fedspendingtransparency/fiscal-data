@@ -4,15 +4,12 @@ import PageHelmet from '../../components/page-helmet/page-helmet';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import { breadCrumbsContainer, legalDisclaimer, componenentContianer } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
-
 import { breadCrumbLinks, socialCopy } from './currency-exchange-rates-converter-helper';
 import CustomLink from '../../components/links/custom-link/custom-link';
 import Analytics from '../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
-import CurrencyExchange from '../../components/exchange-rates-converter/currency-exchange-rates-converter/currency-exchange-rates-converter';
+import CurrencyExchangeRateTool from '../../components/exchange-rates-converter/currency-exchange-rates-converter/currency-exchange-rates-converter';
 import CurrencyExchangeFAQ from '../../components/exchange-rates-converter/exchange-rate-faq/exchange-rates-faq';
-import Experimental from '../../components/experimental/experimental';
-import CurrencyExchangeLegacy from '../../components/exchange-rates-converter/currency-exchange-rates-converter-legacy/currency-exchange-legacy';
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const analyticsHandler = (action, label) => {
@@ -48,17 +45,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         <BreadCrumbs links={breadCrumbLinks} />
       </div>
       <ExchangeRatesBanner text="Currency Exchange Rates Converter" copy={socialCopy} />
-      <Experimental featureId="currencyExchangeFAQ" exclude={true}>
-        <div className={componenentContianer}>
-          <CurrencyExchangeLegacy />
-        </div>
-      </Experimental>
-      <Experimental featureId="currencyExchangeFAQ" exclude={false}>
-        <div className={componenentContianer}>
-          <CurrencyExchange />
-          <CurrencyExchangeFAQ />
-        </div>
-      </Experimental>
+      <div className={componenentContianer}>
+        <CurrencyExchangeRateTool />
+        <CurrencyExchangeFAQ />
+      </div>
       <div className={legalDisclaimer}>
         <div>
           <span> Important Legal Disclosures and Information</span>

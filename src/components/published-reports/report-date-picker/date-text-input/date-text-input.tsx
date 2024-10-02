@@ -146,7 +146,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
 
   useEffect(() => {
     if (dateInputRef?.current) {
-      dateInputRef.current.value = selectedDate;
+      dateInputRef.current.value = !!selectedDate ? selectedDate : '';
     }
   }, [selectedDate]);
 
