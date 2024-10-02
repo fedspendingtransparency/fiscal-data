@@ -1,0 +1,55 @@
+@import 'src/variables.module';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 1.25rem;
+
+  .headTitle {
+    margin: 0;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    text-align: left;
+    color: #555555;
+  }
+
+  .currencyBoxContainer {
+    display: flex;
+    flex-direction: row;
+    margin: 1.5rem 0 .5rem 0;
+  }
+
+  .boxWidth {
+    width: 100%;
+  }
+
+  .conversionTitle {
+    margin: 1.5rem 0 0.5rem 0;
+    font-size: $font-size-12;
+    font-weight: $semi-bold-weight;
+    color: #555555;
+  }
+}
+
+.selector {
+  margin-right: 0.5rem;
+  font-weight: 600;
+  width: 50%;
+
+  @media screen and (max-width: $breakpoint-lg - 1) {
+    width: 100%;
+  }
+}
+
+.box {
+  width: 100%;
+  height: 2.75rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .container {
+    .currencyBoxContainer {
+      flex-direction: column;
+    }
+  }
+}

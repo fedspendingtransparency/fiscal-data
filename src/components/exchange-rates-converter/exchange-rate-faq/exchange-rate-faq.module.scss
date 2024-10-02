@@ -1,0 +1,68 @@
+@import 'src/variables.module';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 1.25rem;
+  max-width: 25.25rem;
+
+
+  .title {
+    margin: 1.5rem 0 0.5rem 0;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    text-align: left;
+    color: #555555;
+  }
+  .headTitle{
+    margin: 0 0 0.5rem 0;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    text-align: left;
+    color: #555555;
+    @media screen and (max-width: $breakpoint-lg - 1) {
+      margin: 1.5rem 0 0.5rem 0;
+    }
+  }
+  .exchangeRateFAQ {
+    .containerClass {
+      margin-bottom: 0.5rem;
+    }
+
+    :global(.accordionHeading) {
+      font-size: $font-size-16;
+      color: #0071BC;
+      border: none;
+      padding: 0.75rem 1rem;
+    }
+
+    :global(.accordionToggle) {
+      svg path {
+        color: #0071BC;
+      }
+    }
+
+    :global(.accordionContent) {
+      padding: 0 1.25rem 1.5rem;
+      border: none;
+    }
+
+    :global(.accordionOpen),
+    :global(.accordionClosed) {
+      border: solid 0.06rem #d9d9d9;
+      border-radius: 0.13rem;
+    }
+  }
+
+  .footer {
+    max-width: 34.563rem;
+    margin: 2rem 0 5rem;
+    font-size: $font-size-14;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .container {
+    max-width: none;
+  }
+}
