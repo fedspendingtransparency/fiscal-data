@@ -196,7 +196,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/fbp_balances',
       dateField: 'record_date',
       downloadName: 'FBP_Balances',
-      alwaysSortWith: ['-sort_order_primary', '-sort_order_secondary', 'maturity_date'],
+      alwaysSortWith: ['sort_order_primary', 'sort_order_secondary', 'maturity_date'],
       hideColumns: [],
       selectColumns: [
         'record_date',
@@ -230,7 +230,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/fbp_future_dated_transactions',
       dateField: 'settle_date',
       downloadName: 'FBP_FutureDatedTransactions',
-      alwaysSortWith: ['-sort_order_primary', '-sort_order_secondary', 'security_nbr'],
+      alwaysSortWith: ['sort_order_primary', 'sort_order_secondary', 'security_nbr'],
       hideColumns: [],
       selectColumns: [
         'record_date',

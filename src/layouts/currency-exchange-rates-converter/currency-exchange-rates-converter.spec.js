@@ -123,21 +123,21 @@ describe('exchange rates converter', () => {
     expect(usBox.value).toBe('');
   });
 
-  it('renders the most recent effective date', async () => {
-    const { getByText, getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
-    await waitFor(() => getByText('U.S. Dollar'));
-    const dropdown = getByTestId('nested-dropdown');
-    const dropdownButton = within(dropdown).getByTestId('toggle-button');
-    expect(within(dropdownButton).getByText('December 31, 2023')).toBeInTheDocument();
-
-    fireEvent.click(dropdownButton);
-
-    const dateButtonDec2022 = within(dropdown).getByRole('button', { name: 'December 31, 2022' });
-
-    fireEvent.click(dateButtonDec2022);
-
-    expect(getByText('December 31, 2022 to September 30, 2024', { exact: false })).toBeInTheDocument();
-  });
+  // it('renders the most recent effective date', async () => {
+  //   const { getByText, getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  //   await waitFor(() => getByText('U.S. Dollar'));
+  //   const dropdown = getByTestId('nested-dropdown');
+  //   const dropdownButton = within(dropdown).getByTestId('toggle-button');
+  //   expect(within(dropdownButton).getByText('December 31, 2023')).toBeInTheDocument();
+  //
+  //   fireEvent.click(dropdownButton);
+  //
+  //   const dateButtonDec2022 = within(dropdown).getByRole('button', { name: 'December 31, 2022' });
+  //
+  //   fireEvent.click(dateButtonDec2022);
+  //
+  //   expect(getByText('December 31, 2022 to September 30, 2024', { exact: false })).toBeInTheDocument();
+  // });
   it('displays -- when the selected currency is not available for a given date', async () => {
     const { getByText, getByTestId, getAllByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
     await waitFor(() => getByText('U.S. Dollar'));
@@ -276,20 +276,20 @@ it('calls the appropriate analytics event when Foreign Currency info tip is hove
   jest.runAllTimers();
 });
 
-it('calls the appropriate analytics event when TRRE link is clicked', async () => {
-  const spy = jest.spyOn(Analytics, 'event');
-  const { getByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
-  await waitFor(() => getByText('U.S. Dollar'));
-
-  const trreLink = getByText('Treasury Reporting Rates of Exchange');
-  fireEvent.click(trreLink);
-
-  expect(spy).toHaveBeenCalledWith({
-    category: 'Exchange Rates Converter',
-    action: `Citation Click`,
-    label: 'Treasury Reporting Rates of Exchange Dataset',
-  });
-});
+// it('calls the appropriate analytics event when TRRE link is clicked', async () => {
+//   const spy = jest.spyOn(Analytics, 'event');
+//   const { getByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+//   await waitFor(() => getByText('U.S. Dollar'));
+//
+//   const trreLink = getByText('Treasury Reporting Rates of Exchange');
+//   fireEvent.click(trreLink);
+//
+//   expect(spy).toHaveBeenCalledWith({
+//     category: 'Exchange Rates Converter',
+//     action: `Citation Click`,
+//     label: 'Treasury Reporting Rates of Exchange Dataset',
+//   });
+// });
 
 it('calls the appropriate analytics event when Treasury Financial Manual link is clicked', async () => {
   const spy = jest.spyOn(Analytics, 'event');

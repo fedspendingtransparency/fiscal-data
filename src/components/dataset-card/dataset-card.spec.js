@@ -81,8 +81,8 @@ describe('DatasetCard', () => {
     datasetCard.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
-      action: `Citation Click`,
-      label: 'Spending',
+      action: 'Spending Citation Click',
+      label: 'Debt to the Penny',
     });
     spy.mockClear();
   });
