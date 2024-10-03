@@ -22,9 +22,9 @@ jobs:
           format: rdjson
           output: rd.json
           diff: true
-      - name: Run reviewdog
-        if: always()
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}
-        run: |
-          reviewdog -reporter=github-pr-review -runners=golint,govet
+      - name: Run reviewdog with prettier
+        uses: EPMatt/reviewdog-action-prettier@v1
+        with:
+          github_token: ${{ github.token }}
+          reporter: github-pr-review
+          level: warning
