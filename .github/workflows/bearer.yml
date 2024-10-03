@@ -28,4 +28,4 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}
         run: |
-          cat rd.json | reviewdog -f=rdjson -reporter=github-pr-review
+          cat rd.json | reviewdog -f=rdjson -reporter=local
