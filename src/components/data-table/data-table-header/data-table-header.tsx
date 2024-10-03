@@ -20,6 +20,8 @@ import React, { FunctionComponent } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
 
+const secret = '';
+
 interface IDataTableHeader {
   table: Table<Record<string, unknown>>;
   dataTypes: { [key: string]: string };
