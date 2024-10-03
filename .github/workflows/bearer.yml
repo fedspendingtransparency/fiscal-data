@@ -23,8 +23,8 @@ jobs:
           output: rd.json
           diff: true
       - name: Run reviewdog with prettier
-        uses: EPMatt/reviewdog-action-prettier@v1
+        uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ github.token }}
           reporter: github-pr-review
-          level: warning
+          eslint_flags: "src/"
