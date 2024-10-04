@@ -825,7 +825,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       }
     }
     if (allResults.length > 0) {
-      console.log(allResultsLabels);
       for (const api of config.apis) {
         api.apiFilter.optionValues = { all: [...new Set(allResults)] }; // uniquify results
         api.apiFilter.optionLabels = allResultsLabels;
