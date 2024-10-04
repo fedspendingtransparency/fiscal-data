@@ -3,8 +3,6 @@ import { userFilterWrapper, filterLabel } from './user-filter.module.scss';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 import DatatableBanner from '../datatable-banner/datatable-banner';
-import { monthFullNames } from '../../../utils/api-utils';
-import { mockSavingsBondLastFiscalYearCurrentMonth } from '../../../layouts/explainer/explainer-test-helper';
 import MonthYearFilter from '../month-year-filter/month-year-filter';
 
 type UserFilterProps = {
@@ -108,7 +106,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
   useEffect(() => {
     establishOptions();
     setSelectedFilterOption(defaultSelection);
-  }, [selectedTable]);
+  }, [selectedTable, allTablesSelected]);
 
   return (
     <>
@@ -128,6 +126,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
         </div>
       )}
       {selectedTable?.userFilter?.notice && <DatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
+      {selectedTable?.apiFilter?.notice && <DatatableBanner bannerNotice={selectedTable.apiFilter.notice} />}
     </>
   );
 };
