@@ -771,7 +771,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       if (api.apiFilter) {
         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
         if (api.apiFilter.filterEndpoint) {
-          filterOptionsUrl += `${api.apiFilter.filterEndpoint}&page[size]=10000`;
+          filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=1000`;
         } else {
           filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
           if (api.apiFilter?.labelField) {
@@ -793,7 +793,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           }
           api.apiFilter.optionValues = multiOptions; // uniquify results
         } else if (api.apiFilter.labelField) {
-          console.log(filterOptionsUrl);
           //Different field used for value vs label (ex. FBP)
           let options;
           const labelOptions = {};
@@ -826,6 +825,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       }
     }
     if (allResults.length > 0) {
+      console.log(allResultsLabels);
       for (const api of config.apis) {
         api.apiFilter.optionValues = { all: [...new Set(allResults)] }; // uniquify results
         api.apiFilter.optionLabels = allResultsLabels;
