@@ -27,7 +27,7 @@ import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../utils/analytics/analytics';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { ToggleSwitch } from './chart-toggle-switch';
-import { getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';
+import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';
 import { keyframes } from 'styled-components';
 import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
@@ -137,24 +137,13 @@ const HowMuchDoesTheGovtSpend = () => {
     }
   }, [selectedChartView, chartData]);
 
-  const mts = (
-    <CustomLink
-      url="/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government"
-      eventNumber="15"
-      id="Monthly Treasury Statement"
-    >
-      Monthly Treasury Statement (MTS)
-    </CustomLink>
-  );
+  const { mtsSummary, USAs } = explainerCitationsMap['federal-spending'];
 
   const footer = (
     <div className={footerStyle}>
-      Please note: Values displayed are outlays, which is money that is actually paid out by the government. Other sources, such as {' '}
-      <CustomLink url="https://www.usaspending.gov/" eventNumber="34">
-        USAspending
-      </CustomLink>
-      , may display spending as obligations, which is money that is promised to be paid, but may not yet be delivered.
-      <p>Visit the {mts} dataset to explore and download this data.</p>
+      Please note: Values displayed are outlays, which is money that is actually paid out by the government. Other sources, such as {USAs}, may
+      display spending as obligations, which is money that is promised to be paid, but may not yet be delivered.
+      <p>Visit the {mtsSummary} dataset to explore and download this data.</p>
     </div>
   );
 

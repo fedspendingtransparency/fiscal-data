@@ -14,6 +14,7 @@ import {
   secondColumn,
   icon,
 } from './spending-categories-accordion.module.scss';
+import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 
 const SpendingCategoriesAccordion = () => {
   const accodionContent = [
@@ -51,11 +52,7 @@ const SpendingCategoriesAccordion = () => {
     },
   ];
 
-  const usaSpending_majorSpendingCategories = (
-    <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}>
-      USAspending.gov
-    </CustomLink>
-  );
+  const { USAsGov } = explainerCitationsMap['national-debt'];
 
   const objectClass = (
     <CustomLink
@@ -88,9 +85,9 @@ const SpendingCategoriesAccordion = () => {
         >
           <div className={spendingCategoriesAccordionContent}>
             <p>
-              Below are some of the federal government’s largest spending categories. Visit {usaSpending_majorSpendingCategories} to explore federal
-              spending by the types of items and services purchased by the federal government. Explore federal spending by {objectClass} or learn how
-              spending categories and subcategories break down by viewing federal spending by {budgetFunction}.
+              Below are some of the federal government’s largest spending categories. Visit {USAsGov} to explore federal spending by the types of
+              items and services purchased by the federal government. Explore federal spending by {objectClass} or learn how spending categories and
+              subcategories break down by viewing federal spending by {budgetFunction}.
             </p>
             <div className={spendingCategoriesTable}>
               {accodionContent.map(category => (

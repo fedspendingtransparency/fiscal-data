@@ -7,26 +7,20 @@ import {
   headerTitle,
   subHeader,
 } from './sources-of-revenue-circle-chart.module.scss';
-import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import React from 'react';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
+import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 
 export const title = `Sources of Revenue for the U.S. Federal Government, FYTD `;
 export const subTitle = 'Revenue by Source Categories';
+const { mtsReceipts } = explainerCitationsMap['government-revenue'];
 
-const name = 'Monthly Treasury Statement (MTS)';
-const slug = `/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`;
-const mts = (
-  <CustomLink url={slug} eventNumber="12" id="Monthly Treasury Statement">
-    {name}
-  </CustomLink>
-);
 export const footer = (
   <div className={footerContainer}>
     <p>
       <i>To explore this visual, hover over or tap on any category bubble to discover its data.</i>
     </p>
-    <p>Visit the {mts} dataset to explore and download this data.</p>
+    <p>Visit the {mtsReceipts} dataset to explore and download this data.</p>
   </div>
 );
 

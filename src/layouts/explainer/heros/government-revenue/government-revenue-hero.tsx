@@ -1,5 +1,4 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { footNotes, heroImageSubHeading, footNotesPillData, flapWrapper } from '../../hero-image/hero-image.module.scss';
 import { getFootNotesDateRange, getPillData, revenueHeroUrl } from '../hero-helper';
 import { revenueExplainerLightSecondary } from '../../sections/government-revenue/revenue.module.scss';
@@ -7,6 +6,7 @@ import SplitFlapDisplay from '../../../../components/split-flap-display/split-fl
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { getShortForm } from '../../../../utils/rounding-utils';
 import { getDataFromCacheOrFetch } from '../../../../../react-query-client';
+import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
 
 const GovernmentRevenueHero = (): ReactElement => {
   useEffect(() => {
@@ -52,12 +52,7 @@ const GovernmentRevenueHero = (): ReactElement => {
   const [revenuePercentChange, setRevenuePercentChange] = useState(0);
 
   const numberFormat = new Intl.NumberFormat('en-US');
-
-  const mts = (
-    <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government" eventNumber="4" id="Monthly Treasury Statement">
-      Monthly Treasury Statement (MTS)
-    </CustomLink>
-  );
+  const { mtsReceipts } = explainerCitationsMap['federal-spending'];
 
   const expenditures = (
     <GlossaryPopoverDefinition term="Expenditures" page="Revenue Explainer">
@@ -84,7 +79,7 @@ const GovernmentRevenueHero = (): ReactElement => {
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal year-to-date (since October {priorFiscalYear}) total updated monthly using the {mts} dataset.
+          Fiscal year-to-date (since October {priorFiscalYear}) total updated monthly using the {mtsReceipts} dataset.
         </p>
         <div className={footNotesPillData}>
           <p>

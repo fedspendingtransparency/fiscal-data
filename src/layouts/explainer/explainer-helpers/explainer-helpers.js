@@ -100,6 +100,15 @@ const explainerCitations = page => {
         Monthly Treasury Statement (MTS)
       </CustomLink>
     ),
+    mtsOutlays: (
+      <CustomLink
+        url="/datasets/monthly-treasury-statement/outlays-of-the-u-s-government"
+        id="Monthly Treasury Statement"
+        onClick={() => analyticsEventHandler('Monthly Treasury Statement (MTS)', `${page} Citation Click`)}
+      >
+        Monthly Treasury Statement (MTS)
+      </CustomLink>
+    ),
     mspd: (
       <CustomLink
         url="/datasets/monthly-statement-public-debt/"
@@ -117,10 +126,25 @@ const explainerCitations = page => {
     historicalDebt: (
       <CustomLink
         url="/datasets/historical-debt-outstanding/"
-        onClick={() => analyticsClickHandler('Citation Click', 'Historical Debt Outstanding')}
+        onClick={() => analyticsEventHandler('Historical Debt Outstanding')}
         id="Historical Debt Outstanding"
       >
         Historical Debt Outstanding
+      </CustomLink>
+    ),
+    USAs: (
+      <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsEventHandler('USAspending')}>
+        USAspending
+      </CustomLink>
+    ),
+    USAsGov: (
+      <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsEventHandler('USAspending')}>
+        USAspending.gov
+      </CustomLink>
+    ),
+    USAsExplorer: (
+      <CustomLink url="https://www.usaspending.gov/explorer" onClick={() => analyticsEventHandler('USAspending')}>
+        USAspending.gov
       </CustomLink>
     ),
   };
