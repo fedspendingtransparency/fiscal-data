@@ -1,7 +1,7 @@
 import React from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
-import { datasetSectionConfig } from '../../explainer-helpers/explainer-helpers';
+import { datasetSectionConfig, explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
 import { KeyTakeawaysSection } from './key-takeaways/national-debt-key-takeaways';
 import DiveDeeperIntoTheDebt from './dive-deeper-into-the-debt/dive-deeper-into-the-debt';
 import { analyticsClickHandler } from '../../explainer-helpers/national-debt/national-debt-helper';
@@ -94,28 +94,6 @@ const nationalDebtSections = [
 
 export default nationalDebtSections;
 
-const debtToThePenny = (
-  <CustomLink url="/datasets/debt-to-the-penny/" onClick={() => analyticsClickHandler('Citation Click', 'Debt to the Penny')} id="Debt to the Penny">
-    Debt to the Penny
-  </CustomLink>
-);
-
-const mspd = (
-  <CustomLink
-    url="/datasets/monthly-statement-public-debt/"
-    onClick={() => analyticsClickHandler('Citation Click', 'Monthly Treasury Statement (MTS)')}
-    id="Monthly Statement of the Public Debt"
-  >
-    Monthly Statement of the Public Debt (MSPD)
-  </CustomLink>
-);
-
-const historicalDebt = (
-  <CustomLink url="/datasets/historical-debt-outstanding/" onClick={() => analyticsClickHandler('Citation Click', 'Historical Debt Outstanding')} id="Historical Debt Outstanding">
-    Historical Debt Outstanding
-  </CustomLink>
-);
-
 const treasurySecurities = (
   <CustomLink
     url="/datasets/average-interest-rates-treasury-securities/"
@@ -126,29 +104,8 @@ const treasurySecurities = (
   </CustomLink>
 );
 
-const bls = (
-  <CustomLink url="https://www.bls.gov/developers" onClick={() => analyticsClickHandler('Citation Click')}>
-    Bureau of Labor Statistics
-  </CustomLink>
-);
+const { bea, bls, github, mspd, debtToThePenny, historicalDebt } = explainerCitationsMap['national-debt'];
 
-const bea = (
-  <CustomLink
-    url="https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey"
-    onClick={() => analyticsClickHandler('Citation Click')}
-  >
-    Bureau of Economic Analysis
-  </CustomLink>
-);
-
-const github = (
-  <CustomLink
-    url="https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation"
-    onClick={() => analyticsClickHandler('Citation Click')}
-  >
-    GitHub repository
-  </CustomLink>
-);
 const historyOfTheDebt = (
   <CustomLink url="https://treasurydirect.gov/government/historical-debt-outstanding/" onClick={() => analyticsClickHandler('Citation Click')}>
     history of the debt

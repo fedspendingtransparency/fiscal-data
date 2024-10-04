@@ -7,22 +7,15 @@ import { revenueExplainerPrimary } from '../../../revenue.module.scss';
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import ChartToggle from '../../../../../../../components/nivo/chart-toggle/chart-toggle';
 import ChartDataHeader from '../../../../../explainer-components/chart-data-header/chart-data-header';
+import { explainerCitationsMap } from '../../../../../explainer-helpers/explainer-helpers';
 
-const mts = (
-  <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government" eventNumber="21" id="Monthly Treasury Statement">
-    Monthly Treasury Statement (MTS)
-  </CustomLink>
-);
-
-const bls = <CustomLink url={'https://www.bls.gov/developers/'}>Bureau of Labor Statistics</CustomLink>;
-
-const bea = <CustomLink url={'https://www.bea.gov/'}>Bureau of Economic Analysis</CustomLink>;
+const { mtsReceipts, bls, bea } = explainerCitationsMap['government-revenue'];
 
 const footer = (
   <p>
     {/* eslint-disable-next-line max-len */}
-    Visit the {mts} dataset to further explore and download this data. The GDP data is sourced from the {bea}. The inflation data is sourced from the{' '}
-    {bls}.
+    Visit the {mtsReceipts} dataset to further explore and download this data. The GDP data is sourced from the {bea}. The inflation data is sourced
+    from the {bls}.
   </p>
 );
 

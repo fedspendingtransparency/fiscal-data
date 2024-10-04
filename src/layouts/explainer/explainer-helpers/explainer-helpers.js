@@ -39,8 +39,99 @@ import FederalSpendingHero from '../heros/federal-spending/federal-spending-hero
 import GovernmentRevenueHero from '../heros/government-revenue/government-revenue-hero';
 import { BASE_URL } from 'gatsby-env-variables';
 import TreasurySavingsBondsHero from '../heros/treasury-savings-bonds/treasury-savings-bonds-hero';
+import Analytics from '../../../utils/analytics/analytics';
+import CustomLink from '../../../components/links/custom-link/custom-link';
+import { analyticsRevenueEventHandler } from './government-revenue/government-revenue-helper';
+import { analyticsClickHandler } from './national-debt/national-debt-helper';
 
 const envBaseUrl = BASE_URL;
+
+export const analyticsEventHandler = (eventLabel, eventAction) => {
+  Analytics.event({
+    category: 'Explainers',
+    action: eventAction,
+    label: eventLabel,
+  });
+};
+
+const explainerCitations = page => {
+  return {
+    bls: (
+      <CustomLink url="https://www.bls.gov/developers/" onClick={() => analyticsEventHandler('Bureau of Labor Statistics', `${page} Citation Click`)}>
+        Bureau of Labor Statistics
+      </CustomLink>
+    ),
+    bea: (
+      <CustomLink url="https://www.bea.gov/" onClick={() => analyticsEventHandler('Bureau of Economic Analysis', `${page} Citation Click`)}>
+        Bureau of Economic Analysis
+      </CustomLink>
+    ),
+    beaSurvey: (
+      <CustomLink
+        url="https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey"
+        onClick={() => analyticsEventHandler('Bureau of Economic Analysis', `${page} Citation Click`)}
+      >
+        Bureau of Economic Analysis
+      </CustomLink>
+    ),
+    github: (
+      <CustomLink
+        url="https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation"
+        onClick={() => analyticsEventHandler('GitHub repository', `${page} Citation Click`)}
+      >
+        GitHub repository
+      </CustomLink>
+    ),
+    mtsSummary: (
+      <CustomLink
+        url="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
+        id="Monthly Treasury Statement"
+        onClick={() => analyticsEventHandler('Monthly Treasury Statement (MTS)', `${page} Citation Click`)}
+      >
+        Monthly Treasury Statement (MTS)
+      </CustomLink>
+    ),
+    mtsReceipts: (
+      <CustomLink
+        url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/"
+        id="Monthly Treasury Statement"
+        onClick={() => analyticsEventHandler('Monthly Treasury Statement (MTS)', `${page} Citation Click`)}
+      >
+        Monthly Treasury Statement (MTS)
+      </CustomLink>
+    ),
+    mspd: (
+      <CustomLink
+        url="/datasets/monthly-statement-public-debt/"
+        id="Monthly Statement of the Public Debt"
+        onClick={() => analyticsEventHandler('Monthly Statement of the Public Debt (MSPD)')}
+      >
+        Monthly Statement of the Public Debt (MSPD)
+      </CustomLink>
+    ),
+    debtToThePenny: (
+      <CustomLink url="/datasets/debt-to-the-penny/" onClick={() => analyticsEventHandler('Debt to the Penny')} id="Debt to the Penny">
+        Debt to the Penny
+      </CustomLink>
+    ),
+    historicalDebt: (
+      <CustomLink
+        url="/datasets/historical-debt-outstanding/"
+        onClick={() => analyticsClickHandler('Citation Click', 'Historical Debt Outstanding')}
+        id="Historical Debt Outstanding"
+      >
+        Historical Debt Outstanding
+      </CustomLink>
+    ),
+  };
+};
+
+export const explainerCitationsMap = {
+  'national-debt': explainerCitations('Debt'),
+  'national-deficit': explainerCitations('Deficit'),
+  'federal-spending': explainerCitations('Spending'),
+  'government-revenue': explainerCitations('Revenue'),
+};
 
 export const getDateWithoutOffset = date => {
   const today = new Date(date);
@@ -328,3 +419,36 @@ export const datasetSectionConfig = {
     },
   },
 };
+
+// const test = {
+//   bls: (
+//     <CustomLink url="https://www.bls.gov/developers/" onClick={() => analyticsEventHandler('Bureau of Labor Statistics', `${page} Citation Click`)}>
+//       Bureau of Labor Statistics
+//     </CustomLink>
+//   ),
+//   bea: (
+//     <CustomLink
+//       url="https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey"
+//       onClick={() => analyticsEventHandler('Bureau of Economic Analysis', `${page} Citation Click`)}
+//     >
+//       Bureau of Economic Analysis
+//     </CustomLink>
+//   ),
+//   github: (
+//     <CustomLink
+//       url="https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation"
+//       onClick={() => analyticsEventHandler('GitHub repository', `${page} Citation Click`)}
+//     >
+//       GitHub repository
+//     </CustomLink>
+//   ),
+//   mts: (
+//     <CustomLink
+//       url="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
+//       id="Monthly Treasury Statement"
+//       onClick={() => analyticsEventHandler('Monthly Treasury Statement (MTS)', `${page} Citation Click`)}
+//     >
+//       Monthly Treasury Statement (MTS)
+//     </CustomLink>
+//   ),
+// };

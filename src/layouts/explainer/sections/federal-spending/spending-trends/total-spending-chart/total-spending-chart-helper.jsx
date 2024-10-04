@@ -7,23 +7,14 @@ import ChartToggle from '../../../../../../components/nivo/chart-toggle/chart-to
 import { spendingExplainerPrimary } from '../spending-trends.module.scss';
 import { formatCurrency, formatPercentage } from '../../../../explainer-helpers/explainer-charting-helper';
 import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
+import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 
-const mts = (
-  <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/" eventNumber="21" id="Monthly Treasury Statement">
-    Monthly Treasury Statement (MTS)
-  </CustomLink>
-);
-const bea = (
-  <CustomLink url="https://www.bea.gov/" eventNumber="34">
-    Bureau of Economic Analysis
-  </CustomLink>
-);
-
-const bls = <CustomLink url="https://www.bls.gov/developers/">Bureau of Labor Statistics</CustomLink>;
+const { bls, bea, mtsReceipts } = explainerCitationsMap['federal-spending'];
 
 const footer = (
   <p>
-    Visit the {mts} dataset to explore and download this data. The GDP data is sourced from the {bea}. The inflation data is sourced from the {bls}.
+    Visit the {mtsReceipts} dataset to explore and download this data. The GDP data is sourced from the {bea}. The inflation data is sourced from the{' '}
+    {bls}.
   </p>
 );
 

@@ -29,6 +29,7 @@ import { useInView } from 'react-intersection-observer';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { getChangeLabel } from '../../../../heros/hero-helper';
 import { analyticsCitationHandler } from '../../../../explainer-helpers/national-debt/national-debt-helper';
+import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 
 let gaTimerDebtTrends;
 let ga4Timer;
@@ -56,11 +57,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     </CustomLink>
   );
 
-  const beaLink = (
-    <CustomLink url="https://www.bea.gov/" onClick={() => analyticsCitationHandler('Bureau of Economic Analysis')}>
-      Bureau of Economic Analysis
-    </CustomLink>
-  );
+  const { bea } = explainerCitationsMap['national-debt'];
 
   const processData = () => {
     const { finalGDPData } = beaGDPData;
@@ -164,7 +161,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const footerContent = (
     <>
       <p>
-        Visit the {historicalDebtOutstanding} dataset to explore and download this data. The GDP data is sourced from the {beaLink}.
+        Visit the {historicalDebtOutstanding} dataset to explore and download this data. The GDP data is sourced from the {bea}.
       </p>
       <p>Please note: This chart is updated as new GDP data is released, even if new debt data is available.</p>
     </>
