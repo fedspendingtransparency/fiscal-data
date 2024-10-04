@@ -199,6 +199,7 @@ module.exports = {
       apiFilter: {
         field: 'account_nbr',
         labelField: 'account_desc',
+        filterEndpoint: 'v1/accounting/od/fbp_dpai_account_summary',
         downloadLabel: 'Account',
         label: 'Choose an Account',
         displayAllTablesResults: true,
@@ -235,6 +236,7 @@ module.exports = {
       apiFilter: {
         field: 'account_nbr',
         labelField: 'account_desc',
+        filterEndpoint: 'v1/accounting/od/fbp_dpai_account_summary',
         downloadLabel: 'Account',
         label: 'Choose an Account',
         displayAllTablesResults: true,
