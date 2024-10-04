@@ -443,36 +443,3 @@ export const datasetSectionConfig = {
     },
   },
 };
-
-// const test = {
-//   bls: (
-//     <CustomLink url="https://www.bls.gov/developers/" onClick={() => analyticsEventHandler('Bureau of Labor Statistics', `${page} Citation Click`)}>
-//       Bureau of Labor Statistics
-//     </CustomLink>
-//   ),
-//   bea: (
-//     <CustomLink
-//       url="https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey"
-//       onClick={() => analyticsEventHandler('Bureau of Economic Analysis', `${page} Citation Click`)}
-//     >
-//       Bureau of Economic Analysis
-//     </CustomLink>
-//   ),
-//   github: (
-//     <CustomLink
-//       url="https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation"
-//       onClick={() => analyticsEventHandler('GitHub repository', `${page} Citation Click`)}
-//     >
-//       GitHub repository
-//     </CustomLink>
-//   ),
-//   mts: (
-//     <CustomLink
-//       url="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
-//       id="Monthly Treasury Statement"
-//       onClick={() => analyticsEventHandler('Monthly Treasury Statement (MTS)', `${page} Citation Click`)}
-//     >
-//       Monthly Treasury Statement (MTS)
-//     </CustomLink>
-//   ),
-// };
