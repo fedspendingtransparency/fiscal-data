@@ -52,7 +52,7 @@ const GovernmentRevenueHero = (): ReactElement => {
   const [revenuePercentChange, setRevenuePercentChange] = useState(0);
 
   const numberFormat = new Intl.NumberFormat('en-US');
-  const { mtsReceipts } = explainerCitationsMap['federal-spending'];
+  const { mtsReceipts } = explainerCitationsMap['government-revenue'];
 
   const expenditures = (
     <GlossaryPopoverDefinition term="Expenditures" page="Revenue Explainer">

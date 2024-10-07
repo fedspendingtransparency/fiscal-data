@@ -19,7 +19,7 @@ export const SpendingCategories = () => {
       }
     });
   }, []);
-  const { USAsExplorerPage, USAsAgencyPage, ssaAnnualReport } = explainerCitationsMap['national-debt'];
+  const { USAsExplorerPage, USAsAgencyPage, ssaAnnualReport } = explainerCitationsMap['federal-spending'];
 
   return (
     <div className={spendingCategoriesContent}>
