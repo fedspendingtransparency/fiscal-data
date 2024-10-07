@@ -116,7 +116,7 @@ const explainerCitations = page => {
         Monthly Statement of the Public Debt (MSPD)
       </CustomLink>
     ),
-    treasuryMspd: (
+    mspdSummary: (
       <CustomLink
         url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
         onClick={() => analyticsEventHandler('Monthly Statement of the Public Debt (MSPD)', `${page} Citation Click`)}
@@ -217,6 +217,14 @@ const explainerCitations = page => {
         in response to the COVID-19 pandemic
       </CustomLink>
     ),
+    USAsCovidFederalResponse: (
+      <CustomLink
+        url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all"
+        onClick={() => analyticsEventHandler('USAspending COVID-19 Spending Profile', `${page} Citation Click`)}
+      >
+        the federal response to COVID-19
+      </CustomLink>
+    ),
     fiscalService: (
       <CustomLink
         url="https://www.fiscal.treasury.gov/"
@@ -261,6 +269,22 @@ const explainerCitations = page => {
     gps: (
       <CustomLink url="https://www.gps.gov/policy/funding/" onClick={() => analyticsEventHandler('GPS.gov', `${page} Citation Click`)}>
         GPS.gov
+      </CustomLink>
+    ),
+    irs: (
+      <CustomLink
+        url="https://www.irs.gov/newsroom/historical-highlights-of-the-irs"
+        onClick={() => analyticsEventHandler('IRS.gov', `${page} Citation Click`)}
+      >
+        IRS.gov
+      </CustomLink>
+    ),
+    federalReserveAct: (
+      <CustomLink
+        url="https://www.federalreserve.gov/aboutthefed/section7.htm"
+        onClick={() => analyticsEventHandler('Federal Reserve Act', `${page} Citation Click`)}
+      >
+        Federal Reserve Act, Section 7(a)(1-3)
       </CustomLink>
     ),
   };

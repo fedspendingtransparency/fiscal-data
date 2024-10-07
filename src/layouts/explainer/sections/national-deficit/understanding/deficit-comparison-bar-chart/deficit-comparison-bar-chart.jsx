@@ -13,11 +13,11 @@ import { breakpointLg, fontBodyCopy } from '../../../../../../variables.module.s
 import { barChartColors, desktopHeight, mobileHeight, layers, theme } from './deficit-comparison-bar-chart-helper';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { nationalDeficitSectionConfigs } from '../../national-deficit';
-import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import { addInnerChartAriaLabel, chartInViewProps } from '../../../../explainer-helpers/explainer-charting-helper';
 import CustomBar from './custom-bar/customBar';
 import { useInView } from 'react-intersection-observer';
+import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 
 const DeficitComparisonBarChart = ({ sectionId, width }) => {
   const [date, setDate] = useState(new Date());
@@ -33,9 +33,9 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
   const [data, setData] = useState(null);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
 
+  const { endpoints } = nationalDeficitSectionConfigs[sectionId];
+  const { mtsOutlays } = explainerCitationsMap['national-deficit'];
   const desktop = width >= pxToNumber(breakpointLg);
-  const { name, slug, endpoints } = nationalDeficitSectionConfigs[sectionId];
-
   const chartParent = 'chartParentDiv';
 
   const setAnimationDurations = data => {
@@ -64,15 +64,9 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
 
   const chartData = setAnimationDurations(data);
 
-  const mst = (
-    <CustomLink url={slug} eventNumber="13" id="Monthly Treasury Statement">
-      {name}
-    </CustomLink>
-  );
-
   const footer = (
     <div>
-      Visit the {mst} dataset to explore and download this data.
+      Visit the {mtsOutlays} dataset to explore and download this data.
       <p>Please note: This data visual only includes completed fiscal years. The following year will be displayed at the end of the fiscal year.</p>
     </div>
   );

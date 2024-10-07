@@ -57,7 +57,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   const [debtExpensePercent, setDebtExpensePercent] = useState('0%');
   const [currentFiscalYear, setCurrentFiscalYear] = useState('');
 
-  const { monetaryPolicy, treasuryMspd, treasurySecurities } = explainerCitationsMap['national-debt'];
+  const { monetaryPolicy, mspdSummary, treasurySecurities } = explainerCitationsMap['national-debt'];
 
   const glossaryTerms = {
     debtHeldByThePublic: (
@@ -364,7 +364,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
                 </div>
                 <div className={footerContainer}>
                   <p>
-                    Visit the {treasurySecurities} and {treasuryMspd} datasets to explore and download this data.
+                    Visit the {treasurySecurities} and {mspdSummary} datasets to explore and download this data.
                   </p>
                   <p>Last Updated: September 30, {multichartEndYear}</p>
                 </div>

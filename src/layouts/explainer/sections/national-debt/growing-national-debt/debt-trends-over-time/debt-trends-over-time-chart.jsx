@@ -1,7 +1,6 @@
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg, debtExplainerPrimary, fontSize_10 } from '../../../../../../variables.module.scss';
 import React, { useEffect, useState } from 'react';
-import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { container, lineChartContainer, header, headerContainer, subHeader } from './debt-trends-over-time-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
@@ -9,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Line } from '@nivo/line';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
-import { nationalDebtSectionConfigs } from '../../national-debt';
 import {
   addInnerChartAriaLabel,
   applyChartScaling,
@@ -28,7 +26,6 @@ import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShould
 import { useInView } from 'react-intersection-observer';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { getChangeLabel } from '../../../../heros/hero-helper';
-import { analyticsCitationHandler } from '../../../../explainer-helpers/national-debt/national-debt-helper';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 
 let gaTimerDebtTrends;
@@ -45,19 +42,11 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const data = useRecoilValueLoadable(debtOutstandingData);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
-  const { name, slug } = nationalDebtSectionConfigs[sectionId];
-
   const chartParent = 'debtTrendsChart';
   const chartWidth = 550;
   const chartHeight = 490;
 
-  const historicalDebtOutstanding = (
-    <CustomLink url={slug} onClick={() => analyticsCitationHandler('Historical Debt Outstanding')} id="Historical Debt Outstanding">
-      {name}
-    </CustomLink>
-  );
-
-  const { bea } = explainerCitationsMap['national-debt'];
+  const { bea, historicalDebt } = explainerCitationsMap['national-debt'];
 
   const processData = () => {
     const { finalGDPData } = beaGDPData;
@@ -161,7 +150,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const footerContent = (
     <>
       <p>
-        Visit the {historicalDebtOutstanding} dataset to explore and download this data. The GDP data is sourced from the {bea}.
+        Visit the {historicalDebt} dataset to explore and download this data. The GDP data is sourced from the {bea}.
       </p>
       <p>Please note: This chart is updated as new GDP data is released, even if new debt data is available.</p>
     </>
