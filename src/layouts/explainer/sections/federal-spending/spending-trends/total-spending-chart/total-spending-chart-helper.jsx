@@ -1,5 +1,4 @@
 import React from 'react';
-import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { dataHeaderContainer } from './total-spending-chart.module.scss';
 import { breakpointLg, fontSize_10, fontSize_14, semiBoldWeight } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';

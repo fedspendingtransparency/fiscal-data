@@ -1,5 +1,4 @@
 import React from 'react';
-import CustomLink from '../../../../../../../components/links/custom-link/custom-link';
 import { breakpointLg, fontSize_10, fontSize_14, semiBoldWeight } from '../../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
 import { formatCurrency, formatPercentage } from '../../../../../explainer-helpers/explainer-charting-helper';

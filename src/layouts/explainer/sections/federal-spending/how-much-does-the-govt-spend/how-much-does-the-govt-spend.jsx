@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment, useCallback } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
-import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import ChartContainer from '../../../explainer-components/chart-container/chart-container';
 import {
   footerStyle,

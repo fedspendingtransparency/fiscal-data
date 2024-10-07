@@ -3,8 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDollarSign, faHandHoldingMedical, faHeartbeat, faShieldAlt, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { debtAccordion } from '../../national-debt.module.scss';
-import CustomLink from '../../../../../../components/links/custom-link/custom-link';
-import { analyticsClickHandler } from '../../../../explainer-helpers/national-debt/national-debt-helper';
 import {
   fundingProgramAccordion,
   spendingCategoriesAccordionContent,

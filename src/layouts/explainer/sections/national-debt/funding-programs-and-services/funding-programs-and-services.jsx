@@ -3,7 +3,6 @@ import { faFlagUsa } from '@fortawesome/free-solid-svg-icons';
 import QuoteBox from '../../../quote-box/quote-box';
 import React from 'react';
 import { deficitLink, spendingLink } from '../../../explainer-helpers/national-debt/national-debt-helper';
-import { analyticsClickHandler } from '../../../explainer-helpers/national-debt/national-debt-helper';
 import { debtExplainerLightSecondary, debtExplainerPrimary } from '../national-debt.module.scss';
 import SpendingCategoriesAccordion from './spending-categories-accordion/spending-categories-accordion';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';

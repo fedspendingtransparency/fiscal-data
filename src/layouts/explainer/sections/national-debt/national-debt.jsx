@@ -1,10 +1,8 @@
 import React from 'react';
-import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { datasetSectionConfig, explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
 import { KeyTakeawaysSection } from './key-takeaways/national-debt-key-takeaways';
 import DiveDeeperIntoTheDebt from './dive-deeper-into-the-debt/dive-deeper-into-the-debt';
-import { analyticsClickHandler } from '../../explainer-helpers/national-debt/national-debt-helper';
 import NationalDebtExplained from './national-debt-explained/national-debt-explained';
 import BreakingDownTheDebt from './breaking-down-the-debt/breaking-down-the-debt';
 import { GrowingNationalDebtSection } from './growing-national-debt/growing-national-debt';

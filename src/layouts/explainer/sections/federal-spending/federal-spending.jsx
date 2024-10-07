@@ -4,7 +4,6 @@ import { SpendingOverview } from './overview/spending-overview';
 import { SpendingCategories } from './spending-categories/spending-categories';
 import SpendingDifference from './spending-difference/spending-difference';
 import { SpendingTrends } from './spending-trends/spending-trends';
-import Analytics from '../../../../utils/analytics/analytics';
 import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
 
 export const federalSpendingSectionIds = [
