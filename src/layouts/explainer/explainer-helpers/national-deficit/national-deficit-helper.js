@@ -1,36 +1,45 @@
 import React from 'react';
 import { explainerCitationsMap } from '../explainer-helpers';
+import Analytics from '../../../../utils/analytics/analytics';
+
+const diveDeeperCitationClick = eventLabel => {
+  Analytics.event({
+    category: 'Explainers',
+    action: `Deficit Citation Click`,
+    label: eventLabel,
+  });
+};
 
 export const deficitLearnMoreLinks = [
   {
     title: 'America’s Fiscal Future',
     url: 'https://www.gao.gov/americas-fiscal-future',
-    eventNumber: '19',
+    onClick: () => diveDeeperCitationClick('America’s Fiscal Future'),
   },
   {
     title: 'An Update to the Budget and Economic Outlook: 2021 to 2031',
     url: 'https://www.cbo.gov/publication/57339',
-    eventNumber: '20',
+    onClick: () => diveDeeperCitationClick('An Update to the Budget and Economic Outlook: 2021 to 2031'),
   },
   {
     title: 'Congressional Budget Office Topics – Budget',
     url: 'https://www.cbo.gov/topics/budget',
-    eventNumber: '21',
+    onClick: () => diveDeeperCitationClick('Congressional Budget Office Topics – Budget'),
   },
   {
     title: 'Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19',
     url: 'https://crsreports.congress.gov/product/pdf/R/R46729',
-    eventNumber: '22',
+    onClick: () => diveDeeperCitationClick('Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19'),
   },
   {
     title: 'President’s Budget – Historical Tables',
     url: 'https://www.whitehouse.gov/omb/historical-tables/',
-    eventNumber: '23',
+    onClick: () => diveDeeperCitationClick('President’s Budget – Historical Tables'),
   },
   {
     title: 'FY 2022 Final Monthly Treasury Statement',
     url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202209.pdf',
-    eventNumber: '24',
+    onClick: () => diveDeeperCitationClick('FY 2022 Final Monthly Treasury Statement'),
     id: 'Monthly Treasury Statement',
   },
 ];
