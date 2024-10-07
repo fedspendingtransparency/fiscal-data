@@ -125,6 +125,15 @@ const explainerCitations = page => {
         U.S. Treasury Monthly Statement of the Public Debt (MSPD)
       </CustomLink>
     ),
+    mspdOutstanding: (
+      <CustomLink
+        url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
+        id="U.S. Treasury Monthly Statement of the Public Debt"
+        onClick={() => analyticsEventHandler('Monthly Statement of the Public Debt (MSPD)', `${page} Citation Click`)}
+      >
+        U.S. Treasury Monthly Statement of the Public Debt
+      </CustomLink>
+    ),
     debtToThePenny: (
       <CustomLink
         url="/datasets/debt-to-the-penny/"
@@ -295,6 +304,7 @@ export const explainerCitationsMap = {
   'national-deficit': explainerCitations('Deficit'),
   'federal-spending': explainerCitations('Spending'),
   'government-revenue': explainerCitations('Revenue'),
+  'afg': explainerCitations('AFG Overview'),
 };
 
 export const getDateWithoutOffset = date => {
