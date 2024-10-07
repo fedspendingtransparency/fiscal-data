@@ -52,7 +52,7 @@ const SpendingCategoriesAccordion = () => {
     },
   ];
 
-  const { USAsGov, USAsObjectClass, USAsBudgetFunction } = explainerCitationsMap['national-debt'];
+  const { USAsGov, USAsObjectClass, USAsBudgetFunction } = explainerCitationsMap()['national-debt'];
 
   return (
     <>

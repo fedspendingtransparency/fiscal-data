@@ -155,16 +155,27 @@ const explainerCitations = page => {
       </CustomLink>
     ),
     USAsExplorer: (
-      <CustomLink url="https://www.usaspending.gov/explorer" onClick={() => analyticsEventHandler('USAspending', `${page} Citation Click`)}>
+      <CustomLink
+        url="https://www.usaspending.gov/explorer"
+        onClick={() => analyticsEventHandler('USAspending Spending Explorer', `${page} Citation Click`)}
+      >
         USAspending.gov
       </CustomLink>
     ),
-    fiscalService: (
+    USAsExplorerPage: (
       <CustomLink
-        url="https://www.fiscal.treasury.gov/"
-        onClick={() => analyticsEventHandler('Bureau of the Fiscal Service', `${page} Citation Click`)}
+        url="https://www.usaspending.gov/explorer"
+        onClick={() => analyticsEventHandler('USAspending Spending Explorer', `${page} Citation Click`)}
       >
-        Bureau of the Fiscal Service
+        Spending Explorer
+      </CustomLink>
+    ),
+    USAsAgencyPage: (
+      <CustomLink
+        url="https://www.usaspending.gov/agency"
+        onClick={() => analyticsEventHandler('USAspending Agency Profile', `${page} Citation Click`)}
+      >
+        Agency Profile
       </CustomLink>
     ),
     USAsObjectClass: (
@@ -183,6 +194,14 @@ const explainerCitations = page => {
         Budget Function
       </CustomLink>
     ),
+    fiscalService: (
+      <CustomLink
+        url="https://www.fiscal.treasury.gov/"
+        onClick={() => analyticsEventHandler('Bureau of the Fiscal Service', `${page} Citation Click`)}
+      >
+        Bureau of the Fiscal Service
+      </CustomLink>
+    ),
     treasurySecurities: (
       <CustomLink
         url="/datasets/average-interest-rates-treasury-securities/"
@@ -190,6 +209,14 @@ const explainerCitations = page => {
         onClick={() => analyticsEventHandler('Average Interest Rates on U.S. Treasury Securities', `${page} Citation Click`)}
       >
         Average Interest Rates on U.S. Treasury Securities
+      </CustomLink>
+    ),
+    ssa: (
+      <CustomLink
+        url="https://www.ssa.gov/oact/TRSUM/"
+        onClick={() => analyticsEventHandler('Annual Reports on the Financial Status of Social Security and Medicare', `${page} Citation Click`)}
+      >
+        Annual Reports on the Financial Status of Social Security and Medicare
       </CustomLink>
     ),
   };
