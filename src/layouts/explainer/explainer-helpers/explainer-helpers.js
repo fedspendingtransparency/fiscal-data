@@ -41,8 +41,6 @@ import { BASE_URL } from 'gatsby-env-variables';
 import TreasurySavingsBondsHero from '../heros/treasury-savings-bonds/treasury-savings-bonds-hero';
 import Analytics from '../../../utils/analytics/analytics';
 import CustomLink from '../../../components/links/custom-link/custom-link';
-import { analyticsRevenueEventHandler } from './government-revenue/government-revenue-helper';
-import { analyticsClickHandler } from './national-debt/national-debt-helper';
 
 const envBaseUrl = BASE_URL;
 
@@ -116,6 +114,15 @@ const explainerCitations = page => {
         onClick={() => analyticsEventHandler('Monthly Statement of the Public Debt (MSPD)', `${page} Citation Click`)}
       >
         Monthly Statement of the Public Debt (MSPD)
+      </CustomLink>
+    ),
+    treasuryMspd: (
+      <CustomLink
+        url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
+        onClick={() => analyticsEventHandler('Monthly Statement of the Public Debt (MSPD)', `${page} Citation Click`)}
+        id="U.S. Treasury Monthly Statement of the Public Debt"
+      >
+        U.S. Treasury Monthly Statement of the Public Debt (MSPD)
       </CustomLink>
     ),
     debtToThePenny: (
@@ -194,6 +201,22 @@ const explainerCitations = page => {
         Budget Function
       </CustomLink>
     ),
+    USAsCovidSpending: (
+      <CustomLink
+        url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all"
+        onClick={() => analyticsEventHandler('USAspending COVID-19 Spending Profile', `${page} Citation Click`)}
+      >
+        COVID-19 Spending Profile
+      </CustomLink>
+    ),
+    USAsCovidResponse: (
+      <CustomLink
+        url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all"
+        onClick={() => analyticsEventHandler('USAspending COVID-19 Spending Profile', `${page} Citation Click`)}
+      >
+        in response to the COVID-19 pandemic
+      </CustomLink>
+    ),
     fiscalService: (
       <CustomLink
         url="https://www.fiscal.treasury.gov/"
@@ -211,12 +234,33 @@ const explainerCitations = page => {
         Average Interest Rates on U.S. Treasury Securities
       </CustomLink>
     ),
-    ssa: (
+    ssaAnnualReport: (
       <CustomLink
         url="https://www.ssa.gov/oact/TRSUM/"
         onClick={() => analyticsEventHandler('Annual Reports on the Financial Status of Social Security and Medicare', `${page} Citation Click`)}
       >
         Annual Reports on the Financial Status of Social Security and Medicare
+      </CustomLink>
+    ),
+    ssa: (
+      <CustomLink
+        url="https://www.ssa.gov/OP_Home/ssact/ssact-toc.htm"
+        onClick={() => analyticsEventHandler('Social Security Act', `${page} Citation Click`)}
+      >
+        Social Security Act
+      </CustomLink>
+    ),
+    monetaryPolicy: (
+      <CustomLink
+        url="https://www.federalreserve.gov/monetarypolicy.htm"
+        onClick={() => analyticsEventHandler('Monetary Policy', `${page} Citation Click`)}
+      >
+        monetary policy
+      </CustomLink>
+    ),
+    gps: (
+      <CustomLink url="https://www.gps.gov/policy/funding/" onClick={() => analyticsEventHandler('GPS.gov', `${page} Citation Click`)}>
+        GPS.gov
       </CustomLink>
     ),
   };

@@ -19,7 +19,7 @@ export const SpendingCategories = () => {
       }
     });
   }, []);
-  const { USAsExplorerPage, USAsAgencyPage, ssa } = explainerCitationsMap['national-debt'];
+  const { USAsExplorerPage, USAsAgencyPage, ssaAnnualReport } = explainerCitationsMap['national-debt'];
 
   return (
     <div className={spendingCategoriesContent}>
@@ -49,9 +49,9 @@ export const SpendingCategories = () => {
           explainerGAEvent="SpendingExplainer"
           ga4ID="social-sec"
         >
-          Each year, the Social Security and Medicare Boards of Trustees publish their {ssa}. The Boards’ projections indicate that spending will
-          continue to increase. As the average age of Americans increases, more funding is needed to support entitlement programs like Social
-          Security, Medicare, and retirement and disability services for both military and civil servants{' '}
+          Each year, the Social Security and Medicare Boards of Trustees publish their {ssaAnnualReport}. The Boards’ projections indicate that
+          spending will continue to increase. As the average age of Americans increases, more funding is needed to support entitlement programs like
+          Social Security, Medicare, and retirement and disability services for both military and civil servants{' '}
         </Accordion>
       </div>
     </div>

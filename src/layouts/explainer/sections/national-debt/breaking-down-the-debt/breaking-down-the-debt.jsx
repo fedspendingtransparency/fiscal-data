@@ -4,12 +4,11 @@ import GlossaryPopoverDefinition from '../../../../../components/glossary/glossa
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import Analytics from '../../../../../utils/analytics/analytics';
-import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import Multichart from '../../../multichart/multichart';
 import Accordion from '../../../../../components/accordion/accordion';
 import { chartPatternBackground, nationalDebtSectionConfigs } from '../national-debt';
-import { analyticsCitationHandler, analyticsClickHandler, spendingLink } from '../../../explainer-helpers/national-debt/national-debt-helper';
+import { spendingLink } from '../../../explainer-helpers/national-debt/national-debt-helper';
 import React, { useEffect, useState } from 'react';
 import { breakpointLg, fontSize_10, fontSize_14, debtExplainerPrimary, debtExplainerLightSecondary } from '../../../../../variables.module.scss';
 import { chartBackdrop, visWithCallout } from '../../../explainer.module.scss';
@@ -29,7 +28,7 @@ import {
   multichartWrapper,
 } from './breaking-down-the-debt.module.scss';
 import IntragovernmentalHoldingsChart from './intragovernmental-holdings-chart/intragovernmental-holdings-chart';
-import { getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';
+import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';
 import QuoteBox from '../../../quote-box/quote-box';
 
 export const percentageFormatter = value => (Math.round(Number(value) * 100).toPrecision(15) / 100).toFixed(2) + '%';
@@ -57,6 +56,9 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   const [shortenedDebtExpense, setShortenedDebtExpense] = useState('0');
   const [debtExpensePercent, setDebtExpensePercent] = useState('0%');
   const [currentFiscalYear, setCurrentFiscalYear] = useState('');
+
+  const { monetaryPolicy, treasuryMspd, treasurySecurities } = explainerCitationsMap['national-debt'];
+
   const glossaryTerms = {
     debtHeldByThePublic: (
       <GlossaryPopoverDefinition term="Debt Held by the Public" page="Debt explainer">
@@ -362,23 +364,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
                 </div>
                 <div className={footerContainer}>
                   <p>
-                    Visit the{' '}
-                    <CustomLink
-                      url="/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities"
-                      onClick={() => analyticsCitationHandler('Average Interest Rates on U.S. Treasury Securities')}
-                      id="Average Interest Rates on U.S. Treasury Securities"
-                    >
-                      Average Interest Rates on U.S. Treasury Securities
-                    </CustomLink>{' '}
-                    and{' '}
-                    <CustomLink
-                      url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
-                      onClick={() => analyticsCitationHandler('U.S. Treasury Monthly Statement of the Public Debt')}
-                      id="U.S. Treasury Monthly Statement of the Public Debt"
-                    >
-                      U.S. Treasury Monthly Statement of the Public Debt (MSPD)
-                    </CustomLink>{' '}
-                    datasets to explore and download this data.
+                    Visit the {treasurySecurities} and {treasuryMspd} datasets to explore and download this data.
                   </p>
                   <p>Last Updated: September 30, {multichartEndYear}</p>
                 </div>
@@ -401,10 +387,10 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
               ga4ID="print-money"
             >
               While the Treasury prints actual dollar bills, “printing money” is also a term that is sometimes used to describe a means of{' '}
-              <CustomLink url="https://www.federalreserve.gov/monetarypolicy.htm">monetary policy</CustomLink> which is conducted by the Federal
-              Reserve. Monetary policy involves controlling the supply of money and the cost of borrowing. The Federal Reserve uses monetary policy to
-              promote maximum employment, stable prices, and moderate long-term interest rates on the behalf of Congress. The federal government uses
-              fiscal policy, or the control of taxation and {spendingLink('government spending')}, to promote economic activity.
+              {monetaryPolicy} which is conducted by the Federal Reserve. Monetary policy involves controlling the supply of money and the cost of
+              borrowing. The Federal Reserve uses monetary policy to promote maximum employment, stable prices, and moderate long-term interest rates
+              on the behalf of Congress. The federal government uses fiscal policy, or the control of taxation and{' '}
+              {spendingLink('government spending')}, to promote economic activity.
             </Accordion>
           </div>
         </div>

@@ -7,6 +7,7 @@ import QuoteBox from '../../../quote-box/quote-box';
 import { revenueExplainerPrimary, revenueExplainerLightSecondary } from '../revenue.module.scss';
 import { quoteBoxContent } from '../../../explainer.module.scss';
 import { section } from './federal-revenue-trends-and-us-economy.module.scss';
+import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
 
 const FederalRevenueTrendsAndUSEconomy = ({ cpiDataByYear }) => {
   const beaGDPData = useBeaGDP(cpiDataByYear, true, 'mts4');
@@ -21,11 +22,7 @@ const FederalRevenueTrendsAndUSEconomy = ({ cpiDataByYear }) => {
     setRevenueTotal(data.revenueTotal);
   };
 
-  const gps = (
-    <CustomLink url="https://www.gps.gov/policy/funding/" eventNumber="22">
-      GPS.gov
-    </CustomLink>
-  );
+  const { gps } = explainerCitationsMap['government-revenue'];
 
   return (
     <div className={section}>
