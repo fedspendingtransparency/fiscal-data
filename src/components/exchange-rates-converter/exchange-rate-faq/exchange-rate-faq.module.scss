@@ -1,5 +1,21 @@
 @import 'src/variables.module';
 
+.relatedResource {
+  margin-bottom: 0.5rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  .externalIcon {
+    color: $primary;
+    margin-right: .5rem;
+    margin-top: .25rem;
+  }
+
+  .linkText {
+    display: flex;
+    align-items: flex-start;
+  }
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -25,10 +41,9 @@
     }
   }
   .exchangeRateFAQ {
-    .containerClass {
+    .containerClass:not(:last-child) {
       margin-bottom: 0.5rem;
     }
-
     :global(.accordionHeading) {
       font-size: $font-size-16;
       color: #0071BC;
