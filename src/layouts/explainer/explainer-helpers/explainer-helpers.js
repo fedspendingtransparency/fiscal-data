@@ -159,6 +159,22 @@ const explainerCitations = page => {
         Bureau of the Fiscal Service
       </CustomLink>
     ),
+    USAsObjectClass: (
+      <CustomLink
+        url="https://www.usaspending.gov/explorer/object_class"
+        onClick={() => analyticsEventHandler('USAspending Object Class', `${page} Citation Click`)}
+      >
+        Object Class
+      </CustomLink>
+    ),
+    USAsBudgetFunction: (
+      <CustomLink
+        url="https://www.usaspending.gov/explorer/budget_function"
+        onClick={() => analyticsEventHandler('USAspending Budget Function', `${page} Citation Click`)}
+      >
+        Budget Function
+      </CustomLink>
+    ),
   };
 };
 

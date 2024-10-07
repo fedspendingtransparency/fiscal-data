@@ -34,7 +34,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt',
+      label: 'USAspending Object Class',
     });
     spy.mockClear();
 
@@ -42,7 +42,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt',
+      label: 'USAspending Budget Function',
     });
     spy.mockClear();
   });

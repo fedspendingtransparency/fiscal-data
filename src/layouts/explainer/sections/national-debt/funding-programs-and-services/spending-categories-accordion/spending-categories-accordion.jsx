@@ -17,7 +17,7 @@ import {
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 
 const SpendingCategoriesAccordion = () => {
-  const accodionContent = [
+  const accordionContent = [
     {
       name: 'Income Security',
       description:
@@ -52,25 +52,7 @@ const SpendingCategoriesAccordion = () => {
     },
   ];
 
-  const { USAsGov } = explainerCitationsMap['national-debt'];
-
-  const objectClass = (
-    <CustomLink
-      url="https://www.usaspending.gov/#/explorer/object_class"
-      onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}
-    >
-      Object Class
-    </CustomLink>
-  );
-
-  const budgetFunction = (
-    <CustomLink
-      url="https://www.usaspending.gov/explorer/budget_function"
-      onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}
-    >
-      Budget Function
-    </CustomLink>
-  );
+  const { USAsGov, USAsObjectClass, USAsBudgetFunction } = explainerCitationsMap['national-debt'];
 
   return (
     <>
@@ -86,11 +68,11 @@ const SpendingCategoriesAccordion = () => {
           <div className={spendingCategoriesAccordionContent}>
             <p>
               Below are some of the federal government’s largest spending categories. Visit {USAsGov} to explore federal spending by the types of
-              items and services purchased by the federal government. Explore federal spending by {objectClass} or learn how spending categories and
-              subcategories break down by viewing federal spending by {budgetFunction}.
+              items and services purchased by the federal government. Explore federal spending by {USAsObjectClass} or learn how spending categories
+              and subcategories break down by viewing federal spending by {USAsBudgetFunction}.
             </p>
             <div className={spendingCategoriesTable}>
-              {accodionContent.map(category => (
+              {accordionContent.map(category => (
                 <React.Fragment key={category.name}>
                   <div className={row}>
                     <div className={firstColumn}>
