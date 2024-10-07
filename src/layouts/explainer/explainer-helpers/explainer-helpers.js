@@ -136,6 +136,14 @@ const explainerCitations = page => {
         Historical Debt Outstanding
       </CustomLink>
     ),
+    treasuryDirectHistoricalDebt: (
+      <CustomLink
+        url="https://treasurydirect.gov/government/historical-debt-outstanding/"
+        onClick={() => analyticsEventHandler('The History of the Debt', `${page} Citation Click`)}
+      >
+        history of the debt
+      </CustomLink>
+    ),
     USAs: (
       <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsEventHandler('USAspending', `${page} Citation Click`)}>
         USAspending
@@ -173,6 +181,15 @@ const explainerCitations = page => {
         onClick={() => analyticsEventHandler('USAspending Budget Function', `${page} Citation Click`)}
       >
         Budget Function
+      </CustomLink>
+    ),
+    treasurySecurities: (
+      <CustomLink
+        url="/datasets/average-interest-rates-treasury-securities/"
+        id="Average Interest Rates on U.S. Treasury Securities"
+        onClick={() => analyticsEventHandler('Average Interest Rates on U.S. Treasury Securities', `${page} Citation Click`)}
+      >
+        Average Interest Rates on U.S. Treasury Securities
       </CustomLink>
     ),
   };

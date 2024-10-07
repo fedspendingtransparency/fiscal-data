@@ -94,23 +94,9 @@ const nationalDebtSections = [
 
 export default nationalDebtSections;
 
-const treasurySecurities = (
-  <CustomLink
-    url="/datasets/average-interest-rates-treasury-securities/"
-    onClick={() => analyticsClickHandler('Citation Click', 'Average Interest Rates onf U.S. Treasury Securities')}
-    id="Average Interest Rates on U.S. Treasury Securities"
-  >
-    Average Interest Rates on U.S. Treasury Securities
-  </CustomLink>
-);
-
-const { bea, bls, github, mspd, debtToThePenny, historicalDebt } = explainerCitationsMap['national-debt'];
-
-const historyOfTheDebt = (
-  <CustomLink url="https://treasurydirect.gov/government/historical-debt-outstanding/" onClick={() => analyticsClickHandler('Citation Click')}>
-    history of the debt
-  </CustomLink>
-);
+const { bea, bls, github, mspd, debtToThePenny, historicalDebt, treasuryDirectHistoricalDebt, treasurySecurities } = explainerCitationsMap[
+  'national-debt'
+];
 
 export const nationalDebtDataSources = (
   <>
@@ -119,7 +105,7 @@ export const nationalDebtDataSources = (
     are pulled from the {treasurySecurities} dataset. Adjustments for inflation are calculated using Consumer Price Index values from the {bls}.
     Fiscal year Gross Domestic Product values from the {bea} are calculated by averaging four relevant quarterly values from calendar year quarter 4
     of the prior year through calendar year quarter 3 of the fiscal year shown. For detailed documentation, users can reference our {github}. For more
-    information on the {historyOfTheDebt}, visit TreasuryDirect.
+    information on the {treasuryDirectHistoricalDebt}, visit TreasuryDirect.
   </>
 );
 
