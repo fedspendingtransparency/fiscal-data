@@ -3,7 +3,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  margin: 0 1.25rem;
+  margin: 0 2.75rem 0 1.25rem;
 
   .headTitle {
     margin: 0;
@@ -41,7 +41,7 @@
 .selector {
   margin-right: 0.5rem;
   font-weight: 600;
-  width: 50%;
+  width: 47.5%;
 
   @media screen and (max-width: $breakpoint-lg - 1) {
     width: 100%;
@@ -55,6 +55,7 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .container {
+  margin-right: 1.25rem;
     .currencyBoxContainer {
       flex-direction: column;
     }

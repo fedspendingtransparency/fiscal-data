@@ -6,7 +6,7 @@ $border-color: #d9d9d9;
   width: 20rem;
   margin: 0;
   &:first-child {
-    margin-right: 3rem;
+    margin-right: 2rem;
   }
 
   button:disabled {
@@ -17,7 +17,6 @@ $border-color: #d9d9d9;
     display: flex;
     span {
       font-size: $font-size-12;
-      margin-bottom: 0.5rem;
       font-weight: 700;
     }
     .headerIcon {
