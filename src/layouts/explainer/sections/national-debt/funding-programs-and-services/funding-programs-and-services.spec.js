@@ -18,7 +18,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt',
+      label: 'USAspending',
     });
     spy.mockClear();
 
@@ -26,7 +26,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'Debt',
+      label: 'USAspending',
     });
     spy.mockClear();
 

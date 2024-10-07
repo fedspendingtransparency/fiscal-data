@@ -113,38 +113,50 @@ const explainerCitations = page => {
       <CustomLink
         url="/datasets/monthly-statement-public-debt/"
         id="Monthly Statement of the Public Debt"
-        onClick={() => analyticsEventHandler('Monthly Statement of the Public Debt (MSPD)')}
+        onClick={() => analyticsEventHandler('Monthly Statement of the Public Debt (MSPD)', `${page} Citation Click`)}
       >
         Monthly Statement of the Public Debt (MSPD)
       </CustomLink>
     ),
     debtToThePenny: (
-      <CustomLink url="/datasets/debt-to-the-penny/" onClick={() => analyticsEventHandler('Debt to the Penny')} id="Debt to the Penny">
+      <CustomLink
+        url="/datasets/debt-to-the-penny/"
+        id="Debt to the Penny"
+        onClick={() => analyticsEventHandler('Debt to the Penny', `${page} Citation Click`)}
+      >
         Debt to the Penny
       </CustomLink>
     ),
     historicalDebt: (
       <CustomLink
         url="/datasets/historical-debt-outstanding/"
-        onClick={() => analyticsEventHandler('Historical Debt Outstanding')}
+        onClick={() => analyticsEventHandler('Historical Debt Outstanding', `${page} Citation Click`)}
         id="Historical Debt Outstanding"
       >
         Historical Debt Outstanding
       </CustomLink>
     ),
     USAs: (
-      <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsEventHandler('USAspending')}>
+      <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsEventHandler('USAspending', `${page} Citation Click`)}>
         USAspending
       </CustomLink>
     ),
     USAsGov: (
-      <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsEventHandler('USAspending')}>
+      <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsEventHandler('USAspending', `${page} Citation Click`)}>
         USAspending.gov
       </CustomLink>
     ),
     USAsExplorer: (
-      <CustomLink url="https://www.usaspending.gov/explorer" onClick={() => analyticsEventHandler('USAspending')}>
+      <CustomLink url="https://www.usaspending.gov/explorer" onClick={() => analyticsEventHandler('USAspending', `${page} Citation Click`)}>
         USAspending.gov
+      </CustomLink>
+    ),
+    fiscalService: (
+      <CustomLink
+        url="https://www.fiscal.treasury.gov/"
+        onClick={() => analyticsEventHandler('Bureau of the Fiscal Service', `${page} Citation Click`)}
+      >
+        Bureau of the Fiscal Service
       </CustomLink>
     ),
   };
