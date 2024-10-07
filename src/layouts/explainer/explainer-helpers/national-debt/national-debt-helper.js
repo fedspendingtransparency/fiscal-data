@@ -1,9 +1,13 @@
-import Analytics from '../../../../utils/analytics/analytics';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import React from 'react';
+import { analyticsEventHandler } from '../explainer-helpers';
 
 export const deficitLink = (
-  <CustomLink url="/americas-finance-guide/national-deficit/" id="National Deficit" onClick={() => analyticsCitationHandler('National Deficit')}>
+  <CustomLink
+    url="/americas-finance-guide/national-deficit/"
+    id="National Deficit"
+    onClick={() => analyticsEventHandler('National Deficit', 'Debt Citation Click')}
+  >
     deficit
   </CustomLink>
 );
@@ -14,23 +18,7 @@ export const spendingLink = copy => (
   </CustomLink>
 );
 
-export const analyticsCitationHandler = section => {
-  Analytics.event({
-    category: 'Explainers',
-    action: `Debt Citation Click`,
-    label: `${section}`,
-  });
-};
-
-export const analyticsClickHandler = (action, eventLabel) => {
-  Analytics.event({
-    category: 'Explainers',
-    action: `Debt ${action}`,
-    label: eventLabel? eventLabel : `Debt`,
-  });
-};
-
-const diveDeeperCitationClick = (eventLabel) => analyticsClickHandler('Citation Click', eventLabel);
+const diveDeeperCitationClick = eventLabel => analyticsEventHandler(eventLabel, 'Debt Citation Click');
 
 export const debtLearnMoreLinks = [
   {

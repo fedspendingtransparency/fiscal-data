@@ -1,13 +1,9 @@
 import React from 'react';
-import { explainerCitationsMap } from '../explainer-helpers';
+import { analyticsEventHandler, explainerCitationsMap } from '../explainer-helpers';
 import Analytics from '../../../../utils/analytics/analytics';
 
 const diveDeeperCitationClick = eventLabel => {
-  Analytics.event({
-    category: 'Explainers',
-    action: `Deficit Citation Click`,
-    label: eventLabel,
-  });
+  analyticsEventHandler(eventLabel, 'Deficit Citation Click');
 };
 
 export const deficitLearnMoreLinks = [
