@@ -1,10 +1,8 @@
 import React from 'react';
-import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
-import { datasetSectionConfig } from '../../explainer-helpers/explainer-helpers';
+import { datasetSectionConfig, explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
 import { KeyTakeawaysSection } from './key-takeaways/national-debt-key-takeaways';
 import DiveDeeperIntoTheDebt from './dive-deeper-into-the-debt/dive-deeper-into-the-debt';
-import { analyticsClickHandler } from '../../explainer-helpers/national-debt/national-debt-helper';
 import NationalDebtExplained from './national-debt-explained/national-debt-explained';
 import BreakingDownTheDebt from './breaking-down-the-debt/breaking-down-the-debt';
 import { GrowingNationalDebtSection } from './growing-national-debt/growing-national-debt';
@@ -94,66 +92,9 @@ const nationalDebtSections = [
 
 export default nationalDebtSections;
 
-const debtToThePenny = (
-  <CustomLink url="/datasets/debt-to-the-penny/" onClick={() => analyticsClickHandler('Citation Click')} id="Debt to the Penny">
-    Debt to the Penny
-  </CustomLink>
-);
-
-const mspd = (
-  <CustomLink
-    url="/datasets/monthly-statement-public-debt/"
-    onClick={() => analyticsClickHandler('Citation Click')}
-    id="Monthly Statement of the Public Debt"
-  >
-    Monthly Statement of the Public Debt (MSPD)
-  </CustomLink>
-);
-
-const historicalDebt = (
-  <CustomLink url="/datasets/historical-debt-outstanding/" onClick={() => analyticsClickHandler('Citation Click')} id="Historical Debt Outstanding">
-    Historical Debt Outstanding
-  </CustomLink>
-);
-
-const treasurySecurities = (
-  <CustomLink
-    url="/datasets/average-interest-rates-treasury-securities/"
-    onClick={() => analyticsClickHandler('Citation Click')}
-    id="Average Interest Rates on U.S. Treasury Securities"
-  >
-    Average Interest Rates on U.S. Treasury Securities
-  </CustomLink>
-);
-
-const bls = (
-  <CustomLink url="https://www.bls.gov/developers" onClick={() => analyticsClickHandler('Citation Click')}>
-    Bureau of Labor Statistics
-  </CustomLink>
-);
-
-const bea = (
-  <CustomLink
-    url="https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey"
-    onClick={() => analyticsClickHandler('Citation Click')}
-  >
-    Bureau of Economic Analysis
-  </CustomLink>
-);
-
-const github = (
-  <CustomLink
-    url="https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation"
-    onClick={() => analyticsClickHandler('Citation Click')}
-  >
-    GitHub repository
-  </CustomLink>
-);
-const historyOfTheDebt = (
-  <CustomLink url="https://treasurydirect.gov/government/historical-debt-outstanding/" onClick={() => analyticsClickHandler('Citation Click')}>
-    history of the debt
-  </CustomLink>
-);
+const { bea, bls, github, mspd, debtToThePenny, historicalDebt, treasuryDirectHistoricalDebt, treasurySecurities } = explainerCitationsMap[
+  'national-debt'
+];
 
 export const nationalDebtDataSources = (
   <>
@@ -162,7 +103,7 @@ export const nationalDebtDataSources = (
     are pulled from the {treasurySecurities} dataset. Adjustments for inflation are calculated using Consumer Price Index values from the {bls}.
     Fiscal year Gross Domestic Product values from the {bea} are calculated by averaging four relevant quarterly values from calendar year quarter 4
     of the prior year through calendar year quarter 3 of the fiscal year shown. For detailed documentation, users can reference our {github}. For more
-    information on the {historyOfTheDebt}, visit TreasuryDirect.
+    information on the {treasuryDirectHistoricalDebt}, visit TreasuryDirect.
   </>
 );
 

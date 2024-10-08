@@ -4,13 +4,10 @@ import { visWithCallout } from '../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import DeficitTrendsBarChart from './deficit-trends-bar-chart/deficit-trends-bar-chart';
+import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
 
 const DeficitByYear = () => {
-  const federalCovidResponseLink = (
-    <CustomLink url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all" eventNumber="17">
-      in response to the COVID-19 pandemic
-    </CustomLink>
-  );
+  const { USAsCovidResponse } = explainerCitationsMap['national-deficit'];
 
   const federalSpendingLink = (
     <CustomLink url="/americas-finance-guide/federal-spending/" id="Federal Spending">
@@ -32,7 +29,7 @@ const DeficitByYear = () => {
           care, and interest on federal debt have outpaced the growth of {federalRevenueLink}.
         </p>
         <p>
-          From FY 2019 to FY 2021, {federalSpendingLink} increased by about 50 percent {federalCovidResponseLink}.
+          From FY 2019 to FY 2021, {federalSpendingLink} increased by about 50 percent {USAsCovidResponse}.
         </p>
       </div>
       <div className={visWithCallout}>

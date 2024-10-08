@@ -36,6 +36,7 @@ import { explainerAnalyticsLabelMap, explainerSocialShareMap } from '../../layou
 import SocialShare from '../../components/social-share/social-share';
 import { useWindowSize } from '../../hooks/windowResize';
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
+import { explainerCitationsMap } from '../../layouts/explainer/explainer-helpers/explainer-helpers';
 
 const AmericasFinanceGuidePage = ({ width }) => {
   const pageName = 'americas-finance-guide';
@@ -45,28 +46,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
   const [containerHeight, setContainerHeight] = useState(765);
   const refSocialShare = useRef(0);
 
-  const mts = (
-    <CustomLink
-      url="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
-      eventNumber="9"
-      id="Monthly Treasury Statement"
-    >
-      Monthly Treasury Statement (MTS)
-    </CustomLink>
-  );
-  const debtToThePenny = (
-    <CustomLink url="/datasets/debt-to-the-penny/debt-to-the-penny" eventNumber="10" id="Debt to the Penny">
-      Debt to the Penny
-    </CustomLink>
-  );
-  const mspd = (
-    <CustomLink
-      url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
-      id="U.S. Treasury Monthly Statement of the Public Debt"
-    >
-      U.S. Treasury Monthly Statement of the Public Debt
-    </CustomLink>
-  );
+  const {mspdOutstanding, mtsSummary, debtToThePenny} = explainerCitationsMap['afg'];
 
   useEffect(() => {
     basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
@@ -105,7 +85,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
             <TopicSection fiscalYear={fiscalYear} width={width} />
             {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
             <DataSourcesMethodologies pageName="afg-overview">
-              Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mts}. The {mspd} and the{' '}
+              Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mtsSummary}. The {mspdOutstanding} and the{' '}
               {debtToThePenny} datasets are the data sources for federal debt.
             </DataSourcesMethodologies>
           </Container>

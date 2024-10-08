@@ -30,12 +30,24 @@ describe('Dive deeper into the debt', () => {
       usaSpending,
     ];
 
-    resources.forEach(resource => {
+    const resourceLabels = [
+      'The most recent U.S. Government Financial Report',
+      'America’s Fiscal Future: Federal Debt',
+      'The Debt Ceiling: An Explainer',
+      'Federal Borrowing and Debt',
+      'Federal Net Interest Costs: A Primer',
+      'Is the Federal Reserve Printing Money in Order to Buy Treasury Securities?',
+      'Options for Reducing Deficit',
+      'Treasury Bulletin',
+      'USAspending'
+    ]
+
+    resources.forEach((resource, index) => {
       resource.click();
       expect(spy).toHaveBeenCalledWith({
         category: 'Explainers',
         action: `Debt Citation Click`,
-        label: 'Debt',
+        label: resourceLabels[index],
       });
       spy.mockClear();
     });

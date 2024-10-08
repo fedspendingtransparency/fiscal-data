@@ -8,11 +8,11 @@ import { breakpointLg } from '../../../../../variables.module.scss';
 import discretionarySpendingDesktop from '../../../../../../static/images/discretionary-spending_desktop.png';
 import discretionarySpendingMobile from '../../../../../../static/images/discretionary-spending_mobile.png';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
-import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import supplementalSpendingDesktop from '../../../../../../static/images/supplemental-spending_desktop.png';
 import supplementalSpendingMobile from '../../../../../../static/images/supplemental-spending_mobile.png';
 import MandatorySpendingImgDesktop from '../../../../../../static/images/mandatory-spending_desktop.png';
 import MandatorySpendingImgMobile from '../../../../../../static/images/mandatory-spending_mobile.png';
+import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
 
 export const SpendingDifference = ({ width }) => {
   const appropriations = (
@@ -26,6 +26,9 @@ export const SpendingDifference = ({ width }) => {
       supplemental appropriations
     </GlossaryPopoverDefinition>
   );
+
+  const { USAsCovidSpending, ssa } = explainerCitationsMap['federal-spending'];
+
   return (
     <div className={spendingDifferenceContent}>
       <h5>Who controls federal government spending?</h5>
@@ -39,11 +42,10 @@ export const SpendingDifference = ({ width }) => {
       <h6>Mandatory Spending</h6>
       <p>
         Mandatory spending, also known as direct spending, is mandated by existing laws. This type of spending includes funding for entitlement
-        programs like Medicare and Social Security and other payments to people, businesses, and state and local governments. For example, the{' '}
-        <CustomLink href="https://www.ssa.gov/OP_Home/ssact/ssact-toc.htm">Social Security Act</CustomLink> requires the government to provide
-        payments to beneficiaries based on the amount of money they’ve earned and other factors. Last amended in 2019, the Social Security Act will
-        determine the level of federal spending into the future until it is amended again. Due to authorization laws, the funding for these programs
-        must be allocated for spending each year, hence the term mandatory.
+        programs like Medicare and Social Security and other payments to people, businesses, and state and local governments. For example, the {ssa}{' '}
+        requires the government to provide payments to beneficiaries based on the amount of money they’ve earned and other factors. Last amended in
+        2019, the Social Security Act will determine the level of federal spending into the future until it is amended again. Due to authorization
+        laws, the funding for these programs must be allocated for spending each year, hence the term mandatory.
       </p>
       <div className={mandatorySpendingContainer}>
         <img
@@ -82,15 +84,9 @@ export const SpendingDifference = ({ width }) => {
       <h6>Supplemental Spending</h6>
       <p>
         Supplemental appropriations, also known as supplemental spending, are appropriations enacted after the regular annual appropriations when the
-        need for funds is too urgent to wait for the next regular appropriations. In 2020, Congress passed four supplemental appropriations to aid the
+        need for funds is too urgent to wait for the next regular appropriations. In 2020, Congress passed four supplemental appropriations to aid the
         nation’s recovery from the COVID-19 pandemic. You can explore the spending related to these supplemental appropriation laws in
-        USAspending.gov’s {' '}
-        {
-          <CustomLink href="https://www.usaspending.gov/disaster/covid-19?publicLaw=all" eventNumber="17">
-            COVID-19 Spending Profile
-          </CustomLink>
-        }{' '}
-        page.
+        USAspending.gov’s {USAsCovidSpending} page.
       </p>
       <div className={mandatorySpendingContainer}>
         <img
@@ -103,7 +99,7 @@ export const SpendingDifference = ({ width }) => {
           data-testid="supplementalSpendingImg"
           className={mandatorySpendingImgStyle}
         />
-      </div>{' '}
+      </div>
       <div className={spendingAccordion}>
         <Accordion
           title="What is the process for determining discretionary spending?"

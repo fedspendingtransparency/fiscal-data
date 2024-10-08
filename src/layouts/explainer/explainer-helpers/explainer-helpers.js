@@ -39,8 +39,282 @@ import FederalSpendingHero from '../heros/federal-spending/federal-spending-hero
 import GovernmentRevenueHero from '../heros/government-revenue/government-revenue-hero';
 import { BASE_URL } from 'gatsby-env-variables';
 import TreasurySavingsBondsHero from '../heros/treasury-savings-bonds/treasury-savings-bonds-hero';
+import Analytics from '../../../utils/analytics/analytics';
+import CustomLink from '../../../components/links/custom-link/custom-link';
 
 const envBaseUrl = BASE_URL;
+
+export const analyticsEventHandler = (eventLabel, eventAction) => {
+  Analytics.event({
+    category: 'Explainers',
+    action: eventAction,
+    label: eventLabel,
+  });
+};
+
+const explainerCitations = page => {
+  return {
+    bls: (
+      <CustomLink url="https://www.bls.gov/developers/" onClick={() => analyticsEventHandler('Bureau of Labor Statistics', `${page} Citation Click`)}>
+        Bureau of Labor Statistics
+      </CustomLink>
+    ),
+    bea: (
+      <CustomLink url="https://www.bea.gov/" onClick={() => analyticsEventHandler('Bureau of Economic Analysis', `${page} Citation Click`)}>
+        Bureau of Economic Analysis
+      </CustomLink>
+    ),
+    beaSurvey: (
+      <CustomLink
+        url="https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey"
+        onClick={() => analyticsEventHandler('Bureau of Economic Analysis', `${page} Citation Click`)}
+      >
+        Bureau of Economic Analysis
+      </CustomLink>
+    ),
+    github: (
+      <CustomLink
+        url="https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation"
+        onClick={() => analyticsEventHandler('GitHub repository', `${page} Citation Click`)}
+      >
+        GitHub repository
+      </CustomLink>
+    ),
+    mtsSummary: (
+      <CustomLink
+        url="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
+        id="Monthly Treasury Statement"
+        onClick={() => analyticsEventHandler('Monthly Treasury Statement (MTS)', `${page} Citation Click`)}
+      >
+        Monthly Treasury Statement (MTS)
+      </CustomLink>
+    ),
+    mtsReceipts: (
+      <CustomLink
+        url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/"
+        id="Monthly Treasury Statement"
+        onClick={() => analyticsEventHandler('Monthly Treasury Statement (MTS)', `${page} Citation Click`)}
+      >
+        Monthly Treasury Statement (MTS)
+      </CustomLink>
+    ),
+    mtsOutlays: (
+      <CustomLink
+        url="/datasets/monthly-treasury-statement/outlays-of-the-u-s-government"
+        id="Monthly Treasury Statement"
+        onClick={() => analyticsEventHandler('Monthly Treasury Statement (MTS)', `${page} Citation Click`)}
+      >
+        Monthly Treasury Statement (MTS)
+      </CustomLink>
+    ),
+    mtsSummaryReceipts: (
+      <CustomLink
+        url="/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government"
+        id="Monthly Treasury Statement"
+        onClick={() => analyticsEventHandler('Monthly Treasury Statement (MTS)', `${page} Citation Click`)}
+      >
+        Monthly Treasury Statement (MTS)
+      </CustomLink>
+    ),
+    mspd: (
+      <CustomLink
+        url="/datasets/monthly-statement-public-debt/"
+        id="Monthly Statement of the Public Debt"
+        onClick={() => analyticsEventHandler('Monthly Statement of the Public Debt (MSPD)', `${page} Citation Click`)}
+      >
+        Monthly Statement of the Public Debt (MSPD)
+      </CustomLink>
+    ),
+    mspdSummary: (
+      <CustomLink
+        url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
+        onClick={() => analyticsEventHandler('Monthly Statement of the Public Debt (MSPD)', `${page} Citation Click`)}
+        id="U.S. Treasury Monthly Statement of the Public Debt"
+      >
+        U.S. Treasury Monthly Statement of the Public Debt (MSPD)
+      </CustomLink>
+    ),
+    mspdOutstanding: (
+      <CustomLink
+        url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
+        id="U.S. Treasury Monthly Statement of the Public Debt"
+        onClick={() => analyticsEventHandler('Monthly Statement of the Public Debt (MSPD)', `${page} Citation Click`)}
+      >
+        U.S. Treasury Monthly Statement of the Public Debt
+      </CustomLink>
+    ),
+    debtToThePenny: (
+      <CustomLink
+        url="/datasets/debt-to-the-penny/"
+        id="Debt to the Penny"
+        onClick={() => analyticsEventHandler('Debt to the Penny', `${page} Citation Click`)}
+      >
+        Debt to the Penny
+      </CustomLink>
+    ),
+    historicalDebt: (
+      <CustomLink
+        url="/datasets/historical-debt-outstanding/"
+        onClick={() => analyticsEventHandler('Historical Debt Outstanding', `${page} Citation Click`)}
+        id="Historical Debt Outstanding"
+      >
+        Historical Debt Outstanding
+      </CustomLink>
+    ),
+    treasuryDirectHistoricalDebt: (
+      <CustomLink
+        url="https://treasurydirect.gov/government/historical-debt-outstanding/"
+        onClick={() => analyticsEventHandler('The History of the Debt', `${page} Citation Click`)}
+      >
+        history of the debt
+      </CustomLink>
+    ),
+    USAs: (
+      <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsEventHandler('USAspending', `${page} Citation Click`)}>
+        USAspending
+      </CustomLink>
+    ),
+    USAsGov: (
+      <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsEventHandler('USAspending', `${page} Citation Click`)}>
+        USAspending.gov
+      </CustomLink>
+    ),
+    USAsExplorer: (
+      <CustomLink
+        url="https://www.usaspending.gov/explorer"
+        onClick={() => analyticsEventHandler('USAspending Spending Explorer', `${page} Citation Click`)}
+      >
+        USAspending.gov
+      </CustomLink>
+    ),
+    USAsExplorerPage: (
+      <CustomLink
+        url="https://www.usaspending.gov/explorer"
+        onClick={() => analyticsEventHandler('USAspending Spending Explorer', `${page} Citation Click`)}
+      >
+        Spending Explorer
+      </CustomLink>
+    ),
+    USAsAgencyPage: (
+      <CustomLink
+        url="https://www.usaspending.gov/agency"
+        onClick={() => analyticsEventHandler('USAspending Agency Profile', `${page} Citation Click`)}
+      >
+        Agency Profile
+      </CustomLink>
+    ),
+    USAsObjectClass: (
+      <CustomLink
+        url="https://www.usaspending.gov/explorer/object_class"
+        onClick={() => analyticsEventHandler('USAspending Object Class', `${page} Citation Click`)}
+      >
+        Object Class
+      </CustomLink>
+    ),
+    USAsBudgetFunction: (
+      <CustomLink
+        url="https://www.usaspending.gov/explorer/budget_function"
+        onClick={() => analyticsEventHandler('USAspending Budget Function', `${page} Citation Click`)}
+      >
+        Budget Function
+      </CustomLink>
+    ),
+    USAsCovidSpending: (
+      <CustomLink
+        url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all"
+        onClick={() => analyticsEventHandler('USAspending COVID-19 Spending Profile', `${page} Citation Click`)}
+      >
+        COVID-19 Spending Profile
+      </CustomLink>
+    ),
+    USAsCovidResponse: (
+      <CustomLink
+        url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all"
+        onClick={() => analyticsEventHandler('USAspending COVID-19 Spending Profile', `${page} Citation Click`)}
+      >
+        in response to the COVID-19 pandemic
+      </CustomLink>
+    ),
+    USAsCovidFederalResponse: (
+      <CustomLink
+        url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all"
+        onClick={() => analyticsEventHandler('USAspending COVID-19 Spending Profile', `${page} Citation Click`)}
+      >
+        the federal response to COVID-19
+      </CustomLink>
+    ),
+    fiscalService: (
+      <CustomLink
+        url="https://www.fiscal.treasury.gov/"
+        onClick={() => analyticsEventHandler('Bureau of the Fiscal Service', `${page} Citation Click`)}
+      >
+        Bureau of the Fiscal Service
+      </CustomLink>
+    ),
+    treasurySecurities: (
+      <CustomLink
+        url="/datasets/average-interest-rates-treasury-securities/"
+        id="Average Interest Rates on U.S. Treasury Securities"
+        onClick={() => analyticsEventHandler('Average Interest Rates on U.S. Treasury Securities', `${page} Citation Click`)}
+      >
+        Average Interest Rates on U.S. Treasury Securities
+      </CustomLink>
+    ),
+    ssaAnnualReport: (
+      <CustomLink
+        url="https://www.ssa.gov/oact/TRSUM/"
+        onClick={() => analyticsEventHandler('Annual Reports on the Financial Status of Social Security and Medicare', `${page} Citation Click`)}
+      >
+        Annual Reports on the Financial Status of Social Security and Medicare
+      </CustomLink>
+    ),
+    ssa: (
+      <CustomLink
+        url="https://www.ssa.gov/OP_Home/ssact/ssact-toc.htm"
+        onClick={() => analyticsEventHandler('Social Security Act', `${page} Citation Click`)}
+      >
+        Social Security Act
+      </CustomLink>
+    ),
+    monetaryPolicy: (
+      <CustomLink
+        url="https://www.federalreserve.gov/monetarypolicy.htm"
+        onClick={() => analyticsEventHandler('Monetary Policy', `${page} Citation Click`)}
+      >
+        monetary policy
+      </CustomLink>
+    ),
+    gps: (
+      <CustomLink url="https://www.gps.gov/policy/funding/" onClick={() => analyticsEventHandler('GPS.gov', `${page} Citation Click`)}>
+        GPS.gov
+      </CustomLink>
+    ),
+    irs: (
+      <CustomLink
+        url="https://www.irs.gov/newsroom/historical-highlights-of-the-irs"
+        onClick={() => analyticsEventHandler('IRS.gov', `${page} Citation Click`)}
+      >
+        IRS.gov
+      </CustomLink>
+    ),
+    federalReserveAct: (
+      <CustomLink
+        url="https://www.federalreserve.gov/aboutthefed/section7.htm"
+        onClick={() => analyticsEventHandler('Federal Reserve Act', `${page} Citation Click`)}
+      >
+        Federal Reserve Act, Section 7(a)(1-3)
+      </CustomLink>
+    ),
+  };
+};
+
+export const explainerCitationsMap = {
+  'national-debt': explainerCitations('Debt'),
+  'national-deficit': explainerCitations('Deficit'),
+  'federal-spending': explainerCitations('Spending'),
+  'government-revenue': explainerCitations('Revenue'),
+  afg: explainerCitations('AFG Overview'),
+};
 
 export const getDateWithoutOffset = date => {
   const today = new Date(date);

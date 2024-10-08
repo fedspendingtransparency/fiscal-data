@@ -60,25 +60,26 @@ describe('Data Sources & Methodologies', () => {
     const bea = getByText('Bureau of Economic Analysis');
     const github = getByText('GitHub repository');
 
-    const resources = [debtToThePenny, mspd, debtCeiling, averageInterestRates, bls, bea];
+    const resources = [debtToThePenny, mspd, debtCeiling, averageInterestRates, bls, bea, github];
+    const labels = [
+      'Debt to the Penny',
+      'Monthly Statement of the Public Debt (MSPD)',
+      'Historical Debt Outstanding',
+      'Average Interest Rates on U.S. Treasury Securities',
+      'Bureau of Labor Statistics',
+      'Bureau of Economic Analysis',
+      'GitHub repository',
+    ];
 
-    resources.forEach(resource => {
+    resources.forEach((resource, index) => {
       resource.click();
       expect(spy).toHaveBeenCalledWith({
         category: 'Explainers',
         action: `Debt Citation Click`,
-        label: 'Debt',
+        label: labels[index],
       });
       spy.mockClear();
     });
-
-    github.click();
-    expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: `Debt Citation Click`,
-      label: 'Debt',
-    });
-    spy.mockClear();
   });
 });
 

@@ -1,36 +1,13 @@
 import React from 'react';
-import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { header, subHeader, headerContainer } from './debt-over-last-100y-linechart.module.scss';
 import numeral from 'numeral';
-import Analytics from '../../../../../../utils/analytics/analytics';
+import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 
-const analyticsClickHandler = (action, section) => {
-  Analytics.event({
-    category: 'Explainers',
-    action: action,
-    label: `${section}`,
-  });
-};
-
-const hdoLink = (
-  <CustomLink
-    url="/datasets/historical-debt-outstanding/"
-    onClick={() => analyticsClickHandler('Debt Citation Click', 'Historical Debt Outstanding')}
-    id="Historical Debt Outstanding"
-  >
-    Historical Debt Outstanding
-  </CustomLink>
-);
-
-const bls = (
-  <CustomLink url="https://www.bls.gov/developers/" onClick={() => analyticsClickHandler('Debt Citation Click', 'Bureau of Labor Statistics')}>
-    Bureau of Labor Statistics
-  </CustomLink>
-);
+const { bls, historicalDebt } = explainerCitationsMap['national-debt'];
 
 const footer = (
   <p>
-    Visit the {hdoLink} dataset to explore and download this data. The inflation data is sourced from the {bls}.
+    Visit the {historicalDebt} dataset to explore and download this data. The inflation data is sourced from the {bls}.
   </p>
 );
 

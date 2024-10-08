@@ -1,10 +1,8 @@
 import { nationalDeficitDataSources } from '../explainer-helpers/national-deficit/national-deficit-helper';
 import nationalDeficitSections from './national-deficit/national-deficit';
 import nationalDebtSections, { nationalDebtDataSources, nationalDebtDescriptionGenerator } from './national-debt/national-debt';
-import federalSpendingSection from './federal-spending/federal-spending';
-import { federalSpendingDataSources } from '../explainer-helpers/federal-spending/federal-spending-helper';
-import governmentRevenueSections from './government-revenue/government-revenue';
-import { governmentRevenueDataSources } from '../explainer-helpers/government-revenue/government-revenue-helper';
+import federalSpendingSection, { federalSpendingDataSources } from './federal-spending/federal-spending';
+import governmentRevenueSections, { governmentRevenueDataSources } from './government-revenue/government-revenue';
 import treasurySavingsBondsSections from './treasury-savings-bonds/treasury-savings-bonds';
 import { treasurySavingsbondsDataSources } from '../explainer-helpers/treasury-savings-bonds/treasury-savings-bonds-helper';
 

@@ -3,7 +3,6 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg, fontSize_14 } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
-import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -37,6 +36,7 @@ import {
   nivoCommonLineChartProps,
 } from '../../../../explainer-helpers/explainer-charting-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
+import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 
 let gaTimerRevenueTrends;
 let ga4Timer;
@@ -179,12 +179,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     clearTimeout(ga4Timer);
   };
 
-  const blsLink = (
-    <CustomLink url="https://www.bls.gov/developers/" eventNumber="17">
-      Bureau of Labor Statistics
-    </CustomLink>
-  );
-
   const CustomSlices = ({ enableSlices, setCurrentSlice, sliceTooltip, slices }) => {
     const { showTooltipFromEvent, hideTooltip } = useTooltip();
 
@@ -235,17 +229,12 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     );
   };
 
-  const name = 'Monthly Treasury Statement (MTS)';
-  const slug = `/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`;
-  const mts = (
-    <CustomLink url={slug} eventNumber="16" id="Monthly Treasury Statement">
-      {name}
-    </CustomLink>
-  );
+  const { bls, mtsReceipts } = explainerCitationsMap['government-revenue'];
+
   const footer = (
     <div>
       <p>
-        Visit the {mts} dataset to explore and download this data. The inflation data is sourced from the {blsLink}.
+        Visit the {mtsReceipts} dataset to explore and download this data. The inflation data is sourced from the {bls}.
       </p>
       <p></p>
     </div>
