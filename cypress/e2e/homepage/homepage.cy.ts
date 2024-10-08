@@ -1,13 +1,11 @@
-import { getByTestId } from '@testing-library/dom';
-
 describe('Homepage user flow validation', () => {
   it('ensure no tiles page tiles contain NaN, null, or undefined values', () => {
     cy.visit('/');
-    const pageLinks = cy.findAllByTestId('tile-link');
-    pageLinks.each(pageLink => {
-      cy.wrap(pageLink).should('not.contain.text', 'null');
-      cy.wrap(pageLink).should('not.contain.text', 'NaN');
-      cy.wrap(pageLink).should('not.contain.text', 'undefined');
+    const pageLinkCard = cy.findAllByTestId('tile-link');
+    pageLinkCard.each(pageLinkCard => {
+      cy.wrap(pageLinkCard).should('not.contain.text', 'null');
+      cy.wrap(pageLinkCard).should('not.contain.text', 'NaN');
+      cy.wrap(pageLinkCard).should('not.contain.text', 'undefined');
     });
   });
 
