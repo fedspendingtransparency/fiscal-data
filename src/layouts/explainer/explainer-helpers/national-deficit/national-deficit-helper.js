@@ -43,10 +43,11 @@ export const deficitLearnMoreLinks = [
 export const deficitLearnMoreDescription = `For more information about the national deficit, please
   explore more of Fiscal Data and check out the extensive resources listed below.`;
 
-const { mts, github } = explainerCitationsMap['national-deficit'];
+const { mtsSummaryReceipts, github } = explainerCitationsMap['national-deficit'];
 
 export const nationalDeficitDataSources = (
   <>
-    The {mts} dataset provides all deficit, spending, and revenue values on this page. For detailed documentation, users can reference our {github}.
+    The {mtsSummaryReceipts} dataset provides all deficit, spending, and revenue values on this page. For detailed documentation, users can reference
+    our {github}.
   </>
 );

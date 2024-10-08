@@ -107,6 +107,15 @@ const explainerCitations = page => {
         Monthly Treasury Statement (MTS)
       </CustomLink>
     ),
+    mtsSummaryReceipts: (
+      <CustomLink
+        url="/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government"
+        id="Monthly Treasury Statement"
+        onClick={() => analyticsEventHandler('Monthly Treasury Statement (MTS)', `${page} Citation Click`)}
+      >
+        Monthly Treasury Statement (MTS)
+      </CustomLink>
+    ),
     mspd: (
       <CustomLink
         url="/datasets/monthly-statement-public-debt/"
@@ -304,7 +313,7 @@ export const explainerCitationsMap = {
   'national-deficit': explainerCitations('Deficit'),
   'federal-spending': explainerCitations('Spending'),
   'government-revenue': explainerCitations('Revenue'),
-  'afg': explainerCitations('AFG Overview'),
+  afg: explainerCitations('AFG Overview'),
 };
 
 export const getDateWithoutOffset = date => {
