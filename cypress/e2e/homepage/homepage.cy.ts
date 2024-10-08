@@ -1,3 +1,5 @@
+import { getByTestId } from '@testing-library/dom';
+
 describe('Homepage user flow validation', () => {
   it('ensure no tiles page tiles contain NaN, null, or undefined values', () => {
     cy.visit('/');
@@ -7,6 +9,32 @@ describe('Homepage user flow validation', () => {
       cy.wrap(pageLink).should('not.contain.text', 'NaN');
       cy.wrap(pageLink).should('not.contain.text', 'undefined');
     });
+  });
+
+  it('ensure homepage dataset tiles are loading data and not displaying API errors', () => {
+    cy.visit('/');
+    const datasetCards = cy.findAllByTestId('highlight-card');
+    datasetCards.each(datasetCard => {
+      cy.wrap(datasetCard).should('not.contain.text', 'API Error');
+    });
+  });
+
+  it('finds and navigates to dataset page from dataset card link', () => {
+    cy.visit('/');
+    const datasetCardLinks = cy.findAllByTestId('highlight-link');
+    datasetCardLinks.each(link => {
+      cy.visit(link.attr('href'));
+      cy.url().should('include', link.attr('href'));
+    });
+  });
+
+  // Cypress automatically waits for any element animation to finish after being triggered
+  // Therefore, since there is no way to validate the animation directly due to the
+  // nature of the transition, we can simply have Cypress cycle through the animation
+  // successfully.
+  it('validate gold sparkle animation on gold dataset card', () => {
+    cy.visit('/');
+    cy.findByAltText('Image of gold bars').trigger('mouseover', { force: true });
   });
 
   it('then finds and navigates to AFG home page', () => {
