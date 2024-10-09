@@ -188,7 +188,7 @@ const ComboSelectDropdown = ({
               <ul className={dropdownList} data-testid="dropdown-list" style={{ maxHeight: '11.875rem' }}>
                 {hasChildren &&
                   filteredOptions.map((section, index) => {
-                    if (section.children) {
+                    if (section?.children) {
                       return (
                         <React.Fragment key={index}>
                           {section.children.length > 0 && <div className={sectionLabel}>{section.label}</div>}
