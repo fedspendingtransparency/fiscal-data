@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { selector_label } from '../../select-control/select-control.module.scss';
 import useOnClickOutside from 'use-onclickoutside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -51,11 +51,22 @@ const ComboCurrencySelect = ({
   containerBorder,
   searchBarLabel = 'Search currencies',
   hasChildren,
+  closeSiblingDropdown,
+  setCloseSiblingDropdown,
 }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
   const [searchBarActive, setSearchBarActive] = useState(false);
+
+  useEffect(() => {
+    if (searchBarActive) {
+      setCloseSiblingDropdown();
+    } else {
+      console.log(dropdownActive);
+      setCloseSiblingDropdown();
+    }
+  }, [dropdownActive]);
 
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
@@ -70,6 +81,7 @@ const ComboCurrencySelect = ({
 
   const toggleDropdown = () => {
     if (dropdownActive) {
+      // setCloseSiblingDropdown(true);
       timeOutId = setTimeout(() => {
         setDropdownActive(false);
       });

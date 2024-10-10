@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { monthFullNames } from '../../../utils/api-utils';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 import { monthYearContainer, filterLabel, filterContainer, selectorContainer } from './month-year-filter.module.scss';
+import { he } from 'date-fns/locale';
 
 const generateYearOptions = (earliestDate: Date, latestDate: Date) => {
   const startYear = new Date(earliestDate).getFullYear();
@@ -46,6 +47,8 @@ type MonthYearFilterProps = {
 
 const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTable, setDateRange }) => {
   const defaultMonth = new Date().getMonth();
+  const [closeYearDropdown, setCloseYearDropdown] = useState(false);
+  const [closeMonthDropdown, setCloseMonthDropdown] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState({
     value: selectedTable?.apiFilter?.futureDated ? defaultMonth + 2 : defaultMonth + 1,
     label: monthFullNames[defaultMonth],
@@ -54,6 +57,15 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   const [selectedYear, setSelectedYear] = useState({ value: defaultYear, label: defaultYear });
   const [years, setYears] = useState<{ label: number; value: number }[]>();
   const [months, setMonths] = useState<{ label: string; value: number }[]>();
+
+  useEffect(() => {
+    console.log('Year dropdown close:', closeYearDropdown);
+  }, [closeYearDropdown]);
+
+  useEffect(() => {
+    console.log('Month dropdown close:', closeMonthDropdown);
+  }, [closeMonthDropdown]);
+
   useEffect(() => {
     setYears(generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate));
   }, [selectedTable]);
@@ -96,6 +108,10 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
     }
   };
 
+  const hello = () => {
+    console.log('hello');
+  };
+
   return (
     <>
       {years && months && (
@@ -110,6 +126,8 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
                 selectedOption={selectedMonth}
                 searchBarLabel="Search Months"
                 containerBorder
+                closeSiblingDropdown={closeMonthDropdown}
+                setCloseSiblingDropdown={hello}
               />
             </div>
             <div className={filterContainer}>
@@ -120,6 +138,8 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
                 selectedOption={selectedYear}
                 searchBarLabel="Search Years"
                 containerBorder
+                closeSiblingDropdown={closeYearDropdown}
+                setCloseSiblingDropdown={hello}
               />
             </div>
           </div>
