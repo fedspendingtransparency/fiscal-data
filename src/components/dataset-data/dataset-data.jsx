@@ -208,7 +208,9 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     if (allTablesSelected) {
       setTableColumnSortData([]);
     }
-    setUserFilterSelection(null);
+    if (!config?.displayApiFilterForAllTables) {
+      setUserFilterSelection(null);
+    }
   }, [allTablesSelected]);
 
   useEffect(() => {
@@ -249,7 +251,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                     handleDateRangeChange={handleDateRangeChange}
                     selectedTable={!!detailViewState ? detailApi : selectedTable}
                     apiData={apiData}
-                    onUserFilter={setUserFilterSelection}
                     setIsFiltered={setIsFiltered}
                     currentDateButton={config.currentDateButton}
                     datePreset={config.datePreset}

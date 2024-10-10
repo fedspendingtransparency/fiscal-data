@@ -49,7 +49,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
   setResetFilters,
   allTablesSelected,
   setDateRange,
-  displayApiFilterForAllTables
+  displayApiFilterForAllTables,
 }) => {
   const defaultSelection = { label: '(None selected)', value: null };
 
@@ -109,7 +109,9 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
 
   useEffect(() => {
     establishOptions();
-    setSelectedFilterOption(defaultSelection);
+    if (!displayApiFilterForAllTables) {
+      setSelectedFilterOption(defaultSelection);
+    }
   }, [selectedTable, allTablesSelected]);
 
   return (

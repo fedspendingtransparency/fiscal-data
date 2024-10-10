@@ -238,7 +238,9 @@ const TableSectionContainer = ({
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
     setReactTableSort([]);
-    setUserFilterSelection(null);
+    if (!config?.displayApiFilterForAllTables) {
+      setUserFilterSelection(null);
+    }
   }, [selectedTable, allTablesSelected]);
 
   useEffect(() => {
