@@ -59,15 +59,6 @@ const ComboCurrencySelect = ({
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
   const [searchBarActive, setSearchBarActive] = useState(false);
 
-  useEffect(() => {
-    if (searchBarActive) {
-      setCloseSiblingDropdown();
-    } else {
-      console.log(dropdownActive);
-      setCloseSiblingDropdown();
-    }
-  }, [dropdownActive]);
-
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
       XRAnalyticsHandler('Foreign Country-Currency Selected', selection[optionLabelKey]);
@@ -81,11 +72,15 @@ const ComboCurrencySelect = ({
 
   const toggleDropdown = () => {
     if (dropdownActive) {
-      // setCloseSiblingDropdown(true);
       timeOutId = setTimeout(() => {
+        setCloseSiblingDropdown(false);
         setDropdownActive(false);
       });
     } else {
+      if (closeSiblingDropdown) {
+        return;
+      }
+      setCloseSiblingDropdown(true);
       clearTimeout(timeOutId);
       setDropdownActive(true);
       setInputFocus();

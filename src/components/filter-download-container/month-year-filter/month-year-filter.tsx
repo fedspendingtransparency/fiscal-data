@@ -47,8 +47,6 @@ type MonthYearFilterProps = {
 
 const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTable, setDateRange }) => {
   const defaultMonth = new Date().getMonth();
-  const [closeYearDropdown, setCloseYearDropdown] = useState(false);
-  const [closeMonthDropdown, setCloseMonthDropdown] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState({
     value: selectedTable?.apiFilter?.futureDated ? defaultMonth + 2 : defaultMonth + 1,
     label: monthFullNames[defaultMonth],
@@ -57,14 +55,6 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   const [selectedYear, setSelectedYear] = useState({ value: defaultYear, label: defaultYear });
   const [years, setYears] = useState<{ label: number; value: number }[]>();
   const [months, setMonths] = useState<{ label: string; value: number }[]>();
-
-  useEffect(() => {
-    console.log('Year dropdown close:', closeYearDropdown);
-  }, [closeYearDropdown]);
-
-  useEffect(() => {
-    console.log('Month dropdown close:', closeMonthDropdown);
-  }, [closeMonthDropdown]);
 
   useEffect(() => {
     setYears(generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate));
@@ -108,9 +98,24 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
     }
   };
 
-  const hello = () => {
-    console.log('hello');
+  const [closeYearDropdown, setCloseYearDropdown] = useState<boolean>(false);
+  const [closeMonthDropdown, setCloseMonthDropdown] = useState<boolean>(false);
+
+  const monthCloseSetter = (status: boolean) => {
+    setCloseMonthDropdown(status);
   };
+
+  const yearCloseSetter = (status: boolean) => {
+    setCloseYearDropdown(status);
+  };
+
+  useEffect(() => {
+    console.log('Year dropdown close:', closeYearDropdown);
+  }, [closeYearDropdown]);
+
+  useEffect(() => {
+    console.log('Month dropdown close:', closeMonthDropdown);
+  }, [closeMonthDropdown]);
 
   return (
     <>
@@ -127,7 +132,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
                 searchBarLabel="Search Months"
                 containerBorder
                 closeSiblingDropdown={closeMonthDropdown}
-                setCloseSiblingDropdown={hello}
+                setCloseSiblingDropdown={yearCloseSetter}
               />
             </div>
             <div className={filterContainer}>
@@ -139,7 +144,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
                 searchBarLabel="Search Years"
                 containerBorder
                 closeSiblingDropdown={closeYearDropdown}
-                setCloseSiblingDropdown={hello}
+                setCloseSiblingDropdown={monthCloseSetter}
               />
             </div>
           </div>
