@@ -1,7 +1,8 @@
 import React from 'react';
 import { fireEvent, waitFor, render, within } from '@testing-library/react';
-import { mockOptions } from '../combo-select-test-helper';
+import { mockOptions, mockSiblingOneOptions, mockSiblingTwoOptions } from '../combo-select-test-helper';
 import ComboCurrencySelect from './combo-currency-select';
+import userEvent from '@testing-library/user-event';
 
 describe('The ComboSelect Component for general text use', () => {
   jest.useFakeTimers();
@@ -12,6 +13,7 @@ describe('The ComboSelect Component for general text use', () => {
   };
 
   const changeHandlerSpy = jest.fn();
+  const setCloseSiblingMock = jest.fn();
 
   it('Pushes analytics event to datalayer for GA4 for combo-currency-select', async () => {
     const { getByRole, getByTestId } = render(
@@ -113,6 +115,46 @@ describe('The ComboSelect Component for general text use', () => {
     fireEvent.mouseDown(list);
 
     expect(getByTestId('dropdown-list')).toBeInTheDocument();
+  });
+
+  it('sibling dropdown is closed other sibling dropdown has opened', () => {
+    const { getByRole, getAllByTestId } = render(
+      <div>
+        <ComboCurrencySelect
+          label={'Year'}
+          changeHandler={changeHandlerSpy}
+          optionLabelKey={'label'}
+          options={mockSiblingOneOptions}
+          selectedOption={mockDefaultSelection}
+          closeDropdown={false}
+          setCloseSiblingDropdown={setCloseSiblingMock}
+        />
+        <ComboCurrencySelect
+          label={'Month'}
+          changeHandler={changeHandlerSpy}
+          optionLabelKey={'label'}
+          options={mockSiblingTwoOptions}
+          selectedOption={mockDefaultSelection}
+          closeDropdown={true}
+          setCloseSiblingDropdown={setCloseSiblingMock}
+        />
+      </div>
+    );
+    const comboBoxYear = getByRole('button', { name: 'Year' });
+    userEvent.click(comboBoxYear);
+
+    expect(getAllByTestId('dropdown-list').length).toBe(1);
+
+    const list = getAllByTestId('dropdown-list')[0];
+    const yearOption = within(list).getAllByRole('button')[0];
+    expect(yearOption).toBeInTheDocument();
+
+    const comboBoxMonth = getByRole('button', { name: 'Month' });
+    userEvent.click(comboBoxMonth);
+
+    // The year dropdown is still the only one available
+    expect(getAllByTestId('dropdown-list').length).toBe(1);
+    expect(yearOption).toBeInTheDocument();
   });
 
   it('closes dropdown after mouse leave and focus is removed', async () => {

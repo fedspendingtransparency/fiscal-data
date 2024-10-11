@@ -66,6 +66,36 @@ export const mockOptions = [
   },
 ];
 
+export const mockSiblingOneOptions = [
+  {
+    label: '1999',
+    value: '1999',
+  },
+  {
+    label: '2000',
+    value: '2000',
+  },
+  {
+    label: '2001',
+    value: '2002',
+  },
+];
+
+export const mockSiblingTwoOptions = [
+  {
+    label: 'January',
+    value: 'january',
+  },
+  {
+    label: 'February',
+    value: 'february',
+  },
+  {
+    label: 'March',
+    value: 'march',
+  },
+];
+
 export const mockOptionsWithChildren = [
   {
     default: true,

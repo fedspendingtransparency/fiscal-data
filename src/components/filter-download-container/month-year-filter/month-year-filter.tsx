@@ -114,7 +114,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
                 selectedOption={selectedMonth}
                 searchBarLabel="Search Months"
                 containerBorder
-                closeSiblingDropdown={closeMonthDropdown}
+                closeDropdown={closeMonthDropdown}
                 setCloseSiblingDropdown={setCloseYearDropdown} // References closing sibling combo currency select
               />
             </div>
@@ -126,7 +126,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
                 selectedOption={selectedYear}
                 searchBarLabel="Search Years"
                 containerBorder
-                closeSiblingDropdown={closeYearDropdown}
+                closeDropdown={closeYearDropdown}
                 setCloseSiblingDropdown={setCloseMonthDropdown} // References closing sibling combo currency select
               />
             </div>

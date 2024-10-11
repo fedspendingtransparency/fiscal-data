@@ -51,7 +51,7 @@ const ComboCurrencySelect = ({
   containerBorder,
   searchBarLabel = 'Search currencies',
   hasChildren,
-  closeSiblingDropdown, // Prop value used if two combo currency selects are under the same parent and cannot be open at the same time (month-year-filter)
+  closeDropdown, // Prop value used if two combo currency selects are under the same parent and cannot be open at the same time (month-year-filter)
   setCloseSiblingDropdown, // Prop setter used if two combo currency selects are under the same parent and cannot be open at the same time (month-year-filter)
 }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
@@ -70,9 +70,7 @@ const ComboCurrencySelect = ({
     }
     setTimeout(() => {
       setDropdownActive(false);
-      if (setCloseSiblingDropdown) {
-        setCloseSiblingDropdown(false);
-      }
+      setCloseSiblingDropdown(false);
     });
   };
 
@@ -85,7 +83,7 @@ const ComboCurrencySelect = ({
         setDropdownActive(false);
       });
     } else {
-      if (closeSiblingDropdown) {
+      if (closeDropdown) {
         return;
       }
       clearTimeout(timeOutId);
