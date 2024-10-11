@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { selector_label } from '../../select-control/select-control.module.scss';
 import useOnClickOutside from 'use-onclickoutside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
