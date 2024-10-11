@@ -55,6 +55,8 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   const [selectedYear, setSelectedYear] = useState({ value: defaultYear, label: defaultYear });
   const [years, setYears] = useState<{ label: number; value: number }[]>();
   const [months, setMonths] = useState<{ label: string; value: number }[]>();
+  const [closeYearDropdown, setCloseYearDropdown] = useState<boolean>(false);
+  const [closeMonthDropdown, setCloseMonthDropdown] = useState<boolean>(false);
 
   useEffect(() => {
     setYears(generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate));
@@ -98,25 +100,6 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
     }
   };
 
-  const [closeYearDropdown, setCloseYearDropdown] = useState<boolean>(false);
-  const [closeMonthDropdown, setCloseMonthDropdown] = useState<boolean>(false);
-
-  const monthCloseSetter = (status: boolean) => {
-    setCloseMonthDropdown(status);
-  };
-
-  const yearCloseSetter = (status: boolean) => {
-    setCloseYearDropdown(status);
-  };
-
-  useEffect(() => {
-    console.log('Year dropdown close:', closeYearDropdown);
-  }, [closeYearDropdown]);
-
-  useEffect(() => {
-    console.log('Month dropdown close:', closeMonthDropdown);
-  }, [closeMonthDropdown]);
-
   return (
     <>
       {years && months && (
@@ -132,7 +115,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
                 searchBarLabel="Search Months"
                 containerBorder
                 closeSiblingDropdown={closeMonthDropdown}
-                setCloseSiblingDropdown={yearCloseSetter}
+                setCloseSiblingDropdown={setCloseYearDropdown} // References closing sibling combo currency select
               />
             </div>
             <div className={filterContainer}>
@@ -144,7 +127,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
                 searchBarLabel="Search Years"
                 containerBorder
                 closeSiblingDropdown={closeYearDropdown}
-                setCloseSiblingDropdown={monthCloseSetter}
+                setCloseSiblingDropdown={setCloseMonthDropdown} // References closing sibling combo currency select
               />
             </div>
           </div>

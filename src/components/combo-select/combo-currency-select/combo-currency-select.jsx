@@ -51,8 +51,8 @@ const ComboCurrencySelect = ({
   containerBorder,
   searchBarLabel = 'Search currencies',
   hasChildren,
-  closeSiblingDropdown,
-  setCloseSiblingDropdown,
+  closeSiblingDropdown, // Prop value used if two combo currency selects are under the same parent and cannot be open at the same time (month-year-filter)
+  setCloseSiblingDropdown, // Prop setter used if two combo currency selects are under the same parent and cannot be open at the same time (month-year-filter)
 }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
@@ -65,23 +65,33 @@ const ComboCurrencySelect = ({
     }
     changeHandler(selection);
     setDropdownActive(false);
+    if (setCloseSiblingDropdown) {
+      setCloseSiblingDropdown(false);
+    }
     setTimeout(() => {
       setDropdownActive(false);
+      if (setCloseSiblingDropdown) {
+        setCloseSiblingDropdown(false);
+      }
     });
   };
 
   const toggleDropdown = () => {
     if (dropdownActive) {
       timeOutId = setTimeout(() => {
-        setCloseSiblingDropdown(false);
+        if (setCloseSiblingDropdown) {
+          setCloseSiblingDropdown(false);
+        }
         setDropdownActive(false);
       });
     } else {
       if (closeSiblingDropdown) {
         return;
       }
-      setCloseSiblingDropdown(true);
       clearTimeout(timeOutId);
+      if (setCloseSiblingDropdown) {
+        setCloseSiblingDropdown(true);
+      }
       setDropdownActive(true);
       setInputFocus();
     }
@@ -92,6 +102,9 @@ const ComboCurrencySelect = ({
       const mouseEvent = event.type !== 'blur' && !mouseOverDropdown;
       if (mouseEvent && !event.target?.parentElement?.contains(event.relatedTarget)) {
         timeOutId = setTimeout(() => {
+          if (setCloseSiblingDropdown) {
+            setCloseSiblingDropdown(false);
+          }
           setDropdownActive(false);
         });
       }
