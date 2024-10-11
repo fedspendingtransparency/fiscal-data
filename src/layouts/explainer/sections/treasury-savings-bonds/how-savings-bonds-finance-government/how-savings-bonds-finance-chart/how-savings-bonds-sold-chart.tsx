@@ -96,7 +96,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const aggregatedDataforPie = Object.values(aggregateData);
 
   const data1WidthPercentage = calculatePercentage(aggregatedDataforPie);
-  console.log(data1WidthPercentage);
   const data2WidthPercentage = calculatePercentage(consolidateDataArray);
 
   const savingsBondCallOut = data2WidthPercentage.map((item, index) => {
