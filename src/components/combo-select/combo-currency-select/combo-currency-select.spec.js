@@ -183,9 +183,7 @@ describe('The ComboSelect Component for general text use', () => {
 
     const comboBox = getByRole('button', { name: 'Mock Label' });
 
-    act(() => {
-      fireEvent.click(comboBox);
-    });
+    fireEvent.click(comboBox);
 
     const list = getByTestId('dropdown-list');
     expect(getByTestId('dropdown-list')).toBeInTheDocument();
