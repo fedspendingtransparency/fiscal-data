@@ -117,8 +117,8 @@ describe('The ComboSelect Component for general text use', () => {
     expect(getByTestId('dropdown-list')).toBeInTheDocument();
   });
 
-  it('sibling dropdown is closed other sibling dropdown has opened', () => {
-    const { getByRole, getAllByTestId } = render(
+  it('sibling dropdown is closed other sibling dropdown has opened', async () => {
+    const { getByRole, getAllByTestId, queryByTestId } = render(
       <div>
         <ComboCurrencySelect
           label={'Year'}
@@ -145,16 +145,29 @@ describe('The ComboSelect Component for general text use', () => {
 
     expect(getAllByTestId('dropdown-list').length).toBe(1);
 
+    // Close then reopen dropdown
+    userEvent.click(comboBoxYear);
+    await waitFor(() => {
+      expect(setCloseSiblingMock).toHaveBeenCalled();
+    });
+    userEvent.click(comboBoxYear);
+
+    expect(getAllByTestId('dropdown-list').length).toBe(1);
+
     const list = getAllByTestId('dropdown-list')[0];
     const yearOption = within(list).getAllByRole('button')[0];
     expect(yearOption).toBeInTheDocument();
 
     const comboBoxMonth = getByRole('button', { name: 'Month' });
+
+    // Clicking other combo box closes open sibling
     userEvent.click(comboBoxMonth);
 
-    // The year dropdown is still the only one available
-    expect(getAllByTestId('dropdown-list').length).toBe(1);
-    expect(yearOption).toBeInTheDocument();
+    await waitFor(() => {
+      expect(setCloseSiblingMock).toHaveBeenCalledTimes(4);
+    });
+
+    expect(queryByTestId('dropdown-list')).not.toBeInTheDocument();
   });
 
   it('closes dropdown after mouse leave and focus is removed', async () => {
