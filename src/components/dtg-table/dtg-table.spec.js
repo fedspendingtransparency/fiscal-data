@@ -281,6 +281,7 @@ describe('DtgTable component - API Error', () => {
 
   it('shows an apiError message when apiError exists', () => {
     const table = componentJSON[0].children.find(e => e.props['data-test-id'] === 'table-content');
+    console.log('table: ', table);
     expect(table.children.filter(e => e.props['data-test-id'] === 'api-error').length).toEqual(1);
   });
 

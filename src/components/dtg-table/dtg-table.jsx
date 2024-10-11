@@ -150,6 +150,7 @@ export default function DtgTable({
   };
 
   const makePagedRequest = async resetPage => {
+    console.log('in makePagedRequest');
     if (
       selectedTable &&
       selectedTable.endpoint &&
@@ -400,6 +401,11 @@ export default function DtgTable({
     }
   }, [tableData, tableMeta, rawData, dePaginated]);
 
+  console.log('apiError: ', apiError);
+  console.log('tableProps.apiError: ', tableProps.apiError);
+
+  tableProps.apiError = 'Error';
+
   return (
     <div className={overlayContainer}>
       {/* Loading Indicator */}
@@ -411,11 +417,15 @@ export default function DtgTable({
           </div>
         </>
       )}
+      {/* Data Dictionary and Dataset Detail tables */}
       {reactTable && reactTableData?.data && (
         <div data-test-id="table-content" className={overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
-            <DtgTableApiError/>
+            <>
+              <p>yo</p>
+              <DtgTableApiError />
+            </>
           )}
           {!emptyDataMessage && (
             <ErrorBoundary FallbackComponent={() => <></>}>
@@ -461,12 +471,13 @@ export default function DtgTable({
           )}
         </div>
       )}
+      {/* Endpoints and Fields tables */}
       {!reactTable && (
         <>
           <div data-test-id="table-content" className={overlayContainerNoFooter}>
             {/* API Error Message */}
             {(apiError || tableProps.apiError) && !emptyDataMessage && (
-              <DtgTableApiError/>
+              <DtgTableApiError />
             )}
 
             <div className={selectColumnsWrapper}>
