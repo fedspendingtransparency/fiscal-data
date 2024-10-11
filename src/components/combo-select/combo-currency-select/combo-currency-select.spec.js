@@ -118,7 +118,7 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
   it('sibling dropdown is closed other sibling dropdown has opened', async () => {
-    const { getByRole, getAllByTestId, queryByTestId } = render(
+    const { getByText, getByRole, getAllByTestId, queryByTestId } = render(
       <div>
         <ComboCurrencySelect
           label={'Year'}
@@ -165,6 +165,18 @@ describe('The ComboSelect Component for general text use', () => {
 
     await waitFor(() => {
       expect(setCloseSiblingMock).toHaveBeenCalledTimes(4);
+    });
+
+    expect(queryByTestId('dropdown-list')).not.toBeInTheDocument();
+
+    userEvent.click(comboBoxYear);
+
+    expect(getAllByTestId('dropdown-list').length).toBe(1);
+
+    userEvent.click(getByText('1999'));
+
+    await waitFor(() => {
+      expect(setCloseSiblingMock).toHaveBeenCalledTimes(7);
     });
 
     expect(queryByTestId('dropdown-list')).not.toBeInTheDocument();
