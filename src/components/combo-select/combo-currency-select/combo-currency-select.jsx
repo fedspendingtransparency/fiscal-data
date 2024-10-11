@@ -70,7 +70,9 @@ const ComboCurrencySelect = ({
     }
     setTimeout(() => {
       setDropdownActive(false);
-      setCloseSiblingDropdown(false);
+      if (setCloseSiblingDropdown) {
+        setCloseSiblingDropdown(false);
+      }
     });
   };
 
