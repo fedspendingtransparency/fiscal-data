@@ -28,7 +28,6 @@ type UserFilterProps = {
         field: string;
       };
       disableDateRangeFilter: boolean;
-      displayApiFilterForAllTables: boolean;
       customDateFilter?: {
         startDateField: string;
         endDateField: string;
@@ -55,7 +54,6 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
   setResetFilters,
   allTablesSelected,
   setDateRange,
-  displayApiFilterForAllTables,
 }) => {
   const defaultSelection = { label: '(None selected)', value: null };
 
@@ -120,7 +118,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
 
   return (
     <>
-      {(selectedTable.userFilter || selectedTable.apiFilter) && userFilterOptions && (!allTablesSelected || displayApiFilterForAllTables) && (
+      {(selectedTable.userFilter || selectedTable.apiFilter) && userFilterOptions && !allTablesSelected && (
         <div className={userFilterWrapper}>
           <ComboCurrencySelect
             label={`${selectedTable.userFilter ? selectedTable.userFilter.label : selectedTable.apiFilter.label}:`}

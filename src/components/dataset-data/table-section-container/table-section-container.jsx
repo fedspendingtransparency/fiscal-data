@@ -244,18 +244,14 @@ const TableSectionContainer = ({
 
   useEffect(() => {
     if (allTablesSelected) {
-      if (config?.displayApiFilterForAllTables) {
-        setDisableDownloadButton(!userFilterSelection || userFilterSelection?.value === null);
-      } else {
-        setDisableDownloadButton(false);
-      }
+      setDisableDownloadButton(false);
     }
   }, [userFilterSelection]);
 
   useEffect(() => {
     if (!allTablesSelected) {
       setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
-    } else if (!config?.displayApiFilterForAllTables) {
+    } else {
       setDisableDownloadButton(false);
     }
   }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
