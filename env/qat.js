@@ -55,6 +55,7 @@ module.exports = {
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account and/or date range in order to preview the data.',
         dataSearchLabel: 'Search account descriptions',
+        notice: 'Date fields on Fiscal Data may differ from the published dates for corresponding reports on TreasuryDirect.',
       },
     },
     // FBP
@@ -92,6 +93,7 @@ module.exports = {
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account and/or date range in order to preview the data.',
         dataSearchLabel: 'Search account descriptions',
+        notice: 'Date fields on Fiscal Data may differ from the published dates for corresponding reports on TreasuryDirect.',
         futureDated: true,
       },
     },
