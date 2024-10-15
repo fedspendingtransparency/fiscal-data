@@ -1,4 +1,12 @@
-import { datatableRequest, fetchAllPages, pagedDatatableRequest, buildSortParams, buildFields, incorporateChartDates } from './api-utils';
+import {
+  datatableRequest,
+  fetchAllPages,
+  pagedDatatableRequest,
+  buildSortParams,
+  buildFields,
+  incorporateChartDates,
+  buildDateFilter,
+} from './api-utils';
 import * as helpers from './api-utils-helper';
 import { TableCache } from '../components/dataset-data/table-cache/table-cache';
 import { mockFetchApi } from './mock-utils';
@@ -248,5 +256,22 @@ describe('Api Utils function library', () => {
 
   it('builds correct pivot data using incorporateChartDates', () => {
     expect(incorporateChartDates(mockDataToPivot, mockPivotView)).toStrictEqual(mockPivotedData);
+  });
+
+  it('builds correct api date filter for custom date ranges', () => {
+    const selectedTable = {
+      apiFilter: {
+        customDateFilter: {
+          startDateField: 'settle_date',
+          endDateField: 'effective_date',
+          dateRange: 'endOfMonth',
+        },
+      },
+    };
+    const from = '2024-08-01';
+    const to = '2024-08-31';
+    const dateFilter = buildDateFilter(selectedTable, from, to);
+    const dateString = 'settle_date:gte:2024-08-31,effective_date:lte:2024-08-31';
+    expect(dateFilter).toEqual(dateString);
   });
 });
