@@ -10,7 +10,7 @@ export const allTablesOption = {
   valueFieldOptions: null,
 };
 
-export const DataTableSelect = ({ apis, selectedTable, setSelectedTable, allTablesSelected, earliestDate, latestDate }) => {
+export const DataTableSelect = ({ apis, selectedTable, setSelectedTable, allTablesSelected, earliestDate, latestDate, disableAllTables }) => {
   const label = 'Data Table';
   const [showDatasetDropdown, setShowDatasetDropdown] = useState(false);
   const changeHandler = updatedTable => {
@@ -25,13 +25,15 @@ export const DataTableSelect = ({ apis, selectedTable, setSelectedTable, allTabl
     }
   });
 
-  const options = [
-    {
-      ...allTablesOption,
-      earliestDate,
-      latestDate,
-    },
-  ].concat(apis);
+  const options = disableAllTables
+    ? apis
+    : [
+        {
+          ...allTablesOption,
+          earliestDate,
+          latestDate,
+        },
+      ].concat(apis);
 
   return (
     <>
