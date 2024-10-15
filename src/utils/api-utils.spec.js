@@ -274,4 +274,15 @@ describe('Api Utils function library', () => {
     const dateString = 'settle_date:gte:2024-08-31,effective_date:lte:2024-08-31';
     expect(dateFilter).toEqual(dateString);
   });
+
+  it('builds correct api date filter with no custom date ranges', () => {
+    const selectedTable = {
+      dateField: 'record_date',
+    };
+    const from = '2024-08-01';
+    const to = '2024-08-31';
+    const dateFilter = buildDateFilter(selectedTable, from, to);
+    const dateString = 'record_date:gte:2024-08-01,record_date:lte:2024-08-31';
+    expect(dateFilter).toEqual(dateString);
+  });
 });
