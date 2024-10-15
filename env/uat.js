@@ -248,7 +248,11 @@ module.exports = {
         dataUnmatchedMessage: 'Select a different account and/or date range in order to preview the data.',
         dataSearchLabel: 'Search account descriptions',
         notice: 'Date fields on Fiscal Data may differ from the published dates for corresponding reports on TreasuryDirect.',
-        futureDated: true,
+        customDateFilter: {
+          startDateField: 'settle_date',
+          endDateField: 'effective_date',
+          dateRange: 'endOfMonth',
+        },
       },
     },
   },

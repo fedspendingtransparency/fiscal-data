@@ -46,10 +46,7 @@ type MonthYearFilterProps = {
 
 const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTable, setDateRange }) => {
   const defaultMonth = new Date().getMonth();
-  const [selectedMonth, setSelectedMonth] = useState({
-    value: selectedTable?.apiFilter?.futureDated ? defaultMonth + 2 : defaultMonth + 1,
-    label: monthFullNames[defaultMonth],
-  });
+  const [selectedMonth, setSelectedMonth] = useState({ value: defaultMonth + 1, label: monthFullNames[defaultMonth] });
   const defaultYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState({ value: defaultYear, label: defaultYear });
   const [years, setYears] = useState<{ label: number; value: number }[]>();
@@ -83,16 +80,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   };
   const updateMonth = (selection: { label: string; value: number }) => {
     if (selection !== null) {
-      if (selectedTable?.apiFilter?.futureDated) {
-        if (selection.value + 1 <= 12) {
-          setSelectedMonth({ label: selection.label, value: selection.value + 1 });
-        } else {
-          setSelectedMonth({ label: selection.label, value: 1 });
-          setSelectedYear(state => ({ label: state.label, value: state.value + 1 }));
-        }
-      } else {
-        setSelectedMonth(selection);
-      }
+      setSelectedMonth(selection);
     }
   };
 

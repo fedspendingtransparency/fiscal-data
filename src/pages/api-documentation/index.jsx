@@ -308,7 +308,7 @@ const ApiDocumentationPage = ({ location }) => {
                     tabIndex={0}
                     activeClass={activeLink}
                     to={d.id}
-                    smooth={true}
+                    smooth={false}
                     spy={true}
                     duration={600}
                     delay={200}

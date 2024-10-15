@@ -28,8 +28,14 @@ type UserFilterProps = {
         field: string;
       };
       disableDateRangeFilter: boolean;
-      futureDated: boolean;
+      customDateFilter?: {
+        startDateField: string;
+        endDateField: string;
+        dateRange: string;
+      };
     };
+    earliestDate: Date;
+    latestDate: Date;
   };
   onUserFilter: (selection: { label: string | number; value?: string | number | null }) => void;
   apiData?: {
