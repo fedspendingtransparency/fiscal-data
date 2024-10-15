@@ -240,6 +240,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
               allTablesSelected={allTablesSelected}
               earliestDate={config.techSpecs.earliestDate}
               latestDate={config.techSpecs.latestDate}
+              disableAllTables={config?.disableAllTables}
             />
             {selectedTable && (
               <>
@@ -281,7 +282,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                     setResetFilters={setResetFilters}
                     allTablesSelected={allTablesSelected}
                     setDateRange={setDateRange}
-                    displayApiFilterForAllTables={config.displayApiFilterForAllTables}
                   />
                 )}
               </>
