@@ -29,8 +29,14 @@ type UserFilterProps = {
       };
       disableDateRangeFilter: boolean;
       displayApiFilterForAllTables: boolean;
-      futureDated: boolean;
+      customDateFilter?: {
+        startDateField: string;
+        endDateField: string;
+        dateRange: string;
+      };
     };
+    earliestDate: Date;
+    latestDate: Date;
   };
   onUserFilter: (selection: { label: string | number; value?: string | number | null }) => void;
   apiData?: {
@@ -49,7 +55,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
   setResetFilters,
   allTablesSelected,
   setDateRange,
-  displayApiFilterForAllTables
+  displayApiFilterForAllTables,
 }) => {
   const defaultSelection = { label: '(None selected)', value: null };
 
