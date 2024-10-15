@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { DatasetDataComponent, tabletMobileTitle } from './dataset-data';
+import { DatasetDataComponent } from './dataset-data';
 import FilterAndDownload from '../filter-download-container/filter-download-container';
 import DataTableSelect from '../datatable-select/datatable-select';
 import { format } from 'date-fns';
@@ -19,8 +19,6 @@ import {
 } from './test-helper';
 import * as DatasetDataHelpers from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
-import ReportDataToggle from './report-data-toggle/report-data-toggle';
-import PublishedReports from '../published-reports/published-reports';
 import Analytics from '../../utils/analytics/analytics';
 import { whiteListIds, mockPublishedReportsMTS } from '../../helpers/published-reports/published-reports';
 import PagingOptionsMenu from '../pagination/paging-options-menu';
@@ -330,20 +328,6 @@ describe('DatasetData', () => {
     expect(callsToApiForUpdatedTable.length).toEqual(1);
   });
 
-  it(`includes ReportDataToggle on the page`, async () => {
-    const toggleReport = instance.findByType(ReportDataToggle);
-
-    expect(typeof toggleReport.props.onChange).toBe('function');
-    expect(Array.isArray(toggleReport.props.reports)).toBeTruthy();
-  });
-
-  it(`includes ReportDataToggle on the page`, () => {
-    const toggleReport = instance.findByType(ReportDataToggle);
-
-    expect(typeof toggleReport.props.onChange).toBe('function');
-    expect(Array.isArray(toggleReport.props.reports)).toBeTruthy();
-  });
-
   it(`grabs the published reports from the publishedReports prop if the dataset is whitelisted`, async () => {
     const origId = config.datasetId;
     const mockDatasetId = Object.keys(mockPublishedReportsMTS)[0];
@@ -410,26 +394,6 @@ describe('DatasetData', () => {
 
     expect(getPublishedDates).toBeCalledTimes(2);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
-  });
-
-  it(`passes down the captured published reports to the PublishedReports component`, async () => {
-    let rgInstance = null;
-    await renderer.act(async () => {
-      const comp = await renderer.create(
-        <RecoilRoot>
-          <DatasetDataComponent config={config} publishedReportsProp={['mockReports Array']} setSelectedTableProp={setSelectedTableMock} />
-        </RecoilRoot>
-      );
-      rgInstance = comp.root;
-    });
-
-    // select tab to instantiate <PublishedReport /> and test the reports property passed in
-    const toggleReport = rgInstance.findByType(ReportDataToggle).props.onChange;
-    await renderer.act(async () => {
-      await toggleReport(2);
-    });
-    const publishedReportsTab = rgInstance.findByType(PublishedReports);
-    expect(publishedReportsTab.props.reports.length).toBe(1);
   });
 
   it(`transmits a preview-loaded analytics event when reports tab is first selected but not when

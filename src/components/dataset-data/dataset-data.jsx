@@ -5,8 +5,6 @@ import FilterAndDownload from '../filter-download-container/filter-download-cont
 import DataTableSelect from '../datatable-select/datatable-select';
 import RangePresets from '../filter-download-container/range-presets/range-presets';
 import TableSectionContainer from './table-section-container/table-section-container';
-import ReportDataToggle from './report-data-toggle/report-data-toggle';
-import PublishedReports from '../published-reports/published-reports';
 import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { getApiData } from './dataset-data-api-helper/dataset-data-api-helper';
