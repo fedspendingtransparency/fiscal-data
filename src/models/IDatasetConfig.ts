@@ -15,7 +15,7 @@ export interface IDatasetConfig {
   dataStartYear: string;
   datasetId: string;
   dictionary: number | null;
-  displayApiFilterForAllTables: boolean | null;
+  disableAllTables: boolean | null;
   filterTopics: string[];
   filters: string[];
   name: string;
