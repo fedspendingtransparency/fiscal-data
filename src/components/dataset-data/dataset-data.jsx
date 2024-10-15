@@ -17,7 +17,6 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { detailViewNotice, lockIcon, placeholderText, placeholderButton } from './dataset-data.module.scss';
 import { queryClient } from '../../../react-query-client';
-import ENV_ID from 'gatsby-env-variables';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
@@ -52,7 +51,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;
-  const title = ENV_ID === 'uat' ? 'Data Preview' : 'Preview & Download';
+  const title = 'Data Preview';
   const shouldUseLoadByPage = pivot => {
     return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
