@@ -15,7 +15,19 @@ import Aggregation from '../../components/api-documentation/aggregation/aggregat
 import Examples from '../../components/api-documentation/examples/examples';
 import TOCButton from '../../components/table-of-contents/toc-button/toc-button';
 import { tocCont, tocHeader, tocWrapper } from '../../components/table-of-contents/toc.module.scss';
-import { toc, content, headingLevel2, headingLevel3, headingLevel4, link, activeLink, tocOpen, tocClosed, apiPageWrapper } from './api.module.scss';
+import {
+  toc,
+  content,
+  headingLevel2,
+  headingLevel3,
+  headingLevel4,
+  link,
+  activeLink,
+  tocOpen,
+  tocClosed,
+  apiPageWrapper,
+  apiPageSpacer,
+} from './api.module.scss';
 import DataRegistry from '../../components/api-documentation/data-registry/data-registry';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import { scrollOptionsSmooth } from '../../utils/scroll-config';
@@ -315,7 +327,7 @@ const ApiDocumentationPage = ({ location }) => {
                     onClick={e => {
                       handleToggle(e, d.id);
                     }}
-                    offset={globalNavOffset}
+                    offset={globalNavOffset - 3}
                   >
                     {d.title}
                   </Link>
@@ -324,10 +336,11 @@ const ApiDocumentationPage = ({ location }) => {
             })}
           </div>
         </div>
-        <div id={content} className={toggleStyles}>
+        <div id={content} className={`${toggleStyles} ${apiPageSpacer}`}>
           <GettingStarted location={location} />
           <Endpoints />
           <DataRegistry />
+          sectionBreak
           <Methods />
           <Parameters />
           <Responses />
