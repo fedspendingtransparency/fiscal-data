@@ -117,7 +117,7 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.bannerCallout = mappedDataset && mappedDataset.bannerCallout ? mappedDataset.bannerCallout : null;
       dataset.datatableBanner = mappedDataset && mappedDataset.datatableBanner ? mappedDataset.datatableBanner : null;
       dataset.selectColumns = mappedDataset && mappedDataset.selectColumns ? mappedDataset.selectColumns : null;
-      dataset.disableAllTables = mappedDataset && mappedDataset.disableAllTables ? mappedDataset.disableAllTables : null;
+      dataset.displayApiFilterForAllTables = mappedDataset && mappedDataset.displayApiFilterForAllTables ? mappedDataset.displayApiFilterForAllTables : null;
 
       if (dataset.apis.length === 0) {
         if (mappedDataset && mappedDataset.apiIds) {

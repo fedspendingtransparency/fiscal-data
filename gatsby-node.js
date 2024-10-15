@@ -454,7 +454,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       customRangePreset: String,
       selectColumns: [String],
       detailView: DetailView,
-      disableAllTables: Boolean,
+      displayApiFilterForAllTables: Boolean,
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
@@ -516,7 +516,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
-          disableAllTables
+          displayApiFilterForAllTables
           detailView {
             apiId
             field

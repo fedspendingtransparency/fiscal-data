@@ -87,22 +87,4 @@ describe('DatatableSelect', () => {
     );
     expect(queryByTestId('tableSelectPlaceholder')).not.toBeInTheDocument();
   });
-
-  it('does not render the All Tables options with disableAllTables is true', () => {
-    const { getByRole, queryByRole } = render(
-      <DataTableSelect
-        apis={apisArr}
-        selectedTable={apisArr[0]}
-        setSelectedTable={mockSetSelectedTable}
-        earliestDate={earliestDate}
-        latestDate={latestDate}
-        disableAllTables={true}
-      />
-    );
-
-    const dropdown = getByRole('button', { name: 'Table 1' });
-    dropdown.click();
-
-    expect(queryByRole('button', { name: 'All Data Tables' })).not.toBeInTheDocument();
-  });
 });
