@@ -90,7 +90,6 @@ const ComboCurrencySelect = ({
   };
 
   const onFocusHandler = () => {
-    console.log('focus');
     clearTimeout(timeOutId);
   };
 
