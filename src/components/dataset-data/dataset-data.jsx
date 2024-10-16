@@ -283,6 +283,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                     setResetFilters={setResetFilters}
                     allTablesSelected={allTablesSelected}
                     setDateRange={setDateRange}
+                    sharedApiFilterOptions={config?.sharedApiFilterOptions}
                   />
                 )}
               </>

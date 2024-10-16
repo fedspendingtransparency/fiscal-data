@@ -41,10 +41,11 @@ type MonthYearFilterProps = {
       futureDated: boolean;
     };
   };
+  sharedApiFilterOptions?: boolean;
   setDateRange: (range: { from: Date; to: Date }) => void;
 };
 
-const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTable, setDateRange }) => {
+const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTable, setDateRange, sharedApiFilterOptions }) => {
   const defaultMonth = new Date().getMonth();
   const [selectedMonth, setSelectedMonth] = useState({ value: defaultMonth + 1, label: monthFullNames[defaultMonth] });
   const defaultYear = new Date().getFullYear();

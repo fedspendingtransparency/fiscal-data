@@ -46,6 +46,7 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-038', '015-BFS-2014Q3-037'],
       currentDateButton: 'byMonth',
       disableAllTables: true,
+      sharedApiFilterOptions: true,
     },
   },
   ADDITIONAL_ENDPOINTS: {

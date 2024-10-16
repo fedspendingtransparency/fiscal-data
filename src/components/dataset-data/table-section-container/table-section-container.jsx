@@ -239,7 +239,7 @@ const TableSectionContainer = ({
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
     setReactTableSort([]);
-    if (!config?.displayApiFilterForAllTables) {
+    if (!config?.sharedApiFilterOptions) {
       setUserFilterSelection(null);
     }
   }, [selectedTable, allTablesSelected]);
