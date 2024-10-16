@@ -260,7 +260,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/rates_of_exchange_clean_values',
       dateField: 'record_date',
       downloadName: 'RprtRateXchgCln',
-      alwaysSortWith: ['-effective_date', 'country_currency_desc'],
+      alwaysSortWith: ['-record_date', 'country_currency_desc'],
       dataDisplays: [
         {
           title: 'Exchange Rate Trend',
