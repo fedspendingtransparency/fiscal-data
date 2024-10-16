@@ -10,8 +10,6 @@ describe('Validate footer links ', () => {
     cy.contains('Contact Us').then($link => {
       cy.log($link.prop('outerHTML'));
     });
-    // .click()
-    // .should('have.attr', 'href', 'mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us');
   });
 
   it('Validates the About Fiscal Data link', () => {
