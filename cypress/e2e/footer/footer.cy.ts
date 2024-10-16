@@ -9,7 +9,7 @@ describe('Validate footer links ', () => {
     cy.visit('/');
     cy.contains('Contact Us')
       .click()
-      .should('have.attr', 'href', 'mailto:fiscaldata@fiscal.treasury.gov');
+      .should('have.attr', 'href', 'mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us');
   });
 
   it('Validates the About Fiscal Data link', () => {
@@ -20,7 +20,7 @@ describe('Validate footer links ', () => {
 
   it('Validates Release Calendar link', () => {
     cy.visit('/');
-    cy.contains('Release Calendar?').click();
+    cy.contains('Release Calendar').click();
     cy.url().should('include', '/release-calendar/');
   });
 
