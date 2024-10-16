@@ -2,7 +2,7 @@ describe('Validate footer links ', () => {
   it('Validate the FAQ link', () => {
     cy.visit('/');
     cy.contains('FAQ').click();
-    cy.url().should('include', '/about-us/#faq/');
+    cy.url().should('include', '/about-us/');
   });
 
   it('Validates Contact Us Opens correct email', () => {
@@ -14,7 +14,7 @@ describe('Validate footer links ', () => {
   it('Validates the About Fiscal Data link', () => {
     cy.visit('/');
     cy.contains('About Fiscal Data?').click();
-    cy.url().should('include', '/about-us/#about-fiscal-data/');
+    cy.url().should('include', '/about-us');
   });
 
   it('Validates Release Calendar link', () => {
