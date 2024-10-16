@@ -41,7 +41,7 @@ describe('Validate footer links ', () => {
 
   it('Validates Subscribe to Our Mailing list link', () => {
     cy.visit('/');
-    cy.contains('Accessibility').click();
+    cy.get('[data-testid="accessibility-link"]').click();
     cy.url().should('include', '/accessibility.html');
   });
   it('Validates Subscribe to Our Mailing list link', () => {

@@ -124,7 +124,9 @@ const SiteFooter = () => {
         <div className={bottomContent}>
           <div className={copyright}>&copy; {copyrightDate} Data Transparency</div>
           <div className={footerBottomLinks}>
-            <CustomLink href={`${fiscalURL}/accessibility.html`}>Accessibility</CustomLink>
+            <CustomLink href={`${fiscalURL}/accessibility.html`} data-testid="accessibility-link">
+              Accessibility
+            </CustomLink>
             <CustomLink href={`${fiscalURL}/privacy.html`}>Privacy Policy</CustomLink>
             <CustomLink href={`${fiscalURL}/foia.html`}>Freedom of Information Act</CustomLink>
           </div>
