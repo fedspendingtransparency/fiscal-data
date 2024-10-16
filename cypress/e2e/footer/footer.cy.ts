@@ -38,4 +38,20 @@ describe('Validate footer links ', () => {
       cy.log($link.prop('outerHTML'));
     });
   });
+
+  it('Validates Subscribe to Our Mailing list link', () => {
+    cy.visit('/');
+    cy.contains('Accessibility').click();
+    cy.url().should('include', '/accessibility.html');
+  });
+  it('Validates Subscribe to Our Mailing list link', () => {
+    cy.visit('/');
+    cy.contains('Privacy Policy').click();
+    cy.url().should('include', '/privacy.html');
+  });
+  it('Validates Subscribe to Our Mailing list link', () => {
+    cy.visit('/');
+    cy.contains('Freedom of Information Act').click();
+    cy.url().should('include', '/foia.html');
+  });
 });
