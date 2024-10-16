@@ -1,13 +1,10 @@
 import React from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
+import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
 
 const DeficitAndSurplusCauses = () => {
-  const federalCovidResponseLink = (
-    <CustomLink url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all" eventNumber="14">
-      the federal response to COVID-19
-    </CustomLink>
-  );
+  const { USAsCovidFederalResponse } = explainerCitationsMap['national-deficit'];
 
   const spendingLink = (
     <CustomLink url="/americas-finance-guide/federal-spending/" id="Federal Spending">
@@ -40,7 +37,7 @@ const DeficitAndSurplusCauses = () => {
         Legislation increasing {spendingLink} on Social Security, health care, and defense that outpace {revenueLink} can increase the deficit. While
         revenue increased during the COVID-19 pandemic, from approximately $3.5 trillion in 2019 to $4 trillion in 2021, increased government spending
         related to widespread unemployment and health care caused spikes in the deficit. Visit USAspending.gov to learn more about{' '}
-        {federalCovidResponseLink}.
+        {USAsCovidFederalResponse}.
       </p>
     </div>
   );

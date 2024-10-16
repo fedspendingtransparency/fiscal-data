@@ -158,7 +158,7 @@ describe('Breaking Down the Debt', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,
-      label: 'U.S. Treasury Monthly Statement of the Public Debt (MSPD)',
+      label: 'Monthly Statement of the Public Debt (MSPD)',
     });
     spy.mockClear();
 

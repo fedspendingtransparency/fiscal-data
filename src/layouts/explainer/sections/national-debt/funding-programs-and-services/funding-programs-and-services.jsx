@@ -3,16 +3,12 @@ import { faFlagUsa } from '@fortawesome/free-solid-svg-icons';
 import QuoteBox from '../../../quote-box/quote-box';
 import React from 'react';
 import { deficitLink, spendingLink } from '../../../explainer-helpers/national-debt/national-debt-helper';
-import { analyticsClickHandler } from '../../../explainer-helpers/national-debt/national-debt-helper';
 import { debtExplainerLightSecondary, debtExplainerPrimary } from '../national-debt.module.scss';
 import SpendingCategoriesAccordion from './spending-categories-accordion/spending-categories-accordion';
+import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
 
 const FundingProgramsAndServices = () => {
-  const usaSpending = (
-    <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsClickHandler('Citation Click', 'Funding Programs & Services')}>
-      USAspending.gov
-    </CustomLink>
-  );
+  const { USAsGov } = explainerCitationsMap['national-debt'];
 
   const revenueLink = (
     <CustomLink url="/americas-finance-guide/government-revenue/" id="Government Revenue">
@@ -39,7 +35,7 @@ const FundingProgramsAndServices = () => {
       <QuoteBox icon={faFlagUsa} primaryColor={debtExplainerPrimary} secondaryColor={debtExplainerLightSecondary} customTopMargin="0">
         <p>
           In accordance with the 2014 DATA Act, federal agencies are required to submit financial data on a quarterly and/or monthly basis to{' '}
-          {usaSpending}. Anyone can visit USAspending for a breakdown of what the federal government spends each year and how it spends that money.
+          {USAsGov}. Anyone can visit USAspending for a breakdown of what the federal government spends each year and how it spends that money.
           Visitors can follow the money from the Congressional appropriations to the federal agencies and down to local communities and businesses.
         </p>
       </QuoteBox>

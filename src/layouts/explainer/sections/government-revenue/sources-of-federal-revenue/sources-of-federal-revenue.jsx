@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { visWithCallout, quoteBoxContent } from '../../../explainer.module.scss';
 import QuoteBox from '../../../quote-box/quote-box';
-import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import { revenueExplainerPrimary, revenueExplainerLightSecondary } from '../revenue.module.scss';
 import { sourcesContent } from './sources-of-federal-revenue.module.scss';
 import { faMartiniGlassCitrus } from '@fortawesome/free-solid-svg-icons';
@@ -10,10 +9,26 @@ import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import Accordion from '../../../../../components/accordion/accordion';
 import { revenueAccordion } from '../revenue.module.scss';
+import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
+
 const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
   const [currentFiscalYear, setCurrentFiscalYear] = useState(0);
   const [indvPercent, setIndvPercent] = useState('');
   const [ssPercent, setSSPercent] = useState('');
+
+  const { irs, federalReserveAct } = explainerCitationsMap['government-revenue'];
+
+  const excise = (
+    <GlossaryPopoverDefinition term="Excise" page="Revenue Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+      excise
+    </GlossaryPopoverDefinition>
+  );
+
+  const trustFunds = (
+    <GlossaryPopoverDefinition term="Trust funds" page="Revenue Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+      trust funds
+    </GlossaryPopoverDefinition>
+  );
 
   useEffect(() => {
     const endpointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:eq:1.1&sort=-record_date&page%5bsize%5d=1';
@@ -49,28 +64,6 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
       }
     });
   }, []);
-
-  const irsGov = (
-    <CustomLink url="https://www.irs.gov/newsroom/historical-highlights-of-the-irs" eventNumber="14">
-      IRS.gov
-    </CustomLink>
-  );
-
-  const excise = (
-    <GlossaryPopoverDefinition term="Excise" page="Revenue Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
-      excise
-    </GlossaryPopoverDefinition>
-  );
-
-  const trustFunds = (
-    <GlossaryPopoverDefinition term="Trust funds" page="Revenue Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
-      trust funds
-    </GlossaryPopoverDefinition>
-  );
-
-  const federalReserveAct = (
-    <CustomLink url="https://www.federalreserve.gov/aboutthefed/section7.htm">Federal Reserve Act, Section 7(a)(1-3)</CustomLink>
-  );
 
   return (
     <div className={sourcesContent}>
@@ -126,7 +119,7 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
         <p className={quoteBoxContent}>
           From 1868 until 1913, 90% of all federal revenue came from taxes on liquor, beer, wine, and tobacco.
           <br />
-          <span style={{ fontSize: '16px' }}>Source: {irsGov}</span>
+          <span>Source: {irs}</span>
         </p>
       </QuoteBox>
     </div>

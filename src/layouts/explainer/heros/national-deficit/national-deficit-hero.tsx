@@ -1,5 +1,4 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import CustomLink from '../../../../components/links/custom-link/custom-link';
 import {
   counterSourceInfo,
   footNotes,
@@ -13,6 +12,7 @@ import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-
 import { getChangeLabel, getFootNotesDateRange, getPillData, deficitUrl } from '../hero-helper';
 import { getShortForm } from '../../../../utils/rounding-utils';
 import { getDataFromCacheOrFetch } from '../../../../../react-query-client';
+import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
 
 const NationalDeficitHero = (): ReactElement => {
   const deficitPillColor = '#b3532d1a';
@@ -64,15 +64,7 @@ const NationalDeficitHero = (): ReactElement => {
     }
   };
 
-  const mtsLink = (
-    <CustomLink
-      url="/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government"
-      eventNumber="2"
-      id="Monthly Treasury Statement"
-    >
-      Monthly Treasury Statement (MTS)
-    </CustomLink>
-  );
+  const { mtsSummary } = explainerCitationsMap['national-deficit'];
 
   const fiscalYear = (
     <GlossaryPopoverDefinition term="fiscal year" page="Deficit Explainer">
@@ -113,7 +105,7 @@ const NationalDeficitHero = (): ReactElement => {
       </div>
       <div className={`${counterSourceInfo} ${deficit}`}>
         <p>
-          Fiscal year-to-date (since October {previousFiscalYear}) total updated monthly using the {mtsLink} dataset.
+          Fiscal year-to-date (since October {previousFiscalYear}) total updated monthly using the {mtsSummary} dataset.
         </p>
       </div>
       <div className={footNotes}>{changeNationalDeficitFooter}</div>

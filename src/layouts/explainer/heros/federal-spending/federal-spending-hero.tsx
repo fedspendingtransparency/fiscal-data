@@ -1,11 +1,11 @@
 import { flapWrapper, footNotes, footNotesPillData, heroImageSubHeading } from '../../hero-image/hero-image.module.scss';
 import React, { ReactElement, useEffect, useState } from 'react';
-import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { getChangeLabel, getFootNotesDateRange, getPillData, spendingUrl } from '../hero-helper';
 import { spendingExplainerPrimary } from '../../sections/federal-spending/federal-spending.module.scss';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import { getShortForm } from '../../../../utils/rounding-utils';
 import { getDataFromCacheOrFetch } from '../../../../../react-query-client';
+import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
 
 const FederalSpendingHero = (): ReactElement => {
   const [totalSpending, setTotalSpending] = useState(null);
@@ -20,11 +20,7 @@ const FederalSpendingHero = (): ReactElement => {
 
   const numberFormat = new Intl.NumberFormat('en-US');
 
-  const mts = (
-    <CustomLink url="/datasets/monthly-treasury-statement/outlays-of-the-u-s-government" eventNumber="2" id="Monthly Treasury Statement">
-      Monthly Treasury Statement (MTS)
-    </CustomLink>
-  );
+  const { mtsOutlays } = explainerCitationsMap['federal-spending'];
 
   useEffect(() => {
     getDataFromCacheOrFetch('heros', spendingUrl, processSpendingHeroData);
@@ -66,7 +62,7 @@ const FederalSpendingHero = (): ReactElement => {
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal year-to-date (since October {priorFiscalYear}) total updated monthly using the {mts} dataset.
+          Fiscal year-to-date (since October {priorFiscalYear}) total updated monthly using the {mtsOutlays} dataset.
         </p>
         <div className={footNotesPillData}>
           <p>

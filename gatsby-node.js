@@ -393,6 +393,11 @@ exports.createSchemaCustomization = ({ actions }) => {
       field: String,
       value: [String]
     }
+    type CustomDateFilter {
+      startDateField: String,
+      endDateField: String,
+      dateRange: String
+    }
     type UserFilter {
       field: String,
       label: String,
@@ -421,7 +426,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       dataDefaultMessage: String,
       dataSearchLabel: String,
       fieldFilter: FieldFilter,
-      futureDated: Boolean
+      customDateFilter: CustomDateFilter
     }
     type SEOConfig {
       title: String,
@@ -453,7 +458,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       customRangePreset: String,
       selectColumns: [String],
       detailView: DetailView,
-      displayApiFilterForAllTables: Boolean,
+      disableAllTables: Boolean,
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
@@ -515,7 +520,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
-          displayApiFilterForAllTables
+          disableAllTables
           detailView {
             apiId
             field
@@ -624,7 +629,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 field
                 value
               }
-              futureDated
+              customDateFilter {
+                startDateField
+                endDateField
+                dateRange
+              }
             }
             downloadName
             earliestDate

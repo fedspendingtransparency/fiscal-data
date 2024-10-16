@@ -188,14 +188,16 @@ const ComboSelectDropdown = ({
               <ul className={dropdownList} data-testid="dropdown-list" style={{ maxHeight: '11.875rem' }}>
                 {hasChildren &&
                   filteredOptions.map((section, index) => {
-                    return (
-                      <React.Fragment key={index}>
-                        {section.children.length > 0 && <div className={sectionLabel}>{section.label}</div>}
-                        {section.children.map((option, i) => {
-                          return <React.Fragment key={i}>{filteredOptionButton(option, true)}</React.Fragment>;
-                        })}
-                      </React.Fragment>
-                    );
+                    if (section?.children) {
+                      return (
+                        <React.Fragment key={index}>
+                          {section.children.length > 0 && <div className={sectionLabel}>{section.label}</div>}
+                          {section.children.map((option, i) => {
+                            return <React.Fragment key={i}>{filteredOptionButton(option, true)}</React.Fragment>;
+                          })}
+                        </React.Fragment>
+                      );
+                    }
                   })}
                 {!hasChildren &&
                   filteredOptions.map((option, index) => {

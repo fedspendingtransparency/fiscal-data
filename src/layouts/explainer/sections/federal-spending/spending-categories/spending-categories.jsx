@@ -6,8 +6,7 @@ import { spendingCategoriesContent } from './spending-categories.module.scss';
 import { spendingAccordion, spendingExplainerPrimary } from '../federal-spending.module.scss';
 import HowMuchDoesTheGovtSpend from '../how-much-does-the-govt-spend/how-much-does-the-govt-spend';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
-
-import CustomLink from '../../../../../components/links/custom-link/custom-link';
+import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
 
 export const SpendingCategories = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
@@ -20,22 +19,7 @@ export const SpendingCategories = () => {
       }
     });
   }, []);
-
-  const spendingExplorer = (
-    <CustomLink url="https://www.usaspending.gov/explorer" eventNumber="14">
-      Spending Explorer
-    </CustomLink>
-  );
-  const agencyProfile = (
-    <CustomLink url="https://www.usaspending.gov/agency" eventNumber="35">
-      Agency Profile
-    </CustomLink>
-  );
-  const ssa = (
-    <CustomLink url="https://www.ssa.gov/oact/TRSUM/" eventNumber="24">
-      Annual Reports on the Financial Status of Social Security and Medicare
-    </CustomLink>
-  );
+  const { USAsExplorerPage, USAsAgencyPage, ssaAnnualReport } = explainerCitationsMap['federal-spending'];
 
   return (
     <div className={spendingCategoriesContent}>
@@ -53,7 +37,8 @@ export const SpendingCategories = () => {
         <HowMuchDoesTheGovtSpend />
         <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
-            For more details on U.S. government spending by category and agency, visit USAspending.gov’s {spendingExplorer} and {agencyProfile} pages.
+            For more details on U.S. government spending by category and agency, visit USAspending.gov’s {USAsExplorerPage} and {USAsAgencyPage}{' '}
+            pages.
           </p>
         </VisualizationCallout>
       </div>
@@ -64,9 +49,9 @@ export const SpendingCategories = () => {
           explainerGAEvent="SpendingExplainer"
           ga4ID="social-sec"
         >
-          Each year, the Social Security and Medicare Boards of Trustees publish their {ssa}. The Boards’ projections indicate that spending will
-          continue to increase. As the average age of Americans increases, more funding is needed to support entitlement programs like Social
-          Security, Medicare, and retirement and disability services for both military and civil servants{' '}
+          Each year, the Social Security and Medicare Boards of Trustees publish their {ssaAnnualReport}. The Boards’ projections indicate that
+          spending will continue to increase. As the average age of Americans increases, more funding is needed to support entitlement programs like
+          Social Security, Medicare, and retirement and disability services for both military and civil servants{' '}
         </Accordion>
       </div>
     </div>

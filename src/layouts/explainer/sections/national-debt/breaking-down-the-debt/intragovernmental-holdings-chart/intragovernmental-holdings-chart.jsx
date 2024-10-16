@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Bar } from '@nivo/bar';
-import CustomLink from '../../../../../../components/links/custom-link/custom-link';
-import { nationalDebtSectionConfigs } from '../../national-debt';
-import { analyticsCitationHandler } from '../../../../explainer-helpers/national-debt/national-debt-helper';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import {
   fontBodyCopy,
@@ -20,6 +17,7 @@ import CustomBar from './custom-bar/customBar';
 import { addInnerChartAriaLabel, applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
   const [isChartRendered, setIsChartRendered] = useState(false);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
@@ -27,6 +25,8 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
   const chartParent = 'breakdownChart';
   const chartWidth = 550;
   const chartHeight = 490;
+
+  const { mspdSummary } = explainerCitationsMap['national-debt'];
 
   const setAnimationDurations = data => {
     if (data && data.length >= 2) {
@@ -47,8 +47,6 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
   };
 
   const chartData = setAnimationDurations(data);
-
-  const { name, slug } = nationalDebtSectionConfigs[sectionId];
 
   const fiveTheme = {
     fontSize: fontSize_16,
@@ -87,15 +85,7 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
     }
   }, [isChartRendered]);
 
-  const chartFooter = (
-    <p>
-      Visit the{' '}
-      <CustomLink url={slug} onClick={() => analyticsCitationHandler(name)} id="U.S. Treasury Monthly Statement of the Public Debt">
-        {name}
-      </CustomLink>{' '}
-      to explore and download this data.
-    </p>
-  );
+  const chartFooter = <p>Visit the {mspdSummary} to explore and download this data.</p>;
 
   return (
     <>

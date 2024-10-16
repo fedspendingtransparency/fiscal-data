@@ -13,7 +13,7 @@ import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import { buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
+import { buildDateFilter, buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
 import {
   active,
   barContainer,
@@ -105,6 +105,7 @@ const TableSectionContainer = ({
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
       const from = formatDateForApi(dateRange.from);
       const to = formatDateForApi(dateRange.to);
+      const dateFilter = buildDateFilter(selectedTable, from, to);
       const sortParam = buildSortParams(selectedTable, selectedPivot);
       const apiFilterParam =
         selectedTable?.apiFilter?.field && userFilterSelection?.value !== null && userFilterSelection?.value !== undefined
@@ -114,7 +115,7 @@ const TableSectionContainer = ({
       return await queryClient
         .ensureQueryData({
           queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
-          queryFn: () => fetchTableMeta(sortParam, to, from, selectedTable, apiFilterParam),
+          queryFn: () => fetchTableMeta(sortParam, selectedTable, apiFilterParam, dateFilter),
         })
         .then(async res => {
           const totalCount = res.meta['total-count'];
@@ -124,7 +125,7 @@ const TableSectionContainer = ({
               try {
                 return await queryClient.ensureQueryData({
                   queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
-                  queryFn: () => fetchAllTableData(sortParam, to, from, totalCount, selectedTable, apiFilterParam),
+                  queryFn: () => fetchAllTableData(sortParam, totalCount, selectedTable, apiFilterParam, dateFilter),
                 });
               } catch (error) {
                 console.warn(error);
@@ -245,18 +246,14 @@ const TableSectionContainer = ({
 
   useEffect(() => {
     if (allTablesSelected) {
-      if (config?.displayApiFilterForAllTables) {
-        setDisableDownloadButton(!userFilterSelection || userFilterSelection?.value === null);
-      } else {
-        setDisableDownloadButton(false);
-      }
+      setDisableDownloadButton(false);
     }
   }, [userFilterSelection]);
 
   useEffect(() => {
     if (!allTablesSelected) {
       setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
-    } else if (!config?.displayApiFilterForAllTables) {
+    } else {
       setDisableDownloadButton(false);
     }
   }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
