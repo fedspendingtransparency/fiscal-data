@@ -13,9 +13,7 @@ const RevenueKeyTakeaways = () => {
   useEffect(() => {
     const endpointURL = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
     const beaURL =
-      'https://apps.bea.gov/api/data/' +
-      '?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=' +
-      'GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON';
+      'https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON';
     basicFetch(`${apiPrefix}${endpointURL}`).then(res => {
       if (res.data[0]) {
         const fiscalYear = res.data[0].record_fiscal_year;

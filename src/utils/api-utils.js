@@ -109,7 +109,6 @@ const checkError = (response, urlAttempted) => {
 };
 
 export const pagedDatatableRequest = async (table, from, to, selectedPivot, pageNum, pageSize, tableColumnSortData, filterField, filterValue) => {
-  const dateField = table.dateField;
   // redemption_tables and sb_value are exception scenarios where the date string needs to
   // be YYYY-MM.
   let fromStr = from;
@@ -118,6 +117,7 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
     fromStr = fromStr.substring(0, from.lastIndexOf('-'));
     toStr = toStr.substring(0, to.lastIndexOf('-'));
   }
+  const dateFilter = buildDateFilter(table, fromStr, toStr);
   const sortParam = buildSortParams(table, selectedPivot);
   let tableColumnSort = '';
   let tableColumnSortParams;
@@ -128,8 +128,8 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   const filterParam = filterField && filterValue?.value ? `,${filterField}:eq:${filterValue.value}` : '';
 
   const uri =
-    `${apiPrefix}${table.endpoint}?filter=${dateField}:gte:${fromStr},${dateField}` +
-    `:lte:${toStr}${filterParam}&sort=${tableColumnSort ? tableColumnSort : sortParam}&page[number]=${pageNum}&page[size]=${pageSize}`;
+    `${apiPrefix}${table.endpoint}?filter=${dateFilter}${filterParam}` +
+    `&sort=${tableColumnSort ? tableColumnSort : sortParam}&page[number]=${pageNum}&page[size]=${pageSize}`;
 
   return getIFetch()(uri).then(response => response.json());
 };
@@ -574,32 +574,56 @@ export const buildSortParams = (table, _selectedPivot) => {
   return sortParamValue;
 };
 
-export const fetchTableMeta = async (sortParam, to, from, selectedTable, apiFilterParam) => {
-  return basicFetch(
-    `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-      `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=1`
-  );
+/**
+ * Determine start date value when using a custom date fitler
+ * @param {String} dateRange
+ * @param {String} from start date for selected date range
+ * @param {String} to end date for selected date range
+ * @returns {String} start date value
+ */
+const getStartDate = (dateRange, from, to) => {
+  let startDate = from;
+  if (dateRange === 'endOfMonth') {
+    startDate = to;
+  }
+  return startDate;
 };
 
-export const fetchAllTableData = async (sortParam, to, from, totalCount, selectedTable, apiFilterParam) => {
+/**
+ * Build date filter string for data table api call.
+ * This includes logic for including a custom date filter (ex. FBP)
+ * @param selectedTable
+ * @param from
+ * @param to
+ * @returns {string} date filter string
+ */
+export const buildDateFilter = (selectedTable, from, to) => {
+  const customFilter = selectedTable?.apiFilter?.customDateFilter;
+  const startDateField = customFilter ? customFilter.startDateField : selectedTable.dateField;
+  const startDateValue = getStartDate(customFilter?.dateRange, from, to);
+  const endDateField = customFilter ? customFilter.endDateField : selectedTable.dateField;
+
+  return `${startDateField}:gte:${startDateValue},${endDateField}:lte:${to}`;
+};
+
+export const fetchTableMeta = async (sortParam, selectedTable, apiFilterParam, dateFilter) => {
+  return basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&sort=${sortParam}&page[size]=1`);
+};
+
+export const fetchAllTableData = async (sortParam, totalCount, selectedTable, apiFilterParam, dateFilter) => {
   if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
     return await basicFetch(
-      `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-        `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
+      `${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
     ).then(async page1res => {
       const page2res = await basicFetch(
-        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-          `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+        `${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
       );
       page1res.data = page1res.data.concat(page2res.data);
       return page1res;
     });
   } else if (totalCount <= MAX_PAGE_SIZE) {
     if (totalCount !== 0) {
-      return basicFetch(
-        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-          `:lte:${to}${apiFilterParam}&sort=${sortParam}&page[size]=${totalCount}`
-      );
+      return basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&sort=${sortParam}&page[size]=${totalCount}`);
     }
   }
 };

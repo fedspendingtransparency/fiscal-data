@@ -6,7 +6,6 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_16, fontTitle } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
-import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -17,6 +16,7 @@ import Analytics from '../../../../../../utils/analytics/analytics';
 import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from '../../../../explainer-helpers/explainer-charting-helper';
 import CustomBar from './custom-bar/custom-bar';
 import { useInView } from 'react-intersection-observer';
+import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 
 let gaTimerChart;
 let ga4Timer;
@@ -225,16 +225,11 @@ export const DeficitTrendsBarChart = ({ width }) => {
     setTickValuesY(tickValues[1]);
   }, [chartData]);
 
-  const slug = `/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government`;
-  const mts = (
-    <CustomLink url={slug} eventNumber="18" id="Monthly Treasury Statement">
-      Monthly Treasury Statement (MTS)
-    </CustomLink>
-  );
+  const { mtsSummary } = explainerCitationsMap['national-deficit'];
 
   const footer = (
     <div>
-      Visit the {mts} dataset to explore and download this data.
+      Visit the {mtsSummary} dataset to explore and download this data.
       <p>Please note: This data visual only includes completed fiscal years.</p>
     </div>
   );

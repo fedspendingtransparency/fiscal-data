@@ -1,11 +1,10 @@
 import { counterContainer, counterSourceInfo, debt } from '../../hero-image/hero-image.module.scss';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
-import CustomLink from '../../../../components/links/custom-link/custom-link';
 import React, { useEffect, useState } from 'react';
-import Analytics from '../../../../utils/analytics/analytics';
 import { useRecoilValueLoadable } from 'recoil';
 import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../../recoil/debtToThePennyDataState';
 import useShouldRefreshCachedData from '../../../../recoil/hooks/useShouldRefreshCachedData';
+import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
 
 const NationalDebtHero = (): JSX.Element => {
   const [nationalDebtValue, setNationalDebtValue] = useState<string | null>(null);
@@ -25,13 +24,7 @@ const NationalDebtHero = (): JSX.Element => {
     getCurrentNationalDebt();
   }, [data.state]);
 
-  const clickHandler = (eventLabel ?: string) => {
-    Analytics.event({
-      category: 'Explainers',
-      action: `Debt Citation Click`,
-      label: eventLabel ? eventLabel : `Debt - What is the national debt?`,
-    });
-  };
+  const { debtToThePenny } = explainerCitationsMap['national-debt'];
 
   return (
     <>
@@ -43,13 +36,7 @@ const NationalDebtHero = (): JSX.Element => {
           valueType="currency"
         />
       </div>
-      <div className={`${counterSourceInfo} ${debt}`}>
-        Updated daily from the{' '}
-        <CustomLink url="/datasets/debt-to-the-penny" onClick={() => clickHandler('Debt to the Penny')} id="Debt to the Penny">
-          Debt to the Penny
-        </CustomLink>{' '}
-        dataset.
-      </div>
+      <div className={`${counterSourceInfo} ${debt}`}>Updated daily from the {debtToThePenny} dataset.</div>
     </>
   );
 };

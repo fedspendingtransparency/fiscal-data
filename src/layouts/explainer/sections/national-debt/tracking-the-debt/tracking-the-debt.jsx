@@ -1,13 +1,8 @@
 import React from 'react';
-import CustomLink from '../../../../../components/links/custom-link/custom-link';
-import { analyticsClickHandler } from '../../../explainer-helpers/national-debt/national-debt-helper';
+import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
 
 const TrackingTheDebt = () => {
-  const fiscalService = (
-    <CustomLink url="https://www.fiscal.treasury.gov/" onClick={() => analyticsClickHandler('Citation Click', 'Tracking the Debt')}>
-      Bureau of the Fiscal Service
-    </CustomLink>
-  );
+  const { fiscalService } = explainerCitationsMap['national-debt'];
 
   return (
     <>

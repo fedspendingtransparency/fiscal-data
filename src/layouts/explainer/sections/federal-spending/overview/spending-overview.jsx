@@ -8,20 +8,18 @@ import QuoteBox from '../../../quote-box/quote-box';
 import { faFlagUsa } from '@fortawesome/free-solid-svg-icons';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
+import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
 export const SpendingOverview = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
   const [priorYearSpending, setPriorYearSpending] = useState(null);
   const [spendingChange, setSpendingChange] = useState(null);
   const [deficitTerm, setDeficitTerm] = useState(null);
 
+  const { USAsExplorer } = explainerCitationsMap['federal-spending'];
+
   const deficit = (
     <CustomLink url="/americas-finance-guide/national-deficit/" id="National Deficit">
       national deficit
-    </CustomLink>
-  );
-  const usaSpending = (
-    <CustomLink url="https://www.usaspending.gov/explorer" eventNumber="11">
-      USAspending.gov
     </CustomLink>
   );
 
@@ -115,7 +113,7 @@ export const SpendingOverview = () => {
             contract, awards a grant, purchases a service, or takes other actions that require it to make a payment. Obligations do not always result
             in payments being made, which is why we show actual outlays that reflect actual spending occurring.
           </p>
-          <p>To see details on federal obligations, including a breakdown by budget function and object class, visit {usaSpending}.</p>
+          <p>To see details on federal obligations, including a breakdown by budget function and object class, visit {USAsExplorer}.</p>
         </div>
         <VisualizationCallout color={spendingExplainerPrimary} textWithCallout={true}>
           <p>

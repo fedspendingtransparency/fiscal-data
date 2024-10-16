@@ -3,8 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDollarSign, faHandHoldingMedical, faHeartbeat, faShieldAlt, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { debtAccordion } from '../../national-debt.module.scss';
-import CustomLink from '../../../../../../components/links/custom-link/custom-link';
-import { analyticsClickHandler } from '../../../../explainer-helpers/national-debt/national-debt-helper';
 import {
   fundingProgramAccordion,
   spendingCategoriesAccordionContent,
@@ -14,9 +12,10 @@ import {
   secondColumn,
   icon,
 } from './spending-categories-accordion.module.scss';
+import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 
 const SpendingCategoriesAccordion = () => {
-  const accodionContent = [
+  const accordionContent = [
     {
       name: 'Income Security',
       description:
@@ -51,29 +50,7 @@ const SpendingCategoriesAccordion = () => {
     },
   ];
 
-  const usaSpending_majorSpendingCategories = (
-    <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}>
-      USAspending.gov
-    </CustomLink>
-  );
-
-  const objectClass = (
-    <CustomLink
-      url="https://www.usaspending.gov/#/explorer/object_class"
-      onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}
-    >
-      Object Class
-    </CustomLink>
-  );
-
-  const budgetFunction = (
-    <CustomLink
-      url="https://www.usaspending.gov/explorer/budget_function"
-      onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}
-    >
-      Budget Function
-    </CustomLink>
-  );
+  const { USAsGov, USAsObjectClass, USAsBudgetFunction } = explainerCitationsMap['national-debt'];
 
   return (
     <>
@@ -88,12 +65,12 @@ const SpendingCategoriesAccordion = () => {
         >
           <div className={spendingCategoriesAccordionContent}>
             <p>
-              Below are some of the federal government’s largest spending categories. Visit {usaSpending_majorSpendingCategories} to explore federal
-              spending by the types of items and services purchased by the federal government. Explore federal spending by {objectClass} or learn how
-              spending categories and subcategories break down by viewing federal spending by {budgetFunction}.
+              Below are some of the federal government’s largest spending categories. Visit {USAsGov} to explore federal spending by the types of
+              items and services purchased by the federal government. Explore federal spending by {USAsObjectClass} or learn how spending categories
+              and subcategories break down by viewing federal spending by {USAsBudgetFunction}.
             </p>
             <div className={spendingCategoriesTable}>
-              {accodionContent.map(category => (
+              {accordionContent.map(category => (
                 <React.Fragment key={category.name}>
                   <div className={row}>
                     <div className={firstColumn}>

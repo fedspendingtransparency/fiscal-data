@@ -45,7 +45,7 @@ module.exports = {
       topics: ['debt', 'financial-summaries'],
       relatedDatasets: ['015-BFS-2014Q3-038', '015-BFS-2014Q3-037'],
       currentDateButton: 'byMonth',
-      displayApiFilterForAllTables: true,
+      disableAllTables: true,
     },
   },
   ADDITIONAL_ENDPOINTS: {
@@ -209,6 +209,7 @@ module.exports = {
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account and/or date range in order to preview the data.',
         dataSearchLabel: 'Search account descriptions',
+        notice: 'Date fields on Fiscal Data may differ from the published dates for corresponding reports on TreasuryDirect.',
       },
     },
     // FBP
@@ -246,7 +247,12 @@ module.exports = {
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account and/or date range in order to preview the data.',
         dataSearchLabel: 'Search account descriptions',
-        futureDated: true,
+        notice: 'Date fields on Fiscal Data may differ from the published dates for corresponding reports on TreasuryDirect.',
+        customDateFilter: {
+          startDateField: 'settle_date',
+          endDateField: 'effective_date',
+          dateRange: 'endOfMonth',
+        },
       },
     },
   },

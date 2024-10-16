@@ -4,7 +4,7 @@ import SourcesOfFederalRevenue from './sources-of-federal-revenue/sources-of-fed
 import FederalRevenueTrendsAndUSEconomy from './federal-revenue-trends-and-us-economy/federal-revenue-trends-and-us-economy';
 import FederalRevenueTrendsOverTime from './federal-revenue-trends-over-time/federal-revenue-trends-over-time';
 import RevenueKeyTakeaways from './key-takeaways/revenue-key-takeaways';
-import Analytics from '../../../../utils/analytics/analytics';
+import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
 
 const governmentRevenueSectionIds = [
   'key-takeaways',
@@ -13,14 +13,17 @@ const governmentRevenueSectionIds = [
   'federal-revenue-trends-over-time',
   'federal-revenue-trends-and-the-us-economy',
 ];
+const { mtsSummary, bls, beaSurvey, github } = explainerCitationsMap['government-revenue'];
 
-export const analyticsClickHandler = () => {
-  Analytics.event({
-    category: 'Explainers',
-    action: 'Revenue Citation Click',
-    label: `Revenue`,
-  });
-};
+export const governmentRevenueDataSources = (
+  <>
+    {/* eslint-disable-next-line max-len */}
+    The {mtsSummary} datasets provide all revenue values on this page. Adjustments for inflation are calculated using Consumer Price Index values from
+    the {bls}. Fiscal year Gross Domestic Product values from the {beaSurvey} are calculated by averaging four relevant quarterly values from calendar
+    year quarter 4 of the prior year through calendar year quarter 3 of the fiscal year shown. For detailed documentation, users can reference our{' '}
+    {github}.
+  </>
+);
 
 const governmentRevenueSections = [
   {
@@ -28,35 +31,30 @@ const governmentRevenueSections = [
     id: governmentRevenueSectionIds[0],
     title: 'Key Takeaways',
     component: cpiData => <RevenueKeyTakeaways />,
-    onClick: () => analyticsClickHandler(),
   },
   {
     index: 1,
     id: governmentRevenueSectionIds[1],
     title: 'Federal Revenue Overview',
     component: cpiData => <FederalRevenueOverview />,
-    onClick: () => analyticsClickHandler(),
   },
   {
     index: 2,
     id: governmentRevenueSectionIds[2],
     title: 'Sources of Federal Revenue',
     component: cpiData => <SourcesOfFederalRevenue />,
-    onClick: () => analyticsClickHandler(),
   },
   {
     index: 3,
     id: governmentRevenueSectionIds[3],
     title: 'Federal Revenue Trends Over Time',
     component: cpiData => <FederalRevenueTrendsOverTime cpiDataByYear={cpiData.cpiDataByYear} />,
-    onClick: () => analyticsClickHandler(),
   },
   {
     index: 4,
     id: governmentRevenueSectionIds[4],
     title: 'Federal Revenue Trends and the U.S. Economy',
     component: cpiData => <FederalRevenueTrendsAndUSEconomy cpiDataByYear={cpiData.cpiDataByYear} />,
-    onClick: () => analyticsClickHandler(),
   },
 ];
 
