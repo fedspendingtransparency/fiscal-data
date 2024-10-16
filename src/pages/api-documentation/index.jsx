@@ -340,7 +340,6 @@ const ApiDocumentationPage = ({ location }) => {
           <GettingStarted location={location} />
           <Endpoints />
           <DataRegistry />
-          sectionBreak
           <Methods />
           <Parameters />
           <Responses />
