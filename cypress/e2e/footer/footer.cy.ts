@@ -45,12 +45,10 @@ describe('Validate footer links ', () => {
   });
   it('Validates Subscribe to Our Mailing list link', () => {
     cy.visit('/');
-    cy.contains('Privacy Policy').click();
-    cy.url().should('include', '/privacy.html');
+    cy.get('[data-testid="privacy-policy-link"]').should('have.attr', 'href', 'https://fiscal.treasury.gov/privacy.html');
   });
   it('Validates Subscribe to Our Mailing list link', () => {
     cy.visit('/');
-    cy.contains('Freedom of Information Act').click();
-    cy.url().should('include', '/foia.html');
+    cy.get('[data-testid="freedomof-information-act-link"]').should('have.attr', 'href', 'https://fiscal.treasury.gov/foia.html');
   });
 });
