@@ -25,13 +25,13 @@ describe('Validate footer links ', () => {
 
   it('Validates Subscribe to Our Mailing list link', () => {
     cy.visit('/');
-    cy.contains('How much has the U.S. government collected this year?').click();
-    cy.url().should('include', 'https://www.usaspending.gov/');
+    cy.contains('Subscribe to Our Mailing List').click();
+    cy.url().should('include', '/about-us/#subscribe');
   });
 
   it('Validates USAspending link', () => {
     cy.visit('/');
-    cy.contains('Explore U.S. Treasury Savings Bonds').click();
-    cy.url().should('include', '/treasury-savings-bonds/');
+    cy.contains('USAspending').click();
+    cy.url().should('include', 'https://www.usaspending.gov/');
   });
 });
