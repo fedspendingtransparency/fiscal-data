@@ -44,7 +44,7 @@ const DDNav = ({ hasPublishedReports }) => {
       : []),
 
     {
-      title: `${ENV_ID === 'uat' ? 'Data Preview' : 'Preview & Download'}`,
+      title: 'Data Preview',
       id: 'data-table',
     },
     {
