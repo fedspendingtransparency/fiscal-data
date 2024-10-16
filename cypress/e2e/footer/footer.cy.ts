@@ -2,19 +2,20 @@ describe('Validate footer links ', () => {
   it('Validate the FAQ link', () => {
     cy.visit('/');
     cy.contains('FAQ').click();
-    cy.url().should('include', '/about-us/');
+    cy.url().should('include', '/about-us/#faq');
   });
 
   it('Validates Contact Us Opens correct email', () => {
     cy.visit('/');
-    cy.contains('Contact Us').click();
-    cy.url().should('have.attr', 'href', 'mailto:fiscaldata@fiscal.treasury.gov');
+    cy.contains('Contact Us')
+      .click()
+      .should('have.attr', 'href', 'mailto:fiscaldata@fiscal.treasury.gov');
   });
 
   it('Validates the About Fiscal Data link', () => {
     cy.visit('/');
-    cy.contains('About Fiscal Data?').click();
-    cy.url().should('include', '/about-us');
+    cy.contains('About Fiscal Data').click();
+    cy.url().should('include', '/about-us/#about-fiscal-data');
   });
 
   it('Validates Release Calendar link', () => {
@@ -31,7 +32,8 @@ describe('Validate footer links ', () => {
 
   it('Validates USAspending link', () => {
     cy.visit('/');
-    cy.contains('USAspending').click();
-    cy.url().should('include', 'https://www.usaspending.gov/');
+    cy.contains('USAspending')
+      .click()
+      .should('include', 'https://www.usaspending.gov/');
   });
 });
