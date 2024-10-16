@@ -150,7 +150,6 @@ export default function DtgTable({
   };
 
   const makePagedRequest = async resetPage => {
-    console.log('in makePagedRequest');
     if (
       selectedTable &&
       selectedTable.endpoint &&
@@ -401,11 +400,6 @@ export default function DtgTable({
     }
   }, [tableData, tableMeta, rawData, dePaginated]);
 
-  console.log('apiError: ', apiError);
-  console.log('tableProps.apiError: ', tableProps.apiError);
-
-  tableProps.apiError = 'Error';
-
   return (
     <div className={overlayContainer}>
       {/* Loading Indicator */}
@@ -423,7 +417,6 @@ export default function DtgTable({
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
             <>
-              <p>yo</p>
               <DtgTableApiError />
             </>
           )}

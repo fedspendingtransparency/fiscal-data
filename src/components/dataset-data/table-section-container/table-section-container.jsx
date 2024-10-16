@@ -102,7 +102,6 @@ const TableSectionContainer = ({
   const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
 
   const getDepaginatedData = async () => {
-    setApiError(false);
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
       const from = formatDateForApi(dateRange.from);
       const to = formatDateForApi(dateRange.to);
@@ -149,8 +148,8 @@ const TableSectionContainer = ({
         })
         .finally(() => {
           if (meta) {
-            setApiError(false);
             setTableMeta(meta);
+            setApiError(false);
           }
         });
     } else if (selectedTable?.apiFilter && userFilterSelection === null) {
@@ -159,7 +158,6 @@ const TableSectionContainer = ({
   };
 
   const refreshTable = async () => {
-    console.log('apiErrorState in refreshTable: ', apiErrorState);
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
@@ -218,7 +216,6 @@ const TableSectionContainer = ({
   };
 
   useMemo(async () => {
-    console.log('refreshing table...');
     await refreshTable();
   }, [apiData, userFilterSelection, apiError]);
 
