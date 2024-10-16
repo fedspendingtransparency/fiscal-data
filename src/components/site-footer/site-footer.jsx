@@ -130,7 +130,7 @@ const SiteFooter = () => {
             <CustomLink href={`${fiscalURL}/privacy.html`} data-testid="privacy-policy-link">
               Privacy Policy
             </CustomLink>
-            <CustomLink href={`${fiscalURL}/foia.html`} data-testid="freedomof-information-act-link">
+            <CustomLink href={`${fiscalURL}/foia.html`} data-testid="freedom-of-information-act-link">
               Freedom of Information Act
             </CustomLink>
           </div>

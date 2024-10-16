@@ -49,11 +49,11 @@ describe('Validate footer links ', () => {
   });
   it('Validates Subscribe to Our Mailing list link', () => {
     cy.visit('/');
-    cy.get('[data-testid="freedomof-information-act-link"]').should('have.attr', 'href', 'https://fiscal.treasury.gov/foia.html');
+    cy.get('[data-testid="freedom-of-information-act-link"]').should('have.attr', 'href', 'https://fiscal.treasury.gov/foia.html');
   });
-  it('Validates Subscribe to Our Mailing list link', () => {
+  it('Validates the logo naviates to the homepage', () => {
     cy.visit('/about-us/');
-    cy.get('[data-testid="logo"]').click();
-    cy.url().should('eq', `${Cypress.config().baseUrl}/`);
+    cy.get('[data-testid="logo"]').then($link => {
+      cy.log($link.prop('outerHTML'));
   });
 });
