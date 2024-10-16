@@ -41,8 +41,7 @@ describe('Validate footer links ', () => {
 
   it('Validates Subscribe to Our Mailing list link', () => {
     cy.visit('/');
-    cy.get('[data-testid="accessibility-link"]').click();
-    cy.url().should('include', '/accessibility.html');
+    cy.get('[data-testid="accessibility-link"]').should('have.attr', 'href', 'https://fiscal.treasury.gov/accessibility.html');
   });
   it('Validates Subscribe to Our Mailing list link', () => {
     cy.visit('/');
