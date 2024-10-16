@@ -55,5 +55,6 @@ describe('Validate footer links ', () => {
     cy.visit('/about-us/');
     cy.get('[data-testid="logo"]').then($link => {
       cy.log($link.prop('outerHTML'));
+    });
   });
 });
