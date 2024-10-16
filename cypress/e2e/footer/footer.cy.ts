@@ -51,4 +51,9 @@ describe('Validate footer links ', () => {
     cy.visit('/');
     cy.get('[data-testid="freedomof-information-act-link"]').should('have.attr', 'href', 'https://fiscal.treasury.gov/foia.html');
   });
+  it('Validates Subscribe to Our Mailing list link', () => {
+    cy.visit('/about-us/');
+    cy.get('[data-testid="logo"]').click();
+    cy.url().should('eq', `${Cypress.config().baseUrl}/`);
+  });
 });
