@@ -26,6 +26,7 @@ import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import moment from 'moment/moment';
 import { ErrorBoundary } from 'react-error-boundary';
+import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
 
 const defaultRowsPerPage = 10;
 export default function DtgTable({
@@ -410,21 +411,13 @@ export default function DtgTable({
           </div>
         </>
       )}
+      {/* Data Dictionary and Dataset Detail tables */}
       {reactTable && reactTableData?.data && (
         <div data-test-id="table-content" className={overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
             <>
-              <div data-test-id="error-overlay" className={overlay} />
-              <div data-test-id="api-error" className={apiErrorStyle}>
-                <p>
-                  <strong>Table failed to load.</strong>
-                </p>
-                <p>
-                  There was an error with our API and we are unable to load this table. Please try your request again or{' '}
-                  <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">contact us</CustomLink> for assistance.
-                </p>
-              </div>
+              <DtgTableApiError />
             </>
           )}
           {!emptyDataMessage && (
@@ -471,23 +464,13 @@ export default function DtgTable({
           )}
         </div>
       )}
+      {/* Endpoints and Fields tables */}
       {!reactTable && (
         <>
           <div data-test-id="table-content" className={overlayContainerNoFooter}>
             {/* API Error Message */}
             {(apiError || tableProps.apiError) && !emptyDataMessage && (
-              <>
-                <div data-test-id="error-overlay" className={overlay} />
-                <div data-test-id="api-error" className={apiErrorStyle}>
-                  <p>
-                    <strong>Table failed to load.</strong>
-                  </p>
-                  <p>
-                    There was an error with our API and we are unable to load this table. Please try your request again or{' '}
-                    <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">contact us</CustomLink> for assistance.
-                  </p>
-                </div>
-              </>
+              <DtgTableApiError />
             )}
 
             <div className={selectColumnsWrapper}>
