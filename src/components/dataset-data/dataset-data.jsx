@@ -251,7 +251,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 />
               )}
               {selectedTable.userFilter && (
-                <UserFilter selectedTable={selectedTable} onUserFilter={setUserFilterSelection} apiData={apiData} setResetFilters={setResetFilters} />
+                <UserFilter selectedTable={selectedTable} onUserFilter={setUserFilterSelection} apiData={apiData} setResetFilters={setResetFilters} allTablesSelected={allTablesSelected} />
               )}
               {selectedTable.apiFilter && (
                 <UserFilter
