@@ -149,6 +149,7 @@ const TableSectionContainer = ({
         .finally(() => {
           if (meta) {
             setTableMeta(meta);
+            setApiError(false);
           }
         });
     } else if (selectedTable?.apiFilter && userFilterSelection === null) {

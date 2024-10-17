@@ -84,9 +84,7 @@ const ComboCurrencySelect = ({
     if (event) {
       const mouseEvent = event.type !== 'blur' && !mouseOverDropdown;
       if (mouseEvent && !event.target?.parentElement?.contains(event.relatedTarget)) {
-        timeOutId = setTimeout(() => {
-          setDropdownActive(false);
-        });
+        setDropdownActive(false);
       }
     }
   };
