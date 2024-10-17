@@ -251,12 +251,6 @@ const TableSectionContainer = ({
   }, [selectedTable, allTablesSelected]);
 
   useEffect(() => {
-    if (allTablesSelected) {
-      setDisableDownloadButton(false);
-    }
-  }, [userFilterSelection]);
-
-  useEffect(() => {
     if (!allTablesSelected) {
       setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
     } else {
@@ -265,6 +259,9 @@ const TableSectionContainer = ({
   }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
 
   useEffect(() => {
+    if (allTablesSelected) {
+      setDisableDownloadButton(false);
+    }
     if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
       setApiFilterDefault(true);
       setManualPagination(false);
