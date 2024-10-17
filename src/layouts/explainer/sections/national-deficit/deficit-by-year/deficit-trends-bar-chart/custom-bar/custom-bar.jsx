@@ -33,6 +33,11 @@ const CustomBar = ({ bar: { x, y, width, height, color, data }, onMouseEnter, on
       data-testid="customBar"
     >
       <rect
+        onFocus={event => onMouseEnter(data, event)}
+        onBlur={event => {
+          onMouseLeave(data, event);
+        }}
+        tabIndex={0}
         width={width}
         height={pauseAnimation ? 0 : height}
         x={x}

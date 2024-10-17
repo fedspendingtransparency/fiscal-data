@@ -128,7 +128,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
       if (currentBarElement !== lastBarElement) {
         lastBarElement.style.fill = deficitExplainerPrimary;
       }
-
       setLastBar(lastBarElement);
       setHeaderYear(data.data.year);
       setHeaderDeficit(data.data.deficit);
@@ -265,7 +264,14 @@ export const DeficitTrendsBarChart = ({ width }) => {
             footer={footer}
             date={date}
           >
-            <div className={barChart} onMouseLeave={resetHeaderValues} data-testid="deficitTrendsChartParent" role="presentation" ref={ref}>
+            <div
+              className={barChart}
+              onMouseLeave={resetHeaderValues}
+              onBlur={resetHeaderValues}
+              data-testid="deficitTrendsChartParent"
+              role="presentation"
+              ref={ref}
+            >
               <Bar
                 barComponent={CustomBar}
                 width={chartConfigs.width}
