@@ -224,6 +224,12 @@ const TableSectionContainer = ({
     }
   }, [dateRange]);
 
+  useEffect(async () => {
+    if (config?.sharedApiFilterOptions && userFilterSelection) {
+      await refreshTable();
+    }
+  }, [selectedTable]);
+
   const handlePivotConfigUpdated = () => {
     setPivotsUpdated(!pivotsUpdated);
     handleConfigUpdate();

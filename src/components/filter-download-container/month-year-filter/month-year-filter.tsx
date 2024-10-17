@@ -52,20 +52,20 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   const [selectedYear, setSelectedYear] = useState({ value: defaultYear, label: defaultYear });
   const [years, setYears] = useState<{ label: number; value: number }[]>();
   const [months, setMonths] = useState<{ label: string; value: number }[]>();
-  useEffect(() => {
-    setYears(generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate));
-  }, [selectedTable]);
 
   useEffect(() => {
     setMonths(generateMonthOptions());
   }, []);
 
   useEffect(() => {
-    const startDate = new Date(defaultYear, defaultMonth, 1);
-    const endDate = new Date(defaultYear, defaultMonth + 1, 0);
-    setSelectedMonth({ value: selectedTable?.apiFilter?.futureDated ? defaultMonth + 2 : defaultMonth + 1, label: monthFullNames[defaultMonth] });
-    setSelectedYear({ value: defaultYear, label: defaultYear });
-    setDateRange({ from: startDate, to: endDate });
+    setYears(generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate));
+    if (!sharedApiFilterOptions) {
+      const startDate = new Date(defaultYear, defaultMonth, 1);
+      const endDate = new Date(defaultYear, defaultMonth + 1, 0);
+      setSelectedMonth({ value: selectedTable?.apiFilter?.futureDated ? defaultMonth + 2 : defaultMonth + 1, label: monthFullNames[defaultMonth] });
+      setSelectedYear({ value: defaultYear, label: defaultYear });
+      setDateRange({ from: startDate, to: endDate });
+    }
   }, [selectedTable]);
 
   useEffect(() => {
