@@ -413,7 +413,6 @@ exports.createSchemaCustomization = ({ actions }) => {
       field: String,
       labelField: String,
       filterEndpoint: String,
-      displayAllTablesResults: Boolean,
       downloadLabel: String,
       label: String,
       displayDefaultData: Boolean,
@@ -460,6 +459,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       selectColumns: [String],
       detailView: DetailView,
       disableAllTables: Boolean,
+      sharedApiFilterOptions: Boolean,
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
@@ -522,6 +522,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           relatedDatasets
           currentDateButton
           disableAllTables
+          sharedApiFilterOptions
           detailView {
             apiId
             field
@@ -612,7 +613,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               field
               labelField
               filterEndpoint
-              displayAllTablesResults
               downloadLabel
               label
               displayDefaultData
@@ -765,7 +765,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   for (const config of result.data.allDatasets.datasets) {
     const allResults = [];
-    let allResultsLabels = {};
+    const allResultsLabels = {};
     for (const api of config.apis) {
       if (api.userFilter) {
         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
@@ -814,22 +814,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
             })
           );
-          if (!api.apiFilter.displayAllTablesResults) {
-            api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
-            api.apiFilter.optionLabels = labelOptions;
-          } else {
-            allResults.push(...new Set(options));
-            allResultsLabels = { ...allResultsLabels, ...labelOptions };
-          }
+          api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
+          api.apiFilter.optionLabels = labelOptions;
         } else {
           const options = await fetch(filterOptionsUrl).then(res =>
             res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
           );
-          if (!api.apiFilter.displayAllTablesResults) {
-            api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
-          } else {
-            allResults.push(...new Set(options));
-          }
+          api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
         }
       }
     }

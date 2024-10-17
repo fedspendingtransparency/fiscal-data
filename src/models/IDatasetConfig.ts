@@ -16,6 +16,7 @@ export interface IDatasetConfig {
   datasetId: string;
   dictionary: number | null;
   disableAllTables: boolean | null;
+  sharedApiFilterOptions: boolean | null;
   filterTopics: string[];
   filters: string[];
   name: string;
