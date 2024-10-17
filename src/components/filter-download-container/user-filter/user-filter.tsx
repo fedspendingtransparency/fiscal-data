@@ -114,7 +114,12 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
   useEffect(() => {
     establishOptions();
     setSelectedFilterOption(defaultSelection);
+    console.log('hi');
   }, [selectedTable, allTablesSelected]);
+
+  useEffect(() => {
+    console.log(defaultSelection);
+  }, [allTablesSelected]);
 
   return (
     <>
