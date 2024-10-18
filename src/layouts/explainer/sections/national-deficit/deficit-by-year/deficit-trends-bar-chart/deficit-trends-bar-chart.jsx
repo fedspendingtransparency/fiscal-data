@@ -213,9 +213,11 @@ export const DeficitTrendsBarChart = ({ width }) => {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      applyTextScaling(chartConfigs.parent, chartConfigs.width, width, chartConfigs.fontSize);
-    });
+    if (chartData.length > 0) {
+      setTimeout(() => {
+        applyTextScaling(chartConfigs.parent, chartConfigs.width, width, chartConfigs.fontSize);
+      });
+    }
   }, [width, chartData]);
 
   useEffect(() => {

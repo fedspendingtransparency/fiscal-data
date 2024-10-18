@@ -10,10 +10,6 @@ const sort = 'sort=record_date';
 export const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&${sort}`;
 
 export const preAPIData = [
-  // {
-  //   year: '2000',
-  //   deficit: '',
-  // },
   {
     year: '2001',
     deficit: '-0.13',
@@ -87,18 +83,12 @@ export const preAPIData = [
 ];
 
 export const generateTickValues = chartData => {
-  const xValues = [];
+  const xValues = [2000];
   const yValues = [];
   const tickValues = [];
   const deficitValues = [];
-  const tickData = [
-    {
-      year: '2000',
-      deficit: '',
-    },
-    ...chartData,
-  ];
-  tickData.forEach(entry => {
+
+  chartData.forEach(entry => {
     if (parseInt(entry.year) % 5 === 0) {
       xValues.push(entry.year);
     }
