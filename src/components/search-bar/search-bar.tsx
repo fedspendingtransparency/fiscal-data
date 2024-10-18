@@ -11,7 +11,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 interface ISearchBar {
   label?: string;
   onChange: (event) => void;
-  onBlur?: () => void;
+  onBlur?: (event) => void;
   filter: string;
   handleClear?: () => void;
   active?: boolean;
@@ -57,9 +57,9 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
     }
   };
 
-  const handleBlur = () => {
+  const handleBlur = e => {
     if (onBlur) {
-      onBlur();
+      onBlur(e);
     }
 
     if (setActive) {
