@@ -308,7 +308,6 @@ const TableSectionContainer = ({
   useEffect(() => {
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
-
     setApiFilterDefault(!allTablesSelected && selectedTable?.apiFilter && (userFilterSelection === null || userFilterSelection?.value === null));
     setNoChartMessage(
       SetNoChartMessage(
@@ -450,22 +449,33 @@ const TableSectionContainer = ({
                     ''
                   )
                 }
-                chart={
-                  noChartMessage && !ignorePivots ? (
-                    noChartMessage
-                  ) : (
-                    <DatasetChart
-                      legend={legend}
-                      dateRange={dateRange}
-                      data={userFilteredData ? userFilteredData : chartData ? chartData : apiData}
-                      slug={config.slug}
-                      currentTable={selectedTable}
-                      dateField={dateFieldForChart}
-                      isVisible={selectedTab === 1}
-                      selectedPivot={selectedPivot}
-                    />
-                  )
-                }
+                chart={() => {
+                  const generatedMessage = SetNoChartMessage(
+                    selectedTable,
+                    selectedPivot,
+                    dateRange,
+                    allTablesSelected,
+                    userFilterSelection,
+                    determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData),
+                    config?.customNoChartMessage
+                  );
+                  if (generatedMessage && !ignorePivots) {
+                    return generatedMessage;
+                  } else {
+                    return (
+                      <DatasetChart
+                        legend={legend}
+                        dateRange={dateRange}
+                        data={userFilteredData ? userFilteredData : chartData ? chartData : apiData}
+                        slug={config.slug}
+                        currentTable={selectedTable}
+                        dateField={dateFieldForChart}
+                        isVisible={selectedTab === 1}
+                        selectedPivot={selectedPivot}
+                      />
+                    );
+                  }
+                }}
                 allTablesSelected={allTablesSelected}
                 filtersActive={allActiveFilters?.length > 0}
               />

@@ -75,7 +75,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
   const establishOptions = () => {
     let options = null;
     let nestedOptions = null;
-    if (selectedTable?.userFilter?.optionValues && userFilterOptions === null) {
+    if (selectedTable?.userFilter?.optionValues) {
       options = selectedTable.userFilter.optionValues.map(val => {
         return { label: val, value: val };
       });

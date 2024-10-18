@@ -193,9 +193,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     if (allTablesSelected) {
       setTableColumnSortData([]);
     }
-    if (!config?.displayApiFilterForAllTables) {
-      setUserFilterSelection(null);
-    }
+    setUserFilterSelection(null);
   }, [allTablesSelected]);
 
   useEffect(() => {
@@ -252,12 +250,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 />
               )}
               {selectedTable.userFilter && (
-                <UserFilter
-                  selectedTable={selectedTable}
-                  onUserFilter={setUserFilterSelection}
-                  apiData={apiData}
-                  setResetFilters={setResetFilters}
-                />
+                <UserFilter selectedTable={selectedTable} onUserFilter={setUserFilterSelection} apiData={apiData} setResetFilters={setResetFilters} allTablesSelected={allTablesSelected} />
               )}
               {selectedTable.apiFilter && (
                 <UserFilter
