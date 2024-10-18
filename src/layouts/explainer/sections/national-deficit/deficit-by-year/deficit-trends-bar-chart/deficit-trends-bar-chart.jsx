@@ -26,7 +26,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   const desktop = width >= pxToNumber(breakpointLg);
   const [date, setDate] = useState(new Date());
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState(null);
   const [tickValuesX, setTickValuesX] = useState([]);
   const [tickValuesY, setTickValuesY] = useState([]);
   const [mostRecentFiscalYear, setMostRecentFiscalYear] = useState('');
@@ -169,7 +169,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   });
 
   useEffect(() => {
-    if (chartData.length > 0) {
+    if (!!chartData) {
       const initialDelay = delayIncrement + 500;
       let headerDelay = initialDelay;
       let barDelay = initialDelay;
@@ -207,21 +207,19 @@ export const DeficitTrendsBarChart = ({ width }) => {
   }, [inView, chartData]);
 
   useEffect(() => {
-    applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
     addInnerChartAriaLabel(chartConfigs.parent);
     getChartData();
   }, []);
 
   useEffect(() => {
-    if (chartData.length > 0) {
-      setTimeout(() => {
-        applyTextScaling(chartConfigs.parent, chartConfigs.width, width, chartConfigs.fontSize);
-      });
-    }
+    setTimeout(() => {
+      applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
+      applyTextScaling(chartConfigs.parent, chartConfigs.width, width, chartConfigs.fontSize);
+    });
   }, [width, chartData]);
 
   useEffect(() => {
-    if (chartData.length > 0) {
+    if (!!chartData) {
       const tickValues = generateTickValues(chartData);
       setMinValue(tickValues[1][0]);
       setMaxValue(tickValues[1][tickValues[1].length - 1]);
@@ -258,7 +256,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   return (
     <>
-      {chartData.length > 0 ? (
+      {!!chartData ? (
         <div className={container} onMouseEnter={handleGoogleAnalyticsMouseEnter} onMouseLeave={handleGoogleAnalyticsMouseLeave} role="presentation">
           <ChartContainer
             title={`Federal Deficit Trends Over Time, FY ${startingYear}-${mostRecentFiscalYear}`}
