@@ -1,4 +1,19 @@
 /* istanbul ignore file */
+export const mockOptionsShort = [
+  {
+    label: '(None selected)',
+    value: null,
+  },
+  {
+    label: 'Abcd-money',
+    value: 'Abcd-money',
+  },
+  {
+    label: 'Blah-bucks',
+    value: 'Blah-bucks',
+  },
+];
+
 export const mockOptions = [
   {
     label: '(None selected)',

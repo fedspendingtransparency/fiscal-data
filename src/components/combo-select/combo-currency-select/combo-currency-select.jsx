@@ -94,7 +94,7 @@ const ComboCurrencySelect = ({
   };
 
   const onBlurAnalyticsHandler = event => {
-    if (isExchangeTool && event && !event.target.parentElement.contains(event.relatedTarget)) {
+    if (isExchangeTool && event && event.target?.value) {
       XRAnalyticsHandler('Foreign Country-Currency Search', event.target.value);
     }
   };
@@ -149,9 +149,9 @@ const ComboCurrencySelect = ({
               <div className={selectedText}>{selectedOption[optionLabelKey]}</div>
               <div className={dropdownIcon}>
                 {dropdownActive ? (
-                  <FontAwesomeIcon className={icon} icon={faChevronUp} data-testid="collapse-dropdown" aria-label="collapse dropdown" />
+                  <FontAwesomeIcon className={icon} icon={faChevronUp} aria-label="collapse dropdown" />
                 ) : (
-                  <FontAwesomeIcon className={icon} icon={faChevronDown} data-testid="expand-dropdown" aria-label="expand dropdown" />
+                  <FontAwesomeIcon className={icon} icon={faChevronDown} aria-label="expand dropdown" />
                 )}
               </div>
             </button>
