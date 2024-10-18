@@ -5,18 +5,18 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import React, { FunctionComponent } from 'react';
+import React, { ChangeEventHandler, FocusEventHandler, FunctionComponent, Ref } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface ISearchBar {
   label?: string;
-  onChange: (event) => void;
-  onBlur?: (event) => void;
+  onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  onBlur?: FocusEventHandler<HTMLDivElement>;
   filter: string;
   handleClear?: () => void;
   active?: boolean;
   setActive?: (value: boolean) => void;
-  inputRef?;
+  inputRef?: Ref<HTMLDivElement>;
   width?: string;
   height?: string;
   ariaLabel?: string;
@@ -57,11 +57,10 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
     }
   };
 
-  const handleBlur = e => {
+  const handleBlur: FocusEventHandler<HTMLDivElement> = event => {
     if (onBlur) {
-      onBlur(e);
+      onBlur(event);
     }
-
     if (setActive) {
       setActive(false);
     }
