@@ -37,7 +37,7 @@ const CustomBar = ({ bar: { x, y, width, height, color, data }, onMouseEnter, on
         onBlur={event => {
           onMouseLeave(data, event);
         }}
-        tabIndex={0}
+        tabIndex={data.year !== 2000 ? 0 : -1}
         width={width}
         height={pauseAnimation ? 0 : height}
         x={x}

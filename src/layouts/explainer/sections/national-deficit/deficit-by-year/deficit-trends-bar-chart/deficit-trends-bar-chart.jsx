@@ -169,39 +169,41 @@ export const DeficitTrendsBarChart = ({ width }) => {
   });
 
   useEffect(() => {
-    const initialDelay = delayIncrement + 500;
-    let headerDelay = initialDelay;
-    let barDelay = initialDelay;
-    const barSVGs = Array.from(document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children);
-    barSVGs.splice(0, 5);
+    if (chartData.length > 0) {
+      const initialDelay = delayIncrement + 500;
+      let headerDelay = initialDelay;
+      let barDelay = initialDelay;
+      const barSVGs = Array.from(document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children);
+      barSVGs.splice(0, 5);
 
-    // Run bar highlight wave
-    barSVGs.forEach(element => {
-      const finalBar = barSVGs[barSVGs.length - 1].children[0];
-      const bar = element.children[0];
+      // Run bar highlight wave
+      barSVGs.forEach(element => {
+        const finalBar = barSVGs[barSVGs.length - 1].children[0];
+        const bar = element.children[0];
 
-      if (inView) {
-        setTimeout(() => {
-          bar.style.fill = chartConfigs.highlightColor;
-        }, (barDelay += delayIncrement / barSVGs.length));
-
-        if (bar !== finalBar) {
+        if (inView) {
           setTimeout(() => {
-            bar.style.fill = deficitExplainerPrimary;
-          }, barDelay + delayIncrement / barSVGs.length);
-        }
-      }
-    });
+            bar.style.fill = chartConfigs.highlightColor;
+          }, (barDelay += delayIncrement / barSVGs.length));
 
-    //Run animation for header values
-    chartData.forEach(element => {
-      if (inView && element.year >= startingYear) {
-        setTimeout(() => {
-          setHeaderYear(element.year);
-          setHeaderDeficit(element.deficit);
-        }, (headerDelay += delayIncrement / chartData.length));
-      }
-    });
+          if (bar !== finalBar) {
+            setTimeout(() => {
+              bar.style.fill = deficitExplainerPrimary;
+            }, barDelay + delayIncrement / barSVGs.length);
+          }
+        }
+      });
+
+      //Run animation for header values
+      chartData.forEach(element => {
+        if (inView && element.year >= startingYear) {
+          setTimeout(() => {
+            setHeaderYear(element.year);
+            setHeaderDeficit(element.deficit);
+          }, (headerDelay += delayIncrement / chartData.length));
+        }
+      });
+    }
   }, [inView, chartData]);
 
   useEffect(() => {
@@ -217,11 +219,13 @@ export const DeficitTrendsBarChart = ({ width }) => {
   }, [width, chartData]);
 
   useEffect(() => {
-    const tickValues = generateTickValues(chartData);
-    setMinValue(tickValues[1][0]);
-    setMaxValue(tickValues[1][tickValues[1].length - 1]);
-    setTickValuesX(tickValues[0]);
-    setTickValuesY(tickValues[1]);
+    if (chartData.length > 0) {
+      const tickValues = generateTickValues(chartData);
+      setMinValue(tickValues[1][0]);
+      setMaxValue(tickValues[1][tickValues[1].length - 1]);
+      setTickValuesX(tickValues[0]);
+      setTickValuesY(tickValues[1]);
+    }
   }, [chartData]);
 
   const { mtsSummary } = explainerCitationsMap['national-deficit'];
@@ -252,7 +256,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   return (
     <>
-      {chartData !== [] ? (
+      {chartData.length > 0 ? (
         <div className={container} onMouseEnter={handleGoogleAnalyticsMouseEnter} onMouseLeave={handleGoogleAnalyticsMouseLeave} role="presentation">
           <ChartContainer
             title={`Federal Deficit Trends Over Time, FY ${startingYear}-${mostRecentFiscalYear}`}
