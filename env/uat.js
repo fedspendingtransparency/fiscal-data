@@ -46,6 +46,7 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-038', '015-BFS-2014Q3-037'],
       currentDateButton: 'byMonth',
       disableAllTables: true,
+      sharedApiFilterOptions: true,
     },
   },
   ADDITIONAL_ENDPOINTS: {
@@ -202,7 +203,6 @@ module.exports = {
         filterEndpoint: 'v1/accounting/od/fbp_dpai_account_summary',
         downloadLabel: 'Account',
         label: 'Choose an Account',
-        displayAllTablesResults: true,
         disableDateRangeFilter: true,
         dataDefaultHeader: 'This table requires additional filters.',
         dataDefaultMessage: 'Select an account in the filter section above to display the data.',
@@ -240,7 +240,6 @@ module.exports = {
         filterEndpoint: 'v1/accounting/od/fbp_dpai_account_summary',
         downloadLabel: 'Account',
         label: 'Choose an Account',
-        displayAllTablesResults: true,
         disableDateRangeFilter: true,
         dataDefaultHeader: 'This table requires additional filters.',
         dataDefaultMessage: 'Select an account in the filter section above to display the data.',
@@ -254,6 +253,32 @@ module.exports = {
           dateRange: 'endOfMonth',
         },
       },
+    },
+    // TRRE Clean
+    '318': {
+      endpoint: 'v1/accounting/od/rates_of_exchange_clean_values',
+      dateField: 'record_date',
+      downloadName: 'RprtRateXchgCln',
+      alwaysSortWith: ['-record_date', 'country_currency_desc'],
+      dataDisplays: [
+        {
+          title: 'Exchange Rate Trend',
+        },
+      ],
+      showChartForCompleteTable: true,
+      userFilter: {
+        field: 'country_currency_desc',
+        label: 'Country-Currency',
+        notice: `If current rates deviate from the published rates by 10% or more, Treasury
+         will issue amendments to this quarterly report. An amendment to a currency exchange
+         rate for the quarter will appear on the report as a separate line with a new effective
+         date. The latest available data will display first.`,
+        dataUnmatchedMessage: `This may be because the currency existed under a different
+          name for that time period. Please check to see if the currency you are
+          looking for appears under a different name, or change the date
+          selected for available results.`,
+      },
+      selectColumns: ['record_date', 'country_currency_desc', 'exchange_rate', 'effective_date'],
     },
   },
 };

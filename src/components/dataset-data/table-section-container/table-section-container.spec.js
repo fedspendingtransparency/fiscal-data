@@ -310,58 +310,53 @@ describe('TableSectionContainer with Pivot Options', () => {
     // case with a no-chart message
     setNoChartMessageMod['SetNoChartMessage'] = jest.fn().mockImplementation(() => noChartMsg);
 
-    let tableSectionContainer = {};
-    renderer.act(() => {
-      tableSectionContainer = renderer.create(
-        <RecoilRoot>
-          <TableSectionContainer
-            config={mockConfig}
-            dateRange={mockDateRange}
-            selectedTable={mockTableWithPivot}
-            apiData={mockApiData}
-            isLoading={false}
-            apiError={false}
-            selectedPivot={selectedPivot}
-            setUserFilterSelection={jest.fn()}
-            setSelectedPivot={mockSetSelectedPivot}
-          />
-        </RecoilRoot>
-      );
-    });
+    const { getByText, queryByText } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithPivot}
+          apiData={mockApiData}
+          isLoading={false}
+          apiError={false}
+          selectedPivot={selectedPivot}
+          setUserFilterSelection={jest.fn()}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
+    );
 
     expect(setNoChartMessageMod.SetNoChartMessage).toBeCalled();
-    const chartProp = tableSectionContainer.root.findByType(ChartTableToggle).props.chart;
 
     // in place of a chart it sends the message returned to chart table toggle
-    expect(chartProp).toEqual(noChartMsg);
+    expect(getByText('No-Chart Message Mock')).toBeInTheDocument();
+    expect(queryByText('Hide Legend')).toEqual(null);
   });
 
   it('calls setNoChartMessage and if value returned is falsy, attempts to make a DatasetChart', () => {
     // case without a no-chart message
     setNoChartMessageMod['SetNoChartMessage'] = jest.fn().mockImplementation(() => undefined);
 
-    let tableSectionContainer = {};
-    renderer.act(() => {
-      tableSectionContainer = renderer.create(
-        <RecoilRoot>
-          <TableSectionContainer
-            config={mockConfig}
-            dateRange={mockDateRange}
-            selectedTable={mockTableWithPivot}
-            apiData={mockApiData}
-            isLoading={false}
-            apiError={false}
-            selectedPivot={selectedPivot}
-            setUserFilterSelection={jest.fn()}
-            setSelectedPivot={mockSetSelectedPivot}
-          />
-        </RecoilRoot>
-      );
-    });
+    const { getByText, getByTestId } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithPivot}
+          apiData={mockApiData}
+          isLoading={false}
+          apiError={false}
+          selectedPivot={selectedPivot}
+          setUserFilterSelection={jest.fn()}
+          setSelectedPivot={mockSetSelectedPivot}
+          selectedTab={1}
+        />
+      </RecoilRoot>
+    );
 
     expect(setNoChartMessageMod.SetNoChartMessage).toBeCalled();
-    const chartProp = tableSectionContainer.root.findByType(ChartTableToggle).props.chart;
-    expect(chartProp.type).toBe(DatasetChart); // the thing sent to chartTableToggle is a chart
+    expect(getByText('Hide Legend')).toBeInTheDocument();
+    expect(getByTestId('dataviz-line')).toBeInTheDocument();
   });
 
   it('displays the aggregation notice when an aggregated pivot option is selected', () => {

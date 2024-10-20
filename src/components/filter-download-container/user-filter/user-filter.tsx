@@ -45,6 +45,7 @@ type UserFilterProps = {
   setResetFilters?: (x: boolean) => void;
   allTablesSelected?: boolean;
   setDateRange: (range: { from: Date; to: Date }) => void;
+  sharedApiFilterOptions?: boolean;
 };
 
 const UserFilter: FunctionComponent<UserFilterProps> = ({
@@ -54,6 +55,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
   setResetFilters,
   allTablesSelected,
   setDateRange,
+  sharedApiFilterOptions,
 }) => {
   const defaultSelection = { label: '(None selected)', value: null };
 
@@ -73,7 +75,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
   const establishOptions = () => {
     let options = null;
     let nestedOptions = null;
-    if (selectedTable?.userFilter?.optionValues && userFilterOptions === null) {
+    if (selectedTable?.userFilter?.optionValues) {
       options = selectedTable.userFilter.optionValues.map(val => {
         return { label: val, value: val };
       });
@@ -113,7 +115,9 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
 
   useEffect(() => {
     establishOptions();
-    setSelectedFilterOption(defaultSelection);
+    if (!sharedApiFilterOptions) {
+      setSelectedFilterOption(defaultSelection);
+    }
   }, [selectedTable, allTablesSelected]);
 
   return (
@@ -130,7 +134,9 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({
             searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : undefined}
             hasChildren={userFilterOptions[0]?.children}
           />
-          {selectedTable?.apiFilter?.disableDateRangeFilter && <MonthYearFilter selectedTable={selectedTable} setDateRange={setDateRange} />}
+          {selectedTable?.apiFilter?.disableDateRangeFilter && (
+            <MonthYearFilter selectedTable={selectedTable} setDateRange={setDateRange} sharedApiFilterOptions={sharedApiFilterOptions} />
+          )}
         </div>
       )}
       {selectedTable?.userFilter?.notice && <DatatableBanner bannerNotice={selectedTable.userFilter.notice} />}

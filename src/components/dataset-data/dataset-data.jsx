@@ -233,7 +233,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                   handleDateRangeChange={handleDateRangeChange}
                   selectedTable={!!detailViewState ? detailApi : selectedTable}
                   apiData={apiData}
-                  onUserFilter={setUserFilterSelection}
                   setIsFiltered={setIsFiltered}
                   currentDateButton={config.currentDateButton}
                   datePreset={config.datePreset}
@@ -251,7 +250,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 />
               )}
               {selectedTable.userFilter && (
-                <UserFilter selectedTable={selectedTable} onUserFilter={setUserFilterSelection} apiData={apiData} setResetFilters={setResetFilters} />
+                <UserFilter selectedTable={selectedTable} onUserFilter={setUserFilterSelection} apiData={apiData} setResetFilters={setResetFilters} allTablesSelected={allTablesSelected} />
               )}
               {selectedTable.apiFilter && (
                 <UserFilter
@@ -260,6 +259,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                   setResetFilters={setResetFilters}
                   allTablesSelected={allTablesSelected}
                   setDateRange={setDateRange}
+                  sharedApiFilterOptions={config?.sharedApiFilterOptions}
                 />
               )}
             </>

@@ -149,6 +149,7 @@ const TableSectionContainer = ({
         .finally(() => {
           if (meta) {
             setTableMeta(meta);
+            setApiError(false);
           }
         });
     } else if (selectedTable?.apiFilter && userFilterSelection === null) {
@@ -224,6 +225,12 @@ const TableSectionContainer = ({
     }
   }, [dateRange]);
 
+  useEffect(async () => {
+    if (config?.sharedApiFilterOptions && userFilterSelection) {
+      await refreshTable();
+    }
+  }, [selectedTable]);
+
   const handlePivotConfigUpdated = () => {
     setPivotsUpdated(!pivotsUpdated);
     handleConfigUpdate();
@@ -239,14 +246,10 @@ const TableSectionContainer = ({
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
     setReactTableSort([]);
-    setUserFilterSelection(null);
-  }, [selectedTable, allTablesSelected]);
-
-  useEffect(() => {
-    if (allTablesSelected) {
-      setDisableDownloadButton(false);
+    if (!config?.sharedApiFilterOptions) {
+      setUserFilterSelection(null);
     }
-  }, [userFilterSelection]);
+  }, [selectedTable, allTablesSelected]);
 
   useEffect(() => {
     if (!allTablesSelected) {
@@ -257,6 +260,9 @@ const TableSectionContainer = ({
   }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
 
   useEffect(() => {
+    if (allTablesSelected) {
+      setDisableDownloadButton(false);
+    }
     if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
       setApiFilterDefault(true);
       setManualPagination(false);
@@ -302,7 +308,6 @@ const TableSectionContainer = ({
   useEffect(() => {
     const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
-
     setApiFilterDefault(!allTablesSelected && selectedTable?.apiFilter && (userFilterSelection === null || userFilterSelection?.value === null));
     setNoChartMessage(
       SetNoChartMessage(
@@ -444,22 +449,33 @@ const TableSectionContainer = ({
                     ''
                   )
                 }
-                chart={
-                  noChartMessage && !ignorePivots ? (
-                    noChartMessage
-                  ) : (
-                    <DatasetChart
-                      legend={legend}
-                      dateRange={dateRange}
-                      data={userFilteredData ? userFilteredData : chartData ? chartData : apiData}
-                      slug={config.slug}
-                      currentTable={selectedTable}
-                      dateField={dateFieldForChart}
-                      isVisible={selectedTab === 1}
-                      selectedPivot={selectedPivot}
-                    />
-                  )
-                }
+                chart={() => {
+                  const generatedMessage = SetNoChartMessage(
+                    selectedTable,
+                    selectedPivot,
+                    dateRange,
+                    allTablesSelected,
+                    userFilterSelection,
+                    determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData),
+                    config?.customNoChartMessage
+                  );
+                  if (generatedMessage && !ignorePivots) {
+                    return generatedMessage;
+                  } else {
+                    return (
+                      <DatasetChart
+                        legend={legend}
+                        dateRange={dateRange}
+                        data={userFilteredData ? userFilteredData : chartData ? chartData : apiData}
+                        slug={config.slug}
+                        currentTable={selectedTable}
+                        dateField={dateFieldForChart}
+                        isVisible={selectedTab === 1}
+                        selectedPivot={selectedPivot}
+                      />
+                    );
+                  }
+                }}
                 allTablesSelected={allTablesSelected}
                 filtersActive={allActiveFilters?.length > 0}
               />
