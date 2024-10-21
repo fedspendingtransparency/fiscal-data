@@ -1,6 +1,6 @@
 describe('Site header validation', () => {
   it('Validate Topics Links and logo navigation in site header', () => {
-    cy.visit('/');
+    cy.visit('/').wait(1000);
 
     cy.findByLabelText('Page links for Topics').trigger('mouseover');
     cy.contains('Savings Bonds').click();
@@ -46,7 +46,7 @@ describe('Site header validation', () => {
   });
 
   it('Validate Resources links in site header', () => {
-    cy.visit('/');
+    cy.visit('/').wait(1000);
     cy.findByLabelText('Page links for Resources').trigger('mouseover');
     cy.contains('Glossary').click();
     cy.findByText('Search the glossary').should('be.visible');
