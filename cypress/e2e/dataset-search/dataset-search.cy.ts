@@ -10,10 +10,11 @@ describe('Homepage user flow validation', () => {
 
 describe('Fiscal Data Treasury Datasets Page', () => {
   beforeEach(() => {
-    cy.visit('/datasets/');
+    cy.visit('/datasets/').wait(3000);
   });
   it('validate search query searches', () => {
     cy.findByLabelText('Enter search terms')
+
       .should('be.visible')
       .type('MTS');
     cy.contains("Searching Datasets matching '").should('be.visible');
@@ -74,7 +75,7 @@ describe('Fiscal Data Treasury Datasets Page', () => {
     cy.findByText('TIPS and CPI Data');
 
     //Time Range tooltip validation
-    cy.findByText('Time Range').click();
+
     cy.findByLabelText('More information about Time Range.')
       .should('exist')
       .click({ force: true });
@@ -128,15 +129,15 @@ describe('Fiscal Data Treasury Datasets Page', () => {
   });
 
   it('displays no search results banner and clears filters', () => {
-    cy.findByText('1990 - 1999').click({ force: true });
-    cy.findByText('Revenue').click({ force: true });
-    cy.findByText('Administrative Resource Center').click({ force: true });
+    cy.findByText('1990 - 1999').click();
+    cy.findByText('Revenue').click();
+    cy.findByText('Administrative Resource Center').click();
 
     cy.findByText('Sorry, no results were found matching your search.').should('be.visible');
     //clears filters
     cy.findByText('Clear All Filters').should('exist');
     cy.findByText('Clear All Filters').click();
     cy.findByText('Clear All Filters').should('not.exist');
-    cy.findByText('Sorry, no results were found matching your search.').should('not.be.visible');
+    cy.findByText('Sorry, no results were found matching your search.').should('not.exist');
   });
 });
