@@ -11,15 +11,19 @@
 describe('Fiscal Data Treasury Datasets Page', () => {
   it('validate search query searches', () => {
     cy.visit('/datasets/');
-    cy.findByLabelText('Enter search terms').type('MTS');
-    cy.findByText('Searching Datasets matching').should('be.visible');
+    cy.findByLabelText('Enter search terms')
+      .should('be.visible')
+      .type('MTS');
+    cy.contains("Searching Datasets matching '").should('be.visible');
   });
   it('validate search query clears', () => {
     cy.visit('/datasets/');
-    cy.findByLabelText('Enter search terms').type('MTS');
-    cy.findByText("Searching Datasets matching 'MTS'").should('be.visible');
+    cy.findByLabelText('Enter search terms')
+      .should('be.visible')
+      .type('MTS');
+    cy.contains("Searching Datasets matching 'MTS'").should('be.visible');
     cy.findByLabelText('clear').click();
-    cy.findByText("Searching Datasets matching 'MTS'").should('not.exist');
+    cy.contains("Searching Datasets matching 'MTS'").should('not.exist');
   });
   it('validates tooltips on the page', () => {
     cy.visit('/datasets/');
@@ -101,7 +105,7 @@ describe('Fiscal Data Treasury Datasets Page', () => {
     cy.findByText('Reports (PDF)').click();
 
     cy.contains('Financial Report of the U.S. Government').should('be.visible');
-    cy.findByText('Clear All Filters').should('exist');
+    cy.findByText('Clear All Filters').should('be.visible');
     cy.findByRole('button', { name: 'Reports (PDF)' }).should('be.visible');
     cy.findByRole('button', { name: 'Reports (PDF)' }).click();
 
@@ -141,8 +145,8 @@ describe('Fiscal Data Treasury Datasets Page', () => {
     cy.findByText('Last Year').click();
     cy.findByText('Last 30 Days').click();
     // Verify that filters are applied
-    cy.findByText('Clear All Filters').should('exist');
-    cy.findByText('Clear All Filters').click();
-    cy.findByText('Clear All Filters').should('not.exist');
+    cy.contains('Clear All Filters').should('exist');
+    cy.contains('Clear All Filters').click();
+    cy.contains('Clear All Filters').should('not.exist');
   });
 });
