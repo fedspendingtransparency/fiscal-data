@@ -46,6 +46,7 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q3-038', '015-BFS-2014Q3-037'],
       currentDateButton: 'byMonth',
       disableAllTables: true,
+      sharedApiFilterOptions: true,
     },
   },
   ADDITIONAL_ENDPOINTS: {
@@ -202,7 +203,6 @@ module.exports = {
         filterEndpoint: 'v1/accounting/od/fbp_dpai_account_summary',
         downloadLabel: 'Account',
         label: 'Choose an Account',
-        displayAllTablesResults: true,
         disableDateRangeFilter: true,
         dataDefaultHeader: 'This table requires additional filters.',
         dataDefaultMessage: 'Select an account in the filter section above to display the data.',
@@ -240,7 +240,6 @@ module.exports = {
         filterEndpoint: 'v1/accounting/od/fbp_dpai_account_summary',
         downloadLabel: 'Account',
         label: 'Choose an Account',
-        displayAllTablesResults: true,
         disableDateRangeFilter: true,
         dataDefaultHeader: 'This table requires additional filters.',
         dataDefaultMessage: 'Select an account in the filter section above to display the data.',

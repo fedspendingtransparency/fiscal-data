@@ -225,6 +225,12 @@ const TableSectionContainer = ({
     }
   }, [dateRange]);
 
+  useEffect(async () => {
+    if (config?.sharedApiFilterOptions && userFilterSelection) {
+      await refreshTable();
+    }
+  }, [selectedTable]);
+
   const handlePivotConfigUpdated = () => {
     setPivotsUpdated(!pivotsUpdated);
     handleConfigUpdate();
@@ -240,14 +246,10 @@ const TableSectionContainer = ({
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
     setReactTableSort([]);
-    setUserFilterSelection(null);
-  }, [selectedTable, allTablesSelected]);
-
-  useEffect(() => {
-    if (allTablesSelected) {
-      setDisableDownloadButton(false);
+    if (!config?.sharedApiFilterOptions) {
+      setUserFilterSelection(null);
     }
-  }, [userFilterSelection]);
+  }, [selectedTable, allTablesSelected]);
 
   useEffect(() => {
     if (!allTablesSelected) {
@@ -258,6 +260,9 @@ const TableSectionContainer = ({
   }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
 
   useEffect(() => {
+    if (allTablesSelected) {
+      setDisableDownloadButton(false);
+    }
     if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
       setApiFilterDefault(true);
       setManualPagination(false);
