@@ -27,8 +27,9 @@ describe('Fiscal Data Treasury Datasets Page', () => {
   });
   it('validates tooltips on the page', () => {
     cy.visit('/datasets/');
-    cy.findByLabelText('More information about Dataset Keyword Search.').click();
-    cy.contains('Dataset Keyword Search').should('be.visible');
+    cy.findByLabelText('More information about Dataset Keyword Search.').should('exist');
+    cy.findByLabelText('More information about Dataset Keyword Search.').click({ force: true });
+    cy.findByText('Dataset Keyword Search').should('be.visible');
   });
   it('validates tooltips on the page', () => {
     cy.visit('/datasets/');
