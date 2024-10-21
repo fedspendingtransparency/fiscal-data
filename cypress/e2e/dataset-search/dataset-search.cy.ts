@@ -33,33 +33,38 @@ describe('Fiscal Data Treasury Datasets Page', () => {
   });
   it('validates tooltips on the page', () => {
     cy.visit('/datasets/');
-    cy.findByLabelText('More information about Last Updated.').click();
-    cy.contains('Last Updated filters for datasets that have been updated within the selected time period.').should('be.visible');
+    cy.findByLabelText('More information about Last Updated.').should('exist');
+    cy.findByLabelText('More information about Last Updated.').click({ force: true });
+    cy.findByText('Last Updated filters for datasets that have been updated within the selected time period.').should('be.visible');
   });
   it('validates tooltips on the page', () => {
     cy.visit('/datasets/');
-    cy.findByLabelText('More information about Date Range.').click();
-    cy.contains('The Start Date tab filters for datasets whose first record falls within the selected year range.').should('be.visible');
+    cy.findByLabelText('More information about Date Range.').should('exist');
+    cy.findByLabelText('More information about Date Range.').click({ force: true });
+    cy.findByText('The Start Date tab filters for datasets whose first record falls within the selected year range.').should('be.visible');
   });
   it('validates tooltips on the page', () => {
     cy.visit('/datasets/');
     cy.findByText('Time Range').click();
-    cy.findByLabelText('More information about Time Range.').click();
-    cy.contains(
+    cy.findByLabelText('More information about Time Range.').should('exist');
+    cy.findByLabelText('More information about Time Range.').click({ force: true });
+    cy.findByText(
       'Select Limit results to datasets spanning entire time range to return only datasets whose start date is equal to or before the submitted start ("From") date and the end date is equal to or later than the submitted end ("To") date.'
     ).should('be.visible');
   });
   it('validates tooltips on the page', () => {
     cy.visit('/datasets/');
-    cy.findByLabelText('More information about Dataset Publisher.').click();
-    cy.contains("Dataset Publisher filters for datasets by entity within the U.S. Department of the Treasury's organizational structure.").should(
+    cy.findByLabelText('More information about Dataset Publisher.').should('exist');
+    cy.findByLabelText('More information about Dataset Publisher.').click({ force: true });
+    cy.findByText("Dataset Publisher filters for datasets by entity within the U.S. Department of the Treasury's organizational structure.").should(
       'be.visible'
     );
   });
   it('validates tooltips on the page', () => {
     cy.visit('/datasets/');
-    cy.findByLabelText('More information about Data Format.').click();
-    cy.contains('Data Format filters for datasets with the selected options to access the data or published report.').should('be.visible');
+    cy.findByLabelText('More information about Data Format.').should('exist');
+    cy.findByLabelText('More information about Data Format.').click({ force: true });
+    cy.findByText('Data Format filters for datasets with the selected options to access the data or published report.').should('be.visible');
   });
 
   it('sorts search results properly when selecting different options from the Sort By dropdown', () => {
