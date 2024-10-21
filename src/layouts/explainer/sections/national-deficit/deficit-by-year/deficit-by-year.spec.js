@@ -8,13 +8,15 @@ describe('Deficit by year section', () => {
   beforeEach(() => {
     setGlobalFetchResponse(jest, mockDeficitTrendsData);
   });
-  it('renders the text content', () => {
-    const { getByTestId, getAllByRole } = render(<DeficitByYear />);
-    expect(getByTestId('textContent')).toBeInTheDocument();
-    expect(getAllByRole('link').length).toEqual(4);
+
+  it('renders the section links', () => {
+    const { getByRole } = render(<DeficitByYear />);
+    expect(getByRole('link', { name: 'federal spending' })).toBeInTheDocument();
+    expect(getByRole('link', { name: 'federal revenue' })).toBeInTheDocument();
   });
-  it('renders the trends chart', () => {
-    const { getByTestId } = render(<DeficitByYear />);
-    expect(getByTestId('deficitTrendsChartParent')).toBeInTheDocument();
+
+  it('renders the trends chart', async () => {
+    const { findByTestId } = render(<DeficitByYear />);
+    expect(await findByTestId('deficitTrendsChartParent')).toBeInTheDocument();
   });
 });

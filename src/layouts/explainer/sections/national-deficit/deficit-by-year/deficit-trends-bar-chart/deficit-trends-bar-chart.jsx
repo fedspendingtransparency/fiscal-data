@@ -26,7 +26,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   const desktop = width >= pxToNumber(breakpointLg);
   const [date, setDate] = useState(new Date());
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState(null);
   const [tickValuesX, setTickValuesX] = useState([]);
   const [tickValuesY, setTickValuesY] = useState([]);
   const [mostRecentFiscalYear, setMostRecentFiscalYear] = useState('');
@@ -128,7 +128,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
       if (currentBarElement !== lastBarElement) {
         lastBarElement.style.fill = deficitExplainerPrimary;
       }
-
       setLastBar(lastBarElement);
       setHeaderYear(data.data.year);
       setHeaderDeficit(data.data.deficit);
@@ -170,59 +169,63 @@ export const DeficitTrendsBarChart = ({ width }) => {
   });
 
   useEffect(() => {
-    const initialDelay = delayIncrement + 500;
-    let headerDelay = initialDelay;
-    let barDelay = initialDelay;
-    const barSVGs = Array.from(document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children);
-    barSVGs.splice(0, 5);
+    if (!!chartData) {
+      const initialDelay = delayIncrement + 500;
+      let headerDelay = initialDelay;
+      let barDelay = initialDelay;
+      const barSVGs = Array.from(document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children);
+      barSVGs.splice(0, 5);
 
-    // Run bar highlight wave
-    barSVGs.forEach(element => {
-      const finalBar = barSVGs[barSVGs.length - 1].children[0];
-      const bar = element.children[0];
+      // Run bar highlight wave
+      barSVGs.forEach(element => {
+        const finalBar = barSVGs[barSVGs.length - 1].children[0];
+        const bar = element.children[0];
 
-      if (inView) {
-        setTimeout(() => {
-          bar.style.fill = chartConfigs.highlightColor;
-        }, (barDelay += delayIncrement / barSVGs.length));
-
-        if (bar !== finalBar) {
+        if (inView) {
           setTimeout(() => {
-            bar.style.fill = deficitExplainerPrimary;
-          }, barDelay + delayIncrement / barSVGs.length);
-        }
-      }
-    });
+            bar.style.fill = chartConfigs.highlightColor;
+          }, (barDelay += delayIncrement / barSVGs.length));
 
-    //Run animation for header values
-    chartData.forEach(element => {
-      if (inView && element.year >= startingYear) {
-        setTimeout(() => {
-          setHeaderYear(element.year);
-          setHeaderDeficit(element.deficit);
-        }, (headerDelay += delayIncrement / chartData.length));
-      }
-    });
+          if (bar !== finalBar) {
+            setTimeout(() => {
+              bar.style.fill = deficitExplainerPrimary;
+            }, barDelay + delayIncrement / barSVGs.length);
+          }
+        }
+      });
+
+      //Run animation for header values
+      chartData.forEach(element => {
+        if (inView && element.year >= startingYear) {
+          setTimeout(() => {
+            setHeaderYear(element.year);
+            setHeaderDeficit(element.deficit);
+          }, (headerDelay += delayIncrement / chartData.length));
+        }
+      });
+    }
   }, [inView, chartData]);
 
   useEffect(() => {
-    applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
     addInnerChartAriaLabel(chartConfigs.parent);
     getChartData();
   }, []);
 
   useEffect(() => {
     setTimeout(() => {
+      applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
       applyTextScaling(chartConfigs.parent, chartConfigs.width, width, chartConfigs.fontSize);
     });
   }, [width, chartData]);
 
   useEffect(() => {
-    const tickValues = generateTickValues(chartData);
-    setMinValue(tickValues[1][0]);
-    setMaxValue(tickValues[1][tickValues[1].length - 1]);
-    setTickValuesX(tickValues[0]);
-    setTickValuesY(tickValues[1]);
+    if (!!chartData) {
+      const tickValues = generateTickValues(chartData);
+      setMinValue(tickValues[1][0]);
+      setMaxValue(tickValues[1][tickValues[1].length - 1]);
+      setTickValuesX(tickValues[0]);
+      setTickValuesY(tickValues[1]);
+    }
   }, [chartData]);
 
   const { mtsSummary } = explainerCitationsMap['national-deficit'];
@@ -253,7 +256,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   return (
     <>
-      {chartData !== [] ? (
+      {!!chartData ? (
         <div className={container} onMouseEnter={handleGoogleAnalyticsMouseEnter} onMouseLeave={handleGoogleAnalyticsMouseLeave} role="presentation">
           <ChartContainer
             title={`Federal Deficit Trends Over Time, FY ${startingYear}-${mostRecentFiscalYear}`}
@@ -265,7 +268,14 @@ export const DeficitTrendsBarChart = ({ width }) => {
             footer={footer}
             date={date}
           >
-            <div className={barChart} onMouseLeave={resetHeaderValues} data-testid="deficitTrendsChartParent" role="presentation" ref={ref}>
+            <div
+              className={barChart}
+              onMouseLeave={resetHeaderValues}
+              onBlur={resetHeaderValues}
+              data-testid="deficitTrendsChartParent"
+              role="presentation"
+              ref={ref}
+            >
               <Bar
                 barComponent={CustomBar}
                 width={chartConfigs.width}
