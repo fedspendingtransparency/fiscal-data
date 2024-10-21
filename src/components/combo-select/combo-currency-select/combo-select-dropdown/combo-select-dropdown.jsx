@@ -71,6 +71,7 @@ const ComboSelectDropdown = ({
     }
     return filteredList;
   };
+
   const clearFilter = () => {
     changeHandler(null);
     // fire artificial event to reset field
@@ -82,6 +83,7 @@ const ComboSelectDropdown = ({
     setFilterValue('');
     setNoResults(false);
   };
+
   const filterDropdown = val => {
     const localFilteredOptions = yearFilter ? filterYearOptions(options, val) : filterOptionsByEntry(options, val);
     setFilteredOptions(localFilteredOptions);
@@ -92,6 +94,7 @@ const ComboSelectDropdown = ({
       setDropdownActive(true);
     }
   };
+
   const onFilterChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilterValue(val);
@@ -100,6 +103,7 @@ const ComboSelectDropdown = ({
       setNoResults(false);
     }
   };
+
   useEffect(() => {
     setFilteredOptions(options);
     if (filterValue !== '') {
@@ -156,6 +160,7 @@ const ComboSelectDropdown = ({
       </button>
     </li>
   );
+
   return (
     <>
       {active && (

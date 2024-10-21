@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, act, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, waitFor, within } from '@testing-library/react';
 import ComboSelectDropdown from './combo-select-dropdown';
 import { mockOptions, mockOptionsWithChildren } from '../../combo-select-test-helper';
 import userEvent from '@testing-library/user-event';
@@ -41,33 +41,38 @@ describe('Combo Select Dropdown', () => {
     );
 
     const dropdown = getByTestId('dropdown-container');
-    fireEvent.mouseOver(dropdown);
+    userEvent.hover(dropdown);
     expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(true);
-    fireEvent.mouseLeave(dropdown);
+    userEvent.unhover(dropdown);
     expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(false);
-    fireEvent.focus(dropdown);
+    userEvent.click(dropdown);
     expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(true);
-    fireEvent.blur(dropdown);
+    userEvent.click(document.body);
     expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(false);
   });
 
-  it('update selection', () => {
+  it('update selection', async () => {
     const updateSelectionSpy = jest.fn();
+    const setDropdownActiveSpy = jest.fn();
     const { getByRole } = render(
-      <ComboSelectDropdown active={true} options={mockOptions} selectedOption={defaultSelection} updateSelection={updateSelectionSpy} />
+      <ComboSelectDropdown
+        active={true}
+        options={mockOptions}
+        selectedOption={defaultSelection}
+        updateSelection={updateSelectionSpy}
+        setMouseOverDropdown={jest.fn()}
+        setDropdownActive={setDropdownActiveSpy}
+      />
     );
 
     const inputField = getByRole('textbox');
-
     const updatedSelection = {
       label: 'Abcd2-money',
       value: 'Abcd2-money',
     };
 
-    act(() => {
-      fireEvent.change(inputField, { target: { value: updatedSelection.value } });
-    });
-
+    userEvent.click(inputField);
+    userEvent.keyboard(updatedSelection.label);
     expect(updateSelectionSpy).toHaveBeenCalledWith(updatedSelection, false);
   });
 
@@ -88,10 +93,7 @@ describe('Combo Select Dropdown', () => {
 
     const searchBar = getByRole('textbox');
     userEvent.click(searchBar);
-
-    act(() => {
-      fireEvent.change(searchBar, { target: { value: 'test' } });
-    });
+    userEvent.keyboard('test');
 
     const clearButton = getByRole('button', { name: 'Clear search bar' });
     userEvent.click(clearButton);
@@ -109,7 +111,8 @@ describe('Combo Select Dropdown', () => {
 
   it('shows options in the dropdown list that match input characters', () => {
     const defaultSelection = mockOptions[1];
-    const { getByRole, getAllByRole } = render(
+    const mockUpdateSelection = jest.fn();
+    const { getByRole, getByTestId } = render(
       <ComboSelectDropdown
         active={true}
         options={mockOptions}
@@ -117,17 +120,22 @@ describe('Combo Select Dropdown', () => {
         changeHandler={jest.fn()}
         setDropdownActive={jest.fn()}
         optionLabelKey={'label'}
+        updateSelection={mockUpdateSelection}
+        setMouseOverDropdown={jest.fn()}
       />
     );
 
     const inputField = getByRole('textbox');
 
-    act(() => {
-      fireEvent.change(inputField, { target: { value: 'Blue' } });
-    });
+    userEvent.click(inputField);
+    userEvent.keyboard('Blue');
 
-    const filteredOptions = getAllByRole('button');
-    expect(filteredOptions.length).toEqual(4);
+    const dropdownContainer = getByTestId('dropdown-list');
+    const filteredOptions = within(dropdownContainer).getAllByRole('button');
+    expect(filteredOptions.length).toEqual(3);
+    const option = getByRole('button', { name: 'Blue-greenstuff' });
+    userEvent.click(option);
+    expect(mockUpdateSelection).toHaveBeenCalledWith({ label: 'Blue-greenstuff', value: 'Blue-greenstuff' }, true);
   });
 
   it('resets scroll top when active is true', () => {
@@ -176,7 +184,7 @@ describe('combo select dropdown with child sections', () => {
     const defaultSelection = mockOptionsWithChildren[0].children;
     const changeHandlerSpy = jest.fn();
 
-    const { getByText, getByRole } = render(
+    const { getByRole } = render(
       <ComboSelectDropdown
         active={true}
         options={mockOptionsWithChildren}
@@ -197,5 +205,55 @@ describe('combo select dropdown with child sections', () => {
     userEvent.click(clearButton);
 
     expect(changeHandlerSpy).toHaveBeenCalledWith(null);
+  });
+
+  it('does not call onBlur with clicking inside the dropdown', () => {
+    const setDropdownActiveSpy = jest.fn();
+    const { getByRole } = render(
+      <ComboSelectDropdown
+        active={true}
+        options={mockOptions}
+        selectedOption={mockOptions[1]}
+        updateSelection={jest.fn()}
+        changeHandler={jest.fn()}
+        setDropdownActive={setDropdownActiveSpy}
+        setMouseOverDropdown={jest.fn()}
+      />
+    );
+
+    const textbox = getByRole('textbox');
+    const searchIcon = getByRole('img', { hidden: true });
+    userEvent.click(textbox);
+    userEvent.click(searchIcon);
+    expect(setDropdownActiveSpy).not.toHaveBeenCalled();
+  });
+
+  it('calls onBlur when tabbing beyond the dropdown', () => {
+    const setDropdownActiveSpy = jest.fn();
+    const setMouseOverDropdownSpy = jest.fn();
+    jest.useFakeTimers();
+    const { getByRole } = render(
+      <ComboSelectDropdown
+        active={true}
+        options={mockOptions}
+        selectedOption={mockOptions[1]}
+        updateSelection={jest.fn()}
+        changeHandler={jest.fn()}
+        setDropdownActive={setDropdownActiveSpy}
+        setMouseOverDropdown={setMouseOverDropdownSpy}
+      />
+    );
+
+    const searchBar = getByRole('textbox');
+    userEvent.click(searchBar);
+    userEvent.keyboard('Blah-bucks');
+
+    userEvent.tab();
+    userEvent.tab();
+    userEvent.tab();
+
+    jest.runAllTimers();
+    expect(setDropdownActiveSpy).toHaveBeenCalledWith(false);
+    expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(false);
   });
 });
