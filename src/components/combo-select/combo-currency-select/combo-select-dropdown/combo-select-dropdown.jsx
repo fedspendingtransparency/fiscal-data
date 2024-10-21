@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import {
   dropdownContainer,
@@ -39,6 +39,8 @@ const ComboSelectDropdown = ({
   const [filterValue, setFilterValue] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [noResults, setNoResults] = useState(false);
+
+  const dropdownContainerRef = useRef();
 
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = [];
@@ -118,7 +120,7 @@ const ComboSelectDropdown = ({
           dropdownChild = filteredOptions.length > 0;
           break;
         case 'button':
-          dropdownChild = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.contains(event.relatedTarget);
+          dropdownChild = dropdownContainerRef.current.contains(event.relatedTarget);
           break;
         default:
           dropdownChild = false;
@@ -166,6 +168,7 @@ const ComboSelectDropdown = ({
           onBlur={handleBlur}
           onFocus={() => setMouseOverDropdown(true)}
           role="presentation"
+          ref={dropdownContainerRef}
         >
           <div className={searchBarContainer}>
             <SearchBar
