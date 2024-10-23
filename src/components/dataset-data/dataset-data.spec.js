@@ -121,7 +121,7 @@ describe('DatasetData', () => {
       </RecoilRoot>
     );
     const title = getByTestId('sectionHeader');
-    expect(title.innerHTML).toBe('Data Preview');
+    expect(title.innerHTML).toBe('Preview &amp; Download');
   });
 
   it(`contains a FilterAndDownload component`, () => {
@@ -394,6 +394,43 @@ describe('DatasetData', () => {
 
     expect(getPublishedDates).toBeCalledTimes(2);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
+  });
+
+  it(`transmits a preview-loaded analytics event when reports tab is first selected but not when
+  toggling back and forth reveals a preview that was already loaded`, async () => {
+    analyticsSpy.mockClear();
+
+    const { getByLabelText } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} publishedReportsProp={reports.slice()} setSelectedTableProp={setSelectedTableMock} />
+      </RecoilRoot>
+    );
+
+    // it's not called at at page load
+    expect(analyticsSpy.mock.calls.every(callGroup => callGroup.every(call => call.action !== 'load pdf preview'))).toBeTruthy();
+
+    // select tab to instantiate <PublishedReport />
+    // and test that analytics was called to transmit a preview-loaded event
+    const rawDataButton = getByLabelText('Raw Data');
+    const publishedReportsButton = getByLabelText('Published Reports');
+
+    fireEvent.click(publishedReportsButton);
+
+    expect(analyticsSpy).toHaveBeenLastCalledWith({
+      action: 'Published Report Preview',
+      category: 'Published Report Preview',
+      label: '/downloads/mspd_reports/opdm092020.pdf',
+    });
+    analyticsSpy.mockClear();
+    expect(analyticsSpy).not.toHaveBeenCalled();
+    // go back to raw data
+    fireEvent.click(rawDataButton);
+
+    // and then back again to published reports
+    fireEvent.click(publishedReportsButton);
+
+    // expect that no duplicate event for report preview-loading will have been transmitted
+    expect(analyticsSpy).not.toHaveBeenCalled();
   });
 
   it(`keeps the rows per page selection when a pivot is updated`, async () => {
