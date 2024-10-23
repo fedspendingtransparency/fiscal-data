@@ -2499,7 +2499,7 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/utf_transaction_statement',
     dateField: 'eff_date',
     downloadName: 'UTF_Transaction_Statement ',
-    alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
+    alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr', 'transaction_desc_cd'],
     apiFilter: {
       field: 'acct_desc',
       downloadLabel: 'Account',
@@ -2531,7 +2531,7 @@ const endpointConfig = {
     endpoint: 'v1/accounting/od/utf_federal_activity_statement',
     dateField: 'eff_date',
     downloadName: 'UTF_Federal_Activity_Statement ',
-    alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
+    alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr', 'transaction_desc_cd'],
     apiFilter: {
       field: 'acct_desc',
       downloadLabel: 'Account',
