@@ -13,7 +13,9 @@ import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-
 import DatasetIntroduction from '../../components/dataset-introduction/dataset-introduction';
 import BannerCallout from '../../components/banner-callout/banner-callout';
 import { bannerCalloutContainer } from '../../components/masthead/masthead.module.scss';
+import Experimental from '../../components/experimental/experimental';
 import ReportsSection from '../../components/published-reports/reports-section/reports-section';
+import ENV_ID from 'gatsby-env-variables';
 export const query = graphql`
   query relatedDatasets($relatedDatasets: [String]) {
     allDatasets(filter: { datasetId: { in: $relatedDatasets } }) {
@@ -72,7 +74,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         canonical={canonical}
       />
       <Masthead title={pageContext.config.name} bannerCallout={pageContext?.config.bannerCallout} />
-      <DDNav hasPublishedReports={!!pageConfig.publishedReports} />
+      {ENV_ID === 'uat' ? <DDNav hasPublishedReports={!!pageConfig.publishedReports} /> : <DDNav />}
       <div className="ddpBodyBackground">
         {bannerCallout && (
           <div className={bannerCalloutContainer} data-testid="callout">
@@ -84,7 +86,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           techSpecs={pageConfig.techSpecs}
           dictionary={pageContext.config.dictionary}
         />
-        <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
+        {ENV_ID === 'uat' ? <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} /> : ''}
         <DatasetData
           setSelectedTableProp={setSelectedTable}
           finalDatesNotFound={finalDatesNotFound}
