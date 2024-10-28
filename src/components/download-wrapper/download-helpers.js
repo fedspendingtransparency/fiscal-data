@@ -31,31 +31,6 @@ export const replaceNbsps = str => {
   return str.replace(re, ' ');
 };
 
-const makeHeadRequests = async (filePath, fetchHeadOption, failedRequestsNbr) => {
-  if (failedRequestsNbr <= 3) {
-    return postAPI(filePath, fetchHeadOption)
-      .then(res => {
-        let returnVal = null;
-        if (res && res.headers && res.headers.get) {
-          const contentType = res.headers.get('Content-Type');
-          const fileSize = res.headers.get('Content-Length');
-          if (fileSize && contentType === 'application/zip') {
-            returnVal = fileSizeTranslator2(fileSize);
-          }
-          // Uncomment the below for testing file sizes in local
-          // else {
-          //   returnVal = Math.round(Math.random() * 100) + ' MB';
-          // }
-        }
-        return returnVal;
-      })
-      .catch(async e => {
-        await makeHeadRequests(filePath, fetchHeadOption, ++failedRequestsNbr);
-      });
-  }
-  return null;
-};
-
 export const constructDownloadFileName = (dateRange, selectedTable) => {
   if (dateRange?.from && dateRange?.to && selectedTable?.downloadName) {
     console.log('selectedTable?.downloadName:: ', selectedTable?.downloadName);
