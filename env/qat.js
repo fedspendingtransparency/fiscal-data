@@ -7,9 +7,9 @@ module.exports = {
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'afg-overview', 'publishedReportsSection'],
   ADDITIONAL_DATASETS: {
     '015-BFS-2024Q1-003': {
-      slug: '/fbp-detailed-principal-accrued-interest/',
+      slug: '/fbp-distribution-transaction-data/',
       seoConfig: {
-        pageTitle: 'Federal Borrowings Program: Detailed Principal and Accrued Interest Report',
+        pageTitle: 'Federal Borrowings Program Distribution and Transaction Data',
         description:
           "U.S. Treasury loans and interest receivable balances associated with each individual borrowing agency's expenditure Treasury Account Symbol.",
         keywords: 'Debt, Financial Summaries',
