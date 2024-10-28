@@ -7,6 +7,7 @@ describe('Dataset detail page validation', () => {
         name: 'Operating Cash Balance',
         endpoint: '/v1/accounting/dts/operating_cash_balance',
         column: { prettyName: 'Type of Account', name: 'account_type', searchTerm: 'Table II' },
+        dateColumn: { name: 'record_date', filterMonthPrettyName: 'January', filterMonthNumber: '1', filterYear: '2024', filterDate: '1/24/2024' },
       },
       {
         name: 'Public Debt Transactions',
@@ -17,6 +18,7 @@ describe('Dataset detail page validation', () => {
         name: 'Adjustment of Public Debt Transactions to Cash Basis',
         endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
         column: { prettyName: 'Adjustment Type', name: 'adj_type', searchTerm: 'Government Account Transactions (-)' },
+        dateColumn: { name: 'record_date', filterMonthPrettyName: 'January', filterMonthNumber: '1', filterYear: '2024', filterDate: '1/30/2024' },
       },
     ],
   };
@@ -29,11 +31,13 @@ describe('Dataset detail page validation', () => {
         name: 'Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government',
         endpoint: '/v1/accounting/mts/mts_table_1',
         column: { prettyName: 'Classification Description', name: 'classification_desc', searchTerm: 'October' },
+        dateColumn: { name: 'record_date', filterMonthPrettyName: 'September', filterMonthNumber: '9', filterYear: '2024', filterDate: '9/30/2024' },
       },
       {
         name: 'Receipts of the U.S. Government',
         endpoint: '/v1/accounting/mts/mts_table_4',
         column: { prettyName: 'Classification Description', name: 'classification_desc', searchTerm: 'Withheld' },
+        dateColumn: { name: 'record_date', filterMonthPrettyName: 'September', filterMonthNumber: '9', filterYear: '2024', filterDate: '9/30/2024' },
       },
     ],
   };
@@ -46,11 +50,13 @@ describe('Dataset detail page validation', () => {
         name: 'Summary of Treasury Securities Outstanding',
         endpoint: '/v1/debt/mspd/mspd_table_1',
         column: { prettyName: 'Security Type Description', name: 'security_type_desc', searchTerm: 'Total Marketable' },
+        dateColumn: { name: 'record_date', filterMonthPrettyName: 'September', filterMonthNumber: '9', filterYear: '2024', filterDate: '9/30/2024' },
       },
       {
         name: 'Statutory Debt Limit',
         endpoint: '/v1/debt/mspd/mspd_table_2',
         column: { prettyName: 'Debt Limit Class 1 Description', name: 'debt_limit_class1_desc', searchTerm: 'Less Debt Not Subject to Limit' },
+        dateColumn: { name: 'record_date', filterMonthPrettyName: 'September', filterMonthNumber: '9', filterYear: '2024', filterDate: '9/30/2024' },
       },
     ],
   };
@@ -63,11 +69,13 @@ describe('Dataset detail page validation', () => {
         name: 'Demand Deposit Rate',
         endpoint: '/v1/accounting/od/slgs_demand_deposit_rates',
         column: { prettyName: 'Fiscal Year', name: 'record_fiscal_year', searchTerm: '20', dailySearchResults: 1 },
+        dateColumn: { name: 'record_date', filterMonthPrettyName: 'January', filterMonthNumber: '1', filterYear: '2024', filterDate: '1/22/2024' },
       },
       {
         name: 'Time Deposit Rate',
         endpoint: '/v1/accounting/od/slgs_time_deposit_rates',
         column: { prettyName: 'Through (Year-Month)', name: 'through', searchTerm: 'ONLY' },
+        dateColumn: { name: 'record_date', filterMonthPrettyName: 'January', filterMonthNumber: '1', filterYear: '2024', filterDate: '1/30/2024' },
       },
     ],
   };
@@ -86,12 +94,15 @@ describe('Dataset detail page validation', () => {
     cy.visit(dataset.url);
     cy.contains(dataset.dataTables[0].name).click();
     dataset.dataTables.forEach(table => {
-      cy.contains(table.name).click();
+      cy.contains(table.name)
+        .click()
+        .wait(1000);
       // Endpoint in the API Quick Guide documentation updates for each table
       cy.contains('/services/api/fiscal_service' + table.endpoint);
       if (table?.largeTable) {
         cy.contains('Text filtering has been limited due to large table size');
       } else {
+        // Text search validation
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' }).type(table.column.searchTerm);
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' })
           .invoke('val')
@@ -106,6 +117,21 @@ describe('Dataset detail page validation', () => {
             .its('length')
             .should('eq', 10);
         }
+        // Date Range Input Validation
+        cy.findByText('All')
+          .click()
+          .wait(500);
+        cy.findByRole('button', { name: 'Open ' + table.dateColumn.name + ' Filter' }).click();
+        cy.findByLabelText('Month:').select(table.dateColumn.filterMonthPrettyName);
+        cy.findByLabelText('Year:').select(table.dateColumn.filterYear);
+        cy.findByRole('gridcell', { name: '1' }).click();
+        cy.findByRole('gridcell', { name: '30' }).click();
+        cy.get('td:contains("' + table.dateColumn.filterDate + '")')
+          .its('length')
+          .should('be.gte', 1);
+        cy.findByLabelText('Clear dates').click();
+        cy.reload();
+        cy.wait(500);
       }
       cy.contains(table.name).click();
     });
