@@ -6,28 +6,6 @@ import { fileSizeTranslator, fileSizeTranslator2 } from '../datatables-tab/datat
 const { stringify } = require('csv-stringify/sync');
 const fileDownload = require('js-file-download');
 
-export const dateRangeUrl = (endpointPath, dateFilter, dateField, limit, format, sort) => {
-  const params = {};
-  if (limit) {
-    params.limit = limit;
-  }
-  if (dateFilter) {
-    params.filter = serializeDateRange(dateFilter, dateField);
-  }
-  if (sort) {
-    params.sort = sort;
-  } else {
-    params.sort = dateField;
-  }
-  if (format) {
-    params.format = format;
-  } else {
-    params.format = 'json';
-  }
-  const queryParams = params !== {} ? '?' + queryString.stringify(params) : '';
-  return apiPrefix + endpointPath + queryParams;
-};
-
 const serializeDateRange = (dateRange, dateField) => {
   return `${dateField}:gte:${dateRange.from},${dateField}:lte:${dateRange.to}`;
 };
@@ -54,88 +32,12 @@ const filenameDate = filtrationDate => {
 export const getFilenameForSaveAs = (dateFilter, api, format) => {
   const dateAppendix = dateFilter ? '_' + filenameDate(dateFilter.from) + '_' + filenameDate(dateFilter.to) : '';
   return api.downloadName + dateAppendix + '.' + format;
-};
-
-export const getDataForDownload = (dataset, api, dateRange, format) => {  // is this used at all??
-
-  const dateFilter = dateRange ? getDateRangeForFiltration(dateRange, api.endpoint) : null;
-  const downloadName = getFilenameForSaveAs(dateFilter, api, format);
-
-  const url = dateRangeUrl(api.endpoint, dateFilter, api.dateField, -1, format, api.dateField);
-  return callApiUrl(url)
-    .then(response => response.blob())
-    .then(data => {
-      fileDownload(data, downloadName);
-    });
-};
+}
 
 export const replaceNbsps = str => {
   const re = new RegExp(String.fromCharCode(160), 'g'); // global search for " "
   return str.replace(re, ' ');
 };
-//
-// const addDataset = (fields, dataset) => {
-//   return fields.map(field => Object.assign({ dataset: dataset.name }, field));
-// };
-//
-// export const convertDataDictionaryToCsv = dataset => {
-//   console.log('dataset: ', dataset);
-//   const apis = dataset.apis;
-//   if (apis && apis[0] && apis[0].fields && apis[0].fields.length) {
-//     const allTableFields = apis.reduce((accumulated, current) => {
-//       return accumulated.concat(addDataset(current.fields, dataset));
-//     }, []);
-//     return replaceNbsps(
-//       stringify(allTableFields, {
-//         header: true,
-//         columns: [
-//           {
-//             key: 'dataset',
-//             header: 'dataset',
-//           },
-//           {
-//             key: 'tableName',
-//             header: 'data_table_name',
-//           },
-//           {
-//             key: 'columnName',
-//             header: 'field_name',
-//           },
-//           {
-//             key: 'prettyName',
-//             header: 'display_name',
-//           },
-//           {
-//             key: 'definition',
-//             header: 'description',
-//           },
-//           {
-//             key: 'dataType',
-//             header: 'data_type',
-//           },
-//           {
-//             key: 'isRequired',
-//             header: 'is_required',
-//           },
-//         ],
-//       })
-//     );
-//   } else {
-//     return '';
-//   }
-// };
-//
-// export const suggestDictionaryDownloadName = datasetName => {
-//   return datasetName.replace(/[^a-zA-z ]/g, '') + ' Data Dictionary.csv';
-// };
-//
-// export const calcDictionaryDownloadSize = csvData => {
-//   return fileSizeTranslator(1000 + csvData.length);
-// };
-//
-// export const triggerDataDictionaryDownload = (csvData, datasetName) => {
-//   return fileDownload(csvData, suggestDictionaryDownloadName(datasetName));
-// };
 
 const makeHeadRequests = async (filePath, fetchHeadOption, failedRequestsNbr) => {
   if (failedRequestsNbr <= 3) {
@@ -187,6 +89,7 @@ export const populateFileSizes = async (setAllFileSizes, tableName) => {
 
 export const constructDownloadFileName = (dateRange, selectedTable) => {
   if (dateRange?.from && dateRange?.to && selectedTable?.downloadName) {
+    console.log('selectedTable?.downloadName:: ', selectedTable?.downloadName);
     const from = format(dateRange.from, 'yyyyMMdd');
     const to = format(dateRange.to, 'yyyyMMdd');
     return selectedTable.downloadName + '_' + from + '_' + to;

@@ -1,28 +1,13 @@
 import { API_BASE_URL } from 'gatsby-env-variables';
 
 import {
-  calcDictionaryDownloadSize,
   constructDownloadFileName,
-  convertDataDictionaryToCsv,
   dateRangeUrl,
   getDateRangeForFiltration,
   getFilenameForSaveAs,
-  replaceNbsps,
-  suggestDictionaryDownloadName,
 } from './download-helpers';
 
 describe('Dataset Helper function collection', () => {
-  it('returns a correctly formatted url', () => {
-    const path = 'accounting/od/debt_outstanding';
-    const dateFilter = {
-      from: '2001-01-31',
-      to: '2020-02-29',
-    };
-    expect(dateRangeUrl(path, dateFilter, 'data_date', -1, 'csv', 'data_date')).toEqual(
-      `${API_BASE_URL}/services/api/fiscal_service/accounting/od/debt_outstanding?filter=data_date%3Agte%3A2001-01-31%2Cdata_date%3Alte%3A2020-02-29&format=csv&limit=-1&sort=data_date`
-    );
-  });
-
   it('converts date objects to strings for use in filter param', () => {
     const dateRange = {
       from: new Date(2001, 0, 31),
