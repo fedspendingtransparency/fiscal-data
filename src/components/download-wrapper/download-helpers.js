@@ -69,10 +69,10 @@ export const getDataForDownload = (dataset, api, dateRange, format) => {  // is 
     });
 };
 
-// export const replaceNbsps = str => {
-//   const re = new RegExp(String.fromCharCode(160), 'g'); // global search for " "
-//   return str.replace(re, ' ');
-// };
+export const replaceNbsps = str => {
+  const re = new RegExp(String.fromCharCode(160), 'g'); // global search for " "
+  return str.replace(re, ' ');
+};
 //
 // const addDataset = (fields, dataset) => {
 //   return fields.map(field => Object.assign({ dataset: dataset.name }, field));
