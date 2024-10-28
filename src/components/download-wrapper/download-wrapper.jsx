@@ -3,7 +3,8 @@ import { wrapper, downloadDescription, describer, dateStringStyle } from './down
 import Truncator from '../truncate/truncate';
 import DownloadItemButton from './download-item-button/download-item-button';
 import Analytics from '../../utils/analytics/analytics';
-import { calcDictionaryDownloadSize, convertDataDictionaryToCsv, triggerDataDictionaryDownload } from './download-helpers';
+import { triggerDataDictionaryDownload } from './download-helpers';
+import { calcDictionaryDownloadSize, convertDataDictionaryToCsv } from './data-dictionary-download-helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import DownloadToggle from './download-toggle/download-toggle';

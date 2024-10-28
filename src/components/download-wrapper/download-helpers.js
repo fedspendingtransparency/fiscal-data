@@ -56,7 +56,8 @@ export const getFilenameForSaveAs = (dateFilter, api, format) => {
   return api.downloadName + dateAppendix + '.' + format;
 };
 
-export const getDataForDownload = (dataset, api, dateRange, format) => {
+export const getDataForDownload = (dataset, api, dateRange, format) => {  // is this used at all??
+
   const dateFilter = dateRange ? getDateRangeForFiltration(dateRange, api.endpoint) : null;
   const downloadName = getFilenameForSaveAs(dateFilter, api, format);
 
@@ -68,72 +69,73 @@ export const getDataForDownload = (dataset, api, dateRange, format) => {
     });
 };
 
-export const replaceNbsps = str => {
-  const re = new RegExp(String.fromCharCode(160), 'g');
-  return str.replace(re, ' ');
-};
-
-const addDataset = (fields, dataset) => {
-  return fields.map(field => Object.assign({ dataset: dataset.name }, field));
-};
-
-export const convertDataDictionaryToCsv = dataset => {
-  const apis = dataset.apis;
-  if (apis && apis[0] && apis[0].fields && apis[0].fields.length) {
-    const allTableFields = apis.reduce((flattened, current) => {
-      return flattened.concat(addDataset(current.fields, dataset));
-    }, []);
-    return replaceNbsps(
-      stringify(allTableFields, {
-        header: true,
-        columns: [
-          {
-            key: 'dataset',
-            header: 'dataset',
-          },
-          {
-            key: 'tableName',
-            header: 'data_table_name',
-          },
-          {
-            key: 'columnName',
-            header: 'field_name',
-          },
-          {
-            key: 'prettyName',
-            header: 'display_name',
-          },
-          {
-            key: 'definition',
-            header: 'description',
-          },
-          {
-            key: 'dataType',
-            header: 'data_type',
-          },
-          {
-            key: 'isRequired',
-            header: 'is_required',
-          },
-        ],
-      })
-    );
-  } else {
-    return '';
-  }
-};
-
-export const suggestDictionaryDownloadName = datasetName => {
-  return datasetName.replace(/[^a-zA-z ]/g, '') + ' Data Dictionary.csv';
-};
-
-export const calcDictionaryDownloadSize = csvData => {
-  return fileSizeTranslator(1000 + csvData.length);
-};
-
-export const triggerDataDictionaryDownload = (csvData, datasetName) => {
-  return fileDownload(csvData, suggestDictionaryDownloadName(datasetName));
-};
+// export const replaceNbsps = str => {
+//   const re = new RegExp(String.fromCharCode(160), 'g'); // global search for " "
+//   return str.replace(re, ' ');
+// };
+//
+// const addDataset = (fields, dataset) => {
+//   return fields.map(field => Object.assign({ dataset: dataset.name }, field));
+// };
+//
+// export const convertDataDictionaryToCsv = dataset => {
+//   console.log('dataset: ', dataset);
+//   const apis = dataset.apis;
+//   if (apis && apis[0] && apis[0].fields && apis[0].fields.length) {
+//     const allTableFields = apis.reduce((accumulated, current) => {
+//       return accumulated.concat(addDataset(current.fields, dataset));
+//     }, []);
+//     return replaceNbsps(
+//       stringify(allTableFields, {
+//         header: true,
+//         columns: [
+//           {
+//             key: 'dataset',
+//             header: 'dataset',
+//           },
+//           {
+//             key: 'tableName',
+//             header: 'data_table_name',
+//           },
+//           {
+//             key: 'columnName',
+//             header: 'field_name',
+//           },
+//           {
+//             key: 'prettyName',
+//             header: 'display_name',
+//           },
+//           {
+//             key: 'definition',
+//             header: 'description',
+//           },
+//           {
+//             key: 'dataType',
+//             header: 'data_type',
+//           },
+//           {
+//             key: 'isRequired',
+//             header: 'is_required',
+//           },
+//         ],
+//       })
+//     );
+//   } else {
+//     return '';
+//   }
+// };
+//
+// export const suggestDictionaryDownloadName = datasetName => {
+//   return datasetName.replace(/[^a-zA-z ]/g, '') + ' Data Dictionary.csv';
+// };
+//
+// export const calcDictionaryDownloadSize = csvData => {
+//   return fileSizeTranslator(1000 + csvData.length);
+// };
+//
+// export const triggerDataDictionaryDownload = (csvData, datasetName) => {
+//   return fileDownload(csvData, suggestDictionaryDownloadName(datasetName));
+// };
 
 const makeHeadRequests = async (filePath, fetchHeadOption, failedRequestsNbr) => {
   if (failedRequestsNbr <= 3) {
