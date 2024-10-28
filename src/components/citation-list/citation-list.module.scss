@@ -8,9 +8,15 @@
 }
 
 .citationContainer {
+  margin-bottom: 0.5rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.citationText {
   display: flex;
   align-items: flex-start;
-
 }
 
 .iconContainer {

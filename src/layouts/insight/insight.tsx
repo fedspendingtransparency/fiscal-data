@@ -17,19 +17,11 @@ import CitationList from '../../components/citation-list/citation-list';
 import { insightsDataSources, insightsSections } from './sections/sections';
 
 const InsightPageLayout = ({ pageContext }) => {
-  const { pageName, seoConfig, relatedDatasets, heroImage } = pageContext;
+  const { pageName, seoConfig, heroImage } = pageContext;
 
   return (
     <SiteLayout isPreProd={false}>
-      <PageHelmet
-        pageTitle={seoConfig.pageTitle}
-        description={seoConfig.description}
-        descriptionGenerator={explainerDescriptionGenerators[pageName] || false}
-        keywords={seoConfig.keywords}
-        image=""
-        canonical=""
-        datasetDetails=""
-      />
+      <PageHelmet pageTitle={seoConfig.pageTitle} description={seoConfig.description} keywords={seoConfig.keywords} />
       <div className={insightsContainer}>
         <h1 className={sectionHeading}>{heroImage.heading}</h1>
         <span className={lastUpdated}>Last Updated: Month DD, YYYY</span>

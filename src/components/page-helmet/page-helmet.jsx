@@ -5,7 +5,7 @@ import globalConstants from '../../helpers/constants';
 import { ENV_ID } from 'gatsby-env-variables';
 import { graphql, useStaticQuery } from 'gatsby';
 
-const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, image, canonical, datasetDetails }) => {
+const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keywords, image = '', canonical = '', datasetDetails = '' }) => {
   let versionInfo = useStaticQuery(graphql`
     {
       gitCommit(latest: { eq: true }) {

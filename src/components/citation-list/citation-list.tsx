@@ -1,22 +1,25 @@
 import React from 'react';
-import { listHeader, citationContainer, iconContainer } from './citation-list.module.scss';
+import { listHeader, citationContainer, iconContainer, citationText } from './citation-list.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faExternalLink } from '@fortawesome/free-solid-svg-icons';
+
 const CitationList = ({ header, citations, headingLevel = 'h2' }) => {
   const HeaderTag = React.createElement(headingLevel, { className: listHeader }, header);
   return (
     <>
       {HeaderTag}
-      {citations.map(citation => (
-        <CustomLink url={citation.url}>
-          <div className={citationContainer}>
-            <div className={iconContainer}>
-              <FontAwesomeIcon icon={faLink} />
+      {citations.map((citation: { url: string; text: string; external?: boolean }) => (
+        <div className={citationContainer}>
+          <CustomLink url={citation.url}>
+            <div className={citationText}>
+              <div className={iconContainer}>
+                <FontAwesomeIcon icon={citation?.external ? faExternalLink : faLink} />
+              </div>
+              <span>{citation.text}</span>
             </div>
-            <span>{citation.text}</span>
-          </div>
-        </CustomLink>
+          </CustomLink>
+        </div>
       ))}
     </>
   );
