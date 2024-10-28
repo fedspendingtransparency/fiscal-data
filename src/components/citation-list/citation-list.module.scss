@@ -1,0 +1,23 @@
+@import '../../variables.module';
+
+.listHeader {
+  color: $font-body-copy;
+  font-weight: $semi-bold-weight;
+  font-size: $font-size-16;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.citationContainer {
+  display: flex;
+  align-items: flex-start;
+
+}
+
+.iconContainer {
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: .5rem;
+  color: $primary;
+  display: flex;
+  align-items: center;
+}

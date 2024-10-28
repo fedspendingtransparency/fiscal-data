@@ -8,6 +8,7 @@ import {
   horizontalSocialShareContent,
   listShareButton,
   listSocialShareContent,
+  headerText,
 } from './social-share.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -45,10 +46,13 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   emailSeparator = '\n',
   pageName,
   width,
-  displayStyle,
+  displayStyle = 'responsive',
   clickEvent,
+  headerLevel = 'h3',
 }) => {
   const { title, description, body, emailSubject, emailBody, url, image } = copy;
+
+  const HeaderTag = React.createElement(headerLevel, { className: headerText }, 'Share this page:');
 
   let contentStyle = socialShareContent;
   let containerStyle = shareButtonContainer;
@@ -64,7 +68,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
     buttonStyle = listShareButton;
   }
 
-  const handleClick = socialName => {
+  const handleClick = (socialName: string) => {
     analyticsClickHandler(pageName, socialName);
     if (clickEvent) {
       clickEvent();
@@ -75,7 +79,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
     <>
       <SocialMetaData image={image} title={title} description={description} url={url} />
       <div className={`${contentStyle} socialShareContent`}>
-        {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && <h3>Share this page:</h3>}
+        {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && HeaderTag}
         <div className={containerStyle}>
           <FacebookShareButton className={`${buttonStyle} facebookShare`} url={url} quote={body} beforeOnClick={() => handleClick('Facebook')}>
             <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
