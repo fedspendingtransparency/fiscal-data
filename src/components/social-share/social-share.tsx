@@ -23,9 +23,9 @@ import SocialMetaData from './social-metadata/social-metadata';
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
-const analyticsClickHandler = (page, social) => {
-  let gaCategory;
-  let gaLabel;
+const analyticsClickHandler = (page: string, social: string) => {
+  let gaCategory: string;
+  let gaLabel: string;
 
   if (page === 'Exchange Rates Converter') {
     gaCategory = page;

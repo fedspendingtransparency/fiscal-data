@@ -1,8 +1,8 @@
 @import '../../variables.module.scss';
 
+$link-container-width: 20rem;
 // interest expense
 $interest-expense-primary: #00796B;
-$link-container-width: 20rem;
 
 .insightsContainer {
   margin: 0 auto 4rem;
@@ -15,7 +15,6 @@ $link-container-width: 20rem;
   font-weight: $light-weight;
   font-size: $font-size-32;
   color: $font-title;
-  max-width: calc(100% - $link-container-width);
   margin: 1.5rem 0;
 }
 
@@ -26,7 +25,6 @@ $link-container-width: 20rem;
 
 .contentContainer {
   display: flex;
-
 
   .mainContent {
     display: flex;
@@ -43,14 +41,29 @@ $link-container-width: 20rem;
     .sectionContainer {
       margin-bottom: 1.5rem;
     }
-
-    .dataSourcesContainer {
-
-    }
   }
 
   .relatedContent {
     min-width: $link-container-width;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .sectionHeading {
+    max-width: calc(100% - $link-container-width);
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .insightsContainer {
+  margin: 0 10px 4rem;
+  }
+    .contentContainer {
+    flex-direction: column;
+  }
+
+  .lastUpdated {
+    margin: 1.5rem 0;
   }
 }
 

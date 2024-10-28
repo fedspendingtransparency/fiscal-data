@@ -1,7 +1,6 @@
 import React from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import { explainerDescriptionGenerators } from '../explainer/sections/sections';
 import {
   sectionHeading,
   mainContent,
@@ -15,8 +14,11 @@ import SocialShare from '../../components/social-share/social-share';
 import { discoverDatasetsCitationsMap, exploreMoreCitationsMap, insightSocialShareMap } from '../../helpers/insights/insight-helpers';
 import CitationList from '../../components/citation-list/citation-list';
 import { insightsDataSources, insightsSections } from './sections/sections';
+import { withWindowSize } from 'react-fns';
+import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../variables.module.scss';
 
-const InsightPageLayout = ({ pageContext }) => {
+const InsightPageLayout = ({ pageContext, width }) => {
   const { pageName, seoConfig, heroImage } = pageContext;
 
   return (
@@ -24,6 +26,7 @@ const InsightPageLayout = ({ pageContext }) => {
       <PageHelmet pageTitle={seoConfig.pageTitle} description={seoConfig.description} keywords={seoConfig.keywords} />
       <div className={insightsContainer}>
         <h1 className={sectionHeading}>{heroImage.heading}</h1>
+        {width < pxToNumber(breakpointLg) && <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" />}
         <span className={lastUpdated}>Last Updated: Month DD, YYYY</span>
         <div className={contentContainer}>
           <div className={mainContent}>
@@ -37,7 +40,7 @@ const InsightPageLayout = ({ pageContext }) => {
             </div>
           </div>
           <div className={relatedContent}>
-            <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" />
+            {width >= pxToNumber(breakpointLg) && <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" />}
             <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} />
             <CitationList header="Discover Datasets" citations={discoverDatasetsCitationsMap[pageName]} />
           </div>
@@ -47,4 +50,4 @@ const InsightPageLayout = ({ pageContext }) => {
   );
 };
 
-export default InsightPageLayout;
+export default withWindowSize(InsightPageLayout);
