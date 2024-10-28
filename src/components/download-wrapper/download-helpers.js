@@ -1,14 +1,6 @@
-import queryString from 'query-string';
-import { apiPrefix, callApiUrl, postAPI } from '../../utils/api-utils';
+import { postAPI } from '../../utils/api-utils';
 import { format } from 'date-fns';
-import { fileSizeTranslator, fileSizeTranslator2 } from '../datatables-tab/datatables-tab-helpers';
-
-const { stringify } = require('csv-stringify/sync');
-const fileDownload = require('js-file-download');
-
-const serializeDateRange = (dateRange, dateField) => {
-  return `${dateField}:gte:${dateRange.from},${dateField}:lte:${dateRange.to}`;
-};
+import { fileSizeTranslator2 } from '../datatables-tab/datatables-tab-helpers';
 
 export const getDateRangeForFiltration = (dateRange, endpoint) => {
   // redemption_tables is a one-off scenario where the date string needs to be YYYY-MM.
@@ -62,29 +54,6 @@ const makeHeadRequests = async (filePath, fetchHeadOption, failedRequestsNbr) =>
       });
   }
   return null;
-};
-
-export const populateFileSizes = async (setAllFileSizes, tableName) => {
-  const dateFormatArr = ['current_report', '1_year', '5_years', '10_years', 'all_years'];
-  const fileFormatsArr = ['csv', 'json', 'xml'];
-  const fileSizeObj = {};
-  const fetchHeadOption = {
-    method: 'HEAD',
-  };
-  for (let i = 0, il = dateFormatArr.length; i < il; i++) {
-    const curDateStr = dateFormatArr[i];
-    const failedRequestsNbr = 0;
-    fileSizeObj[curDateStr] = {};
-    const curObj = fileSizeObj[curDateStr];
-
-    for (let j = 0, jl = fileFormatsArr.length; j < jl; j++) {
-      const fileFormat = fileFormatsArr[j];
-      const filePath = `/static-data/${tableName}_${curDateStr}.${fileFormat}.zip`;
-
-      curObj[fileFormat] = await makeHeadRequests(filePath, fetchHeadOption, failedRequestsNbr);
-    }
-  }
-  setAllFileSizes(fileSizeObj);
 };
 
 export const constructDownloadFileName = (dateRange, selectedTable) => {
