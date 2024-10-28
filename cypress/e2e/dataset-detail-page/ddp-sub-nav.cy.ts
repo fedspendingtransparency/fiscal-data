@@ -1,12 +1,13 @@
 describe('Homepage user flow validation', () => {
-  it('Validates the DDP page loads', () => {
+  beforeEach(() => {
     cy.visit('/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government').wait(3000);
-
+  });
+  it('Validates the DDP page loads', () => {
     cy.findByLabelText('Jump to Introduction section').should('be.visible');
+    cy.findByTitle('Monthly Treasury Statement (MTS)').should('be.visible');
   });
 
   it('Validates Introduction jumps to the introduction part of the page', () => {
-    cy.visit('/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government/').wait(3000);
     cy.findByLabelText('Jump to Introduction section').click();
     cy.url().should('include', '#introduction');
     cy.focused()
@@ -15,7 +16,6 @@ describe('Homepage user flow validation', () => {
     cy.url().should('include', '#introduction');
   });
   it('Validates Preview & Download jumps to the data Table part of the page', () => {
-    cy.visit('/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government/').wait(3000);
     cy.findByLabelText('Jump to Preview & Download section').click();
     cy.url().should('include', '#data-table');
     cy.focused()
@@ -24,7 +24,6 @@ describe('Homepage user flow validation', () => {
     cy.url().should('include', '#data-table');
   });
   it('Validates Dataset Properties jumps to the Data Sets part of the page', () => {
-    cy.visit('/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government/').wait(3000);
     cy.findByLabelText('Jump to Dataset Properties section').click();
     cy.url().should('include', '#dataset-properties');
     cy.focused()
@@ -33,7 +32,6 @@ describe('Homepage user flow validation', () => {
     cy.url().should('include', '#dataset-properties');
   });
   it('Validates Api Quick Guide jumps to the API Quick Guide part of the page', () => {
-    cy.visit('/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government/').wait(3000);
     cy.findByLabelText('Jump to API Quick Guide section').click();
     cy.url().should('include', '#api-quick-guide');
     cy.focused()
