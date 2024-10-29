@@ -11,10 +11,6 @@ export const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&filter=line_
 
 export const preAPIData = [
   {
-    year: '2000',
-    deficit: '',
-  },
-  {
     year: '2001',
     deficit: '-0.13',
     deficitColor: deficitExplainerPrimary,
@@ -87,10 +83,11 @@ export const preAPIData = [
 ];
 
 export const generateTickValues = chartData => {
-  const xValues = [];
+  const xValues = [2000];
   const yValues = [];
   const tickValues = [];
   const deficitValues = [];
+
   chartData.forEach(entry => {
     if (parseInt(entry.year) % 5 === 0) {
       xValues.push(entry.year);
