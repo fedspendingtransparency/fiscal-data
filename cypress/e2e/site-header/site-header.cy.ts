@@ -1,6 +1,6 @@
 describe('Site header validation', () => {
   it('Validate Topics Links and logo navigation in site header', () => {
-    cy.visit('/').wait(1000);
+    cy.visit('/');
 
     cy.findByLabelText('Page links for Topics').trigger('mouseover');
     cy.contains('Savings Bonds')
@@ -45,7 +45,7 @@ describe('Site header validation', () => {
   });
 
   it('Validate Tools links in site header', () => {
-    cy.visit('/').wait(1000);
+    cy.visit('/');
     cy.findByLabelText('Page links for Tools').trigger('mouseover');
     cy.contains('Currency Exchange Rates Converter')
       .click()
@@ -54,7 +54,7 @@ describe('Site header validation', () => {
   });
 
   it('Validate Dataset Search link in site header', () => {
-    cy.visit('/').wait(1000);
+    cy.visit('/');
     cy.contains('Dataset Search')
       .click()
       .wait(0);
@@ -62,7 +62,7 @@ describe('Site header validation', () => {
   });
 
   it('Validate Resources links in site header', () => {
-    cy.visit('/').wait(1000);
+    cy.visit('/');
     cy.findByLabelText('Page links for Resources').trigger('mouseover');
     cy.contains('Glossary')
       .click()
@@ -89,7 +89,7 @@ describe('Site header validation', () => {
   });
 
   it('Validate About Us link in site header', () => {
-    cy.visit('/').wait(1000);
+    cy.visit('/');
     cy.contains('About Us')
       .click()
       .wait(0);
