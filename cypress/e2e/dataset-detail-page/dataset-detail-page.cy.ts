@@ -210,6 +210,7 @@ describe('Dataset detail page validation', () => {
         cy.findAllByRole('button', { name: 'Reset Filters' })
           .first()
           .click();
+        cy.findAllByText('mm/dd/yyyy').should('exist');
         cy.reload();
         cy.wait(500);
       }
