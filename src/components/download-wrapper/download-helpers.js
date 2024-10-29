@@ -20,7 +20,7 @@ export const getDateRangeForFiltration = (dateRange, endpoint) => {
 export const getFilenameForSaveAs = (dateFilter, api, format) => {
   const dateAppendix = dateFilter ? '_' + filenameDate(dateFilter.from) + '_' + filenameDate(dateFilter.to) : '';
   return api.downloadName + dateAppendix + '.' + format;
-}
+};
 
 export const replaceNbsps = str => {
   const re = new RegExp(String.fromCharCode(160), 'g'); // global search for " "
@@ -29,7 +29,6 @@ export const replaceNbsps = str => {
 
 export const constructDownloadFileName = (dateRange, selectedTable) => {
   if (dateRange?.from && dateRange?.to && selectedTable?.downloadName) {
-    console.log('selectedTable?.downloadName:: ', selectedTable?.downloadName);
     const from = format(dateRange.from, 'yyyyMMdd');
     const to = format(dateRange.to, 'yyyyMMdd');
     return selectedTable.downloadName + '_' + from + '_' + to;
