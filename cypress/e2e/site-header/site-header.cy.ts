@@ -33,14 +33,14 @@ describe('Site header validation', () => {
   });
 
   it('Validate Tools links in site header', () => {
-    cy.visit('/');
+    cy.visit('/').wait(1000);
     cy.findByLabelText('Page links for Tools').trigger('mouseover');
     cy.contains('Currency Exchange Rates Converter').click();
     cy.url().should('include', '/currency-exchange-rates-converter/');
   });
 
   it('Validate Dataset Search link in site header', () => {
-    cy.visit('/');
+    cy.visit('/').wait(1000);
     cy.contains('Dataset Search').click();
     cy.url().should('include', '/datasets/');
   });
@@ -63,7 +63,7 @@ describe('Site header validation', () => {
   });
 
   it('Validate About Us link in site header', () => {
-    cy.visit('/');
+    cy.visit('/').wait(1000);
     cy.contains('About Us').click();
     cy.url().should('include', '/about-us/');
   });
