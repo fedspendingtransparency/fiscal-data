@@ -167,7 +167,9 @@ describe('Dataset detail page validation', () => {
         cy.contains('Text filtering has been limited due to large table size');
       } else {
         // Text search validation
-        cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' }).type(table.column.searchTerm);
+        cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' })
+          .type(table.column.searchTerm)
+          .wait(200);
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' })
           .invoke('val')
           .should('eq', table.column.searchTerm);
