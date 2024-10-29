@@ -22,7 +22,7 @@ describe('Site header validation', () => {
     cy.url().should('include', '/americas-finance-guide/');
   });
 
-  it('Validate Overview Topics Link and logo navigation in site header', () => {
+  it('Validate Revenue Topics Link and logo navigation in site header', () => {
     cy.findByLabelText('Page links for Topics')
       .trigger('mouseover')
       .wait(0);
@@ -32,7 +32,7 @@ describe('Site header validation', () => {
     cy.url().should('include', '/americas-finance-guide/government-revenue/');
   });
 
-  it('Validate Overview Topics Link and logo navigation in site header', () => {
+  it('Validate Spending Topics Link and logo navigation in site header', () => {
     cy.findByLabelText('Page links for Topics')
       .trigger('mouseover')
       .wait(0);
@@ -42,7 +42,7 @@ describe('Site header validation', () => {
     cy.url().should('include', '/americas-finance-guide/federal-spending/');
   });
 
-  it('Validate Overview Topics Link and logo navigation in site header', () => {
+  it('Validate Deficit Topics Link and logo navigation in site header', () => {
     cy.findByLabelText('Page links for Topics')
       .trigger('mouseover')
       .wait(0);
@@ -52,7 +52,7 @@ describe('Site header validation', () => {
     cy.url().should('include', '/americas-finance-guide/national-deficit/');
   });
 
-  it('Validate Overview Topics Link and logo navigation in site header', () => {
+  it('Validate Debt Topics Link and logo navigation in site header', () => {
     cy.findByLabelText('Page links for Topics')
       .trigger('mouseover')
       .wait(0);
