@@ -45,6 +45,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           install: false
-          build: npm run build
+          build: npm run build-uat
           start: npm run serve
           broswer: chrome
