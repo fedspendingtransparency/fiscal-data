@@ -184,14 +184,14 @@ describe('Dataset detail page validation', () => {
         // Date Range Input and Sorting Validation
         cy.findByText('All')
           .click()
-          .wait(500);
+          .wait(1000);
         cy.findByRole('button', { name: 'Open ' + table.dateColumn.name + ' Filter' }).click();
         cy.findByLabelText('Month:').select(table.dateColumn.filterMonthPrettyName);
         cy.findByLabelText('Year:').select(table.dateColumn.filterYear);
         cy.findByRole('gridcell', { name: '1' }).click();
         cy.findByRole('gridcell', { name: '30' })
           .click()
-          .wait(200);
+          .wait(500);
         cy.get('td:contains("' + table.dateColumn.filterDate + '")')
           .its('length')
           .should('be.gte', 1);
@@ -212,7 +212,7 @@ describe('Dataset detail page validation', () => {
           .click();
         cy.findAllByText('mm/dd/yyyy').should('exist');
         cy.reload();
-        cy.wait(500);
+        cy.wait(1000);
       }
       cy.contains(table.name).click();
     });
