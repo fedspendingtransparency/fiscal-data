@@ -1,8 +1,4 @@
 describe('Site header validation', () => {
-  beforeEach(() => {
-    cy.wait(10000);
-  });
-
   it('Validate Topics Links and logo navigation in site header', () => {
     cy.visit('/');
 
