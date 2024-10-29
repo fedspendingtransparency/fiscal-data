@@ -1,7 +1,8 @@
 describe('Site header validation', () => {
+  beforeEach(() => {
+    cy.visit('/').wait(3000);
+  });
   it('Validate Topics Links and logo navigation in site header', () => {
-    cy.visit('/');
-
     cy.findByLabelText('Page links for Topics')
       .trigger('mouseover')
       .wait(0);
@@ -65,7 +66,6 @@ describe('Site header validation', () => {
   });
 
   it('Validate Tools links in site header', () => {
-    cy.visit('/');
     cy.findByLabelText('Page links for Tools')
       .trigger('mouseover')
       .wait(0);
@@ -76,7 +76,6 @@ describe('Site header validation', () => {
   });
 
   it('Validate Dataset Search link in site header', () => {
-    cy.visit('/');
     cy.contains('Dataset Search')
       .click()
       .wait(0);
@@ -84,7 +83,6 @@ describe('Site header validation', () => {
   });
 
   it('Validate Resources links in site header', () => {
-    cy.visit('/');
     cy.findByLabelText('Page links for Resources')
       .trigger('mouseover')
       .wait(0);
@@ -117,7 +115,6 @@ describe('Site header validation', () => {
   });
 
   it('Validate About Us link in site header', () => {
-    cy.visit('/');
     cy.contains('About Us')
       .click()
       .wait(0);
