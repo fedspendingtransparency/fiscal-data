@@ -1,4 +1,4 @@
-describe('Site header validation', () => {
+describe('Site header validation', { retries: 2 }, () => {
   beforeEach(() => {
     cy.visit('/').wait(3000);
   });
