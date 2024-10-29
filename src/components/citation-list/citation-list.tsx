@@ -9,8 +9,8 @@ const CitationList = ({ header, citations, headingLevel = 'h2' }) => {
   return (
     <>
       {HeaderTag}
-      {citations.map((citation: { url: string; text: string; external?: boolean }) => (
-        <div className={citationContainer}>
+      {citations.map((citation: { url: string; text: string; external?: boolean }, index: number) => (
+        <div className={citationContainer} key={index}>
           <CustomLink url={citation.url}>
             <div className={citationText}>
               <div className={iconContainer}>

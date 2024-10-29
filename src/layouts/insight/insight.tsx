@@ -30,9 +30,9 @@ const InsightPageLayout = ({ pageContext, width }) => {
         <span className={lastUpdated}>Last Updated: Month DD, YYYY</span>
         <div className={contentContainer}>
           <div className={mainContent}>
-            {insightsSections[pageName].map(s => (
-              <React.Fragment key={s.index}>
-                <section className={sectionContainer}>{s.component}</section>
+            {insightsSections[pageName]?.map(section => (
+              <React.Fragment key={section.index}>
+                <section className={sectionContainer}>{section.component}</section>
               </React.Fragment>
             ))}
             <div>
