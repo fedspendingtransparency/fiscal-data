@@ -2,7 +2,7 @@ describe('Site header validation', () => {
   beforeEach(() => {
     cy.visit('/').wait(3000);
   });
-  it('Validate Topics Links and logo navigation in site header', () => {
+  it('Validate Savings Bonds Topics Link and logo navigation in site header', () => {
     cy.findByLabelText('Page links for Topics')
       .trigger('mouseover')
       .wait(0);
@@ -10,10 +10,9 @@ describe('Site header validation', () => {
       .click()
       .wait(0);
     cy.url().should('include', '/treasury-savings-bonds/');
+  });
 
-    cy.findByLabelText('Fiscal Data logo - return to home page')
-      .click()
-      .wait(0);
+  it('Validate Overview Topics Link and logo navigation in site header', () => {
     cy.findByLabelText('Page links for Topics')
       .trigger('mouseover')
       .wait(0);
@@ -21,10 +20,9 @@ describe('Site header validation', () => {
       .click()
       .wait(0);
     cy.url().should('include', '/americas-finance-guide/');
+  });
 
-    cy.findByLabelText('Fiscal Data logo - return to home page')
-      .click()
-      .wait(0);
+  it('Validate Overview Topics Link and logo navigation in site header', () => {
     cy.findByLabelText('Page links for Topics')
       .trigger('mouseover')
       .wait(0);
@@ -32,8 +30,9 @@ describe('Site header validation', () => {
       .click()
       .wait(0);
     cy.url().should('include', '/americas-finance-guide/government-revenue/');
+  });
 
-    cy.findByLabelText('Fiscal Data logo - return to home page').click();
+  it('Validate Overview Topics Link and logo navigation in site header', () => {
     cy.findByLabelText('Page links for Topics')
       .trigger('mouseover')
       .wait(0);
@@ -41,10 +40,9 @@ describe('Site header validation', () => {
       .click()
       .wait(0);
     cy.url().should('include', '/americas-finance-guide/federal-spending/');
+  });
 
-    cy.findByLabelText('Fiscal Data logo - return to home page')
-      .click()
-      .wait(0);
+  it('Validate Overview Topics Link and logo navigation in site header', () => {
     cy.findByLabelText('Page links for Topics')
       .trigger('mouseover')
       .wait(0);
@@ -52,10 +50,9 @@ describe('Site header validation', () => {
       .click()
       .wait(0);
     cy.url().should('include', '/americas-finance-guide/national-deficit/');
+  });
 
-    cy.findByLabelText('Fiscal Data logo - return to home page')
-      .click()
-      .wait(0);
+  it('Validate Overview Topics Link and logo navigation in site header', () => {
     cy.findByLabelText('Page links for Topics')
       .trigger('mouseover')
       .wait(0);
@@ -82,7 +79,7 @@ describe('Site header validation', () => {
     cy.url().should('include', '/datasets/');
   });
 
-  it('Validate Resources links in site header', () => {
+  it('Validate glossary links in site header', () => {
     cy.findByLabelText('Page links for Resources')
       .trigger('mouseover')
       .wait(0);
@@ -93,7 +90,9 @@ describe('Site header validation', () => {
     cy.findByLabelText('Close glossary')
       .click()
       .wait(0);
+  });
 
+  it('Validate Resources links in site header', () => {
     cy.findByLabelText('Page links for Resources')
       .trigger('mouseover')
       .wait(0);
