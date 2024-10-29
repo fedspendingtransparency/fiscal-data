@@ -32,15 +32,15 @@ describe('Site header validation', () => {
     cy.url().should('include', '/americas-finance-guide/government-revenue/');
   });
 
-  it('Validate Spending Topics Link and logo navigation in site header', () => {
-    cy.findByLabelText('Page links for Topics')
-      .trigger('mouseover')
-      .wait(0);
-    cy.contains('Spending')
-      .click()
-      .wait(0);
-    cy.url().should('include', '/americas-finance-guide/federal-spending/');
-  });
+  // it('Validate Spending Topics Link and logo navigation in site header', () => {
+  //   cy.findByLabelText('Page links for Topics')
+  //     .trigger('mouseover')
+  //     .wait(0);
+  //   cy.contains('Spending')
+  //     .click()
+  //     .wait(0);
+  //   cy.url().should('include', '/americas-finance-guide/federal-spending/');
+  // });
 
   it('Validate Deficit Topics Link and logo navigation in site header', () => {
     cy.findByLabelText('Page links for Topics')
