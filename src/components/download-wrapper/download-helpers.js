@@ -17,10 +17,6 @@ export const getDateRangeForFiltration = (dateRange, endpoint) => {
   };
 };
 
-const filenameDate = filtrationDate => {
-  return filtrationDate.replace(/-/g, '');
-};
-
 export const getFilenameForSaveAs = (dateFilter, api, format) => {
   const dateAppendix = dateFilter ? '_' + filenameDate(dateFilter.from) + '_' + filenameDate(dateFilter.to) : '';
   return api.downloadName + dateAppendix + '.' + format;
@@ -38,4 +34,8 @@ export const constructDownloadFileName = (dateRange, selectedTable) => {
     const to = format(dateRange.to, 'yyyyMMdd');
     return selectedTable.downloadName + '_' + from + '_' + to;
   }
+};
+
+const filenameDate = filtrationDate => {
+  return filtrationDate.replace(/-/g, '');
 };
