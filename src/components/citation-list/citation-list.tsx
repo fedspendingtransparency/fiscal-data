@@ -4,11 +4,11 @@ import CustomLink from '../links/custom-link/custom-link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faExternalLink } from '@fortawesome/free-solid-svg-icons';
 
-const CitationList = ({ header, citations, headingLevel = 'h2' }) => {
-  const HeaderTag = React.createElement(headingLevel, { className: listHeader }, header);
+const CitationList = ({ header, citations, headingLevel = '2' }) => {
+  const HeaderTag = 'h' + headingLevel;
   return (
     <>
-      {HeaderTag}
+      <HeaderTag className={listHeader}>{header}</HeaderTag>
       {citations.map((citation: { url: string; text: string; external?: boolean }, index: number) => (
         <div className={citationContainer} key={index}>
           <CustomLink url={citation.url}>

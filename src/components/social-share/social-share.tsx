@@ -48,11 +48,11 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   width,
   displayStyle = 'responsive',
   clickEvent,
-  headerLevel = 'h3',
+  headerLevel = '3',
 }) => {
   const { title, description, body, emailSubject, emailBody, url, image } = copy;
 
-  const HeaderTag = React.createElement(headerLevel, { className: headerText }, 'Share this page:');
+  const HeaderTag = 'h' + headerLevel; //React.createElement(headerLevel, { className: headerText }, 'Share this page:');
 
   let contentStyle = socialShareContent;
   let containerStyle = shareButtonContainer;
@@ -79,7 +79,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
     <>
       <SocialMetaData image={image} title={title} description={description} url={url} />
       <div className={`${contentStyle} socialShareContent`}>
-        {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && HeaderTag}
+        {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && <HeaderTag className={headerText}> Share this page:</HeaderTag>}
         <div className={containerStyle}>
           <FacebookShareButton className={`${buttonStyle} facebookShare`} url={url} quote={body} beforeOnClick={() => handleClick('Facebook')}>
             <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
