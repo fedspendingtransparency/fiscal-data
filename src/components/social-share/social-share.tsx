@@ -20,8 +20,7 @@ import ShareButtonContent from './share-button-content/share-button-content';
 import { FunctionComponent } from 'react';
 import { ISocialShareComponent } from '../../models/ISocialShareComponent';
 import SocialMetaData from './social-metadata/social-metadata';
-import Heading from '../citation-list/Heading';
-import { listHeader } from '../citation-list/citation-list.module.scss';
+import Heading from '../heading/heading';
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -48,9 +47,9 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   emailSeparator = '\n',
   pageName,
   width,
-  displayStyle = 'responsive',
+  displayStyle,
   clickEvent,
-  headerLevel = '3',
+  headerLevel = 'h3',
 }) => {
   const { title, description, body, emailSubject, emailBody, url, image } = copy;
 
@@ -80,7 +79,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
       <SocialMetaData image={image} title={title} description={description} url={url} />
       <div className={`${contentStyle} socialShareContent`}>
         {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
-          <Heading headingLevel={'h' + headerLevel} className={headerText}>
+          <Heading headingLevel={headerLevel} className={headerText}>
             Share this page:
           </Heading>
         )}

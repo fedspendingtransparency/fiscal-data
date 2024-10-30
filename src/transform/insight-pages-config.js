@@ -1,6 +1,6 @@
 const insightPagesSource = {
   'interest-expense': {
-    slug: '/interest-expense/',
+    slug: '/interest-expense-avg-interest-rates/',
     breadCrumbLinkName: 'Interest Expense',
     seoConfig: {
       pageTitle: '',

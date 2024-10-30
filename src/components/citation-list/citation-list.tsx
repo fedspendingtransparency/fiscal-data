@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { listHeader, citationContainer, iconContainer, citationText } from './citation-list.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faExternalLink } from '@fortawesome/free-solid-svg-icons';
-import Heading from './Heading';
+import Heading from '../heading/heading';
 
-const CitationList = ({ header, citations, headingLevel = '2' }) => {
+interface ICitation {
+  url: string;
+  text: string;
+  external?: boolean;
+}
+
+interface ICitationList {
+  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  header: string;
+  citations: ICitation[];
+}
+
+const CitationList: FunctionComponent<ICitationList> = ({ header, citations, headingLevel = 'h2' }: ICitationList) => {
   return (
     <>
-      <Heading headingLevel={'h' + headingLevel} className={listHeader}>
+      <Heading headingLevel={headingLevel} className={listHeader}>
         {header}
       </Heading>
       {citations.map((citation: { url: string; text: string; external?: boolean }, index: number) => (

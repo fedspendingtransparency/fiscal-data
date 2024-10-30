@@ -1,4 +1,3 @@
-import { KeyTakeawaysSection } from '../../../explainer/sections/national-debt/key-takeaways/national-debt-key-takeaways';
 import React from 'react';
 
 export const interestExpenseDataSources = (
