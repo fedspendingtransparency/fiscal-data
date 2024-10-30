@@ -7,6 +7,8 @@ describe('Month Picker', () => {
   const yearDropdownList = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
   const mockSelectedDate = new Date('8/8/2024');
   const mockSetSelectedDate = jest.fn();
+  const mockScrollIntoView = jest.fn();
+  window.HTMLElement.prototype.scrollIntoView = mockScrollIntoView;
 
   it('Default button', () => {
     const { getByRole } = render(
@@ -38,6 +40,7 @@ describe('Month Picker', () => {
     act(() => {
       fireEvent.click(button);
     });
+    expect(mockScrollIntoView).toBeCalled();
     expect(getAllByRole('button').length).toBeGreaterThan(1);
     act(() => {
       fireEvent.click(button);
@@ -88,6 +91,7 @@ describe('Month Picker', () => {
       fireEvent.click(getByRole('button', { name: 'March' }));
       fireEvent.click(getByRole('button', { name: 'Toggle Year Dropdown' }));
     });
+    expect(mockScrollIntoView).toBeCalled();
     act(() => {
       fireEvent.click(getByRole('button', { name: '2022' }));
     });
