@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faExternalLink } from '@fortawesome/free-solid-svg-icons';
 
 const CitationList = ({ header, citations, headingLevel = '2' }) => {
-  const HeaderTag = 'h' + headingLevel;
+  const HeaderTag = React.createElement('h' + headingLevel, { className: listHeader }, header);
   return (
     <>
-      <HeaderTag className={listHeader}>{header}</HeaderTag>
+      {HeaderTag}
       {citations.map((citation: { url: string; text: string; external?: boolean }, index: number) => (
         <div className={citationContainer} key={index}>
           <CustomLink url={citation.url}>
