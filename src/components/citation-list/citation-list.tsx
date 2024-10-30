@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faExternalLink } from '@fortawesome/free-solid-svg-icons';
 
 const CitationList = ({ header, citations, headingLevel = '2' }) => {
-  const HeaderTag = React.createElement('h' + headingLevel, { className: listHeader }, header);
+  const validHeader = Number(headingLevel) < 6 && Number(headingLevel) > 0;
+  const HeaderTag = validHeader && React.createElement('h' + headingLevel, { className: listHeader }, header);
   return (
     <>
       {HeaderTag}

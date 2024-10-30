@@ -51,8 +51,8 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   headerLevel = '3',
 }) => {
   const { title, description, body, emailSubject, emailBody, url, image } = copy;
-
-  const HeaderTag = React.createElement('h' + headerLevel, { className: headerText }, 'Share this page:');
+  const validHeader = Number(headerLevel) < 6 && Number(headerLevel) > 0;
+  const HeaderTag = validHeader && React.createElement('h' + headerLevel, { className: headerText }, 'Share this page:');
 
   let contentStyle = socialShareContent;
   let containerStyle = shareButtonContainer;
