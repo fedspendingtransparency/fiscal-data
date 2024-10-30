@@ -25,7 +25,7 @@ jobs:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: npm run test:coverage
   run-cypress-tests:
-    timeout-minutes: 10
+    timeout-minutes: 15
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
