@@ -3,12 +3,14 @@ import { listHeader, citationContainer, iconContainer, citationText } from './ci
 import CustomLink from '../links/custom-link/custom-link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faExternalLink } from '@fortawesome/free-solid-svg-icons';
+import Heading from './Heading';
 
 const CitationList = ({ header, citations, headingLevel = '2' }) => {
-  const HeaderTag = React.createElement('h' + headingLevel, { className: listHeader }, header);
   return (
     <>
-      {HeaderTag}
+      <Heading headingLevel={'h' + headingLevel} className={listHeader}>
+        {header}
+      </Heading>
       {citations.map((citation: { url: string; text: string; external?: boolean }, index: number) => (
         <div className={citationContainer} key={index}>
           <CustomLink url={citation.url}>
