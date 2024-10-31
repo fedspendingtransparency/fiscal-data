@@ -35,7 +35,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - run: |
           git fetch --no-tags --depth=1 origin master
-          git checkout -b master
+          git checkout -b master origin/master
           git checkout ${{ github.event.pull_request.head.sha }}
       - name: Setup Node.js environment
         uses: actions/setup-node@v3.8.1
