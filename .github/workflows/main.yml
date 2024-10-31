@@ -29,9 +29,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Master
-        run:
+        uses: actions/checkout@v2
+        run: |
           git fetch --no-tags --depth=1 origin master
-          git checkout -b master
       - name: Checkout
         uses: actions/checkout@v3
         with:
