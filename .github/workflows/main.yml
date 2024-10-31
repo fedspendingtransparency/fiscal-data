@@ -37,7 +37,10 @@ jobs:
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm install --legacy-peer-deps
+        run:
+          git fetch --no-tags --depth=1 origin master
+          git checkout -b master
+          git checkout ${{ github.event.pull_request
       - name: run branch tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
@@ -65,4 +68,4 @@ jobs:
           install: false
           build: npm run build
           start: npm run serve
-          broswer: chrome
+          browser: chrome
