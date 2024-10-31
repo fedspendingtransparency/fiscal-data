@@ -30,7 +30,9 @@ jobs:
     steps:
       - name: Fetch Master
         run: |
-          git fetch --no-tags --depth=1 origin master
+          git fetch --no-tags origin master
+        with:
+          fetch-depth: 0
       - name: Checkout
         uses: actions/checkout@v3
         with:
