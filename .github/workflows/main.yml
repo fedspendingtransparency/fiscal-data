@@ -28,8 +28,7 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout Master
-        uses: actions/checkout@v2
+      - name: Fetch Master
         run: |
           git fetch --no-tags --depth=1 origin master
       - name: Checkout
