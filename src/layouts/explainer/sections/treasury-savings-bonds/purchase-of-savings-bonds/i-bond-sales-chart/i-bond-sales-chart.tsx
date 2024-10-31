@@ -10,6 +10,8 @@ import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { ICpiDataMap } from '../../../../../../models/ICpiDataMap';
 import { yAxisFormatter } from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import { getDateWithoutOffset } from '../../../../explainer-helpers/explainer-helpers';
+import LineLegend from '../../../../../../components/topics-charts/line-legend/line-legend';
+import { fontBodyCopy } from '../../../../../../variables.module.scss';
 
 interface IIBondsSalesChart {
   cpi12MonthPercentChange: ICpiDataMap;
@@ -49,18 +51,6 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
     </div>
   );
 
-  const Legend = () => (
-    <div className={chartLegend}>
-      <div className={lengendItem}>
-        <div className={classNames([label, leftLabel])}>I Bond Sales</div>
-        <div className={classNames([line, leftLine])} />
-      </div>
-      <div className={lengendItem}>
-        <div className={classNames([line, rightLine])} />
-        <div className={label}>Inflation</div>
-      </div>
-    </div>
-  );
   const resetDataHeader = () => {
     if (latestData) {
       setCurYear(latestData.year);
@@ -225,7 +215,10 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
           header={header}
         >
           <div className={chartStyle} data-testid="chartParent">
-            <Legend />
+            <LineLegend
+              leftLabel={{ text: 'I Bond Sales', color: treasurySavingsBondsExplainerSecondary }}
+              rightLabel={{ text: 'Inflation', color: fontBodyCopy }}
+            />
             <div
               role="presentation"
               onBlur={() => {
