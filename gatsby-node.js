@@ -926,10 +926,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   result.data.allInsights.insights.forEach(insight => {
     if (ENV_ID !== 'production' || insight.prodReady) {
-      // const insightRelatedDatasets = [];
-      // insight.relatedDatasets.forEach(dataset => {
-      //   insightRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
-      // });
       createPage({
         path: insight.slug,
         matchPath: `${insight.slug}*`,
@@ -939,7 +935,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           breadCrumbLinkName: insight.breadCrumbLinkName,
           seoConfig: insight.seoConfig,
           heroImage: insight.heroImage,
-          // relatedDatasets: insightRelatedDatasets,
         },
       });
     }
