@@ -21,7 +21,7 @@ describe('Spending Key Takeaways evergreen values', () => {
     });
   });
 
-  it('correctly fetches surplus count and updates state', async () => {
+  it('correctly fetches surplus count and updates state, represents surplus count as wordified number', async () => {
     const mockData = {
       data: [
         { current_fytd_net_outly_amt: '100', record_date: '2022-09-30' },
@@ -35,7 +35,7 @@ describe('Spending Key Takeaways evergreen values', () => {
       expect(apiUtils.basicFetch).toHaveBeenCalled();
     });
 
-    // Since the start amount is 4 we should expect 5 even though there is only one that is test
-    expect(await findByText(/surplus 5 times/)).toBeInTheDocument();
+    // Since the start amount is 4 we should expect 'five' even though there is only one that is test
+    expect(await findByText(/surplus five times/)).toBeInTheDocument();
   });
 });
