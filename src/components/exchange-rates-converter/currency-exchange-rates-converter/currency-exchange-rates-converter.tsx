@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, useMemo } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
   container,
   currencyBoxContainer,
@@ -18,17 +18,17 @@ import {
   labelIcon,
   publishedDateInfoIcon,
   currencySelectionInfoIcon,
-} from './currency-exchange-rates-converter-helper';
-import Analytics from '../../../utils/analytics/analytics';
+  analyticsHandler,
+  handleMouseEnterInfoTip,
+} from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import BannerCallout from '../../banner-callout/banner-callout';
-import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-let gaInfoTipTimer;
-let gaCurrencyTimer;
-let ga4Timer;
+let gaInfoTipTimer: NodeJS.Timeout;
+let gaCurrencyTimer: NodeJS.Timeout;
+let ga4Timer: NodeJS.Timeout;
 
 type CurrencyRate = {
   label: string;
@@ -44,6 +44,14 @@ type DropdownOption = {
   data?: number;
   isLabel?: boolean;
   children?: DropdownOption[];
+};
+
+type XRRecord = {
+  country_currency_desc: string;
+  record_date: string;
+  exchange_rate: string;
+  record_calendar_quarter: string;
+  effective_date: string;
 };
 
 const CurrencyExchangeRateTool: FunctionComponent = () => {
@@ -69,38 +77,12 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
   const [nonUSCurrency, setNonUSCurrency] = useState(null);
   const [usDollarValue, setUSDollarValue] = useState('1.00');
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
-  const [datasetDate, setDatasetDate] = useState(null);
   const [nonUSCurrencyDecimalPlaces, setNonUSCurrencyDecimalPlaces] = useState(0);
   const [inputWarning, setInputWarning] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [groupDateOption, setGroupedDateOptions] = useState<DropdownOption[]>([]);
 
   const XRWarningBanner = { banner: 'XRPageWarning' };
-
-  const analyticsHandlers = (action, label) => {
-    if (action && label) {
-      Analytics.event({
-        category: 'Exchange Rates Converter',
-        action: action,
-        label: label,
-      });
-      ga4DataLayerPush({
-        event: action,
-        eventLabel: label,
-      });
-    }
-  };
-
-  const handleMouseEnterInfoTip = (label, ga4ID) => {
-    gaInfoTipTimer = setTimeout(() => {
-      analyticsHandlers('Additional Info Hover', label);
-    }, 3000);
-    ga4Timer = setTimeout(() => {
-      ga4DataLayerPush({
-        event: `additional-info-hover-${ga4ID}`,
-      });
-    }, 3000);
-  };
 
   const handleInfoTipClose = () => {
     clearTimeout(gaInfoTipTimer);
@@ -112,7 +94,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
     const data = allExchangeRatesData.allExchangeRatesData.exchangeRatesData;
     let mostRecentEuroRecord = null;
     let mostRecentDate: Date | null = null;
-    data.forEach(record => {
+    data.forEach((record: XRRecord) => {
       const currency = record.country_currency_desc;
       const date = record.record_date;
       const rawDate = record.record_date;
@@ -133,7 +115,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
         dateGroups[year] = [];
       }
 
-      if (!dateGroups[year].some(option => option.value === record.record_date)) {
+      if (!dateGroups[year].some((option: { value: string }) => option.value === record.record_date)) {
         dateGroups[year].push({
           label: formattedDate,
           value: record.record_date,
@@ -148,10 +130,6 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
         }
       }
     });
-
-    if (mostRecentDate) {
-      setDatasetDate(dateStringConverter(mostRecentDate));
-    }
 
     const nestedOptions: DropdownOption[] = Object.keys(dateGroups)
       .sort((a, b) => Number(b) - Number(a))
@@ -177,7 +155,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
     if (data && sortedCurrencies.length > 0 && selectedDate) {
       const currencyOptions = sortedCurrencies.map(currency => {
         const rate = data.find(
-          record =>
+          (record: XRRecord) =>
             record.country_currency_desc === currency.label &&
             record.record_date === selectedDate.value &&
             record.record_date === record.effective_date
@@ -208,7 +186,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
 
     if (!isNaN(parseFloat(event.target.value))) {
       gaCurrencyTimer = setTimeout(() => {
-        analyticsHandlers('USD Value Entered', event.target.value);
+        analyticsHandler('USD Value Entered', event.target.value);
       }, 3000);
 
       product = parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate);
@@ -227,8 +205,8 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
     }
     setNonUSCurrencyExchangeValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
-      gaCurrencyTimer = window.setTimeout(() => {
-        analyticsHandlers('Foreign Currency Value Entered', event.target.value);
+      gaCurrencyTimer = setTimeout(() => {
+        analyticsHandler('Foreign Currency Value Entered', event.target.value);
       }, 3000);
       quotient = parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate);
       quotient = quotient.toFixed(2);
@@ -240,10 +218,10 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
 
   const handleDateChange = (selectedDateOption: DropdownOption) => {
     setSelectedDate(selectedDateOption);
-    analyticsHandlers('Published Date Selection', selectedDateOption.value);
+    analyticsHandler('Published Date Selection', selectedDateOption.value);
     if (selectedDateOption) {
       const newCurrency = data.find(
-        record =>
+        (record: XRRecord) =>
           record.country_currency_desc === nonUSCurrency.country_currency_desc &&
           record.record_date === selectedDateOption.value &&
           record.record_date === record.effective_date
@@ -269,7 +247,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
       return;
     }
     const newCurrency = data.find(
-      record =>
+      (record: XRRecord) =>
         record.country_currency_desc === selectedCurrency.label &&
         record.record_date === selectedDate?.value &&
         record.record_date === record.effective_date
@@ -298,7 +276,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
                     publishedDateInfoIcon.body,
                     'effective-date-info-tip',
                     true,
-                    () => handleMouseEnterInfoTip('Additional Published Date Info', 'eff-date'),
+                    () => handleMouseEnterInfoTip('Additional Published Date Info', 'eff-date', gaInfoTipTimer, ga4Timer),
                     handleInfoTipClose
                   )}
                   className={boxWidth}
@@ -323,7 +301,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
               onCurrencyValueChange={handleChangeNonUSCurrency}
               testId="non-us-box"
               header="FOREIGN CURRENCY"
-              tooltipDiplay={true}
+              tooltipDisplay={true}
               tooltip={currencySelectionInfoIcon.body}
             />
             <CurrencyEntryBox
@@ -332,7 +310,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
               onCurrencyValueChange={useHandleChangeUSDollar}
               testId="us-box"
               header="U.S. DOLLAR"
-              tooltipDiplay={false}
+              tooltipDisplay={false}
               tooltip=""
             />
           </div>

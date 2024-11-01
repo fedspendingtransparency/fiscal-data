@@ -1,31 +1,19 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import { breadCrumbsContainer, legalDisclaimer, componenentContianer } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
-import { breadCrumbLinks, socialCopy } from './currency-exchange-rates-converter-helper';
+import {
+  breadCrumbLinks,
+  socialCopy,
+  analyticsHandler,
+} from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import CustomLink from '../../components/links/custom-link/custom-link';
-import Analytics from '../../utils/analytics/analytics';
-import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
 import CurrencyExchangeRateTool from '../../components/exchange-rates-converter/currency-exchange-rates-converter/currency-exchange-rates-converter';
 import CurrencyExchangeFAQ from '../../components/exchange-rates-converter/exchange-rate-faq/exchange-rates-faq';
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
-  const analyticsHandler = (action, label) => {
-    if (action && label) {
-      Analytics.event({
-        category: 'Exchange Rates Converter',
-        action: action,
-        label: label,
-      });
-      ga4DataLayerPush({
-        event: action,
-        eventLabel: label,
-      });
-    }
-  };
-
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet

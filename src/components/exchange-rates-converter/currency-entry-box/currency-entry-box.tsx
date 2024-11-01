@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, ReactElement, useState } from 'react';
 import {
   currencyBox,
   currencySelection,
@@ -16,30 +16,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classNames from 'classnames';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
-import { labelIcon } from '../../../layouts/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
+import {
+  labelIcon,
+  noNonNumericChar,
+  handleMouseEnterInfoTip,
+} from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import Analytics from '../../../utils/analytics/analytics';
 
-let gaInfoTipTimer;
-let ga4Timer;
+let gaInfoTipTimer: NodeJS.Timeout;
+let ga4Timer: NodeJS.Timeout;
 
 interface ICurrencyEntryBox {
   defaultCurrency: string;
   currencyValue: string;
   dropdown?: boolean;
-  selectedCurrency?;
+  selectedCurrency?: { label: string; value: number };
   onCurrencyChange?;
   onCurrencyValueChange;
   options?: [];
   testId: string;
   header: string;
-  tooltipDiplay: boolean;
-  tooltip;
+  tooltipDisplay: boolean;
+  tooltip: ReactElement | string;
 }
-
-const noNonNumericChar = event => {
-  // Prevents users from typing 'e', 'E', or '-'
-  return (event.key === 'e' || event.key === 'E' || event.key === '-') && event.preventDefault();
-};
 
 const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
   defaultCurrency,
@@ -51,40 +50,17 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
   selectedCurrency,
   testId,
   header,
-  tooltipDiplay = false,
+  tooltipDisplay = false,
   tooltip,
 }) => {
   const [active, setActive] = useState(false);
   const ariaLabelValue = header === 'U.S. DOLLAR' ? 'U.S. Dollar' : selectedCurrency?.label;
-  const analyticsHandler = (action, label) => {
-    if (action && label) {
-      Analytics.event({
-        category: 'Exchange Rates Converter',
-        action: action,
-        label: label,
-      });
-      ga4DataLayerPush({
-        event: action,
-        eventLabel: label,
-      });
-    }
-  };
-
-  const handleMouseEnterInfoTip = (label, ga4ID) => {
-    gaInfoTipTimer = setTimeout(() => {
-      analyticsHandler('Additional Info Hover', label);
-    }, 3000);
-    ga4Timer = setTimeout(() => {
-      ga4DataLayerPush({
-        event: `additional-info-hover-${ga4ID}`,
-      });
-    }, 3000);
-  };
 
   const handleInfoTipClose = () => {
     clearTimeout(gaInfoTipTimer);
     clearTimeout(ga4Timer);
   };
+
   return (
     <>
       <div className={currencyBox} data-testid={testId}>
@@ -117,8 +93,8 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
             'Country-Currency',
             tooltip,
             'foreign-currency-info-tip',
-            tooltipDiplay,
-            () => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr'),
+            tooltipDisplay,
+            () => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr', gaInfoTipTimer, ga4Timer),
             handleInfoTipClose
           )}
         </div>
@@ -127,7 +103,6 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
             <ComboCurrencySelect
               selectedOption={selectedCurrency}
               options={options}
-              labelDisplay
               changeHandler={onCurrencyChange}
               isExchangeTool
               required

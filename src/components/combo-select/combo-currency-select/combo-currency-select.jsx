@@ -3,7 +3,7 @@ import { selector_label } from '../../select-control/select-control.module.scss'
 import useOnClickOutside from 'use-onclickoutside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import Analytics from '../../../utils/analytics/analytics';
+import { analyticsHandler } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 
 import {
   activeDropdown,
@@ -19,23 +19,8 @@ import {
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 import classNames from 'classnames';
-import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 let timeOutId;
-
-const XRAnalyticsHandler = (action, label) => {
-  if (action && label) {
-    Analytics.event({
-      category: 'Exchange Rates Converter',
-      action: action,
-      label: label,
-    });
-    ga4DataLayerPush({
-      event: action,
-      eventLabel: label,
-    });
-  }
-};
 
 const ComboCurrencySelect = ({
   options,
@@ -50,7 +35,7 @@ const ComboCurrencySelect = ({
   isExchangeTool,
   containerBorder,
   searchBarLabel = 'Search currencies',
-  hasChildren,
+  hasChildren = false,
 }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
@@ -59,7 +44,7 @@ const ComboCurrencySelect = ({
 
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
-      XRAnalyticsHandler('Foreign Country-Currency Selected', selection[optionLabelKey]);
+      analyticsHandler('Foreign Country-Currency Selected', selection[optionLabelKey]);
     }
     changeHandler(selection);
     setDropdownActive(false);
@@ -95,7 +80,7 @@ const ComboCurrencySelect = ({
 
   const onBlurAnalyticsHandler = event => {
     if (isExchangeTool && event && event.target?.value) {
-      XRAnalyticsHandler('Foreign Country-Currency Search', event.target.value);
+      analyticsHandler('Foreign Country-Currency Search', event.target.value);
     }
   };
 

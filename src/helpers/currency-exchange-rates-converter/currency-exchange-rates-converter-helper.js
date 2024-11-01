@@ -1,6 +1,38 @@
 import { BASE_URL } from 'gatsby-env-variables';
-import InfoTip from '../../info-tip/info-tip';
+import InfoTip from '../../components/info-tip/info-tip';
 import React from 'react';
+import Analytics from '../../utils/analytics/analytics';
+import { ga4DataLayerPush } from '../google-analytics/google-analytics-helper';
+
+export const analyticsHandler = (action, label) => {
+  if (action && label) {
+    Analytics.event({
+      category: 'Exchange Rates Converter',
+      action: action,
+      label: label,
+    });
+    ga4DataLayerPush({
+      event: action,
+      eventLabel: label,
+    });
+  }
+};
+
+export const handleMouseEnterInfoTip = (label, ga4ID, gaInfoTipTimer, ga4Timer) => {
+  gaInfoTipTimer = setTimeout(() => {
+    analyticsHandler('Additional Info Hover', label);
+  }, 3000);
+  ga4Timer = setTimeout(() => {
+    ga4DataLayerPush({
+      event: `additional-info-hover-${ga4ID}`,
+    });
+  }, 3000);
+};
+
+export const noNonNumericChar = event => {
+  // Prevents users from typing 'e', 'E', or '-'
+  return (event.key === 'e' || event.key === 'E' || event.key === '-') && event.preventDefault();
+};
 
 export const dateStringConverter = date => {
   if (isNaN(date)) {

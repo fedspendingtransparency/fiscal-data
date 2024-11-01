@@ -12,7 +12,7 @@ import {
 } from './exchange-rate-faq.module.scss';
 import Accordion from '../../accordion/accordion';
 import CustomLink from '../../links/custom-link/custom-link';
-import { dateStringConverter } from '../currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
+import { dateStringConverter } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import { graphql, useStaticQuery } from 'gatsby';
 import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
