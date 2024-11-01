@@ -80,7 +80,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
       <div className={`${contentStyle} socialShareContent`}>
         {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
           <Heading headingLevel={headerLevel} className={headerText}>
-            Share this page:
+            Share this page
           </Heading>
         )}
         <div className={containerStyle}>
