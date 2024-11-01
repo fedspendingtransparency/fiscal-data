@@ -15,16 +15,16 @@ import {
   dateStringConverter,
   countDecimals,
   enforceTrailingZero,
-  labelIcon,
-  publishedDateInfoIcon,
   currencySelectionInfoIcon,
   analyticsHandler,
+  publishedDateInfoIcon,
   handleMouseEnterInfoTip,
 } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import BannerCallout from '../../banner-callout/banner-callout';
 import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import EntryBoxLabel from '../label-icon/entry-box-label';
 
 let gaInfoTipTimer: NodeJS.Timeout;
 let gaCurrencyTimer: NodeJS.Timeout;
@@ -262,6 +262,16 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
     }
   };
 
+  const publishedDateLabel = (
+    <EntryBoxLabel
+      label="Published Date"
+      tooltipBody={publishedDateInfoIcon.body}
+      dataTestID="effective-date-info-tip"
+      handleMouseEnter={() => handleMouseEnterInfoTip('Additional Published Date Info', 'eff-date', gaInfoTipTimer, ga4Timer)}
+      handleTooltipClose={handleInfoTipClose}
+    />
+  );
+
   return (
     <div className={container} onBlur={handleInfoTipClose} role="presentation">
       <h2 className={headTitle}>Check foreign currency rates against the U.S. Dollar.</h2>
@@ -271,14 +281,7 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
             <div className={currencyBoxContainer}>
               <div className={selector}>
                 <NestSelectControl
-                  label={labelIcon(
-                    'Published Date',
-                    publishedDateInfoIcon.body,
-                    'effective-date-info-tip',
-                    true,
-                    () => handleMouseEnterInfoTip('Additional Published Date Info', 'eff-date', gaInfoTipTimer, ga4Timer),
-                    handleInfoTipClose
-                  )}
+                  label={publishedDateLabel}
                   className={boxWidth}
                   options={groupDateOption}
                   selectedOption={selectedDate}
@@ -301,7 +304,6 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
               onCurrencyValueChange={handleChangeNonUSCurrency}
               testId="non-us-box"
               header="FOREIGN CURRENCY"
-              tooltipDisplay={true}
               tooltip={currencySelectionInfoIcon.body}
             />
             <CurrencyEntryBox
@@ -310,8 +312,6 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
               onCurrencyValueChange={useHandleChangeUSDollar}
               testId="us-box"
               header="U.S. DOLLAR"
-              tooltipDisplay={false}
-              tooltip=""
             />
           </div>
         </div>

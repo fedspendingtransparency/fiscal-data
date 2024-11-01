@@ -64,35 +64,6 @@ export const enforceTrailingZero = (number, decimalPlaces) => {
   return num;
 };
 
-export const labelIcon = (labelName, iconName, dataTestID, isIcon = false, handleMouseEnter, handleTooltipClose, testid) => {
-  if (!isIcon) {
-    return (
-      <div style={{ fontSize: '14px', fontWeight: '400' }} data-testid={testid}>
-        <span>{labelName}</span>
-      </div>
-    );
-  } else {
-    return (
-      <div style={{ fontSize: '14px', fontWeight: '400' }}>
-        <span>{labelName}</span>
-        <span data-testid={dataTestID} onMouseEnter={handleMouseEnter} onBlur={handleTooltipClose} role="presentation">
-          <InfoTip
-            hover
-            iconStyle={{
-              color: '#666666',
-              width: '14px',
-              height: '14px',
-            }}
-            title={labelName}
-          >
-            {iconName}
-          </InfoTip>
-        </span>
-      </div>
-    );
-  }
-};
-
 export const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000';
 
 export const effectiveDateEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=-effective_date';

@@ -15,13 +15,11 @@ import { faDollarSign, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classNames from 'classnames';
-import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 import {
-  labelIcon,
   noNonNumericChar,
   handleMouseEnterInfoTip,
 } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
-import Analytics from '../../../utils/analytics/analytics';
+import EntryBoxLabel from '../label-icon/entry-box-label';
 
 let gaInfoTipTimer: NodeJS.Timeout;
 let ga4Timer: NodeJS.Timeout;
@@ -36,8 +34,7 @@ interface ICurrencyEntryBox {
   options?: [];
   testId: string;
   header: string;
-  tooltipDisplay: boolean;
-  tooltip: ReactElement | string;
+  tooltip?: ReactElement | string;
 }
 
 const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
@@ -50,7 +47,6 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
   selectedCurrency,
   testId,
   header,
-  tooltipDisplay = false,
   tooltip,
 }) => {
   const [active, setActive] = useState(false);
@@ -60,6 +56,16 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
     clearTimeout(gaInfoTipTimer);
     clearTimeout(ga4Timer);
   };
+
+  const currencyEntryLabel = (
+    <EntryBoxLabel
+      label="Country-Currency"
+      tooltipBody={tooltip}
+      dataTestID="foreign-currency-info-tip"
+      handleMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr', gaInfoTipTimer, ga4Timer)}
+      handleTooltipClose={handleInfoTipClose}
+    />
+  );
 
   return (
     <>
@@ -88,16 +94,7 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
             />
           )}
         </div>
-        <div className={boxLabel}>
-          {labelIcon(
-            'Country-Currency',
-            tooltip,
-            'foreign-currency-info-tip',
-            tooltipDisplay,
-            () => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr', gaInfoTipTimer, ga4Timer),
-            handleInfoTipClose
-          )}
-        </div>
+        <div className={boxLabel}>{currencyEntryLabel}</div>
         {dropdown && options ? (
           <div className={comboCurrencySelection}>
             <ComboCurrencySelect

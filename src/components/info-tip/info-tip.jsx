@@ -18,7 +18,6 @@ const style = {
     height: '20px',
     marginLeft: '3px',
     minWidth: '20px',
-    top: '-2px',
     width: '20px',
     padding: 0,
     '&:hover, &.Mui-focusVisible, &:active': {
