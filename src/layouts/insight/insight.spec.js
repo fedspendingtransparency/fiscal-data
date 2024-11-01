@@ -30,7 +30,7 @@ describe('Insights Template', () => {
     const dataSourcesMethodologies = await findByRole('heading', { name: 'Data Sources and Methodologies:' });
     expect(dataSourcesMethodologies).toBeInTheDocument();
 
-    const socialShare = await findByRole('heading', { name: 'Share this page:' });
+    const socialShare = await findByRole('heading', { name: 'Share this page' });
     expect(socialShare).toBeInTheDocument();
 
     const exploreMore = await findByRole('heading', { name: 'Explore More' });
