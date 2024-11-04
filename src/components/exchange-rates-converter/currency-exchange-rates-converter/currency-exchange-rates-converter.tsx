@@ -24,7 +24,7 @@ import BannerCallout from '../../banner-callout/banner-callout';
 import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import EntryBoxLabel from '../label-icon/entry-box-label';
+import EntryBoxLabel from '../entry-box-label/entry-box-label';
 
 let gaInfoTipTimer: NodeJS.Timeout;
 let gaCurrencyTimer: NodeJS.Timeout;
@@ -38,7 +38,7 @@ type CurrencyMap = {
   [key: string]: CurrencyRate;
 };
 
-type DropdownOption = {
+export type DropdownOption = {
   label: string;
   value?: string;
   data?: number;

@@ -19,7 +19,8 @@ import {
   noNonNumericChar,
   handleMouseEnterInfoTip,
 } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
-import EntryBoxLabel from '../label-icon/entry-box-label';
+import EntryBoxLabel from '../entry-box-label/entry-box-label';
+import { DropdownOption } from '../currency-exchange-rates-converter/currency-exchange-rates-converter';
 
 let gaInfoTipTimer: NodeJS.Timeout;
 let ga4Timer: NodeJS.Timeout;
@@ -29,8 +30,8 @@ interface ICurrencyEntryBox {
   currencyValue: string;
   dropdown?: boolean;
   selectedCurrency?: { label: string; value: number };
-  onCurrencyChange?;
-  onCurrencyValueChange;
+  onCurrencyChange?: (selectedCurrency: DropdownOption) => void;
+  onCurrencyValueChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   options?: [];
   testId: string;
   header: string;

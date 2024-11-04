@@ -1,16 +1,31 @@
 import InfoTip from '../../info-tip/info-tip';
-import React from 'react';
+import React, { FocusEventHandler, FunctionComponent, MouseEventHandler, ReactElement } from 'react';
+import { labelContainer } from './entry-box-label.module.scss';
 
-const EntryBoxLabel = ({ label, tooltipBody, dataTestID, handleMouseEnter, handleTooltipClose }) => {
+interface IEntryBoxLabel {
+  label: string;
+  tooltipBody?: ReactElement | string;
+  dataTestID?: string;
+  handleMouseEnter: MouseEventHandler;
+  handleTooltipClose: FocusEventHandler;
+}
+
+const EntryBoxLabel: FunctionComponent<IEntryBoxLabel> = ({
+  label,
+  tooltipBody,
+  dataTestID,
+  handleMouseEnter,
+  handleTooltipClose,
+}: IEntryBoxLabel) => {
   if (!tooltipBody) {
     return (
-      <div style={{ fontSize: '14px', fontWeight: '400' }} data-testid={dataTestID}>
+      <div className={labelContainer} data-testid={dataTestID}>
         <span>{label}</span>
       </div>
     );
   } else {
     return (
-      <div style={{ fontSize: '14px', fontWeight: '400' }}>
+      <div className={labelContainer}>
         <span>{label}</span>
         <span data-testid={dataTestID} onMouseEnter={handleMouseEnter} onBlur={handleTooltipClose} role="presentation">
           <InfoTip
