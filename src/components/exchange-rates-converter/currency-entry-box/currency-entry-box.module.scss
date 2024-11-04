@@ -27,7 +27,7 @@ $border-color: #d9d9d9;
   .boxLabel {
     font-size: $font-size-14;
     margin: 0.5rem 0 0.25rem;
-    height: 1.25rem;
+    min-height: 1.3125rem;
     &.activeLabel {
       color: $primary;
     }
