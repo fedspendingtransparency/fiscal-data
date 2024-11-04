@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { dropdownList, selected, yearButton, arrowIcon } from './month-picker.module.scss';
@@ -27,6 +27,8 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   const [selectedMonth, setSelectedMonth] = useState(monthFullNames[selectedDate.getMonth()]);
   const [selectedYear, setSelectedYear] = useState<string>(selectedDate.getFullYear().toString());
 
+  const scrollToSelectedMonth = useRef(null);
+
   const allYears = [...new Set(allReportYears)];
   const monthDropdownOptions = monthFullNames;
 
@@ -53,6 +55,12 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
       setShowYears(false);
     }
   }, [active]);
+
+  useEffect(() => {
+    if (scrollToSelectedMonth.current) {
+      scrollToSelectedMonth.current.scrollIntoView({ block: 'nearest' });
+    }
+  }, [active, selectedMonth]);
 
   return (
     <>
@@ -97,7 +105,12 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
                       const disabled = !allReportDates.includes(option + ' ' + selectedYear);
                       return (
                         <li key={i}>
-                          <button className={option === selectedMonth ? selected : null} disabled={disabled} onClick={() => handleMonthClick(option)}>
+                          <button
+                            className={option === selectedMonth ? selected : null}
+                            disabled={disabled}
+                            onClick={() => handleMonthClick(option)}
+                            ref={option === selectedMonth ? scrollToSelectedMonth : null}
+                          >
                             {option}
                           </button>
                         </li>
