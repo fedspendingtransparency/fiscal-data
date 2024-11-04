@@ -18,7 +18,7 @@ import {
   currencySelectionInfoIcon,
   analyticsHandler,
   publishedDateInfoIcon,
-  handleMouseEnterInfoTip,
+  handleHoverInfoTipAnalytics,
 } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import BannerCallout from '../../banner-callout/banner-callout';
 import { graphql, useStaticQuery } from 'gatsby';
@@ -28,7 +28,6 @@ import EntryBoxLabel from '../entry-box-label/entry-box-label';
 
 let gaInfoTipTimer: NodeJS.Timeout;
 let gaCurrencyTimer: NodeJS.Timeout;
-let ga4Timer: NodeJS.Timeout;
 
 type CurrencyRate = {
   label: string;
@@ -84,10 +83,6 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
 
   const XRWarningBanner = { banner: 'XRPageWarning' };
 
-  const handleInfoTipClose = () => {
-    clearTimeout(gaInfoTipTimer);
-    clearTimeout(ga4Timer);
-  };
   useEffect(() => {
     const currencyMap: CurrencyMap = {};
     const dateGroups = {};
@@ -262,12 +257,21 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
     }
   };
 
+  const handleInfoTipHover = () =>
+    (gaInfoTipTimer = setTimeout(() => {
+      handleHoverInfoTipAnalytics('Additional Published Date Info', 'eff-date');
+    }, 3000));
+
+  const handleInfoTipClose = () => {
+    clearTimeout(gaInfoTipTimer);
+  };
+
   const publishedDateLabel = (
     <EntryBoxLabel
       label="Published Date"
       tooltipBody={publishedDateInfoIcon.body}
       dataTestID="effective-date-info-tip"
-      handleMouseEnter={() => handleMouseEnterInfoTip('Additional Published Date Info', 'eff-date', gaInfoTipTimer, ga4Timer)}
+      handleMouseEnter={handleInfoTipHover}
       handleTooltipClose={handleInfoTipClose}
     />
   );

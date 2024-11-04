@@ -17,13 +17,12 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classNames from 'classnames';
 import {
   noNonNumericChar,
-  handleMouseEnterInfoTip,
+  handleHoverInfoTipAnalytics,
 } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import EntryBoxLabel from '../entry-box-label/entry-box-label';
 import { DropdownOption } from '../currency-exchange-rates-converter/currency-exchange-rates-converter';
 
 let gaInfoTipTimer: NodeJS.Timeout;
-let ga4Timer: NodeJS.Timeout;
 
 interface ICurrencyEntryBox {
   defaultCurrency: string;
@@ -55,15 +54,19 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
 
   const handleInfoTipClose = () => {
     clearTimeout(gaInfoTipTimer);
-    clearTimeout(ga4Timer);
   };
+
+  const handleInfoTipHover = () =>
+    (gaInfoTipTimer = setTimeout(() => {
+      handleHoverInfoTipAnalytics('Additional Foreign Currency Info', 'foreign-curr');
+    }, 3000));
 
   const currencyEntryLabel = (
     <EntryBoxLabel
       label="Country-Currency"
       tooltipBody={tooltip}
       dataTestID="foreign-currency-info-tip"
-      handleMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr', gaInfoTipTimer, ga4Timer)}
+      handleMouseEnter={handleInfoTipHover}
       handleTooltipClose={handleInfoTipClose}
     />
   );

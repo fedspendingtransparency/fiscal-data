@@ -19,7 +19,7 @@ const EntryBoxLabel: FunctionComponent<IEntryBoxLabel> = ({
 }: IEntryBoxLabel) => {
   if (!tooltipBody) {
     return (
-      <div className={labelContainer} data-testid={dataTestID}>
+      <div className={labelContainer}>
         <span>{label}</span>
       </div>
     );

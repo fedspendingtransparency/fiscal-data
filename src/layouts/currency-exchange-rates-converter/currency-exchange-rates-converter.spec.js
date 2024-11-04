@@ -16,25 +16,6 @@ const mockExchangeRatesData = {
   },
 };
 
-describe('labelIcon', () => {
-  it('returns onlyLable when icon is not provided', () => {
-    const label = 'Test Label;';
-    const { queryByText, container } = render(labelIcon(label, '', '', false));
-
-    expect(queryByText(label)).toBeTruthy();
-    expect(container.querySelector('InfoTip')).toBeNull();
-  });
-
-  it('returns correct JSX when an icon is provided', () => {
-    const label = 'Test Label;';
-    const iconName = 'test-icon';
-    const { getByTestId } = render(labelIcon(label, iconName, '', true));
-
-    fireEvent.click(getByTestId('infoTipButton'));
-    expect(getByTestId('popupContainer')).toBeTruthy();
-  });
-});
-
 describe('exchange rates converter', () => {
   beforeEach(() => {
     StaticQuery.mockImplementation(({ render }) => render({ mockExchangeRatesData }));

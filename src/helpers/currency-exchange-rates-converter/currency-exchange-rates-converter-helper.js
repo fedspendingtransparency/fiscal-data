@@ -18,15 +18,11 @@ export const analyticsHandler = (action, label) => {
   }
 };
 
-export const handleMouseEnterInfoTip = (label, ga4ID, gaInfoTipTimer, ga4Timer) => {
-  gaInfoTipTimer = setTimeout(() => {
-    analyticsHandler('Additional Info Hover', label);
-  }, 3000);
-  ga4Timer = setTimeout(() => {
-    ga4DataLayerPush({
-      event: `additional-info-hover-${ga4ID}`,
-    });
-  }, 3000);
+export const handleHoverInfoTipAnalytics = (label, ga4ID) => {
+  analyticsHandler('Additional Info Hover', label);
+  ga4DataLayerPush({
+    event: `additional-info-hover-${ga4ID}`,
+  });
 };
 
 export const noNonNumericChar = event => {
