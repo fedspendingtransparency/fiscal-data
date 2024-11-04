@@ -10,7 +10,18 @@ export interface IDatasetConfig {
   bannerCallout: Record<string, string> | null;
   datatableBanner: string | null;
   selectColumns: string[] | null;
-  detailView: { apiId: number; field: string; label: string; secondaryField: string; dateRangeLockCopy: string; summaryTableFields: string[] } | null;
+
+  // used for secondary/nested tables. Clickable on a column value. Comes from datasets/uat/qat
+  detailView: {
+    apiId: number; // api endpoint it ties to
+    field: string; // field that the tables are linking on
+    label: string; // name of the Column
+    secondaryField: string; // second field the tables are linking on. *** Currently only used for Buybacks
+    dateRangeLockCopy: string; // Message displayed in Preview and Download box
+    summaryTableFields: string[]; // fields shown in Summary table, and not the nested table itself
+    selectColumns: string[]; // fields shown in the nested table
+  } | null;
+
   dataFormats: string[] | Record<string, unknown>[];
   dataStartYear: string;
   datasetId: string;
@@ -27,7 +38,7 @@ export interface IDatasetConfig {
   relatedDatasets: string[];
   relatedTopics: string[];
   seoConfig: Record<string, string>;
-  slug: string;
+  slug: string; // the trailing endpoint after "/datasets" Comes from datasets/uat/qat
   summaryTest: string;
   tagLine: string;
   techSpecs: IDatasetTechSpecs;
