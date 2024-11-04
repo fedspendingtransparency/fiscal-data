@@ -6,6 +6,8 @@ describe('Month Picker', () => {
   const mockMonthDropdownOptions = ['March', 'April', 'May'];
   const mockYearDropdownOptions = ['2020', '2019', 2018];
   const mockReportDates = ['March 2020', 'April 2019', 'March 2018', 'May 2018'];
+  const scrollIntoViewMock = jest.fn();
+  window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
 
   it('Renders provided month options as buttons', () => {
     const { getByRole } = render(
@@ -22,6 +24,7 @@ describe('Month Picker', () => {
     act(() => {
       fireEvent.click(marchButton);
     });
+    expect(scrollIntoViewMock).toBeCalled();
     expect(marchButton).toBeInTheDocument();
     expect(getByRole('button', { name: mockMonthDropdownOptions[1] })).toBeInTheDocument();
     expect(getByRole('button', { name: mockMonthDropdownOptions[2] })).toBeInTheDocument();

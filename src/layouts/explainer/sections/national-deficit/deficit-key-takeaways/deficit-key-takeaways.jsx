@@ -6,11 +6,12 @@ import { faChartColumn, faCoins, faHandHoldingDollar } from '@fortawesome/free-s
 import { deficitExplainerLightSecondary, deficitExplainerPrimary } from '../national-deficit.module.scss';
 
 import useFetchSurplusCount from '../understanding/deficit-surplus-count-helper';
+import { numberToWord } from '../../../explainer-helpers/national-deficit/national-deficit-helper';
 
 const DeficitKeyTakeaways = () => {
   const currentYear = new Date().getFullYear();
   const startYear = currentYear - 50;
-  const surplus = useFetchSurplusCount(startYear);
+  const surplus = numberToWord(useFetchSurplusCount(startYear));
 
   const thirdTakeawayText = `To pay for government programs while operating under a deficit, the federal
     government borrows money by selling U.S. Treasury bonds, bills, and other securities.
