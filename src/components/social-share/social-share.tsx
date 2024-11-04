@@ -8,6 +8,7 @@ import {
   horizontalSocialShareContent,
   listShareButton,
   listSocialShareContent,
+  headerText,
 } from './social-share.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -19,12 +20,13 @@ import ShareButtonContent from './share-button-content/share-button-content';
 import { FunctionComponent } from 'react';
 import { ISocialShareComponent } from '../../models/ISocialShareComponent';
 import SocialMetaData from './social-metadata/social-metadata';
+import Heading from '../heading/heading';
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
-const analyticsClickHandler = (page, social) => {
-  let gaCategory;
-  let gaLabel;
+const analyticsClickHandler = (page: string, social: string) => {
+  let gaCategory: string;
+  let gaLabel: string;
 
   if (page === 'Exchange Rates Converter') {
     gaCategory = page;
@@ -47,6 +49,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   width,
   displayStyle,
   clickEvent,
+  headerLevel = 'h3',
 }) => {
   const { title, description, body, emailSubject, emailBody, url, image } = copy;
 
@@ -64,7 +67,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
     buttonStyle = listShareButton;
   }
 
-  const handleClick = socialName => {
+  const handleClick = (socialName: string) => {
     analyticsClickHandler(pageName, socialName);
     if (clickEvent) {
       clickEvent();
@@ -75,7 +78,11 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
     <>
       <SocialMetaData image={image} title={title} description={description} url={url} />
       <div className={`${contentStyle} socialShareContent`}>
-        {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && <h3>Share this page:</h3>}
+        {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
+          <Heading headingLevel={headerLevel} className={headerText}>
+            Share this page
+          </Heading>
+        )}
         <div className={containerStyle}>
           <FacebookShareButton className={`${buttonStyle} facebookShare`} url={url} quote={body} beforeOnClick={() => handleClick('Facebook')}>
             <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />

@@ -1,0 +1,73 @@
+@import '../../variables.module.scss';
+
+$link-container-width: 20rem;
+// interest expense
+$interest-expense-primary: #00796B;
+
+.insightsContainer {
+  margin: 0 auto 4rem;
+  display: flex;
+  max-width: 1140px;
+  flex-direction: column;
+}
+
+.sectionHeading {
+  font-weight: $light-weight;
+  font-size: $font-size-32;
+  color: $font-title;
+  margin: 1.5rem 0;
+}
+
+.lastUpdated {
+  margin: 0 0 1.5rem;
+  font-size: $font-size-16;
+}
+
+.contentContainer {
+  display: flex;
+
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    margin-right: 4rem;
+
+    h2 {
+      color: $font-body-copy;
+      font-weight: $semi-bold-weight;
+      font-size: $font-size-16;
+      display: inline;
+    }
+
+    .sectionContainer {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .relatedContent {
+    min-width: $link-container-width;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .sectionHeading {
+    max-width: calc(100% - $link-container-width);
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .insightsContainer {
+  margin: 0 10px 4rem;
+  }
+    .contentContainer {
+    flex-direction: column;
+  }
+
+  .lastUpdated {
+    margin: 1.5rem 0;
+  }
+}
+
+
+:export {
+  interestExpensePrimary: $interest-expense-primary;
+}

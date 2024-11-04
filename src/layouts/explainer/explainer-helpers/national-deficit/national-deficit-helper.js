@@ -1,6 +1,5 @@
 import React from 'react';
 import { analyticsEventHandler, explainerCitationsMap } from '../explainer-helpers';
-import Analytics from '../../../../utils/analytics/analytics';
 
 const diveDeeperCitationClick = eventLabel => {
   analyticsEventHandler(eventLabel, 'Deficit Citation Click');

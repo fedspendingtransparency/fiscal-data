@@ -40,7 +40,7 @@ describe('Social Share component', () => {
   it('renders the heading and button text in desktop view', () => {
     const { getByRole, getByText } = render(<SocialShareComponent copy={testCopy} width={breakpointLg} displayStyle={'responsive'} />);
 
-    const header = getByRole('heading', { name: 'Share this page:' });
+    const header = getByRole('heading', { name: 'Share this page' });
     const facebookText = getByText('Facebook');
     const twitterText = getByText('X (Twitter)');
 
