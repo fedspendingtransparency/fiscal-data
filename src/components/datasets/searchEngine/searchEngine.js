@@ -1,5 +1,3 @@
-const elasticlunr = require('elasticlunr');
-
 // class to handle search logic using elasticlunr on behalf of the search page.
 
 export class DatasetSearch {
