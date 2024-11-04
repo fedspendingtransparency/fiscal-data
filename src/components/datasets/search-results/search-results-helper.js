@@ -10,7 +10,7 @@ export const SortOptions = [
     id: 'lastUpdated',
     label: 'Recently Updated',
     sortFn: (a, b) => {
-      return Date.parse(b.techSpecs.lastUpdated) - Date.parse(a.techSpecs.lastUpdated);
+      return Date.parse(b.item.techSpecs.lastUpdated) - Date.parse(a.item.techSpecs.lastUpdated);
     },
   },
   {

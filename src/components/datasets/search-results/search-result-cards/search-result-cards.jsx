@@ -80,6 +80,7 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
   }, []);
 
   useEffect(() => {
+    console.log(allDatasets);
     if (allDatasets.length) {
       updateSort();
     }
@@ -87,6 +88,7 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
     allDatasets.forEach(ds => {
       ds.hidden = !filteredDatasets.some(s => s.datasetId === ds.datasetId);
     });
+    console.log(filteredDatasets);
   }, [filteredDatasets]);
 
   useEffect(() => {

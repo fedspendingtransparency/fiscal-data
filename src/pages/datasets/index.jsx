@@ -7,13 +7,14 @@ import PageHelmet from '../../components/page-helmet/page-helmet';
 import { searchContainer, page_title } from './datasets.module.scss';
 import FilterSection from '../../components/datasets/filters/filters';
 import SearchField from '../../components/datasets/search-field/search-field';
-import { DatasetSearch } from '../../components/datasets/searchEngine/searchEngine';
+// import { DatasetSearch } from '../../components/datasets/searchEngine/searchEngine';
 import { MuiThemeProvider } from '@material-ui/core';
 import { dsTheme } from '../../theme';
 import '../../helpers/download-service/download-service';
 import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
+import Fuse from 'fuse.js';
 
-const searchEngine = new DatasetSearch();
+// const searchEngine = new DatasetSearch();
 
 const DatasetsPage = ({ pageContext }) => {
   const { allDatasets, allFile } = useStaticQuery(
@@ -116,18 +117,26 @@ const DatasetsPage = ({ pageContext }) => {
     });
   }, []);
 
+  const fuse = new Fuse(updatedDatasets, {
+    keys: ['name'],
+  });
+
   useEffect(() => {
     setFinalDatesNotFound(false);
-    searchEngine.init(updatedDatasets);
-
+    // searchEngine.init(updatedDatasets);
     setTimeout(() => {
-      setSearchResults(searchEngine.search(searchQuery));
+      setSearchResults(fuse.search(searchQuery));
     }, 100); // let the page load before positioning cards for the first time
   }, [updatedDatasets]);
 
   useEffect(() => {
-    setSearchResults(searchEngine.search(searchQuery));
+    console.log(searchQuery);
+    setSearchResults(fuse.search(searchQuery));
   }, [searchQuery]);
+
+  // useEffect(() => {
+  //   console.log(searchResults);
+  // }, [searchResults]);
 
   const datasetAbstract = dataset => {
     if (dataset && dataset.techSpecs && dataset.techSpecs.latestDate) {
