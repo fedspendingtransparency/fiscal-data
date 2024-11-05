@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FunctionComponent } from 'react';
 import DownloadReportTable from '../download-report-table/download-report-table';
-import { reportsTip, note } from './reports-section.module.scss';
+import { reportsTip, note, filtersContainer } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 import ReportDatePicker from '../report-date-picker/report-date-picker';
 import { monthFullNames } from '../../../utils/api-utils';
 import { isReportGroupDailyFrequency } from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
+import ReportFilter from '../report-filter/report-filter';
 
 export const title = 'Reports and Files';
 export interface IReports {
@@ -105,18 +106,20 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   return (
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={title} id="reports-and-files">
-        {dataset?.reportSelection === 'byReport'}
-        {latestReportDate && (
-          <ReportDatePicker
-            isDailyReport={isDailyReport}
-            latestReportDate={latestReportDate}
-            earliestReportDate={earliestReportDate}
-            allReportDates={allReportDates}
-            allReportYears={allReportYears}
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-          />
-        )}
+        <div className={filtersContainer}>
+          {filterByReport && <ReportFilter />}
+          {latestReportDate && (
+            <ReportDatePicker
+              isDailyReport={isDailyReport}
+              latestReportDate={latestReportDate}
+              earliestReportDate={earliestReportDate}
+              allReportDates={allReportDates}
+              allReportYears={allReportYears}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+            />
+          )}
+        </div>
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
         {dataset?.publishedReportsTip && (
           <div className={reportsTip}>

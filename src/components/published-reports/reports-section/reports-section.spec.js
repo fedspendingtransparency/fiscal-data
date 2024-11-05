@@ -79,4 +79,11 @@ describe('Reports Section component', () => {
     const { queryByText } = render(<ReportsSection />);
     expect(queryByText('Note:')).not.toBeInTheDocument();
   });
+
+  it('renders report filter when reportSelection is byReport', () => {
+    const { getByRole } = render(<ReportsSection dataset={{ reportSelection: 'byReport' }} />);
+    const reportFilter = getByRole('button', { name: 'filter by report ...' });
+    expect(reportFilter).toBeInTheDocument();
+    //TODO: test the all reports are avilable within the dropdown
+  });
 });

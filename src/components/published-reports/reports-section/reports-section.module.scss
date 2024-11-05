@@ -9,12 +9,16 @@
   padding-top: 1rem;
 }
 
+.filtersContainer {
+  display: flex;
+}
+
 .publishDate {
   margin-bottom: 1rem;
 
   // will probably move this styling to the actual datepicker component
   border: 1px solid $light-grey-border;
-  height: 40px;
+  height: 2.5rem;
   width: 263px;
   display: flex;
   align-items: center;
