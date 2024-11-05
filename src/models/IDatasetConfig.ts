@@ -3,32 +3,42 @@ import { IDatasetTechSpecs } from './IDatasetTechSpecs';
 
 export interface IDatasetConfig {
   apis: IDatasetApi[];
-  currentDateButton: string | null;
-  customNoChartMessage: boolean | null;
+  currentDateButton: 'byMonth' | 'byDay' | 'byFullMonth' | null; // byFullMonth will gather data from the entire month, byMonth is just looks at the last day of the month
+  customNoChartMessage: boolean | null; // not used at the moment
   datePreset: string | null;
-  customRangePreset: string | null;
+  customRangePreset: string | null; // *** Currently only used for TRRE
   bannerCallout: Record<string, string> | null;
-  datatableBanner: string | null;
+  datatableBanner: string | null; // Presented in Preview & Download section *** Currently only used for DTS
   selectColumns: string[] | null;
-  detailView: { apiId: number; field: string; label: string; secondaryField: string; dateRangeLockCopy: string; summaryTableFields: string[] } | null;
+
+  // used for secondary/nested tables. Clickable on a column value. Comes from datasets/uat/qat
+  detailView: {
+    apiId: number; // api endpoint it ties to
+    field: string; // field that the tables are linking on
+    label: string; // name of the Column
+    secondaryField: string; // second field the tables are linking on. *** Currently only used for Buybacks
+    dateRangeLockCopy: string; // Message displayed in Preview and Download box
+    summaryTableFields: string[]; // fields shown in Summary table, and not the nested table itself
+    selectColumns: string[]; // fields shown in the nested table
+  } | null;
+
   dataFormats: string[] | Record<string, unknown>[];
   dataStartYear: string;
   datasetId: string;
   dictionary: number | null;
-  disableAllTables: boolean | null;
-  sharedApiFilterOptions: boolean | null;
+  disableAllTables: boolean | null; // removes the "all tables" options from table dropdown *** currently only used for FBP
+  sharedApiFilterOptions: boolean | null; // api filter options are shared between tables *** Currently only used for FBP
   filterTopics: string[];
   filters: string[];
   name: string;
   notesAndKnownLimitations: string;
-  publishedReports: unknown[];
-  publishedReportsTip: string;
-  publisher: string;
+  publishedReports: unknown[]; // from metadata
+  publishedReportsTip: string; // from metadata
+  publisher: string; // from metadata
   relatedDatasets: string[];
   relatedTopics: string[];
   seoConfig: Record<string, string>;
-  slug: string;
-  summaryTest: string;
-  tagLine: string;
+  slug: string; // the trailing endpoint after "/datasets" Comes from datasets/uat/qat
+  tagLine: string; // from short_description in metadata
   techSpecs: IDatasetTechSpecs;
 }
