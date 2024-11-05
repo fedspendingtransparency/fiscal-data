@@ -1,10 +1,10 @@
 import { render, cleanup, waitFor, within } from '@testing-library/react';
 import React from 'react';
 import CurrencyExchangeRatesConverter from './index';
-import { labelIcon } from './currency-exchange-rates-converter-helper';
+import { labelIcon } from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import { fireEvent } from '@testing-library/dom';
 import Analytics from '../../utils/analytics/analytics';
-import { XRMockData } from './currency-exchange-rates-converter-test-helper';
+import { XRMockData } from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-test-helper';
 import { RecoilRoot } from 'recoil';
 import { StaticQuery, useStaticQuery } from 'gatsby';
 
@@ -15,25 +15,6 @@ const mockExchangeRatesData = {
     exchangeRatesData: XRMockData.data,
   },
 };
-
-describe('labelIcon', () => {
-  it('returns onlyLable when icon is not provided', () => {
-    const label = 'Test Label;';
-    const { queryByText, container } = render(labelIcon(label, '', '', false));
-
-    expect(queryByText(label)).toBeTruthy();
-    expect(container.querySelector('InfoTip')).toBeNull();
-  });
-
-  it('returns correct JSX when an icon is provided', () => {
-    const label = 'Test Label;';
-    const iconName = 'test-icon';
-    const { getByTestId } = render(labelIcon(label, iconName, '', true));
-
-    fireEvent.click(getByTestId('infoTipButton'));
-    expect(getByTestId('popupContainer')).toBeTruthy();
-  });
-});
 
 describe('exchange rates converter', () => {
   beforeEach(() => {
