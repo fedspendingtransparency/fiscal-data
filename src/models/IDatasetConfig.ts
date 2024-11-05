@@ -41,4 +41,5 @@ export interface IDatasetConfig {
   slug: string; // the trailing endpoint after "/datasets" Comes from datasets/uat/qat
   tagLine: string; // from short_description in metadata
   techSpecs: IDatasetTechSpecs;
+  reportSelection: 'byReport' | null; // indicates if a report selection filter is available for published reports
 }

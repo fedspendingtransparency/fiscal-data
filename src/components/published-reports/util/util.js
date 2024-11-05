@@ -127,3 +127,29 @@ export const getFileTypeImage = fileType => {
       return xls;
   }
 };
+
+export const isReportGroupDailyFrequency = reports => {
+  let yearRepresented = 0;
+  let monthRepresented = 0;
+  let dayRepresented = 0;
+  let groupDescRepresented = '';
+  let isDaily = false;
+  // sort by report_group_id so report groups will be compared in order
+  reports.sort((a, b) => a.report_group_id - b.report_group_id);
+  for (let i = 0; i < reports.length; i++) {
+    const reportYear = reports[i].report_date.getFullYear();
+    const reportMonth = reports[i].report_date.getMonth();
+    const reportDay = reports[i].report_date.getDay();
+    const groupDesc = reports[i].report_group_desc;
+    if (yearRepresented === reportYear && monthRepresented === reportMonth && groupDescRepresented === groupDesc && dayRepresented !== reportDay) {
+      isDaily = true;
+      break;
+    } else {
+      yearRepresented = reportYear;
+      monthRepresented = reportMonth;
+      dayRepresented = reportDay;
+      groupDescRepresented = groupDesc;
+    }
+  }
+  return isDaily;
+};
