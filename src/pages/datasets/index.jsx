@@ -103,6 +103,10 @@ const DatasetsPage = ({ pageContext }) => {
   const [innerWidth, setInnerWidth] = useState();
   const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
   const updatedDatasets = useMetadataUpdater(datasets);
+  const fuse = new Fuse(updatedDatasets, {
+    keys: ['name'],
+    threshold: 0.5,
+  });
 
   useEffect(() => {
     setFinalDatesNotFound(true);
@@ -116,10 +120,6 @@ const DatasetsPage = ({ pageContext }) => {
       setInnerWidth(window.innerWidth);
     });
   }, []);
-
-  const fuse = new Fuse(updatedDatasets, {
-    keys: ['name'],
-  });
 
   useEffect(() => {
     setFinalDatesNotFound(false);

@@ -47,7 +47,7 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
     PerformSort(activeSort, filteredDatasets);
 
     filteredDatasets.forEach((row, i) => {
-      obj[row.name] = i;
+      obj[row.item.name] = i;
     });
 
     setFauxIndex(obj);
@@ -58,6 +58,8 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
 
     const x = (i % cardsPerRow) * (cardWidth + gutter.x);
     const y = Math.floor(i / cardsPerRow) * (cardHeight + gutter.y);
+
+    // console.log(x, y);
 
     return {
       left: `${x}%`,
@@ -80,15 +82,13 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
   }, []);
 
   useEffect(() => {
-    console.log(allDatasets);
     if (allDatasets.length) {
       updateSort();
     }
 
     allDatasets.forEach(ds => {
-      ds.hidden = !filteredDatasets.some(s => s.datasetId === ds.datasetId);
+      ds.hidden = !filteredDatasets.some(s => s.item.datasetId === ds.datasetId);
     });
-    console.log(filteredDatasets);
   }, [filteredDatasets]);
 
   useEffect(() => {

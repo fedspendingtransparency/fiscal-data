@@ -29,8 +29,14 @@ export const getApiCount = datasets => {
   let totalCount = 0;
 
   for (const dataset of datasets) {
-    if (Array.isArray(dataset.apis)) {
-      totalCount += dataset.apis.length;
+    if (dataset?.item) {
+      if (Array.isArray(dataset.item.apis)) {
+        totalCount += dataset.item.apis.length;
+      }
+    } else {
+      if (Array.isArray(dataset.apis)) {
+        totalCount += dataset.apis.length;
+      }
     }
   }
 
