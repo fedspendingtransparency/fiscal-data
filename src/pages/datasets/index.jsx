@@ -100,7 +100,7 @@ const DatasetsPage = ({ pageContext }) => {
   const [innerWidth, setInnerWidth] = useState();
   const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
   const updatedDatasets = useMetadataUpdater(datasets);
-  const options = { keys: ['name'], theshold: 0.25, includeScore: true, ignoreLocation: true };
+  const options = { keys: ['name'], threshold: 0.2, includeScore: true, ignoreLocation: true };
   const searchIndex = Fuse.createIndex(options.keys, updatedDatasets);
   const fuse = new Fuse(updatedDatasets, options, searchIndex);
 
