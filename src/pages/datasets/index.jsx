@@ -7,14 +7,11 @@ import PageHelmet from '../../components/page-helmet/page-helmet';
 import { searchContainer, page_title } from './datasets.module.scss';
 import FilterSection from '../../components/datasets/filters/filters';
 import SearchField from '../../components/datasets/search-field/search-field';
-// import { DatasetSearch } from '../../components/datasets/searchEngine/searchEngine';
 import { MuiThemeProvider } from '@material-ui/core';
 import { dsTheme } from '../../theme';
 import '../../helpers/download-service/download-service';
 import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
 import Fuse from 'fuse.js';
-
-// const searchEngine = new DatasetSearch();
 
 const DatasetsPage = ({ pageContext }) => {
   const { allDatasets, allFile } = useStaticQuery(
@@ -125,26 +122,30 @@ const DatasetsPage = ({ pageContext }) => {
     setFinalDatesNotFound(false);
     // searchEngine.init(updatedDatasets);
     setTimeout(() => {
-      setSearchResults(
-        fuse.search(searchQuery).map(result => {
-          return { ...result.item, refIndex: result.refIndex };
-        })
-      );
+      if (searchQuery) {
+        setSearchResults(
+          fuse.search(searchQuery).map(result => {
+            return { ...result.item, refIndex: result.refIndex };
+          })
+        );
+      } else {
+        setSearchResults(updatedDatasets);
+      }
     }, 100); // let the page load before positioning cards for the first time
   }, [updatedDatasets]);
 
   useEffect(() => {
     console.log(searchQuery);
-    setSearchResults(
-      fuse.search(searchQuery).map(result => {
-        return { ...result.item, refIndex: result.refIndex };
-      })
-    );
+    if (searchQuery) {
+      setSearchResults(
+        fuse.search(searchQuery).map(result => {
+          return { ...result.item, refIndex: result.refIndex };
+        })
+      );
+    } else {
+      setSearchResults(updatedDatasets);
+    }
   }, [searchQuery]);
-
-  // useEffect(() => {
-  //   console.log(searchResults);
-  // }, [searchResults]);
 
   const datasetAbstract = dataset => {
     if (dataset && dataset.techSpecs && dataset.techSpecs.latestDate) {
