@@ -59,8 +59,6 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
     const x = (i % cardsPerRow) * (cardWidth + gutter.x);
     const y = Math.floor(i / cardsPerRow) * (cardHeight + gutter.y);
 
-    // console.log(x, y);
-
     return {
       left: `${x}%`,
       top: `${y}px`,

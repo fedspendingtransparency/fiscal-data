@@ -100,10 +100,9 @@ const DatasetsPage = ({ pageContext }) => {
   const [innerWidth, setInnerWidth] = useState();
   const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
   const updatedDatasets = useMetadataUpdater(datasets);
-  const fuse = new Fuse(updatedDatasets, {
-    keys: ['name', 'summaryText', 'relatedTopics', 'allColumnNames', 'allPrettyNames', 'slug'],
-    threshold: 0.4,
-  });
+  const options = { keys: ['name'], theshold: 0.25, includeScore: true, ignoreLocation: true };
+  const searchIndex = Fuse.createIndex(options.keys, updatedDatasets);
+  const fuse = new Fuse(updatedDatasets, options, searchIndex);
 
   useEffect(() => {
     setFinalDatesNotFound(true);
@@ -125,7 +124,7 @@ const DatasetsPage = ({ pageContext }) => {
       if (searchQuery) {
         setSearchResults(
           fuse.search(searchQuery).map(result => {
-            return { ...result.item, refIndex: result.refIndex };
+            return { ...result.item, score: result.score };
           })
         );
       } else {
@@ -139,7 +138,7 @@ const DatasetsPage = ({ pageContext }) => {
     if (searchQuery) {
       setSearchResults(
         fuse.search(searchQuery).map(result => {
-          return { ...result.item, refIndex: result.refIndex };
+          return { ...result.item, score: result.score };
         })
       );
     } else {
