@@ -178,7 +178,7 @@ const FilterSection = ({
 
     if (filterGroupMatches === {}) {
       filterList.forEach(filter => {
-        const count = searchResults.filter(dataset => dataset.item.hasOwnProperty(filter.id)).length;
+        const count = searchResults.filter(dataset => dataset.filterSet.has(filter.id)).length;
         if (count) {
           filterCounts[filter.id] = count;
         }
@@ -188,7 +188,7 @@ const FilterSection = ({
         const allOtherFilterGroupIds = Object.keys(filterGroupMatches).filter(groupId => groupId !== filter.groupId);
         const matchListsFromAllOtherFilterGroups = allOtherFilterGroupIds.map(groupId => filterGroupMatches[groupId]);
         const matchesOnEveryOtherGroupList = searchResults.filter(dataset => matchListsFromAllOtherFilterGroups.every(fSet => fSet.has(dataset)));
-        const count = matchesOnEveryOtherGroupList.filter(dataset => dataset.item.hasOwnProperty(filter.id)).length;
+        const count = matchesOnEveryOtherGroupList.filter(dataset => dataset.filterSet.has(filter.id)).length;
         if (count) {
           filterCounts[filter.id] = count;
         }

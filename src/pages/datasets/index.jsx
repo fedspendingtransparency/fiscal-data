@@ -125,13 +125,21 @@ const DatasetsPage = ({ pageContext }) => {
     setFinalDatesNotFound(false);
     // searchEngine.init(updatedDatasets);
     setTimeout(() => {
-      setSearchResults(fuse.search(searchQuery));
+      setSearchResults(
+        fuse.search(searchQuery).map(result => {
+          return { ...result.item, refIndex: result.refIndex };
+        })
+      );
     }, 100); // let the page load before positioning cards for the first time
   }, [updatedDatasets]);
 
   useEffect(() => {
     console.log(searchQuery);
-    setSearchResults(fuse.search(searchQuery));
+    setSearchResults(
+      fuse.search(searchQuery).map(result => {
+        return { ...result.item, refIndex: result.refIndex };
+      })
+    );
   }, [searchQuery]);
 
   // useEffect(() => {

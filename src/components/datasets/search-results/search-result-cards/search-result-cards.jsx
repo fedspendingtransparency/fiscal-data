@@ -47,7 +47,7 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
     PerformSort(activeSort, filteredDatasets);
 
     filteredDatasets.forEach((row, i) => {
-      obj[row.item.name] = i;
+      obj[row.name] = i;
     });
 
     setFauxIndex(obj);
@@ -87,7 +87,7 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
     }
 
     allDatasets.forEach(ds => {
-      ds.hidden = !filteredDatasets.some(s => s.item.datasetId === ds.datasetId);
+      ds.hidden = !filteredDatasets.some(s => s.datasetId === ds.datasetId);
     });
   }, [filteredDatasets]);
 
