@@ -101,8 +101,8 @@ const DatasetsPage = ({ pageContext }) => {
   const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
   const updatedDatasets = useMetadataUpdater(datasets);
   const fuse = new Fuse(updatedDatasets, {
-    keys: ['name'],
-    threshold: 0.5,
+    keys: ['name', 'summaryText', 'relatedTopics', 'allColumnNames', 'allPrettyNames', 'slug'],
+    threshold: 0.4,
   });
 
   useEffect(() => {
