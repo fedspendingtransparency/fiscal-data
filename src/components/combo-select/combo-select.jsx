@@ -16,7 +16,7 @@ import useOnClickOutside from 'use-onclickoutside';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { analyticsHandler } from 'src/helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
+import { analyticsHandler } from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 
 export default function ComboSelect({
   options,
