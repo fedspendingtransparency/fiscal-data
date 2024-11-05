@@ -4,11 +4,11 @@ import { IDatasetTechSpecs } from './IDatasetTechSpecs';
 export interface IDatasetConfig {
   apis: IDatasetApi[];
   currentDateButton: string | null;
-  customNoChartMessage: boolean | null;
+  customNoChartMessage: boolean | null; // not used at the moment
   datePreset: string | null;
-  customRangePreset: string | null;
+  customRangePreset: string | null; // *** *** Currently only used for TRRE
   bannerCallout: Record<string, string> | null;
-  datatableBanner: string | null;
+  datatableBanner: string | null; // Presented in Preview & Download section *** Currently only used for DTS
   selectColumns: string[] | null;
 
   // used for secondary/nested tables. Clickable on a column value. Comes from datasets/uat/qat
