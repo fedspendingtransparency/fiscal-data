@@ -174,8 +174,6 @@ const FilterSection = ({
   const calculateFilterCount = (filterGroupMatches, searchResults) => {
     const filterCounts = { total: searchResults.length };
 
-    console.log(searchResults);
-
     if (filterGroupMatches === {}) {
       filterList.forEach(filter => {
         const count = searchResults.filter(dataset => dataset.filterSet.has(filter.id)).length;
