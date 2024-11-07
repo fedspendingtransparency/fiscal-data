@@ -121,7 +121,6 @@ const DatasetsPage = ({ pageContext }) => {
 
   useEffect(() => {
     setFinalDatesNotFound(false);
-    // searchEngine.init(updatedDatasets);
     setTimeout(() => {
       if (searchQuery) {
         setSearchResults(
@@ -136,7 +135,6 @@ const DatasetsPage = ({ pageContext }) => {
   }, [updatedDatasets]);
 
   useEffect(() => {
-    console.log(searchQuery);
     if (searchQuery) {
       setSearchResults(
         fuse.search(searchQuery).map(result => {

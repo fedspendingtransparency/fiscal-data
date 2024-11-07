@@ -1,4 +1,4 @@
-import { mockDatasets } from '../mockData/mockDatasets';
+import { mockDatasets } from '../../components/datasets/mockData/mockDatasets';
 import Fuse from 'fuse.js';
 
 describe('search engine', () => {
