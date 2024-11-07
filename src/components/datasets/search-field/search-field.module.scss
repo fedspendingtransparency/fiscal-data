@@ -1,6 +1,8 @@
 @import '../../../variables.module.scss';
 
 .searchInput {
+  display: flex;
+  align-items: center;
   width: 26rem;
   max-width: 85%;
   margin-bottom: 1rem;

@@ -62,7 +62,7 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
         right={
           selectedChartView !== 'percentageGdp'
             ? { label: 'Total Spending', value: `$${totalSpending}` }
-            : { label: 'GDP Ratio', value: `$${gdpRatio}` }
+            : { label: 'GDP Ratio', value: `${gdpRatio}` }
         }
         left={selectedChartView !== 'percentageGdp' ? { label: 'GDP', value: `$${gdp}` } : null}
       />

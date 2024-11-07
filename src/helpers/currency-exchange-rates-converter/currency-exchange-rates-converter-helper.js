@@ -1,6 +1,34 @@
 import { BASE_URL } from 'gatsby-env-variables';
-import InfoTip from '../../info-tip/info-tip';
+import InfoTip from '../../components/info-tip/info-tip';
 import React from 'react';
+import Analytics from '../../utils/analytics/analytics';
+import { ga4DataLayerPush } from '../google-analytics/google-analytics-helper';
+
+export const analyticsHandler = (action, label) => {
+  if (action && label) {
+    Analytics.event({
+      category: 'Exchange Rates Converter',
+      action: action,
+      label: label,
+    });
+    ga4DataLayerPush({
+      event: action,
+      eventLabel: label,
+    });
+  }
+};
+
+export const handleHoverInfoTipAnalytics = (label, ga4ID) => {
+  analyticsHandler('Additional Info Hover', label);
+  ga4DataLayerPush({
+    event: `additional-info-hover-${ga4ID}`,
+  });
+};
+
+export const noNonNumericChar = event => {
+  // Prevents users from typing 'e', 'E', or '-'
+  return (event.key === 'e' || event.key === 'E' || event.key === '-') && event.preventDefault();
+};
 
 export const dateStringConverter = date => {
   if (isNaN(date)) {
@@ -30,35 +58,6 @@ export const enforceTrailingZero = (number, decimalPlaces) => {
   if (num.indexOf('.') === -1) num += '.';
   while (num.length < num.indexOf('.') + (decimalPlaces + 1)) num += '0';
   return num;
-};
-
-export const labelIcon = (labelName, iconName, dataTestID, isIcon = false, handleMouseEnter, handleTooltipClose, testid) => {
-  if (!isIcon) {
-    return (
-      <div style={{ fontSize: '14px', fontWeight: '400' }} data-testid={testid}>
-        <span>{labelName}</span>
-      </div>
-    );
-  } else {
-    return (
-      <div style={{ fontSize: '14px', fontWeight: '400' }}>
-        <span>{labelName}</span>
-        <span data-testid={dataTestID} onMouseEnter={handleMouseEnter} onBlur={handleTooltipClose} role="presentation">
-          <InfoTip
-            hover
-            iconStyle={{
-              color: '#666666',
-              width: '14px',
-              height: '14px',
-            }}
-            title={labelName}
-          >
-            {iconName}
-          </InfoTip>
-        </span>
-      </div>
-    );
-  }
 };
 
 export const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000';

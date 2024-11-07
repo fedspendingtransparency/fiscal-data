@@ -16,22 +16,7 @@ import useOnClickOutside from 'use-onclickoutside';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import Analytics from '../../utils/analytics/analytics';
-
-const XRAnalyticsHandler = (action, label) => {
-  if (action && label) {
-    Analytics.event({
-      category: 'Exchange Rates Converter',
-      action: action,
-      label: label,
-    });
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: action,
-      eventLabel: label,
-    });
-  }
-};
+import { analyticsHandler } from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 
 export default function ComboSelect({
   options,
@@ -59,7 +44,7 @@ export default function ComboSelect({
 
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
-      XRAnalyticsHandler('Foreign Country-Currency Selected', selection.label);
+      analyticsHandler('Foreign Country-Currency Selected', selection.label);
     }
     changeHandler(selection);
     if (labelDisplay) {
@@ -134,7 +119,7 @@ export default function ComboSelect({
 
   const onBlurAnalyticsHandler = event => {
     if (isExchangeTool && !event.target.parentElement.contains(event.relatedTarget)) {
-      XRAnalyticsHandler('Foreign Country-Currency Search', event.target.value);
+      analyticsHandler('Foreign Country-Currency Search', event.target.value);
     }
   };
 

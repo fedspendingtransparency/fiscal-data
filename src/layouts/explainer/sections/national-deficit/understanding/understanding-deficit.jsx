@@ -10,11 +10,12 @@ import GlossaryPopoverDefinition from '../../../../../components/glossary/glossa
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { nationalDeficitSectionConfigs } from '../national-deficit';
 import useFetchSurplusCount from './deficit-surplus-count-helper';
+import { numberToWord } from '../../../explainer-helpers/national-deficit/national-deficit-helper';
 
 const UnderstandingDeficit = ({ sectionId }) => {
   const currentYear = new Date().getFullYear();
   const startYear = currentYear - 50;
-  const surplusCount = useFetchSurplusCount(startYear);
+  const surplusCount = numberToWord(useFetchSurplusCount(startYear));
 
   const spending = (
     <GlossaryPopoverDefinition term="spending" page="Deficit Explainer">

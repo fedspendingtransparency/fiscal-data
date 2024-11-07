@@ -74,9 +74,7 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
       <ChartDataHeader
         fiscalYear={fiscalYear}
         right={
-          selectedChartView !== 'percentageGdp'
-            ? { label: 'Total Revenue', value: `$${totalRevenue}` }
-            : { label: 'GDP Ratio', value: `$${gdpRatio}` }
+          selectedChartView !== 'percentageGdp' ? { label: 'Total Revenue', value: `$${totalRevenue}` } : { label: 'GDP Ratio', value: `${gdpRatio}` }
         }
         left={selectedChartView !== 'percentageGdp' ? { label: 'GDP', value: `$${gdp}` } : null}
       />

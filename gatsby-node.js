@@ -1,5 +1,6 @@
 const { freshTopics } = require('./src/transform/topics-config');
 const { freshExplainerPages } = require('./src/transform/explainer-pages-config');
+const { freshInsightPages } = require('./src/transform/insight-pages-config');
 const { getEndpointConfigsById } = require('./src/transform/endpointConfig');
 const { sortPublishers } = require('./src/transform/filters/filterDefinitions');
 let { filters } = require('./src/transform/filters/filterDefinitions');
@@ -167,6 +168,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   filters = sortPublishers(filters);
   const topics = freshTopics();
   const explainerPages = freshExplainerPages();
+  const insightPages = freshInsightPages();
 
   const getDatasetConfig = dataset => {
     const allColumnNames = [];
@@ -242,6 +244,20 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       children: [],
       internal: {
         type: `Explainers`,
+      },
+    };
+    node.internal.contentDigest = createContentDigest(node);
+    createNode(node);
+  });
+
+  insightPages.forEach(insightPage => {
+    insightPage.id = createNodeId(insightPage.slug);
+    const node = {
+      ...insightPage,
+      parent: null,
+      children: [],
+      internal: {
+        type: `Insights`,
       },
     };
     node.internal.contentDigest = createContentDigest(node);
@@ -504,6 +520,11 @@ exports.createSchemaCustomization = ({ actions }) => {
       seoConfig: SEOConfig,
       breadCrumbLinkName: String
     }
+    type Insights implements Node {
+      pageName: String,
+      seoConfig: SEOConfig,
+      breadCrumbLinkName: String
+    }
     type BLSPublicAPIData implements Node {
       year: String,
       period: String,
@@ -716,6 +737,23 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           isAFG
         }
       }
+      allInsights {
+        insights: nodes {
+          pageName
+          slug
+          seoConfig {
+            pageTitle
+            description
+            keywords
+          }
+          prodReady
+          breadCrumbLinkName
+          heroImage {
+            heading
+            subHeading
+          }
+        }
+      }
       allCpi100Csv {
         cpi100Csv: nodes {
           year
@@ -908,6 +946,22 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           isAFG: explainer.isAFG,
           cpiDataByYear: cpiYearMap,
           cpi12MonthPercentChange: cpi12MonthPercentChangeMap,
+        },
+      });
+    }
+  });
+
+  result.data.allInsights.insights.forEach(insight => {
+    if (ENV_ID !== 'production' || insight.prodReady) {
+      createPage({
+        path: insight.slug,
+        matchPath: `${insight.slug}*`,
+        component: path.resolve('./src/layouts/insight/insight.tsx'),
+        context: {
+          pageName: insight.pageName,
+          breadCrumbLinkName: insight.breadCrumbLinkName,
+          seoConfig: insight.seoConfig,
+          heroImage: insight.heroImage,
         },
       });
     }
