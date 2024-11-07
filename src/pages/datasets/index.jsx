@@ -22,6 +22,8 @@ const DatasetsPage = ({ pageContext }) => {
             name
             datasetId
             relatedTopics
+            allColumnNames
+            allPrettyNames
             apis {
               endpoint
               dateField

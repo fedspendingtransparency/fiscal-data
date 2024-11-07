@@ -168,10 +168,33 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   const topics = freshTopics();
   const explainerPages = freshExplainerPages();
 
+  const getDatasetConfig = dataset => {
+    const allColumnNames = [];
+    const allPrettyNames = [];
+
+    if (dataset.apis.length > 0) {
+      dataset.apis.forEach(api => {
+        if (api.fields && api.fields.length) {
+          api.fields.forEach(e => {
+            allColumnNames.push(e.columnName);
+            allPrettyNames.push(e.prettyName);
+          });
+        }
+      });
+    }
+
+    return {
+      ...dataset,
+      allColumnNames: allColumnNames,
+      allPrettyNames: allPrettyNames,
+    };
+  };
+
   for (const dataset of datasets) {
     dataset.id = createNodeId(dataset.datasetId);
+    const datasetConfig = getDatasetConfig(dataset);
     const node = {
-      ...dataset,
+      ...datasetConfig,
       parent: null,
       children: [],
       internal: {
@@ -460,6 +483,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       detailView: DetailView,
       disableAllTables: Boolean,
       sharedApiFilterOptions: Boolean,
+      allColumnNames: [String],
+      allPrettyNames: [String],
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
@@ -523,6 +548,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           currentDateButton
           disableAllTables
           sharedApiFilterOptions
+          allColumnNames
+          allPrettyNames
           detailView {
             apiId
             field
@@ -761,28 +788,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   result.data.allBlsPublicApiData.blsPublicApiData.forEach(blsRow => {
     cpi12MonthPercentChangeMap[blsRow.period + blsRow.year] = blsRow['_12mo_percentage_change'];
-  });
-
-  result.data.allDatasets.datasets.forEach(dataset => {
-    const allColumnNames = [];
-    const allPrettyNames = [];
-
-    if (dataset.apis.length > 0) {
-      dataset.apis.forEach(api => {
-        if (api.fields && api.fields.length) {
-          api.fields.forEach(e => {
-            allColumnNames.push(e.columnName);
-            allPrettyNames.push(e.prettyName);
-          });
-        }
-      });
-    }
-
-    return {
-      ...dataset,
-      allColumnNames: allColumnNames,
-      allPrettyNames: allPrettyNames,
-    };
   });
 
   for (const config of result.data.allDatasets.datasets) {
