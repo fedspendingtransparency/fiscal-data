@@ -16,6 +16,7 @@ import { bannerCalloutContainer } from '../../components/masthead/masthead.modul
 import Experimental from '../../components/experimental/experimental';
 import ReportsSection from '../../components/published-reports/reports-section/reports-section';
 import ENV_ID from 'gatsby-env-variables';
+import DataPreview from '../../components/data-preview/data-preview';
 export const query = graphql`
   query relatedDatasets($relatedDatasets: [String]) {
     allDatasets(filter: { datasetId: { in: $relatedDatasets } }) {
@@ -87,6 +88,11 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           dictionary={pageContext.config.dictionary}
         />
         {ENV_ID === 'uat' ? <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} /> : ''}
+
+        <Experimental featureId="dataPreview">
+          <DataPreview></DataPreview>
+        </Experimental>
+
         <DatasetData
           setSelectedTableProp={setSelectedTable}
           finalDatesNotFound={finalDatesNotFound}
