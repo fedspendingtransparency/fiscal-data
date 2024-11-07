@@ -763,6 +763,28 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     cpi12MonthPercentChangeMap[blsRow.period + blsRow.year] = blsRow['_12mo_percentage_change'];
   });
 
+  result.data.allDatasets.datasets.forEach(dataset => {
+    const allColumnNames = [];
+    const allPrettyNames = [];
+
+    if (dataset.apis.length > 0) {
+      dataset.apis.forEach(api => {
+        if (api.fields && api.fields.length) {
+          api.fields.forEach(e => {
+            allColumnNames.push(e.columnName);
+            allPrettyNames.push(e.prettyName);
+          });
+        }
+      });
+    }
+
+    return {
+      ...dataset,
+      allColumnNames: allColumnNames,
+      allPrettyNames: allPrettyNames,
+    };
+  });
+
   for (const config of result.data.allDatasets.datasets) {
     const allResults = [];
     const allResultsLabels = {};

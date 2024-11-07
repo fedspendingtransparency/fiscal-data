@@ -15,6 +15,28 @@ import Analytics from '../../../utils/analytics/analytics';
 import { searchLayout, searchLayoutSection, searchLayoutFilters, searchLayoutMain } from './search-layout.module.scss';
 import { title, filterWrapper, filterSectionHeader, filterSectionTitle, filterSectionDivider } from './filters.module.scss';
 
+// const columnNameMapper = dataset => {
+//   const allColumnNames = [];
+//   const allPrettyNames = [];
+//
+//   if (dataset.apis.length > 0) {
+//     dataset.apis.forEach(api => {
+//       if (api.fields && api.fields.length) {
+//         api.fields.forEach(e => {
+//           allColumnNames.push(e.columnName);
+//           allPrettyNames.push(e.prettyName);
+//         });
+//       }
+//     });
+//   }
+//
+//   return {
+//     ...dataset,
+//     allColumnNames: allColumnNames,
+//     allPrettyNames: allPrettyNames,
+//   };
+// };
+
 export const lastUpdatedAnalyticsObject = {
   category: 'Dataset Search Page',
   action: 'Last Updated Filter Click',
@@ -173,6 +195,8 @@ const FilterSection = ({
 
   const calculateFilterCount = (filterGroupMatches, searchResults) => {
     const filterCounts = { total: searchResults.length };
+
+    console.log(searchResults);
 
     if (filterGroupMatches === {}) {
       filterList.forEach(filter => {
