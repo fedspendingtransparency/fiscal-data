@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { datePickerButton, glow, publishedDateLabel, labelIcon } from './dropdown-label-button.module.scss';
 
-const DropdownLabelButton = ({ label = '', selectedOption = '', icon, setActive, active }) => {
+const DropdownLabelButton = ({ label = '', selectedOption = '', icon, setActive, active, ariaLabel }) => {
   return (
     <>
       <div className={active ? glow : null}>
-        <button className={datePickerButton} onClick={() => setActive(!active)} aria-label="Select Published Report Date">
+        <button className={datePickerButton} onClick={() => setActive(!active)} aria-label={ariaLabel}>
           <div>
             <FontAwesomeIcon icon={icon} className={labelIcon} />
             <span className={publishedDateLabel}>{label}: </span>

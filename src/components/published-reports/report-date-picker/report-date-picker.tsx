@@ -6,7 +6,7 @@ import ReportDayPicker from './report-day-picker/report-day-picker';
 import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
-import DropdownContainer from '../../dropdown-label-button/dropdown-container';
+import DropdownContainer from '../../dropdown-container/dropdown-container';
 
 interface IMonthPicker {
   isDailyReport: boolean;
@@ -36,6 +36,7 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
       icon={faCalendar}
       setActive={setActive}
       active={active}
+      ariaLabel="Select Published Report Date"
     />
   );
 

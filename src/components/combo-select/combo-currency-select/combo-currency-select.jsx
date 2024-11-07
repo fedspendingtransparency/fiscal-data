@@ -16,6 +16,7 @@ import {
   dropdownInputWeight,
   selectedText,
   icon,
+  dropdownContainer,
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 import classNames from 'classnames';
@@ -115,6 +116,7 @@ const ComboCurrencySelect = ({
         onBlur={() => setMouseOverDropdown(false)}
         onFocus={() => setMouseOverDropdown(true)}
         role="presentation"
+        className={dropdownContainer}
       >
         {labelText !== '' ? (
           <div className={`${selector_label} ${labelClass}`} data-testid="label" id={labelText + 'dropdown'}>

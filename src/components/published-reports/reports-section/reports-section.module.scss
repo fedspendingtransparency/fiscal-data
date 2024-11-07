@@ -11,6 +11,10 @@
 
 .filtersContainer {
   display: flex;
+
+  .reportFilterContainer {
+    margin-right: 0.5rem;
+  }
 }
 
 .publishDate {

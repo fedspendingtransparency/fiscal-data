@@ -1,6 +1,6 @@
 import React, { FocusEventHandler, FunctionComponent, useRef } from 'react';
 import useOnClickOutside from 'use-onclickoutside';
-import { datePickerContainer } from '../published-reports/report-date-picker/report-date-picker.module.scss';
+import { dropdownContainer } from './dropdown-container.module.scss';
 
 const DropdownContainer: FunctionComponent = ({ dropdownButton, children, setActive }) => {
   const dropdownRef = useRef(null);
@@ -32,9 +32,9 @@ const DropdownContainer: FunctionComponent = ({ dropdownButton, children, setAct
   };
 
   return (
-    <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation" className={datePickerContainer}>
+    <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation">
       {dropdownButton}
-      {children}
+      <div>{children}</div>
     </div>
   );
 };
