@@ -1,4 +1,5 @@
 import React from 'react';
+import { InterestExpenseChart } from './interest-expense-chart/interest-expense-chart';
 
 export const interestExpenseDataSources = (
   <>
@@ -34,6 +35,10 @@ const interestExpenseSections = [
   {
     index: 0,
     component: <MockComponent />,
+  },
+  {
+    index: 1,
+    component: <InterestExpenseChart />,
   },
 ];
 
