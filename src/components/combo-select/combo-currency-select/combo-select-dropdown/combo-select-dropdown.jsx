@@ -73,7 +73,9 @@ const ComboSelectDropdown = ({
   };
 
   const clearFilter = () => {
-    changeHandler(null);
+    if (changeHandler) {
+      changeHandler(null);
+    }
     // fire artificial event to reset field
     onFilterChange({
       target: {

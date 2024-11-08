@@ -7,7 +7,7 @@ import { makeReportGroups } from '../util/util';
 
 const ReportFilter: FunctionComponent = ({ reports }) => {
   const [reportGroups, setReportGroups] = useState({});
-  const [selectedReportGroup, setSelectedReportGroup] = useState(reports);
+  const [selectedReportGroup, setSelectedReportGroup] = useState();
   const [searchBarActive, setSearchBarActive] = useState(false);
 
   useEffect(() => {
@@ -25,6 +25,11 @@ const ReportFilter: FunctionComponent = ({ reports }) => {
 
   const [active, setActive] = useState(false);
 
+  const onReportChange = report => {
+    setSelectedReportGroup(report);
+    setActive(false);
+  };
+
   const dropdownButton = (
     <DropdownLabelButton selectedOption={selectedReportGroup?.label} label="Report" icon={faFileLines} active={active} setActive={setActive} />
   );
@@ -40,12 +45,13 @@ const ReportFilter: FunctionComponent = ({ reports }) => {
           active={active}
           setDropdownActive={setActive}
           selectedOption={selectedReportGroup}
-          updateSelection={setSelectedReportGroup}
+          updateSelection={onReportChange}
           searchBarLabel="Search reports"
           options={reportGroups}
           setMouseOverDropdown={mockFunction}
           searchBarActive={searchBarActive}
           setSearchBarActive={setSearchBarActive}
+          changeHandler={onReportChange}
         />
       </DropdownContainer>
     </>

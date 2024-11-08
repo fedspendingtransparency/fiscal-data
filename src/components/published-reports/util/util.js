@@ -166,8 +166,9 @@ export const makeReportGroups = reports => {
     });
   const groups = [];
   Object.entries(tempObj).forEach(([key, val]) => {
+    const label = getFileDisplay(val[0]).fullName;
     groups.push({
-      label: key,
+      label: label,
       id: val[0].report_group_id,
       value: val,
       sortOrderNumber: val[0].report_group_sort_order_nbr,
@@ -177,4 +178,21 @@ export const makeReportGroups = reports => {
   return groups.sort((a, b) => {
     return a.sortOrderNumber - b.sortOrderNumber;
   });
+};
+
+export const getFileDisplay = curReportFile => {
+  if (curReportFile) {
+    const groupName = curReportFile.report_group_desc;
+    const splitReportPath = curReportFile.path.split('.');
+    if (splitReportPath.length > 0) {
+      const reportFileType = splitReportPath[splitReportPath.length - 1];
+      const apiFileType = '(.' + reportFileType + ')';
+      const downloadFileType = '.' + reportFileType;
+      // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
+      const fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
+      //Split file name so overflow ellipsis can be used in the middle of the name
+      const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
+      return { fullName: fullDisplayName, displayName: fileDisplayName || '', fileType: downloadFileType };
+    }
+  }
 };
