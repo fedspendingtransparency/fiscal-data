@@ -12,10 +12,21 @@
   padding: 0.625rem 1rem;
   width: 20rem;
   cursor: pointer;
+  white-space: nowrap;
+
+  .buttonContent {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
 
   .publishedDateLabel {
     font-weight: $semi-bold-weight;
     white-space: pre;
+  }
+
+  .selectedOptionText {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
   }
 }
 

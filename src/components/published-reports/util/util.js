@@ -153,3 +153,28 @@ export const isReportGroupDailyFrequency = reports => {
   }
   return isDaily;
 };
+
+export const makeReportGroups = reports => {
+  const tempObj = {};
+  reports
+    .filter(rep => rep.report_group_id !== undefined && Number(rep.report_group_id) > -1)
+    .forEach(report => {
+      if (!tempObj[report.report_group_desc]) {
+        tempObj[report.report_group_desc] = [];
+      }
+      tempObj[report.report_group_desc].push(report);
+    });
+  const groups = [];
+  Object.entries(tempObj).forEach(([key, val]) => {
+    groups.push({
+      label: key,
+      id: val[0].report_group_id,
+      value: val,
+      sortOrderNumber: val[0].report_group_sort_order_nbr,
+      daily: isReportGroupDailyFrequency(val),
+    });
+  });
+  return groups.sort((a, b) => {
+    return a.sortOrderNumber - b.sortOrderNumber;
+  });
+};

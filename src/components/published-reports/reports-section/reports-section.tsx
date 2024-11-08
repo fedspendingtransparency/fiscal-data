@@ -109,7 +109,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
         <div className={filtersContainer}>
           {filterByReport && (
             <div className={reportFilterContainer}>
-              <ReportFilter />
+              <ReportFilter reports={publishedReportsProp} />
             </div>
           )}
           {latestReportDate && (

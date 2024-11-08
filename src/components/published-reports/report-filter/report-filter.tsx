@@ -1,25 +1,32 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import { faFileLines } from '@fortawesome/free-regular-svg-icons';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
+import { makeReportGroups } from '../util/util';
 
 const ReportFilter: FunctionComponent = ({ reports }) => {
-  const mockOptions = [
-    { value: 'test', label: 'test' },
-    { value: 'test2', label: 'test2' },
-  ];
+  const [reportGroups, setReportGroups] = useState({});
+  const [selectedReportGroup, setSelectedReportGroup] = useState(reports);
+  const [searchBarActive, setSearchBarActive] = useState(false);
+
+  useEffect(() => {
+    const reportGrou = makeReportGroups(reports);
+    console.log(reportGrou);
+    setReportGroups(reportGrou);
+    // setSelectedReportGroup(reports);
+  }, [reports]);
+
+  useEffect(() => {
+    if (reportGroups) {
+      setSelectedReportGroup(reportGroups[0]);
+    }
+  }, [reportGroups]);
+
   const [active, setActive] = useState(false);
 
-  const [selectedReport, setSelectedReport] = useState(mockOptions[0]);
-  // const changeHandler = updatedReport => {
-  //   if (updatedReport !== null) {
-  //     setSelectedReport(updatedReport);
-  //   }
-  // };
-
   const dropdownButton = (
-    <DropdownLabelButton selectedOption={selectedReport.label} label="Report" icon={faFileLines} active={active} setActive={setActive} />
+    <DropdownLabelButton selectedOption={selectedReportGroup?.label} label="Report" icon={faFileLines} active={active} setActive={setActive} />
   );
 
   const mockFunction = () => {
@@ -32,11 +39,13 @@ const ReportFilter: FunctionComponent = ({ reports }) => {
         <ComboSelectDropdown
           active={active}
           setDropdownActive={setActive}
-          selectedOption={selectedReport}
-          updateSelection={setSelectedReport}
+          selectedOption={selectedReportGroup}
+          updateSelection={setSelectedReportGroup}
           searchBarLabel="Search reports"
-          options={mockOptions}
+          options={reportGroups}
           setMouseOverDropdown={mockFunction}
+          searchBarActive={searchBarActive}
+          setSearchBarActive={setSearchBarActive}
         />
       </DropdownContainer>
     </>
