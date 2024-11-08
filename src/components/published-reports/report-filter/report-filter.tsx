@@ -34,10 +34,6 @@ const ReportFilter: FunctionComponent = ({ reports }) => {
     <DropdownLabelButton selectedOption={selectedReportGroup?.label} label="Report" icon={faFileLines} active={active} setActive={setActive} />
   );
 
-  const mockFunction = () => {
-    return;
-  };
-
   return (
     <>
       <DropdownContainer setActive={setActive} active={active} dropdownButton={dropdownButton}>
@@ -48,7 +44,6 @@ const ReportFilter: FunctionComponent = ({ reports }) => {
           updateSelection={onReportChange}
           searchBarLabel="Search reports"
           options={reportGroups}
-          setMouseOverDropdown={mockFunction}
           searchBarActive={searchBarActive}
           setSearchBarActive={setSearchBarActive}
           changeHandler={onReportChange}

@@ -40,7 +40,6 @@ const ComboCurrencySelect = ({
 }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
-  const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
   const [searchBarActive, setSearchBarActive] = useState(false);
 
   const updateSelection = (selection, sendGA) => {
@@ -68,7 +67,7 @@ const ComboCurrencySelect = ({
   /* accessibility-enabling event handlers for interpreting focus state on control */
   const onBlurHandler = event => {
     if (event) {
-      const mouseEvent = event.type !== 'blur' && !mouseOverDropdown;
+      const mouseEvent = event.type !== 'blur';
       if (mouseEvent && !event.target?.parentElement?.contains(event.relatedTarget)) {
         setDropdownActive(false);
       }
@@ -110,14 +109,7 @@ const ComboCurrencySelect = ({
 
   return (
     <>
-      <div
-        onMouseOver={() => setMouseOverDropdown(true)}
-        onMouseLeave={() => setMouseOverDropdown(false)}
-        onBlur={() => setMouseOverDropdown(false)}
-        onFocus={() => setMouseOverDropdown(true)}
-        role="presentation"
-        className={dropdownContainer}
-      >
+      <div role="presentation" className={dropdownContainer}>
         {labelText !== '' ? (
           <div className={`${selector_label} ${labelClass}`} data-testid="label" id={labelText + 'dropdown'}>
             {labelText}
@@ -149,7 +141,6 @@ const ComboCurrencySelect = ({
           setDropdownActive={setDropdownActive}
           dropdownOnBlurHandler={onBlurHandler}
           searchBarOnBlurHandler={onBlurAnalyticsHandler}
-          setMouseOverDropdown={setMouseOverDropdown}
           selectedOption={selectedOption}
           updateSelection={updateSelection}
           required={required}
