@@ -1,7 +1,11 @@
-import React, { ReactElement } from 'react';
-import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-
-export const CustomTooltip = (): ReactJSXElement => {
+export const CustomTooltip = ({ payload = [], setYear, setExpense, setRate }) => {
+  if (payload.length > 0) {
+    setYear(payload[0]?.payload.year);
+    const rate = payload.find(x => x.dataKey === 'avgInterestRate');
+    setRate(rate.payload.avgInterestRate);
+    const expense = payload.find(x => x.dataKey === 'interestExpense');
+    setExpense(expense.payload.interestExpense);
+  }
   return null;
 };
 
@@ -34,7 +38,7 @@ export const mockChartData = [
   {
     year: 2015,
     interestExpense: 600000000000,
-    avgInterestRate: 2.65,
+    avgInterestRate: 2.6,
   },
   {
     year: 2016,
@@ -44,12 +48,12 @@ export const mockChartData = [
   {
     year: 2017,
     interestExpense: 700000000000,
-    avgInterestRate: 2.75,
+    avgInterestRate: 2.7,
   },
   {
     year: 2018,
     interestExpense: 250000000000,
-    avgInterestRate: 2.84,
+    avgInterestRate: 2.8,
   },
   {
     year: 2019,

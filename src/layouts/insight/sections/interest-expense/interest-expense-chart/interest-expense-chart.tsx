@@ -23,7 +23,7 @@ export const InterestExpenseChart = () => {
         <ChartDataHeader
           dateField={'FYTD'}
           fiscalYear={fiscalYear}
-          right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount.toString())}` }}
+          right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount)}` }}
           left={{ label: 'Avg. Interest Rate', value: `${curRate}%` }}
         />
       </div>
@@ -44,7 +44,9 @@ export const InterestExpenseChart = () => {
               stroke: '#00796B60',
               strokeWidth: 32,
             }}
-            content={<CustomTooltip />}
+            content={<CustomTooltip setYear={setFiscalYear} setExpense={setCurExpenseAmount} setRate={setCurRate} />}
+            isAnimationActive={false}
+            active={true}
           />
           <CartesianGrid vertical={false} stroke="#d9d9d9" />
           <XAxis dataKey={'year'} ticks={[2010, 2013, 2016, 2019, 2022, 2024]} />
