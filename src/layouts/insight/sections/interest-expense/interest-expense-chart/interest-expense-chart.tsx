@@ -4,9 +4,9 @@ import React from 'react';
 import { useState } from 'react';
 import { yAxisFormatter } from '../../../../explainer/sections/treasury-savings-bonds/purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import { interestExpensePrimary } from '../../../insight.module.scss';
-import { InterestExpenseChartHeader } from './interest-expense-chart-header';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
+import { legendContainer, expenseLegend, rateLegend, expenseText, rectangle, line } from './interest-expense-chart.module.scss';
 
 export const InterestExpenseChart = () => {
   const [chartData, setChartData] = useState(mockChartData);
@@ -15,20 +15,27 @@ export const InterestExpenseChart = () => {
   const [curRate, setCurRate] = useState(3.8);
 
   const defaultRateAxis: number[] = [0, 1, 2, 3, 4];
-  const rateAxisInterval = 1.0;
   const defaultExpenseAxis: number[] = [0, 300000000000, 600000000000, 900000000000, 1200000000000];
-  const expenseAxisInterval = 300000000000;
 
   return (
     <div>
-      {/*<InterestExpenseChartHeader fiscalYear={fiscalYear} interestExpenseAmount={getShortForm(curExpenseAmount)} rateAmount={`${curRate}%`} />*/}
       <div>
         <ChartDataHeader
           dateField={'FYTD'}
           fiscalYear={fiscalYear}
-          right={{ label: 'Interest Expense', value: getShortForm(curExpenseAmount.toString()) }}
+          right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount.toString())}` }}
           left={{ label: 'Avg. Interest Rate', value: `${curRate}%` }}
         />
+      </div>
+      <div className={legendContainer}>
+        <div className={expenseLegend}>
+          <span className={expenseText}>Interest Expense</span>
+          <div className={rectangle} />
+        </div>
+        <div className={rateLegend}>
+          <div className={line} />
+          <span>Avg. Interest Rate</span>
+        </div>
       </div>
       <ResponsiveContainer height={360} width={'99%'}>
         <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer>

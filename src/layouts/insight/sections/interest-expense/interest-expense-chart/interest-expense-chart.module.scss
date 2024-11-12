@@ -1,0 +1,38 @@
+@import 'src/variables.module';
+$interest-expense-primary: #00796B;
+
+.legendContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.expenseLegend {
+  display: flex;
+}
+
+.expenseText {
+  color: $interest-expense-primary;
+  font-weight: 600;
+}
+
+.line {
+  margin-top: 0.5rem;
+  margin-right: 0.2rem;
+  display: inline-block;
+  width: 20px;
+  border-top: 2px solid #555555;
+}
+
+.rectangle {
+  width: 24px;
+  height: 16px;
+  background: $interest-expense-primary;
+  margin-left: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+.rateLegend {
+  display: flex;
+}
