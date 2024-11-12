@@ -21,6 +21,19 @@ export const InterestExpenseChart = () => {
   const [curExpenseAmount, setCurExpenseAmount] = useState(890000000000);
   const [curRate, setCurRate] = useState(3.8);
   const [isMobile, setIsMobile] = useState(null);
+  const [latestData, setLatestData] = useState<{
+    year: number;
+    expense: number;
+    rate: number;
+  }>({ year: 2024, expense: 890000000000, rate: 3.8 });
+
+  const resetDataHeader = () => {
+    if (latestData) {
+      setFiscalYear(latestData.year);
+      setCurExpenseAmount(latestData.expense);
+      setCurRate(latestData.rate);
+    }
+  };
 
   const defaultRateAxis: number[] = [0, 1, 2, 3, 4];
   const defaultExpenseAxis: number[] = [0, 300000000000, 600000000000, 900000000000, 1200000000000];
@@ -54,7 +67,7 @@ export const InterestExpenseChart = () => {
         </div>
       </div>
       <ResponsiveContainer height={360} width={'99%'}>
-        <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer>
+        <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer onMouseLeave={resetDataHeader}>
           <Tooltip
             cursor={{
               stroke: '#00796B60',
