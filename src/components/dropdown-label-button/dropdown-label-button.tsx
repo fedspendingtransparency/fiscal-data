@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { datePickerButton, glow, publishedDateLabel, labelIcon, buttonContent, selectedOptionText } from './dropdown-label-button.module.scss';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 interface IDropdownLabelButton {
   label: string;
   selectedOption: string;
-  icon: IconProp;
+  icon: IconDefinition;
   setActive: (activeState: boolean) => void;
   active: boolean;
   ariaLabel?: string;
