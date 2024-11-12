@@ -1,21 +1,37 @@
 import { ComposedChart, ResponsiveContainer, XAxis, YAxis, Line, Bar, CartesianGrid, Tooltip } from 'recharts';
 import { CustomTooltip, mockChartData } from './interest-expense-chart-helper';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { yAxisFormatter } from '../../../../explainer/sections/treasury-savings-bonds/purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import { interestExpensePrimary } from '../../../insight.module.scss';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import { legendContainer, expenseLegend, rateLegend, expenseText, rectangle, line } from './interest-expense-chart.module.scss';
+import { useWindowSize } from '../../../../../hooks/windowResize';
+
+const breakpoint = {
+  desktop: 1015,
+  tablet: 600,
+};
 
 export const InterestExpenseChart = () => {
+  const [width, height] = useWindowSize();
   const [chartData, setChartData] = useState(mockChartData);
   const [fiscalYear, setFiscalYear] = useState(2024);
   const [curExpenseAmount, setCurExpenseAmount] = useState(890000000000);
   const [curRate, setCurRate] = useState(3.8);
+  const [isMobile, setIsMobile] = useState(null);
 
   const defaultRateAxis: number[] = [0, 1, 2, 3, 4];
   const defaultExpenseAxis: number[] = [0, 300000000000, 600000000000, 900000000000, 1200000000000];
+
+  useEffect(() => {
+    if (window.innerWidth < breakpoint.desktop) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }, [width, height]);
 
   return (
     <div>
@@ -42,7 +58,7 @@ export const InterestExpenseChart = () => {
           <Tooltip
             cursor={{
               stroke: '#00796B60',
-              strokeWidth: 32,
+              strokeWidth: isMobile ? 16 : 32,
             }}
             content={<CustomTooltip setYear={setFiscalYear} setExpense={setCurExpenseAmount} setRate={setCurRate} />}
             isAnimationActive={false}
@@ -70,7 +86,7 @@ export const InterestExpenseChart = () => {
             tickFormatter={value => `${value.toFixed(1)}%`}
           />
           <Line dataKey={'avgInterestRate'} yAxisId={1} stroke={'#666666'} type={'monotone'} strokeWidth={1} activeDot={false} />
-          <Bar dataKey={'interestExpense'} barSize={19} fill={interestExpensePrimary} />
+          <Bar dataKey={'interestExpense'} barSize={isMobile ? 12 : 19} fill={interestExpensePrimary} />
         </ComposedChart>
       </ResponsiveContainer>
     </div>
