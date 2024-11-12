@@ -1,8 +1,13 @@
-import React, { FocusEventHandler, FunctionComponent, useRef } from 'react';
+import React, { FocusEventHandler, FunctionComponent, ReactElement, useRef } from 'react';
 import useOnClickOutside from 'use-onclickoutside';
-import { dropdownContainer } from './dropdown-container.module.scss';
 
-const DropdownContainer: FunctionComponent = ({ dropdownButton, children, setActive }) => {
+interface IDropdownContainer {
+  dropdownButton: ReactElement;
+  children: ReactElement;
+  setActive: (activeState: boolean) => void;
+}
+
+const DropdownContainer: FunctionComponent<IDropdownContainer> = ({ dropdownButton, children, setActive }: IDropdownContainer) => {
   const dropdownRef = useRef(null);
 
   /* accessibility-enabling event handlers for interpreting focus state on control */

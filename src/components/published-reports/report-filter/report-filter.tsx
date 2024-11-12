@@ -4,8 +4,13 @@ import { faFileLines } from '@fortawesome/free-regular-svg-icons';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { makeReportGroups } from '../util/util';
+import { IReports } from '../reports-section/reports-section';
 
-const ReportFilter: FunctionComponent = ({ reports }) => {
+interface IReportFilter {
+  reports: IReports[];
+}
+
+const ReportFilter: FunctionComponent<IReportFilter> = ({ reports }: IReportFilter) => {
   const [reportGroups, setReportGroups] = useState({});
   const [selectedReportGroup, setSelectedReportGroup] = useState();
   const [searchBarActive, setSearchBarActive] = useState(false);
@@ -25,7 +30,7 @@ const ReportFilter: FunctionComponent = ({ reports }) => {
 
   const [active, setActive] = useState(false);
 
-  const onReportChange = report => {
+  const onReportChange = (report: IReport) => {
     setSelectedReportGroup(report);
     setActive(false);
   };
