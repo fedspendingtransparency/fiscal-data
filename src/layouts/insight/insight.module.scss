@@ -56,9 +56,12 @@ $interest-expense-primary: #00796B;
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .insightsContainer {
-  margin: 0 10px 4rem;
+    margin: 0 10px 4rem;
   }
-    .contentContainer {
+  .contentContainer {
+    .mainContent {
+      margin-right: 0;
+    }
     flex-direction: column;
   }
 

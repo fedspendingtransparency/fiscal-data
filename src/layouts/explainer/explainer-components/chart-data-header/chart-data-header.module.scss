@@ -21,8 +21,10 @@
       color: #666666;
 
       .dataValue {
+        display: flex;
         font-weight: bold;
         font-size: $font-size-36;
+        justify-content: center;
       }
 
       .dataLabel {
