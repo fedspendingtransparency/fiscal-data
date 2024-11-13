@@ -50,7 +50,7 @@ export const InterestExpenseChart = () => {
     <div>
       <div>
         <ChartDataHeader
-          dateField={'FYTD'}
+          dateField={fiscalYear === latestData.year ? 'FYTD' : 'Fiscal Year'}
           fiscalYear={fiscalYear}
           right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount.toString())}` }}
           left={{ label: 'Avg. Interest Rate', value: `${curRate}%` }}
@@ -70,15 +70,6 @@ export const InterestExpenseChart = () => {
         >
           <ResponsiveContainer height={360} width={'99%'}>
             <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer onMouseLeave={resetDataHeader}>
-              <Tooltip
-                cursor={{
-                  stroke: '#00796B60',
-                  strokeWidth: isMobile ? 16 : 32,
-                }}
-                content={<CustomTooltip setYear={setFiscalYear} setExpense={setCurExpenseAmount} setRate={setCurRate} />}
-                isAnimationActive={false}
-                active={chartFocus || chartHover}
-              />
               <CartesianGrid vertical={false} stroke="#d9d9d9" />
               <XAxis dataKey={'year'} ticks={[2010, 2013, 2016, 2019, 2022, 2024]} />
               <YAxis
@@ -100,8 +91,17 @@ export const InterestExpenseChart = () => {
                 ticks={defaultRateAxis}
                 tickFormatter={value => `${value.toFixed(1)}%`}
               />
+              <Tooltip
+                cursor={{
+                  stroke: '#00796B60',
+                  strokeWidth: isMobile ? 16 : 32,
+                }}
+                content={<CustomTooltip setYear={setFiscalYear} setExpense={setCurExpenseAmount} setRate={setCurRate} />}
+                isAnimationActive={false}
+                active={chartFocus || chartHover}
+              />
               <Line dataKey={'avgInterestRate'} yAxisId={1} stroke={'#666666'} type={'monotone'} strokeWidth={1} activeDot={false} />
-              <Bar dataKey={'interestExpense'} barSize={isMobile ? 12 : 19} fill={interestExpensePrimary} />
+              <Bar dataKey={'interestExpense'} barSize={isMobile ? 12 : 20} fill={interestExpensePrimary} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
