@@ -22,6 +22,8 @@ import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PublishedReports from '../published-reports/published-reports';
+import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
+import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 
 type DataPreviewProp = {
   config;
@@ -48,7 +50,7 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
-  const [dateRange, setDateRange] = useState();
+  const [dateRange, setDateRange] = useState(); // TODO: remove this... using before hooking date picker to table
   const [isCustomDateRange, setIsCustomDateRange] = useState(false);
   const [apiData, setApiData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -234,10 +236,11 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
 
   return (
     <DatasetSectionContainer id="data-table" title={title}>
-      {ENV_ID === 'uat' ? '' : <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />}
+      <p>Dataset Table Selection placeholder in DataPreview</p>
+
       <div className={activeTab === 1 ? '' : 'hidden'}>
         {tableColumnSortData && (
-          <FilterAndDownload
+          <DataPreviewFilterSection
             data-testid="filterAndDownload"
             dateRange={dateRange}
             isFiltered={isFiltered}
@@ -262,7 +265,7 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
             {selectedTable && (
               <>
                 {!selectedTable?.apiFilter?.disableDateRangeFilter && (
-                  <RangePresets
+                  <DateRangeFilter
                     setDateRange={setDateRange}
                     handleDateRangeChange={handleDateRangeChange}
                     selectedTable={!!detailViewState ? detailApi : selectedTable}
@@ -317,7 +320,7 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
                 <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
               </div>
             )}
-          </FilterAndDownload>
+          </DataPreviewFilterSection>
         )}
         {dateRange && (
           <DataPreviewSectionContainer
