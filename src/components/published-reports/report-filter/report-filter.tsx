@@ -31,7 +31,9 @@ const ReportFilter: FunctionComponent<IReportFilter> = ({ reports }: IReportFilt
   const onReportChange = (report: IReports) => {
     if (report !== null) {
       setSelectedReportGroup(report);
-      setActive(false);
+      setTimeout(() => {
+        setActive(false);
+      });
     }
   };
 
