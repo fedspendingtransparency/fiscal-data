@@ -7,13 +7,11 @@ import PageHelmet from '../../components/page-helmet/page-helmet';
 import { searchContainer, page_title } from './datasets.module.scss';
 import FilterSection from '../../components/datasets/filters/filters';
 import SearchField from '../../components/datasets/search-field/search-field';
-import { DatasetSearch } from '../../components/datasets/searchEngine/searchEngine';
 import { MuiThemeProvider } from '@material-ui/core';
 import { dsTheme } from '../../theme';
 import '../../helpers/download-service/download-service';
 import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
-
-const searchEngine = new DatasetSearch();
+import Fuse from 'fuse.js';
 
 const DatasetsPage = ({ pageContext }) => {
   const { allDatasets, allFile } = useStaticQuery(
@@ -24,6 +22,8 @@ const DatasetsPage = ({ pageContext }) => {
             name
             datasetId
             relatedTopics
+            allColumnNames
+            allPrettyNames
             apis {
               endpoint
               dateField
@@ -102,6 +102,9 @@ const DatasetsPage = ({ pageContext }) => {
   const [innerWidth, setInnerWidth] = useState();
   const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
   const updatedDatasets = useMetadataUpdater(datasets);
+  const options = { keys: ['name', 'summaryText', 'relatedTopics', 'allPrettyNames'], threshold: 0.2, includeScore: true, ignoreLocation: true };
+  const searchIndex = Fuse.createIndex(options.keys, updatedDatasets);
+  const fuse = new Fuse(updatedDatasets, options, searchIndex);
 
   useEffect(() => {
     setFinalDatesNotFound(true);
@@ -118,15 +121,29 @@ const DatasetsPage = ({ pageContext }) => {
 
   useEffect(() => {
     setFinalDatesNotFound(false);
-    searchEngine.init(updatedDatasets);
-
     setTimeout(() => {
-      setSearchResults(searchEngine.search(searchQuery));
+      if (searchQuery) {
+        setSearchResults(
+          fuse.search(searchQuery).map(result => {
+            return { ...result.item, score: result.score };
+          })
+        );
+      } else {
+        setSearchResults(updatedDatasets);
+      }
     }, 100); // let the page load before positioning cards for the first time
   }, [updatedDatasets]);
 
   useEffect(() => {
-    setSearchResults(searchEngine.search(searchQuery));
+    if (searchQuery) {
+      setSearchResults(
+        fuse.search(searchQuery).map(result => {
+          return { ...result.item, score: result.score };
+        })
+      );
+    } else {
+      setSearchResults(updatedDatasets);
+    }
   }, [searchQuery]);
 
   const datasetAbstract = dataset => {
