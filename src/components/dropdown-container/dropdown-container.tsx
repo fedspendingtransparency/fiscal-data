@@ -1,5 +1,6 @@
 import React, { FocusEventHandler, FunctionComponent, ReactElement, useRef } from 'react';
 import useOnClickOutside from 'use-onclickoutside';
+import { dropdownContainer } from './dropdown-container.module.scss';
 
 interface IDropdownContainer {
   dropdownButton: ReactElement;
@@ -37,9 +38,9 @@ const DropdownContainer: FunctionComponent<IDropdownContainer> = ({ dropdownButt
   };
 
   return (
-    <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation">
+    <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation" className={dropdownContainer}>
       {dropdownButton}
-      <div>{children}</div>
+      {children}
     </div>
   );
 };

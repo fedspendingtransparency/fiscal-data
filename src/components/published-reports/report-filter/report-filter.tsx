@@ -29,8 +29,10 @@ const ReportFilter: FunctionComponent<IReportFilter> = ({ reports }: IReportFilt
   const [active, setActive] = useState(false);
 
   const onReportChange = (report: IReports) => {
-    setSelectedReportGroup(report);
-    setActive(false);
+    if (report !== null) {
+      setSelectedReportGroup(report);
+      setActive(false);
+    }
   };
 
   const dropdownButton = (
@@ -55,7 +57,6 @@ const ReportFilter: FunctionComponent<IReportFilter> = ({ reports }: IReportFilt
           options={reportGroups}
           searchBarActive={searchBarActive}
           setSearchBarActive={setSearchBarActive}
-          changeHandler={onReportChange}
         />
       </DropdownContainer>
     </>

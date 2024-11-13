@@ -81,9 +81,9 @@ describe('Reports Section component', () => {
   });
 
   it('renders report filter when reportSelection is byReport', () => {
-    const { getByRole } = render(<ReportsSection dataset={{ reportSelection: 'byReport' }} />);
-    const reportFilter = getByRole('button', { name: 'filter by report ...' });
+    const datasetConfig = { reportSelection: 'byReport' };
+    const { getByRole } = render(<ReportsSection dataset={datasetConfig} publishedReportsProp={mockReports} />);
+    const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
     expect(reportFilter).toBeInTheDocument();
-    //TODO: test the all reports are avilable within the dropdown
   });
 });
