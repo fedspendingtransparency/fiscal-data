@@ -27,30 +27,6 @@ describe('Combo Select Dropdown', () => {
     expect(getByTestId('scrollContainer')).toBeInTheDocument();
   });
 
-  it('tracks when mouse or focus is over the dropdown', () => {
-    const setMouseOverDropdownSpy = jest.fn();
-    const onBlurHandlerSpy = jest.fn();
-    const { getByTestId } = render(
-      <ComboSelectDropdown
-        active={true}
-        options={mockOptions}
-        selectedOption={defaultSelection}
-        setMouseOverDropdown={setMouseOverDropdownSpy}
-        dropdownOnBlurHandler={onBlurHandlerSpy}
-      />
-    );
-
-    const dropdown = getByTestId('dropdown-container');
-    userEvent.hover(dropdown);
-    expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(true);
-    userEvent.unhover(dropdown);
-    expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(false);
-    userEvent.click(dropdown);
-    expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(true);
-    userEvent.click(document.body);
-    expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(false);
-  });
-
   it('update selection', async () => {
     const updateSelectionSpy = jest.fn();
     const setDropdownActiveSpy = jest.fn();
@@ -60,7 +36,6 @@ describe('Combo Select Dropdown', () => {
         options={mockOptions}
         selectedOption={defaultSelection}
         updateSelection={updateSelectionSpy}
-        setMouseOverDropdown={jest.fn()}
         setDropdownActive={setDropdownActiveSpy}
       />
     );
@@ -87,7 +62,6 @@ describe('Combo Select Dropdown', () => {
         updateSelection={updateSelectionSpy}
         changeHandler={changeHandlerSpy}
         setDropdownActive={jest.fn()}
-        setMouseOverDropdown={jest.fn()}
       />
     );
 
@@ -121,7 +95,6 @@ describe('Combo Select Dropdown', () => {
         setDropdownActive={jest.fn()}
         optionLabelKey={'label'}
         updateSelection={mockUpdateSelection}
-        setMouseOverDropdown={jest.fn()}
       />
     );
 
@@ -158,7 +131,6 @@ describe('Combo Select Dropdown', () => {
 
 describe('combo select dropdown with child sections', () => {
   it('renders section headers and children as buttons', () => {
-    const setMouseOverDropdownSpy = jest.fn();
     const onBlurHandlerSpy = jest.fn();
     const defaultSelection = mockOptionsWithChildren[0].children;
 
@@ -167,7 +139,6 @@ describe('combo select dropdown with child sections', () => {
         active={true}
         options={mockOptionsWithChildren}
         selectedOption={defaultSelection}
-        setMouseOverDropdown={setMouseOverDropdownSpy}
         dropdownOnBlurHandler={onBlurHandlerSpy}
         hasChildren
       />
@@ -179,7 +150,6 @@ describe('combo select dropdown with child sections', () => {
   });
 
   it('filters children on search', () => {
-    const setMouseOverDropdownSpy = jest.fn();
     const onBlurHandlerSpy = jest.fn();
     const defaultSelection = mockOptionsWithChildren[0].children;
     const changeHandlerSpy = jest.fn();
@@ -189,7 +159,6 @@ describe('combo select dropdown with child sections', () => {
         active={true}
         options={mockOptionsWithChildren}
         selectedOption={defaultSelection}
-        setMouseOverDropdown={setMouseOverDropdownSpy}
         dropdownOnBlurHandler={onBlurHandlerSpy}
         hasChildren
         changeHandler={changeHandlerSpy}
@@ -217,7 +186,6 @@ describe('combo select dropdown with child sections', () => {
         updateSelection={jest.fn()}
         changeHandler={jest.fn()}
         setDropdownActive={setDropdownActiveSpy}
-        setMouseOverDropdown={jest.fn()}
       />
     );
 
@@ -230,7 +198,6 @@ describe('combo select dropdown with child sections', () => {
 
   it('calls onBlur when tabbing beyond the dropdown', () => {
     const setDropdownActiveSpy = jest.fn();
-    const setMouseOverDropdownSpy = jest.fn();
     jest.useFakeTimers();
     const { getByRole } = render(
       <ComboSelectDropdown
@@ -240,7 +207,6 @@ describe('combo select dropdown with child sections', () => {
         updateSelection={jest.fn()}
         changeHandler={jest.fn()}
         setDropdownActive={setDropdownActiveSpy}
-        setMouseOverDropdown={setMouseOverDropdownSpy}
       />
     );
 
@@ -254,6 +220,5 @@ describe('combo select dropdown with child sections', () => {
 
     jest.runAllTimers();
     expect(setDropdownActiveSpy).toHaveBeenCalledWith(false);
-    expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(false);
   });
 });

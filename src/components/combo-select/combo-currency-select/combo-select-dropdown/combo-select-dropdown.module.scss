@@ -8,7 +8,7 @@
   background-color: white;
   margin-top: 0.25rem;
   z-index: $combo-select-dropdown;
-  width: 100%;
+  width: inherit;
 
   .searchBarContainer {
     margin: 0.75rem 1rem 1rem;
@@ -19,13 +19,11 @@
     margin: 0;
 
     .sectionLabel {
-      margin: .5rem 1rem;
+      margin: 0.5rem 1rem;
       font-size: $font-size-14;
       font-weight: $semi-bold-weight;
       text-transform: uppercase;
     }
-
-
 
     .dropdownListItem {
       display: block;

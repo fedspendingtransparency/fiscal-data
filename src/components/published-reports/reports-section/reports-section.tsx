@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FunctionComponent } from 'react';
 import DownloadReportTable from '../download-report-table/download-report-table';
-import { reportsTip, note } from './reports-section.module.scss';
+import { reportsTip, note, filtersContainer, reportFilterContainer } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 import ReportDatePicker from '../report-date-picker/report-date-picker';
 import { monthFullNames } from '../../../utils/api-utils';
+import { isReportGroupDailyFrequency } from '../util/util';
+import { IDatasetConfig } from '../../../models/IDatasetConfig';
+import ReportFilter from '../report-filter/report-filter';
 
 export const title = 'Reports and Files';
 export interface IReports {
@@ -14,12 +17,10 @@ export interface IReports {
   report_group_desc: string;
   report_group_id: number;
   report_group_sort_order_nbr: number;
-}
-interface IDataset {
-  publishedReportsTip?: string;
+  label: string;
 }
 
-const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; dataset: IDataset }> = ({ publishedReportsProp, dataset }) => {
+const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; dataset: IDatasetConfig }> = ({ publishedReportsProp, dataset }) => {
   const [currentReports, setCurrentReports] = useState<IReports[]>();
   const [allReports, setAllReports] = useState<IReports[]>();
   const [isDailyReport, setIsDailyReport] = useState<boolean>();
@@ -28,34 +29,9 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   const [allReportDates, setAllReportDates] = useState<string[]>();
   const [allReportYears, setAllReportYears] = useState<string[]>();
   const [selectedDate, setSelectedDate] = useState<Date>();
+  const [filterByReport, setFilterByReport] = useState<boolean>();
 
-  const isReportGroupDailyFrequency = (reports: IReports[]): boolean => {
-    let yearRepresented = 0;
-    let monthRepresented = 0;
-    let dayRepresented = 0;
-    let groupDescRepresented = '';
-    let isDaily = false;
-    // sort by report_group_id so report groups will be compared in order
-    reports.sort((a, b) => a.report_group_id - b.report_group_id);
-    for (let i = 0; i < reports.length; i++) {
-      const reportYear = reports[i].report_date.getFullYear();
-      const reportMonth = reports[i].report_date.getMonth();
-      const reportDay = reports[i].report_date.getDay();
-      const groupDesc = reports[i].report_group_desc;
-      if (yearRepresented === reportYear && monthRepresented === reportMonth && groupDescRepresented === groupDesc && dayRepresented !== reportDay) {
-        isDaily = true;
-        break;
-      } else {
-        yearRepresented = reportYear;
-        monthRepresented = reportMonth;
-        dayRepresented = reportDay;
-        groupDescRepresented = groupDesc;
-      }
-    }
-    return isDaily;
-  };
-
-  const updateReportSelection = (date, isDaily, sortedReports) => {
+  const updateReportSelection = (date: Date, isDaily: boolean, sortedReports: IReports[]) => {
     if (date) {
       const selectedDay = date.getDate();
       const selectedMonth = date.toLocaleString('default', { month: 'short' });
@@ -120,6 +96,10 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     updateReportSelection(selectedDate, isDailyReport, allReports);
   }, [selectedDate]);
 
+  useEffect(() => {
+    setFilterByReport(dataset?.reportSelection === 'byReport');
+  }, []);
+
   const getDisplayStatus = (reports: IReports[]) => {
     return reports && reports.length > 0 ? 'block' : 'none';
   };
@@ -127,17 +107,24 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   return (
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={title} id="reports-and-files">
-        {latestReportDate && (
-          <ReportDatePicker
-            isDailyReport={isDailyReport}
-            latestReportDate={latestReportDate}
-            earliestReportDate={earliestReportDate}
-            allReportDates={allReportDates}
-            allReportYears={allReportYears}
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-          />
-        )}
+        <div className={filtersContainer}>
+          {filterByReport && (
+            <div className={reportFilterContainer}>
+              <ReportFilter reports={publishedReportsProp} />
+            </div>
+          )}
+          {latestReportDate && (
+            <ReportDatePicker
+              isDailyReport={isDailyReport}
+              latestReportDate={latestReportDate}
+              earliestReportDate={earliestReportDate}
+              allReportDates={allReportDates}
+              allReportYears={allReportYears}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+            />
+          )}
+        </div>
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
         {dataset?.publishedReportsTip && (
           <div className={reportsTip}>

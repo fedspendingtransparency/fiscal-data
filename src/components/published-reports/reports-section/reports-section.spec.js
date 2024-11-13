@@ -79,4 +79,11 @@ describe('Reports Section component', () => {
     const { queryByText } = render(<ReportsSection />);
     expect(queryByText('Note:')).not.toBeInTheDocument();
   });
+
+  it('renders report filter when reportSelection is byReport', () => {
+    const datasetConfig = { reportSelection: 'byReport' };
+    const { getByRole } = render(<ReportsSection dataset={datasetConfig} publishedReportsProp={mockReports} />);
+    const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
+    expect(reportFilter).toBeInTheDocument();
+  });
 });

@@ -499,6 +499,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       detailView: DetailView,
       disableAllTables: Boolean,
       sharedApiFilterOptions: Boolean,
+      reportSelection: String,
       allColumnNames: [String],
       allPrettyNames: [String],
     }
@@ -567,6 +568,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          reportSelection
           disableAllTables
           sharedApiFilterOptions
           allColumnNames
