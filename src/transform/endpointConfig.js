@@ -1225,6 +1225,7 @@ const endpointConfig = {
       'inflation_adj_amt',
       'redeemed_amt',
       'outstanding_amt',
+      'current_month_issued_amt',
       'current_month_outstanding_amt',
       'current_month_redeemed_amt',
       'prior_month_outstanding_amt',
