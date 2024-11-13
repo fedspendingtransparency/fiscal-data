@@ -4,6 +4,13 @@ import InsightPageLayout from './insight';
 import { RecoilRoot } from 'recoil';
 
 describe('Insights Template', () => {
+  class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  window.ResizeObserver = ResizeObserver;
+
   const seoConfig = {
     pageTitle: 'mock page',
     description: 'mock description',
