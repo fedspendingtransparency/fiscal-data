@@ -3,7 +3,7 @@ export const SortOptions = [
     id: 'relevance',
     label: 'Most Relevant',
     sortFn: (a, b) => {
-      return b.searchScore - a.searchScore;
+      return a.score - b.score;
     },
   },
   {

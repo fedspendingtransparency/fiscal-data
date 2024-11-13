@@ -32,6 +32,7 @@ export const mockDatasets = [
     summaryText: 'The TOP is a centralized program which collects delinquent debts owed to federal agencies and states.',
     relatedTopics: ['Debt', 'Financial Summaries', 'Interest & Exchange Rates', 'Savings Bonds'],
     filters: ['startDateRangeThree', 'csv'],
+    allPrettyNames: ['SomeCrazyName', 'Fiscal Year'],
     techSpecs: {
       earliestDate: '01/01/1950',
       latestDate: format(testVariables.dates.withinNinetyDays, testVariables.dateFormats.displayFormat),
@@ -82,6 +83,7 @@ export const mockDatasets = [
     tagLine: 'test tag line DTTP',
     summaryText: 'DTTP is the total public debt outstanding reported each business day at 3:00 P.M. Eastern Time',
     slug: '/debt-to-the-penny/',
+    allPrettyNames: ['SomeCrazyName'],
     techSpecs: {
       earliestDate: '01/01/1995',
       latestDate: mockLatestDates['2'].cachedTechSpecs,

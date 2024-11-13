@@ -33,7 +33,6 @@ export const getApiCount = datasets => {
       totalCount += dataset.apis.length;
     }
   }
-
   return totalCount;
 };
 
