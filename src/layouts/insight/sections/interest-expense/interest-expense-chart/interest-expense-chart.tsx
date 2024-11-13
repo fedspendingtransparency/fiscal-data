@@ -52,57 +52,59 @@ export const InterestExpenseChart = () => {
         <ChartDataHeader
           dateField={'FYTD'}
           fiscalYear={fiscalYear}
-          right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount)}` }}
+          right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount.toString())}` }}
           left={{ label: 'Avg. Interest Rate', value: `${curRate}%` }}
         />
       </div>
-      <Legend />
-      <div
-        role="presentation"
-        onBlur={() => {
-          setChartFocus(false);
-          resetDataHeader();
-        }}
-        onFocus={() => setChartFocus(true)}
-        onMouseOver={() => setChartHover(true)}
-        onMouseLeave={() => setChartHover(false)}
-      >
-        <ResponsiveContainer height={360} width={'99%'}>
-          <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer onMouseLeave={resetDataHeader}>
-            <Tooltip
-              cursor={{
-                stroke: '#00796B60',
-                strokeWidth: isMobile ? 16 : 32,
-              }}
-              content={<CustomTooltip setYear={setFiscalYear} setExpense={setCurExpenseAmount} setRate={setCurRate} />}
-              isAnimationActive={false}
-              active={chartFocus || chartHover}
-            />
-            <CartesianGrid vertical={false} stroke="#d9d9d9" />
-            <XAxis dataKey={'year'} ticks={[2010, 2013, 2016, 2019, 2022, 2024]} />
-            <YAxis
-              dataKey={'interestExpense'}
-              tickFormatter={value => getShortForm(value)}
-              axisLine={false}
-              tickLine={false}
-              ticks={defaultExpenseAxis}
-              tick={{ fill: interestExpensePrimary }}
-            />
-            <YAxis
-              yAxisId={1}
-              dataKey={'avgInterestRate'}
-              orientation={'right'}
-              axisLine={false}
-              tickLine={false}
-              type="number"
-              tickCount={5}
-              ticks={defaultRateAxis}
-              tickFormatter={value => `${value.toFixed(1)}%`}
-            />
-            <Line dataKey={'avgInterestRate'} yAxisId={1} stroke={'#666666'} type={'monotone'} strokeWidth={1} activeDot={false} />
-            <Bar dataKey={'interestExpense'} barSize={isMobile ? 12 : 19} fill={interestExpensePrimary} />
-          </ComposedChart>
-        </ResponsiveContainer>
+      <div data-testid="chartParent">
+        <Legend />
+        <div
+          role="presentation"
+          onBlur={() => {
+            setChartFocus(false);
+            resetDataHeader();
+          }}
+          onFocus={() => setChartFocus(true)}
+          onMouseOver={() => setChartHover(true)}
+          onMouseLeave={() => setChartHover(false)}
+        >
+          <ResponsiveContainer height={360} width={'99%'}>
+            <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer onMouseLeave={resetDataHeader}>
+              <Tooltip
+                cursor={{
+                  stroke: '#00796B60',
+                  strokeWidth: isMobile ? 16 : 32,
+                }}
+                content={<CustomTooltip setYear={setFiscalYear} setExpense={setCurExpenseAmount} setRate={setCurRate} />}
+                isAnimationActive={false}
+                active={chartFocus || chartHover}
+              />
+              <CartesianGrid vertical={false} stroke="#d9d9d9" />
+              <XAxis dataKey={'year'} ticks={[2010, 2013, 2016, 2019, 2022, 2024]} />
+              <YAxis
+                dataKey={'interestExpense'}
+                tickFormatter={value => getShortForm(value)}
+                axisLine={false}
+                tickLine={false}
+                ticks={defaultExpenseAxis}
+                tick={{ fill: interestExpensePrimary }}
+              />
+              <YAxis
+                yAxisId={1}
+                dataKey={'avgInterestRate'}
+                orientation={'right'}
+                axisLine={false}
+                tickLine={false}
+                type="number"
+                tickCount={5}
+                ticks={defaultRateAxis}
+                tickFormatter={value => `${value.toFixed(1)}%`}
+              />
+              <Line dataKey={'avgInterestRate'} yAxisId={1} stroke={'#666666'} type={'monotone'} strokeWidth={1} activeDot={false} />
+              <Bar dataKey={'interestExpense'} barSize={isMobile ? 12 : 19} fill={interestExpensePrimary} />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { InterestExpenseChart } from './interest-expense-chart';
 import { CustomTooltip } from './interest-expense-chart-helper';
 import userEvent from '@testing-library/user-event';
@@ -30,6 +30,13 @@ describe('Interest Expense Chart', () => {
     expect(getAllByText('Avg. Interest Rate').length).toEqual(2);
   });
 
+  it('renders chart correctly in mobile screen size', () => {
+    window.innerWidth = 360;
+    const { getAllByText } = render(<InterestExpenseChart />);
+    expect(getAllByText('Interest Expense').length).toEqual(2);
+    expect(getAllByText('Avg. Interest Rate').length).toEqual(2);
+  });
+
   it('renders the tooltip', () => {
     const setYearSpy = jest.fn();
     const setExpenseSpy = jest.fn();
@@ -48,6 +55,15 @@ describe('Interest Expense Chart', () => {
     expect(setYearSpy).toHaveBeenCalledWith(2020);
     expect(setExpenseSpy).toHaveBeenCalledWith('600000000000');
     expect(setRateSpy).toHaveBeenCalledWith('2.0');
+  });
+
+  it('chart mouse events', async () => {
+    const { getByTestId } = render(<InterestExpenseChart />);
+    const chartParent = getByTestId('chartParent');
+    const chart = chartParent.children[1].children[0];
+    expect(chart).toBeInTheDocument();
+    fireEvent.mouseOver(chart);
+    fireEvent.mouseLeave(chart);
   });
 
   it('chart is keyboard accessible', async () => {
