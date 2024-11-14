@@ -33,6 +33,7 @@ import DataTable from '../../data-table/data-table';
 import DtgTableHeading from '../../dtg-table/dtg-table-heading/dtg-table-heading';
 import { noBorderStyle, rowsShowingStyle, tableFooter, wrapper, overlayContainer, overlay, loadingIcon } from './data-preview-table.module.scss';
 import GLOBALS from '../../../helpers/constants';
+import DataPreviewDataTable from '../data-preview-data-table/data-preview-data-table';
 const DEFAULT_ROWS_PER_PAGE = GLOBALS.dataTable.DEFAULT_ROWS_PER_PAGE;
 
 type DtgTableProps = {
@@ -459,7 +460,7 @@ const DataPreviewTable: FunctionComponent<DtgTableProps> = ({
           )}
           {!emptyDataMessage && (
             <ErrorBoundary FallbackComponent={() => <></>}>
-              <DataTable
+              <DataPreviewDataTable
                 rawData={reactTableData}
                 detailViewState={detailViewState}
                 setDetailViewState={setDetailViewState}
