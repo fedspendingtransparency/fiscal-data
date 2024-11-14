@@ -19,16 +19,12 @@ import {
   selectColumnsWrapper,
   tableStyle,
 } from './data-preview-data-table.module.scss';
-import DataTableColumnSelector from '../../data-table/column-select/data-table-column-selector';
-import DataTableHeader from '../../data-table/data-table-header/data-table-header';
-import DataTableBody from '../../data-table/data-table-body/data-table-body';
 import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
 import DataPreviewDataTableBody from './data-preview-data-table-body/data-preview-data-table-body';
 import DataPreviewDataTableHeader from './data-preview-data-table-header/data-preview-data-table-header';
 
 const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   rawData,
-  nonRawDataColumns,
   defaultSelectedColumns,
   setTableColumnSortData,
   shouldPage,
@@ -80,9 +76,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   const allColumns = React.useMemo(() => {
     const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
 
-    const baseColumns = nonRawDataColumns
-      ? columnsConstructorGeneric(nonRawDataColumns)
-      : columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
+    const baseColumns = columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
 
     return baseColumns;
   }, [rawData, configOption]);
@@ -206,22 +200,20 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
         });
         downloadData.push(visibleRow);
       });
-      if (!nonRawDataColumns) {
-        const xmlData = {
-          'root-element': {
-            data: downloadData.map(row => ({
-              'data-element': row,
-            })),
-          },
-        };
-        setSmallTableJSONData(JSON.stringify({ data: downloadData }));
-        setSmallTableXMLData(json2xml(JSON.stringify(xmlData), { compact: true }));
-        downloadData = downloadData.map(entry => {
-          return Object.values(entry);
-        });
-        downloadData.unshift(downloadHeaders);
-        setSmallTableCSVData(downloadData);
-      }
+      const xmlData = {
+        'root-element': {
+          data: downloadData.map(row => ({
+            'data-element': row,
+          })),
+        },
+      };
+      setSmallTableJSONData(JSON.stringify({ data: downloadData }));
+      setSmallTableXMLData(json2xml(JSON.stringify(xmlData), { compact: true }));
+      downloadData = downloadData.map(entry => {
+        return Object.values(entry);
+      });
+      downloadData.unshift(downloadHeaders);
+      setSmallTableCSVData(downloadData);
     }
   }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns()]);
 
@@ -251,23 +243,8 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
-          {defaultSelectedColumns && (
-            <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
-              <DataTableColumnSelector
-                dataTableRef={selectColumnsRef}
-                selectColumnPanel={selectColumnPanel}
-                fields={allColumns}
-                resetToDefault={() => setColumnVisibility(defaultSelectedColumns?.length > 0 ? defaultInvisibleColumns : {})}
-                setSelectColumnPanel={setSelectColumnPanel}
-                defaultSelectedColumns={defaultSelectedColumns}
-                table={table}
-                additionalColumns={additionalColumns}
-                defaultColumns={defaultColumns}
-              />
-            </div>
-          )}
           <div className={tableStyle}>
-            <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
+            <div data-test-id="table-content" className={rawDataTableContainer}>
               <table {...aria}>
                 <DataPreviewDataTableHeader
                   table={table}
@@ -298,7 +275,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
           pagingProps={pagingProps}
           manualPagination={manualPagination}
           rowsShowing={rowsShowing}
-          setTableDownload={nonRawDataColumns ? null : setTableRowSizeData}
+          setTableDownload={setTableRowSizeData}
         />
       )}
     </>
