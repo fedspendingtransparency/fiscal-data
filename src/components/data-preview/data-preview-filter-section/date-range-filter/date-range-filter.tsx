@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import determineDateRange, {
   generateAnalyticsEvent,
   generateFormattedDate,
@@ -7,6 +7,7 @@ import determineDateRange, {
 import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
 import { monthNames } from '../../../../utils/api-utils';
+import DatePickers from '../../../filter-download-container/datepickers/datepickers';
 
 type DateRangeFilterProps = {
   currentDateButton;
@@ -60,6 +61,8 @@ const DateRangeFilter: FunctionComponent<DateRangeFilterProps> = ({
   /**
    * DATE RANGE
    */
+
+  console.log('in date range filter!!!!!!!!!!!!!!!!!!!!!!!!!!!');
   const applyPreset = preset => {
     let isFiltered = true;
 
@@ -224,6 +227,76 @@ const DateRangeFilter: FunctionComponent<DateRangeFilterProps> = ({
     selectedTable && selectedTable.fields
       ? ` (${selectedTable.fields.find(field => field.columnName === selectedTable.dateField).prettyName})`
       : null;
+
+  // return (
+  //   <>
+  //     {!hideButtons && (
+  //       <>
+  //         <h3 className={header} data-test-id="header">
+  //           Date Range<span data-test-id="label">{label}</span>:
+  //         </h3>
+  //         <div id={presetContainer}>
+  //           {presets.map(preset => (
+  //             <React.Fragment key={preset.key}>
+  //               {preset.key === 'custom' ? (
+  //                 <>
+  //                   <input
+  //                     type="radio"
+  //                     name="range-toggle"
+  //                     className={radio}
+  //                     checked={customPreset.key === activePresetKey}
+  //                     id={`radio-${customPreset.key}`}
+  //                     onChange={() => {
+  //                       applyPreset(customPreset);
+  //                     }}
+  //                     tabIndex={0}
+  //                     data-test-id={`preset-radio-${customPreset.key}`}
+  //                   />
+  //                   <label
+  //                     className={`
+  //                   ${toggleButton} ${activePresetKey === customPreset.key ? selected : ''}
+  //                 `}
+  //                     htmlFor={`radio-${customPreset.key}`}
+  //                     data-test-id={`preset-label-${customPreset.key}`}
+  //                   >
+  //                     {customPreset.label}
+  //                   </label>
+  //                 </>
+  //               ) : (
+  //                 <>
+  //                   <input
+  //                     type="radio"
+  //                     name="range-toggle"
+  //                     className={radio}
+  //                     checked={preset.key === activePresetKey}
+  //                     id={`radio-${preset.key}`}
+  //                     onChange={() => {
+  //                       applyPreset(preset);
+  //                     }}
+  //                     tabIndex={0}
+  //                     data-test-id={`preset-radio-${preset.key}`}
+  //                   />
+  //                   <label
+  //                     className={`
+  //                   ${toggleButton} ${activePresetKey === preset.key ? selected : ''}
+  //                 `}
+  //                     htmlFor={`radio-${preset.key}`}
+  //                     data-test-id={`preset-label-${preset.key}`}
+  //                   >
+  //                     {preset.label}
+  //                   </label>
+  //                 </>
+  //               )}
+  //             </React.Fragment>
+  //           ))}
+  //         </div>
+  //         {activePresetKey === customPreset.key && (
+  //           <DatePickers selectedDateRange={dateRange} availableDateRange={pickerDateRange} setSelectedDates={updateDateRange} />
+  //         )}
+  //       </>
+  //     )}
+  //   </>
+  // );
 
   return <p>Date range placeholder</p>;
 };

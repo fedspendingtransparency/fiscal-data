@@ -16,7 +16,7 @@ import { getApiData } from '../dataset-data/dataset-data-api-helper/dataset-data
 import { queryClient } from '../../../react-query-client';
 import ReportDataToggle from '../dataset-data/report-data-toggle/report-data-toggle';
 import FilterAndDownload from '../filter-download-container/filter-download-container';
-import { DataTableSelect } from '../datatable-select/datatable-select';
+import DataTableSelect from '../datatable-select/datatable-select';
 import RangePresets from '../filter-download-container/range-presets/range-presets';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
@@ -111,6 +111,10 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
       label: table.tableName,
     });
   };
+
+  useEffect(() => {
+    console.log('selectedTable: ', selectedTable);
+  }, [selectedTable]);
 
   const handleDateRangeChange = range => {
     if (range && isValidDateRange(range.from, range.to, config.techSpecs.earliestDate, config.techSpecs.latestDate)) {
