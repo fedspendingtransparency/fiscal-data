@@ -1,0 +1,94 @@
+@import '../../../../variables.module.scss';
+
+.sortArrowPill,
+.defaultSortArrowPill {
+  height: 1.25rem;
+  width: 1.75rem;
+  min-width: 1.75rem;
+  border-radius: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.375rem;
+  cursor: pointer;
+}
+
+.stickyHeader {
+  position: sticky;
+  top: 0;
+}
+
+.sortArrowPill {
+  background-color: $primary;
+}
+
+.defaultSortArrowPill:hover {
+  background-color: #cfe8ff;
+}
+
+.sortArrow,
+.defaultSortArrow {
+  width: 1rem !important;
+}
+
+.sortArrow {
+  margin: auto 0.375rem;
+  color: white;
+}
+
+.defaultSortArrow {
+  color: $primary;
+}
+
+.colHeader {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  white-space: nowrap;
+
+  &.rightAlignText {
+    justify-content: flex-end;
+  }
+
+  &.noFilter {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.colHeaderText {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  min-width: 1.25rem;
+}
+
+.resizer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 0.3125rem;
+  background: $font-body-copy;
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+  border-radius: 1.25rem;
+}
+
+.resizer.isResizing {
+  background: $font-body-copy;
+  opacity: 1;
+}
+
+.columnMinWidth {
+  min-width: 160px;
+}
+
+@media (hover: hover) {
+  .resizer {
+    opacity: 0;
+  }
+
+  *:hover > .resizer {
+    opacity: 1;
+  }
+}

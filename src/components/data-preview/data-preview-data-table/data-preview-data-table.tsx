@@ -23,6 +23,8 @@ import DataTableColumnSelector from '../../data-table/column-select/data-table-c
 import DataTableHeader from '../../data-table/data-table-header/data-table-header';
 import DataTableBody from '../../data-table/data-table-body/data-table-body';
 import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
+import DataPreviewDataTableBody from './data-preview-data-table-body/data-preview-data-table-body';
+import DataPreviewDataTableHeader from './data-preview-data-table-header/data-preview-data-table-header';
 
 const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   rawData,
@@ -267,7 +269,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
           <div className={tableStyle}>
             <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>
-                <DataTableHeader
+                <DataPreviewDataTableHeader
                   table={table}
                   dataTypes={dataTypes}
                   resetFilters={resetFilters}
@@ -276,7 +278,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
                   setAllActiveFilters={setAllActiveFilters}
                   disableDateRangeFilter={disableDateRangeFilter}
                 />
-                <DataTableBody
+                <DataPreviewDataTableBody
                   table={table}
                   dataTypes={dataTypes}
                   allowColumnWrap={allowColumnWrap}

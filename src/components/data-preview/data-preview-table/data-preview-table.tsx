@@ -1,15 +1,6 @@
 import React, { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
-  smallTableDownloadDataCSV,
-  smallTableDownloadDataJSON,
-  smallTableDownloadDataXML,
-  tableRowLengthState,
-} from '../../../recoil/smallTableDownloadData';
-import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData } from '../../data-table/data-table-helper';
-import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
-import { json2xml } from 'xml-js';
-import {
   nonRawDataTableContainer,
   overlayContainerNoFooter,
   rawDataTableContainer,

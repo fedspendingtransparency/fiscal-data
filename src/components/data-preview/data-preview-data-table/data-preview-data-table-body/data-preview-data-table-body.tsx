@@ -1,11 +1,19 @@
-import { rightAlign } from '../data-table-helper';
-import { flexRender, Table } from '@tanstack/react-table';
 import React, { FunctionComponent, ReactNode } from 'react';
-import { fillCellGrey, fillCellWhite, cellBorder, rightAlignText, hidden, detailButton, cellText } from './data-table-body.module.scss';
+import { IDataTableBody } from '../../../../models/IDataTableBody';
+import {
+  cellBorder,
+  cellText,
+  detailButton,
+  fillCellGrey,
+  fillCellWhite,
+  hidden,
+  rightAlignText,
+} from '../../../data-table/data-table-body/data-table-body.module.scss';
 import classNames from 'classnames';
-import { IDataTableBody } from '../../../models/IDataTableBody';
+import { rightAlign } from '../../../data-table/data-table-helper';
+import { flexRender } from '@tanstack/react-table';
 
-const DataTableBody: FunctionComponent<IDataTableBody> = ({
+const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
   table,
   dataTypes,
   allowColumnWrap,
@@ -63,4 +71,4 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({
   );
 };
 
-export default DataTableBody;
+export default DataPreviewDataTableBody;
