@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { Line, XAxis, YAxis, LineChart, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
 import { spendingExplainerPrimary } from '../../federal-spending/federal-spending.module.scss';
@@ -22,6 +22,8 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   const [finalChartData, setFinalChartData] = useState(null);
   const [legendItems, setLegendItems] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [highlightIndex, setHighlightIndex] = useState(null);
+  const [chartFocus, chartBlur] = useState(null);
 
   const revenueEndpointUrl = '/v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830&sort=-record_date';
   const spendingEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
@@ -123,7 +125,10 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
             className={chartContainer}
             data-testid="chartContainer"
             onMouseLeave={() => setFocusedYear(null)}
-            onBlur={() => setFocusedYear(null)}
+            onBlur={() => {
+              setFocusedYear(null);
+              setHighlightIndex(null);
+            }}
             role="presentation"
           >
             <ResponsiveContainer height={164} width="99%">
@@ -135,6 +140,10 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                   left: -18,
                 }}
                 layout="vertical"
+                // ref={chartRef}
+                // onMouseMove={e => console.log(e)}
+                // accessibilityLayer
+                // onKeyPress={e => console.log(e)}
               >
                 <CartesianGrid horizontal={false} height={128} />
                 <YAxis
@@ -168,6 +177,8 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                       dot={<CustomDotNoAnimation focusedYear={focusedYear} />}
                       isAnimationActive={false}
                       activeDot={false}
+                      tabIndex={0}
+                      onFocus={() => setHighlightIndex(index)}
                     />
                   );
                 })}
@@ -176,6 +187,8 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                   cursor={{ strokeWidth: 0 }}
                   isAnimationActive={false}
                   allowEscapeViewBox={width > pxToNumber(breakpointLg) ? { x: true } : { y: true }}
+                  defaultIndex={highlightIndex}
+                  active={chartFocus || chartBlur}
                 />
               </LineChart>
             </ResponsiveContainer>
