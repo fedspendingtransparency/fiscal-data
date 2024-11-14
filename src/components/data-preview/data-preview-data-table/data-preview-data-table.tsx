@@ -10,15 +10,7 @@ import {
 import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData } from '../../data-table/data-table-helper';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 import { json2xml } from 'xml-js';
-import {
-  nonRawDataTableContainer,
-  overlayContainerNoFooter,
-  rawDataTableContainer,
-  selectColumnPanelActive,
-  selectColumnPanelInactive,
-  selectColumnsWrapper,
-  tableStyle,
-} from './data-preview-data-table.module.scss';
+import { overlayContainerNoFooter, rawDataTableContainer, selectColumnsWrapper, tableStyle } from './data-preview-data-table.module.scss';
 import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
 import DataPreviewDataTableBody from './data-preview-data-table-body/data-preview-data-table-body';
 import DataPreviewDataTableHeader from './data-preview-data-table-header/data-preview-data-table-header';
@@ -31,8 +23,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   showPaginationControls,
   publishedReports,
   hasPublishedReports,
-  setSelectColumnPanel,
-  selectColumnPanel,
   resetFilters,
   setResetFilters,
   hideCellLinks,
@@ -230,14 +220,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
       setAllActiveFilters([]);
     }
   }, [resetFilters]);
-
-  const selectColumnsRef = useRef(null);
-
-  useEffect(() => {
-    if (selectColumnPanel) {
-      selectColumnsRef.current?.focus();
-    }
-  });
 
   return (
     <>

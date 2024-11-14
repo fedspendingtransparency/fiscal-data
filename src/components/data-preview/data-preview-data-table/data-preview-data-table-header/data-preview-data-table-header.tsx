@@ -21,15 +21,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
-const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({
-  table,
-  dataTypes,
-  resetFilters,
-  manualPagination,
-  allActiveFilters,
-  setAllActiveFilters,
-  disableDateRangeFilter,
-}) => {
+const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, allActiveFilters, setAllActiveFilters }) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
       color: '#555555',
@@ -124,18 +116,6 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({
                             </div>
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
-                      </div>
-                      <div className={columnMinWidth}>
-                        {getColumnFilter(
-                          header,
-                          columnDataType,
-                          resetFilters,
-                          allActiveFilters,
-                          setAllActiveFilters,
-                          manualPagination,
-                          isLastColumn,
-                          disableDateRangeFilter
-                        )}
                       </div>
                     </>
                   )}
