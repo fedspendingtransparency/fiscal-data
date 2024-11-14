@@ -9,7 +9,7 @@ type DataPreviewProp = {
 };
 
 const DataPreviewDropdown: FunctionComponent<DataPreviewProp> = ({ tableName }) => {
-  const [active, setActive] = useState(true);
+  const [active, setActive] = useState(false);
 
   const dropdownButton = (
     <DropdownLabelButton label={'Data Table'} icon={faDatabase} selectedOption={tableName} active={active} setActive={setActive} />
