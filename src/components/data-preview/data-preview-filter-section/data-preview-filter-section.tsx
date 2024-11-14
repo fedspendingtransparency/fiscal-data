@@ -42,6 +42,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   return (
     <>
       <p>Filtering placeholder in DataPreviewFilterSection</p>
+      <div>{children}</div>
       <DataPreviewDownload
         dateRange={dateRange}
         isFiltered={isFiltered}

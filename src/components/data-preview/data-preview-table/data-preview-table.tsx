@@ -31,7 +31,7 @@ import DtgTableApiError from '../../dtg-table/dtg-table-api-error/dtg-table-api-
 import { ErrorBoundary } from 'react-error-boundary';
 import DataTable from '../../data-table/data-table';
 import DtgTableHeading from '../../dtg-table/dtg-table-heading/dtg-table-heading';
-import { noBorderStyle, rowsShowingStyle, tableFooter, wrapper, overlayContainer } from './data-preview-table.module.scss';
+import { noBorderStyle, rowsShowingStyle, tableFooter, wrapper, overlayContainer, overlay, loadingIcon } from './data-preview-table.module.scss';
 import GLOBALS from '../../../helpers/constants';
 const DEFAULT_ROWS_PER_PAGE = GLOBALS.dataTable.DEFAULT_ROWS_PER_PAGE;
 

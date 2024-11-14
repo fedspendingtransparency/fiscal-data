@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
-import DataPreviewTable from './data-preview-table/data-preview-table';
 import DataPreviewSectionContainer from './data-preview-section-container/data-preview-section-container';
 import { detailViewNotice, lockIcon, placeholderButton, placeholderText } from './data-preview.module.scss';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
@@ -16,8 +15,8 @@ import { getApiData } from '../dataset-data/dataset-data-api-helper/dataset-data
 import { queryClient } from '../../../react-query-client';
 import ReportDataToggle from '../dataset-data/report-data-toggle/report-data-toggle';
 import FilterAndDownload from '../filter-download-container/filter-download-container';
-import DataTableSelect from '../datatable-select/datatable-select';
 import RangePresets from '../filter-download-container/range-presets/range-presets';
+import DataTableSelect from '../datatable-select/datatable-select';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -257,15 +256,15 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
             filteredDateRange={filteredDateRange}
             selectedDetailViewFilter={detailViewDownloadFilter}
           >
-            <DataTableSelect
-              apis={filteredApis}
-              selectedTable={selectedTable}
-              setSelectedTable={handleSelectedTableChange}
-              allTablesSelected={allTablesSelected}
-              earliestDate={config.techSpecs.earliestDate}
-              latestDate={config.techSpecs.latestDate}
-              disableAllTables={config?.disableAllTables}
-            />
+            {/*<DataTableSelect*/}
+            {/*  apis={filteredApis}*/}
+            {/*  selectedTable={selectedTable}*/}
+            {/*  setSelectedTable={handleSelectedTableChange}*/}
+            {/*  allTablesSelected={allTablesSelected}*/}
+            {/*  earliestDate={config.techSpecs.earliestDate}*/}
+            {/*  latestDate={config.techSpecs.latestDate}*/}
+            {/*  disableAllTables={config?.disableAllTables}*/}
+            {/*/>*/}
             {selectedTable && (
               <>
                 {!selectedTable?.apiFilter?.disableDateRangeFilter && (
