@@ -252,15 +252,6 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
             filteredDateRange={filteredDateRange}
             selectedDetailViewFilter={detailViewDownloadFilter}
           >
-            {/*<DataTableSelect*/}
-            {/*  apis={filteredApis}*/}
-            {/*  selectedTable={selectedTable}*/}
-            {/*  setSelectedTable={handleSelectedTableChange}*/}
-            {/*  allTablesSelected={allTablesSelected}*/}
-            {/*  earliestDate={config.techSpecs.earliestDate}*/}
-            {/*  latestDate={config.techSpecs.latestDate}*/}
-            {/*  disableAllTables={config?.disableAllTables}*/}
-            {/*/>*/}
             {selectedTable && (
               <>
                 {!selectedTable?.apiFilter?.disableDateRangeFilter && (

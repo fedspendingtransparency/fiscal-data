@@ -214,84 +214,11 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
   const determineDirectDownload = () => {
     if (tableSize !== null && tableSize <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !allTablesSelected) {
       // return <p>This is where the download will go</p>;
-      //   return (
-      //     <>
-      //       <DownloadItemButton
-      //         icon={icon}
-      //         label={downloadLabel}
-      //         disabled={disableButton}
-      //         handleClick={downloadClickHandler}
-      //         selectedTable={selectedTable}
-      //         dateRange={dateRange}
-      //         selectedFileType={selectedFileType}
-      //         dapGaEventLabel={gaEventLabel}
-      //       />
-      //     </>
-      //   );
-      // } else {
-      //   return (
-      //     <DownloadItemButton
-      //       icon={icon}
-      //       label={downloadLabel}
-      //       disabled={disableButton}
-      //       handleClick={downloadClickHandler}
-      //       dapGaEventLabel={gaEventLabel}
-      //     />
-      //   );
+      return <p>this is where local download logic will go</p>;
+    } else {
+      return <p>this is where api download logic will go</p>;
     }
   };
-
-  // return (
-  //   <div className={wrapper} data-test-id="wrapper">
-  //     <DownloadModal open={open} onClose={onClose} downloadsPrepared={downloadsPrepared} setCancelDownloadRequest={handleCancelRequest} />
-  //     <div className={downloadDescription}>
-  //       <div data-test-id="tableName" className={describer}>
-  //         <strong>Data Table:</strong>
-  //         <div>
-  //           <Truncator>
-  //             <span data-test-id="tableNameText">{tableName}</span>
-  //           </Truncator>
-  //         </div>
-  //       </div>
-  //       <div className={describer}>
-  //         <strong>Date Range:</strong>
-  //         {!isFiltered && (
-  //           <span data-test-id="allString" className={dateStringStyle}>
-  //             {' '}
-  //             {allString}
-  //           </span>
-  //         )}
-  //         <div data-test-id="dateString" className={dateStringStyle}>
-  //           {' '}
-  //           {dateString}
-  //         </div>
-  //       </div>
-  //       {(selectedTable?.userFilter || selectedTable?.apiFilter) && (
-  //         <div className={describer}>
-  //           <strong data-testid="userFilterLabel">
-  //             {selectedTable?.userFilter ? selectedTable.userFilter.label : selectedTable.apiFilter.downloadLabel}:
-  //           </strong>
-  //           <div data-testid="userFilterValue">{selectedUserFilter && selectedUserFilter?.value ? selectedUserFilter?.label : '(None selected)'}</div>
-  //         </div>
-  //       )}
-  //       {selectedDetailViewFilter && (
-  //         <div className={describer}>
-  //           <strong data-testid="detailViewFilterLabel">{selectedDetailViewFilter.label}:</strong>
-  //           <div data-testid="detailViewFilterValue" className={dateStringStyle}>
-  //             {selectedDetailViewFilter && selectedDetailViewFilter.value ? selectedDetailViewFilter.value : ''}
-  //           </div>
-  //         </div>
-  //       )}
-  //     </div>
-  //     <DownloadToggle onChange={toggleButtonChange} />
-  //     <div>
-  //       <>{determineDirectDownload()}</>
-  //     </div>
-  //     <div>
-  //       <DownloadItemButton label="Download Data Dictionary" fileSize={ddSize} asyncAction={metadataDownloader} />
-  //     </div>
-  //   </div>
-  // );
 
   return (
     <>
