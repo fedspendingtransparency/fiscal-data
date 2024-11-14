@@ -10,11 +10,7 @@ const DataPreviewTableFilters: FunctionComponent = () => {
     <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
   );
 
-  return (
-    <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
-      Table Filter!
-    </DropdownContainer>
-  );
+  return <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}></DropdownContainer>;
 };
 
 export default DataPreviewTableFilters;

@@ -17,11 +17,7 @@ const ColumnFilter: FunctionComponent = () => {
     />
   );
 
-  return (
-    <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
-      Column Filter!
-    </DropdownContainer>
-  );
+  return <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}></DropdownContainer>;
 };
 
 export default ColumnFilter;
