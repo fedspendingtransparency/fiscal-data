@@ -111,10 +111,6 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
     });
   };
 
-  useEffect(() => {
-    console.log('selectedTable: ', selectedTable);
-  }, [selectedTable]);
-
   const handleDateRangeChange = range => {
     if (range && isValidDateRange(range.from, range.to, config.techSpecs.earliestDate, config.techSpecs.latestDate)) {
       setDateRange(range);
