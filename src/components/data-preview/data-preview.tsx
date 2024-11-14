@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
-import DataPreviewDropdown from './data-preview-dropdown/data-preview-dropdown';
-import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } from './data-preview-dropdown/data-preview-dropdown.module.scss';
+import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
+import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } from './data-preview.module.scss';
 
 type DataPreviewProp = {
   placeholder: string;
@@ -15,7 +15,7 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({ placeholder: string }
         <div className={dataPreviewHeader}>
           <span className={dataPreviewTitle}>Data Preview</span>
         </div>
-        <DataPreviewDropdown tableName={selectedTable} />
+        <DataPreviewTableSelectDropdown tableName={selectedTable} />
       </div>
       <div>
         <div className={selectedTableName}>{selectedTable}</div>

@@ -11,6 +11,7 @@ interface IDropdownLabelButton {
   setActive: (activeState: boolean) => void;
   active: boolean;
   ariaLabel?: string;
+  dropdownWidth?: string;
 }
 
 const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
@@ -20,11 +21,12 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
   setActive,
   active,
   ariaLabel,
+  dropdownWidth = '20rem',
 }: IDropdownLabelButton) => {
   return (
     <>
       <div className={active ? glow : null}>
-        <button className={datePickerButton} onClick={() => setActive(!active)} aria-label={ariaLabel}>
+        <button style={{ width: dropdownWidth }} className={datePickerButton} onClick={() => setActive(!active)} aria-label={ariaLabel}>
           <div className={buttonContent}>
             <FontAwesomeIcon icon={icon} className={labelIcon} />
             <span className={publishedDateLabel}>{label}: </span>
