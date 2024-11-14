@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
-import DataPreviewFilterSection from './filters/data-preview-filter-section';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
+import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } from './data-preview.module.scss';
 
 type DataPreviewProp = {

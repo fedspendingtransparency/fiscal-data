@@ -1,0 +1,13 @@
+@import 'src/variables.module';
+
+.filterContainer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+@media screen and (max-width: $breakpoint-md - 1) {
+  .filterContainer {
+    flex-direction: column;
+  }
+}
