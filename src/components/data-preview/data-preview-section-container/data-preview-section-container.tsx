@@ -361,51 +361,11 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     <>
       <div data-test-id="table-container" className={sectionBorder}>
         <div className={titleContainer}>
-          <div className={headerWrapper}>
-            {!!detailViewState && selectedTab === 0 && (
-              <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailViewCloseButton">
-                <FontAwesomeIcon className={detailViewIcon} icon={faArrowLeftLong} data-testid="arrow-icon" size="1x" />
-                <span className={detailViewBack} data-testid="backButton">
-                  Back
-                </span>
-              </button>
-            )}
-            <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
-            {!!detailViewState ? (
-              <h3 className={header} data-testid="tableName" id="main-data-table-title">
-                {`${tableName} > ${formattedDetailViewState}`}
-              </h3>
-            ) : (
-              <h3 className={header} data-testid="tableName" id="main-data-table-title">
-                {tableName}
-              </h3>
-            )}
-            {!!hasPivotOptions && <PivotToggle clickHandler={pivotToggler} open={showPivotBar} />}
-            <Experimental featureId="chartingConfigurationTool">
-              <DynamicConfig
-                selectedTable={selectedTable}
-                handleIgnorePivots={handleIgnorePivots}
-                handlePivotsUpdated={handlePivotConfigUpdated}
-                refreshTable={refreshTable}
-              />
-            </Experimental>
-          </div>
           {dateFieldForChart === 'CHART_DATE' && (
             <div className={noticeContainer}>
               <AggregationNotice />
             </div>
           )}
-          <div className={barContainer}>
-            <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
-              <PivotOptions
-                datasetName={config?.name}
-                table={selectedTable}
-                pivotSelection={selectedPivot}
-                setSelectedPivot={setSelectedPivot}
-                pivotsUpdated={pivotsUpdated}
-              />
-            </div>
-          </div>
         </div>
         <div className={tableContainer}>
           {isLoading && (
@@ -426,93 +386,34 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           )}
           <div className={selectedTab === 0 && !allTablesSelected ? tableSection : ''}>
             {(apiData || serverSidePagination || apiError) && (
-              <ChartTableToggle
-                legend={legend}
-                selectedTab={selectedTab}
-                showToggleChart={!noChartMessage}
-                showToggleTable={tableProps?.selectColumns}
-                userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
-                apiFilterDefault={apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData}
-                onToggleLegend={legendToggler}
-                emptyData={
-                  !isLoading &&
-                  !serverSidePagination &&
-                  (!apiData || !apiData.data || !apiData.data.length) &&
-                  (!tableMeta || tableMeta?.count === 0) &&
-                  !apiError
-                }
-                unchartable={noChartMessage !== undefined}
-                currentTab={selectedTab}
-                datasetName={config?.name}
-                onTabChange={tabChangeHandler}
-                selectedTable={selectedTable}
-                setResetFilters={setResetFilters}
-                textFilteringDisabled={manualPagination}
+              <DataPreviewTable
+                selectColumnPanel={selectColumnPanel}
+                setDetailViewState={setDetailViewState}
+                detailViewState={detailViewState}
+                setSummaryValues={setSummaryValues}
                 pivotSelected={selectedPivot}
-                table={
-                  tableProps ? (
-                    <DataPreviewTable
-                      selectColumnPanel={selectColumnPanel}
-                      setDetailViewState={setDetailViewState}
-                      detailViewState={detailViewState}
-                      setSummaryValues={setSummaryValues}
-                      pivotSelected={selectedPivot}
-                      setSelectColumnPanel={setSelectColumnPanel}
-                      tableProps={tableProps}
-                      selectedTable={selectedTable}
-                      perPage={perPage}
-                      setPerPage={setPerPage}
-                      tableColumnSortData={tableColumnSortData}
-                      setTableColumnSortData={setTableColumnSortData}
-                      resetFilters={resetFilters}
-                      setResetFilters={setResetFilters}
-                      tableMeta={tableMeta}
-                      manualPagination={manualPagination}
-                      setManualPagination={setManualPagination}
-                      reactTable
-                      rawDataTable
-                      userFilterSelection={userFilterSelection}
-                      setIsLoading={setIsLoading}
-                      isLoading={isLoading}
-                      sorting={reactTableSorting}
-                      setSorting={setReactTableSort}
-                      allActiveFilters={allActiveFilters}
-                      setAllActiveFilters={setAllActiveFilters}
-                      disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}
-                    />
-                  ) : (
-                    ''
-                  )
-                }
-                chart={() => {
-                  const generatedMessage = SetNoChartMessage(
-                    selectedTable,
-                    selectedPivot,
-                    dateRange,
-                    allTablesSelected,
-                    userFilterSelection,
-                    determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData),
-                    config?.customNoChartMessage
-                  );
-                  if (generatedMessage && !ignorePivots) {
-                    return generatedMessage;
-                  } else {
-                    return (
-                      <DatasetChart
-                        legend={legend}
-                        dateRange={dateRange}
-                        data={userFilteredData ? userFilteredData : chartData ? chartData : apiData}
-                        slug={config.slug}
-                        currentTable={selectedTable}
-                        dateField={dateFieldForChart}
-                        isVisible={selectedTab === 1}
-                        selectedPivot={selectedPivot}
-                      />
-                    );
-                  }
-                }}
-                allTablesSelected={allTablesSelected}
-                filtersActive={allActiveFilters?.length > 0}
+                setSelectColumnPanel={setSelectColumnPanel}
+                tableProps={tableProps}
+                selectedTable={selectedTable}
+                perPage={perPage}
+                setPerPage={setPerPage}
+                tableColumnSortData={tableColumnSortData}
+                setTableColumnSortData={setTableColumnSortData}
+                resetFilters={resetFilters}
+                setResetFilters={setResetFilters}
+                tableMeta={tableMeta}
+                manualPagination={manualPagination}
+                setManualPagination={setManualPagination}
+                reactTable
+                rawDataTable
+                userFilterSelection={userFilterSelection}
+                setIsLoading={setIsLoading}
+                isLoading={isLoading}
+                sorting={reactTableSorting}
+                setSorting={setReactTableSort}
+                allActiveFilters={allActiveFilters}
+                setAllActiveFilters={setAllActiveFilters}
+                disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}
               />
             )}
           </div>
