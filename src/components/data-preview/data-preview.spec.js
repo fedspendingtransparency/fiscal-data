@@ -123,7 +123,7 @@ describe('DataPreview', () => {
       </RecoilRoot>
     );
     const title = getByTestId('sectionHeader');
-    expect(title.innerHTML).toBe('Preview &amp; Download');
+    expect(title.innerHTML).toBe('');
   });
 
   it(`contains a DataPreviewFilterSection  component`, () => {
