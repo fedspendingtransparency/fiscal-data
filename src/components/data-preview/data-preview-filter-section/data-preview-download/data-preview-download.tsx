@@ -16,12 +16,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { isValidDateRange } from '../../../../helpers/dates/date-helpers';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../../utils/api-utils';
-import DownloadItemButton from '../../../download-wrapper/download-item-button/download-item-button';
-import { cancelEventActionStr, closeEventActionStr } from '../../../download-wrapper/download-wrapper';
-import DownloadModal from '../../../download-modal/download-modal';
-import Truncator from '../../../truncate/truncate';
-import DownloadToggle from '../../../download-wrapper/download-toggle/download-toggle';
-import { wrapper, downloadDescription, describer, dateStringStyle } from './data-preview-download.module.scss';
 
 type DownloadProps = {
   selectedTable;
@@ -221,10 +215,10 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
   };
 
   return (
-    <>
+    <div data-test-id="data-preview-download">
       <p>download placeholder</p>
       <>{determineDirectDownload()}</>
-    </>
+    </div>
   );
 };
 
