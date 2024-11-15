@@ -236,7 +236,7 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
   }, [selectedTable]);
 
   return (
-    <DatasetSectionContainer id="data-table" title={title}>
+    <DatasetSectionContainer id="data-table">
       <div className={dataPreview}>
         <div className={dataPreviewHeader}>
           <span className={dataPreviewTitle}>Data Preview</span>
