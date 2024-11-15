@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Line, XAxis, YAxis, LineChart, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
 import { spendingExplainerPrimary } from '../../federal-spending/federal-spending.module.scss';
@@ -23,7 +23,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   const [legendItems, setLegendItems] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [highlightIndex, setHighlightIndex] = useState(null);
-  const [chartFocus, chartBlur] = useState(null);
+  const [chartFocus, setChartFocus] = useState(false);
 
   const revenueEndpointUrl = '/v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830&sort=-record_date';
   const spendingEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
@@ -124,10 +124,15 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
           <div
             className={chartContainer}
             data-testid="chartContainer"
-            onMouseLeave={() => setFocusedYear(null)}
+            onMouseEnter={() => setChartFocus(true)}
+            onMouseLeave={() => {
+              setFocusedYear(null);
+              setChartFocus(false);
+            }}
             onBlur={() => {
               setFocusedYear(null);
               setHighlightIndex(null);
+              setChartFocus(false);
             }}
             role="presentation"
           >
@@ -140,10 +145,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                   left: -18,
                 }}
                 layout="vertical"
-                // ref={chartRef}
-                // onMouseMove={e => console.log(e)}
-                // accessibilityLayer
-                // onKeyPress={e => console.log(e)}
+                tabIndex={0}
               >
                 <CartesianGrid horizontal={false} height={128} />
                 <YAxis
@@ -178,7 +180,10 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                       isAnimationActive={false}
                       activeDot={false}
                       tabIndex={0}
-                      onFocus={() => setHighlightIndex(index)}
+                      onFocus={() => {
+                        setChartFocus(true);
+                        setHighlightIndex(index);
+                      }}
                     />
                   );
                 })}
@@ -188,7 +193,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                   isAnimationActive={false}
                   allowEscapeViewBox={width > pxToNumber(breakpointLg) ? { x: true } : { y: true }}
                   defaultIndex={highlightIndex}
-                  active={chartFocus || chartBlur}
+                  active={chartFocus}
                 />
               </LineChart>
             </ResponsiveContainer>
