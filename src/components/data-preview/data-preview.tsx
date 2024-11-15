@@ -6,21 +6,15 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { ENV_ID } from 'gatsby-env-variables';
-import Analytics from '../../utils/analytics/analytics';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { TableCache } from '../dataset-data/table-cache/table-cache';
 import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from '../dataset-data/dataset-data-helper/dataset-data-helper';
 import { getApiData } from '../dataset-data/dataset-data-api-helper/dataset-data-api-helper';
 import { queryClient } from '../../../react-query-client';
-import ReportDataToggle from '../dataset-data/report-data-toggle/report-data-toggle';
-import FilterAndDownload from '../filter-download-container/filter-download-container';
-import RangePresets from '../filter-download-container/range-presets/range-presets';
-import DataTableSelect from '../datatable-select/datatable-select';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import PublishedReports from '../published-reports/published-reports';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
@@ -58,10 +52,8 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
   const [apiError, setApiError] = useState(false);
   const [serverSidePagination, setServerSidePagination] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
-  const [activeTab, setActiveTab] = useState(1);
   const [publishedReports, setPublishedReports] = useState([]);
   const [selectedPivot, setSelectedPivot] = useState();
-  const [initReports, setInitReports] = useState(null);
   const [ignorePivots, setIgnorePivots] = useState(false);
   const [configUpdated, setConfigUpdated] = useState(false);
   const [userFilterSelection, setUserFilterSelection] = useState(null);
@@ -142,16 +134,6 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
       setSelectedTable(idealSelectedTable);
     }
   }, [apis]);
-
-  // while published Reports metadata is loaded at page load, don't initialize
-  // the published report component with data until the user first selects that tab,
-  // to prevent unnecessary loading of report previews
-  useEffect(() => {
-    // assign value to initReports only the first time the published reports tab is selected
-    if (activeTab === 2 && !initReports) {
-      setInitReports(publishedReports);
-    }
-  }, [activeTab]);
 
   useEffect(() => {
     if (selectedTable) {
@@ -243,10 +225,8 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
         </div>
         <DataPreviewTableSelectDropdown tableName={selectedTable?.tableName} />
       </div>
+      <div className={selectedTableName}>{selectedTable?.tableName}</div>
       <div>
-        <div className={selectedTableName}>{selectedTable?.tableName}</div>
-      </div>
-      <div className={activeTab === 1 ? '' : 'hidden'}>
         {tableColumnSortData && (
           <DataPreviewFilterSection
             data-testid="filterAndDownload"
@@ -355,9 +335,6 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
             setAllActiveFilters={setAllActiveFilters}
           />
         )}
-      </div>
-      <div className={activeTab === 2 ? '' : 'hidden'}>
-        {selectedTable && initReports && <PublishedReports reports={publishedReports} dataset={config} />}
       </div>
     </DatasetSectionContainer>
   );
