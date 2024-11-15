@@ -11,15 +11,8 @@ import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-
 import { SetNoChartMessage } from '../../dataset-data/table-section-container/set-no-chart-message';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeftLong, faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
-import PivotToggle from '../../dataset-data/table-section-container/pivot-toggle/pivot-toggle';
-import Experimental from '../../experimental/experimental';
-import DynamicConfig from '../../dataset-data/table-section-container/dynamic-config/dynamicConfig';
 import AggregationNotice from '../../dataset-data/table-section-container/aggregation-notice/aggregation-notice';
-import PivotOptions from '../../dataset-data/table-section-container/pivot-options/pivot-options';
 import SummaryTable from '../../dataset-data/table-section-container/summary-table/summary-table';
-import ChartTableToggle from '../../dataset-data/chart-table-toggle/chart-table-toggle';
-import DtgTable from '../../dtg-table/dtg-table';
-import DatasetChart from '../../dataset-data/dataset-chart/dataset-chart';
 import DataPreviewTable from '../data-preview-table/data-preview-table';
 import {
   active,
@@ -38,6 +31,7 @@ import {
   tableSection,
   titleContainer,
 } from './data-preview-section-container.module.scss';
+import DataPreviewPivotOptions from '../data-preview-pivot-options/data-preview-pivot-options';
 
 type DataPreviewSectionProps = {
   config;
@@ -366,6 +360,17 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
               <AggregationNotice />
             </div>
           )}
+          <div className={barContainer}>
+            <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
+              <DataPreviewPivotOptions
+                datasetName={config?.name}
+                table={selectedTable}
+                pivotSelection={selectedPivot}
+                setSelectedPivot={setSelectedPivot}
+                pivotsUpdated={pivotsUpdated}
+              />
+            </div>
+          </div>
         </div>
         <div className={tableContainer}>
           {isLoading && (
