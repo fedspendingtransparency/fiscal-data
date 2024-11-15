@@ -74,7 +74,7 @@ export const InterestExpenseChart = () => {
               <XAxis dataKey={'year'} ticks={[2010, 2013, 2016, 2019, 2022, 2024]} />
               <YAxis
                 dataKey={'interestExpense'}
-                tickFormatter={value => getShortForm(value)}
+                tickFormatter={value => (value === 0 ? '$0' : `$${getShortForm(value)}`)}
                 axisLine={false}
                 tickLine={false}
                 ticks={defaultExpenseAxis}
@@ -93,7 +93,7 @@ export const InterestExpenseChart = () => {
               />
               <Tooltip
                 cursor={{
-                  stroke: '#00796B60',
+                  stroke: '#00796B20',
                   strokeWidth: isMobile ? 16 : 32,
                 }}
                 content={<CustomTooltip setYear={setFiscalYear} setExpense={setCurExpenseAmount} setRate={setCurRate} />}
