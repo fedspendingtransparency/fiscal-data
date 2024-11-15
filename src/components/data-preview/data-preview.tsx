@@ -241,10 +241,10 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
         <div className={dataPreviewHeader}>
           <span className={dataPreviewTitle}>Data Preview</span>
         </div>
-        <DataPreviewTableSelectDropdown tableName={selectedTable} />
+        <DataPreviewTableSelectDropdown tableName={selectedTable?.tableName} />
       </div>
       <div>
-        <div className={selectedTableName}>{selectedTable}</div>
+        <div className={selectedTableName}>{selectedTable?.tableName}</div>
       </div>
       <div className={activeTab === 1 ? '' : 'hidden'}>
         {tableColumnSortData && (
