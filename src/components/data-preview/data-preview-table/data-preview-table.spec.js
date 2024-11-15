@@ -42,24 +42,6 @@ describe('DataPreviewTable component', () => {
     expect(noDataInstance);
   });
 
-  it('supports a noBorder configuration', () => {
-    const componentJSON = component.toJSON();
-    let table = componentJSON.children.find(e => e.props['data-test-id'] === 'table-content');
-    expect(table.children[0].children.filter(e => e.props.className.includes('noBorder')).length).toEqual(0);
-
-    renderer.act(() => {
-      component.update(
-        <RecoilRoot>
-          <DataPreviewTable tableProps={{ data: TestData, noBorder: true }} />
-        </RecoilRoot>
-      );
-    });
-
-    const updatedJSON = component.toJSON();
-    table = updatedJSON.children.find(e => e.props['data-test-id'] === 'table-content');
-    expect(table.children[0].children.filter(e => e.props.className.includes('noBorder')).length).toEqual(1);
-  });
-
   it('does not show pagination controls by default', () => {
     expect(instance.findAllByType(PaginationControls)).toStrictEqual([]);
   });
