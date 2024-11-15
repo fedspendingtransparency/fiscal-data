@@ -170,10 +170,33 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   const explainerPages = freshExplainerPages();
   const insightPages = freshInsightPages();
 
+  const getDatasetConfig = dataset => {
+    const allColumnNames = [];
+    const allPrettyNames = [];
+
+    if (dataset.apis.length > 0) {
+      dataset.apis.forEach(api => {
+        if (api.fields && api.fields.length) {
+          api.fields.forEach(e => {
+            allColumnNames.push(e.columnName);
+            allPrettyNames.push(e.prettyName);
+          });
+        }
+      });
+    }
+
+    return {
+      ...dataset,
+      allColumnNames: allColumnNames,
+      allPrettyNames: allPrettyNames,
+    };
+  };
+
   for (const dataset of datasets) {
     dataset.id = createNodeId(dataset.datasetId);
+    const datasetConfig = getDatasetConfig(dataset);
     const node = {
-      ...dataset,
+      ...datasetConfig,
       parent: null,
       children: [],
       internal: {
@@ -476,6 +499,9 @@ exports.createSchemaCustomization = ({ actions }) => {
       detailView: DetailView,
       disableAllTables: Boolean,
       sharedApiFilterOptions: Boolean,
+      reportSelection: String,
+      allColumnNames: [String],
+      allPrettyNames: [String],
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
@@ -542,8 +568,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          reportSelection
           disableAllTables
           sharedApiFilterOptions
+          allColumnNames
+          allPrettyNames
           detailView {
             apiId
             field

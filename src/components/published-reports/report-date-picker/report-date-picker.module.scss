@@ -3,31 +3,3 @@
 .datePickerContainer {
   width: fit-content;
 }
-
-.datePickerButton {
-  font-size: $font-size-16;
-  background: none;
-  border: 1px solid $light-grey-border;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: $font-body-copy;
-  padding: 0.625rem 1rem;
-  width: 20rem;
-  cursor: pointer;
-
-  .publishedDateLabel {
-    font-weight: $semi-bold-weight;
-    white-space: pre;
-  }
-}
-
-  .glow {
-    box-shadow: 0 0 0 0.25rem $primary-blue;
-    border-radius: 0.125rem;
-    width: fit-content;
-    .datePickerButton {
-      border: 1px solid $primary;
-    }
-  }

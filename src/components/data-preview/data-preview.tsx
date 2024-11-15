@@ -23,6 +23,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PublishedReports from '../published-reports/published-reports';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
+import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
+import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } from './data-preview.module.scss';
 
 type DataPreviewProp = {
   config;
@@ -235,8 +237,15 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
 
   return (
     <DatasetSectionContainer id="data-table" title={title}>
-      <p>Dataset Table Selection placeholder in DataPreview</p>
-
+      <div className={dataPreview}>
+        <div className={dataPreviewHeader}>
+          <span className={dataPreviewTitle}>Data Preview</span>
+        </div>
+        <DataPreviewTableSelectDropdown tableName={selectedTable} />
+      </div>
+      <div>
+        <div className={selectedTableName}>{selectedTable}</div>
+      </div>
       <div className={activeTab === 1 ? '' : 'hidden'}>
         {tableColumnSortData && (
           <DataPreviewFilterSection

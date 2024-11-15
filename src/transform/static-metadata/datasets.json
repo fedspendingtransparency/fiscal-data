@@ -124,7 +124,8 @@
     },
     "topics": ["debt", "financial-summaries"],
     "relatedDatasets": ["015-BFS-2014Q1-03", "015-BFS-2014Q3-065", "015-BFS-2014Q1-11", "015-BFS-2014Q1-13"],
-    "currentDateButton": "byMonth"
+    "currentDateButton": "byMonth",
+    "reportSelection": "byReport"
   },
   "015-BFS-2014Q1-04": {
     "slug": "/treasury-reporting-rates-exchange/",
@@ -318,7 +319,8 @@
       "015-BFS-2014Q3-103"
     ],
     "slug": "/fip-interest-cost-by-fund/",
-    "currentDateButton": "byMonth"
+    "currentDateButton": "byMonth",
+    "reportSelection": "byReport"
   },
   "015-BFS-2017Q2-003": {
     "seoConfig": {
@@ -362,7 +364,8 @@
       "015-BFS-2014Q3-093"
     ],
     "slug": "/schedules-federal-debt-daily/",
-    "currentDateButton": "byDay"
+    "currentDateButton": "byDay",
+    "reportSelection": "byReport"
   },
   "015-BFS-2014Q3-038": {
     "seoConfig": {
@@ -567,7 +570,8 @@
     },
     "topics": ["financial-summaries", "revenue"],
     "relatedDatasets": ["015-BFS-2014Q1-13", "015-BFS-2014Q1-03", "015-BFS-2014Q1-07"],
-    "currentDateButton": "byMonth"
+    "currentDateButton": "byMonth",
+    "reportSelection": "byReport"
   },
   "015-BFS-2024Q1-001": {
     "slug": "/federal-investments-program-principal-outstanding/",

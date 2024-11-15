@@ -20,7 +20,6 @@ const ComboSelectDropdown = ({
   active,
   setDropdownActive,
   searchBarOnBlurHandler,
-  setMouseOverDropdown,
   selectedOption,
   updateSelection,
   required,
@@ -73,7 +72,9 @@ const ComboSelectDropdown = ({
   };
 
   const clearFilter = () => {
-    changeHandler(null);
+    if (changeHandler) {
+      changeHandler(null);
+    }
     // fire artificial event to reset field
     onFilterChange({
       target: {
@@ -130,7 +131,6 @@ const ComboSelectDropdown = ({
           dropdownChild = false;
           break;
       }
-      setMouseOverDropdown(false);
 
       if (!dropdownChild) {
         timeOutId = setTimeout(() => {
@@ -168,10 +168,7 @@ const ComboSelectDropdown = ({
           className={dropdownContainer}
           data-testid="dropdown-container"
           onMouseDown={e => e.stopPropagation()}
-          onMouseOver={() => setMouseOverDropdown(true)}
-          onMouseLeave={() => setMouseOverDropdown(false)}
           onBlur={handleBlur}
-          onFocus={() => setMouseOverDropdown(true)}
           role="presentation"
           ref={dropdownContainerRef}
         >
