@@ -18,7 +18,6 @@ const AFGDebtChart = (): ReactElement => {
   const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
   const [isLoading, setLoading] = useState(true);
-  const [defaultIndex, setDefaultIndex] = useState(null);
   const [chartFocus, setChartFocus] = useState(false);
   const [customTooltipData, setCustomTooltipData] = useState(null);
 
@@ -77,12 +76,11 @@ const AFGDebtChart = (): ReactElement => {
                   outline: 'none',
                 }}
                 onFocus={() => {
-                  setDefaultIndex(index);
-                  setChartFocus(true);
                   setFocusedYear(yearlyData.year);
                   setCustomTooltipData([
                     {
                       dataKey: valueName,
+                      hide: false,
                       name: valueName,
                       payload: yearlyData,
                     },
@@ -204,6 +202,7 @@ const AFGDebtChart = (): ReactElement => {
               setChartFocus(false);
               setCustomTooltipData(null);
             }}
+            onFocus={() => setChartFocus(true)}
             onBlur={() => {
               setFocusedYear(null);
               setChartFocus(false);
@@ -244,8 +243,8 @@ const AFGDebtChart = (): ReactElement => {
                 />
                 {generateBar(finalChartData)}
                 <Tooltip
+                  wrapperStyle={{ visibility: 'visible' }}
                   content={<CustomTooltip setFocused={setFocusedYear} labelByYear curFY={currentFY} customData={customTooltipData} />}
-                  defaultIndex={defaultIndex as number}
                   cursor={{ fillOpacity: 0 }}
                   shared={false}
                   isAnimationActive={false}
