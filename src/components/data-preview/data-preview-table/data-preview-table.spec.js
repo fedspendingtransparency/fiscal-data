@@ -15,6 +15,7 @@ import * as helpers from '../../dtg-table/dtg-table-helper';
 import { RecoilRoot } from 'recoil';
 import { render } from '@testing-library/react';
 import DataPreviewTable from './data-preview-table';
+import DtgTable from '../../dtg-table/dtg-table';
 
 describe('DataPreviewTable component', () => {
   jest.useFakeTimers();
@@ -48,6 +49,61 @@ describe('DataPreviewTable component', () => {
 
   it('does not show table footer if shouldPage property is not included in tableProps', () => {
     expect(instance.findAllByProps({ 'data-test-id': 'table-footer' })).toHaveLength(0);
+  });
+
+  it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', () => {
+    const newComponent = renderer.create();
+    renderer.act(() => {
+      newComponent.update(
+        <RecoilRoot>
+          <DtgTable tableProps={{ data: TestData, shouldPage: true }} />
+        </RecoilRoot>
+      );
+    });
+    const updated = newComponent.root;
+    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
+  });
+
+  it('does render pagination Controls when the table is configured to load page-by-page, so long as there are more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
+    jest.useFakeTimers();
+    const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(longerPaginatedDataResponse));
+
+    let newComponent = renderer.create();
+    await renderer.act(async () => {
+      newComponent = await renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
+        </RecoilRoot>
+      );
+      jest.runAllTimers();
+    });
+    const updated = newComponent.root;
+    expect(requestSpy).toBeCalled();
+    const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
+    expect(rowsShowing.props.children).toMatch('Showing 1 - 10 rows of 11 rows');
+    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
+    requestSpy.mockClear();
+  });
+
+  it('does not render pagination Controls even when the table is configured to load page-by-page, so long as there are not more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
+    jest.useFakeTimers();
+    const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(shortPaginatedDataResponse));
+
+    let newComponent = renderer.create();
+    await renderer.act(async () => {
+      newComponent = await renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
+        </RecoilRoot>
+      );
+      jest.runAllTimers();
+    });
+    const updated = newComponent.root;
+    expect(requestSpy).toBeCalled();
+    const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
+    expect(rowsShowing.props.children).toMatch('Showing 1 - 3 rows of 3 rows');
+    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
+    requestSpy.mockClear();
   });
 
   it('assigns data with a userFilterSelection', () => {
