@@ -159,25 +159,26 @@ describe('DataPreviewTable component', () => {
     await expect(spy).toBeCalledTimes(1);
   });
 
-  // !!!!!!!!!!!!!!!!!!!!!! Needs to be rewritten (or moved to DataPreviewDataTable)
   it('sets table aria prop with a single attribute and value', () => {
     const aria = { 'aria-describedby': 'my-test-id' };
-    const newComponent = renderer.create();
-    renderer.act(() => {
-      newComponent.update(
-        <RecoilRoot>
-          <DataPreviewTable
-            tableProps={{
-              data: TestData,
-              aria: aria,
-            }}
-          />
-        </RecoilRoot>
-      );
-    });
-    const updated = newComponent.root;
-    const table = updated.findByType('table');
-    expect(table.props['aria-describedby']).toBe('my-test-id');
+
+    const { getByText, getByRole } = render(
+      <RecoilRoot>
+        <DataPreviewTable
+          tableProps={{
+            rawData: { data: MoreTestData },
+            selectedTable: { rowCount: 11 },
+            shouldPage: true,
+            data: TestData,
+            aria: aria,
+          }}
+          setManualPagination={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+
+    const table = getByRole('table');
+    expect(table).toHaveAttribute('aria-describedby', 'my-test-id');
   });
 
   it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
