@@ -145,18 +145,15 @@ describe('DataPreviewTable component', () => {
     expect(getByText(`rows of ${maxRows} rows`, { exact: false })).toBeInTheDocument();
   });
 
-  // !!!!!!!!!!!!!!!!!!!!!! Needs to be rewritten
   it('sets a timer for the loading indicator', async () => {
     const spy = jest.spyOn(helpers, 'loadingTimeout');
     spy.mockClear();
-    let newComponent = renderer.create();
-    renderer.act(() => {
-      newComponent = renderer.create(
-        <RecoilRoot>
-          <DtgTable tableProps={mockPaginatedTableProps} />
-        </RecoilRoot>
-      );
-    });
+
+    render(
+      <RecoilRoot>
+        <DataPreviewTable tableProps={mockPaginatedTableProps} />
+      </RecoilRoot>
+    );
 
     jest.advanceTimersByTime(helpers.loadTimerDelay * 2);
     await expect(spy).toBeCalledTimes(1);
