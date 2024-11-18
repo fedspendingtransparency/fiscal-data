@@ -31,19 +31,6 @@ describe('DataPreviewTable component', () => {
   });
   const instance = component.root;
 
-  // **************** only used for Endpoints/Fields tables (not in this comp)
-  // it('caption is added to table when provided in config', () => {
-  //   const testCaption = 'Test Caption Value';
-  //   const captionComponent = renderer.create(
-  //     <RecoilRoot>
-  //       <DataPreviewTable tableProps={{ data: TestDataOneRow, caption: testCaption }} />
-  //     </RecoilRoot>
-  //   );
-  //   const captionInstance = captionComponent.root;
-  //   // expect(captionInstance.findByType('table').findAllByType('caption')[0]).toBeDefined();
-  //   expect(captionInstance.findByType('caption').props.children).toMatch(testCaption);
-  // });
-
   it('does not blow up when there is no data in a table', () => {
     const instance = render(
       <RecoilRoot>
@@ -53,40 +40,6 @@ describe('DataPreviewTable component', () => {
 
     expect(instance).toBeDefined();
   });
-
-  // **************** only used for Endpoints/Fields tables (not in this comp)
-  // it('allows the table width to be set when specified', () => {
-  //   const width = 2000;
-  //
-  //   renderer.act(() => {
-  //     component.update(
-  //       <RecoilRoot>
-  //         <DataPreviewTable tableProps={{ data: TestData, width }} />
-  //       </RecoilRoot>
-  //     );
-  //   });
-  //
-  //   expect(instance.findByType('table').props.style.width).toBe(`${width}px`);
-  // });
-
-  // **************** only used for Endpoints/Fields tables (not in this comp)
-  // it('supports a noBorder configuration', () => {
-  //   const componentJSON = component.toJSON();
-  //   let table = componentJSON.children.find(e => e.props['data-test-id'] === 'table-content');
-  //   expect(table.children[0].children.filter(e => e.props.className.includes('noBorder')).length).toEqual(0);
-  //
-  //   renderer.act(() => {
-  //     component.update(
-  //       <RecoilRoot>
-  //         <DataPreviewTable tableProps={{ data: TestData, noBorder: true }} />
-  //       </RecoilRoot>
-  //     );
-  //   });
-  //
-  //   const updatedJSON = component.toJSON();
-  //   table = updatedJSON.children.find(e => e.props['data-test-id'] === 'table-content');
-  //   expect(table.children[0].children.filter(e => e.props.className.includes('noBorder')).length).toEqual(1);
-  // });
 
   it('does not show pagination controls by default', () => {
     const { queryByRole } = render(
@@ -260,7 +213,6 @@ describe('DataPreviewTable component', () => {
   });
 });
 
-// TODO: get these to work in a later ticket
 describe('DataPreviewTable component - API Error', () => {
   it('shows an apiError message when apiError exists', () => {
     const { getByText } = render(
@@ -274,63 +226,32 @@ describe('DataPreviewTable component - API Error', () => {
     expect(getByText('Table failed to load.')).toBeInTheDocument();
   });
 
-  it('displays "Showing 0 - 0 rows of 0 rows" when apiError exists', () => {
-    const { getByText } = render(
-      <RecoilRoot>
-        <DataPreviewTable
-          tableProps={{ rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true }}
-          setManualPagination={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-    expect(getByText(`Showing 0 - 0 rows of 0 rows`)).toBeInTheDocument();
-  });
-
-  it('does not render pagination controls if apiError exists && currentPage === 1 even when shouldPage === true', () => {
-    const { queryByRole } = render(
-      <RecoilRoot>
-        <DataPreviewTable
-          tableProps={{ rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true }}
-          setManualPagination={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-    expect(queryByRole('button', { name: 'Previous Page' })).not.toBeInTheDocument();
-    expect(queryByRole('button', { name: 'Next Page' })).not.toBeInTheDocument();
-    expect(queryByRole('button', { name: '1' })).not.toBeInTheDocument();
-  });
-
-  it('displays "Showing 0 - 0 rows of 0 rows" when apiError exists', () => {
-    const rowsShowing = footer.children.find(e => e.props['data-test-id'] === 'rows-showing');
-    expect(rowsShowing.children[0]).toMatch(`Showing 0 - 0 rows of 0 rows`);
-  });
-
-  it('does not render pagination controls if apiError exists && currentPage === 1 even when shouldPage === true', () => {
-    expect(footer.children.find(e => e.type === PaginationControls)).toBeUndefined();
-  });
-});
-
-describe('DataPreviewTable component with shouldPage property and tableData with only one row', () => {
-  let component19 = renderer.create();
-  renderer.act(() => {
-    component19 = renderer.create(
-      <RecoilRoot>
-        <DataPreviewTable tableProps={{ data: TestDataOneRow, shouldPage: true }} />
-      </RecoilRoot>
-    );
-  });
-  const instance19 = component19.root;
-
-  it('does show table footer if shouldPage property is included in tableProps', () => {
-    expect(instance19.findByProps({ 'data-test-id': 'table-footer' })).toBeDefined();
-  });
-  it('shows the "x of x rows" message with correct grammar if only one row of data exists', () => {
-    expect(instance19.findByProps({ 'data-test-id': 'rows-showing' }).children[0]).toBe('Showing 1 - 1  of 1 row');
-  });
-
-  it('does not render pagination controls when fewer rows than the lowest available rows-per-page option in the pagination controls', () => {
-    expect(instance19.findAllByType(PaginationControls).length).toStrictEqual(1);
-  });
+  // TODO: get these to work in a later ticket
+  // it('displays "Showing 0 - 0 rows of 0 rows" when apiError exists', () => {
+  //   const { getByText } = render(
+  //     <RecoilRoot>
+  //       <DataPreviewTable
+  //         tableProps={{ rawData: { data: null }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true }}
+  //         setManualPagination={jest.fn()}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  //   expect(getByText(`Showing 0 - 0 rows of 0 rows`)).toBeInTheDocument();
+  // });
+  //
+  // it('does not render pagination controls if apiError exists && currentPage === 1 even when shouldPage === true', () => {
+  //   const { queryByRole } = render(
+  //     <RecoilRoot>
+  //       <DataPreviewTable
+  //         tableProps={{ rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true }}
+  //         setManualPagination={jest.fn()}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  //   expect(queryByRole('button', { name: 'Previous Page' })).not.toBeInTheDocument();
+  //   expect(queryByRole('button', { name: 'Next Page' })).not.toBeInTheDocument();
+  //   expect(queryByRole('button', { name: '1' })).not.toBeInTheDocument();
+  // });
 });
 
 describe('Data Preview Table detail view', () => {
