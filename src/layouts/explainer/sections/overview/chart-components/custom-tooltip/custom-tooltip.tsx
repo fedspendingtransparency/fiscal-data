@@ -17,6 +17,7 @@ const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, setF
     const yearLabel = payload[0].payload.year === curFY ? `FYTD ${year}` : year;
     const categoryLabel = label === curFY ? `FYTD ${label}` : label;
 
+    console.log(payload);
     setFocused(year);
     return (
       <div className={toolTip} data-testid="CustomTooltip">
