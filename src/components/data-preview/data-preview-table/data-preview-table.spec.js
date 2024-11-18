@@ -13,7 +13,7 @@ import PaginationControls from '../../pagination/pagination-controls';
 import * as ApiUtils from '../../../utils/api-utils';
 import * as helpers from '../../dtg-table/dtg-table-helper';
 import { RecoilRoot } from 'recoil';
-import { render, within } from '@testing-library/react';
+import { render, waitFor, within } from '@testing-library/react';
 import DataPreviewTable from './data-preview-table';
 
 describe('DataPreviewTable component', () => {
@@ -275,6 +275,64 @@ describe('Data Preview Table detail view', () => {
       </RecoilRoot>
     );
 
+    expect(getByRole('table')).toBeInTheDocument();
+  });
+});
+
+describe('Loading table data', () => {
+  it('loads dePaginated data', () => {
+    const mockSetIsLoading = jest.fn();
+    const mockSetManualPagination = jest.fn();
+    const { getByRole } = render(
+      <DataPreviewTable
+        tableProps={{
+          dePaginated: { data: MoreTestData },
+          selectedTable: { rowCount: 12 },
+          shouldPage: true,
+        }}
+        setManualPagination={mockSetManualPagination}
+        setIsLoading={mockSetIsLoading}
+      />,
+      { wrapper: RecoilRoot }
+    );
+    expect(getByRole('table')).toBeInTheDocument();
+  });
+
+  it('loads dePaginated data for table less than 20000 rows', () => {
+    const mockSetIsLoading = jest.fn();
+    const mockSetManualPagination = jest.fn();
+    const { getByRole } = render(
+      <DataPreviewTable
+        tableProps={{
+          dePaginated: { data: MoreTestData },
+          selectedTable: { rowCount: 120000 },
+          tableMeta: { 'total-count': 12 },
+          shouldPage: true,
+        }}
+        setManualPagination={mockSetManualPagination}
+        setIsLoading={mockSetIsLoading}
+      />,
+      { wrapper: RecoilRoot }
+    );
+    expect(getByRole('table')).toBeInTheDocument();
+  });
+
+  it('loads rawData data', () => {
+    const mockSetIsLoading = jest.fn();
+    const mockSetManualPagination = jest.fn();
+    const { getByRole } = render(
+      <DataPreviewTable
+        tableProps={{
+          rawData: { data: MoreTestData },
+          selectedTable: { rowCount: 12 },
+          shouldPage: true,
+        }}
+        tableMeta={{ 'total-count': 12 }}
+        setManualPagination={mockSetManualPagination}
+        setIsLoading={mockSetIsLoading}
+      />,
+      { wrapper: RecoilRoot }
+    );
     expect(getByRole('table')).toBeInTheDocument();
   });
 });
