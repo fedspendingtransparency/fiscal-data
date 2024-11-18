@@ -63,7 +63,6 @@ const AFGDebtChart = (): ReactElement => {
         .map((valueName, index) => {
           const barName = valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : '';
           if (index === length) {
-            console.log(yearlyData);
             return (
               <Bar
                 dataKey={valueName}
@@ -74,17 +73,20 @@ const AFGDebtChart = (): ReactElement => {
                 name={barName}
                 barSize={16}
                 tabIndex={0}
+                style={{
+                  outline: 'none',
+                }}
                 onFocus={() => {
                   setDefaultIndex(index);
                   setChartFocus(true);
                   setFocusedYear(yearlyData.year);
-                  // setCustomTooltipData([
-                  //   {
-                  //     chartType: undefined,
-                  //     color: '#4a0072',
-                  //     dataKey: valueName,
-                  //   },
-                  // ]);
+                  setCustomTooltipData([
+                    {
+                      dataKey: valueName,
+                      name: valueName,
+                      payload: yearlyData,
+                    },
+                  ]);
                 }}
               />
             );
@@ -200,10 +202,12 @@ const AFGDebtChart = (): ReactElement => {
             onMouseLeave={() => {
               setFocusedYear(null);
               setChartFocus(false);
+              setCustomTooltipData(null);
             }}
             onBlur={() => {
               setFocusedYear(null);
               setChartFocus(false);
+              setCustomTooltipData(null);
             }}
             role="presentation"
           >
@@ -239,36 +243,8 @@ const AFGDebtChart = (): ReactElement => {
                   tickMargin={8}
                 />
                 {generateBar(finalChartData)}
-                {/*<Bar*/}
-                {/*  dataKey="debt20221"*/}
-                {/*  stackId="debtBar"*/}
-                {/*  fill={'#66666'}*/}
-                {/*  strokeWidth={0}*/}
-                {/*  name="Debt"*/}
-                {/*  barSize={16}*/}
-                {/*  tabIndex={0}*/}
-                {/*  onFocus={(data, index) => {*/}
-                {/*    console.log(data, index);*/}
-                {/*    setFocusedYear(2022);*/}
-                {/*    setDefaultIndex(0);*/}
-                {/*  }}*/}
-                {/*/>*/}
-                {/*<Bar*/}
-                {/*  dataKey="debt20210"*/}
-                {/*  stackId="debtBar"*/}
-                {/*  fill={'#66666'}*/}
-                {/*  strokeWidth={0}*/}
-                {/*  name="Debt"*/}
-                {/*  barSize={16}*/}
-                {/*  tabIndex={0}*/}
-                {/*  onFocus={(data, index) => {*/}
-                {/*    console.log(data, index);*/}
-                {/*    setFocusedYear(2021);*/}
-                {/*    setDefaultIndex(1);*/}
-                {/*  }}*/}
-                {/*/>*/}
                 <Tooltip
-                  content={<CustomTooltip setFocused={setFocusedYear} labelByYear curFY={currentFY} />}
+                  content={<CustomTooltip setFocused={setFocusedYear} labelByYear curFY={currentFY} customData={customTooltipData} />}
                   defaultIndex={defaultIndex as number}
                   cursor={{ fillOpacity: 0 }}
                   shared={false}

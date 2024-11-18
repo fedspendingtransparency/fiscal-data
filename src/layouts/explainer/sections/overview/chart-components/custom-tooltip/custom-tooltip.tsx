@@ -9,15 +9,41 @@ interface ICustomTooltip {
   setFocused: (value: number) => void;
   labelByYear?: boolean;
   curFY?: string;
+  customData: { payload };
 }
 
-const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, setFocused, labelByYear, curFY }) => {
+const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, setFocused, labelByYear, curFY, customData }) => {
+  if (customData) {
+    const year = customData[0].payload.year;
+    const yearLabel = customData[0].payload.year === curFY ? `FYTD ${year}` : year;
+    const categoryLabel = label === curFY ? `FYTD ${label}` : label;
+    setFocused(year);
+    return (
+      <div className={toolTip} data-testid="CustomTooltip">
+        <div className={tooltipLabel}>{labelByYear ? yearLabel : categoryLabel}</div>
+        <div>
+          {customData[0].payload.tooltip?.map((row, index) => {
+            return (
+              <div className={tooltipRow} key={index}>
+                <div className={value}>
+                  {row.color && <span className={dot} style={{ backgroundColor: row.color }}></span>}
+                  <span className={title}>{row.title}</span>
+                </div>
+                <span className={value}>${getShortForm(row.value)}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   if (payload && payload.length) {
     const year = payload[0].payload.year;
     const yearLabel = payload[0].payload.year === curFY ? `FYTD ${year}` : year;
     const categoryLabel = label === curFY ? `FYTD ${label}` : label;
 
-    console.log(payload);
+    // console.log(payload);
     setFocused(year);
     return (
       <div className={toolTip} data-testid="CustomTooltip">
