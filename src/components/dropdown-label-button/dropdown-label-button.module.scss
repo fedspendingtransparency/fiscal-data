@@ -28,6 +28,10 @@
     overflow-x: hidden;
     text-overflow: ellipsis;
   }
+  @media screen and (max-width: $breakpoint-sm) {
+    max-width: 100%;
+    width: 20rem;
+  }
 }
 
 .glow {
