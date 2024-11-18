@@ -145,7 +145,6 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                   left: -18,
                 }}
                 layout="vertical"
-                tabIndex={0}
               >
                 <CartesianGrid horizontal={false} height={128} />
                 <YAxis
