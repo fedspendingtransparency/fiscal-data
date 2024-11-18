@@ -32,6 +32,18 @@ describe('DataPreviewTable component', () => {
   });
   const instance = component.root;
 
+  it('caption is added to table when provided in config', () => {
+    const testCaption = 'Test Caption Value';
+    const captionComponent = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={{ data: TestDataOneRow, caption: testCaption }} />
+      </RecoilRoot>
+    );
+    const captionInstance = captionComponent.root;
+    expect(captionInstance.findByType('table').findAllByType('caption')[0]).toBeDefined();
+    expect(captionInstance.findByType('caption').props.children).toMatch(testCaption);
+  });
+
   it('does not blow up when there is no data in a table', () => {
     const noDataComponent = renderer.create(
       <RecoilRoot>
@@ -43,12 +55,112 @@ describe('DataPreviewTable component', () => {
     expect(noDataInstance);
   });
 
+  it('allows the table width to be set when specified', () => {
+    const width = 2000;
+
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <DtgTable tableProps={{ data: TestData, width }} />
+        </RecoilRoot>
+      );
+    });
+
+    expect(instance.findByType('table').props.style.width).toBe(`${width}px`);
+  });
+
+  it('supports a noBorder configuration', () => {
+    const componentJSON = component.toJSON();
+    let table = componentJSON.children.find(e => e.props['data-test-id'] === 'table-content');
+    expect(table.children[0].children.filter(e => e.props.className.includes('noBorder')).length).toEqual(0);
+
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <DtgTable tableProps={{ data: TestData, noBorder: true }} />
+        </RecoilRoot>
+      );
+    });
+
+    const updatedJSON = component.toJSON();
+    table = updatedJSON.children.find(e => e.props['data-test-id'] === 'table-content');
+    expect(table.children[0].children.filter(e => e.props.className.includes('noBorder')).length).toEqual(1);
+  });
+
   it('does not show pagination controls by default', () => {
     expect(instance.findAllByType(PaginationControls)).toStrictEqual([]);
   });
 
   it('does not show table footer if shouldPage property is not included in tableProps', () => {
     expect(instance.findAllByProps({ 'data-test-id': 'table-footer' })).toHaveLength(0);
+  });
+
+  it('renders the number of rows specified in props', () => {
+    const perPage = 3;
+    const newComponent = renderer.create();
+    renderer.act(() => {
+      newComponent.update(
+        <RecoilRoot>
+          <DtgTable tableProps={{ data: TestData }} perPage={perPage} />
+        </RecoilRoot>
+      );
+    });
+
+    const updated = newComponent.root;
+    expect(updated.findByType('tbody').findAllByType('tr').length).toEqual(perPage);
+  });
+
+  it('renders the defaultRowsPer if shouldPage === true but perPage is not specified and shows range of rows showing out of total number of rows with correct default itemsPerPage', () => {
+    const newComponent = renderer.create();
+    renderer.act(() => {
+      newComponent.update(
+        <RecoilRoot>
+          <DtgTable tableProps={{ data: MoreTestData, shouldPage: true }} />
+        </RecoilRoot>
+      );
+    });
+
+    const updated = newComponent.root;
+    expect(updated.findByType('tbody').findAllByType('tr').length).toEqual(10);
+    const maxRows = MoreTestData.length;
+    const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
+    expect(rowsShowing.props.children).toMatch(`Showing 1 - 10 rows of ${maxRows} rows`);
+  });
+
+  it('sets a timer for the loading indicator', async () => {
+    const spy = jest.spyOn(helpers, 'loadingTimeout');
+    spy.mockClear();
+    let newComponent = renderer.create();
+    renderer.act(() => {
+      newComponent = renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={mockPaginatedTableProps} />
+        </RecoilRoot>
+      );
+    });
+
+    jest.advanceTimersByTime(helpers.loadTimerDelay * 2);
+    await expect(spy).toBeCalledTimes(1);
+  });
+
+  it('sets table aria prop with a single attribute and value', () => {
+    const aria = { 'aria-describedby': 'my-test-id' };
+    const newComponent = renderer.create();
+    renderer.act(() => {
+      newComponent.update(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              data: TestData,
+              aria: aria,
+            }}
+          />
+        </RecoilRoot>
+      );
+    });
+    const updated = newComponent.root;
+    const table = updated.findByType('table');
+    expect(table.props['aria-describedby']).toBe('my-test-id');
   });
 
   it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', () => {
@@ -154,6 +266,29 @@ describe('DataPreviewTable component', () => {
 //     expect(footer.children.find(e => e.type === PaginationControls)).toBeUndefined();
 //   });
 // });
+
+describe('DtgTable component with shouldPage property and tableData with only one row', () => {
+  let component19 = renderer.create();
+  renderer.act(() => {
+    component19 = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={{ data: TestDataOneRow, shouldPage: true }} />
+      </RecoilRoot>
+    );
+  });
+  const instance19 = component19.root;
+
+  it('does show table footer if shouldPage property is included in tableProps', () => {
+    expect(instance19.findByProps({ 'data-test-id': 'table-footer' })).toBeDefined();
+  });
+  it('shows the "x of x rows" message with correct grammar if only one row of data exists', () => {
+    expect(instance19.findByProps({ 'data-test-id': 'rows-showing' }).children[0]).toBe('Showing 1 - 1  of 1 row');
+  });
+
+  it('does not render pagination controls when fewer rows than the lowest available rows-per-page option in the pagination controls', () => {
+    expect(instance19.findAllByType(PaginationControls).length).toStrictEqual(1);
+  });
+});
 
 describe('Data Preview Table detail view', () => {
   it('renders table with detail view', () => {
