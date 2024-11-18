@@ -18,6 +18,7 @@ const AFGDebtChart = (): ReactElement => {
   const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [defaultIndex, setDefaultIndex] = useState(null);
 
   const debtEndpointUrl = '/v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding&sort=-record_date';
   const deficitEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date';
@@ -55,6 +56,7 @@ const AFGDebtChart = (): ReactElement => {
         })
         .map(valueName => {
           const barName = valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : '';
+          // console.log(valueName, barName);
           return (
             <Bar
               dataKey={valueName}
@@ -64,6 +66,7 @@ const AFGDebtChart = (): ReactElement => {
               strokeWidth={0}
               name={barName}
               barSize={16}
+              onFocus={index => console.log(index)}
             />
           );
         });
@@ -148,6 +151,10 @@ const AFGDebtChart = (): ReactElement => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log(focusedYear);
+  }, [focusedYear]);
+
   return (
     <div className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>National Debt: Last 5 Years in Trillions of USD</div>
@@ -198,8 +205,37 @@ const AFGDebtChart = (): ReactElement => {
                   tickMargin={8}
                 />
                 {generateBar(finalChartData)}
+                <Bar
+                  dataKey="debt20220"
+                  stackId="debtBar"
+                  fill={'#66666'}
+                  strokeWidth={0}
+                  name="Debt"
+                  barSize={16}
+                  tabIndex={0}
+                  onFocus={(data, index) => {
+                    console.log(data, index);
+                    setFocusedYear(2022);
+                    setDefaultIndex(0);
+                  }}
+                />
+                <Bar
+                  dataKey="debt20210"
+                  stackId="debtBar"
+                  fill={'#66666'}
+                  strokeWidth={0}
+                  name="Debt"
+                  barSize={16}
+                  tabIndex={0}
+                  onFocus={(data, index) => {
+                    console.log(data, index);
+                    setFocusedYear(2021);
+                    setDefaultIndex(1);
+                  }}
+                />
                 <Tooltip
                   content={<CustomTooltip setFocused={setFocusedYear} labelByYear curFY={currentFY} />}
+                  defaultIndex={defaultIndex}
                   cursor={{ fillOpacity: 0 }}
                   shared={false}
                   isAnimationActive={false}
