@@ -11,7 +11,7 @@ import {
   sectionContainer,
 } from './insight.module.scss';
 import SocialShare from '../../components/social-share/social-share';
-import { discoverDatasetsCitationsMap, exploreMoreCitationsMap, insightSocialShareMap } from '../../helpers/insights/insight-helpers';
+import { discoverDatasetsCitationsMap, exploreMoreCitationsMap, insightHeroMap, insightSocialShareMap } from '../../helpers/insights/insight-helpers';
 import CitationList from '../../components/citation-list/citation-list';
 import { insightsDataSources, insightsSections } from './sections/sections';
 import { withWindowSize } from 'react-fns';
@@ -31,7 +31,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
     <SiteLayout isPreProd={false}>
       <PageHelmet pageTitle={seoConfig.pageTitle} description={seoConfig.description} keywords={seoConfig.keywords} />
       <div className={insightsContainer}>
-        <InsightHeroImage heading={heroImage.heading}></InsightHeroImage>
+        <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
         {width < pxToNumber(breakpointLg) && (
           <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
         )}
