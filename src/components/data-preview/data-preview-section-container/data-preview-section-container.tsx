@@ -390,7 +390,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
             />
           )}
           <div className={selectedTab === 0 && !allTablesSelected ? tableSection : ''}>
-            {(apiData || serverSidePagination || apiError) && (
+            {(apiData || serverSidePagination || apiError) && tableProps && (
               <DataPreviewTable
                 selectColumnPanel={selectColumnPanel}
                 setDetailViewState={setDetailViewState}

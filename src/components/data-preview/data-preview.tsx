@@ -19,6 +19,7 @@ import DataPreviewFilterSection from './data-preview-filter-section/data-preview
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
 import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } from './data-preview.module.scss';
+import { withWindowSize } from 'react-fns';
 
 type DataPreviewProp = {
   config;
@@ -218,7 +219,7 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
   }, [selectedTable]);
 
   return (
-    <DatasetSectionContainer id="data-table">
+    <DatasetSectionContainer id="data-preview-table">
       <div className={dataPreview}>
         <div className={dataPreviewHeader}>
           <span className={dataPreviewTitle}>Data Preview</span>
@@ -340,4 +341,4 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
   );
 };
 
-export default DataPreview;
+export default withWindowSize(DataPreview);
