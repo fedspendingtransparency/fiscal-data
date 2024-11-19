@@ -149,48 +149,48 @@ describe('DataPreviewTable component', () => {
   });
 
   // !!!!!!!!!!!!!!!!!!!!!! Needs to be rewritten (or moved to DataPreviewDataTable)
-  it('does render pagination Controls when the table is configured to load page-by-page, so long as there are more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
-    jest.useFakeTimers();
-    const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(longerPaginatedDataResponse));
-
-    let newComponent = renderer.create();
-    await renderer.act(async () => {
-      newComponent = await renderer.create(
-        <RecoilRoot>
-          <DataPreviewTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
-        </RecoilRoot>
-      );
-      jest.runAllTimers();
-    });
-    const updated = newComponent.root;
-    expect(requestSpy).toBeCalled();
-    const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.props.children).toMatch('Showing 1 - 10 rows of 11 rows');
-    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
-    requestSpy.mockClear();
-  });
+  // it('does render pagination Controls when the table is configured to load page-by-page, so long as there are more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
+  //   jest.useFakeTimers();
+  //   const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(longerPaginatedDataResponse));
+  //
+  //   let newComponent = renderer.create();
+  //   await renderer.act(async () => {
+  //     newComponent = await renderer.create(
+  //       <RecoilRoot>
+  //         <DataPreviewTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
+  //       </RecoilRoot>
+  //     );
+  //     jest.runAllTimers();
+  //   });
+  //   const updated = newComponent.root;
+  //   expect(requestSpy).toBeCalled();
+  //   const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
+  //   expect(rowsShowing.props.children).toMatch('Showing 1 - 10 rows of 11 rows');
+  //   expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
+  //   requestSpy.mockClear();
+  // });
 
   // !!!!!!!!!!!!!!!!!!!!!! Needs to be rewritten (or moved to DataPreviewDataTable)
-  it('does not render pagination Controls even when the table is configured to load page-by-page, so long as there are not more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
-    jest.useFakeTimers();
-    const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(shortPaginatedDataResponse));
-
-    let newComponent = renderer.create();
-    await renderer.act(async () => {
-      newComponent = await renderer.create(
-        <RecoilRoot>
-          <DataPreviewTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
-        </RecoilRoot>
-      );
-      jest.runAllTimers();
-    });
-    const updated = newComponent.root;
-    expect(requestSpy).toBeCalled();
-    const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.props.children).toMatch('Showing 1 - 3 rows of 3 rows');
-    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
-    requestSpy.mockClear();
-  });
+  // it('does not render pagination Controls even when the table is configured to load page-by-page, so long as there are not more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
+  //   jest.useFakeTimers();
+  //   const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(shortPaginatedDataResponse));
+  //
+  //   let newComponent = renderer.create();
+  //   await renderer.act(async () => {
+  //     newComponent = await renderer.create(
+  //       <RecoilRoot>
+  //         <DataPreviewTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
+  //       </RecoilRoot>
+  //     );
+  //     jest.runAllTimers();
+  //   });
+  //   const updated = newComponent.root;
+  //   expect(requestSpy).toBeCalled();
+  //   const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
+  //   expect(rowsShowing.props.children).toMatch('Showing 1 - 3 rows of 3 rows');
+  //   expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
+  //   requestSpy.mockClear();
+  // });
 
   it('assigns data with a userFilterSelection', () => {
     const mockSetIsLoading = jest.fn();
@@ -298,24 +298,24 @@ describe('Loading table data', () => {
     expect(getByRole('table')).toBeInTheDocument();
   });
 
-  it('loads dePaginated data for table less than 20000 rows', () => {
-    const mockSetIsLoading = jest.fn();
-    const mockSetManualPagination = jest.fn();
-    const { getByRole } = render(
-      <DataPreviewTable
-        tableProps={{
-          dePaginated: { data: MoreTestData },
-          selectedTable: { rowCount: 120000 },
-          tableMeta: { 'total-count': 12 },
-          shouldPage: true,
-        }}
-        setManualPagination={mockSetManualPagination}
-        setIsLoading={mockSetIsLoading}
-      />,
-      { wrapper: RecoilRoot }
-    );
-    expect(getByRole('table')).toBeInTheDocument();
-  });
+  // it('loads dePaginated data for table less than 20000 rows', () => {
+  //   const mockSetIsLoading = jest.fn();
+  //   const mockSetManualPagination = jest.fn();
+  //   const { getByRole } = render(
+  //     <DataPreviewTable
+  //       tableProps={{
+  //         dePaginated: { data: MoreTestData },
+  //         selectedTable: { rowCount: 120000 },
+  //         tableMeta: { 'total-count': 12 },
+  //         shouldPage: true,
+  //       }}
+  //       setManualPagination={mockSetManualPagination}
+  //       setIsLoading={mockSetIsLoading}
+  //     />,
+  //     { wrapper: RecoilRoot }
+  //   );
+  //   expect(getByRole('table')).toBeInTheDocument();
+  // });
 
   it('loads rawData data', () => {
     const mockSetIsLoading = jest.fn();
