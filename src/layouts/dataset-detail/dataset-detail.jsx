@@ -90,7 +90,13 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         {ENV_ID === 'uat' ? <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} /> : ''}
 
         <Experimental featureId="dataPreview">
-          <DataPreview></DataPreview>
+          <DataPreview
+            setSelectedTableProp={setSelectedTable}
+            finalDatesNotFound={finalDatesNotFound}
+            config={pageConfig}
+            location={location}
+            publishedReportsProp={pageConfig.publishedReports}
+          ></DataPreview>
         </Experimental>
 
         <DatasetData

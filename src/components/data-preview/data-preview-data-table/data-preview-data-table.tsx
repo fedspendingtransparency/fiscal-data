@@ -1,48 +1,28 @@
-import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
-import { json2xml } from 'xml-js';
-import {
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  getFilteredRowModel,
-  Table,
-  SortingState,
-} from '@tanstack/react-table';
-import DataTableFooter from './data-table-footer/data-table-footer';
-import {
-  rawDataTableContainer,
-  nonRawDataTableContainer,
-  tableStyle,
-  overlayContainerNoFooter,
-  selectColumnPanelActive,
-  selectColumnPanelInactive,
-  selectColumnsWrapper,
-} from './data-table.module.scss';
-import DataTableHeader from './data-table-header/data-table-header';
-import DataTableColumnSelector from './column-select/data-table-column-selector';
-import DataTableBody from './data-table-body/data-table-body';
-import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData } from './data-table-helper';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { IDataTableProps } from '../../../models/IDataTableProps';
+import { useSetRecoilState } from 'recoil';
 import {
   smallTableDownloadDataCSV,
   smallTableDownloadDataJSON,
   smallTableDownloadDataXML,
   tableRowLengthState,
-} from '../../recoil/smallTableDownloadData';
-import { useSetRecoilState } from 'recoil';
-import { IDataTableProps } from '../../models/IDataTableProps';
+} from '../../../recoil/smallTableDownloadData';
+import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData } from '../../data-table/data-table-helper';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
+import { json2xml } from 'xml-js';
+import { overlayContainerNoFooter, rawDataTableContainer, selectColumnsWrapper, tableStyle } from './data-preview-data-table.module.scss';
+import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
+import DataPreviewDataTableBody from './data-preview-data-table-body/data-preview-data-table-body';
+import DataPreviewDataTableHeader from './data-preview-data-table-header/data-preview-data-table-header';
 
-const DataTable: FunctionComponent<IDataTableProps> = ({
+const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   rawData,
-  nonRawDataColumns,
   defaultSelectedColumns,
   setTableColumnSortData,
   shouldPage,
   showPaginationControls,
   publishedReports,
   hasPublishedReports,
-  setSelectColumnPanel,
-  selectColumnPanel,
   resetFilters,
   setResetFilters,
   hideCellLinks,
@@ -86,9 +66,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   const allColumns = React.useMemo(() => {
     const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
 
-    const baseColumns = nonRawDataColumns
-      ? columnsConstructorGeneric(nonRawDataColumns)
-      : columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
+    const baseColumns = columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
 
     return baseColumns;
   }, [rawData, configOption]);
@@ -212,22 +190,20 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
         });
         downloadData.push(visibleRow);
       });
-      if (!nonRawDataColumns) {
-        const xmlData = {
-          'root-element': {
-            data: downloadData.map(row => ({
-              'data-element': row,
-            })),
-          },
-        };
-        setSmallTableJSONData(JSON.stringify({ data: downloadData }));
-        setSmallTableXMLData(json2xml(JSON.stringify(xmlData), { compact: true }));
-        downloadData = downloadData.map(entry => {
-          return Object.values(entry);
-        });
-        downloadData.unshift(downloadHeaders);
-        setSmallTableCSVData(downloadData);
-      }
+      const xmlData = {
+        'root-element': {
+          data: downloadData.map(row => ({
+            'data-element': row,
+          })),
+        },
+      };
+      setSmallTableJSONData(JSON.stringify({ data: downloadData }));
+      setSmallTableXMLData(json2xml(JSON.stringify(xmlData), { compact: true }));
+      downloadData = downloadData.map(entry => {
+        return Object.values(entry);
+      });
+      downloadData.unshift(downloadHeaders);
+      setSmallTableCSVData(downloadData);
     }
   }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns()]);
 
@@ -245,37 +221,14 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
     }
   }, [resetFilters]);
 
-  const selectColumnsRef = useRef(null);
-
-  useEffect(() => {
-    if (selectColumnPanel) {
-      selectColumnsRef.current?.focus();
-    }
-  });
-
   return (
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
-          {defaultSelectedColumns && (
-            <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
-              <DataTableColumnSelector
-                dataTableRef={selectColumnsRef}
-                selectColumnPanel={selectColumnPanel}
-                fields={allColumns}
-                resetToDefault={() => setColumnVisibility(defaultSelectedColumns?.length > 0 ? defaultInvisibleColumns : {})}
-                setSelectColumnPanel={setSelectColumnPanel}
-                defaultSelectedColumns={defaultSelectedColumns}
-                table={table}
-                additionalColumns={additionalColumns}
-                defaultColumns={defaultColumns}
-              />
-            </div>
-          )}
           <div className={tableStyle}>
-            <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
+            <div data-test-id="table-content" className={rawDataTableContainer}>
               <table {...aria}>
-                <DataTableHeader
+                <DataPreviewDataTableHeader
                   table={table}
                   dataTypes={dataTypes}
                   resetFilters={resetFilters}
@@ -284,7 +237,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
                   setAllActiveFilters={setAllActiveFilters}
                   disableDateRangeFilter={disableDateRangeFilter}
                 />
-                <DataTableBody
+                <DataPreviewDataTableBody
                   table={table}
                   dataTypes={dataTypes}
                   allowColumnWrap={allowColumnWrap}
@@ -304,11 +257,11 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
           pagingProps={pagingProps}
           manualPagination={manualPagination}
           rowsShowing={rowsShowing}
-          setTableDownload={nonRawDataColumns ? null : setTableRowSizeData}
+          setTableDownload={setTableRowSizeData}
         />
       )}
     </>
   );
 };
 
-export default DataTable;
+export default DataPreviewDataTable;
