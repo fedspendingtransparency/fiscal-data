@@ -1,9 +1,21 @@
 import DebtChart from './debt-chart';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
-import { understandingDeficitMatchers } from '../../../explainer-helpers/national-deficit/national-deficit-test-helper';
-import { mockDebtChartResponseMap, mockEndpointResponseMap } from '../../../explainer-helpers/afg-overview-test-helper';
+import { mockDebtChartResponseMap } from '../../../explainer-helpers/afg-overview-test-helper';
+
+jest.mock('recharts', () => {
+  const OriginalModule = jest.requireActual('recharts');
+  return {
+    ...OriginalModule,
+    ResponsiveContainer: ({ children }) => (
+      <OriginalModule.ResponsiveContainer width={800} height={800}>
+        {children}
+      </OriginalModule.ResponsiveContainer>
+    ),
+  };
+});
+
 describe('AFG Debt Chart', () => {
   class ResizeObserver {
     observe() {}

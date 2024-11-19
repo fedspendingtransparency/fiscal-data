@@ -22,6 +22,8 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   const [finalChartData, setFinalChartData] = useState(null);
   const [legendItems, setLegendItems] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [highlightIndex, setHighlightIndex] = useState(null);
+  const [chartFocus, setChartFocus] = useState(false);
 
   const revenueEndpointUrl = '/v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830&sort=-record_date';
   const spendingEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
@@ -122,8 +124,16 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
           <div
             className={chartContainer}
             data-testid="chartContainer"
-            onMouseLeave={() => setFocusedYear(null)}
-            onBlur={() => setFocusedYear(null)}
+            onMouseEnter={() => setChartFocus(true)}
+            onMouseLeave={() => {
+              setFocusedYear(null);
+              setChartFocus(false);
+            }}
+            onBlur={() => {
+              setFocusedYear(null);
+              setHighlightIndex(null);
+              setChartFocus(false);
+            }}
             role="presentation"
           >
             <ResponsiveContainer height={164} width="99%">
@@ -168,6 +178,11 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                       dot={<CustomDotNoAnimation focusedYear={focusedYear} />}
                       isAnimationActive={false}
                       activeDot={false}
+                      tabIndex={0}
+                      onFocus={() => {
+                        setChartFocus(true);
+                        setHighlightIndex(index);
+                      }}
                     />
                   );
                 })}
@@ -176,6 +191,8 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                   cursor={{ strokeWidth: 0 }}
                   isAnimationActive={false}
                   allowEscapeViewBox={width > pxToNumber(breakpointLg) ? { x: true } : { y: true }}
+                  defaultIndex={highlightIndex}
+                  active={chartFocus}
                 />
               </LineChart>
             </ResponsiveContainer>

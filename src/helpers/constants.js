@@ -107,6 +107,9 @@ const globalConstants = {
     stickyMinimize: 'Minimize Download Bar',
     stickyShowDetails: 'Show Download Details',
   },
+  dataTable: {
+    DEFAULT_ROWS_PER_PAGE: 10,
+  },
 };
 
 // Object.freeze(globalConstants);
