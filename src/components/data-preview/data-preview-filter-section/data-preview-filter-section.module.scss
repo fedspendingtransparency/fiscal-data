@@ -1,0 +1,18 @@
+@import 'src/variables.module';
+
+.filterContainer {
+  display: flex;
+  gap: 0.5rem;
+}
+.filterAndDownloadContainer {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: $breakpoint-md - 1) {
+  .filterContainer {
+    flex-direction: column;
+  }
+}

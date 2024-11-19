@@ -1,14 +1,19 @@
 import React, { FocusEventHandler, FunctionComponent, ReactElement, useRef } from 'react';
 import useOnClickOutside from 'use-onclickoutside';
-import { dropdownContainer } from './dropdown-container.module.scss';
 
 interface IDropdownContainer {
   dropdownButton: ReactElement;
   children: ReactElement;
   setActive: (activeState: boolean) => void;
+  containerWidth?: string;
 }
 
-const DropdownContainer: FunctionComponent<IDropdownContainer> = ({ dropdownButton, children, setActive }: IDropdownContainer) => {
+const DropdownContainer: FunctionComponent<IDropdownContainer> = ({
+  dropdownButton,
+  children,
+  setActive,
+  containerWidth = '20rem',
+}: IDropdownContainer) => {
   const dropdownRef = useRef(null);
 
   /* accessibility-enabling event handlers for interpreting focus state on control */
@@ -38,7 +43,7 @@ const DropdownContainer: FunctionComponent<IDropdownContainer> = ({ dropdownButt
   };
 
   return (
-    <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation" className={dropdownContainer}>
+    <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation" style={{ width: containerWidth }}>
       {dropdownButton}
       {children}
     </div>

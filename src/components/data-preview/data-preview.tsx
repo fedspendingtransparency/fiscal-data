@@ -5,7 +5,6 @@ import { detailViewNotice, lockIcon, placeholderButton, placeholderText } from '
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
-import { ENV_ID } from 'gatsby-env-variables';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { TableCache } from '../dataset-data/table-cache/table-cache';
@@ -308,41 +307,41 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
                 <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
               </div>
             )}
+            {dateRange && (
+              <DataPreviewSectionContainer
+                config={config}
+                dateRange={dateRange}
+                selectedTable={selectedTable}
+                userFilterSelection={userFilterSelection}
+                setUserFilterSelection={setUserFilterSelection}
+                apiData={apiData}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                apiError={apiError}
+                selectedPivot={selectedPivot}
+                setSelectedPivot={setSelectedPivot}
+                serverSidePagination={serverSidePagination}
+                selectedTab={selectedTab}
+                tabChangeHandler={setSelectedTab}
+                handleIgnorePivots={setIgnorePivots}
+                allTablesSelected={allTablesSelected}
+                handleConfigUpdate={() => setConfigUpdated(true)}
+                tableColumnSortData={tableColumnSortData}
+                setTableColumnSortData={setTableColumnSortData}
+                hasPublishedReports={!!publishedReports}
+                publishedReports={publishedReports}
+                resetFilters={resetFilters}
+                setResetFilters={setResetFilters}
+                setDetailViewState={setDetailViewState}
+                detailViewState={detailViewState}
+                customFormatting={selectedTable?.customFormatting}
+                summaryValues={summaryValues}
+                setSummaryValues={setSummaryValues}
+                allActiveFilters={allActiveFilters}
+                setAllActiveFilters={setAllActiveFilters}
+              />
+            )}
           </DataPreviewFilterSection>
-        )}
-        {dateRange && (
-          <DataPreviewSectionContainer
-            config={config}
-            dateRange={dateRange}
-            selectedTable={selectedTable}
-            userFilterSelection={userFilterSelection}
-            setUserFilterSelection={setUserFilterSelection}
-            apiData={apiData}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            apiError={apiError}
-            selectedPivot={selectedPivot}
-            setSelectedPivot={setSelectedPivot}
-            serverSidePagination={serverSidePagination}
-            selectedTab={selectedTab}
-            tabChangeHandler={setSelectedTab}
-            handleIgnorePivots={setIgnorePivots}
-            allTablesSelected={allTablesSelected}
-            handleConfigUpdate={() => setConfigUpdated(true)}
-            tableColumnSortData={tableColumnSortData}
-            setTableColumnSortData={setTableColumnSortData}
-            hasPublishedReports={!!publishedReports}
-            publishedReports={publishedReports}
-            resetFilters={resetFilters}
-            setResetFilters={setResetFilters}
-            setDetailViewState={setDetailViewState}
-            detailViewState={detailViewState}
-            customFormatting={selectedTable?.customFormatting}
-            summaryValues={summaryValues}
-            setSummaryValues={setSummaryValues}
-            allActiveFilters={allActiveFilters}
-            setAllActiveFilters={setAllActiveFilters}
-          />
         )}
       </div>
     </DatasetSectionContainer>
