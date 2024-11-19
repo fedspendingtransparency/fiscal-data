@@ -20,6 +20,7 @@ import DateRangeFilter from './data-preview-filter-section/date-range-filter/dat
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
 import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } from './data-preview.module.scss';
 import Analytics from '../../utils/analytics/analytics';
+import { withWindowSize } from 'react-fns';
 
 type DataPreviewProp = {
   config;
@@ -348,4 +349,4 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
   );
 };
 
-export default DataPreview;
+export default withWindowSize(DataPreview);
