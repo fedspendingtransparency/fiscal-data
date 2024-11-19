@@ -24,8 +24,32 @@ import GLOBALS from '../../../helpers/constants';
 import DataPreviewDataTable from '../data-preview-data-table/data-preview-data-table';
 const DEFAULT_ROWS_PER_PAGE = GLOBALS.dataTable.DEFAULT_ROWS_PER_PAGE;
 
+interface ITableProps {
+  dePaginated;
+  rawData;
+  data;
+  width;
+  tableName;
+  shouldPage;
+  excludeCols;
+  selectedTable;
+  selectedPivot;
+  dateRange;
+  config;
+  columnConfig;
+  detailColumnConfig;
+  selectColumns;
+  hideColumns;
+  hasPublishedReports;
+  publishedReports;
+  customFormatting;
+  apiError;
+  aria;
+  serverSidePagination;
+}
+
 type DataPreviewTableProps = {
-  tableProps;
+  tableProps: ITableProps;
   perPage;
   setPerPage;
   selectColumnPanel;
