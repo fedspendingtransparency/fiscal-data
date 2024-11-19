@@ -1,34 +1,4 @@
-@import 'src/variables.module';
-
-.detailViewNotice {
-  display: flex;
-  font-weight: $semi-bold-weight;
-  font-size: $font-size-16;
-
-  .lockIcon {
-    padding-right: 0.5rem;
-    height: 1rem;
-    width: 0.875rem;
-    padding-top: 0.125rem;
-  }
-}
-
-.placeholderText {
-  font-size: $font-size-18;
-  padding: 4.8px 0;
-}
-
-.placeholderButton {
-  height: 3rem;
-  width: 70%;
-  background-color: #d9d9d9;
-  margin-top: 1rem;
-  border-radius: .125rem;
-}
-
-.tableContainer {
-  min-height: 44.125rem;
-}
+@import '../../variables.module.scss';
 
 .dataPreview {
   display: flex;
@@ -44,17 +14,16 @@
   font-size: $font-size-24;
   font-weight: $semi-bold-weight;
 }
-.selectedTableName {
-  color: $font-body-copy;
-  font-size: $font-size-18;
-  font-weight: $semi-bold-weight;
-}
-
-@media screen and (max-width: $breakpoint-sm) {
+@media screen and (max-width: $breakpoint-lg) {
   .dataPreview {
     display: grid;
   }
   .dataPreviewTitle {
     padding-bottom: 1rem;
   }
+}
+.selectedTableName {
+  color: $font-body-copy;
+  font-size: $font-size-18;
+  font-weight: $semi-bold-weight;
 }
