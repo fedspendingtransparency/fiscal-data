@@ -19,6 +19,7 @@ import DataPreviewFilterSection from './data-preview-filter-section/data-preview
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
 import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } from './data-preview.module.scss';
+import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
 
 type DataPreviewProp = {
@@ -69,7 +70,6 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;
-  const title = ENV_ID === 'uat' ? 'Data Preview' : 'Preview & Download';
   const shouldUseLoadByPage = pivot => {
     return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
@@ -224,7 +224,15 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
         <div className={dataPreviewHeader}>
           <span className={dataPreviewTitle}>Data Preview</span>
         </div>
-        <DataPreviewTableSelectDropdown tableName={selectedTable?.tableName} />
+        <DataPreviewTableSelectDropdown
+          apis={filteredApis}
+          selectedTable={selectedTable}
+          setSelectedTable={handleSelectedTableChange}
+          allTablesSelected={allTablesSelected}
+          earliestDate={config.techSpecs.earliestDate}
+          latestDate={config.techSpecs.latestDate}
+          disableAllTables={config?.disableAllTables}
+        />
       </div>
       <div className={selectedTableName}>{selectedTable?.tableName}</div>
       <div>
