@@ -17,6 +17,7 @@ import { insightsDataSources, insightsSections } from './sections/sections';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
+import { InsightHeroImage } from './insight-hero-image/insight-hero-image';
 
 interface IInsightSection {
   component: ReactElement;
@@ -30,7 +31,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
     <SiteLayout isPreProd={false}>
       <PageHelmet pageTitle={seoConfig.pageTitle} description={seoConfig.description} keywords={seoConfig.keywords} />
       <div className={insightsContainer}>
-        <h1 className={sectionHeading}>{heroImage.heading}</h1>
+        <InsightHeroImage heading={heroImage.heading}></InsightHeroImage>
         {width < pxToNumber(breakpointLg) && (
           <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
         )}

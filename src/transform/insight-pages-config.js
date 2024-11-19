@@ -9,7 +9,7 @@ const insightPagesSource = {
     },
     prodReady: false,
     heroImage: {
-      heading: 'Interest Expense and Average Interest Rates on the National Debt FY {YYYY} – FYTD {YYYY}',
+      heading: 'yo',
       subHeading: '',
     },
   },
