@@ -28,7 +28,7 @@
     overflow-x: hidden;
     text-overflow: ellipsis;
   }
-  @media screen and (max-width: $breakpoint-sm) {
+  @media screen and (max-width: $breakpoint-lg) {
     max-width: 100%;
     width: 20rem;
   }
