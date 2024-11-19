@@ -1,35 +1,15 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {
-  longerPaginatedDataResponse,
-  mockPaginatedTableProps,
-  shortPaginatedDataResponse,
-  TestData,
-  TestDataOneRow,
-  MoreTestData,
-  DetailViewTestData,
-} from '../../dtg-table/test-data';
-import PaginationControls from '../../pagination/pagination-controls';
-import * as ApiUtils from '../../../utils/api-utils';
+import { mockPaginatedTableProps, TestData, MoreTestData, DetailViewTestData } from '../../dtg-table/test-data';
 import * as helpers from '../../dtg-table/dtg-table-helper';
 import { RecoilRoot } from 'recoil';
-import { render, waitFor, within } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import DataPreviewTable from './data-preview-table';
 
 describe('DataPreviewTable component', () => {
   jest.useFakeTimers();
 
   beforeEach(() => jest.resetAllMocks());
-
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(
-      <RecoilRoot>
-        <DataPreviewTable tableProps={{ data: TestData }} />
-      </RecoilRoot>
-    );
-  });
-  const instance = component.root;
 
   it('does not blow up when there is no data in a table', () => {
     const instance = render(
@@ -82,7 +62,7 @@ describe('DataPreviewTable component', () => {
   });
 
   it('renders the defaultRowsPer if shouldPage === true but perPage is not specified and shows range of rows showing out of total number of rows with correct default itemsPerPage', () => {
-    const { getByText, getAllByRole, getByRole } = render(
+    const { getByText, getAllByRole } = render(
       <RecoilRoot>
         <DataPreviewTable
           tableProps={{ rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, shouldPage: true }}
@@ -297,25 +277,6 @@ describe('Loading table data', () => {
     );
     expect(getByRole('table')).toBeInTheDocument();
   });
-
-  // it('loads dePaginated data for table less than 20000 rows', () => {
-  //   const mockSetIsLoading = jest.fn();
-  //   const mockSetManualPagination = jest.fn();
-  //   const { getByRole } = render(
-  //     <DataPreviewTable
-  //       tableProps={{
-  //         dePaginated: { data: MoreTestData },
-  //         selectedTable: { rowCount: 120000 },
-  //         tableMeta: { 'total-count': 12 },
-  //         shouldPage: true,
-  //       }}
-  //       setManualPagination={mockSetManualPagination}
-  //       setIsLoading={mockSetIsLoading}
-  //     />,
-  //     { wrapper: RecoilRoot }
-  //   );
-  //   expect(getByRole('table')).toBeInTheDocument();
-  // });
 
   it('loads rawData data', () => {
     const mockSetIsLoading = jest.fn();
