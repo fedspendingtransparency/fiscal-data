@@ -1,5 +1,7 @@
 @import 'src/variables.module';
 
+$icon-width: 1.5rem;
+
 .desktopButton,
 .mobileButton {
   display: flex;
@@ -11,21 +13,30 @@
   border: none;
   border-radius: 3px;
   padding: 10px 1rem;
-}
-
-.desktopButton {
-  gap: 0.5rem;
   .icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: $icon-width;
+    height: $icon-width;
   }
 }
 
+.desktopButton {
+  gap: 0.5rem;
+}
+
 .mobileButton {
+  margin: 1rem auto 0;
   width: 100%;
-  .buttonActive {
+  max-width: 20.5rem;
+  .buttonText {
+    width: calc(100% - $icon-width);
+    margin-left: $icon-width;
+  }
+
+  &.buttonActive {
+    //TODO Additional styling for when the download panel is addded
+    //flex-direction: row-reverse;
   }
 }
