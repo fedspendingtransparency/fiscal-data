@@ -4,7 +4,7 @@ import { stringify } from 'csv-stringify/sync';
 import { replaceNbsps } from './download-helpers';
 
 export const convertDataDictionaryToCsv = dataset => {
-  const apis = dataset.apis;
+  const apis = dataset?.apis;
   if (apis && apis[0] && apis[0].fields && apis[0].fields.length) {
     const allTableFields = apis.reduce((accumulated, current) => {
       return accumulated.concat(addDataset(current.fields, dataset));
