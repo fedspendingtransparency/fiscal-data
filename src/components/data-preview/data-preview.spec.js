@@ -59,6 +59,7 @@ jest.mock('../../helpers/dataset-detail/report-helpers', function() {
 jest.mock('../../variables.module.scss', () => {
   return {
     breakpointSm: 600,
+    breakpointLg: '992',
   };
 });
 
