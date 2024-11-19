@@ -5,7 +5,6 @@ import { detailViewNotice, lockIcon, placeholderButton, placeholderText } from '
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
-import { ENV_ID } from 'gatsby-env-variables';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { TableCache } from '../dataset-data/table-cache/table-cache';
@@ -18,7 +17,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
-import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } from './data-preview.module.scss';
 import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
