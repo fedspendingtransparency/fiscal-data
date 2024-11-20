@@ -28,4 +28,6 @@ const interestExpenseSections = [
   },
 ];
 
+export const interestExpenseDescriptionGenerator = () => {};
+
 export default interestExpenseSections;
