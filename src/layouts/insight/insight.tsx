@@ -19,8 +19,6 @@ interface IInsightSection {
 const InsightPageLayout = ({ pageContext, width }) => {
   const { pageName, seoConfig, heroImage } = pageContext;
 
-  console.log(insightHeroMap[pageName].component());
-
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet pageTitle={seoConfig.pageTitle} description={seoConfig.description} keywords={seoConfig.keywords} />
