@@ -1,0 +1,8 @@
+@import '../../../variables.module.scss';
+
+.infoContainer {
+  margin-top: 1rem;
+  .note {
+    font-weight: $semi-bold-weight;
+  }
+}

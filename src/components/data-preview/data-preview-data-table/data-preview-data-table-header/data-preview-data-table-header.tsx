@@ -1,3 +1,7 @@
+import React, { FunctionComponent } from 'react';
+import { IDataTableHeader } from '../../../../models/IDataTableHeader';
+import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import {
   colHeader,
   colHeaderText,
@@ -10,26 +14,14 @@ import {
   sortArrow,
   sortArrowPill,
   stickyHeader,
-} from './data-table-header.module.scss';
-import { flexRender, Table } from '@tanstack/react-table';
+} from '../../../data-table/data-table-header/data-table-header.module.scss';
+import { getColumnFilter, rightAlign } from '../../../data-table/data-table-helper';
+import { flexRender } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightArrowLeft, faArrowUpShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { rightAlign, getColumnFilter } from '../data-table-helper';
-import React, { FunctionComponent } from 'react';
-import Tooltip from '@material-ui/core/Tooltip';
-import { withStyles } from '@material-ui/core/styles';
-import { IDataTableHeader } from '../../../models/IDataTableHeader';
 
-const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
-  table,
-  dataTypes,
-  resetFilters,
-  manualPagination,
-  allActiveFilters,
-  setAllActiveFilters,
-  disableDateRangeFilter,
-}) => {
+const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, allActiveFilters, setAllActiveFilters }) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
       color: '#555555',
@@ -125,18 +117,6 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
-                      <div className={columnMinWidth}>
-                        {getColumnFilter(
-                          header,
-                          columnDataType,
-                          resetFilters,
-                          allActiveFilters,
-                          setAllActiveFilters,
-                          manualPagination,
-                          isLastColumn,
-                          disableDateRangeFilter
-                        )}
-                      </div>
                     </>
                   )}
                   <div
@@ -155,4 +135,4 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   );
 };
 
-export default DataTableHeader;
+export default DataPreviewDataTableHeader;

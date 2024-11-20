@@ -18,6 +18,8 @@ const AFGDebtChart = (): ReactElement => {
   const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [chartFocus, setChartFocus] = useState(false);
+  const [customTooltipData, setCustomTooltipData] = useState(null);
 
   const debtEndpointUrl = '/v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding&sort=-record_date';
   const deficitEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date';
@@ -49,12 +51,44 @@ const AFGDebtChart = (): ReactElement => {
     return sortedData.map(yearlyData => {
       const dataYear = yearlyData.year;
       const opacity = focusedYear === dataYear || focusedYear === null ? 1 : 0.5;
+      const length =
+        Object.keys(yearlyData).filter(propName => {
+          return propName !== 'year' && propName !== 'tooltip';
+        }).length - 1;
       return Object.keys(yearlyData)
         .filter(propName => {
           return propName !== 'year' && propName !== 'tooltip';
         })
-        .map(valueName => {
+        .map((valueName, index) => {
           const barName = valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : '';
+          if (index === length) {
+            return (
+              <Bar
+                dataKey={valueName}
+                stackId="debtBar"
+                fill={mapBarColors(valueName)}
+                fillOpacity={opacity}
+                strokeWidth={0}
+                name={barName}
+                barSize={16}
+                tabIndex={0}
+                style={{
+                  outline: 'none',
+                }}
+                onFocus={() => {
+                  setFocusedYear(yearlyData.year);
+                  setCustomTooltipData([
+                    {
+                      dataKey: valueName,
+                      hide: false,
+                      name: valueName,
+                      payload: yearlyData,
+                    },
+                  ]);
+                }}
+              />
+            );
+          }
           return (
             <Bar
               dataKey={valueName}
@@ -162,8 +196,18 @@ const AFGDebtChart = (): ReactElement => {
           <div
             className={chartContainer}
             data-testid="chartContainer"
-            onMouseLeave={() => setFocusedYear(null)}
-            onBlur={() => setFocusedYear(null)}
+            onMouseEnter={() => setChartFocus(true)}
+            onMouseLeave={() => {
+              setFocusedYear(null);
+              setChartFocus(false);
+              setCustomTooltipData(null);
+            }}
+            onFocus={() => setChartFocus(true)}
+            onBlur={() => {
+              setFocusedYear(null);
+              setChartFocus(false);
+              setCustomTooltipData(null);
+            }}
             role="presentation"
           >
             <ResponsiveContainer height={164} width="99%">
@@ -199,10 +243,12 @@ const AFGDebtChart = (): ReactElement => {
                 />
                 {generateBar(finalChartData)}
                 <Tooltip
-                  content={<CustomTooltip setFocused={setFocusedYear} labelByYear curFY={currentFY} />}
+                  wrapperStyle={{ visibility: 'visible' }}
+                  content={<CustomTooltip setFocused={setFocusedYear} labelByYear curFY={currentFY} customData={customTooltipData} />}
                   cursor={{ fillOpacity: 0 }}
                   shared={false}
                   isAnimationActive={false}
+                  active={chartFocus}
                 />
               </BarChart>
             </ResponsiveContainer>

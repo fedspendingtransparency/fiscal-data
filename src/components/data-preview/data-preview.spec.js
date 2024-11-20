@@ -1,11 +1,506 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
+import DataTableSelect from '../datatable-select/datatable-select';
+import { format } from 'date-fns';
+import { pivotData } from '../../utils/api-utils';
+import {
+  config,
+  mockApiData,
+  latestDate,
+  fivePrior,
+  mockLocation,
+  mockLocationWithTablePathName,
+  mockPivotableData,
+  mockAccumulableData,
+  bannerTableConfig,
+} from '../../components/dataset-data/test-helper';
+import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-helper/dataset-data-helper';
+import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
+import PublishedReports from '../published-reports/published-reports';
+import Analytics from '../../utils/analytics/analytics';
+import { whiteListIds, mockPublishedReportsMTS } from '../../helpers/published-reports/published-reports';
+import PagingOptionsMenu from '../pagination/paging-options-menu';
+import { fireEvent, render } from '@testing-library/react';
+import { reports } from '../published-reports/test-helper';
+import { RecoilRoot } from 'recoil';
 import DataPreview from './data-preview';
-import { render } from '@testing-library/react';
+import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
+import DownloadWrapper from '../download-wrapper/download-wrapper';
+import RangePresets from '../filter-download-container/range-presets/range-presets';
+import DataPreviewDownload from './data-preview-filter-section/data-preview-download/data-preview-download';
+import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 
-describe('data preview', () => {
-  it('renders a placeholder', () => {
-    const instance = render(<DataPreview></DataPreview>);
+jest.useFakeTimers();
+jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
+jest.mock('../../helpers/dataset-detail/report-helpers', function() {
+  return {
+    __esModule: true,
+    getPublishedDates: jest.fn().mockImplementation(() => [
+      {
+        path: '/downloads/mspd_reports/opdm092020.pdf',
+        report_group_desc: 'Entire (.pdf)',
+        report_date: new Date('2020-09-30'),
+        filesize: '188264',
+        report_group_sort_order_nbr: 0,
+        report_group_id: 3,
+      },
+    ]),
+    getLatestReport: jest.fn().mockImplementation(() => ({
+      path: '/downloads/mspd_reports/opdm092020.pdf',
+      report_group_desc: 'Entire (.pdf)',
+      report_date: new Date('2020-09-30'),
+      filesize: '188264',
+      report_group_sort_order_nbr: 0,
+      report_group_id: 3,
+    })),
+    getDateLabelForReport: jest.fn().mockImplementation(() => 'Sept 2020'),
+  };
+});
+jest.mock('../../variables.module.scss', () => {
+  return {
+    breakpointSm: 600,
+    breakpointLg: '992',
+  };
+});
 
-    expect(instance).toBeTruthy();
+describe('DataPreview', () => {
+  global.console.error = jest.fn();
+  global.fetch = jest.fn(() => {
+    return Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(mockApiData),
+    });
+  });
+
+  const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+  let component;
+  let instance;
+  const setSelectedTableMock = jest.fn();
+  const urlRewriteSpy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
+  const fetchSpy = jest.spyOn(global, 'fetch');
+
+  beforeEach(async () => {
+    await renderer.act(async () => {
+      component = await renderer.create(
+        <RecoilRoot>
+          <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+        </RecoilRoot>
+      );
+      instance = component.root;
+    });
+  });
+
+  afterEach(() => {
+    fetchSpy.mockClear();
+    global.fetch.mockClear();
+    analyticsSpy.mockClear();
+    global.console.error.mockClear();
+  });
+
+  const updateTable = async tableName => {
+    const fdSectionInst = instance.findByType(DataPreviewFilterSection);
+    const toggleBtn = fdSectionInst.findByProps({
+      'data-testid': 'dropdownToggle',
+    });
+    await renderer.act(() => {
+      toggleBtn.props.onClick();
+    });
+    instance.findByProps({ 'data-testid': 'dropdown-list' }); // will throw error if not found
+    const dropdownOptions = instance.findAllByProps({
+      'data-testid': 'dropdown-list-option',
+    });
+    await renderer.act(async () => {
+      const opt = dropdownOptions.find(ddo => ddo.props.children.props.children === tableName);
+      await opt.props.onClick();
+    });
+    return dropdownOptions;
+  };
+
+  it(`renders the DataPreview component which has the expected title text at desktop mode`, () => {
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const title = getByTestId('sectionHeader');
+    expect(title.innerHTML).toBe('');
+  });
+
+  it(`contains a DataPreviewFilterSection  component`, () => {
+    expect(instance.findByType(DataPreviewFilterSection)).toBeDefined();
+  });
+
+  it(`initializes the selected table to the first element in the apis array`, () => {
+    expect(instance.findByType(DataPreviewFilterSection).props.selectedTable.tableName).toBe(config.apis[0].tableName);
+  });
+
+  it('calls rewriteUrl to append the table name but does not send a lastUrl (in order to prevent triggering an analytics hit)', () => {
+    expect(urlRewriteSpy).toHaveBeenNthCalledWith(1, config.apis[0], '/mock-dataset/', {
+      pathname: '/datasets/mock-dataset/',
+    });
+  });
+
+  it('selects the correct table when it is specified in the url', async () => {
+    const setSelectedTableFromUrl = jest.fn();
+    render(
+      <RecoilRoot>
+        <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableFromUrl} location={mockLocationWithTablePathName} />
+      </RecoilRoot>
+    );
+
+    expect(setSelectedTableFromUrl).toHaveBeenCalledWith(config.apis[2]);
+  });
+
+  it(`initializes the dateRange to the appropriate values`, () => {
+    const dateRange = instance.findByType(DataPreviewFilterSection).props.dateRange;
+    const from = format(dateRange.from, 'yyyy-MM-dd');
+    const to = format(dateRange.to, 'yyyy-MM-dd');
+    expect(to).toContain(latestDate);
+    // should be previous 5 years since the earliestDate is more than 5 years
+    expect(from).toContain(fivePrior);
+  });
+
+  // it(`updates date range to appropriate values when new table is selected`, async () => {
+  //   await updateTable('Table 3');
+  //   const dateRange = instance.findAllByType(DataPreviewFilterSection).find(dr => dr.props && dr.props.dateRange !== undefined).props.dateRange;
+  //   const from = format(dateRange.from, 'yyyy-MM-dd');
+  //   const to = format(dateRange.to, 'yyyy-MM-dd');
+  //   expect(to).toContain(latestDate);
+  //   // should be earliestDate since the earliestDate is less than 5 years
+  //   expect(from).not.toContain(fivePrior);
+  // });
+  //
+  // it(`sends the updated props to DataPreviewFilterSection  component when a new data table is
+  // selected`, async () => {
+  //   const dropdownOptions = await updateTable('Table 2');
+  //   expect(dropdownOptions.length).toBe(12);
+  //   expect(instance.findByType(DataPreviewFilterSection).props.selectedTable.tableName).toBe(config.apis[1].tableName);
+  // });
+  //
+  // it(`records an analytics event when a new table is selected`, async () => {
+  //   await updateTable('Table 2');
+  //   expect(analyticsSpy).toHaveBeenLastCalledWith({
+  //     category: 'Data Table Selector',
+  //     action: 'Pick Table Click',
+  //     label: 'Table 2',
+  //   });
+  // });
+
+  it(`correctly prepares pivoted data without aggregation`, () => {
+    const pivotedData = pivotData(
+      mockPivotableData,
+      'reporting_date',
+      {
+        dimensionField: 'security_desc',
+        title: 'by sec type',
+      },
+      'avg_interest_rate_amt',
+      null,
+      '2016-03-25',
+      '2021-03-25'
+    );
+    expect(pivotedData).toMatchSnapshot();
+
+    // ensure that when some columns are not populated on some rows,
+    // all columns are still captured in the meta.dataTypes & meta.labels
+    const dataTypes = Object.keys(pivotedData.meta.dataTypes);
+    expect(dataTypes.length).toEqual(9);
+    expect(dataTypes.includes('Treasury Nickels')).toBeTruthy();
+    expect(pivotedData.meta.labels['Treasury Nickels']).toEqual('Treasury Nickels');
+    expect(dataTypes.includes('Treasury Notes')).toBeTruthy();
+    expect(pivotedData.meta.labels['Treasury Notes']).toEqual('Treasury Notes');
+  });
+
+  it(`correctly prepares pivoted data with aggregation and summing and handles non-numeric
+  values`, () => {
+    const mockPivotView = { dimensionField: 'class_desc', title: 'By Classification' };
+
+    const mockAggregation = [
+      {
+        field: 'record_calendar_year',
+        type: 'YEAR',
+      },
+      {
+        field: 'record_calendar_month',
+        type: 'MONTH',
+      },
+    ];
+
+    const pivotedData = pivotData(mockAccumulableData, 'reporting_date', mockPivotView, 'cost', mockAggregation, '2020-01-01', '2021-03-25');
+    expect(pivotedData).toMatchSnapshot();
+
+    // ensure that the summing operation occurs instead of using lastRow snapshots
+    expect(pivotedData.data[0]['Federal Bank'].toFixed(4)).toEqual('1010.1010');
+    expect(pivotedData.data[1]['Medical Safe'].toFixed(4)).toEqual('3000000.7000');
+  });
+
+  it(`correctly prepares pivoted data with aggregation when configured with
+  lastRowSnapshot=true`, () => {
+    const mockPivotView = {
+      dimensionField: 'class_desc',
+      title: 'By Classification',
+      lastRowSnapshot: true,
+    };
+
+    const mockAggregation = [
+      {
+        field: 'record_calendar_year',
+        type: 'YEAR',
+      },
+      {
+        field: 'record_calendar_month',
+        type: 'MONTH',
+      },
+    ];
+
+    const pivotedData = pivotData(mockAccumulableData, 'reporting_date', mockPivotView, 'cost', mockAggregation, '2020-01-01', '2021-03-25');
+
+    // ensure that last Row values are used, rather that cross-row summing
+    const lastRowForMayFedBankVal = mockAccumulableData.data[0]['cost']; // '1000.0000'
+    expect(pivotedData.data[0]['Federal Bank']).toStrictEqual(lastRowForMayFedBankVal);
+    const lastRowForAprilMedSafeVal = mockAccumulableData.data[11]['cost']; // '2000000'
+    expect(pivotedData.data[1]['Medical Safe']).toStrictEqual(lastRowForAprilMedSafeVal);
+  });
+
+  // it(`does not pass the pagination endpoint to DTGTable when the rowCount is above 5000
+  // and an a pivot dimension IS active`, async () => {
+  //   await updateTable('Table 5');
+  //   const tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
+  //   expect(tableSectionContainer.props.serverSidePagination).toBe(null);
+  //   expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn.length).toEqual(2);
+  //   expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn[0].field).toEqual('record_calendar_year');
+  // });
+
+  // it(`passes the endpoint to DTGTable for serverside loading when the rowCount is above
+  //   the large table threshold and no pivot dimension or complete table chart is
+  //   is active`, async () => {
+  //   await updateTable('Table 2');
+  //   let tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
+  //   expect(tableSectionContainer.props.serverSidePagination).toBeNull();
+  //   await updateTable('Table 4');
+  //   tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
+  //   expect(tableSectionContainer.props.serverSidePagination).toBe('mockEndpoint4');
+  // });
+  //
+  // it(`does not send the endpoint to DTGTable for serverside loading when the rowCount is above
+  //   the large table threshold but the Complete Table view is chartable`, async () => {
+  //   await updateTable('Table 9');
+  //   const tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
+  //   expect(tableSectionContainer.props.serverSidePagination).toBeNull();
+  // });
+  //
+  // it(`raises state on setSelectedTable when the table is updated`, async () => {
+  //   await updateTable('Table 5');
+  //   expect(setSelectedTableMock).toHaveBeenCalledWith(config.apis[4]);
+  // });
+  //
+  // it(`calls rewriteUrl with correct args including a lastUrl arg when the table is updated
+  // interactively`, async () => {
+  //   const spy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
+  //   await updateTable('Table 5');
+  //   expect(spy).toHaveBeenCalledWith(config.apis[4], '/mock-dataset/', {
+  //     pathname: '/datasets/mock-dataset/',
+  //   });
+  // });
+  //
+  // it(`does not duplicate API calls when a user switches between two tables with
+  // paginated data`, async () => {
+  //   jest.useFakeTimers();
+  //   await updateTable('Table 7'); // select one paginated table
+  //   await updateTable('Table 6'); // then change the selection to another paginated table
+  //   // to await makePagedRequest() debounce timer in DtgTable
+  //   await jest.advanceTimersByTime(800);
+  //   await updateTable('Table 7');
+  //   // confirm that the second table's api url was called only once
+  //   const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint6?') !== -1);
+  //   expect(callsToApiForUpdatedTable.length).toEqual(1);
+  // });
+
+  // it(`does not duplicate api calls when switching from a large table to a small one`, async () => {
+  //   jest.useFakeTimers();
+  //   await updateTable('Table 7'); // select one paginated table
+  //   await updateTable('Table 8'); // then change the selection to a non-paginated table
+  //   // to await makePagedRequest() debounce timer in DtgTable
+  //   const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint8?') !== -1);
+  //   expect(callsToApiForUpdatedTable.length).toEqual(1);
+  // });
+
+  it(`grabs the published reports from the publishedReports prop if the dataset is whitelisted`, async () => {
+    const origId = config.datasetId;
+    const mockDatasetId = Object.keys(mockPublishedReportsMTS)[0];
+    if (whiteListIds && whiteListIds.length) {
+      config.datasetId = whiteListIds[0];
+    }
+
+    getPublishedDates.mockClear();
+
+    await renderer.act(async () => {
+      await renderer.create(
+        <RecoilRoot>
+          <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={mockPublishedReportsMTS[mockDatasetId]} />
+        </RecoilRoot>
+      );
+    });
+    expect(getPublishedDates).toBeCalledTimes(1);
+    expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReportsMTS[mockDatasetId]);
+
+    config.datasetId = origId;
+  });
+
+  it(`published report dates are refreshed when the published reports `, async () => {
+    const mockDatasetId = Object.keys(mockPublishedReportsMTS)[0];
+    const mockPublishedReports = mockPublishedReportsMTS[mockDatasetId];
+    getPublishedDates.mockClear();
+    const { rerender } = render(
+      <RecoilRoot>
+        <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={mockPublishedReports} />
+      </RecoilRoot>
+    );
+    expect(getPublishedDates).toBeCalledTimes(1);
+    expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
+
+    const updatedMockPublishedReportsMTS = [
+      {
+        path: '/downloads/mts_reports/mts102020.pdf',
+        report_group_desc: 'Entire (.pdf)',
+        report_date: '2020-10-30',
+        filesize: '188264',
+        report_group_sort_order_nbr: 0,
+        report_group_id: 3,
+      },
+      {
+        path: '/downloads/mts_reports/mts102020.xls',
+        report_group_desc: 'Primary Dealers (.xls)',
+        report_date: '2020-10-30',
+        filesize: '810496',
+        report_group_sort_order_nbr: 1,
+        report_group_id: 3,
+      },
+      ...mockPublishedReports,
+    ];
+
+    rerender(
+      <RecoilRoot>
+        <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={updatedMockPublishedReportsMTS} />
+      </RecoilRoot>
+    );
+
+    expect(getPublishedDates).toBeCalledTimes(2);
+    expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
+  });
+
+  // it(`transmits a preview-loaded analytics event when reports tab is first selected but not when
+  // toggling back and forth reveals a preview that was already loaded`, async () => {
+  //   analyticsSpy.mockClear();
+  //
+  //   const { getByLabelText } = render(
+  //     <RecoilRoot>
+  //       <DataPreview config={config} publishedReportsProp={reports.slice()} setSelectedTableProp={setSelectedTableMock} />
+  //     </RecoilRoot>
+  //   );
+  //
+  //   // it's not called at at page load
+  //   expect(analyticsSpy.mock.calls.every(callGroup => callGroup.every(call => call.action !== 'load pdf preview'))).toBeTruthy();
+  //
+  //   // select tab to instantiate <PublishedReport />
+  //   // and test that analytics was called to transmit a preview-loaded event
+  //   const rawDataButton = getByLabelText('Raw Data');
+  //   const publishedReportsButton = getByLabelText('Published Reports');
+  //
+  //   fireEvent.click(publishedReportsButton);
+  //
+  //   expect(analyticsSpy).toHaveBeenLastCalledWith({
+  //     action: 'Published Report Preview',
+  //     category: 'Published Report Preview',
+  //     label: '/downloads/mspd_reports/opdm092020.pdf',
+  //   });
+  //   analyticsSpy.mockClear();
+  //   expect(analyticsSpy).not.toHaveBeenCalled();
+  //   // go back to raw data
+  //   fireEvent.click(rawDataButton);
+  //
+  //   // and then back again to published reports
+  //   fireEvent.click(publishedReportsButton);
+  //
+  //   // expect that no duplicate event for report preview-loading will have been transmitted
+  //   expect(analyticsSpy).not.toHaveBeenCalled();
+  // });
+
+  // it(`correctly notifies the download control when all tables are selected`, () => {
+  //   const datatableSelect = instance.findByType(DataTableSelect);
+  //   const downloadWrapper = instance.findByType(DataPreviewDownload);
+  //   expect(downloadWrapper.props.allTablesSelected).toBeFalsy();
+  //   datatableSelect.props.setSelectedTable({ allDataTables: true });
+  //   const downloadWrapperAfter = instance.findByType(DataPreviewDownload);
+  //   expect(downloadWrapperAfter.props.allTablesSelected).toBeTruthy();
+  // });
+
+  it("supplies the dataset's full dateRange to DateRangeFilter  ", () => {
+    const rangePresets = instance.findByType(DateRangeFilter);
+    expect(rangePresets.props.datasetDateRange).toEqual({
+      earliestDate: '2002-01-01',
+      latestDate: '2020-04-13',
+    });
+  });
+
+  // it(`reflects whether "All Tables" is selected to DateRangeFilter   `, async () => {
+  //   const datatableSelect = instance.findByType(DataTableSelect);
+  //
+  //   // passing down a falsy value to range Presets initially
+  //   let rangePresets = instance.findByType(DateRangeFilter);
+  //   expect(rangePresets.props.allTablesSelected).toBeFalsy();
+  //
+  //   // select the All Tables option, and confirm the tables have been sent to Range Presets
+  //   datatableSelect.props.setSelectedTable({ allDataTables: true });
+  //   rangePresets = instance.findByType(DateRangeFilter);
+  //   expect(rangePresets.props.allTablesSelected).toBeTruthy();
+  //
+  //   // confirm that switching back to a single selected table makes downloadTables falsy again
+  //   await updateTable('Table 2');
+  //   rangePresets = instance.findByType(DateRangeFilter);
+  //   expect(rangePresets.props.allTablesSelected).toBeFalsy();
+  // });
+
+  it(`renders the datatable banner when datatableBanner exists`, () => {
+    const bannerText = 'This is a test';
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DataPreview config={bannerTableConfig} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    expect(getByTestId('datatable-banner')).toHaveTextContent(bannerText);
+  });
+});
+
+describe('Nested Data Table', () => {
+  global.console.error = jest.fn();
+  const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+  let instance;
+  const setSelectedTableMock = jest.fn();
+  const fetchSpy = jest.spyOn(global, 'fetch');
+  beforeEach(async () => {
+    instance = render(
+      <RecoilRoot>
+        <DataPreview
+          config={{ ...config, detailView: { apiId: 300 } }}
+          width={2000}
+          setSelectedTableProp={setSelectedTableMock}
+          location={mockLocation}
+        />
+      </RecoilRoot>
+    );
+  });
+
+  afterEach(() => {
+    fetchSpy.mockClear();
+    global.fetch.mockClear();
+    analyticsSpy.mockClear();
+    global.console.error.mockClear();
+  });
+
+  it('Renders the summary table', () => {
+    expect(instance).toBeDefined();
   });
 });
