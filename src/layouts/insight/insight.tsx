@@ -48,7 +48,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
           </div>
           <div className={relatedContent}>
             {width >= pxToNumber(breakpointLg) && (
-              <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
+              <SocialShare copy={insightSocialShareMap[pageName]} pageName="Interest Expense" headerLevel="h2" displayStyle="responsive" />
             )}
             <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} />
             <CitationList header="Discover Datasets" citations={discoverDatasetsCitationsMap[pageName]} />
