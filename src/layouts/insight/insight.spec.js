@@ -3,7 +3,11 @@ import { render } from '@testing-library/react';
 import InsightPageLayout from './insight';
 import { RecoilRoot } from 'recoil';
 import fetchMock from 'fetch-mock';
-import { mockInterestExpenseHeroCurrentResponse, mockInterestExpenseHeroOlderResponse } from './insight-test-helper';
+import {
+  mockInterestExpenseHeroCurrentResponse,
+  mockInterestExpenseHeroOlderResponse,
+  mockInterestExpenseSummableAmountResponse,
+} from './insight-test-helper';
 
 describe('Insights Template', () => {
   beforeEach(() => {
@@ -15,6 +19,11 @@ describe('Insights Template', () => {
     fetchMock.get(
       `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`,
       mockInterestExpenseHeroCurrentResponse,
+      { overwriteRoutes: false, repeat: 1 }
+    );
+    fetchMock.get(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_date:eq:2025-05-31`,
+      mockInterestExpenseSummableAmountResponse,
       { overwriteRoutes: false, repeat: 1 }
     );
   });
