@@ -1,0 +1,14 @@
+@import '../../../variables.module.scss';
+
+.infoContainer {
+  margin-top: 1rem;
+  .note {
+    font-weight: $semi-bold-weight;
+  }
+}
+
+@media (min-width: $breakpoint-sm) {
+  .infoContainer {
+    margin-right: 2.5rem;
+  }
+}
