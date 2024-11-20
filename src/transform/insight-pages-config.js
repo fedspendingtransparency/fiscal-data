@@ -9,7 +9,7 @@ const insightPagesSource = {
     },
     prodReady: false,
     heroImage: {
-      heading: 'yo',
+      heading: '',
       subHeading: '',
     },
   },

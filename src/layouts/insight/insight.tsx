@@ -1,15 +1,7 @@
 import React, { ReactElement } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import {
-  sectionHeading,
-  mainContent,
-  lastUpdated,
-  contentContainer,
-  relatedContent,
-  insightsContainer,
-  sectionContainer,
-} from './insight.module.scss';
+import { mainContent, lastUpdated, contentContainer, relatedContent, insightsContainer, sectionContainer } from './insight.module.scss';
 import SocialShare from '../../components/social-share/social-share';
 import { discoverDatasetsCitationsMap, exploreMoreCitationsMap, insightHeroMap, insightSocialShareMap } from '../../helpers/insights/insight-helpers';
 import CitationList from '../../components/citation-list/citation-list';
@@ -26,6 +18,8 @@ interface IInsightSection {
 
 const InsightPageLayout = ({ pageContext, width }) => {
   const { pageName, seoConfig, heroImage } = pageContext;
+
+  console.log(insightHeroMap[pageName].component());
 
   return (
     <SiteLayout isPreProd={false}>
