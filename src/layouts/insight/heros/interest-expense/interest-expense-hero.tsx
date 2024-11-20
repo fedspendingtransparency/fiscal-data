@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { ReactElement } from 'react';
-import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { sectionHeading } from '../../insight.module.scss';
+import { getCurrentInterestExpData, getOlderInterestExpData } from '../../sections/interest-expense/interest-expense';
 
 export const InterestExpenseHero = (): ReactElement => {
   const [headerText, setHeaderText] = useState(null);
 
   useEffect(() => {
     const constructInterestPageHeader = async () => {
-      const currentResult = await basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`);
-      const olderResult = await basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=record_date&page[size]=1`);
+      const currentResult = await getCurrentInterestExpData();
+      const olderResult = await getOlderInterestExpData();
       const currentFY = currentResult.data[0].record_fiscal_year;
       const recordFY = olderResult.data[0].record_fiscal_year;
       let start;
