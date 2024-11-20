@@ -1,27 +1,25 @@
 import fetchMock from 'fetch-mock';
-import { queryClient } from '../../../../../react-query-client';
+
 import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { InterestExpenseHero } from './interest-expense-hero';
 import { mockInterestExpenseHeroCurrentResponse, mockInterestExpenseHeroOlderResponse } from '../../insight-test-helper';
 
 describe('Interest Expense Hero', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=record_date&page[size]=1`,
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=record_date&page[size]=1`,
       mockInterestExpenseHeroOlderResponse,
-      { overwriteRoutes: true },
-      { repeat: 1 }
+      { overwriteRoutes: false, repeat: 1 }
     );
     fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`,
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`,
       mockInterestExpenseHeroCurrentResponse,
-      { overwriteRoutes: true },
-      { repeat: 1 }
+      { overwriteRoutes: false, repeat: 1 }
     );
   });
   afterEach(() => {
-    queryClient.clear();
+    fetchMock.restore();
   });
 
   it('Hero Image section loads with relevant data', async () => {
@@ -32,7 +30,5 @@ describe('Interest Expense Hero', () => {
 
     await waitFor(() => getByText('2012', { exact: false }));
     expect(await getByText('Interest Expense and Average Interest Rates on the National Debt FY 2012 – 2025', { exact: false })).toBeInTheDocument();
-
-    global.fetch.mockRestore();
   });
 });
