@@ -2,6 +2,8 @@ import pdf from '../../../../static/images/file-type-icons/file_type_pdf_icon.sv
 import xls from '../../../../static/images/file-type-icons/file_type_xls_icon.svg';
 import txt from '../../../../static/images/file-type-icons/file_type_txt_icon.svg';
 import xml from '../../../../static/images/file-type-icons/file_type_xml_icon.svg';
+import { monthFullNames } from '../../../utils/api-utils';
+import { IReports } from '../reports-section/reports-section';
 
 export const getYearReportOptions = reports => {
   const yearsFound = [];
@@ -195,4 +197,28 @@ export const getFileDisplay = curReportFile => {
       return { fullName: fullDisplayName, displayName: fileDisplayName || '', fileType: downloadFileType };
     }
   }
+};
+
+export const getAllReportDates = (isDaily, sortedReports) => {
+  const allDates = [];
+  const allYears = [];
+
+  if (isDaily) {
+    sortedReports.map(report => {
+      const reportDt = report.report_date;
+      const reportMonth = monthFullNames[reportDt.getMonth()];
+      const reportDay = reportDt.getDate();
+      const reportYear = reportDt.getFullYear();
+      const dateStr = reportMonth + ' ' + reportDay + ', ' + reportYear;
+      allDates.push(dateStr);
+    });
+  } else {
+    sortedReports.forEach(report => {
+      const reportDt = report.report_date;
+      const dateStr = reportDt.toLocaleString('default', { month: 'long', year: 'numeric' });
+      allDates.push(dateStr);
+      allYears.push(reportDt.getFullYear());
+    });
+  }
+  return { allDates, allYears };
 };

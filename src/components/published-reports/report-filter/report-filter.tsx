@@ -9,9 +9,10 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 interface IReportFilter {
   reports: IReports[];
+  setAllReports: (reportGroup: IReports[]) => void;
 }
 
-const ReportFilter: FunctionComponent<IReportFilter> = ({ reports }: IReportFilter) => {
+const ReportFilter: FunctionComponent<IReportFilter> = ({ reports, setAllReports }: IReportFilter) => {
   const [reportGroups, setReportGroups] = useState({});
   const [selectedReportGroup, setSelectedReportGroup] = useState<IReports>();
   const [searchBarActive, setSearchBarActive] = useState(false);
@@ -22,6 +23,7 @@ const ReportFilter: FunctionComponent<IReportFilter> = ({ reports }: IReportFilt
 
   useEffect(() => {
     if (reportGroups) {
+      console.log(reportGroups);
       setSelectedReportGroup(reportGroups[0]);
     }
   }, [reportGroups]);
@@ -31,6 +33,8 @@ const ReportFilter: FunctionComponent<IReportFilter> = ({ reports }: IReportFilt
   const onReportChange = (report: IReports) => {
     if (report !== null) {
       setSelectedReportGroup(report);
+      setAllReports(report.value);
+      console.log(report);
       setTimeout(() => {
         setActive(false);
       });

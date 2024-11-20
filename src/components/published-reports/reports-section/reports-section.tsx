@@ -5,8 +5,7 @@ import { reportsTip, note, filtersContainer, reportFilterContainer } from './rep
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 import ReportDatePicker from '../report-date-picker/report-date-picker';
-import { monthFullNames } from '../../../utils/api-utils';
-import { isReportGroupDailyFrequency } from '../util/util';
+import { isReportGroupDailyFrequency, getAllReportDates } from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
 import ReportFilter from '../report-filter/report-filter';
 
@@ -52,49 +51,37 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   };
 
   useEffect(() => {
-    // todo - Use a better manner of reassigning the report_date prop to jsdates.
     if (publishedReportsProp?.length > 0) {
       const sortedReports = getPublishedDates(publishedReportsProp).sort((a, b) => b.report_date - a.report_date);
+      setAllReports(sortedReports);
+    }
+  }, [publishedReportsProp]);
+
+  useEffect(() => {
+    // todo - Use a better manner of reassigning the report_date prop to jsdates.
+    if (allReports?.length > 0) {
+      const sortedReports = getPublishedDates(allReports).sort((a, b) => b.report_date - a.report_date);
       const latestReport = sortedReports[0].report_date;
       if (latestReport.toString() !== 'Invalid Date') {
         const earliestReport = sortedReports[sortedReports.length - 1].report_date;
         setLatestReportDate(latestReport);
         setEarliestReportDate(earliestReport);
         setSelectedDate(latestReport);
-        const allDates = [];
-        const allYears = [];
-
         const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
         setIsDailyReport(isDaily);
-        if (isDaily) {
-          sortedReports.map((report: IReports) => {
-            const reportDt = report.report_date;
-            const reportMonth = monthFullNames[reportDt.getMonth()];
-            const reportDay = reportDt.getDate();
-            const reportYear = reportDt.getFullYear();
-            const dateStr = reportMonth + ' ' + reportDay + ', ' + reportYear;
-            allDates.push(dateStr);
-          });
-        } else {
-          sortedReports.forEach((report: IReports) => {
-            const reportDt = report.report_date;
-            const dateStr = reportDt.toLocaleString('default', { month: 'long', year: 'numeric' });
-            allDates.push(dateStr);
-            allYears.push(reportDt.getFullYear());
-          });
-        }
-        setAllReports(sortedReports);
+
+        const { allDates, allYears } = getAllReportDates(isDaily, sortedReports);
         setAllReportDates(allDates);
         setAllReportYears(allYears);
 
         updateReportSelection(latestReport, isDaily, sortedReports);
       }
     }
-  }, [publishedReportsProp]);
+  }, [allReports]);
 
   useEffect(() => {
     updateReportSelection(selectedDate, isDailyReport, allReports);
-  }, [selectedDate]);
+  }, [selectedDate, allReports]);
 
   useEffect(() => {
     setFilterByReport(dataset?.reportSelection === 'byReport');
@@ -110,7 +97,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
         <div className={filtersContainer}>
           {filterByReport && (
             <div className={reportFilterContainer}>
-              <ReportFilter reports={publishedReportsProp} />
+              <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} />
             </div>
           )}
           {latestReportDate && (
