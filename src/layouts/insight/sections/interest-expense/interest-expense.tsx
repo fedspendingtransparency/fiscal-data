@@ -8,6 +8,13 @@ import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 export const getCurrentInterestExpData = async () => {
   return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`);
 };
+
+export const lastUpdatedDate2 = () => {
+  return getCurrentInterestExpData().then(res => {
+    const interestExpDate = res.data[0].record_date;
+    return interestExpDate;
+  });
+};
 export const interestExpenseDataSources = (
   <>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim

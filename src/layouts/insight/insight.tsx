@@ -17,16 +17,15 @@ import { insightsDataSources, insightsSections } from './sections/sections';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import { getCurrentInterestExpData } from './sections/interest-expense/interest-expense';
+import { getCurrentInterestExpData, lastUpdatedDate2 } from './sections/interest-expense/interest-expense';
 import { getDateWithoutTimeZoneAdjust } from '../../utils/date-utils';
 import { format } from 'date-fns';
-import { apiPrefix, basicFetch } from '../../utils/api-utils';
 
 interface IInsightSection {
   component: ReactElement;
   index: number;
 }
-
+console.log('lastUpdatedDate', lastUpdatedDate2());
 const InsightPageLayout = ({ pageContext, width }) => {
   const { pageName, seoConfig, heroImage } = pageContext;
   const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
