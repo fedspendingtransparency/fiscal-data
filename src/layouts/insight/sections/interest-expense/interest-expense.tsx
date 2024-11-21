@@ -1,6 +1,15 @@
 import React from 'react';
 import { InterestExpenseChart } from './interest-expense-chart/interest-expense-chart';
 import { BodyCopy } from './body-copy/body-copy';
+import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
+
+export const getCurrentInterestExpData = async () => {
+  return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`);
+};
+
+export const getOlderInterestExpData = async () => {
+  return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=record_date&page[size]=1`);
+};
 
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
