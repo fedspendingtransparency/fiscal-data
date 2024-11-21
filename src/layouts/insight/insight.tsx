@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import {
@@ -17,6 +17,10 @@ import { insightsDataSources, insightsSections } from './sections/sections';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
+import { getCurrentInterestExpData } from './sections/interest-expense/interest-expense';
+import { getDateWithoutTimeZoneAdjust } from '../../utils/date-utils';
+import { format } from 'date-fns';
+import { apiPrefix, basicFetch } from '../../utils/api-utils';
 
 interface IInsightSection {
   component: ReactElement;
@@ -25,6 +29,17 @@ interface IInsightSection {
 
 const InsightPageLayout = ({ pageContext, width }) => {
   const { pageName, seoConfig, heroImage } = pageContext;
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
+
+  useEffect(() => {
+    const lastUpdated = async () => {
+      const currentResult = await getCurrentInterestExpData();
+      const dated = getDateWithoutTimeZoneAdjust(currentResult.data[0].record_date);
+      const currentFY = format(dated, 'MMMM d, yyyy');
+      setLastUpdatedDate(currentFY);
+    };
+    lastUpdated();
+  }, []);
 
   return (
     <SiteLayout isPreProd={false}>
@@ -34,7 +49,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
         {width < pxToNumber(breakpointLg) && (
           <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
         )}
-        <span className={lastUpdated}>Last Updated: Month DD, YYYY</span>
+        <span className={lastUpdated}>Last Updated: {lastUpdatedDate}</span>
         <div className={contentContainer}>
           <div className={mainContent}>
             {insightsSections[pageName]?.map((section: IInsightSection) => (
