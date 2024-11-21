@@ -2,12 +2,22 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import InsightPageLayout from './insight';
 import { RecoilRoot } from 'recoil';
-import { getCurrentInterestExpData } from './sections/interest-expense/interest-expense';
-jest.mock('./sections/interest-expense/interest-expense', () => ({
-  getCurrentInterestExpData: jest.fn(),
-}));
+import fetchMock from 'fetch-mock';
+import { mockInterestExpenseHeroCurrentResponse, mockInterestExpenseHeroOlderResponse } from './insight-test-helper';
 
 describe('Insights Template', () => {
+  beforeEach(() => {
+    fetchMock.get(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=record_date&page[size]=1`,
+      mockInterestExpenseHeroOlderResponse,
+      { overwriteRoutes: false, repeat: 1 }
+    );
+    fetchMock.get(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`,
+      mockInterestExpenseHeroCurrentResponse,
+      { overwriteRoutes: false, repeat: 1 }
+    );
+  });
   class ResizeObserver {
     observe() {}
     unobserve() {}
@@ -31,11 +41,6 @@ describe('Insights Template', () => {
   };
 
   it('renders the interest expense insights page', async () => {
-    // Mock the network request
-    getCurrentInterestExpData.mockResolvedValue({
-      data: [{ record_date: '2023-09-30' }],
-    });
-
     const { findByRole } = render(<InsightPageLayout pageContext={mockPageContext} />, {
       wrapper: RecoilRoot,
     });
@@ -43,9 +48,7 @@ describe('Insights Template', () => {
     const sectionHeading = await findByRole('heading', { name: 'mock heading' });
     expect(sectionHeading).toBeInTheDocument();
 
-    const dataSourcesMethodologies = await findByRole('heading', {
-      name: 'Data Sources and Methodologies:',
-    });
+    const dataSourcesMethodologies = await findByRole('heading', { name: 'Data Sources and Methodologies:' });
     expect(dataSourcesMethodologies).toBeInTheDocument();
 
     const socialShare = await findByRole('heading', { name: 'Share this page' });

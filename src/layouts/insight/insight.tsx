@@ -17,9 +17,7 @@ import { insightsDataSources, insightsSections } from './sections/sections';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import { lastUpdatedDate2 } from './sections/interest-expense/interest-expense';
-import { getDateWithoutTimeZoneAdjust } from '../../utils/date-utils';
-import { format } from 'date-fns';
+import { LastUpdatedDate } from './sections/interest-expense/last-updated/last-updated';
 
 interface IInsightSection {
   component: ReactElement;
@@ -28,17 +26,6 @@ interface IInsightSection {
 
 const InsightPageLayout = ({ pageContext, width }) => {
   const { pageName, seoConfig, heroImage } = pageContext;
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
-
-  useEffect(() => {
-    const lastUpdated = async () => {
-      const interestExpDate = await lastUpdatedDate2();
-      const dated = getDateWithoutTimeZoneAdjust(interestExpDate);
-      const currentFY = format(dated, 'MMMM d, yyyy');
-      setLastUpdatedDate(currentFY);
-    };
-    lastUpdated();
-  }, []);
 
   return (
     <SiteLayout isPreProd={false}>
@@ -48,7 +35,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
         {width < pxToNumber(breakpointLg) && (
           <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
         )}
-        <span className={lastUpdated}>Last Updated: {lastUpdatedDate}</span>
+        <LastUpdatedDate />
         <div className={contentContainer}>
           <div className={mainContent}>
             {insightsSections[pageName]?.map((section: IInsightSection) => (
