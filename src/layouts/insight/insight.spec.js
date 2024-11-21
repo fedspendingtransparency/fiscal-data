@@ -2,6 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import InsightPageLayout from './insight';
 import { RecoilRoot } from 'recoil';
+import fetchMock from 'fetch-mock';
+import { mockInterestExpenseHeroCurrentResponse, mockInterestExpenseHeroOlderResponse } from './insight-test-helper';
 import { useStaticQuery } from 'gatsby';
 
 const glossaryMock = {
@@ -22,6 +24,18 @@ const glossaryMock = {
 };
 
 describe('Insights Template', () => {
+  beforeEach(() => {
+    fetchMock.get(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=record_date&page[size]=1`,
+      mockInterestExpenseHeroOlderResponse,
+      { overwriteRoutes: false, repeat: 1 }
+    );
+    fetchMock.get(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`,
+      mockInterestExpenseHeroCurrentResponse,
+      { overwriteRoutes: false, repeat: 1 }
+    );
+  });
   beforeAll(() => {
     useStaticQuery.mockReturnValue(glossaryMock);
   });
