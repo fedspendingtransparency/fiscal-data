@@ -18,7 +18,7 @@ export const InterestExpenseHero = (): ReactElement => {
       } else {
         start = recordFY;
       }
-      setHeaderText(`Interest Expense and Average Interest Rates on the National Debt FY ${start} – ${currentFY}`);
+      setHeaderText(`Interest Expense and Average Interest Rates on the National Debt FY ${start} – FYTD ${currentFY}`);
     };
 
     constructInterestPageHeader();
