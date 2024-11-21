@@ -16,6 +16,7 @@ const ReportFilter: FunctionComponent<IReportFilter> = ({ reports, setAllReports
   const [reportGroups, setReportGroups] = useState({});
   const [selectedReportGroup, setSelectedReportGroup] = useState<IReports>();
   const [searchBarActive, setSearchBarActive] = useState(false);
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     setReportGroups(makeReportGroups(reports));
@@ -23,18 +24,14 @@ const ReportFilter: FunctionComponent<IReportFilter> = ({ reports, setAllReports
 
   useEffect(() => {
     if (reportGroups) {
-      console.log(reportGroups);
       setSelectedReportGroup(reportGroups[0]);
     }
   }, [reportGroups]);
-
-  const [active, setActive] = useState(false);
 
   const onReportChange = (report: IReports) => {
     if (report !== null) {
       setSelectedReportGroup(report);
       setAllReports(report.value);
-      console.log(report);
       setTimeout(() => {
         setActive(false);
       });

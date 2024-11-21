@@ -12,7 +12,6 @@ export const getPublishedDates = reports => {
     const [year, month, day] = reportDate.split('-');
     report.report_date = new Date(year, month - 1, day, 0, 0, 0);
   });
-  console.log(reports);
   return reports;
 };
 
