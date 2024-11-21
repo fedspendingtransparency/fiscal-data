@@ -10,7 +10,7 @@ export const interestExpenseDataSources = (
       Interest Expense on the Debt Outstanding
     </CustomLink>{' '}
     and{' '}
-    <CustomLink url={'/datasets/interest-expense-debt-outstanding/interest-expense-on-the-public-debt-outstanding'}>
+    <CustomLink url={'/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities'}>
       Average Interest Rates on U.S. Treasury Securities
     </CustomLink>{' '}
     datasets to explore and download this data. The interest expense reflects the sum of all interest paid on the debt for each fiscal year or through
