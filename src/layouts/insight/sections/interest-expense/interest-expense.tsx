@@ -9,11 +9,10 @@ export const getCurrentInterestExpData = async () => {
   return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`);
 };
 
-export const lastUpdatedDate2 = () => {
-  return getCurrentInterestExpData().then(res => {
-    const interestExpDate = res.data[0].record_date;
-    return interestExpDate;
-  });
+export const lastUpdatedDate2 = async () => {
+  const res = await getCurrentInterestExpData();
+  const interestExpDate = res.data[0].record_date;
+  return interestExpDate;
 };
 export const interestExpenseDataSources = (
   <>
