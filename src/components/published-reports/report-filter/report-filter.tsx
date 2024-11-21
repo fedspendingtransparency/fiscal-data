@@ -4,17 +4,18 @@ import { faFileLines } from '@fortawesome/free-regular-svg-icons';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { makeReportGroups } from '../util/util';
-import { IReports } from '../reports-section/reports-section';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
+import { IPublishedReportGroup } from '../../../models/IPublishedReportGroup';
 
 interface IReportFilter {
-  reports: IReports[];
-  setAllReports: (reportGroup: IReports[]) => void;
+  reports: IPublishedReportGroup[];
+  setAllReports: (reportGroup: IPublishedReportDataJson[]) => void;
 }
 
 const ReportFilter: FunctionComponent<IReportFilter> = ({ reports, setAllReports }: IReportFilter) => {
   const [reportGroups, setReportGroups] = useState({});
-  const [selectedReportGroup, setSelectedReportGroup] = useState<IReports>();
+  const [selectedReportGroup, setSelectedReportGroup] = useState<IPublishedReportGroup>();
   const [searchBarActive, setSearchBarActive] = useState(false);
   const [active, setActive] = useState(false);
 
@@ -28,8 +29,8 @@ const ReportFilter: FunctionComponent<IReportFilter> = ({ reports, setAllReports
     }
   }, [reportGroups]);
 
-  const onReportChange = (report: IReports) => {
-    if (report !== null) {
+  const onReportChange = (report: IPublishedReportGroup) => {
+    if (report !== null && report?.value) {
       setSelectedReportGroup(report);
       setAllReports(report.value);
       setTimeout(() => {

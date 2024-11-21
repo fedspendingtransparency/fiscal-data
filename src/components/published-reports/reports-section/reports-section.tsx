@@ -8,20 +8,16 @@ import ReportDatePicker from '../report-date-picker/report-date-picker';
 import { isReportGroupDailyFrequency, getAllReportDates } from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
 import ReportFilter from '../report-filter/report-filter';
+import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 
 export const title = 'Reports and Files';
-export interface IReports {
-  path: string;
-  report_date: Date;
-  report_group_desc: string;
-  report_group_id: number;
-  report_group_sort_order_nbr: number;
-  label: string;
-}
 
-const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; dataset: IDatasetConfig }> = ({ publishedReportsProp, dataset }) => {
-  const [currentReports, setCurrentReports] = useState<IReports[]>();
-  const [allReports, setAllReports] = useState<IReports[]>();
+const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReportDataJson[]; dataset: IDatasetConfig }> = ({
+  publishedReportsProp,
+  dataset,
+}) => {
+  const [currentReports, setCurrentReports] = useState<IPublishedReportDataJson[]>();
+  const [allReports, setAllReports] = useState<IPublishedReportDataJson[]>();
   const [isDailyReport, setIsDailyReport] = useState<boolean>();
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
@@ -30,13 +26,13 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [filterByReport, setFilterByReport] = useState<boolean>();
 
-  const updateReportSelection = (date: Date, isDaily: boolean, sortedReports: IReports[]) => {
+  const updateReportSelection = (date: Date, isDaily: boolean, sortedReports: IPublishedReportDataJson[]) => {
     if (date) {
       const selectedDay = date.getDate();
       const selectedMonth = date.toLocaleString('default', { month: 'short' });
       const selectedYear = date.getFullYear();
 
-      const filteredReports = sortedReports.filter((report: IReports) => {
+      const filteredReports = sortedReports.filter((report: IPublishedReportDataJson) => {
         const reportDate = new Date(report.report_date);
         const reportDay = reportDate.getDate();
         const reportMonth = reportDate.toLocaleString('default', { month: 'short' });
@@ -87,7 +83,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IReports[]; data
     setFilterByReport(dataset?.reportSelection === 'byReport');
   }, []);
 
-  const getDisplayStatus = (reports: IReports[]) => {
+  const getDisplayStatus = (reports: IPublishedReportDataJson[]) => {
     return reports && reports.length > 0 ? 'block' : 'none';
   };
 
