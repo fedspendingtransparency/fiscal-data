@@ -10,21 +10,18 @@ import {
 } from './insight-test-helper';
 
 describe('Insights Template', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`,
-      mockInterestExpenseHeroCurrentResponse,
-      { overwriteRoutes: true, repeat: 1 }
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`,
+      mockInterestExpenseHeroCurrentResponse
     );
     fetchMock.get(
       `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=record_date&page[size]=1`,
-      mockInterestExpenseHeroOlderResponse,
-      { overwriteRoutes: true, repeat: 1 }
+      mockInterestExpenseHeroOlderResponse
     );
     fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_date:eq:2025-05-31`,
-      mockInterestExpenseSummableAmountResponse,
-      { overwriteRoutes: true, repeat: 1 }
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_date:eq:2025-09-30`,
+      mockInterestExpenseSummableAmountResponse
     );
   });
   class ResizeObserver {

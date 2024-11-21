@@ -30,7 +30,7 @@ export const mockInterestExpenseHeroCurrentResponse = {
       record_calendar_month: '05',
       record_calendar_quarter: '2',
       record_calendar_year: '2025',
-      record_date: '2025-05-31',
+      record_date: '2025-09-30',
       record_fiscal_quarter: '3',
       record_fiscal_year: '2025',
       src_line_nbr: '1',
