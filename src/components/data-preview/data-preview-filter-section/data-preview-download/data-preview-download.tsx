@@ -16,6 +16,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { isValidDateRange } from '../../../../helpers/dates/date-helpers';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../../utils/api-utils';
+import DataPreviewDownloadButton from './data-preview-download-button/data-preview-download-button';
+import { cancelEventActionStr, closeEventActionStr } from '../../../download-wrapper/download-wrapper';
 
 type DownloadProps = {
   selectedTable;
@@ -27,6 +29,7 @@ type DownloadProps = {
   tableColumnSortData;
   filteredDateRange;
   selectedDetailViewFilter;
+  width: number;
 };
 
 const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
@@ -39,6 +42,7 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
+                                                                 width,
 }) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
@@ -58,6 +62,7 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
   const setDapGaEventLabel = useSetRecoilState(reactTableFilteredDateRangeState);
   const [gaEventLabel, setGaEventLabel] = useState();
+  const [active, setActive] = useState(false);
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
@@ -216,8 +221,7 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
 
   return (
     <div data-test-id="data-preview-download">
-      <p>download placeholder</p>
-      <>{determineDirectDownload()}</>
+      <DataPreviewDownloadButton active={active} setActive={setActive} width={width} />
     </div>
   );
 };

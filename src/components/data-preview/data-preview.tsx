@@ -5,7 +5,6 @@ import { detailViewNotice, lockIcon, placeholderButton, placeholderText } from '
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
-import { ENV_ID } from 'gatsby-env-variables';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { TableCache } from '../dataset-data/table-cache/table-cache';
@@ -13,7 +12,6 @@ import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from 
 import { getApiData } from '../dataset-data/dataset-data-api-helper/dataset-data-api-helper';
 import { queryClient } from '../../../react-query-client';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
-import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
@@ -21,6 +19,7 @@ import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview
 import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } from './data-preview.module.scss';
 import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
+import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
 
 type DataPreviewProp = {
   config;
@@ -235,6 +234,9 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
         />
       </div>
       <div className={selectedTableName}>{selectedTable?.tableName}</div>
+      {config.datatableBanner && <DataPreviewDatatableBanner bannerNotice={config.datatableBanner} />}
+      {selectedTable?.userFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
+      {selectedTable?.apiFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.apiFilter.notice} />}
       <div>
         {tableColumnSortData && (
           <DataPreviewFilterSection
@@ -275,28 +277,8 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
                     hideButtons={detailApi && !detailViewState}
                   />
                 )}
-                {selectedTable.userFilter && (
-                  <UserFilter
-                    selectedTable={selectedTable}
-                    onUserFilter={setUserFilterSelection}
-                    apiData={apiData}
-                    setResetFilters={setResetFilters}
-                    allTablesSelected={allTablesSelected}
-                  />
-                )}
-                {selectedTable.apiFilter && (
-                  <UserFilter
-                    selectedTable={selectedTable}
-                    onUserFilter={setUserFilterSelection}
-                    setResetFilters={setResetFilters}
-                    allTablesSelected={allTablesSelected}
-                    setDateRange={setDateRange}
-                    sharedApiFilterOptions={config?.sharedApiFilterOptions}
-                  />
-                )}
               </>
             )}
-            {config.datatableBanner && <DatatableBanner bannerNotice={config.datatableBanner} />}
             {!selectedTable && (
               <div data-testid="dateRangePlaceholder">
                 <h3 className={placeholderText}>Date Range</h3>
@@ -308,41 +290,41 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
                 <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
               </div>
             )}
+            {dateRange && (
+              <DataPreviewSectionContainer
+                config={config}
+                dateRange={dateRange}
+                selectedTable={selectedTable}
+                userFilterSelection={userFilterSelection}
+                setUserFilterSelection={setUserFilterSelection}
+                apiData={apiData}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                apiError={apiError}
+                selectedPivot={selectedPivot}
+                setSelectedPivot={setSelectedPivot}
+                serverSidePagination={serverSidePagination}
+                selectedTab={selectedTab}
+                tabChangeHandler={setSelectedTab}
+                handleIgnorePivots={setIgnorePivots}
+                allTablesSelected={allTablesSelected}
+                handleConfigUpdate={() => setConfigUpdated(true)}
+                tableColumnSortData={tableColumnSortData}
+                setTableColumnSortData={setTableColumnSortData}
+                hasPublishedReports={!!publishedReports}
+                publishedReports={publishedReports}
+                resetFilters={resetFilters}
+                setResetFilters={setResetFilters}
+                setDetailViewState={setDetailViewState}
+                detailViewState={detailViewState}
+                customFormatting={selectedTable?.customFormatting}
+                summaryValues={summaryValues}
+                setSummaryValues={setSummaryValues}
+                allActiveFilters={allActiveFilters}
+                setAllActiveFilters={setAllActiveFilters}
+              />
+            )}
           </DataPreviewFilterSection>
-        )}
-        {dateRange && (
-          <DataPreviewSectionContainer
-            config={config}
-            dateRange={dateRange}
-            selectedTable={selectedTable}
-            userFilterSelection={userFilterSelection}
-            setUserFilterSelection={setUserFilterSelection}
-            apiData={apiData}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            apiError={apiError}
-            selectedPivot={selectedPivot}
-            setSelectedPivot={setSelectedPivot}
-            serverSidePagination={serverSidePagination}
-            selectedTab={selectedTab}
-            tabChangeHandler={setSelectedTab}
-            handleIgnorePivots={setIgnorePivots}
-            allTablesSelected={allTablesSelected}
-            handleConfigUpdate={() => setConfigUpdated(true)}
-            tableColumnSortData={tableColumnSortData}
-            setTableColumnSortData={setTableColumnSortData}
-            hasPublishedReports={!!publishedReports}
-            publishedReports={publishedReports}
-            resetFilters={resetFilters}
-            setResetFilters={setResetFilters}
-            setDetailViewState={setDetailViewState}
-            detailViewState={detailViewState}
-            customFormatting={selectedTable?.customFormatting}
-            summaryValues={summaryValues}
-            setSummaryValues={setSummaryValues}
-            allActiveFilters={allActiveFilters}
-            setAllActiveFilters={setAllActiveFilters}
-          />
         )}
       </div>
     </DatasetSectionContainer>

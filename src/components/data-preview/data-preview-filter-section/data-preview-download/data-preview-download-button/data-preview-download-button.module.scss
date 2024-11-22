@@ -1,0 +1,45 @@
+@import 'src/variables.module';
+
+$icon-width: 1.5rem;
+
+.downloadButton {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
+  color: white;
+  background-color: $primary;
+  border: none;
+  border-radius: 3px;
+  padding: 0.625rem 1rem;
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $icon-width;
+    height: $icon-width;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .downloadButton {
+    gap: 0.5rem;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .downloadButton {
+    margin: 1rem auto 0;
+    width: 100%;
+    max-width: 20.5rem;
+    .buttonText {
+      width: calc(100% - $icon-width);
+      margin-left: $icon-width;
+    }
+
+    &.buttonActive {
+      //TODO Additional styling for when the download panel is added
+      //flex-direction: row-reverse;
+    }
+  }
+}
