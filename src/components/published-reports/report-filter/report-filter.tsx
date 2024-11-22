@@ -4,17 +4,20 @@ import { faFileLines } from '@fortawesome/free-regular-svg-icons';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { makeReportGroups } from '../util/util';
-import { IReports } from '../reports-section/reports-section';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
+import { IPublishedReportGroup } from '../../../models/IPublishedReportGroup';
 
 interface IReportFilter {
-  reports: IReports[];
+  reports: IPublishedReportDataJson[];
+  setAllReports: (reportGroup: IPublishedReportDataJson[]) => void;
 }
 
-const ReportFilter: FunctionComponent<IReportFilter> = ({ reports }: IReportFilter) => {
+const ReportFilter: FunctionComponent<IReportFilter> = ({ reports, setAllReports }: IReportFilter) => {
   const [reportGroups, setReportGroups] = useState({});
-  const [selectedReportGroup, setSelectedReportGroup] = useState<IReports>();
+  const [selectedReportGroup, setSelectedReportGroup] = useState<IPublishedReportGroup>();
   const [searchBarActive, setSearchBarActive] = useState(false);
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     setReportGroups(makeReportGroups(reports));
@@ -23,14 +26,14 @@ const ReportFilter: FunctionComponent<IReportFilter> = ({ reports }: IReportFilt
   useEffect(() => {
     if (reportGroups) {
       setSelectedReportGroup(reportGroups[0]);
+      setAllReports(reportGroups[0]?.value);
     }
   }, [reportGroups]);
 
-  const [active, setActive] = useState(false);
-
-  const onReportChange = (report: IReports) => {
-    if (report !== null) {
+  const onReportChange = (report: IPublishedReportGroup) => {
+    if (report !== null && report?.value) {
       setSelectedReportGroup(report);
+      setAllReports(report.value);
       setTimeout(() => {
         setActive(false);
       });
