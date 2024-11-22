@@ -24,5 +24,5 @@ export const InterestExpenseHero = (): ReactElement => {
     constructInterestPageHeader();
   }, []);
 
-  return <div className={sectionHeading}>{headerText ? headerText : ''}</div>;
+  return <h1 className={sectionHeading}>{headerText ? headerText : ''}</h1>;
 };

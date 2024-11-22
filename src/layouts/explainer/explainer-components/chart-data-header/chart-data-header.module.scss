@@ -32,6 +32,17 @@
         font-weight: $semi-bold-weight;
         margin: 0 1.25rem;
       }
+
+      .dateFieldLabel {
+        font-size: $font-size-14;
+        font-weight: $semi-bold-weight;
+        margin: 0 1.25rem;
+        display: flex;
+        width: 63px;
+        justify-content: center;
+        padding-top: 2px;
+      }
+
     }
   }
 }
