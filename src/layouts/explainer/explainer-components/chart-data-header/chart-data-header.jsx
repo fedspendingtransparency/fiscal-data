@@ -1,5 +1,5 @@
 import React from 'react';
-import { headerContainer, headerData, dataValue, dataLabel, dataElement } from './chart-data-header.module.scss';
+import { headerContainer, headerData, dataValue, dataLabel, dataElement, dateFieldLabel } from './chart-data-header.module.scss';
 
 const ChartDataHeader = ({ fiscalYear, right, left, dateField }) => {
   return (
@@ -7,7 +7,7 @@ const ChartDataHeader = ({ fiscalYear, right, left, dateField }) => {
       <div className={headerData}>
         <div className={dataElement}>
           <div className={dataValue}>{fiscalYear}</div>
-          <span className={dataLabel}>{dateField ? dateField : 'Fiscal Year'}</span>
+          <span className={dateFieldLabel}>{dateField ? dateField : 'Fiscal Year'}</span>
         </div>
         <div className={dataElement}>
           <div className={dataValue}>{right.value}</div>
