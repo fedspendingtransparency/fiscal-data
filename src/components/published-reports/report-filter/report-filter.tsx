@@ -26,6 +26,7 @@ const ReportFilter: FunctionComponent<IReportFilter> = ({ reports, setAllReports
   useEffect(() => {
     if (reportGroups) {
       setSelectedReportGroup(reportGroups[0]);
+      setAllReports(reportGroups[0]?.value);
     }
   }, [reportGroups]);
 

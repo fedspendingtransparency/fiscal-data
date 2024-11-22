@@ -47,7 +47,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
   };
 
   useEffect(() => {
-    if (publishedReportsProp?.length > 0) {
+    if (publishedReportsProp?.length > 0 && !filterByReport) {
       const sortedReports = getPublishedDates(publishedReportsProp).sort((a, b) => b.report_date - a.report_date);
       setAllReports(sortedReports);
     }

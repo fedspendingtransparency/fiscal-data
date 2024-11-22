@@ -191,7 +191,10 @@ export const getFileDisplay = curReportFile => {
       const apiFileType = '(.' + reportFileType + ')';
       const downloadFileType = '.' + reportFileType;
       // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
-      const fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
+      let fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
+      if (reportFileType === 'xlsx') {
+        fullDisplayName = groupName.replace(' ' + '(.xls)', '.xls');
+      }
       //Split file name so overflow ellipsis can be used in the middle of the name
       const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
       return { fullName: fullDisplayName, displayName: fileDisplayName || '', fileType: downloadFileType };
