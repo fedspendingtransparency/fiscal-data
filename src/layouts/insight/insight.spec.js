@@ -20,7 +20,7 @@ describe('Insights Template', () => {
       mockInterestExpenseHeroOlderResponse
     );
     fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_date:eq:2025-09-30`,
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_date:eq:2025-10-30`,
       mockInterestExpenseSummableAmountResponse
     );
   });

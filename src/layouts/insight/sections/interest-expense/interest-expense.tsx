@@ -43,14 +43,14 @@ export const interestExpenseDescriptionGenerator = () => {
     const currentFY = res.data[0].record_fiscal_year;
     const interestExpDate = res.data[0].record_date;
 
-    let isHas = false;
+    let isHas = true;
 
     if (interestExpDate.includes('-09-30')) {
-      isHas = true;
+      isHas = false;
     }
     return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&filter=record_date:eq:${interestExpDate}`).then(res => {
       const fytdInterestExpense = res.data.reduce((a, { fytd_expense_amt }) => a + parseInt(fytd_expense_amt), 0);
-      return `In ${currentFY}, the federal government ${isHas ? 'has ' : ''}spent ${getShortForm(
+      return `In ${currentFY}, the federal government ${isHas ? 'has ' : ''}spent $${getShortForm(
         fytdInterestExpense,
         false,
         false,
