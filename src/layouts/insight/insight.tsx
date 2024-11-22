@@ -34,7 +34,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
         {width < pxToNumber(breakpointLg) && (
           <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
         )}
-        {/*<InsightLastUpdated >{insightLastUpdated[pageName].component()}</InsightHeroImage>*/}
+        <InsightLastUpdated>{insightLastUpdated[pageName].component()}</InsightLastUpdated>
         <div className={contentContainer}>
           <div className={mainContent}>
             {insightsSections[pageName]?.map((section: IInsightSection) => (
