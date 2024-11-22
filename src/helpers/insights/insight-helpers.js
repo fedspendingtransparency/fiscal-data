@@ -13,7 +13,7 @@ export const insightHeroMap = {
 
 export const insightLastUpdated = {
   'interest-expense': {
-    component: () => <LastUpdatedDate />,
+    endpoint: 'v2/accounting/od/interest_expense?sort=-record_date&page[size]=1',
   },
 };
 

@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import { mainContent, lastUpdated, contentContainer, relatedContent, insightsContainer, sectionContainer } from './insight.module.scss';
+import { mainContent, contentContainer, relatedContent, insightsContainer, sectionContainer } from './insight.module.scss';
 import SocialShare from '../../components/social-share/social-share';
 import {
   discoverDatasetsCitationsMap,
@@ -30,11 +30,11 @@ const InsightPageLayout = ({ pageContext, width }) => {
     <SiteLayout isPreProd={false}>
       <PageHelmet pageTitle={seoConfig.pageTitle} description={seoConfig.description} keywords={seoConfig.keywords} />
       <div className={insightsContainer}>
-        <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
+        {/*<InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>*/}
         {width < pxToNumber(breakpointLg) && (
           <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
         )}
-        <InsightLastUpdated>{insightLastUpdated[pageName].component()}</InsightLastUpdated>
+        <InsightLastUpdated endpoint={insightLastUpdated[pageName].endpoint} />
         <div className={contentContainer}>
           <div className={mainContent}>
             {insightsSections[pageName]?.map((section: IInsightSection) => (
