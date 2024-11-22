@@ -8,6 +8,7 @@ import {
   mockInterestExpenseHeroOlderResponse,
   mockInterestExpenseSummableAmountResponse,
 } from './insight-test-helper';
+import { useStaticQuery } from 'gatsby';
 
 const glossaryMock = {
   allGlossaryCsv: {
