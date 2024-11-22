@@ -35,7 +35,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
         descriptionGenerator={insightsDescriptionGenerators[pageName]}
       />
       <div className={insightsContainer}>
-        {/*<InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>*/}
+        <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
         {width < pxToNumber(breakpointLg) && (
           <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
         )}
