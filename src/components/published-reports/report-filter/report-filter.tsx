@@ -9,7 +9,7 @@ import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJs
 import { IPublishedReportGroup } from '../../../models/IPublishedReportGroup';
 
 interface IReportFilter {
-  reports: IPublishedReportGroup[];
+  reports: IPublishedReportDataJson[];
   setAllReports: (reportGroup: IPublishedReportDataJson[]) => void;
 }
 

@@ -69,14 +69,15 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
         const { allDates, allYears } = getAllReportDates(isDaily, sortedReports);
         setAllReportDates(allDates);
         setAllReportYears(allYears);
-
         updateReportSelection(latestReport, isDaily, sortedReports);
       }
     }
   }, [allReports]);
 
   useEffect(() => {
-    updateReportSelection(selectedDate, isDailyReport, allReports);
+    if (allReports) {
+      updateReportSelection(selectedDate, isDailyReport, allReports);
+    }
   }, [selectedDate, allReports]);
 
   useEffect(() => {
