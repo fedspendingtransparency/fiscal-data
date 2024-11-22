@@ -3,6 +3,7 @@ import { InterestExpenseChart } from './interest-expense-chart/interest-expense-
 import { BodyCopy } from './body-copy/body-copy';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
+import { getShortForm } from '../../../../utils/rounding-utils';
 
 export const getCurrentInterestExpData = async () => {
   return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`);
@@ -39,5 +40,27 @@ const interestExpenseSections = [
     component: <InterestExpenseChart />,
   },
 ];
+
+export const interestExpenseDescriptionGenerator = () => {
+  return getCurrentInterestExpData().then(res => {
+    const currentFY = res.data[0].record_fiscal_year;
+    const interestExpDate = res.data[0].record_date;
+
+    let isHas = true;
+
+    if (interestExpDate.includes('-09-30')) {
+      isHas = false;
+    }
+    return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&filter=record_date:eq:${interestExpDate}`).then(res => {
+      const fytdInterestExpense = res.data.reduce((a, { fytd_expense_amt }) => a + parseInt(fytd_expense_amt), 0);
+      return `In ${currentFY}, the federal government ${isHas ? 'has ' : ''}spent $${getShortForm(
+        fytdInterestExpense,
+        false,
+        false,
+        1
+      )} on interest expenses on the national debt.`;
+    });
+  });
+};
 
 export default interestExpenseSections;
