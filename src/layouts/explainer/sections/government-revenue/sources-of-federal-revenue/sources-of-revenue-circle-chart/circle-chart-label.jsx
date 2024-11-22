@@ -19,6 +19,7 @@ const labelFormatTable = {
     mobile: {
       lines: ['Corporate ', 'Income', 'Taxes'],
     },
+    hide: true,
   },
   'Social Security and Medicare Taxes': {
     desktop: {
