@@ -5,7 +5,7 @@ const envBaseUrl = BASE_URL;
 export const insightSocialShareMap = {
   'interest-expense': {
     title: 'Fiscal Data Explores Interest Expense on National Debt',
-    description: 'Text: Check out @FiscalService Fiscal Data’s new topic page exploring interest expense on the national debt! #InterestExpense',
+    description: 'Check out @FiscalService Fiscal Data’s new topic page exploring interest expense on the national debt! #InterestExpense',
     body:
       'Check out @FiscalService Fiscal Data’s new topic page exploring interest expense and average interest rates on the national debt! #FiscalData #InterestExpense',
     emailSubject: 'Fiscal Data Explores Interest Expense on National Debt',
