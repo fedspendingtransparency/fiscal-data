@@ -11,10 +11,10 @@ type Tooltip = (object: {
 export const CustomTooltip: Tooltip = ({ payload = [], setYear, setExpense, setRate }): null => {
   if (payload.length > 0) {
     setYear(payload[0]?.payload.year);
-    const rate = payload.find(x => x.dataKey === 'avgInterestRate');
-    setRate(rate.payload.avgInterestRate);
-    const expense = payload.find(x => x.dataKey === 'interestExpense');
-    setExpense(expense.payload.interestExpense);
+    const rate = payload.find(x => x.dataKey === 'rate');
+    setRate(rate.payload.rate);
+    const expense = payload.find(x => x.dataKey === 'expense');
+    setExpense(expense.payload.expense);
   }
   return null;
 };

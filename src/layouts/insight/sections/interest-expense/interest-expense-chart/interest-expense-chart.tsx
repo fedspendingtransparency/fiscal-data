@@ -6,6 +6,7 @@ import { interestExpensePrimary } from '../../../insight.module.scss';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import { useWindowSize } from '../../../../../hooks/windowResize';
+import { useGetInterestExpenseData } from '../useGetInterestExpenseData';
 
 const breakpoint = {
   desktop: 1015,
@@ -14,8 +15,8 @@ const breakpoint = {
 
 export const InterestExpenseChart = () => {
   const [width, height] = useWindowSize();
-  const [chartData, setChartData] = useState(mockChartData);
-  const [fiscalYear, setFiscalYear] = useState(2024);
+  const { chartData, currentFY } = useGetInterestExpenseData();
+  const [fiscalYear, setFiscalYear] = useState(2025);
   const [curExpenseAmount, setCurExpenseAmount] = useState(890000000000);
   const [curRate, setCurRate] = useState(3.8);
   const [isMobile, setIsMobile] = useState(null);
@@ -25,7 +26,7 @@ export const InterestExpenseChart = () => {
     year: number;
     expense: number;
     rate: number;
-  }>({ year: 2024, expense: 890000000000, rate: 3.8 });
+  }>({ year: 2025, expense: 890000000000, rate: 3.8 });
 
   const defaultRateAxis: number[] = [0, 1, 2, 3, 4];
   const defaultExpenseAxis: number[] = [0, 300000000000, 600000000000, 900000000000, 1200000000000];
@@ -73,7 +74,7 @@ export const InterestExpenseChart = () => {
               <CartesianGrid vertical={false} stroke="#d9d9d9" />
               <XAxis dataKey={'year'} ticks={[2010, 2013, 2016, 2019, 2022, 2024]} />
               <YAxis
-                dataKey={'interestExpense'}
+                dataKey={'expense'}
                 tickFormatter={value => (value === 0 ? '$0' : `$${getShortForm(value)}`)}
                 axisLine={false}
                 tickLine={false}
@@ -82,7 +83,7 @@ export const InterestExpenseChart = () => {
               />
               <YAxis
                 yAxisId={1}
-                dataKey={'avgInterestRate'}
+                dataKey={'rate'}
                 orientation={'right'}
                 axisLine={false}
                 tickLine={false}
@@ -100,8 +101,8 @@ export const InterestExpenseChart = () => {
                 isAnimationActive={false}
                 active={chartFocus || chartHover}
               />
-              <Line dataKey={'avgInterestRate'} yAxisId={1} stroke={'#666666'} type={'monotone'} strokeWidth={1} activeDot={false} />
-              <Bar dataKey={'interestExpense'} barSize={isMobile ? 12 : 20} fill={interestExpensePrimary} />
+              <Bar dataKey={'expense'} barSize={isMobile ? 12 : 20} fill={interestExpensePrimary} />
+              <Line dataKey={'rate'} yAxisId={1} stroke={'#666666'} type={'monotone'} strokeWidth={1} activeDot={false} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
