@@ -5,7 +5,7 @@ import { mainContent, lastUpdated, contentContainer, relatedContent, insightsCon
 import SocialShare from '../../components/social-share/social-share';
 import { discoverDatasetsCitationsMap, exploreMoreCitationsMap, insightHeroMap, insightSocialShareMap } from '../../helpers/insights/insight-helpers';
 import CitationList from '../../components/citation-list/citation-list';
-import { insightsDataSources, insightsSections } from './sections/sections';
+import { insightsDataSources, insightsDescriptionGenerators, insightsSections } from './sections/sections';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
@@ -21,7 +21,12 @@ const InsightPageLayout = ({ pageContext, width }) => {
 
   return (
     <SiteLayout isPreProd={false}>
-      <PageHelmet pageTitle={seoConfig.pageTitle} description={seoConfig.description} keywords={seoConfig.keywords} />
+      <PageHelmet
+        pageTitle={seoConfig.pageTitle}
+        description={seoConfig.description}
+        keywords={seoConfig.keywords}
+        descriptionGenerator={insightsDescriptionGenerators[pageName]}
+      />
       <div className={insightsContainer}>
         <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
         {width < pxToNumber(breakpointLg) && (
@@ -41,7 +46,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
           </div>
           <div className={relatedContent}>
             {width >= pxToNumber(breakpointLg) && (
-              <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
+              <SocialShare copy={insightSocialShareMap[pageName]} pageName="Interest Expense" headerLevel="h2" displayStyle="responsive" />
             )}
             <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} />
             <CitationList header="Discover Datasets" citations={discoverDatasetsCitationsMap[pageName]} />
