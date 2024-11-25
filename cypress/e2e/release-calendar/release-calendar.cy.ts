@@ -1,4 +1,4 @@
-describe('Release calendar interaction flow', () => {
+describe('Navigate to the release calendar page', () => {
 
   it('Navigate to the release calendar page', () => {
    
