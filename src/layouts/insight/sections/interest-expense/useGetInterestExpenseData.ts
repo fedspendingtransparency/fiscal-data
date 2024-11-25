@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getCurrentInterestExpData, getOlderInterestExpData } from './interest-expense';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
+import { getShortForm } from '../../../../utils/rounding-utils';
 
 const groupByProperty = (array, property) => {
   return array.reduce((a, b) => {
@@ -15,6 +16,12 @@ export const useGetInterestExpenseData = () => {
   const [chartData, setChartData] = useState(null);
   const [chartLoading, setChartLoading] = useState<boolean>(true);
   const [chartXAxisValues, setChartXAxisValues] = useState<number[]>(null);
+  const [latestChartData, setLatestChartData] = useState<{
+    year: number;
+    expense: number;
+    rate: number;
+  }>(null);
+  const [altText, setAltText] = useState<string>(null);
 
   useEffect(() => {
     const gatherData = async () => {
@@ -87,7 +94,18 @@ export const useGetInterestExpenseData = () => {
                 }
               }
             });
+            const firstExpense = chartData[0].expense;
+            const firstRate = chartData[0].rate;
+            const lastExpense = chartData[chartData.length - 1].expense;
+            const lastRate = chartData[chartData.length - 1].rate;
+            const text = `A bar chart shows the total interest expense paid FYTD from ${start} to ${current},
+             with a line graph overlay showing the average interest rates on the national debt. In ${start},
+             the interest expense totaled $${getShortForm(firstExpense)} with an average interest rate of ${firstRate.toFixed(1)}%.
+             In ${current}, the interest expense totaled $${getShortForm(lastExpense)},
+             with an average interest rate of ${lastRate.toFixed(1)}%.  `;
+            setAltText(text);
             setChartXAxisValues(years);
+            setLatestChartData(chartData[chartData.length - 1]);
             setChartLoading(false);
           }
         });
@@ -95,5 +113,5 @@ export const useGetInterestExpenseData = () => {
     };
     gatherData();
   }, []);
-  return { startFY, currentFY, chartData, chartXAxisValues, chartLoading };
+  return { startFY, currentFY, chartData, chartXAxisValues, latestChartData, altText, chartLoading };
 };

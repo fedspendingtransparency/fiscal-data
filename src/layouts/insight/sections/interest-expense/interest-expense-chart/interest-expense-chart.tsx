@@ -1,5 +1,5 @@
 import { ComposedChart, ResponsiveContainer, XAxis, YAxis, Line, Bar, CartesianGrid, Tooltip } from 'recharts';
-import { CustomTooltip, Legend, mockChartData } from './interest-expense-chart-helper';
+import { CustomTooltip, Legend } from './interest-expense-chart-helper';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { interestExpensePrimary } from '../../../insight.module.scss';
@@ -17,26 +17,19 @@ const breakpoint = {
 
 export const InterestExpenseChart = () => {
   const [width, height] = useWindowSize();
-  const { chartData, currentFY, chartXAxisValues, chartLoading } = useGetInterestExpenseData();
+  const { chartData, chartXAxisValues, latestChartData, altText, chartLoading } = useGetInterestExpenseData();
   const [fiscalYear, setFiscalYear] = useState(2025);
   const [curExpenseAmount, setCurExpenseAmount] = useState(890000000000);
   const [curRate, setCurRate] = useState(3.8);
   const [isMobile, setIsMobile] = useState(null);
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const [latestData, setLatestData] = useState<{
-    year: number;
-    expense: number;
-    rate: number;
-  }>({ year: 2025, expense: 890000000000, rate: 3.8 });
-
-  const defaultRateAxis: number[] = [0, 1, 2, 3, 4];
 
   const resetDataHeader = () => {
-    if (latestData) {
-      setFiscalYear(latestData.year);
-      setCurExpenseAmount(latestData.expense);
-      setCurRate(latestData.rate);
+    if (latestChartData) {
+      setFiscalYear(latestChartData.year);
+      setCurExpenseAmount(latestChartData.expense);
+      setCurRate(latestChartData.rate);
     }
   };
 
@@ -77,10 +70,10 @@ export const InterestExpenseChart = () => {
           <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>
       ) : (
-        <>
+        <div aria-label={altText}>
           <div>
             <ChartDataHeader
-              dateField={fiscalYear === latestData.year ? 'FYTD' : 'Fiscal Year'}
+              dateField={fiscalYear === latestChartData.year ? 'FYTD' : 'Fiscal Year'}
               fiscalYear={fiscalYear}
               right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount.toString())}` }}
               left={{ label: 'Avg. Interest Rate', value: `${curRate}%` }}
@@ -157,7 +150,7 @@ export const InterestExpenseChart = () => {
               </ResponsiveContainer>
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
