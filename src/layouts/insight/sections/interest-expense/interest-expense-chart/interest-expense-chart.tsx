@@ -17,7 +17,7 @@ const breakpoint = {
 
 export const InterestExpenseChart = () => {
   const [width, height] = useWindowSize();
-  const { chartData, chartXAxisValues, latestChartData, altText, chartLoading } = useGetInterestExpenseData();
+  const { chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading } = useGetInterestExpenseData();
   const [fiscalYear, setFiscalYear] = useState(2025);
   const [curExpenseAmount, setCurExpenseAmount] = useState(890000000000);
   const [curRate, setCurRate] = useState(3.8);
@@ -31,28 +31,6 @@ export const InterestExpenseChart = () => {
       setCurExpenseAmount(latestChartData.expense);
       setCurRate(latestChartData.rate);
     }
-  };
-
-  const generateExpenseValueTicks = (): number[] => {
-    const expenseValues = chartData.map(element => element.expense);
-    const max = Math.max(...expenseValues);
-    const top = Math.round(max / 300000000000) * 300000000000;
-    const ticks = [];
-    for (let i = 0; i <= top; i += 300000000000) {
-      ticks.push(i);
-    }
-    return ticks;
-  };
-
-  const generateInterestRateTicks = (): number[] => {
-    const rateValues = chartData.map(element => element.rate);
-    const max = Math.max(...rateValues);
-    const top = Math.ceil(max);
-    const ticks = [];
-    for (let i = 0; i <= top; i++) {
-      ticks.push(i);
-    }
-    return ticks;
   };
 
   useEffect(() => {
@@ -113,7 +91,7 @@ export const InterestExpenseChart = () => {
                     axisLine={false}
                     tickLine={false}
                     tickCount={5}
-                    ticks={generateExpenseValueTicks()}
+                    ticks={expenseYAxisValues}
                     tick={{ fill: interestExpensePrimary }}
                   />
                   <YAxis
@@ -124,7 +102,7 @@ export const InterestExpenseChart = () => {
                     tickLine={false}
                     type="number"
                     tickCount={5}
-                    ticks={generateInterestRateTicks()}
+                    ticks={rateYAxisValues}
                     tickFormatter={value => `${value.toFixed(1)}%`}
                   />
                   <Tooltip

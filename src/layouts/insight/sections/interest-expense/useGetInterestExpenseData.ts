@@ -16,12 +16,36 @@ export const useGetInterestExpenseData = () => {
   const [chartData, setChartData] = useState(null);
   const [chartLoading, setChartLoading] = useState<boolean>(true);
   const [chartXAxisValues, setChartXAxisValues] = useState<number[]>(null);
+  const [expenseYAxisValues, setExpenseYAxisValues] = useState<number[]>(null);
+  const [rateYAxisValues, setRateYAxisValues] = useState<number[]>(null);
   const [latestChartData, setLatestChartData] = useState<{
     year: number;
     expense: number;
     rate: number;
   }>(null);
   const [altText, setAltText] = useState<string>(null);
+
+  const generateExpenseValueTicks = (chartData): number[] => {
+    const expenseValues = chartData.map(element => element.expense);
+    const max = Math.max(...expenseValues);
+    const top = Math.round(max / 300000000000) * 300000000000;
+    const ticks = [];
+    for (let i = 0; i <= top; i += 300000000000) {
+      ticks.push(i);
+    }
+    return ticks;
+  };
+
+  const generateInterestRateTicks = (chartData): number[] => {
+    const rateValues = chartData.map(element => element.rate);
+    const max = Math.max(...rateValues);
+    const top = Math.ceil(max);
+    const ticks = [];
+    for (let i = 0; i <= top; i++) {
+      ticks.push(i);
+    }
+    return ticks;
+  };
 
   useEffect(() => {
     const gatherData = async () => {
@@ -102,6 +126,8 @@ export const useGetInterestExpenseData = () => {
               }
             }
           });
+          setExpenseYAxisValues(generateExpenseValueTicks(chartData));
+          setRateYAxisValues(generateInterestRateTicks(chartData));
           const firstExpense = chartData[0].expense;
           const firstRate = chartData[0].rate;
           const lastExpense = chartData[chartData.length - 1].expense;
@@ -120,5 +146,5 @@ export const useGetInterestExpenseData = () => {
     };
     gatherData();
   }, []);
-  return { startFY, currentFY, chartData, chartXAxisValues, latestChartData, altText, chartLoading };
+  return { startFY, currentFY, chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading };
 };
