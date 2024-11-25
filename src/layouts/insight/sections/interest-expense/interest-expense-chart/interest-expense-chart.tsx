@@ -18,9 +18,9 @@ const breakpoint = {
 export const InterestExpenseChart = () => {
   const [width, height] = useWindowSize();
   const { chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading } = useGetInterestExpenseData();
-  const [fiscalYear, setFiscalYear] = useState(2025);
-  const [curExpenseAmount, setCurExpenseAmount] = useState(890000000000);
-  const [curRate, setCurRate] = useState(3.8);
+  const [fiscalYear, setFiscalYear] = useState(0);
+  const [curExpenseAmount, setCurExpenseAmount] = useState(0);
+  const [curRate, setCurRate] = useState(0);
   const [isMobile, setIsMobile] = useState(null);
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);

@@ -2,6 +2,7 @@ import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { InterestExpenseChart } from './interest-expense-chart';
 import { CustomTooltip } from './interest-expense-chart-helper';
+import { mockChartData } from './interest-expense-chart-helper';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('recharts', () => {
@@ -15,6 +16,24 @@ jest.mock('recharts', () => {
     ),
   };
 });
+
+const mockHookReturnValues = {
+  startFY: 2010,
+  currentFY: 2025,
+  chartData: mockChartData,
+  chartXAxisValues: mockChartData.map(element => element.year),
+  expenseYAxisValues: mockChartData.map(element => element.expense).unshift(0),
+  rateYAxisValues: mockChartData.map(element => element.rate),
+  latestChartData: mockChartData[mockChartData.length - 1],
+  altText: `Sample alt text`,
+  chartLoading: false,
+};
+
+jest.mock('../useGetInterestExpenseData', () => ({
+  useGetInterestExpenseData: () => {
+    return mockHookReturnValues;
+  },
+}));
 
 describe('Interest Expense Chart', () => {
   class ResizeObserver {
@@ -44,8 +63,8 @@ describe('Interest Expense Chart', () => {
     render(
       <CustomTooltip
         payload={[
-          { dataKey: 'interestExpense', payload: { year: 2020, interestExpense: '600000000000' } },
-          { dataKey: 'avgInterestRate', payload: { year: 2020, avgInterestRate: '2.0' } },
+          { dataKey: 'expense', payload: { year: 2020, expense: '600000000000' } },
+          { dataKey: 'rate', payload: { year: 2020, rate: '2.0' } },
         ]}
         setYear={setYearSpy}
         setExpense={setExpenseSpy}
