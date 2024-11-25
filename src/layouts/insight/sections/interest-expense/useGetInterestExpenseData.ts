@@ -44,25 +44,34 @@ export const useGetInterestExpenseData = () => {
       await basicFetch(
         `${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:${start}&page[size]=10000`
       ).then(res1 => {
-        const groupedExpenseDataByFY = groupByProperty(res1.data, 'record_fiscal_year');
-        for (const year in groupedExpenseDataByFY) {
-          const yearData = groupedExpenseDataByFY[year];
-          if (year !== current) {
-            const sum = yearData
-              .filter(element => element.record_calendar_month === '09')
-              .reduce((a, { fytd_expense_amt }) => a + parseInt(fytd_expense_amt), 0);
-            chartData.push({ year: parseInt(year), expense: sum });
-          } else {
-            const currentFYSum = yearData
-              .filter(element => element.record_calendar_month === interestExpMonth && element.record_fiscal_year === current)
-              .reduce((a, { fytd_expense_amt }) => a + parseInt(fytd_expense_amt), 0);
-            chartData.push({ year: parseInt(year), expense: currentFYSum });
-          }
-        }
         // Interest rate chart data
         basicFetch(
           `${apiPrefix}v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:${start}&page[size]=300`
         ).then(res2 => {
+          //TODO: Write a good test case for this (if one dataset updates before the other)  for either dataset
+          const commonIndexExpense = res1.data.findIndex(element => element.record_calendar_month === res2.data[0].record_calendar_month);
+          const commonIndexRate = res2.data.findIndex(element => element.record_calendar_month === res1.data[0].record_calendar_month);
+          if (commonIndexExpense > 0) {
+            res1.data.slice(commonIndexExpense);
+          }
+          if (commonIndexRate > 0) {
+            res2.data.slice(commonIndexRate);
+          }
+          const groupedExpenseDataByFY = groupByProperty(res1.data, 'record_fiscal_year');
+          for (const year in groupedExpenseDataByFY) {
+            const yearData = groupedExpenseDataByFY[year];
+            if (year !== current) {
+              const sum = yearData
+                .filter(element => element.record_calendar_month === '09')
+                .reduce((a, { fytd_expense_amt }) => a + parseInt(fytd_expense_amt), 0);
+              chartData.push({ year: parseInt(year), expense: sum });
+            } else {
+              const currentFYSum = yearData
+                .filter(element => element.record_calendar_month === interestExpMonth && element.record_fiscal_year === current)
+                .reduce((a, { fytd_expense_amt }) => a + parseInt(fytd_expense_amt), 0);
+              chartData.push({ year: parseInt(year), expense: currentFYSum });
+            }
+          }
           const groupedInterestRateByFY = groupByProperty(res2.data, 'record_fiscal_year');
           for (const year in groupedInterestRateByFY) {
             const yearData = groupedInterestRateByFY[year];
@@ -78,36 +87,34 @@ export const useGetInterestExpenseData = () => {
               chartData[index].rate = parseFloat(currentRate[0].avg_interest_rate_amt);
             }
           }
-          if (res1.data[0].record_calendar_month === res2.data[0].record_calendar_month) {
-            setChartData(chartData);
-            // Chart axis values
-            // Generate X Axis Values
-            const years = [];
-            chartData.forEach((element, index) => {
-              if (index === 0) {
+          setChartData(chartData);
+          // Chart axis values
+          // Generate X Axis Values
+          const years = [];
+          chartData.forEach((element, index) => {
+            if (index === 0) {
+              years.push(element.year);
+            } else {
+              if (index % 3 === 0) {
                 years.push(element.year);
-              } else {
-                if (index % 3 === 0) {
-                  years.push(element.year);
-                } else if (element.year === parseInt(current) && !years.includes(element.year)) {
-                  years.push(element.year);
-                }
+              } else if (element.year === parseInt(current) && !years.includes(element.year)) {
+                years.push(element.year);
               }
-            });
-            const firstExpense = chartData[0].expense;
-            const firstRate = chartData[0].rate;
-            const lastExpense = chartData[chartData.length - 1].expense;
-            const lastRate = chartData[chartData.length - 1].rate;
-            const text = `A bar chart shows the total interest expense paid FYTD from ${start} to ${current},
+            }
+          });
+          const firstExpense = chartData[0].expense;
+          const firstRate = chartData[0].rate;
+          const lastExpense = chartData[chartData.length - 1].expense;
+          const lastRate = chartData[chartData.length - 1].rate;
+          const text = `A bar chart shows the total interest expense paid FYTD from ${start} to ${current},
              with a line graph overlay showing the average interest rates on the national debt. In ${start},
              the interest expense totaled $${getShortForm(firstExpense)} with an average interest rate of ${firstRate.toFixed(1)}%.
              In ${current}, the interest expense totaled $${getShortForm(lastExpense)},
              with an average interest rate of ${lastRate.toFixed(1)}%.  `;
-            setAltText(text);
-            setChartXAxisValues(years);
-            setLatestChartData(chartData[chartData.length - 1]);
-            setChartLoading(false);
-          }
+          setAltText(text);
+          setChartXAxisValues(years);
+          setLatestChartData(chartData[chartData.length - 1]);
+          setChartLoading(false);
         });
       });
     };
