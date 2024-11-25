@@ -40,22 +40,14 @@ describe('Deficit Explainer Page', () => {
 
   it('Validate all internal links on the page navigate to the correct destinations', () => {
     const hyperlinks = [
-      // {
-      //   name: 'Monthly Treasury Statement (MTS)',
-      //   url: 'datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government',
-      // },
       {
         name: 'national debt',
         url: 'americas-finance-guide/national-debt/',
       },
-      // {
-      //   name: 'Monthly Treasury Statement (MTS)',
-      //   url: 'datasets/monthly-treasury-statement/outlays-of-the-u-s-government',
-      // },
-      // {
-      //   name: 'spending',
-      //   url: 'americas-finance-guide/federal-spending/',
-      // },
+      {
+        name: 'spending',
+        url: 'americas-finance-guide/federal-spending/',
+      },
       {
         name: 'revenue',
         url: 'americas-finance-guide/government-revenue/',
@@ -123,7 +115,24 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it('Validate MTS links', () => {});
+  it('Validate MTS links', () => {
+    const mtsLinks = [
+      {
+        name: 'Monthly Treasury Statement (MTS)',
+        url: '/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government',
+      },
+      {
+        name: 'Monthly Treasury Statement (MTS)',
+        url: '/datasets/monthly-treasury-statement/outlays-of-the-u-s-government',
+      },
+    ];
+
+    const mts = cy.findAllByRole('link', { name: 'Monthly Treasury Statement (MTS)' });
+
+    mts.each((link, index) => {
+      cy.wrap(link).should('have.attr', 'href', mtsLinks[index].url);
+    });
+  });
 
   it('Validate all glossary terms on page', () => {});
   it('Validate Data Sources & Methodologies hyperlinks', () => {
@@ -138,5 +147,6 @@ describe('Deficit Explainer Page', () => {
   });
   it('Validate that the related datasets section contains the correct datasets', () => {});
 
+  // this may get put into its own story
   describe('Validate charts', () => {});
 });
