@@ -147,7 +147,11 @@ describe('Deficit Explainer Page', () => {
     const accordionButton = cy.findByRole('button', { name: 'Data Sources & Methodologies toggle contents' });
     accordionButton.click();
     const parent = accordionButton.parent();
-    parent.within(() => cy.findByRole('link', { name: 'Monthly Treasury Statement (MTS)' }));
+    parent.within(() =>
+      cy
+        .findByRole('link', { name: 'Monthly Treasury Statement (MTS)' })
+        .should('have.attr', 'href', '/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government')
+    );
   });
   it('Validate that the related datasets section contains the correct datasets', () => {});
 
