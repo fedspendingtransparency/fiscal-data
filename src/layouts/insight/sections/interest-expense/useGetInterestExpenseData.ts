@@ -35,8 +35,6 @@ export const useGetInterestExpenseData = () => {
       await basicFetch(
         `${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:${start}&page[size]=10000`
       ).then(res => {
-        // console.log(current);
-        // console.log(res.data);
         const groupedExpenseDataByFY = groupByProperty(res.data, 'record_fiscal_year');
         for (const year in groupedExpenseDataByFY) {
           const yearData = groupedExpenseDataByFY[year];
@@ -52,6 +50,7 @@ export const useGetInterestExpenseData = () => {
             chartData.push({ year: year, expense: currentFYSum });
           }
         }
+        // Interest rate chart data
         basicFetch(
           `${apiPrefix}v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:${start}&page[size]=300`
         ).then(res => {
