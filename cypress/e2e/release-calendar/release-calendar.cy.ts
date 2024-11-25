@@ -14,28 +14,26 @@ describe('Release calendar interaction flow', () => {
   beforeEach(() => {
     cy.visit('/release-calendar/');
   });
-  it('Navigate to the release calendar page', () => {
+  it('Verifies sorting by name', () => {
    
     cy.findAllByText('Date').click();
     cy.findAllByText('Name').click();
+    cy.findByLabelText('Change Sort By: from Name').should('exist');
     cy.findAllByText('#').should('exist');
     cy.findAllByText('A').should('exist');
     });
-  it('Navigate to the release calendar page', () => {
+  it('Verifies clicking on calender entry goes to correct page', () => {
       cy.findAllByText('Date').click();
       cy.findAllByText('Name').click();
 
       cy.findAllByText('120 Day Delinquent Debt Referral Compliance Report').click();
-      cy.findByLabelText('Change Sort By: from Name').should('exist');
       cy.url().should('include', '/120-day-delinquent-debt-referral-compliance-report');
     });
-  it('Navigate to the release calendar page', () => {
+  it('Verifies sorting by date', () => {
       cy.findByLabelText('Change Sort By: from Date').should('exist');
 
   });
-  it('Navigate to the release calendar page', () => {
-    cy.findByLabelText('Change Sort By: from Date').should('exist');
-  });
+
   });
 
 
