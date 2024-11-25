@@ -18,27 +18,27 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { getFileDisplay, getFileTypeImage } from '../../util/util';
-import { IReports } from '../../reports-section/reports-section';
 import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
+import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
 
-const DownloadReportTableRow: FunctionComponent<{ reportFile: IReports; isDailyReport: boolean; mobileView?: boolean }> = ({
+const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDataJson; isDailyReport: boolean; mobileView?: boolean }> = ({
   reportFile,
   isDailyReport,
   mobileView,
 }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);
-  const [reportLocation, setReportLocation] = useState(null);
+  const [reportLocation, setReportLocation] = useState<string>(null);
   const [fileName, setFileName] = useState(null);
   const [fileType, setFileType] = useState(null);
   const [displayName, setDisplayName] = useState(null);
   const [publishedDate, setPublishedDate] = useState(null);
-  const [fileTypeImage, setFileTypeImage] = useState(null);
+  const [fileTypeImage, setFileTypeImage] = useState<string>(null);
 
   const updateData = () => {
     if (reportFile) {
-      const curReportFile: IReports = reportFile;
+      const curReportFile: IPublishedReportDataJson = reportFile;
       const location = curReportFile.path;
 
       setReportLocation(location || null);

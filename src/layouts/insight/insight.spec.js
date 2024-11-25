@@ -8,6 +8,24 @@ import {
   mockInterestExpenseHeroOlderResponse,
   mockInterestExpenseSummableAmountResponse,
 } from './insight-test-helper';
+import { useStaticQuery } from 'gatsby';
+
+const glossaryMock = {
+  allGlossaryCsv: {
+    glossaryCsv: [
+      {
+        term: 'Interest Expense',
+        definition:
+          'The interest that the government pays on its outstanding loans. It can be referred to as the cost to the U.S. for borrowing money. It is the sum of interest paid at the interest rate applicable for each outstanding loan held by the government.',
+        site_page: 'Interest Expense Insight',
+        id: '38',
+        url_display: '',
+        url_path: '',
+      },
+    ],
+  },
+  extensions: {},
+};
 
 describe('Insights Template', () => {
   beforeAll(() => {
@@ -24,6 +42,10 @@ describe('Insights Template', () => {
       mockInterestExpenseSummableAmountResponse
     );
   });
+  beforeAll(() => {
+    useStaticQuery.mockReturnValue(glossaryMock);
+  });
+
   class ResizeObserver {
     observe() {}
     unobserve() {}
