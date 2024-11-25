@@ -3,7 +3,7 @@ describe('Release calendar interaction flow', () => {
   it('Navigate to the release calendar page', () => {
    
     cy.visit('/');
-    cy.contains('Resources').click(); 
+    cy.findByLabelText('Page links for Resources').click(); 
     cy.contains('Release Calendar').click();
     cy.url().should('include', '/release-calendar/');
     });
