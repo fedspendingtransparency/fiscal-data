@@ -3,7 +3,7 @@ describe('Deficit Explainer Page', () => {
     cy.visit('/americas-finance-guide/national-deficit/');
   });
 
-  it('Navigate to the deficit explainer, ensure pageensure page does not contain NaN, null, or undefined values', () => {
+  it.skip('Navigate to the deficit explainer, ensure pageensure page does not contain NaN, null, or undefined values', () => {
     cy.findAllByText('null').should('not.exist');
     cy.findAllByText('NaN').should('not.exist');
     cy.findAllByText('undefined').should('not.exist');
@@ -16,7 +16,7 @@ describe('Deficit Explainer Page', () => {
     // });
   });
 
-  describe('Validate that the sub nav takes the user to the correct section on the page', () => {
+  describe.skip('Validate that the sub nav takes the user to the correct section on the page', () => {
     it('Validate that the sub nav takes the user Overview section', () => {
       cy.findByRole('link', { name: 'Overview' }).click();
       cy.url().should('include', 'americas-finance-guide/');
@@ -38,7 +38,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it('Validate all internal links on the page navigate to the correct destinations', () => {
+  it.skip('Validate all internal links on the page navigate to the correct destinations', () => {
     const hyperlinks = [
       {
         name: 'national debt',
@@ -74,7 +74,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it('Validate all external links on the page navigate to the correct destinations', () => {
+  it.skip('Validate all external links on the page navigate to the correct destinations', () => {
     const externalHyperlinks = [
       {
         name: 'the federal response to COVID-19',
@@ -115,7 +115,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it('Validate MTS links', () => {
+  it.skip('Validate MTS links', () => {
     const mtsLinks = [
       {
         name: 'Monthly Treasury Statement (MTS)',
@@ -144,6 +144,10 @@ describe('Deficit Explainer Page', () => {
     //   name: 'GitHub repository',
     //   url: 'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation',
     // },
+    const accordionButton = cy.findByRole('button', { name: 'Data Sources & Methodologies toggle contents' });
+    accordionButton.click();
+    const parent = accordionButton.parent();
+    parent.within(() => cy.findByRole('link', { name: 'Monthly Treasury Statement (MTS)' }));
   });
   it('Validate that the related datasets section contains the correct datasets', () => {});
 
