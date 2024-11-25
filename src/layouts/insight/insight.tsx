@@ -17,6 +17,7 @@ import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 import { InsightHeroImage } from './insight-hero-image/insight-hero-image';
 import { InsightLastUpdated } from './sections/interest-expense/last-updated/insight-last-updated';
+import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
 interface IInsightSection {
   component: ReactElement;
@@ -27,6 +28,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
   const { pageName, seoConfig, heroImage } = pageContext;
 
   return (
+    <GlossaryProvider>
     <SiteLayout isPreProd={false}>
       <PageHelmet
         pageTitle={seoConfig.pageTitle}
@@ -61,6 +63,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
         </div>
       </div>
     </SiteLayout>
+    </GlossaryProvider>
   );
 };
 

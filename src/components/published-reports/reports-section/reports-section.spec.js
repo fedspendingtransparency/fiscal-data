@@ -1,42 +1,42 @@
 import React from 'react';
 import ReportsSection from './reports-section';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
+
+const mockReports = [
+  {
+    path: '/test/file/path/file.pdf',
+    report_date: new Date('Fri Jul 19 2024 00:00:00 GMT-0500'),
+    report_group_desc: 'The Download File.pdf',
+    report_group_sort_order_nbr: '01',
+    report_group_id: '01',
+  },
+  {
+    path: '/test/file/path/another_file.pdf',
+    report_date: new Date('Fri Jul 19 2023 00:00:00 GMT-0500'),
+    report_group_desc: 'Another Download File.xml',
+    report_group_sort_order_nbr: '02',
+    report_group_id: '02',
+  },
+];
+
+const mockDailyReports = [
+  {
+    path: '/test/file/path/file.pdf',
+    report_date: new Date('Fri Jul 19 2024 00:00:00 GMT-0500'),
+    report_group_desc: 'The Download File (.pdf)',
+    report_group_sort_order_nbr: '01',
+    report_group_id: '01',
+  },
+  {
+    path: '/test/file/path/file.pdf',
+    report_date: new Date('Fri Jul 19 2023 00:00:00 GMT-0500'),
+    report_group_desc: 'The Download File (.pdf)',
+    report_group_sort_order_nbr: '01',
+    report_group_id: '01',
+  },
+];
 
 describe('Reports Section component', () => {
-  const mockReports = [
-    {
-      path: '/test/file/path/file.pdf',
-      report_date: new Date('Fri Jul 19 2024 00:00:00 GMT-0500'),
-      report_group_desc: 'The Download File (.pdf)',
-      report_group_sort_order_nbr: '01',
-      report_group_id: '01',
-    },
-    {
-      path: '/test/file/path/another_file.pdf',
-      report_date: new Date('Fri Jul 19 2024 00:00:00 GMT-0500'),
-      report_group_desc: 'Another Download File (.xml)',
-      report_group_sort_order_nbr: '02',
-      report_group_id: '01',
-    },
-  ];
-
-  const mockDailyReports = [
-    {
-      path: '/test/file/path/file.pdf',
-      report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500',
-      report_group_desc: 'The Download File (.pdf)',
-      report_group_sort_order_nbr: '01',
-      report_group_id: '01',
-    },
-    {
-      path: '/test/file/path/file.pdf',
-      report_date: 'Fri Jul 19 2023 00:00:00 GMT-0500',
-      report_group_desc: 'The Download File (.pdf)',
-      report_group_sort_order_nbr: '02',
-      report_group_id: '01',
-    },
-  ];
-
   beforeEach(() => {
     global.fetch = jest.fn(() => Promise.resolve({ ok: true }));
   });
@@ -80,10 +80,42 @@ describe('Reports Section component', () => {
     expect(queryByText('Note:')).not.toBeInTheDocument();
   });
 
-  it('renders report filter when reportSelection is byReport', () => {
-    const datasetConfig = { reportSelection: 'byReport' };
-    const { getByRole } = render(<ReportsSection dataset={datasetConfig} publishedReportsProp={mockReports} />);
-    const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
-    expect(reportFilter).toBeInTheDocument();
+  describe('Reports section with report filter', () => {
+    it('renders report filter when reportSelection is byReport', () => {
+      const datasetConfig = { reportSelection: 'byReport' };
+      const { getByRole } = render(<ReportsSection dataset={datasetConfig} publishedReportsProp={mockReports} />);
+      const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
+      expect(reportFilter).toBeInTheDocument();
+    });
+
+    it('Updates most recent date in date picker on report change', () => {
+      jest.useFakeTimers();
+
+      const datasetConfig = { reportSelection: 'byReport' };
+      const { getByRole } = render(<ReportsSection dataset={datasetConfig} publishedReportsProp={mockReports} />);
+      const dateFilter = getByRole('button', { name: 'Select Published Report Date' });
+      expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
+      const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
+      reportFilter.click();
+      getByRole('button', { name: 'Another Download File.xml' }).click();
+      expect(getByRole('button', { name: 'Report: Another Download File.xml' })).toBeInTheDocument();
+      jest.runAllTimers();
+      expect(within(dateFilter).getByText('July 2023')).toBeInTheDocument();
+      jest.resetModules();
+    });
+
+    it('Only shows selected report in the report table', () => {
+      const datasetConfig = { reportSelection: 'byReport' };
+      jest.useFakeTimers();
+      const { getByRole, queryByRole } = render(<ReportsSection dataset={datasetConfig} publishedReportsProp={mockReports} />);
+      const dateFilter = getByRole('button', { name: 'Select Published Report Date' });
+      expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
+      const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
+      reportFilter.click();
+      getByRole('button', { name: 'Another Download File.xml' }).click();
+      jest.runAllTimers();
+      expect(queryByRole('button', { name: 'The Download File.pdf' })).not.toBeInTheDocument();
+      jest.resetModules();
+    });
   });
 });

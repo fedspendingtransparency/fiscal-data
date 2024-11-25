@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import { faDatabase } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from './../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
+import DataPreviewDropdownDialogContainer from '../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
 
 //TODO: add type def
 type DataPreviewProp = { apis; selectedTable; setSelectedTable; allTablesSelected; earliestDate; latestDate; disableAllTables };
@@ -28,9 +29,24 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
     />
   );
 
+  const dataTableSearch = <>Placeholder for data table search</>;
+
+  const dataTableFilters = <>Placeholder for data table filters</>;
+
+  const handleApply = () => setActive(false);
+
+  const handleCancel = () => setActive(false);
+
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
-      {/* DROP DOWN CONTAINER GOES HERE*/}
+      {active && (
+        <DataPreviewDropdownDialogContainer
+          searchComponent={dataTableSearch}
+          filterComponent={dataTableFilters}
+          handleApply={handleApply}
+          handleCancel={handleCancel}
+        />
+      )}
     </DropdownContainer>
   );
 };
