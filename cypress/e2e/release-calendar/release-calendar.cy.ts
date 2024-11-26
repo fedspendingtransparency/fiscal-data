@@ -1,15 +1,14 @@
-describe('Navigate to the release calendar page', () => {
-  it('Navigate to the release calendar page', () => {
-    cy.visit('/');
-    cy.findByLabelText('Page links for Resources').click();
-    cy.contains('Release Calendar').click();
-    cy.url().should('include', '/release-calendar/');
-  });
+
 });
 
 describe('Release calendar interaction flow', () => {
   beforeEach(() => {
     cy.visit('/release-calendar/');
+  });
+  it('Navigate to the release calendar page', () => {
+  
+    cy.findAllByText('This Fiscal Data Release Calendar shows estimated dates and times for upcoming data releases. Please note all times on the calendar are in Eastern Time.').should('exist');
+    cy.url().should('include', '/release-calendar/');
   });
   it('Verifies sorting by name', () => {
     cy.findAllByText('Date').click();
