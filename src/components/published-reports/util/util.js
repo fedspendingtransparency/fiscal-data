@@ -2,6 +2,8 @@ import pdf from '../../../../static/images/file-type-icons/file_type_pdf_icon.sv
 import xls from '../../../../static/images/file-type-icons/file_type_xls_icon.svg';
 import txt from '../../../../static/images/file-type-icons/file_type_txt_icon.svg';
 import xml from '../../../../static/images/file-type-icons/file_type_xml_icon.svg';
+import { monthFullNames } from '../../../utils/api-utils';
+import { IReports } from '../reports-section/reports-section';
 
 export const getYearReportOptions = reports => {
   const yearsFound = [];
@@ -189,10 +191,37 @@ export const getFileDisplay = curReportFile => {
       const apiFileType = '(.' + reportFileType + ')';
       const downloadFileType = '.' + reportFileType;
       // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
-      const fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
+      let fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
+      if (reportFileType === 'xlsx') {
+        fullDisplayName = groupName.replace(' ' + '(.xls)', '.xls');
+      }
       //Split file name so overflow ellipsis can be used in the middle of the name
       const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
       return { fullName: fullDisplayName, displayName: fileDisplayName || '', fileType: downloadFileType };
     }
   }
+};
+
+export const getAllReportDates = (isDaily, sortedReports) => {
+  const allDates = [];
+  const allYears = [];
+
+  if (isDaily) {
+    sortedReports.map(report => {
+      const reportDt = report.report_date;
+      const reportMonth = monthFullNames[reportDt.getMonth()];
+      const reportDay = reportDt.getDate();
+      const reportYear = reportDt.getFullYear();
+      const dateStr = reportMonth + ' ' + reportDay + ', ' + reportYear;
+      allDates.push(dateStr);
+    });
+  } else {
+    sortedReports.forEach(report => {
+      const reportDt = report.report_date;
+      const dateStr = reportDt.toLocaleString('default', { month: 'long', year: 'numeric' });
+      allDates.push(dateStr);
+      allYears.push(reportDt.getFullYear());
+    });
+  }
+  return { allDates, allYears };
 };

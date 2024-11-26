@@ -4,10 +4,10 @@ import DownloadReportTableRow from './download-report-table-row/download-report-
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
-import { IReports } from '../reports-section/reports-section';
+import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 
 // Exporting here for unit testing purposes
-export const DownloadReportTable: FunctionComponent<{ reports: IReports[]; isDailyReport: boolean; width?: number }> = ({
+export const DownloadReportTable: FunctionComponent<{ reports: IPublishedReportDataJson[]; isDailyReport: boolean; width?: number }> = ({
   reports,
   isDailyReport,
   width,
@@ -37,7 +37,7 @@ export const DownloadReportTable: FunctionComponent<{ reports: IReports[]; isDai
         )}
       </thead>
       <tbody>
-        {reports?.map((report: IReports, i: number) => {
+        {reports?.map((report: IPublishedReportDataJson, i: number) => {
           return <DownloadReportTableRow reportFile={report} isDailyReport={isDailyReport} mobileView={mobileView} key={i} />;
         })}
       </tbody>
