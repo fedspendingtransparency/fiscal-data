@@ -10,6 +10,12 @@ export const insightHeroMap = {
   },
 };
 
+export const insightLastUpdated = {
+  'interest-expense': {
+    endpoint: 'v2/accounting/od/interest_expense?sort=-record_date&page[size]=1',
+  },
+};
+
 export const insightSocialShareMap = {
   'interest-expense': {
     title: 'Fiscal Data Explores Interest Expense on National Debt',

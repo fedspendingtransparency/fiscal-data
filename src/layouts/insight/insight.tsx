@@ -1,15 +1,22 @@
 import React, { ReactElement } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import { mainContent, lastUpdated, contentContainer, relatedContent, insightsContainer, sectionContainer } from './insight.module.scss';
+import { mainContent, contentContainer, relatedContent, insightsContainer, sectionContainer } from './insight.module.scss';
 import SocialShare from '../../components/social-share/social-share';
-import { discoverDatasetsCitationsMap, exploreMoreCitationsMap, insightHeroMap, insightSocialShareMap } from '../../helpers/insights/insight-helpers';
+import {
+  discoverDatasetsCitationsMap,
+  exploreMoreCitationsMap,
+  insightHeroMap,
+  insightLastUpdated,
+  insightSocialShareMap,
+} from '../../helpers/insights/insight-helpers';
 import CitationList from '../../components/citation-list/citation-list';
 import { insightsDataSources, insightsDescriptionGenerators, insightsSections } from './sections/sections';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 import { InsightHeroImage } from './insight-hero-image/insight-hero-image';
+import { InsightLastUpdated } from './sections/interest-expense/last-updated/insight-last-updated';
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
 interface IInsightSection {
@@ -34,7 +41,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
         {width < pxToNumber(breakpointLg) && (
           <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
         )}
-        <span className={lastUpdated}>Last Updated: Month DD, YYYY</span>
+        <InsightLastUpdated endpoint={insightLastUpdated[pageName].endpoint} />
         <div className={contentContainer}>
           <div className={mainContent}>
             {insightsSections[pageName]?.map((section: IInsightSection) => (
