@@ -3,7 +3,7 @@ describe('Deficit Explainer Page', () => {
     cy.visit('/americas-finance-guide/national-deficit/');
   });
 
-  it.skip('Navigate to the deficit explainer, ensure pageensure page does not contain NaN, null, or undefined values', () => {
+  it('Navigate to the deficit explainer, ensure pageensure page does not contain NaN, null, or undefined values', () => {
     cy.findAllByText('null').should('not.exist');
     cy.findAllByText('NaN').should('not.exist');
     cy.findAllByText('undefined').should('not.exist');
@@ -16,7 +16,7 @@ describe('Deficit Explainer Page', () => {
     // });
   });
 
-  describe.skip('Validate that the sub nav takes the user to the correct section on the page', () => {
+  describe('Validate that the sub nav takes the user to the correct section on the page', () => {
     it('Validate that the sub nav takes the user Overview section', () => {
       cy.findByRole('link', { name: 'Overview' }).click();
       cy.url().should('include', 'americas-finance-guide/');
@@ -38,7 +38,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it.skip('Validate all internal links on the page navigate to the correct destinations', () => {
+  it('Validate all internal links on the page navigate to the correct destinations', () => {
     const hyperlinks = [
       {
         name: 'national debt',
@@ -74,7 +74,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it.skip('Validate all external links on the page navigate to the correct destinations', () => {
+  it('Validate all external links on the page navigate to the correct destinations', () => {
     const externalHyperlinks: object[] = [
       {
         name: 'the federal response to COVID-19',
@@ -115,7 +115,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it.skip('Validate MTS links', () => {
+  it('Validate MTS links', () => {
     const mtsLinks: object[] = [
       {
         name: 'Monthly Treasury Statement (MTS)',
@@ -134,7 +134,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it.skip('Validate Data Sources & Methodologies hyperlinks', { retries: { runMode: 2, openMode: 2 } }, () => {
+  it('Validate Data Sources & Methodologies hyperlinks', { retries: { runMode: 2, openMode: 2 } }, () => {
     // {
     //   name: 'Monthly Treasury Statement (MTS)',
     //   url: 'datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government',
@@ -154,7 +154,7 @@ describe('Deficit Explainer Page', () => {
     );
   });
 
-  it.skip('Validate that the related datasets section contains the correct datasets', () => {
+  it('Validate that the related datasets section contains the correct datasets', () => {
     const relatedDs: string[] = [
       'Monthly Treasury Statement (MTS)',
       'U.S. Treasury Savings Bonds: Issues, Redemptions, and Maturities by Series',
