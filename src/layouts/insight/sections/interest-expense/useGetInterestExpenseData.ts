@@ -84,7 +84,6 @@ export const useGetInterestExpenseData = () => {
           `${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:${start}&page[size]=10000`
         ).then(res1 => {
           // Interest rate chart data
-          console.log(res1);
           basicFetch(
             `${apiPrefix}v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:${start}&page[size]=300`
           ).then(res2 => {
@@ -103,7 +102,9 @@ export const useGetInterestExpenseData = () => {
                 const sum = yearData
                   .filter(element => element.record_calendar_month === '09')
                   .reduce((a, { fytd_expense_amt }) => a + parseInt(fytd_expense_amt), 0);
-                chartData.push({ year: parseInt(year), expense: sum });
+                if (sum > 0) {
+                  chartData.push({ year: parseInt(year), expense: sum });
+                }
               } else {
                 const currentFYSum = yearData
                   .filter(element => element.record_calendar_month === interestExpMonth && element.record_fiscal_year === current)
@@ -116,8 +117,10 @@ export const useGetInterestExpenseData = () => {
               const yearData = groupedInterestRateByFY[year];
               if (year !== current) {
                 const rate = yearData.filter(element => element.record_calendar_month === '09');
-                const index = chartData.findIndex(element => element.year === parseInt(rate[0].record_fiscal_year));
-                chartData[index].rate = parseFloat(rate[0].avg_interest_rate_amt);
+                if (rate.length > 0) {
+                  const index = chartData.findIndex(element => element.year === parseInt(rate[0].record_fiscal_year));
+                  chartData[index].rate = parseFloat(rate[0].avg_interest_rate_amt);
+                }
               } else {
                 const currentRate = yearData.filter(
                   element => element.record_calendar_month === interestExpMonth && element.record_fiscal_year === current
