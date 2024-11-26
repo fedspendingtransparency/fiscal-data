@@ -67,7 +67,6 @@ describe('Deficit Explainer Page', () => {
     ];
 
     hyperlinks.forEach(link => {
-      // cy.findByText(link.name).click();
       cy.findByRole('link', { name: link.name }).click();
       cy.url().should('include', link.url);
       cy.visit('/americas-finance-guide/national-deficit/');
@@ -189,6 +188,6 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  // this may get put into its own story
+  // TODO
   describe('Validate charts', () => {});
 });
