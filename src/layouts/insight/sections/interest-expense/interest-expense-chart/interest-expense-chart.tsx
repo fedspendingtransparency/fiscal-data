@@ -17,10 +17,19 @@ const breakpoint = {
 
 export const InterestExpenseChart = () => {
   const [width, height] = useWindowSize();
-  const { chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading } = useGetInterestExpenseData();
-  const [fiscalYear, setFiscalYear] = useState(0);
-  const [curExpenseAmount, setCurExpenseAmount] = useState(0);
-  const [curRate, setCurRate] = useState(0);
+  const {
+    chartData,
+    currentFY,
+    chartXAxisValues,
+    expenseYAxisValues,
+    rateYAxisValues,
+    latestChartData,
+    altText,
+    chartLoading,
+  } = useGetInterestExpenseData();
+  const [fiscalYear, setFiscalYear] = useState<number>(0);
+  const [curExpenseAmount, setCurExpenseAmount] = useState<number>(0);
+  const [curRate, setCurRate] = useState<number>(0);
   const [isMobile, setIsMobile] = useState(null);
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
@@ -32,6 +41,14 @@ export const InterestExpenseChart = () => {
       setCurRate(latestChartData.rate);
     }
   };
+
+  useEffect(() => {
+    if (!chartLoading) {
+      setFiscalYear(currentFY);
+      setCurExpenseAmount(latestChartData.expense);
+      setCurRate(latestChartData.rate);
+    }
+  }, [chartLoading]);
 
   useEffect(() => {
     if (window.innerWidth < breakpoint.desktop) {

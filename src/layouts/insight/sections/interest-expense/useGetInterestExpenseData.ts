@@ -11,8 +11,8 @@ const groupByProperty = (array, property) => {
 };
 
 export const useGetInterestExpenseData = () => {
-  const [startFY, setStartFY] = useState(null);
-  const [currentFY, setCurrentFY] = useState(null);
+  const [startFY, setStartFY] = useState<number>(null);
+  const [currentFY, setCurrentFY] = useState<number>(null);
   const [chartData, setChartData] = useState(null);
   const [chartLoading, setChartLoading] = useState<boolean>(true);
   const [chartXAxisValues, setChartXAxisValues] = useState<number[]>(null);
@@ -28,6 +28,7 @@ export const useGetInterestExpenseData = () => {
   const generateExpenseValueTicks = (chartData): number[] => {
     const expenseValues = chartData.map(element => element.expense);
     const max = Math.max(...expenseValues);
+    // Round to nearest $300B interval
     const top = Math.round(max / 300000000000) * 300000000000;
     const ticks = [];
     for (let i = 0; i <= top; i += 300000000000) {

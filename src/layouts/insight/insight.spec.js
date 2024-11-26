@@ -4,6 +4,7 @@ import InsightPageLayout from './insight';
 import { RecoilRoot } from 'recoil';
 import fetchMock from 'fetch-mock';
 import {
+  mockAvgInterestRateResponse,
   mockInterestExpenseHeroCurrentResponse,
   mockInterestExpenseHeroOlderResponse,
   mockInterestExpenseSummableAmountResponse,
@@ -38,8 +39,16 @@ describe('Insights Template', () => {
       mockInterestExpenseHeroOlderResponse
     );
     fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_date:eq:2025-10-30`,
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_date:eq:2024-09-30`,
       mockInterestExpenseSummableAmountResponse
+    );
+    fetchMock.get(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:2012&page[size]=10000`,
+      mockInterestExpenseHeroCurrentResponse
+    );
+    fetchMock.get(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:2012&page[size]=300`,
+      mockAvgInterestRateResponse
     );
   });
   beforeAll(() => {
