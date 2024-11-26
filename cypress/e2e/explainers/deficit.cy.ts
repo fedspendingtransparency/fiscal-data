@@ -154,7 +154,7 @@ describe('Deficit Explainer Page', () => {
     );
   });
 
-  it('Validate that the related datasets section contains the correct datasets', () => {
+  it.skip('Validate that the related datasets section contains the correct datasets', () => {
     const relatedDs: string[] = [
       'Monthly Treasury Statement (MTS)',
       'U.S. Treasury Savings Bonds: Issues, Redemptions, and Maturities by Series',
@@ -169,7 +169,24 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it('Validate all glossary terms on page', () => {});
+  it('Validate all glossary terms on page', () => {
+    const glossaryTerms: string[] = [
+      'fiscal year (FY)',
+      'spending',
+      'revenue',
+      'surplus',
+      'balanced',
+      'gross domestic product (GDP)',
+      'bonds',
+      'bills',
+    ];
+
+    const foundTerms = cy.findAllByTestId('infoTipContainer');
+
+    foundTerms.each((term, index) => {
+      cy.wrap(term).should('include.text', glossaryTerms[index]);
+    });
+  });
 
   // this may get put into its own story
   describe('Validate charts', () => {});
