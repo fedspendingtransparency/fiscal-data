@@ -1,6 +1,4 @@
 
-});
-
 describe('Release calendar interaction flow', () => {
   beforeEach(() => {
     cy.visit('/release-calendar/');
