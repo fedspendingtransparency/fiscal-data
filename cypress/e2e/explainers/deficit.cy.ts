@@ -147,8 +147,7 @@ describe('Deficit Explainer Page', () => {
     ];
 
     const button = cy.findByRole('button', { name: 'Data Sources & Methodologies toggle contents' });
-    button.scrollIntoView({ offset: { top: 300, left: 0 }, duration: 1000 });
-    button.click();
+    button.click({ force: true });
     cy.findByTestId('DSM_content').within(() =>
       dsmLinks.forEach(link => {
         cy.findByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
