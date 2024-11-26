@@ -12,8 +12,13 @@ import {
   mockInterestExpenseHeroOlderResponse,
   olderUrl,
 } from '../../insight-test-helper';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 describe('Interest Expense Hero', () => {
+  const queryClient = new QueryClient();
+
+  const wrapper = ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+
   beforeEach(() => {
     fetchMock.get(currentUrl, mockInterestExpenseHeroCurrentResponse);
     fetchMock.get(olderUrl, mockInterestExpenseHeroOlderResponse);
@@ -27,7 +32,7 @@ describe('Interest Expense Hero', () => {
   it('Hero Image section loads with relevant data', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
-    const { getByText } = render(<InterestExpenseHero />);
+    const { getByText } = render(<InterestExpenseHero />, { wrapper });
     expect(fetchSpy).toBeCalled();
 
     await waitFor(() => getByText('2012', { exact: false }));

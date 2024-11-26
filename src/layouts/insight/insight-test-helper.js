@@ -18,6 +18,26 @@ export const mockInterestExpenseHeroOlderResponse = {
   ],
 };
 
+export const mockInterestExpenseHeroMuchOlderResponse = {
+  data: [
+    {
+      expense_catg_desc: 'INTEREST EXPENSE ON PUBLIC ISSUES',
+      expense_group_desc: 'ACCRUED INTEREST EXPENSE',
+      expense_type_desc: 'Treasury Notes',
+      fytd_expense_amt: '100000000.00',
+      month_expense_amt: '1000.00',
+      record_calendar_day: '31',
+      record_calendar_month: '05',
+      record_calendar_quarter: '2',
+      record_calendar_year: '2002',
+      record_date: '2002-05-31',
+      record_fiscal_quarter: '3',
+      record_fiscal_year: '2002',
+      src_line_nbr: '1',
+    },
+  ],
+};
+
 export const mockInterestExpenseHeroCurrentResponse = {
   data: [
     {
@@ -205,6 +225,12 @@ export const olderUrl =
 
 export const expenseChartDataUrl =
   'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:2012&page[size]=10000';
+
+export const expenseChartDataOLDUrl =
+  'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:2004&page[size]=10000';
+
+export const avgRateChartDataOLDUrl =
+  'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:2004&page[size]=300';
 
 export const avgRateChartDataUrl =
   'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:2012&page[size]=300';

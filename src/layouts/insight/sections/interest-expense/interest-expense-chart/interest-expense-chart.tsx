@@ -17,16 +17,7 @@ const breakpoint = {
 
 export const InterestExpenseChart = () => {
   const [width, height] = useWindowSize();
-  const {
-    chartData,
-    currentFY,
-    chartXAxisValues,
-    expenseYAxisValues,
-    rateYAxisValues,
-    latestChartData,
-    altText,
-    chartLoading,
-  } = useGetInterestExpenseData();
+  const { chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading } = useGetInterestExpenseData();
   const [fiscalYear, setFiscalYear] = useState<number>(0);
   const [curExpenseAmount, setCurExpenseAmount] = useState<number>(0);
   const [curRate, setCurRate] = useState<number>(0);
@@ -44,7 +35,7 @@ export const InterestExpenseChart = () => {
 
   useEffect(() => {
     if (!chartLoading) {
-      setFiscalYear(currentFY);
+      setFiscalYear(latestChartData.year);
       setCurExpenseAmount(latestChartData.expense);
       setCurRate(latestChartData.rate);
     }
@@ -66,14 +57,16 @@ export const InterestExpenseChart = () => {
         </div>
       ) : (
         <div aria-label={altText}>
-          <div>
-            <ChartDataHeader
-              dateField={fiscalYear === latestChartData.year ? 'FYTD' : 'Fiscal Year'}
-              fiscalYear={fiscalYear}
-              right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount.toString())}` }}
-              left={{ label: 'Avg. Interest Rate', value: `${curRate}%` }}
-            />
-          </div>
+          {fiscalYear > 0 && (
+            <div>
+              <ChartDataHeader
+                dateField={fiscalYear === latestChartData.year ? 'FYTD' : 'Fiscal Year'}
+                fiscalYear={fiscalYear}
+                right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount.toString())}` }}
+                left={{ label: 'Avg. Interest Rate', value: `${curRate}%` }}
+              />
+            </div>
+          )}
           <div data-testid="chartParent">
             <Legend />
             <div
