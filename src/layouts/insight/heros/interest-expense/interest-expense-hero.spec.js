@@ -3,20 +3,22 @@ import fetchMock from 'fetch-mock';
 import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { InterestExpenseHero } from './interest-expense-hero';
-import { mockInterestExpenseHeroCurrentResponse, mockInterestExpenseHeroOlderResponse } from '../../insight-test-helper';
+import {
+  avgRateChartDataUrl,
+  currentUrl,
+  expenseChartDataUrl,
+  mockAvgInterestRateResponse,
+  mockInterestExpenseHeroCurrentResponse,
+  mockInterestExpenseHeroOlderResponse,
+  olderUrl,
+} from '../../insight-test-helper';
 
 describe('Interest Expense Hero', () => {
   beforeEach(() => {
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=record_date&page[size]=1`,
-      mockInterestExpenseHeroOlderResponse,
-      { overwriteRoutes: false, repeat: 1 }
-    );
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`,
-      mockInterestExpenseHeroCurrentResponse,
-      { overwriteRoutes: false, repeat: 1 }
-    );
+    fetchMock.get(currentUrl, mockInterestExpenseHeroCurrentResponse);
+    fetchMock.get(olderUrl, mockInterestExpenseHeroOlderResponse);
+    fetchMock.get(expenseChartDataUrl, mockInterestExpenseHeroCurrentResponse);
+    fetchMock.get(avgRateChartDataUrl, mockAvgInterestRateResponse);
   });
   afterEach(() => {
     fetchMock.restore();
@@ -30,7 +32,7 @@ describe('Interest Expense Hero', () => {
 
     await waitFor(() => getByText('2012', { exact: false }));
     expect(
-      await getByText('Interest Expense and Average Interest Rates on the National Debt FY 2012 – FYTD 2025', { exact: false })
+      await getByText('Interest Expense and Average Interest Rates on the National Debt FY 2012 – FYTD 2024', { exact: false })
     ).toBeInTheDocument();
   });
 });

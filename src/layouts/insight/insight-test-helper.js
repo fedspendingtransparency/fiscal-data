@@ -196,3 +196,15 @@ export const mockInsightChartData = [
     rate: 3.8,
   },
 ];
+
+export const currentUrl =
+  'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&page[size]=1';
+
+export const olderUrl =
+  'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=record_date&page[size]=1';
+
+export const expenseChartDataUrl =
+  'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:2012&page[size]=10000';
+
+export const avgRateChartDataUrl =
+  'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:2012&page[size]=300';
