@@ -3,7 +3,7 @@ describe('Deficit Explainer Page', () => {
     cy.visit('/americas-finance-guide/national-deficit/');
   });
 
-  it('Navigate to the deficit explainer, ensure pageensure page does not contain NaN, null, or undefined values', () => {
+  it('Navigate to the deficit explainer, ensure page does not contain NaN, null, or undefined values', () => {
     cy.findAllByText('null').should('not.exist');
     cy.findAllByText('NaN').should('not.exist');
     cy.findAllByText('undefined').should('not.exist');
@@ -134,23 +134,25 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it('Validate Data Sources & Methodologies hyperlinks', { retries: { runMode: 2, openMode: 2 } }, () => {
-    // {
-    //   name: 'Monthly Treasury Statement (MTS)',
-    //   url: 'datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government',
-    // },
-    // {
-    //   name: 'GitHub repository',
-    //   url: 'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation',
-    // },
+  it('Validate Data Sources & Methodologies hyperlinks', () => {
+    const dsmLinks = [
+      {
+        name: 'Monthly Treasury Statement (MTS)',
+        url: '/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government',
+      },
+      {
+        name: 'GitHub repository',
+        url: 'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation',
+      },
+    ];
 
     const accordionButton = cy.findByRole('button', { name: 'Data Sources & Methodologies toggle contents' });
     accordionButton.click();
-    const parent = accordionButton.parent().wait(1000);
-    parent.within(() =>
-      cy
-        .findByRole('link', { name: 'Monthly Treasury Statement (MTS)' })
-        .should('have.attr', 'href', '/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government')
+    const content = cy.findByTestId('DSM_content');
+    content.within(() =>
+      dsmLinks.forEach(link => {
+        cy.findByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
+      })
     );
   });
 

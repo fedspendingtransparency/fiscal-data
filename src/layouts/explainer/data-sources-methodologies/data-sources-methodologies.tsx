@@ -35,7 +35,7 @@ const DataSourcesMethodologies: FunctionComponent<DsmProps> = ({ children, pageN
   // TODO: Accordion prop types need to match
   return (
     <section className={`${section} dataSourceAccordion`}>
-      <Accordion {...analyticsProps} title="Data Sources & Methodologies" ga4ID={'DSM'}>
+      <Accordion {...analyticsProps} title="Data Sources & Methodologies" ga4ID="DSM" dataTestId="DSM_content">
         {children}
       </Accordion>
     </section>
