@@ -146,10 +146,10 @@ describe('Deficit Explainer Page', () => {
       },
     ];
 
-    const accordionButton = cy.findByRole('button', { name: 'Data Sources & Methodologies toggle contents' });
-    accordionButton.click();
-    const content = cy.findByTestId('DSM_content');
-    content.within(() =>
+    const button = cy.findByRole('button', { name: 'Data Sources & Methodologies toggle contents' });
+    cy.scrollTo(100, 100).wait(0);
+    button.click();
+    cy.findByTestId('DSM_content').within(() =>
       dsmLinks.forEach(link => {
         cy.findByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
       })
