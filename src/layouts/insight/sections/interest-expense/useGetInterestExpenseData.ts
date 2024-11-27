@@ -66,7 +66,7 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean) => {
   useMemo(() => {
     if (currentResult && olderResult) {
       const current = currentResult.data[0].record_fiscal_year;
-      const interestExpMonth = currentResult.data[0].record_calendar_month;
+      let interestExpMonth = currentResult.data[0].record_calendar_month;
       const recordFY = olderResult.data[0].record_fiscal_year;
       let start;
       if (current - 20 > recordFY) {
@@ -77,7 +77,7 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean) => {
       setCurrentFY(current);
       setStartFY(start);
 
-      const gatherData = async () => {
+      const gatherChartData = async () => {
         const chartData = [];
         // Expense Amount Chart Data
         await basicFetch(
@@ -89,11 +89,13 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean) => {
           ).then(res2 => {
             const commonIndexExpense = res1.data.findIndex(element => element.record_calendar_month === res2.data[0].record_calendar_month);
             const commonIndexRate = res2.data.findIndex(element => element.record_calendar_month === res1.data[0].record_calendar_month);
+            // Base chart data's most recent record where both datasets share the same month
             if (commonIndexExpense > 0) {
-              res1.data.slice(commonIndexExpense);
+              res1.data = res1.data.slice(commonIndexExpense);
+              interestExpMonth = res1.data[0].record_calendar_month;
             }
             if (commonIndexRate > 0) {
-              res2.data.slice(commonIndexRate);
+              res2.data = res2.data.slice(commonIndexRate);
             }
             const groupedExpenseDataByFY = groupByProperty(res1.data, 'record_fiscal_year');
             for (const year in groupedExpenseDataByFY) {
@@ -106,12 +108,14 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean) => {
                   chartData.push({ year: parseInt(year), expense: sum });
                 }
               } else {
+                console.log(interestExpMonth);
                 const currentFYSum = yearData
                   .filter(element => element.record_calendar_month === interestExpMonth && element.record_fiscal_year === current)
                   .reduce((a, { fytd_expense_amt }) => a + parseInt(fytd_expense_amt), 0);
                 chartData.push({ year: parseInt(year), expense: currentFYSum });
               }
             }
+            console.log(chartData);
             const groupedInterestRateByFY = groupByProperty(res2.data, 'record_fiscal_year');
             for (const year in groupedInterestRateByFY) {
               const yearData = groupedInterestRateByFY[year];
@@ -163,7 +167,7 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean) => {
         });
       };
       if (shouldHaveChartData) {
-        gatherData();
+        gatherChartData();
       }
     }
   }, [currentResult, olderResult]);
