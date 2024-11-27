@@ -18,7 +18,7 @@ const getOlderInterestExpData = async () => {
   return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=record_date&page[size]=1`);
 };
 
-export const useGetInterestExpenseData = () => {
+export const useGetInterestExpenseData = (shouldHaveChartData: boolean) => {
   const [startFY, setStartFY] = useState<number>(null);
   const [currentFY, setCurrentFY] = useState<number>(null);
   const [chartData, setChartData] = useState(null);
@@ -65,19 +65,19 @@ export const useGetInterestExpenseData = () => {
 
   useMemo(() => {
     if (currentResult && olderResult) {
-      const gatherData = async () => {
-        const current = currentResult.data[0].record_fiscal_year;
-        const interestExpMonth = currentResult.data[0].record_calendar_month;
-        const recordFY = olderResult.data[0].record_fiscal_year;
-        let start;
-        if (current - 20 > recordFY) {
-          start = current - 20;
-        } else {
-          start = recordFY;
-        }
-        setCurrentFY(current);
-        setStartFY(start);
+      const current = currentResult.data[0].record_fiscal_year;
+      const interestExpMonth = currentResult.data[0].record_calendar_month;
+      const recordFY = olderResult.data[0].record_fiscal_year;
+      let start;
+      if (current - 20 > recordFY) {
+        start = current - 20;
+      } else {
+        start = recordFY;
+      }
+      setCurrentFY(current);
+      setStartFY(start);
 
+      const gatherData = async () => {
         const chartData = [];
         // Expense Amount Chart Data
         await basicFetch(
@@ -162,7 +162,9 @@ export const useGetInterestExpenseData = () => {
           });
         });
       };
-      gatherData();
+      if (shouldHaveChartData) {
+        gatherData();
+      }
     }
   }, [currentResult, olderResult]);
   return { startFY, currentFY, chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading };

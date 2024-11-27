@@ -37,7 +37,7 @@ describe('Interest Expense Hero', () => {
 
     await waitFor(() => getByText('2012', { exact: false }));
     expect(
-      await getByText('Interest Expense and Average Interest Rates on the National Debt FY 2012 – FYTD 2024', { exact: false })
+      await getByText('Interest Expense and Average Interest Rates on the National Debt FY 2012 – FYTD 2025', { exact: false })
     ).toBeInTheDocument();
   });
 });

@@ -382,10 +382,13 @@ export const expenseChartDataUrl =
   'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:2012&page[size]=10000';
 
 export const expenseChartDataOLDUrl =
-  'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:2004&page[size]=10000';
+  'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:2005&page[size]=10000';
 
 export const avgRateChartDataOLDUrl =
-  'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:2004&page[size]=300';
+  'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:2005&page[size]=300';
 
 export const avgRateChartDataUrl =
   'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:2012&page[size]=300';
+
+export const summableRecentExpenseUrl =
+  'https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/interest_expense?sort=-record_date&filter=record_date:eq:2025-09-30';

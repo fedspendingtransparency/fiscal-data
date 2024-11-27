@@ -4,7 +4,7 @@ import { sectionHeading } from '../../insight.module.scss';
 import { useGetInterestExpenseData } from '../../sections/interest-expense/useGetInterestExpenseData';
 
 export const InterestExpenseHero = (): ReactElement => {
-  const { startFY, currentFY } = useGetInterestExpenseData();
+  const { startFY, currentFY } = useGetInterestExpenseData(false);
 
   return (
     <h1 className={sectionHeading}>
