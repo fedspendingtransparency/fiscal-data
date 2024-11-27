@@ -3,15 +3,7 @@ import fetchMock from 'fetch-mock';
 import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { InterestExpenseHero } from './interest-expense-hero';
-import {
-  avgRateChartDataUrl,
-  currentUrl,
-  expenseChartDataUrl,
-  mockAvgInterestRateResponse,
-  mockInterestExpenseHeroCurrentResponse,
-  mockInterestExpenseHeroOlderResponse,
-  olderUrl,
-} from '../../insight-test-helper';
+import { currentUrl, mockInterestExpenseHeroCurrentResponse, mockInterestExpenseHeroOlderResponse, olderUrl } from '../../insight-test-helper';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 describe('Interest Expense Hero', () => {
@@ -22,8 +14,6 @@ describe('Interest Expense Hero', () => {
   beforeEach(() => {
     fetchMock.get(currentUrl, mockInterestExpenseHeroCurrentResponse);
     fetchMock.get(olderUrl, mockInterestExpenseHeroOlderResponse);
-    fetchMock.get(expenseChartDataUrl, mockInterestExpenseHeroCurrentResponse);
-    fetchMock.get(avgRateChartDataUrl, mockAvgInterestRateResponse);
   });
   afterEach(() => {
     fetchMock.restore();
