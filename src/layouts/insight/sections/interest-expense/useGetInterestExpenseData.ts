@@ -108,14 +108,12 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean) => {
                   chartData.push({ year: parseInt(year), expense: sum });
                 }
               } else {
-                console.log(interestExpMonth);
                 const currentFYSum = yearData
                   .filter(element => element.record_calendar_month === interestExpMonth && element.record_fiscal_year === current)
                   .reduce((a, { fytd_expense_amt }) => a + parseInt(fytd_expense_amt), 0);
                 chartData.push({ year: parseInt(year), expense: currentFYSum });
               }
             }
-            console.log(chartData);
             const groupedInterestRateByFY = groupByProperty(res2.data, 'record_fiscal_year');
             for (const year in groupedInterestRateByFY) {
               const yearData = groupedInterestRateByFY[year];
