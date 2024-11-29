@@ -114,7 +114,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it('Validate MTS links', {retries: 2},() => {
+  it('Validate MTS links', () => {
     const mtsLinks: object[] = [
       {
         name: 'Monthly Treasury Statement (MTS)',
@@ -133,7 +133,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it('Validate Data Sources & Methodologies hyperlinks', {retries: 2},() => {
+  it('Validate Data Sources & Methodologies hyperlinks', () => {
     const dsmLinks = [
       {
         name: 'Monthly Treasury Statement (MTS)',
