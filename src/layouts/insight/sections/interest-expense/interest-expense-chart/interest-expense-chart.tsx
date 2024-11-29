@@ -1,11 +1,14 @@
 import { ComposedChart, ResponsiveContainer, XAxis, YAxis, Line, Bar, CartesianGrid, Tooltip } from 'recharts';
-import { CustomTooltip, Legend, mockChartData } from './interest-expense-chart-helper';
+import { CustomTooltip, Legend } from './interest-expense-chart-helper';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { interestExpensePrimary } from '../../../insight.module.scss';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import { useWindowSize } from '../../../../../hooks/windowResize';
+import { useGetInterestExpenseData } from '../useGetInterestExpenseData';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const breakpoint = {
   desktop: 1015,
@@ -14,29 +17,31 @@ const breakpoint = {
 
 export const InterestExpenseChart = () => {
   const [width, height] = useWindowSize();
-  const [chartData, setChartData] = useState(mockChartData);
-  const [fiscalYear, setFiscalYear] = useState(2024);
-  const [curExpenseAmount, setCurExpenseAmount] = useState(890000000000);
-  const [curRate, setCurRate] = useState(3.8);
+  const { chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading } = useGetInterestExpenseData(
+    true
+  );
+  const [fiscalYear, setFiscalYear] = useState<number>(0);
+  const [curExpenseAmount, setCurExpenseAmount] = useState<number>(0);
+  const [curRate, setCurRate] = useState<number>(0);
   const [isMobile, setIsMobile] = useState(null);
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const [latestData, setLatestData] = useState<{
-    year: number;
-    expense: number;
-    rate: number;
-  }>({ year: 2024, expense: 890000000000, rate: 3.8 });
-
-  const defaultRateAxis: number[] = [0, 1, 2, 3, 4];
-  const defaultExpenseAxis: number[] = [0, 300000000000, 600000000000, 900000000000, 1200000000000];
 
   const resetDataHeader = () => {
-    if (latestData) {
-      setFiscalYear(latestData.year);
-      setCurExpenseAmount(latestData.expense);
-      setCurRate(latestData.rate);
+    if (latestChartData) {
+      setFiscalYear(latestChartData.year);
+      setCurExpenseAmount(latestChartData.expense);
+      setCurRate(latestChartData.rate);
     }
   };
+
+  useEffect(() => {
+    if (!chartLoading) {
+      setFiscalYear(latestChartData.year);
+      setCurExpenseAmount(latestChartData.expense);
+      setCurRate(latestChartData.rate);
+    }
+  }, [chartLoading]);
 
   useEffect(() => {
     if (window.innerWidth < breakpoint.desktop) {
@@ -48,64 +53,95 @@ export const InterestExpenseChart = () => {
 
   return (
     <div>
-      <div>
-        <ChartDataHeader
-          dateField={fiscalYear === latestData.year ? 'FYTD' : 'Fiscal Year'}
-          fiscalYear={fiscalYear}
-          right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount.toString())}` }}
-          left={{ label: 'Avg. Interest Rate', value: `${curRate}%` }}
-        />
-      </div>
-      <div data-testid="chartParent">
-        <Legend />
-        <div
-          role="presentation"
-          onBlur={() => {
-            setChartFocus(false);
-            resetDataHeader();
-          }}
-          onFocus={() => setChartFocus(true)}
-          onMouseOver={() => setChartHover(true)}
-          onMouseLeave={() => setChartHover(false)}
-        >
-          <ResponsiveContainer height={360} width={'99%'}>
-            <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer onMouseLeave={resetDataHeader}>
-              <CartesianGrid vertical={false} stroke="#d9d9d9" />
-              <XAxis dataKey={'year'} ticks={[2010, 2013, 2016, 2019, 2022, 2024]} />
-              <YAxis
-                dataKey={'interestExpense'}
-                tickFormatter={value => (value === 0 ? '$0' : `$${getShortForm(value)}`)}
-                axisLine={false}
-                tickLine={false}
-                ticks={defaultExpenseAxis}
-                tick={{ fill: interestExpensePrimary }}
-              />
-              <YAxis
-                yAxisId={1}
-                dataKey={'avgInterestRate'}
-                orientation={'right'}
-                axisLine={false}
-                tickLine={false}
-                type="number"
-                tickCount={5}
-                ticks={defaultRateAxis}
-                tickFormatter={value => `${value.toFixed(1)}%`}
-              />
-              <Tooltip
-                cursor={{
-                  stroke: '#00796B20',
-                  strokeWidth: isMobile ? 16 : 32,
-                }}
-                content={<CustomTooltip setYear={setFiscalYear} setExpense={setCurExpenseAmount} setRate={setCurRate} />}
-                isAnimationActive={false}
-                active={chartFocus || chartHover}
-              />
-              <Line dataKey={'avgInterestRate'} yAxisId={1} stroke={'#666666'} type={'monotone'} strokeWidth={1} activeDot={false} />
-              <Bar dataKey={'interestExpense'} barSize={isMobile ? 12 : 20} fill={interestExpensePrimary} />
-            </ComposedChart>
-          </ResponsiveContainer>
+      {chartLoading ? (
+        <div>
+          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>
-      </div>
+      ) : (
+        <div aria-label={altText}>
+          {fiscalYear > 0 && (
+            <div>
+              <ChartDataHeader
+                dateField={fiscalYear === latestChartData.year ? 'FYTD' : 'Fiscal Year'}
+                fiscalYear={fiscalYear}
+                right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount.toString())}` }}
+                left={{ label: 'Avg. Interest Rate', value: `${curRate}%` }}
+              />
+            </div>
+          )}
+          <div data-testid="chartParent">
+            <Legend />
+            <div
+              role="presentation"
+              onBlur={() => {
+                setChartFocus(false);
+                resetDataHeader();
+              }}
+              onFocus={() => setChartFocus(true)}
+              onMouseOver={() => setChartHover(true)}
+              onMouseLeave={() => setChartHover(false)}
+            >
+              <ResponsiveContainer height={360} width={'99%'}>
+                <ComposedChart
+                  data={chartData}
+                  margin={{ top: 12, bottom: -8, left: 3, right: -18 }}
+                  accessibilityLayer
+                  onMouseLeave={resetDataHeader}
+                >
+                  <CartesianGrid vertical={false} stroke="#d9d9d9" />
+                  <XAxis dataKey={'year'} ticks={chartXAxisValues} />
+                  <YAxis
+                    dataKey={'expense'}
+                    type={'number'}
+                    tickFormatter={value => {
+                      if (value === 0) {
+                        return '$0';
+                      } else {
+                        return `$${getShortForm(value)}`;
+                      }
+                    }}
+                    axisLine={false}
+                    tickLine={false}
+                    tickCount={5}
+                    ticks={expenseYAxisValues}
+                    tick={{ fill: interestExpensePrimary }}
+                  />
+                  <YAxis
+                    yAxisId={1}
+                    dataKey={'rate'}
+                    orientation={'right'}
+                    axisLine={false}
+                    tickLine={false}
+                    type="number"
+                    tickCount={5}
+                    ticks={rateYAxisValues}
+                    tickFormatter={value => `${value.toFixed(1)}%`}
+                  />
+                  <Tooltip
+                    cursor={{
+                      stroke: '#00796B20',
+                      strokeWidth: isMobile ? 16 : 32,
+                    }}
+                    content={<CustomTooltip setYear={setFiscalYear} setExpense={setCurExpenseAmount} setRate={setCurRate} />}
+                    isAnimationActive={false}
+                    active={chartFocus || chartHover}
+                  />
+                  <Bar dataKey={'expense'} barSize={isMobile ? 12 : 20} fill={interestExpensePrimary} isAnimationActive={false} />
+                  <Line
+                    dataKey={'rate'}
+                    yAxisId={1}
+                    stroke={'#666666'}
+                    type={'monotone'}
+                    strokeWidth={1}
+                    activeDot={false}
+                    isAnimationActive={false}
+                  />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
