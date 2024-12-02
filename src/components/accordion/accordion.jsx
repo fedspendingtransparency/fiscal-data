@@ -16,6 +16,7 @@ const Accordion = ({
   explainerGAEvent,
   ga4ID,
   tabindex,
+  dataTestId,
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
 
@@ -60,7 +61,7 @@ const Accordion = ({
           </div>
         </div>
         {open ? (
-          <div data-testid="content" className={`${content} accordionContent`}>
+          <div data-testid={dataTestId ? dataTestId : 'content'} className={`${content} accordionContent`}>
             {children}
           </div>
         ) : (
