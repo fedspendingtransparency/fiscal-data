@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { getShortForm } from '../../../../utils/rounding-utils';
-import { useQuery } from '@tanstack/react-query';
+import { queryClient } from '../../../../../react-query-client';
 
 const groupByProperty = (array, property) => {
   return array.reduce((a, b) => {
@@ -32,13 +32,21 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean) => {
     rate: number;
   }>(null);
   const [altText, setAltText] = useState<string>(null);
+  const [currentResult, setCurrentResult] = useState(null);
+  const [olderResult, setOlderResult] = useState(null);
 
-  const { data: currentResult } = useQuery(
-    [`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`],
-    getCurrentInterestExpData
-  );
-
-  const { data: olderResult } = useQuery([`${apiPrefix}v2/accounting/od/interest_expense?sort=record_date&page[size]=1`], getOlderInterestExpData);
+  useEffect(() => {
+    queryClient
+      .ensureQueryData([`${apiPrefix}v2/accounting/od/interest_expense?sort=record_date&page[size]=1`], getOlderInterestExpData)
+      .then(res => {
+        setOlderResult(res);
+      });
+    queryClient
+      .ensureQueryData([`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`], getCurrentInterestExpData)
+      .then(res => {
+        setCurrentResult(res);
+      });
+  }, []);
 
   const generateExpenseValueTicks = (chartData): number[] => {
     const expenseValues = chartData.map(element => element.expense);
