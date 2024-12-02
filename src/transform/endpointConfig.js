@@ -2772,6 +2772,88 @@ const endpointConfig = {
       },
     },
   },
+  // GAS
+  '310': {
+    endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
+    dateField: 'record_date',
+    downloadName: 'GAS_HeldByThePublic_DailyActivity',
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
+    selectColumns: [],
+    // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
+    dataDisplays: [
+      {
+        title: 'Account Description',
+        dimensionField: 'account_desc',
+      },
+    ],
+    // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
+    valueFieldOptions: [
+      'daily_opening_balance_amt',
+      'daily_issued_amt',
+      'daily_redeemed_amt',
+      'mtd_opening_balance_amt',
+      'mtd_issued_amt',
+      'mtd_redeemed_amt',
+      'fytd_opening_balance_amt',
+      'fytd_issued_amt',
+      'fytd_redeemed_amt',
+      'daily_ending_balance_amt',
+    ],
+  },
+  '311': {
+    endpoint: 'v1/accounting/od/gas_intragov_holdings_daily_activity',
+    dateField: 'record_date',
+    downloadName: 'GAS_IntragovernmentalHoldings_DailyActivity',
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
+    selectColumns: [],
+    // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
+    dataDisplays: [
+      {
+        title: 'Account Description',
+        dimensionField: 'account_desc',
+      },
+    ],
+    // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
+    valueFieldOptions: [
+      'daily_opening_balance_amt',
+      'daily_issued_amt',
+      'daily_redeemed_amt',
+      'mtd_opening_balance_amt',
+      'mtd_issued_amt',
+      'mtd_redeemed_amt',
+      'fytd_opening_balance_amt',
+      'fytd_issued_amt',
+      'fytd_redeemed_amt',
+      'daily_ending_balance_amt',
+    ],
+  },
+  '312': {
+    endpoint: 'v1/accounting/od/gas_daily_activity_totals',
+    dateField: 'record_date',
+    downloadName: 'GAS_DailyActivity_Totals',
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
+    selectColumns: [],
+    // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
+    dataDisplays: [
+      {
+        title: 'Total Description',
+        dimensionField: 'total_desc',
+      },
+    ],
+    // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
+    valueFieldOptions: [
+      'daily_opening_balance_amt',
+      'daily_issued_amt',
+      'daily_redeemed_amt',
+      'mtd_opening_balance_amt',
+      'mtd_issued_amt',
+      'mtd_redeemed_amt',
+      'fytd_opening_balance_amt',
+      'fytd_issued_amt',
+      'fytd_redeemed_amt',
+      'daily_ending_balance_amt',
+    ],
+  },
 };
 
 const setCompleteTableDisplayItem = response => {

@@ -589,7 +589,7 @@
     "slug": "/treasury-securities-buybacks/",
     "seoConfig": {
       "pageTitle": "Treasury Securities Buybacks",
-      "description": "The Treasury Securities Buybacks dataset contains data related to the U.S. Treasury's buyback operations."
+      "description": "The Treasury Securities Buybacks dataset contains data related to the U.S. Treasury"s buyback operations."
     },
     "topics": ["debt", "auctions"],
     "relatedDatasets": ["015-BFS-2014Q3-045", "015-BFS-2014Q3-050", "015-BFS-2014Q3-049", "015-BFS-2014Q1-14", "015-BFS-2014Q3-048"],
@@ -629,5 +629,17 @@
     "currentDateButton": "byMonth",
     "disableAllTables": true,
     "sharedApiFilterOptions": true
+  },
+  "015-BFS-2024Q1-002": {
+    "slug": "/daily-government-account-series/",
+    "seoConfig": {
+      "pageTitle": "Daily Government Account Series",
+      "description":
+      "The Government Account Series (GAS) Daily Activity Summary dataset contains GAS securities activity amounts for specific federal government accounts, including trust funds. The GAS securities in these accounts are categorized as either Held by the Public or Intragovernmental Holdings. The daily opening balance, issued, and redeemed amounts are included and aggregated on a month-to-date and fiscal-year-to-date basis.",
+      "keywords": "Debt, Financial Summaries"
+    },
+    "topics": ["debt", "financial-summaries"],
+    "relatedDatasets": ["015-BFS-2014Q1-13", "015-BFS-2014Q1-03", "015-BFS-2014Q1-11"],
+    "currentDateButton": "byDay"
   }
 }
