@@ -465,6 +465,15 @@ export const explainerSocialShareMap = {
     url: envBaseUrl + '/treasury-savings-bonds/',
     image: envBaseUrl + '/images/Savings-Bonds-Social-Share-w-Illustration_1200x630.png',
   },
+  'treasury-fraud-spending': {
+    title: 'Fiscal Data Explains U.S. Treasury Fraud Spending',
+    description: 'CHANGE',
+    body: 'CHANGE',
+    emailSubject: 'CHANGE',
+    emailBody: 'CHANGE',
+    url: envBaseUrl + '/treasury-fraud-spending/',
+    image: envBaseUrl + '/images/Savings-Bonds-Social-Share-w-Illustration_1200x630.png',
+  },
 };
 
 export const explainerHeroMap = {
