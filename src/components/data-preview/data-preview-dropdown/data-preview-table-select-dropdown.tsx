@@ -3,6 +3,7 @@ import { faDatabase } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from './../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
+import DataPreviewDataTableSelectFilters from '../data-preview-data-table-select-filters/data-preview-data-table-select-filters';
 
 //TODO: add type def
 type DataPreviewProp = { apis; selectedTable; setSelectedTable; allTablesSelected; earliestDate; latestDate; disableAllTables };
@@ -31,8 +32,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
 
   const dataTableSearch = <>Placeholder for data table search</>;
 
-  const dataTableFilters = <>Placeholder for data table filters</>;
-
   const handleApply = () => setActive(false);
 
   const handleCancel = () => setActive(false);
@@ -42,7 +41,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
       {active && (
         <DataPreviewDropdownDialogContainer
           searchComponent={dataTableSearch}
-          filterComponent={dataTableFilters}
+          filterComponent={<DataPreviewDataTableSelectFilters />}
           handleApply={handleApply}
           handleCancel={handleCancel}
         />
