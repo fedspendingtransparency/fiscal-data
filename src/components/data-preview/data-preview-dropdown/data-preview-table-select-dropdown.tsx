@@ -3,7 +3,7 @@ import { faDatabase } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from './../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
-import DataPreviewDataTableSelectFilters from '../data-preview-data-table-select-filters/data-preview-data-table-select-filters';
+import DataPreviewPivotSelect from '../data-preview-pivot-select/data-preview-pivot-select';
 
 //TODO: add type def
 type DataPreviewProp = { apis; selectedTable; setSelectedTable; allTablesSelected; earliestDate; latestDate; disableAllTables };
@@ -16,9 +16,13 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
   earliestDate,
   latestDate,
   disableAllTables,
+  selectedPivot,
+  setSelectedPivot,
 }) => {
   const [active, setActive] = useState(false);
+  const [pivotsUpdated, setPivotsUpdated] = useState(false);
 
+  console.log(apis, selectedTable);
   const dropdownButton = (
     <DropdownLabelButton
       label="Data Table"
@@ -41,7 +45,14 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
       {active && (
         <DataPreviewDropdownDialogContainer
           searchComponent={dataTableSearch}
-          filterComponent={<DataPreviewDataTableSelectFilters />}
+          filterComponent={
+            <DataPreviewPivotSelect
+              table={selectedTable}
+              pivotSelection={selectedPivot}
+              setSelectedPivot={setSelectedPivot}
+              pivotsUpdated={pivotsUpdated}
+            />
+          }
           handleApply={handleApply}
           handleCancel={handleCancel}
         />

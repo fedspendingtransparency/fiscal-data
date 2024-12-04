@@ -33,6 +33,7 @@ const ComboSelectDropdown = ({
   changeHandler,
   timeOutId,
   searchBarLabel,
+  disableSearchBar,
   hasChildren,
 }) => {
   const [filterValue, setFilterValue] = useState('');
@@ -172,18 +173,20 @@ const ComboSelectDropdown = ({
           role="presentation"
           ref={dropdownContainerRef}
         >
-          <div className={searchBarContainer}>
-            <SearchBar
-              onChange={onFilterChange}
-              onBlur={searchBarOnBlurHandler}
-              filter={filterValue}
-              label={searchBarLabel}
-              handleClear={clearFilter}
-              active={searchBarActive}
-              setActive={setSearchBarActive}
-              inputRef={inputRef}
-            />
-          </div>
+          {!disableSearchBar && (
+            <div className={searchBarContainer}>
+              <SearchBar
+                onChange={onFilterChange}
+                onBlur={searchBarOnBlurHandler}
+                filter={filterValue}
+                label={searchBarLabel}
+                handleClear={clearFilter}
+                active={searchBarActive}
+                setActive={setSearchBarActive}
+                inputRef={inputRef}
+              />
+            </div>
+          )}
           <ScrollContainer deps={[filteredOptions, selectedOption, filterValue]}>
             {noResults ? (
               <div className={noMatch}>

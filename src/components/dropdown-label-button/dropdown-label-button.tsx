@@ -5,9 +5,9 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { datePickerButton, glow, publishedDateLabel, labelIcon, buttonContent, selectedOptionText } from './dropdown-label-button.module.scss';
 
 interface IDropdownLabelButton {
-  label: string;
+  label?: string;
   selectedOption: string;
-  icon: IconDefinition;
+  icon?: IconDefinition;
   setActive: (activeState: boolean) => void;
   active: boolean;
   ariaLabel?: string;
@@ -28,8 +28,8 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
       <div className={active ? glow : null}>
         <button style={{ width: dropdownWidth }} className={datePickerButton} onClick={() => setActive(!active)} aria-label={ariaLabel}>
           <div className={buttonContent}>
-            <FontAwesomeIcon icon={icon} className={labelIcon} />
-            <span className={publishedDateLabel}>{label}: </span>
+            {icon && <FontAwesomeIcon icon={icon} className={labelIcon} />}
+            {label && <span className={publishedDateLabel}>{label}: </span>}
             <span className={selectedOptionText}>{selectedOption}</span>
           </div>
           <FontAwesomeIcon icon={active ? faCaretUp : faCaretDown} />

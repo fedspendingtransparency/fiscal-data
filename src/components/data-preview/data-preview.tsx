@@ -11,7 +11,6 @@ import { TableCache } from '../dataset-data/table-cache/table-cache';
 import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from '../dataset-data/dataset-data-helper/dataset-data-helper';
 import { getApiData } from '../dataset-data/dataset-data-api-helper/dataset-data-api-helper';
 import { queryClient } from '../../../react-query-client';
-import UserFilter from '../filter-download-container/user-filter/user-filter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
@@ -231,6 +230,8 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
           earliestDate={config.techSpecs.earliestDate}
           latestDate={config.techSpecs.latestDate}
           disableAllTables={config?.disableAllTables}
+          selectedPivot={selectedPivot}
+          setSelectedPivot={setSelectedPivot}
         />
       </div>
       <div className={selectedTableName}>{selectedTable?.tableName}</div>
