@@ -88,7 +88,7 @@ const explainerPagesSource = {
     isAFG: false,
   },
   'treasury-fraud-spending': {
-    slug: '/americas-finance-guide/treasury-fraud-spending/',
+    slug: '/treasury-fraud-spending/',
     breadCrumbLinkName: 'Treasury Fraud Spending Explained',
     seoConfig: {
       pageTitle: 'Treasury Fraud Spending Explained',
