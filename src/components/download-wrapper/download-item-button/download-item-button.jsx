@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { downloadItemBtn, linkDisabled, dictionary, optionIcon } from './download-item-button.module.scss';
 import Analytics from '../../../utils/analytics/analytics';
 import { generateAnalyticsEvent } from '../../../layouts/dataset-detail/helper';
 import globalConstants from '../../../helpers/constants';
 import { CSVLink } from 'react-csv';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import { constructDownloadFileName } from '../download-helpers';
 
@@ -28,18 +28,33 @@ const DownloadItemButton = ({
   const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
   const [csvDataWithTimestamp, setCSVDataWithTimestamp] = useState(null);
   const [downloadName, setDownloadName] = useState(null);
+  const ref = useRef();
   useEffect(() => {
     setDownloadName(constructDownloadFileName(dateRange, selectedTable));
   }, [dateRange, selectedTable]);
 
-  const clickFunction = directDownload => {
-    if (directDownload) {
-      const currentDateTime = Date.now().toString();
-      const newDownloadData = structuredClone(smallTableCSVData);
-      newDownloadData[0].push(currentDateTime);
-      setCSVDataWithTimestamp(newDownloadData);
-      console.log(newDownloadData);
+  const captureTimestamp = () => {
+    console.log('click');
+    const currentDateTime = Date.now().toString();
+    const newDownloadData = structuredClone(smallTableCSVData);
+    newDownloadData[0].push(currentDateTime);
+    setCSVDataWithTimestamp(newDownloadData);
+  };
+
+  useEffect(() => {
+    if (csvDataWithTimestamp) {
+      ref.current.link.click();
     }
+  }, [csvDataWithTimestamp]);
+
+  const clickFunction = directDownload => {
+    // if (directDownload) {
+    //   const currentDateTime = Date.now().toString();
+    //   const newDownloadData = structuredClone(smallTableCSVData);
+    //   newDownloadData[0].push(currentDateTime);
+    //   setCSVDataWithTimestamp(newDownloadData);
+    //   console.log(newDownloadData);
+    // }
 
     if (handleClick && !directDownload) {
       handleClick();
@@ -67,15 +82,21 @@ const DownloadItemButton = ({
       );
     } else if (selectedFileType === 'csv' && smallTableCSVData.length > 0) {
       return (
-        <CSVLink
-          data-testid="csv-download-button"
-          className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
-          data={csvDataWithTimestamp ? csvDataWithTimestamp : smallTableCSVData}
-          filename={downloadName + '.csv'}
-          onClick={() => clickFunction(true)}
-        >
-          {children}
-        </CSVLink>
+        <>
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+          <div onClick={() => captureTimestamp()} className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}>
+            {' '}
+            {children}{' '}
+          </div>
+
+          <CSVLink
+            data-testid="csv-download-button"
+            data={csvDataWithTimestamp ? csvDataWithTimestamp : smallTableCSVData}
+            filename={downloadName + '.csv'}
+            onClick={() => clickFunction(true)}
+            ref={ref}
+          />
+        </>
       );
     } else if (selectedFileType === 'json' && smallTableJSONData.length > 0) {
       return (
