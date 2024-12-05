@@ -268,7 +268,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 colors={d => d.color}
                 width={515}
                 height={500}
-                margin={{ top: 10, right: 50, bottom: 60, left: 40 }}
+                margin={{ top: 15, right: 50, bottom: 60, left: 40 }}
                 xScale={{
                   type: 'linear',
                   min: 2015,
