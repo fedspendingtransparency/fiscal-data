@@ -85,14 +85,6 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           dictionary={pageContext.config.dictionary}
         />
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
-          <DatasetData
-            setSelectedTableProp={setSelectedTable}
-            finalDatesNotFound={finalDatesNotFound}
-            config={pageConfig}
-            location={location}
-            publishedReportsProp={pageConfig.publishedReports}
-          />
-
         <DatasetData
           setSelectedTableProp={setSelectedTable}
           finalDatesNotFound={finalDatesNotFound}

@@ -4,7 +4,6 @@ import { Link, scroller } from 'react-scroll';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import globalConstants from '../../helpers/constants';
 import Analytics from '../../utils/analytics/analytics';
-import ENV_ID from 'gatsby-env-variables';
 
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
 const scrollDuration = globalConstants.config.smooth_scroll.duration;
@@ -36,11 +35,11 @@ const DDNav = ({ hasPublishedReports }) => {
     },
     ...(hasPublishedReports
       ? [
-          {
-            title: 'Reports and Files',
-            id: 'reports-and-files',
-          },
-        ]
+        {
+          title: 'Reports and Files',
+          id: 'reports-and-files',
+        },
+      ]
       : []),
 
     {
