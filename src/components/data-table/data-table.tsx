@@ -226,6 +226,13 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
           return Object.values(entry);
         });
         downloadData.unshift(downloadHeaders);
+        const timestampData = [];
+        timestampData.push(`${tableName} Data.`);
+        const lastDateOfMonth = `${rawData.data[0].record_calendar_month}/31/${rawData.data[0].record_calendar_year}.`;
+        timestampData.push(`As of ${lastDateOfMonth}`);
+        downloadData.unshift(timestampData);
+        console.log(downloadData);
+        console.log(rawData.data);
         setSmallTableCSVData(downloadData);
       }
     }

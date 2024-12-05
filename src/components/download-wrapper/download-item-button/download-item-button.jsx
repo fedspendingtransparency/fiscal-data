@@ -4,7 +4,7 @@ import Analytics from '../../../utils/analytics/analytics';
 import { generateAnalyticsEvent } from '../../../layouts/dataset-detail/helper';
 import globalConstants from '../../../helpers/constants';
 import { CSVLink } from 'react-csv';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import { constructDownloadFileName } from '../download-helpers';
 
@@ -26,12 +26,21 @@ const DownloadItemButton = ({
   const smallTableCSVData = useRecoilValue(smallTableDownloadDataCSV);
   const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
   const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
+  const [csvDataWithTimestamp, setCSVDataWithTimestamp] = useState(null);
   const [downloadName, setDownloadName] = useState(null);
   useEffect(() => {
     setDownloadName(constructDownloadFileName(dateRange, selectedTable));
   }, [dateRange, selectedTable]);
 
   const clickFunction = directDownload => {
+    if (directDownload) {
+      const currentDateTime = Date.now().toString();
+      const newDownloadData = structuredClone(smallTableCSVData);
+      newDownloadData[0].push(currentDateTime);
+      setCSVDataWithTimestamp(newDownloadData);
+      console.log(newDownloadData);
+    }
+
     if (handleClick && !directDownload) {
       handleClick();
     }
@@ -61,7 +70,7 @@ const DownloadItemButton = ({
         <CSVLink
           data-testid="csv-download-button"
           className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
-          data={smallTableCSVData}
+          data={csvDataWithTimestamp ? csvDataWithTimestamp : smallTableCSVData}
           filename={downloadName + '.csv'}
           onClick={() => clickFunction(true)}
         >
