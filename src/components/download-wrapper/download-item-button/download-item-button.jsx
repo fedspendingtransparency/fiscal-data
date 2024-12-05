@@ -34,7 +34,6 @@ const DownloadItemButton = ({
   }, [dateRange, selectedTable]);
 
   const captureTimestamp = () => {
-    console.log('click');
     const currentDateTime = Date.now().toString();
     const newDownloadData = structuredClone(smallTableCSVData);
     newDownloadData[0].push(currentDateTime);
@@ -48,14 +47,6 @@ const DownloadItemButton = ({
   }, [csvDataWithTimestamp]);
 
   const clickFunction = directDownload => {
-    // if (directDownload) {
-    //   const currentDateTime = Date.now().toString();
-    //   const newDownloadData = structuredClone(smallTableCSVData);
-    //   newDownloadData[0].push(currentDateTime);
-    //   setCSVDataWithTimestamp(newDownloadData);
-    //   console.log(newDownloadData);
-    // }
-
     if (handleClick && !directDownload) {
       handleClick();
     }
@@ -83,8 +74,13 @@ const DownloadItemButton = ({
     } else if (selectedFileType === 'csv' && smallTableCSVData.length > 0) {
       return (
         <>
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-          <div onClick={() => captureTimestamp()} className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}>
+          <div
+            role={'button'}
+            onClick={() => captureTimestamp()}
+            className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
+            onKeyDown={e => e.key === 'Enter' && captureTimestamp()}
+            tabIndex={0}
+          >
             {' '}
             {children}{' '}
           </div>
