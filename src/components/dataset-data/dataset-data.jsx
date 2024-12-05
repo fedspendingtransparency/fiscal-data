@@ -313,8 +313,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         />
       )}
     </DatasetSectionContainer>
-      );
-    };
+  );
+};
 
 // Despite the default export below, the bare component is exported separately above so
 // that the [location] prop can easily be directly specified in unit test renders without any
