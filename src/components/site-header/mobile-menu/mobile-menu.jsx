@@ -89,6 +89,10 @@ const MobileMenu = ({ setOpenGlossary }) => {
           to: '/release-calendar/',
           name: 'Release Calendar',
         },
+        {
+          to: 'https://onevoicecrm.my.site.com/FiscalDataGroup/s/',
+          name: 'Community Site',
+        },
       ],
     },
   ];
