@@ -3,18 +3,38 @@ import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import Analytics from '../../../utils/analytics/analytics';
+import { tableName, sectionContainer, radioButton, pivotSectionContainer } from './data-preview-pivot-select.module.scss';
 
 const DataPreviewPivotSelect = ({ table, pivotSelection, setSelectedPivot, pivotsUpdated }) => {
   const [pivotViewDropdownActive, setPivotViewDropdownActive] = useState(false);
   const [pivotValueDropdownActive, setPivotValueDropdownActive] = useState(false);
-  const [rawDataSelected, setRawDataSelected] = useState(true);
-  const [pivotSelected, setPivotSelected] = useState(null);
-
-  const pivotViewButton = <DropdownLabelButton selectedOption="--" setActive={setPivotViewDropdownActive} active={pivotViewDropdownActive} />;
-  const pivotValueButton = <DropdownLabelButton selectedOption="--" setActive={setPivotValueDropdownActive} active={pivotValueDropdownActive} />;
-
+  const [tableViewSelection, setTableViewSelection] = useState('rawData');
   const [pivotOptions, setPivotOptions] = useState();
   const [pivotFields, setPivotFields] = useState();
+
+  const pivotViewButton = (
+    <>
+      Pivot View
+      <DropdownLabelButton
+        selectedOption={pivotSelection.pivotView?.title}
+        setActive={setPivotViewDropdownActive}
+        active={pivotViewDropdownActive}
+        disabled={tableViewSelection === 'rawData'}
+      />
+    </>
+  );
+
+  const pivotValueButton = (
+    <>
+      Pivot Value
+      <DropdownLabelButton
+        selectedOption={pivotSelection.pivotValue?.title}
+        setActive={setPivotValueDropdownActive}
+        active={pivotValueDropdownActive}
+        disabled={tableViewSelection === 'rawData'}
+      />
+    </>
+  );
 
   const setAppropriatePivotValue = pivotOptions => {
     let valueField = pivotOptions[0];
@@ -37,13 +57,11 @@ const DataPreviewPivotSelect = ({ table, pivotSelection, setSelectedPivot, pivot
       }
       valueField = setAppropriatePivotValue(curPivotFields);
     }
-
     // Analytics.event({
     //   category: 'Chart Enabled',
     //   action: 'Pivot View Click',
     //   label: `${view.title}, ${datasetName}, ${table.tableName}`,
     // });
-
     setSelectedPivot({ pivotView: view, pivotValue: valueField });
     setPivotOptions(view.dimensionField ? curPivotFields : [{ prettyName: '— N / A —' }]);
     setPivotViewDropdownActive(false);
@@ -51,11 +69,11 @@ const DataPreviewPivotSelect = ({ table, pivotSelection, setSelectedPivot, pivot
 
   const pivotValueChangeHandler = valueField => {
     if (valueField?.prettyName !== '— N / A —') {
-      //   Analytics.event({
-      //     category: 'Chart Enabled',
-      //     action: 'Pivot Value Click',
-      //     label: `${valueField?.prettyName}, ${datasetName}, ${table.tableName}`,
-      //   });
+      // Analytics.event({
+      //   category: 'Chart Enabled',
+      //   action: 'Pivot Value Click',
+      //   label: `${valueField?.prettyName}, ${datasetName}, ${table.tableName}`,
+      // });
 
       setSelectedPivot({ pivotView: pivotSelection.pivotView, pivotValue: valueField });
       setPivotValueDropdownActive(false);
@@ -71,7 +89,7 @@ const DataPreviewPivotSelect = ({ table, pivotSelection, setSelectedPivot, pivot
   };
 
   useEffect(() => {
-    if (table && !table.allDataTables) {
+    if (table && !table.allDataTables && table.dataDisplays && table.dataDisplays.length > 1) {
       const localPivotFields = getPivotFields(table);
       setPivotFields(localPivotFields);
       const pivot = {
@@ -80,48 +98,58 @@ const DataPreviewPivotSelect = ({ table, pivotSelection, setSelectedPivot, pivot
       };
       setSelectedPivot(pivot);
       setPivotOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
-      console.log(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
   }, [table, pivotsUpdated]);
 
+  const updateTableViewSelection = view => {
+    setTableViewSelection(view);
+  };
+
   return (
-    <>
-      {table.tableName}
-      <label>
-        <input type="radio" value="Raw Data" checked={rawDataSelected} />
+    <div className={sectionContainer}>
+      <div className={tableName}>{table?.tableName}</div>
+      <label className={radioButton}>
+        <input type="radio" name="table-data" checked={tableViewSelection === 'rawData'} onChange={() => updateTableViewSelection('rawData')} />
         Raw Data
       </label>
-      <label>
-        <input type="radio" value="Pivot" checked={!!pivotSelected} />
-        Pivot
-      </label>
-      <div>
-        <DropdownContainer dropdownButton={pivotViewButton} setActive={setPivotViewDropdownActive}>
-          <ComboSelectDropdown
-            selectedOption={pivotSelection.pivotView}
-            setDropdownActive={setPivotViewDropdownActive}
-            active={pivotViewDropdownActive}
-            // searchBarActive="Pivot View"
-            disableSearchBar={true}
-            options={table.dataDisplays}
-            optionLabelKey="title"
-            updateSelection={pivotViewChangeHandler}
-          />
-        </DropdownContainer>
-        <DropdownContainer dropdownButton={pivotValueButton} setActive={setPivotValueDropdownActive}>
-          <ComboSelectDropdown
-            options={pivotOptions}
-            optionLabelKey="prettyName"
-            selectedOption={pivotSelection.pivotValue}
-            setDropdownActive={setPivotValueDropdownActive}
-            active={pivotValueDropdownActive}
-            // searchBarActive="Pivot Value"
-            disableSearchBar={true}
-            updateSelection={pivotValueChangeHandler}
-          />
-        </DropdownContainer>
-      </div>
-    </>
+      {table && table.dataDisplays && table.dataDisplays.length > 1 && pivotSelection && pivotOptions && (
+        <>
+          <label className={radioButton}>
+            <input
+              type="radio"
+              name="table-data"
+              checked={tableViewSelection === 'pivotData'}
+              onChange={() => updateTableViewSelection('pivotData')}
+            />
+            Pivot Data
+          </label>
+          <div className={pivotSectionContainer}>
+            <DropdownContainer dropdownButton={pivotViewButton} setActive={setPivotViewDropdownActive}>
+              <ComboSelectDropdown
+                selectedOption={pivotSelection.pivotView}
+                setDropdownActive={setPivotViewDropdownActive}
+                active={pivotViewDropdownActive}
+                disableSearchBar={true}
+                options={table.dataDisplays}
+                optionLabelKey="title"
+                updateSelection={pivotViewChangeHandler}
+              />
+            </DropdownContainer>
+            <DropdownContainer dropdownButton={pivotValueButton} setActive={setPivotValueDropdownActive}>
+              <ComboSelectDropdown
+                options={pivotOptions}
+                optionLabelKey="prettyName"
+                selectedOption={pivotSelection.pivotValue}
+                setDropdownActive={setPivotValueDropdownActive}
+                active={pivotValueDropdownActive}
+                disableSearchBar={true}
+                updateSelection={pivotValueChangeHandler}
+              />
+            </DropdownContainer>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 

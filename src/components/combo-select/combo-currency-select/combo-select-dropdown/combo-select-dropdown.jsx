@@ -141,26 +141,23 @@ const ComboSelectDropdown = ({
     }
   };
 
-  const filteredOptionButton = (option, child) => (
-    <li
-      className={classNames([
-        dropdownListItem,
-        option[optionLabelKey] === selectedOption[optionLabelKey] && dropdownListItem_Selected,
-        child && dropdownListItem_child,
-      ])}
-    >
-      <button
-        className={dropdownListItem_Button}
-        onClick={() => updateSelection(option, true)}
-        disabled={required && !option.value}
-        title={required && !option.value && disabledMessage ? disabledMessage : null}
-        aria-label={option[optionLabelKey]}
-        data-testid="dropdown-list-option"
-      >
-        {underlineMatchedString(option[optionLabelKey], filterValue)}
-      </button>
-    </li>
-  );
+  const filteredOptionButton = (option, child) => {
+    const optionSelected = selectedOption && option[optionLabelKey] === selectedOption[optionLabelKey];
+    return (
+      <li className={classNames([dropdownListItem, optionSelected && dropdownListItem_Selected, child && dropdownListItem_child])}>
+        <button
+          className={dropdownListItem_Button}
+          onClick={() => updateSelection(option, true)}
+          disabled={required && !option.value}
+          title={required && !option.value && disabledMessage ? disabledMessage : null}
+          aria-label={option[optionLabelKey]}
+          data-testid="dropdown-list-option"
+        >
+          {underlineMatchedString(option[optionLabelKey], filterValue)}
+        </button>
+      </li>
+    );
+  };
 
   return (
     <>

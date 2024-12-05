@@ -22,11 +22,18 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
   active,
   ariaLabel,
   dropdownWidth = '20rem',
+  disabled,
 }: IDropdownLabelButton) => {
   return (
     <>
       <div className={active ? glow : null}>
-        <button style={{ width: dropdownWidth }} className={datePickerButton} onClick={() => setActive(!active)} aria-label={ariaLabel}>
+        <button
+          style={{ width: dropdownWidth }}
+          className={datePickerButton}
+          onClick={() => setActive(!active)}
+          aria-label={ariaLabel}
+          disabled={disabled}
+        >
           <div className={buttonContent}>
             {icon && <FontAwesomeIcon icon={icon} className={labelIcon} />}
             {label && <span className={publishedDateLabel}>{label}: </span>}
