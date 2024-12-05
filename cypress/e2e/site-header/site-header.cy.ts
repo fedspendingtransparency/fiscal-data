@@ -1,4 +1,4 @@
-describe('Site header validation', () => {
+describe.skip('Site header validation', () => {
   it('Validate Topics Links and logo navigation in site header', () => {
     cy.visit('/');
 

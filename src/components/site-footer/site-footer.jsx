@@ -34,6 +34,11 @@ export const siteFooterColumns = [
         actionTitle: 'Contact',
         testId: 'contact',
       },
+      {
+        title: 'Community Site',
+        to: 'https://onevoicecrm.my.site.com/FiscalDataGroup/s/',
+        testId: 'community',
+      },
     ],
   },
   {
