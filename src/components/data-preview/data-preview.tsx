@@ -216,7 +216,6 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
   useEffect(() => {
     setTableColumnSortData([]);
   }, [selectedTable]);
-
   return (
     <DatasetSectionContainer id="data-preview-table">
       <div className={dataPreview}>

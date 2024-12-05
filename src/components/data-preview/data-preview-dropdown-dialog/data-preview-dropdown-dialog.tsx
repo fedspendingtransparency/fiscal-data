@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import FilterButtons from './filter-buttons/filter-buttons';
 import { mainContainer, search, footer, dropdownContent } from './data-preview-dropdown-dialog.module.scss';
 
+
 const DataPreviewDropdownDialogContainer: FunctionComponent = ({ searchComponent, filterComponent, handleApply, handleCancel }) => {
   return (
     <div className={dropdownContent}>

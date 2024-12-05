@@ -1,0 +1,53 @@
+@import 'src/variables.module.scss';
+
+.searchContent {
+
+}
+.dataTableSearchContainer {
+
+}
+.searchFilters {
+
+}
+.dialogSearchBar {
+
+}
+
+.dialogSearchResults {
+  
+}
+.noMatch{
+
+}
+.unmatchedTerm{
+
+}
+.dataTableSearchBar {
+  padding: 1rem;
+  font-size: $font-size-16;
+
+}
+.buttonList {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  overflow-y: auto;
+}
+.buttonItem {
+  background-color:  white;
+  height: 3.5rem;
+  border: none;
+  color: #666;
+  font-size: $font-size-16;
+  justify-content: left;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  padding: 0px 1rem;
+  &:hover {
+    background-color: #eff6fb;
+    transition: background-color 0.2s ease;
+    color: #0071bc;
+    font-weight: 600;
+  }
+}

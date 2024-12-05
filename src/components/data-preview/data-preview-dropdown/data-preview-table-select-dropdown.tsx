@@ -3,6 +3,7 @@ import { faDatabase } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from './../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
+import DataPreviewDropdownDialogSearch from '../data-preview-dropdown-dialog/dialog-search/dialog-search';
 
 //TODO: add type def
 type DataPreviewProp = { apis; selectedTable; setSelectedTable; allTablesSelected; earliestDate; latestDate; disableAllTables };
@@ -28,14 +29,19 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
       dropdownWidth="30rem"
     />
   );
-
-  const dataTableSearch = <>Placeholder for data table search</>;
-
+  const buttons = apis.map((api) => ({
+    label: api.tableName,
+    onClick: () => setSelectedTable(api),
+    type: 'dataTable',
+  }));
+  const searchBarLabel = "Search Data table"
+  const dataTableSearch = <DataPreviewDropdownDialogSearch buttons={buttons} searchBarLabel={searchBarLabel} />;
+  console.log('setSelectedTable ',apis);
   const dataTableFilters = <>Placeholder for data table filters</>;
 
   const handleApply = () => setActive(false);
 
-  const handleCancel = () => setActive(false);
+  const handleCancel = () => setActive(true);
 
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
