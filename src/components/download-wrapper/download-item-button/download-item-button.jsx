@@ -75,14 +75,13 @@ const DownloadItemButton = ({
       return (
         <>
           <div
-            role={'button'}
+            role="button"
             onClick={() => captureTimestamp()}
             className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
             onKeyDown={e => e.key === 'Enter' && captureTimestamp()}
             tabIndex={0}
           >
-            {' '}
-            {children}{' '}
+            {children}
           </div>
 
           <CSVLink
@@ -91,6 +90,8 @@ const DownloadItemButton = ({
             filename={downloadName + '.csv'}
             onClick={() => clickFunction(true)}
             ref={ref}
+            aria-hidden={true}
+            tabIndex={-1}
           />
         </>
       );
