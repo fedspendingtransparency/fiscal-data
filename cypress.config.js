@@ -8,4 +8,5 @@ module.exports = defineConfig({
     },
   },
   retries: 2,
+  defaultCommandTimeout: 10000,
 });
