@@ -46,15 +46,15 @@ describe('Dataset detail page validation', () => {
       {
         name: 'Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government',
         endpoint: '/v1/accounting/mts/mts_table_1',
-        column: { prettyName: 'Classification Description', name: 'classification_desc', searchTerm: 'October' },
+        column: { prettyName: 'Classification Description', name: 'classification_desc', searchTerm: 'December' },
         dateColumn: {
           name: 'record_date',
-          filterMonthPrettyName: 'September',
-          filterMonthNumber: '9',
+          filterMonthPrettyName: 'March',
+          filterMonthNumber: '3',
           filterYear: '2022',
-          filterDate: '9/30/2022',
-          earliestDate: '9/30/2022',
-          latestDate: '9/30/2022',
+          filterDate: '3/31/2022',
+          earliestDate: '3/31/2022',
+          latestDate: '3/31/2022',
         },
       },
       {
@@ -63,12 +63,12 @@ describe('Dataset detail page validation', () => {
         column: { prettyName: 'Classification Description', name: 'classification_desc', searchTerm: 'Withheld' },
         dateColumn: {
           name: 'record_date',
-          filterMonthPrettyName: 'September',
-          filterMonthNumber: '9',
+          filterMonthPrettyName: 'March',
+          filterMonthNumber: '3',
           filterYear: '2024',
-          filterDate: '9/30/2024',
-          earliestDate: '9/30/2024',
-          latestDate: '9/30/2024',
+          filterDate: '3/31/2022',
+          earliestDate: '3/31/2022',
+          latestDate: '3/31/2022',
         },
       },
     ],
@@ -174,13 +174,14 @@ describe('Dataset detail page validation', () => {
           .invoke('val')
           .should('eq', table.column.searchTerm);
         cy.findByRole('button', { name: 'Clear search bar' });
+
         if (table.column.dailySearchResults) {
           cy.get('td:contains("' + table.column.searchTerm + '")')
             .its('length')
             .should('be.gte', 1);
         } else {
           cy.get('td:contains("' + table.column.searchTerm + '")')
-            .its('length')
+           .its('length')
             .should('eq', 10);
         }
         // Date Range Input and Sorting Validation
@@ -193,7 +194,7 @@ describe('Dataset detail page validation', () => {
         cy.findByRole('gridcell', { name: '1' }).click();
         cy.findByRole('gridcell', { name: '30' })
           .click()
-          .wait(500);
+          .wait(1000);
         cy.get('td:contains("' + table.dateColumn.filterDate + '")')
           .its('length')
           .should('be.gte', 1);
