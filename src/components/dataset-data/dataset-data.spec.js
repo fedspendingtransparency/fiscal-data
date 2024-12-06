@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { DatasetDataComponent, tabletMobileTitle } from './dataset-data';
+import { DatasetDataComponent } from './dataset-data';
 import FilterAndDownload from '../filter-download-container/filter-download-container';
 import DataTableSelect from '../datatable-select/datatable-select';
 import { format } from 'date-fns';
@@ -19,8 +19,6 @@ import {
 } from './test-helper';
 import * as DatasetDataHelpers from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
-import ReportDataToggle from './report-data-toggle/report-data-toggle';
-import PublishedReports from '../published-reports/published-reports';
 import Analytics from '../../utils/analytics/analytics';
 import { whiteListIds, mockPublishedReportsMTS } from '../../helpers/published-reports/published-reports';
 import PagingOptionsMenu from '../pagination/paging-options-menu';
@@ -123,7 +121,7 @@ describe('DatasetData', () => {
       </RecoilRoot>
     );
     const title = getByTestId('sectionHeader');
-    expect(title.innerHTML).toBe('Preview &amp; Download');
+    expect(title.innerHTML).toBe('Data Preview');
   });
 
   it(`contains a FilterAndDownload component`, () => {
@@ -330,20 +328,6 @@ describe('DatasetData', () => {
     expect(callsToApiForUpdatedTable.length).toEqual(1);
   });
 
-  it(`includes ReportDataToggle on the page`, async () => {
-    const toggleReport = instance.findByType(ReportDataToggle);
-
-    expect(typeof toggleReport.props.onChange).toBe('function');
-    expect(Array.isArray(toggleReport.props.reports)).toBeTruthy();
-  });
-
-  it(`includes ReportDataToggle on the page`, () => {
-    const toggleReport = instance.findByType(ReportDataToggle);
-
-    expect(typeof toggleReport.props.onChange).toBe('function');
-    expect(Array.isArray(toggleReport.props.reports)).toBeTruthy();
-  });
-
   it(`grabs the published reports from the publishedReports prop if the dataset is whitelisted`, async () => {
     const origId = config.datasetId;
     const mockDatasetId = Object.keys(mockPublishedReportsMTS)[0];
@@ -410,63 +394,6 @@ describe('DatasetData', () => {
 
     expect(getPublishedDates).toBeCalledTimes(2);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
-  });
-
-  it(`passes down the captured published reports to the PublishedReports component`, async () => {
-    let rgInstance = null;
-    await renderer.act(async () => {
-      const comp = await renderer.create(
-        <RecoilRoot>
-          <DatasetDataComponent config={config} publishedReportsProp={['mockReports Array']} setSelectedTableProp={setSelectedTableMock} />
-        </RecoilRoot>
-      );
-      rgInstance = comp.root;
-    });
-
-    // select tab to instantiate <PublishedReport /> and test the reports property passed in
-    const toggleReport = rgInstance.findByType(ReportDataToggle).props.onChange;
-    await renderer.act(async () => {
-      await toggleReport(2);
-    });
-    const publishedReportsTab = rgInstance.findByType(PublishedReports);
-    expect(publishedReportsTab.props.reports.length).toBe(1);
-  });
-
-  it(`transmits a preview-loaded analytics event when reports tab is first selected but not when
-  toggling back and forth reveals a preview that was already loaded`, async () => {
-    analyticsSpy.mockClear();
-
-    const { getByLabelText } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} publishedReportsProp={reports.slice()} setSelectedTableProp={setSelectedTableMock} />
-      </RecoilRoot>
-    );
-
-    // it's not called at at page load
-    expect(analyticsSpy.mock.calls.every(callGroup => callGroup.every(call => call.action !== 'load pdf preview'))).toBeTruthy();
-
-    // select tab to instantiate <PublishedReport />
-    // and test that analytics was called to transmit a preview-loaded event
-    const rawDataButton = getByLabelText('Raw Data');
-    const publishedReportsButton = getByLabelText('Published Reports');
-
-    fireEvent.click(publishedReportsButton);
-
-    expect(analyticsSpy).toHaveBeenLastCalledWith({
-      action: 'Published Report Preview',
-      category: 'Published Report Preview',
-      label: '/downloads/mspd_reports/opdm092020.pdf',
-    });
-    analyticsSpy.mockClear();
-    expect(analyticsSpy).not.toHaveBeenCalled();
-    // go back to raw data
-    fireEvent.click(rawDataButton);
-
-    // and then back again to published reports
-    fireEvent.click(publishedReportsButton);
-
-    // expect that no duplicate event for report preview-loading will have been transmitted
-    expect(analyticsSpy).not.toHaveBeenCalled();
   });
 
   it(`keeps the rows per page selection when a pivot is updated`, async () => {
