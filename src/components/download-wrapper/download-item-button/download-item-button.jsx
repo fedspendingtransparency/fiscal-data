@@ -35,9 +35,12 @@ const DownloadItemButton = ({
   }, [dateRange, selectedTable]);
 
   const captureTimestamp = () => {
-    const currentDateTime = Date.now().toString();
+    const currentDate = new Date();
+    const formattedTimestamp = `${currentDate.getFullYear()}${currentDate.getMonth()}${currentDate
+      .getDate()
+      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}${currentDate.getHours()}${currentDate.getMinutes()}`;
     const newDownloadData = structuredClone(smallTableCSVData);
-    newDownloadData[0].push(currentDateTime);
+    newDownloadData[0].push(formattedTimestamp);
     setCSVDataWithTimestamp(newDownloadData);
   };
 
