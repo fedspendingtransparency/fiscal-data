@@ -11,7 +11,6 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
   const [pivotOptions, setPivotOptions] = useState();
   const [pivotFields, setPivotFields] = useState();
 
-  console.log(table);
   const pivotViewButton = (
     <>
       Pivot View
@@ -23,7 +22,7 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
       />
     </>
   );
-  console.log(pivotToApply?.pivotValue);
+
   const pivotValueButton = (
     <>
       Pivot Value

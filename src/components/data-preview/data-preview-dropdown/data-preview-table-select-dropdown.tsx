@@ -25,7 +25,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
 
-  console.log(apis, selectedTable);
   const dropdownButton = (
     <DropdownLabelButton
       label="Data Table"
@@ -43,9 +42,9 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
     if (tableViewSelection === 'pivotData') {
       setSelectedPivot(pivotToApply);
       setAppliedTableView('pivotData');
-      // setTableViewSelection('pivotData');
     } else {
-      // setSelectedPivot({ pivotView: { title: 'Complete Table' }, pivotValue: { prettyName: '— N / A —' } });
+      setAppliedTableView('rawData');
+      setSelectedPivot({ pivotView: { title: 'Complete Table' }, pivotValue: null });
     }
     setActive(false);
   };
