@@ -22,6 +22,7 @@ const DownloadItemButton = ({
   dateRange,
   selectedFileType,
   dapGaEventLabel,
+  downloadTimestamp,
 }) => {
   const smallTableCSVData = useRecoilValue(smallTableDownloadDataCSV);
   const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
@@ -74,25 +75,40 @@ const DownloadItemButton = ({
     } else if (selectedFileType === 'csv' && smallTableCSVData.length > 0) {
       return (
         <>
-          <div
-            role="button"
-            onClick={() => captureTimestamp()}
-            className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
-            onKeyDown={e => e.key === 'Enter' && captureTimestamp()}
-            tabIndex={0}
-          >
-            {children}
-          </div>
+          {downloadTimestamp ? (
+            <>
+              <div
+                role="button"
+                onClick={() => captureTimestamp()}
+                className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
+                onKeyDown={e => e.key === 'Enter' && captureTimestamp()}
+                tabIndex={0}
+              >
+                {children}
+              </div>
 
-          <CSVLink
-            data-testid="csv-download-button"
-            data={csvDataWithTimestamp ? csvDataWithTimestamp : smallTableCSVData}
-            filename={downloadName + '.csv'}
-            onClick={() => clickFunction(true)}
-            ref={ref}
-            aria-hidden={true}
-            tabIndex={-1}
-          />
+              <CSVLink
+                data-testid="csv-download-button"
+                data={csvDataWithTimestamp ? csvDataWithTimestamp : smallTableCSVData}
+                filename={downloadName + '.csv'}
+                onClick={() => clickFunction(true)}
+                ref={ref}
+                aria-hidden={true}
+                tabIndex={-1}
+              />
+            </>
+          ) : (
+            <CSVLink
+              data-testid="csv-download-button"
+              className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
+              data={smallTableCSVData}
+              filename={downloadName + '.csv'}
+              onClick={() => clickFunction(true)}
+              enclosingCharacter={''}
+            >
+              {children}
+            </CSVLink>
+          )}
         </>
       );
     } else if (selectedFileType === 'json' && smallTableJSONData.length > 0) {

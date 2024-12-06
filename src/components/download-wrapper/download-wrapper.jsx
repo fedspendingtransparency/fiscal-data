@@ -39,6 +39,8 @@ const DownloadWrapper = ({
     tableName = `All Data Tables (${dataset.apis.length})`;
   }
 
+  console.log(dataset);
+
   const allString = 'ALL';
   const siteDownloads = useContext(downloadsContext);
   const [selectedFileType, setSelectedFileType] = useState('csv');
@@ -212,6 +214,7 @@ const DownloadWrapper = ({
             dateRange={dateRange}
             selectedFileType={selectedFileType}
             dapGaEventLabel={gaEventLabel}
+            downloadTimestamp={dataset.downloadTimestamp}
           />
         </>
       );
