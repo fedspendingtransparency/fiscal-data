@@ -64,6 +64,7 @@ const DownloadItemButton = ({
           data={smallTableCSVData}
           filename={downloadName + '.csv'}
           onClick={() => clickFunction(true)}
+          enclosingCharacter={''}
         >
           {children}
         </CSVLink>
