@@ -65,7 +65,7 @@ describe('Dataset detail page validation', () => {
           name: 'record_date',
           filterMonthPrettyName: 'March',
           filterMonthNumber: '3',
-          filterYear: '2024',
+          filterYear: '2022',
           filterDate: '3/31/2022',
           earliestDate: '3/31/2022',
           latestDate: '3/31/2022',
