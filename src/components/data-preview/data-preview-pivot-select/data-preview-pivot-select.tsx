@@ -5,10 +5,9 @@ import DropdownContainer from '../../dropdown-container/dropdown-container';
 import Analytics from '../../../utils/analytics/analytics';
 import { tableName, sectionContainer, radioButton, pivotSectionContainer } from './data-preview-pivot-select.module.scss';
 
-const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUpdated }) => {
+const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUpdated, tableViewSelection, setTableViewSelection }) => {
   const [pivotViewDropdownActive, setPivotViewDropdownActive] = useState(false);
   const [pivotValueDropdownActive, setPivotValueDropdownActive] = useState(false);
-  const [tableViewSelection, setTableViewSelection] = useState('rawData');
   const [pivotOptions, setPivotOptions] = useState();
   const [pivotFields, setPivotFields] = useState();
 

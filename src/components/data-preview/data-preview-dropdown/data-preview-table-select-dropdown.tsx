@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { faDatabase } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from './../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
@@ -22,6 +22,8 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
   const [active, setActive] = useState(false);
   const [pivotsUpdated, setPivotsUpdated] = useState(false);
   const [pivotToApply, setPivotToApply] = useState(selectedPivot);
+  const [appliedTableView, setAppliedTableView] = useState('rawData');
+  const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
 
   console.log(apis, selectedTable);
   const dropdownButton = (
@@ -38,13 +40,23 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
   const dataTableSearch = <>Placeholder for data table search</>;
 
   const handleApply = () => {
-    if (pivotToApply !== selectedPivot) {
+    if (tableViewSelection === 'pivotData') {
       setSelectedPivot(pivotToApply);
+      setAppliedTableView('pivotData');
+      // setTableViewSelection('pivotData');
+    } else {
+      // setSelectedPivot({ pivotView: { title: 'Complete Table' }, pivotValue: { prettyName: '— N / A —' } });
     }
     setActive(false);
   };
 
   const handleCancel = () => setActive(false);
+
+  useEffect(() => {
+    if (!active) {
+      setTableViewSelection(appliedTableView);
+    }
+  }, [active]);
 
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
@@ -59,6 +71,10 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
               pivotsUpdated={pivotsUpdated}
               pivotToApply={pivotToApply}
               setPivotToApply={setPivotToApply}
+              appliedTableView={appliedTableView}
+              setAppliedTableView={setAppliedTableView}
+              tableViewSelection={tableViewSelection}
+              setTableViewSelection={setTableViewSelection}
             />
           }
           handleApply={handleApply}
