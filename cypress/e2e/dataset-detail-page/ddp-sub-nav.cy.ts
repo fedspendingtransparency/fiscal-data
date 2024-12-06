@@ -12,8 +12,8 @@ describe('Homepage user flow validation', () => {
     cy.url().should('include', '#introduction');
   });
 
-  it('Validates Preview & Download jumps to the data Table part of the page', () => {
-    cy.findByLabelText('Jump to Preview & Download section').click();
+  it('Validates Data Preview jumps to the data Table part of the page', () => {
+    cy.findByLabelText('Jump to Data Preview section').click();
     cy.url().should('include', '#data-table');
   });
   it('Validates Dataset Properties jumps to the Data Sets part of the page', () => {
@@ -32,9 +32,9 @@ describe('Homepage user flow validation', () => {
       .type('{enter}');
     cy.url().should('include', '#introduction');
 
-    cy.findByLabelText('Jump to Preview & Download section').click();
+    cy.findByLabelText('Jump to Data Preview section').click();
     cy.focused()
-      .should('contain', 'Preview & Download')
+      .should('contain', 'Data Preview')
       .type('{enter}');
     cy.url().should('include', '#data-table');
 
