@@ -21,6 +21,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
 }) => {
   const [active, setActive] = useState(false);
   const [pivotsUpdated, setPivotsUpdated] = useState(false);
+  const [pivotToApply, setPivotToApply] = useState(selectedPivot);
 
   console.log(apis, selectedTable);
   const dropdownButton = (
@@ -36,7 +37,12 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
 
   const dataTableSearch = <>Placeholder for data table search</>;
 
-  const handleApply = () => setActive(false);
+  const handleApply = () => {
+    if (pivotToApply !== selectedPivot) {
+      setSelectedPivot(pivotToApply);
+    }
+    setActive(false);
+  };
 
   const handleCancel = () => setActive(false);
 
@@ -51,6 +57,8 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
               pivotSelection={selectedPivot}
               setSelectedPivot={setSelectedPivot}
               pivotsUpdated={pivotsUpdated}
+              pivotToApply={pivotToApply}
+              setPivotToApply={setPivotToApply}
             />
           }
           handleApply={handleApply}
