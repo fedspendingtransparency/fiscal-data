@@ -4,7 +4,7 @@ import DropdownLabelButton from './../../dropdown-label-button/dropdown-label-bu
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
 import DataPreviewDropdownDialogSearch from '../data-preview-dropdown-dialog/dialog-search/dialog-search';
-
+import { allTablesOption } from '../../datatable-select/datatable-select';
 //TODO: add type def
 type DataPreviewProp = { apis; selectedTable; setSelectedTable; allTablesSelected; earliestDate; latestDate; disableAllTables };
 
@@ -18,6 +18,15 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
   disableAllTables,
 }) => {
   const [active, setActive] = useState(false);
+  const options = disableAllTables
+  ? apis
+  : [
+      {
+        ...allTablesOption,
+        earliestDate,
+        latestDate,
+      },
+    ].concat(apis);
 
   const dropdownButton = (
     <DropdownLabelButton
@@ -35,7 +44,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
     type: 'dataTable',
   }));
   const searchBarLabel = "Search Data table"
-  const dataTableSearch = <DataPreviewDropdownDialogSearch buttons={buttons} searchBarLabel={searchBarLabel} />;
+  const dataTableSearch = <DataPreviewDropdownDialogSearch buttons={options} searchBarLabel={searchBarLabel} />;
   console.log('setSelectedTable ',apis);
   const dataTableFilters = <>Placeholder for data table filters</>;
 

@@ -24,7 +24,7 @@ export const DataTableSelect = ({ apis, selectedTable, setSelectedTable, allTabl
       setShowDatasetDropdown(true);
     }
   });
-
+console.log('apis', apis)
   const options = disableAllTables
     ? apis
     : [
