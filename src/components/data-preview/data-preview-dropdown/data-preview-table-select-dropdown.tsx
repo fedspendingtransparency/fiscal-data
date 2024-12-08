@@ -38,13 +38,13 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
       dropdownWidth="30rem"
     />
   );
-  const buttons = apis.map((api) => ({
-    label: api.tableName,
-    onClick: () => setSelectedTable(api),
+  const buttons = options.map((options) => ({
+    label: options.tableName,
+    onClick: () => setSelectedTable(options),
     type: 'dataTable',
   }));
   const searchBarLabel = "Search Data table"
-  const dataTableSearch = <DataPreviewDropdownDialogSearch buttons={options} searchBarLabel={searchBarLabel} />;
+  const dataTableSearch = <DataPreviewDropdownDialogSearch buttons={buttons} searchBarLabel={searchBarLabel} />;
   console.log('setSelectedTable ',apis);
   const dataTableFilters = <>Placeholder for data table filters</>;
 

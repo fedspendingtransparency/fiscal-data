@@ -52,8 +52,8 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<Props> = ({ buttons, se
       </div>
 
       <div className={buttonList}>
-        {buttons.length > 0 ? (
-          buttons.map((button, index) => (
+        {filteredButtons.length > 0 ? (
+          filteredButtons.map((button, index) => (
             <button key={index} onClick={button.onClick} className={buttonItem}>
               <span>{button.label}</span>
               {button.subtitle && <small>{button.subtitle}</small>}
