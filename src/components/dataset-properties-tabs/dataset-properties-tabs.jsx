@@ -101,7 +101,7 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
             aria-label="Dataset properties tabs"
           >
             {tabs.map((tab, index) => (
-              <AntTabDatasetDetail key={index} label={tab.label} {...a11yProps(index)} />
+              <AntTabDatasetDetail key={index} label={tab.label} {...a11yProps(index)} data-testId={tab.label} />
             ))}
           </Tabs>
         </div>
