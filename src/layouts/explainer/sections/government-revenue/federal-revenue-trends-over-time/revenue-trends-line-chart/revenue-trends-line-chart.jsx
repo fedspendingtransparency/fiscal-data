@@ -49,6 +49,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   const [chartYears, setChartYears] = useState([]);
   const [totalRevByYear, setTotalRevByYear] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [revenueScaleMax, setRevenueScaleMax] = useState(null);
 
   const chartParent = 'chartParentTrends';
   const chartWidth = 515;
@@ -143,6 +144,18 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           };
           completeData.push(dataObject);
         });
+        const revenueSums = [];
+        socSecYears.forEach(year => {
+          revenueSums.push({
+            year: year,
+            sum: completeData
+              .map(array => {
+                return array.data.find(element => element.x === year).y;
+              })
+              .reduce((prev, a) => prev + a, 0),
+          });
+        });
+        setRevenueScaleMax(Math.ceil(Math.max(...revenueSums.map(element => element.sum))));
         const sumRevPerYear = [];
         for (let i = 0; i < completeData[0].data.length; i++) {
           const sumYear = completeData.map(entry => entry.data[i].raw).reduce(sum);
@@ -277,7 +290,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 yScale={{
                   type: 'linear',
                   min: 0,
-                  max: 5,
+                  max: revenueScaleMax,
                   stacked: true,
                   reverse: false,
                 }}
