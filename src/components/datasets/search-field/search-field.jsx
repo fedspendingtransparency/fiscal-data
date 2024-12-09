@@ -19,7 +19,6 @@ const infoIcon = {
         <li>Description</li>
         <li>Topic</li>
         <li>Column Display Name</li>
-        <li>Column Field Name (must be exact)</li>
       </ul>
     </>
   ),
