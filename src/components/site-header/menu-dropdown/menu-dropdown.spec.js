@@ -16,6 +16,11 @@ describe('Menu Dropdown', () => {
             to: '/americas-finance-guide/',
             title: 'Overview',
           },
+          {
+            to: 'https://example.com',
+            title: 'Example external',
+            external: true,
+          },
         ],
       },
     ],
