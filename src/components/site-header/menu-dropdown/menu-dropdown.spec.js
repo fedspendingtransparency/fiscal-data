@@ -38,6 +38,11 @@ describe('Menu Dropdown', () => {
         to: '/currency-exchange-rates-converter/',
         title: 'Currency Exchange Rates Converter',
       },
+      {
+        to: 'https://example.com',
+        title: 'Example external',
+        external: true,
+      },
     ],
   };
 
