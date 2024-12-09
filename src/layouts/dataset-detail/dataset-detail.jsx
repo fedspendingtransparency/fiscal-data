@@ -12,9 +12,9 @@ import LocationAware from '../../components/location-aware/location-aware';
 import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
 import DatasetIntroduction from '../../components/dataset-introduction/dataset-introduction';
 import BannerCallout from '../../components/banner-callout/banner-callout';
+import Experimental from '../../components/experimental/experimental';
 import { bannerCalloutContainer } from '../../components/masthead/masthead.module.scss';
 import ReportsSection from '../../components/published-reports/reports-section/reports-section';
-import Experimental from '../experimental/experimental';
 import DataPreview from '../../components/data-preview/data-preview';
 export const query = graphql`
   query relatedDatasets($relatedDatasets: [String]) {
@@ -88,13 +88,12 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         />
         <Experimental featureId="dataPreview">
           <DataPreview
-          setSelectedTableProp={setSelectedTable}
-          finalDatesNotFound={finalDatesNotFound}
-          config={pageConfig}
-          location={location}
-          publishedReportsProp={pageConfig.publishedReports}
-          >
-          </DataPreview>
+            setSelectedTableProp={setSelectedTable}
+            finalDatesNotFound={finalDatesNotFound}
+            config={pageConfig}
+            location={location}
+            publishedReportsProp={pageConfig.publishedReports}
+          ></DataPreview>
         </Experimental>
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
         <DatasetData
