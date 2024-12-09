@@ -16,6 +16,11 @@ describe('Menu Dropdown', () => {
             to: '/americas-finance-guide/',
             title: 'Overview',
           },
+          {
+            to: 'https://example.com',
+            title: 'Example external',
+            external: true,
+          },
         ],
       },
     ],
@@ -32,6 +37,11 @@ describe('Menu Dropdown', () => {
       {
         to: '/currency-exchange-rates-converter/',
         title: 'Currency Exchange Rates Converter',
+      },
+      {
+        to: 'https://example.com',
+        title: 'Example external',
+        external: true,
       },
     ],
   };
