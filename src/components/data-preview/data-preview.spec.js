@@ -16,7 +16,6 @@ import {
 } from '../../components/dataset-data/test-helper';
 import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
-// import PublishedReports from '../published-reports/published-reports';
 import Analytics from '../../utils/analytics/analytics';
 import { whiteListIds, mockPublishedReportsMTS } from '../../helpers/published-reports/published-reports';
 import PagingOptionsMenu from '../pagination/paging-options-menu';

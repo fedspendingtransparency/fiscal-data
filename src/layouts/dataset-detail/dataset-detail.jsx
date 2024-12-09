@@ -14,6 +14,8 @@ import DatasetIntroduction from '../../components/dataset-introduction/dataset-i
 import BannerCallout from '../../components/banner-callout/banner-callout';
 import { bannerCalloutContainer } from '../../components/masthead/masthead.module.scss';
 import ReportsSection from '../../components/published-reports/reports-section/reports-section';
+import Experimental from '../experimental/experimental';
+import DataPreview from '../../components/data-preview/data-preview';
 export const query = graphql`
   query relatedDatasets($relatedDatasets: [String]) {
     allDatasets(filter: { datasetId: { in: $relatedDatasets } }) {
@@ -84,6 +86,16 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           techSpecs={pageConfig.techSpecs}
           dictionary={pageContext.config.dictionary}
         />
+        <Experimental featureId="dataPreview">
+          <DataPreview
+          setSelectedTableProp={setSelectedTable}
+          finalDatesNotFound={finalDatesNotFound}
+          config={pageConfig}
+          location={location}
+          publishedReportsProp={pageConfig.publishedReports}
+          >
+          </DataPreview>
+        </Experimental>
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
         <DatasetData
           setSelectedTableProp={setSelectedTable}
