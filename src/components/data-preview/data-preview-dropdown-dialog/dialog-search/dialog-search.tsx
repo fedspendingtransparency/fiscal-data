@@ -1,17 +1,15 @@
-import React, { FunctionComponent, useState, useEffect, useRef } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import {
   dataTableSearchContainer,
   buttonList,
   buttonItem,
-  searchFilters,
-  dialogSearchBar,
-  searchContent,
-  dialogSearchResults,
   dataTableSearchBar,
   noMatch,
-  unmatchedTerm
+  unmatchedTerm,
 } from './dialog-search.module.scss';
 import SearchBar from '../../../search-bar/search-bar';
+import ComboSelectDropdown from '../../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
+import { selectedTable } from '../../../api-quick-guide/test-helpers/test-helpers';
 
 interface ButtonData {
   label: string;
@@ -21,26 +19,39 @@ interface ButtonData {
 }
 
 interface Props {
-  buttons: ButtonData[];
+  options: ButtonData[];
   searchBarLabel: string;
+  selectedTable: any;
+  setSelectedTable: any;
 }
 
-const DataPreviewDropdownDialogSearch: FunctionComponent<Props> = ({ buttons, searchBarLabel }) => {
-  const [searchFilter, setSearchFilter] = useState<string>('');
+const DataPreviewDropdownDialogSearch: FunctionComponent<Props> = ({  
+  selectedTable,
+  setSelectedTable,  
+  options, 
+  searchBarLabel }) => {
+//  const [selectedTable, setSelectedTable]  = useState()
   const [active, setActive] = useState(false);
-  console.log('buttons',buttons)
-  const filteredButtons = buttons?.filter(
-    button =>
-      button.label?.toLowerCase().includes(searchFilter.toLowerCase()) ||
-      (button.subtitle && button.subtitle.toLowerCase().includes(searchFilter.toLowerCase()))
-  );
-  console.log('filteredButtons',filteredButtons)
+  const [searchBarActive, setSearchBarActive] = useState(false);
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setSearchFilter(e.target.value);
+    setSelectedTable(e.target);
+    
   };
+  console.log('e,target',selectedTable);
   return (
     <div className={dataTableSearchContainer}>
-      <div className={dataTableSearchBar}>
+      <ComboSelectDropdown
+          active={true}
+          setDropdownActive={setActive}
+          selectedOption={selectedTable}
+          updateSelection={handleSearchChange}
+          searchBarLabel={searchBarLabel}
+          options={options}
+          searchBarActive={searchBarActive}
+          setSearchBarActive={setSearchBarActive}
+        />
+      {/* <div className={dataTableSearchBar}>
         <SearchBar
           label={searchBarLabel}
           onChange={handleSearchChange}
@@ -61,10 +72,10 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<Props> = ({ buttons, se
           ))
         ) : (
           <div className={noMatch}>
-                No match for <span className={unmatchedTerm}>'{searchFilter}'</span>. Please revise your search and try again.
-              </div>
+            No match for <span className={unmatchedTerm}>'{searchFilter}'</span>. Please revise your search and try again.
+          </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
