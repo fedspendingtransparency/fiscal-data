@@ -1,0 +1,24 @@
+@import 'src/variables.module';
+
+.sectionContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  .tableName {
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+  }
+  .radioButton {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    input {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .pivotSectionContainer {
+    margin-left: 2rem;
+    margin-top: 0.5rem;
+  }
+}
