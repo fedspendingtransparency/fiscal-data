@@ -6,6 +6,7 @@ import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-govern
 import SavingsBondsAreFullyMatured from './savings-bonds-are-fully-matured/savings-bonds-are-fully-matured';
 import LearnMore from './learn-more/learn-more';
 import { ICpiDataMap } from '../../../../models/ICpiDataMap';
+import { IExplainerPageSection } from '../../../../models/IExplainerPageSection';
 
 export const treasurySavingsBondsSectionIds = [
   'key-takeaways',
@@ -15,18 +16,6 @@ export const treasurySavingsBondsSectionIds = [
   'what-happens-when-savings-bonds-are-fully-matured',
   'learn-more-buying-and-redeeming-savings-bonds-today',
 ];
-
-interface IExplainerPageSection {
-  index: number;
-  id: string;
-  title: string;
-  component: FunctionComponent<{
-    cpiData: {
-      cpiDataByYear: ICpiDataMap;
-      cpi12MonthPercentChange: ICpiDataMap;
-    };
-  }>;
-}
 
 const treasurySavingsBondsSections: IExplainerPageSection[] = [
   {
@@ -51,8 +40,9 @@ const treasurySavingsBondsSections: IExplainerPageSection[] = [
     index: 3,
     id: treasurySavingsBondsSectionIds[3],
     title: 'What Influences the Purchase of Savings Bonds?',
-    component: cpiData =>
-      <WhatInfluencesPurchaseOfSavingsBonds cpi12MonthPercentChange={cpiData.cpi12MonthPercentChange} cpiDataByYear={cpiData.cpiDataByYear} />,
+    component: cpiData => (
+      <WhatInfluencesPurchaseOfSavingsBonds cpi12MonthPercentChange={cpiData.cpi12MonthPercentChange} cpiDataByYear={cpiData.cpiDataByYear} />
+    ),
   },
   {
     index: 4,

@@ -98,6 +98,7 @@ const DownloadItemButton = ({
                 onClick={() => clickFunction(true)}
                 ref={ref}
                 aria-hidden={true}
+                enclosingCharacter={''}
                 tabIndex={-1}
               />
             </>

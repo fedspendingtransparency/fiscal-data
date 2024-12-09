@@ -5,6 +5,7 @@ import federalSpendingSection, { federalSpendingDataSources } from './federal-sp
 import governmentRevenueSections, { governmentRevenueDataSources } from './government-revenue/government-revenue';
 import treasurySavingsBondsSections from './treasury-savings-bonds/treasury-savings-bonds';
 import { treasurySavingsbondsDataSources } from '../explainer-helpers/treasury-savings-bonds/treasury-savings-bonds-helper';
+import treasuryFraudSpendingSections from './treasury-fraud-spending/treasury-fraud-spending';
 
 const explainerSections = {
   'national-debt': nationalDebtSections,
@@ -12,6 +13,7 @@ const explainerSections = {
   'federal-spending': federalSpendingSection,
   'government-revenue': governmentRevenueSections,
   'treasury-savings-bonds': treasurySavingsBondsSections,
+  'treasury-fraud-spending': treasuryFraudSpendingSections,
 };
 export const explainerDataSources = {
   'national-debt': nationalDebtDataSources,
