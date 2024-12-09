@@ -81,6 +81,7 @@ const DownloadItemButton = ({
           {downloadTimestamp ? (
             <>
               <div
+                data-testid={'csv-timestamp-download-button'}
                 role="button"
                 onClick={() => captureTimestamp()}
                 className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}

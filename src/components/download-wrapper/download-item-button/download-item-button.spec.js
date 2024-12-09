@@ -74,6 +74,16 @@ describe('DownloadItemButton for direct download file', () => {
     expect(getByTestId('csv-download-button')).toBeInTheDocument();
   });
 
+  it('direct CSV download with timestamp', () => {
+    const { getByTestId } = render(
+      <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataCSV, mockedCSVState)}>
+        <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} selectedFileType="csv" downloadTimestamp={true} />
+      </RecoilRoot>
+    );
+    expect(getByTestId('csv-timestamp-download-button')).toBeInTheDocument();
+    expect(getByTestId('csv-download-button')).toBeInTheDocument();
+  });
+
   it('direct XML download', () => {
     const { getByTestId } = render(
       <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataXML, mockedXMLState)}>
