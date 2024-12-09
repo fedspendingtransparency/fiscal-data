@@ -628,7 +628,8 @@
     "relatedDatasets": ["015-BFS-2014Q3-038", "015-BFS-2014Q3-037"],
     "currentDateButton": "byMonth",
     "disableAllTables": true,
-    "sharedApiFilterOptions": true
+    "sharedApiFilterOptions": true,
+    "downloadTimestamp": true
   },
   "015-BFS-2024Q1-002": {
     "slug": "/daily-government-account-series/",

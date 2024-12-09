@@ -565,6 +565,26 @@ describe('react-table', () => {
     expect(getAllByTestId('row')[0].innerHTML).toContain('-$134.100');
   });
 
+  it('renders with download timestamp enabled', () => {
+    const instance = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={defaultColumnsTypeCheckMock}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          columnConfig={mockColumnConfig}
+          setTableSorting={jest.fn()}
+          hasDownloadTimestamp={true}
+        />
+      </RecoilRoot>
+    );
+    expect(instance).toBeTruthy();
+  });
+
   it('formats FRN Daily Index number values correctly', () => {
     const { getAllByTestId } = render(
       <RecoilRoot>

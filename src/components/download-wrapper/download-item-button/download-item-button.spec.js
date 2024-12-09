@@ -8,6 +8,7 @@ import Analytics from '../../../utils/analytics/analytics';
 import { RecoilRoot } from 'recoil';
 import { render } from '@testing-library/react';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
+import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
 describe('DownloadItemButton for static file', () => {
@@ -56,6 +57,7 @@ describe('DownloadItemButton for static file', () => {
 });
 
 describe('DownloadItemButton for direct download file', () => {
+  global.structuredClone = val => JSON.parse(JSON.stringify(val));
   const csvIcon = <FontAwesomeIcon icon={faTable} data-test-id="table-icon" size="1x" />;
   const mockedCSVState = [
     ['Apple', 'Banana'],
@@ -72,6 +74,17 @@ describe('DownloadItemButton for direct download file', () => {
       </RecoilRoot>
     );
     expect(getByTestId('csv-download-button')).toBeInTheDocument();
+  });
+
+  it('direct CSV download with timestamp', () => {
+    const { getByTestId } = render(
+      <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataCSV, mockedCSVState)}>
+        <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} selectedFileType="csv" downloadTimestamp={true} />
+      </RecoilRoot>
+    );
+    expect(getByTestId('csv-timestamp-download-button')).toBeInTheDocument();
+    expect(getByTestId('csv-download-button')).toBeInTheDocument();
+    userEvent.click(getByTestId('csv-timestamp-download-button'));
   });
 
   it('direct XML download', () => {

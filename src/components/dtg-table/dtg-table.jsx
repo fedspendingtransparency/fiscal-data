@@ -57,6 +57,8 @@ export default function DtgTable({
   setAllActiveFilters,
   userFilterSelection,
   disableDateRangeFilter,
+  datasetName,
+  hasDownloadTimestamp,
 }) {
   const {
     dePaginated,
@@ -459,6 +461,8 @@ export default function DtgTable({
                 setAllActiveFilters={setAllActiveFilters}
                 setTableSorting={setTableSorting}
                 disableDateRangeFilter={disableDateRangeFilter}
+                datasetName={datasetName}
+                hasDownloadTimestamp={hasDownloadTimestamp}
               />
             </ErrorBoundary>
           )}
@@ -469,9 +473,7 @@ export default function DtgTable({
         <>
           <div data-test-id="table-content" className={overlayContainerNoFooter}>
             {/* API Error Message */}
-            {(apiError || tableProps.apiError) && !emptyDataMessage && (
-              <DtgTableApiError />
-            )}
+            {(apiError || tableProps.apiError) && !emptyDataMessage && <DtgTableApiError />}
 
             <div className={selectColumnsWrapper}>
               {/* Table Wrapper */}

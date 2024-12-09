@@ -434,6 +434,7 @@ const TableSectionContainer = ({
                       tableMeta={tableMeta}
                       manualPagination={manualPagination}
                       setManualPagination={setManualPagination}
+                      datasetName={config.name}
                       reactTable
                       rawDataTable
                       userFilterSelection={userFilterSelection}
@@ -444,6 +445,7 @@ const TableSectionContainer = ({
                       allActiveFilters={allActiveFilters}
                       setAllActiveFilters={setAllActiveFilters}
                       disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}
+                      hasDownloadTimestamp={config.downloadTimestamp}
                     />
                   ) : (
                     ''
