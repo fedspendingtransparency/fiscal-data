@@ -49,12 +49,12 @@ describe('Dataset detail page validation', () => {
         column: { prettyName: 'Classification Description', name: 'classification_desc', searchTerm: 'December' },
         dateColumn: {
           name: 'record_date',
-          filterMonthPrettyName: 'March',
-          filterMonthNumber: '3',
-          filterYear: '2022',
-          filterDate: '3/31/2022',
-          earliestDate: '3/31/2022',
-          latestDate: '3/31/2022',
+          filterMonthPrettyName: 'September',
+          filterMonthNumber: '9',
+          filterYear: '2021',
+          filterDate: '9/30/2021',
+          earliestDate: '9/30/2021',
+          latestDate: '9/30/2021',
         },
       },
       {
@@ -63,12 +63,12 @@ describe('Dataset detail page validation', () => {
         column: { prettyName: 'Classification Description', name: 'classification_desc', searchTerm: 'Withheld' },
         dateColumn: {
           name: 'record_date',
-          filterMonthPrettyName: 'March',
-          filterMonthNumber: '3',
-          filterYear: '2022',
-          filterDate: '3/31/2022',
-          earliestDate: '3/31/2022',
-          latestDate: '3/31/2022',
+          filterMonthPrettyName: 'April',
+          filterMonthNumber: '4',
+          filterYear: '2018',
+          filterDate: '4/30/2018',
+          earliestDate: '4/30/2018',
+          latestDate: '4/30/2018',
         },
       },
     ],
@@ -174,14 +174,13 @@ describe('Dataset detail page validation', () => {
           .invoke('val')
           .should('eq', table.column.searchTerm);
         cy.findByRole('button', { name: 'Clear search bar' });
-
         if (table.column.dailySearchResults) {
           cy.get('td:contains("' + table.column.searchTerm + '")')
             .its('length')
             .should('be.gte', 1);
         } else {
           cy.get('td:contains("' + table.column.searchTerm + '")')
-           .its('length')
+            .its('length')
             .should('eq', 10);
         }
         // Date Range Input and Sorting Validation
@@ -194,7 +193,7 @@ describe('Dataset detail page validation', () => {
         cy.findByRole('gridcell', { name: '1' }).click();
         cy.findByRole('gridcell', { name: '30' })
           .click()
-          .wait(1000);
+          .wait(500);
         cy.get('td:contains("' + table.dateColumn.filterDate + '")')
           .its('length')
           .should('be.gte', 1);
