@@ -57,11 +57,6 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
       }
       valueField = setAppropriatePivotValue(curPivotFields);
     }
-    // Analytics.event({
-    //   category: 'Chart Enabled',
-    //   action: 'Pivot View Click',
-    //   label: `${view.title}, ${datasetName}, ${table.tableName}`,
-    // });
     setPivotToApply({ pivotView: view, pivotValue: valueField });
     setPivotValueOptions(view.dimensionField ? curPivotFields : [{ prettyName: '— N / A —' }]);
     setPivotViewDropdownActive(false);
@@ -69,12 +64,6 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
 
   const pivotValueChangeHandler = valueField => {
     if (valueField?.prettyName !== '— N / A —') {
-      // Analytics.event({
-      //   category: 'Chart Enabled',
-      //   action: 'Pivot Value Click',
-      //   label: `${valueField?.prettyName}, ${datasetName}, ${table.tableName}`,
-      // });
-
       setPivotToApply({ pivotView: pivotToApply?.pivotView, pivotValue: valueField });
       setPivotValueDropdownActive(false);
     }
@@ -89,18 +78,6 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
   };
 
   useEffect(() => {
-    console.log('pivot to apply', pivotToApply);
-    console.log('pivot to apply', pivotToApply?.pivotView?.title === 'Complete Table');
-  }, [pivotToApply]);
-
-  useEffect(() => {
-    // const pivotViews = table.dataDisplays.filter(view => view.title !== 'Complete Table');
-    // setPivotViewOptions(pivotViews);
-  }, [table]);
-
-  useEffect(() => {}, []);
-
-  useEffect(() => {
     if (table && !table.allDataTables && table.dataDisplays && table.dataDisplays.length > 1) {
       const pivotViews = table.dataDisplays.filter(view => view.title !== 'Complete Table');
       setPivotViewOptions(pivotViews);
@@ -110,9 +87,7 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
         pivotView: pivotViews ? pivotViews[0] : null,
         pivotValue: localPivotFields && pivotViews[0].dimensionField ? localPivotFields[0] : null,
       };
-      console.log(pivot);
       setPivotToApply(pivot);
-      // setSelectedPivot(pivot);
       setPivotValueOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
   }, [table, pivotsUpdated]);
@@ -128,7 +103,7 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
         <input type="radio" name="table-data" checked={tableViewSelection === 'rawData'} onChange={() => updateTableViewSelection('rawData')} />
         Raw Data
       </label>
-      {
+      {!!pivotViewOptions && (
         <>
           <label className={radioButton}>
             <input
@@ -164,7 +139,7 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
             </DropdownContainer>
           </div>
         </>
-      }
+      )}
     </div>
   );
 };
