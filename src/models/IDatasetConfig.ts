@@ -27,6 +27,7 @@ export interface IDatasetConfig {
   datasetId: string;
   dictionary: number | null;
   disableAllTables: boolean | null; // removes the "all tables" options from table dropdown *** currently only used for FBP
+  downloadTimestamp: boolean | null; // allows timestamp to be added to downloaded CSV files *** currently only used for FBP
   sharedApiFilterOptions: boolean | null; // api filter options are shared between tables *** Currently only used for FBP
   filterTopics: string[];
   filters: string[];

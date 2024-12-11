@@ -68,6 +68,8 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   setAllActiveFilters,
   setTableSorting,
   disableDateRangeFilter,
+  datasetName,
+  hasDownloadTimestamp,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
@@ -166,6 +168,20 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
     }
   }
 
+  const constructDateHeader = () => {
+    const timestampData = [];
+    timestampData.push(`${datasetName}.`);
+    const lastDateOfMonth = `${rawData.data[0].record_calendar_month}/${new Date(
+      parseInt(rawData.data[0].record_calendar_year),
+      parseInt(rawData.data[0].record_calendar_month),
+      0
+    )
+      .getDate()
+      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}/${rawData.data[0].record_calendar_year}.`;
+    timestampData.push(`As of ${lastDateOfMonth}`);
+    return timestampData;
+  };
+
   const constructDefaultColumnsFromTableData = () => {
     const constructedDefaultColumns = [];
     const constructedAdditionalColumns = [];
@@ -226,6 +242,10 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
           return Object.values(entry);
         });
         downloadData.unshift(downloadHeaders);
+        if (hasDownloadTimestamp) {
+          const dateHeader = constructDateHeader();
+          downloadData.unshift(dateHeader);
+        }
         setSmallTableCSVData(downloadData);
       }
     }
