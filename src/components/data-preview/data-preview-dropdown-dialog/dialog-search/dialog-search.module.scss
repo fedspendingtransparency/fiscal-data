@@ -6,9 +6,22 @@
 
 
 }
-.comboSlecetDropdownWrapper .dropdownContainer{
-    height: 20.75rem !important;
-    margin-top: 0;
+
+.comboSlecetDropdownWrapper .dropdownContainer {
+  height: 20.75rem !important;
+  margin-top: 0;
+}
+
+:global(.dropdownContainerBorder) {
+  box-shadow: none;
+  border-radius: 0;
+  margin-top: 0;
+  height: 22.75rem;
+
+}
+
+:global(.globalDropdownList) {
+  max-height: 16.0625rem !important;
 }
 
 .dataTableSearchBar {
@@ -16,14 +29,16 @@
   font-size: $font-size-16;
 
 }
+
 .buttonList {
   display: flex;
   flex-direction: column;
   gap: .5rem;
   overflow-y: auto;
 }
+
 .buttonItem {
-  background-color:  white;
+  background-color: white;
   height: 3.5rem;
   border: none;
   color: #666;
@@ -33,6 +48,7 @@
   align-items: center;
   text-align: left;
   padding: 0px 1rem;
+
   &:hover {
     background-color: #eff6fb;
     transition: background-color 0.2s ease;

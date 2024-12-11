@@ -18,7 +18,8 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
   disableAllTables,
 }) => {
   const [active, setActive] = useState(false);
-  console.log(apis);
+  const [tableToApply, setTableToApply] = useState(selectedTable);
+
   const options = disableAllTables
     ? apis
     : [
@@ -39,29 +40,28 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
       dropdownWidth="30rem"
     />
   );
-  // const buttons = options.map(options => ({
-  //   label: options.tableName,
-  //   onClick: () => setSelectedTable(options),
-  //   type: 'dataTable',
-  // }));
   const searchBarLabel = 'Search Data table';
 
   const dataTableFilters = <>Placeholder for data table filters</>;
 
-  const handleApply = () => setActive(false);
+  const handleApply = () => {
+    setActive(false);
+    setSelectedTable(tableToApply);
+  };
 
   const handleCancel = () => setActive(true);
 
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
-      {active && (
+      {active && selectedTable && (
         <DataPreviewDropdownDialogContainer
           searchComponent={
             <DataPreviewDropdownDialogSearch
+              active={active}
               options={options}
               searchBarLabel={searchBarLabel}
-              selectedTable={selectedTable}
-              setSelectedTable={setSelectedTable}
+              selectedTable={tableToApply}
+              setSelectedTable={setTableToApply}
             />
           }
           filterComponent={dataTableFilters}

@@ -165,7 +165,7 @@ const ComboSelectDropdown = ({
     <>
       {active && (
         <div
-          className={dropdownContainer}
+          className={`${dropdownContainer} dropdownContainerBorder`}
           data-testid="dropdown-container"
           onMouseDown={e => e.stopPropagation()}
           onBlur={handleBlur}
@@ -190,7 +190,7 @@ const ComboSelectDropdown = ({
                 No match for <span className={unmatchedTerm}>'{filterValue}'</span>. Please revise your search and try again.
               </div>
             ) : (
-              <ul className={dropdownList} data-testid="dropdown-list" style={{ maxHeight: '11.875rem' }}>
+              <ul className={`${dropdownList} globalDropdownList`} data-testid="dropdown-list" >
                 {hasChildren &&
                   filteredOptions.map((section, index) => {
                     if (section?.children) {

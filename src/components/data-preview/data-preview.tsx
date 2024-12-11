@@ -222,15 +222,17 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
         <div className={dataPreviewHeader}>
           <span className={dataPreviewTitle}>Data Preview</span>
         </div>
-        <DataPreviewTableSelectDropdown
-          apis={filteredApis}
-          selectedTable={selectedTable}
-          setSelectedTable={handleSelectedTableChange}
-          allTablesSelected={allTablesSelected}
-          earliestDate={config.techSpecs.earliestDate}
-          latestDate={config.techSpecs.latestDate}
-          disableAllTables={config?.disableAllTables}
-        />
+        {selectedTable && (
+          <DataPreviewTableSelectDropdown
+            apis={filteredApis}
+            selectedTable={selectedTable}
+            setSelectedTable={handleSelectedTableChange}
+            allTablesSelected={allTablesSelected}
+            earliestDate={config.techSpecs.earliestDate}
+            latestDate={config.techSpecs.latestDate}
+            disableAllTables={config?.disableAllTables}
+          />
+        )}
       </div>
       <div className={selectedTableName}>{selectedTable?.tableName}</div>
       {config.datatableBanner && <DataPreviewDatatableBanner bannerNotice={config.datatableBanner} />}
