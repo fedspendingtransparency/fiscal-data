@@ -47,12 +47,6 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
     return valueField;
   };
 
-  useEffect(() => {
-    const pivotViews = table.dataDisplays.filter(view => view.title !== 'Complete Table');
-    console.log(pivotViews);
-    setPivotViewOptions(pivotViews);
-  }, [table.dataDisplays]);
-
   const pivotViewChangeHandler = view => {
     let valueField = null;
     let curPivotFields = pivotFields;
@@ -95,13 +89,29 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
   };
 
   useEffect(() => {
+    console.log('pivot to apply', pivotToApply);
+    console.log('pivot to apply', pivotToApply?.pivotView?.title === 'Complete Table');
+  }, [pivotToApply]);
+
+  useEffect(() => {
+    // const pivotViews = table.dataDisplays.filter(view => view.title !== 'Complete Table');
+    // setPivotViewOptions(pivotViews);
+  }, [table]);
+
+  useEffect(() => {}, []);
+
+  useEffect(() => {
     if (table && !table.allDataTables && table.dataDisplays && table.dataDisplays.length > 1) {
+      const pivotViews = table.dataDisplays.filter(view => view.title !== 'Complete Table');
+      setPivotViewOptions(pivotViews);
       const localPivotFields = getPivotFields(table);
       setPivotFields(localPivotFields);
       const pivot = {
-        pivotView: table.dataDisplays ? table.dataDisplays[0] : null,
-        pivotValue: localPivotFields && table.dataDisplays[0].dimensionField ? localPivotFields[0] : null,
+        pivotView: pivotViews ? pivotViews[0] : null,
+        pivotValue: localPivotFields && pivotViews[0].dimensionField ? localPivotFields[0] : null,
       };
+      console.log(pivot);
+      setPivotToApply(pivot);
       // setSelectedPivot(pivot);
       setPivotValueOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
