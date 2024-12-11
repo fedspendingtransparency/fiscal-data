@@ -8,7 +8,8 @@ import { tableName, sectionContainer, radioButton, pivotSectionContainer } from 
 const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUpdated, tableViewSelection, setTableViewSelection }) => {
   const [pivotViewDropdownActive, setPivotViewDropdownActive] = useState(false);
   const [pivotValueDropdownActive, setPivotValueDropdownActive] = useState(false);
-  const [pivotOptions, setPivotOptions] = useState();
+  const [pivotViewOptions, setPivotViewOptions] = useState();
+  const [pivotValueOptions, setPivotValueOptions] = useState();
   const [pivotFields, setPivotFields] = useState();
 
   const pivotViewButton = (
@@ -46,6 +47,12 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
     return valueField;
   };
 
+  useEffect(() => {
+    const pivotViews = table.dataDisplays.filter(view => view.title !== 'Complete Table');
+    console.log(pivotViews);
+    setPivotViewOptions(pivotViews);
+  }, [table.dataDisplays]);
+
   const pivotViewChangeHandler = view => {
     let valueField = null;
     let curPivotFields = pivotFields;
@@ -62,7 +69,7 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
     //   label: `${view.title}, ${datasetName}, ${table.tableName}`,
     // });
     setPivotToApply({ pivotView: view, pivotValue: valueField });
-    setPivotOptions(view.dimensionField ? curPivotFields : [{ prettyName: '— N / A —' }]);
+    setPivotValueOptions(view.dimensionField ? curPivotFields : [{ prettyName: '— N / A —' }]);
     setPivotViewDropdownActive(false);
   };
 
@@ -96,7 +103,7 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
         pivotValue: localPivotFields && table.dataDisplays[0].dimensionField ? localPivotFields[0] : null,
       };
       // setSelectedPivot(pivot);
-      setPivotOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
+      setPivotValueOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
   }, [table, pivotsUpdated]);
 
@@ -129,14 +136,14 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
                 setDropdownActive={setPivotViewDropdownActive}
                 active={pivotViewDropdownActive}
                 disableSearchBar={true}
-                options={table.dataDisplays}
+                options={pivotViewOptions}
                 optionLabelKey="title"
                 updateSelection={pivotViewChangeHandler}
               />
             </DropdownContainer>
             <DropdownContainer dropdownButton={pivotValueButton} setActive={setPivotValueDropdownActive}>
               <ComboSelectDropdown
-                options={pivotOptions}
+                options={pivotValueOptions}
                 optionLabelKey="prettyName"
                 selectedOption={pivotToApply?.pivotValue}
                 setDropdownActive={setPivotValueDropdownActive}
