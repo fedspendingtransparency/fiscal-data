@@ -1,15 +1,9 @@
 import React, { FunctionComponent, useState } from 'react';
 import {
   dataTableSearchContainer,
-  buttonList,
-  buttonItem,
-  dataTableSearchBar,
-  noMatch,
-  unmatchedTerm,
+  comboSlecetDropdownWrapper
 } from './dialog-search.module.scss';
-import SearchBar from '../../../search-bar/search-bar';
 import ComboSelectDropdown from '../../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
-import { selectedTable } from '../../../api-quick-guide/test-helpers/test-helpers';
 
 interface ButtonData {
   label: string;
@@ -30,17 +24,20 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<Props> = ({
   setSelectedTable,  
   options, 
   searchBarLabel }) => {
-//  const [selectedTable, setSelectedTable]  = useState()
+  const [selectedTable2, setSelectedTable2]  = useState()
   const [active, setActive] = useState(false);
   const [searchBarActive, setSearchBarActive] = useState(false);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setSelectedTable(e.target);
+  const handleSearchChange = (option: ButtonData) => {
+    setSelectedTable(option);
     
   };
   console.log('e,target',selectedTable);
   return (
     <div className={dataTableSearchContainer}>
+      <div className={comboSlecetDropdownWrapper}>
+        
+      </div>
       <ComboSelectDropdown
           active={true}
           setDropdownActive={setActive}

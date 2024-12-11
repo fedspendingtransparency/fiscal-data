@@ -1,32 +1,16 @@
 @import 'src/variables.module.scss';
 
-.searchContent {
-
-}
 .dataTableSearchContainer {
   width: inherit;
 
-}
-.dropdownContainer{
-  height: 20.75rem !important;
-  margin-top: 0;
-}
-.searchFilters {
+
 
 }
-.dialogSearchBar {
-
+.comboSlecetDropdownWrapper .dropdownContainer{
+    height: 20.75rem !important;
+    margin-top: 0;
 }
 
-.dialogSearchResults {
-  
-}
-.noMatch{
-
-}
-.unmatchedTerm{
-
-}
 .dataTableSearchBar {
   padding: 1rem;
   font-size: $font-size-16;
