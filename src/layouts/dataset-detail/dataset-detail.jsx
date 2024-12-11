@@ -86,6 +86,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           techSpecs={pageConfig.techSpecs}
           dictionary={pageContext.config.dictionary}
         />
+        <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
         <Experimental featureId="dataPreview">
           <DataPreview
             setSelectedTableProp={setSelectedTable}
@@ -95,7 +96,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
             publishedReportsProp={pageConfig.publishedReports}
           ></DataPreview>
         </Experimental>
-        <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
+
         <DatasetData
           setSelectedTableProp={setSelectedTable}
           finalDatesNotFound={finalDatesNotFound}
