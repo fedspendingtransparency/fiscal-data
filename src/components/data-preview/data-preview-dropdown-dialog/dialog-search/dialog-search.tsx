@@ -27,9 +27,10 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<Props> = ({
   const [selectedTable2, setSelectedTable2]  = useState()
   const [active, setActive] = useState(false);
   const [searchBarActive, setSearchBarActive] = useState(false);
-
+  console.log('options',options)
   const handleSearchChange = (option: ButtonData) => {
-    setSelectedTable(option);
+    
+    console.log('option',option)
     
   };
   console.log('e,target',selectedTable);
@@ -45,6 +46,7 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<Props> = ({
           updateSelection={handleSearchChange}
           searchBarLabel={searchBarLabel}
           options={options}
+          optionLabelKey="tableName"
           searchBarActive={searchBarActive}
           setSearchBarActive={setSearchBarActive}
         />
