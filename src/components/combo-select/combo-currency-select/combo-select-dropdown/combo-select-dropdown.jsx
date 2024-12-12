@@ -134,7 +134,7 @@ const ComboSelectDropdown = ({
           break;
       }
 
-      if (!dropdownChild) {
+      if (!dropdownChild && setDropdownActive) {
         timeOutId = setTimeout(() => {
           setDropdownActive(false);
         });
