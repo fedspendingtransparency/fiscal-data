@@ -16,7 +16,6 @@ const DataPreviewPivotSelect: FunctionComponent<iPivotSelect> = ({
   table,
   pivotToApply,
   setPivotToApply,
-  pivotsUpdated,
   tableViewSelection,
   setTableViewSelection,
 }) => {
@@ -36,6 +35,7 @@ const DataPreviewPivotSelect: FunctionComponent<iPivotSelect> = ({
         setActive={setPivotViewDropdownActive}
         active={pivotViewDropdownActive}
         disabled={tableViewSelection === 'rawData'}
+        ariaLabel="Select Pivot View"
         name="pivotView"
       />
     </div>
@@ -51,6 +51,7 @@ const DataPreviewPivotSelect: FunctionComponent<iPivotSelect> = ({
         setActive={setPivotValueDropdownActive}
         active={pivotValueDropdownActive}
         disabled={tableViewSelection === 'rawData'}
+        ariaLabel="Select Pivot Value"
         name="pivotValue"
       />
     </div>
@@ -110,7 +111,7 @@ const DataPreviewPivotSelect: FunctionComponent<iPivotSelect> = ({
       setPivotToApply(pivot);
       setPivotValueOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
-  }, [table, pivotsUpdated]);
+  }, [table]);
 
   const updateTableViewSelection = view => {
     setTableViewSelection(view);

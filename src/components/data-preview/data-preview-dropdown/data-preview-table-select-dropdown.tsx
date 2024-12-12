@@ -57,7 +57,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
 
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
-      {true && (
+      {active && (
         <DataPreviewDropdownDialogContainer
           searchComponent={dataTableSearch}
           filterComponent={
