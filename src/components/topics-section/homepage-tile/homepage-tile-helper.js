@@ -59,6 +59,7 @@ export const SavingsBondsBodyGenerator = () => {
   const sbUrl = `v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond`;
 
   useEffect(() => {
+    // We specify September (record_calendar_month = 09) so that it shows only the latest complete fiscal year
     basicFetch(`${apiPrefix}${sbUrl},record_calendar_month:eq:09&sort=-record_date&page[size]=2`).then(res => {
       if (res.data) {
         const prevFY = res.data[0].record_fiscal_year;
