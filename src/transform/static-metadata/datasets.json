@@ -46,7 +46,7 @@
       "startDate": "8/24/2023",
       "endDate": "9/14/2023"
     },
-    "datatableBanner": "For important information regarding any new or altered footnotes, review the footnotes in the PDF file found on the Published Reports tab."
+    "datatableBanner": "For important information regarding any new or altered footnotes, review the footnotes in the PDF file found in the Reports and Files section."
   },
   "015-BFS-2014Q3-096": {
     "slug": "/savings-bonds-issues-redemptions-maturities-by-series/",
@@ -628,7 +628,8 @@
     "relatedDatasets": ["015-BFS-2014Q3-038", "015-BFS-2014Q3-037"],
     "currentDateButton": "byMonth",
     "disableAllTables": true,
-    "sharedApiFilterOptions": true
+    "sharedApiFilterOptions": true,
+    "downloadTimestamp": true
   },
   "015-BFS-2024Q1-002": {
     "slug": "/daily-government-account-series/",

@@ -212,6 +212,7 @@ const DownloadWrapper = ({
             dateRange={dateRange}
             selectedFileType={selectedFileType}
             dapGaEventLabel={gaEventLabel}
+            downloadTimestamp={dataset.downloadTimestamp}
           />
         </>
       );
