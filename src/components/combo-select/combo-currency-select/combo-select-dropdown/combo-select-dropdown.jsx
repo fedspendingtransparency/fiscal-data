@@ -93,7 +93,9 @@ const ComboSelectDropdown = ({
       updateSelection(localFilteredOptions[0], false);
     } else {
       clearTimeout(timeOutId);
-      setDropdownActive(true);
+      if (setDropdownActive) {
+        setDropdownActive(true);
+      }
     }
   };
 
@@ -110,7 +112,10 @@ const ComboSelectDropdown = ({
     setFilteredOptions(options);
     if (filterValue !== '') {
       filterDropdown(filterValue);
-      setDropdownActive(false);
+      if(setDropdownActive) {
+        setDropdownActive(false);
+      }
+
     }
   }, [options]);
 
@@ -135,7 +140,9 @@ const ComboSelectDropdown = ({
 
       if (!dropdownChild) {
         timeOutId = setTimeout(() => {
-          setDropdownActive(false);
+          if(setDropdownActive){
+            setDropdownActive(false);
+          }
         });
       }
     }
@@ -163,7 +170,7 @@ const ComboSelectDropdown = ({
     <>
       {active && (
         <div
-          className={dropdownContainer}
+          className={`${dropdownContainer} dropdownContainerBorder`}
           data-testid="dropdown-container"
           onMouseDown={e => e.stopPropagation()}
           onBlur={handleBlur}
@@ -190,7 +197,7 @@ const ComboSelectDropdown = ({
                 No match for <span className={unmatchedTerm}>'{filterValue}'</span>. Please revise your search and try again.
               </div>
             ) : (
-              <ul className={dropdownList} data-testid="dropdown-list" style={{ maxHeight: '11.875rem' }}>
+              <ul className={`${dropdownList} globalDropdownList`} data-testid="dropdown-list">
                 {hasChildren &&
                   filteredOptions.map((section, index) => {
                     if (section?.children) {

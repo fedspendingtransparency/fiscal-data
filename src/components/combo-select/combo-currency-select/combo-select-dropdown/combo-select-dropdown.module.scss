@@ -17,6 +17,7 @@
   .dropdownList {
     padding: 0;
     margin: 0;
+    max-height: 11.875rem;
 
     .sectionLabel {
       margin: 0.5rem 1rem;
@@ -28,10 +29,12 @@
     .dropdownListItem {
       display: block;
       color: $font-body-copy;
+
       &:hover {
         background-color: $body-background;
         transition: background-color 0.2s ease;
       }
+
       &.dropdownListItem_Selected {
         background-color: #e8f5ff;
         color: $primary;
