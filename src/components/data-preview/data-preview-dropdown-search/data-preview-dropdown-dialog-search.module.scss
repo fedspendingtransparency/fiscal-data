@@ -2,19 +2,20 @@
 
 .dataTableSearchContainer {
   width: inherit;
-}
 
-:global(.dropdownContainerBorder) {
-  box-shadow: none;
-  border-radius: 0;
-  margin-top: 0;
-  height: 22.75rem;
+  :global(.dropdownContainerBorder) {
+    box-shadow: none;
+    border-radius: 0;
+    margin-top: 0;
+    height: 22.75rem;
+  
+  }
+  
+  :global(.globalDropdownList) {
+    max-height: 16.0625rem !important;
+  }}
 
-}
 
-:global(.globalDropdownList) {
-  max-height: 16.0625rem !important;
-}
 
 .dataTableSearchBar {
   padding: 1rem;
