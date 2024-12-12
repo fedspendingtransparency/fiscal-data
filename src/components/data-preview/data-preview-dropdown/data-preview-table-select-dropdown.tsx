@@ -57,7 +57,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
         <DataPreviewDropdownDialogContainer
           searchComponent={
             <DataPreviewDropdownDialogSearch
-              active={active}
               options={options}
               searchBarLabel={searchBarLabel}
               selectedTable={tableToApply}
