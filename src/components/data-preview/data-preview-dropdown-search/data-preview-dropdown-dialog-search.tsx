@@ -8,14 +8,14 @@ interface ButtonData {
   dataTableType: 'dataTable' | 'searchFilter';
 }
 
-interface Props {
+interface DialogSearchProps {
   options: ButtonData[];
   searchBarLabel: string;
   selectedTable: any;
   setSelectedTable: any;
 }
 
-const DataPreviewDropdownDialogSearch: FunctionComponent<Props> = ({ selectedTable, setSelectedTable, options, searchBarLabel, active }) => {
+const DataPreviewDropdownDialogSearch: FunctionComponent<DialogSearchProps> = ({ selectedTable, setSelectedTable, options, searchBarLabel, active }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
   const handleSearchChange = (option: ButtonData) => {
     setSelectedTable(option);
