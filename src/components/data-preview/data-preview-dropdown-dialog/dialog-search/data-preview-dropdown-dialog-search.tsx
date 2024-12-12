@@ -26,7 +26,6 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<Props> = ({ selectedTab
 
   return (
     <div className={dataTableSearchContainer}>
-      <div className={comboSlecetDropdownWrapper}></div>
       <ComboSelectDropdown
         active={actives}
         setDropdownActive={setActive}
