@@ -16,7 +16,6 @@ import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 import ScrollContainer from '../../../scroll-container/scroll-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
-import { dropdown } from '../../../data-table/data-table-header/date-range-filter/date-range-filter.module.scss';
 const ComboSelectDropdown = ({
   active,
   setDropdownActive,
