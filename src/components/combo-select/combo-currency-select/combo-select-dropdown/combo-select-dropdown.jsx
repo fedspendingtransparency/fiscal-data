@@ -137,9 +137,11 @@ const ComboSelectDropdown = ({
           break;
       }
 
-      if (!dropdownChild && setDropdownActive) {
+      if (!dropdownChild) {
         timeOutId = setTimeout(() => {
-          setDropdownActive(false);
+          if(setDropdownActive){
+            setDropdownActive(false);
+          }
         });
       }
     }
