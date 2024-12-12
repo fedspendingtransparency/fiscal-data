@@ -13,9 +13,10 @@
     align-items: center;
     margin-top: 1rem;
     cursor: pointer;
-    input {
-      margin-right: 0.5rem;
-      color: #666666;
+    input[type='radio'] {
+      margin: 0 0.5rem 0 0;
+      cursor: pointer;
+      accent-color: $font-body-copy;
     }
   }
 
