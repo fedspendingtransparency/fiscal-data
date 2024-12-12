@@ -5,7 +5,7 @@ interface ButtonData {
   label: string;
   subtitle?: string;
   onClick: () => void;
-  type: 'dataTable' | 'searchFilter';
+  dataTableType: 'dataTable' | 'searchFilter';
 }
 
 interface Props {
