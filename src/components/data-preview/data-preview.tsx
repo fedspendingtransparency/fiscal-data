@@ -19,17 +19,9 @@ import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } f
 import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
+import { iDataPreview } from '../../models/data-preview/IDataPreview';
 
-type DataPreviewProp = {
-  config;
-  finalDatesNotFound;
-  location;
-  publishedReportsProp;
-  setSelectedTableProp;
-  width;
-};
-
-const DataPreview: FunctionComponent<DataPreviewProp> = ({
+const DataPreview: FunctionComponent<iDataPreview> = ({
   config,
   finalDatesNotFound,
   location,

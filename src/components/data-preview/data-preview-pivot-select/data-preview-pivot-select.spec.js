@@ -8,9 +8,14 @@ describe('Pivot select', () => {
     expect(getByRole('radio', { name: 'Raw Data' })).toBeInTheDocument();
   });
 
-  it('renders Pivot radio button', () => {
-    const { getByRole } = render(<DataPreviewPivotSelect />);
-    expect(getByRole('radio', { name: 'Pivot' })).toBeInTheDocument();
+  it('does not render the Pivot Data radio button when no pivot view are configured', () => {
+    const { queryByRole } = render(<DataPreviewPivotSelect />);
+    expect(queryByRole('radio', { name: 'Pivot Data' })).not.toBeInTheDocument();
+  });
+
+  it('renders Pivot Data radio button when pivot views are configured', () => {
+    const { findByRole } = render(<DataPreviewPivotSelect />);
+    expect(findByRole('radio', { name: 'Pivot Data' })).toBeInTheDocument();
   });
 
   it('renders Pivot View and Pivot Value dropdowns', () => {

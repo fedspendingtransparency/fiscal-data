@@ -2,7 +2,15 @@ import React, { FunctionComponent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import { datePickerButton, glow, publishedDateLabel, labelIcon, buttonContent, selectedOptionText } from './dropdown-label-button.module.scss';
+import {
+  datePickerButton,
+  glow,
+  publishedDateLabel,
+  labelIcon,
+  buttonContent,
+  selectedOptionText,
+  buttonEnabled,
+} from './dropdown-label-button.module.scss';
 
 interface IDropdownLabelButton {
   label?: string;
@@ -12,6 +20,7 @@ interface IDropdownLabelButton {
   active: boolean;
   ariaLabel?: string;
   dropdownWidth?: string;
+  name?: string;
 }
 
 const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
@@ -23,16 +32,18 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
   ariaLabel,
   dropdownWidth = '20rem',
   disabled,
+  name,
 }: IDropdownLabelButton) => {
   return (
     <>
       <div className={active ? glow : null}>
         <button
           style={{ width: dropdownWidth }}
-          className={datePickerButton}
+          className={`${datePickerButton} ${!disabled && buttonEnabled}`}
           onClick={() => setActive(!active)}
           aria-label={ariaLabel}
           disabled={disabled}
+          name={name}
         >
           <div className={buttonContent}>
             {icon && <FontAwesomeIcon icon={icon} className={labelIcon} />}

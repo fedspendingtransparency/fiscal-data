@@ -4,11 +4,9 @@ import DropdownLabelButton from './../../dropdown-label-button/dropdown-label-bu
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
 import DataPreviewPivotSelect from '../data-preview-pivot-select/data-preview-pivot-select';
+import { ITableSelectDropdown } from '../../../models/data-preview/ITableSelectDropdown';
 
-//TODO: add type def
-type DataPreviewProp = { apis; selectedTable; setSelectedTable; allTablesSelected; earliestDate; latestDate; disableAllTables };
-
-const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
+const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = ({
   apis,
   selectedTable,
   setSelectedTable,
@@ -59,7 +57,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
 
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
-      {active && (
+      {true && (
         <DataPreviewDropdownDialogContainer
           searchComponent={dataTableSearch}
           filterComponent={

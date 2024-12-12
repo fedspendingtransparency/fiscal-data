@@ -1,11 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
-import Analytics from '../../../utils/analytics/analytics';
-import { tableName, sectionContainer, radioButton, pivotSectionContainer } from './data-preview-pivot-select.module.scss';
-
-const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUpdated, tableViewSelection, setTableViewSelection }) => {
+import {
+  tableName,
+  sectionContainer,
+  radioButton,
+  pivotSectionContainer,
+  buttonLabel,
+  buttonContainer,
+  disabled,
+} from './data-preview-pivot-select.module.scss';
+import { iPivotSelect } from '../../../models/data-preview/IPivotSelect';
+const DataPreviewPivotSelect: FunctionComponent<iPivotSelect> = ({
+  table,
+  pivotToApply,
+  setPivotToApply,
+  pivotsUpdated,
+  tableViewSelection,
+  setTableViewSelection,
+}) => {
   const [pivotViewDropdownActive, setPivotViewDropdownActive] = useState(false);
   const [pivotValueDropdownActive, setPivotValueDropdownActive] = useState(false);
   const [pivotViewOptions, setPivotViewOptions] = useState();
@@ -13,27 +27,33 @@ const DataPreviewPivotSelect = ({ table, pivotToApply, setPivotToApply, pivotsUp
   const [pivotFields, setPivotFields] = useState();
 
   const pivotViewButton = (
-    <>
-      Pivot View
+    <div className={`${buttonContainer} ${tableViewSelection === 'rawData' && disabled}`}>
+      <label className={buttonLabel} htmlFor="pivotView">
+        Pivot View
+      </label>
       <DropdownLabelButton
         selectedOption={pivotToApply?.pivotView?.title}
         setActive={setPivotViewDropdownActive}
         active={pivotViewDropdownActive}
         disabled={tableViewSelection === 'rawData'}
+        name="pivotView"
       />
-    </>
+    </div>
   );
 
   const pivotValueButton = (
-    <>
-      Pivot Value
+    <div className={`${buttonContainer} ${tableViewSelection === 'rawData' && disabled}`}>
+      <label className={buttonLabel} htmlFor="pivotValue">
+        Pivot Value
+      </label>
       <DropdownLabelButton
         selectedOption={pivotToApply?.pivotValue?.prettyName}
         setActive={setPivotValueDropdownActive}
         active={pivotValueDropdownActive}
         disabled={tableViewSelection === 'rawData'}
+        name="pivotValue"
       />
-    </>
+    </div>
   );
 
   const setAppropriatePivotValue = pivotOptions => {

@@ -12,13 +12,29 @@
     display: flex;
     align-items: center;
     margin-top: 1rem;
+    cursor: pointer;
     input {
       margin-right: 0.5rem;
+      color: #666666;
     }
   }
 
   .pivotSectionContainer {
     margin-left: 2rem;
     margin-top: 0.5rem;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    &.disabled {
+      opacity: 40%;
+    }
+
+    .buttonLabel {
+      font-size: $font-size-14;
+      margin-bottom: 0.25rem;
+    }
   }
 }
