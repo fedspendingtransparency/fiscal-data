@@ -18,22 +18,21 @@ describe('Data Preview Dropdown Dialog search', () => {
   it('renders the dataTableSearchContainer', () => {
     const { container } = render(
       <DataPreviewDropdownDialogSearch
-        selectedTable={{label: 'Default Table', tableName: 'Default Table'}}
+        selectedTable={{ label: 'Default Table', tableName: 'Default Table' }}
         setSelectedTable={mockSetSelectedTable}
         options={mockOptions}
         searchBarLabel="Search..."
         active={false}
       />
     );
-    
+
     expect(container.querySelector(`.${dataTableSearchContainer}`)).toBeInTheDocument();
   });
 
   it('calls setSelectedTable when an option is selected (handleSearchChange)', async () => {
-
     render(
       <DataPreviewDropdownDialogSearch
-        selectedTable={{label: 'Default Table', tableName: 'Default Table'}}
+        selectedTable={{ label: 'Default Table', tableName: 'Default Table' }}
         setSelectedTable={mockSetSelectedTable}
         options={mockOptions}
         searchBarLabel="Search..."
@@ -45,8 +44,6 @@ describe('Data Preview Dropdown Dialog search', () => {
     await userEvent.click(option);
 
     expect(mockSetSelectedTable).toHaveBeenCalledTimes(1);
-    expect(mockSetSelectedTable).toHaveBeenCalledWith(
-      expect.objectContaining({ label: 'Table 1' })
-    );
+    expect(mockSetSelectedTable).toHaveBeenCalledWith(expect.objectContaining({ label: 'Table 1' }));
   });
 });

@@ -92,7 +92,7 @@ const ComboSelectDropdown = ({
       updateSelection(localFilteredOptions[0], false);
     } else {
       clearTimeout(timeOutId);
-      if(setDropdownActive){
+      if (setDropdownActive) {
         setDropdownActive(true);
       }
     }
@@ -192,7 +192,7 @@ const ComboSelectDropdown = ({
                 No match for <span className={unmatchedTerm}>'{filterValue}'</span>. Please revise your search and try again.
               </div>
             ) : (
-              <ul className={`${dropdownList} globalDropdownList`} data-testid="dropdown-list" >
+              <ul className={`${dropdownList} globalDropdownList`} data-testid="dropdown-list">
                 {hasChildren &&
                   filteredOptions.map((section, index) => {
                     if (section?.children) {
