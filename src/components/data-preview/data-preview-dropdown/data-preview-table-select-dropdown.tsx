@@ -40,7 +40,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
       dropdownWidth="30rem"
     />
   );
-  const searchBarLabel = 'Search Data table';
+  const searchBarLabel = 'Search data tables';
 
   const dataTableFilters = <>Placeholder for data table filters</>;
 
@@ -49,7 +49,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
     setSelectedTable(tableToApply);
   };
 
-  const handleCancel = () => setActive(true);
+  const handleCancel = () => setActive(false);
 
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
