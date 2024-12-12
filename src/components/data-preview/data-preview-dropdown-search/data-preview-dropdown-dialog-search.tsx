@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { dataTableSearchContainer } from './data-preview-dropdown-dialog-search.spec';
+import { dataTableSearchContainer } from './data-preview-dropdown-dialog-search.module.scss';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 interface ButtonData {
   label: string;

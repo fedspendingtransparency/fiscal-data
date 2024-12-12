@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DataPreviewDropdownDialogSearch from './data-preview-dropdown-dialog-search';
-import { dataTableSearchContainer } from './dialog-search.module.scss';
+import { dataTableSearchContainer } from './data-preview-dropdown-dialog-search.module.scss';
 
 describe('Data Preview Dropdown Dialog search', () => {
   const mockSetSelectedTable = jest.fn();
@@ -25,7 +25,7 @@ describe('Data Preview Dropdown Dialog search', () => {
         active={false}
       />
     );
-
+    
     expect(container.querySelector(`.${dataTableSearchContainer}`)).toBeInTheDocument();
   });
 
