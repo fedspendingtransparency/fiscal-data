@@ -109,7 +109,7 @@ const ComboSelectDropdown = ({
 
   useEffect(() => {
     setFilteredOptions(options);
-    if (filterValue !== '') {
+    if (filterValue !== '' && setDropdownActive) {
       filterDropdown(filterValue);
       setDropdownActive(false);
     }
