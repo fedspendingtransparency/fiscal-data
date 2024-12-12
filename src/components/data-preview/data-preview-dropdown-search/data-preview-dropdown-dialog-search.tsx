@@ -13,11 +13,9 @@ interface Props {
   searchBarLabel: string;
   selectedTable: any;
   setSelectedTable: any;
-  active: boolean;
 }
 
 const DataPreviewDropdownDialogSearch: FunctionComponent<Props> = ({ selectedTable, setSelectedTable, options, searchBarLabel, active }) => {
-  const [actives, setActive] = useState(active);
   const [searchBarActive, setSearchBarActive] = useState(false);
   const handleSearchChange = (option: ButtonData) => {
     setSelectedTable(option);
@@ -26,8 +24,7 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<Props> = ({ selectedTab
   return (
     <div className={dataTableSearchContainer}>
       <ComboSelectDropdown
-        active={actives}
-        setDropdownActive={setActive}
+        active={true}
         selectedOption={selectedTable}
         updateSelection={handleSearchChange}
         searchBarLabel={searchBarLabel}

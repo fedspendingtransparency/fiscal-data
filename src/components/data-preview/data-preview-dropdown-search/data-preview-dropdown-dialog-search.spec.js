@@ -2,9 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DataPreviewDropdownDialogSearch from './data-preview-dropdown-dialog-search';
+import { dataTableSearchContainer } from './dialog-search.module.scss';
 
-
-describe('DataPreviewDropdownDialogSearch', () => {
+describe('Data Preview Dropdown Dialog search', () => {
   const mockSetSelectedTable = jest.fn();
   const mockOptions = [
     { label: 'Table 1', onClick: jest.fn(), type: 'dataTable', tableName: 'Table 1' },
@@ -18,7 +18,7 @@ describe('DataPreviewDropdownDialogSearch', () => {
   it('renders the dataTableSearchContainer', () => {
     const { container } = render(
       <DataPreviewDropdownDialogSearch
-        selectedTable={null}
+        selectedTable={{label: 'Default Table', tableName: 'Default Table'}}
         setSelectedTable={mockSetSelectedTable}
         options={mockOptions}
         searchBarLabel="Search..."
@@ -26,7 +26,7 @@ describe('DataPreviewDropdownDialogSearch', () => {
       />
     );
 
-    expect(container.querySelector('.dataTableSearchContainer')).toBeInTheDocument();
+    expect(container.querySelector(`.${dataTableSearchContainer}`)).toBeInTheDocument();
   });
 
   it('calls setSelectedTable when an option is selected (handleSearchChange)', async () => {
