@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { downloadItemBtn, linkDisabled, dictionary, optionIcon } from './download-item-button.module.scss';
 import Analytics from '../../../utils/analytics/analytics';
 import { generateAnalyticsEvent } from '../../../layouts/dataset-detail/helper';
@@ -22,14 +22,33 @@ const DownloadItemButton = ({
   dateRange,
   selectedFileType,
   dapGaEventLabel,
+  downloadTimestamp,
 }) => {
   const smallTableCSVData = useRecoilValue(smallTableDownloadDataCSV);
   const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
   const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
+  const [csvDataWithTimestamp, setCSVDataWithTimestamp] = useState(null);
   const [downloadName, setDownloadName] = useState(null);
+  const ref = useRef();
   useEffect(() => {
     setDownloadName(constructDownloadFileName(dateRange, selectedTable));
   }, [dateRange, selectedTable]);
+
+  const captureTimestamp = () => {
+    const currentDate = new Date();
+    const formattedTimestamp = `${currentDate.getFullYear()}${currentDate.getMonth()}${currentDate
+      .getDate()
+      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}${currentDate.getHours()}${currentDate.getMinutes()}`;
+    const newDownloadData = structuredClone(smallTableCSVData);
+    newDownloadData[0].push(formattedTimestamp);
+    setCSVDataWithTimestamp(newDownloadData);
+  };
+
+  useEffect(() => {
+    if (csvDataWithTimestamp) {
+      ref.current.link.click();
+    }
+  }, [csvDataWithTimestamp]);
 
   const clickFunction = directDownload => {
     if (handleClick && !directDownload) {
@@ -58,15 +77,44 @@ const DownloadItemButton = ({
       );
     } else if (selectedFileType === 'csv' && smallTableCSVData.length > 0) {
       return (
-        <CSVLink
-          data-testid="csv-download-button"
-          className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
-          data={smallTableCSVData}
-          filename={downloadName + '.csv'}
-          onClick={() => clickFunction(true)}
-        >
-          {children}
-        </CSVLink>
+        <>
+          {downloadTimestamp ? (
+            <>
+              <div
+                data-testid={'csv-timestamp-download-button'}
+                role="button"
+                onClick={() => captureTimestamp()}
+                className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
+                onKeyDown={e => e.key === 'Enter' && captureTimestamp()}
+                tabIndex={0}
+              >
+                {children}
+              </div>
+
+              <CSVLink
+                data-testid="csv-download-button"
+                data={csvDataWithTimestamp ? csvDataWithTimestamp : smallTableCSVData}
+                filename={downloadName + '.csv'}
+                onClick={() => clickFunction(true)}
+                ref={ref}
+                aria-hidden={true}
+                enclosingCharacter={''}
+                tabIndex={-1}
+              />
+            </>
+          ) : (
+            <CSVLink
+              data-testid="csv-download-button"
+              className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
+              data={smallTableCSVData}
+              filename={downloadName + '.csv'}
+              onClick={() => clickFunction(true)}
+              enclosingCharacter={''}
+            >
+              {children}
+            </CSVLink>
+          )}
+        </>
       );
     } else if (selectedFileType === 'json' && smallTableJSONData.length > 0) {
       return (

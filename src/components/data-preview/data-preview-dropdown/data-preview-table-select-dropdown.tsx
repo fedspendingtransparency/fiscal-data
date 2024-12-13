@@ -3,7 +3,8 @@ import { faDatabase } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from './../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
-
+import DataPreviewDropdownDialogSearch from '../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
+import { allTablesOption } from '../../datatable-select/datatable-select';
 //TODO: add type def
 type DataPreviewProp = { apis; selectedTable; setSelectedTable; allTablesSelected; earliestDate; latestDate; disableAllTables };
 
@@ -17,6 +18,17 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
   disableAllTables,
 }) => {
   const [active, setActive] = useState(false);
+  const [tableToApply, setTableToApply] = useState(selectedTable);
+
+  const options = disableAllTables
+    ? apis
+    : [
+        {
+          ...allTablesOption,
+          earliestDate,
+          latestDate,
+        },
+      ].concat(apis);
 
   const dropdownButton = (
     <DropdownLabelButton
@@ -28,20 +40,29 @@ const DataPreviewTableSelectDropdown: FunctionComponent<DataPreviewProp> = ({
       dropdownWidth="30rem"
     />
   );
-
-  const dataTableSearch = <>Placeholder for data table search</>;
+  const searchBarLabel = 'Search data tables';
 
   const dataTableFilters = <>Placeholder for data table filters</>;
 
-  const handleApply = () => setActive(false);
+  const handleApply = () => {
+    setActive(false);
+    setSelectedTable(tableToApply);
+  };
 
   const handleCancel = () => setActive(false);
 
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
-      {active && (
+      {active && selectedTable && (
         <DataPreviewDropdownDialogContainer
-          searchComponent={dataTableSearch}
+          searchComponent={
+            <DataPreviewDropdownDialogSearch
+              options={options}
+              searchBarLabel={searchBarLabel}
+              selectedTable={tableToApply}
+              setSelectedTable={setTableToApply}
+            />
+          }
           filterComponent={dataTableFilters}
           handleApply={handleApply}
           handleCancel={handleCancel}

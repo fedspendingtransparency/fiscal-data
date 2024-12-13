@@ -46,7 +46,7 @@
       "startDate": "8/24/2023",
       "endDate": "9/14/2023"
     },
-    "datatableBanner": "For important information regarding any new or altered footnotes, review the footnotes in the PDF file found on the Published Reports tab."
+    "datatableBanner": "For important information regarding any new or altered footnotes, review the footnotes in the PDF file found in the Reports and Files section."
   },
   "015-BFS-2014Q3-096": {
     "slug": "/savings-bonds-issues-redemptions-maturities-by-series/",
@@ -628,6 +628,19 @@
     "relatedDatasets": ["015-BFS-2014Q3-038", "015-BFS-2014Q3-037"],
     "currentDateButton": "byMonth",
     "disableAllTables": true,
-    "sharedApiFilterOptions": true
+    "sharedApiFilterOptions": true,
+    "downloadTimestamp": true
+  },
+  "015-BFS-2024Q1-002": {
+    "slug": "/daily-government-account-series/",
+    "seoConfig": {
+      "pageTitle": "Daily Government Account Series",
+      "description":
+      "The Government Account Series (GAS) Daily Activity Summary dataset contains GAS securities activity amounts for specific federal government accounts, including trust funds. The GAS securities in these accounts are categorized as either Held by the Public or Intragovernmental Holdings. The daily opening balance, issued, and redeemed amounts are included and aggregated on a month-to-date and fiscal-year-to-date basis.",
+      "keywords": "Debt, Financial Summaries"
+    },
+    "topics": ["debt", "financial-summaries"],
+    "relatedDatasets": ["015-BFS-2014Q1-13", "015-BFS-2014Q1-03", "015-BFS-2014Q1-11"],
+    "currentDateButton": "byDay"
   }
 }
