@@ -127,18 +127,28 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
         <div className={resourcesDropDown}>
           {primaryChildren.map(link => {
             if (link.to) {
-              return (
-                <div key={link.title} className={dropdownListItem}>
-                  <Link
-                    to={link.to}
-                    activeClassName={activeDropdownLink}
-                    onClick={() => handlePageClick(title, link.title)}
-                    style={{ minWidth: `${link.title.length * 7.5 + 28}px` }}
-                  >
-                    {link.title}
-                  </Link>
-                </div>
-              );
+              if (link.external) {
+                return (
+                  <div key={link.title} className={dropdownListItem}>
+                    <a href={link.to} target="_blank">
+                      {link.title}
+                    </a>
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={link.title} className={dropdownListItem}>
+                    <Link
+                      to={link.to}
+                      activeClassName={activeDropdownLink}
+                      onClick={() => handlePageClick(title, link.title)}
+                      style={{ minWidth: `${link.title.length * 7.5 + 28}px` }}
+                    >
+                      {link.title}
+                    </Link>
+                  </div>
+                );
+              }
             } else {
               return (
                 <button key={link.title} onClick={() => handlePageClick(title, link.title)} style={{ minWidth: `${link.title.length * 7.5 + 28}px` }}>
