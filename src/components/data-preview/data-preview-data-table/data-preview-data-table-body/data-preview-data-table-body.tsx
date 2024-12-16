@@ -1,14 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { IDataTableBody } from '../../../../models/IDataTableBody';
-import {
-  cellBorder,
-  cellText,
-  detailButton,
-  fillCellGrey,
-  fillCellWhite,
-  hidden,
-  rightAlignText,
-} from '../../../data-table/data-table-body/data-table-body.module.scss';
+import { cellBorder, cellText, detailButton, fillCellGrey, fillCellWhite, hidden, rightAlignText } from './data-preview-data-table-body.module.scss';
 import classNames from 'classnames';
 import { rightAlign } from '../../../data-table/data-table-helper';
 import { flexRender } from '@tanstack/react-table';
@@ -35,7 +27,7 @@ const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
         fillCell = !fillCell;
         const rowConfig = row.getVisibleCells();
         return (
-          <tr key={row.id} className={fillCell ? fillCellGrey : fillCellWhite} data-testid="row">
+          <tr key={row.id} data-testid="row">
             {rowConfig.map(cell => {
               const cellValue = cell.getValue()?.toString();
               const display = !cellValue || cellValue === 'null';
@@ -55,7 +47,7 @@ const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
                   key={cell.id}
                   className={classNames([
                     `${rightAlign(dataTypes[cell.column.id]) ? rightAlignText : null}`,
-                    fillCell ? cellBorder : null,
+                    cellBorder,
                     wrapStyle ? null : hidden,
                     cellText,
                   ])}

@@ -1,5 +1,21 @@
 @import '../../../../variables.module.scss';
 
+th,
+.th {
+  cursor: default;
+  background-color: #f1f1f1;
+  position: relative;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.5rem 2rem;
+  border-bottom: 1px solid $light-grey-border;
+  border-right: 1px solid $light-grey-border;
+}
+
+.filtersActive {
+  background-color: #d9e8f6;
+}
+
 .sortArrowPill,
 .defaultSortArrowPill {
   height: 1.25rem;
@@ -43,7 +59,7 @@
 .colHeader {
   display: flex;
   align-items: center;
-  padding: 0.5rem 0;
+  //padding: 0.5rem 2rem;
   white-space: nowrap;
 
   &.rightAlignText {

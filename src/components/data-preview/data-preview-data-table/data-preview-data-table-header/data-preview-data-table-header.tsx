@@ -14,8 +14,9 @@ import {
   sortArrow,
   sortArrowPill,
   stickyHeader,
-} from '../../../data-table/data-table-header/data-table-header.module.scss';
-import { getColumnFilter, rightAlign } from '../../../data-table/data-table-helper';
+  filtersActive,
+} from './data-preview-data-table-header.module.scss';
+import { columnFilterActive, getColumnFilter, rightAlign } from '../../../data-table/data-table-helper';
 import { flexRender } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons';
@@ -35,6 +36,8 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
       boxShadow: '0.25rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.15), 0 0 0.125rem 0 rgba(0, 0, 0, 0.20)',
     },
   }))(Tooltip);
+
+  console.log(allActiveFilters);
 
   const iconClick = (state, header, e) => {
     if (e.key === undefined || e.key === 'Enter') {
@@ -61,6 +64,7 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
               let isLastColumn = false;
               const columnDataType = dataTypes[header.id];
               const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
+              const appliedFilterStyle = columnFilterActive(allActiveFilters, header.id);
               if (!headerGroup.headers[index + 1]) {
                 isLastColumn = true;
               }
@@ -71,6 +75,7 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
                   style={{
                     minWidth: header.getSize(),
                   }}
+                  className={appliedFilterStyle && filtersActive}
                 >
                   {header.isPlaceholder ? null : (
                     <>

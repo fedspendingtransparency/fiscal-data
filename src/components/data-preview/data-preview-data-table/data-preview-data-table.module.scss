@@ -7,7 +7,8 @@ $borderRadius: 5px;
   width: 100%;
   order: 1;
 
-  .rawDataTableContainer, .nonRawDataTableContainer {
+  .rawDataTableContainer,
+  .nonRawDataTableContainer {
     position: relative;
     box-sizing: border-box;
     border-top: 0;
@@ -30,17 +31,8 @@ $borderRadius: 5px;
   .divTable {
     border-bottom: 1px solid lightgray;
     width: fit-content;
-  }
-
-  th,
-  .th {
-    cursor: default;
-    background-color: white;
-    position: relative;
-    font-weight: bold;
-    text-align: center;
-    height: 1.875rem;
-    padding: 0.25rem 0.5rem 0.75rem;
+    border-collapse: separate;
+    border-spacing: 0;
   }
 
   .tr {
@@ -51,11 +43,13 @@ $borderRadius: 5px;
   .tr {
     width: fit-content;
     height: 1.875rem;
+    border-bottom: 1px solid $light-grey-border;
   }
 
   td,
   .td {
-    padding: 0.25rem 0.5rem;
+    padding: 0.5rem 2rem;
+    border-right: 1px solid $light-grey-border;
   }
 
   #th-parent {
@@ -68,8 +62,6 @@ $borderRadius: 5px;
   .td {
     height: 1.875rem;
   }
-
-
 }
 .range {
   font-weight: $semi-bold-weight;
