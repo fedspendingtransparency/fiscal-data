@@ -295,16 +295,23 @@ export const rightAlign = (type: string): boolean => {
   return types.includes(type) || type?.includes('CURRENCY');
 };
 
-export const columnFilterActive = (filters, columnName) => {
-  // console.log(columnName);
+export const columnHeaderFilterActive = (filters, columnName) => {
+  console.log(columnName);
   for (let i = 0; i < filters.length; i++) {
     const name = filters[i].split('-')[0];
     if (name === columnName) {
       return true;
     }
   }
-  // filters.forEach(filter => return (filter.includes(columnName)));
-  // console.log(containsFilter);//
+};
+
+export const columnBodyFilterActive = (filters, columnName) => {
+  for (let i = 0; i < filters.length; i++) {
+    const name = filters[i].split('-')[0];
+    if (columnName.includes(name)) {
+      return true;
+    }
+  }
 };
 
 export const getSortedColumnsData = (

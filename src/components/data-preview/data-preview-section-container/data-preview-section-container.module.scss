@@ -12,9 +12,7 @@ $table-container-margin: 8rem;
   min-height: 44.125rem;
 }
 
-
 .sectionBorder {
-  border: solid #d6d7d9 1px;
   border-radius: 5px;
 }
 
@@ -55,7 +53,7 @@ $table-container-margin: 8rem;
 .loadingSection {
   z-index: $table-loading-section;
   height: calc(100% - 5.5rem);
-  width: 100% ;
+  width: 100%;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.85);
   transition: opacity 0.5s 0.5s, left 0.5s ease-in-out;

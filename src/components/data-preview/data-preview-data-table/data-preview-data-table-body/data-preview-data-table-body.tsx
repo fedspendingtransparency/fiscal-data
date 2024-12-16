@@ -1,8 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { IDataTableBody } from '../../../../models/IDataTableBody';
-import { cellBorder, cellText, detailButton, fillCellGrey, fillCellWhite, hidden, rightAlignText } from './data-preview-data-table-body.module.scss';
-import classNames from 'classnames';
-import { rightAlign } from '../../../data-table/data-table-helper';
+import { cellBorder, cellText, detailButton, hidden, rightAlignText, filtersActive } from './data-preview-data-table-body.module.scss';
+import { columnBodyFilterActive, columnFilterActive, rightAlign } from '../../../data-table/data-table-helper';
 import { flexRender } from '@tanstack/react-table';
 
 const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
@@ -12,6 +11,7 @@ const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
   detailViewConfig,
   setDetailViewState,
   setSummaryValues,
+  allActiveFilters,
 }) => {
   let fillCell = false;
   const handleDetailClick = (rowConfig: {}, cellValue: string) => {
@@ -26,6 +26,7 @@ const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
       {table.getRowModel().rows.map(row => {
         fillCell = !fillCell;
         const rowConfig = row.getVisibleCells();
+
         return (
           <tr key={row.id} data-testid="row">
             {rowConfig.map(cell => {
@@ -33,6 +34,7 @@ const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
               const display = !cellValue || cellValue === 'null';
               const wrapStyle = allowColumnWrap?.includes(cell.column.id);
               const detailViewButton = detailViewConfig?.field === cell.column.id;
+              const appliedFilterStyle = columnBodyFilterActive(allActiveFilters, cell.id);
               const cellDisplay = (children: ReactNode) =>
                 detailViewButton ? (
                   <button onClick={() => handleDetailClick(rowConfig, cellValue)} className={detailButton}>
@@ -45,12 +47,8 @@ const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
               return (
                 <td
                   key={cell.id}
-                  className={classNames([
-                    `${rightAlign(dataTypes[cell.column.id]) ? rightAlignText : null}`,
-                    cellBorder,
-                    wrapStyle ? null : hidden,
-                    cellText,
-                  ])}
+                  className={`${rightAlign(dataTypes[cell.column.id]) ? rightAlignText : null}
+                    ${cellBorder} ${wrapStyle ? null : hidden} ${cellText} ${appliedFilterStyle && filtersActive}`}
                 >
                   {display ? <div /> : <>{cellDisplay(flexRender(cell.column.columnDef.cell, cell.getContext()))}</>}
                 </td>

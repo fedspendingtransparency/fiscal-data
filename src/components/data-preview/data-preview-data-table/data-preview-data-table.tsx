@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IDataTableProps } from '../../../models/IDataTableProps';
 import { useSetRecoilState } from 'recoil';
 import {
@@ -7,7 +7,7 @@ import {
   smallTableDownloadDataXML,
   tableRowLengthState,
 } from '../../../recoil/smallTableDownloadData';
-import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData } from '../../data-table/data-table-helper';
+import { columnsConstructorData, getSortedColumnsData } from '../../data-table/data-table-helper';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 import { json2xml } from 'xml-js';
 import { overlayContainerNoFooter, rawDataTableContainer, selectColumnsWrapper, tableStyle } from './data-preview-data-table.module.scss';
@@ -244,6 +244,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
                   detailViewConfig={detailView}
                   setDetailViewState={setDetailViewState}
                   setSummaryValues={setSummaryValues}
+                  allActiveFilters={allActiveFilters}
                 />
               </table>
             </div>

@@ -8,7 +8,7 @@ import {
   selectColumnPanelInactive,
   selectColumnsWrapper,
   tableStyle,
-} from '../../data-table/data-table.module.scss';
+} from './data-preview-table.module.scss';
 import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
 import { loadingTimeout, netLoadingDelay, setColumns } from '../../dtg-table/dtg-table-helper';
 import { formatDateForApi, pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../utils/api-utils';
