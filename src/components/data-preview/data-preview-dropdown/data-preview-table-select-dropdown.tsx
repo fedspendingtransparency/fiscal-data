@@ -9,7 +9,6 @@ import { allTablesOption } from '../../datatable-select/datatable-select';
 import DataPreviewDropdownDialogSearch from '../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
 
 const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = ({
-
   apis,
   selectedTable,
   setSelectedTable,
@@ -48,7 +47,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     />
   );
   const searchBarLabel = 'Search data tables';
-  const dataTableFilters = <>Placeholder for data table filters</>;
 
   const handleApply = () => {
     // if (tableViewSelection === 'pivotData') {
@@ -84,7 +82,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           }
           filterComponent={
             <DataPreviewPivotSelect
-              table={selectedTable}
+              table={tableToApply}
               pivotSelection={selectedPivot}
               setSelectedPivot={setSelectedPivot}
               pivotsUpdated={pivotsUpdated}
