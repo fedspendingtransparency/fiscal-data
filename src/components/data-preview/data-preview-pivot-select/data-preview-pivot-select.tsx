@@ -11,8 +11,11 @@ import {
   buttonContainer,
   disabled,
 } from './data-preview-pivot-select.module.scss';
-import { iPivotSelect } from '../../../models/data-preview/IPivotSelect';
-const DataPreviewPivotSelect: FunctionComponent<iPivotSelect> = ({
+import { IPivotSelect } from '../../../models/data-preview/IPivotSelect';
+import { IPivotOption } from '../../../models/data-preview/IPivotOption';
+import { IPivotView } from '../../../models/data-preview/IPivotView';
+import { IPivotValue } from '../../../models/data-preview/IPivotValue';
+const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
   table,
   pivotToApply,
   setPivotToApply,
@@ -21,8 +24,8 @@ const DataPreviewPivotSelect: FunctionComponent<iPivotSelect> = ({
 }) => {
   const [pivotViewDropdownActive, setPivotViewDropdownActive] = useState(false);
   const [pivotValueDropdownActive, setPivotValueDropdownActive] = useState(false);
-  const [pivotViewOptions, setPivotViewOptions] = useState();
-  const [pivotValueOptions, setPivotValueOptions] = useState();
+  const [pivotViewOptions, setPivotViewOptions] = useState<IPivotView[]>();
+  const [pivotValueOptions, setPivotValueOptions] = useState<IPivotValue[]>();
   const [pivotFields, setPivotFields] = useState();
 
   const pivotViewButton = (
@@ -100,11 +103,11 @@ const DataPreviewPivotSelect: FunctionComponent<iPivotSelect> = ({
 
   useEffect(() => {
     if (table && !table.allDataTables && table.dataDisplays && table.dataDisplays.length > 1) {
-      const pivotViews = table.dataDisplays.filter(view => view.title !== 'Complete Table');
+      const pivotViews: IPivotView[] = table.dataDisplays.filter(view => view.title !== 'Complete Table');
       setPivotViewOptions(pivotViews);
       const localPivotFields = getPivotFields(table);
       setPivotFields(localPivotFields);
-      const pivot = {
+      const pivot: IPivotOption = {
         pivotView: pivotViews ? pivotViews[0] : null,
         pivotValue: localPivotFields && pivotViews[0].dimensionField ? localPivotFields[0] : null,
       };
@@ -124,7 +127,7 @@ const DataPreviewPivotSelect: FunctionComponent<iPivotSelect> = ({
         <input type="radio" name="table-data" checked={tableViewSelection === 'rawData'} onChange={() => updateTableViewSelection('rawData')} />
         Raw Data
       </label>
-      {!!pivotViewOptions && (
+      {!!pivotViewOptions && !table.allDataTables && (
         <>
           <label className={radioButton}>
             <input

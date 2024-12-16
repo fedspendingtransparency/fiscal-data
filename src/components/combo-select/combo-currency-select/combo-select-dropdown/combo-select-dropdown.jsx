@@ -16,6 +16,7 @@ import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 import ScrollContainer from '../../../scroll-container/scroll-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
+
 const ComboSelectDropdown = ({
   active,
   setDropdownActive,
@@ -112,10 +113,9 @@ const ComboSelectDropdown = ({
     setFilteredOptions(options);
     if (filterValue !== '') {
       filterDropdown(filterValue);
-      if(setDropdownActive) {
+      if (setDropdownActive) {
         setDropdownActive(false);
       }
-
     }
   }, [options]);
 
@@ -140,7 +140,7 @@ const ComboSelectDropdown = ({
 
       if (!dropdownChild) {
         timeOutId = setTimeout(() => {
-          if(setDropdownActive){
+          if (setDropdownActive) {
             setDropdownActive(false);
           }
         });

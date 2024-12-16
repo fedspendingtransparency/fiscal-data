@@ -1,11 +1,14 @@
+import { IDatasetApi } from '../IDatasetApi';
+import { IPivotOption } from './IPivotOption';
+
 export interface ITableSelectDropdown {
-  apis;
-  selectedTable;
-  setSelectedTable;
-  allTablesSelected;
-  earliestDate;
-  latestDate;
-  disableAllTables;
-  selectedPivot;
-  setSelectedPivot;
+  apis: IDatasetApi[];
+  selectedTable: IDatasetApi;
+  setSelectedTable: (table: IDatasetApi) => void;
+  allTablesSelected: boolean;
+  earliestDate: string;
+  latestDate: string;
+  disableAllTables: boolean;
+  selectedPivot: IPivotOption;
+  setSelectedPivot: (pivot: IPivotOption) => void;
 }

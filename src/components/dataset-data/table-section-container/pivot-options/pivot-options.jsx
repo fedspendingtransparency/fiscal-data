@@ -71,9 +71,6 @@ const PivotOptions = ({ datasetName, table, pivotSelection, setSelectedPivot, pi
       setPivotOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
   }, [table, pivotsUpdated]);
-  useEffect(() => {
-    console.log(pivotSelection);
-  }, [pivotSelection]);
 
   return (
     <>

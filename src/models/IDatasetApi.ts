@@ -1,9 +1,11 @@
+import { IPivotView } from './data-preview/IPivotView';
+
 export interface IDatasetApi {
   alwaysSortWith: string | null;
   hideColumns: string[] | null;
   selectColumns: string[];
   apiId: number;
-  dataDisplays: Record<string, unknown>[];
+  dataDisplays: IPivotView[];
   dateField: string;
   downloadName: string;
   earliestDate: string;
@@ -41,4 +43,5 @@ export interface IDatasetApi {
     fieldFilter: {};
   };
   valueFieldOptions: unknown | null;
+  allDataTables: boolean | null;
 }
