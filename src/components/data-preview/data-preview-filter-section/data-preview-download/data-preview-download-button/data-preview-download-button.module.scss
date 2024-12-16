@@ -21,6 +21,10 @@ $icon-width: 1.5rem;
   }
 }
 
+.parent {
+  position: relative;
+}
+
 @media screen and (min-width: $breakpoint-lg) {
   .downloadButton {
     gap: 0.5rem;

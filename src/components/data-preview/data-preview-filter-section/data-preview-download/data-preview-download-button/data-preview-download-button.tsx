@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faCaretRight, faCloudDownload } from '@fortawesome/free-solid-svg-icons';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
-import { downloadButton, buttonActive, icon, buttonText } from './data-preview-download-button.module.scss';
+import { downloadButton, buttonActive, icon, buttonText, parent } from './data-preview-download-button.module.scss';
 import { DownloadDialog } from '../../../../download-dialog/download-dialog';
 
 interface IDownloadButtonProps {
@@ -22,7 +22,7 @@ const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ ac
   };
 
   return (
-    <>
+    <div className={parent}>
       <button className={`${downloadButton} ${active && buttonActive}`} onClick={() => setActive(!active)}>
         <div className={buttonText}>Download</div>
         <div className={icon}>
@@ -30,7 +30,7 @@ const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ ac
         </div>
       </button>
       {active && <DownloadDialog downloadSizeInfo={{ csv: '84KB', json: '84KB', xml: '84KB', dataDict: '24KB' }} />}
-    </>
+    </div>
   );
 };
 
