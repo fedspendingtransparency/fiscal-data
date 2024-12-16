@@ -29,7 +29,7 @@ const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ ac
           <FontAwesomeIcon icon={getIcon(width >= pxToNumber(breakpointLg))} />
         </div>
       </button>
-      {active && <DownloadDialog downloadSizeInfo={{ csv: '84KB', json: '84KB', xml: '84KB', dataDict: '24KB' }} />}
+      {active && <DownloadDialog />}
     </div>
   );
 };

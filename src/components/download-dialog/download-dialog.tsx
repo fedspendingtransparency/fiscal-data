@@ -2,29 +2,25 @@ import React, { FunctionComponent } from 'react';
 
 import { container, item, border } from './download-dialog.module.scss';
 
-interface IDownloadDialogProps {
-  downloadSizeInfo: Record<string, any>;
-}
-
-export const DownloadDialog: FunctionComponent<IDownloadDialogProps> = ({ downloadSizeInfo }: IDownloadDialogProps) => {
+export const DownloadDialog: FunctionComponent = () => {
   return (
     <div className={container}>
-      <div className={item} role={'button'}>
+      <div className={item} role={'button'} tabIndex={0}>
         <span>CSV</span>
-        <span>{downloadSizeInfo.csv}</span>
+        <span>84 KB</span>
       </div>
-      <div className={item} role={'button'}>
+      <div className={item} role={'button'} tabIndex={0}>
         <span>JSON</span>
-        <span>{downloadSizeInfo.json}</span>
+        <span>84 KB</span>
       </div>
-      <div className={item} role={'button'}>
+      <div className={item} role={'button'} tabIndex={0}>
         <span>XML</span>
-        <span>{downloadSizeInfo.xml}</span>
+        <span>84 KB</span>
       </div>
       <div className={border} />
-      <div className={item} role={'button'}>
+      <div className={item} role={'button'} tabIndex={0}>
         <span>Data Dictionary</span>
-        <span>{downloadSizeInfo.dataDict}</span>
+        <span>24 KB</span>
       </div>
     </div>
   );
