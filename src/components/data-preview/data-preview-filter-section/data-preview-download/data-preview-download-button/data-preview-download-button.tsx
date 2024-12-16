@@ -4,6 +4,7 @@ import { faCaretDown, faCaretUp, faCaretRight, faCloudDownload } from '@fortawes
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import { downloadButton, buttonActive, icon, buttonText } from './data-preview-download-button.module.scss';
+import { DownloadDialog } from '../../../../download-dialog/download-dialog';
 
 interface IDownloadButtonProps {
   active: boolean;
@@ -28,6 +29,7 @@ const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ ac
           <FontAwesomeIcon icon={getIcon(width >= pxToNumber(breakpointLg))} />
         </div>
       </button>
+      {active && <DownloadDialog />}
     </>
   );
 };
