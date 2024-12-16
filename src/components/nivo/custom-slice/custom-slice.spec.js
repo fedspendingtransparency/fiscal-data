@@ -23,6 +23,25 @@ describe('Custom slice', () => {
     expect(getByTestId('customSlices')).toBeInTheDocument();
   });
 
+  it('Renders the custom slices when in view is positive', () => {
+    jest.useFakeTimers();
+    const { getByTestId } = render(
+      <CustomSlices
+        slices={mockSlices}
+        data={[1, 2, 3]}
+        setCustomAnimationTriggeredOnce={jest.fn()}
+        setCurrentSlice={mockSetCurrentSlice}
+        groupMouseLeave={mockGroupMouseLeave}
+        mouseMove={mockMouseMove}
+        inView={true}
+        duration={1000}
+      />
+    );
+    jest.runAllTimers();
+    expect(mockSetCurrentSlice).toHaveBeenCalled();
+    expect(getByTestId('customSlices')).toBeInTheDocument();
+  });
+
   it('calls group mouse handlers', () => {
     const { getByTestId } = render(
       <CustomSlices
