@@ -15,8 +15,18 @@ describe('Pivot select', () => {
     dataDisplays: [{ title: 'Complete Table' }, { dimensionField: 'account_type', title: 'By Type of Account' }],
   };
 
+  const mockTable_noPivots = {
+    tableName: 'Test table name',
+    fields: [
+      { columnName: 'open_today_bal', prettyName: 'Opening Balance Today' },
+      { columnName: 'open_month_bal', prettyName: 'Opening Balance This Month' },
+      { columnName: 'account_type', prettyName: 'By Type of Account' },
+    ],
+    dataDisplays: [{ title: 'Complete Table' }],
+  };
+
   const mockSelectedPivot = {
-    pivotValue: { prettyName: 'Opening Balance Today' },
+    pivotValue: { prettyName: 'Opening Balance Today', columnName: 'open_today_bal' },
     pivotView: { title: 'By Type of Account', dimensionField: 'account_type' },
   };
 
@@ -31,7 +41,7 @@ describe('Pivot select', () => {
   });
 
   it('does not render the Pivot Data radio button when no pivot view are configured', () => {
-    const { queryByRole } = render(<DataPreviewPivotSelect />);
+    const { queryByRole } = render(<DataPreviewPivotSelect table={mockTable_noPivots} />);
     expect(queryByRole('radio', { name: 'Pivot Data' })).not.toBeInTheDocument();
   });
 
