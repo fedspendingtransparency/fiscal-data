@@ -15,6 +15,7 @@ import { IPivotSelect } from '../../../models/data-preview/IPivotSelect';
 import { IPivotOption } from '../../../models/data-preview/IPivotOption';
 import { IPivotView } from '../../../models/data-preview/IPivotView';
 import { IPivotValue } from '../../../models/data-preview/IPivotValue';
+
 const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
   table,
   pivotToApply,
@@ -101,8 +102,16 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
     }
   };
 
+  const displayPivotOptions = () => {
+    return !!pivotViewOptions && !table.allDataTables && table.dataDisplays && table.dataDisplays?.length > 1;
+  };
+
+  const updateTableViewSelection = view => {
+    setTableViewSelection(view);
+  };
+
   useEffect(() => {
-    if (table && !table.allDataTables && table.dataDisplays && table.dataDisplays.length > 1) {
+    if (table && !table.allDataTables && table.dataDisplays && table.dataDisplays?.length > 1) {
       const pivotViews: IPivotView[] = table.dataDisplays.filter(view => view.title !== 'Complete Table');
       setPivotViewOptions(pivotViews);
       const localPivotFields = getPivotFields(table);
@@ -116,10 +125,6 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
     }
   }, [table]);
 
-  const updateTableViewSelection = view => {
-    setTableViewSelection(view);
-  };
-
   return (
     <div className={sectionContainer}>
       <div className={tableName}>{table?.tableName}</div>
@@ -127,7 +132,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
         <input type="radio" name="table-data" checked={tableViewSelection === 'rawData'} onChange={() => updateTableViewSelection('rawData')} />
         Raw Data
       </label>
-      {!!pivotViewOptions && !table.allDataTables && (
+      {displayPivotOptions() && (
         <>
           <label className={radioButton}>
             <input
