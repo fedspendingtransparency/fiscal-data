@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { IDataTableBody } from '../../../../models/IDataTableBody';
-import { cellBorder, cellText, detailButton, hidden, rightAlignText, filtersActive } from './data-preview-data-table-body.module.scss';
+import { tableCell, tableRow, detailButton, hidden, rightAlignText, filtersActive } from './data-preview-data-table-body.module.scss';
 import { columnBodyFilterActive, columnFilterActive, rightAlign } from '../../../data-table/data-table-helper';
 import { flexRender } from '@tanstack/react-table';
 
@@ -28,7 +28,7 @@ const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
         const rowConfig = row.getVisibleCells();
 
         return (
-          <tr key={row.id} data-testid="row">
+          <tr key={row.id} data-testid="row" className={tableRow}>
             {rowConfig.map(cell => {
               const cellValue = cell.getValue()?.toString();
               const display = !cellValue || cellValue === 'null';
@@ -48,7 +48,7 @@ const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
                 <td
                   key={cell.id}
                   className={`${rightAlign(dataTypes[cell.column.id]) ? rightAlignText : null}
-                    ${cellBorder} ${wrapStyle ? null : hidden} ${cellText} ${appliedFilterStyle && filtersActive}`}
+                    ${tableCell} ${wrapStyle ? null : hidden} ${appliedFilterStyle && filtersActive}`}
                 >
                   {display ? <div /> : <>{cellDisplay(flexRender(cell.column.columnDef.cell, cell.getContext()))}</>}
                 </td>

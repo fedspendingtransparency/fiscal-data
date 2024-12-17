@@ -3,9 +3,7 @@ import { IDataTableHeader } from '../../../../models/IDataTableHeader';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import {
-  colHeader,
-  colHeaderText,
-  columnMinWidth,
+  headerContent,
   defaultSortArrow,
   defaultSortArrowPill,
   isResizing,
@@ -15,8 +13,9 @@ import {
   sortArrowPill,
   stickyHeader,
   filtersActive,
+  tableHeader,
 } from './data-preview-data-table-header.module.scss';
-import { columnHeaderFilterActive, getColumnFilter, rightAlign } from '../../../data-table/data-table-helper';
+import { columnHeaderFilterActive, rightAlign } from '../../../data-table/data-table-helper';
 import { flexRender } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons';
@@ -53,19 +52,31 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
     }
   };
 
+  const sortArrowButton = (icon, state, header) => {
+    const defaultState = state === 'false';
+    return (
+      <div
+        className={defaultState ? defaultSortArrowPill : sortArrowPill}
+        tabIndex={0}
+        role="button"
+        aria-label="Column sort"
+        onClick={e => iconClick(state, header, e)}
+        onKeyDown={e => iconClick(state, header, e)}
+      >
+        <FontAwesomeIcon icon={icon as IconProp} className={defaultState ? defaultSortArrow : sortArrow} rotation={defaultState ? 90 : null} />
+      </div>
+    );
+  };
+
   return (
     <thead>
       {table.getHeaderGroups().map(headerGroup => {
         return (
           <tr key={headerGroup.id} data-testid="header-row" className={stickyHeader}>
             {headerGroup.headers.map((header, index) => {
-              let isLastColumn = false;
               const columnDataType = dataTypes[header.id];
               const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
               const appliedFilterStyle = columnHeaderFilterActive(allActiveFilters, header.id);
-              if (!headerGroup.headers[index + 1]) {
-                isLastColumn = true;
-              }
               return (
                 <th
                   key={header.id}
@@ -73,51 +84,18 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
                   style={{
                     minWidth: header.getSize(),
                   }}
-                  className={appliedFilterStyle && filtersActive}
+                  className={`${tableHeader} ${appliedFilterStyle && filtersActive}`}
                 >
-                  {header.isPlaceholder ? null : (
+                  {!header.isPlaceholder && (
                     <>
-                      <div className={header.column.getCanSort() ? `${colHeader} ${rightAlignStyle}` : ''} data-testid={`header-sorter-${header.id}`}>
+                      <div className={`${headerContent} ${rightAlignStyle}`} data-testid={`header-sorter-${header.id}`}>
                         <LightTooltip title={header.column.columnDef.header} placement="bottom-start">
-                          <div className={colHeaderText}>{flexRender(header.column.columnDef.header, header.getContext())}</div>
+                          <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
                         </LightTooltip>
                         {{
-                          asc: (
-                            <div
-                              className={sortArrowPill}
-                              tabIndex={0}
-                              role="button"
-                              aria-label="Column sort"
-                              onClick={e => iconClick('asc', header, e)}
-                              onKeyDown={e => iconClick('asc', header, e)}
-                            >
-                              <FontAwesomeIcon icon={faArrowUpShortWide as IconProp} className={sortArrow} />
-                            </div>
-                          ),
-                          desc: (
-                            <div
-                              className={sortArrowPill}
-                              tabIndex={0}
-                              role="button"
-                              aria-label="Column sort"
-                              onClick={e => iconClick('desc', header, e)}
-                              onKeyDown={e => iconClick('desc', header, e)}
-                            >
-                              <FontAwesomeIcon icon={faArrowDownWideShort as IconProp} className={sortArrow} />
-                            </div>
-                          ),
-                          false: (
-                            <div
-                              className={defaultSortArrowPill}
-                              tabIndex={0}
-                              role="button"
-                              aria-label="Column sort"
-                              onClick={e => iconClick('false', header, e)}
-                              onKeyDown={e => iconClick('false', header, e)}
-                            >
-                              <FontAwesomeIcon icon={faArrowRightArrowLeft as IconProp} className={defaultSortArrow} rotation={90} />
-                            </div>
-                          ),
+                          asc: sortArrowButton(faArrowUpShortWide, 'asc', header),
+                          desc: sortArrowButton(faArrowDownWideShort, 'desc', header),
+                          false: sortArrowButton(faArrowRightArrowLeft, 'false', header),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
                     </>

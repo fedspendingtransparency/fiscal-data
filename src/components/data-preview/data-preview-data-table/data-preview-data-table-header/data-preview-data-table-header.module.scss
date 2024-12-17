@@ -1,19 +1,19 @@
-@import '../../../../variables.module.scss';
+@import 'src/variables.module.scss';
+@import '../data-preview-data-table.module';
 
-th,
-.th {
+.tableHeader {
   cursor: default;
   background-color: #f1f1f1;
   position: relative;
   font-weight: bold;
   text-align: center;
   padding: 0.5rem 2rem;
-  border-bottom: 1px solid $light-grey-border;
-  border-right: 1px solid $light-grey-border;
-}
+  border-bottom: $table-border-style;
+  border-right: $table-border-style;
 
-.filtersActive {
-  background-color: #d9e8f6;
+  &.filtersActive {
+    background-color: #d9e8f6;
+  }
 }
 
 .sortArrowPill,
@@ -56,10 +56,9 @@ th,
   color: $primary;
 }
 
-.colHeader {
+.headerContent {
   display: flex;
   align-items: center;
-  //padding: 0.5rem 2rem;
   white-space: nowrap;
 
   &.rightAlignText {
@@ -69,12 +68,6 @@ th,
   &.noFilter {
     margin-bottom: 2.5rem;
   }
-}
-
-.colHeaderText {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  min-width: 1.25rem;
 }
 
 .resizer {

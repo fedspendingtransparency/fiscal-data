@@ -1,4 +1,5 @@
 @import 'src/variables.module';
+$table-border-style: 1px solid $light-grey-border;
 
 .fillCellGrey,
 .fillCellWhite {
@@ -15,21 +16,23 @@
   font-weight: 400;
 }
 
-.filtersActive {
-  background-color: #eff6fb;
+.tableRow {
+  width: fit-content;
+  height: 1.875rem;
 }
 
-.cellBorder {
-  border-bottom: 1px solid #d9d9d9;
-  border-right: 1px solid #d9d9d9;
-}
+.tableCell {
+  padding: 0.5rem 2rem;
+  border-right: $table-border-style;
+  border-bottom: $table-border-style;
 
-.rightAlignText {
-  text-align: right;
-}
+  &.filtersActive {
+    background-color: #eff6fb;
+  }
 
-.cellText {
-  vertical-align: top;
+  &.rightAlignText {
+    text-align: right;
+  }
 }
 
 .hidden {
