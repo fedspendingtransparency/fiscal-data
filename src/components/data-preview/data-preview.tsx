@@ -11,7 +11,6 @@ import { TableCache } from '../dataset-data/table-cache/table-cache';
 import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from '../dataset-data/dataset-data-helper/dataset-data-helper';
 import { getApiData } from '../dataset-data/dataset-data-api-helper/dataset-data-api-helper';
 import { queryClient } from '../../../react-query-client';
-import UserFilter from '../filter-download-container/user-filter/user-filter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
@@ -20,17 +19,9 @@ import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } f
 import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
+import { IDataPreview } from '../../models/data-preview/IDataPreview';
 
-type DataPreviewProp = {
-  config;
-  finalDatesNotFound;
-  location;
-  publishedReportsProp;
-  setSelectedTableProp;
-  width;
-};
-
-const DataPreview: FunctionComponent<DataPreviewProp> = ({
+const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
   finalDatesNotFound,
   location,
@@ -216,6 +207,7 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
   useEffect(() => {
     setTableColumnSortData([]);
   }, [selectedTable]);
+
   return (
     <DatasetSectionContainer id="data-preview-table">
       <div className={dataPreview}>
@@ -231,6 +223,8 @@ const DataPreview: FunctionComponent<DataPreviewProp> = ({
             earliestDate={config.techSpecs.earliestDate}
             latestDate={config.techSpecs.latestDate}
             disableAllTables={config?.disableAllTables}
+            selectedPivot={selectedPivot}
+            setSelectedPivot={setSelectedPivot}
           />
         )}
       </div>
