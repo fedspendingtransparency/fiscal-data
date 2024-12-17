@@ -40,7 +40,9 @@ const DownloadItemButton = ({
       .getDate()
       .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}${currentDate
       .getHours()
-      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}${currentDate.getMinutes()}`;
+      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}${currentDate
+      .getMinutes()
+      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}`;
     const newDownloadData = structuredClone(smallTableCSVData);
     newDownloadData[0].push(formattedTimestamp);
     setCSVDataWithTimestamp(newDownloadData);
