@@ -38,7 +38,9 @@ const DownloadItemButton = ({
     const currentDate = new Date();
     const formattedTimestamp = `Report Run: ${currentDate.getFullYear()}${currentDate.getMonth() + 1}${currentDate
       .getDate()
-      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}${currentDate.getHours()}${currentDate.getMinutes()}`;
+      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}${currentDate
+      .getHours()
+      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}${currentDate.getMinutes()}`;
     const newDownloadData = structuredClone(smallTableCSVData);
     newDownloadData[0].push(formattedTimestamp);
     setCSVDataWithTimestamp(newDownloadData);
