@@ -78,8 +78,6 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
   const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
 
-  console.log(dateRange);
-
   useEffect(() => {
     if (!detailViewState) {
       setConfigOption(columnConfig);
