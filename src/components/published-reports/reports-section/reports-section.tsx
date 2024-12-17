@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FunctionComponent } from 'react';
 import DownloadReportTable from '../download-report-table/download-report-table';
-import { reportsTip, note, filtersContainer, reportFilterContainer } from './reports-section.module.scss';
+import { reportsTip, note, filtersContainer } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 import ReportDatePicker from '../report-date-picker/report-date-picker';
@@ -92,11 +92,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={title} id="reports-and-files">
         <div className={filtersContainer}>
-          {filterByReport && (
-            <div className={reportFilterContainer}>
-              <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} />
-            </div>
-          )}
+          {filterByReport && <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} />}
           {latestReportDate && (
             <ReportDatePicker
               isDailyReport={isDailyReport}
