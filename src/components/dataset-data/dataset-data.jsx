@@ -48,6 +48,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
   const [allActiveFilters, setAllActiveFilters] = useState([]);
 
+  console.log(userFilterSelection);
+
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;

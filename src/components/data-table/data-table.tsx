@@ -34,6 +34,7 @@ import { IDataTableProps } from '../../models/IDataTableProps';
 
 const DataTable: FunctionComponent<IDataTableProps> = ({
   rawData,
+  dateRange,
   nonRawDataColumns,
   defaultSelectedColumns,
   setTableColumnSortData,
@@ -76,6 +77,8 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
   const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
+
+  console.log(dateRange);
 
   useEffect(() => {
     if (!detailViewState) {
@@ -171,13 +174,13 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   const constructDateHeader = () => {
     const timestampData = [];
     timestampData.push(`${datasetName}.`);
-    const lastDateOfMonth = `${rawData.data[0].record_calendar_month}/${new Date(
-      parseInt(rawData.data[0].record_calendar_year),
-      parseInt(rawData.data[0].record_calendar_month),
-      0
-    )
-      .getDate()
-      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}/${rawData.data[0].record_calendar_year}.`;
+    const date = new Date(dateRange.to.toString());
+    const dateFormatted = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(date);
+    const lastDateOfMonth = `${dateFormatted}`;
     timestampData.push(`As of ${lastDateOfMonth}`);
     return timestampData;
   };
