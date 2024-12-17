@@ -296,7 +296,6 @@ export const rightAlign = (type: string): boolean => {
 };
 
 export const columnHeaderFilterActive = (filters, columnName) => {
-  console.log(columnName);
   for (let i = 0; i < filters.length; i++) {
     const name = filters[i].split('-')[0];
     if (name === columnName) {
