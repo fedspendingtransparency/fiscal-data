@@ -108,6 +108,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   );
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
+
   const table = useReactTable({
     columns: allColumns,
     data: rawData.data,

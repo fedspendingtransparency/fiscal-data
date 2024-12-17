@@ -25,6 +25,7 @@ $table-border-style: 1px solid $light-grey-border;
   padding: 0.5rem 2rem;
   border-right: $table-border-style;
   border-bottom: $table-border-style;
+  vertical-align: top;
 
   &.filtersActive {
     background-color: #eff6fb;
