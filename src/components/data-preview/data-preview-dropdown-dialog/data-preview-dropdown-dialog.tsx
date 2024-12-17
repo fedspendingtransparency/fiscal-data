@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 import FilterButtons from './filter-buttons/filter-buttons';
-import { mainContainer, search, footer, dropdownContent } from './data-preview-dropdown-dialog.module.scss';
+import { mainContainer, search, footer, dropdownContent, filter } from './data-preview-dropdown-dialog.module.scss';
 
 interface iDropdownDialogContainer {
   searchComponent: ReactElement;
@@ -19,7 +19,7 @@ const DataPreviewDropdownDialogContainer: FunctionComponent<iDropdownDialogConta
     <div className={dropdownContent}>
       <div className={mainContainer}>
         <div className={search}>{searchComponent}</div>
-        <div>{filterComponent}</div>
+        <div className={filter}>{filterComponent}</div>
       </div>
       <div className={footer}>
         <FilterButtons handleApply={handleApply} handleCancel={handleCancel} />
