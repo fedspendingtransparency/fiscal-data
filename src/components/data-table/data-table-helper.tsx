@@ -296,19 +296,23 @@ export const rightAlign = (type: string): boolean => {
 };
 
 export const columnHeaderFilterActive = (filters, columnName) => {
-  for (let i = 0; i < filters.length; i++) {
-    const name = filters[i].split('-')[0];
-    if (name === columnName) {
-      return true;
+  if (!!filters) {
+    for (let i = 0; i < filters.length; i++) {
+      const name = filters[i].split('-')[0];
+      if (name === columnName) {
+        return true;
+      }
     }
   }
 };
 
 export const columnBodyFilterActive = (filters, columnName) => {
-  for (let i = 0; i < filters.length; i++) {
-    const name = filters[i].split('-')[0];
-    if (columnName.includes(name)) {
-      return true;
+  if (!!filters) {
+    for (let i = 0; i < filters.length; i++) {
+      const name = filters[i].split('-')[0];
+      if (columnName.includes(name)) {
+        return true;
+      }
     }
   }
 };
