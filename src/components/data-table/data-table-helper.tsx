@@ -295,6 +295,28 @@ export const rightAlign = (type: string): boolean => {
   return types.includes(type) || type?.includes('CURRENCY');
 };
 
+export const columnHeaderFilterActive = (filters, columnName) => {
+  if (!!filters) {
+    for (let i = 0; i < filters.length; i++) {
+      const name = filters[i].split('-')[0];
+      if (name === columnName) {
+        return true;
+      }
+    }
+  }
+};
+
+export const columnBodyFilterActive = (filters, columnName) => {
+  if (!!filters) {
+    for (let i = 0; i < filters.length; i++) {
+      const name = filters[i].split('-')[0];
+      if (columnName.includes(name)) {
+        return true;
+      }
+    }
+  }
+};
+
 export const getSortedColumnsData = (
   table: Table<Record<string, unknown>>,
   setTableColumnSortData: (map: Record<string, string>) => void,
