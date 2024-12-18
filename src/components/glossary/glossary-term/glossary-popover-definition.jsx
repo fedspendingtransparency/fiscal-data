@@ -74,10 +74,10 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   const { popOver, popupContainer } = useStyles();
   const handleScroll = () => {
     const position = window.pageYOffset;
-    setPreviousScrollPosition(scrollPosition);
+    const previousPosition = scrollPosition;
+    setPreviousScrollPosition(previousPosition);
     setScrollPosition(position);
-
-    if (scrollPosition !== previousScrollPosition) {
+    if (position !== previousPosition) {
       handleClose();
     }
   };
