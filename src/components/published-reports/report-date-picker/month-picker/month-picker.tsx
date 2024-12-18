@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { dropdownList, selected, yearButton, arrowIcon } from './month-picker.module.scss';
 import ScrollContainer from '../../../scroll-container/scroll-container';
 import ReportDateDropdown from '../report-date-dropdown/report-date-dropdown';
-import { monthFullNames } from '../../../../utils/api-utils';
+import { monthFullNames, monthNames } from '../../../../utils/api-utils';
 
 interface IMonthPickerDropdown {
   selectedDate: Date;
@@ -42,7 +42,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   };
 
   const handleApply = () => {
-    setSelectedDate(new Date(selectedMonth + ' ' + selectedYear));
+    setSelectedDate(new Date(selectedMonth + ' 01, ' + selectedYear));
     if (handleClose) {
       handleClose();
     }
