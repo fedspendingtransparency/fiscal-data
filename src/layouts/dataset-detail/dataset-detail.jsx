@@ -64,7 +64,6 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
     }
   };
 
-  console.log(pageConfig);
   return (
     <SiteLayout isPreProd={pageContext.isPreProd}>
       <PageHelmet
