@@ -69,7 +69,7 @@ export const menuSections = [
         title: 'Release Calendar',
       },
       {
-        to: 'https://onevoicecrm.my.site.com/FiscalDataGroup/s/',
+        to: 'https://onevoicecrm.my.site.com/FiscalDataCommunity/s/',
         title: 'Community Site',
         external: true,
       },
