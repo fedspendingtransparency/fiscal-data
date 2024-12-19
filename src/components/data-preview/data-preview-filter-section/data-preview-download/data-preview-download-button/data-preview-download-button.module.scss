@@ -4,6 +4,7 @@ $icon-width: 1.5rem;
 
 .downloadButton {
   display: flex;
+  cursor: pointer;
   align-items: center;
   font-size: $font-size-16;
   font-weight: $semi-bold-weight;
@@ -19,7 +20,15 @@ $icon-width: 1.5rem;
     width: $icon-width;
     height: $icon-width;
   }
+  &.buttonActive {
+    background-color: #112e51;
+  }
 }
+
+.parent {
+  position: relative;
+}
+
 
 @media screen and (min-width: $breakpoint-lg) {
   .downloadButton {
@@ -37,9 +46,5 @@ $icon-width: 1.5rem;
       margin-left: $icon-width;
     }
 
-    &.buttonActive {
-      //TODO Additional styling for when the download panel is added
-      //flex-direction: row-reverse;
-    }
   }
 }
