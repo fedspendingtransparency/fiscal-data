@@ -4,6 +4,7 @@ $icon-width: 1.5rem;
 
 .downloadButton {
   display: flex;
+  cursor: pointer;
   align-items: center;
   font-size: $font-size-16;
   font-weight: $semi-bold-weight;
