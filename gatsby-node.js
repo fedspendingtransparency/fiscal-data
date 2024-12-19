@@ -569,6 +569,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          markdown_description
           reportSelection
           disableAllTables
           downloadTimestamp

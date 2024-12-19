@@ -2,19 +2,21 @@ import React, { FunctionComponent } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import DetailPills from '../detail-pills/detail-pills';
 import { IDatasetTechSpecs } from '../../models/IDatasetTechSpecs';
+import { MarkdownTransform } from '../markdown-transform/markdown-transform';
 
 interface IIntroduction {
   summaryText: string;
   techSpecs: IDatasetTechSpecs;
   dictionary: number;
+  isMarkdown: boolean;
 }
 
 export const title = 'Introduction';
-const DatasetIntroduction: FunctionComponent<IIntroduction> = ({ summaryText, techSpecs, dictionary }) => {
+const DatasetIntroduction: FunctionComponent<IIntroduction> = ({ summaryText, techSpecs, dictionary, isMarkdown }) => {
   return (
     <DatasetSectionContainer title={title} id="introduction">
       <DetailPills techSpecs={techSpecs} dictionary={dictionary} />
-      <div>{summaryText}</div>
+      {isMarkdown ? <MarkdownTransform content={summaryText} /> : <div>{summaryText}</div>}
     </DatasetSectionContainer>
   );
 };

@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 
 describe('DatasetIntroduction', () => {
   const summaryText = 'This is the summary text.';
+  const summaryTextMarkdown = 'This is the ***summary*** text.';
   const dictionary = 1;
   it('renders a dataset introduction', () => {
     const { getByText } = render(<DatasetIntroduction summaryText={summaryText} techSpecs={{}} dictionary={dictionary} />);
@@ -18,5 +19,10 @@ describe('DatasetIntroduction', () => {
   it('renders a dataset description', () => {
     const { getByText } = render(<DatasetIntroduction summaryText={summaryText} techSpecs={{}} dictionary={dictionary} />);
     expect(getByText(summaryText)).toBeInTheDocument();
+  });
+
+  it('renders a dataset description with markdown enabled', () => {
+    const { getByText } = render(<DatasetIntroduction summaryText={summaryTextMarkdown} techSpecs={{}} dictionary={dictionary} isMarkdown={true} />);
+    expect(getByText(summaryTextMarkdown)).toBeInTheDocument();
   });
 });
