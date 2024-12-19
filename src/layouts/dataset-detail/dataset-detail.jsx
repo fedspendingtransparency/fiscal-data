@@ -64,6 +64,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
     }
   };
 
+  console.log(pageConfig);
   return (
     <SiteLayout isPreProd={pageContext.isPreProd}>
       <PageHelmet
@@ -85,6 +86,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           summaryText={pageContext.config.summaryText}
           techSpecs={pageConfig.techSpecs}
           dictionary={pageContext.config.dictionary}
+          isMarkdown={pageConfig.markdown_description}
         />
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
         <Experimental featureId="dataPreview">
