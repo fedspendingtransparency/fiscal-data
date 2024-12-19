@@ -40,6 +40,12 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
     />
   );
 
+  const handleClose = () => {
+    setTimeout(() => {
+      setActive(false);
+    });
+  };
+
   return (
     <DropdownContainer setActive={setActive} active={active} dropdownButton={dropdownButton}>
       <>
@@ -47,7 +53,7 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
           <MonthPicker
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
-            handleClose={() => setActive(false)}
+            handleClose={handleClose}
             allReportDates={allReportDates}
             active={active}
             allReportYears={allReportYears}
@@ -55,7 +61,7 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
         )}
         {active && isDailyReport && (
           <ReportDayPicker
-            handleClose={() => setActive(false)}
+            handleClose={handleClose}
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
             latestReportDate={latestReportDate}
