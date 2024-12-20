@@ -21,7 +21,7 @@ $borderRadius: 5px;
   position: relative;
 }
 .overlayContainerReactTableHeight {
-  min-height: 521px;
+  min-height: 32.625rem;
 }
 
 .wrapper.noBorderStyle {
@@ -37,11 +37,11 @@ $borderRadius: 5px;
   border-radius: $borderRadius;
   background-color: white;
   overflow-x: auto;
-  min-height: calc(64px + 8rem);
+  min-height: 12rem;
 
   table {
     width: 100%;
-    font-size: 1rem;
+    font-size: $font-size-16;
     color: $font-title;
     border-collapse: collapse;
     z-index: $dtg-table;
@@ -139,7 +139,7 @@ $borderRadius: 5px;
   > * {
     vertical-align: middle;
     margin-right: 0.5rem;
-    font-size: 64px;
+    font-size: $font-size-64;
     color: $loading-icon-color;
   }
 }
