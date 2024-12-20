@@ -8,7 +8,6 @@ interface IIntroduction {
   summaryText: string;
   techSpecs: IDatasetTechSpecs;
   dictionary: number;
-  isMarkdown: boolean;
 }
 
 export const title = 'Introduction';
