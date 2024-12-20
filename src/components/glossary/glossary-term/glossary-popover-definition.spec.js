@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import GlossaryPopoverDefinition from './glossary-popover-definition';
 import { GlossaryContext } from '../glossary-context/glossary-context';
 
@@ -183,6 +183,26 @@ describe('glossary term', () => {
     const viewInGlossaryButton = getByRole('button', { name: 'View in glossary' });
     viewInGlossaryButton.click();
 
+    expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument();
+  });
+
+  it('closes popover on scroll', () => {
+    const termText = 'Hello';
+    const testPage = 'Another Test Page';
+
+    window.history.pushState = jest.fn();
+
+    const { getByRole, queryByRole } = render(
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
+        <GlossaryPopoverDefinition term={termText} page={testPage}>
+          {termText}
+        </GlossaryPopoverDefinition>
+      </GlossaryContext.Provider>
+    );
+    const glossaryTermButton = getByRole('button', { name: termText });
+    glossaryTermButton.click();
+
+    fireEvent.scroll(window, { target: { pageYOffset: 400 } });
     expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument();
   });
 });
