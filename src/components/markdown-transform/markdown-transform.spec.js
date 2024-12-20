@@ -9,4 +9,9 @@ describe('Markdown transform', () => {
     const { getByText } = render(<MarkdownTransform content={testContent} />);
     expect(getByText('Link', { exact: false })).toBeInTheDocument();
   });
+
+  it('renders markdown content for banner', () => {
+    const { getByText } = render(<MarkdownTransform content={testContent} isBanner={true} />);
+    expect(getByText('Link', { exact: false })).toBeInTheDocument();
+  });
 });
