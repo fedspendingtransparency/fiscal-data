@@ -13,18 +13,32 @@ const replaceLinkTextWithLink = string => {
   });
 };
 
-export const MarkdownTransform: FunctionComponent = ({ content }) => {
+export const MarkdownTransform: FunctionComponent = ({ content, isBanner }) => {
   return (
-    <ReactMarkdown
-      children={replaceLinkTextWithLink(content)
-        .toString()
-        .replaceAll(/,/g, '')}
-      components={{
-        a: ({ children, href }) => {
-          return <CustomLink url={href}>{children}</CustomLink>;
-        },
-      }}
-      rehypePlugins={[rehypeRaw]}
-    />
+    <>
+      {isBanner ? (
+        <ReactMarkdown
+          children={replaceLinkTextWithLink(content)
+            .toString()
+            .replaceAll(/,/g, '')}
+          components={{
+            a: ({ children, href }) => {
+              return <CustomLink url={href}>{children}</CustomLink>;
+            },
+          }}
+          rehypePlugins={[rehypeRaw]}
+        />
+      ) : (
+        <ReactMarkdown
+          children={content}
+          components={{
+            a: ({ children, href }) => {
+              return <CustomLink url={href}>{children}</CustomLink>;
+            },
+          }}
+          rehypePlugins={[rehypeRaw]}
+        />
+      )}
+    </>
   );
 };

@@ -6,7 +6,7 @@ const BannerContent = ({ content }) => {
   return (
     <>
       <div className={bannerContent} data-testid={'announcement-banner'}>
-        <MarkdownTransform content={content} />
+        <MarkdownTransform content={content} isBanner={true} />
       </div>
     </>
   );
