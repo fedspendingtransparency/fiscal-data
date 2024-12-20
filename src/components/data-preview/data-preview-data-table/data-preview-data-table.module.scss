@@ -1,110 +1,27 @@
-@import '../../../variables.module.scss';
+@import 'src/variables.module.scss';
 
 $borderRadius: 5px;
+$table-border-style: 1px solid $light-grey-border;
+$table-height: 26.5rem;
 
-.tableStyle {
-  overflow-x: auto;
-  width: 100%;
-  order: 1;
-
-  .rawDataTableContainer, .nonRawDataTableContainer {
-    position: relative;
-    box-sizing: border-box;
-    border-top: 0;
-    background-color: white;
-    overflow-y: auto;
-  }
-
-  .rawDataTableContainer {
-    height: 521px;
-  }
-  .nonRawDataTableContainer {
-    max-height: 521px;
-  }
-
-  table {
-    margin-top: -3px;
-  }
-
-  table,
-  .divTable {
-    border-bottom: 1px solid lightgray;
-    width: fit-content;
-  }
-
-  th,
-  .th {
-    cursor: default;
-    background-color: white;
-    position: relative;
-    font-weight: bold;
-    text-align: center;
-    height: 1.875rem;
-    padding: 0.25rem 0.5rem 0.75rem;
-  }
-
-  .tr {
-    display: flex;
-  }
-
-  tr,
-  .tr {
-    width: fit-content;
-    height: 1.875rem;
-  }
-
-  td,
-  .td {
-    padding: 0.25rem 0.5rem;
-  }
-
-  #th-parent {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-
-  td,
-  .td {
-    height: 1.875rem;
-  }
-
-
-}
-.range {
-  font-weight: $semi-bold-weight;
-}
-
-.overlayContainer,
 .overlayContainerNoFooter {
   position: relative;
+  height: $table-height;
+  border: $table-border-style;
+  border-radius: $borderRadius;
 }
 
-.overlayContainerNoFooter {
-  border: 1px solid $dd-border-color;
-  border-top: 0;
-  border-bottom-left-radius: $borderRadius;
-  border-bottom-right-radius: $borderRadius;
-}
+.rawDataTableContainer {
+  position: relative;
+  box-sizing: border-box;
+  background-color: white;
+  overflow-y: auto;
+  height: 26.5rem;
 
-.selectColumnsWrapper {
-  display: flex;
-
-  .selectColumnPanelInactive {
-    display: none;
-  }
-
-  .selectColumnPanelActive {
-    display: block;
-    border-left: 1px solid $border-color;
-    margin-top: -2.75rem;
-  }
-
-  .selectColumnPanelActive,
-  .selectColumnPanelInactive {
-    height: 565px;
-    order: 2;
-    width: 450px;
+  table {
+    border-spacing: 0;
+    border: 0;
+    height: fit-content;
   }
 }
 
@@ -116,4 +33,8 @@ $borderRadius: 5px;
 
 .downloadLinkIcon {
   color: $primary;
+}
+
+:export {
+  tableBorderStyle: $table-border-style;
 }

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IDataTableProps } from '../../../models/IDataTableProps';
 import { useSetRecoilState } from 'recoil';
 import {
@@ -7,10 +7,10 @@ import {
   smallTableDownloadDataXML,
   tableRowLengthState,
 } from '../../../recoil/smallTableDownloadData';
-import { columnsConstructorData, columnsConstructorGeneric, getSortedColumnsData } from '../../data-table/data-table-helper';
+import { columnsConstructorData, getSortedColumnsData } from '../../data-table/data-table-helper';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 import { json2xml } from 'xml-js';
-import { overlayContainerNoFooter, rawDataTableContainer, selectColumnsWrapper, tableStyle } from './data-preview-data-table.module.scss';
+import { overlayContainerNoFooter, rawDataTableContainer } from './data-preview-data-table.module.scss';
 import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
 import DataPreviewDataTableBody from './data-preview-data-table-body/data-preview-data-table-body';
 import DataPreviewDataTableHeader from './data-preview-data-table-header/data-preview-data-table-header';
@@ -108,6 +108,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   );
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
+
   const table = useReactTable({
     columns: allColumns,
     data: rawData.data,
@@ -224,30 +225,27 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   return (
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
-        <div className={selectColumnsWrapper}>
-          <div className={tableStyle}>
-            <div data-test-id="table-content" className={rawDataTableContainer}>
-              <table {...aria}>
-                <DataPreviewDataTableHeader
-                  table={table}
-                  dataTypes={dataTypes}
-                  resetFilters={resetFilters}
-                  manualPagination={manualPagination}
-                  allActiveFilters={allActiveFilters}
-                  setAllActiveFilters={setAllActiveFilters}
-                  disableDateRangeFilter={disableDateRangeFilter}
-                />
-                <DataPreviewDataTableBody
-                  table={table}
-                  dataTypes={dataTypes}
-                  allowColumnWrap={allowColumnWrap}
-                  detailViewConfig={detailView}
-                  setDetailViewState={setDetailViewState}
-                  setSummaryValues={setSummaryValues}
-                />
-              </table>
-            </div>
-          </div>
+        <div data-test-id="table-content" className={rawDataTableContainer}>
+          <table {...aria} className={rawDataTableContainer}>
+            <DataPreviewDataTableHeader
+              table={table}
+              dataTypes={dataTypes}
+              resetFilters={resetFilters}
+              manualPagination={manualPagination}
+              allActiveFilters={allActiveFilters}
+              setAllActiveFilters={setAllActiveFilters}
+              disableDateRangeFilter={disableDateRangeFilter}
+            />
+            <DataPreviewDataTableBody
+              table={table}
+              dataTypes={dataTypes}
+              allowColumnWrap={allowColumnWrap}
+              detailViewConfig={detailView}
+              setDetailViewState={setDetailViewState}
+              setSummaryValues={setSummaryValues}
+              allActiveFilters={allActiveFilters}
+            />
+          </table>
         </div>
       </div>
       {shouldPage && (
