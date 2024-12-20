@@ -127,6 +127,7 @@ const DDNav = ({ hasPublishedReports }) => {
                 onKeyDown={e => handleInteraction(e, d.id)}
                 tabIndex={0}
                 onFocus={() => setHover(d.id)}
+                onBlur={() => setHover(null)}
                 onMouseEnter={() => setHover(d.id)}
                 onMouseLeave={() => setHover(null)}
                 offset={scrollOffset - 4}
