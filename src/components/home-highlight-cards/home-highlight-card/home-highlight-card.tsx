@@ -293,7 +293,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
     <MuiThemeProvider theme={theme}>
       <Card data-testid="highlight-card" className={card}>
         <div className={cardActionArea}>
-          <div className={cardContent} aria-label={ariaLabels.find(element => element.title === title).label}>
+          <div className={cardContent}>
             <div data-testid="highlight-title" className={`${header} ${cardHeaderLink}`}>
               {title}
             </div>
@@ -301,6 +301,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               <div
                 id={`chart-${displayOrder}`}
                 className={imageContainer}
+                aria-label={ariaLabels.find(element => element.title === title).label}
                 data-testid="image-container"
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
