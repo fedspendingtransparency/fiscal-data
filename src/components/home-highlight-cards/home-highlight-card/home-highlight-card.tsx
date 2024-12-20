@@ -34,7 +34,7 @@ import {
 import { IDatasetApi } from '../../../models/IDatasetApi';
 import { IDataset } from '../../../models/IDataset';
 import { DatasetFieldDataType } from '../../../models/fdg-types';
-import { formatCardValue } from '../home-highlight-cards-helper/home-highlight-cards-helper';
+import { formatCardValue, ariaLabels } from '../home-highlight-cards-helper/home-highlight-cards-helper';
 import BarGraph from '../../charts/bar/bar';
 import Sparkler from './sparkler/sparkler';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -301,6 +301,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               <div
                 id={`chart-${displayOrder}`}
                 className={imageContainer}
+                aria-label={ariaLabels.find(element => element.title === title)?.label}
                 data-testid="image-container"
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
@@ -324,6 +325,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 id={`chart-${displayOrder}`}
                 data-testid="highlight-chart"
                 className={sparkLine}
+                aria-label={ariaLabels.find(element => element.title === title)?.label}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
                 role={'presentation'}
@@ -342,6 +344,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 id={`chart-${displayOrder}`}
                 data-testid="highlight-chart"
                 className={sparkLine}
+                aria-label={ariaLabels.find(element => element.title === title)?.label}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
                 role={'presentation'}
