@@ -1,11 +1,11 @@
 import React from 'react';
 import { pill, pillWrapper, futureDateIconStyle, icon } from './detail-pills.module.scss';
-import { faCalendarWeek, faRepeat, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarWeek, faRepeat, faPen, faDatabase } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { isAfter } from 'date-fns';
 import futureDateIcon from '../../images/futureDateIcon.svg';
 
-const DetailPills = ({ techSpecs, dictionary }) => {
+const DetailPills = ({ techSpecs, dictionary, numTables }) => {
   const earliestDate = techSpecs?.earliestDate;
   const latestDate = techSpecs?.latestDate;
   const dateRange = earliestDate && latestDate ? `${earliestDate} — ${latestDate}` : undefined;
@@ -38,6 +38,12 @@ const DetailPills = ({ techSpecs, dictionary }) => {
           <span className="pillText">Last Updated {lastUpdated}</span>
         </span>
       )}
+      <span className={pill}>
+        <FontAwesomeIcon icon={faDatabase} size="1x" className={icon} data-testid={'numTables'} />
+        <span className={'pillText'}>
+          {numTables} {numTables > 1 ? 'Data Tables' : 'Data Table'}
+        </span>
+      </span>
     </div>
   );
 };
