@@ -35,11 +35,11 @@ const DDNav = ({ hasPublishedReports }) => {
     },
     ...(hasPublishedReports
       ? [
-        {
-          title: 'Reports and Files',
-          id: 'reports-and-files',
-        },
-      ]
+          {
+            title: 'Reports and Files',
+            id: 'reports-and-files',
+          },
+        ]
       : []),
 
     {
@@ -126,6 +126,8 @@ const DDNav = ({ hasPublishedReports }) => {
                 onClick={() => handleInteraction(null, d.id)}
                 onKeyDown={e => handleInteraction(e, d.id)}
                 tabIndex={0}
+                onFocus={() => setHover(d.id)}
+                onBlur={() => setHover(null)}
                 onMouseEnter={() => setHover(d.id)}
                 onMouseLeave={() => setHover(null)}
                 offset={scrollOffset - 4}
