@@ -34,7 +34,7 @@ import {
 import { IDatasetApi } from '../../../models/IDatasetApi';
 import { IDataset } from '../../../models/IDataset';
 import { DatasetFieldDataType } from '../../../models/fdg-types';
-import { formatCardValue } from '../home-highlight-cards-helper/home-highlight-cards-helper';
+import { formatCardValue, ariaLabels } from '../home-highlight-cards-helper/home-highlight-cards-helper';
 import BarGraph from '../../charts/bar/bar';
 import Sparkler from './sparkler/sparkler';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -293,7 +293,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
     <MuiThemeProvider theme={theme}>
       <Card data-testid="highlight-card" className={card}>
         <div className={cardActionArea}>
-          <div className={cardContent}>
+          <div className={cardContent} aria-label={ariaLabels.find(element => element.title === title).label}>
             <div data-testid="highlight-title" className={`${header} ${cardHeaderLink}`}>
               {title}
             </div>
