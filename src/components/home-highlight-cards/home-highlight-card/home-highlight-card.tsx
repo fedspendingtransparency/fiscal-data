@@ -301,7 +301,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               <div
                 id={`chart-${displayOrder}`}
                 className={imageContainer}
-                aria-label={ariaLabels.find(element => element.title === title).label}
+                aria-label={ariaLabels.find(element => element.title === title)?.label}
                 data-testid="image-container"
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
@@ -325,6 +325,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 id={`chart-${displayOrder}`}
                 data-testid="highlight-chart"
                 className={sparkLine}
+                aria-label={ariaLabels.find(element => element.title === title)?.label}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
                 role={'presentation'}
@@ -343,6 +344,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 id={`chart-${displayOrder}`}
                 data-testid="highlight-chart"
                 className={sparkLine}
+                aria-label={ariaLabels.find(element => element.title === title)?.label}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
                 role={'presentation'}
