@@ -123,7 +123,6 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.reportSelection = mappedDataset && mappedDataset.reportSelection ? mappedDataset.reportSelection : null;
       dataset.allColumnNames = mappedDataset && mappedDataset.allColumnNames ? mappedDataset.allColumnNames : null;
       dataset.allPrettyNames = mappedDataset && mappedDataset.allPrettyNames ? mappedDataset.allPrettyNames : null;
-      dataset.markdown_description = mappedDataset && mappedDataset.markdown_description ? mappedDataset.markdown_description : null;
 
       if (dataset.apis.length === 0) {
         if (mappedDataset && mappedDataset.apiIds) {

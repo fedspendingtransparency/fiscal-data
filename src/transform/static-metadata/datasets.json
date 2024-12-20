@@ -41,7 +41,6 @@
     "topics": ["debt", "revenue", "spending", "financial-summaries", "savings-bonds"],
     "relatedDatasets": ["015-BFS-2014Q3-065"],
     "currentDateButton": "byDay",
-    "markdown_description": true,
     "bannerCallout": {
       "banner": "DTSAPIUpdate",
       "startDate": "8/24/2023",

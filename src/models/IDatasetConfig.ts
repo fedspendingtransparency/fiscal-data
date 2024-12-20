@@ -3,7 +3,6 @@ import { IDatasetTechSpecs } from './IDatasetTechSpecs';
 
 export interface IDatasetConfig {
   apis: IDatasetApi[];
-  markdown_description: boolean | null; // config variable to control whether or not the long_description / dataset summary text is transformed into markdown
   currentDateButton: 'byMonth' | 'byDay' | 'byFullMonth' | null; // byFullMonth will gather data from the entire month, byMonth is just looks at the last day of the month
   customNoChartMessage: boolean | null; // not used at the moment
   datePreset: string | null;
