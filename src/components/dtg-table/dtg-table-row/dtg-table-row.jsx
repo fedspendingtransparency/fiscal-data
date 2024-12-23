@@ -1,7 +1,8 @@
 import React from 'react';
 import { currencyFormatter, numberFormatter, dateFormatter, customNumberFormatter } from '../../../helpers/text-format/text-format';
-import { formattedCell } from '../dtg-table.module.scss';
+import { formattedCell, markdownRow } from '../dtg-table.module.scss';
 import moment from 'moment/moment';
+import { MarkdownTransform } from '../../markdown-transform/markdown-transform';
 
 const dataTypes = ['CURRENCY', 'NUMBER', 'DATE', 'PERCENTAGE', 'CURRENCY3'];
 
@@ -18,6 +19,11 @@ const customFormat = (stringValue, decimalPlaces) => {
 
 export const formatCellValue = (cellData, type, tableName, property, customFormatConfig) => {
   let formattedData = cellData;
+
+  // if (property === 'definition') {
+  //   console.log(formattedData, type, customFormatConfig);
+  // }
+
   if (!cellData || cellData === 'null' || cellData === '*') {
     formattedData = '';
   } else if (type === 'CURRENCY') {
@@ -74,11 +80,16 @@ export default function DtgTableRow({ columns, data, tableName }) {
   columns.forEach((column, index) => {
     const { property, type } = column;
     const cellData = data[property];
+    const metadataValueName = cells[index - 1]?.props.children;
     const formattedData = formatCellValue(cellData, type, tableName, property);
 
     cells.push(
       <td key={index} className={dataTypes.includes(type) ? formattedCell : ''}>
-        {formattedData}
+        {metadataValueName === 'Description (Long)' ? (
+          <MarkdownTransform content={formattedData} isBanner={false} customClass={markdownRow} />
+        ) : (
+          formattedData
+        )}
       </td>
     );
   });
