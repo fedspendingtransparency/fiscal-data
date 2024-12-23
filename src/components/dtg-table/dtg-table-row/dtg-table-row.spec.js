@@ -1,5 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import DtgTableRow, { formatCellValue } from './dtg-table-row';
 
 describe('DtgTableRow', () => {
@@ -13,6 +14,12 @@ describe('DtgTableRow', () => {
   const data8 = { row1: '-123' };
 
   const columns = [{ name: 'row1', order: 1, property: 'row1', width: 12 }];
+
+  const metaData = { name: 'Description (Long)', definition: 'This is a [link](https://fiscaldata.treasury.gov)' };
+  const metaDataCoumns = [
+    { name: 'Name', order: 1, property: 'name', width: 12 },
+    { name: 'Definition', order: 2, property: 'definition', width: 12 },
+  ];
 
   it('displays the data it is given in a td within the tr', () => {
     const component = renderer.create(<DtgTableRow columns={columns} data={data1} />);
@@ -102,5 +109,11 @@ describe('DtgTableRow', () => {
     const customFormatter = [{ type: 'STRING', fields: ['spread'], breakChar: ',', customType: 'dateList' }];
     const formattedData = formatCellValue('2024-1-1, 2023-2-2', 'STRING', null, 'spread', customFormatter);
     expect(formattedData).toBe('1/1/2024, 2/2/2023');
+  });
+
+  it('formats row as markdown if the row is the long description', () => {
+    const { getByText } = render(<DtgTableRow columns={metaDataCoumns} data={metaData} />);
+    expect(getByText('Description (Long)')).toBeInTheDocument();
+    expect(getByText('link', { exact: false })).toBeInTheDocument();
   });
 });
