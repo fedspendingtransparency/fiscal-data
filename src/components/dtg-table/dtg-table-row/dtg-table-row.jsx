@@ -45,8 +45,7 @@ export const formatCellValue = (cellData, type, tableName, property, customForma
   } else if (type === 'PERCENTAGE') {
     formattedData = `${cellData}%`;
   } else if (type === 'DATE') {
-    // .replace() resolves weird -1 day issue https://stackoverflow.com/a/31732581/564406
-
+    // .replace() resolves weird -1 day issue
     const date = new Date(cellData.replace(/-/g, '/'));
     const customFormat = customFormatConfig?.find(config => config.type === 'DATE' && config.fields.includes(property));
     formattedData = customFormat?.dateFormat ? moment(date).format(customFormat?.dateFormat) : dateFormatter.format(date);

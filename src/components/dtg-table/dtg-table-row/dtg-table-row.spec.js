@@ -16,7 +16,7 @@ describe('DtgTableRow', () => {
   const columns = [{ name: 'row1', order: 1, property: 'row1', width: 12 }];
 
   const metaData = { name: 'Description (Long)', definition: 'This is a [link](https://fiscaldata.treasury.gov)' };
-  const metaDataCoumns = [
+  const metaDataColumns = [
     { name: 'Name', order: 1, property: 'name', width: 12 },
     { name: 'Definition', order: 2, property: 'definition', width: 12 },
   ];
@@ -112,7 +112,7 @@ describe('DtgTableRow', () => {
   });
 
   it('formats row as markdown if the row is the long description', () => {
-    const { getByText } = render(<DtgTableRow columns={metaDataCoumns} data={metaData} />);
+    const { getByText } = render(<DtgTableRow columns={metaDataColumns} data={metaData} />);
     expect(getByText('Description (Long)')).toBeInTheDocument();
     expect(getByText('link', { exact: false })).toBeInTheDocument();
   });
