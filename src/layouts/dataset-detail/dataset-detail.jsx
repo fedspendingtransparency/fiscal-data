@@ -85,6 +85,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           summaryText={pageContext.config.summaryText}
           techSpecs={pageConfig.techSpecs}
           dictionary={pageContext.config.dictionary}
+          numTables={pageConfig.apis.length}
         />
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
         <Experimental featureId="dataPreview">
