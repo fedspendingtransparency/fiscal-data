@@ -19,11 +19,6 @@ const customFormat = (stringValue, decimalPlaces) => {
 
 export const formatCellValue = (cellData, type, tableName, property, customFormatConfig) => {
   let formattedData = cellData;
-
-  // if (property === 'definition') {
-  //   console.log(formattedData, type, customFormatConfig);
-  // }
-
   if (!cellData || cellData === 'null' || cellData === '*') {
     formattedData = '';
   } else if (type === 'CURRENCY') {
