@@ -8,13 +8,14 @@ interface IIntroduction {
   summaryText: string;
   techSpecs: IDatasetTechSpecs;
   dictionary: number;
+  numTables: number;
 }
 
 export const title = 'Introduction';
-const DatasetIntroduction: FunctionComponent<IIntroduction> = ({ summaryText, techSpecs, dictionary }) => {
+const DatasetIntroduction: FunctionComponent<IIntroduction> = ({ summaryText, techSpecs, dictionary, numTables }) => {
   return (
     <DatasetSectionContainer title={title} id="introduction">
-      <DetailPills techSpecs={techSpecs} dictionary={dictionary} />
+      <DetailPills techSpecs={techSpecs} dictionary={dictionary} numTables={numTables} />
       <MarkdownTransform content={summaryText} isBanner={false} />
     </DatasetSectionContainer>
   );
