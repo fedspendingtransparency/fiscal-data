@@ -120,6 +120,13 @@ $borderRadius: 5px;
   margin-top: 5.5rem;
 }
 
+.markdownRow {
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
 @media screen and (max-width: $breakpoint-lg) {
   .loadingSection {
     height: calc(100% - 5.875rem);
