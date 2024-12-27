@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
+import { loadingIcon } from '../../components/dtg-table/dtg-table.module.scss';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import { mainContent, contentContainer, relatedContent, insightsContainer, sectionContainer } from './insight.module.scss';
 import SocialShare from '../../components/social-share/social-share';
