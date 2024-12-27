@@ -119,7 +119,6 @@
     "path": "^0.12.7",
     "query-string": "^7.1.3",
     "react": "^17.0.2",
-    "react-loading-skeleton": "npm ^3.0.0",
     "react-chartjs-2": "^5.2.0",
     "react-csv": "^2.2.2",
     "react-day-picker": "^8.8.2",
