@@ -12,6 +12,12 @@ const GettingStarted = () => {
   const urlFieldParam = '?fields=country_currency_desc,exchange_rate,record_date';
   const urlFilterParam = '&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso),record_date:gte:2020-01-01';
 
+  const mtsT9UrlPath = '/v1/accounting/mts/mts_table_9';
+  const mtsT9UrlFilterParam = '?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
+  const mtsT1UrlPath = '/v1/accounting/mts/mts_table_1';
+  const mtsT1UrlFilterParam = '&filter=record_date:eq:2023-05-31';
+  const mtsT1UrlFieldParam = '?fields=record_date,parent_id,classification_id,classification_desc,current_month_gross_rcpt_amt';
+
   return (
     <div className={sectionBreak}>
       <SectionContent id="getting-started" headingLevel={2} title="Getting Started">
@@ -170,7 +176,9 @@ const GettingStarted = () => {
           <br />
           library(jsonlite)
           <br />
-          request="https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1"
+          request="{baseApiUrl}
+          {mtsT9UrlPath}
+          {mtsT9UrlFilterParam}"
           <br />
           response=GET(request)
           <br />
@@ -192,13 +200,13 @@ const GettingStarted = () => {
           <br />
           # Create API variables
           <br />
-          baseUrl = 'https://api.fiscaldata.treasury.gov/services/api/fiscal_service'
+          baseUrl = '{baseApiUrl}'
           <br />
-          endpoint = '/v1/accounting/mts/mts_table_1'
+          endpoint = '{mtsT1UrlPath}'
           <br />
-          fields = '?fields=record_date,parent_id,classification_id,classification_desc,current_month_gross_rcpt_amt'
+          fields = '{mtsT1UrlFieldParam}'
           <br />
-          filter = '&filter=record_date:eq:2023-05-31'
+          filter = '{mtsT1UrlFilterParam}'
           <br />
           sort = '&sort=-record_date'
           <br />
