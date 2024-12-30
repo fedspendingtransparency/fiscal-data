@@ -1,27 +1,13 @@
-describe('Glossary terms opens and closes', () => {
-  beforeEach(() => {
-    cy.visit('/');
-  });
-
-  it('Verifies sorting by name', () => {
-    cy.findAllByText('Resources').click();
-    cy.findAllByText('Glossary').click();
-    cy.findByText('Search the glossary').should('exist');
-  });
-
-  it('Verifies sorting by name', () => {
-    cy.findAllByText('Resources').click();
-    cy.findAllByText('Glossary').click();
-    cy.findByLabelText('Close glossary').click();
-    cy.findByText('Search the glossary').should('not.exist');
-  });
-});
-
 describe('Glossary terms interaction flow', () => {
   beforeEach(() => {
     cy.visit('/');
     cy.findAllByText('Resources').click();
     cy.findAllByText('Glossary').click();
+  });
+  it('Verifies Glossary opens and closes correctly', () => {
+    cy.findByText('Search the glossary').should('exist');
+    cy.findByLabelText('Close glossary').click();
+    cy.findByText('Search the glossary').should('not.exist');
   });
 
   it('Search bar search interaction', () => {
@@ -67,9 +53,5 @@ describe('Glossary terms interaction flow', () => {
     cy.findAllByText('TreasuryDirect')
       .invoke('removeAttr', 'target')
       .click();
-  });
-  it('Search bar click into a selected search', () => {
-    cy.findAllByLabelText('Close glossary').click();
-    cy.findAllByText('Glossary').should('not.exist');
   });
 });
