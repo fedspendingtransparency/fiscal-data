@@ -10,7 +10,7 @@ describe('Glossary terms interaction flow', () => {
     cy.findByText('Search the glossary').should('not.exist');
   });
 
-  it('Search bar search interaction', () => {
+  it('Search bar search and Back to list interaction', () => {
     cy.findAllByLabelText('Search the glossary').should('be.visible');
     cy.findAllByLabelText('Search the glossary')
       .eq(1)
