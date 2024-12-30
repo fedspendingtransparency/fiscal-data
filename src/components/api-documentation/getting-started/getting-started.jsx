@@ -186,7 +186,9 @@ const GettingStarted = () => {
           <br />
           # Import necessary packages
           <br />
-          import requests import pandas as pd
+          import requests
+          <br />
+          import pandas as pd
           <br />
           # Create API variables
           <br />
