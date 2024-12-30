@@ -82,7 +82,7 @@ const GettingStarted = () => {
         <div className={codeTitle}>FULL API REQUEST EXAMPLE:</div>
         <code className={code}>
           {baseApiUrl}
-          /v1/accounting/od/rates_of_exchange?fields=country_currency_desc,exchange_rate, record_date&filter=record_date:gte:2015-01-01
+          /v1/accounting/od/rates_of_exchange?fields=country_currency_desc,exchange_rate,record_date&filter=record_date:gte:2015-01-01
         </code>
       </SectionContent>
       <SectionContent id="how-to-access-our-api" headingLevel={3} title="How to Access our API">
