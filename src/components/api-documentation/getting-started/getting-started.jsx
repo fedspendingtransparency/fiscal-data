@@ -87,11 +87,11 @@ const GettingStarted = () => {
       </SectionContent>
       <SectionContent id="how-to-access-our-api" headingLevel={3} title="How to Access our API">
         <p>
-          Our API is open, meaning that it does not require a user account or registration for a token. To begin using our API, you can type the GET
-          request below directly into a web browser (or script in a data analysis tool), which will return a JSON-formatted response. You can also
-          request CSV- or XML-formatted data by using the format filter.
+          Our API is open, meaning that it does not require a user account or registration for a token. To begin using our API, you can type the GET,
+          R, or Python request below directly into a web browser (or script in a data analysis tool), which will return a JSON-formatted response. You
+          can also request CSV- or XML-formatted data by using the format filter.
         </p>
-        <div className={codeTitle}>EXAMPLE REQUEST:</div>
+        <div className={codeTitle}>EXAMPLE API REQUEST USING GET:</div>
         <code className={code}>{`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}</code>
         <div className={codeTitle}>EXAMPLE RESPONSE:</div>
         <code className={code}>
@@ -163,6 +163,54 @@ const GettingStarted = () => {
           <br />
           {`"next":null,"last":"&page%5Bnumber%5D=1&page%5Bsize%5D=100"}}`}
           <br />
+        </code>
+        <div className={codeTitle}>EXAMPLE API REQUEST USING R:</div>
+        <code className={code}>
+          library(httr)
+          <br />
+          library(jsonlite)
+          <br />
+          request="https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1"
+          <br />
+          response=GET(request)
+          <br />
+          out=fromJSON(rawToChar(response$content))
+          <br />
+          data=out$data
+          <br />
+          head(data)
+        </code>
+        <div className={codeTitle}>EXAMPLE API REQUEST USING PYTHON:</div>
+        <code className={code}>
+          # MTS Table 1 API - JSON Format
+          <br />
+          # Import necessary packages
+          <br />
+          import requests import pandas as pd
+          <br />
+          # Create API variables
+          <br />
+          baseUrl = 'https://api.fiscaldata.treasury.gov/services/api/fiscal_service'
+          <br />
+          endpoint = '/v1/accounting/mts/mts_table_1'
+          <br />
+          fields = '?fields=record_date,parent_id,classification_id,classification_desc,current_month_gross_rcpt_amt'
+          <br />
+          filter = '&filter=record_date:eq:2023-05-31'
+          <br />
+          sort = '&sort=-record_date'
+          <br />
+          format = '&format=json'
+          <br />
+          pagination = '&page[number]=1&page[size]=3'
+          <br />
+          {`API = f'{baseUrl}{endpoint}{fields}{filter}{sort}{format}{pagination}'`}
+          <br />
+          # Call API and load into a pandas dataframe
+          <br />
+          data = requests.get(API).json()
+          <br />
+          pd.DataFrame(data['data'])
         </code>
       </SectionContent>
       <SectionContent id="license-and-authorization" headingLevel={3} title="License & Authorization">
