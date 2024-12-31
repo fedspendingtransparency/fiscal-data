@@ -36,7 +36,7 @@ export const siteFooterColumns = [
       },
       {
         title: 'Community Site',
-        to: 'https://onevoicecrm.my.site.com/FiscalDataGroup/s/',
+        to: 'https://onevoicecrm.my.site.com/FiscalDataCommunity/s/',
         testId: 'community',
       },
     ],

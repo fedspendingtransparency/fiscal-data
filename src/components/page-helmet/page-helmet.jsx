@@ -91,6 +91,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keyw
       <meta property="og:description" content={description} />
       <meta name="keywords" content={keywords} />
       <meta property="og:image" content={image || `${baseUrl}/logos/fiscal_data_logo_1200x628.png`} />
+      <meta name="google-site-verification" content="xVYP-oDTuRBvXHwXwy4kAM7weCAP1OlWoOCX_DsJC0M" />
       {dapAnalytics}
       {canonical && <link rel="canonical" href={`${baseUrl}${canonical}`} />}
       {datasetDetails && (
