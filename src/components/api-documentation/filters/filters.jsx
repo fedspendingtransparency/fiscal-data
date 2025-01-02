@@ -24,7 +24,8 @@ const Filters = () => (
         <strong>Accepts:</strong> The filter parameter <code className="inline">filter=</code> accepts filters from the list below, as well as
         specified filter criteria. Use a colon at the end of a filter parameter to pass a value or list of values. For lists passed as filter
         criteria, use a comma-separated list within parentheses. Filter for specific dates using the format <code className="inline">YYYY-MM-DD</code>
-        .
+        . To filter by multiple fields in a single request, do not repeat a filter call. Instead, apply an additional field to include in the filter
+        separated by a comma, as shown in the following template: <code className="inline">&filter=field:prm:value,field:prm:value</code>
       </p>
       <p>
         <strong>Required:</strong> No, filters are not required to make an API request.
