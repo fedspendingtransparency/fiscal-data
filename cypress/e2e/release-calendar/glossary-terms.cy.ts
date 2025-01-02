@@ -1,6 +1,6 @@
 describe('Glossary terms interaction flow', () => {
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/').wait(3000);
     cy.findAllByText('Resources').click();
     cy.findAllByText('Glossary').click();
   });
