@@ -1,6 +1,6 @@
 describe('Release calendar interaction flow', () => {
   beforeEach(() => {
-    cy.visit('/release-calendar/').wait(3000);
+    cy.visit('/release-calendar/');
   });
   it('Navigate to the release calendar page', () => {
     cy.findAllByText(
