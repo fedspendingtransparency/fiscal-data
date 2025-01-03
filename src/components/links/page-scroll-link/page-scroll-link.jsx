@@ -28,24 +28,24 @@ const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children, handleCli
     if (handleClick) {
       handleClick();
     }
-
-    if (url) {
-      scroller.scrollTo(url.substr(1), scrollOptionsOffset);
-    }
+    console.log(url);
+    // if (url) {
+    //   scroller.scrollTo(url.substr(1), scrollOptionsOffset);
+    // }
   };
 
   return (
-    <span
+    <a
       data-testid={dataTestId}
       onKeyDown={e => handleInteraction(e, url)}
       onClick={() => handleInteraction(null, url)}
       className={scrollLink}
-      role="link"
-      id={id}
+      id={`${id}-footnote`}
       tabIndex={tabindex}
+      href={url}
     >
       {children}
-    </span>
+    </a>
   );
 };
 

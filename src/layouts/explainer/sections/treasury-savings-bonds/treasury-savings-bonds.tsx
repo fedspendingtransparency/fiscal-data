@@ -27,7 +27,7 @@ const treasurySavingsBondsSections: IExplainerPageSection[] = [
     index: 1,
     id: treasurySavingsBondsSectionIds[1],
     title: 'Savings Bonds Overview',
-    component: (cpiData, onAnchorClick) => <SavingsBondsOverview onAnchorClick={onAnchorClick} />,
+    component: cpiData => <SavingsBondsOverview />,
   },
   {
     index: 2,

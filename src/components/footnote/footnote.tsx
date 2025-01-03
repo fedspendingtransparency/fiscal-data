@@ -18,7 +18,7 @@ type FootnoteProps = {
   onBackToContentClick?: () => void;
 };
 
-const Footnote: FunctionComponent<FootnoteProps> = ({ footnotes, width = '80%', onBackToContentClick }) => {
+const Footnote: FunctionComponent<FootnoteProps> = ({ footnotes, width = '80%', onBackToContentClick, lastAnchorClicked }) => {
   return (
     <div className={footnoteContainer} id="footnote" data-testid="footnote-section" tabIndex={-1}>
       <h6 className={footnoteHeading}>Footnotes</h6>
@@ -31,13 +31,9 @@ const Footnote: FunctionComponent<FootnoteProps> = ({ footnotes, width = '80%', 
               </CustomLink>
             </sup>
           ))}
-          {footnote.definition}
+          {footnote.definition} <a href={`#${footnote.anchors[0].link}-footnote`}>Back to content</a>
         </div>
       ))}
-
-      <button type="button" onClick={onBackToContentClick}>
-        Back to content
-      </button>
     </div>
   );
 };
