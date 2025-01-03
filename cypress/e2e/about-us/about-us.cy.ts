@@ -19,11 +19,6 @@ describe('About Us interaction flow', () => {
         url: 'api-documentation/#getting-started',
         external: false,
       },
-      // {
-      //   name: 'Open Data Policy',
-      //   url: 'about-us/901-1%20Open%20Data%20Policy.pdf',
-      //   external: false,
-      // },
       {
         name: 'International Monetary Fund (IMF)',
         url: 'https://www.imf.org/en/home',
@@ -45,22 +40,13 @@ describe('About Us interaction flow', () => {
         url: 'datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government',
         external: false,
       },
-      // {
-      //   name: 'https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgd.xml',
-      //   url: 'static-data/reports-statements/mts/imf/cgd.xml',
-      //   external: false,
-      // },
-      // {
-      //   name: 'https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgo.xml',
-      //   url: 'static-data/reports-statements/mts/imf/cgo.xml',
-      //   external: false,
-      // },
       {
         name: 'IMF SDDS website',
         url:
           'https://www.imf.org/en/About/Factsheets/Sheets/2023/Standards-for-data-dissemination#:~:text=The%20Special%20Data%20Dissemination%20System,access%20to%20international%20capital%20markets.',
         external: true,
       },
+      // because there's a dataset search in the main nav
       // {
       //   name: 'Dataset Search',
       //   url: 'datasets/',
@@ -71,36 +57,6 @@ describe('About Us interaction flow', () => {
         url: 'api-documentation/',
         external: false,
       },
-      // {
-      //   name: 'visit their Contact Us page',
-      //   url: 'https://fiscal.treasury.gov/top/contact.html',
-      //   external: true,
-      // },
-      // {
-      //   name: 'Economic Impact Payments Page',
-      //   url: 'http://www.irs.gov/coronavirus-tax-relief-and-economic-impact-payments',
-      //   external: true,
-      // },
-      // {
-      //   name: "Where's My Refund?",
-      //   url: 'https://www.irs.gov/refunds',
-      //   external: true,
-      // },
-      // {
-      //   name: 'contact the Bureau of the Fiscal Service',
-      //   url: 'https://fiscal.treasury.gov/contact/',
-      //   external: true,
-      // },
-      // {
-      //   name: 'visit their Contact Us page',
-      //   url: 'https://fiscal.treasury.gov/top/contact.html',
-      //   external: true,
-      // },
-      // {
-      //   name: 'Economic Impact Payments Page',
-      //   url: 'http://www.irs.gov/coronavirus-tax-relief-and-economic-impact-payments',
-      //   external: true,
-      // },
     ];
 
     links.forEach(link => {
@@ -113,4 +69,70 @@ describe('About Us interaction flow', () => {
       }
     });
   });
+
+  it('Validates duplicate links', () => {
+    const duplicateLinks: object[] = [
+      {
+        name: 'visit their Contact Us page',
+        url: 'https://fiscal.treasury.gov/top/contact.html',
+        external: true,
+      },
+      {
+        name: 'Economic Impact Payments Page',
+        url: 'http://www.irs.gov/coronavirus-tax-relief-and-economic-impact-payments',
+        external: true,
+      },
+      {
+        name: "Where's My Refund?",
+        url: 'https://www.irs.gov/refunds',
+        external: true,
+      },
+      {
+        name: 'contact the Bureau of the Fiscal Service',
+        url: 'https://fiscal.treasury.gov/contact/',
+        external: true,
+      },
+      {
+        name: 'visit their Contact Us page',
+        url: 'https://fiscal.treasury.gov/top/contact.html',
+        external: true,
+      },
+      {
+        name: 'Economic Impact Payments Page',
+        url: 'http://www.irs.gov/coronavirus-tax-relief-and-economic-impact-payments',
+        external: true,
+      },
+    ];
+
+    duplicateLinks.forEach(link => {
+      const dupes = cy.findAllByRole('link', { name: link.name });
+
+      dupes.each(dupe => {
+        cy.wrap(dupe).should('have.attr', 'href', link.url);
+      });
+    });
+  });
+
+  // it('Validates download links', () => {
+  //   const downloadLinks: object[] = [
+  //     {
+  //       name: 'Open Data Policy',
+  //       url: 'about-us/901-1%20Open%20Data%20Policy.pdf',
+  //       external: false,
+  //     },
+  //     {
+  //       name: 'https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgd.xml',
+  //       url: 'static-data/reports-statements/mts/imf/cgd.xml',
+  //       external: false,
+  //     },
+  //     {
+  //       name: 'https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgo.xml',
+  //       url: 'static-data/reports-statements/mts/imf/cgo.xml',
+  //       external: false,
+  //     },
+  //   ];
+  //
+  //   const downloadsFolder = Cypress.config('downloadsFolder');
+  //   cy.readFile('https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgd.xml');
+  // });
 });
