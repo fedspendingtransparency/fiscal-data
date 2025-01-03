@@ -31,7 +31,7 @@ const Footnote: FunctionComponent<FootnoteProps> = ({ footnotes, width = '80%', 
               </CustomLink>
             </sup>
           ))}
-          {footnote.definition} <a href={`#${footnote.anchors[0].link}-footnote`}>Back to content</a>
+          {footnote.definition} <CustomLink href={`#${footnote.anchors[0].link}-footnote`}>Back to content</CustomLink>
         </div>
       ))}
     </div>

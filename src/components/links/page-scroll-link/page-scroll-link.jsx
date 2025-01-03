@@ -25,27 +25,30 @@ const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children, handleCli
     if (e?.key && e.key !== 'Enter') {
       return;
     }
-    if (handleClick) {
-      handleClick();
-    }
-    console.log(url);
-    // if (url) {
-    //   scroller.scrollTo(url.substr(1), scrollOptionsOffset);
+    // if (handleClick) {
+    //   handleClick();
     // }
+    console.log(url);
+    if (url) {
+      const footnoteElem = document.getElementById(url.substr(1));
+      scroller.scrollTo(url.substr(1), scrollOptionsOffset);
+      footnoteElem.focus();
+    }
   };
 
   return (
-    <a
+    <span
       data-testid={dataTestId}
       onKeyDown={e => handleInteraction(e, url)}
       onClick={() => handleInteraction(null, url)}
       className={scrollLink}
       id={`${id}-footnote`}
       tabIndex={tabindex}
-      href={url}
+      role="link"
+      // href={url}
     >
       {children}
-    </a>
+    </span>
   );
 };
 
