@@ -29,7 +29,7 @@ const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ ac
           <FontAwesomeIcon icon={getIcon(width >= pxToNumber(breakpointLg))} />
         </div>
       </button>
-      {active && <DownloadDialog />}
+      <DownloadDialog active={active} setActive={setActive} />
     </div>
   );
 };
