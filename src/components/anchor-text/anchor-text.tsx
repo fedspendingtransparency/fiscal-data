@@ -4,12 +4,20 @@ import CustomLink from '../links/custom-link/custom-link';
 type IAnchorText = {
   link: string;
   text: string;
+  onAnchorClick?: (anchorId: string) => void;
 };
 
-const AnchorText = ({ link, text }: IAnchorText): JSX.Element => {
+const AnchorText = ({ link, text, onAnchorClick }: IAnchorText): JSX.Element => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (onAnchorClick) {
+      onAnchorClick(link);
+    }
+  };
+
   return (
     <sup>
-      <CustomLink url="#footnote" id={link} data-testid="anchor-text">
+      <CustomLink url="#footnote" id={link} data-testid="anchor-text" onClick={handleClick}>
         {text}
       </CustomLink>
     </sup>
