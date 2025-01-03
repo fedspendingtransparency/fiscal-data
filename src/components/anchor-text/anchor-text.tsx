@@ -8,8 +8,7 @@ type IAnchorText = {
 };
 
 const AnchorText = ({ link, text, onAnchorClick }: IAnchorText): JSX.Element => {
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const handleClick = () => {
     if (onAnchorClick) {
       onAnchorClick(link);
     }

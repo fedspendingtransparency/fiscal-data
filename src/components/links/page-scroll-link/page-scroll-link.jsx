@@ -19,11 +19,14 @@ const scrollOptionsOffset = {
   offset: scrollOffset,
 };
 
-const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children }) => {
+const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children, handleClick }) => {
   const handleInteraction = (e, url) => {
     //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;
+    }
+    if (handleClick) {
+      handleClick();
     }
 
     if (url) {
