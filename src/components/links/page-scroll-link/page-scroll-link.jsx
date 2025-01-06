@@ -9,7 +9,7 @@ const scrollDuration = globalConstants.config.smooth_scroll.duration;
 const scrollOffset = -50;
 const scrollOptions = {
   smooth: true,
-  spy: true,
+
   duration: scrollDuration,
   delay: scrollDelay,
 };
@@ -25,14 +25,18 @@ const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children, handleCli
     if (e?.key && e.key !== 'Enter') {
       return;
     }
-    // if (handleClick) {
-    //   handleClick();
-    // }
+
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     console.log(url);
     if (url) {
       const footnoteElem = document.getElementById(url.substr(1));
       scroller.scrollTo(url.substr(1), scrollOptionsOffset);
-      footnoteElem.focus();
+      setTimeout(() => {
+        footnoteElem?.focus({ preventScroll: true });
+      }, 500);
     }
   };
 
