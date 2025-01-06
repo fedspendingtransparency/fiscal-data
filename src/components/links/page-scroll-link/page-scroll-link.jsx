@@ -30,7 +30,7 @@ const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children, handleCli
       e.preventDefault();
       e.stopPropagation();
     }
-    console.log(url);
+
     if (url) {
       const footnoteElem = document.getElementById(url.substr(1));
       scroller.scrollTo(url.substr(1), scrollOptionsOffset);
