@@ -13,7 +13,7 @@ import {
 } from './glossary-popover-definition.module.scss';
 import Popover from '@material-ui/core/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faXmark, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightLong, faXmark, faBook } from '@fortawesome/free-solid-svg-icons';
 import { glossaryLookup } from '../../../helpers/glossary-helper/glossary-lookup';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -74,10 +74,10 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   const { popOver, popupContainer } = useStyles();
   const handleScroll = () => {
     const position = window.pageYOffset;
-    setPreviousScrollPosition(scrollPosition);
+    const previousPosition = scrollPosition;
+    setPreviousScrollPosition(previousPosition);
     setScrollPosition(position);
-
-    if (scrollPosition !== previousScrollPosition) {
+    if (position !== previousPosition) {
       handleClose();
     }
   };
@@ -156,7 +156,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
             <div>{definition}</div>
             <div className={glossaryButton} role="button" onClick={glossaryNavigation} onKeyPress={glossaryNavigation} tabIndex={0}>
               <div>View in glossary</div>
-              <FontAwesomeIcon icon={faArrowRight} className={arrowIcon} />
+              <FontAwesomeIcon icon={faArrowRightLong} className={arrowIcon} />
             </div>
           </div>
         </div>

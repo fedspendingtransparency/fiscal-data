@@ -13,7 +13,7 @@ const replaceLinkTextWithLink = string => {
   });
 };
 
-export const MarkdownTransform: FunctionComponent = ({ content, isBanner }) => {
+export const MarkdownTransform: FunctionComponent = ({ content, isBanner, customClass }) => {
   return (
     <>
       {isBanner ? (
@@ -31,6 +31,7 @@ export const MarkdownTransform: FunctionComponent = ({ content, isBanner }) => {
       ) : (
         <ReactMarkdown
           children={content}
+          className={customClass ? customClass : ''}
           components={{
             a: ({ children, href }) => {
               return <CustomLink url={href}>{children}</CustomLink>;

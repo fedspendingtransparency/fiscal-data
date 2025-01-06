@@ -35,6 +35,19 @@ describe('DDNav', () => {
     expect(link.className.includes('hover')).toBeFalsy();
   });
 
+  it(`sets the same style as on hover on a link's container when focused and
+  removes it when not focused`, () => {
+    const { getByText } = render(<DDNav />);
+
+    const link = getByText('Introduction');
+
+    fireEvent.focusIn(link);
+    expect(link.className.includes('hover')).toBeTruthy();
+
+    fireEvent.focusOut(link);
+    expect(link.className.includes('hover')).toBeFalsy();
+  });
+
   it(`scrolls to page section on enter`, () => {
     const spy = jest.spyOn(Scroll.scroller, 'scrollTo');
     const { getByText } = render(<DDNav />);
