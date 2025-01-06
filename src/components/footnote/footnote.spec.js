@@ -33,11 +33,7 @@ describe('Footnote Section', () => {
 
   it('renders safely with no footnotes', () => {
     render(<Footnote footnotes={[]} />);
-
-    // We still have the container ...
     expect(screen.getByTestId('footnote-section')).toBeInTheDocument();
-
-    // ... but no footnote items
     expect(screen.queryByTestId('footnote-item')).toBeNull();
   });
 });
