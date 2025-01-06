@@ -6,10 +6,10 @@ import { scrollLink } from './page-scroll-link.module.scss';
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
 const scrollDuration = globalConstants.config.smooth_scroll.duration;
 
-const scrollOffset = -50;
+const scrollOffset = -150;
 const scrollOptions = {
   smooth: true,
-
+  spy: true,
   duration: scrollDuration,
   delay: scrollDelay,
 };
