@@ -34,9 +34,7 @@ const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children, handleCli
     if (url) {
       const footnoteElem = document.getElementById(url.substr(1));
       scroller.scrollTo(url.substr(1), scrollOptionsOffset);
-      setTimeout(() => {
-        footnoteElem?.focus({ preventScroll: true });
-      }, 500);
+      footnoteElem?.focus({ preventScroll: true });
     }
   };
 
