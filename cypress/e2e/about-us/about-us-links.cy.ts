@@ -1,4 +1,4 @@
-describe('About Us interaction flow', () => {
+describe('About Us Links interaction flow', () => {
   beforeEach(() => {
     cy.visit('/about-us/');
   });
@@ -46,12 +46,6 @@ describe('About Us interaction flow', () => {
           'https://www.imf.org/en/About/Factsheets/Sheets/2023/Standards-for-data-dissemination#:~:text=The%20Special%20Data%20Dissemination%20System,access%20to%20international%20capital%20markets.',
         external: true,
       },
-      // because there's a dataset search in the main nav
-      // {
-      //   name: 'Dataset Search',
-      //   url: 'datasets/',
-      //   external: false,
-      // },
       {
         name: 'API Documentation',
         url: 'api-documentation/',
@@ -113,26 +107,24 @@ describe('About Us interaction flow', () => {
     });
   });
 
-  // it('Validates download links', () => {
-  //   const downloadLinks: object[] = [
-  //     {
-  //       name: 'Open Data Policy',
-  //       url: 'about-us/901-1%20Open%20Data%20Policy.pdf',
-  //       external: false,
-  //     },
-  //     {
-  //       name: 'https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgd.xml',
-  //       url: 'static-data/reports-statements/mts/imf/cgd.xml',
-  //       external: false,
-  //     },
-  //     {
-  //       name: 'https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgo.xml',
-  //       url: 'static-data/reports-statements/mts/imf/cgo.xml',
-  //       external: false,
-  //     },
-  //   ];
-  //
-  //   const downloadsFolder = Cypress.config('downloadsFolder');
-  //   cy.readFile('https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgd.xml');
-  // });
+  it('Validates download links', () => {
+    const downloadLinks: object[] = [
+      {
+        name: 'Open Data Policy',
+        url: '/data/about-us/901-1 Open Data Policy.pdf',
+      },
+      {
+        name: 'https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgd.xml',
+        url: 'https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgd.xml',
+      },
+      {
+        name: 'https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgo.xml',
+        url: 'https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgo.xml',
+      },
+    ];
+
+    downloadLinks.forEach(link => {
+      cy.findByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
+    });
+  });
 });
