@@ -8,6 +8,7 @@ import { isBefore, isValid } from 'date-fns';
 import { MuiThemeProvider } from '@material-ui/core';
 import { theme } from '../../../theme';
 import { generateAnalyticsEvent, generateFormattedDate } from '../range-presets/helpers/helper';
+import { format } from 'date-fns';
 
 const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }) => {
   const [beginDate, setBeginDate] = useState(null);
@@ -66,7 +67,8 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
       setLatestDate(availableDateRange.to || null);
 
       if (selectedDateRange) {
-        setBeginDate(selectedDateRange.from || null);
+        // setBeginDate(selectedDateRange.from || null);
+        setBeginDate(format(selectedDateRange.from, 'yyyy-MM') || null);
         setEndDate(selectedDateRange.to || null);
       }
     }
@@ -74,10 +76,14 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
 
   useEffect(() => {
     if (selectedDateRange) {
-      setBeginDate(selectedDateRange.from || null);
+      // setBeginDate(selectedDateRange.from || null);
+      setBeginDate(format(selectedDateRange.from, 'yyyy-MM') || null);
       setEndDate(selectedDateRange.to || null);
     }
   }, []);
+
+  console.log('selectedDateRange: ', selectedDateRange);
+  console.log('selectedDateRange from: ', format(selectedDateRange.from, 'yyyy-MM'));
 
   return (
     <MuiThemeProvider theme={theme}>
