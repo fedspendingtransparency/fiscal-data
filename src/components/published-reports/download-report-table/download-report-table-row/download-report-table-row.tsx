@@ -99,7 +99,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
 
   return (
     <>
-      {displayName?.start && displayName?.end && (
+      {displayName?.end && (
         <tr className={fileDescription} data-testid="file-download-row">
           <td>
             <a
@@ -116,7 +116,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
                   <div className={downloadFileContainer}>
                     <div className={downloadName}>
                       <img src={fileTypeImage} alt={`${fileType} icon`} />
-                      <span className={startName}>{displayName.start}</span>
+                      {displayName?.start && <span className={startName}>{displayName.start}</span>}
                       <span>{displayName.end}</span>
                     </div>
                     <div className={fileDate}>{publishedDate}</div>
@@ -132,7 +132,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
                   <img src={fileTypeImage} alt={`${fileType} icon`} />
                   <div className={downloadItem}>
                     <div className={downloadName}>
-                      <div className={startName}>{displayName.start}</div>
+                      {displayName?.start && <div className={startName}>{displayName.start}</div>}
                       <div className={endName}>{displayName.end}</div>
                     </div>
                     <div className={downloadInfo}>
