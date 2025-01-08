@@ -23,7 +23,7 @@ describe('Dataset detail page validation', () => {
         largeTable: true,
       },
       {
-        name: 'Adjustment of Public Debt Transactions to Cash Basis',
+        name: 'Adjugitstment of Public Debt Transactions to Cash Basis',
         endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
         column: { prettyName: 'Adjustment Type', name: 'adj_type', searchTerm: 'Government Account Transactions (-)' },
         dateColumn: {
