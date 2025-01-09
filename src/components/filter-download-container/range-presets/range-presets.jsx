@@ -4,7 +4,6 @@ import { monthNames } from '../../../utils/api-utils';
 import { addDays, subQuarters, differenceInYears } from 'date-fns';
 import determineDateRange, { generateAnalyticsEvent, generateFormattedDate, prepAvailableDates } from './helpers/helper';
 import DatePickers from '../datepickers/datepickers';
-import { format } from 'date-fns';
 
 const RangePresets = ({
   currentDateButton,
