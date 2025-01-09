@@ -75,27 +75,10 @@ const RangePresets = ({
 
   const updateDateRange = curDateRange => {
     if (curDateRange) {
-      console.log('curDateRange: ', typeof curDateRange);
-      console.log('availableDateRange: ', availableDateRange);
       setPickerDateRange(availableDateRange);
       setCurDateRange(curDateRange);
-      // setCurDateRange(updateFromDate(curDateRange));
       handleDateRangeChange(curDateRange);
     }
-  };
-
-  const updateFromDate = date => {
-    // date.from = format(date.from, 'yyyy-MM');
-    console.log('date: ', date.from, 'yyyy-MM');
-
-    const date2 = {
-      earliestDate: '05/31/1992',
-      from: '2024-12',
-      latestDate: '05/31/2025',
-      to: '2025-05',
-    };
-
-    return date2;
   };
 
   const placeApplicableYearPresets = ({ to, from }) => {
