@@ -1,9 +1,27 @@
-import React, { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import Footnote from '../../../../../components/footnote/footnote';
 import { getSaleBondsFootNotes } from './learn-more-helper';
+import AnchorText from '../../../../../components/anchor-text/anchor-text';
 
-const LearnMore: FunctionComponent = () => {
+const LearnMore: React.FC = () => {
+  const [lastAnchorClicked, setLastAnchorClicked] = useState<string | null>(null);
+
+  const handleAnchorClick = (anchorId: string) => {
+    setLastAnchorClicked(anchorId);
+  };
+
+  const handleBackToContentClick = () => {
+    if (lastAnchorClicked) {
+      const anchorEl = document.getElementById(lastAnchorClicked);
+      if (anchorEl) {
+        anchorEl.scrollIntoView({ behavior: 'smooth' });
+        anchorEl.focus();
+      }
+      setLastAnchorClicked(null);
+    }
+  };
+
   return (
     <>
       <p>
@@ -12,7 +30,13 @@ const LearnMore: FunctionComponent = () => {
         called <CustomLink url="https://treasurydirect.gov/savings-bonds/treasury-hunt/">Treasury Hunt</CustomLink>, which allows users to search to
         see if there are unredeemed bonds in their name.
       </p>
-      <Footnote footnotes={getSaleBondsFootNotes()} width="100%" />
+
+      <p>
+        This is some text referencing a footnote
+        <AnchorText link={'savings-bonds-overview'} text={'1'} onAnchorClick={handleAnchorClick} />
+      </p>
+
+      <Footnote footnotes={getSaleBondsFootNotes()} width="100%" onBackToContentClick={handleBackToContentClick} />
     </>
   );
 };

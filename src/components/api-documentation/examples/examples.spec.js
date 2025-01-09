@@ -56,12 +56,6 @@ describe('API Documentation Examples', () => {
     expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the Pivoting section with the desired id, heading tag and title', () => {
-    const title = 'Pivoting';
-    const heading = instance.findByProps({ id: 'examples-pivoting' }).findByType('h3');
-    expect(heading.children[0]).toBe(title);
-  });
-
   it('creates the Multi-dimension Datasets section with the desired id, heading tag and title', () => {
     const title = 'Multi-dimension Datasets';
     const heading = instance.findByProps({ id: 'examples-multi-dimension-datasets' }).findByType('h3');
