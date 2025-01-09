@@ -143,10 +143,12 @@ describe('Debt Explainer Page', () => {
 
   describe('Validate charts', () => {
       it('Load properly with no null or empty values', () => {
-        cy.get('[role="figure"]').scrollIntoView({ duration: 2000 }).
-        findAllByText('null').should('not.exist').
-        findAllByText('NaN').should('not.exist').
-        findAllByText('undefined').should('not.exist');
+        cy.get('[role="figure"]').each((chart) => {
+          cy.wrap(chart).scrollIntoView({ duration: 2000 })
+            .findAllByText('null').should('not.exist')
+            .findAllByText('NaN').should('not.exist')
+            .findAllByText('undefined').should('not.exist');
+        })
       });
 
       // it('Toggle-able views render properly on charts that have them', () => {
