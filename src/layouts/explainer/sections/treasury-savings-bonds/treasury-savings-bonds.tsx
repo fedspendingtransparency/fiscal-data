@@ -1,11 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import SavingsBondsOverview from './savings-bonds-overview/savings-bonds-overview';
 import WhatInfluencesPurchaseOfSavingsBonds from './purchase-of-savings-bonds/what-influences-purchase-of-savings-bonds';
 import SavingBondsKeyTakeaway from './savings-bonds-key-takeaway/savings-bonds-key-takeaway';
 import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-government/how-savings-bonds-finance-government';
 import SavingsBondsAreFullyMatured from './savings-bonds-are-fully-matured/savings-bonds-are-fully-matured';
 import LearnMore from './learn-more/learn-more';
-import { ICpiDataMap } from '../../../../models/ICpiDataMap';
 import { IExplainerPageSection } from '../../../../models/IExplainerPageSection';
 
 export const treasurySavingsBondsSectionIds = [
