@@ -119,19 +119,20 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
 
-  const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
-  const formatDate = detailDate => {
-    const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
-    const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
-    return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
-  };
+  // const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
+  // const formatDate = detailDate => {
+  //   const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
+  //   const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
+  //   return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
+  // };
 
-  const formattedDetailViewState = formatDate(detailViewState?.value);
+  // const formattedDetailViewState = formatDate(detailViewState?.value);
 
   const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
+      console.log('getDepaginated data......');
       const from = formatDateForApi(dateRange.from);
       const to = formatDateForApi(dateRange.to);
       const dateFilter = buildDateFilter(selectedTable, from, to);
@@ -193,30 +194,30 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
 
     // DetailColumnConfig is used for the TIPS and CPI detail view table
     const { columnConfig: detailColumnConfig } = config.detailView ? setTableConfig(config, config.detailView, selectedPivot, apiData) : {};
-    let displayData = apiData ? apiData.data : null;
+    const displayData = apiData ? apiData.data : null;
 
-    if (userFilterSelection?.value && apiData?.data) {
-      displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
-      setUserFilteredData({ ...apiData, data: displayData });
-    } else {
-      setUserFilteredData(null);
-    }
+    // if (userFilterSelection?.value && apiData?.data) {
+    //   displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
+    //   setUserFilteredData({ ...apiData, data: displayData });
+    // } else {
+    //   setUserFilteredData(null);
+    // }
 
     // Format chart data to match table decimal formatting for currency types
-    if (selectedPivot.pivotValue && selectedPivot.pivotView.roundingDenomination && apiData?.data) {
-      const copy = JSON.parse(JSON.stringify(apiData.data));
-      displayData = copy.map(d => {
-        columnConfig.forEach(config => {
-          if (d[config.property] && !isNaN(d[config.property]) && config.type.includes('CURRENCY')) {
-            const decimalPlaces = parseInt(config.type.split('CURRENCY')[1]);
-            const absVal = Math.abs(d[config.property].toString());
-            d[config.property] = absVal.toFixed(decimalPlaces);
-          }
-        });
-        return d;
-      });
-      setChartData({ ...apiData, data: displayData });
-    }
+    // if (selectedPivot.pivotValue && selectedPivot.pivotView.roundingDenomination && apiData?.data) {
+    //   const copy = JSON.parse(JSON.stringify(apiData.data));
+    //   displayData = copy.map(d => {
+    //     columnConfig.forEach(config => {
+    //       if (d[config.property] && !isNaN(d[config.property]) && config.type.includes('CURRENCY')) {
+    //         const decimalPlaces = parseInt(config.type.split('CURRENCY')[1]);
+    //         const absVal = Math.abs(d[config.property].toString());
+    //         d[config.property] = absVal.toFixed(decimalPlaces);
+    //       }
+    //     });
+    //     return d;
+    //   });
+    //   setChartData({ ...apiData, data: displayData });
+    // }
 
     setTableProps({
       dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
@@ -245,31 +246,35 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   };
 
   useMemo(async () => {
+    console.log('refresh table called', 1);
+
     await refreshTable();
   }, [apiData, userFilterSelection, apiError]);
 
   useMemo(async () => {
     if (serverSidePagination || userFilterSelection) {
+      console.log('refresh table called', 2);
+
       await refreshTable();
     }
   }, [dateRange]);
 
-  useEffect(async () => {
-    if (config?.sharedApiFilterOptions && userFilterSelection) {
-      await refreshTable();
-    }
-  }, [selectedTable]);
+  // useEffect(async () => {
+  //   if (config?.sharedApiFilterOptions && userFilterSelection) {
+  //     await refreshTable();
+  //   }
+  // }, [selectedTable]);
 
-  const handlePivotConfigUpdated = () => {
-    setPivotsUpdated(!pivotsUpdated);
-    handleConfigUpdate();
-  };
+  // const handlePivotConfigUpdated = () => {
+  //   setPivotsUpdated(!pivotsUpdated);
+  //   handleConfigUpdate();
+  // };
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && !legendToggledByUser) {
-      setLegend(window.innerWidth > GLOBALS.breakpoints.large);
-    }
-  }, [window.innerWidth]);
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined' && !legendToggledByUser) {
+  //     setLegend(window.innerWidth > GLOBALS.breakpoints.large);
+  //   }
+  // }, [window.innerWidth]);
 
   useEffect(() => {
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
@@ -280,115 +285,138 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     }
   }, [selectedTable, allTablesSelected]);
 
-  useEffect(() => {
-    if (!allTablesSelected) {
-      setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
+  // useEffect(() => {
+  //   if (!allTablesSelected) {
+  //     setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
+  //   } else {
+  //     setDisableDownloadButton(false);
+  //   }
+  // }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
+
+  // useEffect(() => {
+  //   if (allTablesSelected) {
+  //     setDisableDownloadButton(false);
+  //   }
+  //   if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
+  //     setApiFilterDefault(true);
+  //     setManualPagination(false);
+  //   }
+  // }, [userFilterSelection]);
+
+  // const legendToggler = e => {
+  //   if (e.key === undefined || e.key === 'Enter') {
+  //     if (legend) {
+  //       Analytics.event({
+  //         category: 'Chart Enabled',
+  //         action: 'Hide Legend Click',
+  //         label: `${config.name}, ${selectedTable.tableName}`,
+  //       });
+  //     }
+  //     e.preventDefault();
+  //     setLegend(!legend);
+  //     setLegendToggledByUser(true);
+  //     setSelectColumnPanel(!selectColumnPanel);
+  //   }
+  // };
+
+  // const pivotToggler = () => {
+  //   if (showPivotBar) {
+  //     Analytics.event({
+  //       category: 'Chart Enabled',
+  //       action: 'Hide Pivot Options Click',
+  //       label: `${config.name}, ${selectedTable.tableName}`,
+  //     });
+  //   }
+  //   setShowPivotBar(!showPivotBar);
+  // };
+
+  // const getDateFieldForChart = () => {
+  //   if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn && selectedPivot.pivotView.aggregateOn.length) {
+  //     return 'CHART_DATE'; // aggregation cases in pivoted data this only for charting calculation
+  //   } else {
+  //     return selectedTable.dateField;
+  //   }
+  // };
+
+  // const dateFieldForChart = getDateFieldForChart();
+  //
+  // useEffect(() => {
+  //   const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
+  //   setUserFilterUnmatchedForDateRange(userFilterUnmatched);
+  //   setApiFilterDefault(!allTablesSelected && selectedTable?.apiFilter && (userFilterSelection === null || userFilterSelection?.value === null));
+  //   setNoChartMessage(
+  //     SetNoChartMessage(
+  //       selectedTable,
+  //       selectedPivot,
+  //       dateRange,
+  //       allTablesSelected,
+  //       userFilterSelection,
+  //       userFilterUnmatched,
+  //       config?.customNoChartMessage
+  //     )
+  //   );
+  // }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData, config?.customNoChartMessage]);
+
+  const getPivotFields = table => {
+    if (table && table.valueFieldOptions) {
+      return table.fields.filter(field => table.valueFieldOptions.indexOf(field.columnName) !== -1);
     } else {
-      setDisableDownloadButton(false);
+      return null;
     }
-  }, [userFilterUnmatchedForDateRange, apiFilterDefault]);
+  };
 
   useEffect(() => {
-    if (allTablesSelected) {
-      setDisableDownloadButton(false);
+    if (selectedTable && !selectedTable.allDataTables && !selectedPivot) {
+      const localPivotFields = getPivotFields(selectedTable);
+      // setPivotFields(localPivotFields);
+      const pivot = {
+        pivotView: selectedTable.dataDisplays ? selectedTable.dataDisplays[0] : null,
+        pivotValue: localPivotFields && selectedTable.dataDisplays[0].dimensionField ? localPivotFields[0] : null,
+      };
+      console.log('setting pivot', pivot);
+      setSelectedPivot(pivot);
+      // setPivotOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
-    if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
-      setApiFilterDefault(true);
-      setManualPagination(false);
-    }
-  }, [userFilterSelection]);
-
-  const legendToggler = e => {
-    if (e.key === undefined || e.key === 'Enter') {
-      if (legend) {
-        Analytics.event({
-          category: 'Chart Enabled',
-          action: 'Hide Legend Click',
-          label: `${config.name}, ${selectedTable.tableName}`,
-        });
-      }
-      e.preventDefault();
-      setLegend(!legend);
-      setLegendToggledByUser(true);
-      setSelectColumnPanel(!selectColumnPanel);
-    }
-  };
-
-  const pivotToggler = () => {
-    if (showPivotBar) {
-      Analytics.event({
-        category: 'Chart Enabled',
-        action: 'Hide Pivot Options Click',
-        label: `${config.name}, ${selectedTable.tableName}`,
-      });
-    }
-    setShowPivotBar(!showPivotBar);
-  };
-  const getDateFieldForChart = () => {
-    if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn && selectedPivot.pivotView.aggregateOn.length) {
-      return 'CHART_DATE'; // aggregation cases in pivoted data this only for charting calculation
-    } else {
-      return selectedTable.dateField;
-    }
-  };
-
-  const dateFieldForChart = getDateFieldForChart();
-
-  useEffect(() => {
-    const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
-    setUserFilterUnmatchedForDateRange(userFilterUnmatched);
-    setApiFilterDefault(!allTablesSelected && selectedTable?.apiFilter && (userFilterSelection === null || userFilterSelection?.value === null));
-    setNoChartMessage(
-      SetNoChartMessage(
-        selectedTable,
-        selectedPivot,
-        dateRange,
-        allTablesSelected,
-        userFilterSelection,
-        userFilterUnmatched,
-        config?.customNoChartMessage
-      )
-    );
-  }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData, config?.customNoChartMessage]);
+  }, [selectedTable, pivotsUpdated]);
 
   return (
     <>
       <div data-test-id="table-container" className={sectionBorder}>
-        <div className={titleContainer}>
-          {dateFieldForChart === 'CHART_DATE' && (
-            <div className={noticeContainer}>
-              <AggregationNotice />
-            </div>
-          )}
-          <div className={barContainer}>
-            <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
-              <DataPreviewPivotOptions
-                datasetName={config?.name}
-                table={selectedTable}
-                pivotSelection={selectedPivot}
-                setSelectedPivot={setSelectedPivot}
-                pivotsUpdated={pivotsUpdated}
-              />
-            </div>
-          </div>
-        </div>
+        {/*<div className={titleContainer}>*/}
+        {/*{dateFieldForChart === 'CHART_DATE' && (*/}
+        {/*  <div className={noticeContainer}>*/}
+        {/*    <AggregationNotice />*/}
+        {/*  </div>*/}
+        {/*)}*/}
+        {/*<div className={barContainer}>*/}
+        {/*<div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">*/}
+        {/*<DataPreviewPivotOptions*/}
+        {/*  datasetName={config?.name}*/}
+        {/*  table={selectedTable}*/}
+        {/*  pivotSelection={selectedPivot}*/}
+        {/*  setSelectedPivot={setSelectedPivot}*/}
+        {/*  pivotsUpdated={pivotsUpdated}*/}
+        {/*/>*/}
+        {/*</div>*/}
+        {/*</div>*/}
+        {/*</div>*/}
         <div className={tableContainer}>
-          {isLoading && (
-            <div data-testid="loadingSection">
-              <div className={loadingSection} />
-              <div className={loadingIcon}>
-                <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...
-              </div>
-            </div>
-          )}
-          {!!detailViewState && (
-            <SummaryTable
-              summaryTable={config?.detailView?.summaryTableFields}
-              summaryValues={summaryValues}
-              columnConfig={tableProps?.columnConfig}
-              customFormatConfig={selectedTable?.customFormatting}
-            />
-          )}
+          {/*{isLoading && (*/}
+          {/*  <div data-testid="loadingSection">*/}
+          {/*    <div className={loadingSection} />*/}
+          {/*    <div className={loadingIcon}>*/}
+          {/*      <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
+          {/*)}*/}
+          {/*{!!detailViewState && (*/}
+          {/*  <SummaryTable*/}
+          {/*    summaryTable={config?.detailView?.summaryTableFields}*/}
+          {/*    summaryValues={summaryValues}*/}
+          {/*    columnConfig={tableProps?.columnConfig}*/}
+          {/*    customFormatConfig={selectedTable?.customFormatting}*/}
+          {/*  />*/}
+          {/*)}*/}
           <div className={selectedTab === 0 && !allTablesSelected ? tableSection : ''}>
             {(apiData || serverSidePagination || apiError) && tableProps && (
               <DataPreviewTable

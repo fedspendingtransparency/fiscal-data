@@ -56,6 +56,9 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   const [summaryValues, setSummaryValues] = useState(null);
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
   const [allActiveFilters, setAllActiveFilters] = useState([]);
+  const [pivotToApply, setPivotToApply] = useState();
+
+  const [tableView, setTableView] = useState(null);
 
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
@@ -131,7 +134,8 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
       }
-      setSelectedPivot(null);
+      // console.log(pivotToApply);
+      // setSelectedPivot(pivotToApply);
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
       setApiError(false);
@@ -142,25 +146,26 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     }
   }, [selectedTable]);
 
-  useEffect(() => {
-    if (detailApi) {
-      // resetting cache index here lets table data refresh on detail view state change
-      tableCaches[detailApi.apiId] = null;
-      setDateRange(null);
-      setSelectedPivot(null);
-      setIsFiltered(true);
-      setApiError(false);
-      if (!tableCaches[detailApi.apiId]) {
-        tableCaches[detailApi.apiId] = new TableCache();
-      }
-      setDetailViewDownloadFilter(
-        !!detailViewState ? { field: config.detailView.field, label: config.detailView.label, value: detailViewState.value } : null
-      );
-    }
-  }, [detailViewState]);
+  // useEffect(() => {
+  //   if (detailApi) {
+  //     // resetting cache index here lets table data refresh on detail view state change
+  //     tableCaches[detailApi.apiId] = null;
+  //     setDateRange(null);
+  //     setSelectedPivot(null);
+  //     setIsFiltered(true);
+  //     setApiError(false);
+  //     if (!tableCaches[detailApi.apiId]) {
+  //       tableCaches[detailApi.apiId] = new TableCache();
+  //     }
+  //     setDetailViewDownloadFilter(
+  //       !!detailViewState ? { field: config.detailView.field, label: config.detailView.label, value: detailViewState.value } : null
+  //     );
+  //   }
+  // }, [detailViewState]);
 
   // When dateRange changes, fetch new data
   useEffect(() => {
+    console.log('selectedPivot', selectedPivot);
     if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
       const displayedTable = detailViewState ? detailApi : selectedTable;
       const cache = tableCaches[displayedTable.apiId];
@@ -171,6 +176,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
         clearDisplayData();
         let canceledObj = { isCanceled: false, abortController: new AbortController() };
         if (!loadByPage || ignorePivots) {
+          console.log('getApiData called');
           getApiData(
             dateRange,
             displayedTable,
@@ -197,16 +203,20 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
 
-  useEffect(() => {
-    if (allTablesSelected) {
-      setTableColumnSortData([]);
-    }
-    setUserFilterSelection(null);
-  }, [allTablesSelected]);
+  // useEffect(() => {
+  //   if (allTablesSelected) {
+  //     setTableColumnSortData([]);
+  //   }
+  //   setUserFilterSelection(null);
+  // }, [allTablesSelected]);
 
   useEffect(() => {
     setTableColumnSortData([]);
   }, [selectedTable]);
+
+  useEffect(() => {
+    console.log('apiData', apiData);
+  }, [apiData]);
 
   return (
     <DatasetSectionContainer id="data-preview-table">
@@ -225,6 +235,9 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             disableAllTables={config?.disableAllTables}
             selectedPivot={selectedPivot}
             setSelectedPivot={setSelectedPivot}
+            setTableView={setTableView}
+            pivotToApply={pivotToApply}
+            setPivotToApply={setPivotToApply}
           />
         )}
       </div>

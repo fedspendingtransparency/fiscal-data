@@ -120,7 +120,9 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
         pivotView: pivotViews ? pivotViews[0] : null,
         pivotValue: localPivotFields && pivotViews[0].dimensionField ? localPivotFields[0] : null,
       };
-      setPivotToApply(pivot);
+      if (!pivotToApply) {
+        setPivotToApply(pivot);
+      }
       setPivotValueOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
   }, [table]);
