@@ -42,8 +42,8 @@ describe('Debt Explainer Page', () => {
   });
 
   describe('Validate all links on page', () => {
-    it('Validate all internal links on the page navigate to the correct destinations ', () => {
-      const hyperlinks: object[] = [
+    it('Part 1: Validate all internal links on the page navigate to the correct destinations ', () => {
+      const hyperlinks1: object[] = [
         {
           name: 'deficit',
           url: '/americas-finance-guide/national-deficit/'
@@ -59,9 +59,22 @@ describe('Debt Explainer Page', () => {
         {
           name: 'Historical Debt Outstanding',
           url: '/datasets/historical-debt-outstanding/historical-debt-outstanding'
-        },
+        }
+      ];
+      hyperlinks1.forEach(link => {
+        cy.findAllByRole('link', { name: link.name })
+          .first()
+          .click()
+          .wait(2000);
+        cy.url().should('include', link.url);
+        cy.visit('/americas-finance-guide/national-debt/');
+      })
+    });
+
+    it('Part 2: Validate all internal links on the page navigate to the correct destinations', () => {
+      const hyperlinks2: object[] = [
         {
-          name: 'U.S. Treasury Statement of the Public Debt (MSPD)',
+          name: 'U.S. Treasury Monthly Statement of the Public Debt (MSPD)',
           url: '/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding'
         },
         {
@@ -69,11 +82,11 @@ describe('Debt Explainer Page', () => {
           url: '/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities'
         }
       ];
-
-      hyperlinks.forEach(link => {
+      hyperlinks2.forEach(link => {
         cy.findAllByRole('link', { name: link.name })
           .first()
-          .click();
+          .click()
+          .wait(2000);
         cy.url().should('include', link.url);
         cy.visit('/americas-finance-guide/national-debt/');
       })

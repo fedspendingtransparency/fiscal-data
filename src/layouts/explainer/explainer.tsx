@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import explainerSections, { explainerDataSources, explainerDescriptionGenerators } from './sections/sections';
@@ -34,6 +34,7 @@ import ComingSoon from './explainer-components/highlighted-text/highlighted-text
 import DeskTopSubNav from './explainer-components/explainer-sub-nav/explainer-sub-nav';
 import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
+import { Skeleton } from '@mui/material';
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
   const { pageName, heroImage, seoConfig, relatedDatasets, cpiDataByYear, isAFG, cpi12MonthPercentChange } = pageContext;
@@ -42,6 +43,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
     cpiDataByYear: cpiDataByYear,
     cpi12MonthPercentChange: cpi12MonthPercentChange,
   };
+
   return (
     <GlossaryProvider>
       <SiteLayout isPreProd={false}>
@@ -85,9 +87,9 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
               tocScrollOffset={-32}
             >
               <div className={socialShareContainer}>
-                <div className={socialShare}>
-                  <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="responsive" />
-                </div>
+                  <div className={socialShare}>
+                    <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="responsive" />
+                  </div>
                 <div className={mainContent}>
                   {explainerSections[pageName].map(s => (
                     <React.Fragment key={s.index}>
