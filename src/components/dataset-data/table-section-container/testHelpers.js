@@ -95,6 +95,7 @@ export const mockDateRange = {
 
 export const selectedTableMoreFields = {
   apiId: 1,
+  endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
   tableName: 'Table 1',
   fields: [
     { columnName: 'facility_desc', prettyName: 'Facility Description', dataType: 'string' },
@@ -109,6 +110,7 @@ export const selectedTableMoreFields = {
 
 export const selectedTableLessFields = {
   apiId: 2,
+  endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
   tableName: 'Table 1',
   fields: [
     { columnName: 'facility_desc', prettyName: 'Facility Description', dataType: 'string' },
@@ -123,6 +125,7 @@ export const selectedTableLessFields = {
 
 export const mockTableWithPivot = {
   apiId: 3,
+  endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
   tableName: 'Debt to the Nickel',
   dateField: 'record_date',
   dataDisplays: [
@@ -150,6 +153,7 @@ export const mockTableWithNoChartAvailable = {
 
 export const mockTableWithUserFilterAvailable = {
   apiId: 4,
+  endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
   tableName: 'Exchange Rates',
   dataDisplays: [{ dimensionField: null, title: 'Complete Table' }],
   fields: [
@@ -168,6 +172,7 @@ export const mockTableWithUserFilterAvailable = {
 
 export const mockTableWithApiFilterAvailable = {
   apiId: 4,
+  endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
   tableName: 'Exchange Rates',
   isLargeDataset: true,
   dataDefaultHeader: true,
@@ -188,6 +193,7 @@ export const mockTableWithApiFilterAvailable = {
 };
 export const mockTableWithApiFilterAvailableDisplayDefaultData = {
   apiId: 4,
+  endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
   tableName: 'Exchange Rates',
   isLargeDataset: true,
   dataDefaultHeader: true,
