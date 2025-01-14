@@ -18,6 +18,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   disableAllTables,
   selectedPivot,
   setSelectedPivot,
+  pivotsUpdated,
 }) => {
   const [active, setActive] = useState(false);
   const [tableToApply, setTableToApply] = useState(selectedTable);
@@ -57,7 +58,16 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
         setSelectedPivot(pivotToApply);
       }
     } else {
-      setSelectedPivot(null);
+      const localPivotFields = getPivotFields(selectedTable);
+      // setPivotFields(localPivotFields);
+      const pivot = {
+        pivotView: selectedTable.dataDisplays ? selectedTable.dataDisplays[0] : null,
+        pivotValue: localPivotFields && selectedTable.dataDisplays[0].dimensionField ? localPivotFields[0] : null,
+      };
+      console.log(pivot);
+      setSelectedPivot(pivot);
+      // const localPivotFields = getPivotFields(selectedTable);
+      // setSelectedPivot({ pivotView: null, pivotValue: null });
     }
     setActive(false);
   };
@@ -75,6 +85,28 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     setTableToApply(table);
     setPivotToApply(null);
   };
+
+  const getPivotFields = table => {
+    if (table && table.valueFieldOptions) {
+      return table.fields.filter(field => table.valueFieldOptions.indexOf(field.columnName) !== -1);
+    } else {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    if (selectedTable && !selectedTable.allDataTables && !selectedPivot) {
+      const localPivotFields = getPivotFields(selectedTable);
+      // setPivotFields(localPivotFields);
+      const pivot = {
+        pivotView: selectedTable.dataDisplays ? selectedTable.dataDisplays[0] : null,
+        pivotValue: localPivotFields && selectedTable.dataDisplays[0].dimensionField ? localPivotFields[0] : null,
+      };
+      // console.log('setting pivot', pivot);
+      setSelectedPivot(pivot);
+      // setPivotOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
+    }
+  }, [selectedTable, pivotsUpdated]);
 
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>

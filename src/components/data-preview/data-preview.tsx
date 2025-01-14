@@ -212,6 +212,10 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     console.log('selectedPivot: ', selectedPivot);
   }, [selectedPivot]);
 
+  useEffect(() => {
+    console.log('apiData: ', apiData);
+  }, [apiData]);
+
   return (
     <DatasetSectionContainer id="data-preview-table">
       <div className={dataPreview}>
@@ -229,6 +233,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             disableAllTables={config?.disableAllTables}
             selectedPivot={selectedPivot}
             setSelectedPivot={setSelectedPivot}
+            // pivotsUpdated={pivotsUpdated}
           />
         )}
       </div>

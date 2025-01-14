@@ -191,7 +191,6 @@ export const datatableRequest = async (
         const to = formatDateForApi(range.to);
 
         const detailViewFilter = detailViewFilterParam && detailViewValue ? `,${detailViewFilterParam}:eq:${detailViewValue}` : '';
-
         const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}${detailViewFilter}&sort=${sortParamValue}`;
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
@@ -204,11 +203,15 @@ export const datatableRequest = async (
       tableCache.updateDataCache(fetchedRecordSets);
     }
     const recordSetForRange = tableCache.getRecordSetForRange(dateRange, dateField);
+    console.log('here 1');
     const displayData = incorporateChartDates(recordSetForRange, pivotView);
+    console.log('here 2');
     tableCache.updateDataDisplayCache(displayData, dateRange);
     if (pivotView && pivotView.dimensionField && pivotValue) {
+      console.log('pivotView', pivotView, 'pivotValue', pivotValue);
       return pivotApiData(table, selectedPivot, displayData, dateRange.from, dateRange.to);
     } else {
+      console.log('displayData', displayData);
       return displayData;
     }
   }

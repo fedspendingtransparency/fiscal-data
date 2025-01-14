@@ -206,7 +206,9 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     }
 
     // Format chart data to match table decimal formatting for currency types
+    console.log('refresh table', selectedPivot);
     if (selectedPivot.pivotValue && selectedPivot.pivotView.roundingDenomination && apiData?.data) {
+      console.log('here *********************');
       const copy = JSON.parse(JSON.stringify(apiData.data));
       displayData = copy.map(d => {
         columnConfig.forEach(config => {
@@ -357,28 +359,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
       )
     );
   }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData, config?.customNoChartMessage]);
-
-  const getPivotFields = table => {
-    if (table && table.valueFieldOptions) {
-      return table.fields.filter(field => table.valueFieldOptions.indexOf(field.columnName) !== -1);
-    } else {
-      return null;
-    }
-  };
-
-  useEffect(() => {
-    if (selectedTable && !selectedTable.allDataTables && !selectedPivot) {
-      const localPivotFields = getPivotFields(selectedTable);
-      // setPivotFields(localPivotFields);
-      const pivot = {
-        pivotView: selectedTable.dataDisplays ? selectedTable.dataDisplays[0] : null,
-        pivotValue: localPivotFields && selectedTable.dataDisplays[0].dimensionField ? localPivotFields[0] : null,
-      };
-      // console.log('setting pivot', pivot);
-      setSelectedPivot(pivot);
-      // setPivotOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
-    }
-  }, [selectedTable, pivotsUpdated]);
 
   return (
     <>
