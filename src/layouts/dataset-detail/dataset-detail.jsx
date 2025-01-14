@@ -88,25 +88,25 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           numTables={pageConfig.apis.length}
         />
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
-        <Experimental featureId="dataPreview">
-          <DataPreview
-            setSelectedTableProp={setSelectedTable}
-            finalDatesNotFound={finalDatesNotFound}
-            config={pageConfig}
-            location={location}
-            publishedReportsProp={pageConfig.publishedReports}
-          ></DataPreview>
-        </Experimental>
-        <DatasetData
+        {/*<Experimental featureId="dataPreview">*/}
+        <DataPreview
           setSelectedTableProp={setSelectedTable}
           finalDatesNotFound={finalDatesNotFound}
           config={pageConfig}
           location={location}
           publishedReportsProp={pageConfig.publishedReports}
-        />
-        <DatasetAbout config={pageContext.config} test={test} />
-        <ApiQuickGuide selectedTable={selectedTable} config={pageContext.config} />
-        <RelatedDatasets datasets={updatedDatasetData} referrer={pageContext.config.name} />
+        ></DataPreview>
+        {/*</Experimental>*/}
+        {/*<DatasetData*/}
+        {/*  setSelectedTableProp={setSelectedTable}*/}
+        {/*  finalDatesNotFound={finalDatesNotFound}*/}
+        {/*  config={pageConfig}*/}
+        {/*  location={location}*/}
+        {/*  publishedReportsProp={pageConfig.publishedReports}*/}
+        {/*/>*/}
+        {/*<DatasetAbout config={pageContext.config} test={test} />*/}
+        {/*<ApiQuickGuide selectedTable={selectedTable} config={pageContext.config} />*/}
+        {/*<RelatedDatasets datasets={updatedDatasetData} referrer={pageContext.config.name} />*/}
       </div>
     </SiteLayout>
   );

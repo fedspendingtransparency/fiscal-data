@@ -18,14 +18,10 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   disableAllTables,
   selectedPivot,
   setSelectedPivot,
-  setTableView,
-  pivotToApply,
-  setPivotToApply,
 }) => {
   const [active, setActive] = useState(false);
   const [tableToApply, setTableToApply] = useState(selectedTable);
-  const [pivotsUpdated, setPivotsUpdated] = useState(false);
-  // const [pivotToApply, setPivotToApply] = useState(selectedPivot);
+  const [pivotToApply, setPivotToApply] = useState(selectedPivot);
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
 
@@ -52,19 +48,16 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const searchBarLabel = 'Search data tables';
 
   const handleApply = () => {
-    if (tableViewSelection === 'pivotData') {
-    } else {
-      // setAppliedTableView('rawData');
-      // setSelectedPivot({ pivotView: { title: 'Complete Table' }, pivotValue: null });
-    }
     setAppliedTableView(tableViewSelection);
-    // setSelectedPivot(pivotToApply);
-    // setTableView({ table: tableToApply, pivot: pivotToApply });
     if (tableToApply !== selectedTable) {
       setSelectedTable(tableToApply);
     }
-    if (pivotToApply !== selectedPivot) {
-      setSelectedPivot(pivotToApply);
+    if (tableViewSelection === 'pivotData') {
+      if (pivotToApply !== selectedPivot) {
+        setSelectedPivot(pivotToApply);
+      }
+    } else {
+      setSelectedPivot(null);
     }
     setActive(false);
   };
@@ -83,39 +76,31 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     setPivotToApply(null);
   };
 
-  useEffect(() => {
-    console.log('pivotToApply', pivotToApply);
-  }, [pivotToApply]);
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
-      {active &&
-        ((
-          <DataPreviewDropdownDialogContainer
-            searchComponent={
-              (
-                <DataPreviewDropdownDialogSearch
-                  options={options}
-                  searchBarLabel={searchBarLabel}
-                  selectedTable={tableToApply}
-                  setSelectedTable={updateSelectedTable}
-                />
-              ) as React.ReactElement<any, string | React.JSXElementConstructor<any>>
-            }
-            filterComponent={
-              (
-                <DataPreviewPivotSelect
-                  table={tableToApply}
-                  pivotToApply={pivotToApply}
-                  setPivotToApply={setPivotToApply}
-                  tableViewSelection={tableViewSelection}
-                  setTableViewSelection={setTableViewSelection}
-                />
-              ) as React.ReactElement<any, string | React.JSXElementConstructor<any>>
-            }
-            handleApply={handleApply}
-            handleCancel={handleCancel}
-          />
-        ) as React.ReactElement<any, string | React.JSXElementConstructor<any>>)}
+      {active && (
+        <DataPreviewDropdownDialogContainer
+          searchComponent={
+            <DataPreviewDropdownDialogSearch
+              options={options}
+              searchBarLabel={searchBarLabel}
+              selectedTable={tableToApply}
+              setSelectedTable={updateSelectedTable}
+            />
+          }
+          filterComponent={
+            <DataPreviewPivotSelect
+              table={tableToApply}
+              pivotToApply={pivotToApply}
+              setPivotToApply={setPivotToApply}
+              tableViewSelection={tableViewSelection}
+              setTableViewSelection={setTableViewSelection}
+            />
+          }
+          handleApply={handleApply}
+          handleCancel={handleCancel}
+        />
+      )}
     </DropdownContainer>
   );
 };
