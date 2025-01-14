@@ -22,9 +22,9 @@ export default function simplifyNumber(n, currency, ignoreDecimal) {
   } else if (letter === ' B') {
     const absVal = Math.abs(n);
     if (absVal < 1e10) {
-      let singleDigitBillionsVal = (absVal / 1e9).toFixed(2);
-      if (singleDigitBillionsVal.endsWith('.00')) {
-        singleDigitBillionsVal = singleDigitBillionsVal.slice(0, -3);
+      let singleDigitBillionsVal = (absVal / 1e9).toFixed(1);
+      if (singleDigitBillionsVal.endsWith('.0')) {
+        singleDigitBillionsVal = singleDigitBillionsVal.slice(0, -2);
       }
       rounded = singleDigitBillionsVal;
     } else {
