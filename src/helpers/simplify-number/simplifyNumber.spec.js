@@ -16,6 +16,12 @@ describe('simplify number', () => {
   it('handles billions', () => {
     expect(simplifyNumber(123193123123.23)).toBe('123 B'); //also validates rounding
   });
+  it('handles billions', () => {
+    expect(simplifyNumber(12319312312.23)).toBe('12 B'); //also validates rounding
+  });
+  it('handles billions', () => {
+    expect(simplifyNumber(1231931231.23)).toBe('1.2 B'); //also validates rounding
+  });
 
   it('handles millions', () => {
     expect(simplifyNumber(123123123.23)).toBe('123.1 M');
