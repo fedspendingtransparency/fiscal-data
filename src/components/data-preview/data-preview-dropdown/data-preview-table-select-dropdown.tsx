@@ -46,7 +46,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       dropdownWidth="30rem"
     />
   );
-  const searchBarLabel = 'Search data tables';
 
   const handleApply = () => {
     setAppliedTableView(tableViewSelection);
@@ -59,15 +58,11 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       }
     } else {
       const localPivotFields = getPivotFields(selectedTable);
-      // setPivotFields(localPivotFields);
       const pivot = {
         pivotView: selectedTable.dataDisplays ? selectedTable.dataDisplays[0] : null,
         pivotValue: localPivotFields && selectedTable.dataDisplays[0].dimensionField ? localPivotFields[0] : null,
       };
-      console.log(pivot);
       setSelectedPivot(pivot);
-      // const localPivotFields = getPivotFields(selectedTable);
-      // setSelectedPivot({ pivotView: null, pivotValue: null });
     }
     setActive(false);
   };
@@ -97,14 +92,11 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   useEffect(() => {
     if (selectedTable && !selectedTable.allDataTables && !selectedPivot) {
       const localPivotFields = getPivotFields(selectedTable);
-      // setPivotFields(localPivotFields);
       const pivot = {
         pivotView: selectedTable.dataDisplays ? selectedTable.dataDisplays[0] : null,
         pivotValue: localPivotFields && selectedTable.dataDisplays[0].dimensionField ? localPivotFields[0] : null,
       };
-      // console.log('setting pivot', pivot);
       setSelectedPivot(pivot);
-      // setPivotOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
   }, [selectedTable, pivotsUpdated]);
 
@@ -115,7 +107,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           searchComponent={
             <DataPreviewDropdownDialogSearch
               options={options}
-              searchBarLabel={searchBarLabel}
+              searchBarLabel="Search data tables"
               selectedTable={tableToApply}
               setSelectedTable={updateSelectedTable}
             />

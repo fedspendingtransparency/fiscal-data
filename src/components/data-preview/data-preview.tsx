@@ -208,14 +208,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     setTableColumnSortData([]);
   }, [selectedTable]);
 
-  useEffect(() => {
-    console.log('selectedPivot: ', selectedPivot);
-  }, [selectedPivot]);
-
-  useEffect(() => {
-    console.log('apiData: ', apiData);
-  }, [apiData]);
-
   return (
     <DatasetSectionContainer id="data-preview-table">
       <div className={dataPreview}>
