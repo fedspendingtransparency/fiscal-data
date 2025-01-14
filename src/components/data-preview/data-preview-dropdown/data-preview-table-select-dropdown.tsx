@@ -67,12 +67,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
 
   const handleCancel = () => setActive(false);
 
-  useEffect(() => {
-    if (!active) {
-      setTableViewSelection(appliedTableView);
-    }
-  }, [active]);
-
   const updateSelectedTable = table => {
     setTableViewSelection('rawData');
     setTableToApply(table);
@@ -86,6 +80,12 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       return null;
     }
   };
+
+  useEffect(() => {
+    if (!active) {
+      setTableViewSelection(appliedTableView);
+    }
+  }, [active]);
 
   useEffect(() => {
     if (selectedTable && !selectedTable.allDataTables && !selectedPivot) {
