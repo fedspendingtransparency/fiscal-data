@@ -1,25 +1,16 @@
-import React, { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import {
-  nonRawDataTableContainer,
-  overlayContainerNoFooter,
-  rawDataTableContainer,
-  selectColumnPanelActive,
-  selectColumnPanelInactive,
-  selectColumnsWrapper,
-  tableStyle,
-} from '../../data-table/data-table.module.scss';
+import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
 import { loadingTimeout, netLoadingDelay, setColumns } from '../../dtg-table/dtg-table-helper';
 import { formatDateForApi, pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../utils/api-utils';
 import moment from 'moment';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
-import PaginationControls, { defaultPerPageOptions } from '../../pagination/pagination-controls';
+import { defaultPerPageOptions } from '../../pagination/pagination-controls';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import DtgTableApiError from '../../dtg-table/dtg-table-api-error/dtg-table-api-error';
 import { ErrorBoundary } from 'react-error-boundary';
-import { overlayContainer, overlay, loadingIcon } from './data-preview-table.module.scss';
+import { overlayContainer, overlay, loadingIcon, overlayContainerNoFooter } from './data-preview-table.module.scss';
 import GLOBALS from '../../../helpers/constants';
 import DataPreviewDataTable from '../data-preview-data-table/data-preview-data-table';
 const DEFAULT_ROWS_PER_PAGE = GLOBALS.dataTable.DEFAULT_ROWS_PER_PAGE;

@@ -579,6 +579,10 @@ describe('react-table', () => {
           columnConfig={mockColumnConfig}
           setTableSorting={jest.fn()}
           hasDownloadTimestamp={true}
+          dateRange={{
+            from: '2022-08-31',
+            to: '2024-08-31',
+          }}
         />
       </RecoilRoot>
     );

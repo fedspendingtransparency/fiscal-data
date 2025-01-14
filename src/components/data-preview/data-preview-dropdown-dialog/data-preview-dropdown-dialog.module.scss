@@ -1,8 +1,12 @@
 @import 'src/variables.module';
 @import 'src/zIndex.module';
 
+$dropdown-width: 45rem;
+$search-width: 20rem;
+$filter-width: $dropdown-width - $search-width;
+
 .dropdownContent {
-  width: 45rem;
+  width: $dropdown-width;
   height: 27.125rem;
   position: absolute;
   display: flex;
@@ -17,9 +21,13 @@
     height: 22.875rem;
     display: flex;
     .search {
-      width: 20rem;
+      width: $search-width;
       border-right: 1px solid #d9d9d9;
       overflow-y: auto;
+    }
+
+    .filter {
+      width: $filter-width;
     }
   }
 

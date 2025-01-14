@@ -426,6 +426,7 @@ export default function DtgTable({
             <ErrorBoundary FallbackComponent={() => <></>}>
               <DataTable
                 rawData={reactTableData}
+                dateRange={tableProps.dateRange}
                 detailViewState={detailViewState}
                 setDetailViewState={setDetailViewState}
                 nonRawDataColumns={!rawDataTable ? columnConfig : null}

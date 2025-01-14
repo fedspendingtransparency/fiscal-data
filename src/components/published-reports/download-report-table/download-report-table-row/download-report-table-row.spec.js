@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, fireEvent } from '@testing-library/react';
+import { render, act, fireEvent, getByText } from '@testing-library/react';
 import DownloadReportTableRow from './download-report-table-row';
 import userEvent from '@testing-library/user-event';
 
@@ -9,6 +9,7 @@ describe('Download report table row component', () => {
     { path: '/test/file/path/another_file.xml', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.xml)' },
     { path: '/test/file/path/another_file.xls', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.xls)' },
     { path: '/test/file/path/another_file.txt', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.txt)' },
+    { path: '/test/file/path/another_file.txt', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'TST (.txt)' },
   ];
 
   beforeEach(() => {
@@ -18,6 +19,11 @@ describe('Download report table row component', () => {
   it('renders a file row', () => {
     const { getByTestId } = render(<DownloadReportTableRow reportFile={mockReports[0]} />);
     expect(getByTestId('file-download-row')).toBeInTheDocument();
+  });
+
+  it('renders a short file name in the row', () => {
+    const { getByText } = render(<DownloadReportTableRow reportFile={mockReports[4]} />);
+    expect(getByText('TST.txt')).toBeInTheDocument();
   });
 
   it('renders a pdf icon with a pdf filename', () => {

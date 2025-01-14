@@ -42,7 +42,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   };
 
   const handleApply = () => {
-    setSelectedDate(new Date(selectedMonth + ' ' + selectedYear));
+    setSelectedDate(new Date(selectedMonth + ' 01, ' + selectedYear));
     if (handleClose) {
       handleClose();
     }

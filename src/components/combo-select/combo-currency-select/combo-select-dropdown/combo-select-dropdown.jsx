@@ -16,6 +16,7 @@ import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 import ScrollContainer from '../../../scroll-container/scroll-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
+
 const ComboSelectDropdown = ({
   active,
   setDropdownActive,
@@ -33,6 +34,7 @@ const ComboSelectDropdown = ({
   changeHandler,
   timeOutId,
   searchBarLabel,
+  disableSearchBar,
   hasChildren,
 }) => {
   const [filterValue, setFilterValue] = useState('');
@@ -111,10 +113,9 @@ const ComboSelectDropdown = ({
     setFilteredOptions(options);
     if (filterValue !== '') {
       filterDropdown(filterValue);
-      if(setDropdownActive) {
+      if (setDropdownActive) {
         setDropdownActive(false);
       }
-
     }
   }, [options]);
 
@@ -139,7 +140,7 @@ const ComboSelectDropdown = ({
 
       if (!dropdownChild) {
         timeOutId = setTimeout(() => {
-          if(setDropdownActive){
+          if (setDropdownActive) {
             setDropdownActive(false);
           }
         });
@@ -147,26 +148,23 @@ const ComboSelectDropdown = ({
     }
   };
 
-  const filteredOptionButton = (option, child) => (
-    <li
-      className={classNames([
-        dropdownListItem,
-        option[optionLabelKey] === selectedOption[optionLabelKey] && dropdownListItem_Selected,
-        child && dropdownListItem_child,
-      ])}
-    >
-      <button
-        className={dropdownListItem_Button}
-        onClick={() => updateSelection(option, true)}
-        disabled={required && !option.value}
-        title={required && !option.value && disabledMessage ? disabledMessage : null}
-        aria-label={option[optionLabelKey]}
-        data-testid="dropdown-list-option"
-      >
-        {underlineMatchedString(option[optionLabelKey], filterValue)}
-      </button>
-    </li>
-  );
+  const filteredOptionButton = (option, child) => {
+    const optionSelected = selectedOption && option[optionLabelKey] === selectedOption[optionLabelKey];
+    return (
+      <li className={classNames([dropdownListItem, optionSelected && dropdownListItem_Selected, child && dropdownListItem_child])}>
+        <button
+          className={dropdownListItem_Button}
+          onClick={() => updateSelection(option, true)}
+          disabled={required && !option.value}
+          title={required && !option.value && disabledMessage ? disabledMessage : null}
+          aria-label={option[optionLabelKey]}
+          data-testid="dropdown-list-option"
+        >
+          {underlineMatchedString(option[optionLabelKey], filterValue)}
+        </button>
+      </li>
+    );
+  };
 
   return (
     <>
@@ -179,18 +177,20 @@ const ComboSelectDropdown = ({
           role="presentation"
           ref={dropdownContainerRef}
         >
-          <div className={searchBarContainer}>
-            <SearchBar
-              onChange={onFilterChange}
-              onBlur={searchBarOnBlurHandler}
-              filter={filterValue}
-              label={searchBarLabel}
-              handleClear={clearFilter}
-              active={searchBarActive}
-              setActive={setSearchBarActive}
-              inputRef={inputRef}
-            />
-          </div>
+          {!disableSearchBar && (
+            <div className={searchBarContainer}>
+              <SearchBar
+                onChange={onFilterChange}
+                onBlur={searchBarOnBlurHandler}
+                filter={filterValue}
+                label={searchBarLabel}
+                handleClear={clearFilter}
+                active={searchBarActive}
+                setActive={setSearchBarActive}
+                inputRef={inputRef}
+              />
+            </div>
+          )}
           <ScrollContainer deps={[filteredOptions, selectedOption, filterValue]}>
             {noResults ? (
               <div className={noMatch}>

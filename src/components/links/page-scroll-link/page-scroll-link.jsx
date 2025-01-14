@@ -6,7 +6,7 @@ import { scrollLink } from './page-scroll-link.module.scss';
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
 const scrollDuration = globalConstants.config.smooth_scroll.duration;
 
-const scrollOffset = -50;
+const scrollOffset = -150;
 const scrollOptions = {
   smooth: true,
   spy: true,
@@ -19,15 +19,22 @@ const scrollOptionsOffset = {
   offset: scrollOffset,
 };
 
-const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children }) => {
+const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children, handleClick }) => {
   const handleInteraction = (e, url) => {
     //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;
     }
 
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
     if (url) {
+      const footnoteElem = document.getElementById(url.substr(1));
       scroller.scrollTo(url.substr(1), scrollOptionsOffset);
+      footnoteElem?.focus({ preventScroll: true });
     }
   };
 
@@ -37,9 +44,10 @@ const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children }) => {
       onKeyDown={e => handleInteraction(e, url)}
       onClick={() => handleInteraction(null, url)}
       className={scrollLink}
-      role="link"
-      id={id}
+      id={`${id}-footnote`}
       tabIndex={tabindex}
+      role="link"
+      // href={url}
     >
       {children}
     </span>

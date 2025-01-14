@@ -132,8 +132,16 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
-      const from = formatDateForApi(dateRange.from);
-      const to = formatDateForApi(dateRange.to);
+      let from = formatDateForApi(dateRange.from);
+      let to = formatDateForApi(dateRange.to);
+
+      // redemption_tables and sb_value are exception scenarios where the date string needs to
+      // be YYYY-MM.
+      if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
+        from = from.substring(0, from.lastIndexOf('-'));
+        to = to.substring(0, to.lastIndexOf('-'));
+      }
+
       const dateFilter = buildDateFilter(selectedTable, from, to);
       const sortParam = buildSortParams(selectedTable, selectedPivot);
       const apiFilterParam =
