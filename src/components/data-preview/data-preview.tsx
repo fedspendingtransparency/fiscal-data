@@ -131,7 +131,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
       }
-      // setSelectedPivot(null);
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
       setApiError(false);
@@ -225,7 +224,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             disableAllTables={config?.disableAllTables}
             selectedPivot={selectedPivot}
             setSelectedPivot={setSelectedPivot}
-            // pivotsUpdated={pivotsUpdated}
           />
         )}
       </div>

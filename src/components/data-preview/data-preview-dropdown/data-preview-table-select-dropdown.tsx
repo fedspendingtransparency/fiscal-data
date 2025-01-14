@@ -18,7 +18,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   disableAllTables,
   selectedPivot,
   setSelectedPivot,
-  pivotsUpdated,
 }) => {
   const [active, setActive] = useState(false);
   const [tableToApply, setTableToApply] = useState(selectedTable);
@@ -98,7 +97,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       };
       setSelectedPivot(pivot);
     }
-  }, [selectedTable, pivotsUpdated]);
+  }, [selectedTable]);
 
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
