@@ -54,7 +54,10 @@ export const InterestExpenseChart = () => {
     <div>
       {chartLoading ? (
         <div>
-          <Skeleton width={'99%'} height={360} variant="rounded" sx={{transition: 'opacity 2s'}} />
+          <Skeleton width={'99%'} variant="rounded" sx={{
+            minHeight: 437,
+            transition: 'opacity 2s'}}
+          />
         </div>
       ) : (
         <div aria-label={altText}>
