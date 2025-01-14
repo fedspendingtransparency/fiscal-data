@@ -21,6 +21,11 @@ export default function simplifyNumber(n, currency, ignoreDecimal) {
     }
   } else if (letter === ' B') {
     rounded = sections > 1 ? Math.round(Math.abs(n) / simplifier) : new Intl.NumberFormat('en-US').format(Math.round(Math.abs(n)));
+    if (Math.abs(n) < 1e10) {
+      rounded = (Math.abs(n) / 1e9).toFixed(1);
+    } else {
+      rounded = Math.round(Math.abs(n) / simplifier);
+    }
   } else {
     rounded = sections > 1 ? Math.round((Math.abs(n) / simplifier) * 10) / 10 : new Intl.NumberFormat('en-US').format(Math.round(Math.abs(n)));
   }
