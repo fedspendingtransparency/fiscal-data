@@ -24,7 +24,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const [pivotToApply, setPivotToApply] = useState(selectedPivot);
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
-
   const options = disableAllTables
     ? apis
     : [
