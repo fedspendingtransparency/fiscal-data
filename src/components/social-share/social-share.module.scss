@@ -19,6 +19,7 @@
   padding-bottom: 1rem;
   margin-top: 0;
   justify-content: center;
+  height: 1rem;
 }
 
 .horizontalShareButtonContainer {
@@ -27,6 +28,7 @@
   text-align: justify;
   justify-content: center;
   width: 1rem;
+  height: 1rem;
   margin-left: 3rem;
 }
 
@@ -37,7 +39,6 @@
     font-weight: $semi-bold-weight;
     font-size: $font-size-16;
     width: 6.875rem;
-    min-height: 1rem;
     margin: 0 0 0.75rem;
   }
 }
@@ -46,9 +47,15 @@
 .listShareButton {
   display: flex;
   align-items: center;
-  min-height: 1rem;
   margin-top: 0.75rem;
   margin-bottom: 0;
+}
+
+.listShareButton, .listSocialShareContent {
+  min-height: 1rem;
+    .headerText {
+      min-height: 1rem;
+    }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
