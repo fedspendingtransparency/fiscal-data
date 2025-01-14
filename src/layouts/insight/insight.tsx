@@ -18,9 +18,6 @@ import { breakpointLg } from '../../variables.module.scss';
 import { InsightHeroImage } from './insight-hero-image/insight-hero-image';
 import { InsightLastUpdated } from './sections/interest-expense/last-updated/insight-last-updated';
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
-import { Skeleton } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 interface IInsightSection {
   component: ReactElement;
@@ -29,15 +26,6 @@ interface IInsightSection {
 
 const InsightPageLayout = ({ pageContext, width }) => {
   const { pageName, seoConfig, heroImage } = pageContext;
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-        setLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timeout);
-  }, []);
 
   return (
     <GlossaryProvider>
@@ -49,24 +37,11 @@ const InsightPageLayout = ({ pageContext, width }) => {
         descriptionGenerator={insightsDescriptionGenerators[pageName]}
       />
       <div className={insightsContainer}>
-        {isLoading ? (
-          <div>
-            <Skeleton width={'99%'} variant="text" sx={{
-              minHeight: 130,
-              marginTop: 0.5,
-              marginBottom: 0.5,
-              transition: 'opacity 2s'}}
-            />
-          </div>
-        ) : (
-          <>
-            <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
-            {width < pxToNumber(breakpointLg) && (
-              <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
-            )}
-          </>
-        )}
-            <InsightLastUpdated endpoint={insightLastUpdated[pageName].endpoint} />
+          <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
+          {width < pxToNumber(breakpointLg) && (
+            <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
+          )}
+          <InsightLastUpdated endpoint={insightLastUpdated[pageName].endpoint} />
 
         <div className={contentContainer}>
           <div className={mainContent}>
@@ -80,16 +55,8 @@ const InsightPageLayout = ({ pageContext, width }) => {
             </div>
           </div>
           <div className={relatedContent}>
-            {isLoading ? (
-              <div>
-                <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-              </div>
-            ) : (
-              <>
-                {width >= pxToNumber(breakpointLg) && (
-                  <SocialShare copy={insightSocialShareMap[pageName]} pageName="Interest Expense" headerLevel="h2" displayStyle="responsive" />
-              )}
-              </>
+              {width >= pxToNumber(breakpointLg) && (
+                <SocialShare copy={insightSocialShareMap[pageName]} pageName="Interest Expense" headerLevel="h2" displayStyle="responsive" />
             )}
             <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} />
             <CitationList header="Discover Datasets" citations={discoverDatasetsCitationsMap[pageName]} />
