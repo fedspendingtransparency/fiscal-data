@@ -20,7 +20,16 @@ export default function simplifyNumber(n, currency, ignoreDecimal) {
       }
     }
   } else if (letter === ' B') {
-    rounded = sections > 1 ? Math.round(Math.abs(n) / simplifier) : new Intl.NumberFormat('en-US').format(Math.round(Math.abs(n)));
+    const absVal = Math.abs(n);
+    if (absVal < 1e10) {
+      let singleDigitBillionsVal = (absVal / 1e9).toFixed(1);
+      if (singleDigitBillionsVal.endsWith('.0')) {
+        singleDigitBillionsVal = singleDigitBillionsVal.slice(0, -2);
+      }
+      rounded = singleDigitBillionsVal;
+    } else {
+      rounded = Math.round(absVal / simplifier);
+    }
   } else {
     rounded = sections > 1 ? Math.round((Math.abs(n) / simplifier) * 10) / 10 : new Intl.NumberFormat('en-US').format(Math.round(Math.abs(n)));
   }
