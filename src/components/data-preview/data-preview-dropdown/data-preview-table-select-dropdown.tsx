@@ -21,11 +21,9 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
 }) => {
   const [active, setActive] = useState(false);
   const [tableToApply, setTableToApply] = useState(selectedTable);
-  const [pivotsUpdated, setPivotsUpdated] = useState(false);
   const [pivotToApply, setPivotToApply] = useState(selectedPivot);
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
-
   const options = disableAllTables
     ? apis
     : [
@@ -46,27 +44,61 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       dropdownWidth="30rem"
     />
   );
-  const searchBarLabel = 'Search data tables';
 
   const handleApply = () => {
-    // if (tableViewSelection === 'pivotData') {
-    //   setSelectedPivot(pivotToApply);
-    //   setAppliedTableView('pivotData');
-    // } else {
-    //   setAppliedTableView('rawData');
-    //   setSelectedPivot({ pivotView: { title: 'Complete Table' }, pivotValue: null });
-    // }
-    setSelectedTable(tableToApply);
+    setAppliedTableView(tableViewSelection);
+    if (tableToApply !== selectedTable) {
+      setSelectedTable(tableToApply);
+    }
+    if (tableViewSelection === 'pivotData') {
+      if (pivotToApply !== selectedPivot) {
+        setSelectedPivot(pivotToApply);
+      }
+    } else {
+      const localPivotFields = getPivotFields(selectedTable);
+      const pivot = {
+        pivotView: selectedTable.dataDisplays ? selectedTable.dataDisplays[0] : null,
+        pivotValue: localPivotFields && selectedTable.dataDisplays[0].dimensionField ? localPivotFields[0] : null,
+      };
+      setSelectedPivot(pivot);
+    }
     setActive(false);
   };
 
   const handleCancel = () => setActive(false);
+
+  const updateSelectedTable = table => {
+    if (table !== tableToApply) {
+      setTableViewSelection('rawData');
+      setTableToApply(table);
+      setPivotToApply(null);
+    }
+  };
+
+  const getPivotFields = table => {
+    if (table && table.valueFieldOptions) {
+      return table.fields.filter(field => table.valueFieldOptions.indexOf(field.columnName) !== -1);
+    } else {
+      return null;
+    }
+  };
 
   useEffect(() => {
     if (!active) {
       setTableViewSelection(appliedTableView);
     }
   }, [active]);
+
+  useEffect(() => {
+    if (selectedTable && !selectedTable.allDataTables && !selectedPivot) {
+      const localPivotFields = getPivotFields(selectedTable);
+      const pivot = {
+        pivotView: selectedTable.dataDisplays ? selectedTable.dataDisplays[0] : null,
+        pivotValue: localPivotFields && selectedTable.dataDisplays[0].dimensionField ? localPivotFields[0] : null,
+      };
+      setSelectedPivot(pivot);
+    }
+  }, [selectedTable]);
 
   return (
     <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
@@ -75,21 +107,16 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           searchComponent={
             <DataPreviewDropdownDialogSearch
               options={options}
-              searchBarLabel={searchBarLabel}
+              searchBarLabel="Search data tables"
               selectedTable={tableToApply}
-              setSelectedTable={setTableToApply}
+              setSelectedTable={updateSelectedTable}
             />
           }
           filterComponent={
             <DataPreviewPivotSelect
               table={tableToApply}
-              pivotSelection={selectedPivot}
-              setSelectedPivot={setSelectedPivot}
-              pivotsUpdated={pivotsUpdated}
               pivotToApply={pivotToApply}
               setPivotToApply={setPivotToApply}
-              appliedTableView={appliedTableView}
-              setAppliedTableView={setAppliedTableView}
               tableViewSelection={tableViewSelection}
               setTableViewSelection={setTableViewSelection}
             />

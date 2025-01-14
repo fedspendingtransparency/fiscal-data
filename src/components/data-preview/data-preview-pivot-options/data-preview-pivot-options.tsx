@@ -24,39 +24,6 @@ const DataPreviewPivotOptions: FunctionComponent<PivotOptions> = ({ datasetName,
     return valueField;
   };
 
-  const pivotViewChangeHandler = view => {
-    let valueField = null;
-    let curPivotFields = pivotFields;
-    if (view.dimensionField) {
-      const uniquePivotValues = view.uniquePivotValues;
-      if (uniquePivotValues && uniquePivotValues.length) {
-        curPivotFields = uniquePivotValues;
-      }
-      valueField = setAppropriatePivotValue(curPivotFields);
-    }
-
-    Analytics.event({
-      category: 'Chart Enabled',
-      action: 'Pivot View Click',
-      label: `${view.title}, ${datasetName}, ${table.tableName}`,
-    });
-
-    setSelectedPivot({ pivotView: view, pivotValue: valueField });
-    setPivotOptions(view.dimensionField ? curPivotFields : [{ prettyName: '— N / A —' }]);
-  };
-
-  const pivotValueChangeHandler = valueField => {
-    if (valueField?.prettyName !== '— N / A —') {
-      Analytics.event({
-        category: 'Chart Enabled',
-        action: 'Pivot Value Click',
-        label: `${valueField?.prettyName}, ${datasetName}, ${table.tableName}`,
-      });
-
-      setSelectedPivot({ pivotView: pivotSelection.pivotView, pivotValue: valueField });
-    }
-  };
-
   const getPivotFields = table => {
     if (table && table.valueFieldOptions) {
       return table.fields.filter(field => table.valueFieldOptions.indexOf(field.columnName) !== -1);

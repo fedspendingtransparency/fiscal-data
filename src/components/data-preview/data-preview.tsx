@@ -131,7 +131,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
       }
-      setSelectedPivot(null);
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
       setApiError(false);

@@ -368,17 +368,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
               <AggregationNotice />
             </div>
           )}
-          <div className={barContainer}>
-            <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
-              <DataPreviewPivotOptions
-                datasetName={config?.name}
-                table={selectedTable}
-                pivotSelection={selectedPivot}
-                setSelectedPivot={setSelectedPivot}
-                pivotsUpdated={pivotsUpdated}
-              />
-            </div>
-          </div>
         </div>
         <div className={tableContainer}>
           {isLoading && (

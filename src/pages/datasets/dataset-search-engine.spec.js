@@ -15,7 +15,6 @@ describe('search engine', () => {
       return { ...result.item, score: result.score };
     });
     expect(filteredResults.length).toBe(1);
-    console.log(filteredResults);
     expect(filteredResults[0].datasetId).toBe(mockDatasets[0].datasetId);
   });
 
