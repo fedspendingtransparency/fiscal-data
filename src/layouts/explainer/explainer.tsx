@@ -42,6 +42,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
     cpiDataByYear: cpiDataByYear,
     cpi12MonthPercentChange: cpi12MonthPercentChange,
   };
+
   return (
     <GlossaryProvider>
       <SiteLayout isPreProd={false}>

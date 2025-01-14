@@ -30,12 +30,6 @@ const LearnMore: React.FC = () => {
         called <CustomLink url="https://treasurydirect.gov/savings-bonds/treasury-hunt/">Treasury Hunt</CustomLink>, which allows users to search to
         see if there are unredeemed bonds in their name.
       </p>
-
-      <p>
-        This is some text referencing a footnote
-        <AnchorText link={'savings-bonds-overview'} text={'1'} onAnchorClick={handleAnchorClick} />
-      </p>
-
       <Footnote footnotes={getSaleBondsFootNotes()} width="100%" onBackToContentClick={handleBackToContentClick} />
     </>
   );
