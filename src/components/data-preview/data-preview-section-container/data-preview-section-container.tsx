@@ -132,9 +132,16 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
-      console.log('getDepaginated data......');
-      const from = formatDateForApi(dateRange.from);
-      const to = formatDateForApi(dateRange.to);
+      let from = formatDateForApi(dateRange.from);
+      let to = formatDateForApi(dateRange.to);
+
+      // redemption_tables and sb_value are exception scenarios where the date string needs to
+      // be YYYY-MM.
+      if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
+        from = from.substring(0, from.lastIndexOf('-'));
+        to = to.substring(0, to.lastIndexOf('-'));
+      }
+
       const dateFilter = buildDateFilter(selectedTable, from, to);
       const sortParam = buildSortParams(selectedTable, selectedPivot);
       const apiFilterParam =
@@ -148,11 +155,9 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           queryFn: () => fetchTableMeta(sortParam, selectedTable, apiFilterParam, dateFilter),
         })
         .then(async res => {
-          // console.log(res);
           const totalCount = res.meta['total-count'];
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
-            // console.log('here');
             if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {
               try {
                 return await queryClient.ensureQueryData({
@@ -206,9 +211,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     }
 
     // Format chart data to match table decimal formatting for currency types
-    console.log('refresh table', selectedPivot);
     if (selectedPivot.pivotValue && selectedPivot.pivotView.roundingDenomination && apiData?.data) {
-      console.log('here *********************');
       const copy = JSON.parse(JSON.stringify(apiData.data));
       displayData = copy.map(d => {
         columnConfig.forEach(config => {
@@ -250,14 +253,11 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   };
 
   useMemo(async () => {
-    console.log('refresh table called', 1);
     await refreshTable();
   }, [apiData, userFilterSelection, apiError]);
 
   useMemo(async () => {
     if (serverSidePagination || userFilterSelection) {
-      console.log('refresh table called', 2);
-
       await refreshTable();
     }
   }, [dateRange]);
@@ -332,7 +332,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     }
     setShowPivotBar(!showPivotBar);
   };
-
   const getDateFieldForChart = () => {
     if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn && selectedPivot.pivotView.aggregateOn.length) {
       return 'CHART_DATE'; // aggregation cases in pivoted data this only for charting calculation
