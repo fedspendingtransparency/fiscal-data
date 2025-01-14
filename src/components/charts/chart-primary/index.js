@@ -37,7 +37,7 @@ let w,
   svgDefs,
   roundingDenomination;
 
-const baseYAxisWidth = 66;
+const baseYAxisWidth = 72;
 
 const chartDimensions = {
   height: 360,
