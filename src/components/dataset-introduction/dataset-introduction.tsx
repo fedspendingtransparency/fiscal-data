@@ -3,6 +3,7 @@ import DatasetSectionContainer from '../dataset-section-container/dataset-sectio
 import DetailPills from '../detail-pills/detail-pills';
 import { IDatasetTechSpecs } from '../../models/IDatasetTechSpecs';
 import { MarkdownTransform } from '../markdown-transform/markdown-transform';
+import { noMargin } from './dataset-introduction.module.scss';
 
 interface IIntroduction {
   summaryText: string;
@@ -16,7 +17,7 @@ const DatasetIntroduction: FunctionComponent<IIntroduction> = ({ summaryText, te
   return (
     <DatasetSectionContainer title={title} id="introduction">
       <DetailPills techSpecs={techSpecs} dictionary={dictionary} numTables={numTables} />
-      <MarkdownTransform content={summaryText} isBanner={false} />
+      <MarkdownTransform content={summaryText} isBanner={false} customClass={noMargin} />
     </DatasetSectionContainer>
   );
 };

@@ -1,7 +1,8 @@
-@import "src/variables.module";
-@import "src/styles";
+@import 'src/variables.module';
+@import 'src/styles';
 
 .scrollLink {
   display: inline;
   @include primaryLink;
+  scroll-margin-top: 100px;
 }

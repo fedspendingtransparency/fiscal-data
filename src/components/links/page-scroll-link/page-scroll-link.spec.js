@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 describe('Custom Link', () => {
   const text = 'sample content';
   const content = <div>{text}</div>;
-  const scrollConfigs = { delay: 200, duration: 600, offset: -50, smooth: true, spy: true };
+  const scrollConfigs = { delay: 200, duration: 600, offset: -150, spy: true, smooth: true };
 
   afterEach(() => {
     jest.clearAllMocks();

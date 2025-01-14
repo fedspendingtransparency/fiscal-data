@@ -90,7 +90,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 
     case urlOrHref.startsWith('#'):
       return (
-        <PageScrollLink url={urlOrHref} dataTestId={dataTestId || 'scroll-link'} id={id} tabindex={tabindex}>
+        <PageScrollLink url={urlOrHref} dataTestId={dataTestId || 'scroll-link'} id={id} tabindex={tabindex} handleClick={onClickEventHandler}>
           {children}
         </PageScrollLink>
       );

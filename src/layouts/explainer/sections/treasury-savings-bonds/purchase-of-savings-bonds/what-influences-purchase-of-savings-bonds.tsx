@@ -125,7 +125,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
       <p>
         The sale of U.S. Treasury marketable securities began with the nation’s founding, where private citizens purchased $27 million in government
         bonds to finance the Revolutionary War.
-        <AnchorText link={anchor.anchors[0].links} text={anchor.anchors[0].text} /> These early loans to the government were introduced to raise funds
+        <AnchorText link={anchor.anchors[0].link} text={anchor.anchors[0].text} /> These early loans to the government were introduced to raise funds
         from the American public to support war efforts as well as other national projects like the construction of the Panama Canal.
       </p>
       <p>
