@@ -55,7 +55,7 @@ export const InterestExpenseChart = () => {
       {chartLoading ? (
         <div>
           <Skeleton width={'99%'} variant="rounded" sx={{
-            minHeight: 437,
+            minHeight: 360,
             transition: 'opacity 2s'}}
           />
         </div>
