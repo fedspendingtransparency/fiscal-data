@@ -29,40 +29,40 @@ const InsightPageLayout = ({ pageContext, width }) => {
 
   return (
     <GlossaryProvider>
-    <SiteLayout isPreProd={false}>
-      <PageHelmet
-        pageTitle={seoConfig.pageTitle}
-        description={seoConfig.description}
-        keywords={seoConfig.keywords}
-        descriptionGenerator={insightsDescriptionGenerators[pageName]}
-      />
-      <div className={insightsContainer}>
-        <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
-        {width < pxToNumber(breakpointLg) && (
-          <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
-        )}
-        <InsightLastUpdated endpoint={insightLastUpdated[pageName].endpoint} />
-        <div className={contentContainer}>
-          <div className={mainContent}>
-            {insightsSections[pageName]?.map((section: IInsightSection) => (
-              <React.Fragment key={section.index}>
-                <section className={sectionContainer}>{section.component}</section>
-              </React.Fragment>
-            ))}
-            <div>
-              <h2>Data Sources and Methodologies:</h2> {insightsDataSources[pageName]}
+      <SiteLayout isPreProd={false}>
+        <PageHelmet
+          pageTitle={seoConfig.pageTitle}
+          description={seoConfig.description}
+          keywords={seoConfig.keywords}
+          descriptionGenerator={insightsDescriptionGenerators[pageName]}
+        />
+        <div className={insightsContainer}>
+          <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
+          {width < pxToNumber(breakpointLg - 1) && (
+            <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
+          )}
+          <InsightLastUpdated endpoint={insightLastUpdated[pageName].endpoint} />
+          <div className={contentContainer}>
+            <div className={mainContent}>
+              {insightsSections[pageName]?.map((section: IInsightSection) => (
+                <React.Fragment key={section.index}>
+                  <section className={sectionContainer}>{section.component}</section>
+                </React.Fragment>
+              ))}
+              <div>
+                <h2>Data Sources and Methodologies:</h2> {insightsDataSources[pageName]}
+              </div>
+            </div>
+            <div className={relatedContent}>
+              {width >= pxToNumber(breakpointLg) && (
+                <SocialShare copy={insightSocialShareMap[pageName]} pageName="Interest Expense" headerLevel="h2" displayStyle="responsive" />
+              )}
+              <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} />
+              <CitationList header="Discover Datasets" citations={discoverDatasetsCitationsMap[pageName]} />
             </div>
           </div>
-          <div className={relatedContent}>
-            {width >= pxToNumber(breakpointLg) && (
-              <SocialShare copy={insightSocialShareMap[pageName]} pageName="Interest Expense" headerLevel="h2" displayStyle="responsive" />
-            )}
-            <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} />
-            <CitationList header="Discover Datasets" citations={discoverDatasetsCitationsMap[pageName]} />
-          </div>
         </div>
-      </div>
-    </SiteLayout>
+      </SiteLayout>
     </GlossaryProvider>
   );
 };

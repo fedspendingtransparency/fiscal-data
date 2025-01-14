@@ -1,14 +1,13 @@
 import { ComposedChart, ResponsiveContainer, XAxis, YAxis, Line, Bar, CartesianGrid, Tooltip } from 'recharts';
 import { CustomTooltip, Legend } from './interest-expense-chart-helper';
 import React, { useEffect } from 'react';
+import { Skeleton } from '@mui/material';
 import { useState } from 'react';
 import { interestExpensePrimary } from '../../../insight.module.scss';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import { useWindowSize } from '../../../../../hooks/windowResize';
 import { useGetInterestExpenseData } from '../useGetInterestExpenseData';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const breakpoint = {
   desktop: 1015,
@@ -55,7 +54,10 @@ export const InterestExpenseChart = () => {
     <div>
       {chartLoading ? (
         <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
+          <Skeleton width={'99%'} variant="rounded" sx={{
+            minHeight: 360,
+            transition: 'opacity 2s'}}
+          />
         </div>
       ) : (
         <div aria-label={altText}>

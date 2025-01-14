@@ -51,6 +51,13 @@
   margin-bottom: 0;
 }
 
+.listShareButton, .listSocialShareContent {
+  min-height: 1rem;
+    .headerText {
+      min-height: 1rem;
+    }
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .horizontalShareButtonContainer {
     margin-right: 1.5rem;
