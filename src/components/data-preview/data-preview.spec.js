@@ -470,6 +470,34 @@ describe('DataPreview', () => {
     );
     expect(getByTestId('datatable-banner')).toHaveTextContent(bannerText);
   });
+
+  it('Updates selected table and pivot view', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />
+      </RecoilRoot>
+    );
+
+    //Select and apply new table and pivot
+    const tableSelectDropdown = getByRole('button', { name: 'Data Table: Table 1' });
+    fireEvent.click(tableSelectDropdown);
+
+    const newTableButton = getByRole('button', { name: 'Table 2' });
+    fireEvent.click(newTableButton);
+
+    const pivotDataButton = getByRole('radio', { name: 'Pivot Data' });
+    fireEvent.click(pivotDataButton);
+
+    const pivotSelect = getByRole('button', { name: 'Select Pivot View' });
+    fireEvent.click(pivotSelect);
+
+    const newPivotView = getByRole('button', { name: 'By Facility' });
+    fireEvent.click(newPivotView);
+    fireEvent.click(getByRole('button', { name: 'Apply' }));
+
+    const updatedTableSelectDropdown = getByRole('button', { name: 'Data Table: Table 2' });
+    expect(updatedTableSelectDropdown).toBeInTheDocument();
+  });
 });
 
 describe('Nested Data Table', () => {

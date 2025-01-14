@@ -111,7 +111,7 @@ export const config = {
         { chartType: 'none', dimensionField: null, title: 'Complete Table' },
         { chartType: null, dimensionField: 'facility_desc', title: 'By Facility' },
       ],
-      valueFieldOptions: ['hot_dog'],
+      valueFieldOptions: ['record_date'],
       fields: [
         {
           columnName: 'facility_desc',
