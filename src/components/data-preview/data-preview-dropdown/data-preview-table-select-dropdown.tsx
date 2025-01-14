@@ -68,9 +68,11 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const handleCancel = () => setActive(false);
 
   const updateSelectedTable = table => {
-    setTableViewSelection('rawData');
-    setTableToApply(table);
-    setPivotToApply(null);
+    if (table !== tableToApply) {
+      setTableViewSelection('rawData');
+      setTableToApply(table);
+      setPivotToApply(null);
+    }
   };
 
   const getPivotFields = table => {
