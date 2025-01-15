@@ -97,13 +97,15 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
             publishedReportsProp={pageConfig.publishedReports}
           ></DataPreview>
         </Experimental>
-        <DatasetData
-          setSelectedTableProp={setSelectedTable}
-          finalDatesNotFound={finalDatesNotFound}
-          config={pageConfig}
-          location={location}
-          publishedReportsProp={pageConfig.publishedReports}
-        />
+        <Experimental featureId="dataPreview" exclude>
+          <DatasetData
+            setSelectedTableProp={setSelectedTable}
+            finalDatesNotFound={finalDatesNotFound}
+            config={pageConfig}
+            location={location}
+            publishedReportsProp={pageConfig.publishedReports}
+          />
+        </Experimental>
         <DatasetAbout config={pageContext.config} test={test} />
         <ApiQuickGuide selectedTable={selectedTable} config={pageContext.config} />
         <RelatedDatasets datasets={updatedDatasetData} referrer={pageContext.config.name} />

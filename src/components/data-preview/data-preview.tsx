@@ -134,6 +134,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
       setApiError(false);
+      setTableColumnSortData([]);
       if (!tableCaches[selectedTable.apiId]) {
         tableCaches[selectedTable.apiId] = new TableCache();
       }
@@ -194,7 +195,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
         };
       }
     }
-  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
+  }, [selectedPivot, ignorePivots, finalDatesNotFound]);
 
   useEffect(() => {
     if (allTablesSelected) {
@@ -202,10 +203,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     }
     setUserFilterSelection(null);
   }, [allTablesSelected]);
-
-  useEffect(() => {
-    setTableColumnSortData([]);
-  }, [selectedTable]);
 
   return (
     <DatasetSectionContainer id="data-preview-table">
