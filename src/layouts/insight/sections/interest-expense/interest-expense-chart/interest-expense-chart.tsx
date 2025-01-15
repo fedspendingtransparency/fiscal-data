@@ -16,13 +16,14 @@ const breakpoint = {
 
 export const InterestExpenseChart = () => {
   const [width, height] = useWindowSize();
+  const [isMobile, setIsMobile] = useState<boolean>(null);
   const { chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading } = useGetInterestExpenseData(
-    true
+    true,
+    isMobile
   );
   const [fiscalYear, setFiscalYear] = useState<number>(0);
   const [curExpenseAmount, setCurExpenseAmount] = useState<number>(0);
   const [curRate, setCurRate] = useState<number>(0);
-  const [isMobile, setIsMobile] = useState(null);
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
 
@@ -54,9 +55,13 @@ export const InterestExpenseChart = () => {
     <div>
       {chartLoading ? (
         <div>
-          <Skeleton width={'99%'} variant="rounded" sx={{
-            minHeight: 360,
-            transition: 'opacity 2s'}}
+          <Skeleton
+            width={'99%'}
+            variant="rounded"
+            sx={{
+              minHeight: 360,
+              transition: 'opacity 2s',
+            }}
           />
         </div>
       ) : (
