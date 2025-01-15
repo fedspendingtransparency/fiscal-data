@@ -26,7 +26,7 @@ $interest-expense-primary: #00796b;
 }
 
 .rectangle {
-  width: 24px;
+  width: 12px;
   height: 16px;
   background: $interest-expense-primary;
   margin-left: 0.5rem;
@@ -35,7 +35,6 @@ $interest-expense-primary: #00796b;
 .stripedRectangle {
   width: 12px;
   height: 16px;
-  //background: $interest-expense-primary;
   margin-top: 0.2rem;
   background-color: #fff;
   background-image: repeating-linear-gradient(135deg, transparent, transparent 2px, $interest-expense-primary 0, $interest-expense-primary 5px);
