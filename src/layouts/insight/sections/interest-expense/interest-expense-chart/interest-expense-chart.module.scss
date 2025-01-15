@@ -1,5 +1,5 @@
 @import 'src/variables.module';
-$interest-expense-primary: #00796B;
+$interest-expense-primary: #00796b;
 
 .legendContainer {
   display: flex;
@@ -31,6 +31,14 @@ $interest-expense-primary: #00796B;
   background: $interest-expense-primary;
   margin-left: 0.5rem;
   margin-top: 0.2rem;
+}
+.stripedRectangle {
+  width: 12px;
+  height: 16px;
+  //background: $interest-expense-primary;
+  margin-top: 0.2rem;
+  background-color: #fff;
+  background-image: repeating-linear-gradient(135deg, transparent, transparent 2px, $interest-expense-primary 0, $interest-expense-primary 5px);
 }
 
 .rateLegend {
