@@ -1,4 +1,4 @@
-import { ComposedChart, ResponsiveContainer, XAxis, YAxis, Line, Bar, CartesianGrid, Tooltip } from 'recharts';
+import { ComposedChart, ResponsiveContainer, XAxis, YAxis, Line, Bar, CartesianGrid, Tooltip, Cell } from 'recharts';
 import { CustomTooltip, Legend } from './interest-expense-chart-helper';
 import React, { useEffect } from 'react';
 import { Skeleton } from '@mui/material';
@@ -56,7 +56,7 @@ export const InterestExpenseChart = () => {
       {chartLoading ? (
         <div>
           <Skeleton
-            width={'99%'}
+            width="99%"
             variant="rounded"
             sx={{
               minHeight: 360,
@@ -95,6 +95,11 @@ export const InterestExpenseChart = () => {
                   accessibilityLayer
                   onMouseLeave={resetDataHeader}
                 >
+                  <defs>
+                    <pattern id="diagStripes" width={6} height={6} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                      <line x1="0" y1="0" x2="0" y2="6" style={{ stroke: interestExpensePrimary, strokeWidth: 8 }} />
+                    </pattern>
+                  </defs>
                   <CartesianGrid vertical={false} stroke="#d9d9d9" />
                   <XAxis dataKey={'year'} ticks={chartXAxisValues} />
                   <YAxis
@@ -133,16 +138,12 @@ export const InterestExpenseChart = () => {
                     isAnimationActive={false}
                     active={chartFocus || chartHover}
                   />
-                  <Bar dataKey={'expense'} barSize={isMobile ? 12 : 20} fill={interestExpensePrimary} isAnimationActive={false} />
-                  <Line
-                    dataKey={'rate'}
-                    yAxisId={1}
-                    stroke={'#666666'}
-                    type={'monotone'}
-                    strokeWidth={1}
-                    activeDot={false}
-                    isAnimationActive={false}
-                  />
+                  <Bar dataKey="expense" barSize={isMobile ? 12 : 20} fill={interestExpensePrimary} isAnimationActive={false}>
+                    {chartData.map((entry, index) => {
+                      return <Cell key={`cell-${index}`} fill={index === chartData.length - 1 ? 'url(#diagStripes)' : interestExpensePrimary} />;
+                    })}
+                  </Bar>
+                  <Line dataKey="rate" yAxisId={1} stroke="#666666" type="monotone" strokeWidth={1} activeDot={false} isAnimationActive={false} />
                 </ComposedChart>
               </ResponsiveContainer>
             </div>
