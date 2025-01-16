@@ -12,6 +12,7 @@ import {
 import DataTableFooter from './data-table-footer/data-table-footer';
 import {
   rawDataTableContainer,
+  nonRawDataTableContainer,
   tableStyle,
   overlayContainerNoFooter,
   selectColumnPanelActive,
@@ -293,7 +294,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
             </div>
           )}
           <div className={tableStyle}>
-            <div data-test-id="table-content" className={rawDataTableContainer}>
+            <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>
                 <DataTableHeader
                   table={table}
