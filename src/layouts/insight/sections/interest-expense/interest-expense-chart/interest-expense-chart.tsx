@@ -55,7 +55,7 @@ export const InterestExpenseChart = () => {
       {chartLoading ? (
         <div>
           <Skeleton
-            width={'99%'}
+            width="99%"
             variant="rounded"
             sx={{
               minHeight: 360,
@@ -95,7 +95,7 @@ export const InterestExpenseChart = () => {
                   onMouseLeave={resetDataHeader}
                 >
                   <defs>
-                    <pattern id={'diagStripes'} width={6} height={6} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                    <pattern id="diagStripes" width={6} height={6} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
                       <line x1="0" y1="0" x2="0" y2="6" style={{ stroke: interestExpensePrimary, strokeWidth: 8 }} />
                     </pattern>
                   </defs>
@@ -137,20 +137,12 @@ export const InterestExpenseChart = () => {
                     isAnimationActive={false}
                     active={chartFocus || chartHover}
                   />
-                  <Bar dataKey={'expense'} barSize={isMobile ? 12 : 20} fill={interestExpensePrimary} isAnimationActive={false}>
+                  <Bar dataKey="expense" barSize={isMobile ? 12 : 20} fill={interestExpensePrimary} isAnimationActive={false}>
                     {chartData.map((entry, index) => {
                       return <Cell key={`cell-${index}`} fill={index === chartData.length - 1 ? 'url(#diagStripes)' : interestExpensePrimary} />;
                     })}
                   </Bar>
-                  <Line
-                    dataKey={'rate'}
-                    yAxisId={1}
-                    stroke={'#666666'}
-                    type={'monotone'}
-                    strokeWidth={1}
-                    activeDot={false}
-                    isAnimationActive={false}
-                  />
+                  <Line dataKey="rate" yAxisId={1} stroke="#666666" type="monotone" strokeWidth={1} activeDot={false} isAnimationActive={false} />
                 </ComposedChart>
               </ResponsiveContainer>
             </div>
