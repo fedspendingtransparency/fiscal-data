@@ -13,6 +13,7 @@ import {
   mockPivotableData,
   mockAccumulableData,
   bannerTableConfig,
+  noPivotConfig,
 } from '../../components/dataset-data/test-helper';
 import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
@@ -502,7 +503,7 @@ describe('DataPreview', () => {
   it('hides data table select when there is only one api with no pivot options', () => {
     const { queryByRole } = render(
       <RecoilRoot>
-        <DataPreview config={bannerTableConfig} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />
+        <DataPreview config={noPivotConfig} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />
       </RecoilRoot>
     );
     const tableSelectDropdown = queryByRole('button', { name: 'Data Table: Table 1' });

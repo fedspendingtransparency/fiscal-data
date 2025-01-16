@@ -265,7 +265,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             disableAllTables={config?.disableAllTables}
             selectedPivot={selectedPivot}
             setSelectedPivot={setSelectedPivot}
-            hideDropdown={config.apis.length === 1 && config.apis[0]?.dataDisplays?.length === 1}
+            hideDropdown={config.apis.length === 1 && config.apis[0]?.dataDisplays?.length <= 1}
           />
         )}
       </div>
