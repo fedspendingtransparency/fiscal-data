@@ -198,7 +198,14 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
 
   // When dateRange changes, fetch new data
   useEffect(() => {
-    if (!finalDatesNotFound && selectedTable && !selectedTable.isLargeDataset && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
+    if (
+      !finalDatesNotFound &&
+      selectedTable &&
+      (apiData?.length === 0 || !apiData) &&
+      (selectedPivot || ignorePivots) &&
+      dateRange &&
+      !allTablesSelected
+    ) {
       const displayedTable = detailViewState ? detailApi : selectedTable;
       const cache = tableCaches[displayedTable.apiId];
       const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
