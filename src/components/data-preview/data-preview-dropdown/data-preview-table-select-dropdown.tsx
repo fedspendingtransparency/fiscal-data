@@ -18,6 +18,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   disableAllTables,
   selectedPivot,
   setSelectedPivot,
+  hideDropdown,
 }) => {
   const [active, setActive] = useState(false);
   const [tableToApply, setTableToApply] = useState(selectedTable);
@@ -102,31 +103,35 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   }, [selectedTable]);
 
   return (
-    <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
-      {active && (
-        <DataPreviewDropdownDialogContainer
-          searchComponent={
-            <DataPreviewDropdownDialogSearch
-              options={options}
-              searchBarLabel="Search data tables"
-              selectedTable={tableToApply}
-              setSelectedTable={updateSelectedTable}
+    <>
+      {!hideDropdown && (
+        <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
+          {active && (
+            <DataPreviewDropdownDialogContainer
+              searchComponent={
+                <DataPreviewDropdownDialogSearch
+                  options={options}
+                  searchBarLabel="Search data tables"
+                  selectedTable={tableToApply}
+                  setSelectedTable={updateSelectedTable}
+                />
+              }
+              filterComponent={
+                <DataPreviewPivotSelect
+                  table={tableToApply}
+                  pivotToApply={pivotToApply}
+                  setPivotToApply={setPivotToApply}
+                  tableViewSelection={tableViewSelection}
+                  setTableViewSelection={setTableViewSelection}
+                />
+              }
+              handleApply={handleApply}
+              handleCancel={handleCancel}
             />
-          }
-          filterComponent={
-            <DataPreviewPivotSelect
-              table={tableToApply}
-              pivotToApply={pivotToApply}
-              setPivotToApply={setPivotToApply}
-              tableViewSelection={tableViewSelection}
-              setTableViewSelection={setTableViewSelection}
-            />
-          }
-          handleApply={handleApply}
-          handleCancel={handleCancel}
-        />
+          )}
+        </DropdownContainer>
       )}
-    </DropdownContainer>
+    </>
   );
 };
 

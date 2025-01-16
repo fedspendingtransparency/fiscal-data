@@ -498,6 +498,16 @@ describe('DataPreview', () => {
     const updatedTableSelectDropdown = getByRole('button', { name: 'Data Table: Table 2' });
     expect(updatedTableSelectDropdown).toBeInTheDocument();
   });
+
+  it('hides data table select when there is only one api with no pivot options', () => {
+    const { queryByRole } = render(
+      <RecoilRoot>
+        <DataPreview config={bannerTableConfig} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />
+      </RecoilRoot>
+    );
+    const tableSelectDropdown = queryByRole('button', { name: 'Data Table: Table 1' });
+    expect(tableSelectDropdown).not.toBeInTheDocument();
+  });
 });
 
 describe('Nested Data Table', () => {

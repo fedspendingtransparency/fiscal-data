@@ -61,6 +61,7 @@ export const bannerTableConfig = {
   datatableBanner: 'This is a test',
   apis: [
     {
+      tableName: 'Table 1',
       earliestDate: '2002-01-01',
       latestDate: '2020-01-01',
       dateField: 'column A',

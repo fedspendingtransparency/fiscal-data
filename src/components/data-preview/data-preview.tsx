@@ -30,7 +30,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   width,
 }) => {
   // config.apis should always be available; but, fallback in case
-
   const apis = config ? config.apis : [null];
   const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
   const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
@@ -259,6 +258,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             disableAllTables={config?.disableAllTables}
             selectedPivot={selectedPivot}
             setSelectedPivot={setSelectedPivot}
+            hideDropdown={config.apis.length === 1 && config.apis[0]?.dataDisplays?.length === 1}
           />
         )}
       </div>
