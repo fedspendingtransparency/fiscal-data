@@ -11,4 +11,5 @@ export interface ITableSelectDropdown {
   disableAllTables: boolean;
   selectedPivot: IPivotOption;
   setSelectedPivot: (pivot: IPivotOption) => void;
+  hideDropdown: boolean;
 }
