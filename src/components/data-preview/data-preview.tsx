@@ -197,6 +197,44 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     }
   }, [selectedPivot, ignorePivots, finalDatesNotFound]);
 
+  // When dateRange changes, fetch new data
+  useEffect(() => {
+    if (!finalDatesNotFound && selectedTable && !selectedTable.isLargeDataset && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
+      const displayedTable = detailViewState ? detailApi : selectedTable;
+      const cache = tableCaches[displayedTable.apiId];
+      const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
+      if (cachedDisplay) {
+        updateDataDisplay(cachedDisplay);
+      } else {
+        clearDisplayData();
+        let canceledObj = { isCanceled: false, abortController: new AbortController() };
+        if (!loadByPage || ignorePivots) {
+          getApiData(
+            dateRange,
+            displayedTable,
+            selectedPivot,
+            setIsLoading,
+            setApiData,
+            setApiError,
+            canceledObj,
+            tableCaches[displayedTable.apiId],
+            detailViewState,
+            config?.detailView?.field,
+            queryClient
+          ).then(() => {
+            // nothing to cancel if the request completes normally.
+            canceledObj = null;
+          });
+        }
+        return () => {
+          if (!canceledObj) return;
+          canceledObj.isCanceled = true;
+          canceledObj.abortController.abort();
+        };
+      }
+    }
+  }, [dateRange]);
+
   useEffect(() => {
     if (allTablesSelected) {
       setTableColumnSortData([]);
