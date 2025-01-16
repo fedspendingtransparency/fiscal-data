@@ -86,6 +86,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   useEffect(() => {
     if (!active) {
       setTableViewSelection(appliedTableView);
+      setTableToApply(selectedTable);
     }
   }, [active]);
 

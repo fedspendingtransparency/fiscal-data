@@ -134,6 +134,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
       setApiError(false);
+      setTableColumnSortData([]);
       if (!tableCaches[selectedTable.apiId]) {
         tableCaches[selectedTable.apiId] = new TableCache();
       }
@@ -158,7 +159,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     }
   }, [detailViewState]);
 
-  // When dateRange changes, fetch new data
+  // When pivot changes, fetch new data
   useEffect(() => {
     if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
       const displayedTable = detailViewState ? detailApi : selectedTable;
@@ -194,7 +195,45 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
         };
       }
     }
-  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
+  }, [selectedPivot, ignorePivots, finalDatesNotFound]);
+
+  // When dateRange changes, fetch new data
+  useEffect(() => {
+    if (!finalDatesNotFound && selectedTable && !selectedTable.isLargeDataset && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
+      const displayedTable = detailViewState ? detailApi : selectedTable;
+      const cache = tableCaches[displayedTable.apiId];
+      const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
+      if (cachedDisplay) {
+        updateDataDisplay(cachedDisplay);
+      } else {
+        clearDisplayData();
+        let canceledObj = { isCanceled: false, abortController: new AbortController() };
+        if (!loadByPage || ignorePivots) {
+          getApiData(
+            dateRange,
+            displayedTable,
+            selectedPivot,
+            setIsLoading,
+            setApiData,
+            setApiError,
+            canceledObj,
+            tableCaches[displayedTable.apiId],
+            detailViewState,
+            config?.detailView?.field,
+            queryClient
+          ).then(() => {
+            // nothing to cancel if the request completes normally.
+            canceledObj = null;
+          });
+        }
+        return () => {
+          if (!canceledObj) return;
+          canceledObj.isCanceled = true;
+          canceledObj.abortController.abort();
+        };
+      }
+    }
+  }, [dateRange]);
 
   useEffect(() => {
     if (allTablesSelected) {
@@ -202,10 +241,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     }
     setUserFilterSelection(null);
   }, [allTablesSelected]);
-
-  useEffect(() => {
-    setTableColumnSortData([]);
-  }, [selectedTable]);
 
   return (
     <DatasetSectionContainer id="data-preview-table">
