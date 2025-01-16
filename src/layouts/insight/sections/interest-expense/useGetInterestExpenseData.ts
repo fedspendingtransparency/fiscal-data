@@ -157,20 +157,6 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
 
             setChartXAxisValues(filteredYears);
 
-            // const years = [];
-            // chartData.forEach((element, index) => {
-            //   if (index === 0) {
-            //     years.push(element.year);
-            //   } else {
-            //     if (index % 4 === 0) {
-            //       years.push(element.year);
-            //     } else if (element.year === parseInt(current) && !years.includes(element.year)) {
-            //       years.push(element.year);
-            //     }
-            //   }
-            // });
-            // setExpenseYAxisValues(generateExpenseValueTicks(chartData));
-            // setRateYAxisValues(generateInterestRateTicks(chartData));
             const firstExpense = chartData[0].expense;
             const firstRate = chartData[0].rate;
             const lastExpense = chartData[chartData.length - 1].expense;
