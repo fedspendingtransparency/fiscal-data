@@ -159,7 +159,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     }
   }, [detailViewState]);
 
-  // When dateRange changes, fetch new data
+  // When pivot changes, fetch new data
   useEffect(() => {
     if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
       const displayedTable = detailViewState ? detailApi : selectedTable;
