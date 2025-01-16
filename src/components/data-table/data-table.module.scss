@@ -7,19 +7,12 @@ $borderRadius: 5px;
   width: 100%;
   order: 1;
 
-  .rawDataTableContainer, .nonRawDataTableContainer {
+  .rawDataTableContainer {
     position: relative;
     box-sizing: border-box;
     border-top: 0;
     background-color: white;
     overflow-y: auto;
-  }
-
-  .rawDataTableContainer {
-    height: 521px;
-  }
-  .nonRawDataTableContainer {
-    max-height: 521px;
   }
 
   table {
@@ -68,8 +61,6 @@ $borderRadius: 5px;
   .td {
     height: 1.875rem;
   }
-
-
 }
 .range {
   font-weight: $semi-bold-weight;
@@ -102,7 +93,6 @@ $borderRadius: 5px;
 
   .selectColumnPanelActive,
   .selectColumnPanelInactive {
-    height: 565px;
     order: 2;
     width: 450px;
   }
@@ -117,4 +107,3 @@ $borderRadius: 5px;
 .downloadLinkIcon {
   color: $primary;
 }
-
