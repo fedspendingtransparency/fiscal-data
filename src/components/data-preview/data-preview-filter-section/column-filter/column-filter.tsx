@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
+import ColumnFilterContainer from '../column-filter-container/column-filter-container';
 
 const ColumnFilter: FunctionComponent = () => {
   const [visibleColumns, setVisibleColumns] = useState([]);
@@ -17,7 +18,13 @@ const ColumnFilter: FunctionComponent = () => {
     />
   );
 
-  return <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}></DropdownContainer>;
+  return (
+    <>
+      <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
+        <ColumnFilterContainer />
+      </DropdownContainer>
+    </>
+  );
 };
 
 export default ColumnFilter;
