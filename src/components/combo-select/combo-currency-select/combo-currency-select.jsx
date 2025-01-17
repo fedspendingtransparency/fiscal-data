@@ -109,14 +109,14 @@ const ComboCurrencySelect = ({
 
   return (
     <>
-      <div role="presentation" className={dropdownContainer}>
+      <div ref={ref} role="presentation" className={dropdownContainer}>
         {labelText !== '' ? (
           <div className={`${selector_label} ${labelClass}`} data-testid="label" id={labelText + 'dropdown'}>
             {labelText}
             {required && <span className="required">*</span>}
           </div>
         ) : null}
-        <div ref={ref} onFocus={onFocusHandler} role="presentation">
+        <div onFocus={onFocusHandler} role="presentation">
           <div className={dropdownStyle()} data-testid="dropdown-button-container">
             <button
               className={classNames([dropdownInput, !isExchangeTool ? dropdownInputWeight : null])}
