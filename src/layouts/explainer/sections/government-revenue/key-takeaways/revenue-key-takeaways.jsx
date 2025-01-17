@@ -46,11 +46,42 @@ const RevenueKeyTakeaways = () => {
         });
       }
     });
+
+    const thirdEndpointURL = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120,record_calendar_month:eq:09&sort=-record_date&page[size]=1';
+    let currentFyAmt;
+    basicFetch(`${apiPrefix}${thirdEndpointURL}`).then(res => {
+      console.log('res:::  ', res);
+      currentFyAmt = res.data[0]['current_fytd_rcpt_outly_amt'];
+      console.log('currentFyAmt:::  ', currentFyAmt);
+
+      const beegCurrentFyAmt = [];
+      const secondEndpointURL =
+        'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&sort=-record_date&page[size]=10';
+      basicFetch(`${apiPrefix}${secondEndpointURL}`).then(res => {
+        const data = res.data;
+
+        data.forEach((item, index) => {
+          console.log('item:::: ', item);
+          console.log('classification_desc:::: ', item['classification_desc']);
+          console.log('math outcome: ', Number(item['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt));
+          beegCurrentFyAmt.push(Number(item['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt));
+        });
+
+        console.log('beegCurrentFyAmt: ', beegCurrentFyAmt);
+      });
+    });
   }, []);
-  const firstTakeawayText = `The primary sources of revenue for the U.S. government are individual
-  and corporate taxes, and taxes that are dedicated to funding Social Security and Medicare.
-  This revenue is used to fund a variety of goods, programs, and services to support the American
-  public and pay interest incurred from borrowing. Revenue is typically measured by fiscal year (FY).`;
+  const firstTakeawayText = `In fiscal year (FY) ${latestCompleteFiscalYear}, the largest source of federal revenue was
+  {prior_fiscal_year_largest_source_category} ({prior_fiscal_year_largest_source_total_percent} of total revenue).
+  So far in fiscal year {current_fiscal_year}, the largest source of federal revenue is
+  {current_fiscal_year_largest_source_category} ({current_fiscal_year_largest_source_total_percent} of total revenue).
+  Federal revenue is used to fund a variety of goods, programs, and services to support the American public and
+  pay interest on government debt. Revenue is typically measured by fiscal year (FY).`;
+
+  // `The primary sources of revenue for the U.S. government are individual
+  // and corporate taxes, and taxes that are dedicated to funding Social Security and Medicare.
+  // This revenue is used to fund a variety of goods, programs, and services to support the American
+  // public and pay interest incurred from borrowing. Revenue is typically measured by fiscal year (FY).`;
 
   const firstTakeawayTextWithGlossaryTerm = reactStringReplace(firstTakeawayText, 'fiscal year (FY)', match => {
     return (
