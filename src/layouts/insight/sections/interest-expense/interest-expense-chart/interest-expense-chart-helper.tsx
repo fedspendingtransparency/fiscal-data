@@ -1,4 +1,4 @@
-import { expenseLegend, expenseText, legendContainer, line, rateLegend, rectangle } from './interest-expense-chart.module.scss';
+import { expenseLegend, expenseText, legendContainer, line, rateLegend, rectangle, stripedRectangle } from './interest-expense-chart.module.scss';
 import React, { FunctionComponent, ReactElement } from 'react';
 
 type Tooltip = (object: {
@@ -25,6 +25,7 @@ export const Legend: FunctionComponent = (): ReactElement => {
       <div className={expenseLegend}>
         <span className={expenseText}>Interest Expense</span>
         <div className={rectangle} />
+        <div className={stripedRectangle} />
       </div>
       <div className={rateLegend}>
         <div className={line} />
