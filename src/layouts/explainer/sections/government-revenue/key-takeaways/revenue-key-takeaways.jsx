@@ -11,6 +11,9 @@ const RevenueKeyTakeaways = () => {
   const [totalGDP, setTotalGDP] = useState('');
   const [priorFYLargestSource, setPriorFYLargestSource] = useState('');
   const [priorFYLargestSourceTotPercent, setPriorFYLargestSourceTotPercent] = useState(0);
+  const [currentFY, setCurrentFY] = useState(0);
+  const [currentFYLargestSource, setCurrentFYLargestSource] = useState('');
+  const [currentFYLargestSourceTotPercent, setCurrentFYLargestSourceTotPercent] = useState(0);
 
   useEffect(() => {
     const endpointURL = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
@@ -49,14 +52,11 @@ const RevenueKeyTakeaways = () => {
       }
     });
 
+    // previous FY content
     const thirdEndpointURL = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120,record_calendar_month:eq:09&sort=-record_date&page[size]=1';
-    let currentFyAmt;
     basicFetch(`${apiPrefix}${thirdEndpointURL}`).then(res => {
-      // console.log('res:::  ', res);
-      currentFyAmt = res.data[0]['current_fytd_rcpt_outly_amt'];
-      // console.log('currentFyAmt:::  ', currentFyAmt);
+      const currentFyAmt = res.data[0]['current_fytd_rcpt_outly_amt'];
 
-      const percentOfTot = [];
       const secondEndpointURL =
         'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&sort=-record_date&page[size]=10';
       basicFetch(`${apiPrefix}${secondEndpointURL}`).then(res => {
@@ -64,32 +64,55 @@ const RevenueKeyTakeaways = () => {
 
         // sorting to get the highest current_fytd_rcpt_outly_amt that will provide us the highest %:
         data.sort((a, b) => Number(b['current_fytd_rcpt_outly_amt']) - Number(a['current_fytd_rcpt_outly_amt']));
+        console.log('data: ', data);
 
         setPriorFYLargestSource(data[0]['classification_desc']);
 
         // take the first index and use with currentFyAmt
         const percentOfTot = (Number(data[0]['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt)) * 100;
+        setPriorFYLargestSourceTotPercent(Math.abs(percentOfTot).toFixed(1));
+      });
 
-        // data.forEach((item, index) => {
-        //   console.log('item:::: ', item);
-        //   // console.log('classification_desc:::: ', item['classification_desc']);
-        //   // console.log('math outcome: ', (Number(item['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt)) * 100);
-        //
-        //   const percent = (Number(item['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt)) * 100;
-        //   percentOfTot.push(percent ? percent : 0);
-        // });
-        //
-        // percentOfTot.sort(function(a, b) {
-        //   return b - a;
-        // });
-        // console.log('beegCurrentFyAmt: ', percentOfTot);
+      // const fYEndpointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:eq:1.1&sort=-record_date&page[size]=1';
+      // basicFetch(`${apiPrefix}${fYEndpointURL}`).then(res => {
+      //   setCurrentFY(res.data[0]['record_fiscal_year']);
+      // });
+    });
+
+    // current FY content
+    const fourthEndpointURL = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
+    basicFetch(`${apiPrefix}${fourthEndpointURL}`).then(res => {
+      const currentFyAmt = res.data[0]['current_fytd_rcpt_outly_amt'];
+
+      const secondEndpointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date&page[size]=10';
+      basicFetch(`${apiPrefix}${secondEndpointURL}`).then(res => {
+        const data = res.data;
+
+        // sorting to get the highest current_fytd_rcpt_outly_amt that will provide us the highest %:
+        data.sort((a, b) => Number(b['current_fytd_rcpt_outly_amt']) - Number(a['current_fytd_rcpt_outly_amt']));
+        console.log('data: ', data);
+
+        setCurrentFYLargestSource(data[0]['classification_desc']);
+
+        console.log('currentFyAmt: ', currentFyAmt);
+        console.log("data[0]['current_fytd_rcpt_outly_amt']::: ", data[0]['current_fytd_rcpt_outly_amt']);
+
+        // take the first index and use with currentFyAmt
+        const percentOfTot = (Number(data[0]['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt)) * 100;
+        console.log('percentOfTot: ', percentOfTot);
+        setCurrentFYLargestSourceTotPercent(Math.abs(percentOfTot).toFixed(1));
+      });
+
+      const fYEndpointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:eq:1.1&sort=-record_date&page[size]=1';
+      basicFetch(`${apiPrefix}${fYEndpointURL}`).then(res => {
+        setCurrentFY(res.data[0]['record_fiscal_year']);
       });
     });
   }, []);
   const firstTakeawayText = `In fiscal year (FY) ${latestCompleteFiscalYear}, the largest source of federal revenue was
   ${priorFYLargestSource} (${priorFYLargestSourceTotPercent}% of total revenue).
-  So far in fiscal year {current_fiscal_year}, the largest source of federal revenue is
-  {current_fiscal_year_largest_source_category} ({current_fiscal_year_largest_source_total_percent} of total revenue).
+  So far in fiscal year ${currentFY}, the largest source of federal revenue is
+  ${currentFYLargestSource} (${currentFYLargestSourceTotPercent}% of total revenue).
   Federal revenue is used to fund a variety of goods, programs, and services to support the American public and
   pay interest on government debt. Revenue is typically measured by fiscal year (FY).`;
 
