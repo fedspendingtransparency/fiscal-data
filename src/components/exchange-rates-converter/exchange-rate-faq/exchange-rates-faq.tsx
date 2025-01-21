@@ -14,8 +14,6 @@ import Accordion from '../../accordion/accordion';
 import CustomLink from '../../links/custom-link/custom-link';
 import { analyticsHandler, dateStringConverter } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import { graphql, useStaticQuery } from 'gatsby';
-import Analytics from '../../../utils/analytics/analytics';
-import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
 
@@ -114,8 +112,8 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
         <h2 className={title}>Related Resources</h2>
         <div>
           {relatedResources.map((resource, index) => (
-            <div className={relatedResource}>
-              <CustomLink key={index} external url={resource.url} id={resource.text}>
+            <div className={relatedResource} key={index}>
+              <CustomLink external url={resource.url} id={resource.text}>
                 <div className={linkText}>
                   <FontAwesomeIcon icon={faExternalLink} className={externalIcon} />
                   <span>{resource.text}</span>
