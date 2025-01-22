@@ -32,7 +32,6 @@ const ColumnFilter: FunctionComponent = () => {
           {active && <ColumnFilterContainer />}
         </DropdownContainer>
       )}
-      3
     </>
   );
 };
