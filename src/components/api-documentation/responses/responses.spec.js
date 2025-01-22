@@ -46,24 +46,28 @@ describe('Responses', () => {
     const heading = await findByRole('heading', { name: title, level: 3 });
     expect(heading).toBeInTheDocument();
   });
+
   it('includes links object component in its layout', async () => {
     const title = 'Links Object';
     const { findByRole } = render(<Responses />);
     const heading = await findByRole('heading', { name: title, level: 3 });
     expect(heading).toBeInTheDocument();
   });
+
   it('includes data object component in its layout', async () => {
     const title = 'Data Object';
     const { findByRole } = render(<Responses />);
     const heading = await findByRole('heading', { name: title, level: 3 });
     expect(heading).toBeInTheDocument();
   });
+
   it('includes error object component in its layout', async () => {
     const title = 'Error Object';
     const { findByRole } = render(<Responses />);
     const heading = await findByRole('heading', { name: title, level: 3 });
     expect(heading).toBeInTheDocument();
   });
+
   it('includes pagination header component in its layout', async () => {
     const title = 'Pagination Header';
     const { findByRole } = render(<Responses />);
