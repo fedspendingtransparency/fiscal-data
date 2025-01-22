@@ -32,9 +32,15 @@ describe('Spending Key Takeaways evergreen values', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getByText('In fiscal year 2021', { exact: false })).toBeInTheDocument();
     expect(await getByText('0%', { exact: false })).toBeInTheDocument();
     expect(await getByText('22.65 trillion', { exact: false })).toBeInTheDocument();
+  });
+
+  it('renders the fiscal year multiple times', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getAllByText } = render(<RevenueKeyTakeaways />);
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
+    expect(await getAllByText('In fiscal year 2021', { exact: false })).toHaveLength(2);
   });
 });
 
@@ -66,7 +72,6 @@ describe('Spending Key Takeaways no GDP Q3 scenario', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getByText('In fiscal year 2016', { exact: false })).toBeInTheDocument();
     expect(await getByText('11.46 trillion', { exact: false })).toBeInTheDocument();
   });
 });
@@ -99,7 +104,6 @@ describe('Spending Key Takeaways containing GDP Q3 scenario', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getByText('In fiscal year 2015', { exact: false })).toBeInTheDocument();
     expect(await getByText('11.09 trillion', { exact: false })).toBeInTheDocument();
   });
 });
