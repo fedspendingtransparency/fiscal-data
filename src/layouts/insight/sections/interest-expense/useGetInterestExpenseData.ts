@@ -140,8 +140,6 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
               }
             }
             setChartData(chartData);
-            // // Chart axis values
-            // // Generate X Axis Values
             setExpenseYAxisValues(generateExpenseValueTicks(chartData));
             setRateYAxisValues(generateInterestRateTicks(chartData));
 
