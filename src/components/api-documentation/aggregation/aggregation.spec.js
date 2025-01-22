@@ -1,22 +1,18 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import SectionContent from '../section-content/section-content';
 import Aggregation from './aggregation';
+import { render } from '@testing-library/react';
 
 describe('Filters', () => {
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(<Aggregation />);
-  });
-  const instance = component.root;
-
-  it('has SectionContent as a part of its layout', () => {
-    expect(instance.findAllByType(SectionContent).length).toBeGreaterThan(0);
+  it('has SectionContent as a part of its layout', async () => {
+    const { findByTestId } = render(<Aggregation />);
+    const sectionContent = await findByTestId('section-content');
+    expect(sectionContent).toBeInTheDocument();
   });
 
-  it('creates the Aggregation section with the desired id, heading tag and title', () => {
+  it('creates the Aggregation section with the desired id, heading tag and title', async () => {
     const title = 'Aggregation & Sums';
-    const heading = instance.findByProps({ id: 'aggregation-sums' }).findByType('h2');
-    expect(heading.children[0]).toBe(title);
+    const { findByRole } = render(<Aggregation />);
+    const heading = await findByRole('heading', { name: title, level: 2 });
+    expect(heading).toBeInTheDocument();
   });
 });

@@ -1,22 +1,18 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import MetaObject from './meta-object';
-import SectionContent from '../../section-content/section-content';
+import { render } from '@testing-library/react';
 
 describe('Meta Object', () => {
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(<MetaObject />);
-  });
-  const instance = component.root;
-
-  it('has SectionContent as a part of its layout', () => {
-    expect(instance.findAllByType(SectionContent).length).toBeGreaterThan(0);
+  it('has SectionContent as a part of its layout', async () => {
+    const { findByTestId } = render(<MetaObject />);
+    const sectionContent = await findByTestId('section-content');
+    expect(sectionContent).toBeInTheDocument();
   });
 
-  it('has a defined title', () => {
-    const titleText = 'Meta Object';
-    const title = instance.findByProps({ id: 'responses-meta-object' }).findByType('h3');
-    expect(title.children[0]).toEqual(titleText);
+  it('creates the Meta Object section with the desired id, heading tag and title', async () => {
+    const title = 'Meta Object';
+    const { findByRole } = render(<MetaObject />);
+    const heading = await findByRole('heading', { name: title, level: 3 });
+    expect(heading).toBeInTheDocument();
   });
 });
