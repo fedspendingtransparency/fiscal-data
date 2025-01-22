@@ -5,6 +5,7 @@ import { revenueExplainerPrimary, revenueExplainerLightSecondary } from '../reve
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import reactStringReplace from 'react-string-replace';
+import revenueConstants from '../constants';
 const RevenueKeyTakeaways = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(0);
   const [revenuePercentGDP, setRevenuePercentGDP] = useState(0);
@@ -16,14 +17,11 @@ const RevenueKeyTakeaways = () => {
   const [currentFYLargestSourceTotPercent, setCurrentFYLargestSourceTotPercent] = useState(0);
 
   useEffect(() => {
-    const endpointURL = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
-    const beaURL =
-      'https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON';
-    basicFetch(`${apiPrefix}${endpointURL}`).then(res => {
+    basicFetch(`${apiPrefix}${revenueConstants.PRIOR_FY}`).then(res => {
       if (res.data[0]) {
         const fiscalYear = res.data[0].record_fiscal_year;
         setLatestCompleteFiscalYear(fiscalYear);
-        basicFetch(beaURL).then(bea_res => {
+        basicFetch(revenueConstants.BEA_URL).then(bea_res => {
           if (bea_res.BEAAPI.Results.Data) {
             const gdpData = bea_res.BEAAPI.Results.Data.filter(entry => entry.LineDescription === 'Gross domestic product');
             const allQuartersForGivenYear = gdpData.filter(
@@ -53,18 +51,14 @@ const RevenueKeyTakeaways = () => {
     });
 
     // previous FY content
-    const thirdEndpointURL = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120,record_calendar_month:eq:09&sort=-record_date&page[size]=1';
-    basicFetch(`${apiPrefix}${thirdEndpointURL}`).then(res => {
+    basicFetch(`${apiPrefix}${revenueConstants.PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT}`).then(res => {
       const currentFyAmt = res.data[0]['current_fytd_rcpt_outly_amt'];
 
-      const secondEndpointURL =
-        'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&sort=-record_date&page[size]=10';
-      basicFetch(`${apiPrefix}${secondEndpointURL}`).then(res => {
+      basicFetch(`${apiPrefix}${revenueConstants.PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT}`).then(res => {
         const data = res.data;
 
         // sorting to get the highest current_fytd_rcpt_outly_amt that will provide us the highest %:
         data.sort((a, b) => Number(b['current_fytd_rcpt_outly_amt']) - Number(a['current_fytd_rcpt_outly_amt']));
-        console.log('data: ', data);
 
         setPriorFYLargestSource(data[0]['classification_desc']);
 
@@ -72,39 +66,26 @@ const RevenueKeyTakeaways = () => {
         const percentOfTot = (Number(data[0]['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt)) * 100;
         setPriorFYLargestSourceTotPercent(Math.abs(percentOfTot).toFixed(1));
       });
-
-      // const fYEndpointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:eq:1.1&sort=-record_date&page[size]=1';
-      // basicFetch(`${apiPrefix}${fYEndpointURL}`).then(res => {
-      //   setCurrentFY(res.data[0]['record_fiscal_year']);
-      // });
     });
 
     // current FY content
-    const fourthEndpointURL = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
-    basicFetch(`${apiPrefix}${fourthEndpointURL}`).then(res => {
+    basicFetch(`${apiPrefix}${revenueConstants.CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT}`).then(res => {
       const currentFyAmt = res.data[0]['current_fytd_rcpt_outly_amt'];
 
-      const secondEndpointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date&page[size]=10';
-      basicFetch(`${apiPrefix}${secondEndpointURL}`).then(res => {
+      basicFetch(`${apiPrefix}${revenueConstants.CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT}`).then(res => {
         const data = res.data;
 
         // sorting to get the highest current_fytd_rcpt_outly_amt that will provide us the highest %:
         data.sort((a, b) => Number(b['current_fytd_rcpt_outly_amt']) - Number(a['current_fytd_rcpt_outly_amt']));
-        console.log('data: ', data);
 
         setCurrentFYLargestSource(data[0]['classification_desc']);
 
-        console.log('currentFyAmt: ', currentFyAmt);
-        console.log("data[0]['current_fytd_rcpt_outly_amt']::: ", data[0]['current_fytd_rcpt_outly_amt']);
-
         // take the first index and use with currentFyAmt
         const percentOfTot = (Number(data[0]['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt)) * 100;
-        console.log('percentOfTot: ', percentOfTot);
         setCurrentFYLargestSourceTotPercent(Math.abs(percentOfTot).toFixed(1));
       });
 
-      const fYEndpointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:eq:1.1&sort=-record_date&page[size]=1';
-      basicFetch(`${apiPrefix}${fYEndpointURL}`).then(res => {
+      basicFetch(`${apiPrefix}${revenueConstants.CURRENT_FY}`).then(res => {
         setCurrentFY(res.data[0]['record_fiscal_year']);
       });
     });
@@ -115,11 +96,6 @@ const RevenueKeyTakeaways = () => {
   ${currentFYLargestSource} (${currentFYLargestSourceTotPercent}% of total revenue).
   Federal revenue is used to fund a variety of goods, programs, and services to support the American public and
   pay interest on government debt. Revenue is typically measured by fiscal year (FY).`;
-
-  // `The primary sources of revenue for the U.S. government are individual
-  // and corporate taxes, and taxes that are dedicated to funding Social Security and Medicare.
-  // This revenue is used to fund a variety of goods, programs, and services to support the American
-  // public and pay interest incurred from borrowing. Revenue is typically measured by fiscal year (FY).`;
 
   const firstTakeawayTextWithGlossaryTerm = reactStringReplace(firstTakeawayText, 'fiscal year (FY)', match => {
     return (
