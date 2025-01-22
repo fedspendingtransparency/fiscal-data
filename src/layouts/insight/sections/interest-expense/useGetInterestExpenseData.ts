@@ -18,7 +18,7 @@ const getOlderInterestExpData = async () => {
   return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=record_date&page[size]=1`);
 };
 
-export const useGetInterestExpenseData = (shouldHaveChartData: boolean) => {
+export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile: boolean = false) => {
   const [startFY, setStartFY] = useState<number>(null);
   const [currentFY, setCurrentFY] = useState<number>(null);
   const [chartData, setChartData] = useState(null);
@@ -140,22 +140,21 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean) => {
               }
             }
             setChartData(chartData);
-            // Chart axis values
-            // Generate X Axis Values
-            const years = [];
-            chartData.forEach((element, index) => {
-              if (index === 0) {
-                years.push(element.year);
-              } else {
-                if (index % 3 === 0) {
-                  years.push(element.year);
-                } else if (element.year === parseInt(current) && !years.includes(element.year)) {
-                  years.push(element.year);
-                }
-              }
-            });
             setExpenseYAxisValues(generateExpenseValueTicks(chartData));
             setRateYAxisValues(generateInterestRateTicks(chartData));
+
+            const allYears = chartData.map(d => d.year);
+
+            // Make sure we always include the current year
+            if (!allYears.includes(parseInt(current))) {
+              allYears.push(parseInt(current));
+            }
+            const filteredYears = isMobile
+              ? allYears.filter((val, i) => i % 4 === 0 || val === parseInt(current))
+              : allYears.filter((val, i) => i % 2 === 0 || val === parseInt(current));
+
+            setChartXAxisValues(filteredYears);
+
             const firstExpense = chartData[0].expense;
             const firstRate = chartData[0].rate;
             const lastExpense = chartData[chartData.length - 1].expense;
@@ -166,7 +165,6 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean) => {
              In ${current}, the interest expense totaled $${getShortForm(lastExpense)},
              with an average interest rate of ${lastRate.toFixed(1)}%.  `;
             setAltText(text);
-            setChartXAxisValues(years);
             setLatestChartData(chartData[chartData.length - 1]);
             setChartLoading(false);
           });
