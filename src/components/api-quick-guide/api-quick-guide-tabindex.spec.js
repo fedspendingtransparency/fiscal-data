@@ -2,8 +2,9 @@ import ReactTestUtils from 'react-dom/test-utils';
 import ReactDom from 'react-dom';
 import ApiQuickGuide from './api-quick-guide';
 import { selectedTable } from './test-helpers/test-helpers';
-import React from 'react';
+import React, { act } from 'react';
 import { RecoilRoot } from 'recoil';
+import { createRoot } from 'react-dom/client';
 
 describe('API Quick Guide Tab Index', () => {
   const config = {

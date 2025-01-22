@@ -1,12 +1,8 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import DatasetDetailEndpoints from './dataset-detail-endpoints';
-import DtgTable from '../../dtg-table/dtg-table';
-import ApiQuickGuideSection from '../api-quick-guide-section';
 import { apiPrefix } from '../../../utils/api-utils';
 import { RecoilRoot } from 'recoil';
-
-let apis = [];
+import { render, within } from '@testing-library/react';
 
 const testData = [
   {
@@ -63,67 +59,66 @@ const selectedTable = {
 const baseURL = apiPrefix;
 
 describe('DataSetDetailEndpoints multiple endpoints', () => {
-  apis = testData;
   const endpoint = selectedTable.endpoint;
 
-  const component = renderer.create(
-    <RecoilRoot>
-      <DatasetDetailEndpoints apis={apis} selectedTable={selectedTable} />{' '}
-    </RecoilRoot>
-  );
-  const instance = component.root;
-
-  it('displays the correct header', () => {
-    expect(instance.findByType(ApiQuickGuideSection).props.title).toBe('Endpoints');
+  it('displays the correct header', async () => {
+    const { findByText } = render(<DatasetDetailEndpoints apis={testData} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    const header = await findByText('Endpoints');
+    expect(header).toBeInTheDocument();
   });
 
-  it('displays the correct base url', () => {
-    expect(instance.findByProps({ id: 'endpoints-baseURL' }).props.children).toContain(baseURL);
+  it('displays the correct base url', async () => {
+    const { findByText } = render(<DatasetDetailEndpoints apis={testData} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    expect(await findByText(baseURL)).toBeInTheDocument();
   });
 
-  it('displays the correct full url', () => {
-    expect(instance.findByProps({ id: 'endpoints-fullURL' }).props.children.join('')).toContain(`${baseURL}${endpoint}`);
+  it('displays the correct full url', async () => {
+    const { findByText } = render(<DatasetDetailEndpoints apis={testData} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    expect(await findByText(`${baseURL}${endpoint}`)).toBeInTheDocument();
   });
 
-  it('displays a dtg-table with the expected column titles in the expected order', () => {
-    const config = instance.findByType(DtgTable).props.tableProps.columnConfig;
-
-    expect(config.length).toBe(2);
-    expect(config[0].name).toBe('Table Name');
-    expect(config[1].name).toBe('Endpoint');
+  it('displays a dtg-table with the expected column titles in the expected order', async () => {
+    const { findByRole } = render(<DatasetDetailEndpoints apis={testData} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    const table = await findByRole('table');
+    const columnHeaders = await within(table).findAllByRole('columnheader');
+    expect(columnHeaders[0]).toHaveTextContent('Table Name');
+    expect(columnHeaders[1]).toHaveTextContent('Endpoint');
   });
-  it('sets aria-label to dataset name + API endpoints', () => {
-    expect(instance.findByType('table').props['aria-label']).toBe(`${selectedTable.tableName} API Endpoints`);
+
+  it('sets aria-label to dataset name + API endpoints', async () => {
+    const { findByAltText } = render(<DatasetDetailEndpoints apis={testData} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    const table = await findByAltText(`${selectedTable.tableName} API Endpoints`);
+    expect(table).toBeInTheDocument();
   });
 });
 
 describe('DataSetDetailEndpoints single endpoint', () => {
-  apis = [testData[0]];
   const endpoint = selectedTable.endpoint;
-  const component = renderer.create(
-    <RecoilRoot>
-      <DatasetDetailEndpoints apis={apis} selectedTable={selectedTable} />{' '}
-    </RecoilRoot>
-  );
-  const instance = component.root;
 
-  it('displays the correct header', () => {
-    expect(instance.findByType(ApiQuickGuideSection).props.title).toBe('Endpoint');
+  it('displays the correct header', async () => {
+    const { findByText } = render(<DatasetDetailEndpoints apis={[testData[0]]} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    const header = await findByText('Endpoint');
+    expect(header).toBeInTheDocument();
   });
 
-  it('displays the correct base url', () => {
-    expect(instance.findByProps({ id: 'endpoints-baseURL' }).props.children).toContain(baseURL);
+  it('displays the correct base url', async () => {
+    const { findByText } = render(<DatasetDetailEndpoints apis={[testData[0]]} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    expect(await findByText(baseURL)).toBeInTheDocument();
   });
 
-  it('displays the correct endpoint', () => {
-    expect(instance.findByProps({ id: 'endpoints-endpoint' }).props.children).toContain(endpoint);
+  it('displays the correct endpoint', async () => {
+    const { findByText } = render(<DatasetDetailEndpoints apis={[testData[0]]} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    expect(await findByText(endpoint)).toBeInTheDocument();
   });
 
-  it('displays the correct full url', () => {
-    expect(instance.findByProps({ id: 'endpoints-fullURL' }).props.children.join('')).toContain(`${baseURL}${endpoint}`);
+  it('displays the correct full url', async () => {
+    const { findByText } = render(<DatasetDetailEndpoints apis={[testData[0]]} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    expect(await findByText(`${baseURL}${endpoint}`)).toBeInTheDocument();
   });
 
   it('does not display a dtg-table', () => {
-    expect(instance.findAllByType(DtgTable)).toStrictEqual([]);
+    const { queryByRole } = render(<DatasetDetailEndpoints apis={[testData[0]]} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    const table = queryByRole('table');
+    expect(table).not.toBeInTheDocument();
   });
 });

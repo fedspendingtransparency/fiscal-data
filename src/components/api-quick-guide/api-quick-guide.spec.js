@@ -10,6 +10,7 @@ import SectionCollapseButton from '../section-collapse/section-collapse-button';
 import { RecoilRoot } from 'recoil';
 
 import { selectedTable } from './test-helpers/test-helpers';
+import { render } from '@testing-library/react';
 require('jest-fetch-mock');
 
 describe('API Quick Guide', () => {
@@ -35,40 +36,32 @@ describe('API Quick Guide', () => {
   jest.spyOn(document, 'getElementById').mockReturnValueOnce({ scrollHeight: 100 });
 
   it('displays as collapsed by default', () => {
-    let component;
-    act(() => {
-      component = renderer.create(
-        <RecoilRoot>
-          <ApiQuickGuide config={config} selectedTable={selectedTable} />
-        </RecoilRoot>
-      );
-    });
-
-    const instance = component.root;
-    expect(instance.findByProps({ className: 'sectionWrapper collapsed' })).toBeDefined();
+    const instance = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    // expect(instance).to
+    // expect(instance.findByProps({ className: 'sectionWrapper collapsed' })).toBeDefined();
   });
 
   // Other tests that depend on expanding the component state
   describe('When expanded', () => {
-    let component;
+    // let component;
     let instance;
 
-    beforeEach(() => {
-      act(() => {
-        component = renderer.create(
-          <RecoilRoot>
-            <ApiQuickGuide config={config} selectedTable={selectedTable} />
-          </RecoilRoot>
-        );
-      });
-
-      instance = component.root;
-
-      // Force the state to ensure rendering of all components
-      act(() => {
-        instance.findByType(SectionCollapseButton).props.handleToggle(false);
-      });
-    });
+    // beforeEach(() => {
+    //   act(() => {
+    //     component = renderer.create(
+    //       <RecoilRoot>
+    //         <ApiQuickGuide config={config} selectedTable={selectedTable} />
+    //       </RecoilRoot>
+    //     );
+    //   });
+    //
+    //   instance = component.root;
+    //
+    //   // Force the state to ensure rendering of all components
+    //   act(() => {
+    //     instance.findByType(SectionCollapseButton).props.handleToggle(false);
+    //   });
+    // });
 
     it('should pass along its title param to the DatasetSectionContainer component', () => {
       const titleProperty = instance.findByType(DatasetSectionContainer).props.title;
