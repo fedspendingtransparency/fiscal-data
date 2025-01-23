@@ -23,22 +23,14 @@ describe('API Documentation Page', () => {
         name: 'Search and filter',
         url: 'datasets/',
       },
-      // {
-      //   name: 'Datasets',
-      //   url: 'datasets/',
-      // },
       {
-        name: 'full documentation on Aggregation and Sums',
+        name: 'full documentation on Aggregation and Sums.',
         url: 'api-documentation/#aggregation-sums',
       },
       {
         name: 'Endpoints by Dataset',
         url: 'api-documentation/#list-of-endpoints-table',
       },
-      // {
-      //   name: 'Datasets',
-      //   url: 'datasets/',
-      // },
       {
         name: 'Format',
         url: 'api-documentation/#parameters-format',
@@ -52,20 +44,30 @@ describe('API Documentation Page', () => {
     });
   });
 
-  // it('Validate all external links on the page navigate to the correct destinations', () => {
-  //   const links = [
-  //     {
-  //       name: 'data registry',
-  //       url: 'https://fiscal.treasury.gov/data-registry/index.html',
-  //     },
-  //     // {
-  //     //   name: 'USAspending',
-  //     //   url: 'https://www.usaspending.gov/',
-  //     // },
-  //   ];
-  //
-  //   links.forEach(link => {
-  //     cy.findByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
-  //   });
-  // });
+  it('Validate all external links on the page navigate to the correct destinations', () => {
+    const links = [
+      {
+        name: 'data registry',
+        url: 'https://fiscal.treasury.gov/data-registry/index.html',
+      },
+    ];
+
+    links.forEach(link => {
+      cy.findByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
+    });
+  });
+
+  it('Validate duplicate names/links', () => {
+    const ds = cy.findAllByRole('link', { name: 'Datasets' });
+
+    ds.each((link, index) => {
+      cy.wrap(link).should('have.attr', 'href', '/datasets/');
+    });
+
+    const usas = cy.findAllByRole('link', { name: 'USAspending' });
+
+    usas.each((link, index) => {
+      cy.wrap(link).should('have.attr', 'href', 'https://www.usaspending.gov/');
+    });
+  });
 });
