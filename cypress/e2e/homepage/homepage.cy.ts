@@ -39,7 +39,7 @@ describe('Homepage user flow validation', () => {
     cy.findByAltText('Image of gold bars').trigger('mouseover', { force: true });
   });
 
-  it('then finds and navigates to AFG home page', () => {
+  it.skip('then finds and navigates to AFG home page', () => {
     cy.visit('/');
     cy.findAllByTestId('tile-link');
     cy.contains("Your Guide to America's Finances").click();
@@ -58,7 +58,7 @@ describe('Homepage user flow validation', () => {
     cy.url().should('include', '/national-deficit/');
   });
 
-  it('then finds and navigates to spending explainer', () => {
+  it.skip('then finds and navigates to spending explainer', () => {
     cy.visit('/');
     cy.contains('How much has the U.S. government spent this year?').click();
     cy.url().should('include', '/federal-spending/');

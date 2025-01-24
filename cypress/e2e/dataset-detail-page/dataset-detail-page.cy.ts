@@ -180,7 +180,8 @@ describe('Dataset detail page validation', () => {
           cy.get('td:contains("' + table.column.searchTerm + '")')
             .its('length')
             .should('be.gte', 1);
-        } else {  // mspd and mts
+        } else {
+          // mspd and mts
           cy.get('td:contains("' + table.column.searchTerm + '")')
             .its('length')
             .should('eq', 10);

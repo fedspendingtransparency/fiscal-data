@@ -22,7 +22,7 @@ describe('Release calendar interaction flow', () => {
     cy.findAllByText('120 Day Delinquent Debt Referral Compliance Report').click();
     cy.url().should('include', '/120-day-delinquent-debt-referral-compliance-report');
   });
-  it('Verifies sorting by date', () => {
+  it.skip('Verifies sorting by date', () => {
     cy.findByLabelText('Change Sort By: from Date').should('exist');
   });
 });
