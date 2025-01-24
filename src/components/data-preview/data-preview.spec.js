@@ -452,7 +452,7 @@ describe('DataPreview', () => {
     const tableSelectDropdown = getByRole('button', { name: 'Data Table: Table 1' });
     fireEvent.click(tableSelectDropdown);
 
-    fireEvent.click(getByRole('button', { name: 'All Data Tables' }));
+    fireEvent.click(getByRole('button', { name: 'All Data Tables (Download Only)' }));
     fireEvent.click(getByRole('button', { name: 'Apply' }));
 
     const columnsDropdown = getByRole('button', { name: 'Columns: 0/17' });

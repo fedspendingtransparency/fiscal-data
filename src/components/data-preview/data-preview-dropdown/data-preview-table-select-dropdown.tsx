@@ -21,17 +21,14 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   setSelectedPivot,
   hideDropdown,
 }) => {
-  const initialSelectedTable = allTablesSelected
-    ? {
-        allDataTables: true,
-        pathName: 'all-data-tables',
-        tableName: 'All Data Tables',
-        valueFieldOptions: null,
-        earliestDate: undefined,
-        latestDate: undefined,
-      }
-    : selectedTable;
-  // console.log(initialSelectedTable);
+  const allTablesOption = {
+    allDataTables: true,
+    pathName: 'all-data-tables',
+    tableName: 'All Data Tables (Download Only)',
+    valueFieldOptions: null,
+  };
+
+  const initialSelectedTable = allTablesSelected ? allTablesOption : selectedTable;
   const [active, setActive] = useState(false);
   const [tableToApply, setTableToApply] = useState(initialSelectedTable);
   const [pivotToApply, setPivotToApply] = useState(selectedPivot);
@@ -51,7 +48,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     <DropdownLabelButton
       label="Data Table"
       icon={faDatabase}
-      selectedOption={allTablesSelected ? 'All Data Tables' : selectedTable?.tableName}
+      selectedOption={allTablesSelected ? allTablesOption.tableName : selectedTable?.tableName}
       active={active}
       setActive={setActive}
       dropdownWidth="30rem"
