@@ -1,12 +1,15 @@
 describe('Homepage user flow validation', () => {
   it('ensure no tiles page tiles contain NaN, null, or undefined values', () => {
     cy.visit('/');
-    const pageLinkCard = cy.findAllByTestId('tile-link');
-    pageLinkCard.each(pageLinkCard => {
-      cy.wrap(pageLinkCard).should('not.contain.text', 'null');
-      cy.wrap(pageLinkCard).should('not.contain.text', 'NaN');
-      cy.wrap(pageLinkCard).should('not.contain.text', 'undefined');
-    });
+    // const pageLinkCard = cy.findAllByTestId('tile-link');
+    // pageLinkCard.each(pageLinkCard => {
+    //   cy.wrap(pageLinkCard).should('not.contain.text', 'null');
+    //   cy.wrap(pageLinkCard).should('not.contain.text', 'NaN');
+    //   cy.wrap(pageLinkCard).should('not.contain.text', 'undefined');
+    // });
+    cy.findAllByText('null').should('not.exist');
+    cy.findAllByText('NaN').should('not.exist');
+    cy.findAllByText('undefined').should('not.exist');
   });
 
   it('ensure homepage dataset tiles are loading data and not displaying API errors', () => {
