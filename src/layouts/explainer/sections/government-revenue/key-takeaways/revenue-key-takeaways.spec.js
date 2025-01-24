@@ -72,7 +72,7 @@ describe('Spending Key Takeaways no GDP Q3 scenario', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText, getAllByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getAllByText('in fiscal year 2016', { exact: false })).toHaveLength(2);
+    expect(await getAllByText('In fiscal year 2016', { exact: false })).toHaveLength(2);
     expect(await getByText('11.46 trillion', { exact: false })).toBeInTheDocument();
   });
 });
@@ -103,8 +103,9 @@ describe('Spending Key Takeaways containing GDP Q3 scenario', () => {
 
   it('renders the data correctly in takeaway 3 with 4 total quarters when GDP Q3 is present', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText } = render(<RevenueKeyTakeaways />);
+    const { getByText, getAllByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
+    expect(await getAllByText('In fiscal year 2015', { exact: false })).toHaveLength(2);
     expect(await getByText('11.09 trillion', { exact: false })).toBeInTheDocument();
   });
 });
