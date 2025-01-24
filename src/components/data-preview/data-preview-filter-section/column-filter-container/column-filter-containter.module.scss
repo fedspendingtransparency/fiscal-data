@@ -4,7 +4,6 @@
 $dropdown-width: 20rem;
 $search-width: 8.8rem;
 $filter-width: $dropdown-width - $search-width;
-$multiSelect-width: rem;
 
 .dropdownContent {
   width: $dropdown-width;
@@ -22,21 +21,18 @@ $multiSelect-width: rem;
     height: 22.875rem;
     display: flex;
 
-    .multiSelect {
-      width: $multiSelect-width;
-    }
     .search {
       width: $search-width;
-      border-right: 1px solid #d9d9d9;
       overflow-y: auto;
+    }
+
+    .multiselect,
+    .footer {
+      width: $dropdown-width;
     }
 
     .filter {
       width: $filter-width;
     }
-  }
-
-  .footer {
-    border-top: 1px solid #d9d9d9;
   }
 }

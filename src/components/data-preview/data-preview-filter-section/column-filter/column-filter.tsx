@@ -3,6 +3,11 @@ import { faTable } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
 import ColumnFilterContainer from '../column-filter-container/column-filter-container';
+import ColumnFilterDialogSearch from '../../data-preview-dropdown-search/column-filter-search/column-filter-search';
+import ColumnFilterMultiSelect from '../column-filter-multiselect/column-filter-multiselect';
+import ColumnSelectDialogSearch from '../../data-preview-dropdown-search/column-filter-search/column-filter-search';
+import { allTablesOption } from '../../../datatable-select/datatable-select';
+import DataPreviewDropdownDialogSearch from '../../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
 
 const ColumnFilter: FunctionComponent = () => {
   const [visibleColumns, setVisibleColumns] = useState([]);
