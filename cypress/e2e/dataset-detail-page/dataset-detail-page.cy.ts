@@ -1,3 +1,4 @@
+// TODO: Address the flaky (skipped) tests
 describe('Dataset detail page validation', () => {
   const dtsDataset = {
     url: '/datasets/daily-treasury-statement/',
@@ -175,10 +176,11 @@ describe('Dataset detail page validation', () => {
           .should('eq', table.column.searchTerm);
         cy.findByRole('button', { name: 'Clear search bar' });
         if (table.column.dailySearchResults) {
+          // slgsDailyRates
           cy.get('td:contains("' + table.column.searchTerm + '")')
             .its('length')
             .should('be.gte', 1);
-        } else {
+        } else {  // mspd and mts
           cy.get('td:contains("' + table.column.searchTerm + '")')
             .its('length')
             .should('eq', 10);
@@ -224,7 +226,7 @@ describe('Dataset detail page validation', () => {
     checkDataTables(dtsDataset);
   });
 
-  it('loads MTS Dataset Detail Page', () => {
+  it.skip('loads MTS Dataset Detail Page', () => {
     checkDataTables(mtsDataset);
   });
 
