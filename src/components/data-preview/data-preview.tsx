@@ -260,6 +260,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             selectedTable={selectedTable}
             setSelectedTable={handleSelectedTableChange}
             allTablesSelected={allTablesSelected}
+            setAllTablesSelected={setAllTablesSelected}
             earliestDate={config.techSpecs.earliestDate}
             latestDate={config.techSpecs.latestDate}
             disableAllTables={config?.disableAllTables}

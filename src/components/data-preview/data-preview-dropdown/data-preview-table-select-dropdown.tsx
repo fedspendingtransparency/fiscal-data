@@ -13,6 +13,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   selectedTable,
   setSelectedTable,
   allTablesSelected,
+  setAllTablesSelected,
   earliestDate,
   latestDate,
   disableAllTables,
@@ -20,8 +21,19 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   setSelectedPivot,
   hideDropdown,
 }) => {
+  const initialSelectedTable = allTablesSelected
+    ? {
+        allDataTables: true,
+        pathName: 'all-data-tables',
+        tableName: 'All Data Tables',
+        valueFieldOptions: null,
+        earliestDate: undefined,
+        latestDate: undefined,
+      }
+    : selectedTable;
+  // console.log(initialSelectedTable);
   const [active, setActive] = useState(false);
-  const [tableToApply, setTableToApply] = useState(selectedTable);
+  const [tableToApply, setTableToApply] = useState(initialSelectedTable);
   const [pivotToApply, setPivotToApply] = useState(selectedPivot);
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
@@ -39,7 +51,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     <DropdownLabelButton
       label="Data Table"
       icon={faDatabase}
-      selectedOption={selectedTable?.tableName}
+      selectedOption={allTablesSelected ? 'All Data Tables' : selectedTable?.tableName}
       active={active}
       setActive={setActive}
       dropdownWidth="30rem"
@@ -87,11 +99,14 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   useEffect(() => {
     if (!active) {
       setTableViewSelection(appliedTableView);
-      setTableToApply(selectedTable);
+      if (!allTablesSelected) {
+        setTableToApply(selectedTable);
+      }
     }
   }, [active]);
 
   useEffect(() => {
+    //initialize pivot options
     if (selectedTable && !selectedTable.allDataTables && !selectedPivot) {
       const localPivotFields = getPivotFields(selectedTable);
       const pivot = {
