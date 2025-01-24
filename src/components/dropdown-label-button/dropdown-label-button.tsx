@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import {
-  datePickerButton,
+  dropdownButton,
   glow,
   publishedDateLabel,
   labelIcon,
@@ -39,7 +39,7 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
       <div className={active ? glow : null}>
         <button
           style={{ width: dropdownWidth }}
-          className={`${datePickerButton} ${!disabled && buttonEnabled}`}
+          className={`${dropdownButton} ${!disabled && buttonEnabled}`}
           onClick={() => setActive(!active)}
           aria-label={ariaLabel}
           disabled={disabled}
