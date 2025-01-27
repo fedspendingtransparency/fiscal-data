@@ -149,9 +149,7 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
             if (!allYears.includes(parseInt(current))) {
               allYears.push(parseInt(current));
             }
-            const filteredYears = isMobile
-              ? allYears.filter((val, i) => i % 4 === 0 || val === parseInt(current))
-              : allYears.filter((val, i) => i % 2 === 0 || val === parseInt(current));
+            const filteredYears = isMobile ? allYears.filter((val, i) => i % 4 === 0) : allYears.filter((val, i) => i % 2 === 0);
 
             setChartXAxisValues(filteredYears);
 
