@@ -22,7 +22,8 @@ describe('Spending Key Takeaways evergreen values', () => {
   const mockPriorSngl_FROA = {
     data: [
       {
-        current_fytd_rcpt_outly_amt: '12324.20',
+        classification_desc: 'Total',
+        current_fytd_rcpt_outly_amt: '4045978858727.41',
       },
     ],
   };
@@ -30,7 +31,8 @@ describe('Spending Key Takeaways evergreen values', () => {
   const mockPriorMulti_FROA = {
     data: [
       {
-        current_fytd_rcpt_outly_amt: '465436514.20',
+        classification_desc: 'Individual Income Taxes',
+        current_fytd_rcpt_outly_amt: '2044377037669.21',
       },
     ],
   };
@@ -46,7 +48,8 @@ describe('Spending Key Takeaways evergreen values', () => {
   const mockCurrentSngl_FROA = {
     data: [
       {
-        current_fytd_rcpt_outly_amt: '12324.20',
+        current_fytd_rcpt_outly_amt: '2151987110619.83',
+        classification_desc: 'Individual Income Taxes',
       },
     ],
   };
@@ -54,7 +57,8 @@ describe('Spending Key Takeaways evergreen values', () => {
   const mockCurrentMulti_FROA = {
     data: [
       {
-        current_fytd_rcpt_outly_amt: '546435465.20',
+        current_fytd_rcpt_outly_amt: '1114485265535.88',
+        classification_desc: 'Individual Income Taxes',
       },
     ],
   };
@@ -93,6 +97,9 @@ describe('Spending Key Takeaways evergreen values', () => {
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await getByText('0%', { exact: false })).toBeInTheDocument();
     expect(await getByText('22.65 trillion', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Individual Income Taxes', { exact: false })).toBeInTheDocument();
+    expect(await getByText('50.5%', { exact: false })).toBeInTheDocument(); // prior year's %
+    expect(await getByText('51.8%', { exact: false })).toBeInTheDocument(); // current year's %
   });
 
   it('renders the fiscal year multiple times', async () => {
@@ -126,6 +133,10 @@ describe('Spending Key Takeaways no GDP Q3 scenario', () => {
     fetchMock.get('begin:https://apps.bea.gov/api/', beaQ3Response);
   });
 
+  afterAll(() => {
+    fetchMock.restore();
+  });
+
   it('renders the data correctly in takeaway 3 with 3 total quarters when GDP Q3 is not in but mts 4 is', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText, getAllByText } = render(<RevenueKeyTakeaways />);
@@ -156,6 +167,10 @@ describe('Spending Key Takeaways containing GDP Q3 scenario', () => {
       { repeat: 1 }
     );
     fetchMock.get('begin:https://apps.bea.gov/api/', beaQ3Response);
+  });
+
+  afterAll(() => {
+    fetchMock.restore();
   });
 
   it('renders the data correctly in takeaway 3 with 4 total quarters when GDP Q3 is present', async () => {
