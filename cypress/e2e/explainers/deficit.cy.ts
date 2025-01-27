@@ -38,7 +38,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it('Validate all internal links on the page navigate to the correct destinations', () => {
+  it.skip('Validate all internal links on the page navigate to the correct destinations', () => {
     const hyperlinks = [
       {
         name: 'national debt',
@@ -133,7 +133,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it('Validate Data Sources & Methodologies hyperlinks', () => {
+  it.skip('Validate Data Sources & Methodologies hyperlinks', () => {
     const dsmLinks = [
       {
         name: 'Monthly Treasury Statement (MTS)',

@@ -2,11 +2,9 @@
 
 $borderRadius: 5px;
 $table-border-style: 1px solid $light-grey-border;
-$table-height: 26.5rem;
 
 .overlayContainerNoFooter {
   position: relative;
-  height: $table-height;
   border: $table-border-style;
   border-radius: $borderRadius;
 }
@@ -16,8 +14,7 @@ $table-height: 26.5rem;
   box-sizing: border-box;
   background-color: white;
   overflow-y: auto;
-  height: 26.5rem;
-
+  min-height: 4rem;
   table {
     border-spacing: 0;
     border: 0;
