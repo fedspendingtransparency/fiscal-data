@@ -3,6 +3,7 @@ import React from 'react';
 import fetchMock from 'fetch-mock';
 import { determineBEAFetchResponse, determineBEANoQ3FetchResponse } from '../../../../../utils/mock-utils';
 import RevenueKeyTakeaways from './revenue-key-takeaways';
+import revenueConstants from '../constants';
 
 describe('Spending Key Takeaways evergreen values', () => {
   const mockData = {
@@ -57,57 +58,32 @@ describe('Spending Key Takeaways evergreen values', () => {
     ],
   };
 
+  const baseUrl = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
   beforeAll(() => {
     // Prior mocks
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830'
-      + ',record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
-      mockData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-    determineBEAFetchResponse(jest, mockData);
+    fetchMock.get(baseUrl + revenueConstants.PRIOR_FY, mockData);
 
     // PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120,record_calendar_month:eq:09&sort=-record_date&page[size]=1`,
-      mockPriorSngl_FROA,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.get(baseUrl + revenueConstants.PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT, mockPriorSngl_FROA);
 
     // PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&sort=-record_date&page[size]=10`,
-      mockPriorMulti_FROA,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.get(baseUrl + revenueConstants.PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT, mockPriorMulti_FROA);
 
     // current mocks
     // CURRENT_FY mock
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:eq:1.1&sort=-record_date&page[size]=1`,
-      mockCurrentFY_FROA,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.get(baseUrl + revenueConstants.CURRENT_FY, mockCurrentFY_FROA);
 
     // CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1`,
-      mockCurrentSngl_FROA,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.get(baseUrl + revenueConstants.CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT, mockCurrentSngl_FROA);
 
     // CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date&page[size]=10`,
-      mockCurrentMulti_FROA,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.get(baseUrl + revenueConstants.CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT, mockCurrentMulti_FROA);
+
+    determineBEAFetchResponse(jest, mockData);
+  });
+
+  afterAll(() => {
+    fetchMock.restore();
   });
 
   it('renders the data correctly', async () => {
