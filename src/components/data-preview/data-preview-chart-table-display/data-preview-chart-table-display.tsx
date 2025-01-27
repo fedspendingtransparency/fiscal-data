@@ -27,7 +27,6 @@ const ChartTableDisplay: FunctionComponent = ({
   } else if (emptyData) {
     emptyDataMessage = <NotShownMessage heading="Change selections in order to preview data" bodyText={emptyDataMessageBody} />;
   }
-  console.log(emptyDataMessage, allTablesSelected);
   return <>{emptyDataMessage ? emptyDataMessage : table}</>;
 };
 
