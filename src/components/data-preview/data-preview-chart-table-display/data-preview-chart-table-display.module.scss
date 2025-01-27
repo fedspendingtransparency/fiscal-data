@@ -1,0 +1,7 @@
+$cell-height: 2.125rem;
+
+.tableNotice {
+  position: absolute;
+  top: calc($cell-height * 4);
+  width: 100%;
+}
