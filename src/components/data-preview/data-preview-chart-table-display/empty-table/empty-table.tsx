@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { emptyTable } from './empty-table.module.scss';
+import DataTableFooter from '../../../data-table/data-table-footer/data-table-footer';
 
 const EmptyTable: FunctionComponent = ({ rowCount = 10 }) => {
   const rows = [];
@@ -19,21 +20,24 @@ const EmptyTable: FunctionComponent = ({ rowCount = 10 }) => {
   }
 
   return (
-    <table className={emptyTable}>
-      <tbody>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-        {rows.map(emptyRow => {
-          return emptyRow;
-        })}
-      </tbody>
-    </table>
+    <>
+      <table className={emptyTable}>
+        <tbody>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+          {rows.map(emptyRow => {
+            return emptyRow;
+          })}
+        </tbody>
+      </table>
+      <DataTableFooter rowsShowing={{ begin: 0, end: 0 }} manualPagination={true} pagingProps={{ maxRows: 0 }} />
+    </>
   );
 };
 
