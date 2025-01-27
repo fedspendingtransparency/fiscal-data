@@ -97,7 +97,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
             publishedReportsProp={pageConfig.publishedReports}
           ></DataPreview>
         </Experimental>
-        <Experimental featureId="dataPreview" exclude>
+        <Experimental featureId="dataPreview">
           <DatasetData
             setSelectedTableProp={setSelectedTable}
             finalDatesNotFound={finalDatesNotFound}
