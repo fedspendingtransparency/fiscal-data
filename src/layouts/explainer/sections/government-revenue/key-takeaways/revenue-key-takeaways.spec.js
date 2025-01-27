@@ -17,7 +17,48 @@ describe('Spending Key Takeaways evergreen values', () => {
     ],
   };
 
+  const mockPriorSngl_FROA = {
+    data: [
+      {
+        current_fytd_rcpt_outly_amt: '12324.20',
+      },
+    ],
+  };
+
+  const mockPriorMulti_FROA = {
+    data: [
+      {
+        current_fytd_rcpt_outly_amt: '465436514.20',
+      },
+    ],
+  };
+
+  const mockCurrentFY_FROA = {
+    data: [
+      {
+        record_fiscal_year: '2025',
+      },
+    ],
+  };
+
+  const mockCurrentSngl_FROA = {
+    data: [
+      {
+        current_fytd_rcpt_outly_amt: '12324.20',
+      },
+    ],
+  };
+
+  const mockCurrentMulti_FROA = {
+    data: [
+      {
+        current_fytd_rcpt_outly_amt: '546435465.20',
+      },
+    ],
+  };
+
   beforeAll(() => {
+    // Prior mocks
     fetchMock.get(
       `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830'
       + ',record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
@@ -26,9 +67,50 @@ describe('Spending Key Takeaways evergreen values', () => {
       { repeat: 1 }
     );
     determineBEAFetchResponse(jest, mockData);
+
+    // PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT
+    fetchMock.get(
+      `begin:v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120,record_calendar_month:eq:09&sort=-record_date&page[size]=1`,
+      mockPriorSngl_FROA,
+      { overwriteRoutes: true },
+      { repeat: 1 }
+    );
+
+    // PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT
+    fetchMock.get(
+      `begin:v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&sort=-record_date&page[size]=10`,
+      mockPriorMulti_FROA,
+      { overwriteRoutes: true },
+      { repeat: 1 }
+    );
+
+    // current mocks
+    // CURRENT_FY mock
+    fetchMock.get(
+      `begin:v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:eq:1.1&sort=-record_date&page[size]=1`,
+      mockCurrentFY_FROA,
+      { overwriteRoutes: true },
+      { repeat: 1 }
+    );
+
+    // CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT
+    fetchMock.get(
+      `begin:v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1`,
+      mockCurrentSngl_FROA,
+      { overwriteRoutes: true },
+      { repeat: 1 }
+    );
+
+    // CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT
+    fetchMock.get(
+      `begin:v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date&page[size]=10`,
+      mockCurrentMulti_FROA,
+      { overwriteRoutes: true },
+      { repeat: 1 }
+    );
   });
 
-  it('renders the data correctly in takeaway 3', async () => {
+  it('renders the data correctly', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
