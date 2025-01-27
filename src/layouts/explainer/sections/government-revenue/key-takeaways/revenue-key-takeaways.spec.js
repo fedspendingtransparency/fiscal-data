@@ -80,7 +80,7 @@ describe('Spending Key Takeaways evergreen values', () => {
     // CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT
     fetchMock.get(baseUrl + revenueConstants.CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT, mockCurrentMulti_FROA);
 
-    determineBEAFetchResponse(jest, mockData);
+    fetchMock.get('begin:https://apps.bea.gov/api/', beaResponse);
   });
 
   afterAll(() => {
@@ -118,13 +118,12 @@ describe('Spending Key Takeaways no GDP Q3 scenario', () => {
 
   beforeAll(() => {
     fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830'
-      + ',record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
+      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
       mockNoQ3Data,
       { overwriteRoutes: true },
       { repeat: 1 }
     );
-    determineBEANoQ3FetchResponse(jest, mockNoQ3Data);
+    fetchMock.get('begin:https://apps.bea.gov/api/', beaQ3Response);
   });
 
   it('renders the data correctly in takeaway 3 with 3 total quarters when GDP Q3 is not in but mts 4 is', async () => {
@@ -151,13 +150,12 @@ describe('Spending Key Takeaways containing GDP Q3 scenario', () => {
 
   beforeAll(() => {
     fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830'
-      + ',record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
+      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
       mockQ3Data,
       { overwriteRoutes: true },
       { repeat: 1 }
     );
-    determineBEANoQ3FetchResponse(jest, mockQ3Data);
+    fetchMock.get('begin:https://apps.bea.gov/api/', beaQ3Response);
   });
 
   it('renders the data correctly in takeaway 3 with 4 total quarters when GDP Q3 is present', async () => {
