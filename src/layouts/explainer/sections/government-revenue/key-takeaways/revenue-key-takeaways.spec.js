@@ -4,6 +4,7 @@ import fetchMock from 'fetch-mock';
 import { determineBEAFetchResponse, determineBEANoQ3FetchResponse } from '../../../../../utils/mock-utils';
 import RevenueKeyTakeaways from './revenue-key-takeaways';
 import revenueConstants from '../constants';
+import { beaQ3Response, beaResponse } from '../../../../../utils/mock-utils-mock-data';
 
 describe('Spending Key Takeaways evergreen values', () => {
   const mockData = {
