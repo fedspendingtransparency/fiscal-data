@@ -8,7 +8,6 @@ const ColumnFilter: FunctionComponent = () => {
   const [visibleColumns, setVisibleColumns] = useState([]);
   const totalColumns = 17;
   const [active, setActive] = useState(false);
-  const [hideDropdown, setHideDropdown] = useState(true);
   const filterDropdownButton = (
     <DropdownLabelButton
       label="Filters"
@@ -21,7 +20,7 @@ const ColumnFilter: FunctionComponent = () => {
 
   useEffect(() => {
     if (!active) {
-      setHideDropdown(false);
+      setActive(false);
     }
   }, [active]);
 
