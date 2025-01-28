@@ -10,13 +10,13 @@ const EmptyTable: FunctionComponent = ({ rowCount = 10, mobileDisplay }) => {
       <table className={emptyTable}>
         <tbody>
           <tr>
-            {Array.from({ length: columnCount }, index => (
+            {Array.from({ length: columnCount }, (_, index) => (
               <th key={`header-${index}`} />
             ))}
           </tr>
-          {Array.from({ length: rowCount }, index => (
+          {Array.from({ length: rowCount }, (_, index) => (
             <tr key={`row-${index}`}>
-              {Array.from({ length: columnCount }, index => (
+              {Array.from({ length: columnCount }, (_, index) => (
                 <td key={`cell-${index}`} />
               ))}
             </tr>
@@ -26,7 +26,7 @@ const EmptyTable: FunctionComponent = ({ rowCount = 10, mobileDisplay }) => {
       <DataTableFooter
         rowsShowing={{ begin: 0, end: 0 }}
         manualPagination={true}
-        pagingProps={{ maxRows: 0, itemsPerPage: rowCount, disablePerPage: true, showWhenEmpty: true }}
+        pagingProps={{ maxRows: 0, itemsPerPage: rowCount, disablePerPage: true, showWhenEmpty: true, currentPage: 1, maxPage: 1 }}
         showPaginationControls={true}
       />
     </>
