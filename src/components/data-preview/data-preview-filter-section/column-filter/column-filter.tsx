@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
@@ -17,12 +17,6 @@ const ColumnFilter: FunctionComponent = () => {
       setActive={setActive}
     />
   );
-
-  // useEffect(() => {
-  //   if (!active) {
-  //     setActive(false);
-  //   }
-  // }, [active]);
 
   return (
     <>

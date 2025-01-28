@@ -16,7 +16,7 @@ const ColumnFilterContainer: FunctionComponent<iColumnFilterContainer> = ({ hand
         <div className={search}>
           <ColumnFilterSearch />
         </div>
-        <div className={mutliselect}>
+        <div className={multiselect}>
           <ColumnFilterMultiSelect />
         </div>
       </div>
