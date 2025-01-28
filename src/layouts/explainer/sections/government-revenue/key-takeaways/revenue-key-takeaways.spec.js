@@ -1,10 +1,10 @@
 import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import fetchMock from 'fetch-mock';
-import { determineBEAFetchResponse, determineBEANoQ3FetchResponse } from '../../../../../utils/mock-utils';
+import { determineBEANoQ3FetchResponse } from '../../../../../utils/mock-utils';
 import RevenueKeyTakeaways from './revenue-key-takeaways';
 import revenueConstants from '../constants';
-import { beaQ3Response, beaResponse } from '../../../../../utils/mock-utils-mock-data';
+import { beaResponse } from '../../../../../utils/mock-utils-mock-data';
 
 describe('Spending Key Takeaways evergreen values', () => {
   const mockData = {
@@ -136,7 +136,7 @@ describe('Spending Key Takeaways no GDP Q3 scenario', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText, getAllByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getAllByText('In fiscal year 2016', { exact: false })).toBeInTheDocument();
+    expect(await getAllByText('In fiscal year 2016', { exact: false })).toHaveLength(2);
     expect(await getByText('11.46 trillion', { exact: false })).toBeInTheDocument();
   });
 });
