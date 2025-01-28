@@ -124,7 +124,8 @@ describe('Spending Key Takeaways no GDP Q3 scenario', () => {
       { overwriteRoutes: true },
       { repeat: 1 }
     );
-    fetchMock.get('begin:https://apps.bea.gov/api/', beaQ3Response);
+    // fetchMock.get('begin:https://apps.bea.gov/api/', beaQ3Response);
+    determineBEANoQ3FetchResponse(jest, mockNoQ3Data);
   });
 
   afterAll(() => {
@@ -160,7 +161,8 @@ describe('Spending Key Takeaways containing GDP Q3 scenario', () => {
       { overwriteRoutes: true },
       { repeat: 1 }
     );
-    fetchMock.get('begin:https://apps.bea.gov/api/', beaQ3Response);
+    // fetchMock.get('begin:https://apps.bea.gov/api/', beaQ3Response);
+    determineBEANoQ3FetchResponse(jest, mockQ3Data);
   });
 
   afterAll(() => {
