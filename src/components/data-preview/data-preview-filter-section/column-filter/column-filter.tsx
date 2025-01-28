@@ -18,11 +18,11 @@ const ColumnFilter: FunctionComponent = () => {
     />
   );
 
-  useEffect(() => {
-    if (!active) {
-      setActive(false);
-    }
-  }, [active]);
+  // useEffect(() => {
+  //   if (!active) {
+  //     setActive(false);
+  //   }
+  // }, [active]);
 
   return (
     <>

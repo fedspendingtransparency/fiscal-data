@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 import FilterButtons from '../../data-preview-dropdown-dialog/filter-buttons/filter-buttons';
-import { dropdownContent, footer, multiSelect, search, mainContainer } from './column-filter-containter.module.scss';
+import { dropdownContent, multiselect, footer, search, mainContainer } from './column-filter-containter.module.scss';
 import ColumnFilterMultiSelect from '../column-filter-multiselect/column-filter-multiselect';
 import ColumnFilterSearch from '../../data-preview-dropdown-search/column-filter-search/column-filter-search';
 
@@ -16,7 +16,7 @@ const ColumnFilterContainer: FunctionComponent<iColumnFilterContainer> = ({ hand
         <div className={search}>
           <ColumnFilterSearch />
         </div>
-        <div className={multiSelect}>
+        <div className={mutliselect}>
           <ColumnFilterMultiSelect />
         </div>
       </div>
