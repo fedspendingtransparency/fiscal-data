@@ -57,7 +57,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
 
   const handleApply = () => {
     setAppliedTableView(tableViewSelection);
-    if (tableToApply !== selectedTable) {
+    if (tableToApply !== selectedTable || (allTablesSelected && !tableToApply.allDataTables)) {
       setSelectedTable(tableToApply);
     }
     if (tableViewSelection === 'pivotData') {

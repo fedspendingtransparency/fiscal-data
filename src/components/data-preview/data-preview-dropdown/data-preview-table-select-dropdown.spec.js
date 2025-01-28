@@ -103,10 +103,10 @@ describe('Data Preview Dropdown Dialog', () => {
     const dropdownButton = getByRole('button', { name: 'Data Table: Mock Table Name' });
     fireEvent.click(dropdownButton);
 
-    const allTablesButton = getByRole('button', { name: 'All Data Tables' });
+    const allTablesButton = getByRole('button', { name: 'All Data Tables (Download Only)' });
     fireEvent.click(allTablesButton);
 
-    expect(getAllByText('All Data Tables').length).toBe(2);
+    expect(getAllByText('All Data Tables (Download Only)').length).toBe(2);
     expect(getByRole('radio', { name: 'Raw Data' })).toBeInTheDocument();
     expect(queryByRole('radio', { name: 'Pivot Data' })).not.toBeInTheDocument();
   });

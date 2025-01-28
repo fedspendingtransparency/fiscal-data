@@ -462,10 +462,12 @@ describe('DataPreview', () => {
     expect(allTablesBanner).toBeInTheDocument();
 
     // Only filter available should be record date
-    const filtersDropdown = getByRole('button', { name: 'Filters' });
+    const filtersDropdown = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(filtersDropdown);
-    const filterOptions = within(filtersDropdown).getByRole('button');
-    expect(filterOptions).toHaveLength(1);
+
+    //TODO: Add back in when filters dropdown is added
+    // const filterOptions = within(filtersDropdown).getByRole('button');
+    // expect(filterOptions).toHaveLength(1);
   });
 
   it(`renders the datatable banner when datatableBanner exists`, () => {

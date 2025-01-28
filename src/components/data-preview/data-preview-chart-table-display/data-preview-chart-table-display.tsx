@@ -26,13 +26,16 @@ const ChartTableDisplay: FunctionComponent = ({
 
   if (allTablesSelected) {
     emptyDataMessage = <TableNotice heading={allTableHeading} bodyText={allTableBody} />;
-  } else if (userFilterUnmatchedForDateRange) {
-    emptyDataMessage = getMessageForUnmatchedUserFilter(selectedTable);
-  } else if (apiFilterDefault) {
-    emptyDataMessage = getMessageForDefaultApiFilter(selectedTable);
-  } else if (emptyData) {
-    emptyDataMessage = <NotShownMessage heading="Change selections in order to preview data" bodyText={emptyDataMessageBody} />;
   }
+  //TODO: Add in additional cases for the table notice
+  // else if (userFilterUnmatchedForDateRange) {
+  //   emptyDataMessage = getMessageForUnmatchedUserFilter(selectedTable);
+  // } else if (apiFilterDefault) {
+  //   emptyDataMessage = getMessageForDefaultApiFilter(selectedTable);
+  // } else if (emptyData) {
+  //   emptyDataMessage = <NotShownMessage heading="Change selections in order to preview data" bodyText={emptyDataMessageBody} />;
+  // }
+
   return (
     <>
       {emptyDataMessage ? (
