@@ -4,15 +4,12 @@ import { dropdownContent, footer, multiSelect, search, mainContainer } from './c
 import ColumnFilterMultiSelect from '../column-filter-multiselect/column-filter-multiselect';
 import ColumnFilterSearch from '../../data-preview-dropdown-search/column-filter-search/column-filter-search';
 
-interface iDropdownDialogContainer {
-  searchComponent: ReactElement;
-  filterComponent: ReactElement;
-  multiSelectComponent: ReactElement;
+interface iColumnFilterContainer {
   handleApply: () => void;
   handleCancel: () => void;
 }
 
-const ColumnFilterContainer: FunctionComponent<iDropdownDialogContainer> = ({ searchComponent, multiSelectComponent, handleApply, handleCancel }) => {
+const ColumnFilterContainer: FunctionComponent<iColumnFilterContainer> = ({ handleApply, handleCancel }) => {
   return (
     <div className={dropdownContent}>
       <div className={mainContainer}>
