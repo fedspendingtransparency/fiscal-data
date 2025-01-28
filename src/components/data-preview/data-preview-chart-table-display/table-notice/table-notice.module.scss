@@ -27,3 +27,9 @@
 .notShownBodyText {
   @include bodyStyleRegular;
 }
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .container {
+    margin: 0 1.5rem;
+  }
+}

@@ -84,3 +84,9 @@
     margin: 0 0 0.5rem 2rem;
   }
 }
+
+@media screen and (max-width: $breakpoint-md - 1) {
+  .pageOptions {
+    margin-top: 0.5rem;
+  }
+}

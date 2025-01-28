@@ -98,6 +98,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   setSummaryValues,
   allActiveFilters,
   setAllActiveFilters,
+  width,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -430,6 +431,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
                 )}
               </div>
             }
+            width={width}
           />
         </div>
       </div>

@@ -359,6 +359,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
                 setSummaryValues={setSummaryValues}
                 allActiveFilters={allActiveFilters}
                 setAllActiveFilters={setAllActiveFilters}
+                width={width}
               />
             )}
           </DataPreviewFilterSection>

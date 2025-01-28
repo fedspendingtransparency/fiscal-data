@@ -2,41 +2,34 @@ import React, { FunctionComponent } from 'react';
 import { emptyTable } from './empty-table.module.scss';
 import DataTableFooter from '../../../data-table/data-table-footer/data-table-footer';
 
-const EmptyTable: FunctionComponent = ({ rowCount = 10 }) => {
+const EmptyTable: FunctionComponent = ({ rowCount = 10, mobileDisplay }) => {
   const rows = [];
-  const row = (
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  );
-
-  for (let i = 0; i < rowCount; i++) {
-    rows.push(row);
-  }
+  const columnCount = mobileDisplay ? 2 : 6;
 
   return (
     <>
       <table className={emptyTable}>
         <tbody>
           <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            {Array.from({ length: columnCount }, index => (
+              <th key={`header-${index}`} />
+            ))}
           </tr>
-          {rows.map(emptyRow => {
-            return emptyRow;
-          })}
+          {Array.from({ length: rowCount }, index => (
+            <tr key={`row-${index}`}>
+              {Array.from({ length: columnCount }, index => (
+                <td key={`header-${index}`} />
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
-      <DataTableFooter rowsShowing={{ begin: 0, end: 0 }} manualPagination={true} pagingProps={{ maxRows: 0 }} />
+      <DataTableFooter
+        rowsShowing={{ begin: 0, end: 0 }}
+        manualPagination={true}
+        pagingProps={{ maxRows: 0, itemsPerPage: rowCount, disablePerPage: true }}
+        showPaginationControls={true}
+      />
     </>
   );
 };

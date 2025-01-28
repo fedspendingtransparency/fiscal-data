@@ -5,6 +5,8 @@ import { allTablesSelectedBody, emptyDataMessageBody } from '../../dataset-data/
 import TableNotice from './table-notice/table-notice';
 import EmptyTable from './empty-table/empty-table';
 import { tableNotice } from './data-preview-chart-table-display.module.scss';
+import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../variables.module.scss';
 
 const ChartTableDisplay: FunctionComponent = ({
   table,
@@ -18,6 +20,7 @@ const ChartTableDisplay: FunctionComponent = ({
   userFilterUnmatchedForDateRange,
   apiFilterDefault,
   pivotSelected,
+  width,
 }) => {
   let emptyDataMessage = null;
 
@@ -40,7 +43,7 @@ const ChartTableDisplay: FunctionComponent = ({
     <>
       {emptyDataMessage ? (
         <>
-          <EmptyTable />
+          <EmptyTable mobileDisplay={width < pxToNumber(breakpointLg)} />
           <div className={tableNotice}>{emptyDataMessage}</div>
         </>
       ) : (

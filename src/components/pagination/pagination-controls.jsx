@@ -8,7 +8,7 @@ import { paginationControls } from './pagination-controls.module.scss';
 export const defaultPerPageOptions = [5, 10, 20, 50, 100];
 
 const PaginationControls = ({ pagingProps }) => {
-  const { itemsPerPage, handlePerPageChange, handleJump, maxPage, tableName, currentPage, maxRows } = pagingProps;
+  const { itemsPerPage, handlePerPageChange, handleJump, maxPage, tableName, currentPage, maxRows, disablePerPage } = pagingProps;
   const perPageOptions = defaultPerPageOptions.slice();
   if (itemsPerPage && !perPageOptions.includes(itemsPerPage)) {
     perPageOptions.push(itemsPerPage);
@@ -33,6 +33,7 @@ const PaginationControls = ({ pagingProps }) => {
     updateSelected: handlePerPageChange,
     label: 'Rows Per Page',
     hideOnSm: false,
+    disabled: disablePerPage,
   };
 
   const pageButtonProps = {
@@ -47,7 +48,7 @@ const PaginationControls = ({ pagingProps }) => {
   return (
     <div className={paginationControls}>
       <PagingOptionsMenu menuProps={rowsPerProps} />
-      {maxRows > itemsPerPage && <PageButtons pageButtonProps={pageButtonProps} />}
+      {maxRows >= itemsPerPage && <PageButtons pageButtonProps={pageButtonProps} />}
     </div>
   );
 };
