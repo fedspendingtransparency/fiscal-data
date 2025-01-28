@@ -1,0 +1,35 @@
+@import 'src/variables.module.scss';
+
+.container {
+  text-align: center;
+}
+
+.info {
+  display: inline-flex;
+  padding: 1.5rem 2rem;
+  background-color: $table-notice-color;
+  text-align: left;
+  max-width: 47.5rem;
+}
+
+.icon {
+  color: $primary;
+  font-size: $font-size-16;
+  margin-right: 0.75rem;
+  margin-top: 0.125rem;
+}
+
+.notShownHeading {
+  @include headingStyle6;
+  margin-bottom: 0.5rem;
+}
+
+.notShownBodyText {
+  @include bodyStyleRegular;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .container {
+    margin: 0 1.5rem;
+  }
+}
