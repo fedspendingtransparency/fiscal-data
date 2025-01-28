@@ -17,7 +17,7 @@ const EmptyTable: FunctionComponent = ({ rowCount = 10, mobileDisplay }) => {
           {Array.from({ length: rowCount }, index => (
             <tr key={`row-${index}`}>
               {Array.from({ length: columnCount }, index => (
-                <td key={`header-${index}`} />
+                <td key={`cell-${index}`} />
               ))}
             </tr>
           ))}
@@ -26,7 +26,7 @@ const EmptyTable: FunctionComponent = ({ rowCount = 10, mobileDisplay }) => {
       <DataTableFooter
         rowsShowing={{ begin: 0, end: 0 }}
         manualPagination={true}
-        pagingProps={{ maxRows: 0, itemsPerPage: rowCount, disablePerPage: true }}
+        pagingProps={{ maxRows: 0, itemsPerPage: rowCount, disablePerPage: true, showWhenEmpty: true }}
         showPaginationControls={true}
       />
     </>

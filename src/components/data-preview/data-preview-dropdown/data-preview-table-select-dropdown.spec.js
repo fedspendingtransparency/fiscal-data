@@ -94,7 +94,6 @@ describe('Data Preview Dropdown Dialog', () => {
       <DataPreviewTableSelectDropdown
         selectedTable={mockSelectedTable}
         setSelectedTable={mockSetSelectedTable}
-        // setAllTablesSelected={mockSetAllTablesSelected}
         apis={mockApis}
         setSelectedPivot={mockSetSelectedPivot}
       />
