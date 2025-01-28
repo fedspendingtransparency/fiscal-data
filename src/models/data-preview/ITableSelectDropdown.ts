@@ -6,7 +6,6 @@ export interface ITableSelectDropdown {
   selectedTable: IDatasetApi;
   setSelectedTable: (table: IDatasetApi) => void;
   allTablesSelected: boolean;
-  setAllTablesSelected: (selected: boolean) => void;
   earliestDate: string;
   latestDate: string;
   disableAllTables: boolean;

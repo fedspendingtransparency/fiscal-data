@@ -13,7 +13,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   selectedTable,
   setSelectedTable,
   allTablesSelected,
-  setAllTablesSelected,
   earliestDate,
   latestDate,
   disableAllTables,
