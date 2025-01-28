@@ -5,7 +5,6 @@ import DropdownContainer from '../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
 import DataPreviewPivotSelect from '../data-preview-pivot-select/data-preview-pivot-select';
 import { ITableSelectDropdown } from '../../../models/data-preview/ITableSelectDropdown';
-import { allTablesOption } from '../../datatable-select/datatable-select';
 import DataPreviewDropdownDialogSearch from '../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
 
 const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = ({

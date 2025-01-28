@@ -3,7 +3,6 @@ import { emptyTable } from './empty-table.module.scss';
 import DataTableFooter from '../../../data-table/data-table-footer/data-table-footer';
 
 const EmptyTable: FunctionComponent = ({ rowCount = 10, mobileDisplay }) => {
-  const rows = [];
   const columnCount = mobileDisplay ? 2 : 6;
 
   return (
