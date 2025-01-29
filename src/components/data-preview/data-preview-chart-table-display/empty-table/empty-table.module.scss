@@ -1,0 +1,25 @@
+@import 'src/variables.module';
+$cell-height: 2.125rem;
+
+.emptyTable {
+  opacity: 40%;
+  width: 100%;
+  border-spacing: 0;
+  border: $table-border-style;
+  border-collapse: collapse;
+
+  th,
+  td {
+    height: $cell-height;
+    border-right: $table-border-style;
+  }
+
+  tr:not(:last-child) td {
+    border-bottom: $table-border-style;
+  }
+
+  th {
+    background-color: #f1f1f1;
+    border-bottom: $table-border-style;
+  }
+}

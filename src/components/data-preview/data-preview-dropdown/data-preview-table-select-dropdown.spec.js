@@ -85,4 +85,28 @@ describe('Data Preview Dropdown Dialog', () => {
       pivotView: { dimensionField: 'account_number', title: 'By Account Number' },
     });
   });
+
+  it('updates dropdown when All Data Tables is selected', () => {
+    const mockSetSelectedTable = jest.fn();
+    const mockSetSelectedPivot = jest.fn();
+
+    const { getByRole, getAllByText, queryByRole } = render(
+      <DataPreviewTableSelectDropdown
+        selectedTable={mockSelectedTable}
+        setSelectedTable={mockSetSelectedTable}
+        apis={mockApis}
+        setSelectedPivot={mockSetSelectedPivot}
+      />
+    );
+
+    const dropdownButton = getByRole('button', { name: 'Data Table: Mock Table Name' });
+    fireEvent.click(dropdownButton);
+
+    const allTablesButton = getByRole('button', { name: 'All Data Tables (Download Only)' });
+    fireEvent.click(allTablesButton);
+
+    expect(getAllByText('All Data Tables (Download Only)').length).toBe(2);
+    expect(getByRole('radio', { name: 'Raw Data' })).toBeInTheDocument();
+    expect(queryByRole('radio', { name: 'Pivot Data' })).not.toBeInTheDocument();
+  });
 });

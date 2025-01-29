@@ -15,7 +15,9 @@ const PageButtons = ({ pageButtonProps }) => {
 
   const handlePageClick = page => {
     setCurrent(page);
-    handleJump(page);
+    if (handleJump) {
+      handleJump(page);
+    }
   };
 
   const handleNext = () => {

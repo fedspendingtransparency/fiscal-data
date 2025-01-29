@@ -1,0 +1,38 @@
+@import 'src/variables.module';
+@import 'src/zIndex.module';
+
+$dropdown-width: 20rem;
+$search-width: 8.8rem;
+$filter-width: $dropdown-width - $search-width;
+
+.dropdownContent {
+  width: $dropdown-width;
+  height: 27.125rem;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
+  z-index: $data-table-select-dropdown;
+  margin-top: 0.25rem;
+
+  .mainContainer {
+    height: 22.875rem;
+    display: flex;
+
+    .search {
+      width: $search-width;
+      overflow-y: auto;
+    }
+
+    .multiselect,
+    .footer {
+      width: $dropdown-width;
+    }
+
+    .filter {
+      width: $filter-width;
+    }
+  }
+}
