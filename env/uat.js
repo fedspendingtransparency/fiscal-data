@@ -60,13 +60,7 @@ module.exports = {
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
     },
-    '299': {
-      endpoint: 'v1/debt/treasury_offset_program',
-      dateField: 'record_date',
-      downloadName: 'treasury_offset_program',
-      alwaysSortWith: ['-record_date', 'src_line_nbr'],
-      selectColumns: [],
-    },
+
     // TRRE Clean
     '318': {
       endpoint: 'v1/accounting/od/rates_of_exchange_clean_values',
