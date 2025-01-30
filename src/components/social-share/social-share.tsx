@@ -24,11 +24,11 @@ import Heading from '../heading/heading';
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
-const analyticsClickHandler = (page: string, social: string) => {
+const analyticsClickHandler = (page: string, social: string, explainer: boolean) => {
   let gaCategory: string;
   let gaLabel: string;
 
-  if (page === 'Exchange Rates Converter') {
+  if (!explainer) {
     gaCategory = page;
     gaLabel = `Share on ${social}`;
   } else {
@@ -50,6 +50,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   displayStyle,
   clickEvent,
   headerLevel = 'h3',
+  explainer,
 }) => {
   const { title, description, body, emailSubject, emailBody, url, image } = copy;
 
@@ -68,7 +69,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   }
 
   const handleClick = (socialName: string) => {
-    analyticsClickHandler(pageName, socialName);
+    analyticsClickHandler(pageName, socialName, explainer);
     if (clickEvent) {
       clickEvent();
     }

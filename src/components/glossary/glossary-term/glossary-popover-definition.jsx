@@ -53,7 +53,7 @@ const style = {
   },
 };
 
-const GlossaryPopoverDefinition = ({ term, page, children, width = null, customFormat = null }) => {
+const GlossaryPopoverDefinition = ({ term, page, children, width = null, customFormat = null, onClick }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -93,6 +93,9 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   const handleGlossaryClick = e => {
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
+      if (onClick) {
+        onClick();
+      }
       setButtonFocus(true);
       setAnchorEl(e.currentTarget);
     }

@@ -1,6 +1,8 @@
 import { BASE_URL } from 'gatsby-env-variables';
 import { InterestExpenseHero } from '../../layouts/insight/heros/interest-expense/interest-expense-hero';
 import React from 'react';
+import Analytics from '../../utils/analytics/analytics';
+import CustomLink from '../../components/links/custom-link/custom-link';
 
 const envBaseUrl = BASE_URL;
 
@@ -56,4 +58,38 @@ export const discoverDatasetsCitationsMap = {
       url: '/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding',
     },
   ],
+};
+
+export const analyticsEventHandler = (pageName, eventLabel, eventAction = 'Citation Click') => {
+  Analytics.event({
+    category: pageName,
+    action: eventAction,
+    label: eventLabel,
+  });
+};
+
+const insightsCitations = page => {
+  return {
+    interestExpenseDataset: (
+      <CustomLink
+        url="/datasets/interest-expense-debt-outstanding/interest-expense-on-the-public-debt-outstanding"
+        onClick={() => analyticsEventHandler(page, 'Interest Expense on the Public Debt Outstanding')}
+      >
+        Interest Expense on the Debt Outstanding
+      </CustomLink>
+    ),
+    treasurySecurities: (
+      <CustomLink
+        url="/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities"
+        id="Average Interest Rates on U.S. Treasury Securities"
+        onClick={() => analyticsEventHandler(page, 'Average Interest Rates on U.S. Treasury Securities')}
+      >
+        Average Interest Rates on U.S. Treasury Securities
+      </CustomLink>
+    ),
+  };
+};
+
+export const insightsCitationsMap = {
+  'interest-expense': insightsCitations('Interest Expense'),
 };

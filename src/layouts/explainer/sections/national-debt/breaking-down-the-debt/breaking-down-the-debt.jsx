@@ -266,6 +266,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
       });
     }, 3000);
   };
+
   const handleMouseLeaveInterestChart = () => {
     clearTimeout(gaTimerDualChart);
     clearTimeout(ga4Timer);

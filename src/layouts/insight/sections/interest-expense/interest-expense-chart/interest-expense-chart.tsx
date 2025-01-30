@@ -8,14 +8,19 @@ import { getShortForm } from '../../../../../utils/rounding-utils';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import { useWindowSize } from '../../../../../hooks/windowResize';
 import { useGetInterestExpenseData } from '../useGetInterestExpenseData';
+import globalConstants from '../../../../../helpers/constants';
+import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 
 const breakpoint = {
   desktop: 1015,
   tablet: 600,
 };
 
+let gaTimer;
+
 export const InterestExpenseChart = () => {
-  const [width, height] = useWindowSize();
+  const { explainers } = globalConstants;
+  const [width] = useWindowSize();
   const [isMobile, setIsMobile] = useState<boolean>(null);
   const { chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading } = useGetInterestExpenseData(
     true,
@@ -35,6 +40,16 @@ export const InterestExpenseChart = () => {
     }
   };
 
+  const handleChartMouseEnter = () => {
+    gaTimer = setTimeout(() => {
+      analyticsEventHandler('Interest Expense', 'Interest Expense and Average Interest Rates on the National Debt', 'Chart Hover');
+    }, explainers.chartHoverDelay);
+  };
+
+  const handleChartMouseLeave = () => {
+    clearTimeout(gaTimer);
+  };
+
   useEffect(() => {
     if (!chartLoading) {
       setFiscalYear(latestChartData.year);
@@ -49,7 +64,7 @@ export const InterestExpenseChart = () => {
     } else {
       setIsMobile(false);
     }
-  }, [width, height]);
+  }, [width]);
 
   return (
     <div>
@@ -76,7 +91,13 @@ export const InterestExpenseChart = () => {
               />
             </div>
           )}
-          <div data-testid="chartParent">
+          <div
+            data-testid="chartParent"
+            role="presentation"
+            onFocus={handleChartMouseEnter}
+            onMouseEnter={handleChartMouseEnter}
+            onMouseLeave={handleChartMouseLeave}
+          >
             <Legend />
             <div
               role="presentation"
@@ -88,7 +109,7 @@ export const InterestExpenseChart = () => {
               onMouseOver={() => setChartHover(true)}
               onMouseLeave={() => setChartHover(false)}
             >
-              <ResponsiveContainer height={360} width={'99%'}>
+              <ResponsiveContainer height={360} width="99%">
                 <ComposedChart
                   data={chartData}
                   margin={{ top: 12, bottom: -8, left: 3, right: -18 }}
@@ -101,10 +122,10 @@ export const InterestExpenseChart = () => {
                     </pattern>
                   </defs>
                   <CartesianGrid vertical={false} stroke="#d9d9d9" />
-                  <XAxis dataKey={'year'} ticks={chartXAxisValues} />
+                  <XAxis dataKey="year" ticks={chartXAxisValues} />
                   <YAxis
-                    dataKey={'expense'}
-                    type={'number'}
+                    dataKey="expense"
+                    type="number"
                     tickFormatter={value => {
                       if (value === 0) {
                         return '$0';
@@ -120,8 +141,8 @@ export const InterestExpenseChart = () => {
                   />
                   <YAxis
                     yAxisId={1}
-                    dataKey={'rate'}
-                    orientation={'right'}
+                    dataKey="rate"
+                    orientation="right"
                     axisLine={false}
                     tickLine={false}
                     type="number"
