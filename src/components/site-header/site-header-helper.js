@@ -3,9 +3,13 @@ export const menuSections = [
     title: 'Topics',
     children: [
       {
-        header: 'FEATURED TOPIC',
+        header: 'FEATURED TOPICS',
         analyticsAction: 'Topics Click',
         children: [
+          {
+            to: '/interest-expense-avg-interest-rates/',
+            title: 'Interest Expense',
+          },
           {
             to: '/treasury-savings-bonds/',
             title: 'Savings Bonds',
