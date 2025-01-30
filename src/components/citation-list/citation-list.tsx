@@ -4,6 +4,7 @@ import CustomLink from '../links/custom-link/custom-link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faExternalLink } from '@fortawesome/free-solid-svg-icons';
 import Heading from '../heading/heading';
+import { analyticsEventHandler } from '../../helpers/insights/insight-helpers';
 
 interface ICitation {
   url: string;
@@ -17,7 +18,7 @@ interface ICitationList {
   citations: ICitation[];
 }
 
-const CitationList: FunctionComponent<ICitationList> = ({ header, citations, headingLevel = 'h2' }: ICitationList) => {
+const CitationList: FunctionComponent<ICitationList> = ({ header, citations, headingLevel = 'h2', pageName }: ICitationList) => {
   return (
     <>
       <Heading headingLevel={headingLevel} className={listHeader}>
@@ -25,12 +26,14 @@ const CitationList: FunctionComponent<ICitationList> = ({ header, citations, hea
       </Heading>
       {citations.map((citation: { url: string; text: string; external?: boolean }, index: number) => (
         <div className={citationContainer} key={index}>
-          <CustomLink url={citation.url}>
+          <CustomLink url={citation.url} onClick={() => analyticsEventHandler(pageName, citation.text)}>
             <div className={citationText}>
               <div className={iconContainer}>
                 <FontAwesomeIcon icon={citation?.external ? faExternalLink : faLink} />
               </div>
-              <span>{citation.text}</span>
+              <span>
+                {citation.text} {citation?.external && '| U.S. Treasury Fiscal Data'}
+              </span>
             </div>
           </CustomLink>
         </div>

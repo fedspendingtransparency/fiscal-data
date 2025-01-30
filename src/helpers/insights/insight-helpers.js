@@ -34,27 +34,27 @@ export const insightSocialShareMap = {
 
 export const exploreMoreCitationsMap = {
   'interest-expense': [
-    { text: 'Federal Spending | U.S. Treasury Fiscal Data', url: '/americas-finance-guide/federal-spending/' },
-    { text: 'Understanding the National Debt | U.S. Treasury Fiscal Data', url: '/americas-finance-guide/national-debt/' },
+    { text: 'Federal Spending', url: '/americas-finance-guide/federal-spending/' },
+    { text: 'Understanding the National Debt', url: '/americas-finance-guide/national-debt/' },
   ],
 };
 
 export const discoverDatasetsCitationsMap = {
   'interest-expense': [
     {
-      text: 'Interest Expense on the Debt Outstanding | U.S. Treasury Fiscal Data',
+      text: 'Interest Expense on the Debt Outstanding',
       url: '/datasets/interest-expense-debt-outstanding/interest-expense-on-the-public-debt-outstanding',
     },
     {
-      text: 'Average Interest Rates on U.S. Treasury Securities | U.S. Treasury Fiscal Data',
+      text: 'Average Interest Rates on U.S. Treasury Securities',
       url: '/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities',
     },
     {
-      text: 'Monthly Treasury Statement (MTS) | U.S. Treasury Fiscal Data',
+      text: 'Monthly Treasury Statement (MTS)',
       url: '/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government',
     },
     {
-      text: 'Monthly Statement of the Public Debt (MSPD) | U.S. Treasury Fiscal Data',
+      text: 'Monthly Statement of the Public Debt (MSPD)',
       url: '/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding',
     },
   ],
@@ -73,6 +73,7 @@ const insightsCitations = page => {
     interestExpenseDataset: (
       <CustomLink
         url="/datasets/interest-expense-debt-outstanding/interest-expense-on-the-public-debt-outstanding"
+        id="Interest Expense on the Public Debt Outstanding"
         onClick={() => analyticsEventHandler(page, 'Interest Expense on the Public Debt Outstanding')}
       >
         Interest Expense on the Debt Outstanding
