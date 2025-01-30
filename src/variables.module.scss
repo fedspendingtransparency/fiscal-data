@@ -71,6 +71,7 @@ $hero-primary-link: #0071bc;
 $hero-split-flap-background: #f1f1f1;
 $info-header-focal: $deep-blue;
 $info-header: $near-black;
+$table-notice-color: #eff6fb;
 
 // Explainer pages
 $debt-explainer-primary: #4a0072;
@@ -84,6 +85,9 @@ $dd-border-color: #d6d7d9;
 $alt-button-active-bg: #eff4fb;
 $info-icon: #00a5d4;
 $pale-bg: #f8f8f8;
+
+//Data table
+$table-border-style: 1px solid $light-grey-border;
 
 @mixin focus-outline {
   outline: 1px transparent;

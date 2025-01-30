@@ -211,11 +211,6 @@ const ApiDocumentationPage = ({ location }) => {
       title: 'Aggregation',
     },
     {
-      id: 'examples-pivoting',
-      headingLevel: headingLevel3,
-      title: 'Pivoting',
-    },
-    {
       id: 'examples-multi-dimension-datasets',
       headingLevel: headingLevel3,
       title: 'Multi-dimension Datasets',
