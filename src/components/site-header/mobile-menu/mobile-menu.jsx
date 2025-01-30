@@ -30,7 +30,7 @@ const MobileMenu = ({ setOpenGlossary }) => {
       children: [
         {
           to: '/interest-expense-avg-interest-rates/',
-          title: 'Interest Expense',
+          name: 'Interest Expense',
         },
         {
           to: '/treasury-savings-bonds/',
