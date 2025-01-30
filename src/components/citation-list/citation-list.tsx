@@ -24,7 +24,7 @@ const CitationList: FunctionComponent<ICitationList> = ({ header, citations, hea
       <Heading headingLevel={headingLevel} className={listHeader}>
         {header}
       </Heading>
-      {citations.map((citation: { url: string; text: string; external?: boolean }, index: number) => (
+      {citations.map((citation: ICitation, index: number) => (
         <div className={citationContainer} key={index}>
           <CustomLink url={citation.url} onClick={() => analyticsEventHandler(pageName, citation.text)}>
             <div className={citationText}>
