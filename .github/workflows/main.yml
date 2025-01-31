@@ -16,13 +16,14 @@ jobs:
         uses: actions/setup-node@v3.8.1
         with:
           node-version: 20
+          registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
+        env:
+          NODE_AUTH_TOKEN: ${{ARTIFACTORY_AUTH}}
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: |
-          echo ${{ARTIFACTORY_AUTH}}
-          curl www.google.com
-          echo strict-ssl=false >> .npmrc
+          npm config ls -l
           npm install --legacy-peer-deps
       - name: run tests with coverage
         env:
