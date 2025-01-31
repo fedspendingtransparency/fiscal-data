@@ -18,12 +18,12 @@ jobs:
           node-version: 20
           registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
         env:
-          NODE_AUTH_TOKEN: ${{ github.ARTIFACTORY }}
+          NODE: ${{ github.ARTIFACTORY }}
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: |
-          echo ${{env.NODE_AUTH_TOKEN}}
+          echo ${{env.NODE}}
           echo ${{ toJSON(github) }}
           npm install --legacy-peer-deps
       - name: run tests with coverage
