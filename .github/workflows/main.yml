@@ -23,6 +23,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: |
+          echo ${{env.ARTIFACTORY_AUTH}}
           echo ${{ toJSON(github) }}
           npm install --legacy-peer-deps
       - name: run tests with coverage
