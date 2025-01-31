@@ -20,7 +20,8 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: |
-          curl -u svc-artifactory-kc-dtas:$ARTIFACTORY_AUTH https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/auth > .npmrc
+#          curl -u svc-artifactory-kc-dtas:$ARTIFACTORY_AUTH https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/auth > .npmrc
+          curl www.google.com
           echo strict-ssl=false >> .npmrc
           npm install --legacy-peer-deps
       - name: run tests with coverage
