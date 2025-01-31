@@ -1,8 +1,10 @@
 import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import fetchMock from 'fetch-mock';
-import { determineBEAFetchResponse, determineBEANoQ3FetchResponse } from '../../../../../utils/mock-utils';
+import { determineBEANoQ3FetchResponse } from '../../../../../utils/mock-utils';
 import RevenueKeyTakeaways from './revenue-key-takeaways';
+import revenueConstants from '../constants';
+import { beaResponse } from '../../../../../utils/mock-utils-mock-data';
 
 describe('Spending Key Takeaways evergreen values', () => {
   const mockData = {
@@ -17,24 +19,88 @@ describe('Spending Key Takeaways evergreen values', () => {
     ],
   };
 
+  const mockPriorSngl_FROA = {
+    data: [
+      {
+        classification_desc: 'Total',
+        current_fytd_rcpt_outly_amt: '4045978858727.41',
+      },
+    ],
+  };
+
+  const mockPriorMulti_FROA = {
+    data: [
+      {
+        classification_desc: 'Individual Income Taxes',
+        current_fytd_rcpt_outly_amt: '2044377037669.21',
+      },
+    ],
+  };
+
+  const mockCurrentFY_FROA = {
+    data: [
+      {
+        record_fiscal_year: '2025',
+      },
+    ],
+  };
+
+  const mockCurrentSngl_FROA = {
+    data: [
+      {
+        current_fytd_rcpt_outly_amt: '2151987110619.83',
+        classification_desc: 'Individual Income Taxes',
+      },
+    ],
+  };
+
+  const mockCurrentMulti_FROA = {
+    data: [
+      {
+        current_fytd_rcpt_outly_amt: '1114485265535.88',
+        classification_desc: 'Individual Income Taxes',
+      },
+    ],
+  };
+
+  const baseUrl = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
   beforeAll(() => {
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830'
-      + ',record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
-      mockData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-    determineBEAFetchResponse(jest, mockData);
+    // Prior mocks
+    fetchMock.get(baseUrl + revenueConstants.PRIOR_FY, mockData);
+
+    // PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT
+    fetchMock.get(baseUrl + revenueConstants.PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT, mockPriorSngl_FROA);
+
+    // PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT
+    fetchMock.get(baseUrl + revenueConstants.PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT, mockPriorMulti_FROA);
+
+    // current mocks
+    // CURRENT_FY mock
+    fetchMock.get(baseUrl + revenueConstants.CURRENT_FY, mockCurrentFY_FROA);
+
+    // CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT
+    fetchMock.get(baseUrl + revenueConstants.CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT, mockCurrentSngl_FROA);
+
+    // CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT
+    fetchMock.get(baseUrl + revenueConstants.CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT, mockCurrentMulti_FROA);
+
+    fetchMock.get('begin:https://apps.bea.gov/api/', beaResponse);
   });
 
-  it('renders the data correctly in takeaway 3', async () => {
+  afterAll(() => {
+    fetchMock.restore();
+  });
+
+  it('renders the data correctly', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await getByText('In fiscal year 2021', { exact: false })).toBeInTheDocument();
     expect(await getByText('0%', { exact: false })).toBeInTheDocument();
     expect(await getByText('22.65 trillion', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Individual Income Taxes', { exact: false })).toBeInTheDocument();
+    expect(await getByText('50.5%', { exact: false })).toBeInTheDocument(); // prior year's %
+    expect(await getByText('51.8%', { exact: false })).toBeInTheDocument(); // current year's %
   });
 });
 
@@ -53,8 +119,7 @@ describe('Spending Key Takeaways no GDP Q3 scenario', () => {
 
   beforeAll(() => {
     fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830'
-      + ',record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
+      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
       mockNoQ3Data,
       { overwriteRoutes: true },
       { repeat: 1 }
@@ -62,11 +127,15 @@ describe('Spending Key Takeaways no GDP Q3 scenario', () => {
     determineBEANoQ3FetchResponse(jest, mockNoQ3Data);
   });
 
+  afterAll(() => {
+    fetchMock.restore();
+  });
+
   it('renders the data correctly in takeaway 3 with 3 total quarters when GDP Q3 is not in but mts 4 is', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText } = render(<RevenueKeyTakeaways />);
+    const { getByText, getAllByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getByText('In fiscal year 2016', { exact: false })).toBeInTheDocument();
+    expect(await getAllByText('In fiscal year 2016', { exact: false })).toHaveLength(2);
     expect(await getByText('11.46 trillion', { exact: false })).toBeInTheDocument();
   });
 });
@@ -86,8 +155,7 @@ describe('Spending Key Takeaways containing GDP Q3 scenario', () => {
 
   beforeAll(() => {
     fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830'
-      + ',record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
+      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
       mockQ3Data,
       { overwriteRoutes: true },
       { repeat: 1 }
@@ -95,11 +163,15 @@ describe('Spending Key Takeaways containing GDP Q3 scenario', () => {
     determineBEANoQ3FetchResponse(jest, mockQ3Data);
   });
 
+  afterAll(() => {
+    fetchMock.restore();
+  });
+
   it('renders the data correctly in takeaway 3 with 4 total quarters when GDP Q3 is present', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText } = render(<RevenueKeyTakeaways />);
+    const { getByText, getAllByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getByText('In fiscal year 2015', { exact: false })).toBeInTheDocument();
+    expect(await getAllByText('In fiscal year 2015', { exact: false })).toHaveLength(2);
     expect(await getByText('11.09 trillion', { exact: false })).toBeInTheDocument();
   });
 });

@@ -25,9 +25,13 @@ const MobileMenu = ({ setOpenGlossary }) => {
 
   const topics = [
     {
-      sectionHeader: 'FEATURED TOPIC',
+      sectionHeader: 'FEATURED TOPICS',
       analyticsAction: 'Topics Click',
       children: [
+        {
+          to: '/interest-expense-avg-interest-rates/',
+          name: 'Interest Expense',
+        },
         {
           to: '/treasury-savings-bonds/',
           name: 'Savings Bonds',

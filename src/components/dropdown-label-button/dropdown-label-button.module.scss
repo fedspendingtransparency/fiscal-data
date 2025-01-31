@@ -1,6 +1,6 @@
 @import 'src/variables.module';
 
-.datePickerButton {
+.dropdownButton {
   font-size: $font-size-16;
   background: none;
   border: 1px solid $light-grey-border;
@@ -11,8 +11,12 @@
   color: $font-body-copy;
   padding: 0.625rem 1rem;
   white-space: nowrap;
+
   &.buttonEnabled {
     cursor: pointer;
+  }
+  &:disabled {
+    opacity: 40%;
   }
 
   .buttonContent {
@@ -30,6 +34,7 @@
     overflow-x: hidden;
     text-overflow: ellipsis;
   }
+
   @media screen and (max-width: $breakpoint-lg) {
     max-width: 100%;
     width: 20rem;
@@ -40,7 +45,7 @@
   box-shadow: 0 0 0 0.25rem $primary-blue;
   border-radius: 0.125rem;
   width: fit-content;
-  .datePickerButton {
+  .dropdownButton {
     border: 1px solid $primary;
   }
 }
