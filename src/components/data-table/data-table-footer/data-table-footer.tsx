@@ -22,12 +22,6 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
   setTableDownload,
 }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
-  useEffect(() => {
-    setFilteredRowLength(table.getFilteredRowModel().rows.length);
-    if (setTableDownload) {
-      setTableDownload(manualPagination ? null : table.getFilteredRowModel().rows.length);
-    }
-  }, [table.getFilteredRowModel(), pagingProps]);
 
   const visibleRows = table => {
     let minRow;
@@ -77,6 +71,15 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
         currentPage: table.getState().pagination.pageIndex + 1,
         maxRows: filteredRowLength,
       };
+
+  useEffect(() => {
+    if (table) {
+      setFilteredRowLength(table.getFilteredRowModel().rows.length);
+    }
+    if (setTableDownload) {
+      setTableDownload(manualPagination ? null : table.getFilteredRowModel().rows.length);
+    }
+  }, [table?.getFilteredRowModel(), pagingProps]);
 
   return (
     <div data-test-id="table-footer" className={tableFooter}>
