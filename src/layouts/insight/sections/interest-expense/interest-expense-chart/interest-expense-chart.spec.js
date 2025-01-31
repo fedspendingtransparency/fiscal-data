@@ -103,18 +103,19 @@ describe('Interest Expense Chart', () => {
       category: 'Interest Expense',
       label: 'Interest Expense and Average Interest Rates on the National Debt',
     });
+    jest.clearAllMocks();
   });
 
   it('cancels GA event on chart hover less than 3 seconds', async () => {
     jest.useFakeTimers();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
-
     const { getByTestId } = render(<InterestExpenseChart />);
     const chartParent = getByTestId('chartParent');
     userEvent.hover(chartParent);
     userEvent.unhover(chartParent);
     jest.advanceTimersByTime(4000);
     expect(analyticsSpy).not.toHaveBeenCalled();
+    jest.clearAllMocks();
   });
 
   it('chart is keyboard accessible', async () => {
