@@ -60,7 +60,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   const { monetaryPolicy, mspdSummary, treasurySecurities } = explainerCitationsMap['national-debt'];
 
   const glossaryTerms = {
-    interestExpense: (
+    interestExpenses: (
       <GlossaryPopoverDefinition term="Interest Expense" page="Debt explainer">
         Interest expenses
       </GlossaryPopoverDefinition>
@@ -314,7 +314,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
           </p>
         </QuoteBox>
         <p>
-          The national debt has increased every year over the past ten years. {glossaryTerms.interestExpense} during this period have remained fairly
+          The national debt has increased every year over the past ten years. {glossaryTerms.interestExpenses} during this period have remained fairly
           stable due to low interest rates and investors’ judgement that the U.S. Government has a very low risk of default. However, recent increases
           in interest rates and inflation are now resulting in an increase in interest expense.
         </p>
