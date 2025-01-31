@@ -110,6 +110,9 @@ const globalConstants = {
   dataTable: {
     DEFAULT_ROWS_PER_PAGE: 10,
   },
+  explainers: {
+    chartHoverDelay: 3000,
+  },
 };
 
 // Object.freeze(globalConstants);

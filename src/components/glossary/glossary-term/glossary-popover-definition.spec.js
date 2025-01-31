@@ -2,6 +2,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import GlossaryPopoverDefinition from './glossary-popover-definition';
 import { GlossaryContext } from '../glossary-context/glossary-context';
+import userEvent from '@testing-library/user-event';
 
 describe('glossary term', () => {
   const testGlossary = [
@@ -204,5 +205,19 @@ describe('glossary term', () => {
 
     fireEvent.scroll(window, { target: { pageYOffset: 400 } });
     expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument();
+  });
+
+  it('calls handleClick function on button click', () => {
+    const termText = 'Hello';
+    const testPage = 'Test Page';
+    const handleClickSpy = jest.fn();
+    const { getByRole } = render(
+      <GlossaryPopoverDefinition term="hello" page={testPage} handleClick={handleClickSpy}>
+        {termText}
+      </GlossaryPopoverDefinition>
+    );
+    const glossaryTermButton = getByRole('button', { name: termText });
+    userEvent.click(glossaryTermButton);
+    expect(handleClickSpy).toHaveBeenCalled();
   });
 });

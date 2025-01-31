@@ -39,7 +39,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
         <div className={insightsContainer}>
           <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
           {width < pxToNumber(breakpointLg - 1) && (
-            <SocialShare copy={insightSocialShareMap[pageName]} pageName="" headerLevel="h2" displayStyle="responsive" />
+            <SocialShare copy={insightSocialShareMap[pageName]} pageName={pageName} headerLevel="h2" displayStyle="responsive" />
           )}
           <InsightLastUpdated endpoint={insightLastUpdated[pageName].endpoint} />
           <div className={contentContainer}>
