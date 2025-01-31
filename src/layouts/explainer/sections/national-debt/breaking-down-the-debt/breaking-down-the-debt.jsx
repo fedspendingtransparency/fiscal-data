@@ -62,7 +62,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   const glossaryTerms = {
     interestExpense: (
       <GlossaryPopoverDefinition term="Interest Expense" page="Interest Expense Insight">
-        Interest Expense
+        Interest expense
       </GlossaryPopoverDefinition>
     ),
     debtHeldByThePublic: (
