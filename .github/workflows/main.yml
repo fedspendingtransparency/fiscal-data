@@ -23,7 +23,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: |
-          echo ${{toJSON(env)}}
+          echo 'artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{NODE_AUTH_TOKEN}}' > ${{ github.workspace }}/.npmrc
           npm install --legacy-peer-deps
       - name: run tests with coverage
         env:
