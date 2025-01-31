@@ -20,7 +20,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: |
-          echo ${{ ARTIFACTORY_AUTH }}
+          echo ${{ARTIFACTORY_AUTH}}
           curl www.google.com
           echo strict-ssl=false >> .npmrc
           npm install --legacy-peer-deps
