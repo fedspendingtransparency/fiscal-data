@@ -10,7 +10,7 @@ const interestExpense = (
 
 const treasurySecurity = (
   <GlossaryPopoverDefinition term="Treasury Security" page="Interest Expense Insight">
-    Treasury Security
+    Treasury securities
   </GlossaryPopoverDefinition>
 );
 
