@@ -1,31 +1,36 @@
 import React, { ReactElement } from 'react';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { analyticsEventHandler, insightsCitationsMap } from '../../../../../helpers/insights/insight-helpers';
+import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 
 const glossaryGAEvent = term => {
   analyticsEventHandler('Interest Expense', term, 'Glossary Term Click');
+  ga4DataLayerPush({
+    event: `Glossary Term Click`,
+    eventLabel: term,
+  });
 };
 
 const interestExpense = (
-  <GlossaryPopoverDefinition term="Interest Expense" page="Interest Expense Insight" onClick={() => glossaryGAEvent('Interest Expense')}>
+  <GlossaryPopoverDefinition term="Interest Expense" page="Interest Expense Insight" handleClick={() => glossaryGAEvent('Interest Expense')}>
     Interest Expense
   </GlossaryPopoverDefinition>
 );
 
 const treasurySecurity = (
-  <GlossaryPopoverDefinition term="Treasury Security" page="Interest Expense Insight" onClick={() => glossaryGAEvent('Treasury Security')}>
+  <GlossaryPopoverDefinition term="Treasury Security" page="Interest Expense Insight" handleClick={() => glossaryGAEvent('Treasury Security')}>
     Treasury Security
   </GlossaryPopoverDefinition>
 );
 
 const federalDebt = (
-  <GlossaryPopoverDefinition term="Federal Debt" page="Interest Expense Insight" onClick={() => glossaryGAEvent('Federal Debt')}>
+  <GlossaryPopoverDefinition term="Federal Debt" page="Interest Expense Insight" handleClick={() => glossaryGAEvent('Federal Debt')}>
     federal debt
   </GlossaryPopoverDefinition>
 );
 
 const interestRates = (
-  <GlossaryPopoverDefinition term="Interest Rates" page="Interest Expense Insight" onClick={() => glossaryGAEvent('Interest Rates')}>
+  <GlossaryPopoverDefinition term="Interest Rates" page="Interest Expense Insight" handleClick={() => glossaryGAEvent('Interest Rates')}>
     interest rates
   </GlossaryPopoverDefinition>
 );

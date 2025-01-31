@@ -10,6 +10,7 @@ import { useWindowSize } from '../../../../../hooks/windowResize';
 import { useGetInterestExpenseData } from '../useGetInterestExpenseData';
 import globalConstants from '../../../../../helpers/constants';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
+import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 
 const breakpoint = {
   desktop: 1015,
@@ -41,8 +42,14 @@ export const InterestExpenseChart = () => {
   };
 
   const handleChartMouseEnter = () => {
+    const eventLabel = 'Interest Expense and Average Interest Rates on the National Debt';
+    const eventAction = 'Chart Hover';
     gaTimer = setTimeout(() => {
-      analyticsEventHandler('Interest Expense', 'Interest Expense and Average Interest Rates on the National Debt', 'Chart Hover');
+      analyticsEventHandler('Interest Expense', eventLabel, eventAction);
+      ga4DataLayerPush({
+        event: eventAction,
+        eventLabel: eventLabel,
+      });
     }, explainers.chartHoverDelay);
   };
 
