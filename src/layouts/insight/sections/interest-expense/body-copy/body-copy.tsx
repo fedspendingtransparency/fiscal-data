@@ -19,7 +19,7 @@ const interestExpense = (
 
 const treasurySecurity = (
   <GlossaryPopoverDefinition term="Treasury Security" page="Interest Expense Insight" handleClick={() => glossaryGAEvent('Treasury Security')}>
-    Treasury Security
+    Treasury securities
   </GlossaryPopoverDefinition>
 );
 
