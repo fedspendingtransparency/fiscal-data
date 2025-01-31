@@ -16,10 +16,17 @@ jobs:
         uses: actions/setup-node@v3.8.1
         with:
           node-version: 20
+          registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
+        env:
+          NODE_AUTH_TOKEN: ${{ vars.ARTIFACTORY }}
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm install --legacy-peer-deps
+        run: |
+          echo 'artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{ vars.ARTIFACTORY }}' > ${{ github.workspace }}/.npmrc
+          echo strict-ssl=false > ${{ github.workspace }}/.npmrc
+          echo always-auth=true > ${{ github.workspace }}/.npmrc
+          cat $NPM_CONFIG_USERCONFIG
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
