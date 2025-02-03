@@ -463,7 +463,7 @@ export const explainerSocialShareMap = {
     emailSubject: 'Fiscal Data Explains U.S. Treasury Savings Bonds',
     emailBody: 'Check out Fiscal Data’s new topic page explaining U.S. Treasury savings bonds!',
     url: envBaseUrl + '/treasury-savings-bonds/',
-    image: envBaseUrl + '/images/Savings-Bonds-Social-Share-w-Illustration_1200x630.png',
+    image: envBaseUrl + '/images/Savings-Bonds-Homepage-Tile_1200x630.png',
   },
   'treasury-fraud-spending': {
     title: 'Fiscal Data Explains U.S. Treasury Fraud Spending',
@@ -472,7 +472,7 @@ export const explainerSocialShareMap = {
     emailSubject: 'CHANGE',
     emailBody: 'CHANGE',
     url: envBaseUrl + '/treasury-fraud-spending/',
-    image: envBaseUrl + '/images/Savings-Bonds-Social-Share-w-Illustration_1200x630.png',
+    image: envBaseUrl + '/images/Savings-Bonds-Homepage-Tile_1200x630.png',
   },
 };
 
