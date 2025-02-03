@@ -5,7 +5,6 @@ import DropdownContainer from '../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
 import DataPreviewPivotSelect from '../data-preview-pivot-select/data-preview-pivot-select';
 import { ITableSelectDropdown } from '../../../models/data-preview/ITableSelectDropdown';
-import { allTablesOption } from '../../datatable-select/datatable-select';
 import DataPreviewDropdownDialogSearch from '../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
 
 const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = ({
@@ -18,9 +17,18 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   disableAllTables,
   selectedPivot,
   setSelectedPivot,
+  hideDropdown,
 }) => {
+  const allTablesOption = {
+    allDataTables: true,
+    pathName: 'all-data-tables',
+    tableName: 'All Data Tables (Download Only)',
+    valueFieldOptions: null,
+  };
+
+  const initialSelectedTable = allTablesSelected ? allTablesOption : selectedTable;
   const [active, setActive] = useState(false);
-  const [tableToApply, setTableToApply] = useState(selectedTable);
+  const [tableToApply, setTableToApply] = useState(initialSelectedTable);
   const [pivotToApply, setPivotToApply] = useState(selectedPivot);
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
@@ -38,7 +46,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     <DropdownLabelButton
       label="Data Table"
       icon={faDatabase}
-      selectedOption={selectedTable?.tableName}
+      selectedOption={allTablesSelected ? allTablesOption.tableName : selectedTable?.tableName}
       active={active}
       setActive={setActive}
       dropdownWidth="30rem"
@@ -47,7 +55,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
 
   const handleApply = () => {
     setAppliedTableView(tableViewSelection);
-    if (tableToApply !== selectedTable) {
+    if (tableToApply !== selectedTable || (allTablesSelected && !tableToApply.allDataTables)) {
       setSelectedTable(tableToApply);
     }
     if (tableViewSelection === 'pivotData') {
@@ -86,11 +94,14 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   useEffect(() => {
     if (!active) {
       setTableViewSelection(appliedTableView);
-      setTableToApply(selectedTable);
+      if (!allTablesSelected) {
+        setTableToApply(selectedTable);
+      }
     }
   }, [active]);
 
   useEffect(() => {
+    //initialize pivot options
     if (selectedTable && !selectedTable.allDataTables && !selectedPivot) {
       const localPivotFields = getPivotFields(selectedTable);
       const pivot = {
@@ -102,31 +113,35 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   }, [selectedTable]);
 
   return (
-    <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
-      {active && (
-        <DataPreviewDropdownDialogContainer
-          searchComponent={
-            <DataPreviewDropdownDialogSearch
-              options={options}
-              searchBarLabel="Search data tables"
-              selectedTable={tableToApply}
-              setSelectedTable={updateSelectedTable}
+    <>
+      {!hideDropdown && (
+        <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
+          {active && (
+            <DataPreviewDropdownDialogContainer
+              searchComponent={
+                <DataPreviewDropdownDialogSearch
+                  options={options}
+                  searchBarLabel="Search data tables"
+                  selectedTable={tableToApply}
+                  setSelectedTable={updateSelectedTable}
+                />
+              }
+              filterComponent={
+                <DataPreviewPivotSelect
+                  table={tableToApply}
+                  pivotToApply={pivotToApply}
+                  setPivotToApply={setPivotToApply}
+                  tableViewSelection={tableViewSelection}
+                  setTableViewSelection={setTableViewSelection}
+                />
+              }
+              handleApply={handleApply}
+              handleCancel={handleCancel}
             />
-          }
-          filterComponent={
-            <DataPreviewPivotSelect
-              table={tableToApply}
-              pivotToApply={pivotToApply}
-              setPivotToApply={setPivotToApply}
-              tableViewSelection={tableViewSelection}
-              setTableViewSelection={setTableViewSelection}
-            />
-          }
-          handleApply={handleApply}
-          handleCancel={handleCancel}
-        />
+          )}
+        </DropdownContainer>
       )}
-    </DropdownContainer>
+    </>
   );
 };
 

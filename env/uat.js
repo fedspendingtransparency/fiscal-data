@@ -64,7 +64,7 @@ module.exports = {
       endpoint: 'v1/debt/treasury_offset_program',
       dateField: 'record_date',
       downloadName: 'treasury_offset_program',
-      alwaysSortWith: ['-record_date', 'src_line_nbr'],
+      alwaysSortWith: ['-record_date', 'row_index_nbr'],
       selectColumns: [],
     },
     // TRRE Clean
@@ -92,6 +92,92 @@ module.exports = {
           selected for available results.`,
       },
       selectColumns: ['record_date', 'country_currency_desc', 'exchange_rate', 'effective_date'],
+    },
+    '139': {
+      endpoint: 'v1/debt/mspd/mspd_table_3_market',
+      dateField: 'record_date',
+      downloadName: 'MSPD_MktSecty',
+      dataDisplays: [
+        {
+          title: 'By Security Class',
+          dimensionField: 'security_class1_desc',
+          roundingDenomination: 'millions',
+          filters: [
+            {
+              key: 'security_class2_desc',
+              operator: 'in',
+              value:
+                'null,Total Treasury Bills,Total Treasury Bonds,Total Treasury Floating ' +
+                'Rate Notes,Total Tresasury Floating Rate Notes,Treasury Floating Rate Notes,Total Treasury Inflation-Indexed ' +
+                'Bonds,Total Treasury Inflation-Indexed Notes,Total Treasury Inflation-Protected ' +
+                'Securities,Total Treasury TIPS,Total Treasury Notes,',
+            },
+            {
+              key: 'security_class1_desc',
+              operator: 'neq',
+              value: 'Total Marketable',
+            },
+          ],
+        },
+        {
+          title: 'Bonds by Maturity',
+          dimensionField: 'security_class2_desc',
+          roundingDenomination: 'millions',
+          filters: [
+            {
+              key: 'security_class2_desc',
+              operator: 'in',
+              value: 'Total Matured Treasury Bonds,Total Unmatured Treasury Bonds',
+            },
+          ],
+        },
+        {
+          title: 'Inflation-Protected Securities by Class',
+          dimensionField: 'security_class2_desc',
+          roundingDenomination: 'millions',
+          filters: [
+            {
+              key: 'security_class2_desc',
+              operator: 'in',
+              value:
+                'Total Treasury Inflation-Indexed Bonds,Total Treasury Inflation-Indexed ' +
+                'Notes,Total Treasury Inflation-Protected Securities,Total Treasury TIPS',
+            },
+          ],
+        },
+        {
+          title: 'Notes by Maturity',
+          dimensionField: 'security_class2_desc',
+          roundingDenomination: 'millions',
+          filters: [
+            {
+              key: 'security_class2_desc',
+              operator: 'in',
+              value: 'Total Matured Treasury Notes,Total Unmatured Treasury Notes',
+            },
+          ],
+        },
+      ],
+      valueFieldOptions: ['issued_amt', 'outstanding_amt', 'redeemed_amt'],
+      selectColumns: [
+        'record_date',
+        'security_type_desc',
+        'security_class1_desc',
+        'security_class2_desc',
+        'series_cd',
+        'interest_rate_pct',
+        'yield_pct',
+        'issue_date',
+        'maturity_date',
+        'interest_pay_date_1',
+        'interest_pay_date_2',
+        'interest_pay_date_3',
+        'interest_pay_date_4',
+        'issued_amt',
+        'inflation_adj_amt',
+        'redeemed_amt',
+        'outstanding_amt',
+      ],
     },
   },
 };

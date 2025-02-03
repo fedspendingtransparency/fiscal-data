@@ -13,13 +13,14 @@ import {
   mockPivotableData,
   mockAccumulableData,
   bannerTableConfig,
+  noPivotConfig,
 } from '../../components/dataset-data/test-helper';
 import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { whiteListIds, mockPublishedReportsMTS } from '../../helpers/published-reports/published-reports';
 import PagingOptionsMenu from '../pagination/paging-options-menu';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import { reports } from '../published-reports/test-helper';
 import { RecoilRoot } from 'recoil';
 import DataPreview from './data-preview';
@@ -443,23 +444,31 @@ describe('DataPreview', () => {
     });
   });
 
-  // it(`reflects whether "All Tables" is selected to DateRangeFilter   `, async () => {
-  //   const datatableSelect = instance.findByType(DataTableSelect);
-  //
-  //   // passing down a falsy value to range Presets initially
-  //   let rangePresets = instance.findByType(DateRangeFilter);
-  //   expect(rangePresets.props.allTablesSelected).toBeFalsy();
-  //
-  //   // select the All Tables option, and confirm the tables have been sent to Range Presets
-  //   datatableSelect.props.setSelectedTable({ allDataTables: true });
-  //   rangePresets = instance.findByType(DateRangeFilter);
-  //   expect(rangePresets.props.allTablesSelected).toBeTruthy();
-  //
-  //   // confirm that switching back to a single selected table makes downloadTables falsy again
-  //   await updateTable('Table 2');
-  //   rangePresets = instance.findByType(DateRangeFilter);
-  //   expect(rangePresets.props.allTablesSelected).toBeFalsy();
-  // });
+  it(`disables table filter buttons when "All Data Tables" is selected`, async () => {
+    const { getByRole, getByText } = render(<DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />, {
+      wrapper: RecoilRoot,
+    });
+
+    const tableSelectDropdown = getByRole('button', { name: 'Data Table: Table 1' });
+    fireEvent.click(tableSelectDropdown);
+
+    fireEvent.click(getByRole('button', { name: 'All Data Tables (Download Only)' }));
+    fireEvent.click(getByRole('button', { name: 'Apply' }));
+
+    const columnsDropdown = getByRole('button', { name: 'Columns: 0/17' });
+    expect(columnsDropdown).toBeDisabled();
+
+    const allTablesBanner = getByText(`The current "All Data Tables" selection is for download only`);
+    expect(allTablesBanner).toBeInTheDocument();
+
+    // Only filter available should be record date
+    const filtersDropdown = getByRole('button', { name: 'Filters: 0 applied' });
+    fireEvent.click(filtersDropdown);
+
+    //TODO: Add back in when filters dropdown is added
+    // const filterOptions = within(filtersDropdown).getByRole('button');
+    // expect(filterOptions).toHaveLength(1);
+  });
 
   it(`renders the datatable banner when datatableBanner exists`, () => {
     const bannerText = 'This is a test';
@@ -497,6 +506,16 @@ describe('DataPreview', () => {
 
     const updatedTableSelectDropdown = getByRole('button', { name: 'Data Table: Table 2' });
     expect(updatedTableSelectDropdown).toBeInTheDocument();
+  });
+
+  it('hides data table select when there is only one api with no pivot options', () => {
+    const { queryByRole } = render(
+      <RecoilRoot>
+        <DataPreview config={noPivotConfig} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />
+      </RecoilRoot>
+    );
+    const tableSelectDropdown = queryByRole('button', { name: 'Data Table: Table 1' });
+    expect(tableSelectDropdown).not.toBeInTheDocument();
   });
 });
 

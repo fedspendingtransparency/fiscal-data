@@ -23,6 +23,9 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
   const [isExpanded, setExpanded] = useState(false);
 
   const title = content.title;
+  const getMinWidth = link => ({
+    minWidth: `${link.length * 7.5 + 28}px`,
+  });
 
   const handlePageClick = (title, pageName) => {
     window.dataLayer = window.dataLayer || [];
@@ -110,7 +113,12 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
                 {section.children.map(page => {
                   return (
                     <div key={page.title} className={dropdownListItem}>
-                      <Link to={page.to} activeClassName={activeDropdownLink} onClick={() => handlePageClick(title, page.title)}>
+                      <Link
+                        to={page.to}
+                        activeClassName={activeDropdownLink}
+                        onClick={() => handlePageClick(title, page.title)}
+                        style={getMinWidth(page.title)}
+                      >
                         {page.title}
                       </Link>
                     </div>
@@ -130,7 +138,7 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
               if (link.external) {
                 return (
                   <div key={link.title} className={dropdownListItem}>
-                    <a href={link.to} target="_blank">
+                    <a href={link.to} target="_blank" rel="noreferrer">
                       {link.title}
                     </a>
                   </div>
@@ -142,7 +150,7 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
                       to={link.to}
                       activeClassName={activeDropdownLink}
                       onClick={() => handlePageClick(title, link.title)}
-                      style={{ minWidth: `${link.title.length * 7.5 + 28}px` }}
+                      style={getMinWidth(link.title)}
                     >
                       {link.title}
                     </Link>

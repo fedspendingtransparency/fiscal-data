@@ -73,6 +73,26 @@ export const bannerTableConfig = {
   },
 };
 
+export const noPivotConfig = {
+  slug: '/mock-dataset/',
+  datasetId: 'MOCK-DATASET-ID-0',
+  datatableBanner: 'This is a test',
+  apis: [
+    {
+      tableName: 'Table 1',
+      earliestDate: '2002-01-01',
+      latestDate: '2020-01-01',
+      dateField: 'column A',
+      dataDisplays: [{ name: 'Complete Table' }],
+      fields: [{ columnName: 'column A', prettyName: 'Column A' }],
+    },
+  ],
+  techSpecs: {
+    earliestDate: '2002-01-01',
+    latestDate,
+  },
+};
+
 export const config = {
   slug: '/mock-dataset/',
   datasetId: 'MOCK-DATASET-ID-0',

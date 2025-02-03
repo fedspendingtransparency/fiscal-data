@@ -42,7 +42,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
       <div className={filterAndDownloadContainer}>
         <div className={filterContainer}>
           <DataPreviewTableFilters />
-          <ColumnFilter />
+          <ColumnFilter allTablesSelected={allTablesSelected} />
         </div>
         {width >= pxToNumber(breakpointLg) && (
           <DataPreviewDownload
