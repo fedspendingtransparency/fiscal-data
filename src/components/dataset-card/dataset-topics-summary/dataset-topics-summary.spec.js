@@ -7,8 +7,6 @@ describe('DatasetTopicsSummary', () => {
   HTMLCanvasElement.prototype.getContext = jest.fn();
   const mockRelatedTopics = ['topic1', 'topic2'];
   const mockRelatedTopics2 = [];
-  // const tree = renderer.create(<DatasetTopicsSummary relatedTopics={mockRelatedTopics} />);
-  // const instance = tree.root;
 
   it('renders an element with a heading reading "TOPICS:"', () => {
     const { getByText } = render(<DatasetTopicsSummary relatedTopics={mockRelatedTopics} />);
