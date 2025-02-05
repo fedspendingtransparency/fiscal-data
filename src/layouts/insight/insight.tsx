@@ -9,6 +9,7 @@ import {
   insightHeroMap,
   insightLastUpdated,
   insightSocialShareMap,
+  insightsPageName,
 } from '../../helpers/insights/insight-helpers';
 import CitationList from '../../components/citation-list/citation-list';
 import { insightsDataSources, insightsDescriptionGenerators, insightsSections } from './sections/sections';
@@ -57,8 +58,8 @@ const InsightPageLayout = ({ pageContext, width }) => {
               {width >= pxToNumber(breakpointLg) && (
                 <SocialShare copy={insightSocialShareMap[pageName]} pageName="Interest Expense" headerLevel="h2" displayStyle="responsive" />
               )}
-              <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} />
-              <CitationList header="Discover Datasets" citations={discoverDatasetsCitationsMap[pageName]} />
+              <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} pageName={insightsPageName[pageName]} />
+              <CitationList header="Discover Datasets" citations={discoverDatasetsCitationsMap[pageName]} pageName={insightsPageName[pageName]} />
             </div>
           </div>
         </div>

@@ -6,6 +6,10 @@ import CustomLink from '../../components/links/custom-link/custom-link';
 
 const envBaseUrl = BASE_URL;
 
+export const insightsPageName = {
+  'interest-expense': 'Interest Expense',
+};
+
 export const insightHeroMap = {
   'interest-expense': {
     component: () => <InterestExpenseHero />,
@@ -65,6 +69,7 @@ export const discoverDatasetsCitationsMap = {
 };
 
 export const analyticsEventHandler = (pageName, eventLabel, eventAction = 'Citation Click') => {
+  console.log('here', pageName, eventLabel, eventAction);
   Analytics.event({
     category: pageName,
     action: eventAction,

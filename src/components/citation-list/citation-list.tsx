@@ -32,7 +32,7 @@ const CitationList: FunctionComponent<ICitationList> = ({ header, citations, hea
                 <FontAwesomeIcon icon={citation?.external ? faExternalLink : faLink} />
               </div>
               <span>
-                {citation.text} {citation?.external && '| U.S. Treasury Fiscal Data'}
+                {citation.text} {!citation?.external && '| U.S. Treasury Fiscal Data'}
               </span>
             </div>
           </CustomLink>
