@@ -69,7 +69,6 @@ export const discoverDatasetsCitationsMap = {
 };
 
 export const analyticsEventHandler = (pageName, eventLabel, eventAction = 'Citation Click') => {
-  console.log('here', pageName, eventLabel, eventAction);
   Analytics.event({
     category: pageName,
     action: eventAction,

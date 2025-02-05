@@ -24,20 +24,21 @@ const CitationList: FunctionComponent<ICitationList> = ({ header, citations, hea
       <Heading headingLevel={headingLevel} className={listHeader}>
         {header}
       </Heading>
-      {citations.map((citation: ICitation, index: number) => (
-        <div className={citationContainer} key={index}>
-          <CustomLink url={citation.url} onClick={() => analyticsEventHandler(pageName, citation.text)}>
-            <div className={citationText}>
-              <div className={iconContainer}>
-                <FontAwesomeIcon icon={citation?.external ? faExternalLink : faLink} />
+      {citations.map((citation: ICitation, index: number) => {
+        const linkText = `${citation.text} ${!citation?.external && '| U.S. Treasury Fiscal Data'}`;
+        return (
+          <div className={citationContainer} key={index}>
+            <CustomLink url={citation.url} onClick={() => analyticsEventHandler(pageName, citation.text)}>
+              <div className={citationText} id={citation.text}>
+                <div className={iconContainer}>
+                  <FontAwesomeIcon icon={citation?.external ? faExternalLink : faLink} />
+                </div>
+                <>{linkText}</>
               </div>
-              <span>
-                {citation.text} {!citation?.external && '| U.S. Treasury Fiscal Data'}
-              </span>
-            </div>
-          </CustomLink>
-        </div>
-      ))}
+            </CustomLink>
+          </div>
+        );
+      })}
     </>
   );
 };
