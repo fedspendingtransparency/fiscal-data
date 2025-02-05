@@ -7,6 +7,7 @@ import DataPreviewTableFilters from './data-preview-table-filters/data-preview-t
 import ColumnFilter from './column-filter/column-filter';
 import { breakpointLg } from '../data-preview.module.scss';
 import { withWindowSize } from 'react-fns';
+import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
 
 type DataPreviewFilterSectionProps = {
   width?: number;
@@ -44,6 +45,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
           <DataPreviewTableFilters />
           <ColumnFilter allTablesSelected={allTablesSelected} />
         </div>
+        <ChartTableToggle></ChartTableToggle>
         {width >= pxToNumber(breakpointLg) && (
           <DataPreviewDownload
             width={width}

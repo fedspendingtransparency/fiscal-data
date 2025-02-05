@@ -1,0 +1,11 @@
+@import '../../../variables.module.scss';
+
+.buttonGroup {
+  color: red;
+  @include radioToggles;
+}
+
+.tabIcon {
+  margin-right: 0.5rem;
+  font-size: $font-size-16;
+}
