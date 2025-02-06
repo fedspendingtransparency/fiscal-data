@@ -28,12 +28,13 @@ export const deficitLearnMoreLinks = [
   },
   {
     title: 'President’s Budget – Historical Tables',
-    url: 'https://www.whitehouse.gov/omb/historical-tables/',
+    urlAlias: 'https://www.whitehouse.gov/omb/historical-tables/',
+    url: 'https://www.trumpwhitehouse.gov/omb/historical-tables/',
     onClick: () => diveDeeperCitationClick('President’s Budget – Historical Tables'),
   },
   {
-    title: 'FY 2022 Final Monthly Treasury Statement',
-    url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202209.pdf',
+    title: 'FY 2024 Final Monthly Treasury Statement',
+    url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202409.pdf',
     onClick: () => diveDeeperCitationClick('FY 2022 Final Monthly Treasury Statement'),
     id: 'Monthly Treasury Statement',
   },

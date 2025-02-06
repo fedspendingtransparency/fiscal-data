@@ -11,7 +11,7 @@ const LearnMoreSection = ({ links, description }) => {
           <strong>{link.title}</strong>
           <br />
           <CustomLink url={link.url} eventNumber={link?.eventNumber} onClick={link?.onClick} id={link?.id}>
-            {link.url}
+            {link.urlAlias ? link.urlAlias : link.url}
           </CustomLink>
         </div>
       ))}
