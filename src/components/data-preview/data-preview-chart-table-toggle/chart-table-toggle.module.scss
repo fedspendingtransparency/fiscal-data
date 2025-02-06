@@ -1,7 +1,6 @@
 @import '../../../variables.module.scss';
 
 .buttonGroup {
-  color: red;
   @include radioToggles;
 }
 

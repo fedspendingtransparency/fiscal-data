@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import React from 'react';
 import DataPreviewDownload from './data-preview-download/data-preview-download';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
-import { filterAndDownloadContainer, filterContainer } from './data-preview-filter-section.module.scss';
+import { filterAndDownloadContainer, filterContainer, tableToggle } from './data-preview-filter-section.module.scss';
 import DataPreviewTableFilters from './data-preview-table-filters/data-preview-table-filters';
 import ColumnFilter from './column-filter/column-filter';
 import { breakpointLg } from '../data-preview.module.scss';
@@ -45,7 +45,9 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
           <DataPreviewTableFilters />
           <ColumnFilter allTablesSelected={allTablesSelected} />
         </div>
-        <ChartTableToggle></ChartTableToggle>
+        <div className={tableToggle}>
+          <ChartTableToggle></ChartTableToggle>
+        </div>
         {width >= pxToNumber(breakpointLg) && (
           <DataPreviewDownload
             width={width}
