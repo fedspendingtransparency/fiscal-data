@@ -87,7 +87,12 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
             >
               <div className={socialShareContainer}>
                 <div className={socialShare}>
-                  <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="responsive" />
+                  <SocialShare
+                    copy={explainerSocialShareMap[pageName]}
+                    pageName={explainerAnalyticsLabelMap[pageName]}
+                    displayStyle="responsive"
+                    explainer
+                  />
                 </div>
                 <div className={mainContent}>
                   {explainerSections[pageName].map(s => (
