@@ -25,7 +25,7 @@ const CitationList: FunctionComponent<ICitationList> = ({ header, citations, hea
         {header}
       </Heading>
       {citations.map((citation: ICitation, index: number) => {
-        const linkText = `${citation.text} ${!citation?.external && '| U.S. Treasury Fiscal Data'}`;
+        const linkText = `${citation.text} ${!citation?.external ? '| U.S. Treasury Fiscal Data' : ''}`;
         return (
           <div className={citationContainer} key={index}>
             <CustomLink url={citation.url} onClick={() => analyticsEventHandler(pageName, citation.text)}>
