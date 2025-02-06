@@ -242,7 +242,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
         downloadData = downloadData.map(entry => {
           const dataWithTextQualifiers = [];
           Object.values(entry).forEach(val => {
-            dataWithTextQualifiers.push(val.includes(',') ? `"${val}"` : val);
+            dataWithTextQualifiers.push(val?.includes(',') ? `"${val}"` : val);
           });
           return dataWithTextQualifiers;
         });
