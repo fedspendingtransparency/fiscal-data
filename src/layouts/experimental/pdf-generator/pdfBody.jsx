@@ -64,7 +64,6 @@ const MyDynamicTable = ({ data }) => {
     <View style={styles.tableContainer}>
       <View style={styles.headerRow}>
         {columns.map((col, idx) => {
-          console.log(colConfig[col]);
           return (
             <Text key={col} style={[styles.cell, { minWidth: colConfig[col] }, idx === columns.length - 1 && styles.lastCell]}>
               {col}
