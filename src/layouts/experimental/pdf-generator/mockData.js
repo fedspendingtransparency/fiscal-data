@@ -20,7 +20,7 @@ export const mockData = [
   {
     effectiveDate: '01/03/2025',
     sharesPar: '732,100.56',
-    transCode: '3-10 LOAN REPAYMENT FROM STATE TO FUA',
+    transCode: '34-10 LOAN REPAYMENT FROM STATE TO FUA',
     memoNumber: 3382107,
     location: 'CA',
     accountNumber: 'CA-505',
@@ -101,12 +101,12 @@ export const mockData2 = [
 ];
 
 export const colConfig = {
-  effectiveDate: 80,
-  sharesPar: 80,
-  transCode: 250,
-  memoNumber: 80,
-  location: 60,
-  accountNumber: 60,
-  description: 150,
-  transactionDescription: 220,
+  effectiveDate: 60,
+  sharesPar: 60,
+  transCode: 190,
+  memoNumber: 60,
+  location: 50,
+  accountNumber: 70,
+  description: 140,
+  transactionDescription: 130,
 };
