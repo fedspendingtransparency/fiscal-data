@@ -11,7 +11,6 @@ const styles = {
   button: {
     height: '2rem',
     width: '10rem',
-    marginBottom: '2rem',
   },
 };
 const PDFGenerator = () => {
@@ -29,7 +28,7 @@ const PDFGenerator = () => {
         {showPDF ? 'Hide PDF Viewer' : 'Show PDF Viewer'}
       </button>
       {showPDF && (
-        <div style={{ border: '1px solid #ccc', height: '600px', marginTop: '4rem' }}>
+        <div style={{ border: '1px solid #ccc', height: '600px', marginTop: '1rem' }}>
           <PDFViewer style={styles.container}>
             <PDFBody data={mockData} data2={mockData2} />
           </PDFViewer>
