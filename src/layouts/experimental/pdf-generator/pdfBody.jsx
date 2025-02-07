@@ -1,9 +1,10 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
+import { colConfig } from './mockData';
 
 const styles = StyleSheet.create({
   page: {
-    fontSize: 10,
+    fontSize: 8,
     padding: 10,
   },
   title: {
@@ -39,6 +40,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 4,
   },
+  extraWidth: {
+    // flex: 1,
+    minWidth: 200,
+    color: 'red',
+  },
   bold: {
     fontFamily: 'Times-Bold',
     fontSize: 12,
@@ -57,16 +63,19 @@ const MyDynamicTable = ({ data }) => {
   return (
     <View style={styles.tableContainer}>
       <View style={styles.headerRow}>
-        {columns.map((col, idx) => (
-          <Text key={col} style={[styles.cell, idx === columns.length - 1 && styles.lastCell]}>
-            {col}
-          </Text>
-        ))}
+        {columns.map((col, idx) => {
+          console.log(colConfig[col]);
+          return (
+            <Text key={col} style={[styles.cell, { minWidth: colConfig[col] }, idx === columns.length - 1 && styles.lastCell]}>
+              {col}
+            </Text>
+          );
+        })}
       </View>
       {data.map((row, rowIndex) => (
         <View style={styles.row} key={rowIndex}>
           {columns.map((col, colIndex) => (
-            <Text key={colIndex} style={[styles.cell, colIndex === columns.length - 1 && styles.lastCell]} wrap={false}>
+            <Text key={colIndex} style={[styles.cell, { minWidth: colConfig[col] }, colIndex === columns.length - 1 && styles.lastCell]} wrap={false}>
               {row[col]}
             </Text>
           ))}

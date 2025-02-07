@@ -99,3 +99,14 @@ export const mockData2 = [
     sharesPar: '$54,751.13',
   },
 ];
+
+export const colConfig = {
+  effectiveDate: 80,
+  sharesPar: 80,
+  transCode: 250,
+  memoNumber: 80,
+  location: 60,
+  accountNumber: 60,
+  description: 150,
+  transactionDescription: 220,
+};
