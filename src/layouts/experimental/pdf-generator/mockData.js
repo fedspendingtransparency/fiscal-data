@@ -81,3 +81,21 @@ export const mockData = [
     description: 'Another repayment',
   },
 ];
+export const mockData2 = [
+  {
+    transactionDescription: '11-10 state deposits',
+    sharesPar: '$1,541,751.13',
+  },
+  {
+    transactionDescription: '11-10 Loan Repayment',
+    sharesPar: '$751.13',
+  },
+  {
+    transactionDescription: '11-10 Loan repayment from state to fua',
+    sharesPar: '$541,751.13',
+  },
+  {
+    transactionDescription: '11-10 CWC IN',
+    sharesPar: '$54,751.13',
+  },
+];

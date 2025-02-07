@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PDFViewer, PDFDownloadLink, StyleSheet } from '@react-pdf/renderer';
 import PDFBody from './pdfBody';
-import { mockData } from './mockData';
+import { mockData, mockData2 } from './mockData';
 
 const styles = {
   container: {
@@ -29,9 +29,9 @@ const PDFGenerator = () => {
         {showPDF ? 'Hide PDF Viewer' : 'Show PDF Viewer'}
       </button>
       {showPDF && (
-        <div style={{ border: '1px solid #ccc', height: '600px', marginTop: '1rem' }}>
+        <div style={{ border: '1px solid #ccc', height: '600px', marginTop: '4rem' }}>
           <PDFViewer style={styles.container}>
-            <PDFBody data={mockData} />
+            <PDFBody data={mockData} data2={mockData2} />
           </PDFViewer>
         </div>
       )}

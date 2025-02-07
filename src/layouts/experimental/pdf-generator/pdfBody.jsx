@@ -1,37 +1,51 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   page: {
     fontSize: 10,
     padding: 10,
   },
+  title: {
+    fontSize: 16,
+    marginBottom: 20,
+    color: '#313178',
+    fontFamily: 'Times-Bold',
+  },
   tableContainer: {
     display: 'flex',
     flexDirection: 'column',
     borderColor: '#000',
-    marginTop: 10,
+    marginTop: 20,
   },
   headerRow: {
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#000',
+    fontFamily: 'Times-Bold',
   },
   row: {
     flexDirection: 'row',
     borderBottomColor: '#000',
+    width: '100%',
   },
   cell: {
     flex: 1,
     padding: 4,
     borderRightColor: '#000',
+    width: '100%',
   },
   lastCell: {
     flex: 1,
     padding: 4,
   },
   bold: {
-    fontWeight: 'bold',
+    fontFamily: 'Times-Bold',
+    fontSize: 12,
+  },
+  final: {
+    marginBottom: '20',
+    fontFamily: 'Times-Italic',
   },
 });
 
@@ -52,7 +66,7 @@ const MyDynamicTable = ({ data }) => {
       {data.map((row, rowIndex) => (
         <View style={styles.row} key={rowIndex}>
           {columns.map((col, colIndex) => (
-            <Text key={colIndex} style={[styles.cell, colIndex === columns.length - 1 && styles.lastCell]}>
+            <Text key={colIndex} style={[styles.cell, colIndex === columns.length - 1 && styles.lastCell]} wrap={false}>
               {row[col]}
             </Text>
           ))}
@@ -62,17 +76,27 @@ const MyDynamicTable = ({ data }) => {
   );
 };
 
-const PDFBody = ({ data }) => (
+const PDFBody = ({ data, data2 }) => (
   <Document title="StatementReport">
     <Page style={styles.page}>
-      <Text style={{ fontSize: 14, marginBottom: 6 }}>Dynamic Transaction Statement</Text>
-      <Text>Account: CALIFORNIA, 000000000000505</Text>
-      <Text>Report Date: January 2025</Text>
-      <Text>Final Report</Text>
+      <Text style={styles.title}>Dynamic Transaction Statement</Text>
       <Text>
-        <Text style={{ fontSize: 10, fontWeight: 'bold' }}>Beginning Balance:</Text> $485,338,841.76
+        <Text style={styles.bold}>Account: </Text>CALIFORNIA, 000000000000505
       </Text>
-      <Text>Ending Balance: $490,718,593.54</Text>
+      <Text>
+        <Text style={styles.bold}>Report Date: </Text>January 2025
+      </Text>
+      <Text style={styles.final}>Final Report</Text>
+
+      {/*<Text>*/}
+      {/*  <Text style={styles.bold}>Beginning Balance:</Text>$485,338,841.76*/}
+      {/*</Text>*/}
+      <Text>
+        <Text style={styles.bold}>Ending Balance:</Text> $490,718,593.54
+      </Text>
+      <View style={{ width: '50%' }}>
+        <MyDynamicTable data={data2} />
+      </View>
       <MyDynamicTable data={data} />
     </Page>
   </Document>
