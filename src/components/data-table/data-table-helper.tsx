@@ -6,7 +6,6 @@ import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
 import CustomLink from '../links/custom-link/custom-link';
 import { updateTableButton, downloadLinkContainer, downloadLinkIcon } from './data-table.module.scss';
-import { ENV_ID } from 'gatsby-env-variables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -335,4 +334,18 @@ export const getSortedColumnsData = (
     }));
     setTableColumnSortData(mapped);
   }
+};
+
+export const constructDateHeader = (datasetName, dateRange) => {
+  const timestampData = [];
+  timestampData.push(`${datasetName}.`);
+  const date = new Date(dateRange.to.toString());
+  const dateFormatted = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+  const lastDateOfMonth = `${dateFormatted}`;
+  timestampData.push(`As of ${lastDateOfMonth}`);
+  return timestampData;
 };

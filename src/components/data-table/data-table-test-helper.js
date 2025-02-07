@@ -173,6 +173,48 @@ export const mockTableData1Row = {
   daily_int_accrual_rate: '0.222222222',
   spread: '-0.1200',
 };
+export const mockTableDownloadWithTextQualifier = {
+  data: [
+    {
+      record_date: '2023-07-12',
+      string_val: 'just a normal string',
+      string_val_with_commas: 'comma, separated, list',
+    },
+  ],
+  meta: {
+    count: 1,
+    labels: {
+      record_date: 'Record Date',
+      string_val: 'String Value',
+      string_val_with_commas: 'String Value with Commas',
+    },
+    dataTypes: {
+      record_date: 'DATE',
+      string_val: 'String',
+      string_val_with_commas: 'String',
+    },
+    dataFormats: {
+      record_date: 'YYYY-MM-DD',
+    },
+    'total-count': 1,
+    'total-pages': 1,
+  },
+};
+
+export const mockColumnConfigDownloadWithTextQualifier = [
+  {
+    property: 'record_date',
+    name: 'Record Date',
+  },
+  {
+    property: 'string_val',
+    name: 'String Value',
+  },
+  {
+    property: 'string_val_with_commas',
+    name: 'String Value with Commas',
+  },
+];
 
 export const mockTableData = {
   data: [

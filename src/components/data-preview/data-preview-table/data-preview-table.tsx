@@ -93,6 +93,8 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   setAllActiveFilters,
   userFilterSelection,
   disableDateRangeFilter,
+  hasDownloadTimestamp,
+  datesetName,
 }) => {
   const {
     dePaginated,
@@ -474,6 +476,9 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
                 setAllActiveFilters={setAllActiveFilters}
                 setTableSorting={setTableSorting}
                 disableDateRangeFilter={disableDateRangeFilter}
+                datasetName={datesetName}
+                dateRange={tableProps.dateRange}
+                hasDownloadTimestamp={hasDownloadTimestamp}
               />
             </ErrorBoundary>
           )}
