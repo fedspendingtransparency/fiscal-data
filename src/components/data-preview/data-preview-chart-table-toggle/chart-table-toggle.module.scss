@@ -86,7 +86,7 @@
     width: 20rem;
   }
   .toggleButton {
-    width: calc(50% - 2rem - 2px);
+    width: calc(50% - 2rem - 1px); //accounts for middle border pixel
     text-align: center;
   }
 }
