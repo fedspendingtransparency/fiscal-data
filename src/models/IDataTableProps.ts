@@ -1,3 +1,5 @@
+import { SortingState } from '@tanstack/react-table';
+
 export interface IDataTableProps {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
   rawData;
@@ -34,5 +36,7 @@ export interface IDataTableProps {
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;
   setTableSorting?: (value: SortingState) => void;
+  datasetName: string;
+  dateRange;
   disableDateRangeFilter: boolean;
 }

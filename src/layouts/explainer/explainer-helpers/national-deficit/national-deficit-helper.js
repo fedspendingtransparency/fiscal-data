@@ -27,12 +27,6 @@ export const deficitLearnMoreLinks = [
     onClick: () => diveDeeperCitationClick('Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19'),
   },
   {
-    title: 'President’s Budget – Historical Tables',
-    urlAlias: 'https://www.whitehouse.gov/omb/historical-tables/',
-    url: 'https://www.trumpwhitehouse.gov/omb/historical-tables/',
-    onClick: () => diveDeeperCitationClick('President’s Budget – Historical Tables'),
-  },
-  {
     title: 'FY 2024 Final Monthly Treasury Statement',
     url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202409.pdf',
     onClick: () => diveDeeperCitationClick('FY 2022 Final Monthly Treasury Statement'),
