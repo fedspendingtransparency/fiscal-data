@@ -12,7 +12,7 @@ $icon-width: 1.5rem;
   background-color: $primary;
   border: none;
   border-radius: 3px;
-  padding: 0.625rem 1rem;
+  padding: 0.5rem 1rem;
   .icon {
     display: flex;
     align-items: center;
@@ -29,7 +29,6 @@ $icon-width: 1.5rem;
   position: relative;
 }
 
-
 @media screen and (min-width: $breakpoint-lg) {
   .downloadButton {
     gap: 0.5rem;
@@ -45,6 +44,5 @@ $icon-width: 1.5rem;
       width: calc(100% - $icon-width);
       margin-left: $icon-width;
     }
-
   }
 }

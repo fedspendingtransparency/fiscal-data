@@ -1,10 +1,99 @@
 @import '../../../variables.module.scss';
 
+//.buttonGroup {
+//  @include radioToggles;
+//  border: $light-grey-border;
+//  font-weight: 400;
+//  height: $font-size-40;
+//}
+
 .buttonGroup {
-  @include radioToggles;
+  .toggleButton {
+    font-weight: 400;
+    font-size: $semi-bold-weight;
+    color: $font-title;
+    position: relative;
+    display: inline-block;
+    border: 1px solid $light-grey-border;
+    padding: 0.5625rem 1rem;
+    outline: 1px transparent;
+    transition: outline 0.2s ease;
+    background-color: #ffffff;
+    border-radius: 3px;
+    margin: 0 0.25rem 0.25rem 0;
+    *,
+    & {
+      cursor: pointer;
+    }
+    &.selected {
+      color: $primary;
+      border: 1px solid $primary;
+      font-weight: $semi-bold-weight;
+    }
+    &.selected,
+    &:hover {
+      background-color: $table-notice-color;
+    }
+    &:focus,
+    &:focus-within {
+      outline: 1px solid $focus;
+      z-index: $radio-button;
+    }
+  }
+
+  .buttonDescription {
+    display: inline-block;
+    margin-left: 0.625rem;
+  }
+
+  .innerButton {
+    padding: 0.75rem 1rem;
+  }
+
+  .radio {
+    opacity: 0;
+    position: absolute;
+    &:focus + .toggleButton {
+      outline: 1px solid $focus;
+      z-index: $radio-button;
+    }
+  }
+
+  .toggleButton {
+    margin: 0;
+    border-radius: 0;
+    &:first-of-type {
+      border-radius: 3px 0 0 3px;
+    }
+    &:not(:last-of-type):not(.selected) {
+      border-right: 0;
+    }
+    &:last-of-type {
+      border-radius: 0 3px 3px 0;
+    }
+    &.selected + input.radio + label.toggleButton,
+    &.selected + label.toggleButton {
+      border-left: 0;
+    }
+  }
+  .radio {
+    &:checked + label + .toggleButton {
+      border-left: 0;
+    }
+  }
 }
 
 .tabIcon {
   margin-right: 0.5rem;
   font-size: $font-size-16;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .buttonGroup {
+    width: 20rem;
+  }
+  .toggleButton {
+    width: calc(50% - 2rem - 2px);
+    text-align: center;
+  }
 }

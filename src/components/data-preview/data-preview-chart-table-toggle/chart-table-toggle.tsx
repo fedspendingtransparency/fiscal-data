@@ -3,8 +3,8 @@ import { buttonGroup, radio, toggleButton, selected, tabIcon } from './chart-tab
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 
-const DownloadToggle = ({ onChange }) => {
-  const [activeState, setActiveState] = useState('csv');
+const ChartTableToggle = ({ onChange }) => {
+  const [activeState, setActiveState] = useState('table');
 
   const changeState = value => {
     setActiveState(value);
@@ -43,4 +43,4 @@ const DownloadToggle = ({ onChange }) => {
   );
 };
 
-export default DownloadToggle;
+export default ChartTableToggle;
