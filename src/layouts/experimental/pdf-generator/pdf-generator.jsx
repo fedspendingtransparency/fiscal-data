@@ -8,9 +8,14 @@ const styles = {
     height: '50rem',
     width: '50rem',
   },
+  button: {
+    height: '2rem',
+    width: '10rem',
+    marginBottom: '2rem',
+  },
 };
 const PDFGenerator = () => {
-  const [showPDF, setShowPDF] = useState(false);
+  const [showPDF, setShowPDF] = useState(true);
 
   const handleShowPDF = () => {
     setShowPDF(prev => !prev);
@@ -20,7 +25,9 @@ const PDFGenerator = () => {
       <PDFDownloadLink document={<PDFBody data={mockData} />} fileName="StatementReport.pdf">
         {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download PDF')}
       </PDFDownloadLink>
-      <button onClick={handleShowPDF}>{showPDF ? 'Hide PDF Viewer' : 'Show PDF Viewer'}</button>
+      <button style={styles.button} onClick={handleShowPDF}>
+        {showPDF ? 'Hide PDF Viewer' : 'Show PDF Viewer'}
+      </button>
       {showPDF && (
         <div style={{ border: '1px solid #ccc', height: '600px', marginTop: '1rem' }}>
           <PDFViewer style={styles.container}>
