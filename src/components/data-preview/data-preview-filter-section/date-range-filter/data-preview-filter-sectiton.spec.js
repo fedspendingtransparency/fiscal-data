@@ -13,5 +13,7 @@ describe('Data preview filter section', () => {
     expect(getByRole('button', { name: 'Columns: 0/17' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Download' })).toBeInTheDocument();
+    expect(getByRole('radio', { name: 'Table' })).toBeInTheDocument();
+    expect(getByRole('radio', { name: 'Chart' })).toBeInTheDocument();
   });
 });
