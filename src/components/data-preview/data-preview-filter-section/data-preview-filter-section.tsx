@@ -40,21 +40,22 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   filteredDateRange,
   selectedDetailViewFilter,
 }) => {
-  // console.log('selectedTable data:', selectedTable);
-  // console.log('selectedPivot data:', selectedPivot);
-  console.log('dataset:', dataset);
+  const getChartingInfo = () => {
+    return selectedPivot && pivotView && !!pivotView.chartType && pivotView.chartType !== 'none';
+  };
+  const { pivotView } = selectedPivot ?? {};
+
   return (
     <>
       <div className={filterAndDownloadContainer}>
         <div className={filterContainer}>
           <DataPreviewTableFilters />
           <ColumnFilter allTablesSelected={allTablesSelected} />
-          {/*{width < pxToNumber(breakpointXl) && selectedPivot && pivotView && pivotView.chartType !== 'none' && <ChartTableToggle />}*/}
+          {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle />}
         </div>
         {width >= pxToNumber(breakpointXl) && (
           <div className={toggleDownloadContainer}>
-            {/*{pivotView && <ChartTableToggle />}*/}
-            <ChartTableToggle />
+            {getChartingInfo() && <ChartTableToggle />}
             <DataPreviewDownload
               width={width}
               dateRange={dateRange}

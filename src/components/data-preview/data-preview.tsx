@@ -280,6 +280,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             dateRange={dateRange}
             isFiltered={isFiltered}
             selectedTable={!!detailViewState ? detailApi : selectedTable}
+            selectedPivot={selectedPivot}
             dataset={config}
             allTablesSelected={allTablesSelected}
             isCustomDateRange={isCustomDateRange}

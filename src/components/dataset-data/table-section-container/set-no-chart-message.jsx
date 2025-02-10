@@ -15,7 +15,6 @@ export const SetNoChartMessage = (
 ) => {
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
-  // console.log('selectedPivot data:', selectedPivot);
   if (allTablesSelected) {
     const allTablesMessage =
       'With the current "All Data Tables" selection, you may download the data, but the table and chart previews are not applicable.';
