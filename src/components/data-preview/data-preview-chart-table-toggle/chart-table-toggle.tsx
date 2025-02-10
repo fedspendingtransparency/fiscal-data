@@ -3,16 +3,12 @@ import { buttonGroup, radio, toggleButton, selected, tabIcon } from './chart-tab
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 
-const ChartTableToggle = ({ onChange, selectedPivot }) => {
+const ChartTableToggle = ({ onChange }) => {
   const [activeState, setActiveState] = useState('table');
 
   const changeState = value => {
     setActiveState(value);
     onChange(value);
-  };
-
-  const getChartingInfo = () => {
-    return selectedPivot && pivotView && pivotView.chartType !== 'none';
   };
 
   return (
