@@ -71,15 +71,15 @@ describe('API Documentation Page', () => {
     });
   });
 
-  it('Validate all sub nav links navigate to the correct destinations', () => {
+  it('Validate all sub-nav links navigate to the correct destinations', () => {
     const links = [
-      {
-        text: 'Getting Started',
-        url: 'api-documentation/#getting-started',
-      },
       {
         text: 'What is an API?',
         url: 'api-documentation/#what-is-an-api',
+      },
+      {
+        text: 'Getting Started',
+        url: 'api-documentation/#getting-started',
       },
       {
         text: 'What is a dataset?',
@@ -126,22 +126,6 @@ describe('API Documentation Page', () => {
         url: 'api-documentation/#data-types',
       },
       {
-        text: 'Filters',
-        url: 'api-documentation/#filters',
-      },
-      {
-        text: 'Sorting',
-        url: 'api-documentation/#parameters-sorting',
-      },
-      {
-        text: 'Format',
-        url: 'api-documentation/#parameters-format',
-      },
-      {
-        text: 'Pagination',
-        url: 'api-documentation/#parameters-pagination',
-      },
-      {
         text: 'Responses & Response Objects',
         url: 'api-documentation/#responses-response-objects',
       },
@@ -178,36 +162,13 @@ describe('API Documentation Page', () => {
         url: 'api-documentation/#examples-code-snippets',
       },
       {
-        text: 'Filters',
-        url: 'api-documentation/#examples-filters',
-      },
-      {
-        text: 'Sorting',
-        url: 'api-documentation/#examples-sorting',
-      },
-      {
-        text: 'Format',
-        url: 'api-documentation/#examples-format',
-      },
-      {
-        text: 'Pagination',
-        url: 'api-documentation/#examples-pagination',
-      },
-      {
         text: 'Aggregation',
         url: 'api-documentation/#examples-aggregation',
-      },
-      {
-        text: 'Pivoting',
-        url: 'api-documentation/#examples-pivoting',
       },
       {
         text: 'Multi-dimension Datasets',
         url: 'api-documentation/#examples-multi-dimension-datasets',
       },
-    ];
-
-    const problems = [
       {
         text: 'Fields by Endpoint',
         url: 'api-documentation/#fields-by-endpoint',
@@ -218,20 +179,75 @@ describe('API Documentation Page', () => {
         url: 'api-documentation/#fields-fields-by-endpoint',
         level: 4,
       },
+    ];
+
+    cy.findByText('Getting Started', { selector: 'h2' });
+    links.forEach(link => {
+      let sel = '[class^="api-module--link"]';
+      sel = link.level ? `${sel}[class*="Level${link.level}"]` : sel;
+      cy.findByText(link.text, { selector: sel }).click();
+      cy.url().should('include', link.url);
+    });
+  });
+
+  it('Validate sub-nav duplicate names/links', () => {
+    // duplicate nodes outside of testId
+    const links = [
       {
         text: 'Fields',
         url: 'api-documentation/#fields',
+        testId: 'tocLink13',
       },
       {
         text: 'Fields',
         url: 'api-documentation/#examples-fields',
+        testId: 'tocLink29',
+      },
+      {
+        text: 'Filters',
+        url: 'api-documentation/#filters',
+        testId: 'tocLink16',
+      },
+      {
+        text: 'Filters',
+        url: 'api-documentation/#examples-filters',
+        testId: 'tocLink30',
+      },
+      {
+        text: 'Sorting',
+        url: 'api-documentation/#parameters-sorting',
+        testId: 'tocLink17',
+      },
+      {
+        text: 'Sorting',
+        url: 'api-documentation/#examples-sorting',
+        testId: 'tocLink31',
+      },
+      {
+        text: 'Format',
+        url: 'api-documentation/#parameters-format',
+        testId: 'tocLink18',
+      },
+      {
+        text: 'Format',
+        url: 'api-documentation/#examples-format',
+        testId: 'tocLink32',
+      },
+      {
+        text: 'Pagination',
+        url: 'api-documentation/#parameters-pagination',
+        testId: 'tocLink19',
+      },
+      {
+        text: 'Pagination',
+        url: 'api-documentation/#examples-pagination',
+        testId: 'tocLink33',
       },
     ];
 
+    cy.findByText('Getting Started', { selector: 'h2' });
     links.forEach(link => {
-      let sel = '[class^="api-module--link"]';
-      sel = link.level ? `${sel}[class*="Level${link.level}"]` : sel;
-
+      const sel = `[data-test-id="${link.testId}"]`;
       cy.findByText(link.text, { selector: sel }).click();
       cy.url().should('include', link.url);
     });
