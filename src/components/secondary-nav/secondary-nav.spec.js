@@ -17,12 +17,14 @@ describe('Secondary Nav', () => {
       index: 0,
       title: 'section 0',
       headingTitle: 'section 0 heading',
+      headingLevel: 2,
     },
     {
       id: 'section-1',
       index: 1,
       title: 'section 1',
       headingTitle: 'section 1 heading',
+      headingLevel: 3,
     },
     {
       id: 'section-2',
