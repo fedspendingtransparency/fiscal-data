@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { PDFViewer, PDFDownloadLink, StyleSheet } from '@react-pdf/renderer';
+import React, { useEffect, useState } from 'react';
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import PDFBody from './pdfBody';
 import { mockData, mockData2 } from './mockData';
-
 const styles = {
   container: {
     height: '50rem',
@@ -15,26 +14,28 @@ const styles = {
   },
 };
 const PDFGenerator = () => {
-  const [showPDF, setShowPDF] = useState(true);
+  const [showPDF, setShowPDF] = useState(false);
 
-  const handleShowPDF = () => {
-    setShowPDF(prev => !prev);
-  };
+  //PDF download link is a web only api and the build will fail if it is available immediately
+  useEffect(() => {
+    setShowPDF(true);
+  }, []);
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <PDFDownloadLink document={<PDFBody data={mockData} />} fileName="StatementReport.pdf">
-        {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download PDF')}
-      </PDFDownloadLink>
-      <button style={styles.button} onClick={handleShowPDF}>
-        {showPDF ? 'Hide PDF Viewer' : 'Show PDF Viewer'}
-      </button>
-      {showPDF && (
-        <div style={{ border: '1px solid #ccc', height: '600px', marginTop: '4rem' }}>
-          <PDFViewer style={styles.container}>
-            <PDFBody data={mockData} data2={mockData2} />
-          </PDFViewer>
-        </div>
-      )}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', height: '70rem' }}>
+      {showPDF ? (
+        <PDFDownloadLink document={<PDFBody data={mockData} data2={mockData2} />} fileName="StatementReport.pdf">
+          {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download StatementReport.pdf')}
+        </PDFDownloadLink>
+      ) : null}
+      {/*PDFBody can be used for faster local testing*/}
+      {/*{showPDF && (*/}
+      {/*  <div style={{ border: '1px solid #ccc', height: '600px', marginTop: '4rem' }}>*/}
+      {/*    <PDFViewer style={styles.container}>*/}
+      {/*      <PDFBody data={mockData} data2={mockData2} />*/}
+      {/*    </PDFViewer>*/}
+      {/*  </div>*/}
+      {/*)}*/}
     </div>
   );
 };

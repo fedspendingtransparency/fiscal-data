@@ -1,6 +1,6 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
-import { colConfig } from './mockData';
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { mockDataColConfig, mockData2ColConfig } from './mockData';
 
 const styles = StyleSheet.create({
   page: {
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
     color: '#313178',
-    fontFamily: 'Times-Bold',
+    fontFamily: 'Helvetica-Bold',
   },
   tableContainer: {
     display: 'flex',
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#000',
-    fontFamily: 'Times-Bold',
+    fontFamily: 'Helvetica-Bold',
   },
   row: {
     flexDirection: 'row',
@@ -41,21 +41,25 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   extraWidth: {
-    // flex: 1,
     minWidth: 200,
     color: 'red',
   },
   bold: {
-    fontFamily: 'Times-Bold',
-    fontSize: 12,
+    fontFamily: 'Helvetica-Bold',
+    // fontSize: 8,
   },
   final: {
     marginBottom: '20',
-    fontFamily: 'Times-Italic',
+    fontFamily: 'Helvetica-Oblique',
+    fontSize: 10,
+  },
+  documentHeader: {
+    fontSize: 10,
+    marginBottom: '4px',
   },
 });
 
-const MyDynamicTable = ({ data }) => {
+const MyDynamicTable = ({ data, colConfig }) => {
   if (!data || !data.length) return <Text>No data to display.</Text>;
 
   const columns = Object.keys(data[0]);
@@ -64,10 +68,9 @@ const MyDynamicTable = ({ data }) => {
     <View style={styles.tableContainer}>
       <View style={styles.headerRow}>
         {columns.map((col, idx) => {
-          console.log(colConfig[col]);
           return (
-            <Text key={col} style={[styles.cell, { minWidth: colConfig[col] }, idx === columns.length - 1 && styles.lastCell]}>
-              {col}
+            <Text key={col} style={[styles.cell, { minWidth: colConfig[col].width }, idx === columns.length - 1 && styles.lastCell]}>
+              {colConfig[col].prettyName}
             </Text>
           );
         })}
@@ -75,7 +78,11 @@ const MyDynamicTable = ({ data }) => {
       {data.map((row, rowIndex) => (
         <View style={styles.row} key={rowIndex}>
           {columns.map((col, colIndex) => (
-            <Text key={colIndex} style={[styles.cell, { minWidth: colConfig[col] }, colIndex === columns.length - 1 && styles.lastCell]} wrap={false}>
+            <Text
+              key={colIndex}
+              style={[styles.cell, { minWidth: colConfig[col].width }, colConfig[col]?.style, colIndex === columns.length - 1 && styles.lastCell]}
+              wrap={false}
+            >
               {row[col]}
             </Text>
           ))}
@@ -89,24 +96,23 @@ const PDFBody = ({ data, data2 }) => (
   <Document title="StatementReport">
     <Page style={styles.page}>
       <Text style={styles.title}>Dynamic Transaction Statement</Text>
-      <Text>
+      <Text style={styles.documentHeader}>
         <Text style={styles.bold}>Account: </Text>CALIFORNIA, 000000000000505
       </Text>
-      <Text>
+      <Text style={styles.documentHeader}>
         <Text style={styles.bold}>Report Date: </Text>January 2025
       </Text>
       <Text style={styles.final}>Final Report</Text>
-
-      {/*<Text>*/}
-      {/*  <Text style={styles.bold}>Beginning Balance:</Text>$485,338,841.76*/}
-      {/*</Text>*/}
-      <Text>
+      <Text style={styles.documentHeader}>
+        <Text style={styles.bold}>Beginning Balance:</Text>$485,338,841.76
+      </Text>
+      <Text style={styles.documentHeader}>
         <Text style={styles.bold}>Ending Balance:</Text> $490,718,593.54
       </Text>
       <View style={{ width: '50%' }}>
-        <MyDynamicTable data={data2} />
+        <MyDynamicTable data={data2} colConfig={mockData2ColConfig} />
       </View>
-      <MyDynamicTable data={data} />
+      <MyDynamicTable data={data} colConfig={mockDataColConfig} />
     </Page>
   </Document>
 );

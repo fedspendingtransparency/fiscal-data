@@ -6,7 +6,6 @@ export const mockData = [
     memoNumber: 3382101,
     location: 'CA',
     accountNumber: 'CA-505',
-    description: 'Initial deposit',
   },
   {
     effectiveDate: '01/01/2025',
@@ -15,7 +14,6 @@ export const mockData = [
     memoNumber: 3382101,
     location: '',
     accountNumber: 'CA-505',
-    description: 'Initial deposit',
   },
   {
     effectiveDate: '01/03/2025',
@@ -24,7 +22,6 @@ export const mockData = [
     memoNumber: 3382107,
     location: 'CA',
     accountNumber: 'CA-505',
-    description: 'Loan repayment',
   },
   {
     effectiveDate: '01/10/2025',
@@ -33,7 +30,6 @@ export const mockData = [
     memoNumber: 3382108,
     location: '',
     accountNumber: 'CA-505',
-    description: 'Transfer to UI account',
   },
   {
     effectiveDate: '01/10/2025',
@@ -42,7 +38,6 @@ export const mockData = [
     memoNumber: 3382108,
     location: 'CA',
     accountNumber: 'CA-505',
-    description: 'Transfer to UI account',
   },
   {
     effectiveDate: '01/14/2025',
@@ -51,7 +46,6 @@ export const mockData = [
     memoNumber: 3382110,
     location: 'CA',
     accountNumber: 'CA-505',
-    description: 'Cash withdrawal',
   },
   {
     effectiveDate: '01/15/2025',
@@ -60,7 +54,6 @@ export const mockData = [
     memoNumber: 3382112,
     location: 'CA',
     accountNumber: 'CA-505',
-    description: 'Cash deposit',
   },
   {
     effectiveDate: '01/20/2025',
@@ -69,7 +62,6 @@ export const mockData = [
     memoNumber: 3382113,
     location: 'CA',
     accountNumber: 'CA-505',
-    description: 'Another repayment',
   },
   {
     effectiveDate: '01/20/2025',
@@ -78,20 +70,19 @@ export const mockData = [
     memoNumber: 3382113,
     location: '',
     accountNumber: 'CA-505',
-    description: 'Another repayment',
   },
 ];
 export const mockData2 = [
   {
-    transactionDescription: '11-10 state deposits',
+    transactionDescription: '11-10 STATE DEPOSITS',
     sharesPar: '$1,541,751.13',
   },
   {
-    transactionDescription: '11-10 Loan Repayment',
+    transactionDescription: '11-10 LOAN REPAYMENT',
     sharesPar: '$751.13',
   },
   {
-    transactionDescription: '11-10 Loan repayment from state to fua',
+    transactionDescription: '11-10 LOAN REPAYMENT FROM STATE TO FUA',
     sharesPar: '$541,751.13',
   },
   {
@@ -100,13 +91,16 @@ export const mockData2 = [
   },
 ];
 
-export const colConfig = {
-  effectiveDate: 60,
-  sharesPar: 60,
-  transCode: 190,
-  memoNumber: 60,
-  location: 50,
-  accountNumber: 70,
-  description: 140,
-  transactionDescription: 130,
+export const mockDataColConfig = {
+  effectiveDate: { width: 60, prettyName: 'Effective Date' },
+  sharesPar: { width: 50, prettyName: 'Shares / Par' },
+  transCode: { width: 190, prettyName: 'Transaction Code' },
+  memoNumber: { width: 60, prettyName: 'Memo Number' },
+  location: { width: 50, prettyName: 'Location' },
+  accountNumber: { width: 70, prettyName: 'Account Number' },
+  transactionDescription: { width: 130, prettyName: 'Transaction Description' },
+};
+export const mockData2ColConfig = {
+  sharesPar: { width: 20, prettyName: 'Shares / Par', style: { textAlign: 'right' } },
+  transactionDescription: { width: 180, prettyName: 'Transaction Description' },
 };
