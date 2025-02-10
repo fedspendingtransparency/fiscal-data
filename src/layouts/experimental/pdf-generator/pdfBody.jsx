@@ -1,8 +1,8 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View } from '@react-pdf/renderer';
 import { mockDataColConfig, mockData2ColConfig } from './mockData';
 
-const styles = StyleSheet.create({
+const styles = {
   page: {
     fontSize: 8,
     padding: 10,
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontFamily: 'Helvetica-Bold',
-    // fontSize: 8,
   },
   final: {
     marginBottom: '20',
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginBottom: '4px',
   },
-});
+};
 
 const MyDynamicTable = ({ data, colConfig }) => {
   if (!data || !data.length) return <Text>No data to display.</Text>;

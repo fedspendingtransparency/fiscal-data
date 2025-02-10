@@ -10,7 +10,6 @@ const styles = {
   button: {
     height: '2rem',
     width: '10rem',
-    marginBottom: '2rem',
   },
 };
 const PDFGenerator = () => {
