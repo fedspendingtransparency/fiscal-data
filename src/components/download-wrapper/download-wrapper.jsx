@@ -33,6 +33,7 @@ const DownloadWrapper = ({
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
+  selectedPivot,
 }) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
@@ -213,6 +214,7 @@ const DownloadWrapper = ({
             selectedFileType={selectedFileType}
             dapGaEventLabel={gaEventLabel}
             downloadTimestamp={dataset.downloadTimestamp}
+            selectedPivot={selectedPivot}
           />
         </>
       );
