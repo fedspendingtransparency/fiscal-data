@@ -8,7 +8,9 @@ const ChartTableToggle = ({ onChange }) => {
 
   const changeState = value => {
     setActiveState(value);
-    onChange(value);
+    if (onChange(value)) {
+      onChange();
+    }
   };
 
   return (

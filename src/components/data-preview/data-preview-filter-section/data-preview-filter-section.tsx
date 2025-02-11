@@ -8,6 +8,7 @@ import ColumnFilter from './column-filter/column-filter';
 import { breakpointXl } from '../data-preview.module.scss';
 import { withWindowSize } from 'react-fns';
 import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
+import { differenceInHours } from 'date-fns';
 
 type DataPreviewFilterSectionProps = {
   width?: number;
@@ -40,13 +41,15 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   filteredDateRange,
   selectedDetailViewFilter,
 }) => {
+  const { dataDisplays, userFilter } = selectedTable;
+  const { pivotView } = selectedPivot ?? {};
   const getChartingInfo = () => {
     const pivotCharting = selectedPivot && pivotView && pivotView.chartType === 'none';
     const dataDisplaysCharting = dataDisplays && dataDisplays.every(dd => dd.chartType === 'none');
-    return !pivotCharting && !dataDisplaysCharting && !allTablesSelected;
+    const userFilterCharting = userFilter && !selectedUserFilter?.value;
+    const dateRangeCharting = dateRange && dateRange.to && dateRange.from && differenceInHours(dateRange.to, dateRange.from) < 24;
+    return !pivotCharting && !dataDisplaysCharting && !allTablesSelected && !userFilterCharting && !dateRangeCharting;
   };
-  const { dataDisplays, userFilter } = selectedTable;
-  const { pivotView } = selectedPivot ?? {};
 
   return (
     <>
