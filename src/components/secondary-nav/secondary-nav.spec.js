@@ -4,6 +4,7 @@ import { scrollOptions, SecondaryNav } from './secondary-nav';
 import { animateScroll } from 'react-scroll';
 import * as addressPathFunctions from '../../helpers/address-bar/address-bar';
 import Analytics from '../../utils/analytics/analytics';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('./variables.module.scss', content => ({
   ...content,
@@ -109,8 +110,7 @@ describe('Secondary Nav', () => {
     expect(container.querySelector('.hidden')).toBeInTheDocument();
   });
 
-  it(`sets a hover style on a link's container when hovered and
-  removes it when not hovered`, () => {
+  it(`sets a hover style on a link's container when hovered and removes it when not hovered`, () => {
     const { getByText } = render(
       <SecondaryNav sections={sections} width={largeWidth} hoverClass={hoverClass}>
         <div id={sections[0].id}>{childContent}</div>
@@ -138,6 +138,20 @@ describe('Secondary Nav', () => {
     expect(addressPathMock).toHaveBeenCalledWith(sections[0].id, window.location);
   });
 
+  it('updates the address path when link is selected for keyboard interaction', () => {
+    const { getByText } = render(
+      <SecondaryNav sections={sections} width={largeWidth} hoverClass={hoverClass}>
+        <div id={sections[0].id}>{childContent}</div>
+      </SecondaryNav>
+    );
+
+    const link = getByText(sections[0].title);
+    userEvent.tab();
+    expect(link).toHaveFocus();
+    userEvent.keyboard('{Enter}');
+    expect(addressPathMock).toHaveBeenCalledWith(sections[0].id, window.location);
+  });
+
   it('scrolls to the top of the page for TOC button when no TOC target is present', () => {
     const { getByRole } = render(
       <SecondaryNav sections={sections} width={smallWidth}>
@@ -145,7 +159,8 @@ describe('Secondary Nav', () => {
       </SecondaryNav>
     );
     const button = getByRole('button');
-
+    // Initial scroll - adds coverage for scroll event listener
+    fireEvent.scroll(window, { target: { scrollTop: 100 } });
     // Click to open TOC
     act(() => {
       button.click();
@@ -160,6 +175,7 @@ describe('Secondary Nav', () => {
   });
 
   it('does not scroll to top for TOC button when offset is specified', () => {
+    jest.useFakeTimers();
     const { getByRole } = render(
       <SecondaryNav sections={sections} width={smallWidth} tocScrollOffset={-100}>
         <div id={sections[0].id}>{childContent}</div>
@@ -171,6 +187,7 @@ describe('Secondary Nav', () => {
     act(() => {
       button.click();
     });
+    jest.runAllTimers();
 
     // doesn't scroll to top when an offset is specified
     expect(animateScrollToTopSpy).not.toHaveBeenCalled();

@@ -110,6 +110,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   useEffect(() => {
     const handleSelectLink: (e) => void = e => {
       const { target, key, className } = e.target;
+      console.log(e, 'target', target, 'key', key, className.includes(sectionLink));
       if (target && key === 'Enter' && className.includes(sectionLink)) {
         target.click();
       }
@@ -207,7 +208,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                     duration={scrollDuration}
                     delay={scrollDelay}
                     onClick={() => handleInteraction(null, s.id, s.title)}
-                    onKeyPress={e => handleInteraction(e, s.id, s.title)}
+                    onKeyUp={e => handleInteraction(e, s.id, s.title)}
                     offset={globalNavOffset - 4}
                   >
                     {s.title}
