@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import DataPreviewFilterSection from '../data-preview-filter-section';
+import DataPreviewFilterSection from './data-preview-filter-section';
 import { RecoilRoot } from 'recoil';
 
 describe('Data preview filter section', () => {
