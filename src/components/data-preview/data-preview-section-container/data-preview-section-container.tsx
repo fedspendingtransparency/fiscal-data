@@ -427,6 +427,8 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
                     allActiveFilters={allActiveFilters}
                     setAllActiveFilters={setAllActiveFilters}
                     disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}
+                    datasetName={config.name}
+                    hasDownloadTimestamp={config.downloadTimestamp}
                   />
                 )}
               </div>

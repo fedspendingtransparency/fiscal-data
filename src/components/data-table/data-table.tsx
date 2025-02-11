@@ -240,7 +240,11 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
         setSmallTableJSONData(JSON.stringify({ data: downloadData }));
         setSmallTableXMLData(json2xml(JSON.stringify(xmlData), { compact: true }));
         downloadData = downloadData.map(entry => {
-          return Object.values(entry);
+          const dataWithTextQualifiers = [];
+          Object.values(entry).forEach(val => {
+            dataWithTextQualifiers.push(val?.includes(',') ? `"${val}"` : val);
+          });
+          return dataWithTextQualifiers;
         });
         downloadData.unshift(downloadHeaders);
         if (hasDownloadTimestamp) {

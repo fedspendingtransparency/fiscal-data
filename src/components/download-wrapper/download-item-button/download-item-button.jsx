@@ -85,7 +85,7 @@ const DownloadItemButton = ({
           {downloadTimestamp ? (
             <>
               <div
-                data-testid={'csv-timestamp-download-button'}
+                data-testid="csv-timestamp-download-button"
                 role="button"
                 onClick={() => captureTimestamp()}
                 className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
@@ -102,7 +102,7 @@ const DownloadItemButton = ({
                 onClick={() => clickFunction(true)}
                 ref={ref}
                 aria-hidden={true}
-                enclosingCharacter={''}
+                enclosingCharacter=""
                 tabIndex={-1}
               />
             </>
@@ -113,7 +113,7 @@ const DownloadItemButton = ({
               data={smallTableCSVData}
               filename={downloadName + '.csv'}
               onClick={() => clickFunction(true)}
-              enclosingCharacter={''}
+              enclosingCharacter=""
             >
               {children}
             </CSVLink>
