@@ -41,8 +41,11 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   selectedDetailViewFilter,
 }) => {
   const getChartingInfo = () => {
-    return selectedPivot && pivotView && !!pivotView.chartType && pivotView.chartType !== 'none';
+    const pivotCharting = selectedPivot && pivotView && pivotView.chartType === 'none';
+    const dataDisplaysCharting = dataDisplays && dataDisplays.every(dd => dd.chartType === 'none');
+    return !pivotCharting && !dataDisplaysCharting && !allTablesSelected;
   };
+  const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
 
   return (

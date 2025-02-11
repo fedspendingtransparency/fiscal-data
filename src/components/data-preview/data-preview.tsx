@@ -274,7 +274,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       {selectedTable?.userFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
       {selectedTable?.apiFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.apiFilter.notice} />}
       <div>
-        {tableColumnSortData && (
+        {tableColumnSortData && selectedTable && (
           <DataPreviewFilterSection
             data-testid="filterAndDownload"
             dateRange={dateRange}
