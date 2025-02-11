@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import SocialShareDropdown from './social-share-dropdown';
 
@@ -36,6 +36,15 @@ describe('exchange rates banner', () => {
     shareButton.click();
     const facebookButton = getByRole('button', { name: 'facebook' });
     facebookButton.click();
+    jest.advanceTimersByTime(1000);
+    expect(queryByText('Facebook')).not.toBeInTheDocument();
+  });
+  it('closes the dropdown on scroll', () => {
+    global.window.pageYOffset = 40;
+    const { getByRole, queryByText } = render(<SocialShareDropdown copy={testCopy} pageName={''} />);
+    const shareButton = getByRole('button');
+    shareButton.click();
+    fireEvent.scroll(window, { target: { scrollTop: 100 } });
     jest.advanceTimersByTime(1000);
     expect(queryByText('Facebook')).not.toBeInTheDocument();
   });
