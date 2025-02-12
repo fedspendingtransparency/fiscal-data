@@ -25,9 +25,11 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
     const csvDisabled = disableDownload('csv');
     const jsonDisabled = disableDownload('json');
     const xmlDisabled = disableDownload('xml');
-    if (xmlDisabled || jsonDisabled) {
+    if (xmlDisabled && activeState === 'xml') {
       setActiveState('csv');
-    } else if (csvDisabled) {
+    } else if (jsonDisabled && activeState === 'json') {
+      setActiveState('csv');
+    } else if (csvDisabled && activeState === 'csv') {
       setActiveState('json');
     }
     setDisableCSV(csvDisabled);
