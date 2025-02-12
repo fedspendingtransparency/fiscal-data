@@ -3,6 +3,9 @@ import { buttonGroup, radio, toggleButton, selected, disabled, disabledBorderRig
 
 const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownloadBanner }) => {
   const [activeState, setActiveState] = useState('csv');
+  const [disableCSV, setDisableCSV] = useState();
+  const [disableJSON, setDisableJSON] = useState();
+  const [disableXML, setDisableXML] = useState();
 
   const disableDownload = fileType => {
     if (downloadLimit && dateRange) {
@@ -19,12 +22,19 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
   };
 
   useEffect(() => {
-    setDisableDownloadBanner(disableDownload('csv') || disableDownload('json') || disableDownload('xml'));
+    const csvDisabled = disableDownload('csv');
+    const jsonDisabled = disableDownload('json');
+    const xmlDisabled = disableDownload('xml');
+    if (xmlDisabled || jsonDisabled) {
+      setActiveState('csv');
+    } else if (csvDisabled) {
+      setActiveState('json');
+    }
+    setDisableCSV(csvDisabled);
+    setDisableJSON(jsonDisabled);
+    setDisableXML(xmlDisabled);
+    setDisableDownloadBanner(csvDisabled || jsonDisabled || xmlDisabled);
   }, [dateRange]);
-
-  const disableCSV = disableDownload('csv');
-  const disableJSON = disableDownload('json');
-  const disableXML = disableDownload('xml');
 
   return (
     <div className={buttonGroup} data-toggle="buttons">

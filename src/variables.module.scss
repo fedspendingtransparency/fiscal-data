@@ -263,6 +263,7 @@ $table-border-style: 1px solid $light-grey-border;
     &.disabled {
       opacity: 50%;
       background-color: $body-background;
+      border-left: none;
       border-color: $body-background;
     }
   }
