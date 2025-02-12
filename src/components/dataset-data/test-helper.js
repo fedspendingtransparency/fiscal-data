@@ -106,6 +106,10 @@ export const config = {
       endpoint: 'mockEndpoint',
       rowCount: 4000,
       dateField: 'record_date',
+      downloadLimit: {
+        fileType: 'xml',
+        maxYearRange: 5,
+      },
       dataDisplays: [
         { chartType: 'none', dimensionField: null, title: 'Complete Table' },
         { chartType: null, dimensionField: 'facility_desc', title: 'By Facility' },
