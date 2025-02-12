@@ -36,7 +36,7 @@ const CalendarEntry = ({ dataset, earliestDate }) => {
 
   useEffect(() => {
     const convertedDateTime = convertDateAndTimeToDateTime(date, time);
-
+    if (dataset.name.includes('TIP')) console.log(time, convertedDateTime);
     setFormattedDate(format(convertedDateTime, 'MM/dd/yyyy'));
   }, []);
 

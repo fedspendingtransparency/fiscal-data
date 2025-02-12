@@ -3,4 +3,8 @@
 .buttonGroup {
   margin-bottom: 1rem;
   @include radioToggles;
+
+  .disabledBorderRight {
+    border-right: 1px solid #cacaca;
+  }
 }

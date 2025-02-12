@@ -271,7 +271,7 @@ const DownloadWrapper = ({
           </div>
         )}
       </div>
-      <DownloadToggle onChange={toggleButtonChange} />
+      <DownloadToggle onChange={toggleButtonChange} downloadLimit={selectedTable?.downloadLimit} dateRange={dateRange} />
       <div>
         <>{determineDirectDownload()}</>
       </div>

@@ -260,6 +260,11 @@ $table-border-style: 1px solid $light-grey-border;
       outline: 1px solid $focus;
       z-index: $radio-button;
     }
+    &.disabled {
+      opacity: 50%;
+      background-color: $body-background;
+      border-color: $body-background;
+    }
   }
 
   .buttonDescription {
@@ -287,7 +292,7 @@ $table-border-style: 1px solid $light-grey-border;
       &:first-of-type {
         border-radius: 3px 0 0 3px;
       }
-      &:not(:last-of-type):not(.selected) {
+      &:not(:last-of-type):not(.selected):not(.disabledBorderRight) {
         border-right: 0;
       }
       &:last-of-type {
