@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { buttonGroup, radio, toggleButton, selected, disabled, disabledBorderRight } from './download-toggle.module.scss';
 
-const DownloadToggle = ({ onChange, downloadLimit, dateRange }) => {
+const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownloadBanner }) => {
   const [activeState, setActiveState] = useState('csv');
 
   const disableDownload = fileType => {
@@ -12,10 +12,15 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange }) => {
       return fileType === downloadLimit.fileType && rangeInDays > maxDays;
     }
   };
+
   const changeState = value => {
     setActiveState(value);
     onChange(value);
   };
+
+  useEffect(() => {
+    setDisableDownloadBanner(disableDownload('csv') || disableDownload('json') || disableDownload('xml'));
+  }, [dateRange]);
 
   const disableCSV = disableDownload('csv');
   const disableJSON = disableDownload('json');

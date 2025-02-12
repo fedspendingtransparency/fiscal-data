@@ -33,6 +33,7 @@ const DownloadWrapper = ({
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
+  setDisableDownloadBanner,
 }) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
@@ -271,7 +272,12 @@ const DownloadWrapper = ({
           </div>
         )}
       </div>
-      <DownloadToggle onChange={toggleButtonChange} downloadLimit={selectedTable?.downloadLimit} dateRange={dateRange} />
+      <DownloadToggle
+        onChange={toggleButtonChange}
+        downloadLimit={selectedTable?.downloadLimit}
+        dateRange={dateRange}
+        setDisableDownloadBanner={setDisableDownloadBanner}
+      />
       <div>
         <>{determineDirectDownload()}</>
       </div>
