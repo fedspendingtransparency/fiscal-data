@@ -202,9 +202,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     setTableColumnSortData([]);
   }, [selectedTable]);
 
-  useEffect(() => {
-    console.log(disableDownloadBanner);
-  }, [disableDownloadBanner]);
   return (
     <DatasetSectionContainer id="data-table" title={title}>
       {tableColumnSortData && (

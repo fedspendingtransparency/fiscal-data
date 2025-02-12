@@ -10,7 +10,6 @@ const CalendarEntryPages = ({ entries, activePage, selectedOption, entriesPerPag
   for (let i = 0; i < entries.length; i += entriesPerPage) {
     chunkedEntries.push(entries.slice(i, i + entriesPerPage));
   }
-  console.log(entries);
 
   const pages = [];
 
