@@ -2,6 +2,7 @@ import { findGlossaryTerm } from './glossary-terms';
 import CustomLink from '../../components/links/custom-link/custom-link';
 import React from 'react';
 import reactStringReplace from 'react-string-replace';
+import { getFiscalYearByDate } from '../dates/date-helpers';
 
 const customFormatting = {
   'Debt Held by the Public': {
@@ -30,6 +31,20 @@ export const applyFormatting = entry => {
     definition = urlFormat(entry, definition);
   }
 
+  definition = handleFiscalYearCase(entry.term, definition);
+  return definition;
+};
+
+const handleFiscalYearCase = (entry, definition) => {
+  if (entry.term === 'Fiscal Year') {
+    const fiscalYear = getFiscalYearByDate();
+    const yearRgx = /(\d{4})/g;
+    let index = 0;
+    definition = reactStringReplace(definition, yearRgx, (match, i) => {
+      const yearOffset = index++ === 2 ? 2 : 1;
+      return fiscalYear - yearOffset;
+    });
+  }
   return definition;
 };
 
@@ -51,6 +66,9 @@ export const glossaryLookup = (value, glossary, page) => {
     }
     if (!customFormat && entry.url_display && entry.url_path) {
       definitionFormatted = urlFormat(entry, definitionFormatted);
+    }
+    if (!customFormat) {
+      definitionFormatted = handleFiscalYearCase(entry, definitionFormatted);
     }
   }
 
