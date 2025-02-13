@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { pageOptions, perPageLabel } from './pagination-controls.module.scss';
 
 const PagingOptionsMenu = ({ menuProps }) => {
-  const { options, selected, updateSelected, label } = menuProps;
+  const { options, selected, updateSelected, label, disabled } = menuProps;
 
   const [anchorElement, setAnchorElement] = useState(null);
   const [selectedOption, setSelectedOption] = useState(selected);
@@ -24,7 +24,9 @@ const PagingOptionsMenu = ({ menuProps }) => {
   const handleCloseOrChange = value => {
     setAnchorElement(null);
     setSelectedOption(value);
-    updateSelected(value);
+    if (updateSelected) {
+      updateSelected(value);
+    }
   };
 
   const renderMenuItems = () => {
@@ -43,6 +45,7 @@ const PagingOptionsMenu = ({ menuProps }) => {
         onClick={handleOpen}
         variant="outlined"
         endIcon={anchorElement === null ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+        disabled={disabled}
       >
         {selectedOption}
       </Button>

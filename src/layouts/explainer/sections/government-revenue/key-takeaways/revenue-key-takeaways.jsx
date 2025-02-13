@@ -5,20 +5,23 @@ import { revenueExplainerPrimary, revenueExplainerLightSecondary } from '../reve
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import reactStringReplace from 'react-string-replace';
+import revenueConstants from '../constants';
 const RevenueKeyTakeaways = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(0);
   const [revenuePercentGDP, setRevenuePercentGDP] = useState(0);
   const [totalGDP, setTotalGDP] = useState('');
+  const [priorFYLargestSource, setPriorFYLargestSource] = useState('');
+  const [priorFYLargestSourceTotPercent, setPriorFYLargestSourceTotPercent] = useState(0);
+  const [currentFY, setCurrentFY] = useState(0);
+  const [currentFYLargestSource, setCurrentFYLargestSource] = useState('');
+  const [currentFYLargestSourceTotPercent, setCurrentFYLargestSourceTotPercent] = useState(0);
 
   useEffect(() => {
-    const endpointURL = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
-    const beaURL =
-      'https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON';
-    basicFetch(`${apiPrefix}${endpointURL}`).then(res => {
+    basicFetch(`${apiPrefix}${revenueConstants.PRIOR_FY}`).then(res => {
       if (res.data[0]) {
         const fiscalYear = res.data[0].record_fiscal_year;
         setLatestCompleteFiscalYear(fiscalYear);
-        basicFetch(beaURL).then(bea_res => {
+        basicFetch(revenueConstants.BEA_URL).then(bea_res => {
           if (bea_res.BEAAPI.Results.Data) {
             const gdpData = bea_res.BEAAPI.Results.Data.filter(entry => entry.LineDescription === 'Gross domestic product');
             const allQuartersForGivenYear = gdpData.filter(
@@ -46,18 +49,62 @@ const RevenueKeyTakeaways = () => {
         });
       }
     });
-  }, []);
-  const firstTakeawayText = `The primary sources of revenue for the U.S. government are individual
-  and corporate taxes, and taxes that are dedicated to funding Social Security and Medicare.
-  This revenue is used to fund a variety of goods, programs, and services to support the American
-  public and pay interest incurred from borrowing. Revenue is typically measured by fiscal year (FY).`;
 
-  const firstTakeawayTextWithGlossaryTerm = reactStringReplace(firstTakeawayText, 'fiscal year (FY)', match => {
-    return (
-      <GlossaryPopoverDefinition term="fiscal year" page="Debt, Revenue & Spending explainer">
-        {match}
-      </GlossaryPopoverDefinition>
-    );
+    // previous FY content
+    basicFetch(`${apiPrefix}${revenueConstants.PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT}`).then(res => {
+      const currentFyAmt = res.data[0]['current_fytd_rcpt_outly_amt'];
+
+      basicFetch(`${apiPrefix}${revenueConstants.PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT}`).then(res => {
+        const data = res.data;
+
+        // sorting to get the highest current_fytd_rcpt_outly_amt that will provide us the highest %:
+        data.sort((a, b) => Number(b['current_fytd_rcpt_outly_amt']) - Number(a['current_fytd_rcpt_outly_amt']));
+
+        setPriorFYLargestSource(data[0]['classification_desc']);
+
+        // take the first index and use with currentFyAmt
+        const percentOfTot = (Number(data[0]['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt)) * 100;
+        setPriorFYLargestSourceTotPercent(Math.abs(percentOfTot).toFixed(1));
+      });
+    });
+
+    // current FY content
+    basicFetch(`${apiPrefix}${revenueConstants.CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT}`).then(res => {
+      const currentFyAmt = res.data[0]['current_fytd_rcpt_outly_amt'];
+
+      basicFetch(`${apiPrefix}${revenueConstants.CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT}`).then(res => {
+        const data = res.data;
+
+        // sorting to get the highest current_fytd_rcpt_outly_amt that will provide us the highest %:
+        data.sort((a, b) => Number(b['current_fytd_rcpt_outly_amt']) - Number(a['current_fytd_rcpt_outly_amt']));
+
+        setCurrentFYLargestSource(data[0]['classification_desc']);
+
+        // take the first index and use with currentFyAmt
+        const percentOfTot = (Number(data[0]['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt)) * 100;
+        setCurrentFYLargestSourceTotPercent(Math.abs(percentOfTot).toFixed(1));
+      });
+
+      basicFetch(`${apiPrefix}${revenueConstants.CURRENT_FY}`).then(res => {
+        setCurrentFY(res.data[0]['record_fiscal_year']);
+      });
+    });
+  }, []);
+  const firstTakeawayText = `In fiscal year (FY)  ${latestCompleteFiscalYear}, the largest source of federal revenue was
+  ${priorFYLargestSource} (${priorFYLargestSourceTotPercent}% of total revenue).
+  So far in fiscal year ${currentFY}, the largest source of federal revenue is
+  ${currentFYLargestSource} (${currentFYLargestSourceTotPercent}% of total revenue).
+  Federal revenue is used to fund a variety of goods, programs, and services to support the American public and
+  pay interest on government debt. Revenue is typically measured by fiscal year (FY).`;
+
+  const firstTakeawayTextWithGlossaryTerm = reactStringReplace(firstTakeawayText, 'fiscal year (FY)', (match, index) => {
+    if (index === 1) {
+      return (
+        <GlossaryPopoverDefinition term="fiscal year" page="Debt, Revenue & Spending explainer">
+          {match}
+        </GlossaryPopoverDefinition>
+      );
+    } else return match;
   });
 
   const takeaways = [

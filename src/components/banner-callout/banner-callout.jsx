@@ -9,6 +9,7 @@ import {
   icon,
   altBannerText,
   altInfoColor,
+  infoBannerYellow,
 } from './banner-callout.module.scss';
 import { faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,6 +30,10 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
   const bannerMap = {
     info: {
       classname: infoBanner,
+      icon: faCircleInfo,
+    },
+    infoYellow: {
+      classname: infoBannerYellow,
       icon: faCircleInfo,
     },
     warning: {

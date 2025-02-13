@@ -166,6 +166,21 @@ export const pageTileMap = {
     path: '/currency-exchange-rates-converter/',
     analyticsName: 'Currency Exchange Rates Converter',
   },
+  'interest-expense': {
+    title: 'Discover Interest Expense Trends Over Time',
+    body:
+      'Interest expense is the interest the government pays on its outstanding loans (Treasury securities). ' +
+      'Learn more and explore trends on interest expense and average interest rates on the national debt over ' +
+      'the last twenty years.',
+    altText:
+      'Illustration with images including a calculator, stacked coins, and a magnifying glass on top of a ' +
+      'flattened set of charts with the text ‘Fiscal Data Insight’ above ‘Interest Expense’ and the Fiscal Data logo ' +
+      'in the bottom right corner.',
+    desktopImage: 'Interest-Expense-Social-Share-Magnifying-Class-and-Calculator_1200x630',
+    mobileImage: 'Interest-Expense-Social-Share-Magnifying-Class-and-Calculator_1200x630',
+    path: '/interest-expense-avg-interest-rates/',
+    analyticsName: 'Interest Expense',
+  },
   'savings-bonds': {
     title: 'Explore U.S. Treasury Savings Bonds',
     bodyGenerator: SavingsBondsBodyGenerator,
@@ -174,8 +189,8 @@ export const pageTileMap = {
       'complete FY)} in savings bonds. Discover how savings bonds help finance the federal government and the benefits ' +
       'these bonds offer to citizens who choose to invest in them.',
     altText: 'Images of savings bonds, including Series H and Series EE, surrounding the text “Fiscal Data Explains: Savings Bonds.”',
-    desktopImage: 'Savings-Bonds-Social-Share-w-Illustration_1200x630',
-    mobileImage: 'Savings-Bonds-Social-Share-w-Illustration_1200x630',
+    desktopImage: 'Savings-Bonds-Homepage-Tile_1200x630',
+    mobileImage: 'Savings-Bonds-Homepage-Tile_1200x630',
     path: '/treasury-savings-bonds/',
     analyticsName: 'Treasury Savings Bonds',
   },

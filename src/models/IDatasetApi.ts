@@ -42,6 +42,10 @@ export interface IDatasetApi {
     dataDefaultMessage: string;
     fieldFilter: {};
   };
+  downloadLimit?: {
+    fileType: string;
+    maxYearRange: number;
+  };
   valueFieldOptions: unknown | null;
   allDataTables: boolean | null;
 }

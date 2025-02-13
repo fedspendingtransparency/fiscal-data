@@ -42,38 +42,37 @@
         justify-content: center;
         padding-top: 2px;
       }
-
     }
   }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-    .headerContainer {
+  .headerContainer {
+    display: flex;
+    justify-content: space-between;
+    min-width: unset;
+
+    .headerData {
+      margin-bottom: 0.75rem;
       display: flex;
-      justify-content: space-between;
+      flex-direction: row;
+      min-width: unset;
 
-      .headerData {
-        margin-bottom: 0.75rem;
-        display: flex;
-        flex-direction: row;
-        min-width: 400px;
+      .dataElement:not(:last-child) {
+        padding-right: 1rem;
+      }
 
-        .dataElement:not(:last-child) {
-          padding-right: 1rem;
+      .dataElement {
+        .dataValue {
+          font-size: $font-size-24;
+          line-height: $font-size-24;
         }
 
-        .dataElement {
-          .dataValue {
-            font-size: $font-size-24;
-            line-height: $font-size-24;
-          }
-
-          .dataLabel {
-            font-size: $font-size-10;
-            margin: 0 1rem;
-          }
+        .dataLabel {
+          font-size: $font-size-10;
+          margin: 0 1rem;
         }
       }
     }
-
+  }
 }

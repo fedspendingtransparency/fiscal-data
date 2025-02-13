@@ -36,7 +36,6 @@ const CalendarEntry = ({ dataset, earliestDate }) => {
 
   useEffect(() => {
     const convertedDateTime = convertDateAndTimeToDateTime(date, time);
-
     setFormattedDate(format(convertedDateTime, 'MM/dd/yyyy'));
   }, []);
 

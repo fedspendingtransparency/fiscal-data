@@ -15,9 +15,14 @@ import {
   mockColumnConfig,
   mockDetailViewColumnConfig,
   mockDetailApiData,
+  mockTableDownloadWithTextQualifier,
+  mockColumnConfigDownloadWithTextQualifier,
 } from '../../data-table/data-table-test-helper';
 import userEvent from '@testing-library/user-event';
 import DataPreviewDataTable from './data-preview-data-table';
+import DataTable from '../../data-table/data-table';
+import { smallTableDownloadDataCSV } from '../../../recoil/smallTableDownloadData';
+import { RecoilObserver } from '../../../utils/test-utils';
 
 describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
@@ -539,6 +544,57 @@ describe('react-table', () => {
         </RecoilRoot>
       );
       expect(getAllByTestId('row')[0].innerHTML).toContain('-$134.100');
+    });
+
+    it('renders with download timestamp enabled', () => {
+      const instance = render(
+        <RecoilRoot>
+          <DataPreviewDataTable
+            rawData={mockTableData}
+            defaultSelectedColumns={defaultColumnsTypeCheckMock}
+            pagingProps={{ itemsPerPage: 10 }}
+            setTableColumnSortData={setTableColumnSortData}
+            shouldPage
+            showPaginationControls
+            setFiltersActive={jest.fn()}
+            columnConfig={mockColumnConfig}
+            setTableSorting={jest.fn()}
+            hasDownloadTimestamp={true}
+            dateRange={{
+              from: '2022-08-31',
+              to: '2024-08-31',
+            }}
+          />
+        </RecoilRoot>
+      );
+      expect(instance).toBeTruthy();
+    });
+
+    it('updates recoil state for csv download with text qualifiers', () => {
+      const setSmallTableDownloadDataCSV = jest.fn();
+      render(
+        <RecoilRoot>
+          <RecoilObserver node={smallTableDownloadDataCSV} onChange={setSmallTableDownloadDataCSV} />
+          <DataPreviewDataTable
+            rawData={mockTableDownloadWithTextQualifier}
+            pagingProps={{ itemsPerPage: 10 }}
+            setTableColumnSortData={setTableColumnSortData}
+            shouldPage
+            showPaginationControls
+            setFiltersActive={jest.fn()}
+            columnConfig={mockColumnConfigDownloadWithTextQualifier}
+            setTableSorting={jest.fn()}
+            dateRange={{
+              from: '2022-08-31',
+              to: '2024-08-31',
+            }}
+          />
+        </RecoilRoot>
+      );
+      expect(setSmallTableDownloadDataCSV).toHaveBeenCalledWith([
+        ['Record Date', 'String Value', 'String Value with Commas'],
+        ['2023-07-12', 'just a normal string', '"comma, separated, list"'],
+      ]);
     });
 
     it('formats FRN Daily Index number values correctly', () => {

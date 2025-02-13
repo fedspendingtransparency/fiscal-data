@@ -10,11 +10,11 @@ describe('Citation List', () => {
 
   it('renders all citations', () => {
     const mockCitations = [
-      { url: 'https://fiscaldata.treasury.gov/', text: 'First Citation' },
+      { url: 'https://fiscaldata.treasury.gov/', text: 'First Citation', external: true },
       { url: 'https://fiscaldata.treasury.gov/about-us/', text: 'Second Citation' },
     ];
     const { getByRole } = render(<CitationList header="Mock Header" citations={mockCitations} />);
     expect(getByRole('link', { name: 'First Citation' })).toBeInTheDocument();
-    expect(getByRole('link', { name: 'Second Citation' })).toBeInTheDocument();
+    expect(getByRole('link', { name: 'Second Citation | U.S. Treasury Fiscal Data' })).toBeInTheDocument();
   });
 });

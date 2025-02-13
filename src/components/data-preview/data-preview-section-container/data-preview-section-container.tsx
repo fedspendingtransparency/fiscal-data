@@ -32,6 +32,7 @@ import {
   titleContainer,
 } from './data-preview-section-container.module.scss';
 import DataPreviewPivotOptions from '../data-preview-pivot-options/data-preview-pivot-options';
+import ChartTableDisplay from '../data-preview-chart-table-display/data-preview-chart-table-display';
 
 type DataPreviewSectionProps = {
   config;
@@ -46,7 +47,6 @@ type DataPreviewSectionProps = {
   serverSidePagination;
   isLoading;
   setIsLoading;
-  selectedTab;
   tabChangeHandler;
   handleIgnorePivots;
   ignorePivots;
@@ -80,7 +80,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   serverSidePagination,
   isLoading,
   setIsLoading,
-  selectedTab,
   tabChangeHandler,
   handleIgnorePivots,
   ignorePivots,
@@ -99,6 +98,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   setSummaryValues,
   allActiveFilters,
   setAllActiveFilters,
+  width,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -386,39 +386,55 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
               customFormatConfig={selectedTable?.customFormatting}
             />
           )}
-          <div className={selectedTab === 0 && !allTablesSelected ? tableSection : ''}>
-            {(apiData || serverSidePagination || apiError) && tableProps && (
-              <DataPreviewTable
-                selectColumnPanel={selectColumnPanel}
-                setDetailViewState={setDetailViewState}
-                detailViewState={detailViewState}
-                setSummaryValues={setSummaryValues}
-                pivotSelected={selectedPivot}
-                setSelectColumnPanel={setSelectColumnPanel}
-                tableProps={tableProps}
-                selectedTable={selectedTable}
-                perPage={perPage}
-                setPerPage={setPerPage}
-                tableColumnSortData={tableColumnSortData}
-                setTableColumnSortData={setTableColumnSortData}
-                resetFilters={resetFilters}
-                setResetFilters={setResetFilters}
-                tableMeta={tableMeta}
-                manualPagination={manualPagination}
-                setManualPagination={setManualPagination}
-                reactTable
-                rawDataTable
-                userFilterSelection={userFilterSelection}
-                setIsLoading={setIsLoading}
-                isLoading={isLoading}
-                sorting={reactTableSorting}
-                setSorting={setReactTableSort}
-                allActiveFilters={allActiveFilters}
-                setAllActiveFilters={setAllActiveFilters}
-                disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}
-              />
-            )}
-          </div>
+          <ChartTableDisplay
+            allTablesSelected={allTablesSelected}
+            selectedTable={selectedTable}
+            emptyData={
+              !isLoading &&
+              !serverSidePagination &&
+              (!apiData || !apiData.data || !apiData.data.length) &&
+              (!tableMeta || tableMeta?.count === 0) &&
+              !apiError
+            }
+            table={
+              <div className={!allTablesSelected ? tableSection : ''}>
+                {(apiData || serverSidePagination || apiError) && tableProps && (
+                  <DataPreviewTable
+                    selectColumnPanel={selectColumnPanel}
+                    setDetailViewState={setDetailViewState}
+                    detailViewState={detailViewState}
+                    setSummaryValues={setSummaryValues}
+                    pivotSelected={selectedPivot}
+                    setSelectColumnPanel={setSelectColumnPanel}
+                    tableProps={tableProps}
+                    selectedTable={selectedTable}
+                    perPage={perPage}
+                    setPerPage={setPerPage}
+                    tableColumnSortData={tableColumnSortData}
+                    setTableColumnSortData={setTableColumnSortData}
+                    resetFilters={resetFilters}
+                    setResetFilters={setResetFilters}
+                    tableMeta={tableMeta}
+                    manualPagination={manualPagination}
+                    setManualPagination={setManualPagination}
+                    reactTable
+                    rawDataTable
+                    userFilterSelection={userFilterSelection}
+                    setIsLoading={setIsLoading}
+                    isLoading={isLoading}
+                    sorting={reactTableSorting}
+                    setSorting={setReactTableSort}
+                    allActiveFilters={allActiveFilters}
+                    setAllActiveFilters={setAllActiveFilters}
+                    disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}
+                    datasetName={config.name}
+                    hasDownloadTimestamp={config.downloadTimestamp}
+                  />
+                )}
+              </div>
+            }
+            width={width}
+          />
         </div>
       </div>
     </>

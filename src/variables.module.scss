@@ -71,6 +71,7 @@ $hero-primary-link: #0071bc;
 $hero-split-flap-background: #f1f1f1;
 $info-header-focal: $deep-blue;
 $info-header: $near-black;
+$table-notice-color: #eff6fb;
 
 // Explainer pages
 $debt-explainer-primary: #4a0072;
@@ -84,6 +85,9 @@ $dd-border-color: #d6d7d9;
 $alt-button-active-bg: #eff4fb;
 $info-icon: #00a5d4;
 $pale-bg: #f8f8f8;
+
+//Data table
+$table-border-style: 1px solid $light-grey-border;
 
 @mixin focus-outline {
   outline: 1px transparent;
@@ -256,6 +260,12 @@ $pale-bg: #f8f8f8;
       outline: 1px solid $focus;
       z-index: $radio-button;
     }
+    &.disabled {
+      opacity: 50%;
+      background-color: $body-background;
+      border-left: none;
+      border-color: $body-background;
+    }
   }
 
   .buttonDescription {
@@ -283,7 +293,7 @@ $pale-bg: #f8f8f8;
       &:first-of-type {
         border-radius: 3px 0 0 3px;
       }
-      &:not(:last-of-type):not(.selected) {
+      &:not(:last-of-type):not(.selected):not(.disabledBorderRight) {
         border-right: 0;
       }
       &:last-of-type {
