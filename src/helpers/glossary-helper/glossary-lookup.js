@@ -35,19 +35,6 @@ export const applyFormatting = entry => {
   return definition;
 };
 
-const handleFiscalYearCase = (entry, definition) => {
-  if (entry.term === 'Fiscal Year') {
-    const fiscalYear = getFiscalYearByDate();
-    const yearRgx = /(\d{4})/g;
-    let index = 0;
-    definition = reactStringReplace(definition, yearRgx, (match, i) => {
-      const yearOffset = index++ === 2 ? 2 : 1;
-      return fiscalYear - yearOffset;
-    });
-  }
-  return definition;
-};
-
 export const glossaryLookup = (value, glossary, page) => {
   const entry = findGlossaryTerm(value, glossary)?.filter(e => e.site_page.includes(page.split(' ')[0]))[0];
   let glossaryTerm = '';
@@ -67,9 +54,7 @@ export const glossaryLookup = (value, glossary, page) => {
     if (!customFormat && entry.url_display && entry.url_path) {
       definitionFormatted = urlFormat(entry, definitionFormatted);
     }
-    if (!customFormat) {
-      definitionFormatted = handleFiscalYearCase(entry, definitionFormatted);
-    }
+    definitionFormatted = handleFiscalYearCase(entry, definitionFormatted);
   }
 
   return {
@@ -83,4 +68,17 @@ export const urlFormat = (entry, definitionFormatted) => {
   return reactStringReplace(definitionFormatted, entry.url_display, match => {
     return <CustomLink url={entry.url_path}>{match}</CustomLink>;
   });
+};
+
+const handleFiscalYearCase = (entry, definition) => {
+  if (entry.term === 'Fiscal Year') {
+    const fiscalYear = getFiscalYearByDate();
+    const yearRgx = /(\d{4})/g;
+    let index = 0;
+    definition = reactStringReplace(definition, yearRgx, (match, i) => {
+      const yearOffset = index++ === 2 ? 2 : 1;
+      return fiscalYear - yearOffset;
+    });
+  }
+  return definition;
 };
