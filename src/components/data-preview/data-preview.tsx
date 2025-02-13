@@ -20,6 +20,7 @@ import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
 import { IDataPreview } from '../../models/data-preview/IDataPreview';
+import { monthFullNames } from '../../utils/api-utils';
 
 const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
@@ -138,6 +139,16 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
         tableCaches[selectedTable.apiId] = new TableCache();
       }
       setSelectedTableProp(selectedTable);
+      // setYears(generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate));
+      const defaultYear = new Date().getFullYear();
+      const defaultMonth = new Date().getMonth();
+      if (selectedTable?.apiFilter?.disableDateRangeFilter) {
+        const startDate = new Date(defaultYear, defaultMonth, 1);
+        const endDate = new Date(defaultYear, defaultMonth + 1, 0);
+        // setSelectedMonth({ value: selectedTable?.apiFilter?.futureDated ? defaultMonth + 2 : defaultMonth + 1, label: monthFullNames[defaultMonth] });
+        // setSelectedYear({ value: defaultYear, label: defaultYear });
+        setDateRange({ from: startDate, to: endDate });
+      }
     }
   }, [selectedTable]);
 
@@ -240,7 +251,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       }
     }
   }, [dateRange]);
-
+  console.log('date range stuff', dateRange);
   useEffect(() => {
     if (allTablesSelected) {
       setTableColumnSortData([]);

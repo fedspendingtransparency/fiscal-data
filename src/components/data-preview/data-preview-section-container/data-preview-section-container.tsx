@@ -339,7 +339,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
       return selectedTable.dateField;
     }
   };
-
+  console.log('TEST API DEF', apiFilterDefault);
   const dateFieldForChart = getDateFieldForChart();
 
   useEffect(() => {
@@ -389,6 +389,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           <ChartTableDisplay
             allTablesSelected={allTablesSelected}
             selectedTable={selectedTable}
+            apiFilterDefault={apiFilterDefault}
             emptyData={
               !isLoading &&
               !serverSidePagination &&
