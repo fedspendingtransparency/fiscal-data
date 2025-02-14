@@ -207,7 +207,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                     duration={scrollDuration}
                     delay={scrollDelay}
                     onClick={() => handleInteraction(null, s.id, s.title)}
-                    onKeyPress={e => handleInteraction(e, s.id, s.title)}
+                    onKeyUp={e => handleInteraction(e, s.id, s.title)}
                     offset={globalNavOffset - 4}
                   >
                     {s.title}
