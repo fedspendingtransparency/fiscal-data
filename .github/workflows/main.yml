@@ -16,6 +16,7 @@ jobs:
         uses: actions/setup-node@v3.8.1
         with:
           node-version: 20
+          alwaysAuth: true
       - name: setup .npmrc
         env:
           NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
