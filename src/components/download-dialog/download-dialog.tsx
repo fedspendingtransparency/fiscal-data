@@ -1,8 +1,21 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 
-import { container, item, border } from './download-dialog.module.scss';
+import { container, downloadButton, border } from './download-dialog.module.scss';
 
-export const DownloadDialog: FunctionComponent = ({ active, setActive }) => {
+interface IDownloadOption {
+  displayName: string;
+  onClick: () => void;
+  size: string;
+  topBorder?: boolean;
+}
+
+interface IDownloadDialog {
+  active: boolean;
+  setActive: (activeState: boolean) => void;
+  downloadOptions: IDownloadOption[];
+}
+
+export const DownloadDialog: FunctionComponent<IDownloadDialog> = ({ active, setActive, downloadOptions }) => {
   const containerRef = useRef(null);
   const [inFocus, setInFocus] = useState(false);
 
@@ -21,28 +34,23 @@ export const DownloadDialog: FunctionComponent = ({ active, setActive }) => {
           ref={containerRef}
           onFocus={() => setInFocus(true)}
           onBlur={e => {
-            if (!e.relatedTarget.className.includes('download-dialog')) {
-              setInFocus(false);
-            }
+            // if (!e.relatedTarget.className.includes('download-dialog')) {
+            //   setInFocus(false);
+            // }
           }}
         >
-          <div className={item} role={'button'} tabIndex={0}>
-            <span>CSV</span>
-            <span>84 KB</span>
-          </div>
-          <div className={item} role={'button'} tabIndex={0}>
-            <span>JSON</span>
-            <span>84 KB</span>
-          </div>
-          <div className={item} role={'button'} tabIndex={0}>
-            <span>XML</span>
-            <span>84 KB</span>
-          </div>
-          <div className={border} />
-          <div className={item} role={'button'} tabIndex={0}>
-            <span>Data Dictionary</span>
-            <span>24 KB</span>
-          </div>
+          {downloadOptions?.map(option => {
+            const { displayName, size, onClick, topBorder } = option;
+            return (
+              <>
+                {topBorder ? <div className={border} /> : null}
+                <button className={downloadButton} onClick={onClick}>
+                  <span>{displayName}</span>
+                  <span>{size}</span>
+                </button>
+              </>
+            );
+          })}
         </div>
       ) : (
         <></>

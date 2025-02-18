@@ -22,9 +22,17 @@ const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ ac
     }
   };
 
+  const downloadOptions = [
+    { displayName: 'CSV', size: '5 KB', onClick: () => console.log('csv click') },
+    { displayName: 'JSON', size: '5 KB', onClick: () => console.log('json click') },
+    { displayName: 'XML', size: '5 KB', onClick: () => console.log('xml click') },
+    { displayName: 'Data Dictionary', size: '5 KB', onClick: () => console.log('data dictionary click'), topBorder: true },
+  ];
+
   return (
     <div className={parent}>
       <DropdownContainer
+        containerWidth="fit-content"
         dropdownButton={
           <button className={`${downloadButton} ${active && buttonActive}`} onClick={() => setActive(!active)}>
             <div className={buttonText}>Download</div>
@@ -35,7 +43,7 @@ const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ ac
         }
         setActive={setActive}
       >
-        <DownloadDialog active={true} setActive={setActive} />
+        <DownloadDialog active={active} setActive={setActive} downloadOptions={downloadOptions} />
       </DropdownContainer>
     </div>
   );
