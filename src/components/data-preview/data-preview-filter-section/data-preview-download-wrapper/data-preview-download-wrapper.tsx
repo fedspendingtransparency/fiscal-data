@@ -18,6 +18,8 @@ import { isValidDateRange } from '../../../../helpers/dates/date-helpers';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../../utils/api-utils';
 import DataPreviewDownloadButton from './data-preview-download-button/data-preview-download-button';
 import { cancelEventActionStr, closeEventActionStr } from '../../../download-wrapper/download-wrapper';
+import { DownloadContext } from '../../../../contexts/downloader/download-context';
+import { dateForFilename, generateDownloadLabel, getDownloadIcon } from './download-wrapper-helper';
 
 type DownloadProps = {
   selectedTable;
@@ -32,7 +34,7 @@ type DownloadProps = {
   width: number;
 };
 
-const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
+const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   selectedTable,
   allTablesSelected,
   dateRange,
@@ -42,7 +44,7 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
-                                                                 width,
+  width,
 }) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
@@ -93,16 +95,6 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
     }
   };
 
-  const fileFromPath = path => (path && path.length ? path.substring(path.lastIndexOf('/') + 1) : null);
-
-  const dateForFilename = fileDate => {
-    const fullYear = fileDate.getFullYear();
-    const month = ensureDoubleDigitDate(fileDate.getMonth() + 1);
-    const date = ensureDoubleDigitDate(fileDate.getDate());
-
-    return `${fullYear}${month}${date}`;
-  };
-
   const metadataDownloader = async () => {
     Analytics.event({
       category: 'Dataset Dictionary Download',
@@ -146,29 +138,9 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
     setOpen(false);
   };
 
-  const generateDownloadLabel = inProgress => {
-    if (allTablesSelected && inProgress) {
-      return `Downloading Files`;
-    } else if (allTablesSelected && !inProgress) {
-      return `Download ${dataset.apis.length} ${selectedFileType.toUpperCase()} Files`;
-    } else if (!allTablesSelected && inProgress) {
-      return `Downloading File`;
-    } else if (!allTablesSelected && !inProgress) {
-      return `Download ${selectedFileType.toUpperCase()} File`;
-    }
-  };
-
-  const setIconComponent = inProgress => {
-    return inProgress ? (
-      <FontAwesomeIcon icon={faSpinner} className="fa-pulse" data-test-id="report-icon" />
-    ) : (
-      <FontAwesomeIcon icon={faFileDownload} data-test-id="report-icon" />
-    );
-  };
-
   useEffect(() => {
     makeDownloadButtonAvailable();
-    setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress));
+    setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress, allTablesSelected, selectedFileType, dataset));
   }, [allTablesSelected, selectedFileType, selectedTable, dateRange]);
 
   useEffect(() => {
@@ -201,8 +173,8 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
 
   useEffect(() => {
     if (datasetDownloadInProgress === undefined) return;
-    setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress));
-    setIcon(setIconComponent(datasetDownloadInProgress));
+    setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress, allTablesSelected, selectedFileType, dataset));
+    setIcon(getDownloadIcon(datasetDownloadInProgress));
     setDisableButton(datasetDownloadInProgress);
   }, [datasetDownloadInProgress]);
 
@@ -226,4 +198,4 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
   );
 };
 
-export default DataPreviewDownload;
+export default DataPreviewDownloadWrapper;

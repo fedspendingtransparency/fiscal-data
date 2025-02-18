@@ -17,7 +17,7 @@ export const DownloadDialog: FunctionComponent = ({ active, setActive }) => {
       {active ? (
         <div
           className={container}
-          role={'presentation'}
+          role="presentation"
           ref={containerRef}
           onFocus={() => setInFocus(true)}
           onBlur={e => {

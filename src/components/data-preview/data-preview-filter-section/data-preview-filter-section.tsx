@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactElement } from 'react';
 import React from 'react';
-import DataPreviewDownload from './data-preview-download/data-preview-download';
+import DataPreviewDownloadWrapper from './data-preview-download-wrapper/data-preview-download-wrapper';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { filterAndDownloadContainer, filterContainer } from './data-preview-filter-section.module.scss';
 import DataPreviewTableFilters from './data-preview-table-filters/data-preview-table-filters';
@@ -45,7 +45,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
           <ColumnFilter allTablesSelected={allTablesSelected} />
         </div>
         {width >= pxToNumber(breakpointLg) && (
-          <DataPreviewDownload
+          <DataPreviewDownloadWrapper
             width={width}
             dateRange={dateRange}
             isFiltered={isFiltered}
@@ -62,7 +62,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
       </div>
       {children}
       {width < pxToNumber(breakpointLg) && (
-        <DataPreviewDownload
+        <DataPreviewDownloadWrapper
           width={width}
           dateRange={dateRange}
           isFiltered={isFiltered}

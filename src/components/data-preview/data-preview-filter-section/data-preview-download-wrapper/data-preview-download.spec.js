@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import DataPreviewDownload from './data-preview-download';
+import DataPreviewDownloadWrapper from './data-preview-download-wrapper';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import renderer from 'react-test-renderer';
 import { RecoilRoot } from 'recoil';
@@ -54,7 +54,7 @@ describe('data preview download', () => {
   renderer.act(() => {
     component = renderer.create(
       <RecoilRoot>
-        <DataPreviewDownload selectedTable={{}} dataset={{ name: 'Mock dataset' }} />
+        <DataPreviewDownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} />
       </RecoilRoot>
     );
   });

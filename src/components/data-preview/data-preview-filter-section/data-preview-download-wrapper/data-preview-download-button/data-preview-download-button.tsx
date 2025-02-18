@@ -5,6 +5,7 @@ import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import { downloadButton, buttonActive, icon, buttonText, parent } from './data-preview-download-button.module.scss';
 import { DownloadDialog } from '../../../../download-dialog/download-dialog';
+import DropdownContainer from '../../../../dropdown-container/dropdown-container';
 
 interface IDownloadButtonProps {
   active: boolean;
@@ -23,13 +24,19 @@ const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ ac
 
   return (
     <div className={parent}>
-      <button className={`${downloadButton} ${active && buttonActive}`} onClick={() => setActive(!active)}>
-        <div className={buttonText}>Download</div>
-        <div className={icon}>
-          <FontAwesomeIcon icon={getIcon(width >= pxToNumber(breakpointLg))} />
-        </div>
-      </button>
-      <DownloadDialog active={active} setActive={setActive} />
+      <DropdownContainer
+        dropdownButton={
+          <button className={`${downloadButton} ${active && buttonActive}`} onClick={() => setActive(!active)}>
+            <div className={buttonText}>Download</div>
+            <div className={icon}>
+              <FontAwesomeIcon icon={getIcon(width >= pxToNumber(breakpointLg))} />
+            </div>
+          </button>
+        }
+        setActive={setActive}
+      >
+        <DownloadDialog active={true} setActive={setActive} />
+      </DropdownContainer>
     </div>
   );
 };
