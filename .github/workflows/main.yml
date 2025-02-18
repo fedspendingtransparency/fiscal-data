@@ -28,6 +28,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: |
+          cat /home/runner/.npmrc
           npm config ls -l
           npm install --legacy-peer-deps
       - name: run tests with coverage
