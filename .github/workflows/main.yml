@@ -17,21 +17,20 @@ jobs:
         with:
           node-version: 20
           alwaysAuth: true
-      - name: setup .npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
-        run: |
-          npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
-          npm config set strict-ssl=false
-          npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
-          npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth="$NODE_AUTH_TOKEN"
+          registryUrl: https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
+#      - name: setup .npmrc
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
+#        run: |
+#          npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
+#          npm config set strict-ssl=false
+#          npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
+#          npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth="$NODE_AUTH_TOKEN"
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-        run: |
-          cat /home/runner/.npmrc
-          ls -l /opt/hostedtoolcache/node/20.18.2/x64/etc/npmrc
-          npm install --legacy-peer-deps
+          NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
+        run: npm install --legacy-peer-deps
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
