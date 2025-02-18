@@ -27,7 +27,7 @@ jobs:
           echo strict-ssl=false > ${{ github.workspace }}/.npmrc
           echo always-auth=true > ${{ github.workspace }}/.npmrc
           cat $NPM_CONFIG_USERCONFIG
-          npm install --legacy-peer-deps
+          npm install --legacy-peer-deps --loglevel verbose
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
