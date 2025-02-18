@@ -23,7 +23,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: |
-          echo 'artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{ vars.ARTIFACTORY }}' > ${{ github.workspace }}/.npmrc
+          echo 'artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{ secrets.ARTIFACTORY }}' > ${{ github.workspace }}/.npmrc
           echo strict-ssl=false > ${{ github.workspace }}/.npmrc
           echo always-auth=true > ${{ github.workspace }}/.npmrc
           cat $NPM_CONFIG_USERCONFIG
