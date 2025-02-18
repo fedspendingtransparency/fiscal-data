@@ -23,7 +23,6 @@ jobs:
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
           npm config set _auth=$NODE_AUTH_TOKEN
           npm config set strict-ssl=false
-          npm config set always-auth=true
           npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
       - name: npm install
         env:
