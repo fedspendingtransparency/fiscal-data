@@ -16,6 +16,7 @@ import {
   mockPivotableData,
   mockAccumulableData,
   bannerTableConfig,
+  downloadBannerTableConfig,
 } from './test-helper';
 import * as DatasetDataHelpers from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
@@ -504,6 +505,38 @@ describe('DatasetData', () => {
     );
     expect(getByTestId('datatable-banner')).toHaveTextContent(bannerText);
   });
+});
+
+it('renders download banner when a download option is disabled', async () => {
+  const { findByText, findByRole } = render(
+    <RecoilRoot>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={jest.fn()} location={mockLocation} />
+    </RecoilRoot>
+  );
+
+  const dateButton = await findByRole('radio', { name: '10 Years' });
+  fireEvent.click(dateButton);
+
+  expect(await findByText('XML download disabled due to large table size.', { exact: false })).toBeInTheDocument();
+});
+
+it('updates selected download type if current selection is disabled for new date range', async () => {
+  const { findByText, findByRole } = render(
+    <RecoilRoot>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={jest.fn()} location={mockLocation} />
+    </RecoilRoot>
+  );
+  const xmlButton = await findByRole('radio', { name: 'XML' });
+  fireEvent.click(xmlButton);
+  expect(xmlButton).toBeChecked();
+
+  const dateButton = await findByRole('radio', { name: '10 Years' });
+  fireEvent.click(dateButton);
+
+  const csvButton = await findByRole('radio', { name: 'CSV' });
+
+  expect(csvButton).toBeChecked();
+  expect(await findByText('XML download disabled due to large table size.', { exact: false })).toBeInTheDocument();
 });
 
 describe('Nested Data Table', () => {

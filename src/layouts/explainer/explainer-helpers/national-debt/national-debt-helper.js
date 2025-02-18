@@ -23,23 +23,13 @@ const diveDeeperCitationClick = eventLabel => analyticsEventHandler(eventLabel, 
 export const debtLearnMoreLinks = [
   {
     title: 'The most recent U.S. Government Financial Report',
-    url: 'https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2022.pdf',
+    url: 'https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2024.pdf',
     onClick: () => diveDeeperCitationClick('The most recent U.S. Government Financial Report'),
   },
   {
     title: 'America’s Fiscal Future: Federal Debt',
     url: 'https://www.gao.gov/americas-fiscal-future/federal-debt',
     onClick: () => diveDeeperCitationClick('America’s Fiscal Future: Federal Debt'),
-  },
-  {
-    title: 'The Debt Ceiling: An Explainer',
-    url: 'https://www.whitehouse.gov/cea/written-materials/2021/10/06/the-debt-ceiling-an-explainer/',
-    onClick: () => diveDeeperCitationClick('The Debt Ceiling: An Explainer'),
-  },
-  {
-    title: 'Federal Borrowing and Debt',
-    url: 'https://www.whitehouse.gov/wp-content/uploads/2021/05/ap_4_borrowing_fy22.pdf',
-    onClick: () => diveDeeperCitationClick('Federal Borrowing and Debt'),
   },
   {
     title: 'Federal Net Interest Costs: A Primer',

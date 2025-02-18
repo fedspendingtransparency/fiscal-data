@@ -2829,6 +2829,18 @@ const endpointConfig = {
       'daily_ending_balance_amt',
     ],
   },
+  //TOP
+  '299': {
+    endpoint: 'v1/debt/treasury_offset_program',
+    dateField: 'record_date',
+    downloadName: 'treasury_offset_program',
+    alwaysSortWith: ['-record_date', 'row_index_nbr'],
+    selectColumns: [],
+    downloadLimit: {
+      fileType: 'xml',
+      maxYearRange: 5,
+    },
+  },
 };
 
 const setCompleteTableDisplayItem = response => {
