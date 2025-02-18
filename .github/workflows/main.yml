@@ -54,7 +54,7 @@ jobs:
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm install --legacy-peer-deps
+        run: npm install --legacy-peer-deps --loglevel verbose
       - name: run branch tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
