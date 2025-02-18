@@ -16,10 +16,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { isValidDateRange } from '../../../../helpers/dates/date-helpers';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../../utils/api-utils';
-import DataPreviewDownloadButton from './data-preview-download-button/data-preview-download-button';
+// import DataPreviewDownloadSelect from './data-preview-download-select/data-preview-download-select';
+
 import { cancelEventActionStr, closeEventActionStr } from '../../../download-wrapper/download-wrapper';
-import { DownloadContext } from '../../../../contexts/downloader/download-context';
+// import { DownloadContext } from '../../../../contexts/downloader/download-context';
 import { dateForFilename, generateDownloadLabel, getDownloadIcon } from './download-wrapper-helper';
+import DataPreviewDownloadSelect from './data-preview-download-select/data-preview-download-select';
 
 type DownloadProps = {
   selectedTable;
@@ -83,104 +85,104 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
     }
   };
 
-  const toggleButtonChange = value => {
-    setSelectedFileType(value);
-    makeDownloadButtonAvailable();
-  };
+  // const toggleButtonChange = value => {
+  //   setSelectedFileType(value);
+  //   makeDownloadButtonAvailable();
+  // };
 
-  const handleCancelRequest = value => {
-    generateAnalyticsEvent(gaEventLabel, cancelEventActionStr);
-    if (setCancelDownloadRequest) {
-      setCancelDownloadRequest(value);
-    }
-  };
+  // const handleCancelRequest = value => {
+  //   generateAnalyticsEvent(gaEventLabel, cancelEventActionStr);
+  //   if (setCancelDownloadRequest) {
+  //     setCancelDownloadRequest(value);
+  //   }
+  // };
 
-  const metadataDownloader = async () => {
-    Analytics.event({
-      category: 'Dataset Dictionary Download',
-      action: 'Data Dictionary Click',
-      label: dataset.name,
-    });
-    return triggerDataDictionaryDownload(dataDictionaryCsv, dataset.name);
-  };
+  // const metadataDownloader = async () => {
+  //   Analytics.event({
+  //     category: 'Dataset Dictionary Download',
+  //     action: 'Data Dictionary Click',
+  //     label: dataset.name,
+  //   });
+  //   return triggerDataDictionaryDownload(dataDictionaryCsv, dataset.name);
+  // };
 
-  const downloadClickHandler = event => {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    setChangeMadeToCriteria(false);
-    const apis = allTablesSelected ? dataset.apis.slice() : selectedTable;
-    const downloadName = allTablesSelected ? `${(dataset.slug + '').replace(/\//g, '')}_all_tables` : `${fileFromPath(selectedTable.downloadName)}`;
-    const downloadEntry = {
-      datasetId: dataset.datasetId,
-      apis: apis,
-      dateRange: {
-        from: new Date(dateRange.from.getTime()),
-        to: new Date(dateRange.to.getTime()),
-      },
-      selectedFileType,
-      filename: `${downloadName}_${dateForFilename(dateRange.from)}_${dateForFilename(dateRange.to)}.zip`,
-      requestTime: Date.now(),
-      selectedUserFilter,
-      tableColumnSortData,
-      filteredDateRange,
-      selectedDetailViewFilter,
-    };
-    setDownloadRequest(downloadEntry);
-    setOpen(true);
+  // const downloadClickHandler = event => {
+  //   if (event) {
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //   }
+  //   setChangeMadeToCriteria(false);
+  //   const apis = allTablesSelected ? dataset.apis.slice() : selectedTable;
+  //   const downloadName = allTablesSelected ? `${(dataset.slug + '').replace(/\//g, '')}_all_tables` : `${fileFromPath(selectedTable.downloadName)}`;
+  //   const downloadEntry = {
+  //     datasetId: dataset.datasetId,
+  //     apis: apis,
+  //     dateRange: {
+  //       from: new Date(dateRange.from.getTime()),
+  //       to: new Date(dateRange.to.getTime()),
+  //     },
+  //     selectedFileType,
+  //     filename: `${downloadName}_${dateForFilename(dateRange.from)}_${dateForFilename(dateRange.to)}.zip`,
+  //     requestTime: Date.now(),
+  //     selectedUserFilter,
+  //     tableColumnSortData,
+  //     filteredDateRange,
+  //     selectedDetailViewFilter,
+  //   };
+  //   setDownloadRequest(downloadEntry);
+  //   setOpen(true);
+  //
+  //   return false;
+  // };
 
-    return false;
-  };
+  // const onClose = () => {
+  //   generateAnalyticsEvent(gaEventLabel, closeEventActionStr);
+  //   setOpen(false);
+  // };
 
-  const onClose = () => {
-    generateAnalyticsEvent(gaEventLabel, closeEventActionStr);
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    makeDownloadButtonAvailable();
-    setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress, allTablesSelected, selectedFileType, dataset));
-  }, [allTablesSelected, selectedFileType, selectedTable, dateRange]);
-
-  useEffect(() => {
-    if (dateRange?.from && dateRange?.to) {
-      setGaEventLabel(`Table Name: ${selectedTable?.tableName}, Type: ${selectedFileType}, Date Range: ${dateRange.from}-${dateRange.to}`);
-    }
-  }, [selectedTable, dateRange, selectedFileType]);
-
-  useEffect(() => {
-    setDapGaEventLabel(gaEventLabel);
-  }, [gaEventLabel]);
-
-  useEffect(() => {
-    if (dateRange) {
-      const from = formatDate(dateRange.from);
-      const to = formatDate(dateRange.to);
-      const { earliestDate, latestDate } = dataset.techSpecs;
-
-      if (isValidDateRange(from, to, earliestDate, latestDate)) {
-        setDateString(`${from} - ${to}`);
-      }
-    }
-  }, [dateRange]);
-
-  useEffect(() => {
-    if (downloadsInProgress === undefined) return;
-    if (changeMadeToCriteria) return;
-    setDatasetDownloadInProgress(downloadsInProgress.some(dl => dl.datasetId === dataset.datasetId));
-  }, [downloadsInProgress, changeMadeToCriteria]);
-
-  useEffect(() => {
-    if (datasetDownloadInProgress === undefined) return;
-    setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress, allTablesSelected, selectedFileType, dataset));
-    setIcon(getDownloadIcon(datasetDownloadInProgress));
-    setDisableButton(datasetDownloadInProgress);
-  }, [datasetDownloadInProgress]);
-
-  useEffect(() => {
-    setDisableButton(globalDisableDownloadButton);
-  }, [globalDisableDownloadButton]);
+  // useEffect(() => {
+  //   makeDownloadButtonAvailable();
+  //   setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress, allTablesSelected, selectedFileType, dataset));
+  // }, [allTablesSelected, selectedFileType, selectedTable, dateRange]);
+  //
+  // useEffect(() => {
+  //   if (dateRange?.from && dateRange?.to) {
+  //     setGaEventLabel(`Table Name: ${selectedTable?.tableName}, Type: ${selectedFileType}, Date Range: ${dateRange.from}-${dateRange.to}`);
+  //   }
+  // }, [selectedTable, dateRange, selectedFileType]);
+  //
+  // useEffect(() => {
+  //   setDapGaEventLabel(gaEventLabel);
+  // }, [gaEventLabel]);
+  //
+  // useEffect(() => {
+  //   if (dateRange) {
+  //     const from = formatDate(dateRange.from);
+  //     const to = formatDate(dateRange.to);
+  //     const { earliestDate, latestDate } = dataset.techSpecs;
+  //
+  //     if (isValidDateRange(from, to, earliestDate, latestDate)) {
+  //       setDateString(`${from} - ${to}`);
+  //     }
+  //   }
+  // }, [dateRange]);
+  //
+  // useEffect(() => {
+  //   if (downloadsInProgress === undefined) return;
+  //   if (changeMadeToCriteria) return;
+  //   setDatasetDownloadInProgress(downloadsInProgress.some(dl => dl.datasetId === dataset.datasetId));
+  // }, [downloadsInProgress, changeMadeToCriteria]);
+  //
+  // useEffect(() => {
+  //   if (datasetDownloadInProgress === undefined) return;
+  //   setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress, allTablesSelected, selectedFileType, dataset));
+  //   setIcon(getDownloadIcon(datasetDownloadInProgress));
+  //   setDisableButton(datasetDownloadInProgress);
+  // }, [datasetDownloadInProgress]);
+  //
+  // useEffect(() => {
+  //   setDisableButton(globalDisableDownloadButton);
+  // }, [globalDisableDownloadButton]);
 
   const determineDirectDownload = () => {
     if (tableSize !== null && tableSize <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !allTablesSelected) {
@@ -193,7 +195,7 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
 
   return (
     <div data-test-id="data-preview-download">
-      <DataPreviewDownloadButton active={active} setActive={setActive} width={width} />
+      <DataPreviewDownloadSelect active={active} setActive={setActive} width={width} />
     </div>
   );
 };
