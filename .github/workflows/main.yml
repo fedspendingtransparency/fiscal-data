@@ -16,7 +16,8 @@ jobs:
         uses: actions/setup-node@v3.8.1
         with:
           node-version: 20
-          registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
+          registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/kc-dtas-npm/
+          alwaysAuth: true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
       - name: npm install
