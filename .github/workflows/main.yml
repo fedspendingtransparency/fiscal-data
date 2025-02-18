@@ -18,7 +18,7 @@ jobs:
           node-version: 20
           registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
         env:
-          NODE_AUTH_TOKEN: ${{ vars.ARTIFACTORY }}
+          NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
