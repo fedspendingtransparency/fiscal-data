@@ -33,6 +33,7 @@ const DownloadWrapper = ({
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
+  setDisableDownloadBanner,
   selectedPivot,
 }) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
@@ -273,7 +274,12 @@ const DownloadWrapper = ({
           </div>
         )}
       </div>
-      <DownloadToggle onChange={toggleButtonChange} />
+      <DownloadToggle
+        onChange={toggleButtonChange}
+        downloadLimit={selectedTable?.downloadLimit}
+        dateRange={dateRange}
+        setDisableDownloadBanner={setDisableDownloadBanner}
+      />
       <div>
         <>{determineDirectDownload()}</>
       </div>
