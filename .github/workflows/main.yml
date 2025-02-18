@@ -30,7 +30,9 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
           NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
-        run: npm install --legacy-peer-deps
+        run: |
+          npm config fix
+          npm install --legacy-peer-deps
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
