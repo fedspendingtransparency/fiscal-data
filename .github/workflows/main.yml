@@ -24,8 +24,8 @@ jobs:
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
           npm config set strict-ssl=false
           npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
-          npm config set _auth=$NODE_AUTH_TOKEN
-      #          npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth="$NODE_AUTH_TOKEN"
+          npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth="$NODE_AUTH_TOKEN"
+#          npm config set _auth=$NODE_AUTH_TOKEN
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
