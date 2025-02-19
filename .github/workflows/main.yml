@@ -25,6 +25,7 @@ jobs:
           npm config set strict-ssl=false
           npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
           npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth="$NODE_AUTH_TOKEN"
+          npm config ls -l
 #          npm config set _auth=$NODE_AUTH_TOKEN
       - name: npm install
         env:
