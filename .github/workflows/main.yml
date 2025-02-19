@@ -21,6 +21,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ vars.ARTIFACTORY }}
         run: |
+          echo ${{ github.ARTIFACTORY }}
           echo "$NODE_AUTH_TOKEN"
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
           npm config set strict-ssl=false
@@ -31,7 +32,6 @@ jobs:
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-          NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
         run: |
           npm config fix
           npm install --legacy-peer-deps --loglevel verbose
