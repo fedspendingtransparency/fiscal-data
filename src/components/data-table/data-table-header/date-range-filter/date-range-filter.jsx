@@ -27,7 +27,7 @@ import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
 let mouseOverDropdown = null;
-const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn, disableDateRangeFilter }) => {
+const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn, disableDateRangeFilter, dateRange }) => {
   const textHighlighted = { backgroundColor: '#E8F5FF' };
   const noTextHighLight = { backgroundColor: '' };
 
@@ -135,7 +135,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (selected?.from && selected?.to) {
       const start = moment(selected?.from);
       const end = moment(selected?.to);
-      setFilteredDateRange({ from: start, to: end });
+      console.log(column);
+      setFilteredDateRange({ from: start, to: end, fieldName: column.id });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
       setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
