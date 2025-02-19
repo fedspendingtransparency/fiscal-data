@@ -21,7 +21,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ vars.ARTIFACTORY }}
         run: |
-          echo $NODE_AUTH_TOKEN
+          env
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
           npm config set strict-ssl=false
           npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
