@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          alwaysAuth: true
+          always-auth: true
       - name: setup .npmrc
         env:
           NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
