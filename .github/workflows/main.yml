@@ -9,8 +9,10 @@ jobs:
   install-dependencies:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3.8.1
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.8.1
         with:
           node-version: 20
           cache: 'npm'
