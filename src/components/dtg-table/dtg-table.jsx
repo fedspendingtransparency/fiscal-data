@@ -302,8 +302,6 @@ export default function DtgTable({
     }
   }, [filteredDateRange]);
 
-  // }, [tableSorting, filteredDateRange, selectedTable, dateRange, tableMeta]);
-
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       //prevent hook from triggering twice on pivot selection
@@ -526,7 +524,7 @@ export default function DtgTable({
           </ErrorBoundary>
         </div>
       )}
-      Endpoints and Fields tables
+      {/*Endpoints and Fields tables*/}
       {!reactTable && (
         <>
           <div data-test-id="table-content" className={overlayContainerNoFooter}>
