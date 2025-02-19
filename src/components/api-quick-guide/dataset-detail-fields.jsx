@@ -64,7 +64,7 @@ const DatasetDetailFields = ({ apis, tabindex }) => {
   const children = (
     <>
       <div className={sectionBody} id="fields-table">
-        {/*<DtgTable tableProps={tableProps} perPage={rowsPerPage} />*/}
+        <DtgTable tableProps={tableProps} perPage={rowsPerPage} />
       </div>
       <div className={sectionBody} id="fields-datatypes">
         <div className={dataTypesHeader}>Data Types</div>

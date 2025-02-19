@@ -127,7 +127,6 @@ const TableSectionContainer = ({
         })
         .then(async res => {
           const totalCount = res.meta['total-count'];
-          console.log('get depaginated data', res);
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
             if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {

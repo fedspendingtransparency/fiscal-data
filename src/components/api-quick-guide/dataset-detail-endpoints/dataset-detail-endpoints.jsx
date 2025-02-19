@@ -55,7 +55,7 @@ const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
       ) : (
         <>
           <div className={sectionBody} id="endpoints-table">
-            {/*<DtgTable tableProps={tableProps} perPage={rowsPerPage} />*/}
+            <DtgTable tableProps={tableProps} perPage={rowsPerPage} />
           </div>
         </>
       )}

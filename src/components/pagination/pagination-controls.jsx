@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import PageButtons from './page-buttons';
 import PagingOptionsMenu from './paging-options-menu';
@@ -43,10 +43,6 @@ const PaginationControls = ({ pagingProps }) => {
     pagesArray: pagesArray(),
     handleJump,
   };
-
-  useEffect(() => {
-    // console.log(pageButtonProps);
-  }, [maxPage]);
 
   // TODO: Rows Per Page should not show if maxRows < least rowsPerPage option
   return (

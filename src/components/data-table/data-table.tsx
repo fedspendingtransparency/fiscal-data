@@ -308,7 +308,6 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
                   disableDateRangeFilter={disableDateRangeFilter}
-                  dateRange={dateRange}
                 />
                 <DataTableBody
                   table={table}

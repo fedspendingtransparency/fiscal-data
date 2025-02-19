@@ -29,7 +29,6 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   allActiveFilters,
   setAllActiveFilters,
   disableDateRangeFilter,
-  dateRange,
 }) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
@@ -135,8 +134,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           setAllActiveFilters,
                           manualPagination,
                           isLastColumn,
-                          disableDateRangeFilter,
-                          dateRange
+                          disableDateRangeFilter
                         )}
                       </div>
                     </>
