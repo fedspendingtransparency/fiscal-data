@@ -51,7 +51,7 @@ const DownloadWrapper = ({
   const [changeMadeToCriteria, setChangeMadeToCriteria] = useState(false);
   const [icon, setIcon] = useState(null);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
-  const setDapGaEventLabel = useSetRecoilState(reactTableFilteredDateRangeState);
+  // const setDapGaEventLabel = useSetRecoilState(reactTableFilteredDateRangeState);
   const [gaEventLabel, setGaEventLabel] = useState();
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
@@ -167,9 +167,9 @@ const DownloadWrapper = ({
     }
   }, [selectedTable, dateRange, selectedFileType]);
 
-  useEffect(() => {
-    setDapGaEventLabel(gaEventLabel);
-  }, [gaEventLabel]);
+  // useEffect(() => {
+  //   setDapGaEventLabel(gaEventLabel);
+  // }, [gaEventLabel]);
 
   useEffect(() => {
     if (dateRange) {

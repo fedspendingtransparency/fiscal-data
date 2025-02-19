@@ -39,7 +39,6 @@ export default function DataTablesTab({ apis, datasetName }) {
     tableName: 'Datatables Tab',
     aria: { 'aria-label': `${datasetName} data tables` },
   };
-  return <></>;
 
-  // return <DtgTable tableProps={tableProps} />;
+  return <DtgTable tableProps={tableProps} />;
 }

@@ -26,7 +26,6 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
   allReportDates,
   active,
 }: IReportDayPicker) => {
-  console.log(earliestReportDate);
   const [currentDate, setCurrentDate] = useState<Date>(selectedDate);
   const [month, setMonth] = useState<Date>(selectedDate);
   const handleApply = () => {

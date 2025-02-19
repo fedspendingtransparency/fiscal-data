@@ -52,6 +52,5 @@ export default function MetadataTab({ config }) {
     tableName: 'Metadata Tab',
     aria: { 'aria-label': `${config.name} metadata` },
   };
-  return <></>;
-  // return <DtgTable tableProps={tableProps} />;
+  return <DtgTable tableProps={tableProps} />;
 }

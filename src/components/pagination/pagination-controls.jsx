@@ -44,10 +44,6 @@ const PaginationControls = ({ pagingProps }) => {
     handleJump,
   };
 
-  useEffect(() => {
-    // console.log(pageButtonProps);
-  }, [maxPage]);
-
   // TODO: Rows Per Page should not show if maxRows < least rowsPerPage option
   return (
     <div className={paginationControls}>

@@ -135,7 +135,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (selected?.from && selected?.to) {
       const start = moment(selected?.from);
       const end = moment(selected?.to);
-      console.log(column);
       setFilteredDateRange({ from: start, to: end, fieldName: column.id });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
