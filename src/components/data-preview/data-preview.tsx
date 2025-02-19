@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
-import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } from './data-preview.module.scss';
+import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName, increaseSpacing } from './data-preview.module.scss';
 import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
@@ -323,6 +323,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
                     hideButtons={detailApi && !detailViewState}
                   />
                 )}
+                {selectedTable?.apiFilter?.disableDateRangeFilter && <div className={increaseSpacing}></div>}
               </>
             )}
             {!selectedTable && (
