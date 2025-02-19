@@ -406,12 +406,12 @@ export default function DtgTable({
       !pivotSelected?.pivotValue &&
       !rawData?.pivotApplied
     ) {
-      if (tableMeta && tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+      if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
         // data with current date range < 20000
       } else {
         if (!(reactTableData?.pivotApplied && !updatedData(tableData.data, reactTableData?.data.slice(0, itemsPerPage)))) {
           console.log(5, tableData);
-          setReactTableData({ data: tableData.data, meta: tableMeta });
+          setReactTableData(tableData);
           setManualPagination(true);
         }
       }
