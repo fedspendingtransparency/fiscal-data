@@ -13,20 +13,20 @@ const ResetTableContainer = ({ tableProps, perPage, setPerPage }) => {
       <div className={buttonContainer}>
         <ResetTableSection active={activeFilters?.length > 0} resetColumns={() => setResetFilters(true)} />
       </div>
-      <DtgTable
-        tableProps={tableProps}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        reactTable
-        rawDataTable={false}
-        resetFilters={resetFilters}
-        setResetFilters={setResetFilters}
-        allActiveFilters={activeFilters}
-        setAllActiveFilters={setActiveFilters}
-        allowColumnWrap={['definition']}
-        sorting={sorting}
-        setSorting={setSorting}
-      />
+      {/*<DtgTable*/}
+      {/*  tableProps={tableProps}*/}
+      {/*  perPage={perPage}*/}
+      {/*  setPerPage={setPerPage}*/}
+      {/*  reactTable*/}
+      {/*  rawDataTable={false}*/}
+      {/*  resetFilters={resetFilters}*/}
+      {/*  setResetFilters={setResetFilters}*/}
+      {/*  allActiveFilters={activeFilters}*/}
+      {/*  setAllActiveFilters={setActiveFilters}*/}
+      {/*  allowColumnWrap={['definition']}*/}
+      {/*  sorting={sorting}*/}
+      {/*  setSorting={setSorting}*/}
+      {/*/>*/}
     </div>
   );
 };

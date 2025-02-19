@@ -124,6 +124,7 @@ const ChartTableToggle = ({
   } else if (apiFilterDefault) {
     emptyDataMessage = getMessageForDefaultApiFilter(selectedTable);
   } else if (emptyData) {
+    console.log('empty data');
     emptyDataMessage = <NotShownMessage heading="Change selections in order to preview data" bodyText={emptyDataMessageBody} />;
   }
 

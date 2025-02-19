@@ -68,11 +68,13 @@ const RangePresets = ({
   };
 
   const prepUpdateDateRange = preset => {
+    // console.log('prepUpdateDateRange');
     const curDateRange = determineDateRange(availableDateRange, preset, currentDateButton);
     updateDateRange(curDateRange);
   };
 
   const updateDateRange = curDateRange => {
+    // console.log('updateDateRange');
     if (curDateRange) {
       setPickerDateRange(availableDateRange);
       setCurDateRange(curDateRange);
@@ -156,6 +158,7 @@ const RangePresets = ({
   };
 
   useEffect(() => {
+    // console.log('set app preset');
     setMostAppropriatePreset();
   }, [presets]);
 
@@ -167,6 +170,7 @@ const RangePresets = ({
   }, [apiData]);
 
   useEffect(() => {
+    // console.log(1);
     if (!finalDatesNotFound) {
       const availableRangeForSelection = allTablesSelected ? allTablesDateRange : prepAvailableDates(selectedTable);
       setAvailableDateRange(availableRangeForSelection);

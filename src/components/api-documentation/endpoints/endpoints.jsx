@@ -140,7 +140,7 @@ const Endpoints = () => {
           <code className={code}>{apiBaseUrl}/v2/accounting/od/avg_interest_rates</code>
         </p>
         <div className={listOfEndpointsTable} id="list-of-endpoints-table">
-          <DtgTable tableProps={tableProps} perPage={rowsPerPage} />
+          {/*<DtgTable tableProps={tableProps} perPage={rowsPerPage} />*/}
         </div>
       </SectionContent>
       <SectionContent id="fields-by-endpoint" headingLevel={3} title="Fields by Endpoint">
