@@ -32,7 +32,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
         run: |
           npm config fix
-          npm install --legacy-peer-deps
+          npm install --legacy-peer-deps --loglevel verbose
   run-unit-tests-and-coverage:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
