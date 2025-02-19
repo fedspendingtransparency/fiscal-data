@@ -31,7 +31,7 @@ jobs:
           NODE_OPTIONS: "--max_old_space_size=8192"
           NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
         run: |
-          npm config fixz
+          npm config fix
           npm install --legacy-peer-deps
   run-unit-tests-and-coverage:
     timeout-minutes: 10
