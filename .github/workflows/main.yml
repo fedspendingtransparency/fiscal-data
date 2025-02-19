@@ -19,7 +19,7 @@ jobs:
           always-auth: true
       - name: setup .npmrc
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
+          NODE_AUTH_TOKEN: ${{ vars.ARTIFACTORY }}
         run: |
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
           npm config set strict-ssl=false
