@@ -26,14 +26,14 @@ jobs:
           npm config set strict-ssl=false
           npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
           npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth="$NODE_AUTH_TOKEN"
-          npm config ls -l
-#          npm config set _auth=$NODE_AUTH_TOKEN
-      - name: npm install
-        env:
-          NODE_OPTIONS: "--max_old_space_size=8192"
-        run: |
           npm config fix
           npm install --legacy-peer-deps --loglevel verbose
+#      - name: npm install
+#        env:
+#          NODE_OPTIONS: "--max_old_space_size=8192"
+#        run: |
+#          npm config fix
+#          npm install --legacy-peer-deps --loglevel verbose
   run-unit-tests-and-coverage:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
