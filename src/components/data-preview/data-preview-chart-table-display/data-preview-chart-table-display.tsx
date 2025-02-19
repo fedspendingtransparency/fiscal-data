@@ -23,7 +23,6 @@ const ChartTableDisplay: FunctionComponent = ({
   width,
 }) => {
   let emptyDataMessage = null;
-  console.log('apifilter', apiFilterDefault);
 
   const allTableHeading = 'The current "All Data Tables" selection is for download only';
   const allTableBody = "To download the data, select the 'Download' button and choose the desired format.";

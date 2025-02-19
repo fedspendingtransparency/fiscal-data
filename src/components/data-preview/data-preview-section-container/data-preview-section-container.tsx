@@ -339,7 +339,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
       return selectedTable.dateField;
     }
   };
-  console.log('TEST API DEF', apiFilterDefault);
   const dateFieldForChart = getDateFieldForChart();
 
   useEffect(() => {
