@@ -14,8 +14,8 @@ jobs:
         uses: actions/checkout@v4.2.2
       - name: Modify npmrc
         run: |
-          npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
-          npm config set "//artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/:_auth=${{ vars.ARTIFACTORY }}"
+          npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/kc-dtas-npm/
+          npm config set "//artifactory.prod.dt.ts.aws.frb.pvt/artifactory/kc-dtas-npm/:_auth=${{ vars.ARTIFACTORY }}"
           npm config set strict-ssl=false
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.2.0
