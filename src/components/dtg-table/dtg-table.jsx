@@ -89,6 +89,7 @@ export default function DtgTable({
     perPage ? perPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
   );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
+  const [table, setTable] = useState(!shouldPage ? data : []);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
@@ -122,7 +123,7 @@ export default function DtgTable({
   };
 
   const dataProperties = {
-    keys: tableData?.data && tableData.data[0] ? Object.keys(tableData.data[0]) : [],
+    keys: tableData.data && tableData.data[0] ? Object.keys(tableData.data[0]) : [],
     excluded: getAllExcludedCols(),
   };
   const columns = setColumns(dataProperties, columnConfig);
@@ -194,7 +195,7 @@ export default function DtgTable({
         tableColumnSortData,
         selectedTable?.apiFilter?.field,
         userFilterSelection,
-        !recordDate ? filteredDateRange : null
+        !recordDate ? filteredDateRange : filteredDateRange
       )
         .then(res => {
           if (!loadCanceled) {
@@ -220,6 +221,8 @@ export default function DtgTable({
             setMaxPage(res.meta['total-pages']);
             if (maxRows !== totalCount) setMaxRows(totalCount);
             setTableData(res);
+            setTable(res.data);
+            console.log('tables are here', tableData, table);
           }
         })
         .catch(err => {
@@ -261,11 +264,14 @@ export default function DtgTable({
   };
 
   const populateRows = currentColumns => {
+    console.log('NOTHING   ', tableData);
     const tableRows = [];
-    tableData.data?.forEach((row, index) => {
+    console.log('11 tables are here', tableData.data, table);
+    table.forEach((row, index) => {
       tableRows.push(<DtgTableRow columns={currentColumns} data={row} key={index} tableName={tableName} />);
     });
     setRows(tableRows);
+    console.log('tabledata.data', tableData.data);
   };
 
   const isPaginationControlNeeded = () => currentPage >= 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
@@ -313,7 +319,8 @@ export default function DtgTable({
 
   useEffect(() => {
     populateRows(columns);
-  }, [tableData]);
+    console.log('zzzztables are here', tableData, table);
+  }, [table]);
 
   useMemo(() => {
     if (data && data.length) {
