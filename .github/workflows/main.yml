@@ -6,28 +6,6 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  install-dependencies:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4.2.0
-        with:
-          registryUrl: https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
-          node-version: 20
-      - name: setup .npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ vars.ARTIFACTORY }}
-        run: |
-          npm config fix
-          npm install --legacy-peer-deps --loglevel verbose
-#      - name: npm install
-#        env:
-#          NODE_OPTIONS: "--max_old_space_size=8192"
-#        run: |
-#          npm config fix
-#          npm install --legacy-peer-deps --loglevel verbose
   run-unit-tests-and-coverage:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
@@ -41,8 +19,7 @@ jobs:
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-          NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY }}
-        run: npm install --legacy-peer-deps --loglevel verbose
+        run: npm install --legacy-peer-deps
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
