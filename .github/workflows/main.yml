@@ -11,11 +11,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3.8.1
+        uses: actions/setup-node@v4.2.0
         with:
           node-version: 20
+          registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
