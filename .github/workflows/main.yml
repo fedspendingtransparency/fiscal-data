@@ -14,18 +14,12 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.2.0
         with:
+          registryUrl: https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
           node-version: 20
-          cache: 'npm'
-          always-auth: true
       - name: setup .npmrc
         env:
           NODE_AUTH_TOKEN: ${{ vars.ARTIFACTORY }}
         run: |
-          echo "$NODE_AUTH_TOKEN"
-          npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/
-          npm config set strict-ssl=false
-          npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
-          npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth="$NODE_AUTH_TOKEN"
           npm config fix
           npm install --legacy-peer-deps --loglevel verbose
 #      - name: npm install
