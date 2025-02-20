@@ -15,9 +15,9 @@ jobs:
       - name: Modify npmrc
         run: |
           echo -e "\n//artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth=${{ secrets.ARTIFACTORY }}" >> ./.npmrc
-          echo -e "registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/"
-          echo -e "always-auth=true"
-          echo -e "strict-ssl=false"
+          echo -e "registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/" >> ./.npmrc
+          echo -e "always-auth=true" >> ./.npmrc
+          echo -e "strict-ssl=false" >> ./.npmrc
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.2.0
