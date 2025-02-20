@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import determineDateRange, {
   generateAnalyticsEvent,
   generateFormattedDate,
@@ -7,7 +7,7 @@ import determineDateRange, {
 import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
 import { monthNames } from '../../../../utils/api-utils';
-import DatePickers from '../../../filter-download-container/datepickers/datepickers';
+import { DatasetDetailContext } from '../../../../contexts/dataset-detail-context';
 
 type DateRangeFilterProps = {
   currentDateButton;
@@ -18,7 +18,6 @@ type DateRangeFilterProps = {
   handleDateRangeChange;
   setIsFiltered;
   setIsCustomDateRange;
-  allTablesSelected;
   datasetDateRange;
   finalDatesNotFound;
   hideButtons;
@@ -33,11 +32,11 @@ const DateRangeFilter: FunctionComponent<DateRangeFilterProps> = ({
   handleDateRangeChange,
   setIsFiltered,
   setIsCustomDateRange,
-  allTablesSelected,
   datasetDateRange,
   finalDatesNotFound,
   hideButtons,
 }) => {
+  const { allTablesSelected } = useContext(DatasetDetailContext);
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
   const [pickerDateRange, setPickerDateRange] = useState(null);

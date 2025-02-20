@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { IDataTableProps } from '../../../models/IDataTableProps';
 import { useSetRecoilState } from 'recoil';
 import {
@@ -14,44 +14,48 @@ import { overlayContainerNoFooter, rawDataTableContainer } from './data-preview-
 import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
 import DataPreviewDataTableBody from './data-preview-data-table-body/data-preview-data-table-body';
 import DataPreviewDataTableHeader from './data-preview-data-table-header/data-preview-data-table-header';
+import { DatasetDetailContext } from '../../../contexts/dataset-detail-context';
 
 const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   rawData,
   defaultSelectedColumns,
-  setTableColumnSortData,
   shouldPage,
   showPaginationControls,
   publishedReports,
   hasPublishedReports,
-  resetFilters,
-  setResetFilters,
   hideCellLinks,
   tableName,
   hideColumns,
   pagingProps,
-  manualPagination,
   rowsShowing,
   columnConfig,
   detailColumnConfig,
   detailView,
   detailViewAPI,
-  detailViewState,
-  setDetailViewState,
   allowColumnWrap,
-  aria,
-  pivotSelected,
-  setSummaryValues,
   customFormatting,
-  sorting,
-  setSorting,
-  allActiveFilters,
-  setAllActiveFilters,
   setTableSorting,
   disableDateRangeFilter,
   datasetName,
-  dateRange,
   hasDownloadTimestamp,
 }) => {
+  const {
+    tableProps,
+    detailViewState,
+    setDetailViewState,
+    manualPagination,
+    allActiveFilters,
+    setAllActiveFilters,
+    setTableColumnSortData,
+    reactTableSorting: sorting,
+    setReactTableSort: setSorting,
+    selectedPivot: pivotSelected,
+    resetFilters,
+    setResetFilters,
+    setSummaryValues,
+  } = useContext(DatasetDetailContext);
+  const { aria, dateRange } = tableProps;
+
   const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
@@ -107,7 +111,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
 
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(
-    defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
+    defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected?.pivotValue ? defaultInvisibleColumns : {}
   );
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
@@ -166,7 +170,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   };
 
   useEffect(() => {
-    if (defaultSelectedColumns && !pivotSelected) {
+    if (defaultSelectedColumns && !pivotSelected?.pivotValue) {
       constructDefaultColumnsFromTableData();
     }
     if (detailViewState) {

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import { getMessageForDefaultApiFilter, getMessageForUnmatchedUserFilter } from '../../filter-download-container/user-filter/user-filter';
 import { allTablesSelectedBody, emptyDataMessageBody } from '../../dataset-data/chart-table-toggle/chart-table-toggle';
@@ -7,22 +7,20 @@ import EmptyTable from './empty-table/empty-table';
 import { tableNotice } from './data-preview-chart-table-display.module.scss';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
+import { DatasetDetailContext } from '../../../contexts/dataset-detail-context';
 
 const ChartTableDisplay: FunctionComponent = ({
   table,
-  allTablesSelected,
-  selectedTable,
   emptyData,
   unchartable,
   legend,
-  selectedTab,
   chart,
   userFilterUnmatchedForDateRange,
   apiFilterDefault,
-  pivotSelected,
   width,
 }) => {
   let emptyDataMessage = null;
+  const { allTablesSelected } = useContext(DatasetDetailContext);
 
   const allTableHeading = 'The current "All Data Tables" selection is for download only';
   const allTableBody = "To download the data, select the 'Download' button and choose the desired format.";

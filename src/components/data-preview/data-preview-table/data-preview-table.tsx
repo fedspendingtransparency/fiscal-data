@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
 import { loadingTimeout, netLoadingDelay, setColumns } from '../../dtg-table/dtg-table-helper';
@@ -13,6 +13,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { overlayContainer, overlay, loadingIcon, overlayContainerNoFooter } from './data-preview-table.module.scss';
 import GLOBALS from '../../../helpers/constants';
 import DataPreviewDataTable from '../data-preview-data-table/data-preview-data-table';
+import { DatasetDetailContext } from '../../../contexts/dataset-detail-context';
 const DEFAULT_ROWS_PER_PAGE = GLOBALS.dataTable.DEFAULT_ROWS_PER_PAGE;
 
 interface ITableProps {
@@ -43,59 +44,33 @@ type DataPreviewTableProps = {
   tableProps: ITableProps;
   perPage;
   setPerPage;
-  selectColumnPanel;
-  setSelectColumnPanel;
-  setTableColumnSortData;
-  resetFilters;
-  setResetFilters;
   tableMeta;
-  tableColumnSortData;
-  manualPagination;
-  setManualPagination;
   pivotSelected;
   allowColumnWrap;
-  setDetailViewState;
-  detailViewState;
-  setSummaryValues;
-  setIsLoading;
-  isLoading;
-  sorting;
-  setSorting;
-  allActiveFilters;
-  setAllActiveFilters;
-  userFilterSelection;
   disableDateRangeFilter;
 };
 
 const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
-  tableProps,
-  perPage,
-  setPerPage,
-  selectColumnPanel,
-  setSelectColumnPanel,
-  setTableColumnSortData,
-  resetFilters,
-  setResetFilters,
-  tableMeta,
-  tableColumnSortData,
-  manualPagination,
-  setManualPagination,
-  pivotSelected,
   allowColumnWrap,
-  setDetailViewState,
-  detailViewState,
-  setSummaryValues,
-  setIsLoading,
-  isLoading,
-  sorting,
-  setSorting,
-  allActiveFilters,
-  setAllActiveFilters,
-  userFilterSelection,
   disableDateRangeFilter,
   hasDownloadTimestamp,
   datesetName,
 }) => {
+  const {
+    selectedTable,
+    selectedPivot: pivotSelected,
+    tableProps,
+    detailViewState,
+    setManualPagination,
+    perPage,
+    setPerPage,
+    tableColumnSortData,
+    userFilterSelection,
+    isLoading,
+    setIsLoading,
+    tableMeta,
+  } = useContext(DatasetDetailContext);
+
   const {
     dePaginated,
     rawData,
@@ -103,7 +78,6 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     tableName,
     shouldPage,
     excludeCols,
-    selectedTable,
     selectedPivot,
     dateRange,
     config,
@@ -141,7 +115,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
 
   const rowText = ['rows', 'rows'];
 
-  const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
+  // const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
 
   const getAllExcludedCols = () => {
     const allCols = [];
@@ -442,42 +416,26 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
             <ErrorBoundary FallbackComponent={() => <></>}>
               <DataPreviewDataTable
                 rawData={reactTableData}
-                detailViewState={detailViewState}
-                setDetailViewState={setDetailViewState}
                 detailColumnConfig={detailColumnConfig}
                 detailViewAPI={detailViewAPIConfig}
                 detailView={config?.detailView}
                 defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
-                setTableColumnSortData={setTableColumnSortData}
                 hideCellLinks={true}
                 shouldPage={shouldPage}
                 pagingProps={pagingProps}
                 showPaginationControls={showPaginationControls}
                 hasPublishedReports={hasPublishedReports}
                 publishedReports={publishedReports}
-                setSelectColumnPanel={setSelectColumnPanel}
-                selectColumnPanel={selectColumnPanel}
-                resetFilters={resetFilters}
-                setResetFilters={setResetFilters}
                 hideColumns={hideColumns}
                 tableName={tableName}
-                manualPagination={manualPagination}
                 maxRows={maxRows}
                 rowsShowing={rowsShowing}
                 columnConfig={columnConfig}
                 allowColumnWrap={allowColumnWrap}
-                aria={tableProps.aria}
-                pivotSelected={pivotSelected?.pivotValue}
-                setSummaryValues={setSummaryValues}
                 customFormatting={customFormatting}
-                sorting={sorting}
-                setSorting={setSorting}
-                allActiveFilters={allActiveFilters}
-                setAllActiveFilters={setAllActiveFilters}
                 setTableSorting={setTableSorting}
                 disableDateRangeFilter={disableDateRangeFilter}
                 datasetName={datesetName}
-                dateRange={tableProps.dateRange}
                 hasDownloadTimestamp={hasDownloadTimestamp}
               />
             </ErrorBoundary>

@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent, ReactElement, useContext } from 'react';
 import React from 'react';
 import DataPreviewDownload from './data-preview-download/data-preview-download';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -9,6 +9,9 @@ import { breakpointXl } from '../data-preview.module.scss';
 import { withWindowSize } from 'react-fns';
 import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
 import { differenceInHours } from 'date-fns';
+import { DatasetDetailContext } from '../../../contexts/dataset-detail-context';
+import { useRecoilValue } from 'recoil';
+import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
 
 type DataPreviewFilterSectionProps = {
   width?: number;
@@ -16,13 +19,9 @@ type DataPreviewFilterSectionProps = {
   dateRange;
   isFiltered;
   selectedTable;
-  selectedPivot;
   dataset;
   allTablesSelected: boolean;
   isCustomDateRange: boolean;
-  selectedUserFilter;
-  tableColumnSortData;
-  filteredDateRange;
   selectedDetailViewFilter;
 };
 
@@ -32,15 +31,13 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   dateRange,
   isFiltered,
   selectedTable,
-  selectedPivot,
   dataset,
-  allTablesSelected,
   isCustomDateRange,
-  selectedUserFilter,
-  tableColumnSortData,
-  filteredDateRange,
   selectedDetailViewFilter,
 }) => {
+  const { allTablesSelected, userFilterSelection: selectedUserFilter, tableColumnSortData, selectedPivot } = useContext(DatasetDetailContext);
+  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
   const getChartingInfo = () => {

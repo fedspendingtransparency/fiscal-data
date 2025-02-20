@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import GLOBALS from '../../../helpers/constants';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
@@ -33,76 +33,52 @@ import {
 } from './data-preview-section-container.module.scss';
 import DataPreviewPivotOptions from '../data-preview-pivot-options/data-preview-pivot-options';
 import ChartTableDisplay from '../data-preview-chart-table-display/data-preview-chart-table-display';
+import { DatasetDetailContext } from '../../../contexts/dataset-detail-context';
 
 type DataPreviewSectionProps = {
   config;
   dateRange;
-  selectedTable;
   apiData;
   apiError;
-  userFilterSelection;
-  setUserFilterSelection;
-  selectedPivot;
-  setSelectedPivot;
   serverSidePagination;
-  isLoading;
-  setIsLoading;
-  tabChangeHandler;
-  handleIgnorePivots;
-  ignorePivots;
-  allTablesSelected;
   handleConfigUpdate;
-  tableColumnSortData;
-  setTableColumnSortData;
   hasPublishedReports;
   publishedReports;
-  resetFilters;
-  setResetFilters;
-  detailViewState;
-  setDetailViewState;
   customFormatting;
-  summaryValues;
-  setSummaryValues;
-  allActiveFilters;
-  setAllActiveFilters;
 };
 
 const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = ({
   config,
   dateRange,
-  selectedTable,
   apiData,
   apiError,
-  userFilterSelection,
-  setUserFilterSelection,
-  selectedPivot,
-  setSelectedPivot,
   serverSidePagination,
-  isLoading,
-  setIsLoading,
-  tabChangeHandler,
-  handleIgnorePivots,
-  ignorePivots,
-  allTablesSelected,
   handleConfigUpdate,
-  tableColumnSortData,
-  setTableColumnSortData,
   hasPublishedReports,
   publishedReports,
-  resetFilters,
-  setResetFilters,
-  detailViewState,
-  setDetailViewState,
   customFormatting,
-  summaryValues,
-  setSummaryValues,
-  allActiveFilters,
-  setAllActiveFilters,
   width,
 }) => {
+  const {
+    selectedTable,
+    selectedPivot,
+    tableProps,
+    setTableProps,
+    setManualPagination,
+    detailViewState,
+    userFilterSelection,
+    setUserFilterSelection,
+    summaryValues,
+    isLoading,
+    setIsLoading,
+    tableMeta,
+    setTableMeta,
+    allTablesSelected,
+    setReactTableSort,
+  } = useContext(DatasetDetailContext);
+
   const tableName = selectedTable.tableName;
-  const [showPivotBar, setShowPivotBar] = useState(true);
-  const [tableProps, setTableProps] = useState();
+  // const [showPivotBar, setShowPivotBar] = useState(true);
   const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
   const [legendToggledByUser, setLegendToggledByUser] = useState(false);
   const [pivotsUpdated, setPivotsUpdated] = useState(false);
@@ -111,11 +87,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
-  const [selectColumnPanel, setSelectColumnPanel] = useState(false);
-  const [perPage, setPerPage] = useState(null);
-  const [reactTableSorting, setReactTableSort] = useState([]);
-  const [tableMeta, setTableMeta] = useState(null);
-  const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
 
@@ -196,7 +167,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
 
   const refreshTable = async () => {
     if (allTablesSelected) return;
-    selectedPivot = selectedPivot || {};
+    // selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
 
     // DetailColumnConfig is used for the TIPS and CPI detail view table
@@ -306,32 +277,33 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     }
   }, [userFilterSelection]);
 
-  const legendToggler = e => {
-    if (e.key === undefined || e.key === 'Enter') {
-      if (legend) {
-        Analytics.event({
-          category: 'Chart Enabled',
-          action: 'Hide Legend Click',
-          label: `${config.name}, ${selectedTable.tableName}`,
-        });
-      }
-      e.preventDefault();
-      setLegend(!legend);
-      setLegendToggledByUser(true);
-      setSelectColumnPanel(!selectColumnPanel);
-    }
-  };
+  // const legendToggler = e => {
+  //   if (e.key === undefined || e.key === 'Enter') {
+  //     if (legend) {
+  //       Analytics.event({
+  //         category: 'Chart Enabled',
+  //         action: 'Hide Legend Click',
+  //         label: `${config.name}, ${selectedTable.tableName}`,
+  //       });
+  //     }
+  //     e.preventDefault();
+  //     setLegend(!legend);
+  //     setLegendToggledByUser(true);
+  //     setSelectColumnPanel(!selectColumnPanel);
+  //   }
+  // };
 
-  const pivotToggler = () => {
-    if (showPivotBar) {
-      Analytics.event({
-        category: 'Chart Enabled',
-        action: 'Hide Pivot Options Click',
-        label: `${config.name}, ${selectedTable.tableName}`,
-      });
-    }
-    setShowPivotBar(!showPivotBar);
-  };
+  // const pivotToggler = () => {
+  //   if (showPivotBar) {
+  //     Analytics.event({
+  //       category: 'Chart Enabled',
+  //       action: 'Hide Pivot Options Click',
+  //       label: `${config.name}, ${selectedTable.tableName}`,
+  //     });
+  //   }
+  //   setShowPivotBar(!showPivotBar);
+  // };
+
   const getDateFieldForChart = () => {
     if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn && selectedPivot.pivotView.aggregateOn.length) {
       return 'CHART_DATE'; // aggregation cases in pivoted data this only for charting calculation
@@ -387,8 +359,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
             />
           )}
           <ChartTableDisplay
-            allTablesSelected={allTablesSelected}
-            selectedTable={selectedTable}
             emptyData={
               !isLoading &&
               !serverSidePagination &&
@@ -400,32 +370,8 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
               <div className={!allTablesSelected ? tableSection : ''}>
                 {(apiData || serverSidePagination || apiError) && tableProps && (
                   <DataPreviewTable
-                    selectColumnPanel={selectColumnPanel}
-                    setDetailViewState={setDetailViewState}
-                    detailViewState={detailViewState}
-                    setSummaryValues={setSummaryValues}
-                    pivotSelected={selectedPivot}
-                    setSelectColumnPanel={setSelectColumnPanel}
-                    tableProps={tableProps}
-                    selectedTable={selectedTable}
-                    perPage={perPage}
-                    setPerPage={setPerPage}
-                    tableColumnSortData={tableColumnSortData}
-                    setTableColumnSortData={setTableColumnSortData}
-                    resetFilters={resetFilters}
-                    setResetFilters={setResetFilters}
-                    tableMeta={tableMeta}
-                    manualPagination={manualPagination}
-                    setManualPagination={setManualPagination}
                     reactTable
                     rawDataTable
-                    userFilterSelection={userFilterSelection}
-                    setIsLoading={setIsLoading}
-                    isLoading={isLoading}
-                    sorting={reactTableSorting}
-                    setSorting={setReactTableSort}
-                    allActiveFilters={allActiveFilters}
-                    setAllActiveFilters={setAllActiveFilters}
                     disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}
                     datasetName={config.name}
                     hasDownloadTimestamp={config.downloadTimestamp}

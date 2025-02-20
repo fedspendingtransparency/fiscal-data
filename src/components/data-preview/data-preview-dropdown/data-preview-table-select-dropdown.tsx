@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { faDatabase } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from './../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
@@ -6,17 +6,14 @@ import DataPreviewDropdownDialogContainer from '../data-preview-dropdown-dialog/
 import DataPreviewPivotSelect from '../data-preview-pivot-select/data-preview-pivot-select';
 import { ITableSelectDropdown } from '../../../models/data-preview/ITableSelectDropdown';
 import DataPreviewDropdownDialogSearch from '../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
+import { DatasetDetailContext } from '../../../contexts/dataset-detail-context';
 
 const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = ({
   apis,
-  selectedTable,
-  setSelectedTable,
-  allTablesSelected,
+  handleSelectedTableChange,
   earliestDate,
   latestDate,
   disableAllTables,
-  selectedPivot,
-  setSelectedPivot,
   hideDropdown,
 }) => {
   const allTablesOption = {
@@ -25,6 +22,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     tableName: 'All Data Tables (Download Only)',
     valueFieldOptions: null,
   };
+  const { selectedTable, selectedPivot, setSelectedPivot, allTablesSelected } = useContext(DatasetDetailContext);
 
   const initialSelectedTable = allTablesSelected ? allTablesOption : selectedTable;
   const [active, setActive] = useState(false);
@@ -56,7 +54,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const handleApply = () => {
     setAppliedTableView(tableViewSelection);
     if (tableToApply !== selectedTable || (allTablesSelected && !tableToApply.allDataTables)) {
-      setSelectedTable(tableToApply);
+      handleSelectedTableChange(tableToApply);
     }
     if (tableViewSelection === 'pivotData') {
       if (pivotToApply !== selectedPivot) {

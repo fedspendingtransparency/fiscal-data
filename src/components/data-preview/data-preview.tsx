@@ -1,10 +1,8 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import DataPreviewSectionContainer from './data-preview-section-container/data-preview-section-container';
 import { detailViewNotice, lockIcon, placeholderButton, placeholderText } from './data-preview.module.scss';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { TableCache } from '../dataset-data/table-cache/table-cache';
@@ -20,6 +18,7 @@ import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
 import { IDataPreview } from '../../models/data-preview/IDataPreview';
+import { DatasetDetailContext } from '../../contexts/dataset-detail-context';
 
 const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
@@ -34,29 +33,31 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
   const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
-  const [selectedTable, setSelectedTable] = useState();
-  const [allTablesSelected, setAllTablesSelected] = useState(false);
   const [dateRange, setDateRange] = useState(); // TODO: remove this... using before hooking date picker to table
   const [isCustomDateRange, setIsCustomDateRange] = useState(false);
   const [apiData, setApiData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState(false);
   const [serverSidePagination, setServerSidePagination] = useState(false);
-  const [selectedTab, setSelectedTab] = useState(0);
   const [publishedReports, setPublishedReports] = useState([]);
-  const [selectedPivot, setSelectedPivot] = useState();
   const [ignorePivots, setIgnorePivots] = useState(false);
   const [configUpdated, setConfigUpdated] = useState(false);
-  const [userFilterSelection, setUserFilterSelection] = useState(null);
-  const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const [tableCaches] = useState({});
-  const [resetFilters, setResetFilters] = useState(false);
-  const [detailViewState, setDetailViewState] = useState(null);
-  const [summaryValues, setSummaryValues] = useState(null);
+  // const [resetFilters, setResetFilters] = useState(false);
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
-  const [allActiveFilters, setAllActiveFilters] = useState([]);
 
-  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+  const {
+    selectedTable,
+    setSelectedTable,
+    selectedPivot,
+    setSelectedPivot,
+    detailViewState,
+    allTablesSelected,
+    setAllTablesSelected,
+    tableColumnSortData,
+    setTableColumnSortData,
+    setUserFilterSelection,
+    setIsLoading,
+  } = useContext(DatasetDetailContext);
 
   let loadByPage;
   const shouldUseLoadByPage = pivot => {
@@ -257,14 +258,10 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
         {selectedTable && (
           <DataPreviewTableSelectDropdown
             apis={filteredApis}
-            selectedTable={selectedTable}
-            setSelectedTable={handleSelectedTableChange}
-            allTablesSelected={allTablesSelected}
+            handleSelectedTableChange={handleSelectedTableChange}
             earliestDate={config.techSpecs.earliestDate}
             latestDate={config.techSpecs.latestDate}
             disableAllTables={config?.disableAllTables}
-            selectedPivot={selectedPivot}
-            setSelectedPivot={setSelectedPivot}
             hideDropdown={config.apis.length === 1 && config.apis[0]?.dataDisplays?.length <= 1}
           />
         )}
@@ -276,40 +273,31 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       <div>
         {tableColumnSortData && selectedTable && (
           <DataPreviewFilterSection
-            data-testid="filterAndDownload"
             dateRange={dateRange}
             isFiltered={isFiltered}
             selectedTable={!!detailViewState ? detailApi : selectedTable}
             selectedPivot={selectedPivot}
             dataset={config}
-            allTablesSelected={allTablesSelected}
             isCustomDateRange={isCustomDateRange}
-            selectedUserFilter={userFilterSelection}
-            tableColumnSortData={tableColumnSortData}
-            filteredDateRange={filteredDateRange}
             selectedDetailViewFilter={detailViewDownloadFilter}
           >
             {selectedTable && (
               <>
                 {!selectedTable?.apiFilter?.disableDateRangeFilter && (
                   <DateRangeFilter
-                    setDateRange={setDateRange}
                     handleDateRangeChange={handleDateRangeChange}
                     selectedTable={!!detailViewState ? detailApi : selectedTable}
                     apiData={apiData}
-                    onUserFilter={setUserFilterSelection}
                     setIsFiltered={setIsFiltered}
                     currentDateButton={config.currentDateButton}
                     datePreset={config.datePreset}
                     customRangePreset={config.customRangePreset}
                     setIsCustomDateRange={setIsCustomDateRange}
-                    allTablesSelected={allTablesSelected}
                     datasetDateRange={{
                       earliestDate: config.techSpecs.earliestDate,
                       latestDate: config.techSpecs.latestDate,
                     }}
                     finalDatesNotFound={finalDatesNotFound}
-                    setResetFilters={setResetFilters}
                     datatableBanner={config.datatableBanner}
                     hideButtons={detailApi && !detailViewState}
                   />
@@ -331,34 +319,13 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
               <DataPreviewSectionContainer
                 config={config}
                 dateRange={dateRange}
-                selectedTable={selectedTable}
-                userFilterSelection={userFilterSelection}
-                setUserFilterSelection={setUserFilterSelection}
                 apiData={apiData}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
                 apiError={apiError}
-                selectedPivot={selectedPivot}
-                setSelectedPivot={setSelectedPivot}
                 serverSidePagination={serverSidePagination}
-                selectedTab={selectedTab}
-                tabChangeHandler={setSelectedTab}
-                handleIgnorePivots={setIgnorePivots}
-                allTablesSelected={allTablesSelected}
                 handleConfigUpdate={() => setConfigUpdated(true)}
-                tableColumnSortData={tableColumnSortData}
-                setTableColumnSortData={setTableColumnSortData}
                 hasPublishedReports={!!publishedReports}
                 publishedReports={publishedReports}
-                resetFilters={resetFilters}
-                setResetFilters={setResetFilters}
-                setDetailViewState={setDetailViewState}
-                detailViewState={detailViewState}
                 customFormatting={selectedTable?.customFormatting}
-                summaryValues={summaryValues}
-                setSummaryValues={setSummaryValues}
-                allActiveFilters={allActiveFilters}
-                setAllActiveFilters={setAllActiveFilters}
                 width={width}
               />
             )}
