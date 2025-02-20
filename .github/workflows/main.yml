@@ -10,24 +10,16 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4.2.2
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4.2.0
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-node@v4.2.0
         with:
           node-version: 20.18
-      - name: npm install
-        env:
-          NODE_OPTIONS: "--max_old_space_size=8192"
-        run: |
-          npm ci --legacy-peer-deps --loglevel verbose
-          npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
-          npm config set "//artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{ vars.ARTIFACTORY }}"
-          npm config set strict-ssl=false
-          npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
+          registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
+      - run: npm ci --legacy-peer-deps --loglevel verbose
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
+          NODE_AUTH_TOKEN: ${{ vars.ARTIFACTORY }}
         run: npm run test:coverage
   run-branch-unit-tests-and-coverage:
     timeout-minutes: 10
