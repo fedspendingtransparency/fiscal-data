@@ -56,6 +56,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   const [summaryValues, setSummaryValues] = useState(null);
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
   const [allActiveFilters, setAllActiveFilters] = useState([]);
+  const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
 
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
@@ -63,7 +64,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   const shouldUseLoadByPage = pivot => {
     return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
-
   const clearDisplayData = () => {
     loadByPage = shouldUseLoadByPage(selectedPivot);
 
@@ -297,6 +297,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             tableColumnSortData={tableColumnSortData}
             filteredDateRange={filteredDateRange}
             selectedDetailViewFilter={detailViewDownloadFilter}
+            apiFilterDefault={apiFilterDefault}
           >
             {selectedTable && (
               <>
@@ -370,6 +371,8 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
                 allActiveFilters={allActiveFilters}
                 setAllActiveFilters={setAllActiveFilters}
                 width={width}
+                apiFilterDefault={apiFilterDefault}
+                setApiFilterDefault={setApiFilterDefault}
               />
             )}
           </DataPreviewFilterSection>

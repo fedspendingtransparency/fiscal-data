@@ -21,6 +21,7 @@ type DataPreviewFilterSectionProps = {
   tableColumnSortData;
   filteredDateRange;
   selectedDetailViewFilter;
+  apiFilterDefault;
 };
 
 const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps> = ({
@@ -36,6 +37,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
+  apiFilterDefault,
 }) => {
   return (
     <>
@@ -57,6 +59,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             tableColumnSortData={tableColumnSortData}
             filteredDateRange={filteredDateRange}
             selectedDetailViewFilter={selectedDetailViewFilter}
+            apiFilterDefault={apiFilterDefault}
           />
         )}
       </div>
