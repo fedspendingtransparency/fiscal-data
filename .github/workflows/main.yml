@@ -12,12 +12,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
-      - name: Modify npmrc
-        run: |
-          npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
-          npm config set "//artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{ vars.ARTIFACTORY }}"
-          npm config set strict-ssl=false
-          npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.2.0
         with:
@@ -26,8 +20,11 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: |
-          npm config ls -l
           npm ci --legacy-peer-deps --loglevel verbose
+          npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
+          npm config set "//artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{ vars.ARTIFACTORY }}"
+          npm config set strict-ssl=false
+          npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
