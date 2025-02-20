@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
+      - name: Modify npmrc
         run: echo -e "\n//artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth=${{ secrets.ARTIFACTORY }}" >> ./.npmrc
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.2.0
