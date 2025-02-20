@@ -20,7 +20,6 @@ type DataPreviewFilterSectionProps = {
   isFiltered;
   selectedTable;
   dataset;
-  allTablesSelected: boolean;
   isCustomDateRange: boolean;
   selectedDetailViewFilter;
 };
@@ -28,14 +27,15 @@ type DataPreviewFilterSectionProps = {
 const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps> = ({
   width,
   children,
-  dateRange,
   isFiltered,
   selectedTable,
   dataset,
   isCustomDateRange,
   selectedDetailViewFilter,
 }) => {
-  const { allTablesSelected, userFilterSelection: selectedUserFilter, tableColumnSortData, selectedPivot } = useContext(DatasetDetailContext);
+  const { allTablesSelected, userFilterSelection: selectedUserFilter, tableColumnSortData, selectedPivot, dateRange } = useContext(
+    DatasetDetailContext
+  );
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   const { dataDisplays, userFilter } = selectedTable;

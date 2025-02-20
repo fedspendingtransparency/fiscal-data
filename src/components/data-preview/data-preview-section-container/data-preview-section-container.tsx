@@ -36,7 +36,6 @@ import ChartTableDisplay from '../data-preview-chart-table-display/data-preview-
 import { DatasetDetailContext } from '../../../contexts/dataset-detail-context';
 
 type DataPreviewSectionProps = {
-  config;
   dateRange;
   apiData;
   apiError;
@@ -48,8 +47,6 @@ type DataPreviewSectionProps = {
 };
 
 const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = ({
-  config,
-  dateRange,
   apiData,
   apiError,
   serverSidePagination,
@@ -64,7 +61,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     selectedPivot,
     tableProps,
     setTableProps,
-    setManualPagination,
+    // setManualPagination,
     detailViewState,
     userFilterSelection,
     setUserFilterSelection,
@@ -75,6 +72,8 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     setTableMeta,
     allTablesSelected,
     setReactTableSort,
+    dateRange,
+    pageConfig: config,
   } = useContext(DatasetDetailContext);
 
   const tableName = selectedTable.tableName;
@@ -139,9 +138,9 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
                 console.warn(error);
               }
             } else if (totalCount === 0) {
-              setIsLoading(false);
+              // setIsLoading(false);
               setUserFilterUnmatchedForDateRange(true);
-              setManualPagination(false);
+              // setManualPagination(false);
               return null;
             }
           }
@@ -161,7 +160,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           }
         });
     } else if (selectedTable?.apiFilter && userFilterSelection === null) {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -273,7 +272,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     }
     if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
       setApiFilterDefault(true);
-      setManualPagination(false);
+      // setManualPagination(false);
     }
   }, [userFilterSelection]);
 

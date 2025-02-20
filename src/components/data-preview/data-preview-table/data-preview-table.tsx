@@ -14,7 +14,6 @@ import { overlayContainer, overlay, loadingIcon, overlayContainerNoFooter } from
 import GLOBALS from '../../../helpers/constants';
 import DataPreviewDataTable from '../data-preview-data-table/data-preview-data-table';
 import { DatasetDetailContext } from '../../../contexts/dataset-detail-context';
-const DEFAULT_ROWS_PER_PAGE = GLOBALS.dataTable.DEFAULT_ROWS_PER_PAGE;
 
 interface ITableProps {
   dePaginated;
@@ -61,20 +60,20 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     selectedPivot: pivotSelected,
     tableProps,
     detailViewState,
-    setManualPagination,
-    perPage,
-    setPerPage,
-    tableColumnSortData,
     userFilterSelection,
     isLoading,
     setIsLoading,
     tableMeta,
+    setPerPage,
+    tableColumnSortData,
+    itemsPerPage,
+    setItemsPerPage,
+    tableData,
+    setTableData,
+    reactTableData,
   } = useContext(DatasetDetailContext);
 
   const {
-    dePaginated,
-    rawData,
-    width,
     tableName,
     shouldPage,
     excludeCols,
@@ -90,14 +89,9 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     customFormatting,
   } = tableProps;
 
-  const [reactTableData, setReactTableData] = useState(null);
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(
-    perPage ? perPage : !shouldPage && data.length > DEFAULT_ROWS_PER_PAGE ? data.length : DEFAULT_ROWS_PER_PAGE
-  );
-  const [tableData, setTableData] = useState(!shouldPage ? data : []);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
@@ -114,8 +108,6 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   let loadTimer;
 
   const rowText = ['rows', 'rows'];
-
-  // const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
 
   const getAllExcludedCols = () => {
     const allCols = [];
@@ -320,78 +312,6 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     maxRows,
   };
 
-  useMemo(() => {
-    if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
-      if (dePaginated !== null && dePaginated !== undefined) {
-        // large dataset tables <= 20000 rows
-        setReactTableData(dePaginated);
-        setManualPagination(false);
-        setIsLoading(false);
-      } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-        if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
-          const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
-          setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });
-        } else {
-          setReactTableData(rawData);
-        }
-        setManualPagination(false);
-      }
-    } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE && dePaginated !== null) {
-      // user filter tables <= 20000 rows
-      setReactTableData(dePaginated);
-      setManualPagination(false);
-      setIsLoading(false);
-    }
-  }, [rawData, dePaginated]);
-
-  const activePivot = (data, pivot) => {
-    return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
-  };
-
-  const updatedData = (newData, currentData) => {
-    return JSON.stringify(newData) !== JSON.stringify(currentData);
-  };
-
-  useMemo(() => {
-    if (tableProps) {
-      // Pivot data
-      if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
-        setReactTableData(rawData);
-        if (setManualPagination) {
-          setManualPagination(false);
-        }
-      }
-    }
-  }, [pivotSelected, rawData]);
-
-  useMemo(() => {
-    if (
-      tableData.length > 0 &&
-      tableMeta &&
-      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
-      !pivotSelected?.pivotValue &&
-      !rawData?.pivotApplied
-    ) {
-      if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-        // data with current date range < 20000
-        if (rawData) {
-          setReactTableData(rawData);
-          setManualPagination(false);
-        } else if (dePaginated && !userFilterSelection) {
-          setReactTableData(dePaginated);
-          setManualPagination(false);
-        }
-      } else {
-        if (!(reactTableData?.pivotApplied && !updatedData(tableData, reactTableData?.data.slice(0, itemsPerPage)))) {
-          setReactTableData({ data: tableData, meta: tableMeta });
-          setManualPagination(true);
-        }
-      }
-    } else if (tableData && data.length === 0 && !rawData && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      setReactTableData({ data: tableData, meta: tableMeta });
-    }
-  }, [tableData, tableMeta, rawData, dePaginated]);
-
   return (
     <div className={overlayContainer}>
       {/* Loading Indicator */}
@@ -415,7 +335,6 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
           {!emptyDataMessage && (
             <ErrorBoundary FallbackComponent={() => <></>}>
               <DataPreviewDataTable
-                rawData={reactTableData}
                 detailColumnConfig={detailColumnConfig}
                 detailViewAPI={detailViewAPIConfig}
                 detailView={config?.detailView}

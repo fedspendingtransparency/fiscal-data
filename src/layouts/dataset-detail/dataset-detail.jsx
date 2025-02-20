@@ -90,11 +90,11 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         />
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
         <Experimental featureId="dataPreview">
-          <DatasetDetailProvider>
+          <DatasetDetailProvider pageConfig={pageConfig}>
             <DataPreview
               setSelectedTableProp={setSelectedTable}
               finalDatesNotFound={finalDatesNotFound}
-              config={pageConfig}
+              // config={pageConfig}
               location={location}
               publishedReportsProp={pageConfig.publishedReports}
             />

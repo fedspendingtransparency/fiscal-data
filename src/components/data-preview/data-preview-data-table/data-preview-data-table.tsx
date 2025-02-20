@@ -17,7 +17,6 @@ import DataPreviewDataTableHeader from './data-preview-data-table-header/data-pr
 import { DatasetDetailContext } from '../../../contexts/dataset-detail-context';
 
 const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
-  rawData,
   defaultSelectedColumns,
   shouldPage,
   showPaginationControls,
@@ -53,6 +52,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     resetFilters,
     setResetFilters,
     setSummaryValues,
+    reactTableData: rawData,
   } = useContext(DatasetDetailContext);
   const { aria, dateRange } = tableProps;
 

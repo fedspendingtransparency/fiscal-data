@@ -33,7 +33,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
   const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
-  const [dateRange, setDateRange] = useState(); // TODO: remove this... using before hooking date picker to table
   const [isCustomDateRange, setIsCustomDateRange] = useState(false);
   const [apiData, setApiData] = useState([]);
   const [apiError, setApiError] = useState(false);
@@ -42,7 +41,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   const [ignorePivots, setIgnorePivots] = useState(false);
   const [configUpdated, setConfigUpdated] = useState(false);
   const [tableCaches] = useState({});
-  // const [resetFilters, setResetFilters] = useState(false);
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
 
   const {
@@ -57,6 +55,8 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     setTableColumnSortData,
     setUserFilterSelection,
     setIsLoading,
+    dateRange,
+    setDateRange,
   } = useContext(DatasetDetailContext);
 
   let loadByPage;
@@ -270,10 +270,9 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       {config.datatableBanner && <DataPreviewDatatableBanner bannerNotice={config.datatableBanner} />}
       {selectedTable?.userFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
       {selectedTable?.apiFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.apiFilter.notice} />}
-      <div>
+      <>
         {tableColumnSortData && selectedTable && (
           <DataPreviewFilterSection
-            dateRange={dateRange}
             isFiltered={isFiltered}
             selectedTable={!!detailViewState ? detailApi : selectedTable}
             selectedPivot={selectedPivot}
@@ -318,7 +317,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             {dateRange && (
               <DataPreviewSectionContainer
                 config={config}
-                dateRange={dateRange}
                 apiData={apiData}
                 apiError={apiError}
                 serverSidePagination={serverSidePagination}
@@ -331,7 +329,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             )}
           </DataPreviewFilterSection>
         )}
-      </div>
+      </>
     </DatasetSectionContainer>
   );
 };
