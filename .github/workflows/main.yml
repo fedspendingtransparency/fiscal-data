@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v4.2.2
       - name: Modify npmrc
         run: |
-          echo -e "\n//artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth=${{ secrets.ARTIFACTORY }}" >> ./.npmrc
+          echo -e "\n//artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth=${{ vars.ARTIFACTORY }}" >> ./.npmrc
           echo -e "registry=https://artifactory.prod.dt.ts.aws.frb.pvt:443/artifactory/api/npm/kc-dtas-npm/" >> ./.npmrc
           echo -e "always-auth=true" >> ./.npmrc
           echo -e "strict-ssl=false" >> ./.npmrc
@@ -27,6 +27,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: |
+          npm config fix
           npm config ls -l
           npm ci --legacy-peer-deps --loglevel verbose
       - name: run tests with coverage
