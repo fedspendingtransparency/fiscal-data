@@ -24,7 +24,9 @@ jobs:
       - name: npm install
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm ci --legacy-peer-deps --loglevel verbose
+        run: |
+          npm config ls -l
+          npm ci --legacy-peer-deps --loglevel verbose
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
