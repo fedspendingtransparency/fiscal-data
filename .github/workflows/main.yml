@@ -15,7 +15,7 @@ jobs:
       - name: Modify npmrc
         run: |
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
-          npm config set "//artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth=${{ vars.ARTIFACTORY }}"
+          npm config set "//artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{ vars.ARTIFACTORY }}"
           npm config set strict-ssl=false
           npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
       - name: Setup Node.js environment
