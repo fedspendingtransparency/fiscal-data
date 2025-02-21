@@ -121,9 +121,12 @@ export default function DtgTable({
     }
     return allCols;
   };
+  const isPaginationControlNeeded = () => !apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0];
+
+  const rowData = Array.isArray(tableData) ? tableData : tableData && tableData.data ? tableData.data : [];
 
   const dataProperties = {
-    keys: tableData.data && tableData.data[0] ? Object.keys(tableData.data[0]) : [],
+    keys: rowData[0] ? Object.keys(rowData[0]) : [],
     excluded: getAllExcludedCols(),
   };
   const columns = setColumns(dataProperties, columnConfig);
@@ -254,6 +257,7 @@ export default function DtgTable({
       setRowsShowing({ begin: start + 1, end: stop });
       setMaxPage(Math.ceil(data.length / itemsPerPage));
       setTableData(data.slice(start, stop));
+      setTable(data.slice(start, stop));
     }
   };
 
@@ -269,8 +273,6 @@ export default function DtgTable({
     });
     setRows(tableRows);
   };
-
-  const isPaginationControlNeeded = () => currentPage >= 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
 
   const updateSmallFractionDataType = () => {
     //Overwrite type for special case number format handling

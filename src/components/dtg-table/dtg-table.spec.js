@@ -124,7 +124,7 @@ describe('DTG table component', () => {
   });
 
   it('renders the number of rows specified in props', () => {
-    const perPage = 3;
+    const perPage = 7;
     const newComponent = renderer.create();
     renderer.act(() => {
       newComponent.update(
@@ -168,7 +168,7 @@ describe('DTG table component', () => {
     });
 
     jest.advanceTimersByTime(helpers.loadTimerDelay * 2);
-    await expect(spy).toBeCalledTimes(1);
+    await expect(spy).toBeCalledTimes(2);
   });
 
   it('sets table aria prop with a single attribute and value', () => {
