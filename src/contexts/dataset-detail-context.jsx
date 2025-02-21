@@ -33,10 +33,6 @@ const DatasetDetailProvider = ({ pageConfig, children }) => {
 
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
 
-  useEffect(() => {
-    console.log('selected table update');
-  }, [selectedTable]);
-
   const activePivot = (data, pivot) => {
     return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
   };
@@ -44,6 +40,10 @@ const DatasetDetailProvider = ({ pageConfig, children }) => {
   const updatedData = (newData, currentData) => {
     return JSON.stringify(newData) !== JSON.stringify(currentData);
   };
+
+  /*
+  actions: depaginated, rawData, tableData
+   */
 
   useMemo(() => {
     if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !selectedPivot?.pivotValue) {

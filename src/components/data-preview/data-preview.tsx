@@ -20,29 +20,7 @@ import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-pre
 import { IDataPreview } from '../../models/data-preview/IDataPreview';
 import { DatasetDetailContext } from '../../contexts/dataset-detail-context';
 
-const DataPreview: FunctionComponent<IDataPreview> = ({
-  config,
-  finalDatesNotFound,
-  location,
-  publishedReportsProp,
-  setSelectedTableProp,
-  width,
-}) => {
-  // config.apis should always be available; but, fallback in case
-  const apis = config ? config.apis : [null];
-  const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
-  const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
-  const [isFiltered, setIsFiltered] = useState(true);
-  const [isCustomDateRange, setIsCustomDateRange] = useState(false);
-  const [apiData, setApiData] = useState([]);
-  const [apiError, setApiError] = useState(false);
-  const [serverSidePagination, setServerSidePagination] = useState(false);
-  const [publishedReports, setPublishedReports] = useState([]);
-  const [ignorePivots, setIgnorePivots] = useState(false);
-  const [configUpdated, setConfigUpdated] = useState(false);
-  const [tableCaches] = useState({});
-  const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
-
+const DataPreview: FunctionComponent<IDataPreview> = ({ finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
   const {
     selectedTable,
     setSelectedTable,
@@ -57,7 +35,22 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     setIsLoading,
     dateRange,
     setDateRange,
+    pageConfig: config,
   } = useContext(DatasetDetailContext);
+  // config.apis should always be available; but, fallback in case
+  const apis = config ? config.apis : [null];
+  const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
+  const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
+  const [isFiltered, setIsFiltered] = useState(true);
+  const [isCustomDateRange, setIsCustomDateRange] = useState(false);
+  const [apiData, setApiData] = useState([]);
+  const [apiError, setApiError] = useState(false);
+  const [serverSidePagination, setServerSidePagination] = useState(false);
+  const [publishedReports, setPublishedReports] = useState([]);
+  const [ignorePivots, setIgnorePivots] = useState(false);
+  const [configUpdated, setConfigUpdated] = useState(false);
+  const [tableCaches] = useState({});
+  const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
 
   let loadByPage;
   const shouldUseLoadByPage = pivot => {
