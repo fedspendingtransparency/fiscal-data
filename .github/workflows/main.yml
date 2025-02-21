@@ -10,11 +10,19 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4.2.2
-      - uses: actions/setup-node@v4.2.0
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+      - name: Create npmrc
+        shell: bash
+        run: |
+          echo "registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/" > .npmrc
+          echo "_auth = ${{ vars.ARTIFACTORY }}" >> .npmrc
+          echo "always-auth = true" >> .npmrc
+      - name: Use Node.js
+        uses: actions/setup-node@v4.2.0
         with:
           node-version: 20.18
-          registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/kc-dtas-npm/
+#          registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/kc-dtas-npm/
       - run: npm ci --legacy-peer-deps --loglevel verbose
       - name: run tests with coverage
         env:
