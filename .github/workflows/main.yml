@@ -16,8 +16,9 @@ jobs:
         shell: bash
         run: |
           echo "registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/" > .npmrc
-          echo "_auth = ${{ vars.ARTIFACTORY }}" >> .npmrc
           echo "always-auth = true" >> .npmrc
+          echo "noproxy=artifactory.prod.dt.ts.aws.frb.pvt" >> .npmrc
+          echo "_auth = ${{ vars.ARTIFACTORY }}" >> .npmrc
       - name: Use Node.js
         uses: actions/setup-node@v4.2.0
         with:
