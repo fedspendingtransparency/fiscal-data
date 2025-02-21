@@ -65,16 +65,16 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
   const setDapGaEventLabel = useSetRecoilState(reactTableFilteredDateRangeState);
   const [gaEventLabel, setGaEventLabel] = useState();
   const [active, setActive] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
   const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
   const tableSize = useRecoilValue(tableRowLengthState);
 
-  const toggleActive = () => {
-    console.log('API_FILTER on data-preview-download', apiFilterDefault);
-    if ((apiFilterDefault = true)) {
-      setActive(!active);
+  const toggleDisabled = () => {
+    if (apiFilterDefault === true) {
+      setIsDisabled(true);
     }
   };
   const makeDownloadButtonAvailable = () => {
@@ -218,6 +218,10 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
     setDisableButton(globalDisableDownloadButton);
   }, [globalDisableDownloadButton]);
 
+  useEffect(() => {
+    toggleDisabled();
+  }, [apiFilterDefault]);
+
   const determineDirectDownload = () => {
     if (tableSize !== null && tableSize <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !allTablesSelected) {
       // return <p>This is where the download will go</p>;
@@ -229,7 +233,7 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
 
   return (
     <div data-test-id="data-preview-download">
-      <DataPreviewDownloadButton active={active} setActive={toggleActive} width={width} />
+      <DataPreviewDownloadButton active={active} setActive={setActive} disabled={isDisabled} width={width} />
     </div>
   );
 };

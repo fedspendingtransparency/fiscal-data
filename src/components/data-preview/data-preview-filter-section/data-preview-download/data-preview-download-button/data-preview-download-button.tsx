@@ -10,9 +10,10 @@ interface IDownloadButtonProps {
   active: boolean;
   setActive: (val: boolean) => void;
   width: number;
+  disabled: boolean;
 }
 
-const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ active, setActive, width }: IDownloadButtonProps) => {
+const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ active, setActive, width, disabled }: IDownloadButtonProps) => {
   const getIcon = desktopWidth => {
     if (desktopWidth) {
       return active ? faCaretUp : faCaretDown;
@@ -20,10 +21,15 @@ const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ ac
       return active ? faCloudDownload : faCaretRight;
     }
   };
+  const activateToggle = () => {
+    if (disabled !== true) {
+      setActive(!active);
+    }
+  };
 
   return (
     <div className={parent}>
-      <button className={`${downloadButton} ${active && buttonActive}`} onClick={() => setActive(!active)}>
+      <button className={`${downloadButton} ${active && buttonActive}`} onClick={() => activateToggle()}>
         <div className={buttonText}>Download</div>
         <div className={icon}>
           <FontAwesomeIcon icon={getIcon(width >= pxToNumber(breakpointLg))} />
