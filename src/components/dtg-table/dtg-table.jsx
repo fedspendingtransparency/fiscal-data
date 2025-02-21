@@ -356,7 +356,7 @@ export default function DtgTable({
         setReactTableData(dePaginated);
         setManualPagination(false);
         setIsLoading(false);
-      } else if (rawData !== null && rawData.hasOwnProperty('data')) {
+      } else if (rawData && rawData.hasOwnProperty('data')) {
         if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
           const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
           setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });

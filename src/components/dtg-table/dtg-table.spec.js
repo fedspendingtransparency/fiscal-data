@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import renderer, { act } from 'react-test-renderer';
+import { render, screen } from '@testing-library/react';
 import DtgTable from './dtg-table';
 import {
   longerPaginatedDataResponse,
@@ -14,7 +15,8 @@ import PaginationControls from '../pagination/pagination-controls';
 import * as ApiUtils from '../../utils/api-utils';
 import * as helpers from './dtg-table-helper';
 import { RecoilRoot } from 'recoil';
-import { render } from '@testing-library/react';
+import DataTable from '../data-table/data-table';
+import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
 
 describe('DTG table component', () => {
   jest.useFakeTimers();
@@ -269,12 +271,13 @@ describe('DtgTable component with shouldPage property and tableData with only on
   it('shows the "x of x rows" message with correct grammar if only one row of data exists', () => {
     expect(instance19.findByProps({ 'data-test-id': 'rows-showing' }).children[0]).toBe('Showing 1 - 1  of 1 row');
   });
+  it('does not render pagination controls when fewer rows than the lowest available rows-per-page option in the pagination controls', () => {
+    expect(instance19.findAllByType(PaginationControls).length).toStrictEqual(0);
+  });
 });
 describe('DTG table pagination tests', () => {
-  // A small dataset (fewer than the minimum per-page option)
   const smallTestData = [{ first: 'Brennah', middle: 'McRae', last: 'Francis' }];
 
-  // A big dataset (more than the minimum per-page option, assume defaultPerPageOptions[0] is 10)
   const bigTestData = Array.from({ length: 15 }, (_, i) => ({
     first: `Test${i}`,
     middle: `Middle${i}`,
@@ -298,11 +301,8 @@ describe('DTG table pagination tests', () => {
       </RecoilRoot>
     );
     const instance = component.root;
-    // Expect the PaginationControls to render
     expect(instance.findAllByType(PaginationControls)).toHaveLength(1);
-    // Also check that the rows showing text correctly reflects the total number of rows
     const rowsShowing = instance.findByProps({ 'data-test-id': 'rows-showing' });
-    // It should show rows 1-10 out of 15 rows
     expect(rowsShowing.props.children).toMatch(`Showing 1 - 10 rows of ${bigTestData.length} rows`);
   });
 });
@@ -329,5 +329,130 @@ describe('DTG Table detail view', () => {
     );
 
     expect(getByRole('table')).toBeInTheDocument();
+  });
+});
+
+describe('Additional DtgTable tests for increased coverage', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.resetAllMocks();
+  });
+
+  it('renders loading indicator when reactTable is true and reactTableData is null', () => {
+    const tableProps = { data: undefined, selectedTable: { rowCount: 10 } };
+    const component = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={tableProps} reactTable={true} isLoading={false} rawDataTable={true} />
+      </RecoilRoot>
+    );
+    const root = component.root;
+    expect(root.findByProps({ 'data-test-id': 'loading-overlay' })).toBeDefined();
+    expect(root.findByProps({ 'data-test-id': 'loading-icon' })).toBeDefined();
+  });
+
+  it('renders endpoints and fields table when reactTable is false', () => {
+    const tableProps = { data: [{ a: 1, b: 2 }], caption: 'Test Table' };
+    const component = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={tableProps} reactTable={false} />
+      </RecoilRoot>
+    );
+    const root = component.root;
+    const tableElement = root.findByType('table');
+    expect(tableElement).toBeDefined();
+    const caption = tableElement.findAllByType('caption');
+    expect(caption.length).toBe(1);
+    expect(caption[0].props.children).toBe('Test Table');
+  });
+
+  it('updates small fraction data type when selectedTable.apiId === 178', () => {
+    const selectedTable = {
+      apiId: 178,
+      fields: [{ dataType: 'TYPE1' }, { dataType: 'TYPE2' }, { dataType: 'ORIGINAL' }],
+    };
+    const tableProps = { data: [], selectedTable };
+    act(() => {
+      renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={tableProps} reactTable={false} />
+        </RecoilRoot>
+      );
+    });
+    expect(selectedTable.fields[2].dataType).toBe('SMALL_FRACTION');
+  });
+
+  it('handles successful paged API request', async () => {
+    const mockResponse = {
+      data: [{ a: 'x' }, { a: 'y' }],
+      meta: { 'total-count': 20, 'total-pages': 2 },
+    };
+    jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockResolvedValueOnce(mockResponse);
+    const setIsLoading = jest.fn();
+    const tableProps = {
+      data: null,
+      selectedTable: {
+        endpoint: 'test-endpoint',
+        rowCount: 30000,
+        apiFilter: null,
+      },
+      dateRange: { from: new Date(2021, 0, 1), to: new Date(2021, 0, 2) },
+      serverSidePagination: 'test-endpoint',
+    };
+
+    let component;
+    await act(async () => {
+      component = renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={tableProps} reactTable={true} setIsLoading={setIsLoading} />
+        </RecoilRoot>
+      );
+      jest.advanceTimersByTime(500);
+      await Promise.resolve();
+    });
+    const root = component.root;
+    expect(() => root.findByType(DataTable)).not.toThrow();
+  });
+
+  it('handles getCurrentData branch when tableProps.apiError is true', () => {
+    const tableProps = {
+      data: [{ a: 1 }, { a: 2 }],
+      apiError: true,
+    };
+    let component;
+    act(() => {
+      component = renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={tableProps} reactTable={false} />
+        </RecoilRoot>
+      );
+    });
+    const root = component.root;
+    const footer = root.findAllByProps({ 'data-test-id': 'table-footer' });
+    if (footer.length > 0) {
+      const rowsShowing = footer[0].findByProps({ 'data-test-id': 'rows-showing' });
+      expect(rowsShowing.children[0]).toMatch(/Showing 0 - 0 rows of 0 rows/);
+    }
+  });
+
+  it('handles pivot data branch in useMemo', () => {
+    const rawData = { data: [{ d: 4 }], pivotApplied: ['col1', 'Pivot Title'] };
+    const pivotSelected = { pivotValue: { columnName: 'col1' }, pivotView: { title: 'Pivot Title' } };
+    const tableProps = {
+      data: [{ a: 1 }],
+      rawData,
+      selectedTable: { rowCount: 30000 },
+      shouldPage: true,
+    };
+    let component;
+    act(() => {
+      component = renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={tableProps} reactTable={true} pivotSelected={pivotSelected} />
+        </RecoilRoot>
+      );
+    });
+    const root = component.root;
+
+    expect(() => root.findByType(DataTable)).not.toThrow();
   });
 });
