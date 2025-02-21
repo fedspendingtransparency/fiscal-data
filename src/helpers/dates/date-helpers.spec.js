@@ -1,4 +1,4 @@
-import { isValidDateRange } from './date-helpers';
+import { isValidDateRange, getFiscalYearByDate } from './date-helpers';
 
 describe('Date helper', () => {
   const earliest = '01/01/2000';
@@ -28,5 +28,14 @@ describe('Date helper', () => {
     endDate = '01/01/2025';
 
     expect(isValidDateRange(startDate, endDate, earliest, latest)).toBe(false);
+  });
+
+  it('returns the correct fiscal year', () => {
+    const endOfSept = new Date('09/30/2025');
+    const beginOfOct = new Date('10/01/2025');
+
+    expect(getFiscalYearByDate(endOfSept)).toBe(2025);
+    expect(getFiscalYearByDate(beginOfOct)).toBe(2026);
+    expect(`${getFiscalYearByDate()}`).toMatch(/^(\d{4})$/g);
   });
 });
