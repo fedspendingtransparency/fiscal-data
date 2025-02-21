@@ -10,11 +10,10 @@ interface IDownloadButtonProps {
   active: boolean;
   setActive: (val: boolean) => void;
   width: number;
-  disabled: boolean;
+  isDisabled: boolean;
 }
 
-const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ active, setActive, width, apiFilterDefault }: IDownloadButtonProps) => {
-  const [isDisabled, setIsDisabled] = useState(false);
+const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ active, setActive, width, isDisabled }: IDownloadButtonProps) => {
   const getIcon = desktopWidth => {
     if (desktopWidth) {
       return active ? faCaretUp : faCaretDown;
@@ -22,21 +21,11 @@ const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ ac
       return active ? faCloudDownload : faCaretRight;
     }
   };
-  console.log(apiFilterDefault);
-  const toggleDisabled = () => {
-    if (apiFilterDefault === true) {
-      setIsDisabled(true);
-    }
-  };
   const activateToggle = () => {
     if (isDisabled !== true) {
       setActive(!active);
     }
   };
-
-  useEffect(() => {
-    toggleDisabled();
-  }, [apiFilterDefault]);
 
   return (
     <div className={parent}>

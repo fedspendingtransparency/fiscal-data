@@ -26,11 +26,11 @@ type DownloadProps = {
   dataset;
   isFiltered;
   selectedUserFilter;
-  apiFilterDefault;
   tableColumnSortData;
   filteredDateRange;
   selectedDetailViewFilter;
   width: number;
+  isDisabled: boolean;
 };
 
 const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
@@ -40,11 +40,11 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
   dataset,
   isFiltered,
   selectedUserFilter,
-  apiFilterDefault,
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
   width,
+  isDisabled,
 }) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
@@ -223,7 +223,7 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
 
   return (
     <div data-test-id="data-preview-download">
-      <DataPreviewDownloadButton active={active} setActive={setActive} width={width} apiFilterDefault={apiFilterDefault} />
+      <DataPreviewDownloadButton active={active} setActive={setActive} width={width} isDisabled={isDisabled} />
     </div>
   );
 };

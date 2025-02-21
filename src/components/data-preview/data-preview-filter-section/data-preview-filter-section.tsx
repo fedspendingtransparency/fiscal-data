@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import React from 'react';
 import DataPreviewDownload from './data-preview-download/data-preview-download';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -39,12 +39,23 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   selectedDetailViewFilter,
   apiFilterDefault,
 }) => {
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const toggleDisabled = () => {
+    if (apiFilterDefault === true) {
+      setIsDisabled(true);
+    }
+  };
+  useEffect(() => {
+    toggleDisabled();
+  }, [apiFilterDefault]);
+
   return (
     <>
       <div className={filterAndDownloadContainer}>
         <div className={filterContainer}>
           <DataPreviewTableFilters />
-          <ColumnFilter allTablesSelected={allTablesSelected} />
+          <ColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} />
         </div>
         {width >= pxToNumber(breakpointLg) && (
           <DataPreviewDownload
@@ -59,7 +70,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             tableColumnSortData={tableColumnSortData}
             filteredDateRange={filteredDateRange}
             selectedDetailViewFilter={selectedDetailViewFilter}
-            apiFilterDefault={apiFilterDefault}
+            isDisabled={isDisabled}
           />
         )}
       </div>
