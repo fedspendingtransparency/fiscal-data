@@ -25,6 +25,9 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import EntryBoxLabel from '../entry-box-label/entry-box-label';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import ChartContainer from '../../../layouts/explainer/explainer-components/chart-container/chart-container';
+import CurrencyExchangeRateDualChart from '../currency-exchange-rates-chart/currency-exchange-rate-chart';
 
 let gaInfoTipTimer: NodeJS.Timeout;
 let gaCurrencyTimer: NodeJS.Timeout;
@@ -276,6 +279,32 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
     />
   );
 
+  const chartData =
+    data && nonUSCurrency
+      ? data
+          .filter((record: XRRecord) => record.country_currency_desc === nonUSCurrency.country_currency_desc)
+          .sort((a, b) => new Date(a.record_date).getTime() - new Date(b.record_date).getTime())
+          .map((record: XRRecord, index, arr) => {
+            const rate = parseFloat(record.exchange_rate);
+            let pctChange = null;
+            if (index > 0) {
+              const previousRate = parseFloat(arr[index - 1].exchange_rate);
+              pctChange = ((rate - previousRate) / previousRate) * 100;
+            }
+            return {
+              date: `${new Date(record.record_date)
+                .getFullYear()
+                .toString()
+                .slice(-2)} Q${record.record_calendar_quarter}`,
+              rate,
+              pctChange,
+            };
+          })
+      : [];
+
+  // const sortedChartData = React.useMemo(() => {
+  //   return chartData ? [...chartData].reverse() : [];
+  // }, [chartData]);
   return (
     <div className={container} onBlur={handleInfoTipClose} role="presentation">
       <h2 className={headTitle}>Check foreign currency rates against the U.S. Dollar.</h2>
@@ -332,6 +361,12 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
         </div>
       )}
       {inputWarning && <BannerCallout bannerCallout={XRWarningBanner} bannerType="warningXR" />}
+
+      {data && nonUSCurrency && (
+        <div>
+          <CurrencyExchangeRateDualChart chartData={chartData} />
+        </div>
+      )}
     </div>
   );
 };
