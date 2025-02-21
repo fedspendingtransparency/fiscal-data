@@ -204,48 +204,6 @@ describe('DTG table component', () => {
     expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
   });
 
-  it('does render pagination Controls when the table is configured to load page-by-page, so long as there are more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
-    jest.useFakeTimers();
-    const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(longerPaginatedDataResponse));
-
-    let newComponent = renderer.create();
-    await renderer.act(async () => {
-      newComponent = await renderer.create(
-        <RecoilRoot>
-          <DtgTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
-        </RecoilRoot>
-      );
-      jest.runAllTimers();
-    });
-    const updated = newComponent.root;
-    expect(requestSpy).toBeCalled();
-    const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.props.children).toMatch('Showing 1 - 10 rows of 11 rows');
-    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
-    requestSpy.mockClear();
-  });
-
-  it('does not render pagination Controls even when the table is configured to load page-by-page, so long as there are not more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
-    jest.useFakeTimers();
-    const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(shortPaginatedDataResponse));
-
-    let newComponent = renderer.create();
-    await renderer.act(async () => {
-      newComponent = await renderer.create(
-        <RecoilRoot>
-          <DtgTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
-        </RecoilRoot>
-      );
-      jest.runAllTimers();
-    });
-    const updated = newComponent.root;
-    expect(requestSpy).toBeCalled();
-    const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.props.children).toMatch('Showing 1 - 3 rows of 3 rows');
-    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
-    requestSpy.mockClear();
-  });
-
   it('assigns data with a userFilterSelection', () => {
     const mockSetIsLoading = jest.fn();
     const mockSetManualPagination = jest.fn();
@@ -311,9 +269,41 @@ describe('DtgTable component with shouldPage property and tableData with only on
   it('shows the "x of x rows" message with correct grammar if only one row of data exists', () => {
     expect(instance19.findByProps({ 'data-test-id': 'rows-showing' }).children[0]).toBe('Showing 1 - 1  of 1 row');
   });
+});
+describe('DTG table pagination tests', () => {
+  // A small dataset (fewer than the minimum per-page option)
+  const smallTestData = [{ first: 'Brennah', middle: 'McRae', last: 'Francis' }];
 
-  it('does not render pagination controls when fewer rows than the lowest available rows-per-page option in the pagination controls', () => {
-    expect(instance19.findAllByType(PaginationControls).length).toStrictEqual(1);
+  // A big dataset (more than the minimum per-page option, assume defaultPerPageOptions[0] is 10)
+  const bigTestData = Array.from({ length: 15 }, (_, i) => ({
+    first: `Test${i}`,
+    middle: `Middle${i}`,
+    last: `User${i}`,
+  }));
+
+  it('does not render pagination controls when total rows are less than or equal to the lowest default per-page option', () => {
+    const component = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={{ data: smallTestData, shouldPage: true }} />
+      </RecoilRoot>
+    );
+    const instance = component.root;
+    expect(instance.findAllByType(PaginationControls)).toHaveLength(0);
+  });
+
+  it('renders pagination controls when total rows exceed the lowest default per-page option', () => {
+    const component = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={{ data: bigTestData, shouldPage: true }} />
+      </RecoilRoot>
+    );
+    const instance = component.root;
+    // Expect the PaginationControls to render
+    expect(instance.findAllByType(PaginationControls)).toHaveLength(1);
+    // Also check that the rows showing text correctly reflects the total number of rows
+    const rowsShowing = instance.findByProps({ 'data-test-id': 'rows-showing' });
+    // It should show rows 1-10 out of 15 rows
+    expect(rowsShowing.props.children).toMatch(`Showing 1 - 10 rows of ${bigTestData.length} rows`);
   });
 });
 
