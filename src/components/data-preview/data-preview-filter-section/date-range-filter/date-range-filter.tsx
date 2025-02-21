@@ -7,7 +7,6 @@ import determineDateRange, {
 import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
 import { monthNames } from '../../../../utils/api-utils';
-import DatePickers from '../../../filter-download-container/datepickers/datepickers';
 
 type DateRangeFilterProps = {
   currentDateButton;
