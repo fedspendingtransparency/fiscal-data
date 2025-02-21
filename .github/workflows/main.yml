@@ -23,7 +23,9 @@ jobs:
         with:
           node-version: 20.18
 #          registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/kc-dtas-npm/
-      - run: npm ci --legacy-peer-deps --loglevel verbose
+      - run: |
+          npm config fix
+          npm ci --legacy-peer-deps --loglevel verbose
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
