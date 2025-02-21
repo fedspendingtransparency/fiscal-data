@@ -23,6 +23,7 @@ const DownloadItemButton = ({
   selectedFileType,
   dapGaEventLabel,
   downloadTimestamp,
+  selectedPivot,
 }) => {
   const smallTableCSVData = useRecoilValue(smallTableDownloadDataCSV);
   const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
@@ -72,9 +73,10 @@ const DownloadItemButton = ({
       generateAnalyticsEvent(dapGaEventLabel, downloadFileEventStr);
     }
   };
-
+  // disable XML Download when a pivot is selected
+  const disabledXML = selectedFileType === 'xml' && smallTableXMLData.length > 0 && selectedPivot?.pivotValue;
   const ButtonComponent = ({ children }) => {
-    if (disabled) {
+    if (disabled || disabledXML) {
       return (
         <button disabled className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`} data-testid="download-button">
           {children}

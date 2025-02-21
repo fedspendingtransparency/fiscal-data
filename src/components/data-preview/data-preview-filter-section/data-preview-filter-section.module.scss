@@ -11,8 +11,13 @@
   justify-content: space-between;
 }
 
-@media screen and (max-width: $breakpoint-md - 1) {
+@media screen and (max-width: $breakpoint-lg - 1) {
   .filterContainer {
     flex-direction: column;
   }
+}
+
+.toggleDownloadContainer {
+  display: flex;
+  gap: 0.5rem;
 }
