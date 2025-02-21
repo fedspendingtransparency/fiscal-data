@@ -41,6 +41,7 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   allTablesSelected,
   dateRange,
   dataset,
+  selectedPivot,
   isFiltered,
   selectedUserFilter,
   tableColumnSortData,
@@ -184,18 +185,17 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   //   setDisableButton(globalDisableDownloadButton);
   // }, [globalDisableDownloadButton]);
 
-  const determineDirectDownload = () => {
-    if (tableSize !== null && tableSize <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !allTablesSelected) {
-      // return <p>This is where the download will go</p>;
-      return <p>this is where local download logic will go</p>;
-    } else {
-      return <p>this is where api download logic will go</p>;
-    }
-  };
-
   return (
     <div data-test-id="data-preview-download">
-      <DataPreviewDownloadSelect active={active} setActive={setActive} width={width} />
+      <DataPreviewDownloadSelect
+        active={active}
+        setActive={setActive}
+        width={width}
+        dateRange={dateRange}
+        selectedTable={selectedTable}
+        dataset={dataset}
+        selectedPivot={selectedPivot}
+      />
     </div>
   );
 };

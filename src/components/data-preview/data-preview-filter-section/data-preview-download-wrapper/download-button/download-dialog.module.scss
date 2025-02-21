@@ -1,20 +1,6 @@
-@import '../../variables.module.scss';
+@import 'src/variables.module.scss';
 
-.container {
-  width: 15rem;
-  position: absolute;
-  margin-top: 0.25rem;
-  right: 0;
-  z-index: 3;
-  background-color: white;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  gap: 0.25rem;
-  border-radius: 0.25rem;
-  box-shadow: 0 0.25rem 1rem 0 #00000026;
-}
-
-.downloadButton {
+.downloadOptionButton {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 1rem;
@@ -26,16 +12,39 @@
   font-size: $font-size-16;
 }
 
-.border {
-  height: 1px;
-  background-color: $light-grey-border;
-  width: 100%;
+.downloadItemBtn {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: $font-body-copy;
+  font-size: $font-size-16;
+  &.linkDisabled {
+    background-color: $disabled-button-bg;
+    border-color: $disabled-button-bg;
+    cursor: default;
+  }
 }
 
-@media screen and (max-width: $breakpoint-lg) {
-  .container {
-    width: 100%;
-    right: 0;
-    z-index: 5; //TODO: create variable for z-index
-  }
+.dictionary {
+  width: 100%;
+  border: none;
+  background-color: #ffffff;
+  color: $primary;
+  font-size: $font-size-14;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.optionIcon {
+  display: inline-block;
+  //margin-right: 0.5rem;
+}
+
+.progressIcon {
+  position: absolute;
+  right: 1rem;
+  top: 0.75rem;
 }
