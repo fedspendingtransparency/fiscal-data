@@ -11,5 +11,4 @@ const DataPreviewTableFilters: FunctionComponent = () => {
   );
   return <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}></DropdownContainer>;
 };
-
 export default DataPreviewTableFilters;
