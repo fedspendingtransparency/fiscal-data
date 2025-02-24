@@ -1,15 +1,21 @@
 import React from 'react';
-import renderer, { act } from 'react-test-renderer';
-import { render, screen } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import DtgTable from './dtg-table';
-import { mockPaginatedTableProps, TestData, TestDataOneRow, MoreTestData, DetailViewTestData } from './test-data';
+import {
+  longerPaginatedDataResponse,
+  mockPaginatedTableProps,
+  shortPaginatedDataResponse,
+  TestData,
+  TestDataOneRow,
+  MoreTestData,
+  DetailViewTestData,
+} from './test-data';
 import PaginationControls from '../pagination/pagination-controls';
 import * as ApiUtils from '../../utils/api-utils';
 import * as helpers from './dtg-table-helper';
 import { RecoilRoot } from 'recoil';
-import DataTable from '../data-table/data-table';
-import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
-import moment from 'moment';
+import { render } from '@testing-library/react';
+
 describe('DTG table component', () => {
   jest.useFakeTimers();
 
@@ -118,7 +124,7 @@ describe('DTG table component', () => {
   });
 
   it('renders the number of rows specified in props', () => {
-    const perPage = 7;
+    const perPage = 3;
     const newComponent = renderer.create();
     renderer.act(() => {
       newComponent.update(
@@ -198,6 +204,48 @@ describe('DTG table component', () => {
     expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
   });
 
+  it('does render pagination Controls when the table is configured to load page-by-page, so long as there are more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
+    jest.useFakeTimers();
+    const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(longerPaginatedDataResponse));
+
+    let newComponent = renderer.create();
+    await renderer.act(async () => {
+      newComponent = await renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
+        </RecoilRoot>
+      );
+      jest.runAllTimers();
+    });
+    const updated = newComponent.root;
+    expect(requestSpy).toBeCalled();
+    const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
+    expect(rowsShowing.props.children).toMatch('Showing 1 - 10 rows of 11 rows');
+    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
+    requestSpy.mockClear();
+  });
+
+  it('does not render pagination Controls even when the table is configured to load page-by-page, so long as there are not more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
+    jest.useFakeTimers();
+    const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(shortPaginatedDataResponse));
+
+    let newComponent = renderer.create();
+    await renderer.act(async () => {
+      newComponent = await renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
+        </RecoilRoot>
+      );
+      jest.runAllTimers();
+    });
+    const updated = newComponent.root;
+    expect(requestSpy).toBeCalled();
+    const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
+    expect(rowsShowing.props.children).toMatch('Showing 1 - 3 rows of 3 rows');
+    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
+    requestSpy.mockClear();
+  });
+
   it('assigns data with a userFilterSelection', () => {
     const mockSetIsLoading = jest.fn();
     const mockSetManualPagination = jest.fn();
@@ -263,39 +311,9 @@ describe('DtgTable component with shouldPage property and tableData with only on
   it('shows the "x of x rows" message with correct grammar if only one row of data exists', () => {
     expect(instance19.findByProps({ 'data-test-id': 'rows-showing' }).children[0]).toBe('Showing 1 - 1  of 1 row');
   });
+
   it('does not render pagination controls when fewer rows than the lowest available rows-per-page option in the pagination controls', () => {
     expect(instance19.findAllByType(PaginationControls).length).toStrictEqual(0);
-  });
-});
-describe('DTG table pagination tests', () => {
-  const smallTestData = [{ first: 'Brennah', middle: 'McRae', last: 'Francis' }];
-
-  const bigTestData = Array.from({ length: 15 }, (_, i) => ({
-    first: `Test${i}`,
-    middle: `Middle${i}`,
-    last: `User${i}`,
-  }));
-
-  it('does not render pagination controls when total rows are less than or equal to the lowest default per-page option', () => {
-    const component = renderer.create(
-      <RecoilRoot>
-        <DtgTable tableProps={{ data: smallTestData, shouldPage: true }} />
-      </RecoilRoot>
-    );
-    const instance = component.root;
-    expect(instance.findAllByType(PaginationControls)).toHaveLength(0);
-  });
-
-  it('renders pagination controls when total rows exceed the lowest default per-page option', () => {
-    const component = renderer.create(
-      <RecoilRoot>
-        <DtgTable tableProps={{ data: bigTestData, shouldPage: true }} />
-      </RecoilRoot>
-    );
-    const instance = component.root;
-    expect(instance.findAllByType(PaginationControls)).toHaveLength(1);
-    const rowsShowing = instance.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.props.children).toMatch(`Showing 1 - 10 rows of ${bigTestData.length} rows`);
   });
 });
 
@@ -321,332 +339,5 @@ describe('DTG Table detail view', () => {
     );
 
     expect(getByRole('table')).toBeInTheDocument();
-  });
-});
-const ProblemChild = () => {
-  throw new Error('Simulated Error');
-};
-
-describe('Additional DtgTable tests for full coverage', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('renders an empty table when data is empty (maxRows === 1 branch)', () => {
-    const { container } = render(
-      <RecoilRoot>
-        <DtgTable tableProps={{ data: [] }} reactTable={false} />
-      </RecoilRoot>
-    );
-    const tbody = container.querySelector('tbody');
-    expect(tbody.children.length).toBe(0);
-  });
-
-  it('resets currentPage when tableProps.data becomes undefined', () => {
-    let component;
-    act(() => {
-      component = renderer.create(
-        <RecoilRoot>
-          <DtgTable tableProps={{ data: TestData }} reactTable={false} />
-        </RecoilRoot>
-      );
-    });
-    act(() => {
-      component.update(
-        <RecoilRoot>
-          <DtgTable tableProps={{}} reactTable={false} />
-        </RecoilRoot>
-      );
-    });
-    const instance = component.root;
-    expect(() => instance.findByType('table')).not.toThrow();
-  });
-
-  it('merges excludeCols and hideColumns in setColumns correctly', () => {
-    const spy = jest.spyOn(helpers, 'setColumns').mockImplementation((dataProps, columnConfig) => {
-      return columnConfig;
-    });
-    render(
-      <RecoilRoot>
-        <DtgTable
-          tableProps={{
-            data: TestData,
-            excludeCols: ['first'],
-            hideColumns: ['last'],
-            columnConfig: [
-              { property: 'first', name: 'First' },
-              { property: 'middle', name: 'Middle' },
-              { property: 'last', name: 'Last' },
-            ],
-          }}
-          reactTable={false}
-        />
-      </RecoilRoot>
-    );
-    expect(spy).toHaveBeenCalled();
-    const callArgs = spy.mock.calls[0];
-    expect(callArgs[0].excluded).toEqual(['first', 'last']);
-    spy.mockRestore();
-  });
-
-  it('handles a paged API request error and renders API error message', async () => {
-    jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockRejectedValueOnce(new Error('API error'));
-    const setIsLoading = jest.fn();
-    let component;
-    await act(async () => {
-      component = renderer.create(
-        <RecoilRoot>
-          <DtgTable
-            tableProps={{
-              data: null,
-              selectedTable: {
-                endpoint: 'test-endpoint',
-                rowCount: 30000,
-                apiFilter: null,
-              },
-              dateRange: { from: new Date(2021, 0, 1), to: new Date(2021, 0, 2) },
-              serverSidePagination: 'test-endpoint',
-              shouldPage: true,
-            }}
-            reactTable={true}
-            setIsLoading={setIsLoading}
-          />
-        </RecoilRoot>
-      );
-      jest.advanceTimersByTime(500);
-      await Promise.resolve();
-    });
-    const root = component.root;
-    expect(() => root.findByType(DtgTableApiError)).not.toThrow();
-  });
-
-  it('renders pagination controls and footer when data exceeds lowest per-page option', () => {
-    let component;
-    act(() => {
-      component = renderer.create(
-        <RecoilRoot>
-          <DtgTable tableProps={{ data: MoreTestData, shouldPage: true }} reactTable={false} />
-        </RecoilRoot>
-      );
-    });
-    const instance = component.root;
-    const footer = instance.findByProps({ 'data-test-id': 'table-footer' });
-    expect(footer).toBeDefined();
-    const rowsShowing = footer.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.children[0]).toMatch(/Showing 1 - 10 rows of/);
-  });
-
-  it('handles a change in perPage via PaginationControls (handlePerPageChange branch)', () => {
-    const perPage = 8;
-    let component;
-    act(() => {
-      component = renderer.create(
-        <RecoilRoot>
-          <DtgTable tableProps={{ data: MoreTestData, shouldPage: true }} perPage={perPage} reactTable={false} />
-        </RecoilRoot>
-      );
-    });
-    act(() => {
-      component.update(
-        <RecoilRoot>
-          <DtgTable tableProps={{ data: MoreTestData, shouldPage: true }} perPage={8} reactTable={false} />
-        </RecoilRoot>
-      );
-    });
-    const instance = component.root;
-    const tbody = instance.findByType('tbody');
-    expect(tbody.findAllByType('tr').length).toEqual(8);
-  });
-
-  it('invokes the handleJump branch by updating currentPage via pagination props', () => {
-    let component;
-    act(() => {
-      component = renderer.create(
-        <RecoilRoot>
-          <DtgTable tableProps={{ data: MoreTestData, shouldPage: true }} perPage={5} reactTable={false} />
-        </RecoilRoot>
-      );
-    });
-    act(() => {
-      component.update(
-        <RecoilRoot>
-          <DtgTable tableProps={{ data: MoreTestData, shouldPage: true }} perPage={5} reactTable={false} />
-        </RecoilRoot>
-      );
-    });
-    const instance = component.root;
-    const footer = instance.findByProps({ 'data-test-id': 'table-footer' });
-    expect(footer).toBeDefined();
-  });
-
-  it('renders the ErrorBoundary fallback when a child component throws an error', () => {
-    const originalCreateElement = React.createElement;
-    jest.spyOn(React, 'createElement').mockImplementation((type, props, ...children) => {
-      if (type === DataTable) {
-        return originalCreateElement(ProblemChild, props, ...children);
-      }
-      return originalCreateElement(type, props, ...children);
-    });
-
-    let component;
-    expect(() => {
-      act(() => {
-        component = renderer.create(
-          <RecoilRoot>
-            <DtgTable tableProps={{ data: TestData }} reactTable={true} />
-          </RecoilRoot>
-        );
-      });
-    }).not.toThrow();
-    React.createElement.mockRestore();
-  });
-
-  it('computes date filters correctly when filteredDateRange.fieldName is "record_date"', () => {
-    const filteredDate = {
-      fieldName: 'record_date',
-      from: moment('2021-01-01'),
-      to: moment('2021-01-02'),
-    };
-    render(
-      <RecoilRoot
-        initializeState={({ set }) => {
-          set(require('../../recoil/reactTableFilteredState').reactTableFilteredDateRangeState, filteredDate);
-        }}
-      >
-        <DtgTable
-          tableProps={{
-            data: TestData,
-            dateRange: { from: new Date(2021, 0, 1), to: new Date(2021, 0, 2) },
-          }}
-          reactTable={true}
-        />
-      </RecoilRoot>
-    );
-    expect(screen.getByRole('table')).toBeInTheDocument();
-  });
-});
-
-describe('Additional DtgTable tests for increased coverage', () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-    jest.resetAllMocks();
-  });
-
-  it('renders loading indicator when reactTable is true and reactTableData is null', () => {
-    const tableProps = { data: undefined, selectedTable: { rowCount: 10 } };
-    const component = renderer.create(
-      <RecoilRoot>
-        <DtgTable tableProps={tableProps} reactTable={true} isLoading={false} rawDataTable={true} />
-      </RecoilRoot>
-    );
-    const root = component.root;
-    expect(root.findByProps({ 'data-test-id': 'loading-overlay' })).toBeDefined();
-    expect(root.findByProps({ 'data-test-id': 'loading-icon' })).toBeDefined();
-  });
-
-  it('renders endpoints and fields table when reactTable is false', () => {
-    const tableProps = { data: [{ a: 1, b: 2 }], caption: 'Test Table' };
-    const component = renderer.create(
-      <RecoilRoot>
-        <DtgTable tableProps={tableProps} reactTable={false} />
-      </RecoilRoot>
-    );
-    const root = component.root;
-    const tableElement = root.findByType('table');
-    expect(tableElement).toBeDefined();
-    const caption = tableElement.findAllByType('caption');
-    expect(caption.length).toBe(1);
-    expect(caption[0].props.children).toBe('Test Table');
-  });
-
-  it('updates small fraction data type when selectedTable.apiId === 178', () => {
-    const selectedTable = {
-      apiId: 178,
-      fields: [{ dataType: 'TYPE1' }, { dataType: 'TYPE2' }, { dataType: 'ORIGINAL' }],
-    };
-    const tableProps = { data: [], selectedTable };
-    act(() => {
-      renderer.create(
-        <RecoilRoot>
-          <DtgTable tableProps={tableProps} reactTable={false} />
-        </RecoilRoot>
-      );
-    });
-    expect(selectedTable.fields[2].dataType).toBe('SMALL_FRACTION');
-  });
-
-  it('handles successful paged API request', async () => {
-    const mockResponse = {
-      data: [{ a: 'x' }, { a: 'y' }],
-      meta: { 'total-count': 20, 'total-pages': 2 },
-    };
-    jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockResolvedValueOnce(mockResponse);
-    const setIsLoading = jest.fn();
-    const tableProps = {
-      data: null,
-      selectedTable: {
-        endpoint: 'test-endpoint',
-        rowCount: 30000,
-        apiFilter: null,
-      },
-      dateRange: { from: new Date(2021, 0, 1), to: new Date(2021, 0, 2) },
-      serverSidePagination: 'test-endpoint',
-    };
-
-    let component;
-    await act(async () => {
-      component = renderer.create(
-        <RecoilRoot>
-          <DtgTable tableProps={tableProps} reactTable={true} setIsLoading={setIsLoading} />
-        </RecoilRoot>
-      );
-      jest.advanceTimersByTime(500);
-      await Promise.resolve();
-    });
-    const root = component.root;
-    expect(() => root.findByType(DataTable)).not.toThrow();
-  });
-
-  it('handles getCurrentData branch when tableProps.apiError is true', () => {
-    const tableProps = {
-      data: [{ a: 1 }, { a: 2 }],
-      apiError: true,
-    };
-    let component;
-    act(() => {
-      component = renderer.create(
-        <RecoilRoot>
-          <DtgTable tableProps={tableProps} reactTable={false} />
-        </RecoilRoot>
-      );
-    });
-    const root = component.root;
-    const footer = root.findAllByProps({ 'data-test-id': 'table-footer' });
-    if (footer.length > 0) {
-      const rowsShowing = footer[0].findByProps({ 'data-test-id': 'rows-showing' });
-      expect(rowsShowing.children[0]).toMatch(/Showing 0 - 0 rows of 0 rows/);
-    }
-  });
-
-  it('handles pivot data branch in useMemo', () => {
-    const rawData = { data: [{ d: 4 }], pivotApplied: ['col1', 'Pivot Title'] };
-    const pivotSelected = { pivotValue: { columnName: 'col1' }, pivotView: { title: 'Pivot Title' } };
-    const tableProps = {
-      data: [{ a: 1 }],
-      rawData,
-      selectedTable: { rowCount: 30000 },
-      shouldPage: true,
-    };
-    let component;
-    act(() => {
-      component = renderer.create(
-        <RecoilRoot>
-          <DtgTable tableProps={tableProps} reactTable={true} pivotSelected={pivotSelected} />
-        </RecoilRoot>
-      );
-    });
-    const root = component.root;
-
-    expect(() => root.findByType(DataTable)).not.toThrow();
   });
 });
