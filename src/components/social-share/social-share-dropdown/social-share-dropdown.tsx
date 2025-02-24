@@ -16,14 +16,12 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pa
   const [anchorEl, setAnchorEl] = useState(null);
   const [socialButtonClick, setSocialButtonClick] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
 
   const handleScroll = () => {
     const position = window.pageYOffset;
-    setPreviousScrollPosition(scrollPosition);
+    const previousScrollPosition = scrollPosition;
     setScrollPosition(position);
-
-    if (scrollPosition !== previousScrollPosition) {
+    if (position !== previousScrollPosition) {
       handleClose();
     }
   };

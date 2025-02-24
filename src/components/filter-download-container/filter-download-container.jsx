@@ -14,6 +14,7 @@ const FilterAndDownload = ({
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
+  selectedPivot,
   setDisableDownloadBanner,
 }) => {
   return (
@@ -31,6 +32,7 @@ const FilterAndDownload = ({
           tableColumnSortData={tableColumnSortData}
           filteredDateRange={filteredDateRange}
           selectedDetailViewFilter={selectedDetailViewFilter}
+          selectedPivot={selectedPivot}
           setDisableDownloadBanner={setDisableDownloadBanner}
         />
       </div>
