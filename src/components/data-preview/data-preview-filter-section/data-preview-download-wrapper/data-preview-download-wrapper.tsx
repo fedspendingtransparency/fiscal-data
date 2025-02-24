@@ -29,6 +29,7 @@ type DownloadProps = {
   filteredDateRange;
   selectedDetailViewFilter;
   width: number;
+  isDisabled: boolean;
 };
 
 const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
@@ -43,6 +44,7 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   filteredDateRange,
   selectedDetailViewFilter,
   width,
+  isDisabled,
 }) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
@@ -193,6 +195,7 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
           dataset={dataset}
           selectedPivot={selectedPivot}
           downloadClickHandler={downloadClickHandler}
+          isDisabled={isDisabled}
         />
       </div>
     </div>

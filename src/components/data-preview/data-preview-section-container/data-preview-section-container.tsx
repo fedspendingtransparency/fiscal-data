@@ -99,6 +99,8 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   allActiveFilters,
   setAllActiveFilters,
   width,
+  apiFilterDefault,
+  setApiFilterDefault,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -110,7 +112,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
-  const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const [reactTableSorting, setReactTableSort] = useState([]);
@@ -339,7 +340,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
       return selectedTable.dateField;
     }
   };
-
   const dateFieldForChart = getDateFieldForChart();
 
   useEffect(() => {
@@ -389,6 +389,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           <ChartTableDisplay
             allTablesSelected={allTablesSelected}
             selectedTable={selectedTable}
+            apiFilterDefault={apiFilterDefault}
             emptyData={
               !isLoading &&
               !serverSidePagination &&
