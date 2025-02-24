@@ -111,7 +111,7 @@ describe('TableSectionContainer while loading', () => {
   });
 });
 
-describe('TableSectionContainer - With Data', () => {
+describe('TableSectionContainer with data', () => {
   it('displays the table component when there is data', () => {
     render(
       <RecoilRoot>
@@ -170,7 +170,7 @@ describe('TableSectionContainer - With Data', () => {
     expect(screen.getByTestId('dataviz-line')).toBeInTheDocument();
   });
 
-  it('shows no pivot toggle when none are available', () => {
+  it('shows no pivot options toggle when none are available', () => {
     render(
       <RecoilRoot>
         <TableSectionContainer
