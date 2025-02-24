@@ -69,6 +69,7 @@ describe('DataPreviewSectionContainer while loading', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setUserFilterSelection={jest.fn()}
           selectedPivot={selectedPivot}
+          setApiFilterDefault={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -102,6 +103,7 @@ describe('DataPreviewSectionContainer with data', () => {
           selectedPivot={selectedPivot}
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
+          setApiFilterDefault={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -196,6 +198,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
           apiError={false}
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
+          setApiFilterDefault={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -288,6 +291,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
             serverSidePagination="ssp-endpoint"
             setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
+            setApiFilterDefault={jest.fn()}
           />
         </RecoilRoot>
       );
@@ -606,6 +610,7 @@ describe('Table with API filter', () => {
           setUserFilterSelection={jest.fn()}
           userFilterSelection={null}
           setSelectedPivot={jest.fn()}
+          setApiFilterDefault={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -626,6 +631,7 @@ describe('Table with API filter', () => {
           setUserFilterSelection={jest.fn()}
           userFilterSelection={null}
           setSelectedPivot={jest.fn()}
+          setApiFilterDefault={jest.fn()}
         />
       </RecoilRoot>
     );

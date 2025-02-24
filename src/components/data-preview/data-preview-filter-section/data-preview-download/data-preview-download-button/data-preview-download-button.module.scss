@@ -23,6 +23,9 @@ $icon-width: 1.5rem;
   &.buttonActive {
     background-color: #112e51;
   }
+  &:disabled {
+    opacity: 40%;
+  }
 }
 
 .parent {

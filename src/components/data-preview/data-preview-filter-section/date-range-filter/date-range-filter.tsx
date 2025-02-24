@@ -227,7 +227,7 @@ const DateRangeFilter: FunctionComponent<DateRangeFilterProps> = ({
       ? ` (${selectedTable.fields.find(field => field.columnName === selectedTable.dateField).prettyName})`
       : null;
 
-  return <p>Date range placeholder</p>;
+  return <p></p>;
 };
 
 export default DateRangeFilter;
