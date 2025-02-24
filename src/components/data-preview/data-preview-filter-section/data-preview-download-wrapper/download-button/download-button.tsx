@@ -1,12 +1,9 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-
 import globalConstants from '../../../../../helpers/constants';
-import { useRecoilValue } from 'recoil';
-import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../../../recoil/smallTableDownloadData';
 import { constructDownloadFileName } from '../../../../download-wrapper/download-helpers';
 import Analytics from '../../../../../utils/analytics/analytics';
 import { generateAnalyticsEvent } from '../../../../../layouts/dataset-detail/helper';
-import { dictionary, downloadItemBtn, linkDisabled } from './download-dialog.module.scss';
+import { downloadItemBtn, linkDisabled } from './download-dialog.module.scss';
 import CsvDirectDownload from './csv-direct-download/csv-direct-download';
 import DirectDownload from './direct-download/direct-download';
 
@@ -57,49 +54,56 @@ const DownloadItemButton: FunctionComponent = ({
       {fileSize && <span className="fileSize"> {fileSize}</span>}
     </>
   );
-  const smallTableDownload = type => !disabled && selectedFileType === type && smallTableDownloadData.length > 0;
 
-  return (
-    <>
-      {disabled && (
-        <button disabled className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`} data-testid="download-button">
-          {buttonContents}
-        </button>
-      )}
-      {smallTableDownload('csv') && (
-        <CsvDirectDownload
-          downloadTimestamp={downloadTimestamp}
-          downloadData={smallTableDownloadData}
-          filename={downloadName + '.csv'}
-          handleClick={() => clickFunction(true)}
-        >
-          {buttonContents}
-        </CsvDirectDownload>
-      )}
-      {(smallTableDownload('json') || smallTableDownload('xml')) && (
-        <DirectDownload
-          fileType={selectedFileType}
-          downloadData={smallTableDownloadData}
-          handleClick={() => clickFunction(true)}
-          downloadName={downloadName}
-        >
-          {buttonContents}
-        </DirectDownload>
-      )}
-      {true && (
-        <a
-          className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
-          href={href}
-          download={download}
-          target="_blank"
-          rel="noreferrer noopener"
-          onClick={() => clickFunction(false)}
-          data-testid="download-button"
-        >
-          {buttonContents}
-        </a>
-      )}
-    </>
-  );
+  const smallTableDownload = type => selectedFileType === type && smallTableDownloadData.length > 0;
+
+  const buttonComponent = children => {
+    switch (true) {
+      case disabled:
+        return (
+          <button disabled className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`} data-testid="download-button">
+            {children}
+          </button>
+        );
+      case smallTableDownload('csv'):
+        return (
+          <CsvDirectDownload
+            downloadTimestamp={downloadTimestamp}
+            downloadData={smallTableDownloadData}
+            filename={downloadName + '.csv'}
+            handleClick={() => clickFunction(true)}
+          >
+            {children}
+          </CsvDirectDownload>
+        );
+      case smallTableDownload('json') || smallTableDownload('xml'):
+        return (
+          <DirectDownload
+            fileType={selectedFileType}
+            downloadData={smallTableDownloadData}
+            handleClick={() => clickFunction(true)}
+            downloadName={downloadName}
+          >
+            {children}
+          </DirectDownload>
+        );
+      default:
+        return (
+          <a
+            className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
+            href={href}
+            download={download}
+            target="_blank"
+            rel="noreferrer noopener"
+            onClick={() => clickFunction(false)}
+            data-testid="download-button"
+          >
+            {children}
+          </a>
+        );
+    }
+  };
+
+  return <>{buttonComponent(buttonContents)}</>;
 };
 export default DownloadItemButton;

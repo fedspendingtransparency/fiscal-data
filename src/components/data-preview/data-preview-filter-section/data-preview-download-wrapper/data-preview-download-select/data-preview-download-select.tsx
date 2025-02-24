@@ -17,7 +17,13 @@ import {
 import DropdownContainer from '../../../../dropdown-container/dropdown-container';
 import DownloadItemButton from '../download-button/download-button';
 import { useRecoilValue } from 'recoil';
-import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../../../recoil/smallTableDownloadData';
+import {
+  smallTableDownloadDataCSV,
+  smallTableDownloadDataJSON,
+  smallTableDownloadDataXML,
+  tableRowLengthState,
+} from '../../../../../recoil/smallTableDownloadData';
+import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../../../utils/api-utils';
 
 interface IDownloadButtonProps {
   active: boolean;
@@ -34,6 +40,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   dataset,
   selectedPivot,
   allTablesSelected,
+  downloadClickHandler,
 }: IDownloadButtonProps) => {
   const containerRef = useRef(null);
   const [inFocus, setInFocus] = useState(false);
@@ -65,8 +72,10 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   const smallTableCSVData = useRecoilValue(smallTableDownloadDataCSV);
   const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
   const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
+  const tableSize = useRecoilValue(tableRowLengthState);
 
   const getSmallTableDownloadData = type => {
+    if (tableSize > REACT_TABLE_MAX_NON_PAGINATED_SIZE) return null;
     switch (type) {
       case 'csv':
         return smallTableCSVData;
@@ -108,19 +117,20 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
             >
               {getDownloadOptions()?.map((option, index) => {
                 const { displayName, type, size, onClick, topBorder } = option;
+                const downloadData = getSmallTableDownloadData(type);
                 return (
                   <React.Fragment key={index}>
                     {topBorder ? <div className={border} /> : null}
                     <DownloadItemButton
                       label={displayName}
                       fileSize={size}
-                      handleClick={() => console.log(`${displayName} clicked`)}
+                      handleClick={tableSize > REACT_TABLE_MAX_NON_PAGINATED_SIZE ? downloadClickHandler : null}
                       dateRange={dateRange}
                       selectedTable={selectedTable}
                       selectedFileType={type}
                       downloadTimestamp={dataset.downloadTimestamp}
                       selectedPivot={selectedPivot}
-                      smallTableDownloadData={getSmallTableDownloadData(type)}
+                      smallTableDownloadData={downloadData}
                     />
                   </React.Fragment>
                 );
