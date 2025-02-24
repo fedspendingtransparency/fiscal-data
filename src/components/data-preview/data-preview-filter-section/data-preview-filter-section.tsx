@@ -105,6 +105,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
           tableColumnSortData={tableColumnSortData}
           filteredDateRange={filteredDateRange}
           selectedDetailViewFilter={selectedDetailViewFilter}
+          isDisabled={isDisabled}
         />
       )}
     </>
