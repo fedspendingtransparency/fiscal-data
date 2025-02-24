@@ -43,16 +43,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   selectedDetailViewFilter,
   apiFilterDefault,
 }) => {
-  const [isDisabled, setIsDisabled] = useState(false);
-
-  const toggleDisabled = () => {
-    if (apiFilterDefault === true) {
-      setIsDisabled(true);
-    }
-  };
-  useEffect(() => {
-    toggleDisabled();
-  }, [apiFilterDefault]);
+  const isDisabled = apiFilterDefault;
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
   const getChartingInfo = () => {

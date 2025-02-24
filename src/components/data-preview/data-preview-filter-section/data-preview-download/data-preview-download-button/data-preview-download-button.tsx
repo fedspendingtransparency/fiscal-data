@@ -21,15 +21,10 @@ const DataPreviewDownloadButton: FunctionComponent<IDownloadButtonProps> = ({ ac
       return active ? faCloudDownload : faCaretRight;
     }
   };
-  const activateToggle = () => {
-    if (isDisabled !== true) {
-      setActive(!active);
-    }
-  };
 
   return (
     <div className={parent}>
-      <button className={`${downloadButton} ${active && buttonActive}`} onClick={() => activateToggle()} disabled={isDisabled}>
+      <button className={`${downloadButton} ${active && buttonActive}`} onClick={() => setActive(!active)} disabled={isDisabled}>
         <div className={buttonText}>Download</div>
         <div className={icon}>
           <FontAwesomeIcon icon={getIcon(width >= pxToNumber(breakpointLg))} />

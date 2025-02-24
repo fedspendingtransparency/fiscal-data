@@ -2544,7 +2544,6 @@ const endpointConfig = {
       field: 'acct_desc',
       downloadLabel: 'Account',
       label: 'Choose a Federal or State Account',
-      disableDateRangeFilter: true,
       dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
       dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
       dataDefaultHeader: 'This table requires additional filters.',
