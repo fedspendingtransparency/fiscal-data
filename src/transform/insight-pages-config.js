@@ -7,7 +7,7 @@ const insightPagesSource = {
       description: '',
       keywords: 'interest expense, interest cost, interest payments, U.S. debt interest, interest rates',
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: '',
       subHeading: '',
