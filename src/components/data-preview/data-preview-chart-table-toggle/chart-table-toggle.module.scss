@@ -81,7 +81,7 @@
   font-size: $font-size-16;
 }
 
-@media screen and (max-width: $breakpoint-lg - 1) {
+@media screen and (max-width: $breakpoint-xl - 1) {
   .buttonGroup {
     width: 20rem;
   }
