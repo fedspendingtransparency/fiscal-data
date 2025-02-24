@@ -29,13 +29,13 @@ $icon-width: 1.5rem;
   position: relative;
 }
 
-@media screen and (min-width: $breakpoint-lg) {
+@media screen and (min-width: $breakpoint-xl) {
   .downloadButton {
     gap: 0.5rem;
   }
 }
 
-@media screen and (max-width: $breakpoint-lg - 1) {
+@media screen and (max-width: $breakpoint-xl - 1) {
   .downloadButton {
     margin: 1rem auto 0;
     width: 100%;
