@@ -24,6 +24,8 @@ import {
   tableRowLengthState,
 } from '../../../../../recoil/smallTableDownloadData';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../../../utils/api-utils';
+import Analytics from '../../../../../utils/analytics/analytics';
+import { convertDataDictionaryToCsv, triggerDataDictionaryDownload } from '../../../../download-wrapper/data-dictionary-download-helper';
 
 interface IDownloadButtonProps {
   active: boolean;
@@ -58,13 +60,24 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
       return active ? faCloudDownload : faCaretRight;
     }
   };
+  const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
+
+  const metadataDownloader = async () => {
+    console.log('click');
+    Analytics.event({
+      category: 'Dataset Dictionary Download',
+      action: 'Data Dictionary Click',
+      label: dataset.name,
+    });
+    return triggerDataDictionaryDownload(dataDictionaryCsv, dataset.name);
+  };
 
   const getDownloadOptions = () => {
     const downloadOptions = [
       { displayName: 'CSV', type: 'csv', size: '5 KB', onClick: () => console.log('csv click') },
       { displayName: 'JSON', type: 'json', size: '5 KB', onClick: () => console.log('json click') },
       { displayName: 'XML', type: 'xml', size: '5 KB', onClick: () => console.log('xml click') },
-      { displayName: 'Data Dictionary', size: '5 KB', onClick: () => console.log('data dictionary click'), topBorder: true },
+      { displayName: 'Data Dictionary', type: 'data-dictionary', size: '5 KB', onClick: () => console.log('data dictionary click'), topBorder: true },
     ];
     return downloadOptions;
   };
@@ -131,6 +144,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
                       downloadTimestamp={dataset.downloadTimestamp}
                       selectedPivot={selectedPivot}
                       smallTableDownloadData={downloadData}
+                      asyncAction={type === 'data-dictionary' ? metadataDownloader : null}
                     />
                   </React.Fragment>
                 );

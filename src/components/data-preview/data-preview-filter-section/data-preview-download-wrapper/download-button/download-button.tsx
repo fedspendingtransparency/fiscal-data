@@ -3,7 +3,7 @@ import globalConstants from '../../../../../helpers/constants';
 import { constructDownloadFileName } from '../../../../download-wrapper/download-helpers';
 import Analytics from '../../../../../utils/analytics/analytics';
 import { generateAnalyticsEvent } from '../../../../../layouts/dataset-detail/helper';
-import { downloadItemBtn, linkDisabled } from './download-dialog.module.scss';
+import { dictionary, downloadItemBtn, linkDisabled } from './download-dialog.module.scss';
 import CsvDirectDownload from './csv-direct-download/csv-direct-download';
 import DirectDownload from './direct-download/direct-download';
 
@@ -86,6 +86,12 @@ const DownloadItemButton: FunctionComponent = ({
           >
             {children}
           </DirectDownload>
+        );
+      case selectedFileType === 'data-dictionary':
+        return (
+          <button className={dictionary} onClick={asyncAction}>
+            {children}
+          </button>
         );
       default:
         return (
