@@ -125,7 +125,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     perPage ? perPage : !shouldPage && data.length > DEFAULT_ROWS_PER_PAGE ? data.length : DEFAULT_ROWS_PER_PAGE
   );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
-  const [apiError, setApiError] = useState(tableProps.apiError || false);
+  const [apiError, setApiError] = useState(tableProps.apiError || apiErrorState || false);
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
@@ -422,69 +422,67 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   return (
     <div className={overlayContainer}>
       {/* Loading Indicator */}
-      {/*{!isLoading && !reactTableData && !selectedTable?.apiFilter && (*/}
-      {/*  <>*/}
-      {/*    <div data-test-id="loading-overlay" className={overlay} />*/}
-      {/*    <div className={loadingIcon}>*/}
-      {/*      <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...*/}
-      {/*    </div>*/}
-      {/*  </>*/}
-      {/*)}*/}
-      {/* Data Dictionary and Dataset Detail tables */}
-      {true && (
-        <div data-test-id="table-content" className={overlayContainerNoFooter}>
-          {/* API Error Message */}
-          {(apiError || tableProps.apiError || apiErrorState) && !emptyDataMessage && (
-            <>
-              <DtgTableApiError />
-            </>
-          )}
-          {!apiErrorState && (
-            <ErrorBoundary FallbackComponent={() => <></>}>
-              <DataPreviewDataTable
-                rawData={reactTableData}
-                detailViewState={detailViewState}
-                setDetailViewState={setDetailViewState}
-                detailColumnConfig={detailColumnConfig}
-                detailViewAPI={detailViewAPIConfig}
-                detailView={config?.detailView}
-                defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
-                setTableColumnSortData={setTableColumnSortData}
-                hideCellLinks={true}
-                shouldPage={shouldPage}
-                pagingProps={pagingProps}
-                showPaginationControls={showPaginationControls}
-                hasPublishedReports={hasPublishedReports}
-                publishedReports={publishedReports}
-                setSelectColumnPanel={setSelectColumnPanel}
-                selectColumnPanel={selectColumnPanel}
-                resetFilters={resetFilters}
-                setResetFilters={setResetFilters}
-                hideColumns={hideColumns}
-                tableName={tableName}
-                manualPagination={manualPagination}
-                maxRows={maxRows}
-                rowsShowing={rowsShowing}
-                columnConfig={columnConfig}
-                allowColumnWrap={allowColumnWrap}
-                aria={tableProps.aria}
-                pivotSelected={pivotSelected?.pivotValue}
-                setSummaryValues={setSummaryValues}
-                customFormatting={customFormatting}
-                sorting={sorting}
-                setSorting={setSorting}
-                allActiveFilters={allActiveFilters}
-                setAllActiveFilters={setAllActiveFilters}
-                setTableSorting={setTableSorting}
-                disableDateRangeFilter={disableDateRangeFilter}
-                datasetName={datesetName}
-                dateRange={tableProps.dateRange}
-                hasDownloadTimestamp={hasDownloadTimestamp}
-              />
-            </ErrorBoundary>
-          )}
-        </div>
+      {!isLoading && !reactTableData && !selectedTable?.apiFilter && !(apiError || tableProps.apiError) && (
+        <>
+          <div data-test-id="loading-overlay" className={overlay} />
+          <div className={loadingIcon}>
+            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
+          </div>
+        </>
       )}
+      {/* Data Dictionary and Dataset Detail tables */}
+      <div data-test-id="table-content" className={overlayContainerNoFooter}>
+        {/* API Error Message */}
+        {(apiError || tableProps.apiError) && !emptyDataMessage && (
+          <>
+            <DtgTableApiError />
+          </>
+        )}
+        {!apiErrorState && reactTableData?.data && (
+          <ErrorBoundary FallbackComponent={() => <></>}>
+            <DataPreviewDataTable
+              rawData={reactTableData}
+              detailViewState={detailViewState}
+              setDetailViewState={setDetailViewState}
+              detailColumnConfig={detailColumnConfig}
+              detailViewAPI={detailViewAPIConfig}
+              detailView={config?.detailView}
+              defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
+              setTableColumnSortData={setTableColumnSortData}
+              hideCellLinks={true}
+              shouldPage={shouldPage}
+              pagingProps={pagingProps}
+              showPaginationControls={showPaginationControls}
+              hasPublishedReports={hasPublishedReports}
+              publishedReports={publishedReports}
+              setSelectColumnPanel={setSelectColumnPanel}
+              selectColumnPanel={selectColumnPanel}
+              resetFilters={resetFilters}
+              setResetFilters={setResetFilters}
+              hideColumns={hideColumns}
+              tableName={tableName}
+              manualPagination={manualPagination}
+              maxRows={maxRows}
+              rowsShowing={rowsShowing}
+              columnConfig={columnConfig}
+              allowColumnWrap={allowColumnWrap}
+              aria={tableProps.aria}
+              pivotSelected={pivotSelected?.pivotValue}
+              setSummaryValues={setSummaryValues}
+              customFormatting={customFormatting}
+              sorting={sorting}
+              setSorting={setSorting}
+              allActiveFilters={allActiveFilters}
+              setAllActiveFilters={setAllActiveFilters}
+              setTableSorting={setTableSorting}
+              disableDateRangeFilter={disableDateRangeFilter}
+              datasetName={datesetName}
+              dateRange={tableProps.dateRange}
+              hasDownloadTimestamp={hasDownloadTimestamp}
+            />
+          </ErrorBoundary>
+        )}
+      </div>
     </div>
   );
 };
