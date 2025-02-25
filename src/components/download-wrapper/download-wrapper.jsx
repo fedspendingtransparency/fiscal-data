@@ -53,7 +53,7 @@ const DownloadWrapper = ({
   const [icon, setIcon] = useState(null);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
   const [gaEventLabel, setGaEventLabel] = useState();
-
+  const setDapGaEventLabel = useSetRecoilState(reactTableFilteredDateRangeState);
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
   const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
@@ -166,10 +166,9 @@ const DownloadWrapper = ({
       setGaEventLabel(`Table Name: ${selectedTable?.tableName}, Type: ${selectedFileType}, Date Range: ${dateRange.from}-${dateRange.to}`);
     }
   }, [selectedTable, dateRange, selectedFileType]);
-
-  // useEffect(() => {
-  //   setDapGaEventLabel(gaEventLabel);
-  // }, [gaEventLabel]);
+  useEffect(() => {
+    setDapGaEventLabel(gaEventLabel);
+  }, [gaEventLabel]);
 
   useEffect(() => {
     if (dateRange) {

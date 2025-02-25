@@ -123,7 +123,7 @@ export default function DtgTable({
   };
   const isPaginationControlNeeded = () => !apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0];
 
-  const rowData = Array.isArray(tableData) ? tableData : tableData && tableData.data ? tableData.data : [];
+  const rowData = Array.isArray(tableData) ? tableData : tableData?.data || [];
 
   const dataProperties = {
     keys: rowData[0] ? Object.keys(rowData[0]) : [],
