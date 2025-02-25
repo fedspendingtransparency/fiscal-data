@@ -622,7 +622,7 @@ export const fetchAllTableData = async (sortParam, totalCount, selectedTable, ap
     });
   } else if (totalCount <= MAX_PAGE_SIZE) {
     if (totalCount !== 0) {
-      return basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&sort=test&page[size]=${totalCount}`);
+      return basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&sort=${sortParam}&page[size]=${totalCount}`);
     }
   }
 };
