@@ -14,7 +14,7 @@ import { generateAnalyticsEvent } from '../../layouts/dataset-detail/helper';
 import { ensureDoubleDigitDate, formatDate } from './helpers';
 import globalConstants from '../../helpers/constants';
 import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { tableRowLengthState } from '../../recoil/smallTableDownloadData';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
@@ -53,7 +53,7 @@ const DownloadWrapper = ({
   const [icon, setIcon] = useState(null);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
   const [gaEventLabel, setGaEventLabel] = useState();
-
+  const setDapGaEventLabel = useRecoilValue(reactTableFilteredDateRangeState);
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
   const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
@@ -166,10 +166,9 @@ const DownloadWrapper = ({
       setGaEventLabel(`Table Name: ${selectedTable?.tableName}, Type: ${selectedFileType}, Date Range: ${dateRange.from}-${dateRange.to}`);
     }
   }, [selectedTable, dateRange, selectedFileType]);
-
-  // useEffect(() => {
-  //   setDapGaEventLabel(gaEventLabel);
-  // }, [gaEventLabel]);
+  useEffect(() => {
+    setDapGaEventLabel(gaEventLabel);
+  }, [gaEventLabel]);
 
   useEffect(() => {
     if (dateRange) {
