@@ -166,9 +166,6 @@ const DownloadWrapper = ({
       setGaEventLabel(`Table Name: ${selectedTable?.tableName}, Type: ${selectedFileType}, Date Range: ${dateRange.from}-${dateRange.to}`);
     }
   }, [selectedTable, dateRange, selectedFileType]);
-  useEffect(() => {
-    setDapGaEventLabel(gaEventLabel);
-  }, [gaEventLabel]);
 
   useEffect(() => {
     if (dateRange) {
