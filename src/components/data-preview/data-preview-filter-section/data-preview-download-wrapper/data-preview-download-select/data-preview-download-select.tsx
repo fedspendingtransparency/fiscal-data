@@ -1,18 +1,9 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretUp, faCaretRight, faCloudDownload } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretRight, faCaretUp, faCloudDownload } from '@fortawesome/free-solid-svg-icons';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
-import {
-  buttonActive,
-  icon,
-  buttonText,
-  parent,
-  downloadButton,
-  border,
-  container,
-  downloadOptionButton,
-} from './data-preview-download-select.module.scss';
+import { border, buttonActive, buttonText, container, downloadButton, icon, parent } from './data-preview-download-select.module.scss';
 // import { DownloadDialog } from '../../../../download-dialog/download-dialog';
 import DropdownContainer from '../../../../dropdown-container/dropdown-container';
 import DownloadItemButton from '../download-button/download-button';
@@ -25,7 +16,11 @@ import {
 } from '../../../../../recoil/smallTableDownloadData';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../../../utils/api-utils';
 import Analytics from '../../../../../utils/analytics/analytics';
-import { convertDataDictionaryToCsv, triggerDataDictionaryDownload } from '../../../../download-wrapper/data-dictionary-download-helper';
+import {
+  calcDictionaryDownloadSize,
+  convertDataDictionaryToCsv,
+  triggerDataDictionaryDownload,
+} from '../../../../download-wrapper/data-dictionary-download-helper';
 
 interface IDownloadButtonProps {
   active: boolean;
@@ -44,15 +39,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   allTablesSelected,
   downloadClickHandler,
 }: IDownloadButtonProps) => {
-  const containerRef = useRef(null);
-  const [inFocus, setInFocus] = useState(false);
-
-  useEffect(() => {
-    if (!inFocus) {
-      setActive(false);
-    }
-  }, [inFocus]);
-
   const getIcon = desktopWidth => {
     if (desktopWidth) {
       return active ? faCaretUp : faCaretDown;
@@ -61,6 +47,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     }
   };
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
+  const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
 
   const metadataDownloader = async () => {
     console.log('click');
@@ -72,14 +59,38 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     return triggerDataDictionaryDownload(dataDictionaryCsv, dataset.name);
   };
 
+  const handleDownloadClick = () => {
+    if (tableSize > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !tableSize) downloadClickHandler();
+  };
+
   const getDownloadOptions = () => {
-    const downloadOptions = [
-      { displayName: 'CSV', type: 'csv', size: '5 KB', onClick: () => console.log('csv click') },
-      { displayName: 'JSON', type: 'json', size: '5 KB', onClick: () => console.log('json click') },
-      { displayName: 'XML', type: 'xml', size: '5 KB', onClick: () => console.log('xml click') },
-      { displayName: 'Data Dictionary', type: 'data-dictionary', size: '5 KB', onClick: () => console.log('data dictionary click'), topBorder: true },
+    return [
+      {
+        displayName: 'CSV',
+        type: 'csv',
+        size: '5 KB',
+        onClick: handleDownloadClick,
+      },
+      {
+        displayName: 'JSON',
+        type: 'json',
+        size: '5 KB',
+        onClick: handleDownloadClick,
+      },
+      {
+        displayName: 'XML',
+        type: 'xml',
+        size: '5 KB',
+        onClick: handleDownloadClick,
+      },
+      {
+        displayName: 'Data Dictionary',
+        type: 'data-dictionary',
+        size: ddSize,
+        onClick: metadataDownloader,
+        topBorder: true,
+      },
     ];
-    return downloadOptions;
   };
 
   const smallTableCSVData = useRecoilValue(smallTableDownloadDataCSV);
@@ -87,8 +98,13 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
   const tableSize = useRecoilValue(tableRowLengthState);
 
+  useEffect(() => {
+    console.log('selectedTable: ', selectedTable);
+    console.log('\ntableSize: ', tableSize);
+  }, [tableSize, selectedTable]);
+
   const getSmallTableDownloadData = type => {
-    if (tableSize > REACT_TABLE_MAX_NON_PAGINATED_SIZE) return null;
+    if (tableSize > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !tableSize) return null;
     switch (type) {
       case 'csv':
         return smallTableCSVData;
@@ -117,17 +133,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
       >
         <>
           {active ? (
-            <div
-              className={container}
-              role="presentation"
-              ref={containerRef}
-              onFocus={() => setInFocus(true)}
-              onBlur={e => {
-                // if (!e.relatedTarget.className.includes('download-dialog')) {
-                //   setInFocus(false);
-                // }
-              }}
-            >
+            <div className={container}>
               {getDownloadOptions()?.map((option, index) => {
                 const { displayName, type, size, onClick, topBorder } = option;
                 const downloadData = getSmallTableDownloadData(type);
@@ -137,14 +143,14 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
                     <DownloadItemButton
                       label={displayName}
                       fileSize={size}
-                      handleClick={tableSize > REACT_TABLE_MAX_NON_PAGINATED_SIZE ? downloadClickHandler : null}
+                      handleClick={onClick}
                       dateRange={dateRange}
                       selectedTable={selectedTable}
                       selectedFileType={type}
                       downloadTimestamp={dataset.downloadTimestamp}
                       selectedPivot={selectedPivot}
                       smallTableDownloadData={downloadData}
-                      asyncAction={type === 'data-dictionary' ? metadataDownloader : null}
+                      // asyncAction={type === 'data-dictionary' ? metadataDownloader : null}
                     />
                   </React.Fragment>
                 );

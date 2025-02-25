@@ -66,10 +66,10 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   const [gaEventLabel, setGaEventLabel] = useState();
   const [active, setActive] = useState(false);
 
-  const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
-  const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
+  // const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
+  // const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
   const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
-  const tableSize = useRecoilValue(tableRowLengthState);
+  // const tableSize = useRecoilValue(tableRowLengthState);
 
   const makeDownloadButtonAvailable = () => {
     if (datasetDownloadInProgress) {
@@ -83,10 +83,10 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
     }
   };
 
-  const toggleButtonChange = value => {
-    setSelectedFileType(value);
-    makeDownloadButtonAvailable();
-  };
+  // const toggleButtonChange = value => {
+  //   setSelectedFileType(value);
+  //   makeDownloadButtonAvailable();
+  // };
 
   const handleCancelRequest = value => {
     generateAnalyticsEvent(gaEventLabel, cancelEventActionStr);
@@ -95,14 +95,7 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
     }
   };
 
-  const metadataDownloader = async () => {
-    Analytics.event({
-      category: 'Dataset Dictionary Download',
-      action: 'Data Dictionary Click',
-      label: dataset.name,
-    });
-    return triggerDataDictionaryDownload(dataDictionaryCsv, dataset.name);
-  };
+  const fileFromPath = path => (path && path.length ? path.substring(path.lastIndexOf('/') + 1) : null);
 
   const downloadClickHandler = event => {
     if (event) {

@@ -55,7 +55,7 @@ const DownloadItemButton: FunctionComponent = ({
     </>
   );
 
-  const smallTableDownload = type => selectedFileType === type && smallTableDownloadData.length > 0;
+  const smallTableDownload = type => selectedFileType === type && smallTableDownloadData?.length > 0;
 
   const buttonComponent = children => {
     switch (true) {
@@ -89,7 +89,7 @@ const DownloadItemButton: FunctionComponent = ({
         );
       case selectedFileType === 'data-dictionary':
         return (
-          <button className={dictionary} onClick={asyncAction}>
+          <button className={dictionary} onClick={handleClick}>
             {children}
           </button>
         );
