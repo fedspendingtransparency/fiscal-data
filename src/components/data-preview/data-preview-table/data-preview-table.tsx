@@ -95,6 +95,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   disableDateRangeFilter,
   hasDownloadTimestamp,
   datesetName,
+  apiErrorState,
 }) => {
   const {
     dePaginated,
@@ -421,24 +422,24 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   return (
     <div className={overlayContainer}>
       {/* Loading Indicator */}
-      {!isLoading && !reactTableData && !selectedTable?.apiFilter && (
-        <>
-          <div data-test-id="loading-overlay" className={overlay} />
-          <div className={loadingIcon}>
-            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
-          </div>
-        </>
-      )}
+      {/*{!isLoading && !reactTableData && !selectedTable?.apiFilter && (*/}
+      {/*  <>*/}
+      {/*    <div data-test-id="loading-overlay" className={overlay} />*/}
+      {/*    <div className={loadingIcon}>*/}
+      {/*      <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...*/}
+      {/*    </div>*/}
+      {/*  </>*/}
+      {/*)}*/}
       {/* Data Dictionary and Dataset Detail tables */}
-      {reactTableData?.data && (
+      {true && (
         <div data-test-id="table-content" className={overlayContainerNoFooter}>
           {/* API Error Message */}
-          {(apiError || tableProps.apiError) && !emptyDataMessage && (
+          {(apiError || tableProps.apiError || apiErrorState) && !emptyDataMessage && (
             <>
               <DtgTableApiError />
             </>
           )}
-          {!emptyDataMessage && (
+          {!apiErrorState && (
             <ErrorBoundary FallbackComponent={() => <></>}>
               <DataPreviewDataTable
                 rawData={reactTableData}
