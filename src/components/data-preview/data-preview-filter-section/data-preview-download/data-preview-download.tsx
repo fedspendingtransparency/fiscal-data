@@ -42,7 +42,7 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
-                                                                 width,
+  width,
 }) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {

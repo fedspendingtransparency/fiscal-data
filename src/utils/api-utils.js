@@ -118,7 +118,7 @@ export const pagedDatatableRequest = async (
   tableColumnSortData,
   filterField,
   filterValue,
-  columnDateFilter
+  columnDateFilters
 ) => {
   // redemption_tables and sb_value are exception scenarios where the date string needs to
   // be YYYY-MM.
@@ -130,13 +130,15 @@ export const pagedDatatableRequest = async (
   }
   const dateFilter = buildDateFilter(table, fromStr, toStr);
   let additionalDateFilter = '';
-  if (columnDateFilter?.from && columnDateFilter?.to) {
-    const addDateStr = buildDateFilter(
-      { dateField: columnDateFilter.fieldName },
-      columnDateFilter?.from.format('YYYY-MM-DD'),
-      columnDateFilter?.to.format('YYYY-MM-DD')
-    );
-    additionalDateFilter = `,${addDateStr}`;
+  if (columnDateFilters?.length > 0) {
+    columnDateFilters.forEach(filter => {
+      if (filter.fieldName !== 'record_date') {
+        if (filter?.from && filter?.to) {
+          const addDateStr = buildDateFilter({ dateField: filter.fieldName }, filter?.from.format('YYYY-MM-DD'), filter?.to.format('YYYY-MM-DD'));
+          additionalDateFilter += `,${addDateStr}`;
+        }
+      }
+    });
   }
   const sortParam = buildSortParams(table, selectedPivot);
   let tableColumnSort = '';

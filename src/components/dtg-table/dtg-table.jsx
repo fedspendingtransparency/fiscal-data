@@ -157,22 +157,21 @@ export default function DtgTable({
 
   const getDateFilters = () => {
     let from, to;
-    const recordDate = filteredDateRange?.fieldName === 'record_date';
-    if (recordDate) {
+    const recordDateColumnFilter = filteredDateRange?.find(date => date?.fieldName === 'record_date');
+    if (recordDateColumnFilter) {
       from =
-        filteredDateRange?.from && moment(dateRange.from).diff(filteredDateRange?.from) <= 0
-          ? filteredDateRange?.from.format('YYYY-MM-DD')
+        recordDateColumnFilter?.from && moment(dateRange.from).diff(recordDateColumnFilter?.from) <= 0
+          ? recordDateColumnFilter?.from.format('YYYY-MM-DD')
           : formatDateForApi(dateRange.from);
       to =
-        filteredDateRange?.from && moment(dateRange.to).diff(filteredDateRange?.to) >= 0
-          ? filteredDateRange?.to.format('YYYY-MM-DD')
+        recordDateColumnFilter?.from && moment(dateRange.to).diff(recordDateColumnFilter?.to) >= 0
+          ? recordDateColumnFilter?.to.format('YYYY-MM-DD')
           : formatDateForApi(dateRange.to);
     } else {
       from = formatDateForApi(dateRange.from);
       to = formatDateForApi(dateRange.to);
     }
-
-    return { from, to, recordDate };
+    return { from, to };
   };
 
   const makePagedRequest = async resetPage => {
@@ -186,7 +185,7 @@ export default function DtgTable({
           tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
     ) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
-      const { from, to, recordDate } = getDateFilters();
+      const { from, to } = getDateFilters();
       const startPage = resetPage ? 1 : currentPage;
       pagedDatatableRequest(
         selectedTable,
@@ -198,7 +197,7 @@ export default function DtgTable({
         tableColumnSortData,
         selectedTable?.apiFilter?.field,
         userFilterSelection,
-        !recordDate ? filteredDateRange : filteredDateRange
+        filteredDateRange
       )
         .then(res => {
           if (!loadCanceled) {
@@ -299,9 +298,10 @@ export default function DtgTable({
   }, [tableSorting, dateRange, selectedTable]);
 
   useMemo(() => {
-    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE && (!!filteredDateRange?.from || !filteredDateRange)) {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       updateSmallFractionDataType();
       setCurrentPage(1);
+
       updateTable(true);
     }
   }, [filteredDateRange]);

@@ -230,7 +230,6 @@ export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter,
     console.warn('No valid APIs can be built with this request, please check input params');
     return null;
   }
-
   return {
     apis: requestArr,
   };
