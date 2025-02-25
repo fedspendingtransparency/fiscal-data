@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { CSVLink } from 'react-csv/lib';
-import { downloadItemBtn } from '../download-dialog.module.scss';
+import { timestampDownloadButton, downloadItemBtn } from '../download-button.module.scss';
 
 const CsvDirectDownload: FunctionComponent = ({ filename, downloadData, handleClick, downloadTimestamp, children }) => {
+  console.log(downloadTimestamp);
+
   const [csvDataWithTimestamp, setCSVDataWithTimestamp] = useState(null);
   const ref = useRef();
-
   const captureTimestamp = () => {
     const currentDate = new Date();
     const formattedTimestamp = `Report Run: ${currentDate.getFullYear()}${currentDate.getMonth() + 1}${currentDate
@@ -29,22 +30,15 @@ const CsvDirectDownload: FunctionComponent = ({ filename, downloadData, handleCl
   return (
     <>
       {downloadTimestamp && (
-        <div
-          data-testid="csv-timestamp-download-button"
-          role="button"
-          onClick={() => captureTimestamp()}
-          className={downloadItemBtn}
-          onKeyDown={e => e.key === 'Enter' && captureTimestamp()}
-          tabIndex={0}
-        >
+        <button data-testid="csv-timestamp-download-button" onClick={() => captureTimestamp()} className={timestampDownloadButton}>
           {children}
-        </div>
+        </button>
       )}
       <CSVLink
         data-testid="csv-download-button"
         className={downloadTimestamp ? null : downloadItemBtn}
         data={csvDataWithTimestamp ? csvDataWithTimestamp : downloadData}
-        filename={filename}
+        filename={filename + '.csv'}
         onClick={handleClick}
         ref={ref}
         aria-hidden={true}

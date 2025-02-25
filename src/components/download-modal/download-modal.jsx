@@ -27,6 +27,7 @@ const DownloadModal = ({ open, onClose, setCancelDownloadRequest }) => {
   const [downloadCount, setDownloadCount] = useState([]);
 
   useEffect(() => {
+    console.log('download modal!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', open, downloadCount > 0);
     setDownloadModalIsOpen(!!open && downloadCount > 0);
   }, [open, downloadCount]);
 
@@ -67,7 +68,7 @@ const DownloadModal = ({ open, onClose, setCancelDownloadRequest }) => {
           ))}
       </div>
       <button onClick={onClose} className={`${closeButton} closeDownloadButton`} data-testid="download-modal-close-button" aria-label="Close">
-        Close
+        Close - testing
       </button>
       <div className={subText} data-testid="download-modal-subtext">
         {downloadModalSubText}

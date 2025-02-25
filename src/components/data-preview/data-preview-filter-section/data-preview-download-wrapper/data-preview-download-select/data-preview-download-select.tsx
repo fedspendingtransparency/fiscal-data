@@ -4,7 +4,6 @@ import { faCaretDown, faCaretRight, faCaretUp, faCloudDownload } from '@fortawes
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import { border, buttonActive, buttonText, container, downloadButton, icon, parent } from './data-preview-download-select.module.scss';
-// import { DownloadDialog } from '../../../../download-dialog/download-dialog';
 import DropdownContainer from '../../../../dropdown-container/dropdown-container';
 import DownloadItemButton from '../download-button/download-button';
 import { useRecoilValue } from 'recoil';
@@ -50,7 +49,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
 
   const metadataDownloader = async () => {
-    console.log('click');
     Analytics.event({
       category: 'Dataset Dictionary Download',
       action: 'Data Dictionary Click',
@@ -59,8 +57,8 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     return triggerDataDictionaryDownload(dataDictionaryCsv, dataset.name);
   };
 
-  const handleDownloadClick = () => {
-    if (tableSize > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !tableSize) downloadClickHandler();
+  const handleDownloadClick = fileType => {
+    if (tableSize > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !tableSize) downloadClickHandler(fileType);
   };
 
   const getDownloadOptions = () => {
@@ -69,19 +67,19 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
         displayName: 'CSV',
         type: 'csv',
         size: '5 KB',
-        onClick: handleDownloadClick,
+        onClick: () => handleDownloadClick('csv'),
       },
       {
         displayName: 'JSON',
         type: 'json',
         size: '5 KB',
-        onClick: handleDownloadClick,
+        onClick: () => handleDownloadClick('json'),
       },
       {
         displayName: 'XML',
         type: 'xml',
         size: '5 KB',
-        onClick: handleDownloadClick,
+        onClick: () => handleDownloadClick('xml'),
       },
       {
         displayName: 'Data Dictionary',
@@ -146,11 +144,10 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
                       handleClick={onClick}
                       dateRange={dateRange}
                       selectedTable={selectedTable}
-                      selectedFileType={type}
+                      fileType={type}
                       downloadTimestamp={dataset.downloadTimestamp}
                       selectedPivot={selectedPivot}
                       smallTableDownloadData={downloadData}
-                      // asyncAction={type === 'data-dictionary' ? metadataDownloader : null}
                     />
                   </React.Fragment>
                 );

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { downloadItemBtn } from '../download-dialog.module.scss';
+import { downloadItemBtn } from '../download-button.module.scss';
 
 const DirectDownload: FunctionComponent = ({ fileType, downloadData, handleClick, downloadName, children }) => {
   const testId = fileType === 'json' ? 'json-download-button' : 'xml-download-button';

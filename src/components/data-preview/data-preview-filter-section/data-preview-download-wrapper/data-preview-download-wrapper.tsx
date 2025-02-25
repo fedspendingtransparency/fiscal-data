@@ -1,22 +1,9 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { downloadsContext } from '../../../persist/download-persist/downloads-persist';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
-import {
-  calcDictionaryDownloadSize,
-  convertDataDictionaryToCsv,
-  triggerDataDictionaryDownload,
-} from '../../../download-wrapper/data-dictionary-download-helper';
+import { useRecoilValue } from 'recoil';
 import { disableDownloadButtonState } from '../../../../recoil/disableDownloadButtonState';
-import { tableRowLengthState } from '../../../../recoil/smallTableDownloadData';
-import { generateAnalyticsEvent } from '../../../../layouts/dataset-detail/helper';
-import { ensureDoubleDigitDate, formatDate } from '../../../download-wrapper/helpers';
-import Analytics from '../../../../utils/analytics/analytics';
-import { isValidDateRange } from '../../../../helpers/dates/date-helpers';
-import { cancelEventActionStr, closeEventActionStr } from '../../../download-wrapper/download-wrapper';
-import { dateForFilename, generateDownloadLabel, getDownloadIcon } from './download-wrapper-helper';
+import { dateForFilename, fileFromPath } from './download-wrapper-helper';
 import DataPreviewDownloadSelect from './data-preview-download-select/data-preview-download-select';
-import DownloadModal from '../../../download-modal/download-modal';
 
 type DownloadProps = {
   selectedTable;
@@ -46,30 +33,20 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   width,
   isDisabled,
 }) => {
-  let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
-  if (allTablesSelected) {
-    tableName = `All Data Tables (${dataset.apis.length})`;
-  }
+  // let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
+  // if (allTablesSelected) {
+  //   tableName = `All Data Tables (${dataset.apis.length})`;
+  // }
 
-  const allString = 'ALL';
   const siteDownloads = useContext(downloadsContext);
-  const [selectedFileType, setSelectedFileType] = useState('csv');
-  const [dateString, setDateString] = useState('');
   const [open, setOpen] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
-  const [downloadLabel, setDownloadLabel] = useState(null);
   const [datasetDownloadInProgress, setDatasetDownloadInProgress] = useState(false);
   const [changeMadeToCriteria, setChangeMadeToCriteria] = useState(false);
-  const [icon, setIcon] = useState(null);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
-  const setDapGaEventLabel = useSetRecoilState(reactTableFilteredDateRangeState);
-  const [gaEventLabel, setGaEventLabel] = useState();
   const [active, setActive] = useState(false);
 
-  // const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
-  // const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
   const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
-  // const tableSize = useRecoilValue(tableRowLengthState);
 
   const makeDownloadButtonAvailable = () => {
     if (datasetDownloadInProgress) {
@@ -83,21 +60,13 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
     }
   };
 
-  // const toggleButtonChange = value => {
-  //   setSelectedFileType(value);
-  //   makeDownloadButtonAvailable();
-  // };
-
   const handleCancelRequest = value => {
-    generateAnalyticsEvent(gaEventLabel, cancelEventActionStr);
     if (setCancelDownloadRequest) {
       setCancelDownloadRequest(value);
     }
   };
 
-  const fileFromPath = path => (path && path.length ? path.substring(path.lastIndexOf('/') + 1) : null);
-
-  const downloadClickHandler = event => {
+  const downloadClickHandler = (fileType, event) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -112,7 +81,7 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
         from: new Date(dateRange.from.getTime()),
         to: new Date(dateRange.to.getTime()),
       },
-      selectedFileType,
+      fileType,
       filename: `${downloadName}_${dateForFilename(dateRange.from)}_${dateForFilename(dateRange.to)}.zip`,
       requestTime: Date.now(),
       selectedUserFilter,
@@ -127,36 +96,12 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   };
 
   const onClose = () => {
-    generateAnalyticsEvent(gaEventLabel, closeEventActionStr);
     setOpen(false);
   };
 
   useEffect(() => {
     makeDownloadButtonAvailable();
-    setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress, allTablesSelected, selectedFileType, dataset));
-  }, [allTablesSelected, selectedFileType, selectedTable, dateRange]);
-
-  useEffect(() => {
-    if (dateRange?.from && dateRange?.to) {
-      setGaEventLabel(`Table Name: ${selectedTable?.tableName}, Type: ${selectedFileType}, Date Range: ${dateRange.from}-${dateRange.to}`);
-    }
-  }, [selectedTable, dateRange, selectedFileType]);
-
-  useEffect(() => {
-    setDapGaEventLabel(gaEventLabel);
-  }, [gaEventLabel]);
-
-  useEffect(() => {
-    if (dateRange) {
-      const from = formatDate(dateRange.from);
-      const to = formatDate(dateRange.to);
-      const { earliestDate, latestDate } = dataset.techSpecs;
-
-      if (isValidDateRange(from, to, earliestDate, latestDate)) {
-        setDateString(`${from} - ${to}`);
-      }
-    }
-  }, [dateRange]);
+  }, [allTablesSelected, selectedTable, dateRange]);
 
   useEffect(() => {
     if (downloadsInProgress === undefined) return;
@@ -166,8 +111,6 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
 
   useEffect(() => {
     if (datasetDownloadInProgress === undefined) return;
-    setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress, allTablesSelected, selectedFileType, dataset));
-    setIcon(getDownloadIcon(datasetDownloadInProgress));
     setDisableButton(datasetDownloadInProgress);
   }, [datasetDownloadInProgress]);
 
@@ -177,20 +120,18 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
 
   return (
     <div data-test-id="wrapper">
-      <DownloadModal open={open} onClose={onClose} downloadsPrepared={downloadsPrepared} setCancelDownloadRequest={handleCancelRequest} />
-      <div data-test-id="data-preview-download">
-        <DataPreviewDownloadSelect
-          active={active}
-          setActive={setActive}
-          width={width}
-          dateRange={dateRange}
-          selectedTable={selectedTable}
-          dataset={dataset}
-          selectedPivot={selectedPivot}
-          downloadClickHandler={downloadClickHandler}
-          isDisabled={isDisabled}
-        />
-      </div>
+      {/*<DownloadModal open={open} onClose={onClose} downloadsPrepared={downloadsPrepared} setCancelDownloadRequest={handleCancelRequest} />*/}
+      <DataPreviewDownloadSelect
+        active={active}
+        setActive={setActive}
+        width={width}
+        dateRange={dateRange}
+        selectedTable={selectedTable}
+        dataset={dataset}
+        selectedPivot={selectedPivot}
+        downloadClickHandler={downloadClickHandler}
+        isDisabled={isDisabled}
+      />
     </div>
   );
 };

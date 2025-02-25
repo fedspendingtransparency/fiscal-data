@@ -58,6 +58,7 @@ export const suggestDictionaryDownloadName = datasetName => {
 };
 
 export const calcDictionaryDownloadSize = csvData => {
+  console.log(1000 + csvData.length);
   return fileSizeTranslator(1000 + csvData.length);
 };
 

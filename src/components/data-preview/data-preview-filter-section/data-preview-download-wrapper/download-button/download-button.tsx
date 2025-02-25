@@ -3,23 +3,21 @@ import globalConstants from '../../../../../helpers/constants';
 import { constructDownloadFileName } from '../../../../download-wrapper/download-helpers';
 import Analytics from '../../../../../utils/analytics/analytics';
 import { generateAnalyticsEvent } from '../../../../../layouts/dataset-detail/helper';
-import { dictionary, downloadItemBtn, linkDisabled } from './download-dialog.module.scss';
+import { dictionary, downloadItemBtn, linkDisabled } from './download-button.module.scss';
 import CsvDirectDownload from './csv-direct-download/csv-direct-download';
 import DirectDownload from './direct-download/direct-download';
 
 export const downloadFileEventStr = globalConstants.gaEventLabels.downloadFile;
 const DownloadItemButton: FunctionComponent = ({
   label,
-  icon,
   fileSize,
-  asyncAction,
   handleClick,
   href,
   download,
   disabled,
   selectedTable,
   dateRange,
-  selectedFileType,
+  fileType,
   dapGaEventLabel,
   downloadTimestamp,
   smallTableDownloadData,
@@ -55,7 +53,7 @@ const DownloadItemButton: FunctionComponent = ({
     </>
   );
 
-  const smallTableDownload = type => selectedFileType === type && smallTableDownloadData?.length > 0;
+  const smallTableDownload = type => fileType === type && smallTableDownloadData?.length > 0;
 
   const buttonComponent = children => {
     switch (true) {
@@ -70,7 +68,7 @@ const DownloadItemButton: FunctionComponent = ({
           <CsvDirectDownload
             downloadTimestamp={downloadTimestamp}
             downloadData={smallTableDownloadData}
-            filename={downloadName + '.csv'}
+            filename={downloadName}
             handleClick={() => clickFunction(true)}
           >
             {children}
@@ -79,7 +77,7 @@ const DownloadItemButton: FunctionComponent = ({
       case smallTableDownload('json') || smallTableDownload('xml'):
         return (
           <DirectDownload
-            fileType={selectedFileType}
+            fileType={fileType}
             downloadData={smallTableDownloadData}
             handleClick={() => clickFunction(true)}
             downloadName={downloadName}
@@ -87,7 +85,7 @@ const DownloadItemButton: FunctionComponent = ({
             {children}
           </DirectDownload>
         );
-      case selectedFileType === 'data-dictionary':
+      case fileType === 'data-dictionary':
         return (
           <button className={dictionary} onClick={handleClick}>
             {children}
