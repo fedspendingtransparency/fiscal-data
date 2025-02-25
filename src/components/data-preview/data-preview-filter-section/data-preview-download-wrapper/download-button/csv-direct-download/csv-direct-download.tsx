@@ -3,8 +3,6 @@ import { CSVLink } from 'react-csv/lib';
 import { timestampDownloadButton, downloadItemBtn } from '../download-button.module.scss';
 
 const CsvDirectDownload: FunctionComponent = ({ filename, downloadData, handleClick, downloadTimestamp, children }) => {
-  console.log(downloadTimestamp);
-
   const [csvDataWithTimestamp, setCSVDataWithTimestamp] = useState(null);
   const ref = useRef();
   const captureTimestamp = () => {

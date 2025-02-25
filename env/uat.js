@@ -49,7 +49,7 @@ module.exports = {
 
     // TRRE Clean
     '318': {
-      endpoint: 'v1/accounting/od/rates_of_exchange_clean_values',
+      endpoint: 'v1/accounting/od/rates_of_exchange',
       dateField: 'record_date',
       downloadName: 'RprtRateXchgCln',
       alwaysSortWith: ['-record_date', 'country_currency_desc'],

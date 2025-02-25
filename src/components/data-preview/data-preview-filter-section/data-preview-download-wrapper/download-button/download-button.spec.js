@@ -1,20 +1,63 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { DownloadButton } from './download-button';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, within } from '@testing-library/react';
+import DownloadButton from './download-button';
 
 describe('Download dialog', () => {
-  it('download dialog renders with download options', () => {
-    const { getByText } = render(<DownloadButton active={true} setActive={jest.fn()} />);
-    expect(getByText('CSV')).toBeInTheDocument();
-    expect(getByText('JSON')).toBeInTheDocument();
-    expect(getByText('XML')).toBeInTheDocument();
-    expect(getByText('Data Dictionary')).toBeInTheDocument();
+  it('renders CSV download button', () => {
+    const { getByRole } = render(<DownloadButton label="CSV" fileType="csv" fileSize="5 KB" smallTableDownloadData={[['Test data']]} />);
+    const downloadButton = getByRole('link', { hidden: true });
+    const buttonText = within(downloadButton).getByText('CSV');
+    expect(buttonText).toBeInTheDocument();
+    fireEvent.click(downloadButton);
   });
 
-  it('keyboard interaction', () => {
-    const { getByText } = render(<DownloadButton active={true} setActive={jest.fn()} />);
-    userEvent.tab(getByText('CSV'));
-    userEvent.tab(getByText('JSON'));
+  it('renders JSON download button', () => {
+    const label = 'JSON';
+    const { getByRole } = render(<DownloadButton label={label} fileType="json" fileSize="5 KB" smallTableDownloadData={[['Test data']]} />);
+    const downloadButton = getByRole('link', { hidden: true });
+    const buttonText = within(downloadButton).getByText(label);
+    expect(buttonText).toBeInTheDocument();
+    fireEvent.click(downloadButton);
+  });
+
+  it('renders XML download button', () => {
+    const label = 'XML';
+    const { getByRole } = render(<DownloadButton label={label} fileType="xml" fileSize="5 KB" smallTableDownloadData={[['Test data']]} />);
+    const downloadButton = getByRole('link', { hidden: true });
+    const buttonText = within(downloadButton).getByText(label);
+    expect(buttonText).toBeInTheDocument();
+    fireEvent.click(downloadButton);
+  });
+
+  it('renders disabled download button', () => {
+    const label = 'XML';
+    const { getByRole } = render(<DownloadButton label={label} disabled fileType="xml" fileSize="5 KB" smallTableDownloadData={[['Test data']]} />);
+    const downloadButton = getByRole('button', { hidden: true });
+    const buttonText = within(downloadButton).getByText(label);
+    expect(buttonText).toBeInTheDocument();
+    expect(downloadButton).toBeDisabled();
+  });
+
+  it('renders data dictionary download button', () => {
+    const label = 'Data Dictionary';
+    const { getByRole } = render(
+      <DownloadButton label={label} fileType="data-dictionary" fileSize="5 KB" smallTableDownloadData={[['Test data']]} />
+    );
+    const downloadButton = getByRole('button', { hidden: true });
+    const buttonText = within(downloadButton).getByText(label);
+    expect(buttonText).toBeInTheDocument();
+  });
+
+  it('renders large table download button', () => {
+    const label = 'CSV';
+    const handleClick = jest.fn();
+    const { getByTestId } = render(
+      <DownloadButton label={label} fileType="csv" fileSize="5 KB" smallTableDownloadData={null} handleClick={handleClick} />
+    );
+    const downloadButton = getByTestId('download-button');
+    const buttonText = within(downloadButton).getByText(label);
+    expect(buttonText).toBeInTheDocument();
+    fireEvent.click(downloadButton);
+    expect(handleClick).toHaveBeenCalled();
   });
 });
