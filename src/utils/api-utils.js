@@ -615,7 +615,7 @@ export const fetchAllTableData = async (sortParam, totalCount, selectedTable, ap
       `${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
     ).then(async page1res => {
       const page2res = await basicFetch(
-        `${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+        `${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&sort=WW&page[number]=${2}&page[size]=${10000}`
       );
       page1res.data = page1res.data.concat(page2res.data);
       return page1res;
