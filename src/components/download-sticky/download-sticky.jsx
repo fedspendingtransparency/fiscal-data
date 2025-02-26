@@ -36,7 +36,7 @@ import buttons from '../buttons/buttons';
 import globalConstants from '../../helpers/constants';
 import { generateAnalyticsEvent } from '../../layouts/dataset-detail/helper';
 import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
+import { dataTableDapGaEventLabelState } from '../../recoil/dataTableDapGaEventLabelState';
 
 const gaEventLabels = globalConstants.gaEventLabels;
 export const dsTextContent = {
@@ -105,7 +105,7 @@ const DownloadSticky = () => {
   const [resumedInProgress, setResumedInProgress] = useState([]);
   const [triggerCleanupAfterClose, setTriggerCleanupAfterClose] = useState(0);
   const [allPrepared, setAllPrepared] = useState([]);
-  const dapGaEventLabel = useRecoilValue(reactTableFilteredDateRangeState);
+  const dapGaEventLabel = useRecoilValue(dataTableDapGaEventLabelState);
 
   const fileFromPath = download => {
     let path;

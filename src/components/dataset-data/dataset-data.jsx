@@ -15,10 +15,11 @@ import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { detailViewNotice, lockIcon, placeholderText, placeholderButton } from './dataset-data.module.scss';
+import { detailViewNotice, lockIcon, placeholderText, placeholderButton, bannerContainer } from './dataset-data.module.scss';
 import { queryClient } from '../../../react-query-client';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
+import BannerCallout from '../banner-callout/banner-callout';
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
   // config.apis should always be available; but, fallback in case
 
@@ -47,6 +48,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [summaryValues, setSummaryValues] = useState(null);
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
   const [allActiveFilters, setAllActiveFilters] = useState([]);
+  const [disableDownloadBanner, setDisableDownloadBanner] = useState(false);
 
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
@@ -215,6 +217,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
           tableColumnSortData={tableColumnSortData}
           filteredDateRange={filteredDateRange}
           selectedDetailViewFilter={detailViewDownloadFilter}
+          setDisableDownloadBanner={setDisableDownloadBanner}
+          selectedPivot={selectedPivot}
         >
           <DataTableSelect
             apis={filteredApis}
@@ -249,6 +253,11 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                   datatableBanner={config.datatableBanner}
                   hideButtons={detailApi && !detailViewState}
                 />
+              )}
+              {disableDownloadBanner && (
+                <div className={bannerContainer}>
+                  <BannerCallout bannerCallout={{ banner: 'XMLLargeDownloadDisabled' }} bannerType="infoYellow" />
+                </div>
               )}
               {selectedTable.userFilter && (
                 <UserFilter selectedTable={selectedTable} onUserFilter={setUserFilterSelection} apiData={apiData} setResetFilters={setResetFilters} />

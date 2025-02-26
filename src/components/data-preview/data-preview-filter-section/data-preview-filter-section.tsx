@@ -1,12 +1,14 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import React from 'react';
 import DataPreviewDownload from './data-preview-download/data-preview-download';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
-import { filterAndDownloadContainer, filterContainer } from './data-preview-filter-section.module.scss';
+import { filterAndDownloadContainer, filterContainer, toggleDownloadContainer } from './data-preview-filter-section.module.scss';
 import DataPreviewTableFilters from './data-preview-table-filters/data-preview-table-filters';
 import ColumnFilter from './column-filter/column-filter';
-import { breakpointLg } from '../data-preview.module.scss';
+import { breakpointXl } from '../data-preview.module.scss';
 import { withWindowSize } from 'react-fns';
+import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
+import { differenceInHours } from 'date-fns';
 
 type DataPreviewFilterSectionProps = {
   width?: number;
@@ -14,6 +16,7 @@ type DataPreviewFilterSectionProps = {
   dateRange;
   isFiltered;
   selectedTable;
+  selectedPivot;
   dataset;
   allTablesSelected: boolean;
   isCustomDateRange: boolean;
@@ -21,6 +24,7 @@ type DataPreviewFilterSectionProps = {
   tableColumnSortData;
   filteredDateRange;
   selectedDetailViewFilter;
+  apiFilterDefault;
 };
 
 const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps> = ({
@@ -29,6 +33,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   dateRange,
   isFiltered,
   selectedTable,
+  selectedPivot,
   dataset,
   allTablesSelected,
   isCustomDateRange,
@@ -36,32 +41,49 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
+  apiFilterDefault,
 }) => {
+  const isDisabled = apiFilterDefault;
+  const { dataDisplays, userFilter } = selectedTable;
+  const { pivotView } = selectedPivot ?? {};
+  const getChartingInfo = () => {
+    const pivotCharting = selectedPivot && pivotView && pivotView.chartType === 'none';
+    const dataDisplaysCharting = dataDisplays && dataDisplays.every(dd => dd.chartType === 'none');
+    const userFilterCharting = userFilter && !selectedUserFilter?.value;
+    const dateRangeCharting = dateRange && dateRange.to && dateRange.from && differenceInHours(dateRange.to, dateRange.from) < 24;
+    return !pivotCharting && !dataDisplaysCharting && !allTablesSelected && !userFilterCharting && !dateRangeCharting;
+  };
+
   return (
     <>
       <div className={filterAndDownloadContainer}>
         <div className={filterContainer}>
           <DataPreviewTableFilters />
-          <ColumnFilter allTablesSelected={allTablesSelected} />
+          <ColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} />
+          {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle />}
         </div>
-        {width >= pxToNumber(breakpointLg) && (
-          <DataPreviewDownload
-            width={width}
-            dateRange={dateRange}
-            isFiltered={isFiltered}
-            selectedTable={selectedTable}
-            dataset={dataset}
-            allTablesSelected={allTablesSelected}
-            isCustomDateRange={isCustomDateRange}
-            selectedUserFilter={selectedUserFilter}
-            tableColumnSortData={tableColumnSortData}
-            filteredDateRange={filteredDateRange}
-            selectedDetailViewFilter={selectedDetailViewFilter}
-          />
+        {width >= pxToNumber(breakpointXl) && (
+          <div className={toggleDownloadContainer}>
+            {getChartingInfo() && <ChartTableToggle />}
+            <DataPreviewDownload
+              width={width}
+              dateRange={dateRange}
+              isFiltered={isFiltered}
+              selectedTable={selectedTable}
+              dataset={dataset}
+              allTablesSelected={allTablesSelected}
+              isCustomDateRange={isCustomDateRange}
+              selectedUserFilter={selectedUserFilter}
+              tableColumnSortData={tableColumnSortData}
+              filteredDateRange={filteredDateRange}
+              selectedDetailViewFilter={selectedDetailViewFilter}
+              isDisabled={isDisabled}
+            />
+          </div>
         )}
       </div>
       {children}
-      {width < pxToNumber(breakpointLg) && (
+      {width < pxToNumber(breakpointXl) && (
         <DataPreviewDownload
           width={width}
           dateRange={dateRange}
@@ -74,6 +96,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
           tableColumnSortData={tableColumnSortData}
           filteredDateRange={filteredDateRange}
           selectedDetailViewFilter={selectedDetailViewFilter}
+          isDisabled={isDisabled}
         />
       )}
     </>

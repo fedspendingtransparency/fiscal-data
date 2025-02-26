@@ -59,7 +59,7 @@ describe('DownloadWrapper', () => {
   renderer.act(() => {
     component = renderer.create(
       <RecoilRoot>
-        <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} />
+        <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} setDisableDownloadBanner={jest.fn()} />
       </RecoilRoot>
     );
   });
@@ -80,7 +80,7 @@ describe('DownloadWrapper', () => {
     renderer.act(() => {
       component.update(
         <RecoilRoot>
-          <DownloadWrapper selectedTable={selectedTable} dataset={{ name: 'Mock Dataset' }} />
+          <DownloadWrapper selectedTable={selectedTable} dataset={{ name: 'Mock Dataset' }} setDisableDownloadBanner={jest.fn()} />
         </RecoilRoot>
       );
     });
@@ -95,7 +95,13 @@ describe('DownloadWrapper', () => {
     renderer.act(() => {
       component.update(
         <RecoilRoot>
-          <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset', techSpecs: {} }} dateRange={dateRange} isFiltered={isFiltered} />
+          <DownloadWrapper
+            selectedTable={{}}
+            dataset={{ name: 'Mock Dataset', techSpecs: {} }}
+            dateRange={dateRange}
+            isFiltered={isFiltered}
+            setDisableDownloadBanner={jest.fn()}
+          />
         </RecoilRoot>
       );
     });
@@ -110,7 +116,12 @@ describe('DownloadWrapper', () => {
     renderer.act(() => {
       component.update(
         <RecoilRoot>
-          <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset', techSpecs: {} }} dateRange={dateRange} />
+          <DownloadWrapper
+            selectedTable={{}}
+            dataset={{ name: 'Mock Dataset', techSpecs: {} }}
+            dateRange={dateRange}
+            setDisableDownloadBanner={jest.fn()}
+          />
         </RecoilRoot>
       );
     });
@@ -126,7 +137,13 @@ describe('DownloadWrapper', () => {
     renderer.act(() => {
       component.update(
         <RecoilRoot>
-          <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset', techSpecs: {} }} dateRange={dateRange} isFiltered={isFiltered} />
+          <DownloadWrapper
+            selectedTable={{}}
+            dataset={{ name: 'Mock Dataset', techSpecs: {} }}
+            dateRange={dateRange}
+            isFiltered={isFiltered}
+            setDisableDownloadBanner={jest.fn()}
+          />
         </RecoilRoot>
       );
     });
@@ -166,7 +183,7 @@ describe('DownloadWrapper', () => {
     renderer.act(() => {
       component.update(
         <RecoilRoot>
-          <DownloadWrapper selectedTable={{}} dataset={mockMultiTableDataset} allTablesSelected={true} />
+          <DownloadWrapper selectedTable={{}} dataset={mockMultiTableDataset} allTablesSelected={true} setDisableDownloadBanner={jest.fn()} />
         </RecoilRoot>
       );
     });
@@ -220,7 +237,13 @@ describe('DownloadWrapper', () => {
       component = render(
         <RecoilRoot>
           <downloadsContext.Provider value={mockSiteProviderValue}>
-            <DownloadWrapper allTablesSelected={false} selectedTable={mockTable} dataset={mockDataset} dateRange={mockDateRange} />
+            <DownloadWrapper
+              allTablesSelected={false}
+              selectedTable={mockTable}
+              dataset={mockDataset}
+              dateRange={mockDateRange}
+              setDisableDownloadBanner={jest.fn()}
+            />
           </downloadsContext.Provider>
         </RecoilRoot>
       );
@@ -245,7 +268,13 @@ describe('DownloadWrapper', () => {
       component = render(
         <RecoilRoot>
           <downloadsContext.Provider value={mockSiteProviderValue}>
-            <DownloadWrapper allTablesSelected selectedTable={mockAnotherTable} dataset={mockDataset} dateRange={mockDateRange} />
+            <DownloadWrapper
+              allTablesSelected
+              selectedTable={mockAnotherTable}
+              dataset={mockDataset}
+              dateRange={mockDateRange}
+              setDisableDownloadBanner={jest.fn()}
+            />
           </downloadsContext.Provider>
         </RecoilRoot>
       );
@@ -275,7 +304,12 @@ describe('DownloadWrapper', () => {
     renderer.act(() => {
       component.update(
         <RecoilRoot>
-          <DownloadWrapper selectedTable={selectedTable} dataset={{ name: 'Mock Dataset' }} selectedDetailViewFilter={mockSelectedDetailViewFilter} />
+          <DownloadWrapper
+            selectedTable={selectedTable}
+            dataset={{ name: 'Mock Dataset' }}
+            selectedDetailViewFilter={mockSelectedDetailViewFilter}
+            setDisableDownloadBanner={jest.fn()}
+          />
         </RecoilRoot>
       );
     });
@@ -312,6 +346,7 @@ describe('DownloadWrapper', () => {
               dataset={mockDataset}
               dateRange={mockDateRange}
               selectedDetailViewFilter={mockSelectedDetailViewFilter}
+              setDisableDownloadBanner={jest.fn()}
             />
           </downloadsContext.Provider>
         </RecoilRoot>
@@ -330,6 +365,7 @@ describe('DownloadWrapper', () => {
             selectedTable={mockSelectedTableWithUserFilter}
             dataset={{ name: 'Mock Dataset' }}
             selectedUserFilter={mockSelectedUserFilter}
+            setDisableDownloadBanner={jest.fn()}
           />
         </RecoilRoot>
       );
@@ -346,7 +382,12 @@ describe('DownloadWrapper', () => {
     renderer.act(() => {
       component.update(
         <RecoilRoot>
-          <DownloadWrapper selectedTable={mockSelectedTableWithUserFilter} dataset={{ name: 'Mock Dataset' }} selectedUserFilter={null} />
+          <DownloadWrapper
+            selectedTable={mockSelectedTableWithUserFilter}
+            dataset={{ name: 'Mock Dataset' }}
+            selectedUserFilter={null}
+            setDisableDownloadBanner={jest.fn()}
+          />
         </RecoilRoot>
       );
     });
@@ -379,6 +420,7 @@ describe('DownloadWrapper', () => {
               dataset={mockDataset}
               dateRange={mockDateRange}
               selectedUserFilter={mockSelectedUserFilter}
+              setDisableDownloadBanner={jest.fn()}
             />
           </downloadsContext.Provider>
         </RecoilRoot>
@@ -400,6 +442,7 @@ describe('DownloadWrapper', () => {
             dataset={mockDataset}
             dateRange={mockDateRange}
             selectedUserFilter={mockSelectedUserFilter}
+            setDisableDownloadBanner={jest.fn()}
           />
         </downloadsContext.Provider>
       </RecoilRoot>

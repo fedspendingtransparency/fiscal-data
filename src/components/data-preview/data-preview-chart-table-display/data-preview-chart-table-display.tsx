@@ -27,9 +27,15 @@ const ChartTableDisplay: FunctionComponent = ({
   const allTableHeading = 'The current "All Data Tables" selection is for download only';
   const allTableBody = "To download the data, select the 'Download' button and choose the desired format.";
 
+  const additionalFiltersHeading = 'This table requires additional filters';
+  const additionalFiltersBody = 'Select an account in the filter section above to display the data.';
+
   if (allTablesSelected) {
     emptyDataMessage = <TableNotice heading={allTableHeading} bodyText={allTableBody} />;
+  } else if (apiFilterDefault) {
+    emptyDataMessage = <TableNotice heading={additionalFiltersHeading} bodyText={additionalFiltersBody} />;
   }
+
   //TODO: Add in additional cases for the table notice
   // else if (userFilterUnmatchedForDateRange) {
   //   emptyDataMessage = getMessageForUnmatchedUserFilter(selectedTable);

@@ -2,6 +2,8 @@ import React, { act } from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import GlossaryPopoverDefinition from './glossary-popover-definition';
 import { GlossaryContext } from '../glossary-context/glossary-context';
+import userEvent from '@testing-library/user-event';
+import { getFiscalYearByDate } from '../../../helpers/dates/date-helpers';
 
 describe('glossary term', () => {
   const testGlossary = [
@@ -34,6 +36,14 @@ describe('glossary term', () => {
       term: 'Debt Held by the Public',
       site_page: 'Test Page',
       definition: 'Test for term with custom style for not.',
+      url_display: '',
+      url_path: '',
+    },
+    {
+      id: 5,
+      term: 'Fiscal Year',
+      site_page: 'Test Page',
+      definition: 'For example, Fiscal Year 1111 (FY 1111) started October 1, 1110, and ended September 30, 1111.',
       url_display: '',
       url_path: '',
     },
@@ -264,5 +274,19 @@ describe('glossary term', () => {
     });
 
     expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument();
+  });
+
+  it('calls handleClick function on button click', () => {
+    const termText = 'Hello';
+    const testPage = 'Test Page';
+    const handleClickSpy = jest.fn();
+    const { getByRole } = render(
+      <GlossaryPopoverDefinition term="hello" page={testPage} handleClick={handleClickSpy}>
+        {termText}
+      </GlossaryPopoverDefinition>
+    );
+    const glossaryTermButton = getByRole('button', { name: termText });
+    userEvent.click(glossaryTermButton);
+    expect(handleClickSpy).toHaveBeenCalled();
   });
 });

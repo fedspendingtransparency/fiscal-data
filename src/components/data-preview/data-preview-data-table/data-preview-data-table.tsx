@@ -7,7 +7,7 @@ import {
   smallTableDownloadDataXML,
   tableRowLengthState,
 } from '../../../recoil/smallTableDownloadData';
-import { columnsConstructorData, getSortedColumnsData } from '../../data-table/data-table-helper';
+import { columnsConstructorData, constructDateHeader, getSortedColumnsData } from '../../data-table/data-table-helper';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 import { json2xml } from 'xml-js';
 import { overlayContainerNoFooter, rawDataTableContainer } from './data-preview-data-table.module.scss';
@@ -48,6 +48,9 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   setAllActiveFilters,
   setTableSorting,
   disableDateRangeFilter,
+  datasetName,
+  dateRange,
+  hasDownloadTimestamp,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
@@ -201,9 +204,17 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
       setSmallTableJSONData(JSON.stringify({ data: downloadData }));
       setSmallTableXMLData(json2xml(JSON.stringify(xmlData), { compact: true }));
       downloadData = downloadData.map(entry => {
-        return Object.values(entry);
+        const dataWithTextQualifiers = [];
+        Object.values(entry).forEach(val => {
+          dataWithTextQualifiers.push(val?.includes(',') ? `"${val}"` : val);
+        });
+        return dataWithTextQualifiers;
       });
       downloadData.unshift(downloadHeaders);
+      if (hasDownloadTimestamp) {
+        const dateHeader = constructDateHeader(datasetName, dateRange);
+        downloadData.unshift(dateHeader);
+      }
       setSmallTableCSVData(downloadData);
     }
   }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns()]);

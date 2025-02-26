@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { downloadsContext } from '../../../persist/download-persist/downloads-persist';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 import {
   calcDictionaryDownloadSize,
   convertDataDictionaryToCsv,
@@ -18,6 +17,7 @@ import { isValidDateRange } from '../../../../helpers/dates/date-helpers';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../../utils/api-utils';
 import DataPreviewDownloadButton from './data-preview-download-button/data-preview-download-button';
 import { cancelEventActionStr, closeEventActionStr } from '../../../download-wrapper/download-wrapper';
+import { dataTableDapGaEventLabelState } from '../../../../recoil/dataTableDapGaEventLabelState';
 
 type DownloadProps = {
   selectedTable;
@@ -30,6 +30,7 @@ type DownloadProps = {
   filteredDateRange;
   selectedDetailViewFilter;
   width: number;
+  isDisabled: boolean;
 };
 
 const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
@@ -42,7 +43,8 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
-                                                                 width,
+  width,
+  isDisabled,
 }) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
@@ -60,7 +62,7 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
   const [changeMadeToCriteria, setChangeMadeToCriteria] = useState(false);
   const [icon, setIcon] = useState(null);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
-  const setDapGaEventLabel = useSetRecoilState(reactTableFilteredDateRangeState);
+  const setDapGaEventLabel = useSetRecoilState(dataTableDapGaEventLabelState);
   const [gaEventLabel, setGaEventLabel] = useState();
   const [active, setActive] = useState(false);
 
@@ -221,7 +223,7 @@ const DataPreviewDownload: FunctionComponent<DownloadProps> = ({
 
   return (
     <div data-test-id="data-preview-download">
-      <DataPreviewDownloadButton active={active} setActive={setActive} width={width} />
+      <DataPreviewDownloadButton active={active} setActive={setActive} width={width} isDisabled={isDisabled} />
     </div>
   );
 };

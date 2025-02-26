@@ -12,6 +12,11 @@ describe('Learn more section', () => {
       title: 'another title',
       url: 'url2',
     },
+    {
+      title: 'another title with an alias',
+      urlAlias: 'url2Alias',
+      url: 'url2',
+    },
   ];
 
   const mockDescription = 'Test Description';
@@ -22,6 +27,12 @@ describe('Learn more section', () => {
     expect(getByText('another title')).toBeInTheDocument();
     expect(getByText('url')).toBeInTheDocument();
     expect(getByText('url2')).toBeInTheDocument();
+  });
+
+  it('renders the url alias if one is specified', () => {
+    const { getByText } = render(<LearnMoreSection links={mockResources} />);
+    expect(getByText('another title with an alias')).toBeInTheDocument();
+    expect(getByText('url2Alias')).toBeInTheDocument();
   });
 
   it('renders the description', () => {
