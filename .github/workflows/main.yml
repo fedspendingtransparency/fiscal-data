@@ -16,7 +16,6 @@ jobs:
         shell: bash
         run: |
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
-          npm config set always-auth = true
           npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
           npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{ vars.ARTIFACTORY }}
       - name: Use Node.js
