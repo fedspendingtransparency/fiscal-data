@@ -1,58 +1,67 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
-import userEvent from '@testing-library/user-event';
-
+import renderer from 'react-test-renderer';
 import TableSectionContainer from './table-section-container';
 import DtgTable from '../../dtg-table/dtg-table';
 import PivotToggle from './pivot-toggle/pivot-toggle';
-import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
-import DatasetChart from '../dataset-chart/dataset-chart';
-import AggregationNotice from './aggregation-notice/aggregation-notice';
-
-import GLOBALS from '../../../helpers/constants';
-import * as setNoChartMessageMod from './set-no-chart-message';
-
+import { active } from './table-section-container.module.scss';
 import {
   mockConfig,
   mockDateRange,
   mockTableWithPivot,
-  mockTableWithNoChartAvailable,
   mockApiData,
-  mockTableWithUserFilterAvailable,
-  mockApiDataUserFilterable,
+  mockTableWithNoChartAvailable,
   selectedTableLessFields,
   selectedPivot,
-  selectedPivotWithAggregation,
   pivotFields,
+  selectedPivotWithAggregation,
+  mockTableWithUserFilterAvailable,
+  mockApiDataUserFilterable,
   selectedPivotWithRoundingDenomination,
   mockTableWithApiFilterAvailable,
-  mockTableWithApiFilterAvailableDisplayDefaultData,
   mockDetailConfig,
+  mockTableWithApiFilterAvailableDisplayDefaultData,
 } from './testHelpers';
+import * as setNoChartMessageMod from './set-no-chart-message';
+import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
+import DatasetChart from '../dataset-chart/dataset-chart';
+import AggregationNotice from './aggregation-notice/aggregation-notice';
+import GLOBALS from '../../../helpers/constants';
+import { render, fireEvent } from '@testing-library/react';
+import NotShownMessage from './not-shown-message/not-shown-message';
+import { RecoilRoot } from 'recoil';
+import { formatDate } from './table-section-container';
 
 describe('TableSectionContainer initial state', () => {
-  it('hides the table component when there is no data', () => {
-    render(
+  let component, instance;
+  const mockSetSelectedPivot = jest.fn();
+
+  beforeAll(() => {
+    component = renderer.create(
       <RecoilRoot>
         <TableSectionContainer
           selectedTable={selectedTableLessFields}
           dateRange={mockDateRange}
           apiData={{}}
-          setSelectedPivot={jest.fn()}
+          setSelectedPivot={mockSetSelectedPivot}
           config={mockConfig}
           setUserFilterSelection={jest.fn()}
         />
       </RecoilRoot>
     );
 
-    expect(screen.queryByRole('table')).not.toBeInTheDocument();
+    instance = component.root;
+  });
+
+  it('hides the table component when there is no data', () => {
+    expect(instance.findAllByType(DtgTable).length).toBe(0);
   });
 });
 
 describe('TableSectionContainer while loading', () => {
-  it('expects the table name to display', () => {
-    render(
+  const mockSetSelectedPivot = jest.fn();
+  let queryTestId;
+  beforeAll(() => {
+    const { queryByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -61,163 +70,128 @@ describe('TableSectionContainer while loading', () => {
           apiData={{ data: [], meta: { labels: {} } }}
           isLoading={true}
           apiError={false}
-          setSelectedPivot={jest.fn()}
+          setSelectedPivot={mockSetSelectedPivot}
           setUserFilterSelection={jest.fn()}
           selectedPivot={selectedPivot}
         />
       </RecoilRoot>
     );
-    expect(screen.getByTestId('tableName')).toBeInTheDocument();
+    queryTestId = queryByTestId;
+  });
+
+  it('expects the table name to display', () => {
+    expect(queryTestId('tableName')).toBeInTheDocument();
   });
 
   it('provides the loading section while the table is loading', () => {
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={selectedTableLessFields}
-          apiData={{ data: [], meta: { labels: {} } }}
-          isLoading={true}
-          apiError={false}
-          setSelectedPivot={jest.fn()}
-          setUserFilterSelection={jest.fn()}
-          selectedPivot={selectedPivot}
-        />
-      </RecoilRoot>
-    );
-
-    expect(screen.getByTestId('loadingSection')).toBeInTheDocument();
+    expect(queryTestId('loadingSection')).toBeNull();
   });
-
   it('does not show detailView on initial render', () => {
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={selectedTableLessFields}
-          apiData={{ data: [], meta: { labels: {} } }}
-          isLoading={true}
-          apiError={false}
-          setSelectedPivot={jest.fn()}
-          setUserFilterSelection={jest.fn()}
-          selectedPivot={selectedPivot}
-        />
-      </RecoilRoot>
-    );
-
-    expect(screen.queryByTestId('detailViewCloseButton')).not.toBeInTheDocument();
+    expect(queryTestId('detailViewCloseButton')).not.toBeInTheDocument();
   });
 });
 
 describe('TableSectionContainer with data', () => {
-  it('displays the table component when there is data', () => {
-    render(
+  const selectedTable = selectedTableLessFields;
+  let component = renderer.create(),
+    instance;
+  const mockSetSelectedPivot = jest.fn();
+
+  renderer.act(() => {
+    component = renderer.create(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
-          selectedTable={selectedTableLessFields}
+          selectedTable={selectedTable}
           apiData={mockApiData}
           isLoading={false}
           apiError={false}
           selectedPivot={selectedPivot}
-          setSelectedPivot={jest.fn()}
           setUserFilterSelection={jest.fn()}
+          setSelectedPivot={mockSetSelectedPivot}
         />
       </RecoilRoot>
     );
+  });
 
-    expect(screen.getByText('Table 1')).toBeInTheDocument();
+  instance = component.root;
+
+  it('displays the table component when there is data', () => {
+    expect(instance.findAllByType(DtgTable).length).toBe(1);
   });
 
   it('sets noBorder on the table', () => {
-    const { container } = render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={selectedTableLessFields}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={jest.fn()}
-        />
-      </RecoilRoot>
-    );
+    expect(instance.findByType(DtgTable).props.tableProps.noBorder).toBeDefined();
   });
 
   it('sends slug and currentTableName props to DatasetChart', () => {
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={selectedTableLessFields}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={jest.fn()}
-          selectedTab={1}
-        />
-      </RecoilRoot>
-    );
-    expect(screen.getByTestId('dataviz-line')).toBeInTheDocument();
+    const datasetChartElement = instance.findByType(DatasetChart);
+    expect(datasetChartElement.props.slug).toBe(mockConfig.slug);
+    expect(datasetChartElement.props.currentTable).toBe(selectedTable);
   });
 
   it('shows no pivot options toggle when none are available', () => {
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithNoChartAvailable}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-    expect(screen.queryByTestId('pivotToggle')).not.toBeInTheDocument();
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithNoChartAvailable}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivot}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
+      );
+    });
+    instance = component.root;
+    expect(instance.findAllByType(PivotToggle).length).toEqual(0);
   });
 });
+
 describe('TableSectionContainer with userFilter Options', () => {
   it('displays the NotShownMessage when a user filter is engaged that matches no rows', () => {
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithUserFilterAvailable}
-          userFilterSelection={{ label: 'Auditorium', value: 'Auditorium' }}
-          apiData={mockApiDataUserFilterable}
-          isLoading={false}
-          apiError={false}
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-    expect(screen.getAllByText(/The Facility Description specified does not have/i).length).toBe(2);
+    let tableSectionContainer = {};
+    renderer.act(() => {
+      tableSectionContainer = renderer.create(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithUserFilterAvailable}
+            userFilterSelection={{ label: 'Auditorium', value: 'Auditorium' }}
+            apiData={mockApiDataUserFilterable}
+            isLoading={false}
+            apiError={false}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+    });
+
+    const notShownMessages = tableSectionContainer.root.findAllByType(NotShownMessage);
+    expect(notShownMessages.length).toStrictEqual(2);
+    notShownMessages.forEach(notShownMessage => {
+      expect(notShownMessage.props.heading).toContain('The Facility Description specified does not have');
+      expect(notShownMessage.props.heading).toContain('available data within the date range selected.');
+      expect(notShownMessage.props.bodyText).toStrictEqual(mockTableWithUserFilterAvailable.userFilter.dataUnmatchedMessage);
+    });
   });
 });
+
 describe('TableSectionContainer with Pivot Options', () => {
-  let mockSetSelectedPivot;
+  let component = renderer.create(),
+    instance;
+  const mockSetSelectedPivot = jest.fn();
 
-  beforeEach(() => {
-    mockSetSelectedPivot = jest.fn();
-  });
-
-  it('shows a pivot options toggle button when pivots are available', () => {
-    render(
+  renderer.act(() => {
+    component = renderer.create(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -233,12 +207,16 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </RecoilRoot>
     );
+  });
 
-    expect(screen.getByTestId('pivotToggle')).toBeInTheDocument();
+  instance = component.root;
+
+  it('shows a pivot options toggle button when pivots are available', () => {
+    expect(instance.findAllByType(PivotToggle).length).toEqual(1);
   });
 
   it('pivot options are in view by default', () => {
-    render(
+    const { getByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -254,13 +232,15 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </RecoilRoot>
     );
-
-    const drawer = screen.getByTestId('pivotOptionsDrawer');
-    expect(drawer.className).toContain('active');
+    expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
   });
 
   it('shows no aggregation notice when the selected pivot is not aggregated', () => {
-    render(
+    expect(instance.findAllByType(AggregationNotice)).toEqual([]);
+  });
+
+  it('collapses/expands the pivot options when the toggle button is clicked', () => {
+    const { getByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -276,37 +256,13 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </RecoilRoot>
     );
-
-    expect(screen.queryByText(/aggregate/i)).not.toBeInTheDocument();
+    expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
+    fireEvent.click(getByTestId('pivotToggle'));
+    expect(getByTestId('pivotOptionsDrawer').className).not.toContain(active);
   });
 
-  it('collapses/expands the pivot options when the toggle button is clicked', async () => {
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          pivotFields={pivotFields}
-          selectedPivot={selectedPivot}
-          isLoading={false}
-          apiError={false}
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
-      </RecoilRoot>
-    );
-
-    const drawer = screen.getByTestId('pivotOptionsDrawer');
-    expect(drawer.className).toContain('active');
-
-    await userEvent.click(screen.getByTestId('pivotToggle'));
-    expect(drawer.className).not.toContain('active');
-  });
-
-  it('shows a roundingDenomination pivot without crashing', async () => {
-    render(
+  it('toggle pivot view with rounding denomination', () => {
+    const { getByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -322,35 +278,39 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </RecoilRoot>
     );
-
-    await userEvent.click(screen.getByTestId('pivotToggle'));
+    fireEvent.click(getByTestId('pivotToggle'));
   });
 
-  it('passes serverSidePagination prop to DtgTable if provided', () => {
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithNoChartAvailable}
-          apiData={{ data: [], meta: { labels: {} } }}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          serverSidePagination="ssp-endpoint"
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
-      </RecoilRoot>
-    );
-
-    expect(screen.queryByRole('table')).not.toBeInTheDocument();
+  it('relays an endpoint value when it receives it in the serverSidePagination prop', async () => {
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithNoChartAvailable}
+            apiData={{ data: [], meta: { labels: {} } }}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivot}
+            serverSidePagination="ssp-endpoint"
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
+      );
+    });
+    const table = instance.findByType(DtgTable);
+    expect(table.props.tableProps.serverSidePagination).toEqual('ssp-endpoint');
   });
 
-  it('calls setNoChartMessage, shows the returned message if truthy', () => {
-    jest.spyOn(setNoChartMessageMod, 'SetNoChartMessage').mockReturnValue('No-Chart Message Mock');
+  it(`calls setNoChartMessage and if it returns something truthy,
+  passes along the message returned rather than a chart`, () => {
+    const noChartMsg = 'No-Chart Message Mock';
+    // case with a no-chart message
+    setNoChartMessageMod['SetNoChartMessage'] = jest.fn().mockImplementation(() => noChartMsg);
 
-    render(
+    const { getByText, queryByText } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -365,15 +325,19 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </RecoilRoot>
     );
-    expect(setNoChartMessageMod.SetNoChartMessage).toHaveBeenCalled();
-    expect(screen.getByText('No-Chart Message Mock')).toBeInTheDocument();
-    expect(screen.queryByText('Hide Legend')).not.toBeInTheDocument();
+
+    expect(setNoChartMessageMod.SetNoChartMessage).toBeCalled();
+
+    // in place of a chart it sends the message returned to chart table toggle
+    expect(getByText('No-Chart Message Mock')).toBeInTheDocument();
+    expect(queryByText('Hide Legend')).toEqual(null);
   });
 
-  it('calls setNoChartMessage, shows DatasetChart if it returns falsy', () => {
-    jest.spyOn(setNoChartMessageMod, 'SetNoChartMessage').mockReturnValue(undefined);
+  it('calls setNoChartMessage and if value returned is falsy, attempts to make a DatasetChart', () => {
+    // case without a no-chart message
+    setNoChartMessageMod['SetNoChartMessage'] = jest.fn().mockImplementation(() => undefined);
 
-    render(
+    const { getByText, getByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -390,100 +354,206 @@ describe('TableSectionContainer with Pivot Options', () => {
       </RecoilRoot>
     );
 
-    expect(setNoChartMessageMod.SetNoChartMessage).toHaveBeenCalled();
-    expect(screen.getByText('Hide Legend')).toBeInTheDocument();
-    expect(screen.getByTestId('dataviz-line')).toBeInTheDocument();
+    expect(setNoChartMessageMod.SetNoChartMessage).toBeCalled();
+    expect(getByText('Hide Legend')).toBeInTheDocument();
+    expect(getByTestId('dataviz-line')).toBeInTheDocument();
   });
 
   it('displays the aggregation notice when an aggregated pivot option is selected', () => {
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivotWithAggregation}
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
-      </RecoilRoot>
-    );
+    let tableSectionContainer = {};
+    renderer.act(() => {
+      tableSectionContainer = renderer.create(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
+      );
+    });
 
-    expect(screen.getByText('This data is aggregated by the given Time Period for the selected pivot option')).toBeInTheDocument();
+    const aggNotice = tableSectionContainer.root.findByType(AggregationNotice);
+    expect(aggNotice).toBeDefined();
   });
 
-  it('configures legend to hide/show by default based on window width (no user toggle)', async () => {
-    const originalInnerWidth = global.innerWidth;
-    global.innerWidth = GLOBALS.breakpoints.large;
+  it(`configures the legend to be hidden by default when the screen size is tablet width
+  or below  and keeps legend visibility tied to window size before the user interactively toggles
+  the state.`, () => {
+    let tableSectionContainer = renderer.create();
+    renderer.act(() => {
+      global.window.innerWidth = GLOBALS.breakpoints.large;
+      tableSectionContainer = renderer.create(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
+      );
+    });
 
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivotWithAggregation}
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
-      </RecoilRoot>
-    );
-    global.innerWidth = originalInnerWidth;
+    let datasetChart = tableSectionContainer.root.findByType(DatasetChart);
+
+    expect(datasetChart.props.legend).toBeFalsy();
+
+    renderer.act(() => {
+      global.window.innerWidth = GLOBALS.breakpoints.large + 6;
+      tableSectionContainer.update(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
+      );
+    });
+
+    datasetChart = tableSectionContainer.root.findByType(DatasetChart);
+
+    expect(datasetChart.props.legend).toBeTruthy();
+
+    renderer.act(() => {
+      global.window.innerWidth = GLOBALS.breakpoints.large - 125;
+      tableSectionContainer.update(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
+      );
+    });
+
+    datasetChart = tableSectionContainer.root.findByType(DatasetChart);
+
+    expect(datasetChart.props.legend).toBeFalsy();
   });
 
-  it('once user toggles legend, window resizing no longer changes legend state', async () => {
-    global.innerWidth = GLOBALS.breakpoints.large + 1;
-    const { rerender } = render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivotWithAggregation}
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
-      </RecoilRoot>
-    );
+  it(`configures the legend to be visible by default when the screen size is wider than tablet
+  width, but once the user interactively toggles the state, changes in screen size are ignored
+  with respect to legend visibility`, () => {
+    let tableSectionContainer = renderer.create();
+    const onToggleLegendEvent = { preventDefault: jest.fn() };
 
-    expect(screen.queryByText('Hide Pivot Options')).toBeInTheDocument();
+    renderer.act(() => {
+      global.window.innerWidth = GLOBALS.breakpoints.large + 1;
+      tableSectionContainer = renderer.create(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
+      );
+    });
+    let datasetChart = tableSectionContainer.root.findByType(DatasetChart);
+    expect(datasetChart.props.legend).toBeTruthy();
 
-    await userEvent.click(screen.getByText('Hide Pivot Options'));
-    await waitFor(() => expect(screen.queryByText('Hide Pivot Options')).not.toBeInTheDocument());
+    // "interactively" toggle the legend to INVISIBLE
+    const chartTableToggle = tableSectionContainer.root.findByType(ChartTableToggle);
+    renderer.act(() => {
+      chartTableToggle.props.onToggleLegend(onToggleLegendEvent);
+    });
+    datasetChart = tableSectionContainer.root.findByType(DatasetChart);
+    expect(datasetChart.props.legend).toBeFalsy();
 
-    global.innerWidth = GLOBALS.breakpoints.large - 5;
-    rerender(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivotWithAggregation}
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
-      </RecoilRoot>
-    );
+    // "interactively" toggle the legend to VISIBLE
+    renderer.act(() => {
+      chartTableToggle.props.onToggleLegend(onToggleLegendEvent);
+    });
+    datasetChart = tableSectionContainer.root.findByType(DatasetChart);
+    expect(datasetChart.props.legend).toBeTruthy();
 
-    expect(screen.queryByText('Hide Pivot Options')).not.toBeInTheDocument();
+    // Change the screen size be narrower than the tablet threshold
+    renderer.act(() => {
+      global.window.innerWidth = GLOBALS.breakpoints.large - 5;
+      tableSectionContainer.update(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
+      );
+    });
+    datasetChart = tableSectionContainer.root.findByType(DatasetChart);
+    // Expect legend to still be visible after change to tablet size
+    expect(datasetChart.props.legend).toBeTruthy();
 
-    global.innerWidth = 1024;
+    // "interactively" toggle the legend to INVISIBLE
+    renderer.act(() => {
+      chartTableToggle.props.onToggleLegend(onToggleLegendEvent);
+    });
+    datasetChart = tableSectionContainer.root.findByType(DatasetChart);
+    expect(datasetChart.props.legend).toBeFalsy();
+
+    // re-widen the screen size to desktop width
+    renderer.act(() => {
+      global.window.innerWidth = GLOBALS.breakpoints.large + 50;
+      tableSectionContainer.update(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
+      );
+    });
+    datasetChart = tableSectionContainer.root.findByType(DatasetChart);
+    // Expect legend to still be invisible after change to tablet
+    expect(datasetChart.props.legend).toBeFalsy();
   });
 
   it('renders selected detail view key with the dataset header', () => {
-    render(
+    const { queryByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -499,11 +569,9 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </RecoilRoot>
     );
-
-    expect(screen.getByTestId('tableName')).toBeInTheDocument();
+    expect(queryByTestId('tableName')).toBeInTheDocument();
   });
 });
-
 describe('formatDate function', () => {
   it('formats date based on custom format if provided', () => {
     const selectedTable = {
@@ -511,7 +579,7 @@ describe('formatDate function', () => {
       customFormatting: [{ type: 'DATE', dateFormat: 'MM/DD/YYYY' }],
     };
 
-    render(
+    const { getByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockDetailConfig}
@@ -520,15 +588,13 @@ describe('formatDate function', () => {
           apiData={mockApiData}
           isLoading={false}
           apiError={false}
+          setSelectedPivot={jest.fn()}
           detailViewState={{ value: new Date(2023, 5, 1) }}
           setUserFilterSelection={jest.fn()}
-          setSelectedPivot={jest.fn()}
-          selectedPivot={null}
         />
       </RecoilRoot>
     );
-
-    expect(screen.getByTestId('tableName').textContent).toContain('06/01/2023');
+    expect(getByTestId('tableName').textContent).toContain('Table 1 > 06/01/2023');
   });
 });
 
@@ -536,7 +602,7 @@ describe('Table with API filter', () => {
   it('Initializes table with an api filter', () => {
     const mockSetIsLoading = jest.fn();
 
-    render(
+    const { queryByRole } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -552,12 +618,10 @@ describe('Table with API filter', () => {
       </RecoilRoot>
     );
     expect(mockSetIsLoading).toHaveBeenCalledWith(false);
-    expect(screen.queryByRole('table')).not.toBeInTheDocument();
+    expect(queryByRole('table')).not.toBeInTheDocument();
   });
-
-  it('Initializes table with an api filter and displayDefaultData is true', async () => {
+  it('Initializes table with an api filter and dispalyDefaultData is true', async () => {
     const mockSetIsLoading = jest.fn();
-
     render(
       <RecoilRoot>
         <TableSectionContainer
@@ -573,7 +637,6 @@ describe('Table with API filter', () => {
         />
       </RecoilRoot>
     );
-
     expect(mockSetIsLoading).not.toHaveBeenCalledWith(false);
   });
 });
