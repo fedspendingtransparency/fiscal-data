@@ -23,7 +23,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
 let mouseOverDropdown = null;
@@ -41,6 +41,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
+  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   const dropdownRef = useRef();
   const displayRef = useRef();
@@ -131,27 +132,42 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     };
   }, [active]);
 
+  const removeFilteredDate = fieldName => {
+    const dateFilters = filteredDateRange;
+    if (dateFilters.length > 0) {
+      const updatedFilteredDates = dateFilters.filter(elem => elem.fieldName !== fieldName);
+      setFilteredDateRange(updatedFilteredDates);
+    }
+  };
+
   useEffect(() => {
     if (selected?.from && selected?.to) {
       const start = moment(selected?.from);
       const end = moment(selected?.to);
-      setFilteredDateRange({ from: start, to: end });
+      let updatedFilteredDates = filteredDateRange;
+      if (filteredDateRange?.length > 0) {
+        updatedFilteredDates = updatedFilteredDates.filter(elem => elem.fieldName !== column.id);
+      }
+      if (updatedFilteredDates) {
+        setFilteredDateRange([...updatedFilteredDates, { from: start, to: end, fieldName: column.id }]);
+      } else {
+        setFilteredDateRange([{ from: start, to: end, fieldName: column.id }]);
+      }
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
       setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
       setFilterDisplayEndDate(end.format('M/DD/YYYY'));
       setEndTextStyle(noTextHighLight);
       setActive(false);
-    } else {
-      column.setFilterValue([]);
-      setFilteredDateRange(null);
-      onFilterChange('');
-    }
-    if (selected?.from && !selected?.to) {
+    } else if (selected?.from && !selected?.to) {
       const start = moment(selected?.from);
       setEndTextStyle(textHighlighted);
       setBeginTextStyle(noTextHighLight);
       setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
+    } else {
+      column.setFilterValue([]);
+      removeFilteredDate(column.id);
+      onFilterChange('');
     }
   }, [selected]);
 
