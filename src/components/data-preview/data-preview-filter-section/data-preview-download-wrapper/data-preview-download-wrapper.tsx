@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { downloadsContext } from '../../../persist/download-persist/downloads-persist';
 import { useRecoilValue } from 'recoil';
-import { disableDownloadButtonState } from '../../../../recoil/disableDownloadButtonState';
 import { dateForFilename, fileFromPath } from './download-wrapper-helper';
 import DataPreviewDownloadSelect from './data-preview-download-select/data-preview-download-select';
+import { dataTableDapGaEventLabelState } from '../../../../recoil/dataTableDapGaEventLabelState';
 
 type DownloadProps = {
   selectedTable;
@@ -46,7 +46,7 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
   const [active, setActive] = useState(false);
 
-  const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
+  const globalDisableDownloadButton = useRecoilValue(dataTableDapGaEventLabelState);
 
   const makeDownloadButtonAvailable = () => {
     if (datasetDownloadInProgress) {
