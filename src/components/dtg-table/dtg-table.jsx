@@ -157,7 +157,7 @@ export default function DtgTable({
 
   const getDateFilters = () => {
     let from, to;
-    const recordDateColumnFilter = filteredDateRange.isArray && filteredDateRange?.find(date => date?.fieldName === 'record_date');
+    const recordDateColumnFilter = filteredDateRange?.find(date => date?.fieldName === 'record_date');
     if (recordDateColumnFilter) {
       from =
         recordDateColumnFilter?.from && moment(dateRange.from).diff(recordDateColumnFilter?.from) <= 0
