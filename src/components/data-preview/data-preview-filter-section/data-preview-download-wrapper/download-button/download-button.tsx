@@ -101,6 +101,7 @@ const DownloadItemButton: FunctionComponent = ({
             rel="noreferrer noopener"
             onClick={() => clickFunction(false)}
             data-testid="download-button"
+            aria-label={label + ' Download'}
           >
             {children}
           </a>

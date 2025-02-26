@@ -36,7 +36,6 @@ const DropdownContainer: FunctionComponent<IDropdownContainer> = ({
     if (event) {
       const parent = dropdownRef.current;
       const related = event?.relatedTarget as HTMLElement;
-      console.log('keyboard blur', parent?.outerText, '\n\n', !related?.outerText, related, '\n\n', !parent?.outerText?.includes(related?.outerText));
       if ((!parent?.outerText?.includes(related?.outerText) || !related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
         setActive(false);
       }

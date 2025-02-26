@@ -25,14 +25,3 @@ timestampDownloadButton {
   @include downloadButton;
   width: 100%;
 }
-
-.optionIcon {
-  display: inline-block;
-  //margin-right: 0.5rem;
-}
-
-.progressIcon {
-  position: absolute;
-  right: 1rem;
-  top: 0.75rem;
-}

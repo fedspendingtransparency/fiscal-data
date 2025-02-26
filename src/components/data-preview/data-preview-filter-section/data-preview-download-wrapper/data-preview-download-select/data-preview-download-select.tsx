@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretRight, faCaretUp, faCloudDownload } from '@fortawesome/free-solid-svg-icons';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
@@ -22,14 +22,16 @@ import {
 } from '../../../../download-wrapper/data-dictionary-download-helper';
 
 interface IDownloadButtonProps {
-  active: boolean;
-  setActive: (val: boolean) => void;
+  dateRange;
+  selectedTable;
+  dataset;
+  selectedPivot;
+  allTablesSelected;
+  downloadClickHandler;
   width: number;
 }
 
 const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
-  active,
-  setActive,
   width,
   dateRange,
   selectedTable,
@@ -38,6 +40,8 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   allTablesSelected,
   downloadClickHandler,
 }: IDownloadButtonProps) => {
+  const [active, setActive] = useState(false);
+
   const getIcon = desktopWidth => {
     if (desktopWidth) {
       return active ? faCaretUp : faCaretDown;
@@ -95,11 +99,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
   const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
   const tableSize = useRecoilValue(tableRowLengthState);
-
-  useEffect(() => {
-    console.log('selectedTable: ', selectedTable);
-    console.log('\ntableSize: ', tableSize);
-  }, [tableSize, selectedTable]);
 
   const getSmallTableDownloadData = type => {
     if (tableSize > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !tableSize) return null;

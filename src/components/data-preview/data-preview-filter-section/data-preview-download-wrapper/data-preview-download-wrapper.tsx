@@ -44,7 +44,6 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   const [datasetDownloadInProgress, setDatasetDownloadInProgress] = useState(false);
   const [changeMadeToCriteria, setChangeMadeToCriteria] = useState(false);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
-  const [active, setActive] = useState(false);
 
   const globalDisableDownloadButton = useRecoilValue(dataTableDapGaEventLabelState);
 
@@ -122,8 +121,6 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
     <div data-test-id="wrapper">
       {/*<DownloadModal open={open} onClose={onClose} downloadsPrepared={downloadsPrepared} setCancelDownloadRequest={handleCancelRequest} />*/}
       <DataPreviewDownloadSelect
-        active={active}
-        setActive={setActive}
         width={width}
         dateRange={dateRange}
         selectedTable={selectedTable}
