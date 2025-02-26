@@ -26,7 +26,7 @@ jobs:
 #          registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/kc-dtas-npm/
       - run: |
           npm cache clean --force
-          npm ci --legacy-peer-deps --loglevel verbose
+          npm config ls -l
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
