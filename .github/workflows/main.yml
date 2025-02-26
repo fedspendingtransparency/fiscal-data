@@ -26,6 +26,7 @@ jobs:
       - run: |
           npm cache clean --force
           npm config ls -l
+          npm install --loglevel verbose --legacy-peer-deps
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
