@@ -130,7 +130,7 @@ export const pagedDatatableRequest = async (
   }
   const dateFilter = buildDateFilter(table, fromStr, toStr);
   let additionalDateFilter = '';
-  if (columnDateFilters?.length > 0) {
+  if (Array.isArray(columnDateFilters) && columnDateFilters?.length > 0) {
     columnDateFilters.forEach(filter => {
       if (filter.fieldName !== 'record_date') {
         if (filter?.from && filter?.to) {
