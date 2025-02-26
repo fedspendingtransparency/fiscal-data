@@ -17,7 +17,8 @@ jobs:
         run: |
           npm config set strict-ssl=false
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/kc-dtas-npm/
-          npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
+          npm config set http_proxy=j1proxy.frb.org:8080
+          npm config set https_proxy=j1proxy.frb.org:8080
           npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/kc-dtas-npm/:_auth=${{ vars.ARTIFACTORY }}
       - name: Use Node.js
         uses: actions/setup-node@v4.2.0
