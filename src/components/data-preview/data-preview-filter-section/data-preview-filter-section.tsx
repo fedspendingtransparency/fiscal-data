@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import React from 'react';
 import DataPreviewDownload from './data-preview-download/data-preview-download';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -24,6 +24,7 @@ type DataPreviewFilterSectionProps = {
   tableColumnSortData;
   filteredDateRange;
   selectedDetailViewFilter;
+  apiFilterDefault;
 };
 
 const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps> = ({
@@ -40,7 +41,9 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   tableColumnSortData,
   filteredDateRange,
   selectedDetailViewFilter,
+  apiFilterDefault,
 }) => {
+  const isDisabled = apiFilterDefault;
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
   const getChartingInfo = () => {
@@ -56,7 +59,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
       <div className={filterAndDownloadContainer}>
         <div className={filterContainer}>
           <DataPreviewTableFilters />
-          <ColumnFilter allTablesSelected={allTablesSelected} />
+          <ColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle />}
         </div>
         {width >= pxToNumber(breakpointXl) && (
@@ -74,6 +77,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
               tableColumnSortData={tableColumnSortData}
               filteredDateRange={filteredDateRange}
               selectedDetailViewFilter={selectedDetailViewFilter}
+              isDisabled={isDisabled}
             />
           </div>
         )}
@@ -92,6 +96,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
           tableColumnSortData={tableColumnSortData}
           filteredDateRange={filteredDateRange}
           selectedDetailViewFilter={selectedDetailViewFilter}
+          isDisabled={isDisabled}
         />
       )}
     </>

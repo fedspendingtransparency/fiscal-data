@@ -8,7 +8,7 @@ interface iColumnFilter {
   allTablesSelected: boolean;
 }
 
-const ColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected }) => {
+const ColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled }) => {
   const [visibleColumns, setVisibleColumns] = useState([]);
   const totalColumns = 17;
   const [active, setActive] = useState(false);
@@ -20,7 +20,7 @@ const ColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected }) =
       icon={faTable}
       active={active}
       setActive={setActive}
-      disabled={allTablesSelected}
+      disabled={allTablesSelected || isDisabled}
     />
   );
 
