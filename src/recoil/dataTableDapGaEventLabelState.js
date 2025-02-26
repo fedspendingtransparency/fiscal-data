@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const reactTableFilteredDateRangeState = atom({
+export const dataTableDapGaEventLabelState = atom({
   key: 'dataTableDapGaEventLabelState',
   default: '',
 });
