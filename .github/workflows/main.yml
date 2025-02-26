@@ -15,18 +15,16 @@ jobs:
       - name: Create npmrc
         shell: bash
         run: |
-          echo "registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/" > .npmrc
-          echo "always-auth = true" >> .npmrc
-          echo "noproxy=artifactory.prod.dt.ts.aws.frb.pvt" >> .npmrc
-          echo "_auth = ${{ vars.ARTIFACTORY }}" >> .npmrc
+          echo "registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/" > ~/.npmrc
+          echo "always-auth = true" > ~/.npmrc
+          echo "noproxy=artifactory.prod.dt.ts.aws.frb.pvt" > ~/..npmrc
+          echo "//artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{ vars.ARTIFACTORY }}" > ~/.npmrc
       - name: Use Node.js
         uses: actions/setup-node@v4.2.0
         with:
           node-version: 20.18
 #          registry-url: https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/kc-dtas-npm/
-      - run: |
-          npm config fix
-          npm ci --legacy-peer-deps --loglevel verbose
+      - run: npm ci --legacy-peer-deps --loglevel verbose
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
