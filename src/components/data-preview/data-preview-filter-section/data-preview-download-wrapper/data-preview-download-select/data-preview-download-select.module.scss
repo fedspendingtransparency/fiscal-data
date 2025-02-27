@@ -32,6 +32,26 @@ $icon-width: 1.5rem;
   position: relative;
 }
 
+.container {
+  width: 15rem;
+  position: absolute;
+  margin-top: 0.25rem;
+  right: 0;
+  z-index: 3;
+  background-color: white;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  gap: 0.25rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.25rem 1rem 0 #00000026;
+}
+
+.border {
+  height: 1px;
+  background-color: $light-grey-border;
+  width: 100%;
+}
+
 @media screen and (min-width: $breakpoint-xl) {
   .downloadButton {
     gap: 0.5rem;
@@ -39,6 +59,11 @@ $icon-width: 1.5rem;
 }
 
 @media screen and (max-width: $breakpoint-xl - 1) {
+  .container {
+    width: 100%;
+    right: 0;
+    z-index: 5;
+  }
   .downloadButton {
     margin: 1rem auto 0;
     width: 100%;

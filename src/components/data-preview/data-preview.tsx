@@ -3,8 +3,6 @@ import DatasetSectionContainer from '../dataset-section-container/dataset-sectio
 import DataPreviewSectionContainer from './data-preview-section-container/data-preview-section-container';
 import { detailViewNotice, lockIcon, placeholderButton, placeholderText } from './data-preview.module.scss';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { TableCache } from '../dataset-data/table-cache/table-cache';
@@ -20,7 +18,6 @@ import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
 import { IDataPreview } from '../../models/data-preview/IDataPreview';
-import { monthFullNames } from '../../utils/api-utils';
 
 const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
@@ -57,8 +54,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
-
-  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;
   const shouldUseLoadByPage = pivot => {
@@ -296,7 +291,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             isCustomDateRange={isCustomDateRange}
             selectedUserFilter={userFilterSelection}
             tableColumnSortData={tableColumnSortData}
-            filteredDateRange={filteredDateRange}
             selectedDetailViewFilter={detailViewDownloadFilter}
             apiFilterDefault={apiFilterDefault}
           >

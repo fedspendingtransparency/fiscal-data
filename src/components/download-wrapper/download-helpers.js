@@ -38,3 +38,5 @@ export const constructDownloadFileName = (dateRange, selectedTable) => {
 const filenameDate = filtrationDate => {
   return filtrationDate.replace(/-/g, '');
 };
+
+export const fileFromPath = path => (path && path.length ? path.substring(path.lastIndexOf('/') + 1) : null);

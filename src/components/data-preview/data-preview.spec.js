@@ -27,7 +27,7 @@ import DataPreview from './data-preview';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DownloadWrapper from '../download-wrapper/download-wrapper';
 import RangePresets from '../filter-download-container/range-presets/range-presets';
-import DataPreviewDownload from './data-preview-filter-section/data-preview-download/data-preview-download';
+import DataPreviewDownloadWrapper from './data-preview-filter-section/data-preview-download-wrapper/data-preview-download-wrapper';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 
 jest.useFakeTimers();
