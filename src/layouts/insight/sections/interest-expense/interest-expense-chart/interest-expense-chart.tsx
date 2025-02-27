@@ -11,7 +11,11 @@ import { useGetInterestExpenseData } from '../useGetInterestExpenseData';
 import globalConstants from '../../../../../helpers/constants';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
-
+import ChartContainer from '../../../../explainer/explainer-components/chart-container/chart-container';
+import InterestExpenseChartHeader from '../interest-expense-table/interest-expense-chart-header/interest-expense-chart-header';
+import { chartCopy } from '../../../../explainer/sections/treasury-savings-bonds/purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import ChartTableView from '../interest-expense-table/interest-expense-table';
+import { InterestExpenseChartTable } from '../interest-expense-table/interest-expense-chart-table';
 const breakpoint = {
   desktop: 1015,
   tablet: 600,
@@ -20,6 +24,8 @@ const breakpoint = {
 let gaTimer;
 
 export const InterestExpenseChart = () => {
+  const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
+
   const { explainers } = globalConstants;
   const [width] = useWindowSize();
   const [isMobile, setIsMobile] = useState<boolean>(null);
@@ -32,6 +38,8 @@ export const InterestExpenseChart = () => {
   const [curRate, setCurRate] = useState<number>(0);
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
+
+  const header = <InterestExpenseChartHeader selectedChartView={selectedChartView} setSelectedChartView={setSelectedChartView} />;
 
   const resetDataHeader = () => {
     if (latestChartData) {
@@ -72,112 +80,130 @@ export const InterestExpenseChart = () => {
       setIsMobile(false);
     }
   }, [width]);
-
+  const chartTitle = 'Interest Expense and Average Interest Rates on the National Debt FY 2022-FYTD 20224';
   return (
-    <div>
-      {chartLoading ? (
-        <div>
-          <Skeleton
-            width="99%"
-            variant="rounded"
-            sx={{
-              minHeight: 360,
-              transition: 'opacity 2s',
-            }}
-          />
-        </div>
-      ) : (
-        <div aria-label={altText}>
-          {fiscalYear > 0 && (
-            <div>
-              <ChartDataHeader
-                dateField={fiscalYear === latestChartData.year ? 'FYTD' : 'Fiscal Year'}
-                fiscalYear={fiscalYear}
-                right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount.toString())}` }}
-                left={{ label: 'Avg. Interest Rate', value: `${curRate}%` }}
-              />
-            </div>
-          )}
-          <div
-            data-testid="chartParent"
-            role="presentation"
-            onFocus={handleChartMouseEnter}
-            onMouseEnter={handleChartMouseEnter}
-            onMouseLeave={handleChartMouseLeave}
-          >
-            <Legend />
-            <div
-              role="presentation"
-              onBlur={() => {
-                setChartFocus(false);
-                resetDataHeader();
-              }}
-              onFocus={() => setChartFocus(true)}
-              onMouseOver={() => setChartHover(true)}
-              onMouseLeave={() => setChartHover(false)}
-            >
-              <ResponsiveContainer height={360} width="99%">
-                <ComposedChart
-                  data={chartData}
-                  margin={{ top: 12, bottom: -8, left: 3, right: -18 }}
-                  accessibilityLayer
-                  onMouseLeave={resetDataHeader}
+    <>
+      <InterestExpenseChartTable title={chartTitle} footer={'FOOTER HERE'} header={header} downloader={'Download CSV'}>
+        {selectedChartView === 'chartView' && (
+          <div style={{ border: '1px' }}>
+            {chartLoading ? (
+              <div>
+                <Skeleton
+                  width="99%"
+                  variant="rounded"
+                  sx={{
+                    minHeight: 360,
+                    transition: 'opacity 2s',
+                  }}
+                />
+              </div>
+            ) : (
+              <div aria-label={altText}>
+                {fiscalYear > 0 && (
+                  <div>
+                    <ChartDataHeader
+                      dateField={fiscalYear === latestChartData.year ? 'FYTD' : 'Fiscal Year'}
+                      fiscalYear={fiscalYear}
+                      right={{ label: 'Interest Expense', value: `$${getShortForm(curExpenseAmount.toString())}` }}
+                      left={{ label: 'Avg. Interest Rate', value: `${curRate}%` }}
+                    />
+                  </div>
+                )}
+                <div
+                  data-testid="chartParent"
+                  role="presentation"
+                  onFocus={handleChartMouseEnter}
+                  onMouseEnter={handleChartMouseEnter}
+                  onMouseLeave={handleChartMouseLeave}
                 >
-                  <defs>
-                    <pattern id="diagStripes" width={6} height={6} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                      <line x1="0" y1="0" x2="0" y2="6" style={{ stroke: interestExpensePrimary, strokeWidth: 8 }} />
-                    </pattern>
-                  </defs>
-                  <CartesianGrid vertical={false} stroke="#d9d9d9" />
-                  <XAxis dataKey="year" ticks={chartXAxisValues} />
-                  <YAxis
-                    dataKey="expense"
-                    type="number"
-                    tickFormatter={value => {
-                      if (value === 0) {
-                        return '$0';
-                      } else {
-                        return `$${getShortForm(value)}`;
-                      }
+                  <Legend />
+                  <div
+                    role="presentation"
+                    onBlur={() => {
+                      setChartFocus(false);
+                      resetDataHeader();
                     }}
-                    axisLine={false}
-                    tickLine={false}
-                    tickCount={5}
-                    ticks={expenseYAxisValues}
-                    tick={{ fill: interestExpensePrimary }}
-                  />
-                  <YAxis
-                    yAxisId={1}
-                    dataKey="rate"
-                    orientation="right"
-                    axisLine={false}
-                    tickLine={false}
-                    type="number"
-                    tickCount={5}
-                    ticks={rateYAxisValues}
-                    tickFormatter={value => `${value.toFixed(1)}%`}
-                  />
-                  <Tooltip
-                    cursor={{
-                      stroke: '#00796B20',
-                      strokeWidth: isMobile ? 16 : 32,
-                    }}
-                    content={<CustomTooltip setYear={setFiscalYear} setExpense={setCurExpenseAmount} setRate={setCurRate} />}
-                    isAnimationActive={false}
-                    active={chartFocus || chartHover}
-                  />
-                  <Bar dataKey="expense" barSize={isMobile ? 12 : 20} fill={interestExpensePrimary} isAnimationActive={false}>
-                    {chartData.map((entry, index) => {
-                      return <Cell key={`cell-${index}`} fill={index === chartData.length - 1 ? 'url(#diagStripes)' : interestExpensePrimary} />;
-                    })}
-                  </Bar>
-                  <Line dataKey="rate" yAxisId={1} stroke="#666666" type="monotone" strokeWidth={1} activeDot={false} isAnimationActive={false} />
-                </ComposedChart>
-              </ResponsiveContainer>
-            </div>
+                    onFocus={() => setChartFocus(true)}
+                    onMouseOver={() => setChartHover(true)}
+                    onMouseLeave={() => setChartHover(false)}
+                  >
+                    <ResponsiveContainer height={360} width="99%">
+                      <ComposedChart
+                        data={chartData}
+                        margin={{ top: 12, bottom: -8, left: 3, right: -18 }}
+                        accessibilityLayer
+                        onMouseLeave={resetDataHeader}
+                      >
+                        <defs>
+                          <pattern id="diagStripes" width={6} height={6} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                            <line x1="0" y1="0" x2="0" y2="6" style={{ stroke: interestExpensePrimary, strokeWidth: 8 }} />
+                          </pattern>
+                        </defs>
+                        <CartesianGrid vertical={false} stroke="#d9d9d9" />
+                        <XAxis dataKey="year" ticks={chartXAxisValues} />
+                        <YAxis
+                          dataKey="expense"
+                          type="number"
+                          tickFormatter={value => {
+                            if (value === 0) {
+                              return '$0';
+                            } else {
+                              return `$${getShortForm(value)}`;
+                            }
+                          }}
+                          axisLine={false}
+                          tickLine={false}
+                          tickCount={5}
+                          ticks={expenseYAxisValues}
+                          tick={{ fill: interestExpensePrimary }}
+                        />
+                        <YAxis
+                          yAxisId={1}
+                          dataKey="rate"
+                          orientation="right"
+                          axisLine={false}
+                          tickLine={false}
+                          type="number"
+                          tickCount={5}
+                          ticks={rateYAxisValues}
+                          tickFormatter={value => `${value.toFixed(1)}%`}
+                        />
+                        <Tooltip
+                          cursor={{
+                            stroke: '#00796B20',
+                            strokeWidth: isMobile ? 16 : 32,
+                          }}
+                          content={<CustomTooltip setYear={setFiscalYear} setExpense={setCurExpenseAmount} setRate={setCurRate} />}
+                          isAnimationActive={false}
+                          active={chartFocus || chartHover}
+                        />
+                        <Bar dataKey="expense" barSize={isMobile ? 12 : 20} fill={interestExpensePrimary} isAnimationActive={false}>
+                          {chartData.map((entry, index) => {
+                            return (
+                              <Cell key={`cell-${index}`} fill={index === chartData.length - 1 ? 'url(#diagStripes)' : interestExpensePrimary} />
+                            );
+                          })}
+                        </Bar>
+                        <Line
+                          dataKey="rate"
+                          yAxisId={1}
+                          stroke="#666666"
+                          type="monotone"
+                          strokeWidth={1}
+                          activeDot={false}
+                          isAnimationActive={false}
+                        />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-      )}
-    </div>
+        )}
+
+        {selectedChartView === 'tableView' && <ChartTableView tableData={chartData} />}
+      </InterestExpenseChartTable>
+    </>
   );
 };
