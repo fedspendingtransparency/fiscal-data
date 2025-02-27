@@ -1,6 +1,5 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretRight, faCaretUp, faCloudDownload } from '@fortawesome/free-solid-svg-icons';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import { border, buttonActive, buttonText, container, downloadButton, icon, parent } from './data-preview-download-select.module.scss';
@@ -20,6 +19,7 @@ import {
   convertDataDictionaryToCsv,
   triggerDataDictionaryDownload,
 } from '../../../../download-wrapper/data-dictionary-download-helper';
+import { getDownloadIcon, shouldUseDirectDownload } from '../download-wrapper-helper';
 
 interface IDownloadButtonProps {
   dateRange;
@@ -42,13 +42,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
 }: IDownloadButtonProps) => {
   const [active, setActive] = useState(false);
 
-  const getIcon = desktopWidth => {
-    if (desktopWidth) {
-      return active ? faCaretUp : faCaretDown;
-    } else {
-      return active ? faCloudDownload : faCaretRight;
-    }
-  };
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
 
@@ -62,7 +55,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   };
 
   const handleDownloadClick = fileType => {
-    if (tableSize > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !tableSize) downloadClickHandler(fileType);
+    if (!shouldUseDirectDownload(tableSize, allTablesSelected)) downloadClickHandler(fileType);
   };
 
   const getDownloadOptions = () => {
@@ -101,7 +94,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   const tableSize = useRecoilValue(tableRowLengthState);
 
   const getSmallTableDownloadData = type => {
-    if (tableSize > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !tableSize) return null;
+    if (!shouldUseDirectDownload(tableSize, allTablesSelected)) return null;
     switch (type) {
       case 'csv':
         return smallTableCSVData;
@@ -122,7 +115,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
           <button className={`${downloadButton} ${active && buttonActive}`} onClick={() => setActive(!active)}>
             <div className={buttonText}>Download</div>
             <div className={icon}>
-              <FontAwesomeIcon icon={getIcon(width >= pxToNumber(breakpointLg))} />
+              <FontAwesomeIcon icon={getDownloadIcon(width, active)} />
             </div>
           </button>
         }

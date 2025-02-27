@@ -1,8 +1,8 @@
 import { ensureDoubleDigitDate } from '../../../download-wrapper/helpers';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../../utils/api-utils';
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretRight, faCaretUp, faCloudDownload } from '@fortawesome/free-solid-svg-icons';
+import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../../variables.module.scss';
 
 export const fileFromPath = path => (path && path.length ? path.substring(path.lastIndexOf('/') + 1) : null);
 
@@ -14,26 +14,15 @@ export const dateForFilename = fileDate => {
   return `${fullYear}${month}${date}`;
 };
 
-export const generateDownloadLabel = (inProgress, allTablesSelected, selectedFileType, dataset) => {
-  if (allTablesSelected && inProgress) {
-    return `Downloading Files`;
-  } else if (allTablesSelected && !inProgress) {
-    return `Download ${dataset.apis.length} ${selectedFileType.toUpperCase()} Files`;
-  } else if (!allTablesSelected && inProgress) {
-    return `Downloading File`;
-  } else if (!allTablesSelected && !inProgress) {
-    return `Download ${selectedFileType.toUpperCase()} File`;
-  }
-};
-
-export const useDirectDownload = (tableSize, allTablesSelected) => {
+export const shouldUseDirectDownload = (tableSize, allTablesSelected) => {
   return tableSize !== null && tableSize <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !allTablesSelected;
 };
 
-export const getDownloadIcon = inProgress => {
-  return inProgress ? (
-    <FontAwesomeIcon icon={faSpinner} className="fa-pulse" data-test-id="report-icon" />
-  ) : (
-    <FontAwesomeIcon icon={faFileDownload} data-test-id="report-icon" />
-  );
+export const getDownloadIcon = (width, active) => {
+  const desktopWidth = width >= pxToNumber(breakpointLg);
+  if (desktopWidth) {
+    return active ? faCaretUp : faCaretDown;
+  } else {
+    return active ? faCloudDownload : faCaretRight;
+  }
 };

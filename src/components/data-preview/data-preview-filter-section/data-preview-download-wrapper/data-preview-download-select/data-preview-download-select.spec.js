@@ -11,6 +11,12 @@ jest.mock('../../../../../variables.module.scss', () => {
 });
 
 describe('Data preview download button', () => {
+  let createObjectURL;
+
+  beforeAll(() => {
+    createObjectURL = global.URL.createObjectURL;
+    global.URL.createObjectURL = jest.fn();
+  });
   const mockDatasetConfig = { apis: [], name: 'Dataset name' };
 
   it('renders the desktop button default state', () => {
