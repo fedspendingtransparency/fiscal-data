@@ -16,7 +16,7 @@ jobs:
         shell: bash
         run: |
           npm config set strict-ssl=false
-          npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/kc-dtas-npm/
+          npm config set registry=artifactory.prod.dt.ts.aws.frb.pvt/kc-dtas-npm/
           npm config set proxy=
           npm config set https-proxy=
           npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/kc-dtas-npm/:_auth=${{ vars.ARTIFACTORY }}
