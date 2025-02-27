@@ -33,6 +33,8 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   width,
   isDisabled,
 }) => {
+  //TODO Add download modal to section -  any related code has been commented out for now
+
   // let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   // if (allTablesSelected) {
   //   tableName = `All Data Tables (${dataset.apis.length})`;
@@ -45,25 +47,25 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   const [changeMadeToCriteria, setChangeMadeToCriteria] = useState(false);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
 
-  const globalDisableDownloadButton = useRecoilValue(dataTableDapGaEventLabelState);
+  // const globalDisableDownloadButton = useRecoilValue(dataTableDapGaEventLabelState);
 
-  const makeDownloadButtonAvailable = () => {
-    if (datasetDownloadInProgress) {
-      setDatasetDownloadInProgress(false);
-      /**
-       * This is used by the downloadsInProgress useEffect to not disable the
-       * button again if the user happened to change something before the download
-       * process advances.
-       */
-      setChangeMadeToCriteria(true);
-    }
-  };
+  // const makeDownloadButtonAvailable = () => {
+  //   if (datasetDownloadInProgress) {
+  //     setDatasetDownloadInProgress(false);
+  //     /**
+  //      * This is used by the downloadsInProgress useEffect to not disable the
+  //      * button again if the user happened to change something before the download
+  //      * process advances.
+  //      */
+  //     setChangeMadeToCriteria(true);
+  //   }
+  // };
 
-  const handleCancelRequest = value => {
-    if (setCancelDownloadRequest) {
-      setCancelDownloadRequest(value);
-    }
-  };
+  // const handleCancelRequest = value => {
+  //   if (setCancelDownloadRequest) {
+  //     setCancelDownloadRequest(value);
+  //   }
+  // };
 
   const downloadClickHandler = (fileType, event) => {
     if (event) {
@@ -94,28 +96,28 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
     return false;
   };
 
-  const onClose = () => {
-    setOpen(false);
-  };
+  // const onClose = () => {
+  //   setOpen(false);
+  // };
 
-  useEffect(() => {
-    makeDownloadButtonAvailable();
-  }, [allTablesSelected, selectedTable, dateRange]);
+  // useEffect(() => {
+  //   makeDownloadButtonAvailable();
+  // }, [allTablesSelected, selectedTable, dateRange]);
 
-  useEffect(() => {
-    if (downloadsInProgress === undefined) return;
-    if (changeMadeToCriteria) return;
-    setDatasetDownloadInProgress(downloadsInProgress.some(dl => dl.datasetId === dataset.datasetId));
-  }, [downloadsInProgress, changeMadeToCriteria]);
+  // useEffect(() => {
+  //   if (downloadsInProgress === undefined) return;
+  //   if (changeMadeToCriteria) return;
+  //   setDatasetDownloadInProgress(downloadsInProgress.some(dl => dl.datasetId === dataset.datasetId));
+  // }, [downloadsInProgress, changeMadeToCriteria]);
 
-  useEffect(() => {
-    if (datasetDownloadInProgress === undefined) return;
-    setDisableButton(datasetDownloadInProgress);
-  }, [datasetDownloadInProgress]);
-
-  useEffect(() => {
-    setDisableButton(globalDisableDownloadButton);
-  }, [globalDisableDownloadButton]);
+  // useEffect(() => {
+  //   if (datasetDownloadInProgress === undefined) return;
+  //   setDisableButton(datasetDownloadInProgress);
+  // }, [datasetDownloadInProgress]);
+  //
+  // useEffect(() => {
+  //   setDisableButton(globalDisableDownloadButton);
+  // }, [globalDisableDownloadButton]);
 
   return (
     <div data-test-id="wrapper">

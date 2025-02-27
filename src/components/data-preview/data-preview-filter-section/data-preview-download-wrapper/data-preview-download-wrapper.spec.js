@@ -1,9 +1,10 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import DataPreviewDownloadWrapper from './data-preview-download-wrapper';
 import { enableFetchMocks } from 'jest-fetch-mock';
-import renderer from 'react-test-renderer';
 import { RecoilRoot } from 'recoil';
+import userEvent from '@testing-library/user-event';
+import { downloadsContext } from '../../../persist/download-persist/downloads-persist';
 
 jest.mock('../../../../components/truncate/truncate.jsx', function() {
   return {
@@ -17,6 +18,19 @@ jest.useFakeTimers();
 describe('data preview download', () => {
   enableFetchMocks();
   let createObjectURL;
+
+  const mockDownloadQueue = []; // so that it can accumulate
+  const mockSetDownloadRequest = jest.fn();
+
+  const mockSiteProviderValue = {
+    setDownloadModalIsOpen: () => {},
+    setDownloadReadyLocation: () => {},
+    setDownloadsPrepared: () => {},
+    setDatasetsInProgress: () => {},
+    downloadsInProgress: [],
+    downloadQueue: mockDownloadQueue,
+    setDownloadRequest: mockSetDownloadRequest,
+  };
 
   const mockSelectedTableWithUserFilter = {
     tableName: 'Table 1',
@@ -49,21 +63,21 @@ describe('data preview download', () => {
   // Jest gives an error about the following not being implemented even though the tests pass.
   HTMLCanvasElement.prototype.getContext = jest.fn();
 
-  const nonFilteredDate = 'ALL';
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(
+  it('renders a placeholder', () => {
+    const { getByRole, getAllByTestId } = render(
       <RecoilRoot>
-        <DataPreviewDownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} />
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DataPreviewDownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} dateRange={{ from: new Date(), to: new Date() }} />
+        </downloadsContext.Provider>
       </RecoilRoot>
     );
-  });
-  const instance = component.root;
+    const downloadButton = getByRole('button', {
+      name: 'Download',
+    });
+    expect(downloadButton).toBeInTheDocument();
+    userEvent.click(downloadButton);
 
-  // const downloadItemButtons = instance.findAllByType(DownloadItemButton);
-
-  it('renders a placeholder', () => {
-    const theComponent = instance.findByProps({ 'data-test-id': 'data-preview-download' });
-    expect(theComponent).toBeDefined();
+    const downloadLinks = getAllByTestId('download-button');
+    fireEvent.click(downloadLinks[0]);
   });
 });
