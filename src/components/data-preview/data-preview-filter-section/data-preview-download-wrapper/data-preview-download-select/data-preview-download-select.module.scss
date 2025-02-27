@@ -46,30 +46,10 @@ $icon-width: 1.5rem;
   box-shadow: 0 0.25rem 1rem 0 #00000026;
 }
 
-.downloadOptionButton {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  background: none;
-  border: none;
-  color: $font-body-copy;
-  width: 100%;
-  font-size: $font-size-16;
-}
-
 .border {
   height: 1px;
   background-color: $light-grey-border;
   width: 100%;
-}
-
-@media screen and (max-width: $breakpoint-lg) {
-  .container {
-    width: 100%;
-    right: 0;
-    z-index: 5; //TODO: create variable for z-index
-  }
 }
 
 @media screen and (min-width: $breakpoint-xl) {
@@ -79,6 +59,11 @@ $icon-width: 1.5rem;
 }
 
 @media screen and (max-width: $breakpoint-xl - 1) {
+  .container {
+    width: 100%;
+    right: 0;
+    z-index: 5;
+  }
   .downloadButton {
     margin: 1rem auto 0;
     width: 100%;

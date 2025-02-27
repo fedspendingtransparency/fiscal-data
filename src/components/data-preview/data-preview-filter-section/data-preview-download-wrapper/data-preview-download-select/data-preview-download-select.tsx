@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg } from '../../../../../variables.module.scss';
+import { breakpointXl } from '../../../../../variables.module.scss';
 import { border, buttonActive, buttonText, container, downloadButton, icon, parent } from './data-preview-download-select.module.scss';
 import DropdownContainer from '../../../../dropdown-container/dropdown-container';
 import DownloadItemButton from '../download-button/download-button';
@@ -114,7 +114,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   return (
     <div className={parent}>
       <DropdownContainer
-        containerWidth={width >= pxToNumber(breakpointLg) ? 'fit-content' : '100%'}
+        containerWidth={width >= pxToNumber(breakpointXl) ? 'fit-content' : '100%'}
         dropdownButton={
           <button className={`${downloadButton} ${active && buttonActive}`} disabled={isDisabled} onClick={() => setActive(!active)}>
             <div className={buttonText}>Download</div>
