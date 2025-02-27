@@ -53,7 +53,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
     return !pivotCharting && !dataDisplaysCharting && !allTablesSelected && !userFilterCharting && !dateRangeCharting;
   };
 
-  const downloadComponent = (
+  const downloadComponent = () => (
     <DataPreviewDownloadWrapper
       width={width}
       dateRange={dateRange}
@@ -80,12 +80,12 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
         {width >= pxToNumber(breakpointXl) && (
           <div className={toggleDownloadContainer}>
             {getChartingInfo() && <ChartTableToggle />}
-            {downloadComponent}
+            {downloadComponent()}
           </div>
         )}
       </div>
       {children}
-      {width < pxToNumber(breakpointXl) && { downloadComponent }}
+      {width < pxToNumber(breakpointXl) && downloadComponent()}
     </>
   );
 };
