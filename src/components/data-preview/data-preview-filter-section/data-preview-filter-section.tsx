@@ -39,7 +39,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   isCustomDateRange,
   selectedUserFilter,
   tableColumnSortData,
-  filteredDateRange,
   selectedDetailViewFilter,
   apiFilterDefault,
 }) => {
@@ -54,6 +53,22 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
     return !pivotCharting && !dataDisplaysCharting && !allTablesSelected && !userFilterCharting && !dateRangeCharting;
   };
 
+  const downloadComponent = (
+    <DataPreviewDownloadWrapper
+      width={width}
+      dateRange={dateRange}
+      isFiltered={isFiltered}
+      selectedTable={selectedTable}
+      dataset={dataset}
+      allTablesSelected={allTablesSelected}
+      isCustomDateRange={isCustomDateRange}
+      selectedUserFilter={selectedUserFilter}
+      tableColumnSortData={tableColumnSortData}
+      selectedDetailViewFilter={selectedDetailViewFilter}
+      isDisabled={isDisabled}
+    />
+  );
+
   return (
     <>
       <div className={filterAndDownloadContainer}>
@@ -65,40 +80,12 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
         {width >= pxToNumber(breakpointXl) && (
           <div className={toggleDownloadContainer}>
             {getChartingInfo() && <ChartTableToggle />}
-            <DataPreviewDownloadWrapper
-              width={width}
-              dateRange={dateRange}
-              isFiltered={isFiltered}
-              selectedTable={selectedTable}
-              dataset={dataset}
-              allTablesSelected={allTablesSelected}
-              isCustomDateRange={isCustomDateRange}
-              selectedUserFilter={selectedUserFilter}
-              tableColumnSortData={tableColumnSortData}
-              filteredDateRange={filteredDateRange}
-              selectedDetailViewFilter={selectedDetailViewFilter}
-              isDisabled={isDisabled}
-            />
+            {downloadComponent}
           </div>
         )}
       </div>
       {children}
-      {width < pxToNumber(breakpointXl) && (
-        <DataPreviewDownloadWrapper
-          width={width}
-          dateRange={dateRange}
-          isFiltered={isFiltered}
-          selectedTable={selectedTable}
-          dataset={dataset}
-          allTablesSelected={allTablesSelected}
-          isCustomDateRange={isCustomDateRange}
-          selectedUserFilter={selectedUserFilter}
-          tableColumnSortData={tableColumnSortData}
-          filteredDateRange={filteredDateRange}
-          selectedDetailViewFilter={selectedDetailViewFilter}
-          isDisabled={isDisabled}
-        />
-      )}
+      {width < pxToNumber(breakpointXl) && { downloadComponent }}
     </>
   );
 };

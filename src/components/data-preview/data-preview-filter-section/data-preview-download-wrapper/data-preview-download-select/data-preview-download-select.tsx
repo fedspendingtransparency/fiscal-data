@@ -12,7 +12,6 @@ import {
   smallTableDownloadDataXML,
   tableRowLengthState,
 } from '../../../../../recoil/smallTableDownloadData';
-import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../../../utils/api-utils';
 import Analytics from '../../../../../utils/analytics/analytics';
 import {
   calcDictionaryDownloadSize,
@@ -20,14 +19,18 @@ import {
   triggerDataDictionaryDownload,
 } from '../../../../download-wrapper/data-dictionary-download-helper';
 import { getDownloadIcon, shouldUseDirectDownload } from '../download-wrapper-helper';
+import { IDataset } from '../../../../../models/IDataset';
+import { IDatasetApi } from '../../../../../models/IDatasetApi';
+import { IPivotOption } from '../../../../../models/data-preview/IPivotOption';
 
 interface IDownloadButtonProps {
-  dateRange;
-  selectedTable;
-  dataset;
-  selectedPivot;
-  allTablesSelected;
-  downloadClickHandler;
+  dateRange: { from: Date; to: Date };
+  selectedTable: IDatasetApi;
+  dataset: IDataset;
+  selectedPivot: IPivotOption;
+  allTablesSelected: boolean;
+  downloadClickHandler: (fileType: string, event) => void;
+  isDisabled: boolean;
   width: number;
 }
 
@@ -39,6 +42,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   selectedPivot,
   allTablesSelected,
   downloadClickHandler,
+  isDisabled,
 }: IDownloadButtonProps) => {
   const [active, setActive] = useState(false);
 
@@ -112,7 +116,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
       <DropdownContainer
         containerWidth={width >= pxToNumber(breakpointLg) ? 'fit-content' : '100%'}
         dropdownButton={
-          <button className={`${downloadButton} ${active && buttonActive}`} onClick={() => setActive(!active)}>
+          <button className={`${downloadButton} ${active && buttonActive}`} disabled={isDisabled} onClick={() => setActive(!active)}>
             <div className={buttonText}>Download</div>
             <div className={icon}>
               <FontAwesomeIcon icon={getDownloadIcon(width, active)} />

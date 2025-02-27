@@ -4,19 +4,23 @@ import { useRecoilValue } from 'recoil';
 import { dateForFilename, fileFromPath } from './download-wrapper-helper';
 import DataPreviewDownloadSelect from './data-preview-download-select/data-preview-download-select';
 import { dataTableDapGaEventLabelState } from '../../../../recoil/dataTableDapGaEventLabelState';
+import { IDataset } from '../../../../models/IDataset';
+import { IDatasetApi } from '../../../../models/IDatasetApi';
+import { IPivotOption } from '../../../../models/data-preview/IPivotOption';
+import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
 type DownloadProps = {
-  selectedTable;
-  allTablesSelected;
-  dateRange;
-  dataset;
-  isFiltered;
+  selectedTable: IDatasetApi;
+  allTablesSelected: boolean;
+  dateRange: { from: Date; to: Date };
+  dataset: IDataset;
+  isFiltered: boolean;
   selectedUserFilter;
   tableColumnSortData;
-  filteredDateRange;
   selectedDetailViewFilter;
   width: number;
   isDisabled: boolean;
+  selectedPivot: IPivotOption;
 };
 
 const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
@@ -28,7 +32,6 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   isFiltered,
   selectedUserFilter,
   tableColumnSortData,
-  filteredDateRange,
   selectedDetailViewFilter,
   width,
   isDisabled,
@@ -46,6 +49,7 @@ const DataPreviewDownloadWrapper: FunctionComponent<DownloadProps> = ({
   const [datasetDownloadInProgress, setDatasetDownloadInProgress] = useState(false);
   const [changeMadeToCriteria, setChangeMadeToCriteria] = useState(false);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
+  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   // const globalDisableDownloadButton = useRecoilValue(dataTableDapGaEventLabelState);
 
