@@ -1,6 +1,7 @@
 import React from 'react';
 import { Document, Page, Text, View } from '@react-pdf/renderer';
 import { mockDataColConfig, mockData2ColConfig } from './mockData';
+import { test } from './test.module.scss';
 
 const styles = {
   page: {
@@ -8,10 +9,10 @@ const styles = {
     padding: 10,
   },
   title: {
-    fontSize: 16,
-    marginBottom: 20,
-    color: '#313178',
-    fontFamily: 'Helvetica-Bold',
+    // fontSize: 16,
+    // marginBottom: 20,
+    // color: '#313178',
+    // fontFamily: 'Helvetica-Bold',
   },
   tableContainer: {
     display: 'flex',
@@ -94,7 +95,9 @@ const MyDynamicTable = ({ data, colConfig }) => {
 const PDFBody = ({ data, data2 }) => (
   <Document title="StatementReport">
     <Page style={styles.page}>
-      <Text style={styles.title}>Dynamic Transaction Statement</Text>
+      <Text style={styles.title} className={test}>
+        Dynamic Transaction Statement
+      </Text>
       <Text style={styles.documentHeader}>
         <Text style={styles.bold}>Account: </Text>CALIFORNIA, 000000000000505
       </Text>

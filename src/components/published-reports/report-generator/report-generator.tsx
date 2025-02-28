@@ -1,0 +1,54 @@
+import React, { FunctionComponent } from 'react';
+import { Document, Page, Text, View } from '@react-pdf/renderer';
+import { mockDataColConfig, mockData2ColConfig, config, accountStatementReportConfig, mockData } from './mockData';
+import ReportTable from './report-table/report-table';
+import { styles } from './report-generator-styles';
+import { getTableColumnConfig } from './report-generator-helper';
+
+interface IReportTable {
+  width: string;
+  data;
+  colConfig;
+}
+
+interface IReportGenerator {
+  reportConfig: {
+    documentTitle: string;
+    documentHeader: { field: string; value: string }[];
+    tables: IReportTable[];
+  };
+}
+
+const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig }) => {
+  const { documentTitle, documentHeader, tables } = reportConfig;
+  const { pageContainer, headerFieldName } = styles;
+
+  return (
+    <Document title="StatementReport">
+      <Page style={pageContainer}>
+        <Text style={styles.title}>{documentTitle}</Text>
+        {/*{documentHeader.map(line => {*/}
+        {/*  const { field, value } = line;*/}
+        {/*  return (*/}
+        {/*    <Text style={styles.documentHeader}>*/}
+        {/*      <Text style={headerFieldName}>{field}: </Text>*/}
+        {/*      {value}*/}
+        {/*    </Text>*/}
+        {/*  );*/}
+        {/*})}*/}
+        {tables.map(table => {
+          const { width, data } = table;
+          const colConfig = getTableColumnConfig(config, table.fields);
+          console.log(colConfig);
+          return (
+            <View style={{ width: width }}>
+              <ReportTable data={mockData} colConfig={colConfig} />
+            </View>
+          );
+        })}
+      </Page>
+    </Document>
+  );
+};
+
+export default ReportGenerator;
