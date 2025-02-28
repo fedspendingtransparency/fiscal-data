@@ -91,11 +91,11 @@ export const InterestExpenseChart = () => {
   return (
     <>
       <InterestExpenseChartTable
-        tableView={selectedChartView === 'tableView' ? true : false}
+        tableView={selectedChartView === 'tableView'}
         title={chartTitle}
         footer={'FOOTER HERE'}
         header={header}
-        downloader={'Download CSV'}
+        downloader={'Download CSV placeholder'}
       >
         {selectedChartView === 'chartView' && (
           <div style={{ border: '1px', padding: '1rem' }}>

@@ -25,7 +25,7 @@ const ChartTableView = ({ chartData, rawExpenseData, rawRateData, sorting, setSo
     { property: 'record_date', name: 'Record Date', type: 'string' },
     { property: 'expense', name: 'FYTD Interest Expense', type: 'string' },
     { property: 'rate', name: 'Avg Interest Rate', type: 'string' },
-    { property: 'debt_total?!', name: 'Total Debt', type: 'string' }, // need to figure out debt. ask tomorrow in dev collab
+    // { property: 'debt_total?!', name: 'Total Debt', type: 'string' }, // need to figure out debt. ask tomorrow in dev collab
     { property: 'year', name: 'Fiscal Year', type: 'string' },
   ];
 
@@ -40,6 +40,7 @@ const ChartTableView = ({ chartData, rawExpenseData, rawRateData, sorting, setSo
           shouldPage: true,
           width: '99%',
           columnMinWidthDisplay: false,
+          noBorder: true,
         }}
         reactTable={true}
         sorting={sorting}
