@@ -712,8 +712,16 @@ export const mockData2ColConfig = {
 // 563 total width
 export const accountStatementReportConfig = {
   documentTitle: 'Account Statement Report',
+  documentHeader: [
+    { name: 'Account', value: 'CALIFORNIA, 0000000000000000' },
+    { name: 'Report Date', value: 'January 2025' },
+    { name: 'Final Report', style: 'final' },
+    { name: 'Beginning Balance', value: '$12345' },
+    { name: 'Ending Balance', value: '$678910' },
+  ],
   tables: [
     {
+      width: '100%',
       fields: [
         { name: 'eff_date', width: 70 },
         { name: 'shares_per_par', width: 70 },

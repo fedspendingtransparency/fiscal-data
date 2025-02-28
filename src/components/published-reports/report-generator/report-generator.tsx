@@ -27,19 +27,20 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, re
     <Document title="StatementReport">
       <Page style={pageContainer}>
         <Text style={styles.title}>{documentTitle}</Text>
-        {/*{documentHeader.map(line => {*/}
-        {/*  const { field, value } = line;*/}
-        {/*  return (*/}
-        {/*    <Text style={styles.documentHeader}>*/}
-        {/*      <Text style={headerFieldName}>{field}: </Text>*/}
-        {/*      {value}*/}
-        {/*    </Text>*/}
-        {/*  );*/}
-        {/*})}*/}
+        {documentHeader.map(line => {
+          const { name, value, style } = line;
+          const customStyle = styles[style];
+          const customContainerStyle = styles[`${style}Container`];
+          return (
+            <Text style={customContainerStyle ? customContainerStyle : styles.documentHeader}>
+              <Text style={customStyle ? customStyle : headerFieldName}>{`${name}${!!value ? ': ' : ''}`}</Text>
+              {value}
+            </Text>
+          );
+        })}
         {tables.map(table => {
-          const { width, data } = table;
-          const colConfig = getTableColumnConfig(config, table.fields);
-          console.log(colConfig);
+          const { width, fields } = table;
+          const colConfig = getTableColumnConfig(config, fields);
           return (
             <View style={{ width: width }}>
               <ReportTable data={reportData} colConfig={colConfig} />

@@ -44,9 +44,11 @@ export const styles = {
     fontFamily: 'Helvetica-Bold',
   },
   final: {
-    marginBottom: '20',
     fontFamily: 'Helvetica-Oblique',
     fontSize: 10,
+  },
+  finalContainer: {
+    marginBottom: '20',
   },
   documentHeader: {
     fontSize: 10,
