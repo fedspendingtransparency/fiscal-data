@@ -15,6 +15,7 @@ import {
 } from './interest-expense-chart-container.module.scss';
 
 export const InterestExpenseChartTable = ({
+  tableView,
   title,
   subTitle = null,
   altText,
@@ -28,7 +29,6 @@ export const InterestExpenseChartTable = ({
   customSpacing = {},
   customFooterStyles = {},
   customTitleStyles = {},
-  customSubTitleStyles = {},
   customTestId = null,
 }) => {
   return (
@@ -41,6 +41,7 @@ export const InterestExpenseChartTable = ({
           {header}
         </div>
       </div>
+      <div style={{ borderBottom: tableView ? '1px solid #d9d9d9' : '' }} />
       <div data-testid={customTestId ? customTestId : 'chart'} className={`${chart} chartContainerChart`} style={{ ...customContainerStyles }}>
         {children}
       </div>

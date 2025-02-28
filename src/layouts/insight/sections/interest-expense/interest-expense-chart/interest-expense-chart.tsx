@@ -11,7 +11,6 @@ import { useGetInterestExpenseData } from '../useGetInterestExpenseData';
 import globalConstants from '../../../../../helpers/constants';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
-import ChartContainer from '../../../../explainer/explainer-components/chart-container/chart-container';
 import InterestExpenseChartHeader from '../interest-expense-table/interest-expense-chart-header/interest-expense-chart-header';
 import { chartCopy } from '../../../../explainer/sections/treasury-savings-bonds/purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import ChartTableView from '../interest-expense-table/interest-expense-table';
@@ -29,18 +28,27 @@ export const InterestExpenseChart = () => {
   const { explainers } = globalConstants;
   const [width] = useWindowSize();
   const [isMobile, setIsMobile] = useState<boolean>(null);
-  const { chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading } = useGetInterestExpenseData(
-    true,
-    isMobile
-  );
+  const {
+    rawExpenseData,
+    rawRateData,
+    chartData,
+    chartXAxisValues,
+    expenseYAxisValues,
+    rateYAxisValues,
+    latestChartData,
+    altText,
+    chartLoading,
+    currentFY,
+    startFY,
+  } = useGetInterestExpenseData(true, isMobile);
   const [fiscalYear, setFiscalYear] = useState<number>(0);
   const [curExpenseAmount, setCurExpenseAmount] = useState<number>(0);
   const [curRate, setCurRate] = useState<number>(0);
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-
+  const [sorting, setSorting] = useState([]);
+  const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const header = <InterestExpenseChartHeader selectedChartView={selectedChartView} setSelectedChartView={setSelectedChartView} />;
-
   const resetDataHeader = () => {
     if (latestChartData) {
       setFiscalYear(latestChartData.year);
@@ -48,7 +56,6 @@ export const InterestExpenseChart = () => {
       setCurRate(latestChartData.rate);
     }
   };
-
   const handleChartMouseEnter = () => {
     const eventLabel = 'Interest Expense and Average Interest Rates on the National Debt';
     const eventAction = 'Chart Hover';
@@ -80,12 +87,18 @@ export const InterestExpenseChart = () => {
       setIsMobile(false);
     }
   }, [width]);
-  const chartTitle = 'Interest Expense and Average Interest Rates on the National Debt FY 2022-FYTD 20224';
+  const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
   return (
     <>
-      <InterestExpenseChartTable title={chartTitle} footer={'FOOTER HERE'} header={header} downloader={'Download CSV'}>
+      <InterestExpenseChartTable
+        tableView={selectedChartView === 'tableView' ? true : false}
+        title={chartTitle}
+        footer={'FOOTER HERE'}
+        header={header}
+        downloader={'Download CSV'}
+      >
         {selectedChartView === 'chartView' && (
-          <div style={{ border: '1px' }}>
+          <div style={{ border: '1px', padding: '1rem' }}>
             {chartLoading ? (
               <div>
                 <Skeleton
@@ -202,7 +215,17 @@ export const InterestExpenseChart = () => {
           </div>
         )}
 
-        {selectedChartView === 'tableView' && <ChartTableView tableData={chartData} />}
+        {selectedChartView === 'tableView' && (
+          <ChartTableView
+            chartData={chartData}
+            rawExpenseData={rawExpenseData}
+            rawRateData={rawRateData}
+            sorting={sorting}
+            setSorting={setSorting}
+            tableColumnSortData={tableColumnSortData}
+            setTableColumnSortData={setTableColumnSortData}
+          />
+        )}
       </InterestExpenseChartTable>
     </>
   );
