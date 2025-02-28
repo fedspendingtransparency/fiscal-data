@@ -122,6 +122,7 @@ describe('Interest Expense Chart', () => {
     const { getByRole, getByText } = render(<InterestExpenseChart />);
     const chart = getByRole('application');
     userEvent.tab();
+    userEvent.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date
     expect(getByText('2010')).toBeInTheDocument();
