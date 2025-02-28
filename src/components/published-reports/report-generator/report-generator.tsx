@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Document, Page, Text, View } from '@react-pdf/renderer';
-import { mockDataColConfig, mockData2ColConfig, config, accountStatementReportConfig, mockData } from './mockData';
+import { config, accountStatementFebData } from './mockData';
 import ReportTable from './report-table/report-table';
 import { styles } from './report-generator-styles';
 import { getTableColumnConfig } from './report-generator-helper';
@@ -19,7 +19,7 @@ interface IReportGenerator {
   };
 }
 
-const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig }) => {
+const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, reportData }) => {
   const { documentTitle, documentHeader, tables } = reportConfig;
   const { pageContainer, headerFieldName } = styles;
 
@@ -42,7 +42,7 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig }) 
           console.log(colConfig);
           return (
             <View style={{ width: width }}>
-              <ReportTable data={mockData} colConfig={colConfig} />
+              <ReportTable data={reportData} colConfig={colConfig} />
             </View>
           );
         })}

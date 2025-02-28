@@ -3,7 +3,7 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import PDFBody from './pdfBody';
 import { mockData, mockData2 } from './mockData';
 import ReportGenerator from '../../../components/published-reports/report-generator/report-generator';
-import { accountStatementReportConfig } from '../../../components/published-reports/report-generator/mockData';
+import { accountStatementReportConfig, accountStatementFebData } from '../../../components/published-reports/report-generator/mockData';
 const styles = {
   container: {
     height: '50rem',
@@ -29,11 +29,11 @@ const PDFGenerator = () => {
           {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download StatementReport.pdf')}
         </PDFDownloadLink>
       ) : null}
-      PDFBody can be used for faster local testing
+      {/*PDFBody can be used for faster local testing*/}
       {showPDF && (
         <div style={{ border: '1px solid #ccc', height: '600px', marginTop: '4rem' }}>
           <PDFViewer style={styles.container}>
-            <ReportGenerator reportConfig={accountStatementReportConfig} />
+            <ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} />
           </PDFViewer>
         </div>
       )}

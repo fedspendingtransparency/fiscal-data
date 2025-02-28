@@ -3,10 +3,7 @@ import React from 'react';
 import { styles } from '../report-generator-styles';
 
 const ReportTable = ({ data, colConfig }) => {
-  if (!data || !data.length) return <Text>No data to display.</Text>;
-
-  const columns = Object.keys(data[0]);
-
+  const columns = Object.keys(colConfig);
   return (
     <View style={styles.tableContainer}>
       <View style={styles.headerRow}>
@@ -18,19 +15,21 @@ const ReportTable = ({ data, colConfig }) => {
           );
         })}
       </View>
-      {/*{data.map((row, rowIndex) => (*/}
-      {/*  <View style={styles.row} key={rowIndex}>*/}
-      {/*    {columns.map((col, colIndex) => (*/}
-      {/*      <Text*/}
-      {/*        key={colIndex}*/}
-      {/*        style={[styles.cell, { minWidth: colConfig[col].width }, colConfig[col]?.style, colIndex === columns.length - 1 && styles.lastCell]}*/}
-      {/*        wrap={false}*/}
-      {/*      >*/}
-      {/*        {row[col]}*/}
-      {/*      </Text>*/}
-      {/*    ))}*/}
-      {/*  </View>*/}
-      {/*))}*/}
+      {data.map((row, rowIndex) => (
+        <View style={styles.row} key={rowIndex}>
+          {columns.map((col, colIndex) => {
+            return (
+              <Text
+                key={colIndex}
+                style={[styles.cell, { minWidth: colConfig[col].width }, colConfig[col]?.style, colIndex === columns.length - 1 && styles.lastCell]}
+                wrap={false}
+              >
+                {row[col] !== 'null' ? row[col] : ''}
+              </Text>
+            );
+          })}
+        </View>
+      ))}
     </View>
   );
 };

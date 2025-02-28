@@ -1,10 +1,10 @@
 export const getTableColumnConfig = (datasetFields, tableFields) => {
   const tableConfig = {};
   tableFields.forEach(field => {
-    const colConfig = datasetFields.fields.filter(x => x.columnName === field);
+    const colConfig = datasetFields.fields.filter(x => x.columnName === field.name);
     console.log(colConfig, datasetFields, field);
     const prettyName = colConfig[0].prettyName;
-    tableConfig[field] = { prettyName: prettyName, width: 50 };
+    tableConfig[field.name] = { prettyName: prettyName, width: field.width };
   });
   return tableConfig;
 };
