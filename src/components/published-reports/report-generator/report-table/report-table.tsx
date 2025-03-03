@@ -1,4 +1,4 @@
-import { Text, View } from '@react-pdf/renderer';
+import { Text, View } from '@react-pdf/renderer/lib/react-pdf.browser';
 import React from 'react';
 import { styles } from '../report-generator-styles';
 
@@ -9,7 +9,7 @@ const ReportTable = ({ data, colConfig }) => {
       <View style={styles.headerRow}>
         {columns.map((col, idx) => {
           return (
-            <Text key={col} style={[styles.cell, { minWidth: colConfig[col].width }, idx === columns.length - 1 && styles.lastCell]}>
+            <Text key={col} style={[styles.cell, idx === columns.length - 1 && styles.lastCell]} wrap={false}>
               {colConfig[col].prettyName}
             </Text>
           );
@@ -19,11 +19,7 @@ const ReportTable = ({ data, colConfig }) => {
         <View style={styles.row} key={rowIndex}>
           {columns.map((col, colIndex) => {
             return (
-              <Text
-                key={colIndex}
-                style={[styles.cell, { minWidth: colConfig[col].width }, colConfig[col]?.style, colIndex === columns.length - 1 && styles.lastCell]}
-                wrap={false}
-              >
+              <Text key={colIndex} style={[styles.cell, colConfig[col]?.style, colIndex === columns.length - 1 && styles.lastCell]} wrap={false}>
                 {row[col] !== 'null' ? row[col] : ''}
               </Text>
             );

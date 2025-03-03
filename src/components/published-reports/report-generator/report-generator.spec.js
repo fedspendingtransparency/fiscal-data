@@ -4,10 +4,29 @@ import { accountStatementFebData, accountStatementReportConfig } from './mockDat
 import { render } from '@testing-library/react';
 
 describe('Report generator component', () => {
-  it('test', () => {
-    const { getByText, getByRole } = render(
-      <ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} />
-    );
-    const button = getByRole('button');
+  it('renders document title', () => {
+    const { getByText } = render(<ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} />);
+    expect(getByText(accountStatementReportConfig.documentTitle)).toBeInTheDocument();
+  });
+
+  it('renders document header information', () => {
+    const { getByText } = render(<ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} />);
+    accountStatementReportConfig.documentHeader.forEach(line => {
+      if (line?.value) {
+        expect(getByText(line.name + ':')).toBeInTheDocument();
+        expect(getByText(line.value)).toBeInTheDocument();
+      } else {
+        expect(getByText(line.name)).toBeInTheDocument();
+      }
+    });
+  });
+
+  it('renders document tables', () => {
+    const { getByText } = render(<ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} />);
+    const tableConfig = accountStatementReportConfig.tables[0];
+    tableConfig.fields.forEach(field => {
+      const prettyName = accountStatementFebData.meta.labels[field.name];
+      expect(getByText(prettyName)).toBeInTheDocument();
+    });
   });
 });

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Document, Page, Text, View } from '@react-pdf/renderer';
+import { Document, Page, Text, View } from '@react-pdf/renderer/lib/react-pdf.browser';
 import { config } from './mockData';
 import ReportTable from './report-table/report-table';
 import { styles } from './report-generator-styles';
@@ -27,22 +27,22 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, re
     <Document title={downloadName}>
       <Page style={pageContainer}>
         <Text style={styles.title}>{documentTitle}</Text>
-        {documentHeader.map(line => {
+        {documentHeader.map((line, index) => {
           const { name, value, style } = line;
           const customStyle = styles[style];
           const customContainerStyle = styles[`${style}Container`];
           return (
-            <Text style={customContainerStyle ? customContainerStyle : styles.documentHeader} id={name}>
+            <Text style={customContainerStyle ? customContainerStyle : styles.documentHeader} id={name} key={index}>
               <Text style={customStyle ? customStyle : headerFieldName}>{`${name}${!!value ? ': ' : ''}`}</Text>
               {value}
             </Text>
           );
         })}
-        {tables.map(table => {
+        {tables.map((table, index) => {
           const { width, fields } = table;
           const colConfig = getTableColumnConfig(config, fields);
           return (
-            <View style={{ width: width }}>
+            <View style={{ width: width }} key={index}>
               <ReportTable data={reportData} colConfig={colConfig} />
             </View>
           );

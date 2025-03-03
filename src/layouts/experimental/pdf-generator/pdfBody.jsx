@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Page, Text, View } from '@react-pdf/renderer';
+import { Document, Page, Text, View } from '@react-pdf/renderer/lib/react-pdf.browser';
 import { mockDataColConfig, mockData2ColConfig } from './mockData';
 import { test } from './test.module.scss';
 
