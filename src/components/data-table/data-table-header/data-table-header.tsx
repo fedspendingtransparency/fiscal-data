@@ -29,6 +29,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   allActiveFilters,
   setAllActiveFilters,
   disableDateRangeFilter,
+  columnMinWidthDisplay = true,
 }) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
@@ -125,7 +126,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
-                      <div className={columnMinWidth}>
+                      <div className={columnMinWidth} style={{ display: columnMinWidthDisplay ? '' : 'none' }}>
                         {getColumnFilter(
                           header,
                           columnDataType,

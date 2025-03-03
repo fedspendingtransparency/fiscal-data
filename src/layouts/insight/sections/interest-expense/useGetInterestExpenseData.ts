@@ -17,7 +17,6 @@ const getCurrentInterestExpData = async () => {
 const getOlderInterestExpData = async () => {
   return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=record_date&page[size]=1`);
 };
-
 export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile: boolean = false) => {
   const [startFY, setStartFY] = useState<number>(null);
   const [currentFY, setCurrentFY] = useState<number>(null);
@@ -34,6 +33,8 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
   const [altText, setAltText] = useState<string>(null);
   const [currentResult, setCurrentResult] = useState(null);
   const [olderResult, setOlderResult] = useState(null);
+  const [rawExpenseData, setRawExpenseData] = useState(null);
+  const [rawRateData, setRawRateData] = useState(null);
 
   useEffect(() => {
     queryClient
@@ -92,9 +93,12 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
           `${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:${start}&page[size]=10000`
         ).then(res1 => {
           // Interest rate chart data
+          setRawExpenseData(res1);
           basicFetch(
             `${apiPrefix}v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:${start}&page[size]=300`
           ).then(res2 => {
+            setRawRateData(res2);
+            console.log(res2, res1);
             const commonIndexExpense = res1.data.findIndex(element => element.record_calendar_month === res2.data[0].record_calendar_month);
             const commonIndexRate = res2.data.findIndex(element => element.record_calendar_month === res1.data[0].record_calendar_month);
             // Base chart data's most recent record where both datasets share the same month
@@ -173,5 +177,17 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
       }
     }
   }, [currentResult, olderResult]);
-  return { startFY, currentFY, chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading };
+  return {
+    rawExpenseData,
+    rawRateData,
+    startFY,
+    currentFY,
+    chartData,
+    chartXAxisValues,
+    expenseYAxisValues,
+    rateYAxisValues,
+    latestChartData,
+    altText,
+    chartLoading,
+  };
 };
