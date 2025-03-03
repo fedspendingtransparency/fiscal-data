@@ -22,21 +22,25 @@ const PDFGenerator = () => {
     setShowPDF(true);
   }, []);
 
+  const fileName = accountStatementReportConfig.downloadName;
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', height: '70rem' }}>
       {showPDF ? (
-        <PDFDownloadLink document={<PDFBody data={mockData} data2={mockData2} />} fileName="StatementReport.pdf">
-          {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download StatementReport.pdf')}
+        <PDFDownloadLink
+          document={<ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} />}
+          fileName={`${fileName}.pdf`}
+        >
+          {({ blob, url, loading, error }) => (loading ? 'Loading download link...' : `Download ${fileName}.pdf`)}
         </PDFDownloadLink>
       ) : null}
       {/*PDFBody can be used for faster local testing*/}
-      {showPDF && (
-        <div style={{ border: '1px solid #ccc', height: '600px', marginTop: '4rem' }}>
-          <PDFViewer style={styles.container}>
-            <ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} />
-          </PDFViewer>
-        </div>
-      )}
+      {/*{showPDF && (*/}
+      {/*  <div style={{ border: '1px solid #ccc', height: '600px', marginTop: '4rem' }}>*/}
+      {/*    <PDFViewer style={styles.container}>*/}
+      {/*      <ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} />*/}
+      {/*    </PDFViewer>*/}
+      {/*  </div>*/}
+      {/*)}*/}
     </div>
   );
 };

@@ -712,6 +712,7 @@ export const mockData2ColConfig = {
 // 563 total width
 export const accountStatementReportConfig = {
   documentTitle: 'Account Statement Report',
+  downloadName: 'AccountStatement',
   documentHeader: [
     { name: 'Account', value: 'CALIFORNIA, 0000000000000000' },
     { name: 'Report Date', value: 'January 2025' },
