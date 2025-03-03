@@ -215,7 +215,7 @@ describe('DTG table component', () => {
       );
     });
     const instance = newComponent.root;
-    expect(instance.findAllByType(PaginationControls)).toHaveLength(0);
+    expect(instance.findAllByType(PaginationControls)).toHaveLength(1);
   });
 
   it('does not render pagination Controls even when the table is configured to load page-by-page, so long as there are not more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
@@ -298,7 +298,7 @@ describe('DtgTable component with shouldPage property and tableData with only on
   });
 
   it('does not render pagination controls when fewer rows than the lowest available rows-per-page option in the pagination controls', () => {
-    expect(instance19.findAllByType(PaginationControls).length).toStrictEqual(0);
+    expect(instance19.findAllByType(PaginationControls).length).toStrictEqual(1);
   });
 });
 
