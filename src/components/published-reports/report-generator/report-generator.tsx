@@ -1,23 +1,10 @@
 import React, { FunctionComponent } from 'react';
-import { Document, Page, Text, View } from '@react-pdf/renderer/lib/react-pdf.browser';
+import { Document, Page, Text, View } from '@react-pdf/renderer';
 import { config } from './mockData';
 import ReportTable from './report-table/report-table';
 import { styles } from './report-generator-styles';
-import { getTableColumnConfig } from './report-generator-helper';
-
-interface IReportTable {
-  width: string;
-  data;
-  colConfig;
-}
-
-interface IReportGenerator {
-  reportConfig: {
-    documentTitle: string;
-    documentHeader: { field: string; value: string }[];
-    tables: IReportTable[];
-  };
-}
+import { getTableColumnConfig } from '../../../helpers/report-generator/report-generator-helper';
+import { IReportGenerator } from '../../../models/report-generator/IReportGenerator';
 
 const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, reportData }) => {
   const { documentTitle, documentHeader, tables, downloadName } = reportConfig;

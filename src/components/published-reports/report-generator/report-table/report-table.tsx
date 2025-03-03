@@ -1,8 +1,9 @@
 import { Text, View } from '@react-pdf/renderer/lib/react-pdf.browser';
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { styles } from '../report-generator-styles';
+import { IReportTable } from '../../../../models/report-generator/IReportTable';
 
-const ReportTable = ({ data, colConfig }) => {
+const ReportTable: FunctionComponent<IReportTable> = ({ data, colConfig }) => {
   const columns = Object.keys(colConfig);
   return (
     <View style={styles.tableContainer}>

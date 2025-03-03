@@ -695,20 +695,6 @@ export const accountStatementFebData = {
   },
 };
 
-export const mockDataColConfig = {
-  eff_date: { width: 60, prettyName: 'Effective Date' },
-  shares_per_par: { width: 50, prettyName: 'Shares / Par' },
-  trans_cd: { width: 190, prettyName: 'Transaction Code' },
-  memo_nbr: { width: 60, prettyName: 'Memo Number' },
-  location_cd: { width: 50, prettyName: 'Location' },
-  acct_nbr: { width: 70, prettyName: 'Account Number' },
-  trans_desc_cd: { width: 130, prettyName: 'Transaction Description' },
-};
-export const mockData2ColConfig = {
-  shares_per_par: { width: 20, prettyName: 'Shares / Par', style: { textAlign: 'right' } },
-  trans_desc_cd: { width: 180, prettyName: 'Transaction Description' },
-};
-
 // 563 total width
 export const accountStatementReportConfig = {
   documentTitle: 'Account Statement Report',
