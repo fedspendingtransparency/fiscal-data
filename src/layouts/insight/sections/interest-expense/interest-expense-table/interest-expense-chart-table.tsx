@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
-import { InterestExpenseChart } from '../interest-expense-chart/interest-expense-chart';
-import { interestExpenseTableChartContainer } from './interest-expense-table-chart.module.scss';
-import InterestExpenseChartHeader from './interest-expense-chart-header/interest-expense-chart-header';
-import { format } from 'date-fns';
+import React from 'react';
 import {
   chart,
   chartTitleHeaderContainer,
   chartContainer,
   headerContainer,
   footerContainer,
-  chartSubTitle,
   chartTitle,
   downloaderContainer,
 } from './interest-expense-chart-container.module.scss';
@@ -17,12 +12,10 @@ import {
 export const InterestExpenseChartTable = ({
   tableView,
   title,
-  subTitle = null,
   altText,
   header,
   footer,
   downloader,
-  date,
   children,
   customContainerStyles = {},
   customHeaderStyles = {},

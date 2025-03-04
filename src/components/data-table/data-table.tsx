@@ -319,6 +319,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
                   detailViewConfig={detailView}
                   setDetailViewState={setDetailViewState}
                   setSummaryValues={setSummaryValues}
+                  chartTable={chartTable}
                 />
               </table>
             </div>

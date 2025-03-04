@@ -50,9 +50,9 @@ const InsightPageLayout = ({ pageContext, width }) => {
                   <section className={sectionContainer}>{section.component}</section>
                 </React.Fragment>
               ))}
-              <div>
-                <h2>Data Sources and Methodologies:</h2> {insightsDataSources[pageName]}
-              </div>
+              {/*<div>*/}
+              {/*  <h2>Data Sources and Methodologies:</h2> {insightsDataSources[pageName]}*/}
+              {/*</div>*/}
             </div>
             <div className={relatedContent}>
               {width >= pxToNumber(breakpointLg) && (

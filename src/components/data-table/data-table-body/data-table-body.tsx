@@ -12,6 +12,7 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({
   detailViewConfig,
   setDetailViewState,
   setSummaryValues,
+  chartTable,
 }) => {
   let fillCell = false;
   const handleDetailClick = (rowConfig: {}, cellValue: string) => {
@@ -45,6 +46,7 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({
               return (
                 <td
                   key={cell.id}
+                  style={{ paddingLeft: !chartTable ? '1rem' : '' }}
                   className={classNames([
                     `${rightAlign(dataTypes[cell.column.id]) ? rightAlignText : null}`,
                     fillCell ? cellBorder : null,

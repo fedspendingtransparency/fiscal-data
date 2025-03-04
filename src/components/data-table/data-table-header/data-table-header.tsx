@@ -78,10 +78,12 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                   key={header.id}
                   colSpan={header.colSpan}
                   style={{
-                    minWidth: header.getSize(),
+                    minWidth: chartTable ? header.getSize() : header.getSize() - 4,
                     width: !chartTable && isLastColumn ? '100%' : '',
+                    paddingLeft: !chartTable ? '1rem' : '',
                   }}
                 >
+                  {console.log(header.getSize())}
                   {header.isPlaceholder ? null : (
                     <>
                       <div className={header.column.getCanSort() ? `${colHeader} ${rightAlignStyle}` : ''} data-testid={`header-sorter-${header.id}`}>

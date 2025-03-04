@@ -11,7 +11,9 @@ $interest-expense-primary: #00796b;
 .expenseLegend {
   display: flex;
 }
-
+.footerText {
+  font-weight: 600;
+}
 .expenseText {
   color: $interest-expense-primary;
   font-weight: 600;

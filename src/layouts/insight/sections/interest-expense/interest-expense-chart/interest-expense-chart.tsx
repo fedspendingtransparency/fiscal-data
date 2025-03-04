@@ -1,5 +1,5 @@
 import { ComposedChart, ResponsiveContainer, XAxis, YAxis, Line, Bar, CartesianGrid, Tooltip, Cell } from 'recharts';
-import { CustomTooltip, Legend } from './interest-expense-chart-helper';
+import { ChartTitle, CustomTooltip, footer, Legend } from './interest-expense-chart-helper';
 import React, { useEffect } from 'react';
 import { Skeleton } from '@mui/material';
 import { useState } from 'react';
@@ -15,6 +15,8 @@ import InterestExpenseChartHeader from '../interest-expense-table/interest-expen
 import { chartCopy } from '../../../../explainer/sections/treasury-savings-bonds/purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import ChartTableView from '../interest-expense-table/interest-expense-table';
 import { InterestExpenseChartTable } from '../interest-expense-table/interest-expense-chart-table';
+import { interestExpenseDataSources } from '../interest-expense';
+import { insightsDataSources } from '../../sections';
 const breakpoint = {
   desktop: 1015,
   tablet: 600,
@@ -48,6 +50,7 @@ export const InterestExpenseChart = () => {
   const [chartHover, setChartHover] = useState<boolean>(false);
   const [sorting, setSorting] = useState([]);
   const [tableColumnSortData, setTableColumnSortData] = useState([]);
+  const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
   const header = <InterestExpenseChartHeader selectedChartView={selectedChartView} setSelectedChartView={setSelectedChartView} />;
   const resetDataHeader = () => {
     if (latestChartData) {
@@ -87,13 +90,13 @@ export const InterestExpenseChart = () => {
       setIsMobile(false);
     }
   }, [width]);
-  const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
+
   return (
     <>
       <InterestExpenseChartTable
         tableView={selectedChartView === 'tableView'}
         title={chartTitle}
-        footer={'FOOTER HERE'}
+        footer={footer}
         header={header}
         downloader={'Download CSV placeholder'}
       >

@@ -4,6 +4,7 @@
   margin-top: 1rem;
   border: 1px solid #d9d9d9;
   border-radius: 0.25rem;
+  width: 100%;
 
   .chartTitleHeaderContainer {
     display: flex;
@@ -24,7 +25,7 @@
   }
 
   .chart {
-    width: 100%;
+    width: 99%;
     margin: 0 auto;
     justify-content: center;
   }
@@ -32,6 +33,7 @@
   .footerContainer {
     margin-bottom: 0;
     font-size: $font-size-14;
+    padding: 1rem;
   }
 }
 .downloaderContainer {
