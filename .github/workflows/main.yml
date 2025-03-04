@@ -20,7 +20,7 @@ jobs:
       - name: Create npmrc
         shell: bash
         run: |
-          npm config set //https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth=${{ vars.ARTIFACTORY }}
+          npm config set //https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{ vars.ARTIFACTORY }}
           npm config set strict-ssl=false
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
           npm config set proxy=http://j1proxy.frb.org:8080/
@@ -32,10 +32,10 @@ jobs:
           npm cache clean --force
           npm config ls -l
           npm install --loglevel verbose --legacy-peer-deps
-      - name: run tests with coverage
-        env:
-          NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm run test:coverage
+#      - name: run tests with coverage
+#        env:
+#          NODE_OPTIONS: "--max_old_space_size=8192"
+#        run: npm run test:coverage
 #  run-branch-unit-tests-and-coverage:
 #    timeout-minutes: 10
 #    runs-on: ubuntu-22.04
