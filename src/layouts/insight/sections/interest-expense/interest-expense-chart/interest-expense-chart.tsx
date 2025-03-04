@@ -14,7 +14,7 @@ import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google
 import InterestExpenseChartHeader from '../interest-expense-table/interest-expense-chart-header/interest-expense-chart-header';
 import { chartCopy } from '../../../../explainer/sections/treasury-savings-bonds/purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import ChartTableView from '../interest-expense-table/interest-expense-table';
-import { InterestExpenseChartTable } from '../interest-expense-table/interest-expense-chart-table';
+import { ChartTableContainer } from '../../../chart-table-container/chart-table-container';
 import { interestExpenseDataSources } from '../interest-expense';
 import { insightsDataSources } from '../../sections';
 const breakpoint = {
@@ -93,7 +93,7 @@ export const InterestExpenseChart = () => {
 
   return (
     <>
-      <InterestExpenseChartTable
+      <ChartTableContainer
         tableView={selectedChartView === 'tableView'}
         title={chartTitle}
         footer={footer}
@@ -229,7 +229,7 @@ export const InterestExpenseChart = () => {
             setTableColumnSortData={setTableColumnSortData}
           />
         )}
-      </InterestExpenseChartTable>
+      </ChartTableContainer>
     </>
   );
 };

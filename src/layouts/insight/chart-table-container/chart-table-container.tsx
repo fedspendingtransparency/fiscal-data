@@ -7,9 +7,9 @@ import {
   footerContainer,
   chartTitle,
   downloaderContainer,
-} from './interest-expense-chart-container.module.scss';
+} from './chart-table-container.module.scss';
 
-export const InterestExpenseChartTable = ({
+export const ChartTableContainer = ({
   tableView,
   title,
   altText,

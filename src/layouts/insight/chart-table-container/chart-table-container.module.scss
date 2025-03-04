@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@import '../../../variables.module';
 
 .chartContainer {
   margin-top: 1rem;
@@ -25,7 +25,7 @@
   }
 
   .chart {
-    width: 99%;
+    width: calc(100% - 3px);
     margin: 0 auto;
     justify-content: center;
   }
