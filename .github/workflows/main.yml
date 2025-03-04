@@ -29,6 +29,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ vars.ARTIFACTORY }}
           http_proxy: http://j1proxy.frb.org:8080/
+          https-proxy: http://j1proxy:frb:org:8080/
       - name: Install
         run: |
           npm cache clean --force
