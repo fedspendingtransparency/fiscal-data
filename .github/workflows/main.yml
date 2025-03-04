@@ -32,10 +32,10 @@ jobs:
           npm cache clean --force
           npm config ls -l
           npm install --loglevel verbose --legacy-peer-deps
-#      - name: run tests with coverage
-#        env:
-#          NODE_OPTIONS: "--max_old_space_size=8192"
-#        run: npm run test:coverage
+      - name: run tests with coverage
+        env:
+          NODE_OPTIONS: "--max_old_space_size=8192"
+        run: npm run test:coverage
 #  run-branch-unit-tests-and-coverage:
 #    timeout-minutes: 10
 #    runs-on: ubuntu-22.04
