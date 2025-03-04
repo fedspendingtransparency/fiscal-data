@@ -25,8 +25,8 @@ jobs:
           npm config set strict-ssl=false
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/kc-dtas-npm/
           npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
-#          npm config set proxy=http://j1proxy.frb.org:8080
-#          npm config set https-proxy=http://j1proxy.frb.org:8080
+          npm config set proxy=http://j1proxy.frb.org:8080
+          npm config set https-proxy=http://j1proxy.frb.org:8080
 #        env:
 #          http_proxy:
       - run: |
