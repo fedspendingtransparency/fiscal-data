@@ -21,7 +21,7 @@ jobs:
       - name: Create npmrc
         shell: bash
         run: |
-          npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth=${{ vars.ARTIFACTORY }}
+          npm config set //https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_auth=${{ vars.ARTIFACTORY }}
           npm config set strict-ssl=false
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
           npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
