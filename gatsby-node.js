@@ -485,6 +485,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       type: String,
       fields: [String],
       decimalPlaces: Int,
+      noFormatting: String,
       breakChar: String,
       customType: String,
       dateFormat: String,
@@ -653,6 +654,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               type
               fields
               decimalPlaces
+              noFormatting
               breakChar
               customType
               dateFormat
