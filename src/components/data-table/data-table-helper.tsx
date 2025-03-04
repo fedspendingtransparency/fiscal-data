@@ -150,7 +150,6 @@ export const columnsConstructorData = (
                 const value = getValue();
                 let formattedValue;
                 const customFormat = customFormatConfig?.find(config => config.type === 'NUMBER' && config.fields.includes(property));
-                console.log(customFormat);
                 if (!!customFormat && !customFormat.noFormatting) {
                   formattedValue = customNumberFormatter.format(value, customFormat.decimalPlaces);
                 } else if (
