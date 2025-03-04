@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
-import PDFBody from './pdfBody';
-import { mockData, mockData2 } from './mockData';
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer/lib/react-pdf.browser';
+import ReportGenerator from '../../../components/published-reports/report-generator/report-generator';
+import { accountStatementReportConfig, accountStatementFebData } from '../../../components/published-reports/report-generator/mockData';
 const styles = {
   container: {
     height: '50rem',
@@ -20,18 +20,22 @@ const PDFGenerator = () => {
     setShowPDF(true);
   }, []);
 
+  const fileName = accountStatementReportConfig.downloadName;
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', height: '70rem' }}>
       {showPDF ? (
-        <PDFDownloadLink document={<PDFBody data={mockData} data2={mockData2} />} fileName="StatementReport.pdf">
-          {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download StatementReport.pdf')}
+        <PDFDownloadLink
+          document={<ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} />}
+          fileName={`${fileName}.pdf`}
+        >
+          {({ blob, url, loading, error }) => (loading ? 'Loading download link...' : `Download ${fileName}.pdf`)}
         </PDFDownloadLink>
       ) : null}
-      {/*PDFBody can be used for faster local testing*/}
+      {/*PDFViewer can be used for faster local testing*/}
       {/*{showPDF && (*/}
       {/*  <div style={{ border: '1px solid #ccc', height: '600px', marginTop: '4rem' }}>*/}
       {/*    <PDFViewer style={styles.container}>*/}
-      {/*      <PDFBody data={mockData} data2={mockData2} />*/}
+      {/*      <ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} />*/}
       {/*    </PDFViewer>*/}
       {/*  </div>*/}
       {/*)}*/}
