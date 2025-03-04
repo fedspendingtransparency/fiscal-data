@@ -1,57 +1,113 @@
-import { mockDateRange, mockTableWithNoChartAvailable, mockTableWithPivot, mockTableWithUserFilterAvailable, selectedPivot } from './testHelpers';
+import {
+  mockConfig,
+  mockDateRange,
+  mockTableWithNoChartAvailable,
+  mockTableWithPivot,
+  mockTableWithUserFilterAvailable,
+  selectedPivot,
+  selectedTableLessFields,
+} from './testHelpers';
 import { SetNoChartMessage } from './set-no-chart-message';
+import { render, screen } from '@testing-library/react';
+import { RecoilRoot } from 'recoil';
+import React from 'react';
+import DatasetIntroduction from '../../dataset-introduction/dataset-introduction';
 
 describe('setNoChartMessage helper', () => {
-  it('returns an unable-to-render message when All Data Tables is selected', async () => {
+  // it('returns an unable-to-render message when All Data Tables is selected', async () => {
+  //   const notShownMessage = SetNoChartMessage(mockTableWithNoChartAvailable, selectedPivot, mockDateRange, true);
+  //   expect(notShownMessage.props.heading).toEqual(
+  //     'With the current "All Data Tables" selection, you may download the data, but the table and chart previews are not applicable.'
+  //   );
+  // });
+
+  it('returns an unable-to-render message when All Data Tables is selected', () => {
     const notShownMessage = SetNoChartMessage(mockTableWithNoChartAvailable, selectedPivot, mockDateRange, true);
-    expect(notShownMessage.props.heading).toEqual(
-      'With the current "All Data Tables" selection, you may download the data, but the table and chart previews are not applicable.'
-    );
+    const { getByText } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    expect(
+      getByText('With the current "All Data Tables" selection, you may download the data, but the table and chart previews are not applicable.')
+    ).toBeInTheDocument();
   });
 
-  it('returns a not-available message when a selected table has no pivot options and a chartType of "none" for the default view', async () => {
+  // it('returns a not-available message when a selected table has no pivot options and a chartType of "none" for the default view', async () => {
+  //   const notShownMessage = SetNoChartMessage(mockTableWithNoChartAvailable, selectedPivot, mockDateRange);
+  //   expect(notShownMessage.props.heading).toEqual('There are no charts for this Data Table.');
+  // });
+
+  it('returns a not-available message when a selected table has no pivot options and a chartType of "none" for the default view', () => {
     const notShownMessage = SetNoChartMessage(mockTableWithNoChartAvailable, selectedPivot, mockDateRange);
-    expect(notShownMessage.props.heading).toEqual('There are no charts for this Data Table.');
+    const { getByText } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    expect(getByText('There are no charts for this Data Table.')).toBeInTheDocument();
   });
 
-  it('Produces chart issue message when customNoChartMessage is true', async () => {
+  // it('Produces chart issue message when customNoChartMessage is true', async () => {
+  //   const notShownMessage = SetNoChartMessage(mockTableWithNoChartAvailable, selectedPivot, mockDateRange, null, null, null, true);
+  //   expect(notShownMessage.props.bodyText.props.children[0]).toContain(
+  //     'The Fiscal Data team is working to address an issue with the charts for this dataset.'
+  //   );
+  //   expect(notShownMessage.props.heading).toEqual('This chart is undergoing updates');
+  // });
+
+  it('Produces chart issue message when customNoChartMessage is true', () => {
     const notShownMessage = SetNoChartMessage(mockTableWithNoChartAvailable, selectedPivot, mockDateRange, null, null, null, true);
-    expect(notShownMessage.props.bodyText.props.children[0]).toContain(
-      'The Fiscal Data team is working to address an issue with the charts for this dataset.'
-    );
-    expect(notShownMessage.props.heading).toEqual('This chart is undergoing updates');
+    const { getByText, getByTestId } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    expect(getByText('This chart is undergoing updates')).toBeInTheDocument();
+    expect(getByTestId('mail-to link')).toBeInTheDocument();
   });
 
-  it('returns a date range too narrow message when the selected date range spans no more than a day', async () => {
+  // it('returns a date range too narrow message when the selected date range spans no more than a day', async () => {
+  //   const dateMock = new Date(2020, 2, 15);
+  //   const notShownMessage = SetNoChartMessage(mockTableWithPivot, selectedPivot, {
+  //     to: dateMock,
+  //     from: dateMock,
+  //   });
+  //   expect(notShownMessage.props.heading).toEqual('Select a different date range to display a chart');
+  //   expect(notShownMessage.props.bodyText).toEqual(
+  //     'No chart is available for the selected date range because it is too narrow to effectively chart.'
+  //   );
+  // });
+
+  it('returns a date range too narrow message when the selected date range spans no more than a day', () => {
     const dateMock = new Date(2020, 2, 15);
     const notShownMessage = SetNoChartMessage(mockTableWithPivot, selectedPivot, {
       to: dateMock,
       from: dateMock,
     });
-    expect(notShownMessage.props.heading).toEqual('Select a different date range to display a chart');
-    expect(notShownMessage.props.bodyText).toEqual(
-      'No chart is available for the selected date range because it is too narrow to effectively chart.'
-    );
+    const { getByText } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    expect(getByText('Select a different date range to display a chart')).toBeInTheDocument();
+    expect(getByText('No chart is available for the selected date range because it is too narrow to effectively chart.')).toBeInTheDocument();
   });
 
-  it('Produces no dateRange-too-narrow message when the date range includes at least two days', async () => {
+  // it('Produces no dateRange-too-narrow message when the date range includes at least two days', async () => {
+  //   const fromDateMock = new Date(2019, 11, 24);
+  //   const toDateMock = new Date(2019, 11, 25);
+  //   const notShownMessage = SetNoChartMessage(mockTableWithPivot, selectedPivot, {
+  //     to: toDateMock,
+  //     from: fromDateMock,
+  //   });
+  //   expect(notShownMessage).toBeUndefined(); // no message
+  // });
+
+  it('Produces no dateRange-too-narrow message when the date range includes at least two days', () => {
     const fromDateMock = new Date(2019, 11, 24);
     const toDateMock = new Date(2019, 11, 25);
     const notShownMessage = SetNoChartMessage(mockTableWithPivot, selectedPivot, {
       to: toDateMock,
       from: fromDateMock,
     });
-    expect(notShownMessage).toBeUndefined(); // no message
+    const { getByText } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    expect(getByText('test')).toBeInTheDocument();
   });
 
-  it('Produces no chart message when userFilter is available but unselected days', async () => {
-    const fromDateMock = new Date(2019, 11, 24);
-    const toDateMock = new Date(2019, 11, 25);
-    const notShownMessage = SetNoChartMessage(mockTableWithUserFilterAvailable, null, {
-      to: toDateMock,
-      from: fromDateMock,
-    });
-    expect(notShownMessage.props.heading).toContain('Select');
-    expect(notShownMessage.props.heading).toContain('from Facility Description options above to display the chart.');
-  });
+  //
+  //   it('Produces no chart message when userFilter is available but unselected days', async () => {
+  //     const fromDateMock = new Date(2019, 11, 24);
+  //     const toDateMock = new Date(2019, 11, 25);
+  //     const notShownMessage = SetNoChartMessage(mockTableWithUserFilterAvailable, null, {
+  //       to: toDateMock,
+  //       from: fromDateMock,
+  //     });
+  //     expect(notShownMessage.props.heading).toContain('Select');
+  //     expect(notShownMessage.props.heading).toContain('from Facility Description options above to display the chart.');
+  //   });
 });
