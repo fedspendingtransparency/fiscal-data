@@ -71,7 +71,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   disableDateRangeFilter,
   datasetName,
   hasDownloadTimestamp,
-  columnMinWidthDisplay,
+  chartTable,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
@@ -309,8 +309,9 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
                   disableDateRangeFilter={disableDateRangeFilter}
-                  columnMinWidthDisplay={columnMinWidthDisplay}
+                  chartTable={chartTable}
                 />
+                {console.log('dta hhhh table', chartTable)}
                 <DataTableBody
                   table={table}
                   dataTypes={dataTypes}
@@ -332,8 +333,10 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
           manualPagination={manualPagination}
           rowsShowing={rowsShowing}
           setTableDownload={nonRawDataColumns ? null : setTableRowSizeData}
+          chartTable={chartTable}
         />
       )}
+      {console.log('dta table', chartTable)}
     </>
   );
 };

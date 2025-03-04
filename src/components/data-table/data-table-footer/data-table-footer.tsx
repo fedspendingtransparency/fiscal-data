@@ -11,6 +11,7 @@ interface IDataTableFooter {
   manualPagination: boolean;
   rowsShowing: { begin: number; end: number };
   setTableDownload?: (rowCount: number) => void;
+  chartTable?: boolean;
 }
 
 const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
@@ -20,6 +21,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
   manualPagination,
   rowsShowing: rowRange,
   setTableDownload,
+  chartTable,
 }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
 
@@ -80,9 +82,9 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
       setTableDownload(manualPagination ? null : table.getFilteredRowModel().rows.length);
     }
   }, [table?.getFilteredRowModel(), pagingProps]);
-
+  console.log(chartTable);
   return (
-    <div data-test-id="table-footer" className={tableFooter}>
+    <div data-test-id="table-footer" style={{ padding: chartTable || '1rem' }} className={tableFooter}>
       <div data-test-id="rows-showing" className={rowsShowing}>
         {visibleRows(table)}
       </div>

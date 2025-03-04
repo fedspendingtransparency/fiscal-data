@@ -39,7 +39,7 @@ const ChartTableView = ({ chartData, rawExpenseData, rawRateData, sorting, setSo
           caption: 'Interest Expense and Rates Table',
           shouldPage: true,
           width: '99%',
-          columnMinWidthDisplay: false,
+          chartTable: false,
           noBorder: true,
         }}
         reactTable={true}
