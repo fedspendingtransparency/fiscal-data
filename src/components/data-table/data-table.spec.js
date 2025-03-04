@@ -429,6 +429,7 @@ describe('react-table', () => {
       expect(queryAllByRole('columnheader', { name: index })[0]).not.toBeDefined();
     });
   });
+
   it('formats PERCENTAGE types correctly', () => {
     const { getAllByTestId } = render(
       <RecoilRoot>
@@ -487,6 +488,27 @@ describe('react-table', () => {
       </RecoilRoot>
     );
     expect(getAllByTestId('row')[0].innerHTML).toContain('-0.120000');
+  });
+  it('formats custom NUMBER types correctly with custom format of `noFormatting` applied', () => {
+    const customFormatter = [{ type: 'NUMBER', fields: ['spread'], noFormatting: true }];
+
+    const { getAllByTestId } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={['spread']}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          columnConfig={mockColumnConfig}
+          customFormatting={customFormatter}
+          setTableSorting={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+    expect(getAllByTestId('row')[0].innerHTML).toContain('-0.1200');
   });
 
   it('formats custom STRING dateList types correctly', () => {
