@@ -1,22 +1,19 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import HomeFeatures, { featuresSrc as features } from './home-features';
 
 describe('HomeFeatures component', () => {
-  let instance;
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(<HomeFeatures />);
-  });
-  instance = component.root;
-
   it('includes an h2 header', () => {
-    expect(instance.findByType('h2')).toBeDefined();
+    const { getByRole } = render(<HomeFeatures />);
+    const heading = getByRole('heading', { level: 2 });
+    expect(heading).toBeInTheDocument();
   });
 
   it('shows the same number of images as the setup variable', () => {
-    expect(instance.findAllByType('img').length).toBe(features.length);
+    const { getAllByRole } = render(<HomeFeatures />);
+    const images = getAllByRole('img', { hidden: true });
+    expect(images.length).toBe(features.length);
   });
 
   it('has aria-hidden=true and alt text on each of those six images', () => {
