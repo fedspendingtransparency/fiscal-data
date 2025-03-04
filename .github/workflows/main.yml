@@ -20,15 +20,17 @@ jobs:
       - name: Create npmrc
         shell: bash
         run: |
-          npm config set //https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=${{ vars.ARTIFACTORY }}
+          npm config set //artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/:_authToken=$NODE_AUTH_TOKEN
           npm config set strict-ssl=false
           npm config set registry=https://artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/
-          npm config set proxy=http://j1proxy.frb.org:8080/
-          npm config set https-proxy=http://j1proxy.frb.org:8080/
+#          npm config set proxy=http://j1proxy.frb.org:8080/
+#          npm config set https-proxy=http://j1proxy.frb.org:8080/
 #          npm config set noproxy=artifactory.prod.dt.ts.aws.frb.pvt
-#        env:
-#          http_proxy:
-      - run: |
+        env:
+          NODE_AUTH_TOKEN: ${{ vars.ARTIFACTORY }}
+          http_proxy: http://j1proxy.frb.org:8080/
+      - name: Install
+        run: |
           npm cache clean --force
           npm config ls -l
           npm install --loglevel verbose --legacy-peer-deps
