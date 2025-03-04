@@ -25,7 +25,7 @@
   }
 
   .chart {
-    width: calc(100% - 3px);
+    width: calc(100% - 4px);
     margin: 0 auto;
     justify-content: center;
   }
@@ -57,8 +57,6 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .chartContainer {
-    padding: 1.25rem 1.125rem;
-
     .chartTitle {
       font-size: $font-size-16;
     }

@@ -35,6 +35,7 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
   const [olderResult, setOlderResult] = useState(null);
   const [rawExpenseData, setRawExpenseData] = useState(null);
   const [rawRateData, setRawRateData] = useState(null);
+  const [mergedTableData, setMergedTableData] = useState<any[]>([]);
 
   useEffect(() => {
     queryClient
@@ -177,6 +178,40 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
       }
     }
   }, [currentResult, olderResult]);
+
+  const formatDate = (dateString: string): string => {
+    if (!dateString) return '';
+    const [yyyy, mm, dd] = dateString.split('-');
+    const shorterYear = yyyy.slice(-2);
+    return `${mm}/${dd}/${shorterYear}`;
+  };
+
+  useMemo(() => {
+    if (chartData && rawExpenseData && rawRateData) {
+      const newTableData = chartData.map(item => {
+        const matchingExpense = rawExpenseData.data.find(exp => parseInt(exp.record_fiscal_year, 10) === item.year);
+        const matchingRate = rawRateData.data.find(rate => parseInt(rate.record_fiscal_year, 10) === item.year);
+
+        return {
+          record_date: formatDate(matchingExpense?.record_date),
+          year: item.year,
+          expense: '$' + getShortForm(item.expense?.toString(), true, false, 1),
+          rate: item.rate?.toString() ?? '',
+        };
+      });
+      setMergedTableData(newTableData);
+    }
+  }, [chartData, rawExpenseData, rawRateData]);
+
+  const columnConfig = useMemo(() => {
+    return [
+      { property: 'record_date', name: 'Record Date', type: 'string' },
+      { property: 'expense', name: 'FYTD Interest Expense', type: 'string' },
+      { property: 'rate', name: 'Avg Interest Rate', type: 'string' },
+      { property: 'year', name: 'Fiscal Year', type: 'string' },
+    ];
+  }, []);
+
   return {
     rawExpenseData,
     rawRateData,
@@ -189,5 +224,7 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
     latestChartData,
     altText,
     chartLoading,
+    mergedTableData,
+    columnConfig,
   };
 };

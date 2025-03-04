@@ -83,7 +83,6 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                     paddingLeft: !chartTable ? '1rem' : '',
                   }}
                 >
-                  {console.log(header.getSize())}
                   {header.isPlaceholder ? null : (
                     <>
                       <div className={header.column.getCanSort() ? `${colHeader} ${rightAlignStyle}` : ''} data-testid={`header-sorter-${header.id}`}>

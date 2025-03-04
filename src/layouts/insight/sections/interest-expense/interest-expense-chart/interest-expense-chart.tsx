@@ -42,6 +42,8 @@ export const InterestExpenseChart = () => {
     chartLoading,
     currentFY,
     startFY,
+    columnConfig,
+    mergedTableData,
   } = useGetInterestExpenseData(true, isMobile);
   const [fiscalYear, setFiscalYear] = useState<number>(0);
   const [curExpenseAmount, setCurExpenseAmount] = useState<number>(0);
@@ -219,15 +221,7 @@ export const InterestExpenseChart = () => {
         )}
 
         {selectedChartView === 'tableView' && (
-          <ChartTableView
-            chartData={chartData}
-            rawExpenseData={rawExpenseData}
-            rawRateData={rawRateData}
-            sorting={sorting}
-            setSorting={setSorting}
-            tableColumnSortData={tableColumnSortData}
-            setTableColumnSortData={setTableColumnSortData}
-          />
+          <ChartTableView columnConfig={columnConfig} mergedTableData={mergedTableData} sorting={sorting} setSorting={setSorting} />
         )}
       </ChartTableContainer>
     </>
