@@ -16,6 +16,7 @@ jobs:
         uses: actions/setup-node@v4.2.0
         with:
           node-version: 20.18
+          registry-url: 'artifactory.prod.dt.ts.aws.frb.pvt/artifactory/api/npm/kc-dtas-npm/'
       - name: Create npmrc
         shell: bash
         run: |
