@@ -1,5 +1,15 @@
-import { expenseLegend, expenseText, legendContainer, line, rateLegend, rectangle, stripedRectangle } from './interest-expense-chart.module.scss';
+import {
+  expenseLegend,
+  expenseText,
+  legendContainer,
+  line,
+  rateLegend,
+  rectangle,
+  stripedRectangle,
+  infoTipContainer,
+} from './interest-expense-chart.module.scss';
 import React, { FunctionComponent, ReactElement } from 'react';
+import InfoTip from '../../../../../components/info-tip/info-tip';
 
 type Tooltip = (object: {
   payload: [{ payload: { year: number; expense: number; rate: number }; dataKey: string }];
@@ -26,6 +36,20 @@ export const Legend: FunctionComponent = (): ReactElement => {
         <span className={expenseText}>Interest Expense</span>
         <div className={rectangle} />
         <div className={stripedRectangle} />
+        <div className={infoTipContainer}>
+          <InfoTip
+            hover
+            iconStyle={{
+              color: '#666666',
+              width: '1rem',
+              height: '1rem',
+            }}
+            secondary={false}
+          >
+            {'Bars in the chart with a solid fill represent completed fiscal years. The bar with the ' +
+              'diagonal lines represents the current fiscal year to date.'}
+          </InfoTip>
+        </div>
       </div>
       <div className={rateLegend}>
         <div className={line} />

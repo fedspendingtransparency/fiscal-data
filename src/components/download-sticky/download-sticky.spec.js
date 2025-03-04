@@ -8,8 +8,7 @@ import '@testing-library/jest-dom';
 import { StickyFooterComponent } from '../sticky-footer/sticky-footer';
 import * as gaHelper from '../../layouts/dataset-detail/helper';
 import { RecoilRoot } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
-import { smallTableDownloadDataCSV } from '../../recoil/smallTableDownloadData';
+import { dataTableDapGaEventLabelState } from '../../recoil/dataTableDapGaEventLabelState';
 
 jest.useFakeTimers();
 describe('DownloadSticky component', () => {
@@ -185,7 +184,7 @@ describe('DownloadSticky component', () => {
     const gaSpy = jest.spyOn(gaHelper, 'generateAnalyticsEvent');
 
     const { queryByText, queryByTestId, getByTestId } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(reactTableFilteredDateRangeState, 'Table Info')}>
+      <RecoilRoot initializeState={snapshot => snapshot.set(dataTableDapGaEventLabelState, 'Table Info')}>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -401,7 +400,7 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText, queryAllByText, getByTestId } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(reactTableFilteredDateRangeState, 'Table Info')}>
+      <RecoilRoot initializeState={snapshot => snapshot.set(dataTableDapGaEventLabelState, 'Table Info')}>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>

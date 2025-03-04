@@ -4,7 +4,7 @@ module.exports = {
   API_BASE_URL: 'https://api.uat.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
-  EXPERIMENTAL_WHITELIST: ['experimental-page', 'afg-overview', 'publishedReportsSection', 'dataPreview'],
+  EXPERIMENTAL_WHITELIST: ['experimental-page', 'afg-overview', 'publishedReportsSection', 'dataPreview', 'chartingConfigurationTool'],
   ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '160': {
@@ -49,7 +49,7 @@ module.exports = {
 
     // TRRE Clean
     '318': {
-      endpoint: 'v1/accounting/od/rates_of_exchange_clean_values',
+      endpoint: 'v1/accounting/od/rates_of_exchange',
       dateField: 'record_date',
       downloadName: 'RprtRateXchgCln',
       alwaysSortWith: ['-record_date', 'country_currency_desc'],

@@ -22,3 +22,8 @@ export const isValidDateRange = (startDate, endDate, earliestDate, latestDate) =
 
   return true;
 };
+
+export const getFiscalYearByDate = (date = new Date()) => {
+  const september = 8;
+  return date.getMonth() > september ? date.getFullYear() + 1 : date.getFullYear();
+};

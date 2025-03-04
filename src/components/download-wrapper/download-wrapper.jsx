@@ -17,7 +17,7 @@ import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonSt
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { tableRowLengthState } from '../../recoil/smallTableDownloadData';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
+import { dataTableDapGaEventLabelState } from '../../recoil/dataTableDapGaEventLabelState';
 
 const gaEventLabels = globalConstants.gaEventLabels;
 export const cancelEventActionStr = gaEventLabels.cancelDL + ' Click';
@@ -34,6 +34,7 @@ const DownloadWrapper = ({
   filteredDateRange,
   selectedDetailViewFilter,
   setDisableDownloadBanner,
+  selectedPivot,
 }) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
@@ -51,9 +52,8 @@ const DownloadWrapper = ({
   const [changeMadeToCriteria, setChangeMadeToCriteria] = useState(false);
   const [icon, setIcon] = useState(null);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
-  const setDapGaEventLabel = useSetRecoilState(reactTableFilteredDateRangeState);
   const [gaEventLabel, setGaEventLabel] = useState();
-
+  const setDapGaEventLabel = useSetRecoilState(dataTableDapGaEventLabelState);
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
   const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
@@ -166,7 +166,6 @@ const DownloadWrapper = ({
       setGaEventLabel(`Table Name: ${selectedTable?.tableName}, Type: ${selectedFileType}, Date Range: ${dateRange.from}-${dateRange.to}`);
     }
   }, [selectedTable, dateRange, selectedFileType]);
-
   useEffect(() => {
     setDapGaEventLabel(gaEventLabel);
   }, [gaEventLabel]);
@@ -214,6 +213,7 @@ const DownloadWrapper = ({
             selectedFileType={selectedFileType}
             dapGaEventLabel={gaEventLabel}
             downloadTimestamp={dataset.downloadTimestamp}
+            selectedPivot={selectedPivot}
           />
         </>
       );

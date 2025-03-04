@@ -3,6 +3,7 @@ import { fireEvent, render } from '@testing-library/react';
 import GlossaryPopoverDefinition from './glossary-popover-definition';
 import { GlossaryContext } from '../glossary-context/glossary-context';
 import userEvent from '@testing-library/user-event';
+import { getFiscalYearByDate } from '../../../helpers/dates/date-helpers';
 
 describe('glossary term', () => {
   const testGlossary = [
@@ -35,6 +36,14 @@ describe('glossary term', () => {
       term: 'Debt Held by the Public',
       site_page: 'Test Page',
       definition: 'Test for term with custom style for not.',
+      url_display: '',
+      url_path: '',
+    },
+    {
+      id: 5,
+      term: 'Fiscal Year',
+      site_page: 'Test Page',
+      definition: 'For example, Fiscal Year 1111 (FY 1111) started October 1, 1110, and ended September 30, 1111.',
       url_display: '',
       url_path: '',
     },
@@ -117,6 +126,26 @@ describe('glossary term', () => {
 
     const styledText = getByText('not');
     expect(styledText).toHaveStyle({ textDecoration: 'underline' });
+  });
+
+  it('handles the fiscal year special case', () => {
+    const termText = 'Fiscal Year';
+    const testPage = 'Test Page';
+    const fy = getFiscalYearByDate();
+    const expected = `For example, Fiscal Year ${fy - 1} (FY ${fy - 1}) started October 1, ${fy - 2}, and ended September 30, ${fy - 1}.`;
+
+    const { getByRole, getByText } = render(
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
+        <GlossaryPopoverDefinition term={termText} page={testPage}>
+          {termText}
+        </GlossaryPopoverDefinition>
+      </GlossaryContext.Provider>
+    );
+    const glossaryTermButton = getByRole('button', { name: termText });
+    glossaryTermButton.click();
+
+    const definition = getByText('For example', { exact: false });
+    expect(definition.textContent).toEqual(expected);
   });
 
   it('correctly displays the definition for the term associated with the specified page', () => {

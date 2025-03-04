@@ -218,6 +218,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
           filteredDateRange={filteredDateRange}
           selectedDetailViewFilter={detailViewDownloadFilter}
           setDisableDownloadBanner={setDisableDownloadBanner}
+          selectedPivot={selectedPivot}
         >
           <DataTableSelect
             apis={filteredApis}
