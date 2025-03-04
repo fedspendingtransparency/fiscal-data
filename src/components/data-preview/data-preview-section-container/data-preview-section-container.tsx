@@ -159,14 +159,12 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
             if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {
-              // try {
-              return await queryClient.ensureQueryData({
+              const tableData = await queryClient.ensureQueryData({
                 queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
                 queryFn: () => fetchAllTableData(sortParam, totalCount, selectedTable, apiFilterParam, dateFilter),
               });
-              // } catch (error) {
-              //   console.warn(error);
-              // }
+              setApiError(false);
+              return tableData;
             } else if (totalCount === 0) {
               setIsLoading(false);
               setUserFilterUnmatchedForDateRange(true);
@@ -187,7 +185,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
         .finally(() => {
           if (meta) {
             setTableMeta(meta);
-            // setApiError(false);
           }
         });
     } else if (selectedTable?.apiFilter && userFilterSelection === null) {
