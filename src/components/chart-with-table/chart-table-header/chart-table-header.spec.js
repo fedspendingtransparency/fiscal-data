@@ -5,7 +5,7 @@ import { interestExpenseChartHeaderContainer } from './chart-table-header.module
 import '@testing-library/jest-dom';
 
 const mockToggle = jest.fn();
-jest.mock('../chart-table-toggle/interest-expense-chart-toggle', () => {
+jest.mock('../chart-table-toggle/charting-table-toggle', () => {
   return props => {
     mockToggle(props);
     return (

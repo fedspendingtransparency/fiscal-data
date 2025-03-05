@@ -1,4 +1,13 @@
-import { expenseLegend, expenseText, legendContainer, line, rateLegend, rectangle, stripedRectangle } from './interest-expense-chart.module.scss';
+import {
+  expenseLegend,
+  expenseText,
+  legendContainer,
+  line,
+  rateLegend,
+  rectangle,
+  stripedRectangle,
+  infoTipContainer,
+} from './interest-expense-chart.module.scss';
 import React, { FunctionComponent, ReactElement } from 'react';
 import InfoTip from '../../../../../components/info-tip/info-tip';
 import { insightsCitationsMap } from '../../../../../helpers/insights/insight-helpers';
