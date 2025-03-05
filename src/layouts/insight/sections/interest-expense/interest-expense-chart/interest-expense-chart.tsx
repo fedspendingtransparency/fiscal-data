@@ -11,10 +11,10 @@ import { useGetInterestExpenseData } from '../useGetInterestExpenseData';
 import globalConstants from '../../../../../helpers/constants';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
-import InterestExpenseChartHeader from '../../../../../components/chart-with-table/chart-table-header/interest-expense-chart-header';
 import ChartTableView from '../../../../../components/chart-with-table/interest-expense-table';
 import { ChartTableContainer } from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
-
+import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
+import ChartTableHeader from '../../../../../components/chart-with-table/chart-table-header/interest-expense-chart-header';
 const breakpoint = {
   desktop: 1015,
   tablet: 600,
@@ -29,8 +29,6 @@ export const InterestExpenseChart = () => {
   const [width] = useWindowSize();
   const [isMobile, setIsMobile] = useState<boolean>(null);
   const {
-    rawExpenseData,
-    rawRateData,
     chartData,
     chartXAxisValues,
     expenseYAxisValues,
@@ -51,7 +49,14 @@ export const InterestExpenseChart = () => {
   const [sorting, setSorting] = useState([]);
   const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
-  const header = <InterestExpenseChartHeader selectedChartView={selectedChartView} setSelectedChartView={setSelectedChartView} />;
+  const header = (
+    <ChartTableHeader
+      selectedChartView={selectedChartView}
+      setSelectedChartView={setSelectedChartView}
+      leftIcon={faChartColumn}
+      rightIcon={faTable}
+    />
+  );
   const resetDataHeader = () => {
     if (latestChartData) {
       setFiscalYear(latestChartData.year);

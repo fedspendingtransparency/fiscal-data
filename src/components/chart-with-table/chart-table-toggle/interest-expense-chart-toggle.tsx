@@ -8,7 +8,7 @@ import {
   icon,
 } from './chart-table-toggle.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 interface LeftButtonConfig {
   leftId: string;
   leftSelected: boolean;
@@ -25,14 +25,18 @@ interface InterestExpenseChartToggleProps {
   chartId: string | null;
   leftButtonConfig: LeftButtonConfig;
   rightButtonConfig: RightButtonConfig;
+  leftIcon: IconDefinition;
+  righticon: IconDefinition;
 }
 
-const InterestExpenseChartToggle: React.FC<InterestExpenseChartToggleProps> = ({
+const ChartTableToggle: React.FC<InterestExpenseChartToggleProps> = ({
   toggleClickHandler,
   primaryColor,
   chartId,
   leftButtonConfig,
   rightButtonConfig,
+  leftIcon,
+  righticon,
 }) => {
   const { leftId, leftSelected } = leftButtonConfig;
   const { rightId, rightSelected } = rightButtonConfig;
@@ -50,7 +54,7 @@ const InterestExpenseChartToggle: React.FC<InterestExpenseChartToggleProps> = ({
         }}
         id={chartId || undefined}
       >
-        <FontAwesomeIcon className={icon} icon={faChartColumn} />
+        <FontAwesomeIcon className={icon} icon={leftIcon} />
       </button>
       <button
         className={`${toggleButton} ${toggleButtonLeft} ${rightSelected ? selected : ''}`}
@@ -64,10 +68,10 @@ const InterestExpenseChartToggle: React.FC<InterestExpenseChartToggleProps> = ({
         }}
         id={chartId || undefined}
       >
-        <FontAwesomeIcon className={icon} icon={faTable} />
+        <FontAwesomeIcon className={icon} icon={righticon} />
       </button>
     </div>
   );
 };
 
-export default InterestExpenseChartToggle;
+export default ChartTableToggle;

@@ -1,14 +1,16 @@
 import React from 'react';
-import InterestExpenseChartToggle from '../chart-table-toggle/interest-expense-chart-toggle';
-
+import ChartTableToggle from '../chart-table-toggle/interest-expense-chart-toggle';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 interface InterestExpenseChartHeaderProps {
   selectedChartView: string;
   setSelectedChartView: (chartView: string) => void;
+  leftIcon: IconDefinition;
+  rightIcon: IconDefinition;
 }
-const InterestExpenseChartHeader: React.FC<InterestExpenseChartHeaderProps> = ({ selectedChartView, setSelectedChartView }) => {
+const ChartTableHeader: React.FC<InterestExpenseChartHeaderProps> = ({ selectedChartView, setSelectedChartView, leftIcon, rightIcon }) => {
   return (
     <div>
-      <InterestExpenseChartToggle
+      <ChartTableToggle
         primaryColor={'#0071BC'}
         leftButtonConfig={{
           leftId: 'chartView',
@@ -20,9 +22,11 @@ const InterestExpenseChartHeader: React.FC<InterestExpenseChartHeaderProps> = ({
         }}
         toggleClickHandler={(chartView: string) => setSelectedChartView(chartView)}
         chartId={null}
+        leftIcon={leftIcon}
+        rightIcon={rightIcon}
       />
     </div>
   );
 };
 
-export default InterestExpenseChartHeader;
+export default ChartTableHeader;
