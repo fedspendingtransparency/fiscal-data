@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import ChartTableView from './interest-expense-table';
+import ChartTableView from './chart-table-view';
 import '@testing-library/jest-dom';
 
 const mockDtgTable = jest.fn();
