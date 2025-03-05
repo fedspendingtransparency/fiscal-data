@@ -16,6 +16,11 @@ jobs:
         uses: actions/setup-node@v4.2.0
         with:
           node-version: 20.18
+      - name: Create npmrc
+        shell: bash
+        run: |
+          npm config set strict-ssl=false
+          npm config set registry=https://registry.npmjs.org/
       - name: Install
         run: |
           npm cache clean --force
