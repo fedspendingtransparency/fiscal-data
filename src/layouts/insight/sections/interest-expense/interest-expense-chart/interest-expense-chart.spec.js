@@ -124,11 +124,11 @@ describe('Interest Expense Chart', () => {
     userEvent.tab();
     userEvent.tab();
     userEvent.tab();
+    userEvent.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date
     expect(getByText('2010')).toBeInTheDocument();
     userEvent.tab();
-
     expect(chart).not.toHaveFocus();
     //Chart header resets
     expect(getByText('2024')).toBeInTheDocument();

@@ -122,7 +122,7 @@ export default function DtgTable({
     }
     return allCols;
   };
-  const isPaginationControlNeeded = () => !apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0];
+  const isPaginationControlNeeded = () => currentPage >= 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
 
   const rowData = Array.isArray(tableData) ? tableData : tableData?.data || [];
 
