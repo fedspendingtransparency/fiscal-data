@@ -4,7 +4,7 @@ import { BodyCopy } from './body-copy/body-copy';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { getShortForm } from '../../../../utils/rounding-utils';
 import { insightsCitationsMap } from '../../../../helpers/insights/insight-helpers';
-import { ChartTableContainer } from '../../chart-table-container/chart-table-container';
+import { ChartTableContainer } from '../../../../components/chart-with-table/chart-table-container/chart-table-container';
 
 const getCurrentInterestExpData = async () => {
   return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`);

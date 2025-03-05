@@ -1,9 +1,14 @@
-import React, { useMemo } from 'react';
-import DtgTable from '../../../../../components/dtg-table/dtg-table';
-import { getShortForm } from '../../../../../utils/rounding-utils';
-import { formatDate } from '../../../../../components/download-wrapper/helpers';
+import React from 'react';
+import DtgTable from '../dtg-table/dtg-table';
 
-const ChartTableView = ({ mergedTableData, columnConfig, sorting, setSorting }) => {
+interface ChartTableViewProps {
+  mergedTableData: any[];
+  columnConfig: any[];
+  sorting: any;
+  setSorting: (sorting: any) => void;
+}
+
+const ChartTableView: React.FC<ChartTableViewProps> = ({ mergedTableData, columnConfig, sorting, setSorting }) => {
   return (
     <div>
       <DtgTable

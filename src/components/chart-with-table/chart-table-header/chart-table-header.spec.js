@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import InterestExpenseChartHeader from './interest-expense-chart-header';
-import { interestExpenseChartHeaderContainer } from '../interest-expense-chart-header/interestExpense-chart-header.module.scss';
+import { interestExpenseChartHeaderContainer } from './chart-table-header.module.scss';
 import '@testing-library/jest-dom';
 
 const mockToggle = jest.fn();
-jest.mock('../interest-expense-chart-toggle/interest-expense-chart-toggle', () => {
+jest.mock('../chart-table-toggle/interest-expense-chart-toggle', () => {
   return props => {
     mockToggle(props);
     return (

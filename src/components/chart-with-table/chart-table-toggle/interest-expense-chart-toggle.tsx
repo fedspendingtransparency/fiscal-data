@@ -6,16 +6,40 @@ import {
   toggleButtonRight,
   selected,
   icon,
-} from './interest-expense-chart-toggle.module.scss';
+} from './chart-table-toggle.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
-const InterestExpenseChartToggle = ({ toggleClickHandler, primaryColor, chartId, leftButtonConfig, rightButtonConfig }) => {
+interface LeftButtonConfig {
+  leftId: string;
+  leftSelected: boolean;
+}
+
+interface RightButtonConfig {
+  rightId: string;
+  rightSelected: boolean;
+}
+
+interface InterestExpenseChartToggleProps {
+  toggleClickHandler: (id: string) => void;
+  primaryColor: string;
+  chartId: string | null;
+  leftButtonConfig: LeftButtonConfig;
+  rightButtonConfig: RightButtonConfig;
+}
+
+const InterestExpenseChartToggle: React.FC<InterestExpenseChartToggleProps> = ({
+  toggleClickHandler,
+  primaryColor,
+  chartId,
+  leftButtonConfig,
+  rightButtonConfig,
+}) => {
   const { leftId, leftSelected } = leftButtonConfig;
   const { rightId, rightSelected } = rightButtonConfig;
   return (
     <div className={interestExpenseChartToggleContainer}>
       <button
-        className={`${toggleButton} ${toggleButtonRight} ${leftSelected ? selected : null}`}
+        className={`${toggleButton} ${toggleButtonRight} ${leftSelected ? selected : ''}`}
         onClick={() => {
           toggleClickHandler(leftId);
         }}
@@ -24,12 +48,12 @@ const InterestExpenseChartToggle = ({ toggleClickHandler, primaryColor, chartId,
           color: leftSelected ? '#FFF' : primaryColor,
           borderColor: primaryColor,
         }}
-        id={chartId}
+        id={chartId || undefined}
       >
         <FontAwesomeIcon className={icon} icon={faChartColumn} />
       </button>
       <button
-        className={`${toggleButton} ${toggleButtonLeft} ${rightSelected ? selected : null}`}
+        className={`${toggleButton} ${toggleButtonLeft} ${rightSelected ? selected : ''}`}
         onClick={() => {
           toggleClickHandler(rightId);
         }}
@@ -38,7 +62,7 @@ const InterestExpenseChartToggle = ({ toggleClickHandler, primaryColor, chartId,
           color: rightSelected ? '#FFF' : primaryColor,
           borderColor: primaryColor,
         }}
-        id={chartId}
+        id={chartId || undefined}
       >
         <FontAwesomeIcon className={icon} icon={faTable} />
       </button>

@@ -312,7 +312,6 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
                   disableDateRangeFilter={disableDateRangeFilter}
                   chartTable={chartTable}
                 />
-                {console.log('dta hhhh table', chartTable)}
                 <DataTableBody
                   table={table}
                   dataTypes={dataTypes}
@@ -338,7 +337,6 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
           chartTable={chartTable}
         />
       )}
-      {console.log('dta table', chartTable)}
     </>
   );
 };

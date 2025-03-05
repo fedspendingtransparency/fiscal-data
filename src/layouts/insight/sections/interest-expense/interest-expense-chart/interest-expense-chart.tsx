@@ -1,5 +1,5 @@
 import { ComposedChart, ResponsiveContainer, XAxis, YAxis, Line, Bar, CartesianGrid, Tooltip, Cell } from 'recharts';
-import { ChartTitle, CustomTooltip, footer, Legend } from './interest-expense-chart-helper';
+import { CustomTooltip, footer, Legend } from './interest-expense-chart-helper';
 import React, { useEffect } from 'react';
 import { Skeleton } from '@mui/material';
 import { useState } from 'react';
@@ -11,12 +11,10 @@ import { useGetInterestExpenseData } from '../useGetInterestExpenseData';
 import globalConstants from '../../../../../helpers/constants';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
-import InterestExpenseChartHeader from '../interest-expense-table/interest-expense-chart-header/interest-expense-chart-header';
-import { chartCopy } from '../../../../explainer/sections/treasury-savings-bonds/purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
-import ChartTableView from '../interest-expense-table/interest-expense-table';
-import { ChartTableContainer } from '../../../chart-table-container/chart-table-container';
-import { interestExpenseDataSources } from '../interest-expense';
-import { insightsDataSources } from '../../sections';
+import InterestExpenseChartHeader from '../../../../../components/chart-with-table/chart-table-header/interest-expense-chart-header';
+import ChartTableView from '../../../../../components/chart-with-table/interest-expense-table';
+import { ChartTableContainer } from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
+
 const breakpoint = {
   desktop: 1015,
   tablet: 600,

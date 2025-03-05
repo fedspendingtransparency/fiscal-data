@@ -1,9 +1,13 @@
 import React from 'react';
-import InterestExpenseChartToggle from '../interest-expense-chart-toggle/interest-expense-chart-toggle';
-import { interestExpenseChartHeaderContainer } from './interestExpense-chart-header.module.scss';
-const InterestExpenseChartHeader = ({ selectedChartView, setSelectedChartView }) => {
+import InterestExpenseChartToggle from '../chart-table-toggle/interest-expense-chart-toggle';
+
+interface InterestExpenseChartHeaderProps {
+  selectedChartView: string;
+  setSelectedChartView: (chartView: string) => void;
+}
+const InterestExpenseChartHeader: React.FC<InterestExpenseChartHeaderProps> = ({ selectedChartView, setSelectedChartView }) => {
   return (
-    <div className={interestExpenseChartHeaderContainer}>
+    <div>
       <InterestExpenseChartToggle
         primaryColor={'#0071BC'}
         leftButtonConfig={{
@@ -14,7 +18,7 @@ const InterestExpenseChartHeader = ({ selectedChartView, setSelectedChartView })
           rightId: 'tableView',
           rightSelected: selectedChartView === 'tableView',
         }}
-        toggleClickHandler={chartView => setSelectedChartView(chartView)}
+        toggleClickHandler={(chartView: string) => setSelectedChartView(chartView)}
         chartId={null}
       />
     </div>
