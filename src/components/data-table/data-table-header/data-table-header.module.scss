@@ -82,8 +82,10 @@
 .columnMinWidth {
   min-width: 160px;
 }
-
-@media (hover: hover) {
+.chartTableDisplay {
+  display: none;
+}
+i @media (hover: hover) {
   .resizer {
     opacity: 0;
   }

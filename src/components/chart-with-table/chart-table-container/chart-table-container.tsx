@@ -8,6 +8,7 @@ import {
   chartTitle,
   downloaderContainer,
 } from './chart-table-container.module.scss';
+import DirectDownload from '../../data-preview/data-preview-filter-section/data-preview-download-wrapper/download-button/direct-download/direct-download';
 
 export const ChartTableContainer = ({
   tableView,

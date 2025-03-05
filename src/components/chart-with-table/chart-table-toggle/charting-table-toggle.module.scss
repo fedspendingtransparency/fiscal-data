@@ -10,12 +10,14 @@
   cursor: pointer;
   border: 2px solid;
   width: 4px;
+
   &.toggleButtonLeft {
     width: 2rem;
     height: 2rem;
     border-bottom-right-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
     border-left: none;
+    border-color: #dfe1e2;
   }
   &.toggleButtonRight {
     width: 2rem;
@@ -23,10 +25,12 @@
     border-bottom-left-radius: 0.25rem;
     border-top-left-radius: 0.25rem;
     border-right: none;
+    border-color: #dfe1e2;
   }
   &.selected {
     color: #ffffff;
     background: #f1f1f1;
+    box-shadow: 0 0.25rem 1rem 0 #00000026;
   }
 }
 .icon {

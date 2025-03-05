@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { chartTableToggleContainer, toggleButton, toggleButtonLeft, toggleButtonRight, selected, icon } from './charting-table-toggle.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
@@ -22,7 +22,7 @@ interface InterestExpenseChartToggleProps {
   rightIcon: IconDefinition;
 }
 
-const ChartTableToggle: React.FC<InterestExpenseChartToggleProps> = ({
+const ChartTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = ({
   toggleClickHandler,
   primaryColor,
   chartId,
@@ -43,7 +43,6 @@ const ChartTableToggle: React.FC<InterestExpenseChartToggleProps> = ({
         style={{
           background: leftSelected ? primaryColor : '#FFF',
           color: leftSelected ? '#FFF' : primaryColor,
-          borderColor: primaryColor,
         }}
         id={chartId || undefined}
       >
@@ -57,7 +56,6 @@ const ChartTableToggle: React.FC<InterestExpenseChartToggleProps> = ({
         style={{
           background: rightSelected ? primaryColor : '#FFF',
           color: rightSelected ? '#FFF' : primaryColor,
-          borderColor: primaryColor,
         }}
         id={chartId || undefined}
       >

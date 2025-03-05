@@ -10,6 +10,9 @@ import {
   sortArrow,
   sortArrowPill,
   stickyHeader,
+  chartTableDisplay,
+  textHeaderContainer,
+  textChartHeaderContainer,
 } from './data-table-header.module.scss';
 import { flexRender, Table } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -77,6 +80,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                 <th
                   key={header.id}
                   colSpan={header.colSpan}
+                  className={chartTable ? textHeaderContainer : textChartHeaderContainer}
                   style={{
                     minWidth: chartTable ? header.getSize() : header.getSize() - 4,
                     width: !chartTable && isLastColumn ? '100%' : '',
@@ -128,7 +132,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
-                      <div className={columnMinWidth} style={{ display: chartTable ? '' : 'none' }}>
+                      <div className={chartTable ? columnMinWidth : chartTableDisplay}>
                         {getColumnFilter(
                           header,
                           columnDataType,

@@ -11,10 +11,12 @@ import { useGetInterestExpenseData } from '../useGetInterestExpenseData';
 import globalConstants from '../../../../../helpers/constants';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
-import ChartTableView from '../../../../../components/chart-with-table/chart-table-view';
 import { ChartTableContainer } from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
 import ChartTableHeader from '../../../../../components/chart-with-table/chart-table-header/chart-table-header';
+import DtgTable from '../../../../../components/dtg-table/dtg-table';
+import ChartingTableToggle from '../../../../../components/chart-with-table/chart-table-toggle/charting-table-toggle';
+import ChartTableToggle from '../../../../../components/chart-with-table/chart-table-toggle/charting-table-toggle';
 const breakpoint = {
   desktop: 1015,
   tablet: 600,
@@ -50,9 +52,18 @@ export const InterestExpenseChart = () => {
   const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
   const header = (
-    <ChartTableHeader
-      selectedChartView={selectedChartView}
-      setSelectedChartView={setSelectedChartView}
+    <ChartTableToggle
+      primaryColor={'#0071BC'}
+      leftButtonConfig={{
+        leftId: 'chartView',
+        leftSelected: selectedChartView === 'chartView',
+      }}
+      rightButtonConfig={{
+        rightId: 'tableView',
+        rightSelected: selectedChartView === 'tableView',
+      }}
+      toggleClickHandler={(chartView: string) => setSelectedChartView(chartView)}
+      chartId={null}
       leftIcon={faChartColumn}
       rightIcon={faTable}
     />
@@ -224,7 +235,22 @@ export const InterestExpenseChart = () => {
         )}
 
         {selectedChartView === 'tableView' && (
-          <ChartTableView columnConfig={columnConfig} mergedTableData={mergedTableData} sorting={sorting} setSorting={setSorting} />
+          <DtgTable
+            tableProps={{
+              data: mergedTableData,
+              columnConfig,
+              tableName: 'Interest Expense Details',
+              caption: 'Interest Expense and Rates Table',
+              shouldPage: true,
+              width: '99%',
+              chartTable: false,
+              noBorder: true,
+            }}
+            reactTable={true}
+            sorting={sorting}
+            setSorting={setSorting}
+            width
+          />
         )}
       </ChartTableContainer>
     </>
