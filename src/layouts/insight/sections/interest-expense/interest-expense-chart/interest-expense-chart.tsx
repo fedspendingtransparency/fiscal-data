@@ -11,10 +11,10 @@ import { useGetInterestExpenseData } from '../useGetInterestExpenseData';
 import globalConstants from '../../../../../helpers/constants';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
-import ChartTableView from '../../../../../components/chart-with-table/interest-expense-table';
+import ChartTableView from '../../../../../components/chart-with-table/chart-table-view';
 import { ChartTableContainer } from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
-import ChartTableHeader from '../../../../../components/chart-with-table/chart-table-header/interest-expense-chart-header';
+import ChartTableHeader from '../../../../../components/chart-with-table/chart-table-header/chart-table-header';
 const breakpoint = {
   desktop: 1015,
   tablet: 600,

@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  interestExpenseChartToggleContainer,
-  toggleButton,
-  toggleButtonLeft,
-  toggleButtonRight,
-  selected,
-  icon,
-} from './chart-table-toggle.module.scss';
+import { chartTableToggleContainer, toggleButton, toggleButtonLeft, toggleButtonRight, selected, icon } from './charting-table-toggle.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 interface LeftButtonConfig {
@@ -41,7 +34,7 @@ const ChartTableToggle: React.FC<InterestExpenseChartToggleProps> = ({
   const { leftId, leftSelected } = leftButtonConfig;
   const { rightId, rightSelected } = rightButtonConfig;
   return (
-    <div className={interestExpenseChartToggleContainer}>
+    <div className={chartTableToggleContainer}>
       <button
         className={`${toggleButton} ${toggleButtonRight} ${leftSelected ? selected : ''}`}
         onClick={() => {

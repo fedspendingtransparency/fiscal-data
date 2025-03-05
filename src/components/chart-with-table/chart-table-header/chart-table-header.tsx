@@ -1,5 +1,5 @@
 import React from 'react';
-import ChartTableToggle from '../chart-table-toggle/interest-expense-chart-toggle';
+import ChartTableToggle from '../chart-table-toggle/charting-table-toggle';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 interface InterestExpenseChartHeaderProps {
   selectedChartView: string;
