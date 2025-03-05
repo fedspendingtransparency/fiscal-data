@@ -1,29 +1,71 @@
 import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import ChartTableToggle from './charting-table-toggle';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 
 describe('ChartTableToggle', () => {
-  it('renders two radio inputs with labels', () => {
-    render(<ChartTableToggle />);
-    const tableRadio = screen.getByLabelText('Table');
-    const chartRadio = screen.getByLabelText('Chart');
+  const dummyToggleClickHandler = jest.fn();
+  const primaryColor = '#0071BC';
+  const chartId = 'chart1';
 
-    expect(tableRadio).toBeInTheDocument();
-    expect(chartRadio).toBeInTheDocument();
-    expect(screen.getAllByRole('radio')).toHaveLength(2);
+  const defaultProps = {
+    toggleClickHandler: dummyToggleClickHandler,
+    primaryColor,
+    chartId,
+    leftButtonConfig: {
+      leftId: 'table',
+      leftSelected: true,
+    },
+    rightButtonConfig: {
+      rightId: 'chart',
+      rightSelected: false,
+    },
+    leftIcon: faTable,
+    rightIcon: faChartBar,
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('calls onChange function when radio selection changes', async () => {
-    const onChangeSpy = jest.fn();
-    render(<ChartTableToggle onChange={onChangeSpy} />);
+  it('renders two buttons', () => {
+    render(<ChartTableToggle {...defaultProps} />);
+    const buttons = screen.getAllByRole('button');
+    expect(buttons).toHaveLength(2);
+  });
 
-    const chartRadio = screen.getByLabelText('Chart');
-    await userEvent.click(chartRadio);
-    expect(onChangeSpy).toHaveBeenCalledWith('chart');
+  it('renders left button with the correct icon', () => {
+    render(<ChartTableToggle {...defaultProps} />);
+    const buttons = screen.getAllByRole('button');
+    const leftSvg = buttons[0].querySelector('svg');
+    expect(leftSvg).toBeInTheDocument();
+    expect(leftSvg).toHaveAttribute('data-icon', 'table');
+  });
 
-    const tableRadio = screen.getByLabelText('Table');
-    await userEvent.click(tableRadio);
-    expect(onChangeSpy).toHaveBeenCalledWith('table');
+  it('renders right button with the correct icon', () => {
+    render(<ChartTableToggle {...defaultProps} />);
+    const buttons = screen.getAllByRole('button');
+    const rightSvg = buttons[1].querySelector('svg');
+    expect(rightSvg).toBeInTheDocument();
+    expect(rightSvg).toHaveAttribute('data-icon', 'chart-bar');
+  });
+
+  it('calls toggleClickHandler with leftButtonConfig.leftId when the left button is clicked', () => {
+    render(<ChartTableToggle {...defaultProps} />);
+    const buttons = screen.getAllByRole('button');
+    fireEvent.click(buttons[0]);
+    expect(dummyToggleClickHandler).toHaveBeenCalledWith('table');
+  });
+
+  it('calls toggleClickHandler with rightButtonConfig.rightId when the right button is clicked', () => {
+    const props = {
+      ...defaultProps,
+      leftButtonConfig: { leftId: 'table', leftSelected: false },
+      rightButtonConfig: { rightId: 'chart', rightSelected: true },
+    };
+    render(<ChartTableToggle {...props} />);
+    const buttons = screen.getAllByRole('button');
+    fireEvent.click(buttons[1]);
+    expect(dummyToggleClickHandler).toHaveBeenCalledWith('chart');
   });
 });
