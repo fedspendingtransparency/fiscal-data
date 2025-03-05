@@ -26,7 +26,7 @@ interface InterestExpenseChartToggleProps {
   leftButtonConfig: LeftButtonConfig;
   rightButtonConfig: RightButtonConfig;
   leftIcon: IconDefinition;
-  righticon: IconDefinition;
+  rightIcon: IconDefinition;
 }
 
 const ChartTableToggle: React.FC<InterestExpenseChartToggleProps> = ({
@@ -36,7 +36,7 @@ const ChartTableToggle: React.FC<InterestExpenseChartToggleProps> = ({
   leftButtonConfig,
   rightButtonConfig,
   leftIcon,
-  righticon,
+  rightIcon,
 }) => {
   const { leftId, leftSelected } = leftButtonConfig;
   const { rightId, rightSelected } = rightButtonConfig;
@@ -68,7 +68,7 @@ const ChartTableToggle: React.FC<InterestExpenseChartToggleProps> = ({
         }}
         id={chartId || undefined}
       >
-        <FontAwesomeIcon className={icon} icon={righticon} />
+        <FontAwesomeIcon className={icon} icon={rightIcon} />
       </button>
     </div>
   );
