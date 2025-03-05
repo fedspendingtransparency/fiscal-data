@@ -9,23 +9,8 @@ import {
   downloaderContainer,
   tableBoarder,
 } from './chart-table-container.module.scss';
-import DirectDownload from '../../data-preview/data-preview-filter-section/data-preview-download-wrapper/download-button/direct-download/direct-download';
 
-export const ChartTableContainer = ({
-  tableView,
-  title,
-  altText,
-  header,
-  footer,
-  downloader,
-  children,
-  customContainerStyles = {},
-  customHeaderStyles = {},
-  customSpacing = {},
-  customFooterStyles = {},
-  customTitleStyles = {},
-  customTestId = null,
-}) => {
+export const ChartTableContainer = ({ tableView, title, altText, header, footer, downloader, children, customTestId = null }) => {
   return (
     <div className={chartContainer} role="figure" aria-label={altText}>
       <div className={chartTitleHeaderContainer}>

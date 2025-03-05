@@ -48,7 +48,6 @@ export const InterestExpenseChart = () => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
   const [sorting, setSorting] = useState([]);
-  const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
   const header = (
     <ChartingTableToggle
