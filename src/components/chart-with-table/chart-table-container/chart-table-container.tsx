@@ -7,6 +7,7 @@ import {
   footerContainer,
   chartTitle,
   downloaderContainer,
+  tableBoarder,
 } from './chart-table-container.module.scss';
 import DirectDownload from '../../data-preview/data-preview-filter-section/data-preview-download-wrapper/download-button/direct-download/direct-download';
 
@@ -35,7 +36,7 @@ export const ChartTableContainer = ({
           {header}
         </div>
       </div>
-      <div style={{ borderBottom: tableView ? '1px solid #d9d9d9' : '' }} />
+      <div className={tableView && tableBoarder} />
       <div data-testid={customTestId ? customTestId : 'chart'} className={`${chart} chartContainerChart`} style={{ ...customContainerStyles }}>
         {children}
       </div>

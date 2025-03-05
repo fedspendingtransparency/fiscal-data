@@ -1,4 +1,4 @@
-import { rowsShowing, tableFooter } from '../../dtg-table/dtg-table.module.scss';
+import { rowsShowing, tableFooter, tableFooterChart } from '../../dtg-table/dtg-table.module.scss';
 import PaginationControls from '../../pagination/pagination-controls';
 import React, { FunctionComponent, useEffect } from 'react';
 import { Table } from '@tanstack/react-table';
@@ -84,7 +84,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
   }, [table?.getFilteredRowModel(), pagingProps]);
 
   return (
-    <div data-test-id="table-footer" style={{ padding: chartTable || '1rem' }} className={tableFooter}>
+    <div data-test-id="table-footer" className={`${chartTable} ? ${tableFooter} : ${tableFooterChart} ${tableFooter}`}>
       <div data-test-id="rows-showing" className={rowsShowing}>
         {visibleRows(table)}
       </div>

@@ -55,6 +55,10 @@
   }
 }
 
+.tableBoarder {
+  border-bottom: 1px solid #d9d9d9;
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .chartContainer {
     .chartTitle {
