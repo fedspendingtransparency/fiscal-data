@@ -27,25 +27,17 @@ export const ChartTableContainer = ({
   customTestId = null,
 }) => {
   return (
-    <div className={chartContainer} role="figure" aria-label={altText} style={{ ...customSpacing }}>
+    <div className={chartContainer} role="figure" aria-label={altText}>
       <div className={chartTitleHeaderContainer}>
-        <div className={chartTitle} style={{ ...customTitleStyles }}>
-          {title}
-        </div>
-        <div className={`${headerContainer} `} style={{ ...customHeaderStyles }}>
-          {header}
-        </div>
+        <div className={chartTitle}>{title}</div>
+        <div className={`${headerContainer} `}>{header}</div>
       </div>
       <div className={tableView && tableBoarder} />
-      <div data-testid={customTestId ? customTestId : 'chart'} className={`${chart} chartContainerChart`} style={{ ...customContainerStyles }}>
+      <div data-testid={customTestId ? customTestId : 'chart'} className={`${chart} chartContainerChart`}>
         {children}
       </div>
-      <div className={`${downloaderContainer} chartContainerFooter`} style={{ ...customFooterStyles }}>
-        {downloader}
-      </div>
-      <div className={`${footerContainer} chartContainerFooter`} style={{ ...customFooterStyles }}>
-        {footer}
-      </div>
+      <div className={`${downloaderContainer} chartContainerFooter`}>{downloader}</div>
+      <div className={`${footerContainer} chartContainerFooter`}>{footer}</div>
     </div>
   );
 };
