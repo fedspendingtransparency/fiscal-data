@@ -13,10 +13,9 @@ import { analyticsEventHandler } from '../../../../../helpers/insights/insight-h
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 import { ChartTableContainer } from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
-import ChartTableHeader from '../../../../../components/chart-with-table/chart-table-header/chart-table-header';
+import { chartTableBoarder } from './interest-expense-chart.module.scss';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import ChartingTableToggle from '../../../../../components/chart-with-table/chart-table-toggle/charting-table-toggle';
-import ChartTableToggle from '../../../../../components/chart-with-table/chart-table-toggle/charting-table-toggle';
 const breakpoint = {
   desktop: 1015,
   tablet: 600,
@@ -52,7 +51,7 @@ export const InterestExpenseChart = () => {
   const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
   const header = (
-    <ChartTableToggle
+    <ChartingTableToggle
       primaryColor={'#0071BC'}
       leftButtonConfig={{
         leftId: 'chartView',
@@ -117,7 +116,7 @@ export const InterestExpenseChart = () => {
         downloader={'Download CSV placeholder'}
       >
         {selectedChartView === 'chartView' && (
-          <div style={{ border: '1px', padding: '1rem' }}>
+          <div className={chartTableBoarder}>
             {chartLoading ? (
               <div>
                 <Skeleton

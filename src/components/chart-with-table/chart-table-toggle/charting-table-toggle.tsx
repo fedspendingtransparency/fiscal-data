@@ -22,7 +22,7 @@ interface InterestExpenseChartToggleProps {
   rightIcon: IconDefinition;
 }
 
-const ChartTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = ({
+const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = ({
   toggleClickHandler,
   primaryColor,
   chartId,
@@ -65,4 +65,4 @@ const ChartTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = ({
   );
 };
 
-export default ChartTableToggle;
+export default ChartingTableToggle;
