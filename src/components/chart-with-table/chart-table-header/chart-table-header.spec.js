@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import InterestExpenseChartHeader from './interest-expense-chart-header';
+import InterestExpenseChartHeader from './chart-table-header';
 import { interestExpenseChartHeaderContainer } from './chart-table-header.module.scss';
 import '@testing-library/jest-dom';
 
