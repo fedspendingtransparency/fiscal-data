@@ -172,7 +172,7 @@ describe('glossary term', () => {
     expect(definition.textContent).toEqual(expected);
   });
 
-  it('correctly displays the definition for the term associated with the specified page', async () => {
+  it('correctly displays the definition for the term associated with the specified page', () => {
     const termText = 'Hello';
     const termDefinition = 'A different greeting';
     const differentPageTermDefinition = 'A greeting';
