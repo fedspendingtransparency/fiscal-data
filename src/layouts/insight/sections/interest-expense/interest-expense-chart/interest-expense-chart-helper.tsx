@@ -12,10 +12,9 @@ import {
   dowloadLableContainer,
   clickedLabel,
 } from './interest-expense-chart.module.scss';
-import React, { FunctionComponent, ReactElement, useState } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import InfoTip from '../../../../../components/info-tip/info-tip';
 import { insightsCitationsMap } from '../../../../../helpers/insights/insight-helpers';
-import DownloadIcon from '@mui/icons-material/Download';
 
 type Tooltip = (object: {
   payload: [{ payload: { year: number; expense: number; rate: number }; dataKey: string }];
@@ -34,13 +33,6 @@ export const CustomTooltip: Tooltip = ({ payload = [], setYear, setExpense, setR
   }
   return null;
 };
-
-const { interestExpenseDataset, treasurySecurities } = insightsCitationsMap['interest-expense'];
-export const footer = (
-  <>
-    <h2>Data Sources and Methodologies:</h2> Visit the {interestExpenseDataset} and {treasurySecurities} datasets to explore and download this data.
-  </>
-);
 
 export const Legend: FunctionComponent = (): ReactElement => {
   return (
