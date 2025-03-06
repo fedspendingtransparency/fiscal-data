@@ -10,7 +10,6 @@ import {
   sortArrow,
   sortArrowPill,
   stickyHeader,
-  chartTableDisplay,
   textHeaderContainer,
   textChartHeaderContainer,
 } from './data-table-header.module.scss';
@@ -59,7 +58,9 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
         }
       } else {
         const currentFilters = allActiveFilters?.filter(item => item !== `${header.column.id}-sort`);
-        setAllActiveFilters(currentFilters);
+        if (typeof setAllActiveFilters === 'function') {
+          setAllActiveFilters(currentFilters);
+        }
       }
     }
   };
@@ -132,18 +133,20 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
-                      <div className={chartTable ? columnMinWidth : chartTableDisplay}>
-                        {getColumnFilter(
-                          header,
-                          columnDataType,
-                          resetFilters,
-                          allActiveFilters,
-                          setAllActiveFilters,
-                          manualPagination,
-                          isLastColumn,
-                          disableDateRangeFilter
-                        )}
-                      </div>
+                      {chartTable && (
+                        <div className={columnMinWidth}>
+                          {getColumnFilter(
+                            header,
+                            columnDataType,
+                            resetFilters,
+                            allActiveFilters,
+                            setAllActiveFilters,
+                            manualPagination,
+                            isLastColumn,
+                            disableDateRangeFilter
+                          )}
+                        </div>
+                      )}
                     </>
                   )}
                   <div

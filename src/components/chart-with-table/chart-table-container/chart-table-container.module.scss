@@ -33,13 +33,13 @@
   .footerContainer {
     margin-bottom: 0;
     font-size: $font-size-14;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
   }
 }
 .downloaderContainer {
   display: flex;
   justify-content: right;
-  padding-right: 1rem;
+  padding: 0 1rem 0.5rem 0;
 }
 .headerContainer {
   div {
