@@ -68,7 +68,10 @@ jobs:
       - name: Create npmrc
         run: npm config set registry=https://registry.npmjs.org/
       - name: Install
-        run: npm install --legacy-peer-deps
+        run: |
+          rm package-lock.json
+          npm cache clean --force
+          npm i --legacy-peer-deps
       - name: Cypress run
         uses: cypress-io/github-action@v5
         env:
