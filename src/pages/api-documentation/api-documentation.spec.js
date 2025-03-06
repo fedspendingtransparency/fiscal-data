@@ -158,7 +158,7 @@ describe('ApiDocumentationPage', () => {
     expect(content).toHaveClass('tocOpen');
   });
 
-  it('assigns the class "tocOpen" to the content and toc elements when tocIsOpen is true', () => {
+  it('Sets the proper scroll positions when toc is opened and closed', () => {
     const { getByRole } = render(
       <RecoilRoot>
         <ApiDocumentationPage />
@@ -181,7 +181,7 @@ describe('ApiDocumentationPage', () => {
     expect(scrollToSpy).toHaveBeenCalledWith(testYOffset, scrollOptionsSmooth);
   });
 
-  it('assigns the class "tocOpen" to the content and toc elements when tocIsOpen is true', () => {
+  it('calls updateAddressPath to update the url when a toc element is clicked', () => {
     const { getByRole, getAllByTestId } = render(
       <RecoilRoot>
         <ApiDocumentationPage />
