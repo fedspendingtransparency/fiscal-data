@@ -291,7 +291,7 @@ const ApiDocumentationPage = ({ location }) => {
   return (
     <SiteLayout>
       <PageHelmet
-        data-test-id="helmet"
+        data-testid="helmet"
         pageTitle="API Documentation"
         description="Detailed instructions for data scientists on how to access Fiscal Data’s datasets using APIs, including information on endpoints, filters, and more."
         keywords="API, US Treasury, HTTP, JSON, API request, open data, U.S. Department of the Treasury, Fiscal Service, government finances"
@@ -304,14 +304,14 @@ const ApiDocumentationPage = ({ location }) => {
       </div>
       <div className={`pageWrapper ${apiPageWrapper}`}>
         <div className={tocWrapper}>
-          <div id={toc} className={`${toggleStyles} ${tocCont}`}>
+          <div id={toc} className={`${toggleStyles} ${tocCont}`} data-testid="tocWrapper">
             <h2 className={tocHeader}>Table of Contents</h2>
             {tocList.map((d, i) => {
               return (
                 <div key={`toc${i}`}>
                   <Link
                     className={`${link} ${d.headingLevel}`}
-                    data-test-id={`tocLink${i}`}
+                    data-testid={`tocLink`}
                     tabIndex={0}
                     activeClass={activeLink}
                     to={d.id}
@@ -331,7 +331,7 @@ const ApiDocumentationPage = ({ location }) => {
             })}
           </div>
         </div>
-        <div id={content} className={`${toggleStyles} ${apiPageSpacer}`}>
+        <div id={content} className={`${toggleStyles} ${apiPageSpacer}`} data-testid="componentWrapper">
           <GettingStarted location={location} />
           <Endpoints />
           <DataRegistry />
