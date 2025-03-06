@@ -90,6 +90,7 @@ export default function DtgTable({
     perPage ? perPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
   );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
+  const [table, setTable] = useState(!shouldPage ? data : []);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
@@ -121,9 +122,12 @@ export default function DtgTable({
     }
     return allCols;
   };
+  const isPaginationControlNeeded = () => currentPage >= 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
+
+  const rowData = Array.isArray(tableData) ? tableData : tableData?.data || [];
 
   const dataProperties = {
-    keys: tableData[0] ? Object.keys(tableData[0]) : [],
+    keys: rowData[0] ? Object.keys(rowData[0]) : [],
     excluded: getAllExcludedCols(),
   };
   const columns = setColumns(dataProperties, columnConfig);
@@ -152,6 +156,25 @@ export default function DtgTable({
     }
   };
 
+  const getDateFilters = () => {
+    let from, to;
+    const recordDateColumnFilter = filteredDateRange?.find(date => date?.fieldName === 'record_date');
+    if (recordDateColumnFilter) {
+      from =
+        recordDateColumnFilter?.from && moment(dateRange.from).diff(recordDateColumnFilter?.from) <= 0
+          ? recordDateColumnFilter?.from.format('YYYY-MM-DD')
+          : formatDateForApi(dateRange.from);
+      to =
+        recordDateColumnFilter?.from && moment(dateRange.to).diff(recordDateColumnFilter?.to) >= 0
+          ? recordDateColumnFilter?.to.format('YYYY-MM-DD')
+          : formatDateForApi(dateRange.to);
+    } else {
+      from = formatDateForApi(dateRange.from);
+      to = formatDateForApi(dateRange.to);
+    }
+    return { from, to };
+  };
+
   const makePagedRequest = async resetPage => {
     if (
       selectedTable &&
@@ -163,15 +186,7 @@ export default function DtgTable({
           tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
     ) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
-
-      const from =
-        filteredDateRange?.from && moment(dateRange.from).diff(filteredDateRange?.from) <= 0
-          ? filteredDateRange?.from.format('YYYY-MM-DD')
-          : formatDateForApi(dateRange.from);
-      const to =
-        filteredDateRange?.from && moment(dateRange.to).diff(filteredDateRange?.to) >= 0
-          ? filteredDateRange?.to.format('YYYY-MM-DD')
-          : formatDateForApi(dateRange.to);
+      const { from, to } = getDateFilters();
       const startPage = resetPage ? 1 : currentPage;
       pagedDatatableRequest(
         selectedTable,
@@ -182,7 +197,8 @@ export default function DtgTable({
         itemsPerPage,
         tableColumnSortData,
         selectedTable?.apiFilter?.field,
-        userFilterSelection
+        userFilterSelection,
+        filteredDateRange
       )
         .then(res => {
           if (!loadCanceled) {
@@ -207,7 +223,8 @@ export default function DtgTable({
             });
             setMaxPage(res.meta['total-pages']);
             if (maxRows !== totalCount) setMaxRows(totalCount);
-            setTableData(res.data);
+            setTableData(res);
+            setTable(res.data);
           }
         })
         .catch(err => {
@@ -240,6 +257,7 @@ export default function DtgTable({
       setRowsShowing({ begin: start + 1, end: stop });
       setMaxPage(Math.ceil(data.length / itemsPerPage));
       setTableData(data.slice(start, stop));
+      setTable(data.slice(start, stop));
     }
   };
 
@@ -250,13 +268,11 @@ export default function DtgTable({
 
   const populateRows = currentColumns => {
     const tableRows = [];
-    tableData.forEach((row, index) => {
+    table.forEach((row, index) => {
       tableRows.push(<DtgTableRow columns={currentColumns} data={row} key={index} tableName={tableName} />);
     });
     setRows(tableRows);
   };
-
-  const isPaginationControlNeeded = () => currentPage >= 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
 
   const updateSmallFractionDataType = () => {
     //Overwrite type for special case number format handling
@@ -274,13 +290,22 @@ export default function DtgTable({
     };
   };
 
-  useMemo(() => {
+  useEffect(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       updateSmallFractionDataType();
       setCurrentPage(1);
       updateTable(true);
     }
-  }, [tableSorting, filteredDateRange, selectedTable, dateRange, tableMeta]);
+  }, [tableSorting, dateRange, selectedTable]);
+
+  useMemo(() => {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+      updateSmallFractionDataType();
+      setCurrentPage(1);
+
+      updateTable(true);
+    }
+  }, [filteredDateRange]);
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
@@ -293,7 +318,7 @@ export default function DtgTable({
 
   useEffect(() => {
     populateRows(columns);
-  }, [tableData]);
+  }, [table]);
 
   useMemo(() => {
     if (data && data.length) {
@@ -332,7 +357,7 @@ export default function DtgTable({
         setReactTableData(dePaginated);
         setManualPagination(false);
         setIsLoading(false);
-      } else if (rawData !== null && rawData.hasOwnProperty('data')) {
+      } else if (rawData && rawData.hasOwnProperty('data')) {
         if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
           const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
           setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });
@@ -375,7 +400,37 @@ export default function DtgTable({
 
   useMemo(() => {
     if (
-      tableData.length > 0 &&
+      tableData.data?.length > 0 &&
+      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
+      !pivotSelected?.pivotValue &&
+      !rawData?.pivotApplied
+    ) {
+      if (tableData?.meta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+        // data with current date range < 20000
+        if (!(reactTableData?.pivotApplied && !updatedData(tableData.data, reactTableData?.data.slice(0, itemsPerPage)))) {
+          if (
+            !reactTableData ||
+            JSON.stringify(tableData?.data) !== JSON.stringify(reactTableData?.data) ||
+            tableData?.meta['total-count'] !== reactTableData?.meta['total-count']
+          ) {
+            setReactTableData(tableData);
+            setManualPagination(true);
+          }
+        }
+      } else if (tableData.data && !rawData && !dePaginated) {
+        setReactTableData(tableData);
+        setManualPagination(true);
+      }
+    } else if (data && !rawDataTable && !rawData) {
+      setReactTableData({ data: data });
+    } else if (tableData.data && data.length === 0 && !rawData) {
+      setReactTableData(tableData);
+    }
+  }, [tableData]);
+
+  useMemo(() => {
+    if (
+      tableData.data?.length > 0 &&
       tableMeta &&
       selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
       !pivotSelected?.pivotValue &&
@@ -386,22 +441,28 @@ export default function DtgTable({
         if (rawData) {
           setReactTableData(rawData);
           setManualPagination(false);
-        } else if (dePaginated && !userFilterSelection) {
+        }
+      }
+    }
+  }, [rawData]);
+
+  useMemo(() => {
+    if (
+      tableData.data?.length > 0 &&
+      tableMeta &&
+      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
+      !pivotSelected?.pivotValue &&
+      !rawData?.pivotApplied
+    ) {
+      if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+        // data with current date range < 20000
+        if (!rawData && dePaginated && !userFilterSelection) {
           setReactTableData(dePaginated);
           setManualPagination(false);
         }
-      } else {
-        if (!(reactTableData?.pivotApplied && !updatedData(tableData, reactTableData?.data.slice(0, itemsPerPage)))) {
-          setReactTableData({ data: tableData, meta: tableMeta });
-          setManualPagination(true);
-        }
       }
-    } else if (data && !rawDataTable && !rawData) {
-      setReactTableData({ data: data });
-    } else if (tableData && data.length === 0 && !rawData && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      setReactTableData({ data: tableData, meta: tableMeta });
     }
-  }, [tableData, tableMeta, rawData, dePaginated]);
+  }, [dePaginated]);
 
   return (
     <div className={overlayContainer}>
@@ -423,54 +484,52 @@ export default function DtgTable({
               <DtgTableApiError />
             </>
           )}
-          {!emptyDataMessage && (
-            <ErrorBoundary FallbackComponent={() => <></>}>
-              <DataTable
-                rawData={reactTableData}
-                dateRange={tableProps.dateRange}
-                detailViewState={detailViewState}
-                setDetailViewState={setDetailViewState}
-                nonRawDataColumns={!rawDataTable ? columnConfig : null}
-                detailColumnConfig={detailColumnConfig}
-                detailViewAPI={detailViewAPIConfig}
-                detailView={config?.detailView}
-                defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
-                setTableColumnSortData={setTableColumnSortData}
-                hideCellLinks={true}
-                shouldPage={shouldPage}
-                pagingProps={pagingProps}
-                showPaginationControls={showPaginationControls}
-                hasPublishedReports={hasPublishedReports}
-                publishedReports={publishedReports}
-                setSelectColumnPanel={setSelectColumnPanel}
-                selectColumnPanel={selectColumnPanel}
-                resetFilters={resetFilters}
-                setResetFilters={setResetFilters}
-                hideColumns={hideColumns}
-                tableName={tableName}
-                manualPagination={manualPagination}
-                maxRows={maxRows}
-                rowsShowing={rowsShowing}
-                columnConfig={columnConfig}
-                allowColumnWrap={allowColumnWrap}
-                aria={tableProps.aria}
-                pivotSelected={pivotSelected?.pivotValue}
-                setSummaryValues={setSummaryValues}
-                customFormatting={customFormatting}
-                sorting={sorting}
-                setSorting={setSorting}
-                allActiveFilters={allActiveFilters}
-                setAllActiveFilters={setAllActiveFilters}
-                setTableSorting={setTableSorting}
-                disableDateRangeFilter={disableDateRangeFilter}
-                datasetName={datasetName}
-                hasDownloadTimestamp={hasDownloadTimestamp}
-              />
-            </ErrorBoundary>
-          )}
+          <ErrorBoundary FallbackComponent={() => <></>}>
+            <DataTable
+              rawData={reactTableData}
+              dateRange={tableProps.dateRange}
+              detailViewState={detailViewState}
+              setDetailViewState={setDetailViewState}
+              nonRawDataColumns={!rawDataTable ? columnConfig : null}
+              detailColumnConfig={detailColumnConfig}
+              detailViewAPI={detailViewAPIConfig}
+              detailView={config?.detailView}
+              defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
+              setTableColumnSortData={setTableColumnSortData}
+              hideCellLinks={true}
+              shouldPage={shouldPage}
+              pagingProps={pagingProps}
+              showPaginationControls={showPaginationControls}
+              hasPublishedReports={hasPublishedReports}
+              publishedReports={publishedReports}
+              setSelectColumnPanel={setSelectColumnPanel}
+              selectColumnPanel={selectColumnPanel}
+              resetFilters={resetFilters}
+              setResetFilters={setResetFilters}
+              hideColumns={hideColumns}
+              tableName={tableName}
+              manualPagination={manualPagination}
+              maxRows={maxRows}
+              rowsShowing={rowsShowing}
+              columnConfig={columnConfig}
+              allowColumnWrap={allowColumnWrap}
+              aria={tableProps.aria}
+              pivotSelected={pivotSelected?.pivotValue}
+              setSummaryValues={setSummaryValues}
+              customFormatting={customFormatting}
+              sorting={sorting}
+              setSorting={setSorting}
+              allActiveFilters={allActiveFilters}
+              setAllActiveFilters={setAllActiveFilters}
+              setTableSorting={setTableSorting}
+              disableDateRangeFilter={disableDateRangeFilter}
+              datasetName={datasetName}
+              hasDownloadTimestamp={hasDownloadTimestamp}
+            />
+          </ErrorBoundary>
         </div>
       )}
-      {/* Endpoints and Fields tables */}
+      {/*Endpoints and Fields tables*/}
       {!reactTable && (
         <>
           <div data-test-id="table-content" className={overlayContainerNoFooter}>

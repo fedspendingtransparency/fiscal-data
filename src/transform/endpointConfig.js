@@ -1902,6 +1902,13 @@ const endpointConfig = {
     endpoint: 'v1/accounting/tb/pdo1_offerings_regular_weekly_treasury_bills',
     dateField: 'record_date',
     downloadName: 'TB_PDO1OfferingsRegularWeeklyTreasuryBills',
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['exchange_rate', 'high_price_per_hundred'],
+        noFormatting: true,
+      },
+    ],
   },
   '207': {
     endpoint: 'v1/accounting/tb/pdo2_offerings_marketable_securities_other_regular_weekly_treasury_bills',
@@ -1972,16 +1979,37 @@ const endpointConfig = {
     endpoint: 'v1/accounting/tb/fcp1_weekly_report_major_market_participants',
     dateField: 'record_date',
     downloadName: 'TB_FCP1WeeklyReportMajorMarketParticipants',
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['exchange_rate', 'high_price_per_hundred'],
+        noFormatting: true,
+      },
+    ],
   },
   '213': {
     endpoint: 'v1/accounting/tb/fcp2_monthly_report_major_market_participants',
     dateField: 'record_date',
     downloadName: 'TB_FCP2MonthlyReportMajorMarketParticipants',
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['exchange_rate', 'high_price_per_hundred'],
+        noFormatting: true,
+      },
+    ],
   },
   '214': {
     endpoint: 'v1/accounting/tb/fcp3_quarterly_report_large_market_participants',
     dateField: 'record_date',
     downloadName: 'TB_FCP3QuarterlyReportLargeMarketParticipants',
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['exchange_rate', 'high_price_per_hundred'],
+        noFormatting: true,
+      },
+    ],
   },
   '215': {
     endpoint: 'v1/accounting/tb/esf1_balances',
@@ -2828,6 +2856,18 @@ const endpointConfig = {
       'fytd_redeemed_amt',
       'daily_ending_balance_amt',
     ],
+  },
+  //TOP
+  '299': {
+    endpoint: 'v1/debt/treasury_offset_program',
+    dateField: 'record_date',
+    downloadName: 'treasury_offset_program',
+    alwaysSortWith: ['-record_date', 'row_index_nbr'],
+    selectColumns: [],
+    downloadLimit: {
+      fileType: 'xml',
+      maxYearRange: 5,
+    },
   },
 };
 

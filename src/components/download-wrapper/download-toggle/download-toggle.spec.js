@@ -1,13 +1,14 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import DownloadToggle from './download-toggle';
+import { render } from '@testing-library/react';
 
 describe('DownloadToggle', () => {
   const toggleFn = jest.fn();
   let component = renderer.create();
   let instance, radioButtons, toggleSpy;
   beforeEach(() => {
-    component = renderer.create(<DownloadToggle onChange={toggleFn} />);
+    component = renderer.create(<DownloadToggle onChange={toggleFn} setDisableDownloadBanner={jest.fn()} />);
     instance = component.root;
     toggleSpy = jest.spyOn(instance.props, 'onChange');
     radioButtons = instance.findAllByType('input');
@@ -43,5 +44,23 @@ describe('DownloadToggle', () => {
 
     expect(radioButtons[0].props.checked).toStrictEqual('checked');
     expect(toggleSpy).toHaveBeenCalledWith(radioButtons[0].props.value);
+  });
+
+  it('disables large XML download', () => {
+    const downloadLimit = {
+      fileType: 'xml',
+      maxYearRange: 5,
+    };
+
+    const { getByRole } = render(
+      <DownloadToggle
+        onChange={toggleFn}
+        downloadLimit={downloadLimit}
+        setDisableDownloadBanner={jest.fn()}
+        dateRange={{ from: new Date('1/1/19'), to: new Date('1/1/25') }}
+      />
+    );
+    const xmlButton = getByRole('radio', { name: 'XML' });
+    expect(xmlButton).toBeDisabled();
   });
 });

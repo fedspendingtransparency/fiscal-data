@@ -3,8 +3,6 @@ import DatasetSectionContainer from '../dataset-section-container/dataset-sectio
 import DataPreviewSectionContainer from './data-preview-section-container/data-preview-section-container';
 import { detailViewNotice, lockIcon, placeholderButton, placeholderText } from './data-preview.module.scss';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { TableCache } from '../dataset-data/table-cache/table-cache';
@@ -15,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
-import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName } from './data-preview.module.scss';
+import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName, increaseSpacing } from './data-preview.module.scss';
 import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
@@ -55,14 +53,12 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   const [summaryValues, setSummaryValues] = useState(null);
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
   const [allActiveFilters, setAllActiveFilters] = useState([]);
-
-  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+  const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
 
   let loadByPage;
   const shouldUseLoadByPage = pivot => {
     return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
-
   const clearDisplayData = () => {
     loadByPage = shouldUseLoadByPage(selectedPivot);
 
@@ -138,6 +134,16 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
         tableCaches[selectedTable.apiId] = new TableCache();
       }
       setSelectedTableProp(selectedTable);
+      // setYears(generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate));
+      const defaultYear = new Date().getFullYear();
+      const defaultMonth = new Date().getMonth();
+      if (selectedTable?.apiFilter?.disableDateRangeFilter) {
+        const startDate = new Date(defaultYear, defaultMonth, 1);
+        const endDate = new Date(defaultYear, defaultMonth + 1, 0);
+        // setSelectedMonth({ value: selectedTable?.apiFilter?.futureDated ? defaultMonth + 2 : defaultMonth + 1, label: monthFullNames[defaultMonth] });
+        // setSelectedYear({ value: defaultYear, label: defaultYear });
+        setDateRange({ from: startDate, to: endDate });
+      }
     }
   }, [selectedTable]);
 
@@ -240,7 +246,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       }
     }
   }, [dateRange]);
-
   useEffect(() => {
     if (allTablesSelected) {
       setTableColumnSortData([]);
@@ -274,19 +279,20 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       {selectedTable?.userFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
       {selectedTable?.apiFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.apiFilter.notice} />}
       <div>
-        {tableColumnSortData && (
+        {tableColumnSortData && selectedTable && (
           <DataPreviewFilterSection
             data-testid="filterAndDownload"
             dateRange={dateRange}
             isFiltered={isFiltered}
             selectedTable={!!detailViewState ? detailApi : selectedTable}
+            selectedPivot={selectedPivot}
             dataset={config}
             allTablesSelected={allTablesSelected}
             isCustomDateRange={isCustomDateRange}
             selectedUserFilter={userFilterSelection}
             tableColumnSortData={tableColumnSortData}
-            filteredDateRange={filteredDateRange}
             selectedDetailViewFilter={detailViewDownloadFilter}
+            apiFilterDefault={apiFilterDefault}
           >
             {selectedTable && (
               <>
@@ -313,6 +319,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
                     hideButtons={detailApi && !detailViewState}
                   />
                 )}
+                {selectedTable?.apiFilter?.disableDateRangeFilter && <div className={increaseSpacing}></div>}
               </>
             )}
             {!selectedTable && (
@@ -359,6 +366,8 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
                 allActiveFilters={allActiveFilters}
                 setAllActiveFilters={setAllActiveFilters}
                 width={width}
+                apiFilterDefault={apiFilterDefault}
+                setApiFilterDefault={setApiFilterDefault}
               />
             )}
           </DataPreviewFilterSection>

@@ -23,6 +23,7 @@ const DownloadItemButton = ({
   selectedFileType,
   dapGaEventLabel,
   downloadTimestamp,
+  selectedPivot,
 }) => {
   const smallTableCSVData = useRecoilValue(smallTableDownloadDataCSV);
   const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
@@ -30,6 +31,7 @@ const DownloadItemButton = ({
   const [csvDataWithTimestamp, setCSVDataWithTimestamp] = useState(null);
   const [downloadName, setDownloadName] = useState(null);
   const ref = useRef();
+
   useEffect(() => {
     setDownloadName(constructDownloadFileName(dateRange, selectedTable));
   }, [dateRange, selectedTable]);
@@ -71,9 +73,10 @@ const DownloadItemButton = ({
       generateAnalyticsEvent(dapGaEventLabel, downloadFileEventStr);
     }
   };
-
+  // disable XML Download when a pivot is selected
+  const disabledXML = selectedFileType === 'xml' && smallTableXMLData.length > 0 && selectedPivot?.pivotValue;
   const ButtonComponent = ({ children }) => {
-    if (disabled) {
+    if (disabled || disabledXML) {
       return (
         <button disabled className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`} data-testid="download-button">
           {children}
@@ -85,7 +88,7 @@ const DownloadItemButton = ({
           {downloadTimestamp ? (
             <>
               <div
-                data-testid={'csv-timestamp-download-button'}
+                data-testid="csv-timestamp-download-button"
                 role="button"
                 onClick={() => captureTimestamp()}
                 className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
@@ -102,7 +105,7 @@ const DownloadItemButton = ({
                 onClick={() => clickFunction(true)}
                 ref={ref}
                 aria-hidden={true}
-                enclosingCharacter={''}
+                enclosingCharacter=""
                 tabIndex={-1}
               />
             </>
@@ -113,7 +116,7 @@ const DownloadItemButton = ({
               data={smallTableCSVData}
               filename={downloadName + '.csv'}
               onClick={() => clickFunction(true)}
-              enclosingCharacter={''}
+              enclosingCharacter=""
             >
               {children}
             </CSVLink>

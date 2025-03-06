@@ -485,6 +485,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       type: String,
       fields: [String],
       decimalPlaces: Int,
+      noFormatting: String,
       breakChar: String,
       customType: String,
       dateFormat: String,
@@ -504,6 +505,10 @@ exports.createSchemaCustomization = ({ actions }) => {
       allColumnNames: [String],
       allPrettyNames: [String],
     }
+    type DownloadLimit {
+      fileType: String,
+      maxYearRange: Int,
+    }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
       hideColumns: [String],
@@ -512,6 +517,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       apiFilter: ApiFilter,
       apiNotesAndLimitations: String,
       customFormatting: [CustomFormatConfig!],
+      downloadLimit: DownloadLimit,
     }
     type DatasetsApisDataDisplays implements Node {
       uniquePivotValues: [UniquePivotValues!]
@@ -648,11 +654,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               type
               fields
               decimalPlaces
+              noFormatting
               breakChar
               customType
               dateFormat
             }
             selectColumns
+            downloadLimit {
+              fileType
+              maxYearRange
+            }
             userFilter {
               field
               label

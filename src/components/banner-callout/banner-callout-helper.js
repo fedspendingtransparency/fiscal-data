@@ -49,4 +49,14 @@ export const calloutConfig = {
     customTextMargin: '0.5rem 0',
     customSideMargin: '1.5rem',
   },
+  XMLLargeDownloadDisabled: {
+    copy: (
+      <>
+        XML download disabled due to large table size. <br />
+        Select a smaller date range to enable XML download.
+      </>
+    ),
+    customSideMargin: '0.5rem',
+    color: 'yellow',
+  },
 };

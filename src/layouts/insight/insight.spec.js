@@ -34,6 +34,12 @@ const glossaryMock = {
   extensions: {},
 };
 
+jest.mock('../../variables.module.scss', () => {
+  return {
+    breakpointLg: '992',
+  };
+});
+
 describe('Insights Template', () => {
   const queryClient = new QueryClient();
 
@@ -87,6 +93,36 @@ describe('Insights Template', () => {
 
     const socialShare = await findByRole('heading', { name: 'Share this page' });
     expect(socialShare).toBeInTheDocument();
+
+    const exploreMore = await findByRole('heading', { name: 'Explore More' });
+    expect(exploreMore).toBeInTheDocument();
+
+    const discoverDatasets = await findByRole('heading', { name: 'Discover Datasets' });
+    expect(discoverDatasets).toBeInTheDocument();
+  });
+
+  it('renders the mobile interest expense insights page', async () => {
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 400,
+    });
+
+    const { findByRole, queryByRole } = render(<InsightPageLayout pageContext={mockPageContext} />, {
+      wrapper,
+    });
+
+    const sectionHeading = await findByRole('heading', { name: 'mock heading' });
+    expect(sectionHeading).toBeInTheDocument();
+
+    const dataSourcesMethodologies = await findByRole('heading', { name: 'Data Sources and Methodologies:' });
+    expect(dataSourcesMethodologies).toBeInTheDocument();
+
+    const socialShare = queryByRole('heading', { name: 'Share this page' });
+    expect(socialShare).not.toBeInTheDocument();
+
+    const facebookButton = await findByRole('button', { name: 'facebook' });
+    expect(facebookButton).toBeInTheDocument();
 
     const exploreMore = await findByRole('heading', { name: 'Explore More' });
     expect(exploreMore).toBeInTheDocument();

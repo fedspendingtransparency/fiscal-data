@@ -99,6 +99,8 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   allActiveFilters,
   setAllActiveFilters,
   width,
+  apiFilterDefault,
+  setApiFilterDefault,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -110,7 +112,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
-  const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const [reactTableSorting, setReactTableSort] = useState([]);
@@ -159,14 +160,12 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
             if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {
-              try {
-                return await queryClient.ensureQueryData({
-                  queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
-                  queryFn: () => fetchAllTableData(sortParam, totalCount, selectedTable, apiFilterParam, dateFilter),
-                });
-              } catch (error) {
-                console.warn(error);
-              }
+              const tableData = await queryClient.ensureQueryData({
+                queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
+                queryFn: () => fetchAllTableData(sortParam, totalCount, selectedTable, apiFilterParam, dateFilter),
+              });
+              setApiError(false);
+              return tableData;
             } else if (totalCount === 0) {
               setIsLoading(false);
               setUserFilterUnmatchedForDateRange(true);
@@ -181,12 +180,12 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           } else {
             console.error('API error', err);
             setApiError(err);
+            setIsLoading(false);
           }
         })
         .finally(() => {
           if (meta) {
             setTableMeta(meta);
-            setApiError(false);
           }
         });
     } else if (selectedTable?.apiFilter && userFilterSelection === null) {
@@ -339,7 +338,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
       return selectedTable.dateField;
     }
   };
-
   const dateFieldForChart = getDateFieldForChart();
 
   useEffect(() => {
@@ -389,6 +387,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           <ChartTableDisplay
             allTablesSelected={allTablesSelected}
             selectedTable={selectedTable}
+            apiFilterDefault={apiFilterDefault}
             emptyData={
               !isLoading &&
               !serverSidePagination &&
@@ -427,6 +426,9 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
                     allActiveFilters={allActiveFilters}
                     setAllActiveFilters={setAllActiveFilters}
                     disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}
+                    datasetName={config.name}
+                    hasDownloadTimestamp={config.downloadTimestamp}
+                    apiErrorState={apiErrorState}
                   />
                 )}
               </div>
