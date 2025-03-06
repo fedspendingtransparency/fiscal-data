@@ -12,7 +12,7 @@ import {
   insightsPageName,
 } from '../../helpers/insights/insight-helpers';
 import CitationList from '../../components/citation-list/citation-list';
-import { insightsDescriptionGenerators, insightsSections } from './sections/sections';
+import { insightsDataSources, insightsDescriptionGenerators, insightsSections } from './sections/sections';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
@@ -50,6 +50,9 @@ const InsightPageLayout = ({ pageContext, width }) => {
                   <section className={sectionContainer}>{section.component}</section>
                 </React.Fragment>
               ))}
+              <div>
+                <h2>Data Sources and Methodologies:</h2> {insightsDataSources[pageName]}
+              </div>
             </div>
             <div className={relatedContent}>
               {width >= pxToNumber(breakpointLg) && (

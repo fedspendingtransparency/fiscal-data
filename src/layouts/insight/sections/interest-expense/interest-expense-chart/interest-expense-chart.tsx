@@ -107,13 +107,7 @@ export const InterestExpenseChart = () => {
 
   return (
     <>
-      <ChartTableContainer
-        tableView={selectedChartView === 'tableView'}
-        title={chartTitle}
-        footer={footer}
-        header={header}
-        downloader={'Download CSV placeholder'}
-      >
+      <ChartTableContainer tableView={selectedChartView === 'tableView'} title={chartTitle} header={header} downloader={'Download CSV placeholder'}>
         {selectedChartView === 'chartView' && (
           <div className={chartTableBoarder}>
             {chartLoading ? (

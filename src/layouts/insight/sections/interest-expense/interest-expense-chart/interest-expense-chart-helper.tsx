@@ -30,12 +30,6 @@ export const CustomTooltip: Tooltip = ({ payload = [], setYear, setExpense, setR
   return null;
 };
 
-const { interestExpenseDataset, treasurySecurities } = insightsCitationsMap['interest-expense'];
-export const footer = (
-  <>
-    <h2>Data Sources and Methodologies:</h2> Visit the {interestExpenseDataset} and {treasurySecurities} datasets to explore and download this data.
-  </>
-);
 export const Legend: FunctionComponent = (): ReactElement => {
   return (
     <div className={legendContainer}>
