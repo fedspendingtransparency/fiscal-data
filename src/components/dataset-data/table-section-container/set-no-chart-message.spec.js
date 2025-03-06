@@ -1,17 +1,15 @@
 import {
-  mockConfig,
   mockDateRange,
   mockTableWithNoChartAvailable,
   mockTableWithPivot,
   mockTableWithUserFilterAvailable,
   selectedPivot,
-  selectedTableLessFields,
+  selectedPivotWithNoChartType,
 } from './testHelpers';
 import { SetNoChartMessage } from './set-no-chart-message';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import React from 'react';
-import DatasetIntroduction from '../../dataset-introduction/dataset-introduction';
 
 describe('setNoChartMessage helper', () => {
   it('returns an unable-to-render message when All Data Tables is selected', () => {
@@ -33,6 +31,13 @@ describe('setNoChartMessage helper', () => {
     const { getByText, getByTestId } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
     expect(getByText('This chart is undergoing updates')).toBeInTheDocument();
     expect(getByTestId('mail-to link')).toBeInTheDocument();
+  });
+
+  it('returns a message prompting the user to select a pivot option to display the data', () => {
+    const notShownMessage = SetNoChartMessage(selectedPivot, selectedPivotWithNoChartType);
+    const { getByText } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    expect(getByText('Use the dropdown to select a pivot option to display the chart')).toBeInTheDocument();
+    expect(getByText('This data table cannot be rendered as a chart until a pivot option is applied.')).toBeInTheDocument();
   });
 
   it('returns a date range too narrow message when the selected date range spans no more than a day', () => {

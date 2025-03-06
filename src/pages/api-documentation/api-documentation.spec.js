@@ -1,19 +1,11 @@
 import React, { act } from 'react';
 import { useStaticQuery } from 'gatsby';
 import ApiDocumentationPage from './index';
-import GettingStarted from '../../components/api-documentation/getting-started/getting-started';
-import Endpoints from '../../components/api-documentation/endpoints/endpoints';
-import Methods from '../../components/api-documentation/methods/methods';
-import Fields from '../../components/api-documentation/fields/fields';
-import Aggregation from '../../components/api-documentation/aggregation/aggregation';
-import Examples from '../../components/api-documentation/examples/examples';
-import { toc } from './api.module.scss';
-import TOCButton from '../../components/table-of-contents/toc-button/toc-button';
 import * as addressBar from '../../helpers/address-bar/address-bar';
 import { animateScroll } from 'react-scroll';
 import { scrollOptionsSmooth } from '../../utils/scroll-config';
 import { RecoilRoot } from 'recoil';
-import { findByTestId, render, within } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
@@ -50,27 +42,86 @@ describe('ApiDocumentationPage', () => {
   //   expect(helmetProps.description).toBeDefined();
   //   expect(helmetProps.keywords).toBeDefined();
   // });
-  //
-  // it('expects Getting Started to be within its layout', () => {
-  //   expect(instance.findByType(GettingStarted)).toBeDefined();
-  // });
 
-  //
-  // it('expects Endpoints to be within its layout', () => {
-  //   expect(instance.findByType(Endpoints)).toBeDefined();
-  // });
-  // it('expects Methods to be within its layout', () => {
-  //   expect(instance.findByType(Methods)).toBeDefined();
-  // });
-  // it('expects Fields to be within its layout', () => {
-  //   expect(instance.findByType(Fields)).toBeDefined();
-  // });
-  // it('expects Aggregation to be within its layout', () => {
-  //   expect(instance.findByType(Aggregation)).toBeDefined();
-  // });
-  // it('expects Examples to be within its layout', () => {
-  //   expect(instance.findByType(Examples)).toBeDefined();
-  // });
+  it('expects Getting Started to be within its layout', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <ApiDocumentationPage />
+      </RecoilRoot>
+    );
+    const gettingStarted = getByRole('heading', { name: 'Getting Started' });
+    expect(gettingStarted).toBeInTheDocument();
+  });
+
+  it('expects Endpoints to be within its layout', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <ApiDocumentationPage />
+      </RecoilRoot>
+    );
+    const gettingStarted = getByRole('heading', { name: 'Endpoints' });
+    expect(gettingStarted).toBeInTheDocument();
+  });
+
+  it('expects Data Registry to be within its layout', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <ApiDocumentationPage />
+      </RecoilRoot>
+    );
+    const gettingStarted = getByRole('heading', { name: 'Fiscal Service Data Registry' });
+    expect(gettingStarted).toBeInTheDocument();
+  });
+
+  it('expects Methods to be within its layout', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <ApiDocumentationPage />
+      </RecoilRoot>
+    );
+    const gettingStarted = getByRole('heading', { name: 'Methods' });
+    expect(gettingStarted).toBeInTheDocument();
+  });
+
+  it('expects Parameters to be within its layout', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <ApiDocumentationPage />
+      </RecoilRoot>
+    );
+    const gettingStarted = getByRole('heading', { name: 'Parameters' });
+    expect(gettingStarted).toBeInTheDocument();
+  });
+
+  it('expects Responses to be within its layout', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <ApiDocumentationPage />
+      </RecoilRoot>
+    );
+    const gettingStarted = getByRole('heading', { name: 'Responses & Response Objects' });
+    expect(gettingStarted).toBeInTheDocument();
+  });
+
+  it('expects Aggregation to be within its layout', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <ApiDocumentationPage />
+      </RecoilRoot>
+    );
+    const gettingStarted = getByRole('heading', { name: 'Aggregation & Sums' });
+    expect(gettingStarted).toBeInTheDocument();
+  });
+
+  it('expects Examples to be within its layout', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <ApiDocumentationPage />
+      </RecoilRoot>
+    );
+    const gettingStarted = getByRole('heading', { name: 'Examples and Code Snippets' });
+    expect(gettingStarted).toBeInTheDocument();
+  });
 
   it('expects links to exist within the toc', () => {
     const { getByTestId } = render(
@@ -153,5 +204,13 @@ describe('ApiDocumentationPage', () => {
     userEvent.click(tocElement);
     jest.runAllTimers();
     expect(updateAddressPathSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('clicks the button when the Enter key is pressed', () => {
+    const { getByText } = render(
+      <RecoilRoot>
+        <ApiDocumentationPage />
+      </RecoilRoot>
+    );
   });
 });
