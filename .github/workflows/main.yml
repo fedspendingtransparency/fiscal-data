@@ -27,6 +27,34 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: npm run test:coverage
+  run-branch-unit-tests-and-coverage:
+    timeout-minutes: 10
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - run: |
+          git fetch --no-tags --depth=1 origin master
+          git checkout -b master origin/master
+          git checkout ${{ github.event.pull_request.head.sha }}
+      - name: Use Node.js
+        uses: actions/setup-node@v4.2.0
+        with:
+          node-version: 20.18
+      - name: Create npmrc
+        run: npm config set registry=https://registry.npmjs.org/
+      - name: Install
+        run: |
+          rm package-lock.json
+          npm cache clean --force
+          npm i --legacy-peer-deps
+      - name: run branch tests with coverage
+        env:
+          NODE_OPTIONS: "--max_old_space_size=8192"
+        run: npm run test:branch
   run-cypress-tests:
     timeout-minutes: 15
     runs-on: ubuntu-22.04
