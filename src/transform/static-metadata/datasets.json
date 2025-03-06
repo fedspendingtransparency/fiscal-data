@@ -614,7 +614,8 @@
     },
     "topics": ["debt", "financial-summaries"],
     "relatedDatasets": ["015-BFS-2014Q3-093"],
-    "currentDateButton": "byFullMonth"
+    "currentDateButton": "byFullMonth",
+    "reportGenDefaultTable": true
   },
   "015-BFS-2024Q1-003": {
     "slug": "/fbp-distribution-transaction-data/",

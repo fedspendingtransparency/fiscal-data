@@ -1,0 +1,106 @@
+@import '../../../../variables.module';
+
+$file-type-img-width: 48px;
+$download-button-width: 5.625rem;
+$download-name-mobile-width: 57%;
+$download-file-date-mobile-width: 21%;
+$download-name-end-width: 70px;
+
+.fileDescription {
+  &:hover {
+    background-color: #eff6fb;
+    cursor: pointer;
+  }
+
+  border: 1px solid $light-grey-border;
+
+  td:first-child {
+    padding: 1rem;
+  }
+
+  td:last-child {
+    padding: 1rem;
+  }
+
+  .downloadFileContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    img {
+      padding-right: 1rem;
+    }
+    .downloadItem {
+      width: calc(100% - $download-button-width - $file-type-img-width);
+    }
+
+    .downloadName {
+      font-weight: $semi-bold-weight;
+      display: flex;
+      white-space: nowrap;
+      align-items: center;
+
+      .startName {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: pre;
+        max-width: fit-content;
+        width: calc(100% - $download-name-end-width);
+      }
+
+      .endName {
+        width: $download-name-end-width;
+      }
+    }
+
+    .downloadInfo {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 0.25rem;
+
+      .fileDate {
+        margin-right: 1rem;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .downloadButton {
+    color: $font-body-copy;
+  }
+
+  .downloadIcon {
+    color: $primary;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    width: $download-button-width;
+  }
+
+  .downloadButtonName {
+    font-weight: $semi-bold-weight;
+    margin-top: 0.1875rem;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .downloadedIcon {
+    color: #2e8540;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .downloadName {
+    width: $download-name-mobile-width;
+  }
+  .fileDate {
+    width: $download-file-date-mobile-width;
+  }
+
+  .downloadSize {
+    //remaining space minus the download icon
+    width: calc(100% - $download-name-mobile-width - $download-file-date-mobile-width - $download-button-width);
+  }
+}

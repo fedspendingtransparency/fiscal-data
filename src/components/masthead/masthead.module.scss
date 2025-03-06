@@ -2,14 +2,14 @@
 
 .pageHeader {
   position: sticky;
-  top: -.25rem;
+  top: -0.25rem;
   z-index: $dataset-detail-nav;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   background-color: #f6f6f6;
   margin: 0 auto;
-  padding:0 0.75rem;
+  padding: 0 0.75rem;
 }
 
 .stickyHeight {
@@ -56,6 +56,12 @@
     text-overflow: ellipsis;
     overflow-x: hidden;
   }
+}
+
+.testClass {
+  color: red;
+  border: 1px solid red;
+  padding: 2px 4px;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {

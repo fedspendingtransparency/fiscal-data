@@ -4,7 +4,14 @@ module.exports = {
   API_BASE_URL: 'https://api.uat.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
-  EXPERIMENTAL_WHITELIST: ['experimental-page', 'afg-overview', 'publishedReportsSection', 'dataPreview', 'chartingConfigurationTool'],
+  EXPERIMENTAL_WHITELIST: [
+    'experimental-page',
+    'afg-overview',
+    'publishedReportsSection',
+    'dataPreview',
+    'chartingConfigurationTool',
+    'defaultReportTable',
+  ],
   ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '160': {
