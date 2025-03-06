@@ -18,7 +18,6 @@ describe('Custom Link', () => {
     const { getByRole } = render(<PageScrollLink url="#test">{content}</PageScrollLink>);
     const link = getByRole('link');
     link.click();
-    userEvent.keyboard('{Enter}');
     expect(scrollerSpy).toHaveBeenCalledWith('test', scrollConfigs);
   });
 
@@ -28,7 +27,7 @@ describe('Custom Link', () => {
     const link = getByRole('link');
     userEvent.tab();
     expect(link).toHaveFocus();
-
+    userEvent.keyboard('{Enter}');
     expect(scrollerSpy).toHaveBeenCalledWith('test', scrollConfigs);
   });
 
