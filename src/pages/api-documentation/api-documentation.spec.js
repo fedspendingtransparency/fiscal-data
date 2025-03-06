@@ -35,13 +35,6 @@ describe('ApiDocumentationPage', () => {
     useStaticQuery.mockReturnValue(profilerConfigMockData);
   });
 
-  // it('defines meta elements', () => {
-  //   const helmetProps = instance.find(e => e.props['data-test-id'] === 'helmet').props;
-  //   expect(helmetProps.pageTitle).toBe('API Documentation');
-  //   expect(helmetProps.description).toBeDefined();
-  //   expect(helmetProps.keywords).toBeDefined();
-  // });
-
   it('expects Getting Started to be within its layout', () => {
     const { getByRole } = render(
       <RecoilRoot>
