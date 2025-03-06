@@ -11,6 +11,7 @@ describe('Custom Link', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    userEvent.keyboard('{Enter}');
   });
 
   it('renders an scroll link and calls scrollTo on click', () => {
@@ -27,7 +28,7 @@ describe('Custom Link', () => {
     const link = getByRole('link');
     userEvent.tab();
     expect(link).toHaveFocus();
-    userEvent.keyboard('{Enter}');
+
     expect(scrollerSpy).toHaveBeenCalledWith('test', scrollConfigs);
   });
 

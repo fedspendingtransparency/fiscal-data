@@ -206,17 +206,21 @@ describe('ApiDocumentationPage', () => {
     expect(updateAddressPathSpy).toHaveBeenCalledTimes(1);
   });
 
-  // it('clicks the button when the Enter key is pressed', () => {
-  //   const { getByTestId } = render(
-  //     <RecoilRoot>
-  //       <ApiDocumentationPage />
-  //     </RecoilRoot>
-  //   );
-  //   const tocContent = getByTestId('tocWrapper');
-  //   const links = within(tocContent).getAllByTestId('tocLink');
-  //   const link = links[0];
-  //   const clickSpy = jest.spyOn(link, 'click');
-  //   userEvent.click(link, { key: 'Enter', code: 'Enter' });
-  //   expect(clickSpy).toHaveBeenCalled();
-  // });
+  it('clicks the link when the Enter key is pressed', () => {
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <ApiDocumentationPage />
+      </RecoilRoot>
+    );
+    const tocContent = getByTestId('tocWrapper');
+    const links = within(tocContent).getAllByTestId('tocLink');
+    const link = links[0];
+    const updateAddressPathSpy = jest.spyOn(addressBar, 'updateAddressPath');
+    updateAddressPathSpy.mockClear();
+    link.focus();
+    expect(link).toHaveFocus();
+    userEvent.keyboard('{Enter}');
+    jest.runAllTimers();
+    expect(updateAddressPathSpy).toHaveBeenCalledTimes(1);
+  });
 });

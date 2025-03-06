@@ -331,7 +331,7 @@ const ApiDocumentationPage = ({ location }) => {
             })}
           </div>
         </div>
-        <div id={content} className={`${toggleStyles} ${apiPageSpacer}`}>
+        <div id={content} className={`${toggleStyles} ${apiPageSpacer}`} data-testid="componentWrapper">
           <GettingStarted location={location} />
           <Endpoints />
           <DataRegistry />
