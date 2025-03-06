@@ -12,7 +12,7 @@ $icon-width: 1.5rem;
   background-color: $primary;
   border: none;
   border-radius: 3px;
-  padding: 0.625rem 1rem;
+  padding: 0.5rem 1rem;
   .icon {
     display: flex;
     align-items: center;
@@ -23,20 +23,47 @@ $icon-width: 1.5rem;
   &.buttonActive {
     background-color: #112e51;
   }
+  &:disabled {
+    opacity: 40%;
+  }
 }
 
 .parent {
   position: relative;
 }
 
+.container {
+  width: 15rem;
+  position: absolute;
+  margin-top: 0.25rem;
+  right: 0;
+  z-index: 3;
+  background-color: white;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  gap: 0.25rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.25rem 1rem 0 #00000026;
+}
 
-@media screen and (min-width: $breakpoint-lg) {
+.border {
+  height: 1px;
+  background-color: $light-grey-border;
+  width: 100%;
+}
+
+@media screen and (min-width: $breakpoint-xl) {
   .downloadButton {
     gap: 0.5rem;
   }
 }
 
-@media screen and (max-width: $breakpoint-lg - 1) {
+@media screen and (max-width: $breakpoint-xl - 1) {
+  .container {
+    width: 100%;
+    right: 0;
+    z-index: 5;
+  }
   .downloadButton {
     margin: 1rem auto 0;
     width: 100%;
@@ -45,6 +72,5 @@ $icon-width: 1.5rem;
       width: calc(100% - $icon-width);
       margin-left: $icon-width;
     }
-
   }
 }

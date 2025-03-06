@@ -96,6 +96,15 @@ describe('DownloadItemButton for direct download file', () => {
 
     expect(getByTestId('xml-download-button')).toBeInTheDocument();
   });
+  it('disables XML download when a pivot is selected', () => {
+    const { getByRole } = render(
+      <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataXML, mockedXMLState)}>
+        <DownloadItemButton label="XML" fileSize="123MB" icon={csvIcon} selectedFileType="xml" selectedPivot={{ pivotValue: 'something' }} />
+      </RecoilRoot>
+    );
+
+    expect(getByRole('button', { name: 'XML (123MB)' })).toBeDisabled();
+  });
 
   it('direct JSON download', () => {
     const { getByTestId } = render(

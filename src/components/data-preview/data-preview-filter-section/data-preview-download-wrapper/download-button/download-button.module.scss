@@ -1,0 +1,27 @@
+@import 'src/variables.module.scss';
+
+@mixin downloadButton {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: $font-body-copy;
+  font-size: $font-size-16;
+}
+
+.downloadItemBtn {
+  @include downloadButton;
+  &.linkDisabled {
+    background-color: $disabled-button-bg;
+    border-color: $disabled-button-bg;
+    cursor: default;
+  }
+}
+
+.dictionary,
+timestampDownloadButton {
+  @include downloadButton;
+  width: 100%;
+}

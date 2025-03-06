@@ -28,7 +28,7 @@ import { faCheckCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDate } from '../../download-wrapper/helpers';
 import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
+import { dataTableDapGaEventLabelState } from '../../../recoil/dataTableDapGaEventLabelState';
 
 /**
  *
@@ -40,7 +40,7 @@ import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilt
 const DownloadModalItem = ({ download, cancelDownloadRequest, resumed = false }) => {
   const fileNameArr = download.filename?.split('_');
   const fileName = fileNameArr ? `${fileNameArr.slice(0, fileNameArr.length - 2).join('_')}.zip` : download.filename;
-  const dapGaEventLabel = useRecoilValue(reactTableFilteredDateRangeState);
+  const dapGaEventLabel = useRecoilValue(dataTableDapGaEventLabelState);
 
   const formatDateRange = range => {
     const from = formatDate(new Date(range?.from));

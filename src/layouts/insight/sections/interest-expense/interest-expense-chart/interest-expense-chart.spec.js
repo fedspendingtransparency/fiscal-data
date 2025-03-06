@@ -1,9 +1,10 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { InterestExpenseChart } from './interest-expense-chart';
 import { CustomTooltip } from './interest-expense-chart-helper';
 import { mockInsightChartData } from '../../../insight-test-helper';
 import userEvent from '@testing-library/user-event';
+import Analytics from '../../../../../utils/analytics/analytics';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -43,6 +44,10 @@ describe('Interest Expense Chart', () => {
   }
   window.ResizeObserver = ResizeObserver;
 
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   it('renders chart correctly', () => {
     const { getAllByText } = render(<InterestExpenseChart />);
     expect(getAllByText('Interest Expense').length).toEqual(2);
@@ -81,13 +86,42 @@ describe('Interest Expense Chart', () => {
     const chartParent = getByTestId('chartParent');
     const chart = chartParent.children[1].children[0];
     expect(chart).toBeInTheDocument();
-    fireEvent.mouseOver(chart);
-    fireEvent.mouseLeave(chart);
+    userEvent.hover(chart);
+    userEvent.unhover(chart);
+  });
+
+  it('fires GA event on chart hover', async () => {
+    jest.useFakeTimers();
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+    const { getByTestId } = render(<InterestExpenseChart />);
+    const chartParent = getByTestId('chartParent');
+    userEvent.hover(chartParent);
+    jest.advanceTimersByTime(4000);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Chart Hover',
+      category: 'Interest Expense',
+      label: 'Interest Expense and Average Interest Rates on the National Debt',
+    });
+    jest.clearAllMocks();
+  });
+
+  it('cancels GA event on chart hover less than 3 seconds', async () => {
+    jest.useFakeTimers();
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(<InterestExpenseChart />);
+    const chartParent = getByTestId('chartParent');
+    userEvent.hover(chartParent);
+    userEvent.unhover(chartParent);
+    jest.advanceTimersByTime(4000);
+    expect(analyticsSpy).not.toHaveBeenCalled();
+    jest.clearAllMocks();
   });
 
   it('chart is keyboard accessible', async () => {
     const { getByRole, getByText } = render(<InterestExpenseChart />);
     const chart = getByRole('application');
+    userEvent.tab();
     userEvent.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date

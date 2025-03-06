@@ -4,6 +4,7 @@ import CustomLink from '../links/custom-link/custom-link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faExternalLink } from '@fortawesome/free-solid-svg-icons';
 import Heading from '../heading/heading';
+import { analyticsEventHandler } from '../../helpers/insights/insight-helpers';
 
 interface ICitation {
   url: string;
@@ -17,24 +18,27 @@ interface ICitationList {
   citations: ICitation[];
 }
 
-const CitationList: FunctionComponent<ICitationList> = ({ header, citations, headingLevel = 'h2' }: ICitationList) => {
+const CitationList: FunctionComponent<ICitationList> = ({ header, citations, headingLevel = 'h2', pageName }: ICitationList) => {
   return (
     <>
       <Heading headingLevel={headingLevel} className={listHeader}>
         {header}
       </Heading>
-      {citations.map((citation: { url: string; text: string; external?: boolean }, index: number) => (
-        <div className={citationContainer} key={index}>
-          <CustomLink url={citation.url}>
-            <div className={citationText}>
-              <div className={iconContainer}>
-                <FontAwesomeIcon icon={citation?.external ? faExternalLink : faLink} />
+      {citations.map((citation: ICitation, index: number) => {
+        const linkText = `${citation.text} ${!citation?.external ? '| U.S. Treasury Fiscal Data' : ''}`;
+        return (
+          <div className={citationContainer} key={index}>
+            <CustomLink url={citation.url} onClick={() => analyticsEventHandler(pageName, citation.text)}>
+              <div className={citationText} id={citation.text}>
+                <div className={iconContainer}>
+                  <FontAwesomeIcon icon={citation?.external ? faExternalLink : faLink} />
+                </div>
+                <>{linkText}</>
               </div>
-              <span>{citation.text}</span>
-            </div>
-          </CustomLink>
-        </div>
-      ))}
+            </CustomLink>
+          </div>
+        );
+      })}
     </>
   );
 };

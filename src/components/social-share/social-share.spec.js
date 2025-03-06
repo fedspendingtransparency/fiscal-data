@@ -79,7 +79,7 @@ describe('Social Share component', () => {
   it('calls the appropriate analytics for Explainer pages event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
-    const { getByRole } = render(<SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} />);
+    const { getByRole } = render(<SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} explainer />);
 
     const facebookButton = getByRole('button', { name: 'facebook' });
     const twitterButton = getByRole('button', { name: 'twitter' });

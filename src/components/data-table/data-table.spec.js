@@ -18,8 +18,12 @@ import {
   mockColumnConfig,
   mockDetailViewColumnConfig,
   mockDetailApiData,
+  mockTableDownloadWithTextQualifier,
+  mockColumnConfigDownloadWithTextQualifier,
 } from './data-table-test-helper';
 import userEvent from '@testing-library/user-event';
+import { smallTableDownloadDataCSV } from '../../recoil/smallTableDownloadData';
+import { RecoilObserver } from '../../utils/test-utils';
 
 describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
@@ -425,6 +429,7 @@ describe('react-table', () => {
       expect(queryAllByRole('columnheader', { name: index })[0]).not.toBeDefined();
     });
   });
+
   it('formats PERCENTAGE types correctly', () => {
     const { getAllByTestId } = render(
       <RecoilRoot>
@@ -483,6 +488,27 @@ describe('react-table', () => {
       </RecoilRoot>
     );
     expect(getAllByTestId('row')[0].innerHTML).toContain('-0.120000');
+  });
+  it('formats custom NUMBER types correctly with custom format of `noFormatting` applied', () => {
+    const customFormatter = [{ type: 'NUMBER', fields: ['spread'], noFormatting: true }];
+
+    const { getAllByTestId } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={['spread']}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          columnConfig={mockColumnConfig}
+          customFormatting={customFormatter}
+          setTableSorting={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+    expect(getAllByTestId('row')[0].innerHTML).toContain('-0.1200');
   });
 
   it('formats custom STRING dateList types correctly', () => {
@@ -587,6 +613,33 @@ describe('react-table', () => {
       </RecoilRoot>
     );
     expect(instance).toBeTruthy();
+  });
+
+  it('updates recoil state for csv download with text qualifiers', () => {
+    const setSmallTableDownloadDataCSV = jest.fn();
+    render(
+      <RecoilRoot>
+        <RecoilObserver node={smallTableDownloadDataCSV} onChange={setSmallTableDownloadDataCSV} />
+        <DataTable
+          rawData={mockTableDownloadWithTextQualifier}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          columnConfig={mockColumnConfigDownloadWithTextQualifier}
+          setTableSorting={jest.fn()}
+          dateRange={{
+            from: '2022-08-31',
+            to: '2024-08-31',
+          }}
+        />
+      </RecoilRoot>
+    );
+    expect(setSmallTableDownloadDataCSV).toHaveBeenCalledWith([
+      ['Record Date', 'String Value', 'String Value with Commas'],
+      ['2023-07-12', 'just a normal string', '"comma, separated, list"'],
+    ]);
   });
 
   it('formats FRN Daily Index number values correctly', () => {

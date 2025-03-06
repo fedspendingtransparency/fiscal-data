@@ -7,7 +7,6 @@ import determineDateRange, {
 import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
 import { monthNames } from '../../../../utils/api-utils';
-import DatePickers from '../../../filter-download-container/datepickers/datepickers';
 
 type DateRangeFilterProps = {
   currentDateButton;
@@ -227,7 +226,7 @@ const DateRangeFilter: FunctionComponent<DateRangeFilterProps> = ({
       ? ` (${selectedTable.fields.find(field => field.columnName === selectedTable.dateField).prettyName})`
       : null;
 
-  return <p>Date range placeholder</p>;
+  return <p></p>;
 };
 
 export default DateRangeFilter;

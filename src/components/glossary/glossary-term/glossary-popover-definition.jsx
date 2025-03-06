@@ -53,9 +53,8 @@ const style = {
   },
 };
 
-const GlossaryPopoverDefinition = ({ term, page, children, width = null, customFormat = null }) => {
+const GlossaryPopoverDefinition = ({ term, page, children, width = null, customFormat = null, handleClick }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [buttonFocus, setButtonFocus] = useState(false);
 
@@ -75,7 +74,6 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   const handleScroll = () => {
     const position = window.pageYOffset;
     const previousPosition = scrollPosition;
-    setPreviousScrollPosition(previousPosition);
     setScrollPosition(position);
     if (position !== previousPosition) {
       handleClose();
@@ -93,6 +91,9 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   const handleGlossaryClick = e => {
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
+      if (handleClick) {
+        handleClick();
+      }
       setButtonFocus(true);
       setAnchorEl(e.currentTarget);
     }
@@ -123,7 +124,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
       <span
         className={`${buttonFocus ? glossaryHover : glossaryLink}`}
         onClick={handleGlossaryClick}
-        onKeyPress={handleGlossaryClick}
+        onKeyDown={handleGlossaryClick}
         role="button"
         tabIndex={0}
       >
@@ -149,12 +150,12 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
         <div className={popupContainer} data-testid="popupContainer" role="presentation">
           <div className={glossaryText}>
             <div className={header}>
-              <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyPress={handleClose} tabIndex={0} size="lg" />
+              <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyDown={handleClose} tabIndex={0} size="lg" />
               <span>Definition</span>
             </div>
             <div className={termNameText}>{termName}</div>
             <div>{definition}</div>
-            <div className={glossaryButton} role="button" onClick={glossaryNavigation} onKeyPress={glossaryNavigation} tabIndex={0}>
+            <div className={glossaryButton} role="button" onClick={glossaryNavigation} onKeyDown={glossaryNavigation} tabIndex={0}>
               <div>View in glossary</div>
               <FontAwesomeIcon icon={faArrowRightLong} className={arrowIcon} />
             </div>

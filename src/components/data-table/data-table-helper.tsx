@@ -6,7 +6,6 @@ import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
 import CustomLink from '../links/custom-link/custom-link';
 import { updateTableButton, downloadLinkContainer, downloadLinkIcon } from './data-table.module.scss';
-import { ENV_ID } from 'gatsby-env-variables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -151,9 +150,12 @@ export const columnsConstructorData = (
                 const value = getValue();
                 let formattedValue;
                 const customFormat = customFormatConfig?.find(config => config.type === 'NUMBER' && config.fields.includes(property));
-                if (!!customFormat) {
+                if (!!customFormat && !customFormat.noFormatting) {
                   formattedValue = customNumberFormatter.format(value, customFormat.decimalPlaces);
-                } else if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
+                } else if (
+                  (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) ||
+                  customFormat?.noFormatting
+                ) {
                   formattedValue = value ? value : '';
                 } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {
                   formattedValue = value ? Number(value).toFixed(3) : '';
@@ -335,4 +337,18 @@ export const getSortedColumnsData = (
     }));
     setTableColumnSortData(mapped);
   }
+};
+
+export const constructDateHeader = (datasetName, dateRange) => {
+  const timestampData = [];
+  timestampData.push(`${datasetName}.`);
+  const date = new Date(dateRange.to.toString());
+  const dateFormatted = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+  const lastDateOfMonth = `${dateFormatted}`;
+  timestampData.push(`As of ${lastDateOfMonth}`);
+  return timestampData;
 };
