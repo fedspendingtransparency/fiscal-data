@@ -1,5 +1,5 @@
 import { ComposedChart, ResponsiveContainer, XAxis, YAxis, Line, Bar, CartesianGrid, Tooltip, Cell } from 'recharts';
-import { CustomTooltip, footer, Legend } from './interest-expense-chart-helper';
+import { CustomTooltip, DownloadLabel, downloadLabel, footer, Legend } from './interest-expense-chart-helper';
 import React, { useEffect } from 'react';
 import { Skeleton } from '@mui/material';
 import { useState } from 'react';
@@ -16,6 +16,7 @@ import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
 import { chartTableBoarder } from './interest-expense-chart.module.scss';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import ChartingTableToggle from '../../../../../components/chart-with-table/chart-table-toggle/charting-table-toggle';
+import DownloadItemButton from '../../../../../components/data-preview/data-preview-filter-section/data-preview-download-wrapper/download-button/download-button';
 const breakpoint = {
   desktop: 1015,
   tablet: 600,
@@ -112,7 +113,10 @@ export const InterestExpenseChart = () => {
         title={chartTitle}
         footer={footer}
         header={header}
-        downloader={'Download CSV placeholder'}
+        downloadData={mergedTableData}
+        selectedTable="Interest Expense Detail"
+        downloadTimeStamp={true}
+        dateRange={{ start: startFY, end: currentFY }}
       >
         {selectedChartView === 'chartView' && (
           <div className={chartTableBoarder}>

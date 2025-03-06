@@ -24,7 +24,7 @@
     font-size: $font-size-16;
   }
 
-  .chart {
+  .chartTable {
     width: calc(100% - 4px);
     margin: 0 auto;
     justify-content: center;
@@ -72,4 +72,23 @@
   .headerContainer {
     gap: 2rem;
   }
+}
+.dowloadLableContainer {
+  display: flex;
+  align-items: center;
+  color: $hero-primary-link;
+}
+.clickedLabel {
+  color: $dark-slate-blue;
+  display: flex;
+  align-items: center;
+}
+.downloadCSV {
+  font-weight: $semi-bold-weight;
+  font-size: $font-size-12;
+}
+.icon {
+  margin-left: 0.5rem;
+  width: 14px;
+  height: 17px;
 }
