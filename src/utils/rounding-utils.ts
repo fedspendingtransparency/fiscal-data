@@ -22,5 +22,10 @@ export const getShortForm = (value: string, abbreviate: boolean = true, round: b
     appendix = millionLabel;
   }
   const digits = round ? (inTrillions ? 2 : 0) : fractionDigits;
-  return Math.abs(parseFloat(value) / divisor).toFixed(digits) + appendix;
+
+  const numberShortened = Math.abs(parseFloat(value) / divisor).toFixed(digits);
+
+  const removedTrailingZero = numberShortened.replace(/\.0+$/, '');
+
+  return removedTrailingZero + appendix;
 };

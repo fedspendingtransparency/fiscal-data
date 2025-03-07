@@ -1,7 +1,7 @@
 import { rightAlign } from '../data-table-helper';
 import { flexRender, Table } from '@tanstack/react-table';
 import React, { FunctionComponent, ReactNode } from 'react';
-import { fillCellGrey, fillCellWhite, cellBorder, rightAlignText, hidden, detailButton, cellText } from './data-table-body.module.scss';
+import { fillCellGrey, fillCellWhite, cellBorder, rightAlignText, hidden, detailButton, cellText, cellPadding } from './data-table-body.module.scss';
 import classNames from 'classnames';
 import { IDataTableBody } from '../../../models/IDataTableBody';
 
@@ -12,6 +12,7 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({
   detailViewConfig,
   setDetailViewState,
   setSummaryValues,
+  chartTable,
 }) => {
   let fillCell = false;
   const handleDetailClick = (rowConfig: {}, cellValue: string) => {
@@ -50,6 +51,7 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({
                     fillCell ? cellBorder : null,
                     wrapStyle ? null : hidden,
                     cellText,
+                    !chartTable ? cellPadding : '',
                   ])}
                 >
                   {display ? <div /> : <>{cellDisplay(flexRender(cell.column.columnDef.cell, cell.getContext()))}</>}

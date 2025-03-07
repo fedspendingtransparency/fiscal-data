@@ -7,7 +7,8 @@ $borderRadius: 5px;
   width: 100%;
   order: 1;
 
-  .rawDataTableContainer, .nonRawDataTableContainer {
+  .rawDataTableContainer,
+  .nonRawDataTableContainer {
     position: relative;
     box-sizing: border-box;
     border-top: 0;
@@ -68,8 +69,6 @@ $borderRadius: 5px;
   .td {
     height: 1.875rem;
   }
-
-
 }
 .range {
   font-weight: $semi-bold-weight;
@@ -86,7 +85,9 @@ $borderRadius: 5px;
   border-bottom-left-radius: $borderRadius;
   border-bottom-right-radius: $borderRadius;
 }
-
+.overlayContainerNoFooterChart {
+  border: none;
+}
 .selectColumnsWrapper {
   display: flex;
 
@@ -117,4 +118,3 @@ $borderRadius: 5px;
 .downloadLinkIcon {
   color: $primary;
 }
-

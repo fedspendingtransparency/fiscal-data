@@ -10,6 +10,7 @@ import {
 } from './interest-expense-chart.module.scss';
 import React, { FunctionComponent, ReactElement } from 'react';
 import InfoTip from '../../../../../components/info-tip/info-tip';
+import { insightsCitationsMap } from '../../../../../helpers/insights/insight-helpers';
 
 type Tooltip = (object: {
   payload: [{ payload: { year: number; expense: number; rate: number }; dataKey: string }];

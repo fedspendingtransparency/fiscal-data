@@ -1,0 +1,75 @@
+@import '../../../variables.module';
+
+.chartContainer {
+  margin-top: 1rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.25rem;
+  width: 100%;
+
+  .chartTitleHeaderContainer {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+  .chartTitle {
+    font-weight: 600;
+    color: $font-title;
+    font-size: $font-size-16;
+    align-content: center;
+  }
+
+  .chartSubTitle {
+    margin-top: 0;
+    color: $font-title;
+    font-size: $font-size-16;
+  }
+
+  .chart {
+    width: calc(100% - 4px);
+    margin: 0 auto;
+    justify-content: center;
+  }
+
+  .footerContainer {
+    margin-bottom: 0;
+    font-size: $font-size-14;
+    padding: 0.5rem 1rem;
+  }
+}
+.downloaderContainer {
+  display: flex;
+  justify-content: right;
+  padding: 0 1rem 0.5rem 0;
+}
+.headerContainer {
+  div {
+    text-align: center;
+
+    .header {
+      font-weight: bold;
+    }
+
+    .subHeader {
+      font-weight: $semi-bold-weight;
+    }
+  }
+}
+
+.tableBoarder {
+  border-bottom: 1px solid #d9d9d9;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .chartContainer {
+    .chartTitle {
+      font-size: $font-size-16;
+    }
+
+    .chartSubTitle {
+      font-size: $font-size-14;
+    }
+  }
+  .headerContainer {
+    gap: 2rem;
+  }
+}
