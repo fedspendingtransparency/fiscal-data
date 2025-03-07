@@ -2,18 +2,18 @@ import React from 'react';
 import GenerativeReportsEmptyTable from './generative-reports-empty-table';
 import { render } from '@testing-library/react';
 
-describe('Empty Table', () => {
+describe('Generative Report Empty Table', () => {
   it('renders a table', () => {
     const { getByRole, getAllByRole } = render(<GenerativeReportsEmptyTable />);
 
     expect(getByRole('table')).toBeInTheDocument();
-    expect(getAllByRole('row')).toHaveLength(11);
+    expect(getAllByRole('row')).toHaveLength(3);
   });
 
-  it('renders a table with specified number of rows', () => {
-    const { getByRole, getAllByRole } = render(<GenerativeReportsEmptyTable rowCount={5} />);
+  it('renders a mobile table with more of rows', () => {
+    const { getByRole, getAllByRole } = render(<GenerativeReportsEmptyTable mobileView={true} />);
 
     expect(getByRole('table')).toBeInTheDocument();
-    expect(getAllByRole('row')).toHaveLength(6);
+    expect(getAllByRole('row')).toHaveLength(5);
   });
 });

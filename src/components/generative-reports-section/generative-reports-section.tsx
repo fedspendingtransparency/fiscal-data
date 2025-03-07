@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FunctionComponent } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import { IPublishedReportDataJson } from '../../models/IPublishedReportDataJson';
@@ -11,8 +11,6 @@ const GenerativeReportsSection: FunctionComponent<{ publishedReportsProp: IPubli
   publishedReportsProp,
   dataset,
 }) => {
-  const footerMessage =
-    'Note: Daily Treasury Statement reports dated before FY 1998 are grouped by fiscal year. Once inside the desired year, scroll to the specific month and day.';
   return (
     <div>
       <DatasetSectionContainer title={title} id={'generative-reports-and-files'}>
