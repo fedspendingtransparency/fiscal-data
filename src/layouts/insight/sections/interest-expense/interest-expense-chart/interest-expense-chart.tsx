@@ -113,9 +113,9 @@ export const InterestExpenseChart = () => {
         footer={footer}
         header={header}
         downloadData={mergedTableData}
-        selectedTable="Interest Expense Detail"
-        downloadTimeStamp={true}
+        selectedTable={chartData}
         dateRange={{ start: startFY, end: currentFY }}
+        enabledClickedColorChange={true}
       >
         {selectedChartView === 'chartView' && (
           <div className={chartTableBoarder}>

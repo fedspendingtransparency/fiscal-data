@@ -32,11 +32,11 @@ export const ChartTableContainer = ({
   downloadTimestamp,
   enabledClickedColorChange = false,
 }) => {
-  const [downloadClicked, setDonloadedClicked] = useState(false);
+  const [downloadClicked, setDownloadClick] = useState(false);
 
   const handleDownloadClicked = () => {
     if (enabledClickedColorChange) {
-      setDonloadedClicked(true);
+      setDownloadClick(true);
     }
   };
   const csvDownloader = (
