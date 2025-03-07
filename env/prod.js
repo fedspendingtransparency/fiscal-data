@@ -5,31 +5,5 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.fiscaldata.treasury.gov/main',
   EXCLUDED_PAGE_PATHS: [],
-  ADDITIONAL_ENDPOINTS: {
-    '318': {
-      endpoint: 'v1/accounting/od/rates_of_exchange',
-      dateField: 'record_date',
-      downloadName: 'RprtRateXchgCln',
-      alwaysSortWith: ['-record_date', 'src_line_nbr'],
-      dataDisplays: [
-        {
-          title: 'Exchange Rate Trend',
-        },
-      ],
-      showChartForCompleteTable: true,
-      userFilter: {
-        field: 'country_currency_desc',
-        label: 'Country-Currency',
-        notice: `If current rates deviate from the published rates by 10% or more, Treasury
-         will issue amendments to this quarterly report. An amendment to a currency exchange
-         rate for the quarter will appear on the report as a separate line with a new effective
-         date. The latest available data will display first.`,
-        dataUnmatchedMessage: `This may be because the currency existed under a different
-          name for that time period. Please check to see if the currency you are
-          looking for appears under a different name, or change the date
-          selected for available results.`,
-      },
-      selectColumns: ['record_date', 'country_currency_desc', 'exchange_rate', 'effective_date'],
-    },
-  },
+  ADDITIONAL_ENDPOINTS: {},
 };
