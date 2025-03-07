@@ -41,7 +41,7 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
   const allDatasetsLength = allDatasets.length;
 
   const sortOptions = searchIsActive ? SortOptions : FilteredSortOptions;
-  const [activeSort, setActiveSort] = useState(sortOptions[0]);
+  const [activeSort, setActiveSort] = useState(sortOptions[1]);
   const [totalApiLength, setTotalApiLength] = useState(0);
   const [filteredApiLength, setFilteredApiLength] = useState(0);
 
@@ -75,7 +75,7 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
 
   const noResultsMessage = <NotShownMessage heading={noResultsText.heading} bodyText={noResultBody} />;
 
-  useEffect(() => setActiveSort(sortOptions[0]), [sortOptions, searchIsActive]);
+  useEffect(() => setActiveSort(sortOptions[1]), [sortOptions, searchIsActive]);
 
   useEffect(() => {
     const filteredCount = getApiCount(filteredDatasets);
