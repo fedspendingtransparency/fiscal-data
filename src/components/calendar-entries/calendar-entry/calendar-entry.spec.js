@@ -3,8 +3,6 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import * as Gatsby from 'gatsby';
 import CalendarEntry, { releaseCalendarDatasetClickEvent } from './calendar-entry';
 import Analytics from '../../../utils/analytics/analytics';
-import { releaseCalendarSortEvent } from '../calendar-entries';
-import { sortOptions } from '../calendar-helpers';
 
 describe('Calendar Entry', () => {
   const firstDate = '2000-01-01';
