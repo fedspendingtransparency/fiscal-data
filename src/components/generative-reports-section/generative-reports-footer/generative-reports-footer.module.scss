@@ -1,0 +1,13 @@
+@import 'src/variables.module.scss';
+
+.generativeReportsFooter {
+  margin-top: 1rem;
+
+  .footerMessageLabel {
+    font-weight: $semi-bold-weight;
+  }
+
+  .footerEmphasis {
+    font-style: italic;
+  }
+}
