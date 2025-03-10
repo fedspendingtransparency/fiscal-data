@@ -72,7 +72,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   disableDateRangeFilter,
   datasetName,
   hasDownloadTimestamp,
-  chartTable,
+  chartTable = true,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
@@ -284,6 +284,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   return (
     <>
       <div data-test-id="table-content" className={!chartTable ? overlayContainerNoFooterChart : overlayContainerNoFooter}>
+        {console.log('datatbale chart table: ', chartTable)}
         <div className={selectColumnsWrapper}>
           {defaultSelectedColumns && (
             <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">

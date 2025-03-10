@@ -189,7 +189,7 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
     if (chartData && rawExpenseData && rawRateData) {
       const newTableData = chartData.map(item => {
         const matchingExpense = rawExpenseData.data.find(exp => parseInt(exp.record_fiscal_year, 10) === item.year);
-        const matchingRate = rawRateData.data.find(rate => parseInt(rate.record_fiscal_year, 10) === item.year);
+        // const matchingRate = rawRateData.data.find(rate => parseInt(rate.record_fiscal_year, 10) === item.year);
 
         return {
           record_date: formatDate(matchingExpense?.record_date),
@@ -201,6 +201,7 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
       setMergedTableData(newTableData);
     }
   }, [chartData, rawExpenseData, rawRateData]);
+  const columnConfigArray = ['Record Date', 'FYTD Interest Expense', 'Avg Interest Rate', 'Fiscal Year'];
 
   const columnConfig = useMemo(() => {
     return [
@@ -212,6 +213,7 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
   }, []);
 
   return {
+    columnConfigArray,
     rawExpenseData,
     rawRateData,
     startFY,

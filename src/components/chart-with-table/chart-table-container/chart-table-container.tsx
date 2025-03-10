@@ -20,7 +20,7 @@ export const ChartTableContainer = ({
   tableView,
   title,
   altText,
-  header,
+  toggle,
   footer,
   downloader,
   children,
@@ -33,7 +33,6 @@ export const ChartTableContainer = ({
   enabledClickedColorChange = false,
 }) => {
   const [downloadClicked, setDownloadClick] = useState(false);
-
   const handleDownloadClicked = () => {
     if (enabledClickedColorChange) {
       setDownloadClick(true);
@@ -49,7 +48,7 @@ export const ChartTableContainer = ({
     <div className={chartContainer} role="figure" aria-label={altText}>
       <div className={chartTitleHeaderContainer}>
         <div className={chartTitle}>{title}</div>
-        <div className={headerContainer}>{header}</div>
+        <div className={headerContainer}>{toggle}</div>
       </div>
       <div className={tableView && tableBoarder} />
       <div data-testid={customTestId ? customTestId : 'chart'} className={`${chartTable} chartContainerChart`}>
@@ -66,6 +65,7 @@ export const ChartTableContainer = ({
             selectedTable={selectedTable}
             downloadTimestamp={downloadTimestamp}
             label={csvDownloader}
+            formatDownloadDate={false}
             onClick={handleDownloadClicked}
           />
         )}

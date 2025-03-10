@@ -41,6 +41,7 @@ export const InterestExpenseChart = () => {
     startFY,
     columnConfig,
     mergedTableData,
+    columnConfigArray,
   } = useGetInterestExpenseData(true, isMobile);
   const [fiscalYear, setFiscalYear] = useState<number>(0);
   const [curExpenseAmount, setCurExpenseAmount] = useState<number>(0);
@@ -48,8 +49,9 @@ export const InterestExpenseChart = () => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
   const [sorting, setSorting] = useState([]);
+  const [downloadData, setDownloadData] = useState([]);
   const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
-  const header = (
+  const toggle = (
     <ChartingTableToggle
       primaryColor={'#0071BC'}
       leftButtonConfig={{
@@ -105,16 +107,22 @@ export const InterestExpenseChart = () => {
     }
   }, [width]);
 
+  useEffect(() => {
+    const downloaderData = mergedTableData.map(row => Object.values(row));
+    downloaderData.unshift(columnConfigArray);
+    setDownloadData(downloaderData);
+  }, [mergedTableData]);
+
   return (
     <>
       <ChartTableContainer
         tableView={selectedChartView === 'tableView'}
         title={chartTitle}
         footer={footer}
-        header={header}
-        downloadData={mergedTableData}
-        selectedTable={chartData}
-        dateRange={{ start: startFY, end: currentFY }}
+        toggle={toggle}
+        downloadData={downloadData}
+        selectedTable={{ downloadName: 'interest-expense-avg-interest-rates' }}
+        dateRange={{ from: startFY, to: currentFY }}
         enabledClickedColorChange={true}
       >
         {selectedChartView === 'chartView' && (
