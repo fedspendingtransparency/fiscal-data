@@ -58,12 +58,6 @@
   }
 }
 
-.testClass {
-  color: red;
-  border: 1px solid red;
-  padding: 2px 4px;
-}
-
 @media screen and (max-width: $breakpoint-lg - 1) {
   .mainWidth {
     padding: 1rem 0;

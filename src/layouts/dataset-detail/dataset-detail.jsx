@@ -13,7 +13,7 @@ import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-
 import DatasetIntroduction from '../../components/dataset-introduction/dataset-introduction';
 import BannerCallout from '../../components/banner-callout/banner-callout';
 import Experimental from '../../components/experimental/experimental';
-import { bannerCalloutContainer, testClass } from '../../components/masthead/masthead.module.scss';
+import { bannerCalloutContainer } from '../../components/masthead/masthead.module.scss';
 import ReportsSection from '../../components/published-reports/reports-section/reports-section';
 import GenerativeReportsSection from '../../components/generative-reports-section/generative-reports-section';
 import DataPreview from '../../components/data-preview/data-preview';
