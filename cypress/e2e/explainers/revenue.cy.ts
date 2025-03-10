@@ -18,8 +18,8 @@ describe('Revenue Explainer Page', () => {
       cy.url().should('include', 'americas-finance-guide/');
     });
 
-    it('Validate that the sub nav takes the user Revenue section', () => {
-      cy.findByRole('link', { name: 'Revenue' })
+    it('Validate that the sub nav takes the user Debt section', () => {
+      cy.findByRole('link', { name: 'Debt' })
         .type('{enter}')
         .wait(2000);
       cy.url().should('include', 'americas-finance-guide/government-revenue');
@@ -138,6 +138,7 @@ describe('Revenue Explainer Page', () => {
       cy.wrap(term).should('include.text', glossaryTerms[index]);
     });
 
+    // circle back to this, probably needs removed
     foundTerms.contains('bills').click();
 
     cy.findAllByTestId('popupContainer')
