@@ -82,6 +82,7 @@ export default function DtgTable({
     customFormatting,
     chartTable,
   } = tableProps;
+
   const [reactTableData, setReactTableData] = useState(null);
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
