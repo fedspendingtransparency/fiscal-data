@@ -28,6 +28,8 @@ const mockHookReturnValues = {
   latestChartData: mockInsightChartData[mockInsightChartData.length - 1],
   altText: `Sample alt text`,
   chartLoading: false,
+  mergedTableData: mockInsightChartData,
+  columnConfigArray: [],
 };
 
 jest.mock('../useGetInterestExpenseData', () => ({

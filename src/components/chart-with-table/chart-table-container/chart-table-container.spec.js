@@ -30,7 +30,7 @@ describe('ChartTableContainer component', () => {
 
   it('renders the header', () => {
     const { getByText } = render(
-      <ChartTableContainer title={mockTitle} header={mockHeader} altText={mockAltText}>
+      <ChartTableContainer title={mockTitle} toggle={mockHeader} altText={mockAltText}>
         {mockChildren}
       </ChartTableContainer>
     );
