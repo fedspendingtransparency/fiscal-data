@@ -284,7 +284,6 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   return (
     <>
       <div data-test-id="table-content" className={!chartTable ? overlayContainerNoFooterChart : overlayContainerNoFooter}>
-        {console.log('datatbale chart table: ', chartTable)}
         <div className={selectColumnsWrapper}>
           {defaultSelectedColumns && (
             <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
