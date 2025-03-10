@@ -7,6 +7,10 @@ import {
   rectangle,
   stripedRectangle,
   infoTipContainer,
+  downloadCSV,
+  icon,
+  dowloadLableContainer,
+  clickedLabel,
 } from './interest-expense-chart.module.scss';
 import React, { FunctionComponent, ReactElement } from 'react';
 import InfoTip from '../../../../../components/info-tip/info-tip';

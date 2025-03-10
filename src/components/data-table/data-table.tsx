@@ -72,7 +72,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   disableDateRangeFilter,
   datasetName,
   hasDownloadTimestamp,
-  chartTable,
+  chartTable = true,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);

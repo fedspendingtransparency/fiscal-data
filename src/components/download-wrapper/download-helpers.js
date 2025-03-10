@@ -27,10 +27,10 @@ export const replaceNbsps = str => {
   return str.replace(re, ' ');
 };
 
-export const constructDownloadFileName = (dateRange, selectedTable) => {
+export const constructDownloadFileName = (dateRange, selectedTable, formatDate = true) => {
   if (dateRange?.from && dateRange?.to && selectedTable?.downloadName) {
-    const from = format(dateRange.from, 'yyyyMMdd');
-    const to = format(dateRange.to, 'yyyyMMdd');
+    const from = formatDate ? format(dateRange.from, 'yyyyMMdd') : dateRange.from;
+    const to = formatDate ? format(dateRange.to, 'yyyyMMdd') : dateRange.to;
     return selectedTable.downloadName + '_' + from + '_' + to;
   }
 };
