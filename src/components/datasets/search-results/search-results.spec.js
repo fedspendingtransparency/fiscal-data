@@ -59,7 +59,7 @@ describe('Search Results', () => {
       <SearchResults allDatasets={mockAllDatasets} filteredDatasets={mockFilteredDatasets} totalCount={mockTotal} searchIsActive />
     );
 
-    expect(getByText(SortOptions[0].label)).toBeInTheDocument();
+    expect(getByText(SortOptions[1].label)).toBeInTheDocument();
   });
 
   it('passes the filtered list of options to the sort control when search is inactive', () => {
@@ -67,7 +67,7 @@ describe('Search Results', () => {
       <SearchResults allDatasets={mockAllDatasets} filteredDatasets={mockFilteredDatasets} totalCount={mockTotal} searchIsActive={false} />
     );
 
-    expect(getByText(FilteredSortOptions[0].label)).toBeInTheDocument();
+    expect(getByText(FilteredSortOptions[1].label)).toBeInTheDocument();
   });
 
   it('changes the sort back to alpha when search is cleared', () => {
@@ -75,10 +75,10 @@ describe('Search Results', () => {
       <SearchResults allDatasets={mockAllDatasets} filteredDatasets={mockFilteredDatasets} totalCount={mockTotal} searchIsActive />
     );
 
-    expect(getByText(SortOptions[0].label)).toBeInTheDocument();
+    expect(getByText(SortOptions[1].label)).toBeInTheDocument();
 
     rerender(<SearchResults allDatasets={mockAllDatasets} filteredDatasets={mockFilteredDatasets} totalCount={mockTotal} searchIsActive={false} />);
-    expect(getByText(FilteredSortOptions[0].label)).toBeInTheDocument();
+    expect(getByText(FilteredSortOptions[1].label)).toBeInTheDocument();
   });
 
   it('displays an info box when no search results are returned', () => {
@@ -110,13 +110,13 @@ describe('Search Results', () => {
 
     expect(getByTestId('selectorList')).toBeInTheDocument();
 
-    expect(within(getByTestId('selectorList')).getAllByTestId('selector-option')[1]).toBeInTheDocument();
+    expect(within(getByTestId('selectorList')).getAllByTestId('selector-option')[2]).toBeInTheDocument();
 
-    fireEvent.click(within(getByTestId('selectorList')).getAllByTestId('selector-option')[1]);
+    fireEvent.click(within(getByTestId('selectorList')).getAllByTestId('selector-option')[2]);
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Sort Click',
-      eventLabel: 'Alphabetical (A to Z)',
+      eventLabel: 'Alphabetical (Z to A)',
     });
   });
 });
