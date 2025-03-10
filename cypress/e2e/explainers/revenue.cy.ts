@@ -22,7 +22,7 @@ describe('Revenue Explainer Page', () => {
       cy.findByRole('link', { name: 'Debt' })
         .type('{enter}')
         .wait(2000);
-      cy.url().should('include', 'americas-finance-guide/government-revenue');
+      cy.url().should('include', 'americas-finance-guide/national-debt');
     });
 
     it('Validate that the sub nav takes the user Spending section', () => {
