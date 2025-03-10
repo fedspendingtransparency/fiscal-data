@@ -1,12 +1,12 @@
 import React from 'react';
-import GenerativeReportsFooter from './generative-reports-footer';
 import { render } from '@testing-library/react';
-import GenerativeReportsEmptyTable from '../generative-reports-empty-table/generative-reports-empty-table';
+import GenerativeReportsFooter from './generative-reports-footer';
 
 describe('Generative Report Footer', () => {
   it('renders text', () => {
-    const { getByRole, getAllByRole } = render(<GenerativeReportsEmptyTable />);
+    const testMsg = 'Test Message';
+    const { getByText, getAllByRole } = render(<GenerativeReportsFooter message={testMsg} />);
 
-    expect(getByRole('span')).toBeInTheDocument();
+    expect(getByText(testMsg)).toBeInTheDocument();
   });
 });
