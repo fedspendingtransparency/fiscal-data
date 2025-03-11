@@ -10,13 +10,18 @@ export const notice = 'Banner Notice';
 const GenerativeReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReportDataJson[]; dataset: IDatasetConfig }> = ({
   publishedReportsProp,
   dataset,
+  useDefaultReportTable,
 }) => {
   return (
-    <div>
-      <DatasetSectionContainer title={title} id={'generative-reports-and-files'}>
-        <GenerativeReportsEmptyTable />
-      </DatasetSectionContainer>
-    </div>
+    <>
+      {useDefaultReportTable && (
+        <div>
+          <DatasetSectionContainer title={title} id={'generative-reports-and-files'}>
+            <GenerativeReportsEmptyTable />
+          </DatasetSectionContainer>
+        </div>
+      )}
+    </>
   );
 };
 
