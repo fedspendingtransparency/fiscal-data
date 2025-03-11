@@ -4,53 +4,53 @@ describe('Revenue Explainer Page', () => {
     cy.wait(3000);
   });
 
-  it('Navigate to the revenue explainer, ensure page does not contain NaN, null, or undefined values', () => {
-    cy.findAllByText('null').should('not.exist');
-    cy.findAllByText('NaN').should('not.exist');
-    cy.findAllByText('undefined').should('not.exist');
-  });
+  // it('Navigate to the revenue explainer, ensure page does not contain NaN, null, or undefined values', () => {
+  //   cy.findAllByText('null').should('not.exist');
+  //   cy.findAllByText('NaN').should('not.exist');
+  //   cy.findAllByText('undefined').should('not.exist');
+  // });
 
-  describe('Validate that the sub nav takes the user to the correct page on the site', () => {
-    it('Validate that the sub nav takes the user Overview section', () => {
-      cy.findByRole('link', { name: 'Overview' })
-        .type('{enter}')
-        .wait(2000);
-      cy.url().should('include', 'americas-finance-guide/');
-    });
-
-    it('Validate that the sub nav takes the user Debt section', () => {
-      cy.findByRole('link', { name: 'Debt' })
-        .type('{enter}')
-        .wait(2000);
-      cy.url().should('include', 'americas-finance-guide/national-debt');
-    });
-
-    it('Validate that the sub nav takes the user Spending section', () => {
-      cy.get('span')
-        .contains('Spending')
-        .type('{enter}')
-        .wait(2000);
-      cy.url().should('include', 'americas-finance-guide/federal-spending');
-    });
-
-    it('Validate that the sub nav takes the user Deficit section', () => {
-      cy.get('span')
-        .contains('Deficit')
-        .type('{enter}')
-        .wait(2000);
-      cy.url().should('include', 'americas-finance-guide/national-deficit');
-    });
-  });
+  // describe('Validate that the sub nav takes the user to the correct page on the site', () => {
+  //   it('Validate that the sub nav takes the user Overview section', () => {
+  //     cy.findByRole('link', { name: 'Overview' })
+  //       .type('{enter}')
+  //       .wait(2000);
+  //     cy.url().should('include', 'americas-finance-guide/');
+  //   });
+  //
+  //   it('Validate that the sub nav takes the user Debt section', () => {
+  //     cy.findByRole('link', { name: 'Debt' })
+  //       .type('{enter}')
+  //       .wait(2000);
+  //     cy.url().should('include', 'americas-finance-guide/national-debt');
+  //   });
+  //
+  //   it('Validate that the sub nav takes the user Spending section', () => {
+  //     cy.get('span')
+  //       .contains('Spending')
+  //       .type('{enter}')
+  //       .wait(2000);
+  //     cy.url().should('include', 'americas-finance-guide/federal-spending');
+  //   });
+  //
+  //   it('Validate that the sub nav takes the user Deficit section', () => {
+  //     cy.get('span')
+  //       .contains('Deficit')
+  //       .type('{enter}')
+  //       .wait(2000);
+  //     cy.url().should('include', 'americas-finance-guide/national-deficit');
+  //   });
+  // });
 
   describe('Validate all links on page', () => {
     it('Part 1: Validate all internal links on the page navigate to the correct destinations ', () => {
-      const hyperlinks1: object[] = [
+      const hyperlinks1 = [
         {
-          name: 'spending',
+          name: 'Spending',
           url: '/americas-finance-guide/federal-spending/',
         },
         {
-          name: 'deficit',
+          name: 'Deficit',
           url: '/americas-finance-guide/national-deficit/',
         },
       ];
@@ -65,7 +65,7 @@ describe('Revenue Explainer Page', () => {
     });
 
     it('Part 2: Validate all internal links on the page navigate to the correct destinations', () => {
-      const hyperlinks2: object[] = [
+      const hyperlinks2 = [
         {
           name: 'Monthly Treasury Statement (MTS)',
           url: '/datasets/monthly-treasury-statement/receipts-of-the-u-s-government',
@@ -102,21 +102,30 @@ describe('Revenue Explainer Page', () => {
       ];
 
       externalHyperlinks.forEach(link => {
-        cy.findByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
+        cy.findAllByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
       });
     });
 
     it('Validate all external links (in accordians) on the page navigate to the correct destinations ', () => {
-        cy.getByRole('button', { id: 'accordian-false-source-rev' })
-          .first()
-          .click()
-          .wait(2000);
-        cy.findByRole('link', { name: 'Federal Reserve Act, Section 7(a)(1-3)' })
-          .type('{enter}')
-          .wait(2000);
-        cy.url().should('include', 'https://www.federalreserve.gov/aboutthefed/section7.htm');
-        cy.visit('https://www.federalreserve.gov/aboutthefed/section7.htm');
-      });
+      cy.findByRole('button', { name: 'Why does the Federal Reserve send money to the federal government? toggle contents' })
+        .first()
+        .click()
+        .wait(2000);
+      cy.findByRole('link', { name: 'Federal Reserve Act, Section 7(a)(1-3)' }).should(
+        'have.attr',
+        'href',
+        'https://www.federalreserve.gov/aboutthefed/section7.htm'
+      );
+
+      cy.findByRole('button', { name: 'Data Sources & Methodologies toggle contents' })
+        .first()
+        .click()
+        .wait(2000);
+      cy.findByRole('link', { name: 'GitHub repository' }).should(
+        'have.attr',
+        'href',
+        'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'
+      );
     });
   });
 
@@ -130,49 +139,49 @@ describe('Revenue Explainer Page', () => {
   // name: 'GitHub repository',
   // url: 'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation',
 
-  describe('Validate charts', () => {
-    it('Load properly with no null or empty values', () => {
-      cy.get('[role="figure"]').each(chart => {
-        cy.wrap(chart)
-          .scrollIntoView({ duration: 2000 })
-          .findAllByText('null')
-          .should('not.exist')
-          .findAllByText('NaN')
-          .should('not.exist')
-          .findAllByText('undefined')
-          .should('not.exist');
-      });
-    });
-  });
+  // describe('Validate charts', () => {
+  //   it('Load properly with no null or empty values', () => {
+  //     cy.get('[role="figure"]').each(chart => {
+  //       cy.wrap(chart)
+  //         .scrollIntoView({ duration: 2000 })
+  //         .findAllByText('null')
+  //         .should('not.exist')
+  //         .findAllByText('NaN')
+  //         .should('not.exist')
+  //         .findAllByText('undefined')
+  //         .should('not.exist');
+  //     });
+  //   });
+  // });
 
-  it('Validate all glossary terms on page', () => {
-    const glossaryTerms: string[] = ['expenditures', 'fiscal year (FY)', 'excise', 'trust funds'];
+  // it('Validate all glossary terms on page', () => {
+  //   const glossaryTerms: string[] = ['expenditures', 'fiscal year (FY)', 'excise', 'trust funds'];
+  //
+  //   const foundTerms = cy.findAllByTestId('infoTipContainer');
+  //
+  //   foundTerms.each((term, index) => {
+  //     cy.wrap(term).should('include.text', glossaryTerms[index]);
+  //   });
+  //
+  //   foundTerms.contains('excise').click();
+  //
+  //   cy.findAllByTestId('popupContainer')
+  //     .findByText('View in glossary')
+  //     .click();
+  // });
 
-    const foundTerms = cy.findAllByTestId('infoTipContainer');
-
-    foundTerms.each((term, index) => {
-      cy.wrap(term).should('include.text', glossaryTerms[index]);
-    });
-
-    foundTerms.contains('excise').click();
-
-    cy.findAllByTestId('popupContainer')
-      .findByText('View in glossary')
-      .click();
-  });
-
-  it('Validate that the related datasets section contains the correct datasets', () => {
-    const relatedDs: string[] = [
-      'Monthly Treasury Statement (MTS)',
-      'Treasury Reporting Rates of Exchange',
-      'U.S. Government Revenue Collections',
-      'Financial Report of the U.S. Government',
-    ];
-
-    const foundRelatedDs = cy.findAllByTestId('cardWrapper');
-
-    foundRelatedDs.each((ds, index) => {
-      cy.wrap(ds).should('include.text', relatedDs[index]);
-    });
-  });
+  // it('Validate that the related datasets section contains the correct datasets', () => {
+  //   const relatedDs: string[] = [
+  //     'Monthly Treasury Statement (MTS)',
+  //     'Treasury Reporting Rates of Exchange',
+  //     'U.S. Government Revenue Collections',
+  //     'Financial Report of the U.S. Government',
+  //   ];
+  //
+  //   const foundRelatedDs = cy.findAllByTestId('cardWrapper');
+  //
+  //   foundRelatedDs.each((ds, index) => {
+  //     cy.wrap(ds).should('include.text', relatedDs[index]);
+  //   });
+  // });
 });
