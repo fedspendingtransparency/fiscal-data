@@ -499,6 +499,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       selectColumns: [String],
       detailView: DetailView,
       disableAllTables: Boolean,
+      reportGenDefaultTable: Boolean,
       downloadTimestamp: Boolean,
       sharedApiFilterOptions: Boolean,
       reportSelection: String,
@@ -578,6 +579,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           reportSelection
           disableAllTables
           downloadTimestamp
+          reportGenDefaultTable
           sharedApiFilterOptions
           allColumnNames
           allPrettyNames
