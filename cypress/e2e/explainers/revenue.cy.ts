@@ -108,9 +108,12 @@ describe('Revenue Explainer Page', () => {
   });
 
   // Create test opens up the accordians to test the two links below (they are in separate accordians)
+
+  // id= accordian-false-source-rev     (data-testid = heading, role = button)
   // name: 'Federal Reserve Act, Section 7(a)(1-3)',
   // url: 'https://www.federalreserve.gov/aboutthefed/section7.htm',
 
+  // id= accordian-false-DSM       (data-testid = heading, role = button)
   // name: 'GitHub repository',
   // url: 'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation',
 
