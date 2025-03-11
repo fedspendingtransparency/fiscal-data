@@ -105,6 +105,19 @@ describe('Revenue Explainer Page', () => {
         cy.findByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
       });
     });
+
+    it('Validate all external links (in accordians) on the page navigate to the correct destinations ', () => {
+        cy.getByRole('button', { id: 'accordian-false-source-rev' })
+          .first()
+          .click()
+          .wait(2000);
+        cy.findByRole('link', { name: 'Federal Reserve Act, Section 7(a)(1-3)' })
+          .type('{enter}')
+          .wait(2000);
+        cy.url().should('include', 'https://www.federalreserve.gov/aboutthefed/section7.htm');
+        cy.visit('https://www.federalreserve.gov/aboutthefed/section7.htm');
+      });
+    });
   });
 
   // Create test opens up the accordians to test the two links below (they are in separate accordians)
