@@ -2,6 +2,7 @@
 $interest-expense-primary: #00796b;
 
 .legendContainer {
+  padding: 0 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -52,5 +53,5 @@ $interest-expense-primary: #00796b;
 
 .chartTableBoarder {
   border: 1px;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
 }
