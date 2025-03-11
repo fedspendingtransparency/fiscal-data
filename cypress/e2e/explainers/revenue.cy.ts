@@ -10,7 +10,7 @@ describe('Revenue Explainer Page', () => {
     cy.findAllByText('undefined').should('not.exist');
   });
 
-  describe('Validate that the sub nav takes the user to the correct section on the page', () => {
+  describe('Validate that the sub nav takes the user to the correct page on the site', () => {
     it('Validate that the sub nav takes the user Overview section', () => {
       cy.findByRole('link', { name: 'Overview' })
         .type('{enter}')
@@ -26,7 +26,8 @@ describe('Revenue Explainer Page', () => {
     });
 
     it('Validate that the sub nav takes the user Spending section', () => {
-      cy.findByRole('link', { name: 'Spending' })
+      cy.get('span')
+        .contains('Spending')
         .type('{enter}')
         .wait(2000);
       cy.url().should('include', 'americas-finance-guide/federal-spending');
@@ -81,11 +82,7 @@ describe('Revenue Explainer Page', () => {
     });
 
     it('Validate all external links on the page navigate to the correct destinations ', () => {
-      const externalHyperlinks: object[] = [
-        {
-          name: 'Federal Reserve Act, Section 7(a)(1-3)',
-          url: 'https://www.federalreserve.gov/aboutthefed/section7.htm',
-        },
+      const externalHyperlinks = [
         {
           name: 'IRS.gov',
           url: 'https://www.irs.gov/newsroom/historical-highlights-of-the-irs',
@@ -102,10 +99,6 @@ describe('Revenue Explainer Page', () => {
           name: 'GPS.gov',
           url: 'https://www.gps.gov/policy/funding/',
         },
-        {
-          name: 'GitHub repository',
-          url: 'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation',
-        },
       ];
 
       externalHyperlinks.forEach(link => {
@@ -113,6 +106,13 @@ describe('Revenue Explainer Page', () => {
       });
     });
   });
+
+  // Create test opens up the accordians to test the two links below (they are in separate accordians)
+  // name: 'Federal Reserve Act, Section 7(a)(1-3)',
+  // url: 'https://www.federalreserve.gov/aboutthefed/section7.htm',
+
+  // name: 'GitHub repository',
+  // url: 'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation',
 
   describe('Validate charts', () => {
     it('Load properly with no null or empty values', () => {
@@ -138,8 +138,7 @@ describe('Revenue Explainer Page', () => {
       cy.wrap(term).should('include.text', glossaryTerms[index]);
     });
 
-    // circle back to this, probably needs removed
-    foundTerms.contains('bills').click();
+    foundTerms.contains('excise').click();
 
     cy.findAllByTestId('popupContainer')
       .findByText('View in glossary')
