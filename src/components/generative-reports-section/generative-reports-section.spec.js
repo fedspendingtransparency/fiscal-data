@@ -4,7 +4,7 @@ import GenerativeReportsSection from './generative-reports-section';
 
 describe('Generative Report Footer', () => {
   it('renders', () => {
-    const { getByRole } = render(<GenerativeReportsSection />);
+    const { getByRole } = render(<GenerativeReportsSection useDefaultReportTable={true} />);
 
     expect(getByRole('table')).toBeInTheDocument();
   });
