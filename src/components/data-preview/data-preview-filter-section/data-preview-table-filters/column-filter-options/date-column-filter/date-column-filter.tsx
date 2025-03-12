@@ -1,33 +1,92 @@
-import React, { FunctionComponent } from 'react';
-import { columnName, inputContainer, radioButton, sectionContainer } from './date-column-filter.module.scss';
+import React, { FunctionComponent, useState } from 'react';
+import { columnName, inputContainer, radioButton, sectionContainer, sectionDisabled } from './date-column-filter.module.scss';
 import DatePresets from './date-presets/date-presets';
 import CustomDateFilter from './custom-date-filter/custom-date-filter';
 
 interface IDateColumnFilter {
   presets?: boolean;
   columnConfig;
+  selectedTable;
+  setDateRange;
+  allTablesSelected;
+  setIsFiltered;
+  handleDateRangeChange;
+  setIsCustomDateRange;
+  finalDatesNotFound;
+  detailApi;
+  detailViewState;
 }
 
-const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({ presets = true, columnConfig }) => {
+const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
+  columnConfig,
+  selectedTable,
+  config,
+  setDateRange,
+  allTablesSelected,
+  setIsFiltered,
+  handleDateRangeChange,
+  setIsCustomDateRange,
+  finalDatesNotFound,
+  detailApi,
+  detailViewState,
+  apiData,
+}) => {
+  const [selectedToggle, setSelectedToggle] = useState('preset');
+  const [pickerDateRange, setPickerDateRange] = useState(null);
+
+  const handleDateRangeSelect = dateRange => {
+    console.log('selectedDateRange: ', dateRange);
+    // handleDateRangeChange(dateRange);
+  };
   return (
     <div className={sectionContainer}>
       <div className={columnName}>{columnConfig.name}</div>
       <div className={inputContainer}>
-        {presets && (
-          <div>
-            <label className={radioButton}>
-              <input type="radio" name="date-toggle" id="radio-preset" checked={true} />
-              Preset
-            </label>
-            <DatePresets />
-          </div>
-        )}
-        <div>
+        <div className={selectedToggle !== 'preset' ? sectionDisabled : undefined}>
           <label className={radioButton}>
-            <input type="radio" name="date-toggle" id="radio-custom" />
+            <input
+              type="radio"
+              name="date-toggle"
+              id="radio-preset"
+              checked={selectedToggle === 'preset'}
+              onChange={() => setSelectedToggle('preset')}
+            />
+            Preset
+          </label>
+          <DatePresets
+            setDateRange={setDateRange}
+            handleDateRangeChange={handleDateRangeSelect}
+            selectedTable={!!detailViewState ? detailApi : selectedTable}
+            apiData={apiData}
+            onUserFilter={allTablesSelected}
+            setIsFiltered={setIsFiltered}
+            currentDateButton={config.currentDateButton}
+            datePreset={config.datePreset}
+            customRangePreset={config.customRangePreset}
+            setIsCustomDateRange={setIsCustomDateRange}
+            allTablesSelected={allTablesSelected}
+            datasetDateRange={{
+              earliestDate: config.techSpecs.earliestDate,
+              latestDate: config.techSpecs.latestDate,
+            }}
+            finalDatesNotFound={finalDatesNotFound}
+            datatableBanner={config.datatableBanner}
+            hideButtons={detailApi && !detailViewState}
+            setPickerDateRange={setPickerDateRange}
+          />
+        </div>
+        <div className={selectedToggle !== 'custom' ? sectionDisabled : undefined}>
+          <label className={radioButton}>
+            <input
+              type="radio"
+              name="date-toggle"
+              id="radio-custom"
+              checked={selectedToggle === 'custom'}
+              onChange={() => setSelectedToggle('custom')}
+            />
             Custom
           </label>
-          <CustomDateFilter />
+          <CustomDateFilter pickerDateRange={pickerDateRange} />
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@ import determineDateRange, {
 } from '../../../../../../filter-download-container/range-presets/helpers/helper';
 import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { monthNames } from '../../../../../../../utils/api-utils';
-import DatePickers from '../../../../../../filter-download-container/datepickers/datepickers';
+import { presetContainer, radio, selected, toggleButton } from './date-presets.module.scss';
 
 interface IDatePresets {
   currentDateButton;
@@ -31,15 +31,16 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
   apiData,
   handleDateRangeChange,
   setIsFiltered,
-  setIsCustomDateRange,
+  // setIsCustomDateRange,
   allTablesSelected,
   datasetDateRange,
   finalDatesNotFound,
   hideButtons,
+  setPickerDateRange,
 }) => {
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
-  const [pickerDateRange, setPickerDateRange] = useState(null);
+  // const [pickerDateRange, setPickerDateRange] = useState(null);
   const [dateRange, setCurDateRange] = useState(null);
   const [presets, setPresets] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
@@ -70,13 +71,13 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
     generateAnalyticsEvent(label);
 
     setActivePresetKey(preset.key);
-    setIsCustomDateRange(preset.key === customPreset.key);
+    // setIsCustomDateRange(preset.key === customPreset.key);
 
-    if (preset.key !== customPreset.key) {
-      prepUpdateDateRange(preset);
-    } else {
-      handleDateRangeChange(dateRange);
-    }
+    // if (preset.key !== customPreset.key) {
+    prepUpdateDateRange(preset);
+    // } else {
+    // handleDateRangeChange(dateRange);
+    // }
 
     if (preset.key === 'all') {
       isFiltered = false;
@@ -87,6 +88,7 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
 
   const prepUpdateDateRange = preset => {
     const curDateRange = determineDateRange(availableDateRange, preset, currentDateButton);
+    console.log('updating', curDateRange, preset, currentDateButton);
     updateDateRange(curDateRange);
   };
 
@@ -122,14 +124,14 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
         // We need to pass back the date range for the new data table. Note, the actual dates
         // might not be the same from the previously selected table, even though the preset is
         // the same.
-        if (curSelectedOption.key === 'custom') {
-          const adjustedRange = fitDateRangeToTable(dateRange, availableDateRange);
-          setPickerDateRange(availableDateRange);
-          setCurDateRange(adjustedRange);
-          handleDateRangeChange(adjustedRange);
-        } else {
-          prepUpdateDateRange(curSelectedOption);
-        }
+        // if (curSelectedOption.key === 'custom') {
+        //   const adjustedRange = fitDateRangeToTable(dateRange, availableDateRange);
+        //   setPickerDateRange(availableDateRange);
+        //   setCurDateRange(adjustedRange);
+        //   handleDateRangeChange(adjustedRange);
+        // } else {
+        prepUpdateDateRange(curSelectedOption);
+        // }
         return;
       }
       if (datePreset === 'current' && presets[0].key === 'current') {
@@ -228,35 +230,32 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
     <>
       {!hideButtons && (
         <>
-          <h3 className={header} data-test-id="header">
-            Date Range<span data-test-id="label">{label}</span>:
-          </h3>
           <div id={presetContainer}>
             {presets.map(preset => (
               <React.Fragment key={preset.key}>
                 {preset.key === 'custom' ? (
                   <>
-                    <input
-                      type="radio"
-                      name="range-toggle"
-                      className={radio}
-                      checked={customPreset.key === activePresetKey}
-                      id={`radio-${customPreset.key}`}
-                      onChange={() => {
-                        applyPreset(customPreset);
-                      }}
-                      tabIndex={0}
-                      data-test-id={`preset-radio-${customPreset.key}`}
-                    />
-                    <label
-                      className={`
-                    ${toggleButton} ${activePresetKey === customPreset.key ? selected : ''}
-                  `}
-                      htmlFor={`radio-${customPreset.key}`}
-                      data-test-id={`preset-label-${customPreset.key}`}
-                    >
-                      {customPreset.label}
-                    </label>
+                    {/*  <input*/}
+                    {/*    type="radio"*/}
+                    {/*    name="range-toggle"*/}
+                    {/*    className={radio}*/}
+                    {/*    checked={customPreset.key === activePresetKey}*/}
+                    {/*    id={`radio-${customPreset.key}`}*/}
+                    {/*    onChange={() => {*/}
+                    {/*      applyPreset(customPreset);*/}
+                    {/*    }}*/}
+                    {/*    tabIndex={0}*/}
+                    {/*    data-test-id={`preset-radio-${customPreset.key}`}*/}
+                    {/*  />*/}
+                    {/*  <label*/}
+                    {/*    className={`*/}
+                    {/*  ${toggleButton} ${activePresetKey === customPreset.key ? selected : ''}*/}
+                    {/*`}*/}
+                    {/*    htmlFor={`radio-${customPreset.key}`}*/}
+                    {/*    data-test-id={`preset-label-${customPreset.key}`}*/}
+                    {/*  >*/}
+                    {/*    {customPreset.label}*/}
+                    {/*  </label>*/}
                   </>
                 ) : (
                   <>
@@ -286,9 +285,6 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
               </React.Fragment>
             ))}
           </div>
-          {activePresetKey === customPreset.key && (
-            <DatePickers selectedDateRange={dateRange} availableDateRange={pickerDateRange} setSelectedDates={updateDateRange} />
-          )}
         </>
       )}
     </>
