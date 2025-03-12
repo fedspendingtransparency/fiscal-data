@@ -36,7 +36,7 @@ const DropdownContainer: FunctionComponent<IDropdownContainer> = ({
     if (event) {
       const parent = dropdownRef.current;
       const related = event?.relatedTarget as HTMLElement;
-      if ((!parent?.outerText?.includes(related?.outerText) || !related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
+      if (!parent?.outerText?.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
         setActive(false);
       }
     }
