@@ -13,7 +13,7 @@ interface IReportDayPicker {
   setSelectedDate: (date: Date) => void;
   latestReportDate: Date;
   earliestReportDate: Date;
-  allReportDates: string[];
+  allReportDates?: string[];
   active: boolean;
 }
 
@@ -25,6 +25,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
   earliestReportDate,
   allReportDates,
   active,
+  label,
 }: IReportDayPicker) => {
   const [currentDate, setCurrentDate] = useState<Date>(selectedDate);
   const [month, setMonth] = useState<Date>(selectedDate);
@@ -36,11 +37,13 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
   };
 
   const isDisabled = (day: Date) => {
-    const reportMonth = monthFullNames[day.getMonth()];
-    const reportDay = day.getDate();
-    const reportYear = day.getFullYear();
-    const dateStr = reportMonth + ' ' + reportDay + ', ' + reportYear;
-    return !allReportDates.includes(dateStr);
+    if (allReportDates) {
+      const reportMonth = monthFullNames[day.getMonth()];
+      const reportDay = day.getDate();
+      const reportYear = day.getFullYear();
+      const dateStr = reportMonth + ' ' + reportDay + ', ' + reportYear;
+      return !allReportDates.includes(dateStr);
+    }
   };
 
   useEffect(() => {
@@ -63,6 +66,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
           selectedDate={currentDate !== undefined && formatReportDate(currentDate, true, true)}
           allDates={allReportDates}
           daily
+          label={label}
         >
           <DayPicker
             mode="single"
