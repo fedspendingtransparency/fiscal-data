@@ -30,8 +30,8 @@ const getText = takeaway => {
 //TODO: Replace below icon with afg-icon component
 const KeyTakeawaysSection = ({ takeaways, primaryColor, secondaryColor }) => (
   <>
-    {takeaways.map(takeaway => (
-      <div className={keyTakeawaysContent} key={takeaway.text}>
+    {takeaways.map((takeaway, index) => (
+      <div className={keyTakeawaysContent} key={index}>
         <div className={iconBackground} style={{ backgroundColor: secondaryColor }}>
           <FontAwesomeIcon icon={takeaway.icon} className={icon} />
           <FontAwesomeIcon icon={takeaway.icon} className={offsetIcon} style={{ color: primaryColor }} />

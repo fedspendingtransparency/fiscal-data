@@ -1,22 +1,22 @@
-import React, { useState, useEffect, Fragment, useCallback } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import ChartContainer from '../../../explainer-components/chart-container/chart-container';
 import {
+  active,
+  barContainer,
+  barContainerInvisible,
+  chartsContainer,
+  chartToggle,
+  descContainer,
   footerStyle,
   headerContainer,
   headerStyle,
-  subHeader,
-  chartsContainer,
-  percentOrDollarContainer,
-  descContainer,
-  chartToggle,
-  toggleButton,
   loadingIcon,
-  barContainer,
-  barContainerInvisible,
   otherContainer,
   otherContainerInvisible,
-  active,
+  percentOrDollarContainer,
+  subHeader,
+  toggleButton,
 } from './how-much-does-the-govt-spend.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -27,8 +27,7 @@ import Analytics from '../../../../../utils/analytics/analytics';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { ToggleSwitch } from './chart-toggle-switch';
 import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';
-import { keyframes } from 'styled-components';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useInView } from 'react-intersection-observer';
 
 const breakpoint = {
@@ -341,7 +340,7 @@ const HowMuchDoesTheGovtSpend = () => {
             </span>
           </div>
           <div className={scrolled ? barContainer : barContainerInvisible} data-testid="barContainer" ref={ref}>
-            <div className={animationComplete && active}>
+            <div className={animationComplete ? active : ''}>
               {firstTen?.map((item, i) => {
                 return (
                   <div className={chartsContainer} key={i}>
@@ -369,7 +368,7 @@ const HowMuchDoesTheGovtSpend = () => {
             </div>
           </div>
           <div className={scrolled ? otherContainer : otherContainerInvisible}>
-            <div className={animationComplete && active}>
+            <div className={animationComplete ? active : undefined}>
               <div className={chartsContainer} key={otherPercentage}>
                 <GrowDivBar percent={otherPercentage} animateTime={0.6} animate={animateBars} isMobile={isMobile} />
                 <div className={percentOrDollarContainer}>{percentDollarToggleChecked ? `$${getShortForm(otherTotal)}` : `${otherPercentage} %`}</div>
