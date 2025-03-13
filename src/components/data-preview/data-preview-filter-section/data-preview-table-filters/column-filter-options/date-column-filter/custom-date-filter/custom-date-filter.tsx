@@ -6,7 +6,7 @@ import DropdownContainer from '../../../../../../dropdown-container/dropdown-con
 import { formatReportDate } from '../../../../../../../helpers/dataset-detail/report-helpers';
 import { customDatesContainer } from './custom-date-filter.module.scss';
 
-const CustomDateFilter: FunctionComponent = ({ pickerDateRange }) => {
+const CustomDateFilter: FunctionComponent = ({ pickerDateRange, disabled }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(null);
   const [selectedEndDate, setSelectedEndDate] = useState<Date>(null);
   const [startDateActive, setStartDateActive] = useState(false);
@@ -15,7 +15,6 @@ const CustomDateFilter: FunctionComponent = ({ pickerDateRange }) => {
   const handleEndDateClose = () => setEndDateActive(false);
 
   useEffect(() => {
-    console.log(pickerDateRange);
     if (pickerDateRange?.from && pickerDateRange?.to) {
       setSelectedStartDate(pickerDateRange.from);
       setSelectedEndDate(pickerDateRange.to);
@@ -30,6 +29,7 @@ const CustomDateFilter: FunctionComponent = ({ pickerDateRange }) => {
       setActive={setStartDateActive}
       active={startDateActive}
       ariaLabel="Select Start Date"
+      disabled={disabled}
     />
   );
 
@@ -41,6 +41,7 @@ const CustomDateFilter: FunctionComponent = ({ pickerDateRange }) => {
       setActive={setEndDateActive}
       active={endDateActive}
       ariaLabel="Select End Date"
+      disabled={disabled}
     />
   );
 
