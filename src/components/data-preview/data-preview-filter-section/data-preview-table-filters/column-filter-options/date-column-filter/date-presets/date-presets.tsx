@@ -84,7 +84,7 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
 
   const updateDateRange = curDateRange => {
     if (curDateRange) {
-      setPickerDateRange(availableDateRange);
+      setPickerDateRange({ ...availableDateRange, from: curDateRange.from, to: curDateRange.to });
       setCurDateRange(curDateRange);
       handleDateRangeChange(curDateRange);
     }

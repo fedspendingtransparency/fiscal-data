@@ -35,9 +35,9 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   const [pickerDateRange, setPickerDateRange] = useState(null);
 
   const handleDateRangeSelect = dateRange => {
-    console.log('selectedDateRange: ', dateRange);
     // handleDateRangeChange(dateRange);
   };
+
   return (
     <div className={sectionContainer}>
       <div className={columnName}>{columnConfig.name}</div>
