@@ -1,0 +1,34 @@
+@import 'src/variables.module';
+
+.sectionContainer {
+  padding: 1rem;
+  font-size: $font-size-16;
+  .radioButton {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    margin-bottom: 1.125rem;
+    cursor: pointer;
+    input[type='radio'] {
+      margin: 0 0.5rem 0 0;
+      cursor: pointer;
+      accent-color: $font-body-copy;
+    }
+  }
+}
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.columnName {
+  font-weight: $semi-bold-weight;
+}
+
+.sectionDisabled {
+  opacity: 40%;
+}
+
+.presetContainer {
+  padding-left: 1.25rem;
+}

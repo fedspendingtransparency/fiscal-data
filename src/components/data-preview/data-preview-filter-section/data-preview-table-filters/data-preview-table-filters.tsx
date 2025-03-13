@@ -3,19 +3,33 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
+import ColumnFilterOptions from './column-filter-options/column-filter-options';
 
-const DataPreviewTableFilters: FunctionComponent = () => {
+const DataPreviewTableFilters: FunctionComponent = ({
+  selectedTable,
+  config,
+  setDateRange,
+  allTablesSelected,
+  setIsFiltered,
+  handleDateRangeChange,
+  setIsCustomDateRange,
+  finalDatesNotFound,
+  detailApi,
+  detailViewState,
+  apiData,
+}) => {
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
+  const [selectedColumn, setSelectedColumn] = useState({ name: 'Record Date', type: 'Date' });
   const filterDropdownButton = (
     <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
   );
 
   const handleApply = () => {
-    // placeholder function
+    setActive(false);
   };
   const handleCancel = () => {
-    // placeholder function
+    setActive(false);
   };
 
   return (
@@ -23,7 +37,23 @@ const DataPreviewTableFilters: FunctionComponent = () => {
       {active && (
         <DataPreviewDropdownDialogContainer
           searchComponent={<>search component placeholder</>}
-          filterComponent={<>filter component placeholder</>}
+          filterComponent={
+            <ColumnFilterOptions
+              setAppliedFilters={setAppliedFilters}
+              selectedColumn={selectedColumn}
+              selectedTable={selectedTable}
+              config={config}
+              setDateRange={setDateRange}
+              allTablesSelected={allTablesSelected}
+              setIsFiltered={setIsFiltered}
+              handleDateRangeChange={handleDateRangeChange}
+              setIsCustomDateRange={setIsCustomDateRange}
+              finalDatesNotFound={finalDatesNotFound}
+              detailApi={detailApi}
+              detailViewState={detailViewState}
+              apiData={apiData}
+            />
+          }
           handleApply={handleApply}
           handleCancel={handleCancel}
         />

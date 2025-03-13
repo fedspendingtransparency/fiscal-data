@@ -1,5 +1,4 @@
-import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
-import React from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import DataPreviewDownloadWrapper from './data-preview-download-wrapper/data-preview-download-wrapper';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { filterAndDownloadContainer, filterContainer, toggleDownloadContainer } from './data-preview-filter-section.module.scss';
@@ -31,6 +30,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   width,
   children,
   dateRange,
+  setDateRange,
   isFiltered,
   selectedTable,
   selectedPivot,
@@ -41,6 +41,13 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   tableColumnSortData,
   selectedDetailViewFilter,
   apiFilterDefault,
+  setIsFiltered,
+  handleDateRangeChange,
+  setIsCustomDateRange,
+  finalDatesNotFound,
+  detailApi,
+  detailViewState,
+  apiData,
 }) => {
   const isDisabled = apiFilterDefault;
   const { dataDisplays, userFilter } = selectedTable;
@@ -73,7 +80,19 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
     <>
       <div className={filterAndDownloadContainer}>
         <div className={filterContainer}>
-          <DataPreviewTableFilters />
+          <DataPreviewTableFilters
+            selectedTable={selectedTable}
+            config={dataset}
+            setDateRange={setDateRange}
+            allTablesSelected={allTablesSelected}
+            setIsFiltered={setIsFiltered}
+            handleDateRangeChange={handleDateRangeChange}
+            setIsCustomDateRange={setIsCustomDateRange}
+            finalDatesNotFound={finalDatesNotFound}
+            detailApi={detailApi}
+            detailViewState={detailViewState}
+            apiData={apiData}
+          />
           <ColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle />}
         </div>

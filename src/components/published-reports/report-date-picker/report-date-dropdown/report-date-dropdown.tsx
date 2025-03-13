@@ -26,17 +26,18 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
   allDates,
   selectedDate,
   daily,
+  label,
 }: IReportDateDropdown) => {
   const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
-  const label = daily ? 'Published Date (Example: May 1, 1998 or 05/01/1998)' : 'Published Date (Example: May 1998 or 05/1998)';
+  const reportLabel = daily ? 'Published Date (Example: May 1, 1998 or 05/01/1998)' : 'Published Date (Example: May 1998 or 05/1998)';
 
   return (
     <>
       <div className={dropdownContainer}>
         <div className={inputContainer}>
           <DateTextInput
-            label={label}
+            label={label ? label : reportLabel}
             validInput={validInput}
             setValidInput={setValidInput}
             inputFocus={inputFocus}

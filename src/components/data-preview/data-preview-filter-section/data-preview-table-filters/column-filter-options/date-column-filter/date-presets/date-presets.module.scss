@@ -1,0 +1,59 @@
+@import 'src/variables.module.scss';
+
+#presetContainer {
+  margin-top: 1rem;
+  .toggleButton {
+    //font-size: $font-size-16;
+    //color: $font-body-copy;
+    position: relative;
+    display: inline-block;
+    border: 1px solid #cacaca;
+    padding: 0.5rem;
+    outline: 1px transparent;
+    transition: outline 0.2s ease;
+    background-color: #ffffff;
+    border-radius: 3px;
+    margin: 0 0.25rem 0.25rem 0;
+    *,
+    & {
+      cursor: pointer;
+    }
+    &.selected {
+      color: $primary;
+      border: 1px solid $primary;
+    }
+    &.selected,
+    &:hover {
+      background-color: #edf5fa;
+    }
+    &:focus,
+    &:focus-within {
+      outline: 1px solid $focus;
+      z-index: $radio-button;
+    }
+    &.disabled {
+      opacity: 50%;
+      background-color: $body-background;
+      border-left: none;
+      border-color: $body-background;
+    }
+  }
+
+  .buttonDescription {
+    display: inline-block;
+    margin-left: 0.625rem;
+  }
+
+  .innerButton {
+    padding: 0.75rem 1rem;
+  }
+
+  .radio {
+    opacity: 0;
+    position: absolute;
+    &:focus + .toggleButton {
+      outline: 1px solid $focus;
+      z-index: $radio-button;
+    }
+  }
+}

@@ -1,7 +1,17 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import DataPreviewSectionContainer from './data-preview-section-container/data-preview-section-container';
-import { detailViewNotice, lockIcon, placeholderButton, placeholderText } from './data-preview.module.scss';
+import {
+  dataPreview,
+  dataPreviewHeader,
+  dataPreviewTitle,
+  detailViewNotice,
+  increaseSpacing,
+  lockIcon,
+  placeholderButton,
+  placeholderText,
+  selectedTableName,
+} from './data-preview.module.scss';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
@@ -13,7 +23,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
-import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName, increaseSpacing } from './data-preview.module.scss';
 import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
@@ -283,6 +292,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
           <DataPreviewFilterSection
             data-testid="filterAndDownload"
             dateRange={dateRange}
+            setDateRange={setDateRange}
             isFiltered={isFiltered}
             selectedTable={!!detailViewState ? detailApi : selectedTable}
             selectedPivot={selectedPivot}
@@ -293,6 +303,13 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             tableColumnSortData={tableColumnSortData}
             selectedDetailViewFilter={detailViewDownloadFilter}
             apiFilterDefault={apiFilterDefault}
+            setIsFiltered={setIsFiltered}
+            handleDateRangeChange={handleDateRangeChange}
+            setIsCustomDateRange={setIsCustomDateRange}
+            finalDatesNotFound={finalDatesNotFound}
+            detailApi={detailApi}
+            detailViewState={detailViewState}
+            apiData={apiData}
           >
             {selectedTable && (
               <>
