@@ -22,6 +22,7 @@
     "serve-cypress": "run-cypress.sh",
     "test": "jest --logHeapUsage",
     "test:coverage": "jest --coverage",
+    "test:report": "jest --coverage --coverageReporters=\"json-summary\"",
     "test:silent": "jest --coverage --silent",
     "test:branch": "jest --coverage --changedSince=master",
     "tst": "jest --coverage",
