@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Hello world action step
-        uses: ./github/actions # Uses an action in the root directory
+        uses: .github/actions # Uses an action in the root directory
         id: hello
         with:
           who-to-greet: 'Mona the Octocat'
