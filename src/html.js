@@ -16,6 +16,21 @@ export default function HTML(props) {
           data-vendor="fs"
           data-role="gateway"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark-mode');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+
         {props.headComponents}
       </head>
       <body {...props.bodyAttributes}>

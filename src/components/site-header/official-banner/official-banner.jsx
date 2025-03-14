@@ -19,6 +19,7 @@ import ExperimentalSwitch from '../../experimental/experimental-switch/experimen
 import { StaticImage } from 'gatsby-plugin-image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown, faLock } from '@fortawesome/free-solid-svg-icons';
+import DarkModeToggle from '../../dark-mode/darkModeToggle';
 
 const OfficialBanner = () => {
   const [bannerToggle, setBannerToggle] = useState(false);
@@ -41,7 +42,7 @@ const OfficialBanner = () => {
           </div>
         </div>
         <div className="empty">
-          <ExperimentalSwitch />
+          <DarkModeToggle />
         </div>
       </div>
       {bannerToggle && (

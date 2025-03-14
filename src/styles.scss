@@ -22,6 +22,43 @@ input {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
+html.dark-mode {
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  p,
+  a,
+  button,
+  label,
+  div,
+  form,
+  span,
+  li,
+  ul,
+  input {
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #222;
+    color: #ddd;
+  }
+  a.primary {
+    color: lighten($primary, 20%);
+  }
+  .pageHeader {
+    background-color: #333333;
+  }
+  .container {
+    background-color: #222;
+    color: #ddd;
+  }
+  div {
+    background-color: #222;
+    color: #ddd !important;
+  }
+}
+
 body {
   font-size: $font-size-16;
   color: $font-body-copy;
@@ -43,7 +80,7 @@ body {
 }
 
 a.primary {
- @include primaryLink;
+  @include primaryLink;
 }
 
 code {
