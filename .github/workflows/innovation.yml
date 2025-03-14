@@ -12,7 +12,15 @@ jobs:
       # To use this repository's private action,
       # you must check out the repository
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.8.1
+        with:
+          node-version: 20
+      - name: npm install
+        env:
+          NODE_OPTIONS: "--max_old_space_size=8192"
+        run: npm install --legacy-peer-deps
       - name: Hello world action step
         uses: ./.github/actions # Uses an action in the root directory
         id: hello
