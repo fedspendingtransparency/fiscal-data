@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-import XMLData from '../../coverage/clover.xml';
+const { XMLData } = require('../../coverage/clover.xml');
 
 try {
   // Fetch the value of the input 'who-to-greet' specified in action.yml
