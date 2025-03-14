@@ -48,12 +48,12 @@ const ApiDocumentationPage = ({ location }) => {
     {
       id: 'what-is-a-dataset',
       headingLevel: headingLevel3,
-      title: 'What is a dataset?',
+      title: 'What is a Dataset?',
     },
     {
       id: 'api-endpoint-url-structure',
       headingLevel: headingLevel3,
-      title: 'API Endpoint URL structure',
+      title: 'API Endpoint URL Structure',
     },
     {
       id: 'how-to-access-our-api',
@@ -66,9 +66,9 @@ const ApiDocumentationPage = ({ location }) => {
       title: 'License & Authorization',
     },
     {
-      id: 'change-log',
+      id: 'api-versioning',
       headingLevel: headingLevel3,
-      title: 'Change Log',
+      title: 'API Versioning',
     },
     {
       id: 'endpoints',
@@ -138,7 +138,7 @@ const ApiDocumentationPage = ({ location }) => {
     {
       id: 'responses-response-objects',
       headingLevel: headingLevel2,
-      title: 'Responses & Response Objects',
+      title: 'Responses and Response Objects',
     },
     {
       id: 'responses-response-codes',
@@ -173,7 +173,7 @@ const ApiDocumentationPage = ({ location }) => {
     {
       id: 'aggregation-sums',
       headingLevel: headingLevel2,
-      title: 'Aggregation & Sums',
+      title: 'Aggregation and Sums',
     },
     {
       id: 'examples-code-snippets',

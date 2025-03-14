@@ -27,13 +27,13 @@ describe('Getting Started', () => {
   });
 
   it('creates the "What is a Dataset?" section with the desired id, heading tag and title', () => {
-    const title = 'What is a dataset?';
+    const title = 'What is a Dataset?';
     const heading = instance.findByProps({ id: 'what-is-a-dataset' }).findByType('h3');
     expect(heading.children[0]).toBe(title);
   });
 
   it('creates the API Endpoint section with the desired id, heading tag and title', () => {
-    const title = 'API Endpoint URL structure';
+    const title = 'API Endpoint URL Structure';
     const heading = instance.findByProps({ id: 'api-endpoint-url-structure' }).findByType('h3');
     expect(heading.children[0]).toBe(title);
   });
@@ -50,9 +50,9 @@ describe('Getting Started', () => {
     expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the Change Log section with the desired id, heading tag and title', () => {
-    const title = 'Change Log';
-    const heading = instance.findByProps({ id: 'change-log' }).findByType('h3');
+  it('creates the API Versioning section with the desired id, heading tag and title', () => {
+    const title = 'API Versioning';
+    const heading = instance.findByProps({ id: 'api-versioning' }).findByType('h3');
     expect(heading.children[0]).toBe(title);
   });
 });

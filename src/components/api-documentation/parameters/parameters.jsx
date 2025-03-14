@@ -13,7 +13,7 @@ const Parameters = () => (
     <SectionContent id="parameters" headingLevel={2} title="Parameters">
       <p>
         <strong>Parameters</strong> can be included in an API request by modifying the URL. This will specify the criteria to determine which records
-        will be returned, as well as the ordering and format of the data returned. More information about each parameter can be found below.
+        will be returned, as well as the order and format of the data returned. More information about each parameter can be found below.
       </p>
       <p className={listHeading}>
         <strong>Available parameters</strong> include:
