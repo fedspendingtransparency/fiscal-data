@@ -6,12 +6,8 @@ const axios = require('axios');
 try {
   // Fetch the value of the input 'who-to-greet' specified in action.yml
   const nameToGreet = core.getInput('who-to-greet');
+  const summaryData = require('../../coverage/coverage-summary.json');
   console.log(`Hello ${nameToGreet}!`);
-  axios
-    .get('../../coverage/clover.xml', {
-      'Content-Type': 'application/xml; charset=utf-8',
-    })
-    .then(response => console.log(response.data));
 
   // Record the time of greeting as an output
   const time = new Date().toTimeString();
