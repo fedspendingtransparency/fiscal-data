@@ -1,6 +1,5 @@
-name: 'Coverage Report'
-description: 'Code coverage report'
-
+name: 'This is a test'
+description: 'This is a test description'
 inputs:
   who-to-greet:
     description: 'Who to greet'

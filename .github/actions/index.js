@@ -3,7 +3,7 @@ const github = require('@actions/github');
 
 try {
   // Fetch the value of the input 'who-to-greet' specified in action.yml
-  core.getInput('who-to-greet');
+  const nameToGreet = core.getInput('who-to-greet');
   console.log(`Hello ${nameToGreet}!`);
 
   // Record the time of greeting as an output
