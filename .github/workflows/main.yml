@@ -28,7 +28,9 @@ jobs:
         uses: ctrf-io/github-test-reporter@v1
         with:
           report-path: './ctrf/*.json'
-          pull-request: true
+          pull-request-report: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         if: always()
 #  run-branch-unit-tests-and-coverage:
 #    timeout-minutes: 10
