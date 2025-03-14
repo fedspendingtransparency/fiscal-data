@@ -1,13 +1,13 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const { XMLData } = require('../../coverage/clover.xml');
+// const { XMLData } = require('../../coverage/clover.xml');
 
 try {
   // Fetch the value of the input 'who-to-greet' specified in action.yml
   const nameToGreet = core.getInput('who-to-greet');
   console.log(`Hello ${nameToGreet}!`);
   axios
-    .get(XMLData, {
+    .get('../../coverage/clover.xml', {
       'Content-Type': 'application/xml; charset=utf-8',
     })
     .then(response => console.log(response.data));
