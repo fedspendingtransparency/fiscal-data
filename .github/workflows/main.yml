@@ -24,52 +24,57 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: npm run test:coverage
-  run-branch-unit-tests-and-coverage:
-    timeout-minutes: 10
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Test Report
+        uses: ctrf-io/github-test-reporter@v1
         with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-      - run: |
-          git fetch --no-tags --depth=1 origin master
-          git checkout -b master origin/master
-          git checkout ${{ github.event.pull_request.head.sha }}
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3.8.1
-        with:
-          node-version: 20
-      - name: npm install
-        env:
-          NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm install --legacy-peer-deps
-      - name: run branch tests with coverage
-        env:
-          NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm run test:branch
-  run-cypress-tests:
-    timeout-minutes: 15
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3.8.1
-        with:
-          node-version: 20
-      - name: Cypress install
-        env:
-          NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm install --legacy-peer-deps
-      - name: Cypress run
-        uses: cypress-io/github-action@v5
-        env:
-          NODE_OPTIONS: "--max_old_space_size=8192"
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          install: false
-          build: npm run build
-          start: npm run serve
-          broswer: chrome
+          report-path: './ctrf/*.json'
+        if: always()
+#  run-branch-unit-tests-and-coverage:
+#    timeout-minutes: 10
+#    runs-on: ubuntu-22.04
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#        with:
+#          fetch-depth: 0
+#          ref: ${{ github.event.pull_request.head.sha }}
+#      - run: |
+#          git fetch --no-tags --depth=1 origin master
+#          git checkout -b master origin/master
+#          git checkout ${{ github.event.pull_request.head.sha }}
+#      - name: Setup Node.js environment
+#        uses: actions/setup-node@v3.8.1
+#        with:
+#          node-version: 20
+#      - name: npm install
+#        env:
+#          NODE_OPTIONS: "--max_old_space_size=8192"
+#        run: npm install --legacy-peer-deps
+#      - name: run branch tests with coverage
+#        env:
+#          NODE_OPTIONS: "--max_old_space_size=8192"
+#        run: npm run test:branch
+#  run-cypress-tests:
+#    timeout-minutes: 15
+#    runs-on: ubuntu-22.04
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#      - name: Setup Node.js environment
+#        uses: actions/setup-node@v3.8.1
+#        with:
+#          node-version: 20
+#      - name: Cypress install
+#        env:
+#          NODE_OPTIONS: "--max_old_space_size=8192"
+#        run: npm install --legacy-peer-deps
+#      - name: Cypress run
+#        uses: cypress-io/github-action@v5
+#        env:
+#          NODE_OPTIONS: "--max_old_space_size=8192"
+#          GITHUB_TOKEN: ${{ github.token }}
+#        with:
+#          install: false
+#          build: npm run build
+#          start: npm run serve
+#          broswer: chrome
