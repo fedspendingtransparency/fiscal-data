@@ -21,7 +21,7 @@
     "serve": "gatsby serve",
     "serve-cypress": "run-cypress.sh",
     "test": "jest --logHeapUsage",
-    "test:coverage": "jest --json --coverage --outputFile=report.json",
+    "test:coverage": "jest --coverage",
     "test:silent": "jest --coverage --silent",
     "test:branch": "jest --coverage --changedSince=master",
     "tst": "jest --coverage",
