@@ -2,6 +2,7 @@
 $interest-expense-primary: #00796b;
 
 .legendContainer {
+  padding: 0 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -11,7 +12,9 @@ $interest-expense-primary: #00796b;
 .expenseLegend {
   display: flex;
 }
-
+.footerText {
+  font-weight: 600;
+}
 .expenseText {
   color: $interest-expense-primary;
   font-weight: 600;
@@ -46,4 +49,9 @@ $interest-expense-primary: #00796b;
 
 .infoTipContainer {
   padding-left: 0.3125rem;
+}
+
+.chartTableBoarder {
+  border: 1px;
+  padding: 1rem 0.5rem;
 }

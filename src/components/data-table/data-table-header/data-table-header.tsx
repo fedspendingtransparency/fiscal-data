@@ -10,6 +10,8 @@ import {
   sortArrow,
   sortArrowPill,
   stickyHeader,
+  textHeaderContainer,
+  textChartHeaderContainer,
 } from './data-table-header.module.scss';
 import { flexRender, Table } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,6 +31,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   allActiveFilters,
   setAllActiveFilters,
   disableDateRangeFilter,
+  chartTable = true,
 }) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
@@ -55,7 +58,9 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
         }
       } else {
         const currentFilters = allActiveFilters?.filter(item => item !== `${header.column.id}-sort`);
-        setAllActiveFilters(currentFilters);
+        if (typeof setAllActiveFilters === 'function') {
+          setAllActiveFilters(currentFilters);
+        }
       }
     }
   };
@@ -76,8 +81,11 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                 <th
                   key={header.id}
                   colSpan={header.colSpan}
+                  className={chartTable ? textHeaderContainer : textChartHeaderContainer}
                   style={{
-                    minWidth: header.getSize(),
+                    minWidth: chartTable ? header.getSize() : header.getSize() - 4,
+                    width: !chartTable && isLastColumn ? '100%' : '',
+                    paddingLeft: !chartTable ? '1rem' : '',
                   }}
                 >
                   {header.isPlaceholder ? null : (
@@ -125,18 +133,20 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
-                      <div className={columnMinWidth}>
-                        {getColumnFilter(
-                          header,
-                          columnDataType,
-                          resetFilters,
-                          allActiveFilters,
-                          setAllActiveFilters,
-                          manualPagination,
-                          isLastColumn,
-                          disableDateRangeFilter
-                        )}
-                      </div>
+                      {chartTable && (
+                        <div className={columnMinWidth}>
+                          {getColumnFilter(
+                            header,
+                            columnDataType,
+                            resetFilters,
+                            allActiveFilters,
+                            setAllActiveFilters,
+                            manualPagination,
+                            isLastColumn,
+                            disableDateRangeFilter
+                          )}
+                        </div>
+                      )}
                     </>
                   )}
                   <div

@@ -4,7 +4,14 @@ module.exports = {
   API_BASE_URL: 'https://api.uat.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
-  EXPERIMENTAL_WHITELIST: ['experimental-page', 'afg-overview', 'publishedReportsSection', 'dataPreview', 'chartingConfigurationTool'],
+  EXPERIMENTAL_WHITELIST: [
+    'experimental-page',
+    'afg-overview',
+    'publishedReportsSection',
+    'dataPreview',
+    'chartingConfigurationTool',
+    'defaultReportTable',
+  ],
   ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '160': {
@@ -45,33 +52,6 @@ module.exports = {
       ],
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
-    },
-
-    // TRRE Clean
-    '318': {
-      endpoint: 'v1/accounting/od/rates_of_exchange',
-      dateField: 'record_date',
-      downloadName: 'RprtRateXchgCln',
-      alwaysSortWith: ['-record_date', 'country_currency_desc'],
-      dataDisplays: [
-        {
-          title: 'Exchange Rate Trend',
-        },
-      ],
-      showChartForCompleteTable: true,
-      userFilter: {
-        field: 'country_currency_desc',
-        label: 'Country-Currency',
-        notice: `If current rates deviate from the published rates by 10% or more, Treasury
-         will issue amendments to this quarterly report. An amendment to a currency exchange
-         rate for the quarter will appear on the report as a separate line with a new effective
-         date. The latest available data will display first.`,
-        dataUnmatchedMessage: `This may be because the currency existed under a different
-          name for that time period. Please check to see if the currency you are
-          looking for appears under a different name, or change the date
-          selected for available results.`,
-      },
-      selectColumns: ['record_date', 'country_currency_desc', 'exchange_rate', 'effective_date'],
     },
     '139': {
       endpoint: 'v1/debt/mspd/mspd_table_3_market',

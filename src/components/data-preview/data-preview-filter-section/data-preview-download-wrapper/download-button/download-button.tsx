@@ -20,12 +20,13 @@ const DownloadItemButton: FunctionComponent = ({
   fileType,
   dapGaEventLabel,
   downloadTimestamp,
+  formatDownloadDate = true,
   smallTableDownloadData,
 }) => {
   const [downloadName, setDownloadName] = useState(null);
 
   useEffect(() => {
-    setDownloadName(constructDownloadFileName(dateRange, selectedTable));
+    setDownloadName(constructDownloadFileName(dateRange, selectedTable, formatDownloadDate));
   }, [dateRange, selectedTable]);
 
   const clickFunction = directDownload => {

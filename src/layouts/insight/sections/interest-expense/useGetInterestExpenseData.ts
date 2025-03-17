@@ -17,7 +17,6 @@ const getCurrentInterestExpData = async () => {
 const getOlderInterestExpData = async () => {
   return basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?sort=record_date&page[size]=1`);
 };
-
 export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile: boolean = false) => {
   const [startFY, setStartFY] = useState<number>(null);
   const [currentFY, setCurrentFY] = useState<number>(null);
@@ -34,6 +33,9 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
   const [altText, setAltText] = useState<string>(null);
   const [currentResult, setCurrentResult] = useState(null);
   const [olderResult, setOlderResult] = useState(null);
+  const [rawExpenseData, setRawExpenseData] = useState(null);
+  const [rawRateData, setRawRateData] = useState(null);
+  const [mergedTableData, setMergedTableData] = useState<any[]>([]);
 
   useEffect(() => {
     queryClient
@@ -92,9 +94,11 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
           `${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&filter=record_fiscal_year:gte:${start}&page[size]=10000`
         ).then(res1 => {
           // Interest rate chart data
+          setRawExpenseData(res1);
           basicFetch(
             `${apiPrefix}v2/accounting/od/avg_interest_rates?sort=-record_date&filter=security_desc:eq:Total%20Interest-bearing%20Debt,record_fiscal_year:gte:${start}&page[size]=300`
           ).then(res2 => {
+            setRawRateData(res2);
             const commonIndexExpense = res1.data.findIndex(element => element.record_calendar_month === res2.data[0].record_calendar_month);
             const commonIndexRate = res2.data.findIndex(element => element.record_calendar_month === res1.data[0].record_calendar_month);
             // Base chart data's most recent record where both datasets share the same month
@@ -173,5 +177,55 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
       }
     }
   }, [currentResult, olderResult]);
-  return { startFY, currentFY, chartData, chartXAxisValues, expenseYAxisValues, rateYAxisValues, latestChartData, altText, chartLoading };
+
+  const formatDate = (dateString: string): string => {
+    if (!dateString) return '';
+    const [yyyy, mm, dd] = dateString.split('-');
+    const shorterYear = yyyy.slice(-2);
+    return `${mm}/${dd}/${shorterYear}`;
+  };
+
+  useMemo(() => {
+    if (chartData && rawExpenseData && rawRateData) {
+      const newTableData = chartData.map(item => {
+        const matchingExpense = rawExpenseData.data.find(exp => parseInt(exp.record_fiscal_year, 10) === item.year);
+        // const matchingRate = rawRateData.data.find(rate => parseInt(rate.record_fiscal_year, 10) === item.year);
+
+        return {
+          record_date: formatDate(matchingExpense?.record_date),
+          year: item.year,
+          expense: '$' + getShortForm(item.expense?.toString(), true, false, 1),
+          rate: item.rate?.toString() ?? '',
+        };
+      });
+      setMergedTableData(newTableData);
+    }
+  }, [chartData, rawExpenseData, rawRateData]);
+  const columnConfigArray = ['Record Date', 'FYTD Interest Expense', 'Avg Interest Rate', 'Fiscal Year'];
+
+  const columnConfig = useMemo(() => {
+    return [
+      { property: 'record_date', name: 'Record Date', type: 'string' },
+      { property: 'expense', name: 'FYTD Interest Expense', type: 'string' },
+      { property: 'rate', name: 'Avg Interest Rate', type: 'string' },
+      { property: 'year', name: 'Fiscal Year', type: 'string' },
+    ];
+  }, []);
+
+  return {
+    columnConfigArray,
+    rawExpenseData,
+    rawRateData,
+    startFY,
+    currentFY,
+    chartData,
+    chartXAxisValues,
+    expenseYAxisValues,
+    rateYAxisValues,
+    latestChartData,
+    altText,
+    chartLoading,
+    mergedTableData,
+    columnConfig,
+  };
 };

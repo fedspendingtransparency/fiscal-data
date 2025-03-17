@@ -80,6 +80,7 @@ export default function DtgTable({
     hasPublishedReports,
     publishedReports,
     customFormatting,
+    chartTable,
   } = tableProps;
 
   const [reactTableData, setReactTableData] = useState(null);
@@ -525,6 +526,7 @@ export default function DtgTable({
               disableDateRangeFilter={disableDateRangeFilter}
               datasetName={datasetName}
               hasDownloadTimestamp={hasDownloadTimestamp}
+              chartTable={chartTable}
             />
           </ErrorBoundary>
         </div>

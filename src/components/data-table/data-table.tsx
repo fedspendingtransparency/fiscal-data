@@ -18,6 +18,7 @@ import {
   selectColumnPanelActive,
   selectColumnPanelInactive,
   selectColumnsWrapper,
+  overlayContainerNoFooterChart,
 } from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
@@ -71,6 +72,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   disableDateRangeFilter,
   datasetName,
   hasDownloadTimestamp,
+  chartTable = true,
 }) => {
   const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
@@ -281,7 +283,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
 
   return (
     <>
-      <div data-test-id="table-content" className={overlayContainerNoFooter}>
+      <div data-test-id="table-content" className={!chartTable ? overlayContainerNoFooterChart : overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
           {defaultSelectedColumns && (
             <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
@@ -309,6 +311,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
                   disableDateRangeFilter={disableDateRangeFilter}
+                  chartTable={chartTable}
                 />
                 <DataTableBody
                   table={table}
@@ -317,6 +320,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
                   detailViewConfig={detailView}
                   setDetailViewState={setDetailViewState}
                   setSummaryValues={setSummaryValues}
+                  chartTable={chartTable}
                 />
               </table>
             </div>
@@ -331,6 +335,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
           manualPagination={manualPagination}
           rowsShowing={rowsShowing}
           setTableDownload={nonRawDataColumns ? null : setTableRowSizeData}
+          chartTable={chartTable}
         />
       )}
     </>
