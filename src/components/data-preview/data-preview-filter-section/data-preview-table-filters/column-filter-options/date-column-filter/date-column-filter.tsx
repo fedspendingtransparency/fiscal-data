@@ -10,7 +10,6 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   config,
   setDateRange,
   allTablesSelected,
-  setIsFiltered,
   handleDateRangeChange,
   setIsCustomDateRange,
   finalDatesNotFound,
@@ -54,7 +53,6 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
                 selectedTable={!!detailViewState ? detailApi : selectedTable}
                 apiData={apiData}
                 onUserFilter={allTablesSelected}
-                setIsFiltered={setIsFiltered}
                 currentDateButton={config.currentDateButton}
                 datePreset={config.datePreset}
                 customRangePreset={config.customRangePreset}

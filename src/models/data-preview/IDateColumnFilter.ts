@@ -3,7 +3,6 @@ export interface IDateColumnFilter {
   selectedTable;
   setDateRange: (dateRange) => void;
   allTablesSelected: true;
-  setIsFiltered: (filtered: boolean) => void;
   handleDateRangeChange: () => void;
   setIsCustomDateRange: (customDateRange: boolean) => void;
   finalDatesNotFound;

@@ -6,12 +6,12 @@ interface IColumnFilterOptions {
   config;
   setDateRange;
   allTablesSelected;
-  setIsFiltered;
   handleDateRangeChange;
   setIsCustomDateRange;
   finalDatesNotFound;
   detailApi;
   detailViewState;
+  selectedTable;
 }
 
 const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
@@ -20,7 +20,6 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   config,
   setDateRange,
   allTablesSelected,
-  setIsFiltered,
   handleDateRangeChange,
   setIsCustomDateRange,
   finalDatesNotFound,
@@ -28,7 +27,6 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   detailViewState,
   apiData,
 }) => {
-  console.log(selectedTable, selectedColumn);
   return (
     <>
       {selectedColumn.type === 'Date' && (
@@ -38,7 +36,6 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
           config={config}
           setDateRange={setDateRange}
           allTablesSelected={allTablesSelected}
-          setIsFiltered={setIsFiltered}
           handleDateRangeChange={handleDateRangeChange}
           setIsCustomDateRange={setIsCustomDateRange}
           finalDatesNotFound={finalDatesNotFound}

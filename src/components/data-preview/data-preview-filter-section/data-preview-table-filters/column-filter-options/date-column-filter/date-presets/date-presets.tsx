@@ -15,7 +15,6 @@ interface IDatePresets {
   selectedTable;
   apiData;
   handleDateRangeChange;
-  setIsFiltered;
   allTablesSelected;
   datasetDateRange;
   finalDatesNotFound;
@@ -30,7 +29,6 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
   selectedTable,
   apiData,
   handleDateRangeChange,
-  setIsFiltered,
   allTablesSelected,
   datasetDateRange,
   finalDatesNotFound,
@@ -60,8 +58,6 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
    * DATE RANGE
    */
   const applyPreset = preset => {
-    let isFiltered = true;
-
     let label = preset.label;
     if (label && label.toLowerCase() === 'custom') {
       label = generateFormattedDate(dateRange);
@@ -69,12 +65,6 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
     generateAnalyticsEvent(label);
     setActivePresetKey(preset.key);
     prepUpdateDateRange(preset);
-
-    if (preset.key === 'all') {
-      isFiltered = false;
-    }
-
-    setIsFiltered(isFiltered);
   };
 
   const prepUpdateDateRange = preset => {

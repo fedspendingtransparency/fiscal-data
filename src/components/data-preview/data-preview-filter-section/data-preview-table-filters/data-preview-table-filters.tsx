@@ -4,8 +4,9 @@ import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-b
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
 import ColumnFilterOptions from './column-filter-options/column-filter-options';
+import { ITableFilters } from '../../../../models/data-preview/ITableFilters';
 
-const DataPreviewTableFilters: FunctionComponent = ({
+const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
   config,
   setDateRange,
@@ -20,6 +21,7 @@ const DataPreviewTableFilters: FunctionComponent = ({
 }) => {
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
+  // TODO update default value to first column in list
   const [selectedColumn, setSelectedColumn] = useState({ name: 'Record Date', type: 'Date', field: 'record_date' });
   const filterDropdownButton = (
     <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
