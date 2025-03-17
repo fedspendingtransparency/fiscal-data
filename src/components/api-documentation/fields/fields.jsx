@@ -27,7 +27,7 @@ const Fields = () => (
       <p>
         <strong>Notes:</strong> When a file name passed to the fields parameter is not available for the endpoint accessed, an error will occur. Note
         that omitting fields can result in automatically aggregated and summed data results. For more information, view the{' '}
-        <CustomLink url="/api-documentation/#aggregation-sums">full documentation on Aggregation and Sums.</CustomLink>
+        <CustomLink url="/api-documentation/#aggregation-sums">full documentation on Aggregation and Sums</CustomLink>.
       </p>
       <p>
         <strong>Examples:</strong>

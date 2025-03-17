@@ -223,7 +223,7 @@ const GettingStarted = () => {
           pd.DataFrame(data['data'])
         </code>
       </SectionContent>
-      <SectionContent id="license-and-authorization" headingLevel={3} title="License & Authorization">
+      <SectionContent id="license-and-authorization" headingLevel={3} title="License and Authorization">
         <p>
           The U.S. Department of the Treasury, Bureau of the Fiscal Service is committed to providing open data as part of its mission to promote the
           financial integrity and operational efficiency of the federal government. The data is offered free, without restriction, and available to
@@ -233,7 +233,7 @@ const GettingStarted = () => {
       <SectionContent id="api-versioning" headingLevel={3} title="API Versioning">
         <p>
           Our APIs are currently in v1.0.0 or v2.0.0. To determine which version the API is in, please refer to the specific dataset detail page and
-          navigate to the API Quick Guide > Endpoint section. We will provide release notes here describing major, minor, and patch-level changes.
+          navigate to the API Quick Guide > Endpoint section.
         </p>
       </SectionContent>
     </div>

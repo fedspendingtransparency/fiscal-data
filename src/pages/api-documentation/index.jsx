@@ -63,7 +63,7 @@ const ApiDocumentationPage = ({ location }) => {
     {
       id: 'license-and-authorization',
       headingLevel: headingLevel3,
-      title: 'License & Authorization',
+      title: 'License and Authorization',
     },
     {
       id: 'api-versioning',

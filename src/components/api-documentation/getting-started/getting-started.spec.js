@@ -44,8 +44,8 @@ describe('Getting Started', () => {
     expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the License & Authorization section with the desired id, heading tag and title', () => {
-    const title = 'License & Authorization';
+  it('creates the License and Authorization section with the desired id, heading tag and title', () => {
+    const title = 'License and Authorization';
     const heading = instance.findByProps({ id: 'license-and-authorization' }).findByType('h3');
     expect(heading.children[0]).toBe(title);
   });
