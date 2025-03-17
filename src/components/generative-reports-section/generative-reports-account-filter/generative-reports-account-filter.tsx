@@ -1,35 +1,45 @@
 import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
-import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import AccountBox from '@material-ui/icons/AccountBox';
 
-interface IReportFilter {
-  reports: IPublishedReportDataJson[];
-  setAllReports: (reportGroup: IPublishedReportDataJson[]) => void;
+interface IAccountFilter {
+  accounts: {
+    Federal: [];
+    State: [];
+  };
+  setAllAccounts: () => void;
 }
 
-const GenerativeReportsAccountFilter: FunctionComponent<IReportFilter> = ({ reports, setAllReports }: IReportFilter) => {
+const GenerativeReportsAccountFilter: FunctionComponent<IAccountFilter> = ({ accounts, setAllAccounts }: IAccountFilter) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
   const [active, setActive] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState({
     label: '(None selected)',
     value: 0,
   });
+  const [accountOptions, setAccountOptions] = useState([selectedAccount]);
 
-  const accountOptions = [
-    selectedAccount,
-    {
-      label: 'Real Account Name',
-      value: 1,
-    },
-  ];
+  const formatOptions = (array, label) => {
+    return array.map(item => {
+      return {
+        label: item,
+        value: item,
+        category: label,
+      };
+    });
+  };
+
+  useEffect(() => {
+    const options = accountOptions.concat(formatOptions(accounts.Federal, 'Federal')).concat(formatOptions(accounts.State, 'State'));
+    setAccountOptions(options);
+    console.log(options);
+  }, [setAccountOptions, accountOptions]);
 
   const onAccountChange = account => {
     if (account !== null && account?.value) {
       setSelectedAccount(account);
-      setAllReports(account.value);
       setTimeout(() => {
         setActive(false);
       });
@@ -48,7 +58,7 @@ const GenerativeReportsAccountFilter: FunctionComponent<IReportFilter> = ({ repo
           setDropdownActive={setActive}
           selectedOption={selectedAccount}
           updateSelection={onAccountChange}
-          searchBarLabel="Search reports"
+          searchBarLabel="Search accounts"
           options={accountOptions}
           searchBarActive={searchBarActive}
           setSearchBarActive={setSearchBarActive}
