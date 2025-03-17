@@ -1,6 +1,7 @@
 module.exports = {
   displayName: 'Standard Tests',
   rootDir: '../',
+  reporters: ['default', ['jest-ctrf-json-reporter', {}]],
   transform: {
     '^.+\\.jsx?$': `<rootDir>/jest-preprocess.js`,
   },
