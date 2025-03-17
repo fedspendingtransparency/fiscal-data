@@ -28,6 +28,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   detailViewState,
   apiData,
 }) => {
+  console.log(selectedTable, selectedColumn);
   return (
     <>
       {selectedColumn.type === 'Date' && (

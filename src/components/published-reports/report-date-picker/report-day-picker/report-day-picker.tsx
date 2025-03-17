@@ -81,7 +81,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
             disabled={isDisabled}
             defaultMonth={selectedDate}
             onMonthChange={setMonth}
-            month={month}
+            month={month ? month : undefined}
             required
           />
         </ReportDateDropdown>

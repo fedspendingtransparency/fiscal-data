@@ -20,7 +20,7 @@ const DataPreviewTableFilters: FunctionComponent = ({
 }) => {
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
-  const [selectedColumn, setSelectedColumn] = useState({ name: 'Record Date', type: 'Date' });
+  const [selectedColumn, setSelectedColumn] = useState({ name: 'Record Date', type: 'Date', field: 'record_date' });
   const filterDropdownButton = (
     <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
   );
