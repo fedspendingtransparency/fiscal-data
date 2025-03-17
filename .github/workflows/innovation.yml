@@ -28,6 +28,6 @@ jobs:
       - name: Hello world action step
         uses: ./.github/actions
         with:
-          who-to-greet: 'Mona the Octocat'
+          GITHUB_TOKEN: ${{ github.token }}
         if: always()
 
