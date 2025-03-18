@@ -11,7 +11,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   config,
   setDateRange,
   allTablesSelected,
-  setIsFiltered,
   handleDateRangeChange,
   setIsCustomDateRange,
   finalDatesNotFound,
@@ -47,7 +46,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
               config={config}
               setDateRange={setDateRange}
               allTablesSelected={allTablesSelected}
-              setIsFiltered={setIsFiltered}
               handleDateRangeChange={handleDateRangeChange}
               setIsCustomDateRange={setIsCustomDateRange}
               finalDatesNotFound={finalDatesNotFound}

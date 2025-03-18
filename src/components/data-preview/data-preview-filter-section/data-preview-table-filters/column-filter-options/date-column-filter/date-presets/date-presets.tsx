@@ -104,6 +104,7 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
         // We need to pass back the date range for the new data table. Note, the actual dates
         // might not be the same from the previously selected table, even though the preset is
         // the same.
+        //TODO adjust logic for external custom pickers
         // if (curSelectedOption.key === 'custom') {
         //   const adjustedRange = fitDateRangeToTable(dateRange, availableDateRange);
         //   setPickerDateRange(availableDateRange);
@@ -219,14 +220,12 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
                 }}
                 tabIndex={hidden ? -1 : 0}
                 disabled={hidden}
-                data-test-id={`preset-radio-${preset.key}`}
               />
               <label
                 className={`
                     ${toggleButton} ${activePresetKey === preset.key ? selected : ''}
                   `}
                 htmlFor={`radio-${preset.key}`}
-                data-test-id={`preset-label-${preset.key}`}
               >
                 {preset.label}
               </label>

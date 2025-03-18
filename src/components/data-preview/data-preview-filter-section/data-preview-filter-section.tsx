@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement } from 'react';
+import React, { FunctionComponent } from 'react';
 import DataPreviewDownloadWrapper from './data-preview-download-wrapper/data-preview-download-wrapper';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { filterAndDownloadContainer, filterContainer, toggleDownloadContainer } from './data-preview-filter-section.module.scss';
@@ -8,23 +8,7 @@ import { breakpointXl } from '../data-preview.module.scss';
 import { withWindowSize } from 'react-fns';
 import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
 import { differenceInHours } from 'date-fns';
-
-type DataPreviewFilterSectionProps = {
-  width?: number;
-  children: ReactElement | string;
-  dateRange;
-  isFiltered;
-  selectedTable;
-  selectedPivot;
-  dataset;
-  allTablesSelected: boolean;
-  isCustomDateRange: boolean;
-  selectedUserFilter;
-  tableColumnSortData;
-  filteredDateRange;
-  selectedDetailViewFilter;
-  apiFilterDefault;
-};
+import { DataPreviewFilterSectionProps } from '../../../models/data-preview/IFilterSectionProps';
 
 const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps> = ({
   width,
@@ -85,7 +69,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             config={dataset}
             setDateRange={setDateRange}
             allTablesSelected={allTablesSelected}
-            setIsFiltered={setIsFiltered}
             handleDateRangeChange={handleDateRangeChange}
             setIsCustomDateRange={setIsCustomDateRange}
             finalDatesNotFound={finalDatesNotFound}

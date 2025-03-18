@@ -6,6 +6,6 @@ export interface IDateColumnFilter {
   handleDateRangeChange: () => void;
   setIsCustomDateRange: (customDateRange: boolean) => void;
   finalDatesNotFound;
-  detailApi: {} | null;
-  detailViewState: {} | null;
+  detailApi;
+  detailViewState?: { value?: string; secondary?: string };
 }
