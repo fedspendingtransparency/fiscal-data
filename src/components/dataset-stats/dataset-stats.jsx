@@ -35,7 +35,7 @@ export default function DatasetStats(props) {
         <FontAwesomeIcon icon={faSyncAlt} size="1x" className={icon} data-testid="sync-alt-icon" />
         {frequency}
       </li>
-      <li data-testid={'lastUpdated'} aria-label={'last updated' + lastUpdated}>
+      <li data-testid={'lastUpdated'} aria-label={'Last Updated: ' + lastUpdated}>
         <FontAwesomeIcon icon={faCalendarCheck} size="1x" className={icon} data-testid={'calendarCheckIcon'} />
         {'Last Updated ' + lastUpdated}
       </li>
