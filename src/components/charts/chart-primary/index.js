@@ -37,7 +37,7 @@ let w,
   svgDefs,
   roundingDenomination;
 
-const baseYAxisWidth = 72;
+const baseYAxisWidth = 0;
 
 const chartDimensions = {
   height: 360,
@@ -345,8 +345,9 @@ export default initChart;
 
 // Mouseover functions
 let hoverFunction, chartId, markers;
-
 const placeMarker = initial => {
+  console.log('first record date:', data[0][dateField], 'parsed:', parseTime(data[0][dateField]));
+
   clearMarkers();
 
   if (initial) {

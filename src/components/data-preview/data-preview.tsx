@@ -18,6 +18,7 @@ import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
 import { IDataPreview } from '../../models/data-preview/IDataPreview';
+import DataPreviewChart from './data-preview-chart/data-preview-chart';
 
 const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
@@ -54,6 +55,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
+  const [viewMode, setViewMode] = useState('table');
 
   let loadByPage;
   const shouldUseLoadByPage = pivot => {
@@ -163,6 +165,15 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       );
     }
   }, [detailViewState]);
+  const getDateFieldForChart = () => {
+    if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn && selectedPivot.pivotView.aggregateOn.length) {
+      return 'CHART_DATE'; // aggregation cases in pivoted data this only for charting calculation
+    } else {
+      return selectedTable?.dateField;
+    }
+  };
+
+  const dateFieldForChart = getDateFieldForChart();
 
   // When pivot changes, fetch new data
   useEffect(() => {
@@ -293,6 +304,8 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             tableColumnSortData={tableColumnSortData}
             selectedDetailViewFilter={detailViewDownloadFilter}
             apiFilterDefault={apiFilterDefault}
+            viewMode={viewMode}
+            setViewMode={setViewMode}
           >
             {selectedTable && (
               <>
@@ -333,43 +346,59 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
                 <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
               </div>
             )}
-            {dateRange && (
-              <DataPreviewSectionContainer
-                config={config}
-                dateRange={dateRange}
-                selectedTable={selectedTable}
-                userFilterSelection={userFilterSelection}
-                setUserFilterSelection={setUserFilterSelection}
-                apiData={apiData}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-                apiError={apiError}
-                selectedPivot={selectedPivot}
-                setSelectedPivot={setSelectedPivot}
-                serverSidePagination={serverSidePagination}
-                selectedTab={selectedTab}
-                tabChangeHandler={setSelectedTab}
-                handleIgnorePivots={setIgnorePivots}
-                allTablesSelected={allTablesSelected}
-                handleConfigUpdate={() => setConfigUpdated(true)}
-                tableColumnSortData={tableColumnSortData}
-                setTableColumnSortData={setTableColumnSortData}
-                hasPublishedReports={!!publishedReports}
-                publishedReports={publishedReports}
-                resetFilters={resetFilters}
-                setResetFilters={setResetFilters}
-                setDetailViewState={setDetailViewState}
-                detailViewState={detailViewState}
-                customFormatting={selectedTable?.customFormatting}
-                summaryValues={summaryValues}
-                setSummaryValues={setSummaryValues}
-                allActiveFilters={allActiveFilters}
-                setAllActiveFilters={setAllActiveFilters}
-                width={width}
-                apiFilterDefault={apiFilterDefault}
-                setApiFilterDefault={setApiFilterDefault}
-              />
-            )}
+            {dateRange &&
+              (viewMode === 'table' ? (
+                <DataPreviewSectionContainer
+                  config={config}
+                  dateRange={dateRange}
+                  selectedTable={selectedTable}
+                  userFilterSelection={userFilterSelection}
+                  setUserFilterSelection={setUserFilterSelection}
+                  apiData={apiData}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                  apiError={apiError}
+                  selectedPivot={selectedPivot}
+                  setSelectedPivot={setSelectedPivot}
+                  serverSidePagination={serverSidePagination}
+                  selectedTab={selectedTab}
+                  tabChangeHandler={setSelectedTab}
+                  handleIgnorePivots={setIgnorePivots}
+                  allTablesSelected={allTablesSelected}
+                  handleConfigUpdate={() => setConfigUpdated(true)}
+                  tableColumnSortData={tableColumnSortData}
+                  setTableColumnSortData={setTableColumnSortData}
+                  hasPublishedReports={!!publishedReports}
+                  publishedReports={publishedReports}
+                  resetFilters={resetFilters}
+                  setResetFilters={setResetFilters}
+                  setDetailViewState={setDetailViewState}
+                  detailViewState={detailViewState}
+                  customFormatting={selectedTable?.customFormatting}
+                  summaryValues={summaryValues}
+                  setSummaryValues={setSummaryValues}
+                  allActiveFilters={allActiveFilters}
+                  setAllActiveFilters={setAllActiveFilters}
+                  width={width}
+                  apiFilterDefault={apiFilterDefault}
+                  setApiFilterDefault={setApiFilterDefault}
+                />
+              ) : (
+                <>
+                  <DataPreviewChart
+                    legend={false}
+                    dateRange={dateRange}
+                    data={apiData}
+                    slug={config.slug}
+                    currentTable={selectedTable}
+                    isVisible={true}
+                    chartCitation={false}
+                    selectedPivot={selectedPivot}
+                    dateField={dateFieldForChart}
+                  />
+                  {console.log('datefield', selectedTable?.dateField)}
+                </>
+              ))}
           </DataPreviewFilterSection>
         )}
       </div>
