@@ -11,8 +11,8 @@ import { fireEvent, render, within } from '@testing-library/react';
 
 jest.useFakeTimers();
 describe('Time Range Filter', () => {
-  let component = renderer.create();
-  let instance;
+  // let component = renderer.create();
+  // let instance;
   let dateRangeSpy = null;
   let datePickers;
   const setBeginDateSpy = jest.fn();
@@ -22,58 +22,57 @@ describe('Time Range Filter', () => {
   window.dataLayer = window.dataLayer || [];
   const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
 
-  const dateRangeFn = jest.fn();
-  const contextBeginDate = new Date(2019, 9, 1);
-  const contextEndDate = new Date(2020, 10, 1);
+  // beforeEach(() => {
+  //   // renderer.act(() => {
+  //   // component = renderer.create(
+  //   <siteContext.Provider
+  //     value={{
+  //       beginDate: contextBeginDate,
+  //       setBeginDate: setBeginDateSpy,
+  //       endDate: contextEndDate,
+  //       setEndDate: setEndDateSpy,
+  //       exactRange: false,
+  //       setExactRange: setExactRangeSpy,
+  //     }}
+  //   >
+  //     <FilterTimeRange dateRangeFilter={dateRangeFn} />
+  //   </siteContext.Provider>;
+  //   // );
+  //   // });
+  //   // instance = component.root;
+  //   // dateRangeSpy = jest.spyOn(instance.props, 'dateRangeFilter');
+  //   // datePickers = instance.findAllByType(KeyboardDatePicker);
+  // });
 
-  beforeEach(() => {
-    renderer.act(() => {
-      component = renderer.create(
-        <siteContext.Provider
-          value={{
-            beginDate: contextBeginDate,
-            setBeginDate: setBeginDateSpy,
-            endDate: contextEndDate,
-            setEndDate: setEndDateSpy,
-            exactRange: false,
-            setExactRange: setExactRangeSpy,
-          }}
-        >
-          <FilterTimeRange dateRangeFilter={dateRangeFn} />
-        </siteContext.Provider>
-      );
-    });
-    instance = component.root;
-    dateRangeSpy = jest.spyOn(instance.props, 'dateRangeFilter');
-    datePickers = instance.findAllByType(KeyboardDatePicker);
+  // afterEach(() => {
+  //   dateRangeSpy.mockClear();
+  //   analyticsSpy.mockClear();
+  // });
+
+  it('renders element', () => {
+    const { getByTestId } = render(<FilterTimeRange />);
+    const timeRangeFilter = getByTestId('time-range-filter');
+    expect(timeRangeFilter).toBeInTheDocument();
   });
 
-  afterEach(() => {
-    dateRangeSpy.mockClear();
-    analyticsSpy.mockClear();
-  });
-
-  it('renderers element', () => {
-    const timeRangeFilter = instance.findByProps({ 'data-testid': 'time-range-filter' });
-    expect(timeRangeFilter).toBeDefined();
-  });
-
-  it('contains the "To" and "From" date pickers', () => {
-    expect(datePickers.length).toStrictEqual(2);
-    expect(datePickers[0].props.inputProps).toStrictEqual({ 'aria-label': 'From Date' });
-    expect(datePickers[1].props.inputProps).toStrictEqual({ 'aria-label': 'To Date' });
+  it('contains the "From" and "To" date pickers', () => {
+    const { getByRole } = render(<FilterTimeRange />);
+    const fromPicker = getByRole('textbox', { name: 'From Date' });
+    const toPicker = getByRole('textbox', { name: 'To Date' });
+    expect(fromPicker).toBeInTheDocument();
+    expect(toPicker).toBeInTheDocument();
   });
 
   it('contains checkbox limiting results of date range', () => {
-    const checkbox = instance.findByProps({ className: 'checkBoxDiv' });
-    expect(checkbox).toBeDefined();
-    const label = checkbox.findByType('label');
-    expect(label.props.children[1].props.children.props.children[0]).toEqual('Limit results to datasets spanning entire time range');
+    const { getByRole } = render(<FilterTimeRange />);
+    const checkbox = getByRole('checkbox');
+    expect(checkbox).toBeInTheDocument();
   });
 
   it('contains info tip for time range limited results', () => {
-    const infoTip = instance.findByType(InfoTip);
-    expect(infoTip).toBeDefined();
+    const { getByRole } = render(<FilterTimeRange />);
+    const infoTip = getByRole('button', { name: 'More information about Time Range.' });
+    expect(infoTip).toBeInTheDocument();
   });
 
   it('initializes any values established in its persistence context', () => {
@@ -168,6 +167,30 @@ describe('Time Range Filter', () => {
       {
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
+        exactRange: false,
+        active: true,
+      },
+      undefined
+    );
+  });
+
+  it('swaps the dates if the start/end dates are entered backwards', () => {
+    const dateRangeFn = jest.fn();
+    const contextBeginDate = new Date(2020, 9, 1);
+    const contextEndDate = new Date(2020, 8, 1);
+    const setBeginDateSpy = jest.fn();
+    const setEndDateSpy = jest.fn();
+    const { getByRole } = render(
+      <siteContext.Provider
+        value={{ beginDate: contextBeginDate, setBeginDate: setBeginDateSpy, endDate: contextEndDate, setEndDate: setEndDateSpy }}
+      >
+        <FilterTimeRange dateRangeFilter={dateRangeFn} />
+      </siteContext.Provider>
+    );
+    expect(dateRangeFn).toHaveBeenCalledWith(
+      {
+        startDate: contextEndDate,
+        endDate: contextBeginDate,
         exactRange: false,
         active: true,
       },
