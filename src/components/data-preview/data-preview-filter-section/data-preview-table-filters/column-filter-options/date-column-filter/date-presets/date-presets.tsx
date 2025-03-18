@@ -4,23 +4,10 @@ import determineDateRange, {
   generateFormattedDate,
   prepAvailableDates,
 } from '../../../../../../filter-download-container/range-presets/helpers/helper';
-import { addDays, differenceInYears, subQuarters } from 'date-fns';
+import { differenceInYears } from 'date-fns';
 import { monthNames } from '../../../../../../../utils/api-utils';
 import { presetContainer, radio, selected, toggleButton } from './date-presets.module.scss';
-
-interface IDatePresets {
-  currentDateButton;
-  datePreset;
-  customRangePreset;
-  selectedTable;
-  apiData;
-  handleDateRangeChange;
-  allTablesSelected;
-  datasetDateRange;
-  finalDatesNotFound;
-  hideButtons;
-  hidden: boolean;
-}
+import { IDatePresets } from '../../../../../../../models/data-preview/IDatePresets';
 
 const DatePresets: FunctionComponent<IDatePresets> = ({
   currentDateButton,
@@ -121,19 +108,19 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
       if (datePreset === 'all' && presets[4].key === 'all') {
         idealDefaultPreset = presets[4];
       }
-      if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
-        idealDefaultPreset = presets.find(({ key }) => key === 'custom');
-
-        const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
-        const quarterRange = {
-          userSelected: {
-            from: subQuarters(addDays(dateObj, 1), 1),
-            to: dateObj,
-          },
-        };
-        const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
-        updateDateRange(adjRange);
-      }
+      // if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
+      //   idealDefaultPreset = presets.find(({ key }) => key === 'custom');
+      //
+      //   const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
+      //   const quarterRange = {
+      //     userSelected: {
+      //       from: subQuarters(addDays(dateObj, 1), 1),
+      //       to: dateObj,
+      //     },
+      //   };
+      //   const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
+      //   updateDateRange(adjRange);
+      // }
       // Check if the default date option is available in the preset list. If so, select the default
       // preset, else select the next available option.
       const defaultPresetIsFound = presets.some(preset => preset.key === idealDefaultPreset.key);

@@ -29,7 +29,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
 }) => {
   return (
     <>
-      {selectedColumn.type === 'Date' && (
+      {selectedColumn.type === 'Date' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
         <DateColumnFilter
           columnConfig={selectedColumn}
           selectedTable={selectedTable}
