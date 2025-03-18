@@ -4,10 +4,10 @@ import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../../explainer-components/chart-container/chart-container';
 import { breakpointLg, fontSize_10 } from '../../../../../../../variables.module.scss';
-import { getChartCopy, dataHeader, chartConfigs, getMarkers } from './total-revenue-chart-helper';
+import { chartConfigs, dataHeader, getChartCopy, getMarkers } from './total-revenue-chart-helper';
 import { visWithCallout } from '../../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../../components/visualization-callout/visualization-callout';
-import { lineChart, container } from './total-revenue-chart.module.scss';
+import { container, lineChart } from './total-revenue-chart.module.scss';
 import { revenueExplainerPrimary } from '../../../revenue.module.scss';
 import {
   addInnerChartAriaLabel,
@@ -43,8 +43,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [gdpChartData, setGdpChartData] = useState([]);
   const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [minYear, setMinYear] = useState(2015);
-  const [maxYear, setMaxYear] = useState(2022);
+  const [minYear, setMinYear] = useState();
+  const [maxYear, setMaxYear] = useState();
   const [callOutYear, setCallOutYear] = useState('');
   const [lastRatio, setLastRatio] = useState('');
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
@@ -216,7 +216,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
 
         copyPageData({
-          fiscalYear: maxYear,
+          fiscalYear: revenueMaxYear.x,
           revenueTotal: getShortForm(revenueLastAmountActual, false),
           revenueRatio: chartLastRatio,
         });

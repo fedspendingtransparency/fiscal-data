@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { faCommentDollar, faHandHoldingDollar, faPiggyBank } from '@fortawesome/free-solid-svg-icons';
-import { revenueExplainerPrimary, revenueExplainerLightSecondary } from '../revenue.module.scss';
+import { revenueExplainerLightSecondary, revenueExplainerPrimary } from '../revenue.module.scss';
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import reactStringReplace from 'react-string-replace';
 import revenueConstants from '../constants';
+
 const RevenueKeyTakeaways = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(0);
   const [revenuePercentGDP, setRevenuePercentGDP] = useState(0);
@@ -100,7 +101,7 @@ const RevenueKeyTakeaways = () => {
   const firstTakeawayTextWithGlossaryTerm = reactStringReplace(firstTakeawayText, 'fiscal year (FY)', (match, index) => {
     if (index === 1) {
       return (
-        <GlossaryPopoverDefinition term="fiscal year" page="Debt, Revenue & Spending explainer">
+        <GlossaryPopoverDefinition term="fiscal year" page="Debt, Revenue & Spending explainer" key={index}>
           {match}
         </GlossaryPopoverDefinition>
       );
