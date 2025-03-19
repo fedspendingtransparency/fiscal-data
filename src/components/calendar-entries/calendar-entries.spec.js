@@ -1,13 +1,8 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import CalendarEntriesList, { releaseCalendarSortEvent } from './calendar-entries';
 import { sortOptions } from './calendar-helpers';
-import CalendarEntry from './calendar-entry/calendar-entry';
-import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
-import PageButtons from '../pagination/page-buttons';
-import SelectControl from '../select-control/select-control';
 import Analytics from '../../utils/analytics/analytics';
-import { waitFor } from '@testing-library/react';
+import { fireEvent, render, waitForElementToBeRemoved, within } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 
 const mockMetaData = [
@@ -94,63 +89,65 @@ const mockReleaseData = [
 ];
 
 describe('Calendar Entries List', () => {
-  let component = renderer.create();
-  let instance;
-
   beforeAll(() => {
     fetchMock.get(`https://api.fiscaldata.treasury.gov/services/calendar/release`, mockReleaseData, { overwriteRoutes: true, repeat: 0 });
     fetchMock.get('https://api.fiscaldata.treasury.gov/services/dtg/metadata/', mockMetaData, { overwriteRoutes: true, repeat: 0 });
-    renderer.act(() => {
-      component = renderer.create(<CalendarEntriesList />);
-    });
-    instance = component.root;
   });
 
   it('renders a list of calendar entries, a sort-by button, and a pagination component', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    const list = instance.findByType(CalendarEntryPages);
-    const pageButtons = instance.findByType(PageButtons);
-    const dropdown = instance.findByType(SelectControl);
-
-    expect(list).toBeDefined();
-    expect(pageButtons).toBeDefined();
-    expect(dropdown).toBeDefined();
+    const { getByRole, getByText, getAllByTestId } = render(<CalendarEntriesList />);
+    await waitForElementToBeRemoved(() => getByText('Loading...'));
+    const previousPageButton = getByRole('button', { name: 'Previous page' });
+    const nextPageButton = getByRole('button', { name: 'Next page' });
+    const dropdownButton = getByRole('button', { name: 'Change Sort By: from Date' });
+    const calendarEntries = getAllByTestId('calendar-entry');
+    expect(calendarEntries.length).toBeGreaterThan(0);
+    expect(previousPageButton).toBeInTheDocument();
+    expect(nextPageButton).toBeInTheDocument();
+    expect(dropdownButton).toBeInTheDocument();
   });
 
   it('passes the Name and Date options to the dropdown', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(instance.findByType(SelectControl).props.options).toEqual(sortOptions);
+    const { getByRole, getByText } = render(<CalendarEntriesList />);
+    await waitForElementToBeRemoved(() => getByText('Loading...'));
+
+    const dropdownButton = getByRole('button', { name: 'Change Sort By: from Date' });
+    fireEvent.click(dropdownButton);
+    sortOptions.forEach(option => {
+      expect(getByRole('button', { name: option.label })).toBeInTheDocument();
+    });
   });
 
   it('sorts the entries by name order', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(instance.findAllByType(CalendarEntry)[0].props.dataset.name).toBe('State and Local Government Series (SLGS) Daily Rate Table');
+    const { getByText, getAllByTestId } = render(<CalendarEntriesList />);
+    await waitForElementToBeRemoved(() => getByText('Loading...'));
+    const calendarEntries = getAllByTestId('calendar-entry');
+    within(calendarEntries[0]).getByText('State and Local Government Series (SLGS) Daily Rate Table');
   });
 
   it('sorts the entries by date order', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    const dropdown = instance.findByType(SelectControl);
-    renderer.act(() => {
-      dropdown.props.changeHandler(sortOptions[1]);
-    });
+    const { getByRole, getByText, getAllByTestId } = render(<CalendarEntriesList />);
+    await waitForElementToBeRemoved(() => getByText('Loading...'));
+    const dropdownButton = getByRole('button', { name: 'Change Sort By: from Date' });
+    fireEvent.click(dropdownButton);
+    const updatedOptionButton = getByRole('button', { name: sortOptions[1].label });
+    fireEvent.click(updatedOptionButton);
 
-    expect(instance.findAllByType(CalendarEntry)[0].props.dataset.date).toBe('2023-11-22');
+    const calendarEntries = getAllByTestId('calendar-entry');
+    within(calendarEntries[0]).getByText('11/22/2023');
   });
 
   it('triggers an analytics event when the sort changes', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    await waitFor(() => expect(fetchSpy).toBeCalled());
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     window.dataLayer = window.dataLayer || [];
     const spy = jest.spyOn(window.dataLayer, 'push');
-    const dropdown = instance.findByType(SelectControl);
-    renderer.act(() => {
-      dropdown.props.changeHandler(sortOptions[1]);
-    });
+
+    const { getByRole, getByText } = render(<CalendarEntriesList />);
+    await waitForElementToBeRemoved(() => getByText('Loading...'));
+    const dropdownButton = getByRole('button', { name: 'Change Sort By: from Date' });
+    fireEvent.click(dropdownButton);
+    const updatedOptionButton = getByRole('button', { name: sortOptions[1].label });
+    fireEvent.click(updatedOptionButton);
 
     expect(analyticsSpy).toHaveBeenCalledWith({
       ...releaseCalendarSortEvent,

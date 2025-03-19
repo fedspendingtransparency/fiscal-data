@@ -261,7 +261,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     }
   }, [dateRange]);
 
-  useEffect(async () => {
+  useMemo(async () => {
     if (config?.sharedApiFilterOptions && userFilterSelection) {
       await refreshTable();
     }
