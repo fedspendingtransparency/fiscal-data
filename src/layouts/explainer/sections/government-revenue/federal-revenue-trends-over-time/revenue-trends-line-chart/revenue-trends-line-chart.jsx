@@ -6,19 +6,19 @@ import { withWindowSize } from 'react-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {
-  corpRect,
-  estateRect,
-  indvRect,
-  exciseRect,
-  miscRect,
-  legendText,
   container,
+  corpRect,
   customsRect,
-  legendContainer,
+  estateRect,
+  exciseRect,
+  indvRect,
   legendColumn,
+  legendContainer,
   legendElement,
-  socialSecRect,
+  legendText,
   lineChart,
+  miscRect,
+  socialSecRect,
 } from './revenue-trends-line-chart.module.scss';
 import { Line } from '@nivo/line';
 import { fontSize_16 } from '../../../../explainer.module.scss';
@@ -201,11 +201,12 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           hideTooltip();
         }}
       >
-        {slices.map(slice => (
+        {slices.map((slice, index) => (
           <rect
             x={slice.x0}
             y={slice.y0}
             tabIndex={0}
+            key={index}
             width={slice.width}
             height={slice.height}
             strokeWidth={0}

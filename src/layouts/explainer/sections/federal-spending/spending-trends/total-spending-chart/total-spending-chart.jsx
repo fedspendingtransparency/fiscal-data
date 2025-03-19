@@ -4,11 +4,11 @@ import { Line } from '@nivo/line';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
-import { getChartCopy, dataHeader, chartConfigs, getMarkers } from './total-spending-chart-helper';
+import { chartConfigs, dataHeader, getChartCopy, getMarkers } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { spendingExplainerPrimary } from '../../federal-spending.module.scss';
-import { lineChart, container } from './total-spending-chart.module.scss';
+import { container, lineChart } from './total-spending-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import numeral from 'numeral';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
@@ -22,11 +22,11 @@ import Analytics from '../../../../../../utils/analytics/analytics';
 import {
   addInnerChartAriaLabel,
   applyChartScaling,
+  applyTextScaling,
   chartInViewProps,
   getChartTheme,
   LineChartCustomPoints_GDP,
   nivoCommonLineChartProps,
-  applyTextScaling,
 } from '../../../../explainer-helpers/explainer-charting-helper';
 import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { useInView } from 'react-intersection-observer';
@@ -211,7 +211,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         addInnerChartAriaLabel(chartParent);
 
         copyPageData({
-          fiscalYear: maxYear,
+          fiscalYear: Math.min(gdpMaxYear, spendingMaxYear),
           totalSpending: getShortForm(chartLastSpendingValue, false),
           percentOfGDP: chartLastRatio,
           numOfYearsInChart: maxYear - minYear + 1,
