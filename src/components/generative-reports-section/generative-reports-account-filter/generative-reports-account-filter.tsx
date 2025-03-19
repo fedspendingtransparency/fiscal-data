@@ -1,41 +1,60 @@
-import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import AccountBox from '@material-ui/icons/AccountBox';
+import { IDatasetApi } from '../../../models/IDatasetApi';
 
 interface IAccountFilter {
-  accounts: {
-    Federal: [];
-    State: [];
-  };
-  setAllAccounts: () => void;
+  apiData: IDatasetApi[];
 }
 
-const GenerativeReportsAccountFilter: FunctionComponent<IAccountFilter> = ({ accounts, setAllAccounts }: IAccountFilter) => {
+interface IAccountOptions {
+  default?: boolean;
+  label?: string;
+  children: {
+    label: string;
+    value: string;
+  }[];
+}
+
+const GenerativeReportsAccountFilter: FunctionComponent<IAccountFilter> = ({ apiData }: IAccountFilter) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
   const [active, setActive] = useState(false);
-  const [selectedAccount, setSelectedAccount] = useState({
-    label: '(None selected)',
-    value: 0,
-  });
-  const [accountOptions, setAccountOptions] = useState([selectedAccount]);
-
-  const formatOptions = (array, label) => {
-    return array.map(item => {
-      return {
-        label: item,
-        value: item,
-        category: label,
-      };
-    });
-  };
+  const defaultSelection = { label: '(None selected)', value: '' };
+  const defaultOptions: IAccountOptions[] = [{ default: true, children: [defaultSelection] }];
+  const [selectedAccount, setSelectedAccount] = useState(defaultSelection);
+  const [accountOptions, setAccountOptions] = useState(defaultOptions);
 
   useEffect(() => {
-    const options = accountOptions.concat(formatOptions(accounts.Federal, 'Federal')).concat(formatOptions(accounts.State, 'State'));
+    const options: IAccountOptions[] = [{ default: true, children: [defaultSelection] }];
+    const optionSet = apiData.map(api => api.apiFilter?.fieldFilter?.value).flat();
+    const filterOptions = [...new Set(optionSet)];
+    const flattenApi = filter => {
+      const values = filter
+        ? apiData
+            .map(api => api?.apiFilter?.optionValues[filter])
+            .filter(item => item?.length)
+            .flat()
+            .filter(item => item !== 'null')
+        : [];
+      return [...new Set(values)];
+    };
+
+    filterOptions.forEach(filter =>
+      filter
+        ? options.push({
+            label: filter,
+            children: flattenApi(filter).map(val => ({
+              label: val,
+              value: val,
+            })),
+          })
+        : null
+    );
+
     setAccountOptions(options);
-    console.log(options);
-  }, [setAccountOptions, accountOptions]);
+  }, []);
 
   const onAccountChange = account => {
     if (account !== null && account?.value) {
@@ -62,6 +81,7 @@ const GenerativeReportsAccountFilter: FunctionComponent<IAccountFilter> = ({ acc
           options={accountOptions}
           searchBarActive={searchBarActive}
           setSearchBarActive={setSearchBarActive}
+          hasChildren={true}
         />
       </DropdownContainer>
     </>

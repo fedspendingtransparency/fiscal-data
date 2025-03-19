@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FunctionComponent } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import { IDatasetApi } from '../../models/IDatasetApi';
@@ -13,38 +13,13 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
   apisProp,
   useDefaultReportTable,
 }) => {
-  const [accounts, setAllAccounts] = useState({
-    Federal: [],
-    State: [],
-  });
-
-  useEffect(() => {
-    const flatten = label => {
-      return apisProp
-        .map(api => api.apiFilter.optionValues[label])
-        .filter(item => item?.length)
-        .flat()
-        .filter(item => item !== 'null');
-    };
-
-    let federal = flatten('Federal');
-    let state = flatten('State');
-    const all = flatten('all');
-    federal = [...new Set(federal)];
-    state = [...new Set(state.concat(all))];
-    const updated = { Federal: federal, State: state };
-
-    setAllAccounts(updated);
-    console.log(updated);
-  }, [apisProp, setAllAccounts]);
-
   return (
     <>
       {useDefaultReportTable && (
         <div>
           <DatasetSectionContainer title={title} id={'generative-reports-and-files'}>
             <div className={filtersContainer}>
-              <GenerativeReportsAccountFilter accounts={accounts} setAllAccounts={setAllAccounts} />
+              <GenerativeReportsAccountFilter apiData={apisProp} />
             </div>
             <GenerativeReportsEmptyTable />
           </DatasetSectionContainer>
