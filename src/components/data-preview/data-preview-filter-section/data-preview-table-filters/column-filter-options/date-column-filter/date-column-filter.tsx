@@ -23,7 +23,7 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
     from: undefined,
     to: undefined,
     earliestDate: '1-1-1900',
-    latestDate: '12-31-1299',
+    latestDate: '12-31-2999',
   });
 
   const handleDateRangeSelect = dateRange => {
@@ -48,22 +48,18 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
             </label>
             <div className={`${presetContainer} ${selectedToggle !== 'preset' ? sectionDisabled : undefined}`}>
               <DatePresets
-                setDateRange={setDateRange}
                 handleDateRangeChange={handleDateRangeSelect}
                 selectedTable={!!detailViewState ? detailApi : selectedTable}
                 apiData={apiData}
-                onUserFilter={allTablesSelected}
                 currentDateButton={config.currentDateButton}
                 datePreset={config.datePreset}
                 customRangePreset={config.customRangePreset}
-                setIsCustomDateRange={setIsCustomDateRange}
                 allTablesSelected={allTablesSelected}
                 datasetDateRange={{
                   earliestDate: config.techSpecs.earliestDate,
                   latestDate: config.techSpecs.latestDate,
                 }}
                 finalDatesNotFound={finalDatesNotFound}
-                datatableBanner={config.datatableBanner}
                 hideButtons={detailApi && !detailViewState}
                 setPickerDateRange={setPickerDateRange}
                 hidden={selectedToggle !== 'preset'}

@@ -108,6 +108,7 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
       if (datePreset === 'all' && presets[4].key === 'all') {
         idealDefaultPreset = presets[4];
       }
+      //TODO: Add this logic back in when implementing default custom date range option
       // if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
       //   idealDefaultPreset = presets.find(({ key }) => key === 'custom');
       //
@@ -147,12 +148,13 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
     setMostAppropriatePreset();
   }, [presets]);
 
-  useEffect(() => {
-    if (selectedTable.userFilter && apiData?.data && initialLoad) {
-      setInitialLoad(false);
-      // applyPreset(customPreset);
-    }
-  }, [apiData]);
+  // TODO: Add this logic back in when implementing default custom date range option
+  // useEffect(() => {
+  //   if (selectedTable.userFilter && apiData?.data && initialLoad) {
+  //     setInitialLoad(false);
+  // applyPreset(customPreset);
+  //   }
+  // }, [apiData]);
 
   useEffect(() => {
     if (!finalDatesNotFound) {
