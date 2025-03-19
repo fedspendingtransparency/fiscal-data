@@ -122,8 +122,7 @@ const Endpoints = () => {
       <SectionContent id="endpoints" headingLevel={2} title="Endpoints">
         <p>
           Many datasets are associated with only one data table, and thus, one API endpoint. There are some datasets comprised of more than one data
-          table, and therefore have more than one endpoint. Find more details on{' '}
-          <CustomLink url="#list-of-endpoints-table">Multi-Endpoint Datasets</CustomLink> below.
+          table, and therefore have more than one endpoint.
         </p>
       </SectionContent>
       <SectionContent id="list-of-endpoints" headingLevel={3} title="List of Endpoints">
