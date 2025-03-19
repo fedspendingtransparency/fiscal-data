@@ -156,23 +156,23 @@ describe('Time Range Filter', () => {
     expect(dateRangeSpy).toHaveBeenCalled();
   });
 
-  it('swaps the dates if the start/end dates are entered backwards', () => {
-    renderer.act(() => {
-      datePickers[0].props.onChange(dateRange.endDate);
-      datePickers[1].props.onChange(dateRange.startDate);
-    });
-    jest.runAllTimers();
-
-    expect(dateRangeSpy).toHaveBeenCalledWith(
-      {
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
-        exactRange: false,
-        active: true,
-      },
-      undefined
-    );
-  });
+  // it('swaps the dates if the start/end dates are entered backwards', () => {
+  //   renderer.act(() => {
+  //     datePickers[0].props.onChange(dateRange.endDate);
+  //     datePickers[1].props.onChange(dateRange.startDate);
+  //   });
+  //   jest.runAllTimers();
+  //
+  //   expect(dateRangeSpy).toHaveBeenCalledWith(
+  //     {
+  //       startDate: dateRange.startDate,
+  //       endDate: dateRange.endDate,
+  //       exactRange: false,
+  //       active: true,
+  //     },
+  //     undefined
+  //   );
+  // });
 
   it('swaps the dates if the start/end dates are entered backwards', () => {
     const dateRangeFn = jest.fn();
@@ -198,8 +198,7 @@ describe('Time Range Filter', () => {
     );
   });
 
-  it(`passes the exactRange value of true if the exact range checkbox is checked
-    when both dates are set`, () => {
+  it(`passes the exactRange value of true if the exact range checkbox is checked when both dates are set`, () => {
     const checkbox = instance.findByType(Checkbox);
     renderer.act(() => {
       checkbox.props.changeHandler();
