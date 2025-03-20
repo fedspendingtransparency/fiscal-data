@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { IDataTableProps } from '../../../models/IDataTableProps';
 import { useSetRecoilState } from 'recoil';
 import {
@@ -7,13 +7,14 @@ import {
   smallTableDownloadDataXML,
   tableRowLengthState,
 } from '../../../recoil/smallTableDownloadData';
-import { columnsConstructorData, constructDateHeader, getSortedColumnsData } from '../../data-table/data-table-helper';
+import { constructDateHeader, getSortedColumnsData } from '../../data-table/data-table-helper';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 import { json2xml } from 'xml-js';
 import { overlayContainerNoFooter, rawDataTableContainer } from './data-preview-data-table.module.scss';
 import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
 import DataPreviewDataTableBody from './data-preview-data-table-body/data-preview-data-table-body';
 import DataPreviewDataTableHeader from './data-preview-data-table-header/data-preview-data-table-header';
+import { DataTableContext } from '../data-preview-context';
 
 const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   rawData,
@@ -28,9 +29,9 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   hideCellLinks,
   tableName,
   hideColumns,
-  pagingProps,
+  // pagingProps,
   manualPagination,
-  rowsShowing,
+  // rowsShowing,
   columnConfig,
   detailColumnConfig,
   detailView,
@@ -52,7 +53,27 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   dateRange,
   hasDownloadTimestamp,
 }) => {
-  const [configOption, setConfigOption] = useState(columnConfig);
+  const {
+    setDefaultColumns,
+    setAdditionalColumns,
+    allColumns,
+    setConfigOption,
+    configOption,
+    pagingProps,
+    perPage,
+    setPerPage,
+    currentPage,
+    setCurrentPage,
+    maxRows,
+    setMaxRows,
+    maxPage,
+    setMaxPage,
+    itemsPerPage,
+    setItemsPerPage,
+    rowsShowing,
+    setRowsShowing,
+  } = useContext(DataTableContext);
+  // const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
@@ -66,13 +87,14 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     }
   }, [rawData]);
 
-  const allColumns = React.useMemo(() => {
-    const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
+  // const allColumns = React.useMemo(() => {
+  //   const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
+  //
+  //   const baseColumns = columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
+  //
+  //   return baseColumns;
+  // }, [rawData, configOption]);
 
-    const baseColumns = columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
-
-    return baseColumns;
-  }, [rawData, configOption]);
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -109,8 +131,8 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   const [columnVisibility, setColumnVisibility] = useState(
     defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
   );
-  const [defaultColumns, setDefaultColumns] = useState([]);
-  const [additionalColumns, setAdditionalColumns] = useState([]);
+
+  console.log(pagingProps);
 
   const table = useReactTable({
     columns: allColumns,
@@ -119,7 +141,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     initialState: {
       pagination: {
         pageIndex: 0,
-        pageSize: pagingProps.itemsPerPage,
+        pageSize: itemsPerPage,
       },
     },
     state: {

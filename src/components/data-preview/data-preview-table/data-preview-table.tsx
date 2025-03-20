@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
 import { loadingTimeout, netLoadingDelay, setColumns } from '../../dtg-table/dtg-table-helper';
@@ -10,9 +10,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import DtgTableApiError from '../../dtg-table/dtg-table-api-error/dtg-table-api-error';
 import { ErrorBoundary } from 'react-error-boundary';
-import { overlayContainer, overlay, loadingIcon, overlayContainerNoFooter } from './data-preview-table.module.scss';
+import { loadingIcon, overlay, overlayContainer, overlayContainerNoFooter } from './data-preview-table.module.scss';
 import GLOBALS from '../../../helpers/constants';
 import DataPreviewDataTable from '../data-preview-data-table/data-preview-data-table';
+import { DataTableContext } from '../data-preview-context';
+
 const DEFAULT_ROWS_PER_PAGE = GLOBALS.dataTable.DEFAULT_ROWS_PER_PAGE;
 
 interface ITableProps {
@@ -68,9 +70,7 @@ type DataPreviewTableProps = {
 };
 
 const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
-  tableProps,
-  perPage,
-  setPerPage,
+  // tableProps,
   selectColumnPanel,
   setSelectColumnPanel,
   setTableColumnSortData,
@@ -98,6 +98,23 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   apiErrorState,
 }) => {
   const {
+    tableProps,
+    reactTableData,
+    setReactTableData,
+    currentPage,
+    setCurrentPage,
+    maxRows,
+    setMaxRows,
+    maxPage,
+    setMaxPage,
+    itemsPerPage,
+    rowsShowing,
+    setRowsShowing,
+    pagingProps,
+    data,
+  } = useContext(DataTableContext);
+
+  const {
     dePaginated,
     rawData,
     width,
@@ -117,18 +134,18 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     customFormatting,
   } = tableProps;
 
-  const [reactTableData, setReactTableData] = useState(null);
-  const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
+  // const [reactTableData, setReactTableData] = useState(null);
+  // const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(
-    perPage ? perPage : !shouldPage && data.length > DEFAULT_ROWS_PER_PAGE ? data.length : DEFAULT_ROWS_PER_PAGE
-  );
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage, setItemsPerPage] = useState(
+  //   perPage ? perPage : !shouldPage && data.length > DEFAULT_ROWS_PER_PAGE ? data.length : DEFAULT_ROWS_PER_PAGE
+  // );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
   const [apiError, setApiError] = useState(tableProps.apiError || apiErrorState || false);
-  const [maxPage, setMaxPage] = useState(1);
-  const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
-  const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
+  // const [maxPage, setMaxPage] = useState(1);
+  // const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
+  // const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
@@ -162,18 +179,18 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   };
   const columns = setColumns(dataProperties, columnConfig);
 
-  const handlePerPageChange = numRows => {
-    const numItems = numRows >= maxRows ? maxRows : numRows;
-    setItemsPerPage(numItems);
-    setRowsShowing({
-      begin: 1,
-      end: numItems,
-    });
-    setCurrentPage(1);
-    if (setPerPage) {
-      setPerPage(numRows);
-    }
-  };
+  // const handlePerPageChange = numRows => {
+  //   const numItems = numRows >= maxRows ? maxRows : numRows;
+  //   setItemsPerPage(numItems);
+  //   setRowsShowing({
+  //     begin: 1,
+  //     end: numItems,
+  //   });
+  //   setCurrentPage(1);
+  //   if (setPerPage) {
+  //     setPerPage(numRows);
+  //   }
+  // };
 
   const getPagedData = resetPage => {
     if (debounce || loadCanceled) {
@@ -277,10 +294,10 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     }
   };
 
-  const handleJump = page => {
-    const pageNum = Math.max(1, page);
-    setCurrentPage(Math.min(pageNum, maxPage));
-  };
+  // const handleJump = page => {
+  //   const pageNum = Math.max(1, page);
+  //   setCurrentPage(Math.min(pageNum, maxPage));
+  // };
 
   const isPaginationControlNeeded = () => currentPage >= 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
 
@@ -301,7 +318,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   };
 
   useMemo(() => {
-    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE && !!data && itemsPerPage) {
       updateSmallFractionDataType();
       setCurrentPage(1);
       updateTable(true);
@@ -309,7 +326,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   }, [tableSorting, filteredDateRange, selectedTable, dateRange, tableMeta]);
 
   useMemo(() => {
-    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE && !!data && itemsPerPage) {
       //prevent hook from triggering twice on pivot selection
       if ((pivotSelected?.pivotValue && !tableProps.serverSidePagination) || !pivotSelected?.pivotValue) {
         updateTable(false);
@@ -318,8 +335,11 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   }, [tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
   useMemo(() => {
-    if (data && data.length) {
+    if (data && data?.length) {
       setMaxRows(apiError ? 0 : data.length);
+      if (!shouldPage) {
+        setTableData(data);
+      }
     }
   }, [data]);
 
@@ -337,15 +357,15 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     rowText[0] = '';
     rowText[1] = 'row';
   }
-  const pagingProps = {
-    itemsPerPage,
-    handlePerPageChange,
-    handleJump,
-    maxPage,
-    tableName,
-    currentPage,
-    maxRows,
-  };
+  // const pagingProps = {
+  //   itemsPerPage,
+  //   handlePerPageChange,
+  //   handleJump,
+  //   maxPage,
+  //   tableName,
+  //   currentPage,
+  //   maxRows,
+  // };
 
   useMemo(() => {
     if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
@@ -414,7 +434,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
           setManualPagination(true);
         }
       }
-    } else if (tableData && data.length === 0 && !rawData && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+    } else if (tableData && data?.length === 0 && !rawData && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       setReactTableData({ data: tableData, meta: tableMeta });
     }
   }, [tableData, tableMeta, rawData, dePaginated]);
