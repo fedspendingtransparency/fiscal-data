@@ -1,7 +1,17 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import DataPreviewSectionContainer from './data-preview-section-container/data-preview-section-container';
-import { detailViewNotice, lockIcon, placeholderButton, placeholderText } from './data-preview.module.scss';
+import {
+  dataPreview,
+  dataPreviewHeader,
+  dataPreviewTitle,
+  detailViewNotice,
+  increaseSpacing,
+  lockIcon,
+  placeholderButton,
+  placeholderText,
+  selectedTableName,
+} from './data-preview.module.scss';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
@@ -13,11 +23,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
-import { dataPreview, dataPreviewHeader, dataPreviewTitle, selectedTableName, increaseSpacing } from './data-preview.module.scss';
 import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
 import { IDataPreview } from '../../models/data-preview/IDataPreview';
+import DataTableProvider from './data-preview-context';
 
 const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
@@ -255,124 +265,126 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
 
   return (
     <DatasetSectionContainer id="data-preview-table">
-      <div className={dataPreview}>
-        <div className={dataPreviewHeader}>
-          <span className={dataPreviewTitle}>Data Preview</span>
+      <DataTableProvider>
+        <div className={dataPreview}>
+          <div className={dataPreviewHeader}>
+            <span className={dataPreviewTitle}>Data Preview</span>
+          </div>
+          {selectedTable && (
+            <DataPreviewTableSelectDropdown
+              apis={filteredApis}
+              selectedTable={selectedTable}
+              setSelectedTable={handleSelectedTableChange}
+              allTablesSelected={allTablesSelected}
+              earliestDate={config.techSpecs.earliestDate}
+              latestDate={config.techSpecs.latestDate}
+              disableAllTables={config?.disableAllTables}
+              selectedPivot={selectedPivot}
+              setSelectedPivot={setSelectedPivot}
+              hideDropdown={config.apis.length === 1 && config.apis[0]?.dataDisplays?.length <= 1}
+            />
+          )}
         </div>
-        {selectedTable && (
-          <DataPreviewTableSelectDropdown
-            apis={filteredApis}
-            selectedTable={selectedTable}
-            setSelectedTable={handleSelectedTableChange}
-            allTablesSelected={allTablesSelected}
-            earliestDate={config.techSpecs.earliestDate}
-            latestDate={config.techSpecs.latestDate}
-            disableAllTables={config?.disableAllTables}
-            selectedPivot={selectedPivot}
-            setSelectedPivot={setSelectedPivot}
-            hideDropdown={config.apis.length === 1 && config.apis[0]?.dataDisplays?.length <= 1}
-          />
-        )}
-      </div>
-      <div className={selectedTableName}>{selectedTable?.tableName}</div>
-      {config.datatableBanner && <DataPreviewDatatableBanner bannerNotice={config.datatableBanner} />}
-      {selectedTable?.userFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
-      {selectedTable?.apiFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.apiFilter.notice} />}
-      <div>
-        {tableColumnSortData && selectedTable && (
-          <DataPreviewFilterSection
-            data-testid="filterAndDownload"
-            dateRange={dateRange}
-            isFiltered={isFiltered}
-            selectedTable={!!detailViewState ? detailApi : selectedTable}
-            selectedPivot={selectedPivot}
-            dataset={config}
-            allTablesSelected={allTablesSelected}
-            isCustomDateRange={isCustomDateRange}
-            selectedUserFilter={userFilterSelection}
-            tableColumnSortData={tableColumnSortData}
-            selectedDetailViewFilter={detailViewDownloadFilter}
-            apiFilterDefault={apiFilterDefault}
-          >
-            {selectedTable && (
-              <>
-                {!selectedTable?.apiFilter?.disableDateRangeFilter && (
-                  <DateRangeFilter
-                    setDateRange={setDateRange}
-                    handleDateRangeChange={handleDateRangeChange}
-                    selectedTable={!!detailViewState ? detailApi : selectedTable}
-                    apiData={apiData}
-                    onUserFilter={setUserFilterSelection}
-                    setIsFiltered={setIsFiltered}
-                    currentDateButton={config.currentDateButton}
-                    datePreset={config.datePreset}
-                    customRangePreset={config.customRangePreset}
-                    setIsCustomDateRange={setIsCustomDateRange}
-                    allTablesSelected={allTablesSelected}
-                    datasetDateRange={{
-                      earliestDate: config.techSpecs.earliestDate,
-                      latestDate: config.techSpecs.latestDate,
-                    }}
-                    finalDatesNotFound={finalDatesNotFound}
-                    setResetFilters={setResetFilters}
-                    datatableBanner={config.datatableBanner}
-                    hideButtons={detailApi && !detailViewState}
-                  />
-                )}
-                {selectedTable?.apiFilter?.disableDateRangeFilter && <div className={increaseSpacing}></div>}
-              </>
-            )}
-            {!selectedTable && (
-              <div data-testid="dateRangePlaceholder">
-                <h3 className={placeholderText}>Date Range</h3>
-                <div className={placeholderButton} />
-              </div>
-            )}
-            {detailApi && !detailViewState && (
-              <div className={detailViewNotice}>
-                <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
-              </div>
-            )}
-            {dateRange && (
-              <DataPreviewSectionContainer
-                config={config}
-                dateRange={dateRange}
-                selectedTable={selectedTable}
-                userFilterSelection={userFilterSelection}
-                setUserFilterSelection={setUserFilterSelection}
-                apiData={apiData}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-                apiError={apiError}
-                selectedPivot={selectedPivot}
-                setSelectedPivot={setSelectedPivot}
-                serverSidePagination={serverSidePagination}
-                selectedTab={selectedTab}
-                tabChangeHandler={setSelectedTab}
-                handleIgnorePivots={setIgnorePivots}
-                allTablesSelected={allTablesSelected}
-                handleConfigUpdate={() => setConfigUpdated(true)}
-                tableColumnSortData={tableColumnSortData}
-                setTableColumnSortData={setTableColumnSortData}
-                hasPublishedReports={!!publishedReports}
-                publishedReports={publishedReports}
-                resetFilters={resetFilters}
-                setResetFilters={setResetFilters}
-                setDetailViewState={setDetailViewState}
-                detailViewState={detailViewState}
-                customFormatting={selectedTable?.customFormatting}
-                summaryValues={summaryValues}
-                setSummaryValues={setSummaryValues}
-                allActiveFilters={allActiveFilters}
-                setAllActiveFilters={setAllActiveFilters}
-                width={width}
-                apiFilterDefault={apiFilterDefault}
-                setApiFilterDefault={setApiFilterDefault}
-              />
-            )}
-          </DataPreviewFilterSection>
-        )}
-      </div>
+        <div className={selectedTableName}>{selectedTable?.tableName}</div>
+        {config.datatableBanner && <DataPreviewDatatableBanner bannerNotice={config.datatableBanner} />}
+        {selectedTable?.userFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
+        {selectedTable?.apiFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.apiFilter.notice} />}
+        <div>
+          {tableColumnSortData && selectedTable && (
+            <DataPreviewFilterSection
+              data-testid="filterAndDownload"
+              dateRange={dateRange}
+              isFiltered={isFiltered}
+              selectedTable={!!detailViewState ? detailApi : selectedTable}
+              selectedPivot={selectedPivot}
+              dataset={config}
+              allTablesSelected={allTablesSelected}
+              isCustomDateRange={isCustomDateRange}
+              selectedUserFilter={userFilterSelection}
+              tableColumnSortData={tableColumnSortData}
+              selectedDetailViewFilter={detailViewDownloadFilter}
+              apiFilterDefault={apiFilterDefault}
+            >
+              {selectedTable && (
+                <>
+                  {!selectedTable?.apiFilter?.disableDateRangeFilter && (
+                    <DateRangeFilter
+                      setDateRange={setDateRange}
+                      handleDateRangeChange={handleDateRangeChange}
+                      selectedTable={!!detailViewState ? detailApi : selectedTable}
+                      apiData={apiData}
+                      onUserFilter={setUserFilterSelection}
+                      setIsFiltered={setIsFiltered}
+                      currentDateButton={config.currentDateButton}
+                      datePreset={config.datePreset}
+                      customRangePreset={config.customRangePreset}
+                      setIsCustomDateRange={setIsCustomDateRange}
+                      allTablesSelected={allTablesSelected}
+                      datasetDateRange={{
+                        earliestDate: config.techSpecs.earliestDate,
+                        latestDate: config.techSpecs.latestDate,
+                      }}
+                      finalDatesNotFound={finalDatesNotFound}
+                      setResetFilters={setResetFilters}
+                      datatableBanner={config.datatableBanner}
+                      hideButtons={detailApi && !detailViewState}
+                    />
+                  )}
+                  {selectedTable?.apiFilter?.disableDateRangeFilter && <div className={increaseSpacing}></div>}
+                </>
+              )}
+              {!selectedTable && (
+                <div data-testid="dateRangePlaceholder">
+                  <h3 className={placeholderText}>Date Range</h3>
+                  <div className={placeholderButton} />
+                </div>
+              )}
+              {detailApi && !detailViewState && (
+                <div className={detailViewNotice}>
+                  <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
+                </div>
+              )}
+              {dateRange && (
+                <DataPreviewSectionContainer
+                  config={config}
+                  dateRange={dateRange}
+                  selectedTable={selectedTable}
+                  userFilterSelection={userFilterSelection}
+                  setUserFilterSelection={setUserFilterSelection}
+                  apiData={apiData}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                  apiError={apiError}
+                  selectedPivot={selectedPivot}
+                  setSelectedPivot={setSelectedPivot}
+                  serverSidePagination={serverSidePagination}
+                  selectedTab={selectedTab}
+                  tabChangeHandler={setSelectedTab}
+                  handleIgnorePivots={setIgnorePivots}
+                  allTablesSelected={allTablesSelected}
+                  handleConfigUpdate={() => setConfigUpdated(true)}
+                  tableColumnSortData={tableColumnSortData}
+                  setTableColumnSortData={setTableColumnSortData}
+                  hasPublishedReports={!!publishedReports}
+                  publishedReports={publishedReports}
+                  resetFilters={resetFilters}
+                  setResetFilters={setResetFilters}
+                  setDetailViewState={setDetailViewState}
+                  detailViewState={detailViewState}
+                  customFormatting={selectedTable?.customFormatting}
+                  summaryValues={summaryValues}
+                  setSummaryValues={setSummaryValues}
+                  allActiveFilters={allActiveFilters}
+                  setAllActiveFilters={setAllActiveFilters}
+                  width={width}
+                  apiFilterDefault={apiFilterDefault}
+                  setApiFilterDefault={setApiFilterDefault}
+                />
+              )}
+            </DataPreviewFilterSection>
+          )}
+        </div>
+      </DataTableProvider>
     </DatasetSectionContainer>
   );
 };

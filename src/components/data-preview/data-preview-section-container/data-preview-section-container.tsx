@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import GLOBALS from '../../../helpers/constants';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
@@ -10,19 +10,11 @@ import Analytics from '../../../utils/analytics/analytics';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
 import { SetNoChartMessage } from '../../dataset-data/table-section-container/set-no-chart-message';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeftLong, faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import AggregationNotice from '../../dataset-data/table-section-container/aggregation-notice/aggregation-notice';
 import SummaryTable from '../../dataset-data/table-section-container/summary-table/summary-table';
 import DataPreviewTable from '../data-preview-table/data-preview-table';
 import {
-  active,
-  barContainer,
-  barExpander,
-  detailViewBack,
-  detailViewButton,
-  detailViewIcon,
-  header,
-  headerWrapper,
   loadingIcon,
   loadingSection,
   noticeContainer,
@@ -31,8 +23,8 @@ import {
   tableSection,
   titleContainer,
 } from './data-preview-section-container.module.scss';
-import DataPreviewPivotOptions from '../data-preview-pivot-options/data-preview-pivot-options';
 import ChartTableDisplay from '../data-preview-chart-table-display/data-preview-chart-table-display';
+import { DataTableContext } from '../data-preview-context';
 
 type DataPreviewSectionProps = {
   config;
@@ -104,7 +96,8 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
-  const [tableProps, setTableProps] = useState();
+  const { tableProps, setTableProps } = useContext(DataTableContext);
+  // const [tableProps, setTableProps] = useState();
   const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
   const [legendToggledByUser, setLegendToggledByUser] = useState(false);
   const [pivotsUpdated, setPivotsUpdated] = useState(false);
