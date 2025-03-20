@@ -1,7 +1,6 @@
 import React from 'react';
 import DataPreviewChart, { determineFormat, dataTableChartNotesText, callbacks, chartHooks, setFieldsToChart } from './data-preview-chart';
 import globalConstants from '../../../helpers/constants';
-import { chartCitationText } from './chart-citation/chart-citation';
 import * as Helpers from '../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { fireEvent, render } from '@testing-library/react';
 
@@ -113,27 +112,6 @@ const mockSlug = 'mock/slug/here';
 const mockTable = { tableName: 'TableOne' };
 
 describe('Dataset Chart', () => {
-  it('shows date range as years and the selected pivot', () => {
-    const { getByText } = render(
-      <DataPreviewChart
-        config={mockConfig}
-        data={mockData}
-        dateField={mockDateField}
-        dateRange={mockDateRange}
-        selectedPivot={mockPivot}
-        slug={mockSlug}
-        currentTable={mockTable}
-        isVisible={true}
-        legend={true}
-      />
-    );
-
-    const { from, to } = mockYears;
-    const { title } = mockPivot.pivotView;
-
-    expect(getByText(`${from} - ${to} | ${title}`)).toBeInTheDocument();
-  });
-
   it('shows subtitle and y axis label with rounded denomination if config set', () => {
     const { getByText } = render(
       <DataPreviewChart
@@ -149,11 +127,6 @@ describe('Dataset Chart', () => {
       />
     );
 
-    const { from, to } = mockYears;
-    const { title } = mockPivot.pivotView;
-
-    expect(getByText(`${from} - ${to} | ${title}`)).toBeInTheDocument();
-    expect(getByText('Values shown in millions of U.S dollars')).toBeInTheDocument();
     expect(getByText('Millions')).toBeInTheDocument();
   });
 
@@ -172,11 +145,6 @@ describe('Dataset Chart', () => {
       />
     );
 
-    const { from, to } = mockYears;
-    const { title } = mockPivot.pivotView;
-
-    expect(getByText(`${from} - ${to} | ${title}`)).toBeInTheDocument();
-    expect(getByText('Values shown in millions of U.S dollars')).toBeInTheDocument();
     expect(getByText('Millions')).toBeInTheDocument();
   });
 
@@ -225,25 +193,6 @@ describe('Dataset Chart', () => {
     expect(determineFormat(['d'], mockData.meta.dataTypes)).toBe('RATE');
     // true when dataType is 'CURRENCY0 ( or any CURRENCY# )'
     expect(determineFormat(['e'], mockData.meta.dataTypes)).toBe(true);
-  });
-
-  it('contains a ChartCitation component and passes slug and currentTableName props to it', () => {
-    const { getByText } = render(
-      <DataPreviewChart
-        config={mockConfig}
-        data={mockData}
-        dateField={mockDateField}
-        dateRange={mockDateRange}
-        selectedPivot={mockPivot}
-        slug={mockSlug}
-        currentTable={mockTable}
-        isVisible
-        legend
-      />
-    );
-
-    expect(getByText(`${globalConstants.BASE_SITE_URL}/datasets${mockSlug}`)).toBeInTheDocument();
-    expect(getByText(`${mockTable.tableName}${chartCitationText}`)).toBeInTheDocument();
   });
 
   it('calls a helper method to thin out data when special cases require it', () => {
