@@ -26,11 +26,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   resetFilters,
   setResetFilters,
   hideCellLinks,
-  tableName,
   hideColumns,
-  // pagingProps,
-  // manualPagination,
-  // rowsShowing,
   columnConfig,
   detailColumnConfig,
   detailView,
@@ -42,8 +38,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   pivotSelected,
   setSummaryValues,
   customFormatting,
-  sorting,
-  setSorting,
   allActiveFilters,
   setAllActiveFilters,
   setTableSorting,
@@ -75,8 +69,8 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     table,
     setColumnVisibility,
     columnVisibility,
+    reactTableSorting: sorting,
   } = useContext(DataTableContext);
-  // const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
@@ -89,14 +83,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
       setConfigOption(detailColumnConfig);
     }
   }, [rawData]);
-
-  // const allColumns = React.useMemo(() => {
-  //   const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
-  //
-  //   const baseColumns = columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
-  //
-  //   return baseColumns;
-  // }, [rawData, configOption]);
 
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
@@ -129,34 +115,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     });
     dataTypes = tempDataTypes;
   }
-
-  // const defaultInvisibleColumns = {};
-  // const [columnVisibility, setColumnVisibility] = useState(
-  //   defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
-  // );
-
-  // const table = useReactTable({
-  //   columns: allColumns,
-  //   data: rawData.data,
-  //   columnResizeMode: 'onChange',
-  //   initialState: {
-  //     pagination: {
-  //       pageIndex: 0,
-  //       pageSize: itemsPerPage,
-  //     },
-  //   },
-  //   state: {
-  //     columnVisibility,
-  //     sorting,
-  //   },
-  //   onSortingChange: setSorting,
-  //   onColumnVisibilityChange: setColumnVisibility,
-  //   getCoreRowModel: getCoreRowModel(),
-  //   getPaginationRowModel: getPaginationRowModel(),
-  //   getSortedRowModel: getSortedRowModel(),
-  //   getFilteredRowModel: getFilteredRowModel(),
-  //   manualPagination: manualPagination,
-  // }) as Table<Record<string, unknown>>;
 
   const constructDefaultColumnsFromTableData = () => {
     const constructedDefaultColumns = [];

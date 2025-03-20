@@ -162,7 +162,6 @@ const DataTableProvider = ({ children, config, detailViewState, pivotSelected })
         columnVisibility,
         setColumnVisibility,
         table,
-        // defaultSelectedColumns,
       }}
     >
       {children}
