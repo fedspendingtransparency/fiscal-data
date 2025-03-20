@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
-import { sectionBreak, code, marginBottom } from '../../../pages/api-documentation/api.module.scss';
-import { apiEndpointFirstParagraph, pills, codeTitle, pill, pillSpacing, paragraphList } from './getting-started.module.scss';
+import { code, marginBottom } from '../../../pages/api-documentation/api.module.scss';
+import { apiEndpointFirstParagraph, codeTitle, paragraphList, pill, pills, pillSpacing } from './getting-started.module.scss';
 import { Link } from 'gatsby';
 import GLOBALS from '../../../helpers/constants';
 import CustomLink from '../../links/custom-link/custom-link';
@@ -19,7 +19,7 @@ const GettingStarted = () => {
   const mtsT1UrlFieldParam = '?fields=record_date,parent_id,classification_id,classification_desc,current_month_gross_rcpt_amt';
 
   return (
-    <div className={sectionBreak}>
+    <>
       <SectionContent id="getting-started" headingLevel={2} title="Getting Started">
         <p>
           The U.S. Department of the Treasury is building a suite of open-source tools to deliver standardized information about federal finances to
@@ -236,7 +236,7 @@ const GettingStarted = () => {
           navigate to the API Quick Guide > Endpoint section.
         </p>
       </SectionContent>
-    </div>
+    </>
   );
 };
 
