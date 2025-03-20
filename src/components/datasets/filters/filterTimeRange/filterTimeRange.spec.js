@@ -1,9 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import FilterTimeRange, { spanTimeRangeAnalyticsObject } from './filterTimeRange';
-import InfoTip from '../../../info-tip/info-tip';
 import Checkbox from '../../../checkbox/checkbox';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import { dateRange } from '../test-helpers';
 import { siteContext } from '../../../persist/persist';
 import Analytics from '../../../../utils/analytics/analytics';
@@ -11,8 +9,6 @@ import { fireEvent, render, within } from '@testing-library/react';
 
 jest.useFakeTimers();
 describe('Time Range Filter', () => {
-  // let component = renderer.create();
-  // let instance;
   let dateRangeSpy = null;
   let datePickers;
   const setBeginDateSpy = jest.fn();
@@ -21,33 +17,6 @@ describe('Time Range Filter', () => {
   const analyticsSpy = jest.spyOn(Analytics, 'event');
   window.dataLayer = window.dataLayer || [];
   const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
-
-  // beforeEach(() => {
-  //   // renderer.act(() => {
-  //   // component = renderer.create(
-  //   <siteContext.Provider
-  //     value={{
-  //       beginDate: contextBeginDate,
-  //       setBeginDate: setBeginDateSpy,
-  //       endDate: contextEndDate,
-  //       setEndDate: setEndDateSpy,
-  //       exactRange: false,
-  //       setExactRange: setExactRangeSpy,
-  //     }}
-  //   >
-  //     <FilterTimeRange dateRangeFilter={dateRangeFn} />
-  //   </siteContext.Provider>;
-  //   // );
-  //   // });
-  //   // instance = component.root;
-  //   // dateRangeSpy = jest.spyOn(instance.props, 'dateRangeFilter');
-  //   // datePickers = instance.findAllByType(KeyboardDatePicker);
-  // });
-
-  // afterEach(() => {
-  //   dateRangeSpy.mockClear();
-  //   analyticsSpy.mockClear();
-  // });
 
   it('renders element', () => {
     const { getByTestId } = render(<FilterTimeRange />);
@@ -155,24 +124,6 @@ describe('Time Range Filter', () => {
 
     expect(dateRangeSpy).toHaveBeenCalled();
   });
-
-  // it('swaps the dates if the start/end dates are entered backwards', () => {
-  //   renderer.act(() => {
-  //     datePickers[0].props.onChange(dateRange.endDate);
-  //     datePickers[1].props.onChange(dateRange.startDate);
-  //   });
-  //   jest.runAllTimers();
-  //
-  //   expect(dateRangeSpy).toHaveBeenCalledWith(
-  //     {
-  //       startDate: dateRange.startDate,
-  //       endDate: dateRange.endDate,
-  //       exactRange: false,
-  //       active: true,
-  //     },
-  //     undefined
-  //   );
-  // });
 
   it('swaps the dates if the start/end dates are entered backwards', () => {
     const dateRangeFn = jest.fn();
