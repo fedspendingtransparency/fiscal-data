@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect } from 'react';
 import { IDataTableProps } from '../../../models/IDataTableProps';
 import { useSetRecoilState } from 'recoil';
 import {
@@ -8,7 +8,6 @@ import {
   tableRowLengthState,
 } from '../../../recoil/smallTableDownloadData';
 import { constructDateHeader, getSortedColumnsData } from '../../data-table/data-table-helper';
-import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 import { json2xml } from 'xml-js';
 import { overlayContainerNoFooter, rawDataTableContainer } from './data-preview-data-table.module.scss';
 import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
@@ -30,7 +29,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   tableName,
   hideColumns,
   // pagingProps,
-  manualPagination,
+  // manualPagination,
   // rowsShowing,
   columnConfig,
   detailColumnConfig,
@@ -72,6 +71,10 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     setItemsPerPage,
     rowsShowing,
     setRowsShowing,
+    manualPagination,
+    table,
+    setColumnVisibility,
+    columnVisibility,
   } = useContext(DataTableContext);
   // const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
@@ -127,48 +130,33 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     dataTypes = tempDataTypes;
   }
 
-  const defaultInvisibleColumns = {};
-  const [columnVisibility, setColumnVisibility] = useState(
-    defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
-  );
+  // const defaultInvisibleColumns = {};
+  // const [columnVisibility, setColumnVisibility] = useState(
+  //   defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
+  // );
 
-  console.log(pagingProps);
-
-  const table = useReactTable({
-    columns: allColumns,
-    data: rawData.data,
-    columnResizeMode: 'onChange',
-    initialState: {
-      pagination: {
-        pageIndex: 0,
-        pageSize: itemsPerPage,
-      },
-    },
-    state: {
-      columnVisibility,
-      sorting,
-    },
-    onSortingChange: setSorting,
-    onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    manualPagination: manualPagination,
-  }) as Table<Record<string, unknown>>;
-
-  // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
-  if (defaultSelectedColumns) {
-    for (const column of allColumns) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      if (defaultSelectedColumns && !defaultSelectedColumns?.includes(column.accessorKey)) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        defaultInvisibleColumns[column.accessorKey] = false;
-      }
-    }
-  }
+  // const table = useReactTable({
+  //   columns: allColumns,
+  //   data: rawData.data,
+  //   columnResizeMode: 'onChange',
+  //   initialState: {
+  //     pagination: {
+  //       pageIndex: 0,
+  //       pageSize: itemsPerPage,
+  //     },
+  //   },
+  //   state: {
+  //     columnVisibility,
+  //     sorting,
+  //   },
+  //   onSortingChange: setSorting,
+  //   onColumnVisibilityChange: setColumnVisibility,
+  //   getCoreRowModel: getCoreRowModel(),
+  //   getPaginationRowModel: getPaginationRowModel(),
+  //   getSortedRowModel: getSortedRowModel(),
+  //   getFilteredRowModel: getFilteredRowModel(),
+  //   manualPagination: manualPagination,
+  // }) as Table<Record<string, unknown>>;
 
   const constructDefaultColumnsFromTableData = () => {
     const constructedDefaultColumns = [];
@@ -188,12 +176,13 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   };
 
   useEffect(() => {
+    console.log(defaultSelectedColumns);
     if (defaultSelectedColumns && !pivotSelected) {
       constructDefaultColumnsFromTableData();
     }
-    if (detailViewState) {
-      setColumnVisibility(defaultInvisibleColumns);
-    }
+    // if (detailViewState) {
+    //   setColumnVisibility(defaultInvisibleColumns);
+    // }
   }, [configOption]);
 
   useEffect(() => {

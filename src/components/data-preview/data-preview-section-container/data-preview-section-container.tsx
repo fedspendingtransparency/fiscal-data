@@ -96,7 +96,9 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
-  const { tableProps, setTableProps, perPage, setPerPage } = useContext(DataTableContext);
+  const { tableProps, setTableProps, perPage, setPerPage, manualPagination, setManualPagination, reactTableSorting, setReactTableSort } = useContext(
+    DataTableContext
+  );
   const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
   const [legendToggledByUser, setLegendToggledByUser] = useState(false);
   const [pivotsUpdated, setPivotsUpdated] = useState(false);
@@ -105,9 +107,9 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
-  const [reactTableSorting, setReactTableSort] = useState([]);
+  // const [reactTableSorting, setReactTableSort] = useState([]);
   const [tableMeta, setTableMeta] = useState(null);
-  const [manualPagination, setManualPagination] = useState(false);
+  // const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
 
