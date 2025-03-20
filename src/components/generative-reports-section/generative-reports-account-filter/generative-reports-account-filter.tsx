@@ -28,7 +28,7 @@ const GenerativeReportsAccountFilter: FunctionComponent<IAccountFilter> = ({ api
 
   useEffect(() => {
     const options: IAccountOptions[] = [{ default: true, children: [defaultSelection] }];
-    const optionSet = apiData.map(api => api.apiFilter?.fieldFilter?.value).flat();
+    const optionSet = apiData?.map(api => api.apiFilter?.fieldFilter?.value)?.flat() || [];
     const filterOptions = [...new Set(optionSet)];
     const flattenApi = filter => {
       const values = filter
