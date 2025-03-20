@@ -2,7 +2,20 @@ import React, { useEffect, useState, useRef } from 'react';
 import drawChart from '../../charts/chart-primary';
 import ChartLegend from '../../charts/chart-legend/chartLegend';
 import { thinDataAsNeededForChart } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
-import { chartArea, legendActive, chartPane, chartLegendWrapper, viz as vizClass, legend as legendClass } from './data-preview-chart.module.scss';
+import {
+  info,
+  icon,
+  chartArea,
+  legendActive,
+  chartPane,
+  chartLegendWrapper,
+  viz as vizClass,
+  legend as legendClass,
+  yAxisLabel,
+  labelContainer,
+} from './data-preview-chart.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 export let chartHooks;
 export const callbacks = {
@@ -27,8 +40,6 @@ export const callbacks = {
     setChartFields(chartFields.slice());
   },
 };
-
-const getYear = date => date.getUTCFullYear();
 
 export const setFieldsToChart = (fields, pivot) => {
   const whiteList = ['currency', 'number', 'percentage'];
@@ -60,7 +71,9 @@ export const dataTableChartNotesText =
 
 const DataPreviewChart = ({ data, slug, currentTable, isVisible, legend, selectedPivot, dateField, dateRange, chartCitation }) => {
   const [chartFields, setChartFields] = useState([]);
+  const [chartNotes, setChartNotes] = useState(null);
   const [hasUpdate, setHasUpdate] = useState(true);
+  const [capitalized, setCapitalized] = useState('');
   const [axisHasBillions, setAxisHasBillions] = useState(false);
 
   const viz = useRef();
@@ -83,6 +96,22 @@ const DataPreviewChart = ({ data, slug, currentTable, isVisible, legend, selecte
     chartHooks = undefined;
   }, [data]);
 
+  useEffect(() => {
+    // There might be more chart notes in the future;
+    // but, for now we only have notes for Debt to the Penny.
+    // TODO: remove hard-coded dataset names
+    if (slug && (slug.indexOf('debt-to-the-penny') !== -1 || slug.indexOf('qtcb-historical-interest-rates') !== -1) && !currentTable.isLargeDataset) {
+      const note = (
+        <div className={info}>
+          <FontAwesomeIcon className={icon} icon={faInfoCircle} />
+          {dataTableChartNotesText}
+        </div>
+      );
+      setChartNotes(note);
+    } else {
+      setChartNotes(null);
+    }
+  }, []);
   const getVisibleChartFields = arr => arr.filter(f => f.active).map(ff => ff.field);
   const getActiveChartFields = arr => arr.filter(f => f.active);
   const activeChartFields = getActiveChartFields(chartFields);
@@ -146,11 +175,25 @@ const DataPreviewChart = ({ data, slug, currentTable, isVisible, legend, selecte
     callbacks.onLabelChange(update, chartFields, setChartFields);
   };
 
+  useEffect(() => {
+    if (selectedPivot && selectedPivot.pivotView?.roundingDenomination) {
+      setCapitalized(selectedPivot.pivotView?.roundingDenomination.charAt(0).toUpperCase() + selectedPivot.pivotView.roundingDenomination.slice(1));
+    }
+  }, [selectedPivot]);
+
   return (
     <div className={`${chartArea} ${legend ? legendActive : ''}`}>
       <div className={chartPane}>
         <div className={chartLegendWrapper}>
           <div className={vizClass}>
+            {chartNotes}
+            {selectedPivot && selectedPivot.pivotView?.roundingDenomination && (
+              <div className={labelContainer}>
+                <div style={{ left: axisHasBillions && '-3rem' }} className={yAxisLabel}>
+                  {capitalized}
+                </div>
+              </div>
+            )}
             <div id="viz" ref={viz} />
           </div>
           <div className={legendClass}>
