@@ -1,4 +1,4 @@
-import { fireEvent, render, within } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { act } from 'react-test-renderer';
 import React from 'react';
 import SearchBar from './search-bar';

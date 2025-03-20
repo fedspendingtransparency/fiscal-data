@@ -1,6 +1,7 @@
 import CustomLink from '../links/custom-link/custom-link';
 import React from 'react';
-import { updateList, header, suggestions, columnFlex, altBannerHeader } from './banner-callout.module.scss';
+import { header, suggestions, updateList } from './banner-callout.module.scss';
+
 export const calloutConfig = {
   XRCallout: {
     copy: (

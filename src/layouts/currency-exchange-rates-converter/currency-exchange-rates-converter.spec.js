@@ -1,7 +1,6 @@
-import { render, cleanup, waitFor, within } from '@testing-library/react';
+import { cleanup, render, waitFor, within } from '@testing-library/react';
 import React from 'react';
 import CurrencyExchangeRatesConverter from './index';
-import { labelIcon } from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import { fireEvent } from '@testing-library/dom';
 import Analytics from '../../utils/analytics/analytics';
 import { XRMockData } from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-test-helper';

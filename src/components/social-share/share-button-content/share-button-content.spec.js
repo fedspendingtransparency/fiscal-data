@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import ShareButtonContent from './share-button-content';
-import { breakpointLg, breakpointSm } from '../../../../../variables.module.scss';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 

@@ -87,7 +87,7 @@ module.exports = {
     'react/jsx-uses-react': [1],
     'react/jsx-uses-vars': [1],
     'no-unused-vars': [0], // or "@typescript-eslint/no-unused-vars": "off",
-    'unused-imports/no-unused-imports': [2],
+    'unused-imports/no-unused-imports': [1],
     'unused-imports/no-unused-vars': [
       1,
       {

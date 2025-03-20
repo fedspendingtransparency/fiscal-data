@@ -1,11 +1,11 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
 import React from 'react';
 import moment from 'moment';
-import { currencyFormatter, numberFormatter, customNumberFormatter } from '../../helpers/text-format/text-format';
+import { currencyFormatter, customNumberFormatter, numberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
 import CustomLink from '../links/custom-link/custom-link';
-import { updateTableButton, downloadLinkContainer, downloadLinkIcon } from './data-table.module.scss';
+import { downloadLinkContainer, downloadLinkIcon } from './data-table.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 

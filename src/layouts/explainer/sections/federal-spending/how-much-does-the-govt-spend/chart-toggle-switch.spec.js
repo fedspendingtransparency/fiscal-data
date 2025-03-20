@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import React, { useState } from 'react';
+import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import { ToggleSwitch } from './chart-toggle-switch';
 
