@@ -25,7 +25,7 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   const startDateButton = (
     <DropdownLabelButton
       label="Start Date"
-      selectedOption={selectedStartDate ? formatReportDate(selectedStartDate, true, true) : undefined}
+      selectedOption={formatReportDate(selectedStartDate, true, true)}
       icon={faCalendar}
       setActive={setStartDateActive}
       active={startDateActive}
@@ -37,7 +37,7 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   const endDateButton = (
     <DropdownLabelButton
       label="End Date"
-      selectedOption={selectedStartDate ? formatReportDate(selectedEndDate, true, true) : undefined}
+      selectedOption={formatReportDate(selectedEndDate, true, true)}
       icon={faCalendar}
       setActive={setEndDateActive}
       active={endDateActive}
@@ -48,28 +48,32 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
 
   return (
     <div className={customDatesContainer}>
-      <DropdownContainer setActive={setStartDateActive} active={startDateActive} dropdownButton={startDateButton}>
-        <ReportDayPicker
-          handleClose={handleStartDateClose}
-          selectedDate={selectedStartDate}
-          setSelectedDate={setSelectedStartDate}
-          latestReportDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
-          earliestReportDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
-          active={startDateActive}
-          label="Enter Start Date"
-        />
-      </DropdownContainer>
-      <DropdownContainer setActive={setEndDateActive} active={endDateActive} dropdownButton={endDateButton}>
-        <ReportDayPicker
-          handleClose={handleEndDateClose}
-          selectedDate={selectedEndDate}
-          setSelectedDate={setSelectedEndDate}
-          latestReportDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
-          earliestReportDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
-          active={endDateActive}
-          label="Enter End Date"
-        />
-      </DropdownContainer>
+      {pickerDateRange && selectedStartDate && selectedEndDate && (
+        <>
+          <DropdownContainer setActive={setStartDateActive} active={startDateActive} dropdownButton={startDateButton}>
+            <ReportDayPicker
+              handleClose={handleStartDateClose}
+              selectedDate={selectedStartDate}
+              setSelectedDate={setSelectedStartDate}
+              latestReportDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
+              earliestReportDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
+              active={startDateActive}
+              label="Enter Start Date"
+            />
+          </DropdownContainer>
+          <DropdownContainer setActive={setEndDateActive} active={endDateActive} dropdownButton={endDateButton}>
+            <ReportDayPicker
+              handleClose={handleEndDateClose}
+              selectedDate={selectedEndDate}
+              setSelectedDate={setSelectedEndDate}
+              latestReportDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
+              earliestReportDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
+              active={endDateActive}
+              label="Enter End Date"
+            />
+          </DropdownContainer>
+        </>
+      )}
     </div>
   );
 };
