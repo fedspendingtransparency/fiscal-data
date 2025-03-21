@@ -5,31 +5,30 @@ import DtgTable from '../../dtg-table/dtg-table';
 import PivotToggle from './pivot-toggle/pivot-toggle';
 import { active } from './table-section-container.module.scss';
 import {
+  mockApiData,
+  mockApiDataUserFilterable,
   mockConfig,
   mockDateRange,
-  mockTableWithPivot,
-  mockApiData,
-  mockTableWithNoChartAvailable,
-  selectedTableLessFields,
-  selectedPivot,
-  pivotFields,
-  selectedPivotWithAggregation,
-  mockTableWithUserFilterAvailable,
-  mockApiDataUserFilterable,
-  selectedPivotWithRoundingDenomination,
-  mockTableWithApiFilterAvailable,
   mockDetailConfig,
+  mockTableWithApiFilterAvailable,
   mockTableWithApiFilterAvailableDisplayDefaultData,
+  mockTableWithNoChartAvailable,
+  mockTableWithPivot,
+  mockTableWithUserFilterAvailable,
+  pivotFields,
+  selectedPivot,
+  selectedPivotWithAggregation,
+  selectedPivotWithRoundingDenomination,
+  selectedTableLessFields,
 } from './testHelpers';
 import * as setNoChartMessageMod from './set-no-chart-message';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
 import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import NotShownMessage from './not-shown-message/not-shown-message';
 import { RecoilRoot } from 'recoil';
-import { formatDate } from './table-section-container';
 
 describe('TableSectionContainer initial state', () => {
   let component, instance;

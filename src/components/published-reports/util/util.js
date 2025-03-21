@@ -3,7 +3,6 @@ import xls from '../../../../static/images/file-type-icons/file_type_xls_icon.sv
 import txt from '../../../../static/images/file-type-icons/file_type_txt_icon.svg';
 import xml from '../../../../static/images/file-type-icons/file_type_xml_icon.svg';
 import { monthFullNames } from '../../../utils/api-utils';
-import { IReports } from '../reports-section/reports-section';
 
 export const getYearReportOptions = reports => {
   const yearsFound = [];

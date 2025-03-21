@@ -1,25 +1,24 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import SavingsBondsSoldByTypeChart, { ISavingBondsByTypeChartData } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
+import React, {FunctionComponent, useEffect, useState} from 'react';
+import SavingsBondsSoldByTypeChart, {
+  ISavingBondsByTypeChartData
+} from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
-import { visWithCallout } from '../../../explainer.module.scss';
-import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
-import { subsectionHeader } from './what-influences-purchase-of-savings-bonds.module.scss';
+import {visWithCallout} from '../../../explainer.module.scss';
+import {treasurySavingsBondsExplainerSecondary} from '../treasury-savings-bonds.module.scss';
+import {subsectionHeader} from './what-influences-purchase-of-savings-bonds.module.scss';
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poster.png';
 import PresidentKennedy from '../../../../../../static/images/savings-bonds/President-Kennedy-Holding-Bond.png';
-import { basicFetch, apiPrefix } from '../../../../../utils/api-utils';
-import { getShortForm } from '../../../../../utils/rounding-utils';
+import {apiPrefix, basicFetch} from '../../../../../utils/api-utils';
+import {getShortForm} from '../../../../../utils/rounding-utils';
 import IBondSalesChart from './i-bond-sales-chart/i-bond-sales-chart';
-import { graphql, useStaticQuery } from 'gatsby';
-import { fyEndpoint, sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
-import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
+import {graphql, useStaticQuery} from 'gatsby';
+import {fyEndpoint, sortByType} from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import {getDateWithoutTimeZoneAdjust} from '../../../../../utils/date-utils';
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
-import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
-import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';
-import { useRecoilValueLoadable } from 'recoil';
-import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
-import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
-import { ICpiDataMap } from '../../../../../models/ICpiDataMap';
+import {getSaleBondsFootNotes} from '../learn-more/learn-more-helper';
+import {adjustDataForInflation} from '../../../../../helpers/inflation-adjust/inflation-adjust';
+import {ICpiDataMap} from '../../../../../models/ICpiDataMap';
 
 interface BondSaleEntry {
   year: string;

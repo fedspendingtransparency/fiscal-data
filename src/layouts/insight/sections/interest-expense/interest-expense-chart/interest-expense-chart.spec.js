@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { InterestExpenseChart } from './interest-expense-chart';
 import { CustomTooltip } from './interest-expense-chart-helper';
 import userEvent from '@testing-library/user-event';

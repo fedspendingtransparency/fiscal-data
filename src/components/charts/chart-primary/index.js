@@ -345,7 +345,6 @@ export default initChart;
 
 // Mouseover functions
 let hoverFunction, chartId, markers;
-
 const placeMarker = initial => {
   clearMarkers();
 

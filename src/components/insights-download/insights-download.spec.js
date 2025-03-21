@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import InsightsDownload from './insights-download';
-import { fireEvent } from '@testing-library/dom';
 
 describe('Insights Download', () => {
   it('renders the downloader and text', () => {
