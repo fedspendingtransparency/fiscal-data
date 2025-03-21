@@ -1,9 +1,10 @@
 import {
-  applyCancelContainer,
+  bottomContainer,
   button,
   checkIcon,
   mainContainer,
   navContainer,
+  topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 import React from 'react';
 import { Link } from 'gatsby';
@@ -31,11 +32,11 @@ const DataPreviewMobileDialog = () => {
               Data Preview
             </h3>
             {/*below elements need to be left-aligned*/}
-            <div>
+            <div className={topContainer}>
               <h3>Filters</h3>
               <p>Search filters</p>
               <div>
-                <SearchBar onChange={onSearchBarChange} filter={'test'} />
+                <SearchBar label={'Search filters'} onChange={onSearchBarChange} filter={'test'} />
               </div>
             </div>
             {/*below div is for filter options*/}
@@ -44,7 +45,7 @@ const DataPreviewMobileDialog = () => {
               <h3>Filter #2 test</h3>
             </div>
             {/*below div is for apply/cancel block - add box shadow above*/}
-            <div className={applyCancelContainer}>
+            <div className={bottomContainer}>
               <Link to="/api-documentation/" className={button} data-testid={'button-link'}>
                 <FontAwesomeIcon icon={faCheck} className={checkIcon} />
                 Apply

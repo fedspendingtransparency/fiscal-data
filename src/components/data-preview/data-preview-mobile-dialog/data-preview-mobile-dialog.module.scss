@@ -59,7 +59,7 @@
   display: block;
 }
 
-.applyCancelContainer {
+.bottomContainer {
   text-align: center;
   position: fixed;
   bottom: 0;
@@ -68,6 +68,10 @@
   .checkIcon {
     padding-right: 0.5rem;
   }
+}
+
+.topContainer {
+  padding: 0 1rem;
 }
 
 @media screen and (min-width: $breakpoint-lg) {
