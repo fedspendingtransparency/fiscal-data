@@ -26,23 +26,20 @@ interface iColumnFilter {
 const ColumnFilter: FunctionComponent<iColumnFilter> = ({
   allTablesSelected,
   isDisabled,
-  // fields,
   resetToDefault,
-  setSelectColumnPanel,
+  // setSelectColumnPanel,
   // defaultSelectedColumns,
   // table,
-  dataTableRef,
-  selectColumnPanel,
 }) => {
-  const { defaultColumns, additionalColumns, table, allColumns: fields, defaultSelectedColumns } = useContext(DataTableContext);
+  const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
   const [visibleColumns, setVisibleColumns] = useState([]);
   const [active, setActive] = useState(false);
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
-
+  console.log('display default', displayDefault);
   const filterDropdownButton = (
     <DropdownLabelButton
       label="Columns"
-      selectedOption={table.getVisibleFlatColumns().length + '/' + fields?.length}
+      selectedOption={!!table ? table.getVisibleFlatColumns().length + '/' + fields?.length : ''}
       icon={faTable}
       active={active}
       setActive={setActive}
@@ -80,29 +77,30 @@ const ColumnFilter: FunctionComponent<iColumnFilter> = ({
     <>
       <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
         {active && (
-          <DataTableSelectAll
-            table={table}
-            resetToDefault={resetToDefault}
-            defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns}
-          />
-        )}
-        <div className={buttonContainer}>
-          {displayDefault ? (
-            <div>
-              <div className={sectionContainer}>
-                <span className={sectionHeading}>DEFAULTS</span>
-                {CheckBoxList(defaultColumns)}
-              </div>
-              <div className={sectionContainer}>
-                <span className={classnames([sectionHeading, additionalSection])}>ADDITIONAL</span>
-                {CheckBoxList(additionalColumns)}
-              </div>
+          <>
+            <DataTableSelectAll
+              table={table}
+              resetToDefault={resetToDefault}
+              defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns}
+            />
+            <div className={buttonContainer}>
+              {displayDefault ? (
+                <div>
+                  <div className={sectionContainer}>
+                    <span className={sectionHeading}>DEFAULTS</span>
+                    {CheckBoxList(defaultColumns)}
+                  </div>
+                  <div className={sectionContainer}>
+                    <span className={classnames([sectionHeading, additionalSection])}>ADDITIONAL</span>
+                    {CheckBoxList(additionalColumns)}
+                  </div>
+                </div>
+              ) : (
+                <div className={sectionContainer}>{CheckBoxList(table.getAllLeafColumns())}</div>
+              )}
             </div>
-          ) : (
-            <></>
-            // <div className={sectionContainer}>{CheckBoxList(table.getAllLeafColumns())}</div>
-          )}
-        </div>
+          </>
+        )}
       </DropdownContainer>
     </>
   );

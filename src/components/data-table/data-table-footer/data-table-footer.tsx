@@ -1,8 +1,9 @@
 import { rowsShowing, tableFooter, tableFooterChart } from '../../dtg-table/dtg-table.module.scss';
 import PaginationControls from '../../pagination/pagination-controls';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useContext, useEffect } from 'react';
 import { Table } from '@tanstack/react-table';
 import { range } from '../data-table.module.scss';
+import { DataTableContext } from '../../data-preview/data-preview-context';
 
 interface IDataTableFooter {
   table: Table<Record<string, unknown>>;
@@ -17,14 +18,23 @@ interface IDataTableFooter {
 const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
   table,
   showPaginationControls,
-  pagingProps,
+  // pagingProps,
   manualPagination,
   rowsShowing: rowRange,
   setTableDownload,
   chartTable,
 }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
-
+  const { pagingProps: idk, itemsPerPage, maxPage, currentPage, maxRows } = useContext(DataTableContext);
+  const pagingProps = {
+    itemsPerPage,
+    handlePerPageChange: idk?.handlePerPageChange,
+    handleJump: idk?.handleJump,
+    maxPage,
+    tableName: idk?.tableName,
+    currentPage,
+    maxRows,
+  };
   const visibleRows = table => {
     let minRow;
     let maxRow;
@@ -33,7 +43,8 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
       minRow = rowRange.begin;
       maxRow = rowRange.end;
       totalRows = pagingProps.maxRows;
-    } else {
+    } else if (table) {
+      console.log('table', table.getState());
       const rowsVisible = table?.getRowModel().flatRows.length;
       const pageSize = table.getState().pagination.pageSize;
       const pageIndex = table.getState().pagination.pageIndex;

@@ -14,6 +14,7 @@ import DataTableFooter from '../../data-table/data-table-footer/data-table-foote
 import DataPreviewDataTableBody from './data-preview-data-table-body/data-preview-data-table-body';
 import DataPreviewDataTableHeader from './data-preview-data-table-header/data-preview-data-table-header';
 import { DataTableContext } from '../data-preview-context';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 
 const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   rawData,
@@ -66,10 +67,13 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     rowsShowing,
     setRowsShowing,
     manualPagination,
-    table,
+    // table,
     setColumnVisibility,
     columnVisibility,
     reactTableSorting: sorting,
+    setReactTableSort,
+    tableState,
+    setTableState,
   } = useContext(DataTableContext);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
@@ -132,6 +136,34 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     setDefaultColumns(constructedDefaultColumns);
     setAdditionalColumns(constructedAdditionalColumns);
   };
+
+  const table = useReactTable({
+    columns: allColumns,
+    data: rawData?.data,
+    columnResizeMode: 'onChange',
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: itemsPerPage,
+      },
+    },
+    state: {
+      columnVisibility,
+      sorting,
+    },
+    onSortingChange: setReactTableSort,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    manualPagination: manualPagination,
+  });
+
+  useEffect(() => {
+    console.log('table update', table);
+    setTableState(table);
+  }, [table]);
 
   useEffect(() => {
     console.log(defaultSelectedColumns);

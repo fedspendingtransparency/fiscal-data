@@ -1,7 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { columnsConstructorData } from '../data-table/data-table-helper';
 import GLOBALS from '../../helpers/constants';
-import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 
 const DEFAULT_ROWS_PER_PAGE = GLOBALS.dataTable.DEFAULT_ROWS_PER_PAGE;
 
@@ -21,6 +20,8 @@ const DataTableProvider = ({ children, config, detailViewState, pivotSelected })
   const [currentPage, setCurrentPage] = useState(1);
   const [manualPagination, setManualPagination] = useState(false);
   const [reactTableSorting, setReactTableSort] = useState([]);
+  const [tableState, setTableState] = useState();
+  const [defaultSelectedColumns, setDefaultSelectedColumns] = useState();
 
   //dependent on table props
   const [itemsPerPage, setItemsPerPage] = useState();
@@ -70,9 +71,7 @@ const DataTableProvider = ({ children, config, detailViewState, pivotSelected })
 
   useEffect(() => {
     setConfigOption(tableProps?.columnConfig);
-    console.log(tableProps);
     if (tableProps?.data) {
-      console.log('setting props', tableProps.data, perPage, tableProps.shouldPage);
       setData(tableProps.data);
     }
     if (tableProps) {
@@ -85,15 +84,15 @@ const DataTableProvider = ({ children, config, detailViewState, pivotSelected })
           ? tableProps?.data?.length
           : DEFAULT_ROWS_PER_PAGE
       );
-      const defaultSelectedColumns =
-        config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : tableProps.selectColumns;
+      const defaultSelection = config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : tableProps.selectColumns;
+      setDefaultSelectedColumns(defaultSelection);
       const defaultInvisibleColumns = {};
       // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
-      if (defaultSelectedColumns && allColumns) {
+      if (defaultSelection && allColumns) {
         for (const column of allColumns) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          if (defaultSelectedColumns && !defaultSelectedColumns?.includes(column.accessorKey)) {
+          if (defaultSelection && !defaultSelection?.includes(column.accessorKey)) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             defaultInvisibleColumns[column.accessorKey] = false;
@@ -105,28 +104,6 @@ const DataTableProvider = ({ children, config, detailViewState, pivotSelected })
     }
   }, [tableProps]);
 
-  const table = useReactTable({
-    columns: allColumns,
-    data: reactTableData?.data,
-    columnResizeMode: 'onChange',
-    initialState: {
-      pagination: {
-        pageIndex: 0,
-        pageSize: pagingProps.itemsPerPage,
-      },
-    },
-    state: {
-      columnVisibility,
-      sorting: reactTableSorting,
-    },
-    onSortingChange: setReactTableSort,
-    onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    manualPagination: manualPagination,
-  });
   return (
     <DataTableContext.Provider
       value={{
@@ -161,7 +138,9 @@ const DataTableProvider = ({ children, config, detailViewState, pivotSelected })
         setReactTableSort,
         columnVisibility,
         setColumnVisibility,
-        table,
+        tableState,
+        setTableState,
+        defaultSelectedColumns,
       }}
     >
       {children}
