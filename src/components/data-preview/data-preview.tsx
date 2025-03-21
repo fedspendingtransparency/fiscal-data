@@ -396,7 +396,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
                     selectedPivot={selectedPivot}
                     dateField={dateFieldForChart}
                   />
-                  {console.log('datefield', selectedTable?.dateField)}
                 </>
               ))}
           </DataPreviewFilterSection>
