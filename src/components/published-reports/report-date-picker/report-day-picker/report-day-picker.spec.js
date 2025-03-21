@@ -1,4 +1,4 @@
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import React from 'react';
 import ReportDayPicker from './report-day-picker';
 import userEvent from '@testing-library/user-event';

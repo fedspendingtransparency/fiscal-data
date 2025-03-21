@@ -47,7 +47,7 @@ module.exports = {
       },
     },
   ],
-  plugins: ['jsx-a11y'],
+  plugins: ['jsx-a11y', 'react', 'unused-imports'],
   rules: {
     'import/extensions': [
       2,
@@ -84,5 +84,18 @@ module.exports = {
     'react-hooks/exhaustive-deps': [0],
     // "jsx-quotes": [1, 'prefer-double'],
     'prefer-const': [1],
+    'react/jsx-uses-react': [1],
+    'react/jsx-uses-vars': [1],
+    'no-unused-vars': [0], // or "@typescript-eslint/no-unused-vars": "off",
+    'unused-imports/no-unused-imports': [1],
+    'unused-imports/no-unused-vars': [
+      1,
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
   },
 };

@@ -1,13 +1,12 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import { downloadsContext } from '../../../persist/download-persist/downloads-persist';
-import { useRecoilValue } from 'recoil';
-import { dateForFilename, fileFromPath } from './download-wrapper-helper';
+import React, {FunctionComponent, useContext, useState} from 'react';
+import {downloadsContext} from '../../../persist/download-persist/downloads-persist';
+import {useRecoilValue} from 'recoil';
+import {dateForFilename, fileFromPath} from './download-wrapper-helper';
 import DataPreviewDownloadSelect from './data-preview-download-select/data-preview-download-select';
-import { dataTableDapGaEventLabelState } from '../../../../recoil/dataTableDapGaEventLabelState';
-import { IDataset } from '../../../../models/IDataset';
-import { IDatasetApi } from '../../../../models/IDatasetApi';
-import { IPivotOption } from '../../../../models/data-preview/IPivotOption';
-import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
+import {IDataset} from '../../../../models/IDataset';
+import {IDatasetApi} from '../../../../models/IDatasetApi';
+import {IPivotOption} from '../../../../models/data-preview/IPivotOption';
+import {reactTableFilteredDateRangeState} from '../../../../recoil/reactTableFilteredState';
 
 type DownloadProps = {
   selectedTable: IDatasetApi;

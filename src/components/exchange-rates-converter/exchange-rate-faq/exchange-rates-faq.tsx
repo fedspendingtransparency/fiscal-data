@@ -1,21 +1,19 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
-  footer,
-  title,
   container,
-  exchangeRateFAQ,
   containerClass,
-  headTitle,
+  exchangeRateFAQ,
   externalIcon,
-  relatedResource,
+  footer,
+  headTitle,
   linkText,
+  relatedResource,
+  title,
 } from './exchange-rate-faq.module.scss';
 import Accordion from '../../accordion/accordion';
 import CustomLink from '../../links/custom-link/custom-link';
 import { analyticsHandler, dateStringConverter } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import { graphql, useStaticQuery } from 'gatsby';
-import Analytics from '../../../utils/analytics/analytics';
-import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import SearchField, { lastUpdatedInfoTipAnalyticsObject, searchFieldAnalyticsObject } from './search-field';
+import SearchField, { searchFieldAnalyticsObject } from './search-field';
 import InfoTip from '../../info-tip/info-tip';
 import Analytics from '../../../utils/analytics/analytics';
 import { siteContext } from '../../persist/persist';

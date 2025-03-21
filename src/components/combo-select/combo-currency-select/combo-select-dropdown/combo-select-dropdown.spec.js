@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, within } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import ComboSelectDropdown from './combo-select-dropdown';
 import { mockOptions, mockOptionsWithChildren } from '../../combo-select-test-helper';
 import userEvent from '@testing-library/user-event';

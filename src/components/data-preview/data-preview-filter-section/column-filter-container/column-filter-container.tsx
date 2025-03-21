@@ -1,6 +1,6 @@
-import React, { FunctionComponent, ReactElement } from 'react';
+import React, {FunctionComponent} from 'react';
 import FilterButtons from '../../data-preview-dropdown-dialog/filter-buttons/filter-buttons';
-import { dropdownContent, multiselect, footer, search, mainContainer } from './column-filter-containter.module.scss';
+import {dropdownContent, footer, mainContainer, multiselect, search} from './column-filter-containter.module.scss';
 import ColumnFilterMultiSelect from '../column-filter-multiselect/column-filter-multiselect';
 import ColumnFilterSearch from '../../data-preview-dropdown-search/column-filter-search/column-filter-search';
 

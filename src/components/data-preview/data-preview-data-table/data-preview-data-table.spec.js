@@ -3,24 +3,23 @@ import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import { RecoilRoot } from 'recoil';
 import {
-  mockTableData,
-  mockPublishedReports,
-  mockMeta,
+  additionalColLabels,
+  allColLabels,
+  defaultColLabels,
   defaultColumnsTypeCheckMock,
   defaultSelectedColumnsMock,
-  allColLabels,
-  mockTableData1Row,
-  defaultColLabels,
-  additionalColLabels,
   mockColumnConfig,
-  mockDetailViewColumnConfig,
-  mockDetailApiData,
-  mockTableDownloadWithTextQualifier,
   mockColumnConfigDownloadWithTextQualifier,
+  mockDetailApiData,
+  mockDetailViewColumnConfig,
+  mockMeta,
+  mockPublishedReports,
+  mockTableData,
+  mockTableData1Row,
+  mockTableDownloadWithTextQualifier,
 } from '../../data-table/data-table-test-helper';
 import userEvent from '@testing-library/user-event';
 import DataPreviewDataTable from './data-preview-data-table';
-import DataTable from '../../data-table/data-table';
 import { smallTableDownloadDataCSV } from '../../../recoil/smallTableDownloadData';
 import { RecoilObserver } from '../../../utils/test-utils';
 
