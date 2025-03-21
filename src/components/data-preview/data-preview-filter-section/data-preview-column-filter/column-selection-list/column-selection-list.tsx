@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import DataTableSelectAll from '../../../../data-table/column-select/select-all/data-table-select-all';
 import { buttonContainer } from '../../../../data-table/column-select/data-table-column-selector.module.scss';
 import {
@@ -16,7 +16,21 @@ import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
-const ColumnSelectionList = ({ table, displayDefault, defaultSelectedColumns, additionalColumns, defaultColumns }) => {
+interface IColumnSelectionList {
+  table;
+  displayDefault;
+  defaultSelectedColumns;
+  additionalColumns;
+  defaultColumns;
+}
+
+const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
+  table,
+  displayDefault,
+  defaultSelectedColumns,
+  additionalColumns,
+  defaultColumns,
+}) => {
   const CheckBoxList = columnList => (
     <>
       {columnList.map(({ id, getIsVisible, toggleVisibility, getToggleVisibilityHandler, columnDef }) => {

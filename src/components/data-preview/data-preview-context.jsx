@@ -27,8 +27,6 @@ const DataTableProvider = ({ children, config, detailViewState, pivotSelected })
   const [itemsPerPage, setItemsPerPage] = useState();
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
 
-  // const defaultSelectedColumns = config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : tableProps?.selectColumns;
-
   const [columnVisibility, setColumnVisibility] = useState();
 
   const handlePerPageChange = numRows => {

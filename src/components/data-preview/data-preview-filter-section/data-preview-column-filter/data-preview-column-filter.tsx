@@ -14,7 +14,6 @@ interface iColumnFilter {
 
 const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled }) => {
   const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
-  const [visibleColumns, setVisibleColumns] = useState([]);
   const [active, setActive] = useState(false);
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
 
