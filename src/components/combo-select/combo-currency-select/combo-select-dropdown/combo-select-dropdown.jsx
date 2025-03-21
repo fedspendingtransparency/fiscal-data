@@ -17,6 +17,37 @@ import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 import ScrollContainer from '../../../scroll-container/scroll-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
 
+/**
+ * @param active {boolean}
+ * @param setDropdownActive {function}
+ * @param searchBarOnBlurHandler {function}
+ * @param selectedOption {object} { label: string; value: string; }
+ * @param updateSelection {function} callback (sends the new selection as a param)
+ * @param required {boolean}
+ * @param disabledMessage {string}
+ * @param optionLabelKey {string}
+ * @param searchBarActive {boolean}
+ * @param setSearchBarActive {function}
+ * @param inputRef
+ * @param options {array}
+ *   Without Children:
+ *   { label: string; value: string; }[];
+ *
+ *   With Children (use with @param hasChildren=true):
+ *   [{
+ *    default?: boolean;
+ *    label?: string;
+ *    children: { label: string; value: string; }[];
+ *   }]
+ * @param yearFilter
+ * @param changeHandler {function}
+ * @param timeOutId
+ * @param searchBarLabel {string}
+ * @param disableSearchBar {boolean}
+ * @param hasChildren {boolean}
+ * @returns {Element}
+ * @constructor
+ */
 const ComboSelectDropdown = ({
   active,
   setDropdownActive,
