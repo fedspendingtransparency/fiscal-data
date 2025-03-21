@@ -1,10 +1,9 @@
-import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
-import React from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import DataPreviewDownloadWrapper from './data-preview-download-wrapper/data-preview-download-wrapper';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { filterAndDownloadContainer, filterContainer, toggleDownloadContainer } from './data-preview-filter-section.module.scss';
 import DataPreviewTableFilters from './data-preview-table-filters/data-preview-table-filters';
-import ColumnFilter from './column-filter/column-filter';
+import DataPreviewColumnFilter from './data-preview-column-filter/data-preview-column-filter';
 import { breakpointXl } from '../data-preview.module.scss';
 import { withWindowSize } from 'react-fns';
 import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
@@ -74,7 +73,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
       <div className={filterAndDownloadContainer}>
         <div className={filterContainer}>
           <DataPreviewTableFilters />
-          <ColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} />
+          <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle />}
         </div>
         {width >= pxToNumber(breakpointXl) && (
