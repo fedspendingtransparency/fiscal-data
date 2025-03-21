@@ -89,11 +89,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           numTables={pageConfig.apis.length}
         />
         <Experimental featureId="defaultReportTable">
-          <GenerativeReportsSection
-            publishedReportsProp={pageConfig.publishedReports}
-            dataset={pageConfig}
-            useDefaultReportTable={pageConfig.reportGenDefaultTable}
-          />
+          <GenerativeReportsSection apisProp={pageConfig.apis} useDefaultReportTable={pageConfig.reportGenDefaultTable} />
         </Experimental>
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
         <Experimental featureId="dataPreview">

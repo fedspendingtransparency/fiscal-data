@@ -1,7 +1,7 @@
-import React, {FunctionComponent} from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
-import {faCaretDown, faCaretUp} from '@fortawesome/free-solid-svg-icons';
+import React, { FunctionComponent, useEffect, ReactElement } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import {
   buttonContent,
   buttonEnabled,
@@ -10,12 +10,15 @@ import {
   labelIcon,
   publishedDateLabel,
   selectedOptionText,
+  buttonEnabled,
+  muiButtonContent,
 } from './dropdown-label-button.module.scss';
 
 interface IDropdownLabelButton {
   label?: string;
   selectedOption: string;
   icon?: IconDefinition;
+  muiIcon?: ReactElement;
   setActive: (activeState: boolean) => void;
   active: boolean;
   ariaLabel?: string;
@@ -27,6 +30,7 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
   label = '',
   selectedOption = '',
   icon,
+  muiIcon,
   setActive,
   active,
   ariaLabel,
@@ -45,8 +49,8 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
           disabled={disabled}
           name={name}
         >
-          <div className={buttonContent}>
-            {icon && <FontAwesomeIcon icon={icon} className={labelIcon} />}
+          <div className={buttonContent + (muiIcon ? ` ${muiButtonContent}` : '')}>
+            {(icon && <FontAwesomeIcon icon={icon} className={labelIcon} />) || (React.isValidElement(muiIcon) && muiIcon)}
             {label && <span className={publishedDateLabel}>{label}: </span>}
             <span className={selectedOptionText}>{selectedOption}</span>
           </div>

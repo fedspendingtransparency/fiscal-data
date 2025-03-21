@@ -26,7 +26,7 @@ const Format = () => (
     <p>
       <strong>Example:</strong>
     </p>
-    <p>Return all of the data from the Debt to the Penny dataset in a JSON format.</p>
+    <p>Return all data from the Debt to the Penny dataset in JSON format.</p>
     <code className={`${code} ${marginBottom}`}>{baseApiUrl}/v2/accounting/od/debt_to_penny?format=json</code>
   </SectionContent>
 );

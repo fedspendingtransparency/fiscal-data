@@ -54,7 +54,7 @@ export const calloutConfig = {
     copy: (
       <>
         XML download disabled due to large table size. <br />
-        Select a smaller date range to enable XML download.
+        Select a date range of five years or less to enable XML download.
       </>
     ),
     customSideMargin: '0.5rem',

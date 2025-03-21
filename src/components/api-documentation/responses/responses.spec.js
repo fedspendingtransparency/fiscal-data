@@ -20,7 +20,7 @@ describe('Responses', () => {
   });
 
   it('creates the Responses section with the desired id, heading tag and title', () => {
-    const title = 'Responses & Response Objects';
+    const title = 'Responses and Response Objects';
     const heading = instance.findByProps({ id: 'responses-response-objects' }).findByType('h2');
     expect(heading.children[0]).toBe(title);
   });
