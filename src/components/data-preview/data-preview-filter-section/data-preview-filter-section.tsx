@@ -28,6 +28,8 @@ type DataPreviewFilterSectionProps = {
   filteredDateRange;
   selectedDetailViewFilter;
   apiFilterDefault;
+  viewMode: string;
+  setViewMode: (mode: string) => void;
 };
 
 const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps> = ({
@@ -44,6 +46,8 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   tableColumnSortData,
   selectedDetailViewFilter,
   apiFilterDefault,
+  setViewMode,
+  viewMode,
 }) => {
   const isDisabled = apiFilterDefault;
   const { dataDisplays, userFilter } = selectedTable;
@@ -78,11 +82,11 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
         <div className={filterContainer}>
           <DataPreviewTableFilters />
           <ColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} />
-          {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle />}
+          {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
         </div>
         {width >= pxToNumber(breakpointXl) && (
           <div className={toggleDownloadContainer}>
-            {getChartingInfo() && <ChartTableToggle />}
+            {getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
             {downloadComponent()}
           </div>
         )}
