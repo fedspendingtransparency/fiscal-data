@@ -16,9 +16,12 @@ export const getPublishedDates = reports => {
 };
 
 export const formatReportDate = (publishedDate, fullMonth, isDailyReport) => {
-  const monthName = fullMonth ? monthFullNames[publishedDate.getMonth()] : monthNames[publishedDate.getMonth()];
-  const dayInclusion = isDailyReport ? ' ' + publishedDate.getDate() + ',' : '';
-  return `${monthName}${dayInclusion} ${publishedDate.getFullYear()}`;
+  if (publishedDate) {
+    const monthName = fullMonth ? monthFullNames[publishedDate.getMonth()] : monthNames[publishedDate.getMonth()];
+    const dayInclusion = isDailyReport ? ' ' + publishedDate.getDate() + ',' : '';
+    return `${monthName}${dayInclusion} ${publishedDate.getFullYear()}`;
+  }
+  return null;
 };
 
 export const getDateLabelForReport = (_report, isDailyReport, fullMonth) => {
