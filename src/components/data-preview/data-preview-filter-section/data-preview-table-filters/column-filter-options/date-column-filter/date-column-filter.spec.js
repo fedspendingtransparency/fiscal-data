@@ -28,7 +28,13 @@ describe('Date column filter', () => {
 
   it('renders date preset buttons', () => {
     const { getByRole } = render(
-      <DateColumnFilter columnConfig={mockPresetColumnConfig} config={datasetConfig} selectedTable={mockSelectedTable} setIsFiltered={jest.fn()} />
+      <DateColumnFilter
+        presets={true}
+        columnConfig={mockPresetColumnConfig}
+        config={datasetConfig}
+        selectedTable={mockSelectedTable}
+        setIsFiltered={jest.fn()}
+      />
     );
     const currentDate = getByRole('radio', { name: 'Mar 2025' });
     const oneYear = getByRole('radio', { name: '1 Year' });
@@ -45,7 +51,13 @@ describe('Date column filter', () => {
 
   it('disables custom date pickers when presets is selected', () => {
     const { getByRole } = render(
-      <DateColumnFilter columnConfig={mockPresetColumnConfig} config={datasetConfig} selectedTable={mockSelectedTable} setIsFiltered={jest.fn()} />
+      <DateColumnFilter
+        presets={true}
+        columnConfig={mockPresetColumnConfig}
+        config={datasetConfig}
+        selectedTable={mockSelectedTable}
+        setIsFiltered={jest.fn()}
+      />
     );
     const startDatePicker = getByRole('button', { name: 'Select Start Date', hidden: true });
     const endDatePicker = getByRole('button', { name: 'Select End Date', hidden: true });
@@ -81,22 +93,18 @@ describe('Date column filter', () => {
     expect(presetRadio).not.toBeInTheDocument();
   });
 
-  it('renders custom date pickers', () => {
-    const { getByRole } = render(
-      <DateColumnFilter columnConfig={mockCustomColumnConfig} config={datasetConfig} selectedTable={mockSelectedTable} setIsFiltered={jest.fn()} />
+  it('updates custom date on preset change', async () => {
+    const { findByRole, getByRole } = render(
+      <DateColumnFilter
+        presets={true}
+        columnConfig={mockPresetColumnConfig}
+        config={datasetConfig}
+        selectedTable={mockSelectedTable}
+        setIsFiltered={jest.fn()}
+      />
     );
-    const startDatePicker = getByRole('button', { name: 'Select Start Date' });
-    const endDatePicker = getByRole('button', { name: 'Select End Date' });
-    expect(startDatePicker).toBeInTheDocument();
-    expect(endDatePicker).toBeInTheDocument();
-  });
-
-  it('updates custom date on preset change', () => {
-    const { getByRole } = render(
-      <DateColumnFilter columnConfig={mockPresetColumnConfig} config={datasetConfig} selectedTable={mockSelectedTable} setIsFiltered={jest.fn()} />
-    );
-    const startDatePicker = getByRole('button', { name: 'Select Start Date' });
-    const endDatePicker = getByRole('button', { name: 'Select End Date' });
+    const startDatePicker = await findByRole('button', { name: 'Select Start Date' });
+    const endDatePicker = await findByRole('button', { name: 'Select End Date' });
     expect(within(startDatePicker).getByText('March 18, 2020'));
     expect(within(endDatePicker).getByText('March 17, 2025'));
 

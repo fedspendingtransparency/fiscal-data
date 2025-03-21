@@ -179,7 +179,6 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
         }
         curPresets.unshift({ label: buttonLabel, key: 'current', years: null });
       }
-      // curPresets.push(customPreset);
       setPresets(curPresets);
     }
   }, [allTablesSelected, finalDatesNotFound, selectedTable]);
