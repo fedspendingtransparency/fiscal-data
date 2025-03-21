@@ -47,6 +47,29 @@
   }
 }
 
+.button {
+  color: $content-section-background;
+  font-weight: $semi-bold-weight;
+  background-color: $primary;
+  border: 1px solid $primary;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  display: block;
+}
+
+.applyCancelContainer {
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+
+  .checkIcon {
+    padding-right: 0.5rem;
+  }
+}
+
 @media screen and (min-width: $breakpoint-lg) {
   .navContainer {
     position: -webkit-sticky; /* Safari */
