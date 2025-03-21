@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
 import { graphql, useStaticQuery } from 'gatsby';
-import { code, sectionBreak } from '../../../pages/api-documentation/api.module.scss';
+import { code } from '../../../pages/api-documentation/api.module.scss';
 import { endpointTableSpacing, listOfEndpointsTable } from './endpoints.module.scss';
 import DtgTable from '../../../components/dtg-table/dtg-table';
 import GLOBALS from '../../../helpers/constants';
@@ -118,7 +118,7 @@ const Endpoints = () => {
   };
 
   return (
-    <div className={sectionBreak}>
+    <>
       <SectionContent id="endpoints" headingLevel={2} title="Endpoints">
         <p>
           Many datasets are associated with only one data table, and thus, one API endpoint. There are some datasets comprised of more than one data
@@ -152,7 +152,7 @@ const Endpoints = () => {
           filter for datasets by topic, dates available, file type, and more.
         </p>
       </SectionContent>
-    </div>
+    </>
   );
 };
 export default Endpoints;
