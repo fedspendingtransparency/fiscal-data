@@ -3,11 +3,7 @@ import ShareButtonContent from './share-button-content';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('./variables.module.scss', content => ({
-  ...content,
-  breakpointSm: 600,
-  breakpointLg: 992,
-}));
+const breakpointLg = 992;
 describe('Social Share component', () => {
   it('renders the social share button with icon and text', () => {
     const { getByRole, getByTestId } = render(<ShareButtonContent name="facebook" width={breakpointLg} displayStyle="responsive" />);
