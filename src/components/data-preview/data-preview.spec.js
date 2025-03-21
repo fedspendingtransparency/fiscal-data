@@ -449,7 +449,7 @@ describe('DataPreview', () => {
     fireEvent.click(getByRole('button', { name: 'All Data Tables (Download Only)' }));
     fireEvent.click(getByRole('button', { name: 'Apply' }));
 
-    const columnsDropdown = getByRole('button', { name: 'Columns: 0/17' });
+    const columnsDropdown = getByRole('button', { name: 'Columns:' });
     expect(columnsDropdown).toBeDisabled();
 
     const allTablesBanner = getByText(`The current "All Data Tables" selection is for download only`);

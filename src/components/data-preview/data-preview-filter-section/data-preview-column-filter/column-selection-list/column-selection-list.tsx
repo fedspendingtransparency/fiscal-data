@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import DataTableSelectAll from '../../../../data-table/column-select/select-all/data-table-select-all';
-import { buttonContainer } from '../../../../data-table/column-select/data-table-column-selector.module.scss';
+import { buttonContainer } from './column-selection-list.module.scss';
 import {
   additionalSection,
   checkbox_label,
