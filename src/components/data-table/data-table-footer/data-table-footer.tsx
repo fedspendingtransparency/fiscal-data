@@ -32,8 +32,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
       minRow = rowRange.begin;
       maxRow = rowRange.end;
       totalRows = pagingProps.maxRows;
-    } else if (table) {
-      console.log('table', table.getState());
+    } else {
       const rowsVisible = table?.getRowModel().flatRows.length;
       const pageSize = table.getState().pagination.pageSize;
       const pageIndex = table.getState().pagination.pageIndex;
