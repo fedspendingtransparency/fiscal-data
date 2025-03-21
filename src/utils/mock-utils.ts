@@ -3,9 +3,8 @@
 /* ^^ File is ignored for coverage report since this exists purely as a helper to
  * spec files and should not have unit tests written against it */
 
-import { sub, format, parseISO } from 'date-fns';
-import { beaQ3Response, beaResponse } from './mock-utils-mock-data';
-import fetchMock from 'fetch-mock';
+import {format, parseISO, sub} from 'date-fns';
+import {beaQ3Response, beaResponse} from './mock-utils-mock-data';
 
 export const todayForTests = parseISO(format(new Date(), 'yyyy-MM-dd'));
 export const testVariables = {

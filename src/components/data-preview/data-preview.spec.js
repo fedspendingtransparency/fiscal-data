@@ -1,33 +1,27 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import DataTableSelect from '../datatable-select/datatable-select';
 import { format } from 'date-fns';
 import { pivotData } from '../../utils/api-utils';
 import {
+  bannerTableConfig,
   config,
-  mockApiData,
-  latestDate,
   fivePrior,
+  latestDate,
+  mockAccumulableData,
+  mockApiData,
   mockLocation,
   mockLocationWithTablePathName,
   mockPivotableData,
-  mockAccumulableData,
-  bannerTableConfig,
   noPivotConfig,
 } from '../../components/dataset-data/test-helper';
 import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import { whiteListIds, mockPublishedReportsMTS } from '../../helpers/published-reports/published-reports';
-import PagingOptionsMenu from '../pagination/paging-options-menu';
-import { fireEvent, render, within } from '@testing-library/react';
-import { reports } from '../published-reports/test-helper';
+import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
+import { fireEvent, render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import DataPreview from './data-preview';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
-import DownloadWrapper from '../download-wrapper/download-wrapper';
-import RangePresets from '../filter-download-container/range-presets/range-presets';
-import DataPreviewDownloadWrapper from './data-preview-filter-section/data-preview-download-wrapper/data-preview-download-wrapper';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 
 jest.useFakeTimers();

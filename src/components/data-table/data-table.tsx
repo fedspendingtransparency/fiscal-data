@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { json2xml } from 'xml-js';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
+import DataTableFooter from './data-table-footer/data-table-footer';
 import {
   nonRawDataTableContainer,
   overlayContainerNoFooter,
@@ -318,6 +319,17 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
           </div>
         </div>
       </div>
+      {shouldPage && (
+        <DataTableFooter
+          table={table}
+          showPaginationControls={showPaginationControls}
+          pagingProps={pagingProps}
+          manualPagination={manualPagination}
+          rowsShowing={rowsShowing}
+          setTableDownload={nonRawDataColumns ? null : setTableRowSizeData}
+          chartTable={chartTable}
+        />
+      )}
     </>
   );
 };

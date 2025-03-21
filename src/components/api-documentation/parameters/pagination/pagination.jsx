@@ -24,8 +24,8 @@ const Pagination = () => {
         <strong>Required:</strong> No, neither pagination parameters are required to make an API request.
       </p>
       <p>
-        <strong>Default:</strong> When no sort parameter is specified, the default is to sort by the first column listed. Most API endpoints are thus
-        sorted by date in ascending order (historical to most current).
+        <strong>Default:</strong> When no sort parameter is specified, the default is to sort by the first column listed. As a result, most API
+        endpoints are sorted by date in ascending order (historical to most current).
       </p>
       <p>
         <strong>Notes:</strong> When no page number or page size parameter is specified, the default response is

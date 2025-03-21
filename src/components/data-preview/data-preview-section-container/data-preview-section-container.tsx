@@ -1,16 +1,23 @@
 import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import GLOBALS from '../../../helpers/constants';
-import { useSetRecoilState } from 'recoil';
-import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
+import {useSetRecoilState} from 'recoil';
+import {disableDownloadButtonState} from '../../../recoil/disableDownloadButtonState';
 import moment from 'moment';
-import { buildDateFilter, buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
-import { queryClient } from '../../../../react-query-client';
-import { setTableConfig } from '../../dataset-data/table-section-container/set-table-config';
+import {
+  buildDateFilter,
+  buildSortParams,
+  fetchAllTableData,
+  fetchTableMeta,
+  formatDateForApi,
+  MAX_PAGE_SIZE
+} from '../../../utils/api-utils';
+import {queryClient} from '../../../../react-query-client';
+import {setTableConfig} from '../../dataset-data/table-section-container/set-table-config';
 import Analytics from '../../../utils/analytics/analytics';
-import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import { SetNoChartMessage } from '../../dataset-data/table-section-container/set-no-chart-message';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {determineUserFilterUnmatchedForDateRange} from '../../filter-download-container/user-filter/user-filter';
+import {SetNoChartMessage} from '../../dataset-data/table-section-container/set-no-chart-message';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import AggregationNotice from '../../dataset-data/table-section-container/aggregation-notice/aggregation-notice';
 import SummaryTable from '../../dataset-data/table-section-container/summary-table/summary-table';
 import DataPreviewTable from '../data-preview-table/data-preview-table';
@@ -107,9 +114,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
-  // const [reactTableSorting, setReactTableSort] = useState([]);
   const [tableMeta, setTableMeta] = useState(null);
-  // const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
 

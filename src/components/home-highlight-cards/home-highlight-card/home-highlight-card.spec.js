@@ -215,7 +215,7 @@ describe('HomeHighlightCard', () => {
     });
 
     it('continues loading when api id is invalid', async () => {
-      let invalidApiMockData = mockData;
+      const invalidApiMockData = mockData;
       invalidApiMockData.api_id = 2;
       const { getByTestId } = render(<HomeHighlightCard dataset={invalidApiMockData} />);
 

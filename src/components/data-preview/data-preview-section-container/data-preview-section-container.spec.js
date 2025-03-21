@@ -1,27 +1,20 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { active } from './data-preview-section-container.module.scss';
 import {
+  mockApiData,
   mockConfig,
   mockDateRange,
-  mockTableWithPivot,
-  mockApiData,
-  mockTableWithNoChartAvailable,
-  selectedTableLessFields,
-  selectedPivot,
-  pivotFields,
-  selectedPivotWithAggregation,
-  mockTableWithUserFilterAvailable,
-  mockApiDataUserFilterable,
-  selectedPivotWithRoundingDenomination,
   mockTableWithApiFilterAvailable,
-  mockDetailConfig,
   mockTableWithApiFilterAvailableDisplayDefaultData,
+  mockTableWithNoChartAvailable,
+  mockTableWithPivot,
+  pivotFields,
+  selectedPivot,
+  selectedTableLessFields,
 } from '../../dataset-data/table-section-container/testHelpers';
 // import * as setNoChartMessageMod from './set-no-chart-message';
 // import AggregationNotice from './aggregation-notice/aggregation-notice';
-import GLOBALS from '../../../helpers/constants';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 // import NotShownMessage from './not-shown-message/not-shown-message';
 import { RecoilRoot } from 'recoil';
 import DataPreviewTable from '../data-preview-table/data-preview-table';

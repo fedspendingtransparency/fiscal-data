@@ -5,7 +5,7 @@ import { mockFilters } from '../mockData/mockFilters';
 import { timeRangeCompleteAnalyticsObject } from './filterTimeRange/filterTimeRange';
 import Analytics from '../../../utils/analytics/analytics';
 import { siteContext } from '../../persist/persist';
-import { render, fireEvent, within, cleanup } from '@testing-library/react';
+import { cleanup, fireEvent, render, within } from '@testing-library/react';
 
 jest.mock('../../../components/truncate/truncate.jsx', () => () => 'Truncator');
 
@@ -338,8 +338,8 @@ describe('GA4 test of datalayer push', () => {
   const setExactRangeSpy = jest.fn();
   const setDateRangeTabSpy = jest.fn();
 
-  let isHandheld = false;
-  let filters = mockFilters;
+  const isHandheld = false;
+  const filters = mockFilters;
 
   it('trigger GA4 datalayer push testing', () => {
     window.dataLayer = window.dataLayer || [];
