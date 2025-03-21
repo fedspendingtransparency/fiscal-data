@@ -17,22 +17,16 @@ $filter-width: $dropdown-width - $search-width;
   z-index: $data-table-select-dropdown;
   margin-top: 0.25rem;
 
-  .mainContainer {
-    height: 22.875rem;
-    display: flex;
+  .search {
+    width: $search-width;
+    overflow-y: auto;
+  }
 
-    .search {
-      width: $search-width;
-      overflow-y: auto;
-    }
+  .footer {
+    width: $dropdown-width;
+  }
 
-    .multiselect,
-    .footer {
-      width: $dropdown-width;
-    }
-
-    .filter {
-      width: $filter-width;
-    }
+  .filter {
+    width: $filter-width;
   }
 }
