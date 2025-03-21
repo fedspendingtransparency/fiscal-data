@@ -15,9 +15,9 @@ const DataTableProvider = ({ children, config, detailViewState }) => {
 
   React.useMemo(() => {
     const { hideColumns, tableName, customFormatting } = tableProps ?? {};
-    // const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
     if (reactTableData) {
-      const hideCols = hideColumns;
+      const detailViewAPI = config?.detailView ? config.apis.find(api => api.apiId === config.detailView.apiId) : null;
+      const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
       const baseColumns = columnsConstructorData(reactTableData, hideCols, tableName, configOption, customFormatting);
       setAllColumns(baseColumns);
     }
