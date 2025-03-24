@@ -44,6 +44,7 @@ $dynamic-config-edit-pivot: $above + $backdrop;
 $pivot-options-form-first-child: $above + $dynamic-config-edit-pivot;
 // filter download
 $filter-download-left-content: $above + $table-loading-icon; // parent of select-control dropdown
+$data-preview-filters-dropdown: $above + $filter-download-left-content;
 // table-loading-icon highest on table which select control must overlay
 // published reports
 $published-reports-preview: $above + $backdrop;
