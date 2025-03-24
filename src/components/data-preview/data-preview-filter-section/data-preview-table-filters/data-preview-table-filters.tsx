@@ -32,8 +32,8 @@ const DataPreviewTableFilters: FunctionComponent = ({ width }) => {
             handleCancel={handleCancel}
           />
         )}
+        {active && width <= pxToNumber(breakpointSm) && <DataPreviewMobileDialog />}
       </DropdownContainer>
-      {active && width <= pxToNumber(breakpointSm) && <DataPreviewMobileDialog />}
     </>
   );
 };
