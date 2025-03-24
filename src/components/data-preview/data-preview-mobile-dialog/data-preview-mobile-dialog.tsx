@@ -1,6 +1,6 @@
 import {
+  applyButton,
   bottomContainer,
-  button,
   cancelButton,
   checkIcon,
   dataPreviewHeader,
@@ -17,7 +17,6 @@ import {
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 import React from 'react';
-import { Link } from 'gatsby';
 import SearchBar from '../../../components/search-bar/search-bar';
 import { faCaretLeft, faCaretRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -73,15 +72,13 @@ const DataPreviewMobileDialog = () => {
               ))}
             </div>
             <div className={bottomContainer}>
-              <Link to="/" className={button} data-testid={'button-link'}>
+              <button className={applyButton}>
                 <FontAwesomeIcon icon={faCheck} className={checkIcon} />
                 Apply
-              </Link>
-              <div className={cancelButton}>
-                <button>
-                  <u>Cancel</u>
-                </button>
-              </div>
+              </button>
+              <button className={cancelButton}>
+                <u>Cancel</u>
+              </button>
             </div>
           </div>
         )}

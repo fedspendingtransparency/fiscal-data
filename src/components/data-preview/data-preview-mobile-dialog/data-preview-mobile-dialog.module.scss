@@ -26,31 +26,25 @@
   }
 }
 
-.button {
-  color: $content-section-background;
-  font-weight: $semi-bold-weight;
-  background-color: $primary;
-  border: 1px solid $primary;
-  border-radius: 5px;
-  text-decoration: none;
-  text-align: center;
-  padding: 0.5rem 1rem;
-  display: block;
-}
-
 .bottomContainer {
   text-align: center;
-  position: fixed;
   bottom: 0;
-  width: 100%;
   padding: 1rem 1rem;
   box-shadow: 0 -0.25rem 1rem rgba(0, 0, 0, 0.15);
+  background: white;
 
-  .button {
+  .applyButton {
+    color: $content-section-background;
+    font-weight: $semi-bold-weight;
+    background-color: $primary;
+    border: 1px solid $primary;
     border-radius: 0.1875rem;
+    text-decoration: none;
+    text-align: center;
+    padding: 0.5rem 1rem;
   }
 
-  button {
+  .cancelButton {
     font-size: 1rem;
     font-weight: 600;
     background: none;
@@ -60,9 +54,6 @@
     font: inherit;
     cursor: pointer;
     outline: inherit;
-  }
-
-  .cancelButton {
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
