@@ -64,6 +64,7 @@
   position: fixed;
   bottom: 0;
   width: 100%;
+  padding: 0 1rem;
 
   .checkIcon {
     padding-right: 0.5rem;
@@ -72,6 +73,7 @@
 
 .topContainer {
   padding: 0 1rem;
+  text-align: center;
 }
 
 @media screen and (min-width: $breakpoint-lg) {
