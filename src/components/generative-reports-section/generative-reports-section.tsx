@@ -15,38 +15,32 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
   useDefaultReportTable,
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [earliestDate, setEarliestDate] = useState<Date>(new Date('2020-01-01'));
-  const [latestDates, setLatestDates] = useState<Date>(new Date('2020-01-01'));
+  const [latestReportDate, setLatestReportDate] = useState<Date>();
+  const [earliestReportDate, setEarliestReportDate] = useState<Date>();
+  const [allReportDates, setAllReportDates] = useState<string[]>([]);
+  const [allReportYears, setAllReportYears] = useState<string[]>([]);
 
   useEffect(() => {
-    if (apisProp?.length > 0) {
-      const earliest = new Date(Math.min(...apisProp?.map(api => new Date(api.earliestDate).getTime())));
-      const latest = new Date(Math.max(...apisProp?.map(api => new Date(api.latestDate).getTime())));
-      setEarliestDate(earliest);
-      setLatestDates(latest);
+    if (apisProp && apisProp.length > 0) {
+      const earliestReport = new Date(Math.min(...apisProp.map(api => new Date(api.earliestDate).getTime())));
+      const latestReport = new Date(Math.max(...apisProp.map(api => new Date(api.latestDate).getTime())));
+      setEarliestReportDate(earliestReport);
+      setLatestReportDate(latestReport);
+      setSelectedDate(latestReport);
     }
   }, [apisProp]);
-  const generateDatesArray = (start: Date, end: Date): string[] => {
-    const dates: string[] = [];
-    const current = new Date(start);
-    while (current <= end) {
-      dates.push(current.toISOString().slice(0, 10));
-      current.setDate(current.getDate() + 1);
-    }
-    return dates;
-  };
 
-  const generateYearsArray = (start: Date, end: Date): string[] => {
-    const years: string[] = [];
-    for (let year = start.getFullYear(); year <= end.getFullYear(); year++) {
-      years.push(String(year));
-    }
-    return years;
-  };
-  const isDailyReport = false;
-  const allReportDates = generateDatesArray(earliestDate, latestDates);
+  useEffect(() => {
+    if (earliestReportDate && latestReportDate) {
+      const earliestFormat = earliestReportDate.toISOString().slice(0, 7);
+      const latestFormat = latestReportDate.toISOString().slice(0, 7);
+      setAllReportDates([earliestFormat, latestFormat]);
 
-  const allReportYears = generateYearsArray(earliestDate, latestDates);
+      const earliestYear = String(earliestReportDate.getFullYear());
+      const latestYear = String(latestReportDate.getFullYear());
+      setAllReportYears([earliestYear, latestYear]);
+    }
+  }, [earliestReportDate, latestReportDate]);
 
   return (
     <>
@@ -55,11 +49,11 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
           <DatasetSectionContainer title={title} id={'generative-reports-and-files'}>
             <div className={filtersContainer}>
               <ReportDatePicker
-                isDailyReport={isDailyReport}
+                isDailyReport={false}
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
-                latestReportDate={latestDates}
-                earliestReportDate={earliestDate}
+                latestReportDate={latestReportDate}
+                earliestReportDate={earliestReportDate}
                 allReportDates={allReportDates}
                 allReportYears={allReportYears}
               />
