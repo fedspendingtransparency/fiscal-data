@@ -2,14 +2,19 @@ import {
   bottomContainer,
   button,
   checkIcon,
+  filterContainer,
+  filterName,
+  isApplied,
+  left,
   mainContainer,
   navContainer,
+  right,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 import React from 'react';
 import { Link } from 'gatsby';
 import SearchBar from '../../../components/search-bar/search-bar';
-import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft, faCaretRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const DataPreviewMobileDialog = () => {
@@ -34,15 +39,19 @@ const DataPreviewMobileDialog = () => {
             {/*below elements need to be left-aligned*/}
             <div className={topContainer}>
               <h3>Filters</h3>
-              <p>Search filters</p>
               <div>
                 <SearchBar label={'Search filters'} onChange={onSearchBarChange} filter={'test'} />
               </div>
             </div>
             {/*below div is for filter options*/}
-            <div>
-              <h3>Filter #1 test</h3>
-              <h3>Filter #2 test</h3>
+            <div className={filterContainer}>
+              <div className={left}>
+                <p className={filterName}>Record Date</p>
+                <p className={isApplied}>Last 5 years</p>
+              </div>
+              <div className={right}>
+                <FontAwesomeIcon icon={faCaretRight} />
+              </div>
             </div>
             {/*below div is for apply/cancel block - add box shadow above*/}
             <div className={bottomContainer}>

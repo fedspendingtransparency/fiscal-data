@@ -4,6 +4,8 @@ import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-b
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../../data-preview-dropdown-dialog/data-preview-dropdown-dialog';
 import DataPreviewMobileDialog from '../../data-preview-mobile-dialog/data-preview-mobile-dialog';
+import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
+import { breakpointSm } from '../../data-preview.module.scss';
 
 const DataPreviewTableFilters: FunctionComponent = ({ width }) => {
   const [appliedFilters, setAppliedFilters] = useState([]);
@@ -31,8 +33,7 @@ const DataPreviewTableFilters: FunctionComponent = ({ width }) => {
           />
         )}
       </DropdownContainer>
-
-      <DataPreviewMobileDialog />
+      {width <= pxToNumber(breakpointSm) && <DataPreviewMobileDialog />}
     </>
   );
 };

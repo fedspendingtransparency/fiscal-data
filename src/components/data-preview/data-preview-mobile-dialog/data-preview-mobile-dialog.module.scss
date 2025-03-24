@@ -4,10 +4,13 @@
   display: flex;
   top: 0;
   position: fixed;
+  left: 0;
+  right: 0;
   z-index: 10;
   background: white;
   height: 100%;
   width: 100%;
+  overflow-y: hidden;
 
   .navContainer {
     top: 4rem;
@@ -16,30 +19,6 @@
     align-self: flex-start;
     padding: 0 1rem 0 0;
     min-width: 250px;
-
-    .linkContainer {
-      border-bottom: solid 1px $dd-border-color;
-      min-width: 220px;
-    }
-
-    .sectionLink {
-      padding: 10px 0 10px 15px;
-      cursor: pointer;
-      white-space: nowrap;
-      border-left: solid 5px transparent;
-
-      &.defaultLink {
-        display: flex;
-      }
-
-      &.headingLevel2 {
-        padding-left: calc(1rem - 6px);
-      }
-
-      &.headingLevel3 {
-        padding-left: calc(2rem - 6px);
-      }
-    }
   }
 
   .navigableContent {
@@ -73,7 +52,31 @@
 
 .topContainer {
   padding: 0 1rem;
-  text-align: center;
+  margin-bottom: 1rem;
+  align-items: center;
+  text-align: left;
+}
+
+.filterContainer {
+  padding: 0 1rem;
+  border-top: 0.0625rem solid #d9d9d9;
+  border-bottom: 0.0625rem solid #d9d9d9;
+
+  .left {
+    display: inline-block;
+
+    .filterName {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+    .isApplied {
+      font-size: 0.875rem;
+      margin-top: 0;
+    }
+  }
+  .right {
+    float: right;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
@@ -83,17 +86,13 @@
     flex: 1;
     max-height: calc(100vh - 16px);
     overflow-y: auto;
-    max-width: calc((#{$site-content-width} * 0.25) - 1rem);
-
-    .linkContainer {
-      max-width: 270px;
-    }
+    max-width: calc((#{$site-content-width} * 0.25) - 3rem);
   }
 
   .navigableContent {
     display: flex;
     flex: 3;
-    max-width: calc((#{$site-content-width} * 0.75) - 1rem);
+    max-width: $site-content-width;
   }
 }
 
