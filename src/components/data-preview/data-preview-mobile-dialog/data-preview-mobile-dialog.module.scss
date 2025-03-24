@@ -50,11 +50,41 @@
   }
 }
 
+.previewCaret {
+  padding-right: 0.40625rem;
+}
+
+.dataPreviewHeader {
+  padding: 0 1.5rem;
+  color: #0071bc;
+  font-size: 1.125rem;
+  font-weight: 600;
+  display: inline-block;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+}
+
 .topContainer {
   padding: 0 1rem;
   margin-bottom: 1rem;
   align-items: center;
   text-align: left;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
 }
 
 .filterContainer {

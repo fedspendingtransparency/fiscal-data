@@ -2,12 +2,14 @@ import {
   bottomContainer,
   button,
   checkIcon,
+  dataPreviewHeader,
   filterContainer,
   filterName,
   isApplied,
   left,
   mainContainer,
   navContainer,
+  previewCaret,
   right,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
@@ -25,33 +27,47 @@ const DataPreviewMobileDialog = () => {
     // filterHandler(val);
   };
 
+  const placeholderFilters = [
+    { filterName: 'Record Date', filterApplied: 'Last 5 years' },
+    { filterName: 'Parent ID', filterApplied: 'No filter applied' },
+    { filterName: 'Classification ID', filterApplied: 'No filter applied' },
+    { filterName: 'Classification Description', filterApplied: 'No filter applied' },
+    { filterName: 'Record Type Code', filterApplied: 'No filter applied' },
+  ];
+
   return (
     <div className={mainContainer}>
       <div className={`${navContainer} secondaryNavContainer`}>
         {/*{!scrollToTop && <ScrollTarget name="table-of-contents" />}*/}
         {shouldTocShow}
         {shouldTocShow && (
-          <div key={1}>
-            <h3>
-              <FontAwesomeIcon icon={faCaretLeft} />
-              Data Preview
-            </h3>
+          <div>
+            <div className={dataPreviewHeader}>
+              <button>
+                <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
+                Data Preview
+              </button>
+            </div>
             {/*below elements need to be left-aligned*/}
             <div className={topContainer}>
               <h3>Filters</h3>
               <div>
-                <SearchBar label={'Search filters'} onChange={onSearchBarChange} filter={'test'} />
+                <SearchBar label={'Search filters'} onChange={onSearchBarChange} filter={''} />
               </div>
             </div>
             {/*below div is for filter options*/}
-            <div className={filterContainer}>
-              <div className={left}>
-                <p className={filterName}>Record Date</p>
-                <p className={isApplied}>Last 5 years</p>
-              </div>
-              <div className={right}>
-                <FontAwesomeIcon icon={faCaretRight} />
-              </div>
+            <div>
+              {placeholderFilters.map((filter, index) => (
+                <div key={index} className={filterContainer}>
+                  <div className={left}>
+                    <p className={filterName}>{filter.filterName}</p>
+                    <p className={isApplied}>{filter.filterApplied}</p>
+                  </div>
+                  <div className={right}>
+                    <FontAwesomeIcon icon={faCaretRight} />
+                  </div>
+                </div>
+              ))}
             </div>
             {/*below div is for apply/cancel block - add box shadow above*/}
             <div className={bottomContainer}>
