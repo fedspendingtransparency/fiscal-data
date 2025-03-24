@@ -43,8 +43,29 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding: 0 1rem;
+  padding: 1rem 1rem;
+  box-shadow: 0 -0.25rem 1rem rgba(0, 0, 0, 0.15);
 
+  .button {
+    border-radius: 0.1875rem;
+  }
+
+  button {
+    font-size: 1rem;
+    font-weight: 600;
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+
+  .cancelButton {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
   .checkIcon {
     padding-right: 0.5rem;
   }
@@ -73,6 +94,14 @@
     outline: inherit;
   }
 }
+.searchBar {
+  p {
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin: 0;
+    padding-bottom: 0.25rem;
+  }
+}
 
 .topContainer {
   padding: 0 1rem;
@@ -85,27 +114,59 @@
     margin-bottom: 1rem;
     font-size: 1.5rem;
   }
+
+  label {
+    font-size: 0.875rem;
+  }
 }
 
 .filterContainer {
-  padding: 0 1rem;
   border-top: 0.0625rem solid #d9d9d9;
   border-bottom: 0.0625rem solid #d9d9d9;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
 
   .left {
+    margin-right: auto;
     display: inline-block;
+    align-items: center;
 
     .filterName {
+      padding: 0 1rem;
       font-size: 1rem;
       margin-bottom: 0.25rem;
     }
     .isApplied {
+      padding: 0 1rem;
+      font-size: 0.875rem;
+      margin-top: 0;
+    }
+  }
+
+  .leftSelected {
+    margin-right: auto;
+    display: inline-block;
+    align-items: center;
+    border-left: 0.25rem solid #0071bc;
+
+    .filterName {
+      padding: 0 1rem;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+    .isApplied {
+      padding: 0 1rem;
       font-size: 0.875rem;
       margin-top: 0;
     }
   }
   .right {
-    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
   }
 }
 

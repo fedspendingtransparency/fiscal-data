@@ -1,16 +1,19 @@
 import {
   bottomContainer,
   button,
+  cancelButton,
   checkIcon,
   dataPreviewHeader,
   filterContainer,
   filterName,
   isApplied,
   left,
+  leftSelected,
   mainContainer,
   navContainer,
   previewCaret,
   right,
+  searchBar,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 import React from 'react';
@@ -33,33 +36,33 @@ const DataPreviewMobileDialog = () => {
     { filterName: 'Classification ID', filterApplied: 'No filter applied' },
     { filterName: 'Classification Description', filterApplied: 'No filter applied' },
     { filterName: 'Record Type Code', filterApplied: 'No filter applied' },
+    { filterName: 'Current Month Budget Amount', filterApplied: 'No filter applied' },
   ];
 
   return (
     <div className={mainContainer}>
       <div className={`${navContainer} secondaryNavContainer`}>
-        {/*{!scrollToTop && <ScrollTarget name="table-of-contents" />}*/}
         {shouldTocShow}
         {shouldTocShow && (
           <div>
             <div className={dataPreviewHeader}>
+              {/*add onClick to trigger slide upon pressing 'back' button*/}
               <button>
                 <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
                 Data Preview
               </button>
             </div>
-            {/*below elements need to be left-aligned*/}
             <div className={topContainer}>
               <h3>Filters</h3>
-              <div>
-                <SearchBar label={'Search filters'} onChange={onSearchBarChange} filter={''} />
+              <div className={searchBar}>
+                <p>Search filters</p>
+                <SearchBar onChange={onSearchBarChange} filter={''} />
               </div>
             </div>
-            {/*below div is for filter options*/}
             <div>
               {placeholderFilters.map((filter, index) => (
                 <div key={index} className={filterContainer}>
-                  <div className={left}>
+                  <div className={filter.filterApplied !== 'No filter applied' ? leftSelected : left}>
                     <p className={filterName}>{filter.filterName}</p>
                     <p className={isApplied}>{filter.filterApplied}</p>
                   </div>
@@ -69,27 +72,20 @@ const DataPreviewMobileDialog = () => {
                 </div>
               ))}
             </div>
-            {/*below div is for apply/cancel block - add box shadow above*/}
             <div className={bottomContainer}>
-              <Link to="/api-documentation/" className={button} data-testid={'button-link'}>
+              <Link to="/" className={button} data-testid={'button-link'}>
                 <FontAwesomeIcon icon={faCheck} className={checkIcon} />
                 Apply
               </Link>
-              <h4>
-                <u>Cancel</u>
-              </h4>
+              <div className={cancelButton}>
+                <button>
+                  <u>Cancel</u>
+                </button>
+              </div>
             </div>
-            {/*<div*/}
-            {/*  role="presentation"*/}
-            {/*  // onMouseEnter={() => handleMouseEnter(1)}*/}
-            {/*  // onMouseLeave={handleMouseLeave}*/}
-            {/*  className={`${linkContainer}`}*/}
-            {/*></div>*/}
           </div>
         )}
       </div>
-      {/*<div className={`${navigableContent} ${shouldContentShow ? '' : 'hidden'}`}>TEST TEXT</div>*/}
-      {/*<TOCButton handleToggle={handleInteraction} state={tocIsOpen} />*/}
     </div>
   );
 };

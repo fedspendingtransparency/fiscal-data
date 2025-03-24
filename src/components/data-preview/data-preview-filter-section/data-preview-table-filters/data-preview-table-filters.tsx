@@ -24,7 +24,7 @@ const DataPreviewTableFilters: FunctionComponent = ({ width }) => {
   return (
     <>
       <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
-        {active && (
+        {active && width >= pxToNumber(breakpointSm) && (
           <DataPreviewDropdownDialogContainer
             searchComponent={<>search component placeholder</>}
             filterComponent={<>filter component placeholder</>}
@@ -33,7 +33,7 @@ const DataPreviewTableFilters: FunctionComponent = ({ width }) => {
           />
         )}
       </DropdownContainer>
-      {width <= pxToNumber(breakpointSm) && <DataPreviewMobileDialog />}
+      {active && width <= pxToNumber(breakpointSm) && <DataPreviewMobileDialog />}
     </>
   );
 };
