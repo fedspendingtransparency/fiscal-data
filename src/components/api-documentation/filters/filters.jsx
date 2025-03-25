@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
-import { sectionBreak, code, marginBottom } from '../../../pages/api-documentation/api.module.scss';
+import { code, marginBottom } from '../../../pages/api-documentation/api.module.scss';
 import { listHeading } from '../section-content/section-content.module.scss';
 import { list } from './filters.module.scss';
 import GLOBALS from '../../../helpers/constants';
@@ -11,7 +11,7 @@ const urlFieldParam = '?fields=country_currency_desc,exchange_rate,record_date';
 const urlFilterParam = '&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso),record_date:gte:2020-01-01';
 
 const Filters = () => (
-  <div className={sectionBreak}>
+  <>
     <SectionContent id="filters" headingLevel={3} title="Filters">
       <p>
         <strong>Parameter:</strong> <code className="inline">filter=</code>
@@ -71,7 +71,7 @@ const Filters = () => (
       </ul>
       <code className={code}>{`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}</code>
     </SectionContent>
-  </div>
+  </>
 );
 
 export default Filters;

@@ -1,9 +1,9 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import MonthPicker from './month-picker/month-picker';
 import ReportDayPicker from './report-day-picker/report-day-picker';
-import {formatReportDate} from '../../../helpers/dataset-detail/report-helpers';
+import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
-import {faCalendar} from '@fortawesome/free-regular-svg-icons';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 
 interface IMonthPicker {
@@ -24,6 +24,7 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
   allReportYears,
   selectedDate,
   setSelectedDate,
+  ignoreDisabled,
 }: IMonthPicker) => {
   const [active, setActive] = useState(false);
 
@@ -55,6 +56,7 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
             allReportDates={allReportDates}
             active={active}
             allReportYears={allReportYears}
+            ignoreDisabled={ignoreDisabled}
           />
         )}
         {active && isDailyReport && (

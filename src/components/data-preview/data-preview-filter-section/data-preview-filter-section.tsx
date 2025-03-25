@@ -11,7 +11,8 @@ import DataPreviewColumnFilter from './data-preview-column-filter/data-preview-c
 import {breakpointXl} from '../data-preview.module.scss';
 import {withWindowSize} from 'react-fns';
 import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
-import {differenceInHours} from 'date-fns';
+import { differenceInHours } from 'date-fns';
+import { DataPreviewFilterSectionProps } from '../../../models/data-preview/IFilterSectionProps';
 
 type DataPreviewFilterSectionProps = {
   width?: number;
@@ -36,6 +37,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   width,
   children,
   dateRange,
+  setDateRange,
   isFiltered,
   selectedTable,
   selectedPivot,
@@ -46,6 +48,13 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   tableColumnSortData,
   selectedDetailViewFilter,
   apiFilterDefault,
+  setIsFiltered,
+  handleDateRangeChange,
+  setIsCustomDateRange,
+  finalDatesNotFound,
+  detailApi,
+  detailViewState,
+  apiData,
   setViewMode,
   viewMode,
 }) => {
@@ -80,7 +89,18 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
     <>
       <div className={filterAndDownloadContainer}>
         <div className={filterContainer}>
-          <DataPreviewTableFilters />
+          <DataPreviewTableFilters
+            selectedTable={selectedTable}
+            config={dataset}
+            setDateRange={setDateRange}
+            allTablesSelected={allTablesSelected}
+            handleDateRangeChange={handleDateRangeChange}
+            setIsCustomDateRange={setIsCustomDateRange}
+            finalDatesNotFound={finalDatesNotFound}
+            detailApi={detailApi}
+            detailViewState={detailViewState}
+            apiData={apiData}
+          />
           <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
         </div>
