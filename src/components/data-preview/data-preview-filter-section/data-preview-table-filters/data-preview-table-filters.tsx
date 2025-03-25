@@ -46,32 +46,40 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   }, [active]);
 
   return (
-    <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
-      {active && width >= pxToNumber(breakpointLg) && (
-        <DataPreviewDropdownDialogContainer
-          searchComponent={<>search component placeholder</>}
-          filterComponent={
-            <ColumnFilterOptions
-              setAppliedFilters={setAppliedFilters}
-              selectedColumn={selectedColumn}
-              selectedTable={selectedTable}
-              config={config}
-              setDateRange={setDateRange}
-              allTablesSelected={allTablesSelected}
-              handleDateRangeChange={handleDateRangeChange}
-              setIsCustomDateRange={setIsCustomDateRange}
-              finalDatesNotFound={finalDatesNotFound}
-              detailApi={detailApi}
-              detailViewState={detailViewState}
-              apiData={apiData}
+    <>
+      {width >= pxToNumber(breakpointLg) && (
+        <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
+          {active && (
+            <DataPreviewDropdownDialogContainer
+              searchComponent={<>search component placeholder</>}
+              filterComponent={
+                <ColumnFilterOptions
+                  setAppliedFilters={setAppliedFilters}
+                  selectedColumn={selectedColumn}
+                  selectedTable={selectedTable}
+                  config={config}
+                  setDateRange={setDateRange}
+                  allTablesSelected={allTablesSelected}
+                  handleDateRangeChange={handleDateRangeChange}
+                  setIsCustomDateRange={setIsCustomDateRange}
+                  finalDatesNotFound={finalDatesNotFound}
+                  detailApi={detailApi}
+                  detailViewState={detailViewState}
+                  apiData={apiData}
+                />
+              }
+              handleApply={handleApply}
+              handleCancel={handleCancel}
             />
-          }
-          handleApply={handleApply}
-          handleCancel={handleCancel}
-        />
+          )}
+        </DropdownContainer>
       )}
-      {active && width < pxToNumber(breakpointLg) && <DataPreviewMobileDialog onClose={handleCancel} />}
-    </DropdownContainer>
+      {width < pxToNumber(breakpointLg) && (
+        <>
+          {filterDropdownButton} {active && <DataPreviewMobileDialog onClose={handleCancel} />}
+        </>
+      )}
+    </>
   );
 };
 export default DataPreviewTableFilters;
