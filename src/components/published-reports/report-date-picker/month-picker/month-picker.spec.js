@@ -79,7 +79,7 @@ describe('Month Picker', () => {
     expect(yearButton2019).toBeDisabled();
   });
   it('ignores disabling logic when ignoreDisabled prop is true', () => {
-    const { getByRole, queryByRole } = render(
+    const { getByRole } = render(
       <MonthPicker
         allReportYears={mockYearDropdownOptions}
         setSelectedDate={jest.fn()}
