@@ -45,7 +45,7 @@
   overflow-y: auto;
 }
 
-.button {
+.applyButton {
   color: $content-section-background;
   font-weight: $semi-bold-weight;
   height: 3rem;
@@ -56,6 +56,7 @@
   text-align: center;
   display: block;
   align-content: center;
+  width: 100%;
 }
 .previewCaretButton {
   display: flex;

@@ -1,29 +1,28 @@
 import React from 'react';
-import { Link } from 'gatsby';
 import SearchBar from '../../../components/search-bar/search-bar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 import {
-  mainContainer,
+  applyButton,
+  bottomContainer,
+  cancelButton,
+  checkIcon,
   dataPreviewHeader,
-  topContainer,
-  searchBar as searchBarStyle,
   filterContainer,
+  filterName,
+  filtersScrollContainer,
+  headerContainer,
+  isApplied,
   left,
   leftSelected,
-  filterName,
-  isApplied,
-  right,
-  bottomContainer,
-  button,
-  cancelButton,
-  filtersScrollContainer,
+  mainContainer,
   previewCaret,
-  checkIcon,
-  headerContainer,
-  previewCaretContainer,
   previewCaretButton,
+  previewCaretContainer,
+  right,
+  searchBar as searchBarStyle,
+  topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 
 const DataPreviewMobileDialog = () => {
@@ -79,10 +78,10 @@ const DataPreviewMobileDialog = () => {
           </div>
 
           <div className={bottomContainer}>
-            <Link to="/" className={button} data-testid="button-link">
+            <button className={applyButton}>
               <FontAwesomeIcon icon={faCheck} className={checkIcon} />
               Apply
-            </Link>
+            </button>
             <div>
               <button className={cancelButton}>
                 <u>Cancel</u>
