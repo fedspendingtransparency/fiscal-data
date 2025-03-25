@@ -1,33 +1,33 @@
-import {
-  bottomContainer,
-  button,
-  cancelButton,
-  checkIcon,
-  dataPreviewHeader,
-  filterContainer,
-  filterName,
-  isApplied,
-  left,
-  leftSelected,
-  mainContainer,
-  navContainer,
-  previewCaret,
-  right,
-  searchBar,
-  topContainer,
-} from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 import React from 'react';
 import { Link } from 'gatsby';
 import SearchBar from '../../../components/search-bar/search-bar';
-import { faCaretLeft, faCaretRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretLeft, faCaretRight, faCheck } from '@fortawesome/free-solid-svg-icons';
+
+import {
+  mainContainer,
+  dataPreviewHeader,
+  topContainer,
+  searchBar as searchBarStyle,
+  filterContainer,
+  left,
+  leftSelected,
+  filterName,
+  isApplied,
+  right,
+  bottomContainer,
+  button,
+  cancelButton,
+  filtersScrollContainer,
+  previewCaret,
+  checkIcon,
+} from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 
 const DataPreviewMobileDialog = () => {
   const shouldTocShow = true;
 
   const onSearchBarChange = event => {
-    // const val = event && event.target ? event.target.value : '';
-    // filterHandler(val);
+    // placeholder for search handler
   };
 
   const placeholderFilters = [
@@ -41,12 +41,10 @@ const DataPreviewMobileDialog = () => {
 
   return (
     <div className={mainContainer}>
-      <div className={`${navContainer} secondaryNavContainer`}>
-        {shouldTocShow}
-        {shouldTocShow && (
-          <div>
+      {shouldTocShow && (
+        <>
+          <div className="headerContainer">
             <div className={dataPreviewHeader}>
-              {/*add onClick to trigger slide upon pressing 'back' button*/}
               <button>
                 <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
                 Data Preview
@@ -54,39 +52,42 @@ const DataPreviewMobileDialog = () => {
             </div>
             <div className={topContainer}>
               <h3>Filters</h3>
-              <div className={searchBar}>
+              <div className={searchBarStyle}>
                 <p>Search filters</p>
                 <SearchBar onChange={onSearchBarChange} filter={''} />
               </div>
             </div>
-            <div>
-              {placeholderFilters.map((filter, index) => (
-                <div key={index} className={filterContainer}>
-                  <div className={filter.filterApplied !== 'No filter applied' ? leftSelected : left}>
-                    <p className={filterName}>{filter.filterName}</p>
-                    <p className={isApplied}>{filter.filterApplied}</p>
-                  </div>
-                  <div className={right}>
-                    <FontAwesomeIcon icon={faCaretRight} />
-                  </div>
+          </div>
+
+          <div className={filtersScrollContainer}>
+            {placeholderFilters.map((filter, index) => (
+              <div key={index} className={filterContainer}>
+                <div className={filter.filterApplied !== 'No filter applied' ? leftSelected : left}>
+                  <p className={filterName}>{filter.filterName}</p>
+                  <p className={isApplied}>{filter.filterApplied}</p>
                 </div>
-              ))}
-            </div>
-            <div className={bottomContainer}>
-              <Link to="/" className={button} data-testid={'button-link'}>
-                <FontAwesomeIcon icon={faCheck} className={checkIcon} />
-                Apply
-              </Link>
-              <div className={cancelButton}>
-                <button>
-                  <u>Cancel</u>
-                </button>
+                <div className={right}>
+                  <FontAwesomeIcon icon={faCaretRight} />
+                </div>
               </div>
+            ))}
+          </div>
+
+          <div className={bottomContainer}>
+            <Link to="/" className={button} data-testid="button-link">
+              <FontAwesomeIcon icon={faCheck} className={checkIcon} />
+              Apply
+            </Link>
+            <div className={cancelButton}>
+              <button>
+                <u>Cancel</u>
+              </button>
             </div>
           </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };
+
 export default DataPreviewMobileDialog;
