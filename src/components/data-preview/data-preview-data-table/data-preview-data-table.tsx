@@ -17,7 +17,6 @@ import { DataTableContext } from '../data-preview-context';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 
 const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
-  rawData,
   defaultSelectedColumns,
   setTableColumnSortData,
   shouldPage,
@@ -53,7 +52,9 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   dateRange,
   hasDownloadTimestamp,
 }) => {
-  const { setDefaultColumns, setAdditionalColumns, allColumns, setConfigOption, configOption, setTableState } = useContext(DataTableContext);
+  const { setDefaultColumns, setAdditionalColumns, allColumns, setConfigOption, configOption, setTableState, reactTableData: rawData } = useContext(
+    DataTableContext
+  );
 
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
