@@ -12,7 +12,6 @@ import {
   filterContainer,
   filterName,
   filtersScrollContainer,
-  headerContainer,
   isApplied,
   left,
   leftSelected,
@@ -45,7 +44,7 @@ const DataPreviewMobileDialog = () => {
     <div className={mainContainer}>
       {shouldTocShow && (
         <>
-          <div className={headerContainer}>
+          <div>
             <div className={dataPreviewHeader}>
               <button className={previewCaretButton}>
                 <div className={previewCaretContainer}>

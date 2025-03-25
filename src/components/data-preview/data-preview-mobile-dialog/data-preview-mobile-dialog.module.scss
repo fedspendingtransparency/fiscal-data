@@ -1,4 +1,5 @@
 @import 'src/variables.module';
+@import 'src/zIndex.module';
 
 .mainContainer {
   display: flex;
@@ -7,21 +8,18 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: $panel;
   background: $content-section-background;
   height: 100%;
   width: 100%;
-}
-
-.headerContainer {
 }
 
 .filtersScrollContainer {
   position: absolute;
   left: 0;
   right: 0;
-  top: 183px;
-  bottom: 60px;
+  top: 11.4375rem;
+  bottom: 3.75rem;
 
   overflow-y: auto;
 }
@@ -50,8 +48,8 @@
   font-weight: $semi-bold-weight;
   height: 3rem;
   background-color: $primary;
-  border: 1px solid $primary;
-  border-radius: 5px;
+  border: 0.0625rem solid $primary;
+  border-radius: 0.1875rem;
   text-decoration: none;
   text-align: center;
   display: block;
@@ -63,12 +61,12 @@
 }
 .previewCaret {
   padding-right: 0.5rem;
-  height: 14px;
-  width: 10px;
+  height: 0.875rem;
+  width: 0.625rem;
 }
 .previewCaretContainer {
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   display: flex;
   align-content: center;
   flex-wrap: wrap;
@@ -76,7 +74,7 @@
 
 .dataPreviewHeader {
   padding: 0 1.5rem;
-  color: #0071bc;
+  color: $primary;
   font-size: 1.125rem;
   font-weight: 600;
   display: inline-block;
@@ -158,7 +156,7 @@
     margin-right: auto;
     display: inline-block;
     align-items: center;
-    border-left: 0.25rem solid #0071bc;
+    border-left: 0.25rem solid $primary;
 
     .filterName {
       padding: 0 1rem;
@@ -174,36 +172,8 @@
   .right {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: right;
     width: 20%;
-  }
-}
-
-@media screen and (min-width: $breakpoint-lg) {
-  .navContainer {
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    flex: 1;
-    max-height: calc(100vh - 16px);
-    overflow-y: auto;
-    max-width: calc((#{$site-content-width} * 0.25) - 3rem);
-  }
-
-  .navigableContent {
-    display: flex;
-    flex: 3;
-    max-width: $site-content-width;
-  }
-}
-
-@media screen and (max-width: $breakpoint-lg - 1) {
-  .mainContainer {
-    flex-direction: column;
-
-    .navContainer,
-    .navigableContent {
-      padding: 0;
-      align-self: auto;
-    }
+    padding-right: 1rem;
   }
 }
