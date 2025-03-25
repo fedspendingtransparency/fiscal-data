@@ -107,7 +107,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
                         <li key={i}>
                           <button
                             className={option === selectedMonth ? selected : null}
-                            disabled={disabled}
+                            disabled={disabledpr}
                             onClick={() => handleMonthClick(option)}
                             ref={option === selectedMonth ? scrollToSelectedMonth : null}
                           >
