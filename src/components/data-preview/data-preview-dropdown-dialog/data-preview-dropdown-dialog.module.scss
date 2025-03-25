@@ -14,7 +14,7 @@ $filter-width: $dropdown-width - $search-width;
   background: white;
   border-radius: 0.25rem;
   box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
-  z-index: $data-table-select-dropdown;
+  z-index: $data-preview-filters-dropdown;
   margin-top: 0.25rem;
 
   .mainContainer {

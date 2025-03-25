@@ -4,13 +4,14 @@
 .dropdownContainer {
   width: 20rem;
   background-color: white;
-  z-index: $published-reports-date-picker;
+  z-index: $published-reports-date-picker + 5;
   position: absolute;
   box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
   padding-top: 1rem;
   margin-top: 0.5rem;
 
-  .publishedDateLabel, .selectedDateDisplay {
+  .publishedDateLabel,
+  .selectedDateDisplay {
     margin-left: 1.5rem;
     margin-right: 1.5rem;
   }
@@ -20,22 +21,22 @@
   padding: 1rem;
   display: flex;
   justify-content: flex-end;
-  border-top: 1px solid #D9D9D9;
+  border-top: 1px solid #d9d9d9;
 
   .applyButton {
-    background-color: #0071BC;
+    background-color: #0071bc;
     border-radius: 3px;
     border: none;
     color: white;
     display: flex;
     align-items: center;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     &:disabled {
       cursor: default;
       opacity: 50%;
     }
     .checkIcon {
-      padding-right: .5rem;
+      padding-right: 0.5rem;
       color: white;
     }
   }
@@ -51,7 +52,8 @@
     border: none;
   }
 
-  .applyButton, .cancelButton {
+  .applyButton,
+  .cancelButton {
     font-weight: $semi-bold-weight;
     font-size: $font-size-16;
     cursor: pointer;

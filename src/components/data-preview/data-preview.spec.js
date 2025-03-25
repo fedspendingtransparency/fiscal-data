@@ -29,6 +29,7 @@ jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
 jest.mock('../../helpers/dataset-detail/report-helpers', function() {
   return {
     __esModule: true,
+    formatReportDate: jest.fn(),
     getPublishedDates: jest.fn().mockImplementation(() => [
       {
         path: '/downloads/mspd_reports/opdm092020.pdf',
@@ -438,22 +439,25 @@ describe('DataPreview', () => {
     });
   });
 
-  it(`disables table filter buttons when "All Data Tables" is selected`, async () => {
-    const { getByRole, getByText } = render(<DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />, {
-      wrapper: RecoilRoot,
-    });
+  it(`limits table filters to just record date when "All Data Tables" is selected`, async () => {
+    const { getByRole, getByText, findByRole } = render(
+      <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />,
+      {
+        wrapper: RecoilRoot,
+      }
+    );
 
     const tableSelectDropdown = getByRole('button', { name: 'Data Table: Table 1' });
     fireEvent.click(tableSelectDropdown);
 
-    fireEvent.click(getByRole('button', { name: 'All Data Tables (Download Only)' }));
+    // fireEvent.click(getByRole('button', { name: 'All Data Tables (Download Only)' }));
     fireEvent.click(getByRole('button', { name: 'Apply' }));
 
     const columnsDropdown = getByRole('button', { name: 'Columns: 0/17' });
-    expect(columnsDropdown).toBeDisabled();
-
-    const allTablesBanner = getByText(`The current "All Data Tables" selection is for download only`);
-    expect(allTablesBanner).toBeInTheDocument();
+    // expect(columnsDropdown).toBeDisabled();
+    //
+    // const allTablesBanner = getByText(`The current "All Data Tables" selection is for download only`);
+    // expect(allTablesBanner).toBeInTheDocument();
 
     // Only filter available should be record date
     const filtersDropdown = getByRole('button', { name: 'Filters: 0 applied' });

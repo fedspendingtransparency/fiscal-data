@@ -1,9 +1,8 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
-import { sectionBreak } from '../../../pages/api-documentation/api.module.scss';
 
 const Methods = () => (
-  <div className={sectionBreak}>
+  <>
     <SectionContent id="methods" headingLevel={2} title="Methods">
       <p>
         <strong>All requests will be HTTP GET requests</strong>. Our APIs accept the GET method, one of the most common HTTP methods. The GET method
@@ -11,6 +10,6 @@ const Methods = () => (
         restrictions.
       </p>
     </SectionContent>
-  </div>
+  </>
 );
 export default Methods;
