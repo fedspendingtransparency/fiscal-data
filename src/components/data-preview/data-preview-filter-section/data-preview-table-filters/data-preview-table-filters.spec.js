@@ -41,7 +41,7 @@ describe('Table filters dropdown', () => {
   });
 
   it('renders the column filters', () => {
-    const { getByRole, getByText } = render(<DataPreviewTableFilters selectedTable={mockSelectedTable} config={datasetConfig} />);
+    const { getByRole, getByText } = render(<DataPreviewTableFilters selectedTable={mockSelectedTable} config={datasetConfig} width={1000} />);
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
     expect(getByRole('radio', { name: 'Preset' })).toBeInTheDocument();
