@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
@@ -37,13 +37,14 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     setActive(false);
   };
 
-  useEffect(() => {
-    if (active) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }, [active]);
+  // Need to find a way to prevent background scrolling for mobile users
+  // useEffect(() => {
+  //   if (active) {
+  //     document.body.style.overflow = 'hidden';
+  //   } else {
+  //     document.body.style.overflow = '';
+  //   }
+  // }, [active]);
 
   return (
     <>
