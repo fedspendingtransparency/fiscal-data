@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
@@ -36,6 +36,15 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const handleCancel = () => {
     setActive(false);
   };
+
+  useEffect(() => {
+    if (active) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [active]);
+
   return (
     <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
       {active && width >= pxToNumber(breakpointLg) && (
@@ -61,7 +70,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
           handleCancel={handleCancel}
         />
       )}
-      {active && width < pxToNumber(breakpointLg) && <DataPreviewMobileDialog active={active} />}
+      {active && width < pxToNumber(breakpointLg) && <DataPreviewMobileDialog onClose={handleCancel} />}
     </DropdownContainer>
   );
 };

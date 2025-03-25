@@ -24,7 +24,7 @@ import {
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 
-const DataPreviewMobileDialog = () => {
+const DataPreviewMobileDialog = ({ onClose }) => {
   const shouldTocShow = true;
 
   const onSearchBarChange = event => {
@@ -46,7 +46,7 @@ const DataPreviewMobileDialog = () => {
         <>
           <div>
             <div className={dataPreviewHeader}>
-              <button className={previewCaretButton}>
+              <button onClick={onClose} className={previewCaretButton}>
                 <div className={previewCaretContainer}>
                   <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
                 </div>
