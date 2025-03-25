@@ -2,68 +2,75 @@
 
 .mainContainer {
   display: flex;
-  top: 0;
+  flex-direction: column;
   position: fixed;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 10;
-  background: white;
+  background: $content-section-background;
   height: 100%;
   width: 100%;
-  overflow-y: hidden;
+}
 
-  .navContainer {
-    top: 4rem;
-    display: flex;
-    flex-direction: column;
-    align-self: flex-start;
-    padding: 0 1rem 0 0;
-    min-width: 250px;
-  }
+.headerContainer {
+}
 
-  .navigableContent {
-    padding: 0 0 0 1rem;
-  }
+.filtersScrollContainer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 183px;
+  bottom: 60px;
+
+  overflow-y: auto;
 }
 
 .bottomContainer {
   text-align: center;
+  background-color: $content-section-background;
+  padding: 1rem;
+  position: fixed;
+  right: 0;
+  left: 0;
   bottom: 0;
-  padding: 1rem 1rem;
   box-shadow: 0 -0.25rem 1rem rgba(0, 0, 0, 0.15);
-  background: white;
-
-  .applyButton {
-    color: $content-section-background;
-    font-weight: $semi-bold-weight;
-    background-color: $primary;
-    border: 1px solid $primary;
-    border-radius: 0.1875rem;
-    text-decoration: none;
-    text-align: center;
-    padding: 0.5rem 1rem;
-  }
-
-  .cancelButton {
-    font-size: 1rem;
-    font-weight: 600;
-    background: none;
-    color: inherit;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-  .checkIcon {
-    padding-right: 0.5rem;
-  }
 }
 
+.navigableContent {
+  padding: 0 0 0 1rem;
+}
+
+.navClass {
+  overflow-y: auto;
+}
+
+.button {
+  color: $content-section-background;
+  font-weight: $semi-bold-weight;
+  height: 3rem;
+  background-color: $primary;
+  border: 1px solid $primary;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  align-content: center;
+}
+.previewCaretButton {
+  display: flex;
+}
 .previewCaret {
-  padding-right: 0.40625rem;
+  padding-right: 0.5rem;
+  height: 14px;
+  width: 10px;
+}
+.previewCaretContainer {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
 }
 
 .dataPreviewHeader {
@@ -109,6 +116,16 @@
   label {
     font-size: 0.875rem;
   }
+}
+.cancelButton {
+  padding-top: 1rem;
+  color: $font-body-copy;
+  background-color: $content-section-background;
+  border: none;
+  font-size: $font-size-16;
+}
+.checkIcon {
+  padding-right: 0.5rem;
 }
 
 .filterContainer {
