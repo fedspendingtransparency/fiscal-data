@@ -11,8 +11,8 @@ import ColumnFilter from './column-filter/column-filter';
 import {breakpointXl} from '../data-preview.module.scss';
 import {withWindowSize} from 'react-fns';
 import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
-import { differenceInHours } from 'date-fns';
-import { DataPreviewFilterSectionProps } from '../../../models/data-preview/IFilterSectionProps';
+import {differenceInHours} from 'date-fns';
+import {DataPreviewFilterSectionProps} from '../../../models/data-preview/IFilterSectionProps';
 
 type DataPreviewFilterSectionProps = {
   width?: number;
@@ -100,8 +100,8 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             detailApi={detailApi}
             detailViewState={detailViewState}
             apiData={apiData}
+            width={width}
           />
-          <DataPreviewTableFilters width={width} />
           <ColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
         </div>

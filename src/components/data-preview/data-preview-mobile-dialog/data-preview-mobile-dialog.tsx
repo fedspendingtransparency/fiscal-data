@@ -56,14 +56,14 @@ const DataPreviewMobileDialog = () => {
             </div>
             <div className={topContainer}>
               <h3>Filters</h3>
-              <div className={searchBarStyle}>
+              <div data-testid="search-container" className={searchBarStyle}>
                 <p>Search filters</p>
                 <SearchBar onChange={onSearchBarChange} filter={''} />
               </div>
             </div>
           </div>
 
-          <div className={filtersScrollContainer}>
+          <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
             {placeholderFilters.map((filter, index) => (
               <div key={index} className={filterContainer}>
                 <div className={filter.filterApplied !== 'No filter applied' ? leftSelected : left}>

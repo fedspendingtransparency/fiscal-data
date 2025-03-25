@@ -20,8 +20,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   detailApi,
   detailViewState,
   apiData,
+  width,
 }) => {
-const DataPreviewTableFilters: FunctionComponent = ({ width }) => {
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
   // TODO update default value to first column in list
@@ -39,7 +39,7 @@ const DataPreviewTableFilters: FunctionComponent = ({ width }) => {
   // width > pxToNumber(breakpointSm)
   return (
     <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
-      {active && (
+      {active && width >= pxToNumber(breakpointSm) && (
         <DataPreviewDropdownDialogContainer
           searchComponent={<>search component placeholder</>}
           filterComponent={
@@ -62,20 +62,8 @@ const DataPreviewTableFilters: FunctionComponent = ({ width }) => {
           handleCancel={handleCancel}
         />
       )}
+      {active && width <= pxToNumber(breakpointSm) && <DataPreviewMobileDialog />}
     </DropdownContainer>
-    <>
-      <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
-        {active && width >= pxToNumber(breakpointSm) && (
-          <DataPreviewDropdownDialogContainer
-            searchComponent={<>search component placeholder</>}
-            filterComponent={<>filter component placeholder</>}
-            handleApply={handleApply}
-            handleCancel={handleCancel}
-          />
-        )}
-        {active && width <= pxToNumber(breakpointSm) && <DataPreviewMobileDialog />}
-      </DropdownContainer>
-    </>
   );
 };
 export default DataPreviewTableFilters;
