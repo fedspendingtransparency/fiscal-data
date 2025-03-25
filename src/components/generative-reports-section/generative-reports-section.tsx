@@ -36,9 +36,13 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
       const latestFormat = latestReportDate.toISOString().slice(0, 7);
       setAllReportDates([earliestFormat, latestFormat]);
 
-      const earliestYear = String(earliestReportDate.getFullYear());
-      const latestYear = String(latestReportDate.getFullYear());
-      setAllReportYears([earliestYear, latestYear]);
+      const earliestYear = earliestReportDate.getFullYear();
+      const latestYear = latestReportDate.getFullYear();
+      const years = [];
+      for (let year = earliestYear; year <= latestYear; year++) {
+        years.push(String(year));
+      }
+      setAllReportYears(years);
     }
   }, [earliestReportDate, latestReportDate]);
 
@@ -56,6 +60,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
                 earliestReportDate={earliestReportDate}
                 allReportDates={allReportDates}
                 allReportYears={allReportYears}
+                ignoreDisabled={true}
               />
               <GenerativeReportsAccountFilter apiData={apisProp} />
             </div>

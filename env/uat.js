@@ -12,8 +12,80 @@ module.exports = {
     'chartingConfigurationTool',
     'defaultReportTable',
   ],
-  ADDITIONAL_DATASETS: {},
+  ADDITIONAL_DATASETS: {
+    '015-BFS-2014Q3-052': {
+      slug: '/top-treasury-offset-program/',
+      seoConfig: {
+        pageTitle: 'Treasury Offset Program (TOP)',
+        description:
+          'This dataset shows how Treasury offsets federal payments, such as tax refunds, to ' +
+          'pay off delinquent debts such as unpaid child support.',
+        keywords: 'Debt, Revenue',
+      },
+      topics: ['debt', 'revenue'],
+      relatedDatasets: ['015-BFS-2020Q4-xx', '015-BFS-2014Q1-03', '015-BFS-2014Q1-13', '015-BFS-2017Q2-003'],
+      currentDateButton: 'byMonth',
+    },
+  },
   ADDITIONAL_ENDPOINTS: {
+    '299': {
+      endpoint: 'v1/debt/treasury_offset_program',
+      dateField: 'record_date',
+      downloadName: 'treasury_offset_program',
+      alwaysSortWith: ['-record_date', 'row_index_nbr'],
+      selectColumns: [],
+      dataDisplays: [
+        {
+          title: 'Mixed Stream',
+          dimensionField: 'mixed_stream',
+        },
+        {
+          title: 'State or Agency',
+          dimensionField: 'state_or_agency',
+        },
+        {
+          title: 'Agency Full Code Name',
+          dimensionField: 'agency_full_cd_nm',
+        },
+        {
+          title: 'Agency Name',
+          dimensionField: 'agency_nm',
+        },
+        {
+          title: 'Agency',
+          dimensionField: 'agency',
+        },
+        {
+          title: 'Agency Site ID',
+          dimensionField: 'agency_site_id',
+        },
+        {
+          title: 'Payment Type',
+          dimensionField: 'payment_type',
+        },
+        {
+          title: 'Payment Source',
+          dimensionField: 'payment_source',
+        },
+        {
+          title: 'Debt Category',
+          dimensionField: 'debt_category',
+        },
+        {
+          title: 'State Code',
+          dimensionField: 'state_cd',
+        },
+        {
+          title: 'Reversal Requestor',
+          dimensionField: 'reversal_requestor',
+        },
+        {
+          title: 'Payment Category Description',
+          dimensionField: 'payment_category',
+        },
+      ],
+      valueFieldOptions: ['net_offset_cnt', 'net_offset_amt', 'net_dms_fee_amt', 'offset_amnt', 'offset_cnt', 'reversal_cnt', 'reserval_amt'],
+    },
     '160': {
       endpoint: 'v2/accounting/od/balance_sheets',
       downloadName: 'USFR_BalSheet',
