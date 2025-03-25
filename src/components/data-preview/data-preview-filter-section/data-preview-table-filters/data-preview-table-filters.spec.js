@@ -7,7 +7,7 @@ describe('Table filters dropdown', () => {
   const mockSelectedTable = { userFilter: null, earliestDate: '3-17-2020', latestDate: '3-17-2025', dateField: 'record_date' };
 
   it('renders the dropdown button', () => {
-    const { getByRole } = render(<DataPreviewTableFilters />);
+    const { getByRole } = render(<DataPreviewTableFilters width={1000} />);
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
     //Filters dropdown opens on click
@@ -15,7 +15,7 @@ describe('Table filters dropdown', () => {
     expect(applyButton).toBeInTheDocument();
   });
   it('apply button closes dropdown panel and applies any selected filters', () => {
-    const { getByRole } = render(<DataPreviewTableFilters />);
+    const { getByRole } = render(<DataPreviewTableFilters width={1000} />);
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
     //Filters dropdown opens on click
@@ -28,7 +28,7 @@ describe('Table filters dropdown', () => {
   });
 
   it('cancel button closes dropdown panel without applying filters', () => {
-    const { getByRole } = render(<DataPreviewTableFilters />);
+    const { getByRole } = render(<DataPreviewTableFilters width={1000} />);
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
     //Filters dropdown opens on click
