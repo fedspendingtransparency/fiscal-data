@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import SearchBar from '../../../components/search-bar/search-bar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft, faCaretRight, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCaretLeft, faCaretRight, faCheck} from '@fortawesome/free-solid-svg-icons';
 
 import {
   applyButton,
@@ -24,7 +24,10 @@ import {
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 
-const DataPreviewMobileDialog = ({ onClose }) => {
+interface iDataPreviewMovileDialog {
+  onClose: () => void;
+}
+const DataPreviewMobileDialog: FunctionComponent<iDataPreviewMovileDialog> = ({ onClose }) => {
   const shouldTocShow = true;
 
   const onSearchBarChange = event => {
