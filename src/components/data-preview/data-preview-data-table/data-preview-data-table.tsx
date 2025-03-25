@@ -17,7 +17,6 @@ import { DataTableContext } from '../data-preview-context';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 
 const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
-  defaultSelectedColumns,
   setTableColumnSortData,
   shouldPage,
   showPaginationControls,
@@ -26,22 +25,17 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   resetFilters,
   setResetFilters,
   hideCellLinks,
-  tableName,
   hideColumns,
   pagingProps,
   manualPagination,
   rowsShowing,
-  columnConfig,
-  detailColumnConfig,
   detailView,
-  detailViewAPI,
   detailViewState,
   setDetailViewState,
   allowColumnWrap,
   aria,
   pivotSelected,
   setSummaryValues,
-  customFormatting,
   sorting,
   setSorting,
   allActiveFilters,
@@ -52,22 +46,29 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   dateRange,
   hasDownloadTimestamp,
 }) => {
-  const { setDefaultColumns, setAdditionalColumns, allColumns, setConfigOption, configOption, setTableState, reactTableData: rawData } = useContext(
-    DataTableContext
-  );
+  const {
+    defaultSelectedColumns,
+    setDefaultColumns,
+    setAdditionalColumns,
+    allColumns,
+    setConfigOption,
+    configOption,
+    setTableState,
+    reactTableData: rawData,
+  } = useContext(DataTableContext);
 
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
   const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
 
-  useEffect(() => {
-    if (!detailViewState) {
-      setConfigOption(columnConfig);
-    } else {
-      setConfigOption(detailColumnConfig);
-    }
-  }, [rawData]);
+  // useEffect(() => {
+  //   if (!detailViewState) {
+  //     setConfigOption(columnConfig);
+  //   } else {
+  //     setConfigOption(detailColumnConfig);
+  //   }
+  // }, [rawData]);
 
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
@@ -105,6 +106,10 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   const [columnVisibility, setColumnVisibility] = useState(
     defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
   );
+
+  useEffect(() => {
+    console.log('columnVisibility', columnVisibility);
+  }, []);
 
   const table = useReactTable({
     columns: allColumns,
@@ -144,6 +149,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   const constructDefaultColumnsFromTableData = () => {
     const constructedDefaultColumns = [];
     const constructedAdditionalColumns = [];
+    console.log(defaultSelectedColumns, table.getAllLeafColumns());
     for (const column of table.getAllLeafColumns()) {
       if (defaultSelectedColumns.includes(column.id)) {
         constructedDefaultColumns.push(column);
@@ -154,6 +160,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     constructedAdditionalColumns.sort((a, b) => {
       return a.id.localeCompare(b.id);
     });
+    console.log('setting columns', constructedDefaultColumns, constructedAdditionalColumns);
     setDefaultColumns(constructedDefaultColumns);
     setAdditionalColumns(constructedAdditionalColumns);
   };
@@ -164,12 +171,14 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
 
   useEffect(() => {
     if (defaultSelectedColumns && !pivotSelected) {
+      console.log('defaultSelectedColumns', defaultSelectedColumns);
+      setColumnVisibility(defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {});
       constructDefaultColumnsFromTableData();
     }
     if (detailViewState) {
       setColumnVisibility(defaultInvisibleColumns);
     }
-  }, [configOption]);
+  }, [defaultSelectedColumns]);
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);

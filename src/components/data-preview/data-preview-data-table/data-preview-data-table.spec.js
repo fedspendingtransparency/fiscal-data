@@ -7,7 +7,6 @@ import {
   allColLabels,
   defaultColLabels,
   defaultColumnsTypeCheckMock,
-  mockAllColumns,
   mockColumnConfig,
   mockColumnConfigDownloadWithTextQualifier,
   mockDetailApiData,
@@ -23,16 +22,19 @@ import DataPreviewDataTable from './data-preview-data-table';
 import { smallTableDownloadDataCSV } from '../../../recoil/smallTableDownloadData';
 import { RecoilObserver } from '../../../utils/test-utils';
 import { DataTableContext } from '../data-preview-context';
+import { columnsConstructorData } from '../../data-table/data-table-helper';
 
 describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
+  const mockcolumns = columnsConstructorData(mockTableData, [], '', mockColumnConfig);
   const contextProps = {
     tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null },
     setDefaultColumns: jest.fn(),
     setAdditionalColumns: jest.fn(),
     setTableState: jest.fn(),
     setConfigOption: jest.fn(),
-    allColumns: mockAllColumns,
+    allColumns: mockcolumns,
+    configOption: mockColumnConfig,
   };
 
   global.fetch = jest.fn(() => {

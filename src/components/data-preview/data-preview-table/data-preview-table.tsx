@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
-import { loadingTimeout, netLoadingDelay, setColumns } from '../../dtg-table/dtg-table-helper';
+import { loadingTimeout, netLoadingDelay } from '../../dtg-table/dtg-table-helper';
 import { formatDateForApi, pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../utils/api-utils';
 import moment from 'moment';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
@@ -98,7 +98,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   perPage,
   setPerPage,
 }) => {
-  const { tableProps, reactTableData, setReactTableData } = useContext(DataTableContext);
+  const { tableProps, reactTableData, setReactTableData, allColumns } = useContext(DataTableContext);
 
   const {
     dePaginated,
@@ -111,8 +111,8 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     selectedPivot,
     dateRange,
     config,
-    columnConfig,
-    detailColumnConfig,
+    // columnConfig,
+    // detailColumnConfig,
     selectColumns,
     hideColumns,
     hasPublishedReports,
@@ -158,11 +158,11 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     return allCols;
   };
 
-  const dataProperties = {
-    keys: tableData[0] ? Object.keys(tableData[0]) : [],
-    excluded: getAllExcludedCols(),
-  };
-  const columns = setColumns(dataProperties, columnConfig);
+  // const dataProperties = {
+  //   keys: tableData[0] ? Object.keys(tableData[0]) : [],
+  //   excluded: getAllExcludedCols(),
+  // };
+  // const columns = setColumns(dataProperties, columnConfig);
 
   const handlePerPageChange = numRows => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
@@ -440,13 +440,11 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
             <DtgTableApiError />
           </>
         )}
-        {!apiErrorState && reactTableData?.data && (
+        {!apiErrorState && reactTableData?.data && allColumns && (
           <ErrorBoundary FallbackComponent={() => <></>}>
             <DataPreviewDataTable
-              rawData={reactTableData}
               detailViewState={detailViewState}
               setDetailViewState={setDetailViewState}
-              detailColumnConfig={detailColumnConfig}
               detailViewAPI={detailViewAPIConfig}
               detailView={config?.detailView}
               defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
@@ -466,7 +464,6 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
               manualPagination={manualPagination}
               maxRows={maxRows}
               rowsShowing={rowsShowing}
-              columnConfig={columnConfig}
               allowColumnWrap={allowColumnWrap}
               aria={tableProps.aria}
               pivotSelected={pivotSelected?.pivotValue}
