@@ -21,6 +21,9 @@ import {
   filtersScrollContainer,
   previewCaret,
   checkIcon,
+  headerContainer,
+  previewCaretContainer,
+  previewCaretButton,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 
 const DataPreviewMobileDialog = () => {
@@ -43,10 +46,12 @@ const DataPreviewMobileDialog = () => {
     <div className={mainContainer}>
       {shouldTocShow && (
         <>
-          <div className="headerContainer">
+          <div className={headerContainer}>
             <div className={dataPreviewHeader}>
-              <button>
-                <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
+              <button className={previewCaretButton}>
+                <div className={previewCaretContainer}>
+                  <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
+                </div>
                 Data Preview
               </button>
             </div>
@@ -78,8 +83,8 @@ const DataPreviewMobileDialog = () => {
               <FontAwesomeIcon icon={faCheck} className={checkIcon} />
               Apply
             </Link>
-            <div className={cancelButton}>
-              <button>
+            <div>
+              <button className={cancelButton}>
                 <u>Cancel</u>
               </button>
             </div>
