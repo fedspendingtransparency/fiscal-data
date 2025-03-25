@@ -63,10 +63,12 @@ export const mockColumnConfig = [
   {
     property: 'record_date',
     name: 'Record Date',
+    type: 'DATE',
   },
   {
     property: 'debt_held_public_amt',
     name: 'Debt Held by the Public',
+    type: 'STRING',
   },
   {
     property: 'intragov_hold_amt',

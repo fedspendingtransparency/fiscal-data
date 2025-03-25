@@ -107,10 +107,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
   );
 
-  useEffect(() => {
-    console.log('columnVisibility', columnVisibility);
-  }, []);
-
   const table = useReactTable({
     columns: allColumns,
     data: rawData.data,
@@ -149,7 +145,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   const constructDefaultColumnsFromTableData = () => {
     const constructedDefaultColumns = [];
     const constructedAdditionalColumns = [];
-    console.log(defaultSelectedColumns, table.getAllLeafColumns());
     for (const column of table.getAllLeafColumns()) {
       if (defaultSelectedColumns.includes(column.id)) {
         constructedDefaultColumns.push(column);
@@ -160,7 +155,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     constructedAdditionalColumns.sort((a, b) => {
       return a.id.localeCompare(b.id);
     });
-    console.log('setting columns', constructedDefaultColumns, constructedAdditionalColumns);
     setDefaultColumns(constructedDefaultColumns);
     setAdditionalColumns(constructedAdditionalColumns);
   };
@@ -171,7 +165,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
 
   useEffect(() => {
     if (defaultSelectedColumns && !pivotSelected) {
-      console.log('defaultSelectedColumns', defaultSelectedColumns);
       setColumnVisibility(defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {});
       constructDefaultColumnsFromTableData();
     }
