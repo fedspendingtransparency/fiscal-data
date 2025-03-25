@@ -1,6 +1,4 @@
-import { postAPI } from '../../utils/api-utils';
 import { format } from 'date-fns';
-import { fileSizeTranslator2 } from '../datatables-tab/datatables-tab-helpers';
 
 export const getDateRangeForFiltration = (dateRange, endpoint) => {
   // redemption_tables is a one-off scenario where the date string needs to be YYYY-MM.

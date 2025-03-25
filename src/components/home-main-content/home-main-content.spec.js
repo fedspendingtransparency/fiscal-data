@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
-import HomeMainContent, { analyticsObject } from './home-main-content';
-import Analytics from '../../utils/analytics/analytics';
+import { render } from '@testing-library/react';
+import HomeMainContent from './home-main-content';
 
 describe('Home Main Content', () => {
   it('should render text for h2', () => {

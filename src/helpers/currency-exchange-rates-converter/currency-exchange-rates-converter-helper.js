@@ -1,5 +1,4 @@
 import { BASE_URL } from 'gatsby-env-variables';
-import InfoTip from '../../components/info-tip/info-tip';
 import React from 'react';
 import Analytics from '../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../google-analytics/google-analytics-helper';

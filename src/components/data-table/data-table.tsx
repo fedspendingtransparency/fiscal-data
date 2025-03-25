@@ -1,24 +1,16 @@
-import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { json2xml } from 'xml-js';
-import {
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  getFilteredRowModel,
-  Table,
-  SortingState,
-} from '@tanstack/react-table';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
 import {
-  rawDataTableContainer,
   nonRawDataTableContainer,
-  tableStyle,
   overlayContainerNoFooter,
+  overlayContainerNoFooterChart,
+  rawDataTableContainer,
   selectColumnPanelActive,
   selectColumnPanelInactive,
   selectColumnsWrapper,
-  overlayContainerNoFooterChart,
+  tableStyle,
 } from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';

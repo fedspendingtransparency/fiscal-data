@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, fireEvent, getByText } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import DownloadReportTableRow from './download-report-table-row';
 import userEvent from '@testing-library/user-event';
 

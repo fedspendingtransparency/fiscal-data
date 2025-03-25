@@ -1,16 +1,16 @@
-import React, { FunctionComponent, useEffect, ReactElement } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import React, {FunctionComponent, ReactElement} from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
+import {faCaretDown, faCaretUp} from '@fortawesome/free-solid-svg-icons';
 import {
+  buttonContent,
+  buttonEnabled,
   dropdownButton,
   glow,
-  publishedDateLabel,
   labelIcon,
-  buttonContent,
-  selectedOptionText,
-  buttonEnabled,
   muiButtonContent,
+  publishedDateLabel,
+  selectedOptionText,
 } from './dropdown-label-button.module.scss';
 
 interface IDropdownLabelButton {

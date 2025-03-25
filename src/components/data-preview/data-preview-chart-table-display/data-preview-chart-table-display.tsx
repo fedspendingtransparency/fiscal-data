@@ -1,7 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
-import { getMessageForDefaultApiFilter, getMessageForUnmatchedUserFilter } from '../../filter-download-container/user-filter/user-filter';
-import { allTablesSelectedBody, emptyDataMessageBody } from '../../dataset-data/chart-table-toggle/chart-table-toggle';
 import TableNotice from './table-notice/table-notice';
 import EmptyTable from './empty-table/empty-table';
 import { tableNotice } from './data-preview-chart-table-display.module.scss';

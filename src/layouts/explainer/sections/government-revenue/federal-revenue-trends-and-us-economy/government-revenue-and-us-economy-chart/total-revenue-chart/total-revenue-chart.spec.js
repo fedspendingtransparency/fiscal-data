@@ -1,16 +1,16 @@
-import { fireEvent, getByTestId, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import TotalRevenueChart from './total-revenue-chart';
 import fetchMock from 'fetch-mock';
 import { determineBEAFetchResponse } from '../../../../../../../utils/mock-utils';
 import {
   mockBeaGDPData,
+  mockBeaGDPDataForRevenueChart,
+  mockCallOutData,
   mockCpiDataset,
   mockRevenueData,
-  mockCallOutData,
   mockRevenueData_decreased,
   mockRevenueData_NoChange,
-  mockBeaGDPDataForRevenueChart,
 } from '../../../../../explainer-test-helper';
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
