@@ -543,6 +543,7 @@ export const mockPublishedReports = [
 export const mockAllColumnsProp = columnsConstructorData(mockTableData, [], '', mockColumnConfig);
 export const contextProps = {
   tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, tableName: '!' },
+  setTableProps: jest.fn(),
   setDefaultColumns: jest.fn(),
   setAdditionalColumns: jest.fn(),
   setTableState: jest.fn(),
