@@ -5,6 +5,7 @@ import { RecoilRoot } from 'recoil';
 import {
   additionalColLabels,
   allColLabels,
+  contextProps,
   defaultColLabels,
   defaultColumnsTypeCheckMock,
   defaultSelectedColumnsMock,
@@ -27,16 +28,6 @@ import { columnsConstructorData } from '../../data-table/data-table-helper';
 
 describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
-  const mockcolumns = columnsConstructorData(mockTableData, [], '', mockColumnConfig);
-  const contextProps = {
-    tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, tableName: '!' },
-    setDefaultColumns: jest.fn(),
-    setAdditionalColumns: jest.fn(),
-    setTableState: jest.fn(),
-    setConfigOption: jest.fn(),
-    allColumns: mockcolumns,
-    configOption: mockColumnConfig,
-  };
 
   global.fetch = jest.fn(() => {
     return Promise.resolve({
@@ -50,7 +41,6 @@ describe('react-table', () => {
       <DataTableContext.Provider
         value={{
           ...contextProps,
-          reactTableData: mockTableData,
         }}
       >
         <RecoilRoot>
@@ -63,34 +53,6 @@ describe('react-table', () => {
             hasPublishedReports={true}
             hideCellLinks={false}
             setFiltersActive={jest.fn()}
-            columnConfig={mockColumnConfig}
-            setTableSorting={jest.fn()}
-          />
-        </RecoilRoot>
-      </DataTableContext.Provider>
-    );
-    expect(instance).toBeTruthy();
-  });
-
-  it('table renders with select columns option', () => {
-    const instance = render(
-      <DataTableContext.Provider
-        value={{
-          ...contextProps,
-          reactTableData: mockTableData,
-        }}
-      >
-        <RecoilRoot>
-          <DataPreviewDataTable
-            pagingProps={{ itemsPerPage: 10 }}
-            setTableColumnSortData={setTableColumnSortData}
-            shouldPage
-            showPaginationControls
-            publishedReports={mockPublishedReports}
-            hasPublishedReports={true}
-            hideCellLinks={false}
-            setFiltersActive={jest.fn()}
-            selectColumnPanel={true}
             columnConfig={mockColumnConfig}
             setTableSorting={jest.fn()}
           />
@@ -106,7 +68,6 @@ describe('react-table', () => {
       <DataTableContext.Provider
         value={{
           ...contextProps,
-          reactTableData: mockTableData,
         }}
       >
         <RecoilRoot>
@@ -135,7 +96,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig),
           }}
         >
@@ -245,7 +205,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig),
           }}
         >
@@ -278,7 +237,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
           }}
         >
           <RecoilRoot>
@@ -377,7 +335,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
           }}
         >
           <RecoilRoot>
@@ -402,49 +359,46 @@ describe('react-table', () => {
       });
     });
 
-    // TODO: Relocate test, fails bc of context
-    // it('hides specified columns', () => {
-    //   const { getAllByRole, queryByRole } = render(
-    //     <DataTableContext.Provider
-    //       value={{
-    //         ...contextProps,
-    //         reactTableData: mockTableData,
-    //         tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, hideColumns: ['src_line_nbr'] },
-    //       }}
-    //     >
-    //       <RecoilRoot>
-    //         <DataPreviewDataTable
-    //           pagingProps={{ itemsPerPage: 10 }}
-    //           setTableColumnSortData={setTableColumnSortData}
-    //           shouldPage
-    //           showPaginationControls
-    //           setFiltersActive={jest.fn()}
-    //           hideColumns={['src_line_nbr']}
-    //           columnConfig={mockColumnConfig}
-    //           setTableSorting={jest.fn()}
-    //         />
-    //       </RecoilRoot>
-    //     </DataTableContext.Provider>
-    //   );
-    //   const hiddenCol = 'Source Line Number';
-    //   expect(queryByRole('columnheader', { name: hiddenCol })).not.toBeInTheDocument();
-    //
-    //   const visibleColumns = getAllByRole('columnheader');
-    //   const allVisibleColumnLabels = allColLabels.filter(x => x !== hiddenCol);
-    //   expect(visibleColumns.length).toBe(allVisibleColumnLabels.length);
-    //
-    //   visibleColumns.forEach(col => {
-    //     const header = col.children[0].children[0].innerHTML;
-    //     expect(allVisibleColumnLabels.includes(header));
-    //   });
-    // });
+    it('hides specified columns', () => {
+      const { getAllByRole, queryByRole } = render(
+        <DataTableContext.Provider
+          value={{
+            ...contextProps,
+            allColumns: columnsConstructorData(mockTableData, ['src_line_nbr'], '', mockColumnConfig),
+          }}
+        >
+          <RecoilRoot>
+            <DataPreviewDataTable
+              pagingProps={{ itemsPerPage: 10 }}
+              setTableColumnSortData={setTableColumnSortData}
+              shouldPage
+              showPaginationControls
+              setFiltersActive={jest.fn()}
+              hideColumns={['src_line_nbr']}
+              columnConfig={mockColumnConfig}
+              setTableSorting={jest.fn()}
+            />
+          </RecoilRoot>
+        </DataTableContext.Provider>
+      );
+      const hiddenCol = 'Source Line Number';
+      expect(queryByRole('columnheader', { name: hiddenCol })).not.toBeInTheDocument();
+
+      const visibleColumns = getAllByRole('columnheader');
+      const allVisibleColumnLabels = allColLabels.filter(x => x !== hiddenCol);
+      expect(visibleColumns.length).toBe(allVisibleColumnLabels.length);
+
+      visibleColumns.forEach(col => {
+        const header = col.children[0].children[0].innerHTML;
+        expect(allVisibleColumnLabels.includes(header));
+      });
+    });
 
     it('initially renders only default columns showing when defaults specified', () => {
       const { getAllByRole, queryAllByRole } = render(
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             defaultSelectedColumns: defaultSelectedColumnsMock,
           }}
         >
@@ -484,7 +438,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
@@ -509,7 +462,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
@@ -536,7 +488,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, customFormatting: customFormatter },
             defaultSelectedColumns: ['spread'],
             allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig, customFormatter),
@@ -565,7 +516,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, customFormatting: customFormatter },
             defaultSelectedColumns: ['additional_date'],
             allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig, customFormatter),
@@ -593,7 +543,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
@@ -618,7 +567,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
@@ -644,7 +592,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
@@ -669,7 +616,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
@@ -734,7 +680,6 @@ describe('react-table', () => {
         <DataTableContext.Provider
           value={{
             ...contextProps,
-            reactTableData: mockTableData,
             tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, tableName: 'FRN Daily Indexes' },
             allColumns: columnsConstructorData(mockTableData, [], 'FRN Daily Indexes', mockColumnConfig),
           }}
@@ -766,7 +711,6 @@ describe('react-table', () => {
       <DataTableContext.Provider
         value={{
           ...contextProps,
-          reactTableData: mockTableData,
           allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig),
         }}
       >

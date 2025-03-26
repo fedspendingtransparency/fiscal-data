@@ -111,8 +111,6 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     selectedPivot,
     dateRange,
     config,
-    // columnConfig,
-    // detailColumnConfig,
     selectColumns,
     hideColumns,
     hasPublishedReports,
@@ -447,7 +445,6 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
               setDetailViewState={setDetailViewState}
               detailViewAPI={detailViewAPIConfig}
               detailView={config?.detailView}
-              defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
               setTableColumnSortData={setTableColumnSortData}
               hideCellLinks={true}
               shouldPage={shouldPage}
@@ -460,15 +457,12 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
               resetFilters={resetFilters}
               setResetFilters={setResetFilters}
               hideColumns={hideColumns}
-              tableName={tableName}
               manualPagination={manualPagination}
-              maxRows={maxRows}
               rowsShowing={rowsShowing}
               allowColumnWrap={allowColumnWrap}
               aria={tableProps.aria}
               pivotSelected={pivotSelected?.pivotValue}
               setSummaryValues={setSummaryValues}
-              customFormatting={customFormatting}
               sorting={sorting}
               setSorting={setSorting}
               allActiveFilters={allActiveFilters}

@@ -46,16 +46,9 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   dateRange,
   hasDownloadTimestamp,
 }) => {
-  const {
-    defaultSelectedColumns,
-    setDefaultColumns,
-    setAdditionalColumns,
-    allColumns,
-    setConfigOption,
-    configOption,
-    setTableState,
-    reactTableData: rawData,
-  } = useContext(DataTableContext);
+  const { defaultSelectedColumns, setDefaultColumns, setAdditionalColumns, allColumns, setTableState, reactTableData: rawData } = useContext(
+    DataTableContext
+  );
 
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);

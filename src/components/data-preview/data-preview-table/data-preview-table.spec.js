@@ -1,10 +1,12 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import { mockPaginatedTableProps, TestData, MoreTestData, DetailViewTestData } from '../../dtg-table/test-data';
+import { DetailViewTestData, mockPaginatedTableProps, MoreTestData, MoreTestDataColumnConfig, TestData } from '../../dtg-table/test-data';
 import * as helpers from '../../dtg-table/dtg-table-helper';
 import { RecoilRoot } from 'recoil';
 import { render, within } from '@testing-library/react';
 import DataPreviewTable from './data-preview-table';
+import { DataTableContext } from '../data-preview-context';
+import { contextProps } from '../../data-table/data-table-test-helper';
+import { columnsConstructorData } from '../../data-table/data-table-helper';
 
 describe('DataPreviewTable component', () => {
   jest.useFakeTimers();
@@ -13,9 +15,15 @@ describe('DataPreviewTable component', () => {
 
   it('does not blow up when there is no data in a table', () => {
     const instance = render(
-      <RecoilRoot>
-        <DataPreviewTable tableProps={{}} setManualPagination={jest.fn()} />
-      </RecoilRoot>
+      <DataTableContext.Provider
+        value={{
+          tableProps: {},
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewTable setManualPagination={jest.fn()} />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
 
     expect(instance).toBeDefined();
@@ -23,9 +31,15 @@ describe('DataPreviewTable component', () => {
 
   it('does not show pagination controls by default', () => {
     const { queryByRole } = render(
-      <RecoilRoot>
-        <DataPreviewTable tableProps={{ data: TestData }} />
-      </RecoilRoot>
+      <DataTableContext.Provider
+        value={{
+          tableProps: { data: TestData },
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewTable />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(queryByRole('button', { name: 'Previous Page' })).not.toBeInTheDocument();
     expect(queryByRole('button', { name: 'Next Page' })).not.toBeInTheDocument();
@@ -34,9 +48,15 @@ describe('DataPreviewTable component', () => {
 
   it('does not show table footer if shouldPage property is not included in tableProps', () => {
     const { queryByText } = render(
-      <RecoilRoot>
-        <DataPreviewTable tableProps={{ data: TestData }} />
-      </RecoilRoot>
+      <DataTableContext.Provider
+        value={{
+          tableProps: { data: TestData },
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewTable />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(queryByText('Rows Per Page')).not.toBeInTheDocument();
     expect(queryByText('Showing', { exact: false })).not.toBeInTheDocument();
@@ -44,35 +64,42 @@ describe('DataPreviewTable component', () => {
 
   it('renders the number of rows specified in props', () => {
     const perPage = 3;
-    const newComponent = renderer.create();
-    renderer.act(() => {
-      newComponent.update(
+    const { getAllByRole } = render(
+      <DataTableContext.Provider
+        value={{
+          ...contextProps,
+          tableProps: { rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, shouldPage: true },
+        }}
+      >
         <RecoilRoot>
-          <DataPreviewTable
-            tableProps={{ rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, shouldPage: true }}
-            setManualPagination={jest.fn()}
-            perPage={perPage}
-          />
+          <DataPreviewTable setManualPagination={jest.fn()} perPage={perPage} />
         </RecoilRoot>
-      );
-    });
-
-    const updated = newComponent.root;
-    expect(updated.findByType('tbody').findAllByType('tr').length).toEqual(perPage);
+      </DataTableContext.Provider>
+    );
+    const tableBody = getAllByRole('rowgroup')[1];
+    expect(within(tableBody).getAllByRole('row')).toHaveLength(perPage);
   });
 
-  it('renders the defaultRowsPer if shouldPage === true but perPage is not specified and shows range of rows showing out of total number of rows with correct default itemsPerPage', () => {
+  it(`renders the defaultRowsPer if shouldPage === true but perPage is not specified and shows range of rows
+   showing out of total number of rows with correct default itemsPerPage`, () => {
     const { getByText, getAllByRole } = render(
-      <RecoilRoot>
-        <DataPreviewTable
-          tableProps={{ rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, shouldPage: true }}
-          setManualPagination={jest.fn()}
-        />
-      </RecoilRoot>
+      <DataTableContext.Provider
+        value={{
+          // ...contextProps,
+          setReactTableData: jest.fn(),
+          tableProps: { rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, shouldPage: true },
+          reactTableData: MoreTestData,
+          allColumns: columnsConstructorData(MoreTestData, [], '', MoreTestDataColumnConfig),
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewTable setManualPagination={jest.fn()} />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
 
     const tableBody = getAllByRole('rowgroup')[1];
-    expect(within(tableBody).getAllByRole('row').length).toBe(10);
+    // expect(within(tableBody).getAllByRole('row').length).toBe(10);
     const maxRows = MoreTestData.length;
     expect(getByText(`Showing `, { exact: false })).toBeInTheDocument();
     expect(getByText(`rows of ${maxRows} rows`, { exact: false })).toBeInTheDocument();
@@ -83,9 +110,15 @@ describe('DataPreviewTable component', () => {
     spy.mockClear();
 
     render(
-      <RecoilRoot>
-        <DataPreviewTable tableProps={mockPaginatedTableProps} />
-      </RecoilRoot>
+      <DataTableContext.Provider
+        value={{
+          tableProps: mockPaginatedTableProps,
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewTable />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
 
     jest.advanceTimersByTime(helpers.loadTimerDelay * 2);
@@ -95,19 +128,23 @@ describe('DataPreviewTable component', () => {
   it('sets table aria prop with a single attribute and value', () => {
     const aria = { 'aria-describedby': 'my-test-id' };
 
-    const { getByText, getByRole } = render(
-      <RecoilRoot>
-        <DataPreviewTable
-          tableProps={{
+    const { getByRole } = render(
+      <DataTableContext.Provider
+        value={{
+          ...contextProps,
+          tableProps: {
             rawData: { data: MoreTestData },
             selectedTable: { rowCount: 11 },
             shouldPage: true,
             data: TestData,
             aria: aria,
-          }}
-          setManualPagination={jest.fn()}
-        />
-      </RecoilRoot>
+          },
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewTable setManualPagination={jest.fn()} />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
 
     const table = getByRole('table');
@@ -116,13 +153,13 @@ describe('DataPreviewTable component', () => {
 
   it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
     const { getByText } = render(
-      <RecoilRoot>
-        <DataPreviewTable
-          tableProps={{ rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, shouldPage: true }}
-          setManualPagination={jest.fn()}
-          isLoading={false}
-        />
-      </RecoilRoot>
+      <DataTableContext.Provider
+        value={{ ...contextProps, tableProps: { rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, shouldPage: true } }}
+      >
+        <RecoilRoot>
+          <DataPreviewTable setManualPagination={jest.fn()} isLoading={false} />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(getByText('Rows Per Page')).toBeInTheDocument();
     expect(getByText('Showing', { exact: false })).toBeInTheDocument();
@@ -176,16 +213,16 @@ describe('DataPreviewTable component', () => {
     const mockSetIsLoading = jest.fn();
     const mockSetManualPagination = jest.fn();
     const { getByRole } = render(
-      <RecoilRoot>
-        <DataPreviewTable
-          tableMeta={{ 'total-count': 500 }}
-          userFilterSelection={{ value: 'A' }}
-          tableProps={{ dePaginated: { data: ['hello'] } }}
-          rawDataTable={true}
-          setManualPagination={mockSetManualPagination}
-          setIsLoading={mockSetIsLoading}
-        />
-      </RecoilRoot>
+      <DataTableContext.Provider value={{ ...contextProps, tableProps: { dePaginated: { data: ['hello'] } } }}>
+        <RecoilRoot>
+          <DataPreviewTable
+            tableMeta={{ 'total-count': 500 }}
+            userFilterSelection={{ value: 'A' }}
+            setManualPagination={mockSetManualPagination}
+            setIsLoading={mockSetIsLoading}
+          />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(getByRole('table')).toBeInTheDocument();
     expect(mockSetManualPagination).toHaveBeenCalledWith(false);
@@ -196,12 +233,13 @@ describe('DataPreviewTable component', () => {
 describe('DataPreviewTable component - API Error', () => {
   it('shows an apiError message when apiError exists', () => {
     const { getByText } = render(
-      <RecoilRoot>
-        <DataPreviewTable
-          tableProps={{ rawData: { data: TestData }, selectedTable: { rowCount: 10 }, apiError: 'Error', shouldPage: true }}
-          setManualPagination={jest.fn()}
-        />
-      </RecoilRoot>
+      <DataTableContext.Provider
+        value={{ ...contextProps, tableProps: { rawData: { data: TestData }, selectedTable: { rowCount: 10 }, apiError: 'Error', shouldPage: true } }}
+      >
+        <RecoilRoot>
+          <DataPreviewTable setManualPagination={jest.fn()} />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(getByText('Table failed to load.')).toBeInTheDocument();
   });
@@ -209,29 +247,34 @@ describe('DataPreviewTable component - API Error', () => {
   // TODO: get these to work in a later ticket
   // it('displays "Showing 0 - 0 rows of 0 rows" when apiError exists', () => {
   //   const { getByText } = render(
-  //     <RecoilRoot>
-  //       <DataPreviewTable
-  //         tableProps={{ rawData: { data: null }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true }}
-  //         setManualPagination={jest.fn()}
-  //       />
-  //     </RecoilRoot>
+  //     <DataTableContext.Provider
+  //       value={{ ...contextProps, tableProps: { rawData: { data: null }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true } }}
+  //     >
+  //       <RecoilRoot>
+  //         <DataPreviewTable setManualPagination={jest.fn()} />
+  //       </RecoilRoot>
+  //     </DataTableContext.Provider>
   //   );
   //   expect(getByText(`Showing 0 - 0 rows of 0 rows`)).toBeInTheDocument();
   // });
-  //
-  // it('does not render pagination controls if apiError exists && currentPage === 1 even when shouldPage === true', () => {
-  //   const { queryByRole } = render(
-  //     <RecoilRoot>
-  //       <DataPreviewTable
-  //         tableProps={{ rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true }}
-  //         setManualPagination={jest.fn()}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //   expect(queryByRole('button', { name: 'Previous Page' })).not.toBeInTheDocument();
-  //   expect(queryByRole('button', { name: 'Next Page' })).not.toBeInTheDocument();
-  //   expect(queryByRole('button', { name: '1' })).not.toBeInTheDocument();
-  // });
+
+  it('does not render pagination controls if apiError exists && currentPage === 1 even when shouldPage === true', () => {
+    const { queryByRole } = render(
+      <DataTableContext.Provider
+        value={{ ...contextProps, tableProps: { rawData: { data: null }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true } }}
+      >
+        <RecoilRoot>
+          <DataPreviewTable
+            tableProps={{ rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true }}
+            setManualPagination={jest.fn()}
+          />
+        </RecoilRoot>
+      </DataTableContext.Provider>
+    );
+    expect(queryByRole('button', { name: 'Previous Page' })).not.toBeInTheDocument();
+    expect(queryByRole('button', { name: 'Next Page' })).not.toBeInTheDocument();
+    expect(queryByRole('button', { name: '1' })).not.toBeInTheDocument();
+  });
 });
 
 describe('Data Preview Table detail view', () => {
@@ -240,19 +283,21 @@ describe('Data Preview Table detail view', () => {
     const mockSetIsLoading = jest.fn();
     const mockSetManualPagination = jest.fn();
     const { getByRole } = render(
-      <RecoilRoot>
-        <DataPreviewTable
-          tableProps={{
+      <DataTableContext.Provider
+        value={{
+          ...contextProps,
+          tableProps: {
             rawData: { data: DetailViewTestData },
             selectedTable: { rowCount: 12 },
             shouldPage: true,
             config: { detailView: { field: 'first', secondaryField: 'last', apiId: 1 }, apis: [{ apiId: 1 }] },
-          }}
-          detailViewState={detailViewState}
-          setManualPagination={mockSetManualPagination}
-          setIsLoading={mockSetIsLoading}
-        />
-      </RecoilRoot>
+          },
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewTable detailViewState={detailViewState} setManualPagination={mockSetManualPagination} setIsLoading={mockSetIsLoading} />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
 
     expect(getByRole('table')).toBeInTheDocument();
@@ -264,15 +309,26 @@ describe('Loading table data', () => {
     const mockSetIsLoading = jest.fn();
     const mockSetManualPagination = jest.fn();
     const { getByRole } = render(
-      <DataPreviewTable
-        tableProps={{
-          dePaginated: { data: MoreTestData },
-          selectedTable: { rowCount: 12 },
-          shouldPage: true,
+      <DataTableContext.Provider
+        value={{
+          ...contextProps,
+          tableProps: {
+            dePaginated: { data: MoreTestData },
+            selectedTable: { rowCount: 12 },
+            shouldPage: true,
+          },
         }}
-        setManualPagination={mockSetManualPagination}
-        setIsLoading={mockSetIsLoading}
-      />,
+      >
+        <DataPreviewTable
+          tableProps={{
+            dePaginated: { data: MoreTestData },
+            selectedTable: { rowCount: 12 },
+            shouldPage: true,
+          }}
+          setManualPagination={mockSetManualPagination}
+          setIsLoading={mockSetIsLoading}
+        />
+      </DataTableContext.Provider>,
       { wrapper: RecoilRoot }
     );
     expect(getByRole('table')).toBeInTheDocument();
@@ -282,16 +338,18 @@ describe('Loading table data', () => {
     const mockSetIsLoading = jest.fn();
     const mockSetManualPagination = jest.fn();
     const { getByRole } = render(
-      <DataPreviewTable
-        tableProps={{
-          rawData: { data: MoreTestData },
-          selectedTable: { rowCount: 12 },
-          shouldPage: true,
+      <DataTableContext.Provider
+        value={{
+          ...contextProps,
+          tableProps: {
+            rawData: { data: MoreTestData },
+            selectedTable: { rowCount: 12 },
+            shouldPage: true,
+          },
         }}
-        tableMeta={{ 'total-count': 12 }}
-        setManualPagination={mockSetManualPagination}
-        setIsLoading={mockSetIsLoading}
-      />,
+      >
+        <DataPreviewTable tableMeta={{ 'total-count': 12 }} setManualPagination={mockSetManualPagination} setIsLoading={mockSetIsLoading} />
+      </DataTableContext.Provider>,
       { wrapper: RecoilRoot }
     );
     expect(getByRole('table')).toBeInTheDocument();

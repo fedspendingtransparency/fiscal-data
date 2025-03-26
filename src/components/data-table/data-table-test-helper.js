@@ -1,3 +1,5 @@
+import { columnsConstructorData } from './data-table-helper';
+
 export const mockMeta = {
   count: 2,
   labels: {
@@ -537,6 +539,19 @@ export const mockPublishedReports = [
     report_group_id: 3,
   },
 ];
+
+export const mockAllColumnsProp = columnsConstructorData(mockTableData, [], '', mockColumnConfig);
+export const contextProps = {
+  tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, tableName: '!' },
+  setDefaultColumns: jest.fn(),
+  setAdditionalColumns: jest.fn(),
+  setTableState: jest.fn(),
+  setConfigOption: jest.fn(),
+  setReactTableData: jest.fn(),
+  allColumns: mockAllColumnsProp,
+  configOption: mockColumnConfig,
+  reactTableData: mockTableData,
+};
 
 export const defaultColLabels = ['Record Date', 'Source Line Number', 'Calendar Quarter Number'];
 export const additionalColLabels = Object.values(mockTableData.meta.labels).filter(label => !defaultColLabels.includes(label));
