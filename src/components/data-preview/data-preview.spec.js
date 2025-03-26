@@ -447,17 +447,15 @@ describe('DataPreview', () => {
       }
     );
 
+    const columnsDropdown = getByRole('button', { name: 'Columns: 3/3' });
     const tableSelectDropdown = getByRole('button', { name: 'Data Table: Table 1' });
     fireEvent.click(tableSelectDropdown);
-
-    // fireEvent.click(getByRole('button', { name: 'All Data Tables (Download Only)' }));
+    fireEvent.click(getByRole('button', { name: 'All Data Tables (Download Only)' }));
     fireEvent.click(getByRole('button', { name: 'Apply' }));
 
-    const columnsDropdown = getByRole('button', { name: 'Columns: 0/17' });
-    // expect(columnsDropdown).toBeDisabled();
-    //
-    // const allTablesBanner = getByText(`The current "All Data Tables" selection is for download only`);
-    // expect(allTablesBanner).toBeInTheDocument();
+    expect(columnsDropdown).toBeDisabled();
+    const allTablesBanner = getByText(`The current "All Data Tables" selection is for download only`);
+    expect(allTablesBanner).toBeInTheDocument();
 
     // Only filter available should be record date
     const filtersDropdown = getByRole('button', { name: 'Filters: 0 applied' });
