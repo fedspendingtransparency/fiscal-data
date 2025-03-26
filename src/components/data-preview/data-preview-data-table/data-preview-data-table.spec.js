@@ -29,7 +29,7 @@ describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
   const mockcolumns = columnsConstructorData(mockTableData, [], '', mockColumnConfig);
   const contextProps = {
-    tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null },
+    tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, tableName: '!' },
     setDefaultColumns: jest.fn(),
     setAdditionalColumns: jest.fn(),
     setTableState: jest.fn(),
@@ -136,6 +136,7 @@ describe('react-table', () => {
           value={{
             ...contextProps,
             reactTableData: mockTableData,
+            allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig),
           }}
         >
           <RecoilRoot>
@@ -245,6 +246,7 @@ describe('react-table', () => {
           value={{
             ...contextProps,
             reactTableData: mockTableData,
+            allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig),
           }}
         >
           <RecoilRoot>
@@ -537,6 +539,7 @@ describe('react-table', () => {
             reactTableData: mockTableData,
             tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, customFormatting: customFormatter },
             defaultSelectedColumns: ['spread'],
+            allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig, customFormatter),
           }}
         >
           <RecoilRoot>
@@ -565,6 +568,7 @@ describe('react-table', () => {
             reactTableData: mockTableData,
             tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, customFormatting: customFormatter },
             defaultSelectedColumns: ['additional_date'],
+            allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig, customFormatter),
           }}
         >
           <RecoilRoot>
@@ -698,6 +702,7 @@ describe('react-table', () => {
           value={{
             ...contextProps,
             reactTableData: mockTableDownloadWithTextQualifier,
+            allColumns: columnsConstructorData(mockTableDownloadWithTextQualifier, [], '', mockColumnConfigDownloadWithTextQualifier),
           }}
         >
           <RecoilRoot>
@@ -731,6 +736,7 @@ describe('react-table', () => {
             ...contextProps,
             reactTableData: mockTableData,
             tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, tableName: 'FRN Daily Indexes' },
+            allColumns: columnsConstructorData(mockTableData, [], 'FRN Daily Indexes', mockColumnConfig),
           }}
         >
           <RecoilRoot>
@@ -761,6 +767,7 @@ describe('react-table', () => {
         value={{
           ...contextProps,
           reactTableData: mockTableData,
+          allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig),
         }}
       >
         <RecoilRoot>

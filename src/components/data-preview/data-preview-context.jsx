@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { columnsConstructorData } from '../data-table/data-table-helper';
 
 export const DataTableContext = createContext({});
@@ -28,9 +28,7 @@ const DataTableProvider = ({ children, config, detailViewState }) => {
       const defaultSelection = config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : tableProps.selectColumns;
       setDefaultSelectedColumns(defaultSelection);
     }
-  }, [tableProps]);
-
-  useEffect(() => {}, [tableProps]);
+  }, [tableProps, reactTableData]);
 
   return (
     <DataTableContext.Provider
