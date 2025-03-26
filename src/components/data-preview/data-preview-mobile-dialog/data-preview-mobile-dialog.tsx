@@ -1,7 +1,7 @@
-import React, {FunctionComponent} from 'react';
+import React, { FunctionComponent } from 'react';
 import SearchBar from '../../../components/search-bar/search-bar';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCaretLeft, faCaretRight, faCheck} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
 
 import {
   applyButton,
@@ -9,25 +9,33 @@ import {
   cancelButton,
   checkIcon,
   dataPreviewHeader,
-  filterContainer,
-  filterName,
   filtersScrollContainer,
-  isApplied,
-  left,
-  leftSelected,
   mainContainer,
   previewCaret,
   previewCaretButton,
   previewCaretContainer,
-  right,
   searchBar as searchBarStyle,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 
 interface iDataPreviewMovileDialog {
   onClose: () => void;
+  backButtonTitle: string;
+  headerName: string;
+  bottomButton: string;
+  bottomButtonIcon: any;
+  hasSearch: boolean;
+  tableList: any;
 }
-const DataPreviewMobileDialog: FunctionComponent<iDataPreviewMovileDialog> = ({ onClose }) => {
+const DataPreviewMobileDialog: FunctionComponent<iDataPreviewMovileDialog> = ({
+  onClose,
+  backButtonTitle,
+  headerName,
+  bottomButton,
+  bottomButtonIcon,
+  hasSearch,
+  tableList,
+}) => {
   const shouldTocShow = true;
 
   const onSearchBarChange = event => {
@@ -53,36 +61,28 @@ const DataPreviewMobileDialog: FunctionComponent<iDataPreviewMovileDialog> = ({ 
                 <div className={previewCaretContainer}>
                   <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
                 </div>
-                Data Preview
+                {backButtonTitle}
               </button>
             </div>
             <div className={topContainer}>
-              <h3>Filters</h3>
-              <div data-testid="search-container" className={searchBarStyle}>
-                <p>Search filters</p>
-                <SearchBar onChange={onSearchBarChange} filter={''} />
-              </div>
+              <h3>{headerName}</h3>
+              {hasSearch && (
+                <div data-testid="search-container" className={searchBarStyle}>
+                  <p>Search filters</p>
+                  <SearchBar onChange={onSearchBarChange} filter={''} />
+                </div>
+              )}
             </div>
           </div>
 
           <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
-            {placeholderFilters.map((filter, index) => (
-              <div key={index} className={filterContainer}>
-                <div className={filter.filterApplied !== 'No filter applied' ? leftSelected : left}>
-                  <p className={filterName}>{filter.filterName}</p>
-                  <p className={isApplied}>{filter.filterApplied}</p>
-                </div>
-                <div className={right}>
-                  <FontAwesomeIcon icon={faCaretRight} />
-                </div>
-              </div>
-            ))}
+            {tableList}
           </div>
 
           <div className={bottomContainer}>
             <button className={applyButton}>
-              <FontAwesomeIcon icon={faCheck} className={checkIcon} />
-              Apply
+              <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
+              {bottomButton}
             </button>
             <div>
               <button className={cancelButton}>
