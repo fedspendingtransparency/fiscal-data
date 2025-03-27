@@ -55,14 +55,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
   const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
 
-  // useEffect(() => {
-  //   if (!detailViewState) {
-  //     setConfigOption(columnConfig);
-  //   } else {
-  //     setConfigOption(detailColumnConfig);
-  //   }
-  // }, [rawData]);
-
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
