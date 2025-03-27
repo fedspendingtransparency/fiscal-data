@@ -16,6 +16,7 @@ import {
   previewCaretContainer,
   searchBar as searchBarStyle,
   topContainer,
+  dataPreviewHeaderContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 
 interface iDataPreviewMovileDialog {
@@ -26,6 +27,7 @@ interface iDataPreviewMovileDialog {
   bottomButtonIcon: any;
   hasSearch: boolean;
   tableList: any;
+  onBottomButtonClick?: () => void;
 }
 const DataPreviewMobileDialog: FunctionComponent<iDataPreviewMovileDialog> = ({
   onClose,
@@ -35,6 +37,7 @@ const DataPreviewMobileDialog: FunctionComponent<iDataPreviewMovileDialog> = ({
   bottomButtonIcon,
   hasSearch,
   tableList,
+  onBottomButtonClick,
 }) => {
   const shouldTocShow = true;
 
@@ -55,7 +58,7 @@ const DataPreviewMobileDialog: FunctionComponent<iDataPreviewMovileDialog> = ({
     <div className={mainContainer}>
       {shouldTocShow && (
         <>
-          <div>
+          <div className={dataPreviewHeaderContainer}>
             <div className={dataPreviewHeader}>
               <button onClick={onClose} className={previewCaretButton}>
                 <div className={previewCaretContainer}>
@@ -80,7 +83,7 @@ const DataPreviewMobileDialog: FunctionComponent<iDataPreviewMovileDialog> = ({
           </div>
 
           <div className={bottomContainer}>
-            <button className={applyButton}>
+            <button className={applyButton} onClick={onBottomButtonClick}>
               <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
               {bottomButton}
             </button>

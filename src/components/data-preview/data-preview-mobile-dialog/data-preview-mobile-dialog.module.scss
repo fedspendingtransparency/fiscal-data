@@ -13,14 +13,11 @@
   height: 100%;
   width: 100%;
 }
+.dataPreviewHeaderContainer {
+  border-bottom: 1px solid $light-grey-border;
+}
 
 .filtersScrollContainer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 11.4375rem;
-  bottom: 3.75rem;
-
   overflow-y: auto;
 }
 
