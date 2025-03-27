@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchResultCount from '../search-result-count/search-result-count';
 import SearchResultCards from './search-result-cards/search-result-cards';
 import SortDatasets from './sort-datasets/sort-datasets';
-import { SortOptions, FilteredSortOptions } from './search-results-helper';
+import { FilteredSortOptions, SortOptions } from './search-results-helper';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import Analytics from '../../../utils/analytics/analytics';
 
-import { noMargin, datasetHeader, datasetsSubtitle, sortSelectionContainer } from './search-results.module.scss';
+import { datasetHeader, datasetsSubtitle, noMargin, sortSelectionContainer } from './search-results.module.scss';
 
 export const sortDatasetsAnalyticsObject = {
   category: 'Dataset Search Page',
@@ -41,7 +41,7 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
   const allDatasetsLength = allDatasets.length;
 
   const sortOptions = searchIsActive ? SortOptions : FilteredSortOptions;
-  const [activeSort, setActiveSort] = useState(sortOptions[1]);
+  const [activeSort, setActiveSort] = useState(sortOptions[0]);
   const [totalApiLength, setTotalApiLength] = useState(0);
   const [filteredApiLength, setFilteredApiLength] = useState(0);
 
@@ -75,7 +75,7 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
 
   const noResultsMessage = <NotShownMessage heading={noResultsText.heading} bodyText={noResultBody} />;
 
-  useEffect(() => setActiveSort(sortOptions[1]), [sortOptions, searchIsActive]);
+  useEffect(() => setActiveSort(sortOptions[0]), [sortOptions, searchIsActive]);
 
   useEffect(() => {
     const filteredCount = getApiCount(filteredDatasets);
