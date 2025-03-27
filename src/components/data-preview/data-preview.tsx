@@ -30,6 +30,7 @@ import { IDataPreview } from '../../models/data-preview/IDataPreview';
 import DataPreviewChart from './data-preview-chart/data-preview-chart';
 import DataTableProvider from './data-preview-context';
 import SummaryTable from './data-preview-summary-table/data-preview-summary-table';
+import moment from 'moment';
 
 const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
@@ -276,6 +277,12 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     setUserFilterSelection(null);
   }, [allTablesSelected]);
 
+  const formatDate = detailDate => {
+    const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
+    const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
+    return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
+  };
+
   return (
     <DatasetSectionContainer id="data-preview-table">
       <DataTableProvider config={config} detailViewState={detailViewState}>
@@ -298,12 +305,20 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
             />
           )}
         </div>
-        <div className={selectedTableName}>{selectedTable?.tableName}</div>
+        {!!detailViewState ? (
+          <h3 className={selectedTableName} data-testid="tableName" id="main-data-table-title">
+            {`${selectedTable?.tableName} > ${formatDate(detailViewState?.value)}`}
+          </h3>
+        ) : (
+          <h3 className={selectedTableName} data-testid="tableName" id="main-data-table-title">
+            {selectedTable?.tableName}
+          </h3>
+        )}
+        {/*<div className={selectedTableName}>{selectedTable?.tableName}</div>*/}
         {!!detailViewState && (
           <SummaryTable
             summaryTable={config?.detailView?.summaryTableFields}
             summaryValues={summaryValues}
-            // columnConfig={tableProps?.columnConfig}
             customFormatConfig={selectedTable?.customFormatting}
           />
         )}
