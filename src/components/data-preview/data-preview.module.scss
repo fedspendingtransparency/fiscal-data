@@ -22,6 +22,7 @@
     padding-bottom: 1rem;
   }
 }
+
 .selectedTableName {
   color: $font-body-copy;
   font-size: $font-size-18;
@@ -30,4 +31,32 @@
 
 .increaseSpacing {
   padding-bottom: 1rem;
+}
+
+.summaryTableHeader {
+  display: flex;
+  align-items: center;
+}
+
+.detailViewButton {
+  background-color: $primary;
+  border: none;
+  border-radius: 3px;
+  margin-right: 0.5rem;
+  color: $content-section-background;
+  padding: 0.25rem 0.5rem;
+  //justify-content: space-between;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.detailViewBack {
+  font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
+}
+
+.detailViewIcon {
+  height: 1rem;
+  margin-right: 0.5rem;
 }

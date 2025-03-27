@@ -5,14 +5,16 @@ import {
   dataPreview,
   dataPreviewHeader,
   dataPreviewTitle,
-  detailViewNotice,
+  detailViewBack,
+  detailViewButton,
+  detailViewIcon,
   increaseSpacing,
-  lockIcon,
   placeholderButton,
   placeholderText,
   selectedTableName,
+  summaryTableHeader,
 } from './data-preview.module.scss';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { TableCache } from '../dataset-data/table-cache/table-cache';
@@ -306,15 +308,22 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
           )}
         </div>
         {!!detailViewState ? (
-          <h3 className={selectedTableName} data-testid="tableName" id="main-data-table-title">
-            {`${selectedTable?.tableName} > ${formatDate(detailViewState?.value)}`}
-          </h3>
+          <div className={summaryTableHeader}>
+            <button className={detailViewButton} onClick={() => setDetailViewState(null)} data-testid="detailViewCloseButton">
+              <FontAwesomeIcon className={detailViewIcon} icon={faCaretLeft} data-testid="arrow-icon" size="1x" />
+              <span className={detailViewBack} data-testid="backButton">
+                Back
+              </span>
+            </button>
+            <h3 className={selectedTableName} data-testid="tableName" id="main-data-table-title">
+              {`${selectedTable?.tableName} > ${formatDate(detailViewState?.value)}`}
+            </h3>
+          </div>
         ) : (
           <h3 className={selectedTableName} data-testid="tableName" id="main-data-table-title">
             {selectedTable?.tableName}
           </h3>
         )}
-        {/*<div className={selectedTableName}>{selectedTable?.tableName}</div>*/}
         {!!detailViewState && (
           <SummaryTable
             summaryTable={config?.detailView?.summaryTableFields}
@@ -383,11 +392,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
                 <div data-testid="dateRangePlaceholder">
                   <h3 className={placeholderText}>Date Range</h3>
                   <div className={placeholderButton} />
-                </div>
-              )}
-              {detailApi && !detailViewState && (
-                <div className={detailViewNotice}>
-                  <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
                 </div>
               )}
               {dateRange &&
