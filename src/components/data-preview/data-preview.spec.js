@@ -18,7 +18,7 @@ import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import DataPreview from './data-preview';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
@@ -440,13 +440,11 @@ describe('DataPreview', () => {
   });
 
   it(`limits table filters to just record date when "All Data Tables" is selected`, async () => {
-    const { getByRole, getByText, findByRole } = render(
-      <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />,
-      {
-        wrapper: RecoilRoot,
-      }
-    );
+    const { getByRole, getByText } = render(<DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />, {
+      wrapper: RecoilRoot,
+    });
 
+    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
     const columnsDropdown = getByRole('button', { name: 'Columns: 3/3' });
     const tableSelectDropdown = getByRole('button', { name: 'Data Table: Table 1' });
     fireEvent.click(tableSelectDropdown);

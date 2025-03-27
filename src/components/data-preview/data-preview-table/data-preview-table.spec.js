@@ -82,14 +82,15 @@ describe('DataPreviewTable component', () => {
 
   it(`renders the defaultRowsPer if shouldPage === true but perPage is not specified and shows range of rows
    showing out of total number of rows with correct default itemsPerPage`, () => {
+    const mockAllColumnsProp = columnsConstructorData({ data: MoreTestData }, [], '', MoreTestDataColumnConfig);
     const { getByText, getAllByRole } = render(
       <DataTableContext.Provider
         value={{
-          // ...contextProps,
-          setReactTableData: jest.fn(),
+          ...contextProps,
           tableProps: { rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, shouldPage: true },
-          reactTableData: MoreTestData,
-          allColumns: columnsConstructorData(MoreTestData, [], '', MoreTestDataColumnConfig),
+          allColumns: mockAllColumnsProp,
+          configOption: MoreTestDataColumnConfig,
+          reactTableData: { data: MoreTestData },
         }}
       >
         <RecoilRoot>
@@ -99,7 +100,7 @@ describe('DataPreviewTable component', () => {
     );
 
     const tableBody = getAllByRole('rowgroup')[1];
-    // expect(within(tableBody).getAllByRole('row').length).toBe(10);
+    expect(within(tableBody).getAllByRole('row').length).toBe(10);
     const maxRows = MoreTestData.length;
     expect(getByText(`Showing `, { exact: false })).toBeInTheDocument();
     expect(getByText(`rows of ${maxRows} rows`, { exact: false })).toBeInTheDocument();
