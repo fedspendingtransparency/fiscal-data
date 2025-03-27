@@ -12,7 +12,6 @@ import { SetNoChartMessage } from '../../dataset-data/table-section-container/se
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import AggregationNotice from '../../dataset-data/table-section-container/aggregation-notice/aggregation-notice';
-import SummaryTable from '../../dataset-data/table-section-container/summary-table/summary-table';
 import DataPreviewTable from '../data-preview-table/data-preview-table';
 import {
   loadingIcon,
@@ -368,14 +367,14 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
               </div>
             </div>
           )}
-          {!!detailViewState && (
-            <SummaryTable
-              summaryTable={config?.detailView?.summaryTableFields}
-              summaryValues={summaryValues}
-              columnConfig={tableProps?.columnConfig}
-              customFormatConfig={selectedTable?.customFormatting}
-            />
-          )}
+          {/*{!!detailViewState && (*/}
+          {/*  <SummaryTable*/}
+          {/*    summaryTable={config?.detailView?.summaryTableFields}*/}
+          {/*    summaryValues={summaryValues}*/}
+          {/*    columnConfig={tableProps?.columnConfig}*/}
+          {/*    customFormatConfig={selectedTable?.customFormatting}*/}
+          {/*  />*/}
+          {/*)}*/}
           <ChartTableDisplay
             allTablesSelected={allTablesSelected}
             selectedTable={selectedTable}

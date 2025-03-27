@@ -29,6 +29,7 @@ import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-pre
 import { IDataPreview } from '../../models/data-preview/IDataPreview';
 import DataPreviewChart from './data-preview-chart/data-preview-chart';
 import DataTableProvider from './data-preview-context';
+import SummaryTable from './data-preview-summary-table/data-preview-summary-table';
 
 const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
@@ -298,6 +299,14 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
           )}
         </div>
         <div className={selectedTableName}>{selectedTable?.tableName}</div>
+        {!!detailViewState && (
+          <SummaryTable
+            summaryTable={config?.detailView?.summaryTableFields}
+            summaryValues={summaryValues}
+            // columnConfig={tableProps?.columnConfig}
+            customFormatConfig={selectedTable?.customFormatting}
+          />
+        )}
         {config.datatableBanner && <DataPreviewDatatableBanner bannerNotice={config.datatableBanner} />}
         {selectedTable?.userFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
         {selectedTable?.apiFilter?.notice && <DataPreviewDatatableBanner bannerNotice={selectedTable.apiFilter.notice} />}
