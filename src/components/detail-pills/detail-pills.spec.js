@@ -27,6 +27,12 @@ describe('Detail-Pills component', () => {
     expect(getByTestId('timerIcon')).toBeInTheDocument();
     expect(getByText('New Data Expected 04/01/2025')).toBeInTheDocument();
   });
+
+  it('does not render the Date Expected pill when the dataset has an undefined expected date', () => {
+    const { queryByTestId, queryByText } = render(<DetailPills dateExpected={undefined} />);
+    expect(queryByTestId('timerIcon')).not.toBeInTheDocument();
+    expect(queryByText('New Data Expected')).not.toBeInTheDocument();
+  });
 });
 
 describe('DetailPills component with a dataset with a latestDate in the future', () => {
