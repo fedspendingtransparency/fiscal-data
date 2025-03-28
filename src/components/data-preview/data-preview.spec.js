@@ -516,12 +516,18 @@ describe('DataPreview', () => {
 describe('Nested Data Table', () => {
   global.console.error = jest.fn();
   const analyticsSpy = jest.spyOn(Analytics, 'event');
-
-  let instance;
   const setSelectedTableMock = jest.fn();
   const fetchSpy = jest.spyOn(global, 'fetch');
-  beforeEach(async () => {
-    instance = render(
+
+  afterEach(() => {
+    fetchSpy.mockClear();
+    global.fetch.mockClear();
+    analyticsSpy.mockClear();
+    global.console.error.mockClear();
+  });
+
+  it('Renders the summary table', async () => {
+    const { findByRole } = render(
       <RecoilRoot>
         <DataPreview
           config={{ ...config, detailView: { apiId: 300 } }}
@@ -531,16 +537,6 @@ describe('Nested Data Table', () => {
         />
       </RecoilRoot>
     );
-  });
-
-  afterEach(() => {
-    fetchSpy.mockClear();
-    global.fetch.mockClear();
-    analyticsSpy.mockClear();
-    global.console.error.mockClear();
-  });
-
-  it('Renders the summary table', () => {
-    expect(instance).toBeDefined();
+    expect(await findByRole('table')).toBeInTheDocument();
   });
 });
