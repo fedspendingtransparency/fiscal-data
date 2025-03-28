@@ -9,7 +9,7 @@ describe('Detail-Pills component', () => {
 
   it('displays pills containing all the proper icons and labels', () => {
     const { getByTestId, getByText } = render(
-      <DetailPills techSpecs={profilerConfigMockData.dataJson.datasets[0].techSpecs} dictionary={false} numTables={1} />
+      <DetailPills techSpecs={profilerConfigMockData.dataJson.datasets[0].techSpecs} dictionary={false} numTables={1} dateExpected={'04/01/2025'} />
     );
     expect(getByTestId('calendar-week-icon')).toBeInTheDocument();
     expect(getByText('10/03/2005 — 04/09/2020')).toBeInTheDocument();
@@ -23,6 +23,9 @@ describe('Detail-Pills component', () => {
 
     expect(getByTestId('numTables')).toBeInTheDocument();
     expect(getByText('1 Data Table')).toBeInTheDocument();
+
+    expect(getByTestId('timerIcon')).toBeInTheDocument();
+    expect(getByText('New Data Expected 04/01/2025')).toBeInTheDocument();
   });
 });
 

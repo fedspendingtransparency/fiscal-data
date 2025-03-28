@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { futureDateIconStyle, icon, pill, pillWrapper } from './detail-pills.module.scss';
+import React from 'react';
+import { futureDateIconStyle, icon, materialIcon, pill, pillWrapper } from './detail-pills.module.scss';
 import { faCalendarWeek, faDatabase, faPen, faRepeat } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AccessAlarm from '@mui/icons-material/AccessAlarm';
 import { format, isAfter } from 'date-fns';
 import futureDateIcon from '../../images/futureDateIcon.svg';
-import { basicFetch } from '../../utils/api-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../utils/date-utils';
 
-const releaseCalendarUrl = `https://api.fiscaldata.treasury.gov/services/calendar/release`;
-
-const DetailPills = ({ techSpecs, dictionary, numTables, config }) => {
+const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected }) => {
   const earliestDate = techSpecs?.earliestDate;
   const latestDate = techSpecs?.latestDate;
   const dateRange = earliestDate && latestDate ? `${earliestDate} — ${latestDate}` : undefined;
@@ -17,15 +15,7 @@ const DetailPills = ({ techSpecs, dictionary, numTables, config }) => {
   const lastUpdated = techSpecs?.lastUpdated || null;
   const latestDateParts = latestDate ? latestDate.split('/') : ['', '', ''];
   const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0, 0, 0), new Date());
-  const [dateExpected, setDateExpected] = useState(null);
-
-  useEffect(async () => {
-    const res = await basicFetch(releaseCalendarUrl);
-    const sortedRes = res.filter(x => x.datasetId === config.datasetId && x.released === 'false');
-    console.log(sortedRes[0].date);
-    const formattedDate = format(getDateWithoutTimeZoneAdjust(sortedRes[0].date), 'MM/dd/yyyy');
-    setDateExpected(formattedDate);
-  }, []);
+  const formattedDateExpected = dateExpected ? format(getDateWithoutTimeZoneAdjust(dateExpected), 'MM/dd/yyyy') : null;
 
   return (
     <div data-testid="detailPills" className={pillWrapper}>
@@ -51,10 +41,12 @@ const DetailPills = ({ techSpecs, dictionary, numTables, config }) => {
           <span className="pillText">Last Updated {lastUpdated}</span>
         </span>
       )}
-      <span className={pill}>
-        <FontAwesomeIcon icon={faDatabase} size="1x" className={icon} data-testid="timerIcon" />
-        <span className={'pillText'}>New Data Expected {dateExpected}</span>
-      </span>
+      {formattedDateExpected && (
+        <span className={pill}>
+          <AccessAlarm sx={{ width: '18px' }} size="1x" className={materialIcon} data-testid="timerIcon" />
+          <span className={'pillText'}>New Data Expected {formattedDateExpected}</span>
+        </span>
+      )}
       <span className={pill}>
         <FontAwesomeIcon icon={faDatabase} size="1x" className={icon} data-testid={'numTables'} />
         <span className={'pillText'}>
