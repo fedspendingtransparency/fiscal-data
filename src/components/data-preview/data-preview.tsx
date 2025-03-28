@@ -230,7 +230,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
       updateTableData();
     }
-  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
+  }, [selectedPivot, ignorePivots, finalDatesNotFound]);
 
   // When dateRange changes, fetch new data
   useEffect(() => {

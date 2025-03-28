@@ -3,7 +3,7 @@ import { detailContainer, sectionHeader, summaryValue, tableContainer, tableHead
 import { formatCellValue } from '../../dtg-table/dtg-table-row/dtg-table-row';
 import { DataTableContext } from '../data-preview-context';
 
-const SummaryTable = ({ summaryValues, summaryTable, columnConfig, customFormatConfig }) => {
+const SummaryTable = ({ summaryValues, summaryTable, customFormatConfig }) => {
   const { tableProps } = useContext(DataTableContext);
 
   const summaryTypes = {};
