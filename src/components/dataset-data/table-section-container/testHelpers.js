@@ -16,6 +16,25 @@ export const mockApiData = {
   },
 };
 
+export const mockApiDataColumnConfig = [
+  {
+    property: 'first',
+    name: 'First',
+  },
+  {
+    property: 'middle',
+    name: 'Middle',
+  },
+  {
+    property: 'last',
+    name: 'Last',
+  },
+  {
+    property: 'wallet',
+    name: 'Wallet',
+  },
+];
+
 export const mockApiDataUserFilterable = {
   data: [],
   meta: {
