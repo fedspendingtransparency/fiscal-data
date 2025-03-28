@@ -14,14 +14,6 @@
   font-size: $font-size-24;
   font-weight: $semi-bold-weight;
 }
-@media screen and (max-width: $breakpoint-lg) {
-  .dataPreview {
-    display: grid;
-  }
-  .dataPreviewTitle {
-    padding-bottom: 1rem;
-  }
-}
 
 .selectedTableName {
   color: $font-body-copy;
@@ -36,13 +28,14 @@
 .summaryTableHeader {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .detailViewButton {
   background-color: $primary;
   border: none;
   border-radius: 3px;
-  margin-right: 0.5rem;
   color: $content-section-background;
   padding: 0.25rem 0.5rem;
   display: flex;
@@ -58,4 +51,13 @@
 .detailViewIcon {
   height: 1rem;
   margin-right: 0.5rem;
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .dataPreview {
+    display: grid;
+  }
+  .dataPreviewTitle {
+    padding-bottom: 1rem;
+  }
 }

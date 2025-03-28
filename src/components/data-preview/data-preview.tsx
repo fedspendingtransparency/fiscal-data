@@ -247,10 +247,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   }, [dateRange]);
 
   useEffect(() => {
-    console.log('date range updated', dateRange);
-  }, [dateRange]);
-
-  useEffect(() => {
     if (allTablesSelected) {
       setTableColumnSortData([]);
     }
