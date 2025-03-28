@@ -70,6 +70,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
   const [viewMode, setViewMode] = useState('table');
+  const [pivotsUpdated, setPivotsUpdated] = useState(false);
 
   let loadByPage;
   const shouldUseLoadByPage = pivot => {
@@ -168,7 +169,6 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       // resetting cache index here lets table data refresh on detail view state change
       tableCaches[detailApi.apiId] = null;
       setDateRange(null);
-      setSelectedPivot(null);
       setIsFiltered(true);
       setApiError(false);
       if (!tableCaches[detailApi.apiId]) {
@@ -233,7 +233,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     if (
       !finalDatesNotFound &&
       selectedTable &&
-      (apiData?.length === 0 || !apiData) &&
+      (apiData?.length === 0 || !apiData || detailViewState) &&
       (selectedPivot || ignorePivots) &&
       dateRange &&
       !allTablesSelected
@@ -247,6 +247,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
         clearDisplayData();
         let canceledObj = { isCanceled: false, abortController: new AbortController() };
         if (!loadByPage || ignorePivots) {
+          console.log('here????');
           getApiData(
             dateRange,
             displayedTable,
@@ -272,6 +273,11 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
       }
     }
   }, [dateRange]);
+
+  useEffect(() => {
+    console.log('date range updated', dateRange);
+  }, [dateRange]);
+
   useEffect(() => {
     if (allTablesSelected) {
       setTableColumnSortData([]);
@@ -303,7 +309,9 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
               disableAllTables={config?.disableAllTables}
               selectedPivot={selectedPivot}
               setSelectedPivot={setSelectedPivot}
-              hideDropdown={config.apis.length === 1 && config.apis[0]?.dataDisplays?.length <= 1}
+              pivotsUpdated={pivotsUpdated}
+              hideDropdown={(config.apis.length === 1 || (detailApi && config.apis.length === 2)) && config.apis[0]?.dataDisplays?.length <= 1}
+              detailViewState={detailViewState}
             />
           )}
         </div>
@@ -430,6 +438,8 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
                     width={width}
                     apiFilterDefault={apiFilterDefault}
                     setApiFilterDefault={setApiFilterDefault}
+                    pivotsUpdated={pivotsUpdated}
+                    setPivotsUpdated={setPivotsUpdated}
                   />
                 ) : (
                   <>

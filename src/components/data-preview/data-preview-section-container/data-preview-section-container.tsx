@@ -2,7 +2,6 @@ import React, { FunctionComponent, useContext, useEffect, useMemo, useState } fr
 import GLOBALS from '../../../helpers/constants';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
-import moment from 'moment';
 import { buildDateFilter, buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
 import { queryClient } from '../../../../react-query-client';
 import { setTableConfig } from '../../dataset-data/table-section-container/set-table-config';
@@ -92,13 +91,14 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   width,
   apiFilterDefault,
   setApiFilterDefault,
+  setPivotsUpdated,
+  pivotsUpdated,
 }) => {
   const { tableProps, setTableProps } = useContext(DataTableContext);
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
   const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
   const [legendToggledByUser, setLegendToggledByUser] = useState(false);
-  const [pivotsUpdated, setPivotsUpdated] = useState(false);
   const [hasPivotOptions, setHasPivotOptions] = useState(false);
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
@@ -112,13 +112,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const [chartData, setChartData] = useState(null);
 
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
-  const formatDate = detailDate => {
-    const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
-    const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
-    return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
-  };
-
-  const formattedDetailViewState = formatDate(detailViewState?.value);
 
   const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
 
@@ -367,14 +360,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
               </div>
             </div>
           )}
-          {/*{!!detailViewState && (*/}
-          {/*  <SummaryTable*/}
-          {/*    summaryTable={config?.detailView?.summaryTableFields}*/}
-          {/*    summaryValues={summaryValues}*/}
-          {/*    columnConfig={tableProps?.columnConfig}*/}
-          {/*    customFormatConfig={selectedTable?.customFormatting}*/}
-          {/*  />*/}
-          {/*)}*/}
           <ChartTableDisplay
             allTablesSelected={allTablesSelected}
             selectedTable={selectedTable}
