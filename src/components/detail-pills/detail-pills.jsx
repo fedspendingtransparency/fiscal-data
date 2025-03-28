@@ -1,11 +1,13 @@
 import React from 'react';
-import { pill, pillWrapper, futureDateIconStyle, icon } from './detail-pills.module.scss';
-import { faCalendarWeek, faRepeat, faPen, faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { futureDateIconStyle, icon, materialIcon, pill, pillWrapper } from './detail-pills.module.scss';
+import { faCalendarWeek, faDatabase, faPen, faRepeat } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isAfter } from 'date-fns';
+import AccessAlarm from '@mui/icons-material/AccessAlarm';
+import { format, isAfter } from 'date-fns';
 import futureDateIcon from '../../images/futureDateIcon.svg';
+import { getDateWithoutTimeZoneAdjust } from '../../utils/date-utils';
 
-const DetailPills = ({ techSpecs, dictionary, numTables }) => {
+const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected }) => {
   const earliestDate = techSpecs?.earliestDate;
   const latestDate = techSpecs?.latestDate;
   const dateRange = earliestDate && latestDate ? `${earliestDate} — ${latestDate}` : undefined;
@@ -13,6 +15,7 @@ const DetailPills = ({ techSpecs, dictionary, numTables }) => {
   const lastUpdated = techSpecs?.lastUpdated || null;
   const latestDateParts = latestDate ? latestDate.split('/') : ['', '', ''];
   const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0, 0, 0), new Date());
+  const formattedDateExpected = dateExpected ? format(getDateWithoutTimeZoneAdjust(dateExpected), 'MM/dd/yyyy') : null;
 
   return (
     <div data-testid="detailPills" className={pillWrapper}>
@@ -36,6 +39,12 @@ const DetailPills = ({ techSpecs, dictionary, numTables }) => {
         <span className={pill}>
           <FontAwesomeIcon icon={faPen} size="1x" className={icon} data-testid="lastUpdatedIcon" />
           <span className="pillText">Last Updated {lastUpdated}</span>
+        </span>
+      )}
+      {formattedDateExpected && (
+        <span className={pill}>
+          <AccessAlarm sx={{ width: '18px' }} size="1x" className={materialIcon} data-testid="timerIcon" />
+          <span className={'pillText'}>New Data Expected {formattedDateExpected}</span>
         </span>
       )}
       <span className={pill}>
