@@ -188,89 +188,61 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
     }
   };
 
+  const updateTableData = () => {
+    const displayedTable = detailViewState ? detailApi : selectedTable;
+    const cache = tableCaches[displayedTable.apiId];
+    const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
+    if (cachedDisplay) {
+      updateDataDisplay(cachedDisplay);
+    } else {
+      clearDisplayData();
+      let canceledObj = { isCanceled: false, abortController: new AbortController() };
+      if (!loadByPage || ignorePivots) {
+        getApiData(
+          dateRange,
+          displayedTable,
+          selectedPivot,
+          setIsLoading,
+          setApiData,
+          setApiError,
+          canceledObj,
+          tableCaches[displayedTable.apiId],
+          detailViewState,
+          config?.detailView?.field,
+          queryClient
+        ).then(() => {
+          // nothing to cancel if the request completes normally.
+          canceledObj = null;
+        });
+      }
+      return () => {
+        if (!canceledObj) return;
+        canceledObj.isCanceled = true;
+        canceledObj.abortController.abort();
+      };
+    }
+  };
+
   const dateFieldForChart = getDateFieldForChart();
 
   // When pivot changes, fetch new data
   useEffect(() => {
     if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
-      const displayedTable = detailViewState ? detailApi : selectedTable;
-      const cache = tableCaches[displayedTable.apiId];
-      const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
-      if (cachedDisplay) {
-        updateDataDisplay(cachedDisplay);
-      } else {
-        clearDisplayData();
-        let canceledObj = { isCanceled: false, abortController: new AbortController() };
-        if (!loadByPage || ignorePivots) {
-          getApiData(
-            dateRange,
-            displayedTable,
-            selectedPivot,
-            setIsLoading,
-            setApiData,
-            setApiError,
-            canceledObj,
-            tableCaches[displayedTable.apiId],
-            detailViewState,
-            config?.detailView?.field,
-            queryClient
-          ).then(() => {
-            // nothing to cancel if the request completes normally.
-            canceledObj = null;
-          });
-        }
-        return () => {
-          if (!canceledObj) return;
-          canceledObj.isCanceled = true;
-          canceledObj.abortController.abort();
-        };
-      }
+      updateTableData();
     }
-  }, [selectedPivot, ignorePivots, finalDatesNotFound]);
+  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
 
   // When dateRange changes, fetch new data
   useEffect(() => {
     if (
       !finalDatesNotFound &&
       selectedTable &&
-      (apiData?.length === 0 || !apiData || detailViewState) &&
+      (apiData?.length === 0 || !apiData || detailApi) &&
       (selectedPivot || ignorePivots) &&
       dateRange &&
       !allTablesSelected
     ) {
-      const displayedTable = detailViewState ? detailApi : selectedTable;
-      const cache = tableCaches[displayedTable.apiId];
-      const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
-      if (cachedDisplay) {
-        updateDataDisplay(cachedDisplay);
-      } else {
-        clearDisplayData();
-        let canceledObj = { isCanceled: false, abortController: new AbortController() };
-        if (!loadByPage || ignorePivots) {
-          console.log('here????');
-          getApiData(
-            dateRange,
-            displayedTable,
-            selectedPivot,
-            setIsLoading,
-            setApiData,
-            setApiError,
-            canceledObj,
-            tableCaches[displayedTable.apiId],
-            detailViewState,
-            config?.detailView?.field,
-            queryClient
-          ).then(() => {
-            // nothing to cancel if the request completes normally.
-            canceledObj = null;
-          });
-        }
-        return () => {
-          if (!canceledObj) return;
-          canceledObj.isCanceled = true;
-          canceledObj.abortController.abort();
-        };
-      }
+      updateTableData();
     }
   }, [dateRange]);
 
