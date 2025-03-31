@@ -1,7 +1,7 @@
-import React, {FunctionComponent} from 'react';
+import React, { FunctionComponent } from 'react';
 import SearchBar from '../../../components/search-bar/search-bar';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCaretLeft, faCaretRight, faCheck} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 import {
   applyButton,
@@ -9,39 +9,33 @@ import {
   cancelButton,
   checkIcon,
   dataPreviewHeader,
-  filterContainer,
-  filterName,
   filtersScrollContainer,
-  isApplied,
-  left,
-  leftSelected,
   mainContainer,
   previewCaret,
   previewCaretButton,
   previewCaretContainer,
-  right,
   searchBar as searchBarStyle,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 
-interface iDataPreviewMovileDialog {
+interface IDataPreviewMobileDialog {
   onClose: () => void;
 }
-const DataPreviewMobileDialog: FunctionComponent<iDataPreviewMovileDialog> = ({ onClose }) => {
+const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({ onClose, filterComponent }) => {
   const shouldTocShow = true;
 
   const onSearchBarChange = event => {
     // placeholder for search handler
   };
 
-  const placeholderFilters = [
-    { filterName: 'Record Date', filterApplied: 'Last 5 years' },
-    { filterName: 'Parent ID', filterApplied: 'No filter applied' },
-    { filterName: 'Classification ID', filterApplied: 'No filter applied' },
-    { filterName: 'Classification Description', filterApplied: 'No filter applied' },
-    { filterName: 'Record Type Code', filterApplied: 'No filter applied' },
-    { filterName: 'Current Month Budget Amount', filterApplied: 'No filter applied' },
-  ];
+  // const placeholderFilters = [
+  //   { filterName: 'Record Date', filterApplied: 'Last 5 years' },
+  //   { filterName: 'Parent ID', filterApplied: 'No filter applied' },
+  //   { filterName: 'Classification ID', filterApplied: 'No filter applied' },
+  //   { filterName: 'Classification Description', filterApplied: 'No filter applied' },
+  //   { filterName: 'Record Type Code', filterApplied: 'No filter applied' },
+  //   { filterName: 'Current Month Budget Amount', filterApplied: 'No filter applied' },
+  // ];
 
   return (
     <div className={mainContainer}>
@@ -64,31 +58,17 @@ const DataPreviewMobileDialog: FunctionComponent<iDataPreviewMovileDialog> = ({ 
               </div>
             </div>
           </div>
-
           <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
-            {placeholderFilters.map((filter, index) => (
-              <div key={index} className={filterContainer}>
-                <div className={filter.filterApplied !== 'No filter applied' ? leftSelected : left}>
-                  <p className={filterName}>{filter.filterName}</p>
-                  <p className={isApplied}>{filter.filterApplied}</p>
-                </div>
-                <div className={right}>
-                  <FontAwesomeIcon icon={faCaretRight} />
-                </div>
-              </div>
-            ))}
+            {filterComponent}
           </div>
-
           <div className={bottomContainer}>
             <button className={applyButton}>
               <FontAwesomeIcon icon={faCheck} className={checkIcon} />
               Apply
             </button>
-            <div>
-              <button className={cancelButton}>
-                <u>Cancel</u>
-              </button>
-            </div>
+            <button className={cancelButton} onClick={onClose}>
+              <u>Cancel</u>
+            </button>
           </div>
         </>
       )}

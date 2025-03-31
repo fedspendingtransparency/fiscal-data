@@ -1,17 +1,16 @@
 import React, { FunctionComponent } from 'react';
-import DataTableSelectAll from '../../../../data-table/column-select/select-all/data-table-select-all';
-import { buttonContainer } from './column-selection-list.module.scss';
+import SelectAll from '../select-all/data-preview-select-all';
 import {
   additionalSection,
+  buttonContainer,
   checkbox_label,
   checkbox_wrapper,
   label_checkmark_container,
   label_checkmark_text,
-  label_text,
   optionCheckbox,
   sectionContainer,
   sectionHeading,
-} from '../../../../checkbox/checkbox.module.scss';
+} from './column-selection-list.module.scss';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -50,7 +49,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
                 </span>
               </span>
             </div>
-            <span className={label_text}>{columnDef.header}</span>
+            <span>{columnDef.header}</span>
           </label>
         );
       })}
@@ -59,7 +58,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
 
   return (
     <>
-      <DataTableSelectAll table={table} resetToDefault={null} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />
+      <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />
       <div className={buttonContainer}>
         {displayDefault ? (
           <div>
