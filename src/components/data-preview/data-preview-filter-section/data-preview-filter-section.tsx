@@ -1,18 +1,14 @@
-import React, {FunctionComponent, ReactElement} from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import DataPreviewDownloadWrapper from './data-preview-download-wrapper/data-preview-download-wrapper';
-import {pxToNumber} from '../../../helpers/styles-helper/styles-helper';
-import {
-  filterAndDownloadContainer,
-  filterContainer,
-  toggleDownloadContainer
-} from './data-preview-filter-section.module.scss';
+import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
+import { filterAndDownloadContainer, filterContainer, toggleDownloadContainer } from './data-preview-filter-section.module.scss';
 import DataPreviewTableFilters from './data-preview-table-filters/data-preview-table-filters';
-import ColumnFilter from './column-filter/column-filter';
-import {breakpointXl} from '../data-preview.module.scss';
-import {withWindowSize} from 'react-fns';
+import DataPreviewColumnFilter from './data-preview-column-filter/data-preview-column-filter';
+import { breakpointXl } from '../data-preview.module.scss';
+import { withWindowSize } from 'react-fns';
 import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
-import {differenceInHours} from 'date-fns';
-import {DataPreviewFilterSectionProps} from '../../../models/data-preview/IFilterSectionProps';
+import { differenceInHours } from 'date-fns';
+import { DataPreviewFilterSectionProps } from '../../../models/data-preview/IFilterSectionProps';
 
 type DataPreviewFilterSectionProps = {
   width?: number;
@@ -29,7 +25,6 @@ type DataPreviewFilterSectionProps = {
   filteredDateRange;
   selectedDetailViewFilter;
   apiFilterDefault;
-  viewMode: string;
   setViewMode: (mode: string) => void;
 };
 
@@ -56,7 +51,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   detailViewState,
   apiData,
   setViewMode,
-  viewMode,
 }) => {
   const isDisabled = apiFilterDefault;
   const { dataDisplays, userFilter } = selectedTable;
@@ -102,7 +96,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             apiData={apiData}
             width={width}
           />
-          <ColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} />
+          <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
         </div>
         {width >= pxToNumber(breakpointXl) && (

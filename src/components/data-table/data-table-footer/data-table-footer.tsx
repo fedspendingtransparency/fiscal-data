@@ -24,7 +24,6 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
   chartTable,
 }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
-
   const visibleRows = table => {
     let minRow;
     let maxRow;
