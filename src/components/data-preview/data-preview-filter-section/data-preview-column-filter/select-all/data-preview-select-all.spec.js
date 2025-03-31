@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
-import SelectAll from './data-table-select-all';
+import SelectAll from './data-preview-select-all';
 
 describe('Column Selector', () => {
   const mockDefaultColumns = [
@@ -46,7 +46,7 @@ describe('Column Selector', () => {
 
   it('renders select all button', () => {
     const { getByRole } = render(<SelectAll table={mockTable} resetToDefault={jest.fn()} defaultColumns={mockDefaultColumns} />);
-    const selectAllButton = getByRole('checkbox', { name: 'Select All' });
+    const selectAllButton = getByRole('checkbox', { name: 'All Columns' });
     expect(selectAllButton).toBeInTheDocument();
 
     selectAllButton.click();
@@ -58,23 +58,10 @@ describe('Column Selector', () => {
 
   it('select all button', () => {
     const { getByRole } = render(<SelectAll table={mockTable_allVisibleFalse} resetToDefault={jest.fn()} defaultColumns={mockDefaultColumns} />);
-    const selectAllButton = getByRole('checkbox', { name: 'Select All' });
+    const selectAllButton = getByRole('checkbox', { name: 'All Columns' });
     expect(selectAllButton).toBeInTheDocument();
 
     selectAllButton.click();
     expect(mockTable_allVisibleFalse.setColumnVisibility).toHaveBeenCalledWith(true);
-  });
-
-  it('renders reset button', () => {
-    const mockReset = jest.fn();
-    const { getByRole } = render(<SelectAll table={mockTable} resetToDefault={mockReset} defaultColumns={mockDefaultColumns} />);
-    const resetButton = getByRole('button', { name: 'Reset' });
-    expect(resetButton).toBeInTheDocument();
-
-    resetButton.click();
-    expect(mockReset).toHaveBeenCalled();
-
-    fireEvent.keyDown(resetButton, { key: 'Enter' });
-    expect(mockReset).toHaveBeenCalled();
   });
 });

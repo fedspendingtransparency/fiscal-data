@@ -25,7 +25,7 @@ describe('Column Selection List', () => {
     const { getByRole } = render(
       <ColumnSelectionList defaultSelectedColumns={[]} defaultColumns={mockColumns} additionalColumns={[]} table={mockTable} displayDefault={false} />
     );
-    expect(getByRole('checkbox', { name: 'Select All' })).toBeInTheDocument();
+    expect(getByRole('checkbox', { name: 'All Columns' })).toBeInTheDocument();
     expect(getByRole('checkbox', { name: 'col1' })).toBeInTheDocument();
     expect(getByRole('checkbox', { name: 'col2' })).toBeInTheDocument();
     expect(getByRole('checkbox', { name: 'col3' })).toBeInTheDocument();

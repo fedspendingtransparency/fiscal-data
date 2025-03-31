@@ -11,7 +11,6 @@ import {
   sectionContainer,
   sectionHeading,
 } from './column-selection-list.module.scss';
-import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
@@ -67,7 +66,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
               {CheckBoxList(defaultColumns)}
             </div>
             <div className={sectionContainer}>
-              <span className={classnames([sectionHeading, additionalSection])}>ADDITIONAL</span>
+              <span className={`${sectionHeading} ${additionalSection}`}>ADDITIONAL</span>
               {CheckBoxList(additionalColumns)}
             </div>
           </div>

@@ -13,6 +13,7 @@ import DataPreviewMobileDialog from '../../data-preview-mobile-dialog/data-previ
 interface iColumnFilter {
   allTablesSelected: boolean;
   isDisabled: boolean;
+  width?: number;
 }
 
 const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width }) => {
