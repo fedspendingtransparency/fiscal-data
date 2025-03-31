@@ -30,12 +30,12 @@ describe('Column Filter', () => {
           ...mockContextValues,
         }}
       >
-        <DataPreviewColumnFilter allTablesSelected={false} isDisabled={false} />
+        <DataPreviewColumnFilter allTablesSelected={false} isDisabled={false} width={1000} />
       </DataTableContext.Provider>
     );
     const dropdownButton = getByRole('button', { name: 'Columns: 3/3' });
     fireEvent.click(dropdownButton);
-    expect(getByRole('checkbox', { name: 'Select All' })).toBeInTheDocument();
+    expect(getByRole('checkbox', { name: 'All Columns' })).toBeInTheDocument();
     expect(getByRole('checkbox', { name: 'col1' })).toBeInTheDocument();
     expect(getByRole('checkbox', { name: 'col2' })).toBeInTheDocument();
     expect(getByRole('checkbox', { name: 'col3' })).toBeInTheDocument();
@@ -49,7 +49,7 @@ describe('Column Filter', () => {
           ...mockContextValues,
         }}
       >
-        <DataPreviewColumnFilter allTablesSelected={false} isDisabled={false} />
+        <DataPreviewColumnFilter allTablesSelected={false} isDisabled={false} width={1000} />
       </DataTableContext.Provider>
     );
     const dropdownButton = getByRole('button', { name: 'Columns: 3/3' });
@@ -67,7 +67,7 @@ describe('Column Filter', () => {
           ...mockContextValues,
         }}
       >
-        <DataPreviewColumnFilter allTablesSelected={false} isDisabled={false} />
+        <DataPreviewColumnFilter allTablesSelected={false} isDisabled={false} width={1000} />
       </DataTableContext.Provider>
     );
     const dropdownButton = getByRole('button', { name: 'Columns: 3/3' });
@@ -75,5 +75,23 @@ describe('Column Filter', () => {
     const cancelButton = getByRole('button', { name: 'Cancel' });
     fireEvent.click(cancelButton);
     expect(queryByRole('checkbox', { name: 'Select All' })).not.toBeInTheDocument();
+  });
+
+  it('renders the mobile column filter', () => {
+    const { getByRole } = render(
+      <DataTableContext.Provider
+        value={{
+          ...mockContextValues,
+        }}
+      >
+        <DataPreviewColumnFilter allTablesSelected={false} isDisabled={false} width={400} />
+      </DataTableContext.Provider>
+    );
+    const dropdownButton = getByRole('button', { name: 'Columns: 3/3' });
+    fireEvent.click(dropdownButton);
+    expect(getByRole('checkbox', { name: 'All Columns' })).toBeInTheDocument();
+    expect(getByRole('checkbox', { name: 'col1' })).toBeInTheDocument();
+    expect(getByRole('checkbox', { name: 'col2' })).toBeInTheDocument();
+    expect(getByRole('checkbox', { name: 'col3' })).toBeInTheDocument();
   });
 });
