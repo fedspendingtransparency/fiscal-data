@@ -25,7 +25,6 @@ type DataPreviewFilterSectionProps = {
   filteredDateRange;
   selectedDetailViewFilter;
   apiFilterDefault;
-  viewMode: string;
   setViewMode: (mode: string) => void;
 };
 
@@ -52,7 +51,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   detailViewState,
   apiData,
   setViewMode,
-  viewMode,
 }) => {
   const isDisabled = apiFilterDefault;
   const { dataDisplays, userFilter } = selectedTable;
