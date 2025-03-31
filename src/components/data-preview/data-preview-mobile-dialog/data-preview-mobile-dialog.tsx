@@ -28,15 +28,6 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({ 
     // placeholder for search handler
   };
 
-  // const placeholderFilters = [
-  //   { filterName: 'Record Date', filterApplied: 'Last 5 years' },
-  //   { filterName: 'Parent ID', filterApplied: 'No filter applied' },
-  //   { filterName: 'Classification ID', filterApplied: 'No filter applied' },
-  //   { filterName: 'Classification Description', filterApplied: 'No filter applied' },
-  //   { filterName: 'Record Type Code', filterApplied: 'No filter applied' },
-  //   { filterName: 'Current Month Budget Amount', filterApplied: 'No filter applied' },
-  // ];
-
   return (
     <div className={mainContainer}>
       {shouldTocShow && (

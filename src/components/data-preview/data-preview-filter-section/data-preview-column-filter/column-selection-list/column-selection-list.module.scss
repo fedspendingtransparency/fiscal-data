@@ -14,7 +14,7 @@
 
 .checkbox_label {
   display: flex;
-  margin: 0 0 20px 0;
+  margin: 0 0 1.25rem 0;
   width: 100%;
   color: $font-body-copy;
   transition: color ease 0.2s;
@@ -35,7 +35,7 @@ input.optionCheckbox {
 
 .label {
   max-width: 95%;
-  font-size: 13.5px;
+  font-size: $font-size-14;
 
   &:focus-within .optionCheckbox + span {
     border: 1px solid $primary;
@@ -45,9 +45,9 @@ input.optionCheckbox {
 .optionCheckbox[type='checkbox'] {
   position: absolute;
   display: inline-block;
-  min-width: 16px;
-  min-height: 16px;
-  right: 6px;
+  min-width: 1rem;
+  min-height: 1rem;
+  right: 0.375rem;
   overflow: hidden;
 }
 
@@ -67,7 +67,7 @@ input.optionCheckbox {
   border: 1px solid #ccc;
   cursor: pointer;
   margin-right: 0.5rem;
-  border-radius: 2px;
+  border-radius: 0.125rem;
 }
 
 .label_checkmark_container {
@@ -77,8 +77,8 @@ input.optionCheckbox {
 
 .label_checkmark_text {
   position: absolute;
-  bottom: -2px;
-  left: 2px;
+  bottom: -0.125rem;
+  left: 0.125rem;
   font-size: 0.9rem;
 }
 
