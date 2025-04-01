@@ -5,7 +5,8 @@ import DataPreviewMobileFilterList from '../data-preview-mobile-filter-list/data
 describe('Data preview mobile filter list', () => {
   it('Renders a list of buttons', () => {
     const { getAllByRole } = render(<DataPreviewMobileFilterList />);
-    expect(getAllByRole('button')).toBeGreaterThan(1);
+    const buttons = getAllByRole('button');
+    expect(buttons.length).toBeGreaterThan(1);
   });
 
   it('Renders the parts of each button', () => {
@@ -16,8 +17,8 @@ describe('Data preview mobile filter list', () => {
 
   it('Adds the selected class onto selected filters', () => {
     const { getByRole } = render(<DataPreviewMobileFilterList />);
-    expect(getByRole('button', { name: 'Record Date Last 5 years' })).toHaveClass('selected');
-    expect(getByRole('button', { name: 'Parent ID No filter applied' })).not.toHaveClass('selected');
+    expect(getByRole('button', { name: 'Parent ID No filter applied' })).toHaveClass('selected');
+    expect(getByRole('button', { name: 'Record Date Last 5 years' })).not.toHaveClass('selected');
   });
 
   it('Adds the active class onto active filters', () => {

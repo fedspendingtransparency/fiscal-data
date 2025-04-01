@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const placeholderFilters = [
   { name: 'Record Date', secondary: 'Last 5 years', selected: false, active: true },
-  { name: 'Parent ID', secondary: 'No filter applied', selected: false, active: false },
+  { name: 'Parent ID', secondary: 'No filter applied', selected: true, active: false },
   { name: 'Classification ID', secondary: 'No filter applied', selected: false, active: false },
   { name: 'Classification Description', secondary: 'No filter applied', selected: false, active: false },
   { name: 'Record Type Code', secondary: 'No filter applied', selected: false, active: false },
@@ -28,19 +28,16 @@ const placeholderDataTables = [
 
 export interface IMobileFilterList {
   filterOptions: { name: string; secondary?: string; selected?: boolean; active?: boolean }[];
+  onClick: () => void;
 }
 
-const handleClick = () => {
-  // functionality to be added
-};
-
-const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({ filterOptions = placeholderFilters }) => {
+const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({ filterOptions = placeholderFilters, onClick }) => {
   return (
     <>
-      {filterOptions.map(filterOption => {
+      {filterOptions.map((filterOption, index) => {
         return (
-          <div className={buttonContainer}>
-            <button className={`${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`} onClick={handleClick}>
+          <div key={index} className={buttonContainer}>
+            <button className={`${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`} onClick={onClick}>
               <div className={left}>
                 <span className={optionName}>{filterOption.name}</span>
                 <span className={optionSecondary}>{filterOption.secondary}</span>
