@@ -37,23 +37,23 @@ const DownloadReportTableRow: FunctionComponent<{
 
   const updateData = () => {
     if (reportFile && !generatedReport) {
-      // const curReportFile: IPublishedReportDataJson = reportFile;
-      // const location = curReportFile.path;
-      //
-      // setReportLocation(location || null);
-      // const name = location ? location.split('/').slice(-1)[0] : 'report';
-      // setFileName(name);
-      // setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile, isDailyReport, true) : 'N/A');
-      // if (location) {
-      //   getFileSize(location).then(size => {
-      //     setFileSize(size);
-      //   });
-      // }
-      //
-      // const fileDisplay = getFileDisplay(curReportFile);
-      // setDisplayName(fileDisplay.displayName);
-      // setFileType(fileDisplay.fileType);
-      // setFileTypeImage(getFileTypeImage(fileDisplay.fileType));
+      const curReportFile: IPublishedReportDataJson = reportFile;
+      const location = curReportFile.path;
+
+      setReportLocation(location || null);
+      const name = location ? location.split('/').slice(-1)[0] : 'report';
+      setFileName(name);
+      setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile, isDailyReport, true) : 'N/A');
+      if (location) {
+        getFileSize(location).then(size => {
+          setFileSize(size);
+        });
+      }
+
+      const fileDisplay = getFileDisplay(curReportFile);
+      setDisplayName(fileDisplay.displayName);
+      setFileType(fileDisplay.fileType);
+      setFileTypeImage(getFileTypeImage(fileDisplay.fileType));
     } else if (generatedReport) {
       console.log('here', reportFile);
       setFileName(reportFile.downloadName);

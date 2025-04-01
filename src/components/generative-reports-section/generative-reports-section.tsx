@@ -24,11 +24,9 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
   const [allReportDates, setAllReportDates] = useState<string[]>([]);
   const [allReportYears, setAllReportYears] = useState<string[]>([]);
   const [selectedAccount, setSelectedAccount] = useState(defaultSelection);
-  const [endpoints, setEndpoints] = useState([]);
-  const mockedReports = [{ name: 'test', date: 'July 2024', size: '100KB', generated: true }];
   const [activeReports, setActiveReports] = useState([]);
   const [allReports, setAllReports] = useState([]);
-  // const endpoints = [];
+
   useEffect(() => {
     if (apisProp && apisProp.length > 0) {
       console.log(apisProp);
@@ -37,19 +35,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
       setEarliestReportDate(earliestReport);
       setLatestReportDate(latestReport);
       setSelectedDate(latestReport);
-      // const apiEndpoints = [];
-      // const reports = [];
-      // apisProp.forEach(api => {
-      // const report = {};
-      // report.name = api.tableName;
-      // report.downloadName = api.downloadName;
-      // report.endpoint = api.endpoint;
-      // report.dateField = api.dateField;
-      // apiEndpoints.push(api.endpoint);
-      // reports.push(apisProp);
-      // });
-      // setAllReports(apisProp);
-      // setEndpoints(apiEndpoints);
     }
   }, [apisProp]);
 
@@ -100,18 +85,15 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
   }, [selectedAccount, selectedDate]);
 
   useEffect(() => {
-    const reportss = [];
+    const reports = [];
     allReports.forEach(report => {
       if (report.data.length > 0) {
-        reportss.push(report);
+        reports.push(report);
       }
     });
-    setActiveReports(reportss);
+    setActiveReports(reports);
   }, [allReports]);
 
-  useEffect(() => {
-    console.log(activeReports);
-  }, [activeReports]);
   return (
     <>
       {useDefaultReportTable && (
