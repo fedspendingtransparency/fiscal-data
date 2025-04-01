@@ -8,6 +8,7 @@ import { apiPrefix, formatDateForApi } from '../../utils/api-utils';
 import { getFirstOfTheMonth, getLastOfTheMonth } from '../../utils/date-utils';
 import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
 import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
+import { format } from 'date-fns';
 
 export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
@@ -83,10 +84,10 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
       const reports = [];
       allReports.forEach(report => {
         const curReport = {
-          name: report.tableName,
-          date: selectedDate.toDateString(),
+          name: `${report.tableName} - ${selectedAccount.label}.pdf`,
+          date: format(selectedDate, 'MMMM yyyy'),
           size: '?',
-          downloadName: report.downloadName,
+          downloadName: `${selectedAccount.label}.pdf`,
         };
         reports.push(curReport);
         console.log(apiPrefix + report.endpoint + `?filter=${filterStr}&sort=${sortStr}`);
