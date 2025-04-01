@@ -4,11 +4,11 @@ import { IDatasetApi } from '../../models/IDatasetApi';
 import { filtersContainer } from '../published-reports/reports-section/reports-section.module.scss';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
 import ReportDatePicker from '../published-reports/report-date-picker/report-date-picker';
-import { apiPrefix, formatDateForApi } from '../../utils/api-utils';
-import { getFirstOfTheMonth, getLastOfTheMonth } from '../../utils/date-utils';
+import { apiPrefix, basicFetch } from '../../utils/api-utils';
 import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
 import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
 import { format } from 'date-fns';
+import { buildFilterParam, buildSortParam } from './generative-report-helper';
 
 export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
@@ -37,19 +37,19 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
       setEarliestReportDate(earliestReport);
       setLatestReportDate(latestReport);
       setSelectedDate(latestReport);
-      const apiEndpoints = [];
+      // const apiEndpoints = [];
       // const reports = [];
-      apisProp.forEach(api => {
-        // const report = {};
-        // report.name = api.tableName;
-        // report.downloadName = api.downloadName;
-        // report.endpoint = api.endpoint;
-        // report.dateField = api.dateField;
-        apiEndpoints.push(api.endpoint);
-        // reports.push(apisProp);
-      });
-      setAllReports(apisProp);
-      setEndpoints(apiEndpoints);
+      // apisProp.forEach(api => {
+      // const report = {};
+      // report.name = api.tableName;
+      // report.downloadName = api.downloadName;
+      // report.endpoint = api.endpoint;
+      // report.dateField = api.dateField;
+      // apiEndpoints.push(api.endpoint);
+      // reports.push(apisProp);
+      // });
+      // setAllReports(apisProp);
+      // setEndpoints(apiEndpoints);
     }
   }, [apisProp]);
 
@@ -69,33 +69,49 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
     }
   }, [earliestReportDate, latestReportDate]);
 
-  const buildFilterParam = (date, dateField, account, accountField) => {
-    const startDate = formatDateForApi(getFirstOfTheMonth(date));
-    const endDate = formatDateForApi(getLastOfTheMonth(date));
-    return `${dateField}:gte:${startDate},${dateField}:lte:${endDate},${accountField}:eq:${account}`;
+  const getReportData = async report => {
+    const { dateField, apiFilter, alwaysSortWith } = report;
+    const { field: accountField } = apiFilter;
+    const filterStr = buildFilterParam(selectedDate, dateField, selectedAccount.value, accountField);
+    const sortStr = buildSortParam(alwaysSortWith);
+    const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
+    return await basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
+      return res.data;
+    });
   };
 
   useEffect(() => {
-    if (selectedAccount.value) {
-      console.log(selectedAccount);
-      const filterStr = buildFilterParam(selectedDate, 'eff_date', selectedAccount.value, 'acct_desc');
-      //'eff_date:gte:2024-07-01,eff_date:lte:2024-07-17,acct_desc:eq:ESAA';
-      const sortStr = 'acct_desc,-eff_date,memo_nbr';
-      const reports = [];
-      allReports.forEach(report => {
-        const curReport = {
-          name: `${report.tableName} - ${selectedAccount.label}.pdf`,
-          date: format(selectedDate, 'MMMM yyyy'),
-          size: '?',
-          downloadName: `${selectedAccount.label}.pdf`,
-        };
-        reports.push(curReport);
-        console.log(apiPrefix + report.endpoint + `?filter=${filterStr}&sort=${sortStr}`);
-      });
-      setActiveReports(reports);
-    }
+    (async () => {
+      if (selectedAccount.value) {
+        const reports = [];
+        for (const report of apisProp) {
+          const curReport = {
+            name: `${report.tableName} - ${selectedAccount.label}.pdf`,
+            date: format(selectedDate, 'MMMM yyyy'),
+            size: '?',
+            downloadName: `${selectedAccount.label}.pdf`,
+            data: await getReportData(report),
+          };
+          reports.push(curReport);
+        }
+        setAllReports(reports);
+      }
+    })();
   }, [selectedAccount, selectedDate]);
 
+  useEffect(() => {
+    const reportss = [];
+    allReports.forEach(report => {
+      if (report.data.length > 0) {
+        reportss.push(report);
+      }
+    });
+    setActiveReports(reportss);
+  }, [allReports]);
+
+  useEffect(() => {
+    console.log(activeReports);
+  }, [activeReports]);
   return (
     <>
       {useDefaultReportTable && (
