@@ -1,25 +1,54 @@
-.buttonContainer {
-}
+@import 'src/variables.module';
 
-.buttonSleeve {
+.buttonContainer {
 }
 
 button {
   background: none;
   color: inherit;
   border: none;
-  padding: 0;
   font: inherit;
   cursor: pointer;
   outline: inherit;
-  padding: 1rem;
+  padding: 1rem 1.5rem 1rem 1rem;
   border-bottom: 0.0625rem solid #d9d9d9;
   width: 100%;
   text-align: left;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .optionName {
+  font-size: $font-size-16;
+  display: block;
 }
 
 .optionSecondary {
+  padding-top: 0.25rem;
+  font-size: $font-size-14;
+  display: block;
+}
+
+.active {
+  border-left: 0.25rem solid $primary;
+}
+
+.selected {
+  color: $primary;
+  background-color: $table-notice-color;
+  font-weight: $semi-bold-weight;
+}
+
+.left {
+  margin-right: auto;
+  display: inline-block;
+  align-items: center;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  width: 10%;
 }

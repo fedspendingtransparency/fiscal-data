@@ -1,18 +1,27 @@
 import React, { FunctionComponent } from 'react';
 import {
   buttonContainer,
-  buttonSleeve,
+  left,
   optionName,
   optionSecondary,
+  right,
 } from '../../../data-preview/data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list.module.scss';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const placeholderFilters = [
-  { name: 'Record Date', secondary: 'Last 5 years' },
-  { name: 'Parent ID', secondary: 'No filter applied' },
-  { name: 'Classification ID', secondary: 'No filter applied' },
-  { name: 'Classification Description', secondary: 'No filter applied' },
-  { name: 'Record Type Code', secondary: 'No filter applied' },
-  { name: 'Current Month Budget Amount', secondary: 'No filter applied' },
+  { name: 'Record Date', secondary: 'Last 5 years', selected: true, active: true },
+  { name: 'Parent ID', secondary: 'No filter applied', selected: false, active: false },
+  { name: 'Classification ID', secondary: 'No filter applied', selected: false, active: false },
+  { name: 'Classification Description', secondary: 'No filter applied', selected: false, active: false },
+  { name: 'Record Type Code', secondary: 'No filter applied', selected: false, active: false },
+  { name: 'Current Month Budget Amount', secondary: 'No filter applied', selected: false, active: false },
+];
+
+const placeholderDataTables = [
+  { name: 'All Data Tables (Download Only)', secondary: null, selected: true, active: true },
+  { name: 'Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government', secondary: null, selected: false, active: false },
+  { name: 'Summary of Budget and Off-Budget Results and Financing of the U.S. Government', secondary: null, selected: false, active: false },
 ];
 
 export interface IMobileFilterList {
@@ -21,13 +30,19 @@ export interface IMobileFilterList {
 
 const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({ filterOptions = placeholderFilters }) => {
   return (
-    <div data-testid="test" className={buttonContainer}>
+    <div>
       {filterOptions.map(filterOption => {
         return (
-          <div className={buttonSleeve}>
-            <button>
-              <span className={optionName}>{filterOption.name}</span>
-              <span className={optionSecondary}>{filterOption.secondary}</span>
+          <div className={buttonContainer}>
+            <button className={filterOption.selected ? 'selected' : ''}>
+              {/*<button className={selected}>*/}
+              <div className={left}>
+                <span className={optionName}>{filterOption.name}</span>
+                <span className={optionSecondary}>{filterOption.secondary}</span>
+              </div>
+              <div className={right}>
+                <FontAwesomeIcon icon={faCaretRight} />
+              </div>
             </button>
           </div>
         );

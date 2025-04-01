@@ -16,8 +16,8 @@ describe('Data preview mobile filter list', () => {
 
   it('Adds the selected class onto selected filters', () => {
     const { getByRole } = render(<DataPreviewMobileFilterList />);
-    expect(getByRole('button', { name: 'Record Date' })).toHaveClass('Selected');
-    expect(getByRole('button', { name: 'Parent ID' })).not.toHaveClass('Selected');
+    expect(getByRole('button', { name: 'Record Date Last 5 Years' })).toHaveClass('Selected');
+    expect(getByRole('button', { name: 'Parent ID No filter applied' })).not.toHaveClass('Selected');
   });
 
   it('Adds the active class onto active filters', () => {
