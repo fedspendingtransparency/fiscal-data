@@ -8,10 +8,10 @@ import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJs
 
 // Exporting here for unit testing purposes
 export const DownloadReportTable: FunctionComponent<{
-  reports: IPublishedReportDataJson[];
+  reports?: IPublishedReportDataJson[];
   isDailyReport: boolean;
   width?: number;
-  generatedReport: boolean;
+  generatedReport?;
 }> = ({ reports, isDailyReport, width, generatedReport }) => {
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
 
@@ -39,15 +39,10 @@ export const DownloadReportTable: FunctionComponent<{
       </thead>
       <tbody>
         {reports?.map((report: IPublishedReportDataJson, i: number) => {
-          return (
-            <DownloadReportTableRow
-              reportFile={report}
-              isDailyReport={isDailyReport}
-              mobileView={mobileView}
-              key={i}
-              generatedReport={generatedReport}
-            />
-          );
+          return <DownloadReportTableRow reportFile={report} isDailyReport={isDailyReport} mobileView={mobileView} key={i} />;
+        })}
+        {generatedReport?.map((report, i: number) => {
+          return <DownloadReportTableRow generatedReport={report} isDailyReport={isDailyReport} mobileView={mobileView} key={i} />;
         })}
       </tbody>
     </table>

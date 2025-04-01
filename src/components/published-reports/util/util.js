@@ -200,6 +200,26 @@ export const getFileDisplay = curReportFile => {
     }
   }
 };
+export const getGeneratedReportFileDisplay = curReportFile => {
+  console.log(curReportFile);
+  if (curReportFile && curReportFile.name) {
+    // const groupName = curReportFile[nameField];
+    const splitReportPath = curReportFile.name.split('.');
+    if (splitReportPath?.length > 0) {
+      const reportFileType = splitReportPath[splitReportPath.length - 1];
+      // const apiFileType = '(.' + reportFileType + ')';
+      const downloadFileType = '.' + reportFileType;
+      // Remove parenthesis from file name -> ex. fileName (.pdf) to fileName.pdf
+      // let fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
+      // if (reportFileType === 'xlsx') {
+      //   fullDisplayName = groupName.replace(' ' + '(.xls)', '.xls');
+      // }
+      //Split file name so overflow ellipsis can be used in the middle of the name
+      const fileDisplayName = splitFileName(curReportFile.name, curReportFile.name.length - 8);
+      return { fullName: curReportFile.name, displayName: fileDisplayName || '', fileType: downloadFileType };
+    }
+  }
+};
 
 export const getAllReportDates = (isDaily, sortedReports) => {
   const allDates = [];

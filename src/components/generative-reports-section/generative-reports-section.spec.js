@@ -5,8 +5,7 @@ import { mockApiConfig } from './generative-report-section-test-helper';
 import fetchMock from 'fetch-mock';
 
 describe('Generative Report Footer', () => {
-  const mockScrollIntoView = jest.fn();
-  window.HTMLElement.prototype.scrollIntoView = mockScrollIntoView;
+  window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
   beforeAll(() => {
     const mockEndpointBase = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
@@ -60,7 +59,7 @@ describe('Generative Report Footer', () => {
   });
 
   it('renders download buttons for any reports matching the selected filters', async () => {
-    const { getByRole, findByRole, getByText } = render(<GenerativeReportsSection apisProp={mockApiConfig} />);
+    const { getByRole, findByRole } = render(<GenerativeReportsSection apisProp={mockApiConfig} />);
     const accountFilter = getByRole('button', { name: 'Account: (None selected)' });
     fireEvent.click(accountFilter);
     const accountOption = getByRole('button', { name: 'option1' });

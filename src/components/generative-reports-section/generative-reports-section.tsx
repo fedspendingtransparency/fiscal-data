@@ -9,12 +9,13 @@ import { buildFilterParam, buildSortParam } from './generative-report-helper';
 import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
 import ReportDatePicker from '../published-reports/report-date-picker/report-date-picker';
+import { withWindowSize } from 'react-fns';
 
 export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
 export const defaultSelection = { label: '(None selected)', value: '' };
 
-const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp }) => {
+const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp, width }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
@@ -37,6 +38,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
 
   useEffect(() => {
     if (apisProp && apisProp.length > 0) {
+      console.log(apisProp);
       const earliestReport = new Date(Math.min(...apisProp.map(api => new Date(api.earliestDate).getTime())));
       const latestReport = new Date(Math.max(...apisProp.map(api => new Date(api.latestDate).getTime())));
       setEarliestReportDate(earliestReport);
@@ -76,6 +78,8 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           reports.push(curReport);
         }
         setAllReports(reports);
+      } else {
+        setAllReports([]);
       }
     })();
   }, [selectedAccount, selectedDate]);
@@ -106,11 +110,11 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           />
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
-        {activeReports?.length === 0 && <GenerativeReportsEmptyTable />}
-        {activeReports?.length > 0 && <DownloadReportTable reports={activeReports} isDailyReport={false} width={1000} generatedReport={true} />}
+        {activeReports?.length === 0 && <GenerativeReportsEmptyTable width={width} />}
+        {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReport={activeReports} width={width} />}
       </DatasetSectionContainer>
     </div>
   );
 };
 
-export default GenerativeReportsSection;
+export default withWindowSize(GenerativeReportsSection);
