@@ -17,8 +17,10 @@ import {
 } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
-import { getFileTypeImage } from '../../util/util';
+import { getFileDisplay, getFileTypeImage } from '../../util/util';
 import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
+import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
+import { getFileSize } from '../../download-report/download-helpers';
 
 const DownloadReportTableRow: FunctionComponent<{
   reportFile: IPublishedReportDataJson;
@@ -55,7 +57,6 @@ const DownloadReportTableRow: FunctionComponent<{
       setFileType(fileDisplay.fileType);
       setFileTypeImage(getFileTypeImage(fileDisplay.fileType));
     } else if (generatedReport) {
-      console.log('here', reportFile);
       setFileName(reportFile.downloadName);
       setDisplayName(reportFile.name);
       setPublishedDate(reportFile?.date);

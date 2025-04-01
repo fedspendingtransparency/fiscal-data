@@ -2,22 +2,19 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import { IDatasetApi } from '../../models/IDatasetApi';
 import { filtersContainer } from '../published-reports/reports-section/reports-section.module.scss';
-import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
-import ReportDatePicker from '../published-reports/report-date-picker/report-date-picker';
 import { apiPrefix, basicFetch } from '../../utils/api-utils';
 import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
-import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
 import { format } from 'date-fns';
 import { buildFilterParam, buildSortParam } from './generative-report-helper';
+import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
+import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
+import ReportDatePicker from '../published-reports/report-date-picker/report-date-picker';
 
 export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
 export const defaultSelection = { label: '(None selected)', value: '' };
 
-const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; useDefaultReportTable: boolean }> = ({
-  apisProp,
-  useDefaultReportTable,
-}) => {
+const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
@@ -94,29 +91,25 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
   }, [allReports]);
 
   return (
-    <>
-      {useDefaultReportTable && (
-        <div>
-          <DatasetSectionContainer title={title} id={'generative-reports-and-files'}>
-            <div className={filtersContainer}>
-              <ReportDatePicker
-                isDailyReport={false}
-                selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
-                latestReportDate={latestReportDate}
-                earliestReportDate={earliestReportDate}
-                allReportDates={allReportDates}
-                allReportYears={allReportYears}
-                ignoreDisabled={true}
-              />
-              <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
-            </div>
-            {activeReports?.length === 0 && <GenerativeReportsEmptyTable />}
-            {activeReports?.length > 0 && <DownloadReportTable reports={activeReports} isDailyReport={false} width={1000} generatedReport={true} />}
-          </DatasetSectionContainer>
+    <div>
+      <DatasetSectionContainer title={title} id="reports-and-files">
+        <div className={filtersContainer}>
+          <ReportDatePicker
+            isDailyReport={false}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            latestReportDate={latestReportDate}
+            earliestReportDate={earliestReportDate}
+            allReportDates={allReportDates}
+            allReportYears={allReportYears}
+            ignoreDisabled={true}
+          />
+          <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
-      )}
-    </>
+        {activeReports?.length === 0 && <GenerativeReportsEmptyTable />}
+        {activeReports?.length > 0 && <DownloadReportTable reports={activeReports} isDailyReport={false} width={1000} generatedReport={true} />}
+      </DatasetSectionContainer>
+    </div>
   );
 };
 

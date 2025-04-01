@@ -8,7 +8,6 @@ const getDateWithoutTimeZoneAdjust = dateStr => {
 const getFirstOfTheMonth = date => {
   const month = date.getMonth();
   const year = date.getFullYear();
-  // dateObj.setFullYear(year, month, 1);
   return new Date(year, month, 1);
 };
 

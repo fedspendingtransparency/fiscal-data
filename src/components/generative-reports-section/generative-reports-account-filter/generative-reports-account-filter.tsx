@@ -42,7 +42,6 @@ const GenerativeReportsAccountFilter: FunctionComponent<IAccountFilter> = ({ api
         : [];
       return [...new Set(values)];
     };
-    console.log(flattenApi('State'));
     filterOptions.forEach(filter =>
       filter
         ? options.push({
@@ -54,7 +53,6 @@ const GenerativeReportsAccountFilter: FunctionComponent<IAccountFilter> = ({ api
           })
         : null
     );
-    console.log(options);
     setAccountOptions(options);
   }, []);
 
