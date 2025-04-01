@@ -31,6 +31,6 @@ describe('Data preview mobile filter list', () => {
     const { getByRole } = render(<DataPreviewMobileFilterList onClick={clickHandlerSpy} />);
     const button = getByRole('button', { name: 'Record Date Last 5 years' });
     fireEvent.click(button);
-    expect(clickHandlerSpy()).toBeCalled();
+    expect(clickHandlerSpy).toHaveBeenCalled();
   });
 });
