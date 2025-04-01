@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent} from 'react';
 import SearchBar from '../../../components/search-bar/search-bar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCaretLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
 
 import {
   applyButton,
@@ -42,6 +42,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({ 
               </button>
             </div>
             <div className={topContainer}>
+              {/*change header for multi-use between filters/data tables*/}
               <h3>Filters</h3>
               <div data-testid="search-container" className={searchBarStyle}>
                 <p>Search filters</p>

@@ -35,9 +35,12 @@ button {
 }
 
 .selected {
-  color: $primary;
   background-color: $table-notice-color;
   font-weight: $semi-bold-weight;
+
+  .optionName {
+    color: $primary;
+  }
 }
 
 .left {
