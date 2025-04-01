@@ -27,9 +27,19 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
   const [activeReports, setActiveReports] = useState([]);
   const [allReports, setAllReports] = useState([]);
 
+  const getReportData = async report => {
+    const { dateField, apiFilter, alwaysSortWith } = report;
+    const { field: accountField } = apiFilter;
+    const filterStr = buildFilterParam(selectedDate, dateField, selectedAccount.value, accountField);
+    const sortStr = buildSortParam(alwaysSortWith);
+    const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
+    return await basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
+      return res.data;
+    });
+  };
+
   useEffect(() => {
     if (apisProp && apisProp.length > 0) {
-      console.log(apisProp);
       const earliestReport = new Date(Math.min(...apisProp.map(api => new Date(api.earliestDate).getTime())));
       const latestReport = new Date(Math.max(...apisProp.map(api => new Date(api.latestDate).getTime())));
       setEarliestReportDate(earliestReport);
@@ -54,17 +64,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
     }
   }, [earliestReportDate, latestReportDate]);
 
-  const getReportData = async report => {
-    const { dateField, apiFilter, alwaysSortWith } = report;
-    const { field: accountField } = apiFilter;
-    const filterStr = buildFilterParam(selectedDate, dateField, selectedAccount.value, accountField);
-    const sortStr = buildSortParam(alwaysSortWith);
-    const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
-    return await basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
-      return res.data;
-    });
-  };
-
   useEffect(() => {
     (async () => {
       if (selectedAccount.value) {
@@ -73,7 +72,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
           const curReport = {
             name: `${report.tableName} - ${selectedAccount.label}.pdf`,
             date: format(selectedDate, 'MMMM yyyy'),
-            size: '?',
+            size: '2KB',
             downloadName: `${selectedAccount.label}.pdf`,
             data: await getReportData(report),
           };
