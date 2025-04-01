@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import { table, date, headerRow, name } from './download-report-table.module.scss';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { date, headerRow, name, table } from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -7,11 +7,12 @@ import { breakpointLg } from '../../../variables.module.scss';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 
 // Exporting here for unit testing purposes
-export const DownloadReportTable: FunctionComponent<{ reports: IPublishedReportDataJson[]; isDailyReport: boolean; width?: number }> = ({
-  reports,
-  isDailyReport,
-  width,
-}) => {
+export const DownloadReportTable: FunctionComponent<{
+  reports: IPublishedReportDataJson[];
+  isDailyReport: boolean;
+  width?: number;
+  generatedReport: boolean;
+}> = ({ reports, isDailyReport, width, generatedReport }) => {
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
 
   useEffect(() => {
@@ -38,7 +39,15 @@ export const DownloadReportTable: FunctionComponent<{ reports: IPublishedReportD
       </thead>
       <tbody>
         {reports?.map((report: IPublishedReportDataJson, i: number) => {
-          return <DownloadReportTableRow reportFile={report} isDailyReport={isDailyReport} mobileView={mobileView} key={i} />;
+          return (
+            <DownloadReportTableRow
+              reportFile={report}
+              isDailyReport={isDailyReport}
+              mobileView={mobileView}
+              key={i}
+              generatedReport={generatedReport}
+            />
+          );
         })}
       </tbody>
     </table>

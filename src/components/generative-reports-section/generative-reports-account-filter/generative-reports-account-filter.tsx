@@ -4,9 +4,12 @@ import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import AccountBox from '@material-ui/icons/AccountBox';
 import { IDatasetApi } from '../../../models/IDatasetApi';
+import { defaultSelection } from '../generative-reports-section';
 
 interface IAccountFilter {
   apiData: IDatasetApi[];
+  selectedAccount;
+  setSelectedAccount;
 }
 
 interface IAccountOptions {
@@ -18,12 +21,11 @@ interface IAccountOptions {
   }[];
 }
 
-const GenerativeReportsAccountFilter: FunctionComponent<IAccountFilter> = ({ apiData }: IAccountFilter) => {
+const GenerativeReportsAccountFilter: FunctionComponent<IAccountFilter> = ({ apiData, selectedAccount, setSelectedAccount }: IAccountFilter) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
   const [active, setActive] = useState(false);
-  const defaultSelection = { label: '(None selected)', value: '' };
   const defaultOptions: IAccountOptions[] = [{ default: true, children: [defaultSelection] }];
-  const [selectedAccount, setSelectedAccount] = useState(defaultSelection);
+
   const [accountOptions, setAccountOptions] = useState(defaultOptions);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const GenerativeReportsAccountFilter: FunctionComponent<IAccountFilter> = ({ api
         : [];
       return [...new Set(values)];
     };
-
+    console.log(flattenApi('State'));
     filterOptions.forEach(filter =>
       filter
         ? options.push({
@@ -52,12 +54,12 @@ const GenerativeReportsAccountFilter: FunctionComponent<IAccountFilter> = ({ api
           })
         : null
     );
-
+    console.log(options);
     setAccountOptions(options);
   }, []);
 
   const onAccountChange = account => {
-    if (account !== null && account?.value) {
+    if (account !== null) {
       setSelectedAccount(account);
       setTimeout(() => {
         setActive(false);

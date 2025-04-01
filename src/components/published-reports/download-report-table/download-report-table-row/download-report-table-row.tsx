@@ -1,32 +1,31 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
-  fileDescription,
-  downloadIcon,
   center,
-  downloadFileContainer,
-  fileDate,
-  downloadSize,
-  downloadInfo,
-  downloadName,
-  downloadButtonName,
-  startName,
-  downloadItem,
-  downloadedIcon,
   downloadButton,
+  downloadButtonName,
+  downloadedIcon,
+  downloadFileContainer,
+  downloadIcon,
+  downloadInfo,
+  downloadItem,
+  downloadName,
+  downloadSize,
   endName,
+  fileDate,
+  fileDescription,
+  startName,
 } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudArrowDown, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import { getFileDisplay, getFileTypeImage } from '../../util/util';
-import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
-import { getFileSize } from '../../download-report/download-helpers';
+import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { getFileTypeImage } from '../../util/util';
 import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
 
-const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDataJson; isDailyReport: boolean; mobileView?: boolean }> = ({
-  reportFile,
-  isDailyReport,
-  mobileView,
-}) => {
+const DownloadReportTableRow: FunctionComponent<{
+  reportFile: IPublishedReportDataJson;
+  isDailyReport: boolean;
+  mobileView?: boolean;
+  generatedReport: boolean;
+}> = ({ reportFile, isDailyReport, mobileView, generatedReport }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);
   const [reportLocation, setReportLocation] = useState<string>(null);
@@ -37,24 +36,33 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
   const [fileTypeImage, setFileTypeImage] = useState<string>(null);
 
   const updateData = () => {
-    if (reportFile) {
-      const curReportFile: IPublishedReportDataJson = reportFile;
-      const location = curReportFile.path;
-
-      setReportLocation(location || null);
-      const name = location ? location.split('/').slice(-1)[0] : 'report';
-      setFileName(name);
-      setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile, isDailyReport, true) : 'N/A');
-      if (location) {
-        getFileSize(location).then(size => {
-          setFileSize(size);
-        });
-      }
-
-      const fileDisplay = getFileDisplay(curReportFile);
-      setDisplayName(fileDisplay.displayName);
-      setFileType(fileDisplay.fileType);
-      setFileTypeImage(getFileTypeImage(fileDisplay.fileType));
+    if (reportFile && !generatedReport) {
+      // const curReportFile: IPublishedReportDataJson = reportFile;
+      // const location = curReportFile.path;
+      //
+      // setReportLocation(location || null);
+      // const name = location ? location.split('/').slice(-1)[0] : 'report';
+      // setFileName(name);
+      // setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile, isDailyReport, true) : 'N/A');
+      // if (location) {
+      //   getFileSize(location).then(size => {
+      //     setFileSize(size);
+      //   });
+      // }
+      //
+      // const fileDisplay = getFileDisplay(curReportFile);
+      // setDisplayName(fileDisplay.displayName);
+      // setFileType(fileDisplay.fileType);
+      // setFileTypeImage(getFileTypeImage(fileDisplay.fileType));
+    } else if (generatedReport) {
+      console.log('here', reportFile);
+      setFileName(reportFile.downloadName);
+      setDisplayName(reportFile.name);
+      setPublishedDate(reportFile?.date);
+      setFileType('.pdf');
+      setFileTypeImage(getFileTypeImage('.pdf'));
+      setFileSize(reportFile?.size);
+      setReportLocation('');
     }
   };
 
@@ -99,7 +107,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
 
   return (
     <>
-      {displayName?.end && (
+      {displayName && (
         <tr className={fileDescription} data-testid="file-download-row">
           <td>
             <a
@@ -116,8 +124,9 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
                   <div className={downloadFileContainer}>
                     <div className={downloadName}>
                       <img src={fileTypeImage} alt={`${fileType} icon`} />
-                      {displayName?.start && <span className={startName}>{displayName.start}</span>}
-                      <span>{displayName.end}</span>
+                      {displayName}
+                      {/*{displayName?.start && <span className={startName}>{displayName.start}</span>}*/}
+                      {/*<span>{displayName.end}</span>*/}
                     </div>
                     <div className={fileDate}>{publishedDate}</div>
                     <div className={downloadSize}>{fileSize}</div>

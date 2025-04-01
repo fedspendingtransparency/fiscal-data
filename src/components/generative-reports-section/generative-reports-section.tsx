@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import { IDatasetApi } from '../../models/IDatasetApi';
-import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
 import { filtersContainer } from '../published-reports/reports-section/reports-section.module.scss';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
 import ReportDatePicker from '../published-reports/report-date-picker/report-date-picker';
+import { apiPrefix, formatDateForApi } from '../../utils/api-utils';
+import { getFirstOfTheMonth, getLastOfTheMonth } from '../../utils/date-utils';
+import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
+import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
 
 export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
+export const defaultSelection = { label: '(None selected)', value: '' };
 
 const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; useDefaultReportTable: boolean }> = ({
   apisProp,
@@ -19,14 +22,33 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
   const [allReportDates, setAllReportDates] = useState<string[]>([]);
   const [allReportYears, setAllReportYears] = useState<string[]>([]);
-
+  const [selectedAccount, setSelectedAccount] = useState(defaultSelection);
+  const [endpoints, setEndpoints] = useState([]);
+  const mockedReports = [{ name: 'test', date: 'July 2024', size: '100KB', generated: true }];
+  const [activeReports, setActiveReports] = useState([]);
+  const [allReports, setAllReports] = useState([]);
+  // const endpoints = [];
   useEffect(() => {
     if (apisProp && apisProp.length > 0) {
+      console.log(apisProp);
       const earliestReport = new Date(Math.min(...apisProp.map(api => new Date(api.earliestDate).getTime())));
       const latestReport = new Date(Math.max(...apisProp.map(api => new Date(api.latestDate).getTime())));
       setEarliestReportDate(earliestReport);
       setLatestReportDate(latestReport);
       setSelectedDate(latestReport);
+      const apiEndpoints = [];
+      // const reports = [];
+      apisProp.forEach(api => {
+        // const report = {};
+        // report.name = api.tableName;
+        // report.downloadName = api.downloadName;
+        // report.endpoint = api.endpoint;
+        // report.dateField = api.dateField;
+        apiEndpoints.push(api.endpoint);
+        // reports.push(apisProp);
+      });
+      setAllReports(apisProp);
+      setEndpoints(apiEndpoints);
     }
   }, [apisProp]);
 
@@ -46,6 +68,33 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
     }
   }, [earliestReportDate, latestReportDate]);
 
+  const buildFilterParam = (date, dateField, account, accountField) => {
+    const startDate = formatDateForApi(getFirstOfTheMonth(date));
+    const endDate = formatDateForApi(getLastOfTheMonth(date));
+    return `${dateField}:gte:${startDate},${dateField}:lte:${endDate},${accountField}:eq:${account}`;
+  };
+
+  useEffect(() => {
+    if (selectedAccount.value) {
+      console.log(selectedAccount);
+      const filterStr = buildFilterParam(selectedDate, 'eff_date', selectedAccount.value, 'acct_desc');
+      //'eff_date:gte:2024-07-01,eff_date:lte:2024-07-17,acct_desc:eq:ESAA';
+      const sortStr = 'acct_desc,-eff_date,memo_nbr';
+      const reports = [];
+      allReports.forEach(report => {
+        const curReport = {
+          name: report.tableName,
+          date: selectedDate.toDateString(),
+          size: '?',
+          downloadName: report.downloadName,
+        };
+        reports.push(curReport);
+        console.log(apiPrefix + report.endpoint + `?filter=${filterStr}&sort=${sortStr}`);
+      });
+      setActiveReports(reports);
+    }
+  }, [selectedAccount, selectedDate]);
+
   return (
     <>
       {useDefaultReportTable && (
@@ -62,9 +111,10 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[]; use
                 allReportYears={allReportYears}
                 ignoreDisabled={true}
               />
-              <GenerativeReportsAccountFilter apiData={apisProp} />
+              <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
             </div>
-            <GenerativeReportsEmptyTable />
+            {activeReports?.length === 0 && <GenerativeReportsEmptyTable />}
+            {activeReports?.length > 0 && <DownloadReportTable reports={activeReports} isDailyReport={false} width={1000} generatedReport={true} />}
           </DatasetSectionContainer>
         </div>
       )}
