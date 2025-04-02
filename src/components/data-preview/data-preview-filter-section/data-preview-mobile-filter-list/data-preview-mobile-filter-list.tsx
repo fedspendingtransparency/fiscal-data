@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import {
   active,
+  buttonSleeve,
   left,
   optionName,
   optionSecondary,
@@ -36,7 +37,7 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({ fil
       {filterOptions.map((filterOption, index) => {
         return (
           <div key={index}>
-            <button className={`${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`} onClick={onClick}>
+            <button className={`${buttonSleeve} ${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`} onClick={onClick}>
               <div className={left}>
                 <span className={optionName}>{filterOption.name}</span>
                 {filterOption.secondary && <span className={optionSecondary}>{filterOption.secondary}</span>}

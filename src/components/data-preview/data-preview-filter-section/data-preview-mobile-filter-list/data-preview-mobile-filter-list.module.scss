@@ -1,9 +1,6 @@
 @import 'src/variables.module';
 
-.buttonContainer {
-}
-
-button {
+.buttonSleeve {
   background: none;
   color: inherit;
   border: none;
@@ -43,15 +40,17 @@ button {
   }
 }
 
-.left {
-  margin-right: auto;
-  display: inline-block;
-  align-items: center;
-}
+.buttonSleeve {
+  .left {
+    margin-right: auto;
+    display: inline-block;
+    align-items: center;
+  }
 
-.right {
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  width: 10%;
+  .right {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    width: 10%;
+  }
 }
