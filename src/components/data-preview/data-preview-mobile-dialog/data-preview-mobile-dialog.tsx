@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import SearchBar from '../../../components/search-bar/search-bar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -15,13 +15,17 @@ import {
   previewCaretButton,
   previewCaretContainer,
   searchBar as searchBarStyle,
+  sectionHeader,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 
 interface IDataPreviewMobileDialog {
   onClose: () => void;
+  filterComponent: ReactElement;
+  filterName: string;
+  searchText: string;
 }
-const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({ onClose, filterComponent }) => {
+const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({ onClose, filterComponent, filterName, searchText }) => {
   const shouldTocShow = true;
 
   const onSearchBarChange = event => {
@@ -42,9 +46,9 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({ 
               </button>
             </div>
             <div className={topContainer}>
-              <h3>Filters</h3>
+              <div className={sectionHeader}>{filterName}</div>
               <div data-testid="search-container" className={searchBarStyle}>
-                <p>Search filters</p>
+                <p>{searchText}</p>
                 <SearchBar onChange={onSearchBarChange} filter={''} />
               </div>
             </div>

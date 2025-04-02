@@ -81,13 +81,13 @@
 .topContainer {
   padding: 0 1rem;
   margin-bottom: 1rem;
-  align-items: center;
-  text-align: left;
 
-  h3 {
+  .sectionHeader {
     margin-top: 0;
     margin-bottom: 1rem;
     font-size: 1.5rem;
+    color: $font-title;
+    font-weight: 600;
   }
 
   label {
