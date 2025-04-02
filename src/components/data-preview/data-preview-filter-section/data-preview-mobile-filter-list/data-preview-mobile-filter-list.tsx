@@ -40,7 +40,7 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({ fil
             <button className={`${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`} onClick={onClick}>
               <div className={left}>
                 <span className={optionName}>{filterOption.name}</span>
-                <span className={optionSecondary}>{filterOption.secondary}</span>
+                {filterOption.secondary && <span className={optionSecondary}>{filterOption.secondary}</span>}
               </div>
               <div className={right}>
                 <FontAwesomeIcon icon={faCaretRight} />
