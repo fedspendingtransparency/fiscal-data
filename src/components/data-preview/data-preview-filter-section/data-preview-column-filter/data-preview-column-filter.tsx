@@ -64,10 +64,12 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
       )}
       {width < pxToNumber(breakpointLg) && (
         <>
-          {filterDropdownButton}{' '}
+          {filterDropdownButton}
           {active && (
             <DataPreviewMobileDialog
               onClose={handleCancel}
+              filterName="Columns"
+              searchText="Search columns"
               filterComponent={
                 <ColumnSelectionList
                   table={table}

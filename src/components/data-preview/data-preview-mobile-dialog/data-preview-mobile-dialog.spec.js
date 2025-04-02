@@ -5,21 +5,22 @@ import React from 'react';
 
 describe('Data preview mobile dialog component', () => {
   it('Renders the Filters header', () => {
-    const { getByRole } = render(
+    const { getByText } = render(
       <RecoilRoot>
-        <DataPreviewMobileDialog />
+        <DataPreviewMobileDialog filterName="Filters" />
       </RecoilRoot>
     );
-    expect(getByRole('heading', { name: 'Filters', level: 3 })).toBeInTheDocument();
+    expect(getByText('Filters')).toBeInTheDocument();
   });
 
   it('Renders the optional search bar', () => {
-    const { getByTestId } = render(
+    const { getByRole, getByText } = render(
       <RecoilRoot>
-        <DataPreviewMobileDialog />
+        <DataPreviewMobileDialog searchText="Search filters" />
       </RecoilRoot>
     );
-    expect(getByTestId('search-container')).toBeInTheDocument();
+    expect(getByRole('textbox')).toBeInTheDocument();
+    expect(getByText('Search filters')).toBeInTheDocument();
   });
 
   it('Renders the data preview (back) button', () => {
