@@ -27,6 +27,7 @@ describe('Data Preview Dropdown Dialog', () => {
         setSelectedTable={mockSetSelectedTable}
         apis={[]}
         setSelectedPivot={jest.fn()}
+        width={2000}
       />
     );
     const dropdownButton = getByRole('button', { name: 'Data Table: Mock Table Name' });
@@ -43,6 +44,7 @@ describe('Data Preview Dropdown Dialog', () => {
         setSelectedTable={mockSetSelectedTable}
         apis={mockApis}
         setSelectedPivot={jest.fn()}
+        width={2000}
       />
     );
     const dropdownButton = getByRole('button', { name: 'Data Table: Mock Table Name' });
@@ -65,6 +67,7 @@ describe('Data Preview Dropdown Dialog', () => {
         setSelectedTable={mockSetSelectedTable}
         apis={mockApis}
         setSelectedPivot={mockSetSelectedPivot}
+        width={2000}
       />
     );
     const dropdownButton = getByRole('button', { name: 'Data Table: Mock Table Name' });
@@ -96,6 +99,7 @@ describe('Data Preview Dropdown Dialog', () => {
         setSelectedTable={mockSetSelectedTable}
         apis={mockApis}
         setSelectedPivot={mockSetSelectedPivot}
+        width={2000}
       />
     );
 

@@ -34,7 +34,7 @@ import DataTableProvider from './data-preview-context';
 import SummaryTable from './data-preview-summary-table/data-preview-summary-table';
 import moment from 'moment';
 
-const DataPreview: FunctionComponent<IDataPreview> = ({
+export const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
   finalDatesNotFound,
   location,
@@ -280,6 +280,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
               pivotsUpdated={pivotsUpdated}
               hideDropdown={(config.apis.length === 1 || (detailApi && config.apis.length === 2)) && config.apis[0]?.dataDisplays?.length <= 1}
               detailViewState={detailViewState}
+              width={width}
             />
           )}
         </div>
