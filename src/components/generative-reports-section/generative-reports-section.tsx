@@ -38,7 +38,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
 
   useEffect(() => {
     if (apisProp && apisProp.length > 0) {
-      console.log(apisProp);
       const earliestReport = new Date(Math.min(...apisProp.map(api => new Date(api.earliestDate).getTime())));
       const latestReport = new Date(Math.max(...apisProp.map(api => new Date(api.latestDate).getTime())));
       setEarliestReportDate(earliestReport);

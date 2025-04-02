@@ -5,8 +5,8 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 
 const GenerativeReportsEmptyTable: FunctionComponent = ({ width }) => {
-  const mobileView = pxToNumber(width) < breakpointLg;
-  const rowCount = mobileView ? 5 : 3;
+  const mobileView = width < pxToNumber(breakpointLg);
+  const rowCount = 3;
   const additionalFiltersHeading = 'This table requires additional filters';
   const additionalFiltersBody = 'Select an account in the filter section above to display the reports.';
 

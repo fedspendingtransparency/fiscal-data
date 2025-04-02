@@ -67,7 +67,8 @@ describe('Generative Report Footer', () => {
     const downloadReportTableRow = await findByRole('cell', { name: 'Download option1.pdf' });
     const downloadLink = within(downloadReportTableRow).getByRole('link', { name: 'Download option1.pdf' });
     expect(downloadLink).toBeInTheDocument();
-    expect(within(downloadReportTableRow).getByText('Table 1 - option1.pdf')).toBeInTheDocument();
+    expect(within(downloadReportTableRow).getByText('Table 1 - opt')).toBeInTheDocument(); // file name is split between two elements
+    expect(within(downloadReportTableRow).getByText('ion1.pdf')).toBeInTheDocument();
     expect(within(downloadReportTableRow).getByText('July 2024')).toBeInTheDocument();
   });
 });
