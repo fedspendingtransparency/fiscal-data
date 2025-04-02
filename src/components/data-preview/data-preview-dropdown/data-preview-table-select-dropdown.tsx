@@ -150,16 +150,15 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       )}
       {width < pxToNumber(breakpointLg) && (
         <>
-          <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
-            {active && (
-              <DataPreviewMobileDialog
-                onClose={handleCancel}
-                filterName="Data Tables"
-                searchText="Search data tables"
-                filterComponent={<DataPreviewMobileFilterList filterOptions={placeholderDataTables} />}
-              />
-            )}
-          </DropdownContainer>
+          {dropdownButton}
+          {active && (
+            <DataPreviewMobileDialog
+              onClose={handleCancel}
+              filterName="Data Tables"
+              searchText="Search data tables"
+              filterComponent={<DataPreviewMobileFilterList filterOptions={placeholderDataTables} />}
+            />
+          )}
         </>
       )}
     </>

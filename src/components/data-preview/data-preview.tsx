@@ -34,7 +34,7 @@ import DataTableProvider from './data-preview-context';
 import SummaryTable from './data-preview-summary-table/data-preview-summary-table';
 import moment from 'moment';
 
-const DataPreview: FunctionComponent<IDataPreview> = ({
+export const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
   finalDatesNotFound,
   location,
