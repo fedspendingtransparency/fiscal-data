@@ -78,8 +78,15 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       )}
       {width < pxToNumber(breakpointLg) && (
         <>
-          {filterDropdownButton} {active && <DataPreviewMobileDialog onClose={handleCancel} filterName="Filters" searchText="Search filters" />}
-          {filterDropdownButton} {active && <DataPreviewMobileDialog onClose={handleCancel} filterName="Filters" searchText="Search filters" filterComponent={<DataPreviewMobileFilterList />} />}
+          {filterDropdownButton}
+          {active && (
+            <DataPreviewMobileDialog
+              onClose={handleCancel}
+              filterName="Filters"
+              searchText="Search filters"
+              filterComponent={<DataPreviewMobileFilterList />}
+            />
+          )}
         </>
       )}
     </>

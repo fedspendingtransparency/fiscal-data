@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const placeholderFilters = [
   { name: 'Record Date', secondary: 'Last 5 years', selected: false, active: true },
-  { name: 'Parent ID', secondary: 'No filter applied', selected: true, active: false },
+  { name: 'Parent ID', secondary: 'No filter applied', selected: false, active: false },
   { name: 'Classification ID', secondary: 'No filter applied', selected: false, active: false },
   { name: 'Classification Description', secondary: 'No filter applied', selected: false, active: false },
   { name: 'Record Type Code', secondary: 'No filter applied', selected: false, active: false },
