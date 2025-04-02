@@ -21,6 +21,8 @@ import { getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay } from 
 import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
 import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
+import { PDFDownloadLink } from '@react-pdf/renderer/lib/react-pdf.browser';
+import ReportGenerator from '../../report-generator/report-generator';
 
 interface IGeneratedReport {
   name: string;
@@ -34,7 +36,8 @@ const DownloadReportTableRow: FunctionComponent<{
   generatedReport: IGeneratedReport;
   isDailyReport: boolean;
   mobileView?: boolean;
-}> = ({ reportFile, isDailyReport, mobileView, generatedReport }) => {
+  downloadLinkComponent;
+}> = ({ reportFile, isDailyReport, mobileView, generatedReport, downloadLinkComponent }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);
   const [reportLocation, setReportLocation] = useState<string>(null);
@@ -93,6 +96,31 @@ const DownloadReportTableRow: FunctionComponent<{
     </>
   );
 
+  const LinkComponent = ({ children }) => {
+    console.log(children);
+    return generatedReport ? (
+      <PDFDownloadLink
+        document={<ReportGenerator reportConfig={generatedReport.config} reportData={generatedReport.data} />}
+        fileName={generatedReport.downloadName}
+      >
+        {/*{children}*/}
+        {({ blob, url, loading, error }) => (loading ? 'Loading download link...' : children)}
+      </PDFDownloadLink>
+    ) : (
+      <a
+        href={reportLocation}
+        download={fileName}
+        target="_blank"
+        rel="noreferrer noopener"
+        onClick={onDownloadClick}
+        className={downloadButton}
+        aria-label={`Download ${fileName}`}
+      >
+        {children}
+      </a>
+    );
+  };
+
   const onDownloadClick = () => {
     if (!downloaded) {
       setDownloaded(true);
@@ -120,15 +148,7 @@ const DownloadReportTableRow: FunctionComponent<{
       {displayName && (
         <tr className={fileDescription} data-testid="file-download-row">
           <td>
-            <a
-              href={reportLocation}
-              download={fileName}
-              target="_blank"
-              rel="noreferrer noopener"
-              onClick={onDownloadClick}
-              className={downloadButton}
-              aria-label={`Download ${fileName}`}
-            >
+            <LinkComponent children={<div></div>}>
               {!mobileView && (
                 <>
                   <div className={downloadFileContainer}>
@@ -163,7 +183,7 @@ const DownloadReportTableRow: FunctionComponent<{
                   </div>
                 </div>
               )}
-            </a>
+            </LinkComponent>
           </td>
         </tr>
       )}

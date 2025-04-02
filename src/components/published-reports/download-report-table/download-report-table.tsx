@@ -42,7 +42,15 @@ export const DownloadReportTable: FunctionComponent<{
           return <DownloadReportTableRow reportFile={report} isDailyReport={isDailyReport} mobileView={mobileView} key={i} />;
         })}
         {generatedReport?.map((report, i: number) => {
-          return <DownloadReportTableRow generatedReport={report} isDailyReport={isDailyReport} mobileView={mobileView} key={i} />;
+          return (
+            <DownloadReportTableRow
+              generatedReport={report}
+              isDailyReport={isDailyReport}
+              mobileView={mobileView}
+              key={i}
+              downloadLinkComponent={report.downloadLink}
+            />
+          );
         })}
       </tbody>
     </table>

@@ -9,9 +9,8 @@ import GenerativeReportsEmptyTable from './generative-reports-empty-table/genera
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
 import ReportDatePicker from '../published-reports/report-date-picker/report-date-picker';
 import { withWindowSize } from 'react-fns';
-import { PDFDownloadLink } from '@react-pdf/renderer/lib/react-pdf.browser';
-import ReportGenerator from '../published-reports/report-generator/report-generator';
 import { reportsConfig } from './reports-config';
+import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
 
 export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
@@ -79,6 +78,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             size: '2KB',
             downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${formattedDate}.pdf`,
             data: await getReportData(report),
+            config: reportConfig,
           };
           reports.push(curReport);
         }
@@ -93,15 +93,16 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const reports = [];
     allReports.forEach(report => {
       if (report.data.length > 0) {
-        console.log(report);
-        report.downloadLink = (
-          <PDFDownloadLink
-            document={<ReportGenerator reportConfig={reportsConfig.utf[report.id]} reportData={report.data} />}
-            fileName={report.downloadName}
-          >
-            {({ blob, url, loading, error }) => (loading ? 'Loading download link...' : `Download ${report.downloadName}`)}
-          </PDFDownloadLink>
-        );
+        // console.log(report);
+        // const DownloadComponent = children => (
+        //   <PDFDownloadLink
+        //     document={<ReportGenerator reportConfig={reportsConfig.utf[report.id]} reportData={report.data} />}
+        //     fileName={report.downloadName}
+        //   >
+        //     {({ blob, url, loading, error }) => (loading ? 'Loading download link...' : `Download ${report.downloadName}`)}
+        //   </PDFDownloadLink>
+        // );
+        // report.downloadLink = DownloadComponent;
         reports.push(report);
       }
     });
@@ -125,11 +126,11 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
         {activeReports?.length === 0 && <GenerativeReportsEmptyTable width={width} />}
-        {activeReports?.length > 0 &&
-          activeReports.map(report => {
-            return report.downloadLink;
-          })}
-        {/*{activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReport={activeReports} width={width} />}*/}
+        {/*{activeReports?.length > 0 &&*/}
+        {/*  activeReports.map(report => {*/}
+        {/*    return report.downloadLink;*/}
+        {/*  })}*/}
+        {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReport={activeReports} width={width} />}
       </DatasetSectionContainer>
     </div>
   );
