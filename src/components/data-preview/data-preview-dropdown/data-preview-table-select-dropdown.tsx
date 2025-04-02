@@ -148,7 +148,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           )}
         </DropdownContainer>
       )}
-      {width < pxToNumber(breakpointLg) && (
+      {!hideDropdown && width < pxToNumber(breakpointLg) && (
         <>
           {dropdownButton}
           {active && (
