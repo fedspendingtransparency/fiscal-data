@@ -88,6 +88,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           techSpecs={pageConfig.techSpecs}
           dictionary={pageContext.config.dictionary}
           numTables={pageConfig.apis.length}
+          dateExpected={pageConfig.dateExpected}
         />
         {pageConfig.reportGenDefaultTable && (
           <Experimental featureId="defaultReportTable">

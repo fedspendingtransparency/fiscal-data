@@ -173,7 +173,6 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   const getDatasetConfig = dataset => {
     const allColumnNames = [];
     const allPrettyNames = [];
-
     if (dataset.apis.length > 0) {
       dataset.apis.forEach(api => {
         if (api.fields && api.fields.length) {
@@ -184,9 +183,11 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
         }
       });
     }
-
+    const releaseCalendarData = freshReleaseCalendarData;
+    const sortedRes = releaseCalendarData.filter(rcDataset => rcDataset.datasetId === dataset.datasetId && rcDataset.released === 'false');
     return {
       ...dataset,
+      dateExpected: sortedRes[0]?.date,
       allColumnNames: allColumnNames,
       allPrettyNames: allPrettyNames,
     };
@@ -503,6 +504,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       downloadTimestamp: Boolean,
       sharedApiFilterOptions: Boolean,
       reportSelection: String,
+      dateExpected: String,
       allColumnNames: [String],
       allPrettyNames: [String],
     }
@@ -581,6 +583,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           downloadTimestamp
           reportGenDefaultTable
           sharedApiFilterOptions
+          dateExpected
           allColumnNames
           allPrettyNames
           detailView {
