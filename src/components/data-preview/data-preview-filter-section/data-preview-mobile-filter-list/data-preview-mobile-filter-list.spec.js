@@ -15,7 +15,6 @@ describe('Data preview mobile filter list', () => {
   it('Renders a list of buttons', () => {
     const { getAllByRole } = render(<DataPreviewMobileFilterList filterOptions={mockFilters} />);
     const buttons = getAllByRole('button');
-    // expect(buttons.length).toBeGreaterThan(1);
     expect(buttons.length).toEqual(6);
   });
 
