@@ -8,7 +8,7 @@ import { ITableFilters } from '../../../../models/data-preview/ITableFilters';
 import DataPreviewMobileDialog from '../../data-preview-mobile-dialog/data-preview-mobile-dialog';
 import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../data-preview.module.scss';
-import DataPreviewMobileFilterList from '../data-preview-mobile-filter-list/data-preview-mobile-filter-list';
+import DataPreviewMobileFilterList, { placeholderFilters } from '../data-preview-mobile-filter-list/data-preview-mobile-filter-list';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -84,7 +84,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
               onClose={handleCancel}
               filterName="Filters"
               searchText="Search filters"
-              filterComponent={<DataPreviewMobileFilterList />}
+              filterComponent={<DataPreviewMobileFilterList filterOptions={placeholderFilters} />}
             />
           )}
         </>

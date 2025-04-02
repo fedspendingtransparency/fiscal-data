@@ -280,6 +280,7 @@ const DataPreview: FunctionComponent<IDataPreview> = ({
               pivotsUpdated={pivotsUpdated}
               hideDropdown={(config.apis.length === 1 || (detailApi && config.apis.length === 2)) && config.apis[0]?.dataDisplays?.length <= 1}
               detailViewState={detailViewState}
+              width={width}
             />
           )}
         </div>

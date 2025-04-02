@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import {
   active,
-  buttonContainer,
   left,
   optionName,
   optionSecondary,
@@ -11,7 +10,7 @@ import {
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const placeholderFilters = [
+export const placeholderFilters = [
   { name: 'Record Date', secondary: 'Last 5 years', selected: false, active: true },
   { name: 'Parent ID', secondary: 'No filter applied', selected: false, active: false },
   { name: 'Classification ID', secondary: 'No filter applied', selected: false, active: false },
@@ -20,7 +19,7 @@ const placeholderFilters = [
   { name: 'Current Month Budget Amount', secondary: 'No filter applied', selected: false, active: false },
 ];
 
-const placeholderDataTables = [
+export const placeholderDataTables = [
   { name: 'All Data Tables (Download Only)', secondary: null, selected: true, active: false },
   { name: 'Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government', secondary: null, selected: false, active: false },
   { name: 'Summary of Budget and Off-Budget Results and Financing of the U.S. Government', secondary: null, selected: false, active: false },
@@ -36,7 +35,7 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({ fil
     <>
       {filterOptions.map((filterOption, index) => {
         return (
-          <div key={index} className={buttonContainer}>
+          <div key={index}>
             <button className={`${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`} onClick={onClick}>
               <div className={left}>
                 <span className={optionName}>{filterOption.name}</span>
