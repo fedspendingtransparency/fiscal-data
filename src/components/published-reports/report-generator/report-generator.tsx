@@ -7,14 +7,14 @@ import { getTableColumnConfig } from '../../../helpers/report-generator/report-g
 import { IReportGenerator } from '../../../models/report-generator/IReportGenerator';
 
 const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, reportData }) => {
-  const { documentTitle, documentHeader, tables, downloadName } = reportConfig;
+  const { documentTitle, reportInfo, tables, downloadName } = reportConfig;
   const { pageContainer, headerFieldName } = styles;
 
   return (
     <Document title={downloadName}>
       <Page style={pageContainer}>
         <Text style={styles.title}>{documentTitle}</Text>
-        {documentHeader.map((line, index) => {
+        {reportInfo.map((line, index) => {
           const { name, value, style } = line;
           const customStyle = styles[style];
           const customContainerStyle = styles[`${style}Container`];

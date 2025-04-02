@@ -3,13 +3,15 @@ import DatasetSectionContainer from '../dataset-section-container/dataset-sectio
 import { IDatasetApi } from '../../models/IDatasetApi';
 import { filtersContainer } from '../published-reports/reports-section/reports-section.module.scss';
 import { apiPrefix, basicFetch } from '../../utils/api-utils';
-import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
 import { format } from 'date-fns';
 import { buildFilterParam, buildSortParam } from './generative-report-helper';
 import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
 import ReportDatePicker from '../published-reports/report-date-picker/report-date-picker';
 import { withWindowSize } from 'react-fns';
+import { PDFDownloadLink } from '@react-pdf/renderer/lib/react-pdf.browser';
+import ReportGenerator from '../published-reports/report-generator/report-generator';
+import { reportsConfig } from './reports-config';
 
 export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
@@ -38,6 +40,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
 
   useEffect(() => {
     if (apisProp && apisProp.length > 0) {
+      console.log(apisProp);
       const earliestReport = new Date(Math.min(...apisProp.map(api => new Date(api.earliestDate).getTime())));
       const latestReport = new Date(Math.max(...apisProp.map(api => new Date(api.latestDate).getTime())));
       setEarliestReportDate(earliestReport);
@@ -67,11 +70,14 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
       if (selectedAccount.value) {
         const reports = [];
         for (const report of apisProp) {
+          const reportConfig = reportsConfig.utf[report.apiId];
+          const formattedDate = format(selectedDate, 'MMMM yyyy');
           const curReport = {
+            id: report.apiId,
             name: `${report.tableName} - ${selectedAccount.label}.pdf`,
-            date: format(selectedDate, 'MMMM yyyy'),
+            date: formattedDate,
             size: '2KB',
-            downloadName: `${selectedAccount.label}.pdf`,
+            downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${formattedDate}.pdf`,
             data: await getReportData(report),
           };
           reports.push(curReport);
@@ -87,6 +93,15 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const reports = [];
     allReports.forEach(report => {
       if (report.data.length > 0) {
+        console.log(report);
+        report.downloadLink = (
+          <PDFDownloadLink
+            document={<ReportGenerator reportConfig={reportsConfig.utf[report.id]} reportData={report.data} />}
+            fileName={report.downloadName}
+          >
+            {({ blob, url, loading, error }) => (loading ? 'Loading download link...' : `Download ${report.downloadName}`)}
+          </PDFDownloadLink>
+        );
         reports.push(report);
       }
     });
@@ -110,7 +125,11 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
         {activeReports?.length === 0 && <GenerativeReportsEmptyTable width={width} />}
-        {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReport={activeReports} width={width} />}
+        {activeReports?.length > 0 &&
+          activeReports.map(report => {
+            return report.downloadLink;
+          })}
+        {/*{activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReport={activeReports} width={width} />}*/}
       </DatasetSectionContainer>
     </div>
   );
