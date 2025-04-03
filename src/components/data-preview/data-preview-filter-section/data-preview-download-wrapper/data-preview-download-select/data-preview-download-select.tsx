@@ -121,21 +121,21 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   const performDirectDownload = (fileType: string) => {
     const downloadData = getSmallTableDownloadData(fileType);
     if (!downloadData) return;
-    let mimeType: string, extension: string;
+    let type, extension;
     if (fileType === 'csv') {
-      mimeType = 'text/csv';
+      type = 'text/csv';
       extension = 'csv';
     } else if (fileType === 'json') {
-      mimeType = 'application/json';
+      type = 'application/json';
       extension = 'json';
     } else if (fileType === 'xml') {
-      mimeType = 'application/xml';
+      type = 'application/xml';
       extension = 'xml';
     } else {
       return;
     }
     const downloadName = constructDownloadFileName(dateRange, selectedTable, true);
-    const blob = new Blob([downloadData], { type: mimeType });
+    const blob = new Blob([downloadData], { type: type });
     const url = URL.createObjectURL(blob);
     const download = document.createElement('a');
     download.href = url;
