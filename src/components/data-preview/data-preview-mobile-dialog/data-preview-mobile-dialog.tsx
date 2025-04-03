@@ -25,6 +25,8 @@ interface IDataPreviewMobileDialog {
   filterName: string;
   searchText: string;
   isSearch: boolean;
+  bottomButton: string;
+  onBottomButtonClick: () => void;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   onClose,
@@ -32,6 +34,8 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   filterName,
   searchText,
   isSearch = true,
+  bottomButton,
+  onBottomButtonClick,
 }) => {
   const shouldTocShow = true;
 
@@ -66,9 +70,9 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
             {filterComponent}
           </div>
           <div className={bottomContainer}>
-            <button className={applyButton}>
+            <button className={applyButton} onClick={onBottomButtonClick}>
               <FontAwesomeIcon icon={faCheck} className={checkIcon} />
-              Apply
+              {bottomButton}
             </button>
             <button className={cancelButton} onClick={onClose}>
               <u>Cancel</u>
