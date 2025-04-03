@@ -31,7 +31,7 @@ describe('DataPreviewDownloadSelect', () => {
   const mockDataset = { apis: [], name: 'Dataset name', downloadTimestamp: 'timestamp' };
   const mockDateRange = { from: new Date('2023-01-01'), to: new Date('2023-01-02') };
   const mockSelectedTable = { id: 1, name: 'Table 1' };
-  const mockSelectedPivot = {}; // minimal dummy object
+  const mockSelectedPivot = {};
   const defaultProps = {
     dateRange: mockDateRange,
     selectedTable: mockSelectedTable,
