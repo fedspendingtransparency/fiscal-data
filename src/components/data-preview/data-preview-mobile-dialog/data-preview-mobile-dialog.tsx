@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import SearchBar from '../../../components/search-bar/search-bar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCaretLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
 
 import {
   applyButton,
@@ -15,83 +15,55 @@ import {
   previewCaretButton,
   previewCaretContainer,
   searchBar as searchBarStyle,
+  sectionHeader,
   topContainer,
-  dataPreviewHeaderContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 
-interface iDataPreviewMovileDialog {
+interface IDataPreviewMobileDialog {
   onClose: () => void;
-  backButtonTitle: string;
-  headerName: string;
-  bottomButton: string;
-  bottomButtonIcon: any;
-  hasSearch: boolean;
-  tableList: any;
-  onBottomButtonClick?: () => void;
+  filterComponent: ReactElement;
+  filterName: string;
+  searchText: string;
 }
-const DataPreviewMobileDialog: FunctionComponent<iDataPreviewMovileDialog> = ({
-  onClose,
-  backButtonTitle,
-  headerName,
-  bottomButton,
-  bottomButtonIcon,
-  hasSearch,
-  tableList,
-  onBottomButtonClick,
-}) => {
+const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({ onClose, filterComponent, filterName, searchText }) => {
   const shouldTocShow = true;
 
   const onSearchBarChange = event => {
     // placeholder for search handler
   };
 
-  const placeholderFilters = [
-    { filterName: 'Record Date', filterApplied: 'Last 5 years' },
-    { filterName: 'Parent ID', filterApplied: 'No filter applied' },
-    { filterName: 'Classification ID', filterApplied: 'No filter applied' },
-    { filterName: 'Classification Description', filterApplied: 'No filter applied' },
-    { filterName: 'Record Type Code', filterApplied: 'No filter applied' },
-    { filterName: 'Current Month Budget Amount', filterApplied: 'No filter applied' },
-  ];
-
   return (
     <div className={mainContainer}>
       {shouldTocShow && (
         <>
-          <div className={dataPreviewHeaderContainer}>
+          <div>
             <div className={dataPreviewHeader}>
               <button onClick={onClose} className={previewCaretButton}>
                 <div className={previewCaretContainer}>
                   <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
                 </div>
-                {backButtonTitle}
+                Data Preview
               </button>
             </div>
             <div className={topContainer}>
-              <h3>{headerName}</h3>
-              {hasSearch && (
-                <div data-testid="search-container" className={searchBarStyle}>
-                  <p>Search filters</p>
-                  <SearchBar onChange={onSearchBarChange} filter={''} />
-                </div>
-              )}
+              <div className={sectionHeader}>{filterName}</div>
+              <div data-testid="search-container" className={searchBarStyle}>
+                <p>{searchText}</p>
+                <SearchBar onChange={onSearchBarChange} filter={''} />
+              </div>
             </div>
           </div>
-
           <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
-            {tableList}
+            {filterComponent}
           </div>
-
           <div className={bottomContainer}>
-            <button className={applyButton} onClick={onBottomButtonClick}>
-              <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
-              {bottomButton}
+            <button className={applyButton}>
+              <FontAwesomeIcon icon={faCheck} className={checkIcon} />
+              Apply
             </button>
-            <div>
-              <button className={cancelButton}>
-                <u>Cancel</u>
-              </button>
-            </div>
+            <button className={cancelButton} onClick={onClose}>
+              <u>Cancel</u>
+            </button>
           </div>
         </>
       )}

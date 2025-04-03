@@ -7,7 +7,6 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
   z-index: $panel;
   background: $content-section-background;
   height: 100%;
@@ -18,6 +17,8 @@
 }
 
 .filtersScrollContainer {
+  width: 100%;
+  height: 100%;
   overflow-y: auto;
 }
 
@@ -25,10 +26,6 @@
   text-align: center;
   background-color: $content-section-background;
   padding: 1rem;
-  position: fixed;
-  right: 0;
-  left: 0;
-  bottom: 0;
   box-shadow: 0 -0.25rem 1rem rgba(0, 0, 0, 0.15);
 }
 
@@ -40,28 +37,16 @@
   overflow-y: auto;
 }
 
-.applyButton {
-  color: $content-section-background;
-  font-weight: $semi-bold-weight;
-  height: 3rem;
-  background-color: $primary;
-  border: 0.0625rem solid $primary;
-  border-radius: 0.1875rem;
-  text-decoration: none;
-  text-align: center;
-  display: block;
-  align-content: center;
-  width: 100%;
-  font-size: $font-size-16;
-}
 .previewCaretButton {
   display: flex;
 }
+
 .previewCaret {
   padding-right: 0.5rem;
   height: 0.875rem;
   width: 0.625rem;
 }
+
 .previewCaretContainer {
   width: 1.5rem;
   height: 1.5rem;
@@ -71,13 +56,11 @@
 }
 
 .dataPreviewHeader {
-  padding: 0 1.5rem;
+  padding: 1rem 1.5rem;
   color: $primary;
   font-size: 1.125rem;
   font-weight: 600;
   display: inline-block;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 
   button {
     background: none;
@@ -99,79 +82,49 @@
 }
 
 .topContainer {
-  padding: 0 1rem;
-  margin-bottom: 1rem;
+  padding: 0 1rem 1rem 1rem;
   align-items: center;
   text-align: left;
+  border-bottom: 0.0625rem solid #d9d9d9;
 
-  h3 {
+  .sectionHeader {
     margin-top: 0;
     margin-bottom: 1rem;
     font-size: 1.5rem;
+    color: $font-title;
+    font-weight: 600;
   }
 
   label {
     font-size: 0.875rem;
   }
 }
+
+.applyButton,
+.cancelButton {
+  font-size: $font-size-16;
+  width: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.applyButton {
+  color: $content-section-background;
+  font-weight: $semi-bold-weight;
+  background-color: $primary;
+  border-radius: 0.1875rem;
+  height: 3rem;
+}
+
 .cancelButton {
   padding-top: 1rem;
   color: $font-body-copy;
   background-color: $content-section-background;
-  border: none;
-  font-size: $font-size-16;
 }
+
 .checkIcon {
   padding-right: 0.5rem;
-}
-
-.filterContainer {
-  border-top: 0.0625rem solid #d9d9d9;
-  border-bottom: 0.0625rem solid #d9d9d9;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-
-  .left {
-    margin-right: auto;
-    display: inline-block;
-    align-items: center;
-
-    .filterName {
-      padding: 0 1rem;
-      font-size: 1rem;
-      margin-bottom: 0.25rem;
-    }
-    .isApplied {
-      padding: 0 1rem;
-      font-size: 0.875rem;
-      margin-top: 0;
-    }
-  }
-
-  .leftSelected {
-    margin-right: auto;
-    display: inline-block;
-    align-items: center;
-    border-left: 0.25rem solid $primary;
-
-    .filterName {
-      padding: 0 1rem;
-      font-size: 1rem;
-      margin-bottom: 0.25rem;
-    }
-    .isApplied {
-      padding: 0 1rem;
-      font-size: 0.875rem;
-      margin-top: 0;
-    }
-  }
-  .right {
-    display: flex;
-    align-items: center;
-    justify-content: right;
-    width: 20%;
-    padding-right: 1rem;
-  }
 }

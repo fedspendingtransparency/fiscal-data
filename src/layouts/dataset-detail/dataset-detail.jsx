@@ -17,6 +17,7 @@ import { bannerCalloutContainer } from '../../components/masthead/masthead.modul
 import ReportsSection from '../../components/published-reports/reports-section/reports-section';
 import GenerativeReportsSection from '../../components/generative-reports-section/generative-reports-section';
 import DataPreview from '../../components/data-preview/data-preview';
+
 export const query = graphql`
   query relatedDatasets($relatedDatasets: [String]) {
     allDatasets(filter: { datasetId: { in: $relatedDatasets } }) {
@@ -87,10 +88,13 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           techSpecs={pageConfig.techSpecs}
           dictionary={pageContext.config.dictionary}
           numTables={pageConfig.apis.length}
+          dateExpected={pageConfig.dateExpected}
         />
-        <Experimental featureId="defaultReportTable">
-          <GenerativeReportsSection apisProp={pageConfig.apis} useDefaultReportTable={pageConfig.reportGenDefaultTable} />
-        </Experimental>
+        {pageConfig.reportGenDefaultTable && (
+          <Experimental featureId="defaultReportTable">
+            <GenerativeReportsSection apisProp={pageConfig.apis} />
+          </Experimental>
+        )}
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
         <Experimental featureId="dataPreview">
           <DataPreview
@@ -99,7 +103,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
             config={pageConfig}
             location={location}
             publishedReportsProp={pageConfig.publishedReports}
-          ></DataPreview>
+          />
         </Experimental>
         <DatasetData
           setSelectedTableProp={setSelectedTable}

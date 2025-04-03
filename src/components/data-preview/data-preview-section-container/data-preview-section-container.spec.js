@@ -1,14 +1,11 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import {
-  mockApiData,
+  mockApiDataColumnConfig,
   mockConfig,
   mockDateRange,
   mockTableWithApiFilterAvailable,
   mockTableWithApiFilterAvailableDisplayDefaultData,
   mockTableWithNoChartAvailable,
-  mockTableWithPivot,
-  pivotFields,
   selectedPivot,
   selectedTableLessFields,
 } from '../../dataset-data/table-section-container/testHelpers';
@@ -17,9 +14,11 @@ import {
 import { render } from '@testing-library/react';
 // import NotShownMessage from './not-shown-message/not-shown-message';
 import { RecoilRoot } from 'recoil';
-import DataPreviewTable from '../data-preview-table/data-preview-table';
 import DataPreviewSectionContainer from './data-preview-section-container';
-
+import { DataTableContext } from '../data-preview-context';
+import { contextProps } from '../../data-table/data-table-test-helper';
+import { columnsConstructorData } from '../../data-table/data-table-helper';
+import { mockApiData } from '../../dataset-data/test-helper';
 // describe('DataPreviewSectionContainer initial state', () => {
 //   let component, instance;
 //   const mockSetSelectedPivot = jest.fn();
@@ -51,27 +50,38 @@ describe('DataPreviewSectionContainer while loading', () => {
   let queryTestId;
   beforeAll(() => {
     const { queryByTestId } = render(
-      <RecoilRoot>
-        <DataPreviewSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={selectedTableLessFields}
-          apiData={{ data: [], meta: { labels: {} } }}
-          isLoading={true}
-          apiError={false}
-          setSelectedPivot={mockSetSelectedPivot}
-          setUserFilterSelection={jest.fn()}
-          selectedPivot={selectedPivot}
-          setApiFilterDefault={jest.fn()}
-        />
-      </RecoilRoot>
+      <DataTableContext.Provider
+        value={{
+          ...contextProps,
+          setReactTableData: jest.fn(),
+          tableProps: { rawData: { data: [], meta: { labels: {} } }, selectedTable: selectedTableLessFields, shouldPage: true },
+          reactTableData: { data: [], meta: { labels: {} } },
+          allColumns: columnsConstructorData({ data: [], meta: { labels: {} } }, [], '', []),
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={selectedTableLessFields}
+            apiData={{ data: [], meta: { labels: {} } }}
+            isLoading={true}
+            apiError={false}
+            setSelectedPivot={mockSetSelectedPivot}
+            setUserFilterSelection={jest.fn()}
+            selectedPivot={selectedPivot}
+            setApiFilterDefault={jest.fn()}
+          />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     queryTestId = queryByTestId;
   });
 
-  // it('provides the loading section while the table is loading', () => {
-  //   expect(queryTestId('loadingSection')).toBeNull();
-  // });
+  it('provides the loading section while the table is loading', () => {
+    expect(queryTestId('loadingSection')).toBeInTheDocument();
+  });
+
   it('does not show detailView on initial render', () => {
     expect(queryTestId('detailViewCloseButton')).not.toBeInTheDocument();
   });
@@ -79,37 +89,68 @@ describe('DataPreviewSectionContainer while loading', () => {
 
 describe('DataPreviewSectionContainer with data', () => {
   const selectedTable = selectedTableLessFields;
-  let component = renderer.create(),
-    instance;
   const mockSetSelectedPivot = jest.fn();
 
-  renderer.act(() => {
-    component = renderer.create(
-      <RecoilRoot>
-        <DataPreviewSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={selectedTable}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={mockSetSelectedPivot}
-          setApiFilterDefault={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-  });
-
-  instance = component.root;
-
   it('displays the table component when there is data', () => {
-    expect(instance.findAllByType(DataPreviewTable).length).toBe(1);
+    const { getByRole } = render(
+      <DataTableContext.Provider
+        value={{
+          ...contextProps,
+          setReactTableData: jest.fn(),
+          tableProps: { rawData: { data: mockApiData }, selectedTable: selectedTable, shouldPage: true },
+          reactTableData: mockApiData,
+          allColumns: columnsConstructorData(mockApiData, [], '', mockApiDataColumnConfig),
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={selectedTable}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivot}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+            setApiFilterDefault={jest.fn()}
+          />
+        </RecoilRoot>
+      </DataTableContext.Provider>
+    );
+    expect(getByRole('table')).toBeInTheDocument();
   });
 
   it('sets noBorder on the table', () => {
-    expect(instance.findByType(DataPreviewTable).props.tableProps.noBorder).toBeDefined();
+    const mockSetTableProps = jest.fn();
+    const { getByRole } = render(
+      <DataTableContext.Provider
+        value={{
+          ...contextProps,
+          setReactTableData: jest.fn(),
+          setTableProps: mockSetTableProps,
+          tableProps: { rawData: { data: mockApiData }, selectedTable: selectedTable, shouldPage: true },
+          reactTableData: mockApiData,
+          allColumns: columnsConstructorData(mockApiData, [], '', mockApiDataColumnConfig),
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={selectedTable}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivot}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+            setApiFilterDefault={jest.fn()}
+          />
+        </RecoilRoot>
+      </DataTableContext.Provider>
+    );
+    expect(mockSetTableProps).toHaveBeenCalledWith(expect.objectContaining({ noBorder: true }));
   });
 
   //   it('sends slug and currentTableName props to DatasetChart', () => {
@@ -173,31 +214,34 @@ describe('DataPreviewSectionContainer with userFilter Options', () => {
 });
 
 describe('DataPreviewSectionContainer with Pivot Options', () => {
-  let component = renderer.create(),
-    instance;
   const mockSetSelectedPivot = jest.fn();
 
-  renderer.act(() => {
-    component = renderer.create(
-      <RecoilRoot>
-        <DataPreviewSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          pivotFields={pivotFields}
-          selectedPivot={selectedPivot}
-          isLoading={false}
-          apiError={false}
-          setUserFilterSelection={jest.fn()}
-          setSelectedPivot={mockSetSelectedPivot}
-          setApiFilterDefault={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-  });
-
-  instance = component.root;
+  // const instance = render(
+  //   <DataTableContext.Provider
+  //     value={{
+  //       ...contextProps,
+  //       /RecoilRoot>
+  //       </DataTableContext.Provider>      tableProps: { rawData: { data: mockApiData }, selectedTable: mockTableWithPivot, shouldPage: true },
+  //       reactTableData: mockApiData,
+  //       allColumns: columnsConstructorData(mockApiData, [], '', mockApiDataColumnConfig),
+  //     }}
+  //   >
+  //     <RecoilRoot>
+  //       <DataPreviewSectionContainer
+  //         config={mockConfig}
+  //         dateRange={mockDateRange}
+  //         selectedTable={mockTableWithPivot}
+  //         apiData={mockApiData}
+  //         pivotFields={pivotFields}
+  //         selectedPivot={selectedPivot}
+  //         isLoading={false}
+  //         apiError={false}
+  //         setUserFilterSelection={jest.fn()}
+  //         setSelectedPivot={mockSetSelectedPivot}
+  //         setApiFilterDefault={jest.fn()}
+  //       />
+  //     <
+  // );
 
   // it('shows a pivot options toggle button when pivots are available', () => {
   //   expect(instance.findAllByType(PivotToggle).length).toEqual(1);
@@ -270,8 +314,18 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   // });
 
   it('relays an endpoint value when it receives it in the serverSidePagination prop', async () => {
-    renderer.act(() => {
-      component.update(
+    const mockSetTableProps = jest.fn();
+
+    render(
+      <DataTableContext.Provider
+        value={{
+          ...contextProps,
+          setTableProps: mockSetTableProps,
+          tableProps: { rawData: { data: [], meta: { labels: {} } }, selectedTable: mockTableWithNoChartAvailable, shouldPage: true },
+          reactTableData: { data: [], meta: { labels: {} } },
+          allColumns: columnsConstructorData({ data: [], meta: { labels: {} } }, [], '', []),
+        }}
+      >
         <RecoilRoot>
           <DataPreviewSectionContainer
             config={mockConfig}
@@ -287,10 +341,10 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
             setApiFilterDefault={jest.fn()}
           />
         </RecoilRoot>
-      );
-    });
-    const table = instance.findByType(DataPreviewTable);
-    expect(table.props.tableProps.serverSidePagination).toEqual('ssp-endpoint');
+      </DataTableContext.Provider>
+    );
+
+    expect(mockSetTableProps).toHaveBeenCalledWith(expect.objectContaining({ serverSidePagination: 'ssp-endpoint' }));
   });
 
   // it(`calls setNoChartMessage and if it returns something truthy,
@@ -592,41 +646,57 @@ describe('Table with API filter', () => {
     const mockSetIsLoading = jest.fn();
 
     const { queryByRole } = render(
-      <RecoilRoot>
-        <DataPreviewSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithApiFilterAvailable}
-          isLoading={false}
-          setIsLoading={mockSetIsLoading}
-          apiError={false}
-          setUserFilterSelection={jest.fn()}
-          userFilterSelection={null}
-          setSelectedPivot={jest.fn()}
-          setApiFilterDefault={jest.fn()}
-        />
-      </RecoilRoot>
+      <DataTableContext.Provider
+        value={{
+          ...contextProps,
+          tableProps: { selectedTable: mockTableWithApiFilterAvailable },
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithApiFilterAvailable}
+            isLoading={false}
+            setIsLoading={mockSetIsLoading}
+            apiError={false}
+            setUserFilterSelection={jest.fn()}
+            userFilterSelection={null}
+            setSelectedPivot={jest.fn()}
+            setApiFilterDefault={jest.fn()}
+          />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(mockSetIsLoading).toHaveBeenCalledWith(false);
     expect(queryByRole('table')).not.toBeInTheDocument();
   });
-  it('Initializes table with an api filter and dispalyDefaultData is true', async () => {
+
+  it('Initializes table with an api filter and displayDefaultData is true', async () => {
     const mockSetIsLoading = jest.fn();
     render(
-      <RecoilRoot>
-        <DataPreviewSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithApiFilterAvailableDisplayDefaultData}
-          isLoading={false}
-          setIsLoading={mockSetIsLoading}
-          apiError={false}
-          setUserFilterSelection={jest.fn()}
-          userFilterSelection={null}
-          setSelectedPivot={jest.fn()}
-          setApiFilterDefault={jest.fn()}
-        />
-      </RecoilRoot>
+      <DataTableContext.Provider
+        value={{
+          ...contextProps,
+          tableProps: { selectedTable: mockTableWithApiFilterAvailableDisplayDefaultData },
+          reactTableData: { data: [], meta: { labels: {} } },
+        }}
+      >
+        <RecoilRoot>
+          <DataPreviewSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithApiFilterAvailableDisplayDefaultData}
+            isLoading={false}
+            setIsLoading={mockSetIsLoading}
+            apiError={false}
+            setUserFilterSelection={jest.fn()}
+            userFilterSelection={null}
+            setSelectedPivot={jest.fn()}
+            setApiFilterDefault={jest.fn()}
+          />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(mockSetIsLoading).not.toHaveBeenCalledWith(false);
   });
