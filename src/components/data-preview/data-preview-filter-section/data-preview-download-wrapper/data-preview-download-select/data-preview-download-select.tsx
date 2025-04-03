@@ -180,7 +180,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
                       selectedPivot={selectedPivot}
                       smallTableDownloadData={downloadData}
                     />
-                    here
                   </React.Fragment>
                 );
               })}
@@ -196,12 +195,13 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
         {active && (
           <DataPreviewMobileDialog
             onClose={() => setActive(false)}
+            isSearch={false}
             backButtonTitle="Data Preview"
             headerName="Download"
             bottomButton="Download"
             bottomButtonIcon={faCloudDownload}
             hasSearch={false}
-            tableList={mobileFiller}
+            filterComponent={mobileFiller}
             onBottomButtonClick={handleMobileDownload}
           />
         )}

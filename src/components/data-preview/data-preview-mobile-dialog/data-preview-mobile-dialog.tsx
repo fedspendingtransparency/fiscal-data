@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 import SearchBar from '../../../components/search-bar/search-bar';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCaretLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 import {
   applyButton,
@@ -24,8 +24,15 @@ interface IDataPreviewMobileDialog {
   filterComponent: ReactElement;
   filterName: string;
   searchText: string;
+  isSearch: boolean;
 }
-const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({ onClose, filterComponent, filterName, searchText }) => {
+const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
+  onClose,
+  filterComponent,
+  filterName,
+  searchText,
+  isSearch = true,
+}) => {
   const shouldTocShow = true;
 
   const onSearchBarChange = event => {
@@ -47,10 +54,12 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({ 
             </div>
             <div className={topContainer}>
               <div className={sectionHeader}>{filterName}</div>
-              <div data-testid="search-container" className={searchBarStyle}>
-                <p>{searchText}</p>
-                <SearchBar onChange={onSearchBarChange} filter={''} />
-              </div>
+              {isSearch && (
+                <div data-testid="search-container" className={searchBarStyle}>
+                  <p>{searchText}</p>
+                  <SearchBar onChange={onSearchBarChange} filter={''} />
+                </div>
+              )}
             </div>
           </div>
           <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
