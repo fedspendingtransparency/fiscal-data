@@ -26,20 +26,34 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [activeReports, setActiveReports] = useState([]);
   const [allReports, setAllReports] = useState([]);
 
-  const getReportData = async report => {
-    const { dateField, apiFilter, alwaysSortWith } = report;
+  const getReportData = async (report, reportConfig) => {
+    const { dateField, apiFilter } = report;
+    const { sort } = reportConfig;
     const { field: accountField } = apiFilter;
     const filterStr = buildFilterParam(selectedDate, dateField, selectedAccount.value, accountField);
-    const sortStr = buildSortParam(alwaysSortWith);
+    const sortStr = buildSortParam(sort);
     const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
     return await basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
       return res.data;
     });
   };
 
+  const setSummaryValues = (reportConfig, formattedDate, reportData) => {
+    const { reportInfo } = reportConfig;
+
+    reportInfo.forEach(summaryValue => {
+      if (summaryValue.filter === 'date') {
+        summaryValue.value = formattedDate;
+      } else if (summaryValue.filter === 'account' && reportData.length > 0 && summaryValue.secondaryField) {
+        const secondary = reportData[0][summaryValue.secondaryField];
+        const summaryStr = selectedAccount.label + ', ' + secondary;
+        summaryValue.value = summaryStr;
+      }
+    });
+  };
+
   useEffect(() => {
     if (apisProp && apisProp.length > 0) {
-      console.log(apisProp);
       const earliestReport = new Date(Math.min(...apisProp.map(api => new Date(api.earliestDate).getTime())));
       const latestReport = new Date(Math.max(...apisProp.map(api => new Date(api.latestDate).getTime())));
       setEarliestReportDate(earliestReport);
@@ -71,16 +85,19 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
         for (const report of apisProp) {
           const reportConfig = reportsConfig.utf[report.apiId];
           const formattedDate = format(selectedDate, 'MMMM yyyy');
+          const reportData = await getReportData(report, reportConfig);
           const curReport = {
             id: report.apiId,
             name: `${report.tableName} - ${selectedAccount.label}.pdf`,
             date: formattedDate,
             size: '2KB',
             downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${formattedDate}.pdf`,
-            data: await getReportData(report),
+            data: reportData,
             config: reportConfig,
           };
           reports.push(curReport);
+          console.log(reportData);
+          setSummaryValues(reportConfig, formattedDate, reportData);
         }
         setAllReports(reports);
       } else {
@@ -93,16 +110,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const reports = [];
     allReports.forEach(report => {
       if (report.data.length > 0) {
-        // console.log(report);
-        // const DownloadComponent = children => (
-        //   <PDFDownloadLink
-        //     document={<ReportGenerator reportConfig={reportsConfig.utf[report.id]} reportData={report.data} />}
-        //     fileName={report.downloadName}
-        //   >
-        //     {({ blob, url, loading, error }) => (loading ? 'Loading download link...' : `Download ${report.downloadName}`)}
-        //   </PDFDownloadLink>
-        // );
-        // report.downloadLink = DownloadComponent;
         reports.push(report);
       }
     });
@@ -126,10 +133,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
         {activeReports?.length === 0 && <GenerativeReportsEmptyTable width={width} />}
-        {/*{activeReports?.length > 0 &&*/}
-        {/*  activeReports.map(report => {*/}
-        {/*    return report.downloadLink;*/}
-        {/*  })}*/}
         {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReport={activeReports} width={width} />}
       </DatasetSectionContainer>
     </div>

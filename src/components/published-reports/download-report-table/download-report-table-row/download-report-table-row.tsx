@@ -97,7 +97,6 @@ const DownloadReportTableRow: FunctionComponent<{
   );
 
   const LinkComponent = ({ children }) => {
-    console.log(children);
     return generatedReport ? (
       <PDFDownloadLink
         document={<ReportGenerator reportConfig={generatedReport.config} reportData={generatedReport.data} />}
