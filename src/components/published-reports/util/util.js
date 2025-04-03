@@ -200,6 +200,17 @@ export const getFileDisplay = curReportFile => {
     }
   }
 };
+export const getGeneratedReportFileDisplay = curReportFile => {
+  if (curReportFile && curReportFile.name) {
+    const splitReportPath = curReportFile.name.split('.');
+    if (splitReportPath?.length > 0) {
+      const reportFileType = splitReportPath[splitReportPath.length - 1];
+      const downloadFileType = '.' + reportFileType;
+      const fileDisplayName = splitFileName(curReportFile.name, curReportFile.name.length - 8);
+      return { fullName: curReportFile.name, displayName: fileDisplayName || '', fileType: downloadFileType };
+    }
+  }
+};
 
 export const getAllReportDates = (isDaily, sortedReports) => {
   const allDates = [];

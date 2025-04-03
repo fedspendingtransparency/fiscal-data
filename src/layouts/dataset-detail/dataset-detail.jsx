@@ -90,9 +90,11 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           numTables={pageConfig.apis.length}
           dateExpected={pageConfig.dateExpected}
         />
-        <Experimental featureId="defaultReportTable">
-          <GenerativeReportsSection apisProp={pageConfig.apis} useDefaultReportTable={pageConfig.reportGenDefaultTable} />
-        </Experimental>
+        {pageConfig.reportGenDefaultTable && (
+          <Experimental featureId="defaultReportTable">
+            <GenerativeReportsSection apisProp={pageConfig.apis} />
+          </Experimental>
+        )}
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
         <Experimental featureId="dataPreview">
           <DataPreview
@@ -101,7 +103,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
             config={pageConfig}
             location={location}
             publishedReportsProp={pageConfig.publishedReports}
-          ></DataPreview>
+          />
         </Experimental>
         <DatasetData
           setSelectedTableProp={setSelectedTable}
