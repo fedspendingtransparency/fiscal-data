@@ -18,6 +18,7 @@ import {
   sectionHeader,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface IDataPreviewMobileDialog {
   onClose: () => void;
@@ -26,6 +27,7 @@ interface IDataPreviewMobileDialog {
   searchText: string;
   isSearch: boolean;
   bottomButton: string;
+  bottomButtonIcon?: IconProp;
   onBottomButtonClick: () => void;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
@@ -34,8 +36,9 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   filterName,
   searchText,
   isSearch = true,
-  bottomButton,
+  bottomButton = 'Apply',
   onBottomButtonClick,
+  bottomButtonIcon = faCheck,
 }) => {
   const shouldTocShow = true;
 
@@ -71,7 +74,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
           </div>
           <div className={bottomContainer}>
             <button className={applyButton} onClick={onBottomButtonClick}>
-              <FontAwesomeIcon icon={faCheck} className={checkIcon} />
+              <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
               {bottomButton}
             </button>
             <button className={cancelButton} onClick={onClose}>

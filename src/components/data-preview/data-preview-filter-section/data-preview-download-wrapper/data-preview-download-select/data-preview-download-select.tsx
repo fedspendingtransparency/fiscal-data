@@ -24,6 +24,8 @@ import { getDownloadIcon, shouldUseDirectDownload } from '../download-wrapper-he
 import { IDataset } from '../../../../../models/IDataset';
 import { IDatasetApi } from '../../../../../models/IDatasetApi';
 import { IPivotOption } from '../../../../../models/data-preview/IPivotOption';
+import { constructDownloadFileName } from '../../../../download-wrapper/download-helpers';
+import DataPreviewMobileDownloadOptions from './data-preview-mobile-downloads/data-preview-mobile-downloads';
 
 interface IDownloadButtonProps {
   dateRange: { from: Date; to: Date };
@@ -116,6 +118,48 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     }
   };
 
+  const performDirectDownload = (fileType: string) => {
+    const downloadData = getSmallTableDownloadData(fileType);
+    if (!downloadData) return;
+    let mimeType: string, extension: string;
+    if (fileType === 'csv') {
+      mimeType = 'text/csv';
+      extension = 'csv';
+    } else if (fileType === 'json') {
+      mimeType = 'application/json';
+      extension = 'json';
+    } else if (fileType === 'xml') {
+      mimeType = 'application/xml';
+      extension = 'xml';
+    } else {
+      return;
+    }
+    const downloadName = constructDownloadFileName(dateRange, selectedTable, true);
+    const blob = new Blob([downloadData], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const download = document.createElement('a');
+    download.href = url;
+    download.download = `${downloadName}.${extension}`;
+    document.body.appendChild(download);
+    download.click();
+    document.body.removeChild(download);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleMobileDownload = () => {
+    if (!selectedOption) {
+      return;
+    }
+    const option = getDownloadOptions().find(opt => opt.type === selectedOption);
+    if (option && option.onClick) {
+      if (selectedOption !== 'data-dictionary' && shouldUseDirectDownload(tableSize, allTablesSelected)) {
+        performDirectDownload(selectedOption);
+      } else {
+        option.onClick();
+      }
+    }
+  };
+
   const downloadButtonElement = (
     <button className={`${downloadButton} ${active ? buttonActive : ''}`} disabled={isDisabled} onClick={() => setActive(!active)}>
       <div className={buttonText}>Download</div>
@@ -125,38 +169,12 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     </button>
   );
 
-  // Filler content for mobile dialog using radio buttons
-  //THis can be removed once we plug in real data mostly using for styling
-  const mobileFiller = (
-    <div style={{ padding: '1rem' }}>
-      {getDownloadOptions().map((option, index) => (
-        <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-          <input
-            type="radio"
-            id={`download-option-${index}`}
-            name="downloadOption"
-            value={option.type}
-            checked={selectedOption === option.type}
-            onChange={() => setSelectedOption(option.type)}
-            style={{ accentColor: '#666666' }}
-          />
-          <label htmlFor={`download-option-${index}`} style={{ marginLeft: '0.5rem' }}>
-            {option.displayName}
-          </label>
-        </div>
-      ))}
-    </div>
-  );
+  const mobileOptions = getDownloadOptions().map(option => ({
+    displayName: option.displayName,
+    type: option.type,
+    size: option.size,
+  }));
 
-  const handleMobileDownload = () => {
-    if (!selectedOption) {
-      return;
-    }
-    const option = getDownloadOptions().find(opt => opt.type === selectedOption);
-    if (option && option.onClick) {
-      option.onClick();
-    }
-  };
   if (width >= pxToNumber(breakpointXl)) {
     return (
       <div className={parent}>
@@ -197,11 +215,13 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
             onClose={() => setActive(false)}
             isSearch={false}
             backButtonTitle="Data Preview"
-            headerName="Download"
+            filterName="Download"
             bottomButton="Download"
             bottomButtonIcon={faCloudDownload}
             hasSearch={false}
-            filterComponent={mobileFiller}
+            filterComponent={
+              <DataPreviewMobileDownloadOptions options={mobileOptions} selectedOption={selectedOption} onSelect={setSelectedOption} />
+            }
             onBottomButtonClick={handleMobileDownload}
           />
         )}

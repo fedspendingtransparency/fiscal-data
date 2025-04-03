@@ -89,7 +89,6 @@
 
   .sectionHeader {
     margin-top: 0;
-    margin-bottom: 1rem;
     font-size: 1.5rem;
     color: $font-title;
     font-weight: 600;
@@ -103,6 +102,7 @@
 .applyButton,
 .cancelButton {
   font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
   width: 100%;
   border: none;
   display: flex;
@@ -113,7 +113,6 @@
 
 .applyButton {
   color: $content-section-background;
-  font-weight: $semi-bold-weight;
   background-color: $primary;
   border-radius: 0.1875rem;
   height: 3rem;
