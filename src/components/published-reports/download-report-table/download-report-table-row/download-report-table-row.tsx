@@ -103,8 +103,7 @@ const DownloadReportTableRow: FunctionComponent<{
         document={<ReportGenerator reportConfig={generatedReport.config} reportData={generatedReport.data} />}
         fileName={generatedReport.downloadName}
       >
-        {/*{children}*/}
-        {({ blob, url, loading, error }) => (loading ? 'Loading download link...' : children)}
+        {children}
       </PDFDownloadLink>
     ) : (
       <a
