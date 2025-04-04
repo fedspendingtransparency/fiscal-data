@@ -29,6 +29,9 @@ interface IGeneratedReport {
   downloadName: string;
   date: string;
   size: string;
+  config;
+  data;
+  colConfig;
 }
 
 const DownloadReportTableRow: FunctionComponent<{

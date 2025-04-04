@@ -6,9 +6,6 @@ import fetchMock from 'fetch-mock';
 
 describe('Generative Report Footer', () => {
   window.HTMLElement.prototype.scrollIntoView = jest.fn();
-  jest.mock('@react-pdf/renderer/lib/react-pdf.browser', () => ({
-    PDFDownloadLink: jest.fn(({ children }) => <div>{() => console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')}</div>),
-  }));
 
   beforeAll(() => {
     const mockEndpointBase = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
@@ -60,16 +57,17 @@ describe('Generative Report Footer', () => {
   });
 
   it('renders download buttons for any reports matching the selected filters', async () => {
+    jest.useFakeTimers();
     const { getByRole, findByRole } = render(<GenerativeReportsSection apisProp={mockApiConfig} />);
     const accountFilter = getByRole('button', { name: 'Account: (None selected)' });
     fireEvent.click(accountFilter);
     const accountOption = getByRole('button', { name: 'option1' });
     fireEvent.click(accountOption);
-    const downloadReportTableRow = await findByRole('cell', { name: 'Download option1.pdf' });
-    const downloadLink = within(downloadReportTableRow).getByRole('link', { name: 'Download option1.pdf' });
+    jest.runAllTimers();
+    const downloadLink = await findByRole('link');
     expect(downloadLink).toBeInTheDocument();
-    expect(within(downloadReportTableRow).getByText('Table 1 - opt')).toBeInTheDocument(); // file name is split between two elements
-    expect(within(downloadReportTableRow).getByText('ion1.pdf')).toBeInTheDocument();
-    expect(within(downloadReportTableRow).getByText('July 2024')).toBeInTheDocument();
+    expect(within(downloadLink).getByText('Table 1 - opt')).toBeInTheDocument(); // file name is split between two elements
+    expect(within(downloadLink).getByText('ion1.pdf')).toBeInTheDocument();
+    expect(within(downloadLink).getByText('July 2024')).toBeInTheDocument();
   });
 });
