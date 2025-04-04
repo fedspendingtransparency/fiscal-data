@@ -17,7 +17,7 @@ const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected, timeExpec
   const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0, 0, 0), new Date());
   const formattedTime = timeExpected && timeExpected[2] === ':' ? timeExpected.replace(':', '') : timeExpected;
   const formattedDateExpected =
-    dateExpected && timeExpected ? format(new Date(convertDateAndTimeToDateTime(dateExpected, formattedTime)), 'MM/d/yyyy') : null;
+    dateExpected && timeExpected ? format(new Date(convertDateAndTimeToDateTime(dateExpected, formattedTime)), 'MM/dd/yyyy') : null;
 
   return (
     <div data-testid="detailPills" className={pillWrapper}>
