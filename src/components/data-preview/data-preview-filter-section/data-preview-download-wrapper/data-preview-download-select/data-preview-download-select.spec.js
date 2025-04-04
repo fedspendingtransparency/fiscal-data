@@ -66,10 +66,12 @@ describe('DataPreviewDownloadSelect', () => {
     expect(getByRole('button', { name: 'Data Dictionary 1 KB' }));
   });
 
-  it('calls downloadClickHandler on desktop download button click', () => {
+  it('calls downloadClickHandler on download button click', () => {
     const downloadClickHandlerSpy = jest.fn();
-    const props = { ...defaultProps, downloadClickHandler: downloadClickHandlerSpy };
-    const { getByRole, getAllByTestId } = render(<DataPreviewDownloadSelect width={1000} {...props} />, { wrapper: RecoilRoot });
+    const { getByRole, getAllByTestId } = render(
+      <DataPreviewDownloadSelect width={1000} dataset={mockDatasetConfig} downloadClickHandler={downloadClickHandlerSpy} />,
+      { wrapper: RecoilRoot }
+    );
     const button = getByRole('button', { name: 'Download' });
     userEvent.click(button);
     const downloadLinks = getAllByTestId('download-button');
@@ -79,7 +81,8 @@ describe('DataPreviewDownloadSelect', () => {
     expect(downloadClickHandlerSpy).toHaveBeenCalledWith('json');
     fireEvent.click(downloadLinks[2]);
     expect(downloadClickHandlerSpy).toHaveBeenCalledWith('xml');
-    fireEvent.click(getByRole('button', { name: /Data Dictionary/ }));
+
+    fireEvent.click(getByRole('button', { name: 'Data Dictionary 1 KB' }));
   });
 
   it('renders the mobile button active state and shows mobile options', async () => {
