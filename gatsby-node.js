@@ -268,7 +268,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
   const trreApiUrl =
     API_BASE_URL +
-    '/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000';
+    '/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2018-01-01&sort=currency,-effective_date&page[size]=10000';
 
   const getExchangeRatesData = async () => {
     return new Promise((resolve, reject) => {
