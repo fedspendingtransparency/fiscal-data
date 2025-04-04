@@ -28,15 +28,12 @@ export const formatCellValue = (cellData, type, tableName, property, customForma
     formattedData = customFormat(cellData, decimalPlaces);
   } else if (type === 'NUMBER') {
     const customFormat = customFormatConfig?.find(config => config.type === 'NUMBER' && config.fields.includes(property));
-    console.log(customFormatConfig, property, customFormat);
     if (!!customFormat) {
-      console.log(1);
       if (customFormat.decimalPlaces) {
         formattedData = customNumberFormatter.format(cellData, customFormat.decimalPlaces);
       } else if (customFormat.currency) {
         formattedData = currencyFormatter.format(cellData);
       }
-      console.log(2);
     } else if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
       formattedData = cellData;
     } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {

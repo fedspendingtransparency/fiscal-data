@@ -32,11 +32,10 @@ interface IGeneratedReport {
 }
 
 const DownloadReportTableRow: FunctionComponent<{
-  reportFile: IPublishedReportDataJson;
-  generatedReport: IGeneratedReport;
+  reportFile?: IPublishedReportDataJson;
+  generatedReport?: IGeneratedReport;
   isDailyReport: boolean;
   mobileView?: boolean;
-  downloadLinkComponent;
 }> = ({ reportFile, isDailyReport, mobileView, generatedReport }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);
@@ -101,6 +100,7 @@ const DownloadReportTableRow: FunctionComponent<{
       <PDFDownloadLink
         document={<ReportGenerator reportConfig={generatedReport.config} reportData={generatedReport.data} colConfig={generatedReport.colConfig} />}
         fileName={generatedReport.downloadName}
+        onClick={onDownloadClick}
       >
         {children}
       </PDFDownloadLink>
@@ -146,7 +146,7 @@ const DownloadReportTableRow: FunctionComponent<{
       {displayName && (
         <tr className={fileDescription} data-testid="file-download-row">
           <td>
-            <LinkComponent children={<div></div>}>
+            <LinkComponent>
               {!mobileView && (
                 <>
                   <div className={downloadFileContainer}>

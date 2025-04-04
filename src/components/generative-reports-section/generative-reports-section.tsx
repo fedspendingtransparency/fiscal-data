@@ -17,7 +17,6 @@ export const notice = 'Banner Notice';
 export const defaultSelection = { label: '(None selected)', value: '' };
 
 const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp, width }) => {
-  console.log(apisProp);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
@@ -97,7 +96,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             colConfig: report,
           };
           reports.push(curReport);
-          console.log(reportData);
           setSummaryValues(reportConfig, formattedDate, reportData);
         }
         setAllReports(reports);
@@ -134,7 +132,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
         {activeReports?.length === 0 && <GenerativeReportsEmptyTable width={width} />}
-        {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReport={activeReports} width={width} />}
+        {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} />}
       </DatasetSectionContainer>
     </div>
   );
