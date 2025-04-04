@@ -55,15 +55,15 @@ describe('DataPreviewDownloadSelect', () => {
   });
 
   it('renders the desktop button active state', () => {
-    const { getByRole, getAllByTestId } = render(<DataPreviewDownloadSelect width={1000} {...defaultProps} />, { wrapper: RecoilRoot });
+    const { getByRole, getAllByTestId } = render(<DataPreviewDownloadSelect width={1000} dataset={mockDatasetConfig} />, { wrapper: RecoilRoot });
     const button = getByRole('button', { name: 'Download' });
     userEvent.click(button);
-    expect(getByRole('img', { hidden: true })).toHaveAttribute('data-icon', 'caret-up');
+    expect(getByRole('img', { hidden: 'true' })).toHaveAttribute('data-icon', 'caret-up');
     const downloadLinks = getAllByTestId('download-button');
     expect(within(downloadLinks[0]).getByText('CSV')).toBeInTheDocument();
     expect(within(downloadLinks[1]).getByText('JSON')).toBeInTheDocument();
     expect(within(downloadLinks[2]).getByText('XML')).toBeInTheDocument();
-    expect(getByRole('button', { name: /Data Dictionary/ })).toBeInTheDocument();
+    expect(getByRole('button', { name: 'Data Dictionary 1 KB' }));
   });
 
   it('calls downloadClickHandler on desktop download button click', () => {
