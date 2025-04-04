@@ -33,7 +33,7 @@ interface IDownloadButtonProps {
   dataset: IDataset;
   selectedPivot: IPivotOption;
   allTablesSelected: boolean;
-  downloadClickHandler: (fileType: string, event: any) => void;
+  downloadClickHandler: (fileType: string, event) => void;
   isDisabled: boolean;
   width: number;
 }
@@ -102,7 +102,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
   const tableSize = useRecoilValue(tableRowLengthState);
 
-  const getSmallTableDownloadData = (type: string) => {
+  const getSmallTableDownloadData = type => {
     if (!shouldUseDirectDownload(tableSize, allTablesSelected)) return null;
     switch (type) {
       case 'csv':
@@ -116,7 +116,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     }
   };
 
-  const performDirectDownload = (fileType: string) => {
+  const performDirectDownload = fileType => {
     const downloadData = getSmallTableDownloadData(fileType);
     if (!downloadData) return;
     let type, extension;
