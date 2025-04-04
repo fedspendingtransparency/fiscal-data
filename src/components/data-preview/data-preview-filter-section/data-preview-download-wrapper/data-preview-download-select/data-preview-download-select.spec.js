@@ -74,11 +74,11 @@ describe('DataPreviewDownloadSelect', () => {
     userEvent.click(button);
     const downloadLinks = getAllByTestId('download-button');
     fireEvent.click(downloadLinks[0]);
-    expect(downloadClickHandlerSpy).toHaveBeenCalledWith('csv', null);
+    expect(downloadClickHandlerSpy).toHaveBeenCalledWith('csv');
     fireEvent.click(downloadLinks[1]);
-    expect(downloadClickHandlerSpy).toHaveBeenCalledWith('json', null);
+    expect(downloadClickHandlerSpy).toHaveBeenCalledWith('json');
     fireEvent.click(downloadLinks[2]);
-    expect(downloadClickHandlerSpy).toHaveBeenCalledWith('xml', null);
+    expect(downloadClickHandlerSpy).toHaveBeenCalledWith('xml');
     fireEvent.click(getByRole('button', { name: /Data Dictionary/ }));
   });
 

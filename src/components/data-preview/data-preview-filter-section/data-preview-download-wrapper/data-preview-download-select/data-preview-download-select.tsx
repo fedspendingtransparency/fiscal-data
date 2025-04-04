@@ -63,10 +63,8 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     return triggerDataDictionaryDownload(dataDictionaryCsv, dataset.name);
   };
 
-  const handleDownloadClick = (fileType: string) => {
-    if (!shouldUseDirectDownload(tableSize, allTablesSelected)) {
-      downloadClickHandler(fileType, null);
-    }
+  const handleDownloadClick = fileType => {
+    if (!shouldUseDirectDownload(tableSize, allTablesSelected)) downloadClickHandler(fileType);
   };
 
   const getDownloadOptions = () => {
