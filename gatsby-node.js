@@ -865,7 +865,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       if (api.apiFilter) {
         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
         if (api.apiFilter.filterEndpoint) {
-          filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=1000`;
+          filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=10000`;
         } else {
           filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
           if (api.apiFilter?.labelField) {

@@ -4,6 +4,13 @@ export const reportsConfig = {
       documentTitle: 'Account Statement Report',
       downloadName: 'UTF_Account_Statement',
       sort: ['eff_date', 'memo_nbr'],
+      customFormatting: [
+        {
+          type: 'NUMBER',
+          fields: ['shares_per_par'],
+          currency: true,
+        },
+      ],
       reportInfo: [
         { name: 'Account', filter: 'account', secondaryField: 'acct_statement' },
         { name: 'Report Date', filter: 'date' },
@@ -14,8 +21,8 @@ export const reportsConfig = {
         {
           width: '100%',
           fields: [
-            { name: 'eff_date', width: 70, type: 'DATE' },
-            { name: 'shares_per_par', width: 70, type: 'CURRENCY' },
+            { name: 'eff_date', width: 70 },
+            { name: 'shares_per_par', width: 70 },
             { name: 'trans_cd', width: 53 },
             { name: 'trans_desc_cd', width: 180 },
             { name: 'memo_nbr', width: 70 },
@@ -29,6 +36,13 @@ export const reportsConfig = {
       documentTitle: 'Transaction Statement',
       downloadName: 'UTF_Transaction_Statement',
       sort: ['trans_desc_cd', 'eff_date', 'memo_nbr'],
+      customFormatting: [
+        {
+          type: 'NUMBER',
+          fields: ['shares_per_par'],
+          currency: true,
+        },
+      ],
       reportInfo: [
         { name: 'Account', filter: 'account', secondaryField: 'trans_statement' },
         { name: 'Report Date', filter: 'date' },
@@ -46,8 +60,8 @@ export const reportsConfig = {
         {
           width: '100%',
           fields: [
-            { name: 'eff_date', width: 70, type: 'DATE' },
-            { name: 'shares_per_par', width: 70, type: 'CURRENCY' },
+            { name: 'eff_date', width: 70 },
+            { name: 'shares_per_par', width: 70 },
             { name: 'trans_desc_cd', width: 180 },
             { name: 'memo_nbr', width: 70 },
             { name: 'location_cd', width: 50 },
@@ -60,6 +74,13 @@ export const reportsConfig = {
       documentTitle: 'Federal Activity Statement',
       downloadName: 'UTF_Federal_Activity_Statement',
       sort: ['trans_desc_cd', 'eff_date', 'memo_nbr'],
+      customFormatting: [
+        {
+          type: 'NUMBER',
+          fields: ['shares_per_par'],
+          currency: true,
+        },
+      ],
       reportInfo: [
         { name: 'Account', filter: 'account', secondaryField: 'fed_act_statement' },
         { name: 'Report Date', filter: 'date' },
@@ -78,8 +99,8 @@ export const reportsConfig = {
         {
           width: '100%',
           fields: [
-            { name: 'eff_date', width: 70, type: 'DATE' },
-            { name: 'shares_per_par', width: 70, type: 'CURRENCY' },
+            { name: 'eff_date', width: 70 },
+            { name: 'shares_per_par', width: 70 },
             { name: 'trans_cd', width: 53 },
             { name: 'trans_desc_cd', width: 180 },
             { name: 'memo_nbr', width: 70 },

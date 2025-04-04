@@ -6,7 +6,7 @@ import { getTableColumnConfig } from '../../../helpers/report-generator/report-g
 import { IReportGenerator } from '../../../models/report-generator/IReportGenerator';
 
 const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, reportData, colConfig }) => {
-  const { documentTitle, reportInfo, tables, downloadName } = reportConfig;
+  const { documentTitle, reportInfo, tables, downloadName, customFormatting } = reportConfig;
   const { pageContainer, headerFieldName } = styles;
 
   return (
@@ -29,7 +29,7 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, re
           const columnConfig = getTableColumnConfig(colConfig, fields);
           return (
             <View style={{ width: width }} key={index}>
-              <ReportTable data={reportData} colConfig={columnConfig} />
+              <ReportTable data={reportData} colConfig={columnConfig} customFormatting={customFormatting} />
             </View>
           );
         })}

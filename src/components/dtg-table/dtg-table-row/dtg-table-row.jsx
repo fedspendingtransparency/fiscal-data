@@ -1,5 +1,5 @@
 import React from 'react';
-import { currencyFormatter, numberFormatter, dateFormatter, customNumberFormatter } from '../../../helpers/text-format/text-format';
+import { currencyFormatter, customNumberFormatter, dateFormatter, numberFormatter } from '../../../helpers/text-format/text-format';
 import { formattedCell, markdownRow } from '../dtg-table.module.scss';
 import moment from 'moment/moment';
 import { MarkdownTransform } from '../../markdown-transform/markdown-transform';
@@ -28,8 +28,15 @@ export const formatCellValue = (cellData, type, tableName, property, customForma
     formattedData = customFormat(cellData, decimalPlaces);
   } else if (type === 'NUMBER') {
     const customFormat = customFormatConfig?.find(config => config.type === 'NUMBER' && config.fields.includes(property));
+    console.log(customFormatConfig, property, customFormat);
     if (!!customFormat) {
-      formattedData = customNumberFormatter.format(cellData, customFormat.decimalPlaces);
+      console.log(1);
+      if (customFormat.decimalPlaces) {
+        formattedData = customNumberFormatter.format(cellData, customFormat.decimalPlaces);
+      } else if (customFormat.currency) {
+        formattedData = currencyFormatter.format(cellData);
+      }
+      console.log(2);
     } else if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
       formattedData = cellData;
     } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {

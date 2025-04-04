@@ -4,11 +4,10 @@ import { styles } from '../report-generator-styles';
 import { IReportTable } from '../../../../models/report-generator/IReportTable';
 import { formatCellValue } from '../../../dtg-table/dtg-table-row/dtg-table-row';
 
-const ReportTable: FunctionComponent<IReportTable> = ({ data, colConfig }) => {
+const ReportTable: FunctionComponent<IReportTable> = ({ data, colConfig, customFormatting }) => {
   const columns = Object.keys(colConfig);
   const formatValue = (value, config) => {
-    console.log(config, config.dataType ? formatCellValue(value, config.dataType) : value);
-    return config.dataType ? formatCellValue(value, config.dataType) : value;
+    return formatCellValue(value, config.dataType, '', config.columnName, customFormatting);
   };
 
   return (

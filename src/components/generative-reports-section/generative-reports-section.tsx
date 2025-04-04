@@ -94,7 +94,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${formattedDate}.pdf`,
             data: reportData,
             config: reportConfig,
-            colConfig: report.fields,
+            colConfig: report,
           };
           reports.push(curReport);
           console.log(reportData);
