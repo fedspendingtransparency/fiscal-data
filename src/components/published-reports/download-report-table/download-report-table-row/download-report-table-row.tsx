@@ -37,7 +37,7 @@ const DownloadReportTableRow: FunctionComponent<{
   isDailyReport: boolean;
   mobileView?: boolean;
   downloadLinkComponent;
-}> = ({ reportFile, isDailyReport, mobileView, generatedReport, downloadLinkComponent }) => {
+}> = ({ reportFile, isDailyReport, mobileView, generatedReport }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);
   const [reportLocation, setReportLocation] = useState<string>(null);
@@ -99,7 +99,7 @@ const DownloadReportTableRow: FunctionComponent<{
   const LinkComponent = ({ children }) => {
     return generatedReport ? (
       <PDFDownloadLink
-        document={<ReportGenerator reportConfig={generatedReport.config} reportData={generatedReport.data} />}
+        document={<ReportGenerator reportConfig={generatedReport.config} reportData={generatedReport.data} colConfig={generatedReport.colConfig} />}
         fileName={generatedReport.downloadName}
       >
         {children}

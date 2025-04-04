@@ -2,9 +2,15 @@ import { Text, View } from '@react-pdf/renderer/lib/react-pdf.browser';
 import React, { FunctionComponent } from 'react';
 import { styles } from '../report-generator-styles';
 import { IReportTable } from '../../../../models/report-generator/IReportTable';
+import { formatCellValue } from '../../../dtg-table/dtg-table-row/dtg-table-row';
 
 const ReportTable: FunctionComponent<IReportTable> = ({ data, colConfig }) => {
   const columns = Object.keys(colConfig);
+  const formatValue = (value, config) => {
+    console.log(config, config.dataType ? formatCellValue(value, config.dataType) : value);
+    return config.dataType ? formatCellValue(value, config.dataType) : value;
+  };
+
   return (
     <View style={styles.tableContainer}>
       <View style={styles.headerRow}>
@@ -19,12 +25,13 @@ const ReportTable: FunctionComponent<IReportTable> = ({ data, colConfig }) => {
       {data.map((row, rowIndex) => (
         <View style={styles.row} key={rowIndex}>
           {columns.map((col, colIndex) => {
+            const displayText = row[col] !== 'null' ? formatValue(row[col], colConfig[col]) : '';
             return (
               <Text
                 key={colIndex}
                 style={[styles.cell, { minWidth: colConfig[col].width }, colConfig[col]?.style, colIndex === columns.length - 1 && styles.lastCell]}
               >
-                {row[col] !== 'null' ? row[col] : ''}
+                {displayText}
               </Text>
             );
           })}

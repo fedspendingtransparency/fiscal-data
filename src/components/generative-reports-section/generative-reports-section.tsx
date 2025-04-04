@@ -17,6 +17,7 @@ export const notice = 'Banner Notice';
 export const defaultSelection = { label: '(None selected)', value: '' };
 
 const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp, width }) => {
+  console.log(apisProp);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
@@ -46,8 +47,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
         summaryValue.value = formattedDate;
       } else if (summaryValue.filter === 'account' && reportData.length > 0 && summaryValue.secondaryField) {
         const secondary = reportData[0][summaryValue.secondaryField];
-        const summaryStr = selectedAccount.label + ', ' + secondary;
-        summaryValue.value = summaryStr;
+        summaryValue.value = selectedAccount.label + ', ' + secondary;
       }
     });
   };
@@ -94,6 +94,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${formattedDate}.pdf`,
             data: reportData,
             config: reportConfig,
+            colConfig: report.fields,
           };
           reports.push(curReport);
           console.log(reportData);

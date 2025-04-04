@@ -14,8 +14,8 @@ export const reportsConfig = {
         {
           width: '100%',
           fields: [
-            { name: 'eff_date', width: 70 },
-            { name: 'shares_per_par', width: 70 },
+            { name: 'eff_date', width: 70, type: 'DATE' },
+            { name: 'shares_per_par', width: 70, type: 'CURRENCY' },
             { name: 'trans_cd', width: 53 },
             { name: 'trans_desc_cd', width: 180 },
             { name: 'memo_nbr', width: 70 },
@@ -46,8 +46,8 @@ export const reportsConfig = {
         {
           width: '100%',
           fields: [
-            { name: 'eff_date', width: 70 },
-            { name: 'shares_per_par', width: 70 },
+            { name: 'eff_date', width: 70, type: 'DATE' },
+            { name: 'shares_per_par', width: 70, type: 'CURRENCY' },
             { name: 'trans_desc_cd', width: 180 },
             { name: 'memo_nbr', width: 70 },
             { name: 'location_cd', width: 50 },
@@ -78,8 +78,8 @@ export const reportsConfig = {
         {
           width: '100%',
           fields: [
-            { name: 'eff_date', width: 70 },
-            { name: 'shares_per_par', width: 70 },
+            { name: 'eff_date', width: 70, type: 'DATE' },
+            { name: 'shares_per_par', width: 70, type: 'CURRENCY' },
             { name: 'trans_cd', width: 53 },
             { name: 'trans_desc_cd', width: 180 },
             { name: 'memo_nbr', width: 70 },
