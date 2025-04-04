@@ -25,7 +25,7 @@ interface IDataPreviewMobileDialog {
   filterComponent: ReactElement;
   filterName: string;
   searchText: string;
-  isSearch?: boolean;
+  hasSearch?: boolean;
   bottomButton: string;
   bottomButtonIcon?: IconProp;
   onBottomButtonClick: () => void;
@@ -35,7 +35,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   filterComponent,
   filterName,
   searchText,
-  isSearch = true,
+  hasSearch = true,
   bottomButton = 'Apply',
   onBottomButtonClick,
   bottomButtonIcon = faCheck,
@@ -61,7 +61,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
             </div>
             <div className={topContainer}>
               <div className={sectionHeader}>{filterName}</div>
-              {isSearch && (
+              {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
                   <p>{searchText}</p>
                   <SearchBar onChange={onSearchBarChange} filter={''} />

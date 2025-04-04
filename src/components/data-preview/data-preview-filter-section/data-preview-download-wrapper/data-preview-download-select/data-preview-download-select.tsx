@@ -211,7 +211,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
         {active && (
           <DataPreviewMobileDialog
             onClose={() => setActive(false)}
-            isSearch={false}
             backButtonTitle="Data Preview"
             filterName="Download"
             bottomButton="Download"
