@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AccessAlarm from '@mui/icons-material/AccessAlarm';
 import { format, isAfter } from 'date-fns';
 import futureDateIcon from '../../images/futureDateIcon.svg';
-import { getDateWithoutTimeZoneAdjust } from '../../utils/date-utils';
+import { convertDateAndTimeToDateTime } from '../calendar-entries/calendar-entry-sort-helper/calendar-entry-sort-helper';
 
-const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected }) => {
+const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected, timeExpected }) => {
   const earliestDate = techSpecs?.earliestDate;
   const latestDate = techSpecs?.latestDate;
   const dateRange = earliestDate && latestDate ? `${earliestDate} — ${latestDate}` : undefined;
@@ -15,7 +15,9 @@ const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected }) => {
   const lastUpdated = techSpecs?.lastUpdated || null;
   const latestDateParts = latestDate ? latestDate.split('/') : ['', '', ''];
   const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0, 0, 0), new Date());
-  const formattedDateExpected = dateExpected ? format(getDateWithoutTimeZoneAdjust(dateExpected), 'MM/dd/yyyy') : null;
+  const formattedTime = timeExpected[2] === ':' ? timeExpected.replace(':', '') : timeExpected;
+  const formattedDateExpected =
+    dateExpected && timeExpected ? format(new Date(convertDateAndTimeToDateTime(dateExpected, formattedTime)), 'MMMM d, yyyy') : null;
 
   return (
     <div data-testid="detailPills" className={pillWrapper}>

@@ -188,6 +188,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     return {
       ...dataset,
       dateExpected: sortedRes[0]?.date,
+      timeExpected: sortedRes[0]?.time,
       allColumnNames: allColumnNames,
       allPrettyNames: allPrettyNames,
     };
@@ -505,6 +506,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       sharedApiFilterOptions: Boolean,
       reportSelection: String,
       dateExpected: String,
+      timeExpected: String,
       allColumnNames: [String],
       allPrettyNames: [String],
     }
@@ -584,6 +586,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           reportGenDefaultTable
           sharedApiFilterOptions
           dateExpected
+          timeExpected
           allColumnNames
           allPrettyNames
           detailView {
