@@ -12,6 +12,9 @@
   height: 100%;
   width: 100%;
 }
+.dataPreviewHeaderContainer {
+  border-bottom: 1px solid $light-grey-border;
+}
 
 .filtersScrollContainer {
   width: 100%;
@@ -79,15 +82,16 @@
 }
 
 .topContainer {
-  padding: 0 1rem;
-  margin-bottom: 1rem;
+  padding: 0 1rem 1rem 1rem;
   align-items: center;
   text-align: left;
+  border-bottom: 0.0625rem solid #d9d9d9;
 
-  h3 {
+  .sectionHeader {
     margin-top: 0;
-    margin-bottom: 1rem;
     font-size: 1.5rem;
+    color: $font-title;
+    font-weight: 600;
   }
 
   label {
@@ -98,6 +102,7 @@
 .applyButton,
 .cancelButton {
   font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
   width: 100%;
   border: none;
   display: flex;
@@ -108,7 +113,6 @@
 
 .applyButton {
   color: $content-section-background;
-  font-weight: $semi-bold-weight;
   background-color: $primary;
   border-radius: 0.1875rem;
   height: 3rem;
@@ -119,57 +123,7 @@
   color: $font-body-copy;
   background-color: $content-section-background;
 }
+
 .checkIcon {
   padding-right: 0.5rem;
-}
-
-.filterContainer {
-  border-top: 0.0625rem solid #d9d9d9;
-  border-bottom: 0.0625rem solid #d9d9d9;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-
-  .left {
-    margin-right: auto;
-    display: inline-block;
-    align-items: center;
-
-    .filterName {
-      padding: 0 1rem;
-      font-size: 1rem;
-      margin-bottom: 0.25rem;
-    }
-    .isApplied {
-      padding: 0 1rem;
-      font-size: 0.875rem;
-      margin-top: 0;
-    }
-  }
-
-  .leftSelected {
-    margin-right: auto;
-    display: inline-block;
-    align-items: center;
-    border-left: 0.25rem solid $primary;
-
-    .filterName {
-      padding: 0 1rem;
-      font-size: 1rem;
-      margin-bottom: 0.25rem;
-    }
-    .isApplied {
-      padding: 0 1rem;
-      font-size: 0.875rem;
-      margin-top: 0;
-    }
-  }
-  .right {
-    display: flex;
-    align-items: center;
-    justify-content: right;
-    width: 20%;
-    padding-right: 1rem;
-  }
 }

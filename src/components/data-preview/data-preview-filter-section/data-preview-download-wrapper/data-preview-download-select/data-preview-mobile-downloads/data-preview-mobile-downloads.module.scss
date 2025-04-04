@@ -1,0 +1,24 @@
+@import 'src/variables.module';
+
+.mobileDownloadOptionsContainer {
+  padding: 1rem;
+}
+
+.mobileDownloadOptions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobileDownloadInput {
+  accent-color: $font-body-copy;
+}
+.mobileDownloadLabel {
+  margin: 0.5rem;
+}
+.mobileDropdownDisplayName {
+  display: flex;
+  align-items: center;
+}
+.mobileDropdownSize {
+}

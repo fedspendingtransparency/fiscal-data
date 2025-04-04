@@ -9,7 +9,13 @@ describe('Detail-Pills component', () => {
 
   it('displays pills containing all the proper icons and labels', () => {
     const { getByTestId, getByText } = render(
-      <DetailPills techSpecs={profilerConfigMockData.dataJson.datasets[0].techSpecs} dictionary={false} numTables={1} dateExpected={'2025-04-01'} />
+      <DetailPills
+        techSpecs={profilerConfigMockData.dataJson.datasets[0].techSpecs}
+        dictionary={false}
+        numTables={1}
+        dateExpected={'2025-04-01'}
+        timeExpected={'1600'}
+      />
     );
     expect(getByTestId('calendar-week-icon')).toBeInTheDocument();
     expect(getByText('10/03/2005 — 04/09/2020')).toBeInTheDocument();

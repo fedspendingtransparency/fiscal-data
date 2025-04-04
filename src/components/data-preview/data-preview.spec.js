@@ -20,7 +20,7 @@ import Analytics from '../../utils/analytics/analytics';
 import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
-import DataPreview from './data-preview';
+import { DataPreview } from './data-preview';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 
@@ -53,8 +53,8 @@ jest.mock('../../helpers/dataset-detail/report-helpers', function() {
 });
 jest.mock('../../variables.module.scss', () => {
   return {
-    breakpointSm: 600,
-    breakpointLg: '992',
+    breakpointSm: '600px',
+    breakpointLg: '992px',
   };
 });
 
@@ -440,9 +440,12 @@ describe('DataPreview', () => {
   });
 
   it(`limits table filters to just record date when "All Data Tables" is selected`, async () => {
-    const { getByRole, getByText } = render(<DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />, {
-      wrapper: RecoilRoot,
-    });
+    const { getByRole, getByText } = render(
+      <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />,
+      {
+        wrapper: RecoilRoot,
+      }
+    );
 
     await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
     const columnsDropdown = getByRole('button', { name: 'Columns: 3/3' });
@@ -477,7 +480,7 @@ describe('DataPreview', () => {
   it('Updates selected table and pivot view', () => {
     const { getByRole } = render(
       <RecoilRoot>
-        <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />
+        <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />
       </RecoilRoot>
     );
 

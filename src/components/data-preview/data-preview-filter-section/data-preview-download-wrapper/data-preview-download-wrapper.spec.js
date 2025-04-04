@@ -15,6 +15,28 @@ jest.mock('../../../../components/truncate/truncate.jsx', function() {
 
 jest.useFakeTimers();
 
+const mockSelectedTable = { tableName: 'Table 1', downloadName: 'table1.csv' };
+const mockDataset = {
+  name: 'Mock Dataset',
+  slug: 'mock-dataset',
+  datasetId: '1',
+  apis: [],
+  downloadTimeStamp: '',
+};
+const defaultProps = {
+  selectedTable: mockSelectedTable,
+  allTablesSelected: false,
+  dateRange: { from: new Date('2023-01-01'), to: new Date('2023-01-02') },
+  dataset: mockDataset,
+  isFiltered: false,
+  selectedUserFilter: null,
+  tableColumnSortData: null,
+  selectedDetailViewFilter: null,
+  width: 1000,
+  isDisabled: false,
+  selectedPivot: { label: 'Pivot', value: 'pivot' },
+};
+
 describe('data preview download', () => {
   enableFetchMocks();
   let createObjectURL;
@@ -63,21 +85,24 @@ describe('data preview download', () => {
   // Jest gives an error about the following not being implemented even though the tests pass.
   HTMLCanvasElement.prototype.getContext = jest.fn();
 
-  it('renders a placeholder', () => {
-    const { getByRole, getAllByTestId } = render(
+  it('renders a placeholder and triggers download on click', async () => {
+    const { getByRole, findAllByTestId } = render(
       <RecoilRoot>
         <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DataPreviewDownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} dateRange={{ from: new Date(), to: new Date() }} />
+          <DataPreviewDownloadWrapper {...defaultProps} />
         </downloadsContext.Provider>
       </RecoilRoot>
     );
-    const downloadButton = getByRole('button', {
-      name: 'Download',
-    });
+
+    const downloadButton = getByRole('button', { name: 'Download' });
     expect(downloadButton).toBeInTheDocument();
+
     userEvent.click(downloadButton);
 
-    const downloadLinks = getAllByTestId('download-button');
+    const downloadLinks = await findAllByTestId('download-button');
+    expect(downloadLinks.length).toBeGreaterThan(0);
+
     fireEvent.click(downloadLinks[0]);
+    expect(mockSetDownloadRequest).toHaveBeenCalled();
   });
 });
