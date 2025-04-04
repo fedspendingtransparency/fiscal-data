@@ -14,8 +14,12 @@ export const Document = ({ style, children }) => {
   return <div style={style}>{children}</div>;
 };
 
-const PDFGenerator = ({ children }) => {
-  return <>{children}</>;
+export const PDFDownloadLink = ({ children, fileName }) => {
+  return (
+    <a download={fileName} href="test/href">
+      {children}
+    </a>
+  );
 };
 
-export default PDFGenerator;
+export default PDFDownloadLink;

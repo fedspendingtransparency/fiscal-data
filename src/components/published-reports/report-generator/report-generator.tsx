@@ -1,20 +1,19 @@
 import React, { FunctionComponent } from 'react';
 import { Document, Page, Text, View } from '@react-pdf/renderer';
-import { config } from './mockData';
 import ReportTable from './report-table/report-table';
 import { styles } from './report-generator-styles';
 import { getTableColumnConfig } from '../../../helpers/report-generator/report-generator-helper';
 import { IReportGenerator } from '../../../models/report-generator/IReportGenerator';
 
-const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, reportData }) => {
-  const { documentTitle, documentHeader, tables, downloadName } = reportConfig;
+const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, reportData, colConfig }) => {
+  const { documentTitle, reportInfo, tables, downloadName, customFormatting } = reportConfig;
   const { pageContainer, headerFieldName } = styles;
 
   return (
     <Document title={downloadName}>
       <Page style={pageContainer}>
         <Text style={styles.title}>{documentTitle}</Text>
-        {documentHeader.map((line, index) => {
+        {reportInfo.map((line, index) => {
           const { name, value, style } = line;
           const customStyle = styles[style];
           const customContainerStyle = styles[`${style}Container`];
@@ -27,10 +26,10 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, re
         })}
         {tables.map((table, index) => {
           const { width, fields } = table;
-          const colConfig = getTableColumnConfig(config, fields);
+          const columnConfig = getTableColumnConfig(colConfig, fields);
           return (
             <View style={{ width: width }} key={index}>
-              <ReportTable data={reportData} colConfig={colConfig} />
+              <ReportTable data={reportData} colConfig={columnConfig} customFormatting={customFormatting} />
             </View>
           );
         })}
