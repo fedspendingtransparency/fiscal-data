@@ -41,6 +41,10 @@ const SavingsBondsOverview: FunctionComponent = () => {
     ),
   };
 
+  const footnoteClick = () => {
+    analyticsEventHandler('Savings Bonds - Footnote Click', 'Footnote Click');
+  };
+
   return (
     <>
       <span>
@@ -49,7 +53,7 @@ const SavingsBondsOverview: FunctionComponent = () => {
         bonds are designed to offer a safe investment opportunity to ordinary Americans with the hope that by owning shares in their country, they may
         become more interested in national policy.
       </span>
-      <AnchorText link={anchor.anchors[0].link} text={anchor.anchors[0].text} />
+      <AnchorText link={anchor.anchors[0].link} text={anchor.anchors[0].text} onAnchorClick={footnoteClick} />
       <QuoteBox
         icon={faCalculator as IconProp}
         primaryColor={fontBodyCopy}

@@ -48,7 +48,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const { explainers } = globalConstants;
 
   const handleChartMouseEnter = () => {
-    const eventLabel = 'Savings Bonds - Savings Bonds Sold by Type Over Time';
+    const eventLabel = 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public';
     const eventAction = 'Chart Hover';
     gaTimer = setTimeout(() => {
       analyticsEventHandler(eventLabel, eventAction);

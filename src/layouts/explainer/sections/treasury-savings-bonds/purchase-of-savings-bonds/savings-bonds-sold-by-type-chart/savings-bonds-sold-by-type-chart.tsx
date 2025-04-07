@@ -113,7 +113,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
               role="presentation"
               onBlur={() => setChartFocus(false)}
               onFocus={() => setChartFocus(true)}
-              onMouseOver={() => {
+              onMouseEnter={() => {
                 setChartHover(true);
                 handleChartMouseEnter();
               }}
