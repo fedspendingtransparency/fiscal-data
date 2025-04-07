@@ -7,6 +7,8 @@ import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, yAxisFormatte
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import ChartHeader from './chart-header/chart-header';
 import ChartDescription from './chart-description/chart-description';
+import { analyticsEventHandler } from '../../../../explainer-helpers/explainer-helpers';
+import Analytics from '../../../../../../utils/analytics/analytics';
 
 export interface ISavingBondsByTypeChartData {
   year: string;
@@ -43,6 +45,28 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
   let activeChartData = inflationSwitch ? inflationChartData : chartData;
   const handleInflationToggle = (isAdjusted: boolean) => {
     setInflationSwitch(isAdjusted);
+    analyticsEventHandler('Savings Bonds - Savings Bonds Sold Inflation Adjustment', 'Chart Toggle');
+  };
+
+  const handleMouseEnterChart = () => {
+    const gaTimerDebtHeld = setTimeout(() => {
+      Analytics.event({
+        category: 'Explainers',
+        action: 'Chart Hover',
+        label: 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public',
+      });
+    }, 3000);
+    const ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'chart-hover-debt-held',
+      });
+    }, 3000);
+  };
+
+  const handleMouseLeaveChart = () => {
+    clearTimeout(gaTimerDebtHeld);
+    clearTimeout(ga4Timer);
   };
 
   const header = (
@@ -89,8 +113,14 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
               role="presentation"
               onBlur={() => setChartFocus(false)}
               onFocus={() => setChartFocus(true)}
-              onMouseOver={() => setChartHover(true)}
-              onMouseLeave={() => setChartHover(false)}
+              onMouseOver={() => {
+                setChartHover(true);
+                handleMouseEnterChart();
+              }}
+              onMouseLeave={() => () => {
+                setChartHover(false);
+                handleMouseLeaveChart();
+              }}
             >
               {' '}
               {chartData && sortedBonds && (

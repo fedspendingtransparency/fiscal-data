@@ -15,6 +15,7 @@ import { calculatePercentage } from '../../../../../../utils/api-utils';
 import { basicFetch, apiPrefix } from '../../../../../../utils/api-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import { monthFullNames } from '../../../../../../utils/api-utils';
+import { analyticsEventHandler } from '../../../../explainer-helpers/explainer-helpers';
 
 interface ChartDataItem {
   name: string;
@@ -59,7 +60,11 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
 
   const monthYear = historyChartDate ? `${monthFullNames[historyChartDate.getMonth()]} ${historyChartDate.getFullYear()}` : '';
   const intragovernmental = (
-    <GlossaryPopoverDefinition term="Intragovernmental Holdings" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition
+      term="Intragovernmental Holdings"
+      page="Savings Bond Explainer"
+      handleClick={() => analyticsEventHandler('Savings Bonds - Intragovernmental Holdings', 'Glossary Term Click')}
+    >
       intragovernmental
     </GlossaryPopoverDefinition>
   );
@@ -110,14 +115,26 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   });
   const actualActiveIndex = savingBondsIndex && savingBondsIndex.startsWith('data02') ? parseInt(savingBondsIndex.split('-')[1], 10) : undefined;
 
+  const links = {
+    debt: (
+      <CustomLink url="/americas-finance-guide/national-debt/" onClick={() => analyticsEventHandler('National Debt', 'Savings Bonds Citation Click')}>
+        National Debt explainer
+      </CustomLink>
+    ),
+    outstanding: (
+      <CustomLink
+        url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
+        onClick={() => analyticsEventHandler('Summary of Treasury Securities Outstanding', 'Savings Bonds Citation Click')}
+      >
+        U.S. Treasury Monthly Statement of the Public Debt (MSPD)
+      </CustomLink>
+    ),
+  };
+
   const footer = (
     <p>
       This chart reflects total debt held by the public, which excludes debt held by the government (known as {intragovernmental}). Visit the{' '}
-      <CustomLink url="/americas-finance-guide/national-debt/">National Debt explainer</CustomLink> to learn more about the types of debt or the{' '}
-      <CustomLink url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding">
-        U.S. Treasury Monthly Statement of the Public Debt (MSPD)
-      </CustomLink>{' '}
-      dataset to explore and download this data.
+      {links['debt']} to learn more about the types of debt or the {links['outstanding']} dataset to explore and download this data.
     </p>
   );
 
