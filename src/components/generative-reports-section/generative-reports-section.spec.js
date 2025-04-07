@@ -7,19 +7,33 @@ import fetchMock from 'fetch-mock';
 describe('Generative Report Footer', () => {
   window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
-  beforeAll(() => {
+  jest.useFakeTimers();
+  beforeEach(() => {
     const mockEndpointBase = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
     fetchMock.get(
       mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=eff_date,memo_nbr',
       { data: [{ eff_date: '1/3/2024' }] }
     );
     fetchMock.get(
+      mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=eff_date,memo_nbr',
+      { data: [{ eff_date: '1/3/2024' }] }
+    );
+    fetchMock.get(
       mockEndpointBase + 'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=eff_date,memo_nbr',
+      { data: [] }
+    );
+    fetchMock.get(
+      mockEndpointBase + 'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=eff_date,memo_nbr',
       { data: [] }
     );
   });
 
-  it('renders empty table with default banner messaging', () => {
+  afterEach(() => {
+    fetchMock.restore();
+    // jest.restoreAllMocks();
+  });
+
+  it('renders empty table with default banner messaging', async () => {
     const { getByRole, getByText } = render(<GenerativeReportsSection apisProp={mockApiConfig} />);
 
     expect(getByRole('table')).toBeInTheDocument();
@@ -57,17 +71,18 @@ describe('Generative Report Footer', () => {
   });
 
   it('renders download buttons for any reports matching the selected filters', async () => {
-    jest.useFakeTimers();
+    const fetchSpy = jest.spyOn(global, 'fetch');
+
     const { getByRole, findByRole } = render(<GenerativeReportsSection apisProp={mockApiConfig} />);
     const accountFilter = getByRole('button', { name: 'Account: (None selected)' });
     fireEvent.click(accountFilter);
-    const accountOption = getByRole('button', { name: 'option1' });
+    const accountOption = getByRole('button', { name: 'option2' });
     fireEvent.click(accountOption);
-    jest.runAllTimers();
+    expect(fetchSpy).toHaveBeenCalled();
     const downloadLink = await findByRole('link');
     expect(downloadLink).toBeInTheDocument();
     expect(within(downloadLink).getByText('Table 1 - opt')).toBeInTheDocument(); // file name is split between two elements
-    expect(within(downloadLink).getByText('ion1.pdf')).toBeInTheDocument();
+    expect(within(downloadLink).getByText('ion2.pdf')).toBeInTheDocument();
     expect(within(downloadLink).getByText('July 2024')).toBeInTheDocument();
   });
 });
