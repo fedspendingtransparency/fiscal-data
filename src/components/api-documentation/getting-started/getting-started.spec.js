@@ -1,60 +1,58 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import GettingStarted from './getting-started';
-import { render } from '@testing-library/react';
+import SectionContent from '../section-content/section-content';
 
 describe('Getting Started', () => {
-  it('has SectionContent as a part of its layout', async () => {
-    const { findAllByTestId } = render(<GettingStarted />);
-    const sectionContent = await findAllByTestId('section-content');
-    expect(sectionContent.length).toBeGreaterThan(0);
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<GettingStarted />);
+  });
+  const instance = component.root;
+
+  it('has SectionContent as a part of its layout', () => {
+    expect(instance.findAllByType(SectionContent).length).toBeGreaterThan(0);
   });
 
-  it('creates the Getting Started section with the desired id, heading tag and title', async () => {
+  it('creates the Getting Started section with the desired id, heading tag and title', () => {
     const title = 'Getting Started';
-    const { findByRole } = render(<GettingStarted />);
-    const heading = await findByRole('heading', { name: title, level: 2 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'getting-started' }).findByType('h2');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the "What is an API?" section with the desired id, heading tag and title', async () => {
+  it('creates the "What is an API?" section with the desired id, heading tag and title', () => {
     const title = 'What is an API?';
-    const { findByRole } = render(<GettingStarted />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'what-is-an-api' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the "What is a Dataset?" section with the desired id, heading tag and title', async () => {
-    const title = 'What is a dataset?';
-    const { findByRole } = render(<GettingStarted />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+  it('creates the "What is a Dataset?" section with the desired id, heading tag and title', () => {
+    const title = 'What is a Dataset?';
+    const heading = instance.findByProps({ id: 'what-is-a-dataset' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the API Endpoint section with the desired id, heading tag and title', async () => {
-    const title = 'API Endpoint URL structure';
-    const { findByRole } = render(<GettingStarted />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+  it('creates the API Endpoint section with the desired id, heading tag and title', () => {
+    const title = 'API Endpoint URL Structure';
+    const heading = instance.findByProps({ id: 'api-endpoint-url-structure' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the How to Access our API section with the desired id, heading tag and title', async () => {
+  it('creates the How to Access our API section with the desired id, heading tag and title', () => {
     const title = 'How to Access our API';
-    const { findByRole } = render(<GettingStarted />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'how-to-access-our-api' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the License & Authorization section with the desired id, heading tag and title', async () => {
-    const title = 'License & Authorization';
-    const { findByRole } = render(<GettingStarted />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+  it('creates the License and Authorization section with the desired id, heading tag and title', () => {
+    const title = 'License and Authorization';
+    const heading = instance.findByProps({ id: 'license-and-authorization' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the Change Log section with the desired id, heading tag and title', async () => {
-    const title = 'Change Log';
-    const { findByRole } = render(<GettingStarted />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+  it('creates the API Versioning section with the desired id, heading tag and title', () => {
+    const title = 'API Versioning';
+    const heading = instance.findByProps({ id: 'api-versioning' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 });

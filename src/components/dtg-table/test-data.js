@@ -159,6 +159,34 @@ export const MoreTestData = [
   },
 ];
 
+export const MoreTestDataColumnConfig = [
+  {
+    property: 'first',
+    name: 'First',
+    type: 'STRING',
+  },
+  {
+    property: 'age',
+    name: 'Age',
+    type: 'NUMBER',
+  },
+  {
+    property: 'middle',
+    name: 'Middle',
+    type: 'STRING',
+  },
+  {
+    property: 'last',
+    name: 'Last',
+    type: 'STRING',
+  },
+  {
+    property: 'birthplace',
+    name: 'Birthplace',
+    type: 'STRING',
+  },
+];
+
 export const testDataForUserFiltering = [
   {
     facility_desc: 'Room',

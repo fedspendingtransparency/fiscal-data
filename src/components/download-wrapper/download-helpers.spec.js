@@ -1,11 +1,4 @@
-import { API_BASE_URL } from 'gatsby-env-variables';
-
-import {
-  constructDownloadFileName,
-  dateRangeUrl,
-  getDateRangeForFiltration,
-  getFilenameForSaveAs,
-} from './download-helpers';
+import { constructDownloadFileName, getDateRangeForFiltration, getFilenameForSaveAs } from './download-helpers';
 
 describe('Dataset Helper function collection', () => {
   it('converts date objects to strings for use in filter param', () => {

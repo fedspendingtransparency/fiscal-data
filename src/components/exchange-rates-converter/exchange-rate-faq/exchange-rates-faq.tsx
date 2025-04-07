@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
-  footer,
-  title,
   container,
-  exchangeRateFAQ,
   containerClass,
-  headTitle,
+  exchangeRateFAQ,
   externalIcon,
-  relatedResource,
+  footer,
+  headTitle,
   linkText,
+  relatedResource,
+  title,
 } from './exchange-rate-faq.module.scss';
 import Accordion from '../../accordion/accordion';
 import CustomLink from '../../links/custom-link/custom-link';

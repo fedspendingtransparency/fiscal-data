@@ -9,7 +9,7 @@ describe('Unavailable Text', () => {
     component = renderer.create(<PageUnavailableText />);
   });
 
-  let instance = component.root;
+  const instance = component.root;
 
   it('includes an h1 header', () => {
     const header = instance.findByType('h1');
@@ -41,7 +41,7 @@ describe('Fallback for Error Boundary', () => {
     component = renderer.create(<PageUnavailableText fallback="true" />);
   });
 
-  let instance = component.root;
+  const instance = component.root;
 
   it('includes an h1 header', () => {
     const header = instance.findByType('h1');

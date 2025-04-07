@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, fireEvent, within } from '@testing-library/react';
-import SearchResults, { getApiCount, resultsHeaderText, noResultsText } from './search-results';
+import { fireEvent, render, within } from '@testing-library/react';
+import SearchResults, { getApiCount, noResultsText, resultsHeaderText } from './search-results';
 import { getSearchResultText } from '../search-result-count/search-result-count';
-import { SortOptions, FilteredSortOptions } from './search-results-helper';
+import { FilteredSortOptions, SortOptions } from './search-results-helper';
 import { sortSelectionContainer } from './search-results.module.scss';
 
 const mockAllDatasets = [
@@ -59,7 +59,7 @@ describe('Search Results', () => {
       <SearchResults allDatasets={mockAllDatasets} filteredDatasets={mockFilteredDatasets} totalCount={mockTotal} searchIsActive />
     );
 
-    expect(getByText(SortOptions[1].label)).toBeInTheDocument();
+    expect(getByText(SortOptions[0].label)).toBeInTheDocument();
   });
 
   it('passes the filtered list of options to the sort control when search is inactive', () => {
@@ -67,7 +67,7 @@ describe('Search Results', () => {
       <SearchResults allDatasets={mockAllDatasets} filteredDatasets={mockFilteredDatasets} totalCount={mockTotal} searchIsActive={false} />
     );
 
-    expect(getByText(FilteredSortOptions[1].label)).toBeInTheDocument();
+    expect(getByText(FilteredSortOptions[0].label)).toBeInTheDocument();
   });
 
   it('changes the sort back to alpha when search is cleared', () => {
@@ -75,10 +75,10 @@ describe('Search Results', () => {
       <SearchResults allDatasets={mockAllDatasets} filteredDatasets={mockFilteredDatasets} totalCount={mockTotal} searchIsActive />
     );
 
-    expect(getByText(SortOptions[1].label)).toBeInTheDocument();
+    expect(getByText(SortOptions[0].label)).toBeInTheDocument();
 
     rerender(<SearchResults allDatasets={mockAllDatasets} filteredDatasets={mockFilteredDatasets} totalCount={mockTotal} searchIsActive={false} />);
-    expect(getByText(FilteredSortOptions[1].label)).toBeInTheDocument();
+    expect(getByText(FilteredSortOptions[0].label)).toBeInTheDocument();
   });
 
   it('displays an info box when no search results are returned', () => {
@@ -116,7 +116,7 @@ describe('Search Results', () => {
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Sort Click',
-      eventLabel: 'Alphabetical (Z to A)',
+      eventLabel: 'Recently Updated',
     });
   });
 });

@@ -1,18 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import DtgTable from './dtg-table';
-import {
-  longerPaginatedDataResponse,
-  mockPaginatedTableProps,
-  shortPaginatedDataResponse,
-  TestData,
-  TestDataOneRow,
-  MoreTestData,
-  DetailViewTestData,
-  bigTestData,
-} from './test-data';
+import { DetailViewTestData, mockPaginatedTableProps, MoreTestData, TestData, TestDataOneRow } from './test-data';
 import PaginationControls from '../pagination/pagination-controls';
-import * as ApiUtils from '../../utils/api-utils';
 import * as helpers from './dtg-table-helper';
 import { RecoilRoot } from 'recoil';
 import { render } from '@testing-library/react';

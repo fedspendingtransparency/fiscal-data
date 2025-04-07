@@ -3,7 +3,6 @@ import xls from '../../../../static/images/file-type-icons/file_type_xls_icon.sv
 import txt from '../../../../static/images/file-type-icons/file_type_txt_icon.svg';
 import xml from '../../../../static/images/file-type-icons/file_type_xml_icon.svg';
 import { monthFullNames } from '../../../utils/api-utils';
-import { IReports } from '../reports-section/reports-section';
 
 export const getYearReportOptions = reports => {
   const yearsFound = [];
@@ -198,6 +197,17 @@ export const getFileDisplay = curReportFile => {
       //Split file name so overflow ellipsis can be used in the middle of the name
       const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
       return { fullName: fullDisplayName, displayName: fileDisplayName || '', fileType: downloadFileType };
+    }
+  }
+};
+export const getGeneratedReportFileDisplay = curReportFile => {
+  if (curReportFile && curReportFile.name) {
+    const splitReportPath = curReportFile.name.split('.');
+    if (splitReportPath?.length > 0) {
+      const reportFileType = splitReportPath[splitReportPath.length - 1];
+      const downloadFileType = '.' + reportFileType;
+      const fileDisplayName = splitFileName(curReportFile.name, curReportFile.name.length - 8);
+      return { fullName: curReportFile.name, displayName: fileDisplayName || '', fileType: downloadFileType };
     }
   }
 };

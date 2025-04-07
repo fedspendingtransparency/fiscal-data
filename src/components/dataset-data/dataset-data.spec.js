@@ -7,26 +7,24 @@ import { format } from 'date-fns';
 import { pivotData } from '../../utils/api-utils';
 import TableSectionContainer from './table-section-container/table-section-container';
 import {
+  bannerTableConfig,
   config,
-  mockApiData,
-  latestDate,
   fivePrior,
+  latestDate,
+  mockAccumulableData,
+  mockApiData,
   mockLocation,
   mockLocationWithTablePathName,
   mockPivotableData,
-  mockAccumulableData,
-  bannerTableConfig,
-  downloadBannerTableConfig,
 } from './test-helper';
 import * as DatasetDataHelpers from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import { whiteListIds, mockPublishedReportsMTS } from '../../helpers/published-reports/published-reports';
+import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
 import PagingOptionsMenu from '../pagination/paging-options-menu';
 import DownloadWrapper from '../download-wrapper/download-wrapper';
 import RangePresets from '../filter-download-container/range-presets/range-presets';
 import { fireEvent, render } from '@testing-library/react';
-import { reports } from '../published-reports/test-helper';
 import { RecoilRoot } from 'recoil';
 
 jest.useFakeTimers();

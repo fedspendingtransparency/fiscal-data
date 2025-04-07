@@ -1,77 +1,56 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
+import SectionContent from '../section-content/section-content';
 import Responses from './responses';
-import { render } from '@testing-library/react';
+import MetaObject from './meta-object/meta-object';
+import LinksObject from './links-object/links-object';
+import DataObject from './data-object/data-object';
+import ErrorObject from './error-object/error-object';
+import PaginationHeader from './pagination-header/pagination-header';
 
 describe('Responses', () => {
-  it('has SectionContent as a part of its layout', async () => {
-    const { findAllByTestId } = render(<Responses />);
-    const sectionContent = await findAllByTestId('section-content');
-    expect(sectionContent.length).toBeGreaterThan(0);
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<Responses />);
+  });
+  const instance = component.root;
+
+  it('has SectionContent as a part of its layout', () => {
+    expect(instance.findAllByType(SectionContent).length).toBeGreaterThan(0);
   });
 
-  it('creates the Responses section with the desired id, heading tag and title', async () => {
-    const title = 'Responses & Response Objects';
-    const { findByRole } = render(<Responses />);
-    const heading = await findByRole('heading', { name: title, level: 2 });
-    expect(heading).toBeInTheDocument();
+  it('creates the Responses section with the desired id, heading tag and title', () => {
+    const title = 'Responses and Response Objects';
+    const heading = instance.findByProps({ id: 'responses-response-objects' }).findByType('h2');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('contains an html table element', async () => {
-    const { findByRole } = render(<Responses />);
-    const table = await findByRole('table');
-    expect(table).toBeInTheDocument();
+  it('contains an html table element', () => {
+    expect(instance.findByType('table')).toBeDefined();
   });
 
-  it('<table> tag has aria-described by set and to reference <p> id', async () => {
+  it('<table> tag has aria-described by set and to reference <p> id', () => {
     const tableDescription = 'The following response codes may be returned:';
-    const { findByRole, findByTestId, findAllByTestId } = render(<Responses />);
-    const table = await findByRole('table');
-
-    const section = await findAllByTestId('section-content')[1];
-    expect(section).toHaveAttribute('id', 'responses-response-codes');
-
-    const p = await findByTestId('list-of-endpoints-id');
-    expect(table).toHaveAttribute('aria-describedby', 'list-of-endpoints-id');
-    expect(p).toHaveAttribute('id', 'list-of-endpoints-id');
-    // todo update test
-    // const p = instance.findByProps({ children: tableDescription }).findByType('p');
-    // expect(table.props['aria-describedby']).toBe('response-codes-id');
-    // expect(p.props['id']).toBe('response-codes-id');
-    // expect(table.props['aria-describedby']).toEqual(p.props['id']);
+    const table = instance.findByType('table');
+    const p = instance.findByProps({ children: tableDescription }).findByType('p');
+    expect(table.props['aria-describedby']).toBe('response-codes-id');
+    expect(p.props['id']).toBe('response-codes-id');
+    expect(table.props['aria-describedby']).toEqual(p.props['id']);
   });
 
-  it('includes meta object component in its layout', async () => {
-    const title = 'Meta Object';
-    const { findByRole } = render(<Responses />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+  it('includes meta object component in its layout', () => {
+    expect(instance.findByType(MetaObject)).toBeDefined();
   });
-
-  it('includes links object component in its layout', async () => {
-    const title = 'Links Object';
-    const { findByRole } = render(<Responses />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+  it('includes links object component in its layout', () => {
+    expect(instance.findByType(LinksObject)).toBeDefined();
   });
-
-  it('includes data object component in its layout', async () => {
-    const title = 'Data Object';
-    const { findByRole } = render(<Responses />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+  it('includes data object component in its layout', () => {
+    expect(instance.findByType(DataObject)).toBeDefined();
   });
-
-  it('includes error object component in its layout', async () => {
-    const title = 'Error Object';
-    const { findByRole } = render(<Responses />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+  it('includes error object component in its layout', () => {
+    expect(instance.findByType(ErrorObject)).toBeDefined();
   });
-
-  it('includes pagination header component in its layout', async () => {
-    const title = 'Pagination Header';
-    const { findByRole } = render(<Responses />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+  it('includes pagination header component in its layout', () => {
+    expect(instance.findByType(PaginationHeader)).toBeDefined();
   });
 });

@@ -17,12 +17,16 @@
   white-space: nowrap;
 }
 
-.icon {
+.icon,
+.materialIcon {
   font-size: $font-size-14;
-  width: $font-size-14;
   transform: translateY(-2px);
   padding-right: 0.5rem;
   vertical-align: middle;
+}
+
+.icon {
+  width: $font-size-14;
 }
 
 .futureDateIconStyle {

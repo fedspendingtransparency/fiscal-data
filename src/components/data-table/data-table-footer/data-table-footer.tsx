@@ -5,7 +5,7 @@ import { Table } from '@tanstack/react-table';
 import { range } from '../data-table.module.scss';
 
 interface IDataTableFooter {
-  table: Table<Record<string, unknown>>;
+  table?: Table<Record<string, unknown>>;
   showPaginationControls: boolean;
   pagingProps;
   manualPagination: boolean;
@@ -24,7 +24,6 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
   chartTable,
 }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
-
   const visibleRows = table => {
     let minRow;
     let maxRow;
