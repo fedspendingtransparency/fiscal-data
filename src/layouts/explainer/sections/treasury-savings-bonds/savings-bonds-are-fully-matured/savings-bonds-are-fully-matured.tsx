@@ -22,7 +22,6 @@ import illustration3 from '../../../../../../static/images/savings-bonds/Fully-M
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { format } from 'date-fns';
 import { getShortForm } from '../../../../../utils/rounding-utils';
-import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
 
 const SavingsBondsAreFullyMatured: FunctionComponent = () => {
   const [mudMonthYear, setMudMonthYear] = useState(null);
@@ -57,11 +56,7 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
 
   const glossaryTerms = {
     maturedUnredeemedDebt: (
-      <GlossaryPopoverDefinition
-        term="Matured Unredeemed Debt (MUD)"
-        page="Savings Bonds Explainer"
-        handleClick={() => analyticsEventHandler('Savings Bonds - Matured Unredeemed Debt (MUD)', 'Glossary Term Click')}
-      >
+      <GlossaryPopoverDefinition term="Matured Unredeemed Debt (MUD)" page="Savings Bonds Explainer">
         Matured Unredeemed Debt (MUD)
       </GlossaryPopoverDefinition>
     ),
@@ -129,13 +124,8 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
       >
         <p>
           Could there be a savings bond in your name that you might not know about? Go on a{' '}
-          <CustomLink
-            url="https://treasurydirect.gov/savings-bonds/treasury-hunt/"
-            onClick={() => analyticsEventHandler('Treasury Hunt', 'Savings Bonds Citation Click')}
-          >
-            Treasure Hunt
-          </CustomLink>{' '}
-          and see what bonds might be waiting for you to cash in!
+          <CustomLink url="https://treasurydirect.gov/savings-bonds/treasury-hunt/">Treasure Hunt</CustomLink> and see what bonds might be waiting for
+          you to cash in!
         </p>
       </QuoteBox>
 

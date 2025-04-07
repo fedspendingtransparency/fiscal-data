@@ -5,7 +5,6 @@ import InflationToggle from '../inflation-toogle/inflation-toggle';
 import InfoTip from '../../../../../../../components/info-tip/info-tip';
 import { chartCopy } from '../savings-bonds-sold-by-type-chart-helper';
 import React from 'react';
-import { analyticsEventHandler } from '../../../../../explainer-helpers/explainer-helpers';
 
 const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInflationAdjusted }) => {
   return (
@@ -22,16 +21,13 @@ const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInfl
           rightId: 'description',
           rightSelected: selectedChartView === 'description',
         }}
-        toggleClickHandler={chartView => {
-          setSelectedChartView(chartView);
-          analyticsEventHandler('Savings Bonds - Savings Bonds Type Descriptions', 'Chart Toggle');
-        }}
+        toggleClickHandler={chartView => setSelectedChartView(chartView)}
         chartId={null}
       />
       {selectedChartView === 'amounts' && (
         <div className={inflationToggleContainer}>
           <span className={inflationLabel}>Adjust for Inflation</span>
-          <InflationToggle onToggle={onToggle} isInflationAdjusted={isInflationAdjusted} />
+          <InflationToggle onToggle={onToggle}  isInflationAdjusted={isInflationAdjusted} />
           <div className={infoTipContainer}>
             <InfoTip
               hover

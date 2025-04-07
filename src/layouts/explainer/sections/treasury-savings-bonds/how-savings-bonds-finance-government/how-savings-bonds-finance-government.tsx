@@ -17,7 +17,6 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { useRecoilValueLoadable } from 'recoil';
 import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
 import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
-import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
 
 interface ChartDataItem {
   name: string;
@@ -190,104 +189,44 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     },
   ];
 
-  const links = {
-    revenue: (
-      <CustomLink
-        url="/americas-finance-guide/government-revenue/"
-        onClick={() => analyticsEventHandler('Government Revenue', 'Savings Bonds Citation Click')}
-      >
-        revenue
-      </CustomLink>
-    ),
-    spends: (
-      <CustomLink
-        url="/americas-finance-guide/federal-spending/"
-        onClick={() => analyticsEventHandler('Federal Spending', 'Savings Bonds Citation Click')}
-      >
-        spends
-      </CustomLink>
-    ),
-    deficit: (
-      <CustomLink
-        url="/americas-finance-guide/national-deficit/"
-        onClick={() => analyticsEventHandler('National Deficit', 'Savings Bonds Citation Click')}
-      >
-        deficit
-      </CustomLink>
-    ),
-    debt: (
-      <CustomLink url="/americas-finance-guide/national-debt/" onClick={() => analyticsEventHandler('National Debt', 'Savings Bonds Citation Click')}>
-        debt
-      </CustomLink>
-    ),
-  };
-
   const marketable = (
-    <GlossaryPopoverDefinition
-      term="Marketable Securities"
-      page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Marketable Securities', 'Glossary Term Click')}
-    >
+    <GlossaryPopoverDefinition term="Marketable Securities" page="Savings Bond Explainer">
       marketable
     </GlossaryPopoverDefinition>
   );
 
   const nonMarketable = (
-    <GlossaryPopoverDefinition
-      term="Non-Marketable Securities"
-      page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Non-Marketable Securities', 'Glossary Term Click')}
-    >
+    <GlossaryPopoverDefinition term="Non-Marketable Securities" page="Savings Bond Explainer">
       non-marketable
     </GlossaryPopoverDefinition>
   );
 
   const govAccountSeries = (
-    <GlossaryPopoverDefinition
-      term="Government Account Series"
-      page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Government Account Series', 'Glossary Term Click')}
-    >
+    <GlossaryPopoverDefinition term="Government Account Series" page="Savings Bond Explainer">
       Government Account Series
     </GlossaryPopoverDefinition>
   );
 
   const stateLocalGovSeries = (
-    <GlossaryPopoverDefinition
-      term="State and Local Government Series"
-      page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - State and Local Government Series', 'Glossary Term Click')}
-    >
+    <GlossaryPopoverDefinition term="State and Local Government Series" page="Savings Bond Explainer">
       State and Local Government Series
     </GlossaryPopoverDefinition>
   );
 
   const debtHeldByPublic = (
-    <GlossaryPopoverDefinition
-      term="Debt Held by the Public"
-      page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Debt Held by the Public', 'Glossary Term Click')}
-    >
+    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer">
       debt held by the public
     </GlossaryPopoverDefinition>
   );
 
   const seriesIBonds = (
-    <GlossaryPopoverDefinition
-      term="Series I Bonds"
-      page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Series I Bonds', 'Glossary Term Click')}
-    >
+    <GlossaryPopoverDefinition term="Series I Bonds" page="Savings Bond Explainer">
       Series I bonds
     </GlossaryPopoverDefinition>
   );
 
   const seriesEEBonds = (
-    <GlossaryPopoverDefinition
-      term="Series EE Bonds"
-      page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Series EE Bonds', 'Glossary Term Click')}
-    >
+    <GlossaryPopoverDefinition term="Series EE Bonds" page="Savings Bond Explainer">
       Series EE bonds
     </GlossaryPopoverDefinition>
   );
@@ -295,11 +234,13 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
   return (
     <>
       <span>
-        The government finances programs like building and maintaining roads, school funding, or support for veterans through {links['revenue']}{' '}
-        sources like taxes. When the government {links['spends']} more than it collects from revenue, this results in a {links['deficit']}, which
-        requires the government to borrow money {links['debt']} by issuing loans (securities) that it promises to pay back with interest. Different
-        types of securities earn interest in different ways. Treasury groups securities into two categories called {marketable} and {nonMarketable}{' '}
-        securities, which reflects whether they can be resold to another individual or entity after they are purchased.
+        The government finances programs like building and maintaining roads, school funding, or support for veterans through{' '}
+        <CustomLink url={'/americas-finance-guide/government-revenue/'}>revenue</CustomLink> sources like taxes. When the government{' '}
+        <CustomLink url={'/americas-finance-guide/federal-spending/'}>spends</CustomLink> more than it collects from revenue, this results in a{' '}
+        <CustomLink url={'/americas-finance-guide/national-deficit/'}>deficit</CustomLink>, which requires the government to borrow money (
+        <CustomLink url={'/americas-finance-guide/national-debt/'}>debt</CustomLink>) by issuing loans (securities) that it promises to pay back with
+        interest. Different types of securities earn interest in different ways. Treasury groups securities into two categories called {marketable}{' '}
+        and {nonMarketable} securities, which reflects whether they can be resold to another individual or entity after they are purchased.
       </span>
       <ImageContainer color={treasurySavingsBondsExplainerSecondary} caption="A paper Series E Savings Bond">
         <img src={BondImage} alt="A paper Series E Savings Bond" />

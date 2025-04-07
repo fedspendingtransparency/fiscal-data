@@ -3,7 +3,6 @@ import { legendContainer, checkbox, labelText, labelCheckmarkContainer, checkmar
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { analyticsEventHandler } from '../../../../../explainer-helpers/explainer-helpers';
 
 interface IChartLineConfig {
   [key: string]: {
@@ -28,7 +27,6 @@ const ChartLegend: FunctionComponent<IChartLegend> = ({ lines, lineMap, setHidde
     } else {
       setHiddenFields([...hiddenFields.filter(val => val !== id)]);
     }
-    analyticsEventHandler(`Savings Bonds - ${id} Savings Bonds Type`, 'Chart Filter Click');
   };
   return (
     <div className={legendContainer}>

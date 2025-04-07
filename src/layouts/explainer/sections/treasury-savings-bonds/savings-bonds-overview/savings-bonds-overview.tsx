@@ -8,46 +8,23 @@ import { fontBodyCopy } from '../../../explainer.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
 import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
-import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
 
 const SavingsBondsOverview: FunctionComponent = () => {
   const anchor = getSaleBondsFootNotes()[0];
   const securities = (
-    <GlossaryPopoverDefinition
-      term="Treasury Security"
-      page="Savings Bonds Explainer"
-      handleClick={() => analyticsEventHandler('Treasury Security', 'Savings Bonds Citation Click')}
-    >
+    <GlossaryPopoverDefinition term="Treasury Security" page="Savings Bonds Explainer">
       securities
     </GlossaryPopoverDefinition>
   );
-
-  const links = {
-    treasury: (
-      <CustomLink
-        url="https://www.treasurydirect.gov/savings-bonds/buy-a-bond/"
-        onClick={() => analyticsEventHandler('TreasuryDirect', 'Savings Bonds Citation Click')}
-      >
-        TreasuryDirect
-      </CustomLink>
-    ),
-    calculator: (
-      <CustomLink
-        url="https://www.treasurydirect.gov/savings-bonds/savings-bond-calculator/"
-        onClick={() => analyticsEventHandler('Savings Bond Calculator', 'Savings Bonds Citation Click')}
-      >
-        Savings Bond Calculator
-      </CustomLink>
-    ),
-  };
 
   return (
     <>
       <span>
         U.S. Treasury savings bonds are a type of loan issued by the U.S. Department of the Treasury (the Treasury) to individual investors. They are
-        low-risk, interest-bearing {securities} that individual investors can purchase directly from the government on {links['treasury']}. Savings
-        bonds are designed to offer a safe investment opportunity to ordinary Americans with the hope that by owning shares in their country, they may
-        become more interested in national policy.
+        low-risk, interest-bearing {securities} that individual investors can purchase directly from the government on{' '}
+        <CustomLink url="https://www.treasurydirect.gov/savings-bonds/buy-a-bond/">TreasuryDirect</CustomLink>. Savings bonds are designed to offer a
+        safe investment opportunity to ordinary Americans with the hope that by owning shares in their country, they may become more interested in
+        national policy.
       </span>
       <AnchorText link={anchor.anchors[0].link} text={anchor.anchors[0].text} />
       <QuoteBox
@@ -57,8 +34,9 @@ const SavingsBondsOverview: FunctionComponent = () => {
         customTopMargin={'0'}
       >
         <p>
-          Wondering how much your savings bond is worth today? Visit the {links['calculator']} to find the value of your paper bonds or log in to your
-          TreasuryDirect account to determine how much your electronic bond is worth.
+          Wondering how much your savings bond is worth today? Visit the{' '}
+          <CustomLink url="https://www.treasurydirect.gov/savings-bonds/savings-bond-calculator/">Savings Bond Calculator</CustomLink> to find the
+          value of your paper bonds or log in to your TreasuryDirect account to determine how much your electronic bond is worth.
         </p>
       </QuoteBox>
     </>
