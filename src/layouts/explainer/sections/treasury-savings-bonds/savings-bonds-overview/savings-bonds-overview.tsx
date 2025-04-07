@@ -16,7 +16,7 @@ const SavingsBondsOverview: FunctionComponent = () => {
     <GlossaryPopoverDefinition
       term="Treasury Security"
       page="Savings Bonds Explainer"
-      handleClick={() => analyticsEventHandler('Treasury Security', 'Savings Bonds Citation Click')}
+      handleClick={() => analyticsEventHandler('Treasury Security', 'Glossary Term Click')}
     >
       securities
     </GlossaryPopoverDefinition>
