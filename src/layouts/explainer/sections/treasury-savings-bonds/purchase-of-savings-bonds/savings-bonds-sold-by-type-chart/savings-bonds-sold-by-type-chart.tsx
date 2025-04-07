@@ -8,7 +8,8 @@ import CustomTooltip from './custom-tooltip/custom-tooltip';
 import ChartHeader from './chart-header/chart-header';
 import ChartDescription from './chart-description/chart-description';
 import { analyticsEventHandler } from '../../../../explainer-helpers/explainer-helpers';
-import Analytics from '../../../../../../utils/analytics/analytics';
+import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
+import globalConstants from '../../../../../../helpers/constants';
 
 export interface ISavingBondsByTypeChartData {
   year: string;
@@ -31,6 +32,8 @@ interface ISavingsBondsSoldByTypeChart {
   chartDate: Date;
 }
 
+let gaTimer;
+
 const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChart> = ({ chartData, inflationChartData, curFy, chartDate }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('amounts');
   const [hiddenFields, setHiddenFields] = useState<string[]>([]);
@@ -48,25 +51,22 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
     analyticsEventHandler('Savings Bonds - Savings Bonds Sold Inflation Adjustment', 'Chart Toggle');
   };
 
-  const handleMouseEnterChart = () => {
-    const gaTimerDebtHeld = setTimeout(() => {
-      Analytics.event({
-        category: 'Explainers',
-        action: 'Chart Hover',
-        label: 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public',
+  const { explainers } = globalConstants;
+
+  const handleChartMouseEnter = () => {
+    const eventLabel = 'Savings Bonds - Savings Bonds Sold by Type Over Time';
+    const eventAction = 'Chart Hover';
+    gaTimer = setTimeout(() => {
+      analyticsEventHandler(eventLabel, eventAction);
+      ga4DataLayerPush({
+        event: eventAction,
+        eventLabel: eventLabel,
       });
-    }, 3000);
-    const ga4Timer = setTimeout(() => {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'chart-hover-debt-held',
-      });
-    }, 3000);
+    }, explainers.chartHoverDelay);
   };
 
-  const handleMouseLeaveChart = () => {
-    clearTimeout(gaTimerDebtHeld);
-    clearTimeout(ga4Timer);
+  const handleChartMouseLeave = () => {
+    clearTimeout(gaTimer);
   };
 
   const header = (
@@ -115,11 +115,11 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
               onFocus={() => setChartFocus(true)}
               onMouseOver={() => {
                 setChartHover(true);
-                handleMouseEnterChart();
+                handleChartMouseEnter();
               }}
               onMouseLeave={() => () => {
                 setChartHover(false);
-                handleMouseLeaveChart();
+                handleChartMouseLeave();
               }}
             >
               {' '}
