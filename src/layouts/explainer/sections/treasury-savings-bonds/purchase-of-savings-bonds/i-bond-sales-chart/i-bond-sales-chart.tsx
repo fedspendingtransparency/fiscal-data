@@ -9,12 +9,16 @@ import { treasurySavingsBondsExplainerSecondary } from '../../treasury-savings-b
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { ICpiDataMap } from '../../../../../../models/ICpiDataMap';
 import { yAxisFormatter } from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
-import { getDateWithoutOffset } from '../../../../explainer-helpers/explainer-helpers';
+import { analyticsEventHandler, getDateWithoutOffset } from '../../../../explainer-helpers/explainer-helpers';
+import globalConstants from '../../../../../../helpers/constants';
+import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
 
 interface IIBondsSalesChart {
   cpi12MonthPercentChange: ICpiDataMap;
   curFy: number;
 }
+
+let gaTimer;
 
 const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPercentChange, curFy }) => {
   const [curInflation, setCurInflation] = useState(null);
@@ -136,6 +140,25 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
     return { sales: salesAxisValues, inflation: inflationAxisValues };
   };
 
+  const { explainers } = globalConstants;
+
+  const handleChartMouseEnter = () => {
+    const eventLabel = 'Savings Bonds - Correlation Between Inflation and I Bond Sales';
+    const eventAction = 'Chart Hover';
+    gaTimer = setTimeout(() => {
+      analyticsEventHandler(eventLabel, eventAction);
+      ga4DataLayerPush({
+        event: eventAction,
+        eventLabel: eventLabel,
+      });
+    }, explainers.chartHoverDelay);
+  };
+
+  const handleChartMouseLeave = () => {
+    clearTimeout(gaTimer);
+    resetDataHeader();
+  };
+
   useEffect(() => {
     const filter = `security_type_desc:eq:Savings Bond,security_class_desc:eq:I,record_fiscal_year:gte:${curFy - 15}`;
     const sort = '-record_date';
@@ -237,7 +260,13 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
               onMouseLeave={() => setChartHover(false)}
             >
               <ResponsiveContainer height={352} width="99%">
-                <LineChart data={chartData} margin={{ top: 12, bottom: -8, left: -8, right: -12 }} onMouseLeave={resetDataHeader} accessibilityLayer>
+                <LineChart
+                  data={chartData}
+                  margin={{ top: 12, bottom: -8, left: -8, right: -12 }}
+                  onMouseEnter={handleChartMouseEnter}
+                  onMouseLeave={handleChartMouseLeave}
+                  accessibilityLayer
+                >
                   <CartesianGrid vertical={false} stroke="#d9d9d9" />
                   <ReferenceLine y={0} stroke="#555555" />
                   <XAxis dataKey="recordDate" ticks={xAxisValues} tickCount={5} tickFormatter={value => formatTick(value).toString()} />

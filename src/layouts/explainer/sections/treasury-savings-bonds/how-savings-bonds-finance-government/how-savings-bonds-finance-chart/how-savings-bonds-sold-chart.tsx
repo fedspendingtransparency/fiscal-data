@@ -16,6 +16,8 @@ import { basicFetch, apiPrefix } from '../../../../../../utils/api-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import { monthFullNames } from '../../../../../../utils/api-utils';
 import { analyticsEventHandler } from '../../../../explainer-helpers/explainer-helpers';
+import globalConstants from '../../../../../../helpers/constants';
+import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
 
 interface ChartDataItem {
   name: string;
@@ -31,6 +33,8 @@ interface HowSavingsBondsSoldChartProps {
   chartData: ChartDataItem[];
 }
 
+let gaTimer;
+
 const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps> = ({ chartData }) => {
   const [savingBondsIndex, setSavingBondsIndex] = useState<string | null>(null);
   const [savingBondPercentage, setSavingBondPercentage] = useState<string | null>(null);
@@ -41,6 +45,24 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
   const [chartHeight, setChartHeight] = useState<number>(400);
   const [chartWidth, setChartWidth] = useState<number>(400);
+  const { explainers } = globalConstants;
+
+  const handleChartMouseEnter = () => {
+    const eventLabel = 'Savings Bonds - Savings Bonds Sold by Type Over Time';
+    const eventAction = 'Chart Hover';
+    gaTimer = setTimeout(() => {
+      analyticsEventHandler(eventLabel, eventAction);
+      ga4DataLayerPush({
+        event: eventAction,
+        eventLabel: eventLabel,
+      });
+    }, explainers.chartHoverDelay);
+  };
+
+  const handleChartMouseLeave = () => {
+    clearTimeout(gaTimer);
+    setActiveIndex(null);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -174,9 +196,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const onPieEnter = (data: ChartDataItem, index: number, dataset: string) => {
     setActiveIndex(`${dataset}-${index}`);
   };
-  const onPieLeave = () => {
-    setActiveIndex(null);
-  };
   const getOpacity = (dataset: string, index: number, entry: ChartDataItem) => {
     const isActiveType = entry.securityType === activeSecurityType;
     return activeIndex === `${dataset}-${index}` || activeIndex === null ? (isActiveType ? 0.4 : 1) : 0.4;
@@ -187,7 +206,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={historyChartDate} footer={footer}>
         <div className={chartStyle} data-testid="chartParent">
           <div className={chartContainer}>
-            <PieChart width={chartWidth} height={chartHeight} onMouseLeave={onPieLeave}>
+            <PieChart width={chartWidth} height={chartHeight} onMouseEnter={handleChartMouseEnter} onMouseLeave={handleChartMouseLeave}>
               <Pie
                 data={data1WidthPercentage}
                 dataKey="percent"
