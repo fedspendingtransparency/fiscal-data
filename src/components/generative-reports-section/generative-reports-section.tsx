@@ -84,13 +84,14 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
         for (const report of apisProp) {
           const reportConfig = reportsConfig.utf[report.apiId];
           const formattedDate = format(selectedDate, 'MMMM yyyy');
+          const downloadDate = format(selectedDate, 'MMyyyy');
           const reportData = await getReportData(report, reportConfig);
           const curReport = {
             id: report.apiId,
             name: `${report.tableName} - ${selectedAccount.label}.pdf`,
             date: formattedDate,
             size: '2KB',
-            downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${formattedDate}.pdf`,
+            downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
             data: reportData,
             config: reportConfig,
             colConfig: report,

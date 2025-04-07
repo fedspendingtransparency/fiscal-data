@@ -30,7 +30,6 @@ describe('Generative Report Footer', () => {
 
   afterEach(() => {
     fetchMock.restore();
-    // jest.restoreAllMocks();
   });
 
   it('renders empty table with default banner messaging', async () => {
