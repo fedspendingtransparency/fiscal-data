@@ -17,7 +17,7 @@ describe('Detail-Pills component', () => {
       { datasetId: '015-BFS-2014Q3-052', date: '2025-05-01', time: '21:00', released: 'false' },
     ]);
   });
-  // two objects with dif date times, make sure correct one has been updated
+
   it('displays pills containing all the proper icons and labels', () => {
     const { getByTestId, getByText } = render(
       <DetailPills
