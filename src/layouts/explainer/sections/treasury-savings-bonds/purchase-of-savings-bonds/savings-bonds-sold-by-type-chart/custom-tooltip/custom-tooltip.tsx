@@ -24,6 +24,7 @@ const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, hidd
         data-testid="CustomTooltip"
         onMouseOver={() => analyticsEventHandler('Savings Bonds - Additional Inflation Adjustment Info', 'Additional Info Hover')}
         onFocus={() => analyticsEventHandler('Savings Bonds - Additional Inflation Adjustment Info', 'Additional Info Hover')}
+        role="presentation"
       >
         <div className={tooltipLabel}>{label}</div>
         {savingsBonds
