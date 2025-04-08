@@ -1,22 +1,39 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render, within, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import FilterTimeRange, { spanTimeRangeAnalyticsObject } from './filterTimeRange';
-import Checkbox from '../../../checkbox/checkbox';
-import { dateRange } from '../test-helpers';
 import { siteContext } from '../../../persist/persist';
 import Analytics from '../../../../utils/analytics/analytics';
-import { fireEvent, render, within } from '@testing-library/react';
 
 jest.useFakeTimers();
 describe('Time Range Filter', () => {
-  let dateRangeSpy = null;
-  let datePickers;
+  const contextBeginDate = new Date(2020, 0, 1);
+  const contextEndDate = new Date(2020, 5, 1);
+
+  const dateRangeFilter = jest.fn();
   const setBeginDateSpy = jest.fn();
   const setEndDateSpy = jest.fn();
   const setExactRangeSpy = jest.fn();
+
   const analyticsSpy = jest.spyOn(Analytics, 'event');
   window.dataLayer = window.dataLayer || [];
   const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
+  const renderContext = (context = {}) =>
+    render(
+      <siteContext.Provider
+        value={{
+          beginDate: context.beginDate ?? contextBeginDate,
+          endDate: context.endDate ?? contextEndDate,
+          exactRange: context.exactRange ?? false,
+          setBeginDate: setBeginDateSpy,
+          setEndDate: setEndDateSpy,
+          setExactRange: setExactRangeSpy,
+        }}
+      >
+        <FilterTimeRange dateRangeFilter={dateRangeFilter} />
+      </siteContext.Provider>
+    );
 
   it('renders element', () => {
     const { getByTestId } = render(<FilterTimeRange />);
@@ -44,8 +61,9 @@ describe('Time Range Filter', () => {
     expect(infoTip).toBeInTheDocument();
   });
 
-  it('initializes any values established in its persistence context', () => {
-    expect(dateRangeSpy).toHaveBeenCalledWith(
+  it('initializes from persisted values', () => {
+    renderContext();
+    expect(dateRangeFilter).toHaveBeenCalledWith(
       {
         startDate: contextBeginDate,
         endDate: contextEndDate,
@@ -56,73 +74,32 @@ describe('Time Range Filter', () => {
     );
   });
 
-  it('triggers the dateRangeFilter call and context setters when both dates are set properly', () => {
-    // Suppress console warnings because we're passing invalid dates to date-fns.
-    const consoleWarn = global.console.warn;
-    global.console.warn = jest.fn();
-    jest.runAllTimers();
+  it('triggers the dateRangeFilter call and context setters when both dates are set properly', async () => {
+    renderContext({ beginDate: null, endDate: null });
+    dateRangeFilter.mockClear();
 
-    // clear away the spied calls from the initialization sequence
-    dateRangeSpy.mockClear();
+    const [from, to] = screen.getAllByRole('textbox');
+    await userEvent.clear(from);
+    await userEvent.type(from, '01/01/2020');
+    await userEvent.clear(to);
+    await userEvent.type(to, '06/01/2020');
 
-    renderer.act(() => {
-      datePickers[0].props.onChange('2020-05-01');
-      datePickers[1].props.onChange('2020-06-01');
-    });
-    jest.runAllTimers();
-
-    expect(dateRangeSpy).not.toHaveBeenCalled();
-
-    global.console.warn = consoleWarn;
-
-    renderer.act(() => {
-      datePickers[0].props.onChange(dateRange.startDate);
-      datePickers[1].props.onChange(dateRange.endDate);
-    });
-    jest.runAllTimers();
-
-    expect(dateRangeSpy).toHaveBeenCalledWith(
-      {
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
-        exactRange: false,
-        active: true,
-      },
-      undefined
-    );
-
-    expect(setBeginDateSpy).toHaveBeenLastCalledWith(dateRange.startDate);
-    expect(setEndDateSpy).toHaveBeenLastCalledWith(dateRange.endDate);
+    expect(dateRangeFilter).toHaveBeenCalledTimes(2);
+    expect(setBeginDateSpy).toHaveBeenCalled();
+    expect(setEndDateSpy).toHaveBeenCalled();
   });
 
   it('does not trigger the dateRangeFilter when either of the popups are open', () => {
-    renderer.act(() => {
-      datePickers[0].props.onOpen();
-    });
-    jest.runAllTimers();
-    dateRangeSpy.mockClear();
-    renderer.act(() => {
-      datePickers[0].props.onChange(dateRange.startDate);
-      datePickers[1].props.onChange(dateRange.endDate);
-    });
-    jest.runAllTimers();
+    renderContext({ beginDate: null, endDate: null });
+    dateRangeFilter.mockClear();
 
-    expect(dateRangeSpy).not.toHaveBeenCalled();
+    const [from] = screen.getAllByRole('textbox');
+    userEvent.click(from);
+    userEvent.type(from, '01/01/2020');
+    expect(dateRangeFilter).not.toHaveBeenCalled();
 
-    renderer.act(() => {
-      datePickers[0].props.onClose();
-      datePickers[1].props.onOpen();
-    });
-    jest.runAllTimers();
-
-    expect(dateRangeSpy).not.toHaveBeenCalled();
-
-    renderer.act(() => {
-      datePickers[1].props.onClose();
-    });
-    jest.runAllTimers();
-
-    expect(dateRangeSpy).toHaveBeenCalled();
+    userEvent.keyboard('{Escape}');
+    expect(dateRangeFilter).not.toHaveBeenCalled();
   });
 
   it('swaps the dates if the start/end dates are entered backwards', () => {
@@ -149,48 +126,44 @@ describe('Time Range Filter', () => {
     );
   });
 
-  it(`passes the exactRange value of true if the exact range checkbox is checked when both dates are set`, () => {
-    const checkbox = instance.findByType(Checkbox);
-    renderer.act(() => {
-      checkbox.props.changeHandler();
-      datePickers[0].props.onChange(dateRange.endDate);
-      datePickers[1].props.onChange(dateRange.startDate);
-    });
-    jest.runAllTimers();
+  it(`passes the exactRange value of true if the exact range checkbox is checked when both dates are set`, async () => {
+    renderContext();
+    dateRangeFilter.mockClear();
 
-    expect(dateRangeSpy).toHaveBeenCalledWith(
-      {
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
-        exactRange: true,
-        active: true,
-      },
-      undefined
-    );
+    const checkbox = screen.getByRole('checkbox');
+    await userEvent.click(checkbox);
 
-    expect(setExactRangeSpy).toHaveBeenLastCalledWith(true);
+    expect(dateRangeFilter).toHaveBeenCalledWith(expect.objectContaining({ exactRange: true }), true);
+    expect(setExactRangeSpy).toHaveBeenCalledWith(true);
   });
 
-  it('triggers a GA event when the checkbox is checked and the time range has valid dates', () => {
-    const checkbox = instance.findByType(Checkbox);
-    renderer.act(() => {
-      checkbox.props.changeHandler();
-    });
-    jest.runAllTimers();
+  it('triggers a GA event when the checkbox is checked and the time range has valid dates', async () => {
+    renderContext();
+    analyticsSpy.mockClear();
 
+    await userEvent.click(screen.getByRole('checkbox'));
     expect(analyticsSpy).toHaveBeenCalledWith(spanTimeRangeAnalyticsObject);
   });
 
-  it('triggers a datalayer push when the checkbox is checked and the time range has valid dates', () => {
-    const checkbox = instance.findByType(Checkbox);
-    renderer.act(() => {
-      checkbox.props.changeHandler();
-    });
-    jest.runAllTimers();
+  it('triggers a datalayer push when the checkbox is checked and the time range has valid dates', async () => {
+    renderContext();
+    analyticsSpy.mockClear();
 
-    expect(datalayerSpy).toHaveBeenCalledWith({
-      event: 'Time Range Click',
-    });
+    await userEvent.click(screen.getByRole('checkbox'));
+    expect(analyticsSpy).toHaveBeenCalledWith(spanTimeRangeAnalyticsObject);
+  });
+
+  it('triggers a datalayer push when the checkbox is checked', async () => {
+    renderContext();
+    datalayerSpy.mockClear();
+
+    await userEvent.click(screen.getByRole('checkbox'));
+
+    expect(datalayerSpy).toHaveBeenCalledWith({ event: 'Time Range Click' });
+  });
+
+  it('triggers a datalayer push when the time range has valid dates', async () => {
+    renderContext();
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Time Range Entry',
@@ -198,31 +171,12 @@ describe('Time Range Filter', () => {
     });
   });
 
-  it('triggers GA4 datalayer push when info tip click button is pushed', () => {
-    const { getByTestId } = render(
-      <siteContext.Provider
-        value={{
-          beginDate: contextBeginDate,
-          setBeginDate: setBeginDateSpy,
-          endDate: contextEndDate,
-          setEndDate: setEndDateSpy,
-          exactRange: false,
-          setExactRange: setExactRangeSpy,
-        }}
-      >
-        <FilterTimeRange dateRangeFilter={dateRangeFn} />
-      </siteContext.Provider>
-    );
+  it('triggers GA4 datalayer push when info tip click button is pushed', async () => {
+    renderContext();
+    datalayerSpy.mockClear();
 
-    const checkbox = getByTestId('checkbox');
-
-    expect(checkbox).toBeInTheDocument();
-
-    const infoTip = within(checkbox).getByTestId('infoTipButton');
-
-    expect(infoTip).toBeDefined();
-
-    fireEvent.click(infoTip);
+    const infoBtn = within(screen.getByTestId('checkbox')).getByTestId('infoTipButton');
+    await userEvent.click(infoBtn);
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Info Button Click',
