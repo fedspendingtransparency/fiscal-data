@@ -49,7 +49,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   isDisabled,
 }: IDownloadButtonProps) => {
   const [active, setActive] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState<string | null>('csv');
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
