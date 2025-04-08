@@ -1,25 +1,33 @@
 import React, { FunctionComponent } from 'react';
-import { table, headerRow, name, date, emptyRow } from './generative-reports-empty-table.module.scss';
+import { container, date, emptyRow, headerRow, name, table } from './generative-reports-empty-table.module.scss';
 import GenerativeReportsTableNotice from '../generative-reports-table-notice/generative-reports-table-notice';
-import GenerativeReportsFooter from '../generative-reports-footer/generative-reports-footer';
+import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../variables.module.scss';
 
-const GenerativeReportsEmptyTable: FunctionComponent = ({ mobileView }) => {
-  const rowCount = mobileView ? 5 : 3;
+const GenerativeReportsEmptyTable: FunctionComponent = ({ width }) => {
+  const mobileView = width < pxToNumber(breakpointLg);
+  const rowCount = 3;
   const additionalFiltersHeading = 'This table requires additional filters';
   const additionalFiltersBody = 'Select an account in the filter section above to display the reports.';
 
   return (
-    <>
+    <div className={container}>
       <table className={table}>
         <thead>
           {!mobileView && (
-            <th className={headerRow}>
-              <div className={name}>Name</div>
-              <div className={date}>Date</div>
-              <div>Size</div>
-            </th>
+            <tr>
+              <th className={headerRow}>
+                <div className={name}>Name</div>
+                <div className={date}>Date</div>
+                <div>Size</div>
+              </th>
+            </tr>
           )}
-          {mobileView && <th>Name</th>}
+          {mobileView && (
+            <tr>
+              <th>Name</th>
+            </tr>
+          )}
         </thead>
         <tbody>
           {Array.from({ length: rowCount }, (_, index) => (
@@ -28,10 +36,9 @@ const GenerativeReportsEmptyTable: FunctionComponent = ({ mobileView }) => {
             </tr>
           ))}
         </tbody>
-        <GenerativeReportsTableNotice heading={additionalFiltersHeading} bodyText={additionalFiltersBody} />
       </table>
-      <GenerativeReportsFooter />
-    </>
+      <GenerativeReportsTableNotice heading={additionalFiltersHeading} bodyText={additionalFiltersBody} />
+    </div>
   );
 };
 

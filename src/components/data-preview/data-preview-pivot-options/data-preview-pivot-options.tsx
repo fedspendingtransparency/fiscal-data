@@ -1,5 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import Analytics from '../../../utils/analytics/analytics';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 
 type PivotOptions = {
   datasetName;

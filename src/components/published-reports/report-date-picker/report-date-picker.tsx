@@ -1,7 +1,5 @@
-import React, { FocusEventHandler, FunctionComponent, useRef, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import MonthPicker from './month-picker/month-picker';
-import { datePickerContainer } from './report-date-picker.module.scss';
-import useOnClickOutside from 'use-onclickoutside';
 import ReportDayPicker from './report-day-picker/report-day-picker';
 import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
@@ -26,6 +24,7 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
   allReportYears,
   selectedDate,
   setSelectedDate,
+  ignoreDisabled,
 }: IMonthPicker) => {
   const [active, setActive] = useState(false);
 
@@ -57,6 +56,7 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
             allReportDates={allReportDates}
             active={active}
             allReportYears={allReportYears}
+            ignoreDisabled={ignoreDisabled}
           />
         )}
         {active && isDailyReport && (

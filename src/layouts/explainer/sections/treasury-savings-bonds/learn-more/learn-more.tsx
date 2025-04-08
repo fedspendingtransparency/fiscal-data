@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import Footnote from '../../../../../components/footnote/footnote';
 import { getSaleBondsFootNotes } from './learn-more-helper';
-import AnchorText from '../../../../../components/anchor-text/anchor-text';
 
 const LearnMore: React.FC = () => {
   const [lastAnchorClicked, setLastAnchorClicked] = useState<string | null>(null);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
 import { getShortForm } from '../../../utils/rounding-utils';
-import { format } from 'date-fns';
+
 export const SpendingBodyGenerator = () => {
   const fields = 'fields=current_fytd_net_outly_amt,record_fiscal_year,record_date';
   const filter = 'filter=line_code_nbr:eq:5691';

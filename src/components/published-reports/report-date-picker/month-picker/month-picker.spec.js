@@ -78,4 +78,32 @@ describe('Month Picker', () => {
     const yearButton2019 = getByRole('button', { name: mockYearDropdownOptions[1] });
     expect(yearButton2019).toBeDisabled();
   });
+  it('ignores disabling logic when ignoreDisabled prop is true', () => {
+    const { getByRole } = render(
+      <MonthPicker
+        allReportYears={mockYearDropdownOptions}
+        setSelectedDate={jest.fn()}
+        handleClose={jest.fn()}
+        selectedDate={new Date('3/8/2018')}
+        active={true}
+        allReportDates={mockReportDates}
+        ignoreDisabled={true}
+      />
+    );
+    const aprilButton = getByRole('button', { name: mockMonthDropdownOptions[1] });
+    expect(aprilButton).not.toBeDisabled();
+
+    const yearToggleButton = getByRole('button', { name: 'Toggle Year Dropdown' });
+    act(() => {
+      fireEvent.click(yearToggleButton);
+    });
+    const yearButton2019 = getByRole('button', { name: mockYearDropdownOptions[1] });
+    expect(yearButton2019).not.toBeDisabled();
+
+    act(() => {
+      fireEvent.click(yearButton2019);
+    });
+    const marchButton = getByRole('button', { name: mockMonthDropdownOptions[0] });
+    expect(marchButton).not.toBeDisabled();
+  });
 });

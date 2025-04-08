@@ -1,32 +1,45 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
-  fileDescription,
-  downloadIcon,
   center,
-  downloadFileContainer,
-  fileDate,
-  downloadSize,
-  downloadInfo,
-  downloadName,
-  downloadButtonName,
-  startName,
-  downloadItem,
-  downloadedIcon,
   downloadButton,
+  downloadButtonName,
+  downloadedIcon,
+  downloadFileContainer,
+  downloadIcon,
+  downloadInfo,
+  downloadItem,
+  downloadName,
+  downloadSize,
   endName,
+  fileDate,
+  fileDescription,
+  startName,
 } from './download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudArrowDown, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import { getFileDisplay, getFileTypeImage } from '../../util/util';
+import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay } from '../../util/util';
+import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
 import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
-import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
+import { PDFDownloadLink } from '@react-pdf/renderer/lib/react-pdf.browser';
+import ReportGenerator from '../../report-generator/report-generator';
 
-const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDataJson; isDailyReport: boolean; mobileView?: boolean }> = ({
-  reportFile,
-  isDailyReport,
-  mobileView,
-}) => {
+interface IGeneratedReport {
+  name: string;
+  downloadName: string;
+  date: string;
+  size: string;
+  config;
+  data;
+  colConfig;
+}
+
+const DownloadReportTableRow: FunctionComponent<{
+  reportFile?: IPublishedReportDataJson;
+  generatedReport?: IGeneratedReport;
+  isDailyReport: boolean;
+  mobileView?: boolean;
+}> = ({ reportFile, isDailyReport, mobileView, generatedReport }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);
   const [reportLocation, setReportLocation] = useState<string>(null);
@@ -34,10 +47,10 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
   const [fileType, setFileType] = useState(null);
   const [displayName, setDisplayName] = useState(null);
   const [publishedDate, setPublishedDate] = useState(null);
-  const [fileTypeImage, setFileTypeImage] = useState<string>(null);
+  const [fileTypeImage, setFileTypeImage] = useState(null);
 
   const updateData = () => {
-    if (reportFile) {
+    if (reportFile && !generatedReport) {
       const curReportFile: IPublishedReportDataJson = reportFile;
       const location = curReportFile.path;
 
@@ -55,6 +68,16 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
       setDisplayName(fileDisplay.displayName);
       setFileType(fileDisplay.fileType);
       setFileTypeImage(getFileTypeImage(fileDisplay.fileType));
+    } else if (generatedReport) {
+      const curReportFile: IGeneratedReport = generatedReport;
+      const fileDisplay = getGeneratedReportFileDisplay(curReportFile);
+      setDisplayName(fileDisplay?.displayName);
+      setFileName(curReportFile.downloadName);
+      setPublishedDate(curReportFile?.date);
+      setFileType('.pdf');
+      setFileTypeImage(getFileTypeImage('.pdf'));
+      setFileSize(curReportFile?.size);
+      setReportLocation('');
     }
   };
 
@@ -75,6 +98,30 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
     </>
   );
 
+  const LinkComponent = ({ children }) => {
+    return generatedReport ? (
+      <PDFDownloadLink
+        document={<ReportGenerator reportConfig={generatedReport.config} reportData={generatedReport.data} colConfig={generatedReport.colConfig} />}
+        fileName={generatedReport.downloadName}
+        onClick={onDownloadClick}
+      >
+        {children}
+      </PDFDownloadLink>
+    ) : (
+      <a
+        href={reportLocation}
+        download={fileName}
+        target="_blank"
+        rel="noreferrer noopener"
+        onClick={onDownloadClick}
+        className={downloadButton}
+        aria-label={`Download ${fileName}`}
+      >
+        {children}
+      </a>
+    );
+  };
+
   const onDownloadClick = () => {
     if (!downloaded) {
       setDownloaded(true);
@@ -83,7 +130,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
 
   useEffect(() => {
     updateData();
-  }, [reportFile]);
+  }, [reportFile, generatedReport]);
 
   useEffect(() => {
     updateData();
@@ -99,18 +146,10 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
 
   return (
     <>
-      {displayName?.end && (
+      {displayName && (
         <tr className={fileDescription} data-testid="file-download-row">
           <td>
-            <a
-              href={reportLocation}
-              download={fileName}
-              target="_blank"
-              rel="noreferrer noopener"
-              onClick={onDownloadClick}
-              className={downloadButton}
-              aria-label={`Download ${fileName}`}
-            >
+            <LinkComponent>
               {!mobileView && (
                 <>
                   <div className={downloadFileContainer}>
@@ -145,7 +184,7 @@ const DownloadReportTableRow: FunctionComponent<{ reportFile: IPublishedReportDa
                   </div>
                 </div>
               )}
-            </a>
+            </LinkComponent>
           </td>
         </tr>
       )}

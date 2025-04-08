@@ -1,3 +1,5 @@
+import { columnsConstructorData } from './data-table-helper';
+
 export const mockMeta = {
   count: 2,
   labels: {
@@ -63,10 +65,12 @@ export const mockColumnConfig = [
   {
     property: 'record_date',
     name: 'Record Date',
+    type: 'DATE',
   },
   {
     property: 'debt_held_public_amt',
     name: 'Debt Held by the Public',
+    type: 'STRING',
   },
   {
     property: 'intragov_hold_amt',
@@ -135,6 +139,85 @@ export const mockColumnConfig = [
   {
     property: 'additional_date',
     name: 'Additional Date',
+  },
+];
+
+export const mockAllColumns = [
+  {
+    accessorKey: 'record_date',
+    header: 'Record Date',
+  },
+  {
+    accessorKey: 'debt_held_public_amt',
+    header: 'Debt Held by the Public',
+  },
+  {
+    accessorKey: 'intragov_hold_amt',
+    header: 'Intragovernmental Holdings',
+  },
+  {
+    accessorKey: 'tot_pub_debt_out_amt',
+    header: 'Total Public Debt Outstanding',
+  },
+  {
+    accessorKey: 'src_line_nbr',
+    header: 'Source Line Number',
+  },
+  {
+    accessorKey: 'record_fiscal_year',
+    header: 'Fiscal Year',
+  },
+  {
+    accessorKey: 'record_fiscal_quarter',
+    header: 'Fiscal Quarter Number',
+  },
+  {
+    accessorKey: 'record_calendar_year',
+    header: 'Calendar Year',
+  },
+  {
+    accessorKey: 'record_calendar_quarter',
+    header: 'Calendar Quarter Number',
+  },
+  {
+    accessorKey: 'record_calendar_month',
+    header: 'Calendar Month Number',
+  },
+  {
+    accessorKey: 'record_calendar_day',
+    header: 'Calendar Day Number',
+  },
+  {
+    accessorKey: 'mock_small_fraction',
+    header: 'Mock Small Fraction',
+  },
+  {
+    accessorKey: 'mock_percent_string',
+    header: 'Mock Percent String',
+  },
+  {
+    accessorKey: 'mock_percent',
+    header: 'Mock Percent',
+  },
+  {
+    accessorKey: 'negative_currency',
+    header: 'Negative Currency',
+  },
+  {
+    accessorKey: 'daily_index',
+    header: 'Daily Index',
+  },
+  {
+    accessorKey: 'daily_int_accrual_rate',
+    header: 'Daily Accrual Rate',
+  },
+  {
+    accessorKey: 'spread',
+    header: 'Spread',
+  },
+  {
+    accessorKey: 'additional_date',
+    header: 'Additional Date',
   },
 ];
 
@@ -213,6 +296,20 @@ export const mockColumnConfigDownloadWithTextQualifier = [
   {
     property: 'string_val_with_commas',
     name: 'String Value with Commas',
+  },
+];
+export const mockTableColumns = [
+  {
+    property: 'record_date',
+    name: 'Record Date',
+    order: 1,
+    width: 25,
+  },
+  {
+    property: 'debt_held_public_amt',
+    name: 'Debt Held Public Amount',
+    order: 2,
+    width: 18,
   },
 ];
 
@@ -442,6 +539,20 @@ export const mockPublishedReports = [
     report_group_id: 3,
   },
 ];
+
+export const mockAllColumnsProp = columnsConstructorData(mockTableData, [], '', mockColumnConfig);
+export const contextProps = {
+  tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, tableName: '!' },
+  setTableProps: jest.fn(),
+  setDefaultColumns: jest.fn(),
+  setAdditionalColumns: jest.fn(),
+  setTableState: jest.fn(),
+  setConfigOption: jest.fn(),
+  setReactTableData: jest.fn(),
+  allColumns: mockAllColumnsProp,
+  configOption: mockColumnConfig,
+  reactTableData: mockTableData,
+};
 
 export const defaultColLabels = ['Record Date', 'Source Line Number', 'Calendar Quarter Number'];
 export const additionalColLabels = Object.values(mockTableData.meta.labels).filter(label => !defaultColLabels.includes(label));

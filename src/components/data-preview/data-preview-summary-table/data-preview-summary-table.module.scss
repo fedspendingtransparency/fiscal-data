@@ -1,0 +1,34 @@
+@import 'src/variables.module';
+
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  border: #ddd solid 1px;
+  border-radius: 3px;
+  padding: 1rem 1rem 0 1rem;
+  margin-top: 1rem;
+}
+
+.tableHeader {
+  font-weight: $semi-bold-weight;
+  font-size: $font-size-16;
+  margin-bottom: 1rem;
+}
+
+.detailContainer {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 60rem;
+  width: 100%;
+  .summaryValue {
+    width: 13rem;
+    .sectionHeader {
+      color: $font-title;
+      font-weight: $semi-bold-weight;
+      font-size: $font-size-12;
+      margin-bottom: 0.25rem;
+    }
+    margin-bottom: 1rem;
+    font-size: $font-size-16;
+  }
+}

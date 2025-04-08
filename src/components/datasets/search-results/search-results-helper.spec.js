@@ -1,4 +1,4 @@
-import { SortOptions, SortOptionsIndexed, FilteredSortOptions, PerformSort } from './search-results-helper';
+import { FilteredSortOptions, PerformSort, SortOptions, SortOptionsIndexed } from './search-results-helper';
 
 const mockDatasets = [
   {
@@ -41,12 +41,12 @@ describe('search results helper', () => {
   });
 
   it('sorts by title from A to Z', () => {
-    PerformSort(SortOptions[2], mockDatasets);
+    PerformSort(SortOptions[1], mockDatasets);
     expect(mockDatasets[0].name).toBe('Dataset A');
   });
 
   it('sorts by title from Z to A', () => {
-    PerformSort(SortOptions[3], mockDatasets);
+    PerformSort(SortOptions[2], mockDatasets);
     expect(mockDatasets[0].name).toBe('Dataset C');
   });
 

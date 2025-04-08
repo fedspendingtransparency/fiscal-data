@@ -1,9 +1,8 @@
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import NationalDebtHero from './national-debt-hero';
 import Analytics from '../../../../utils/analytics/analytics';
-import SiteHeader from '../../../../components/site-header/site-header';
 import { RecoilRoot } from 'recoil';
 
 jest.mock('../../../../components/split-flap-display/split-flap-display', () => {

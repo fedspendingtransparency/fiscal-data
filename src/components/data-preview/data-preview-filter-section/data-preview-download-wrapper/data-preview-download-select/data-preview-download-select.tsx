@@ -1,10 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCloudDownload } from '@fortawesome/free-solid-svg-icons';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointXl } from '../../../../../variables.module.scss';
 import { border, buttonActive, buttonText, container, downloadButton, icon, parent } from './data-preview-download-select.module.scss';
 import DropdownContainer from '../../../../dropdown-container/dropdown-container';
 import DownloadItemButton from '../download-button/download-button';
+import DataPreviewMobileDialog from '../../../data-preview-mobile-dialog/data-preview-mobile-dialog';
 import { useRecoilValue } from 'recoil';
 import {
   smallTableDownloadDataCSV,
@@ -22,6 +24,8 @@ import { getDownloadIcon, shouldUseDirectDownload } from '../download-wrapper-he
 import { IDataset } from '../../../../../models/IDataset';
 import { IDatasetApi } from '../../../../../models/IDatasetApi';
 import { IPivotOption } from '../../../../../models/data-preview/IPivotOption';
+import { constructDownloadFileName } from '../../../../download-wrapper/download-helpers';
+import DataPreviewMobileDownloadOptions from './data-preview-mobile-downloads/data-preview-mobile-downloads';
 
 interface IDownloadButtonProps {
   dateRange: { from: Date; to: Date };
@@ -45,6 +49,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   isDisabled,
 }: IDownloadButtonProps) => {
   const [active, setActive] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string | null>('csv');
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
@@ -111,24 +116,70 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     }
   };
 
-  return (
-    <div className={parent}>
-      <DropdownContainer
-        containerWidth={width >= pxToNumber(breakpointXl) ? 'fit-content' : '100%'}
-        dropdownButton={
-          <button className={`${downloadButton} ${active && buttonActive}`} disabled={isDisabled} onClick={() => setActive(!active)}>
-            <div className={buttonText}>Download</div>
-            <div className={icon}>
-              <FontAwesomeIcon icon={getDownloadIcon(width, active)} />
-            </div>
-          </button>
-        }
-        setActive={setActive}
-      >
-        <>
-          {active ? (
+  const performDirectDownload = fileType => {
+    const downloadData = getSmallTableDownloadData(fileType);
+    if (!downloadData) return;
+    let type, extension;
+    if (fileType === 'csv') {
+      type = 'text/csv';
+      extension = 'csv';
+    } else if (fileType === 'json') {
+      type = 'application/json';
+      extension = 'json';
+    } else if (fileType === 'xml') {
+      type = 'application/xml';
+      extension = 'xml';
+    } else {
+      return;
+    }
+    const downloadName = constructDownloadFileName(dateRange, selectedTable, true);
+    const blob = new Blob([downloadData], { type: type });
+    const url = URL.createObjectURL(blob);
+    const download = document.createElement('a');
+    download.href = url;
+    download.download = `${downloadName}.${extension}`;
+    document.body.appendChild(download);
+    download.click();
+    document.body.removeChild(download);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleMobileDownload = () => {
+    if (!selectedOption) {
+      return;
+    }
+    const option = getDownloadOptions().find(opt => opt.type === selectedOption);
+    if (option && option.onClick) {
+      if (selectedOption !== 'data-dictionary' && shouldUseDirectDownload(tableSize, allTablesSelected)) {
+        performDirectDownload(selectedOption);
+      } else {
+        option.onClick();
+      }
+    }
+  };
+
+  const downloadButtonElement = (
+    <button className={`${downloadButton} ${active ? buttonActive : ''}`} disabled={isDisabled} onClick={() => setActive(!active)}>
+      <div className={buttonText}>Download</div>
+      <div className={icon}>
+        <FontAwesomeIcon icon={getDownloadIcon(width, active)} />
+      </div>
+    </button>
+  );
+
+  const mobileOptions = getDownloadOptions().map(option => ({
+    displayName: option.displayName,
+    type: option.type,
+    size: option.size,
+  }));
+
+  if (width >= pxToNumber(breakpointXl)) {
+    return (
+      <div className={parent}>
+        <DropdownContainer containerWidth="fit-content" dropdownButton={downloadButtonElement} setActive={setActive}>
+          {active && (
             <div className={container}>
-              {getDownloadOptions()?.map((option, index) => {
+              {getDownloadOptions().map((option, index) => {
                 const { displayName, type, size, onClick, topBorder } = option;
                 const downloadData = getSmallTableDownloadData(type);
                 return (
@@ -149,13 +200,31 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
                 );
               })}
             </div>
-          ) : (
-            <></>
           )}
-        </>
-      </DropdownContainer>
-    </div>
-  );
+        </DropdownContainer>
+      </div>
+    );
+  } else {
+    return (
+      <div className={parent}>
+        {downloadButtonElement}
+        {active && (
+          <DataPreviewMobileDialog
+            onClose={() => setActive(false)}
+            backButtonTitle="Data Preview"
+            filterName="Download"
+            bottomButton="Download"
+            bottomButtonIcon={faCloudDownload}
+            hasSearch={false}
+            filterComponent={
+              <DataPreviewMobileDownloadOptions options={mobileOptions} selectedOption={selectedOption} onSelect={setSelectedOption} />
+            }
+            onBottomButtonClick={handleMobileDownload}
+          />
+        )}
+      </div>
+    );
+  }
 };
 
 export default DataPreviewDownloadSelect;

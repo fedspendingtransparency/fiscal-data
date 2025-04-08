@@ -1,14 +1,14 @@
-import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
-import React from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import DataPreviewDownloadWrapper from './data-preview-download-wrapper/data-preview-download-wrapper';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { filterAndDownloadContainer, filterContainer, toggleDownloadContainer } from './data-preview-filter-section.module.scss';
 import DataPreviewTableFilters from './data-preview-table-filters/data-preview-table-filters';
-import ColumnFilter from './column-filter/column-filter';
+import DataPreviewColumnFilter from './data-preview-column-filter/data-preview-column-filter';
 import { breakpointXl } from '../data-preview.module.scss';
 import { withWindowSize } from 'react-fns';
 import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
 import { differenceInHours } from 'date-fns';
+import { DataPreviewFilterSectionProps } from '../../../models/data-preview/IFilterSectionProps';
 
 type DataPreviewFilterSectionProps = {
   width?: number;
@@ -25,12 +25,14 @@ type DataPreviewFilterSectionProps = {
   filteredDateRange;
   selectedDetailViewFilter;
   apiFilterDefault;
+  setViewMode: (mode: string) => void;
 };
 
 const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps> = ({
   width,
   children,
   dateRange,
+  setDateRange,
   isFiltered,
   selectedTable,
   selectedPivot,
@@ -41,6 +43,14 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   tableColumnSortData,
   selectedDetailViewFilter,
   apiFilterDefault,
+  setIsFiltered,
+  handleDateRangeChange,
+  setIsCustomDateRange,
+  finalDatesNotFound,
+  detailApi,
+  detailViewState,
+  apiData,
+  setViewMode,
 }) => {
   const isDisabled = apiFilterDefault;
   const { dataDisplays, userFilter } = selectedTable;
@@ -73,13 +83,25 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
     <>
       <div className={filterAndDownloadContainer}>
         <div className={filterContainer}>
-          <DataPreviewTableFilters />
-          <ColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} />
-          {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle />}
+          <DataPreviewTableFilters
+            selectedTable={selectedTable}
+            config={dataset}
+            setDateRange={setDateRange}
+            allTablesSelected={allTablesSelected}
+            handleDateRangeChange={handleDateRangeChange}
+            setIsCustomDateRange={setIsCustomDateRange}
+            finalDatesNotFound={finalDatesNotFound}
+            detailApi={detailApi}
+            detailViewState={detailViewState}
+            apiData={apiData}
+            width={width}
+          />
+          <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} />
+          {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
         </div>
         {width >= pxToNumber(breakpointXl) && (
           <div className={toggleDownloadContainer}>
-            {getChartingInfo() && <ChartTableToggle />}
+            {getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
             {downloadComponent()}
           </div>
         )}

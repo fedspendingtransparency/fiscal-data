@@ -3,6 +3,18 @@ import React from 'react';
 import DataPreviewFilterSection from './data-preview-filter-section';
 import { RecoilRoot } from 'recoil';
 import { selectedTable } from '../../api-quick-guide/test-helpers/test-helpers';
+import { DataTableContext } from '../data-preview-context';
+
+const mockContextValue = {
+  defaultColumns: [],
+  additionalColumns: [],
+  allColumns: new Array(17).fill({}),
+  defaultSelectedColumns: [],
+  tableState: {
+    getVisibleFlatColumns: () => [],
+    getAllLeafColumns: () => new Array(17).fill({}),
+  },
+};
 
 describe('Data preview filter section', () => {
   it('Renders all components', () => {
@@ -10,9 +22,11 @@ describe('Data preview filter section', () => {
       dataDisplays: [{ chartType: 'none', title: 'Complete Table' }],
     };
     const { getByRole, queryByRole } = render(
-      <RecoilRoot>
-        <DataPreviewFilterSection dataset={{ name: 'Mock dataset' }} selectedTable={selectedTable} />
-      </RecoilRoot>
+      <DataTableContext.Provider value={mockContextValue}>
+        <RecoilRoot>
+          <DataPreviewFilterSection dataset={{ name: 'Mock dataset' }} selectedTable={selectedTable} />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(getByRole('button', { name: 'Columns: 0/17' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
@@ -29,9 +43,11 @@ describe('Data preview filter section', () => {
       ],
     };
     const { getByRole } = render(
-      <RecoilRoot>
-        <DataPreviewFilterSection dataset={{ name: 'Mock dataset' }} selectedTable={selectedTable} />
-      </RecoilRoot>
+      <DataTableContext.Provider value={mockContextValue}>
+        <RecoilRoot>
+          <DataPreviewFilterSection dataset={{ name: 'Mock dataset' }} selectedTable={selectedTable} />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(getByRole('button', { name: 'Columns: 0/17' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
@@ -47,9 +63,11 @@ describe('Data preview filter section', () => {
     const userFilterSelection = { value: 'Euro Zone-Euro' };
 
     const { getByRole } = render(
-      <RecoilRoot>
-        <DataPreviewFilterSection dataset={{ name: 'Mock dataset' }} selectedTable={selectedTable} selectedUserFilter={userFilterSelection} />
-      </RecoilRoot>
+      <DataTableContext.Provider value={mockContextValue}>
+        <RecoilRoot>
+          <DataPreviewFilterSection dataset={{ name: 'Mock dataset' }} selectedTable={selectedTable} selectedUserFilter={userFilterSelection} />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(getByRole('button', { name: 'Columns: 0/17' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
@@ -66,9 +84,11 @@ describe('Data preview filter section', () => {
     const dataset = { name: '', techSpecs: { earliestDate: new Date('4/1/2024'), latestDate: new Date('4/1/2024') } };
 
     const { getByRole } = render(
-      <RecoilRoot>
-        <DataPreviewFilterSection dataset={dataset} dateRange={dateRange} selectedTable={selectedTable} />
-      </RecoilRoot>
+      <DataTableContext.Provider value={mockContextValue}>
+        <RecoilRoot>
+          <DataPreviewFilterSection dataset={dataset} dateRange={dateRange} selectedTable={selectedTable} />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(getByRole('button', { name: 'Columns: 0/17' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
@@ -85,9 +105,11 @@ describe('Data preview filter section', () => {
     const dataset = { name: '', techSpecs: { earliestDate: new Date('4/1/2024'), latestDate: new Date('4/1/2024') } };
 
     const { getByRole, queryByRole } = render(
-      <RecoilRoot>
-        <DataPreviewFilterSection dataset={dataset} dateRange={dateRange} selectedTable={selectedTable} />
-      </RecoilRoot>
+      <DataTableContext.Provider value={mockContextValue}>
+        <RecoilRoot>
+          <DataPreviewFilterSection dataset={dataset} dateRange={dateRange} selectedTable={selectedTable} />
+        </RecoilRoot>
+      </DataTableContext.Provider>
     );
     expect(getByRole('button', { name: 'Columns: 0/17' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();

@@ -1,0 +1,129 @@
+@import 'src/variables.module';
+@import 'src/zIndex.module';
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $panel;
+  background: $content-section-background;
+  height: 100%;
+  width: 100%;
+}
+.dataPreviewHeaderContainer {
+  border-bottom: 1px solid $light-grey-border;
+}
+
+.filtersScrollContainer {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.bottomContainer {
+  text-align: center;
+  background-color: $content-section-background;
+  padding: 1rem;
+  box-shadow: 0 -0.25rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.navigableContent {
+  padding: 0 0 0 1rem;
+}
+
+.navClass {
+  overflow-y: auto;
+}
+
+.previewCaretButton {
+  display: flex;
+}
+
+.previewCaret {
+  padding-right: 0.5rem;
+  height: 0.875rem;
+  width: 0.625rem;
+}
+
+.previewCaretContainer {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.dataPreviewHeader {
+  padding: 1rem 1.5rem;
+  color: $primary;
+  font-size: 1.125rem;
+  font-weight: 600;
+  display: inline-block;
+
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+}
+.searchBar {
+  p {
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin: 0;
+    padding-bottom: 0.25rem;
+  }
+}
+
+.topContainer {
+  padding: 0 1rem 1rem 1rem;
+  align-items: center;
+  text-align: left;
+  border-bottom: 0.0625rem solid #d9d9d9;
+
+  .sectionHeader {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: $font-title;
+    font-weight: 600;
+  }
+
+  label {
+    font-size: 0.875rem;
+  }
+}
+
+.applyButton,
+.cancelButton {
+  font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
+  width: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.applyButton {
+  color: $content-section-background;
+  background-color: $primary;
+  border-radius: 0.1875rem;
+  height: 3rem;
+}
+
+.cancelButton {
+  padding-top: 1rem;
+  color: $font-body-copy;
+  background-color: $content-section-background;
+}
+
+.checkIcon {
+  padding-right: 0.5rem;
+}
