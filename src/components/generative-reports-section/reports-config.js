@@ -3,7 +3,7 @@ export const reportsConfig = {
     305: {
       documentTitle: 'Account Statement Report',
       downloadName: 'UTF_Account_Statement',
-      sort: ['eff_date', 'memo_nbr'],
+      sort: ['-eff_date', 'memo_nbr'],
       customFormatting: [
         {
           type: 'NUMBER',
@@ -35,7 +35,7 @@ export const reportsConfig = {
     306: {
       documentTitle: 'Transaction Statement',
       downloadName: 'UTF_Transaction_Statement',
-      sort: ['trans_desc_cd', 'eff_date', 'memo_nbr'],
+      sort: ['trans_desc_cd', '-eff_date', 'memo_nbr'],
       customFormatting: [
         {
           type: 'NUMBER',
@@ -73,7 +73,7 @@ export const reportsConfig = {
     307: {
       documentTitle: 'Federal Activity Statement',
       downloadName: 'UTF_Federal_Activity_Statement',
-      sort: ['trans_desc_cd', 'eff_date', 'memo_nbr'],
+      sort: ['trans_desc_cd', '-eff_date', 'memo_nbr'],
       customFormatting: [
         {
           type: 'NUMBER',
