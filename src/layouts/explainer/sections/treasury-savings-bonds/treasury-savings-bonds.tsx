@@ -6,6 +6,8 @@ import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-govern
 import SavingsBondsAreFullyMatured from './savings-bonds-are-fully-matured/savings-bonds-are-fully-matured';
 import LearnMore from './learn-more/learn-more';
 import { IExplainerPageSection } from '../../../../models/IExplainerPageSection';
+import { analyticsEventHandler } from '../../../../helpers/insights/insight-helpers';
+import { ga4DataLayerPush } from '../../../../helpers/google-analytics/google-analytics-helper';
 
 export const treasurySavingsBondsSectionIds = [
   'key-takeaways',
@@ -15,6 +17,14 @@ export const treasurySavingsBondsSectionIds = [
   'what-happens-when-savings-bonds-are-fully-matured',
   'learn-more-buying-and-redeeming-savings-bonds-today',
 ];
+
+export const glossaryGAEvent = term => {
+  analyticsEventHandler('Savings Bonds', term, 'Glossary Term Click');
+  ga4DataLayerPush({
+    event: `Glossary Term Click`,
+    eventLabel: term,
+  });
+};
 
 const treasurySavingsBondsSections: IExplainerPageSection[] = [
   {

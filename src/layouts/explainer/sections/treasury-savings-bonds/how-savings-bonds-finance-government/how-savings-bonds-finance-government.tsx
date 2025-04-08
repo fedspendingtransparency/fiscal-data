@@ -18,6 +18,7 @@ import { useRecoilValueLoadable } from 'recoil';
 import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
 import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
+import { glossaryGAEvent } from '../treasury-savings-bonds';
 
 interface ChartDataItem {
   name: string;
@@ -194,6 +195,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     revenue: (
       <CustomLink
         url="/americas-finance-guide/government-revenue/"
+        id="Government Revenue"
         onClick={() => analyticsEventHandler('Government Revenue', 'Savings Bonds Citation Click')}
       >
         revenue
@@ -202,6 +204,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     spends: (
       <CustomLink
         url="/americas-finance-guide/federal-spending/"
+        id="Federal Spending"
         onClick={() => analyticsEventHandler('Federal Spending', 'Savings Bonds Citation Click')}
       >
         spends
@@ -210,13 +213,18 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     deficit: (
       <CustomLink
         url="/americas-finance-guide/national-deficit/"
+        id="National Deficit"
         onClick={() => analyticsEventHandler('National Deficit', 'Savings Bonds Citation Click')}
       >
         deficit
       </CustomLink>
     ),
     debt: (
-      <CustomLink url="/americas-finance-guide/national-debt/" onClick={() => analyticsEventHandler('National Debt', 'Savings Bonds Citation Click')}>
+      <CustomLink
+        url="/americas-finance-guide/national-debt/"
+        id="National Debt"
+        onClick={() => analyticsEventHandler('National Debt', 'Savings Bonds Citation Click')}
+      >
         debt
       </CustomLink>
     ),
@@ -226,7 +234,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     <GlossaryPopoverDefinition
       term="Marketable Securities"
       page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Marketable Securities', 'Glossary Term Click')}
+      handleClick={() => glossaryGAEvent('Marketable Securities')}
     >
       marketable
     </GlossaryPopoverDefinition>
@@ -236,7 +244,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     <GlossaryPopoverDefinition
       term="Non-Marketable Securities"
       page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Non-Marketable Securities', 'Glossary Term Click')}
+      handleClick={() => glossaryGAEvent('Non-Marketable Securities')}
     >
       non-marketable
     </GlossaryPopoverDefinition>
@@ -246,7 +254,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     <GlossaryPopoverDefinition
       term="Government Account Series"
       page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Government Account Series', 'Glossary Term Click')}
+      handleClick={() => glossaryGAEvent('Government Account Series')}
     >
       Government Account Series
     </GlossaryPopoverDefinition>
@@ -256,7 +264,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     <GlossaryPopoverDefinition
       term="State and Local Government Series"
       page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - State and Local Government Series', 'Glossary Term Click')}
+      handleClick={() => glossaryGAEvent('State and Local Government Series')}
     >
       State and Local Government Series
     </GlossaryPopoverDefinition>
@@ -266,28 +274,20 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     <GlossaryPopoverDefinition
       term="Debt Held by the Public"
       page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Debt Held by the Public', 'Glossary Term Click')}
+      handleClick={() => glossaryGAEvent('Debt Held by the Public')}
     >
       debt held by the public
     </GlossaryPopoverDefinition>
   );
 
   const seriesIBonds = (
-    <GlossaryPopoverDefinition
-      term="Series I Bonds"
-      page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Series I Bonds', 'Glossary Term Click')}
-    >
+    <GlossaryPopoverDefinition term="Series I Bonds" page="Savings Bond Explainer" handleClick={() => glossaryGAEvent('Series I Bonds')}>
       Series I bonds
     </GlossaryPopoverDefinition>
   );
 
   const seriesEEBonds = (
-    <GlossaryPopoverDefinition
-      term="Series EE Bonds"
-      page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Series EE Bonds', 'Glossary Term Click')}
-    >
+    <GlossaryPopoverDefinition term="Series EE Bonds" page="Savings Bond Explainer" handleClick={() => glossaryGAEvent('Series EE Bonds')}>
       Series EE bonds
     </GlossaryPopoverDefinition>
   );

@@ -9,15 +9,12 @@ import GlossaryPopoverDefinition from '../../../../../components/glossary/glossa
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
 import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
 import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
+import { glossaryGAEvent } from '../treasury-savings-bonds';
 
 const SavingsBondsOverview: FunctionComponent = () => {
   const anchor = getSaleBondsFootNotes()[0];
   const securities = (
-    <GlossaryPopoverDefinition
-      term="Treasury Security"
-      page="Savings Bonds Explainer"
-      handleClick={() => analyticsEventHandler('Treasury Security', 'Glossary Term Click')}
-    >
+    <GlossaryPopoverDefinition term="Treasury Security" page="Savings Bonds Explainer" handleClick={() => glossaryGAEvent('Treasury Security')}>
       securities
     </GlossaryPopoverDefinition>
   );
@@ -26,6 +23,7 @@ const SavingsBondsOverview: FunctionComponent = () => {
     treasury: (
       <CustomLink
         url="https://www.treasurydirect.gov/savings-bonds/buy-a-bond/"
+        id="TreasuryDirect"
         onClick={() => analyticsEventHandler('TreasuryDirect', 'Savings Bonds Citation Click')}
       >
         TreasuryDirect
@@ -34,6 +32,7 @@ const SavingsBondsOverview: FunctionComponent = () => {
     calculator: (
       <CustomLink
         url="https://www.treasurydirect.gov/savings-bonds/savings-bond-calculator/"
+        id="Savings Bond Calculator"
         onClick={() => analyticsEventHandler('Savings Bond Calculator', 'Savings Bonds Citation Click')}
       >
         Savings Bond Calculator

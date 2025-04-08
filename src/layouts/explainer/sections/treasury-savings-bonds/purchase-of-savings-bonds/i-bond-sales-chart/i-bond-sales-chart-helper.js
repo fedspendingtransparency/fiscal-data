@@ -9,14 +9,16 @@ export const chartCopy = {
       Visit the{' '}
       <CustomLink
         url="/datasets/electronic-securities-transactions/"
-        onClick={() => analyticsEventHandler('Savings Bonds - Electronics Securities Transactions', 'Savings Bonds Citation Click')}
+        id="Electronics Securities Transactions"
+        onClick={() => analyticsEventHandler('Electronics Securities Transactions', 'Savings Bonds Citation Click')}
       >
         Electronic Securities Transactions
       </CustomLink>{' '}
       dataset to explore and download this data. Inflation data is from the{' '}
       <CustomLink
         url="https://data.bls.gov/cgi-bin/surveymost?bls"
-        onClick={() => analyticsEventHandler('Savings Bonds - Bureau of Labor Statistics', 'Savings Bonds Citation Click')}
+        id="Bureau of Labor Statistics"
+        onClick={() => analyticsEventHandler('Bureau of Labor Statistics', 'Savings Bonds Citation Click')}
       >
         Bureau of Labor Statistics
       </CustomLink>

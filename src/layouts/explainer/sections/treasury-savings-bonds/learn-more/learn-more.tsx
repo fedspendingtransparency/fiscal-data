@@ -26,6 +26,7 @@ const LearnMore: React.FC = () => {
     treasury: (
       <CustomLink
         url="https://www.treasurydirect.gov/savings-bonds/buy-a-bond/"
+        id="TreasuryDirect"
         onClick={() => analyticsEventHandler('TreasuryDirect', 'Savings Bonds Citation Click')}
       >
         TreasuryDirect
@@ -34,6 +35,7 @@ const LearnMore: React.FC = () => {
     hunt: (
       <CustomLink
         url="https://treasurydirect.gov/savings-bonds/treasury-hunt/"
+        id="Treasury Hunt"
         onClick={() => analyticsEventHandler('Treasury Hunt', 'Savings Bonds Citation Click')}
       >
         Treasury Hunt
@@ -47,7 +49,7 @@ const LearnMore: React.FC = () => {
         Today, individuals can buy Series I and Series EE bonds online through {links['treasury']}. TreasuryDirect also offers a feature called{' '}
         {links['hunt']}, which allows users to search to see if there are unredeemed bonds in their name.
       </p>
-      <Footnote footnotes={getSaleBondsFootNotes()} width="100%" onBackToContentClick={handleBackToContentClick} />
+      <Footnote footnotes={getSaleBondsFootNotes()} width="100%" onBackToContentClick={handleBackToContentClick} id="Back to Content" />
     </>
   );
 };

@@ -23,6 +23,7 @@ import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { format } from 'date-fns';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
+import { glossaryGAEvent } from '../treasury-savings-bonds';
 
 const SavingsBondsAreFullyMatured: FunctionComponent = () => {
   const [mudMonthYear, setMudMonthYear] = useState(null);
@@ -60,7 +61,7 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
       <GlossaryPopoverDefinition
         term="Matured Unredeemed Debt (MUD)"
         page="Savings Bonds Explainer"
-        handleClick={() => analyticsEventHandler('Savings Bonds - Matured Unredeemed Debt (MUD)', 'Glossary Term Click')}
+        handleClick={() => glossaryGAEvent('Matured Unredeemed Debt (MUD)')}
       >
         Matured Unredeemed Debt (MUD)
       </GlossaryPopoverDefinition>
@@ -131,6 +132,7 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
           Could there be a savings bond in your name that you might not know about? Go on a{' '}
           <CustomLink
             url="https://treasurydirect.gov/savings-bonds/treasury-hunt/"
+            id="Treasury Hunt"
             onClick={() => analyticsEventHandler('Treasury Hunt', 'Savings Bonds Citation Click')}
           >
             Treasure Hunt

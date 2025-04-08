@@ -18,6 +18,7 @@ import { monthFullNames } from '../../../../../../utils/api-utils';
 import { analyticsEventHandler } from '../../../../explainer-helpers/explainer-helpers';
 import globalConstants from '../../../../../../helpers/constants';
 import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
+import { glossaryGAEvent } from '../../treasury-savings-bonds';
 
 interface ChartDataItem {
   name: string;
@@ -85,7 +86,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     <GlossaryPopoverDefinition
       term="Intragovernmental Holdings"
       page="Savings Bond Explainer"
-      handleClick={() => analyticsEventHandler('Savings Bonds - Intragovernmental Holdings', 'Glossary Term Click')}
+      handleClick={() => glossaryGAEvent('Intragovernmental Holdings')}
     >
       intragovernmental
     </GlossaryPopoverDefinition>
@@ -139,13 +140,18 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
 
   const links = {
     debt: (
-      <CustomLink url="/americas-finance-guide/national-debt/" onClick={() => analyticsEventHandler('National Debt', 'Savings Bonds Citation Click')}>
+      <CustomLink
+        url="/americas-finance-guide/national-debt/"
+        id="National Debt"
+        onClick={() => analyticsEventHandler('National Debt', 'Savings Bonds Citation Click')}
+      >
         National Debt explainer
       </CustomLink>
     ),
     outstanding: (
       <CustomLink
         url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
+        id="Summary of Treasury Securities Outstanding"
         onClick={() => analyticsEventHandler('Summary of Treasury Securities Outstanding', 'Savings Bonds Citation Click')}
       >
         U.S. Treasury Monthly Statement of the Public Debt (MSPD)
