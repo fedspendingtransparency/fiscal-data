@@ -7,6 +7,9 @@ import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, yAxisFormatte
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import ChartHeader from './chart-header/chart-header';
 import ChartDescription from './chart-description/chart-description';
+import { analyticsEventHandler } from '../../../../explainer-helpers/explainer-helpers';
+import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
+import globalConstants from '../../../../../../helpers/constants';
 
 export interface ISavingBondsByTypeChartData {
   year: string;
@@ -29,6 +32,8 @@ interface ISavingsBondsSoldByTypeChart {
   chartDate: Date;
 }
 
+let gaTimer;
+
 const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChart> = ({ chartData, inflationChartData, curFy, chartDate }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('amounts');
   const [hiddenFields, setHiddenFields] = useState<string[]>([]);
@@ -43,6 +48,25 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
   let activeChartData = inflationSwitch ? inflationChartData : chartData;
   const handleInflationToggle = (isAdjusted: boolean) => {
     setInflationSwitch(isAdjusted);
+    analyticsEventHandler('Savings Bonds - Savings Bonds Sold Inflation Adjustment', 'Chart Toggle');
+  };
+
+  const { explainers } = globalConstants;
+
+  const handleChartMouseEnter = () => {
+    const eventLabel = 'Savings Bonds - Savings Bonds Sold by Type Over Time';
+    const eventAction = 'Chart Hover';
+    gaTimer = setTimeout(() => {
+      analyticsEventHandler(eventLabel, eventAction);
+      ga4DataLayerPush({
+        event: eventAction,
+        eventLabel: eventLabel,
+      });
+    }, explainers.chartHoverDelay);
+  };
+
+  const handleChartMouseLeave = () => {
+    clearTimeout(gaTimer);
   };
 
   const header = (
@@ -89,8 +113,14 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
               role="presentation"
               onBlur={() => setChartFocus(false)}
               onFocus={() => setChartFocus(true)}
-              onMouseOver={() => setChartHover(true)}
-              onMouseLeave={() => setChartHover(false)}
+              onMouseEnter={() => {
+                setChartHover(true);
+                handleChartMouseEnter();
+              }}
+              onMouseLeave={() => () => {
+                setChartHover(false);
+                handleChartMouseLeave();
+              }}
             >
               {' '}
               {chartData && sortedBonds && (

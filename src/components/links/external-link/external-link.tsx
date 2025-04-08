@@ -5,10 +5,19 @@ type ExternalLinkProps = {
   children: React.ReactNode;
   onClick?: () => void;
   dataTestId?: string;
+  id?: string;
 };
 
-const ExternalLink: FunctionComponent<ExternalLinkProps> = ({ url, children, onClick, dataTestId = 'external-link' }) => (
-  <a className="primary" href={url} target="_blank" rel="noreferrer noopener" data-testid={dataTestId} onClick={() => (onClick ? onClick() : null)}>
+const ExternalLink: FunctionComponent<ExternalLinkProps> = ({ url, children, onClick, dataTestId = 'external-link', id }) => (
+  <a
+    className="primary"
+    id={id}
+    href={url}
+    target="_blank"
+    rel="noreferrer noopener"
+    data-testid={dataTestId}
+    onClick={() => (onClick ? onClick() : null)}
+  >
     {children}
   </a>
 );

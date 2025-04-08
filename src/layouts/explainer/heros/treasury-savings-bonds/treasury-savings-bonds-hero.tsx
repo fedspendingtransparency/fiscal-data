@@ -6,6 +6,8 @@ import SplitFlapDisplay from '../../../../components/split-flap-display/split-fl
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { getShortForm } from '../../../../utils/rounding-utils';
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
+import { analyticsEventHandler } from '../../explainer-helpers/explainer-helpers';
+import { glossaryGAEvent } from '../../sections/treasury-savings-bonds/treasury-savings-bonds';
 
 const TreasurySavingsBondsHero = (): ReactElement => {
   // appending 40 to a 6 digit hex color is equivalent to specifying 25% opacity
@@ -72,19 +74,23 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   };
 
   const electronicSecurities = (
-    <CustomLink url="/datasets/electronic-securities-transactions/" id="Electronic Securities Transactions">
+    <CustomLink
+      url="/datasets/electronic-securities-transactions/"
+      id="Electronic Securities Transactions"
+      onClick={() => analyticsEventHandler('Electronic Securities Transactions', 'Savings Bonds Citation Click')}
+    >
       Electronic Securities Transactions
     </CustomLink>
   );
 
   const savingsBonds = (
-    <GlossaryPopoverDefinition term="Savings Bonds" page="Savings Bonds Explainer">
+    <GlossaryPopoverDefinition term="Savings Bonds" page="Savings Bonds Explainer" handleClick={() => glossaryGAEvent('Savings Bonds')}>
       savings bonds
     </GlossaryPopoverDefinition>
   );
 
   const fiscalYear = (
-    <GlossaryPopoverDefinition term="Fiscal Year" page="Savings Bonds Explainer">
+    <GlossaryPopoverDefinition term="Fiscal Year" page="Savings Bonds Explainer" handleClick={() => glossaryGAEvent('Fiscal Year')}>
       fiscal year
     </GlossaryPopoverDefinition>
   );
