@@ -1,13 +1,11 @@
-import React, { useState, useRef } from 'react';
-import { searchInput, searchInput_textField, noButton, searchInput_iconButton } from './search-field.module.scss';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { noButton, searchInput, searchInput_iconButton, searchInput_textField } from './search-field.module.scss';
 import { faSearch, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import InfoTip, { infoTipAnalyticsObject } from '../../info-tip/info-tip';
 import Analytics from '../../../utils/analytics/analytics';
 import { siteContext } from '../../persist/persist';
-import { useContext } from 'react';
-import { useEffect } from 'react';
 
 const infoIcon = {
   title: 'Dataset Keyword Search',
@@ -134,9 +132,9 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
           aria-label={!searchIsEmpty ? 'clear' : ''}
         >
           {searchIsEmpty ? (
-            <FontAwesomeIcon icon={faSearch} data-test-id="search-icon" />
+            <FontAwesomeIcon icon={faSearch} data-testid="search-icon" />
           ) : (
-            <FontAwesomeIcon icon={faTimesCircle} data-test-id="clear-search-icon" />
+            <FontAwesomeIcon icon={faTimesCircle} data-testid="clear-search-icon" />
           )}
         </button>
         <InfoTip secondary={true} title={infoIcon.title} clickEvent={handleInfoTipClick}>
