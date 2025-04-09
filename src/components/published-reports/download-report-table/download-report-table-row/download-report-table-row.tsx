@@ -76,7 +76,6 @@ const DownloadReportTableRow: FunctionComponent<{
       setPublishedDate(curReportFile?.date);
       setFileType('.pdf');
       setFileTypeImage(getFileTypeImage('.pdf'));
-      // setFileSize(curReportFile?.size);
       setReportLocation('');
     }
   };
