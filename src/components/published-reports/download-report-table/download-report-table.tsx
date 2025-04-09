@@ -11,8 +11,8 @@ export const DownloadReportTable: FunctionComponent<{
   reports?: IPublishedReportDataJson[];
   isDailyReport: boolean;
   width?: number;
-  generatedReport?;
-}> = ({ reports, isDailyReport, width, generatedReport }) => {
+  generatedReports?;
+}> = ({ reports, isDailyReport, width, generatedReports }) => {
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export const DownloadReportTable: FunctionComponent<{
         {reports?.map((report: IPublishedReportDataJson, i: number) => {
           return <DownloadReportTableRow reportFile={report} isDailyReport={isDailyReport} mobileView={mobileView} key={i} />;
         })}
-        {generatedReport?.map((report, i: number) => {
+        {generatedReports?.map((report, i: number) => {
           return <DownloadReportTableRow generatedReport={report} isDailyReport={isDailyReport} mobileView={mobileView} key={i} />;
         })}
       </tbody>

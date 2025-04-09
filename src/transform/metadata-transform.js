@@ -122,6 +122,7 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.sharedApiFilterOptions = mappedDataset && mappedDataset.sharedApiFilterOptions ? mappedDataset.sharedApiFilterOptions : null;
       dataset.reportSelection = mappedDataset && mappedDataset.reportSelection ? mappedDataset.reportSelection : null;
       dataset.dateExpected = mappedDataset && mappedDataset.dateExpected ? mappedDataset.dateExpected : null;
+      dataset.timeExpected = mappedDataset && mappedDataset.timeExpected ? mappedDataset.timeExpected : null;
       dataset.allColumnNames = mappedDataset && mappedDataset.allColumnNames ? mappedDataset.allColumnNames : null;
       dataset.allPrettyNames = mappedDataset && mappedDataset.allPrettyNames ? mappedDataset.allPrettyNames : null;
       dataset.reportGenDefaultTable = mappedDataset && mappedDataset.reportGenDefaultTable ? mappedDataset.reportGenDefaultTable : null;

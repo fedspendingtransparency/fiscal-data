@@ -3,13 +3,14 @@ import DatasetSectionContainer from '../dataset-section-container/dataset-sectio
 import { IDatasetApi } from '../../models/IDatasetApi';
 import { filtersContainer } from '../published-reports/reports-section/reports-section.module.scss';
 import { apiPrefix, basicFetch } from '../../utils/api-utils';
-import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
 import { format } from 'date-fns';
 import { buildFilterParam, buildSortParam } from './generative-report-helper';
 import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
 import ReportDatePicker from '../published-reports/report-date-picker/report-date-picker';
 import { withWindowSize } from 'react-fns';
+import { reportsConfig } from './reports-config';
+import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
 
 export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
@@ -25,14 +26,28 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [activeReports, setActiveReports] = useState([]);
   const [allReports, setAllReports] = useState([]);
 
-  const getReportData = async report => {
-    const { dateField, apiFilter, alwaysSortWith } = report;
+  const getReportData = async (report, reportConfig) => {
+    const { dateField, apiFilter } = report;
+    const { sort } = reportConfig;
     const { field: accountField } = apiFilter;
     const filterStr = buildFilterParam(selectedDate, dateField, selectedAccount.value, accountField);
-    const sortStr = buildSortParam(alwaysSortWith);
+    const sortStr = buildSortParam(sort);
     const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
     return await basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
       return res.data;
+    });
+  };
+
+  const setSummaryValues = (reportConfig, formattedDate, reportData) => {
+    const { reportInfo } = reportConfig;
+
+    reportInfo.forEach(summaryValue => {
+      if (summaryValue.filter === 'date') {
+        summaryValue.value = formattedDate;
+      } else if (summaryValue.filter === 'account' && reportData.length > 0 && summaryValue.secondaryField) {
+        const secondary = reportData[0][summaryValue.secondaryField];
+        summaryValue.value = selectedAccount.label + ', ' + secondary;
+      }
     });
   };
 
@@ -67,14 +82,22 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
       if (selectedAccount.value) {
         const reports = [];
         for (const report of apisProp) {
+          const reportConfig = reportsConfig.utf[report.apiId];
+          const formattedDate = format(selectedDate, 'MMMM yyyy');
+          const downloadDate = format(selectedDate, 'MMyyyy');
+          const reportData = await getReportData(report, reportConfig);
           const curReport = {
+            id: report.apiId,
             name: `${report.tableName} - ${selectedAccount.label}.pdf`,
-            date: format(selectedDate, 'MMMM yyyy'),
+            date: formattedDate,
             size: '2KB',
-            downloadName: `${selectedAccount.label}.pdf`,
-            data: await getReportData(report),
+            downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
+            data: reportData,
+            config: reportConfig,
+            colConfig: report,
           };
           reports.push(curReport);
+          setSummaryValues(reportConfig, formattedDate, reportData);
         }
         setAllReports(reports);
       } else {
@@ -110,7 +133,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
         {activeReports?.length === 0 && <GenerativeReportsEmptyTable width={width} />}
-        {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReport={activeReports} width={width} />}
+        {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} />}
       </DatasetSectionContainer>
     </div>
   );

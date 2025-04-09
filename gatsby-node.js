@@ -188,6 +188,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     return {
       ...dataset,
       dateExpected: sortedRes[0]?.date,
+      timeExpected: sortedRes[0]?.time,
       allColumnNames: allColumnNames,
       allPrettyNames: allPrettyNames,
     };
@@ -505,6 +506,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       sharedApiFilterOptions: Boolean,
       reportSelection: String,
       dateExpected: String,
+      timeExpected: String,
       allColumnNames: [String],
       allPrettyNames: [String],
     }
@@ -584,6 +586,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           reportGenDefaultTable
           sharedApiFilterOptions
           dateExpected
+          timeExpected
           allColumnNames
           allPrettyNames
           detailView {
@@ -865,7 +868,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       if (api.apiFilter) {
         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
         if (api.apiFilter.filterEndpoint) {
-          filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=1000`;
+          filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=10000`;
         } else {
           filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
           if (api.apiFilter?.labelField) {

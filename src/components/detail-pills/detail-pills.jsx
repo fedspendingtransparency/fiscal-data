@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { futureDateIconStyle, icon, materialIcon, pill, pillWrapper } from './detail-pills.module.scss';
 import { faCalendarWeek, faDatabase, faPen, faRepeat } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AccessAlarm from '@mui/icons-material/AccessAlarm';
 import { format, isAfter } from 'date-fns';
 import futureDateIcon from '../../images/futureDateIcon.svg';
-import { getDateWithoutTimeZoneAdjust } from '../../utils/date-utils';
+import { convertDateAndTimeToDateTime } from '../calendar-entries/calendar-entry-sort-helper/calendar-entry-sort-helper';
+import { basicFetch } from '../../utils/api-utils';
+import { API_BASE_URL } from 'gatsby-env-variables';
 
-const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected }) => {
+const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected, timeExpected, config }) => {
   const earliestDate = techSpecs?.earliestDate;
   const latestDate = techSpecs?.latestDate;
   const dateRange = earliestDate && latestDate ? `${earliestDate} — ${latestDate}` : undefined;
@@ -15,7 +17,34 @@ const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected }) => {
   const lastUpdated = techSpecs?.lastUpdated || null;
   const latestDateParts = latestDate ? latestDate.split('/') : ['', '', ''];
   const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0, 0, 0), new Date());
-  const formattedDateExpected = dateExpected ? format(getDateWithoutTimeZoneAdjust(dateExpected), 'MM/dd/yyyy') : null;
+  const formattedTime = timeExpected && timeExpected[2] === ':' ? timeExpected.replace(':', '') : timeExpected;
+  const formattedDateExpected =
+    dateExpected && timeExpected ? format(new Date(convertDateAndTimeToDateTime(dateExpected, formattedTime)), 'MM/dd/yyyy') : null;
+  const [dateTimeExpected, setDateTimeExpected] = useState(formattedDateExpected);
+  const releaseCalendarUrl = `${API_BASE_URL}/services/calendar/release`;
+  const generateSortKey = entry => `${entry.date}_${entry.time}`;
+
+  useEffect(() => {
+    (async () => {
+      const res = await basicFetch(releaseCalendarUrl);
+      if (res && res.length > 0) {
+        const sortedRes = res.filter(rcDataset => rcDataset.datasetId === config.datasetId && rcDataset.released === 'false');
+        const rcEntries = await sortedRes;
+        rcEntries.sort((a, b) => {
+          const aKey = generateSortKey(a);
+          const bKey = generateSortKey(b);
+          if (aKey > bKey) return 1;
+          else if (aKey < bKey) return -1;
+          else return 0;
+        });
+        const date = rcEntries[0].date;
+        const time = rcEntries[0].time;
+        const formattedTime = time && time[2] === ':' ? time.replace(':', '') : time;
+        const formattedDateExpected = date && time ? format(new Date(convertDateAndTimeToDateTime(date, formattedTime)), 'MM/dd/yyyy') : null;
+        setDateTimeExpected(formattedDateExpected);
+      }
+    })();
+  }, []);
 
   return (
     <div data-testid="detailPills" className={pillWrapper}>
@@ -44,7 +73,7 @@ const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected }) => {
       {formattedDateExpected && (
         <span className={pill}>
           <AccessAlarm sx={{ width: '18px' }} size="1x" className={materialIcon} data-testid="timerIcon" />
-          <span className={'pillText'}>New Data Expected {formattedDateExpected}</span>
+          <span className={'pillText'}>New Data Expected {dateTimeExpected}</span>
         </span>
       )}
       <span className={pill}>
