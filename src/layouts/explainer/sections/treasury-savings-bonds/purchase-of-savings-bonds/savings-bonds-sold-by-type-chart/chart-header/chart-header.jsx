@@ -1,6 +1,6 @@
 import { dataHeader, inflationLabel, inflationToggleContainer, infoTipContainer } from '../savings-bonds-sold-by-type-chart.module.scss';
 import ChartToggle from '../../../../../../../components/nivo/chart-toggle/chart-toggle';
-import { treasurySavingsBondsExplainerDarkerSecondary, treasurySavingsBondsExplainerSecondary } from '../../../treasury-savings-bonds.module.scss';
+import { treasurySavingsBondsExplainerDarkerSecondary } from '../../../treasury-savings-bonds.module.scss';
 import InflationToggle from '../inflation-toogle/inflation-toggle';
 import InfoTip from '../../../../../../../components/info-tip/info-tip';
 import { chartCopy } from '../savings-bonds-sold-by-type-chart-helper';
@@ -10,8 +10,7 @@ const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInfl
   return (
     <div className={dataHeader}>
       <ChartToggle
-        primaryColor={treasurySavingsBondsExplainerSecondary}
-        secondaryColor={treasurySavingsBondsExplainerDarkerSecondary}
+        primaryColor={treasurySavingsBondsExplainerDarkerSecondary}
         leftButtonConfig={{
           leftTitle: 'Amounts',
           leftId: 'amounts',
