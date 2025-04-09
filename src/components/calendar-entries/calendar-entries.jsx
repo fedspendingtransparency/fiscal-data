@@ -161,11 +161,11 @@ const CalendarEntriesList = () => {
           <span>
             {' '}
             <FontAwesomeIcon icon={faCheckCircle} className={updateStatusIcon} />
-            Updated
+            Released
           </span>
           <span className={releaseCalendarLegendGray}>
             <div className={notYetUpdated} />
-            Not Yet Updated
+            Not Released
           </span>
         </div>
         <div className={dropdown}>
