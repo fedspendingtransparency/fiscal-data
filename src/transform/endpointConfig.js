@@ -910,7 +910,7 @@ const endpointConfig = {
             operator: 'in',
             value:
               'Total Treasury Inflation-Indexed Bonds,Total Treasury Inflation-Indexed ' +
-              'Notes,Total Treasury Inflation-Protected Securities,Total TIPS',
+              'Notes,Total Treasury Inflation-Protected Securities,Total TIPS, Total Treasury TIPS',
           },
         ],
       },
