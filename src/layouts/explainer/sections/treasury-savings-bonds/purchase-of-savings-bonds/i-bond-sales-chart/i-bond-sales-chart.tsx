@@ -1,15 +1,25 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { chartCopy, CustomTooltip } from './i-bond-sales-chart-helper';
+import React, {FunctionComponent, useEffect, useState} from 'react';
+import {chartCopy, CustomTooltip} from './i-bond-sales-chart-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { LineChart, ResponsiveContainer, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
+import {CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
-import { chartLegend, lengendItem, leftLine, label, chartStyle, leftLabel, rightLine, line, headerContainer } from './i-bond-sales-chart.module.scss';
+import {
+  chartLegend,
+  chartStyle,
+  headerContainer,
+  label,
+  leftLabel,
+  leftLine,
+  lengendItem,
+  line,
+  rightLine
+} from './i-bond-sales-chart.module.scss';
 import classNames from 'classnames';
-import { treasurySavingsBondsExplainerSecondary } from '../../treasury-savings-bonds.module.scss';
-import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
-import { ICpiDataMap } from '../../../../../../models/ICpiDataMap';
-import { yAxisFormatter } from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
-import { getDateWithoutOffset } from '../../../../explainer-helpers/explainer-helpers';
+import {treasurySavingsBondsExplainerSecondary} from '../../treasury-savings-bonds.module.scss';
+import {apiPrefix, basicFetch} from '../../../../../../utils/api-utils';
+import {ICpiDataMap} from '../../../../../../models/ICpiDataMap';
+import {yAxisFormatter} from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import {getDateWithoutOffset} from '../../../../explainer-helpers/explainer-helpers';
 
 interface IIBondsSalesChart {
   cpi12MonthPercentChange: ICpiDataMap;
@@ -213,7 +223,6 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
   };
 
   const chartTitle = `Correlation Between Inflation and I Bond Sales, FY ${curFy - 15} – FYTD ${curFy}`;
-
   return (
     <>
       {chartData && (

@@ -1,6 +1,6 @@
 import { dataHeader, inflationLabel, inflationToggleContainer, infoTipContainer } from '../savings-bonds-sold-by-type-chart.module.scss';
 import ChartToggle from '../../../../../../../components/nivo/chart-toggle/chart-toggle';
-import { treasurySavingsBondsExplainerSecondary } from '../../../treasury-savings-bonds.module.scss';
+import { treasurySavingsBondsExplainerDarkerSecondary, treasurySavingsBondsExplainerSecondary } from '../../../treasury-savings-bonds.module.scss';
 import InflationToggle from '../inflation-toogle/inflation-toggle';
 import InfoTip from '../../../../../../../components/info-tip/info-tip';
 import { chartCopy } from '../savings-bonds-sold-by-type-chart-helper';
@@ -11,6 +11,7 @@ const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInfl
     <div className={dataHeader}>
       <ChartToggle
         primaryColor={treasurySavingsBondsExplainerSecondary}
+        secondaryColor={treasurySavingsBondsExplainerDarkerSecondary}
         leftButtonConfig={{
           leftTitle: 'Amounts',
           leftId: 'amounts',
@@ -27,7 +28,7 @@ const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInfl
       {selectedChartView === 'amounts' && (
         <div className={inflationToggleContainer}>
           <span className={inflationLabel}>Adjust for Inflation</span>
-          <InflationToggle onToggle={onToggle}  isInflationAdjusted={isInflationAdjusted} />
+          <InflationToggle onToggle={onToggle} isInflationAdjusted={isInflationAdjusted} />
           <div className={infoTipContainer}>
             <InfoTip
               hover

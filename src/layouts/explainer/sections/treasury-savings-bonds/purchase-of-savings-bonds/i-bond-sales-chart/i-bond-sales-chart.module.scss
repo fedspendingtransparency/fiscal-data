@@ -16,11 +16,10 @@
       font-weight: $semi-bold-weight;
 
       &.leftLabel {
-        color: $treasury-savings-bonds-explainer-secondary;
+        color: $treasury-savings-bonds-explainer-darker-secondary;
       }
 
       &.rightLabel {
-
       }
     }
 
@@ -30,7 +29,7 @@
 
       &.leftLine {
         border-bottom: 2px solid $treasury-savings-bonds-explainer-secondary;
-        margin-left: 0.5rem
+        margin-left: 0.5rem;
       }
 
       &.rightLine {
@@ -38,7 +37,6 @@
         margin-right: 0.5rem;
       }
     }
-
   }
 }
 
@@ -54,7 +52,6 @@
 @media screen and (max-width: $breakpoint-lg - 1) {
   .chartLegend {
     margin-top: 1.25rem;
-
   }
   .chartLegend {
     margin-bottom: 1rem;
