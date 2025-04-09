@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay } from '../../util/util';
 import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
-import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
+import { formatFileSize, getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
 import { PDFDownloadLink } from '@react-pdf/renderer/lib/react-pdf.browser';
 import ReportGenerator from '../../report-generator/report-generator';
@@ -76,7 +76,7 @@ const DownloadReportTableRow: FunctionComponent<{
       setPublishedDate(curReportFile?.date);
       setFileType('.pdf');
       setFileTypeImage(getFileTypeImage('.pdf'));
-      setFileSize(curReportFile?.size);
+      // setFileSize(curReportFile?.size);
       setReportLocation('');
     }
   };
@@ -105,7 +105,12 @@ const DownloadReportTableRow: FunctionComponent<{
         fileName={generatedReport.downloadName}
         onClick={onDownloadClick}
       >
-        {children}
+        {({ blob, url, loading, error }) => {
+          if (blob) {
+            setFileSize(formatFileSize(blob?.size));
+          }
+          return children;
+        }}
       </PDFDownloadLink>
     ) : (
       <a
