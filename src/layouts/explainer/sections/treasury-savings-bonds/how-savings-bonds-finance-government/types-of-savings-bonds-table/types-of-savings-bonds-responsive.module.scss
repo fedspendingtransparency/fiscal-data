@@ -1,4 +1,4 @@
-
+@import '../../treasury-savings-bonds.module.scss';
 
 .tableContainer {
   display: flex;
@@ -28,7 +28,7 @@
 }
 
 .bondTitle {
-  color: #b04abd;
+  color: $treasury-savings-bonds-explainer-darker-secondary;
   font-weight: 600;
 }
 
