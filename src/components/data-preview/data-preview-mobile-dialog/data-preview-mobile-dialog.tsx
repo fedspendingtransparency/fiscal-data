@@ -1,7 +1,7 @@
-import React, { FunctionComponent, ReactElement } from 'react';
+import React, {FunctionComponent, ReactElement} from 'react';
 import SearchBar from '../../../components/search-bar/search-bar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCaretLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
 
 import {
   applyButton,
@@ -18,23 +18,27 @@ import {
   sectionHeader,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import {IconProp} from '@fortawesome/fontawesome-svg-core';
 
 interface IDataPreviewMobileDialog {
-  onClose: () => void;
+  onCancel: () => void;
+  onBack: () => void;
   filterComponent: ReactElement;
   filterName: string;
   searchText: string;
+  previousPageText: string;
   hasSearch?: boolean;
   bottomButton: string;
   bottomButtonIcon?: IconProp;
   onBottomButtonClick: () => void;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
-  onClose,
+  onCancel,
+  onBack,
   filterComponent,
   filterName,
   searchText,
+  previousPageText,
   hasSearch = true,
   bottomButton = 'Apply',
   onBottomButtonClick,
@@ -52,11 +56,11 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
         <>
           <div>
             <div className={dataPreviewHeader}>
-              <button onClick={onClose} className={previewCaretButton}>
+              <button onClick={onBack} className={previewCaretButton}>
                 <div className={previewCaretContainer}>
                   <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
                 </div>
-                Data Preview
+                {previousPageText}
               </button>
             </div>
             <div className={topContainer}>
@@ -77,7 +81,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
               <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
               {bottomButton}
             </button>
-            <button className={cancelButton} onClick={onClose}>
+            <button className={cancelButton} onClick={onCancel}>
               <u>Cancel</u>
             </button>
           </div>
