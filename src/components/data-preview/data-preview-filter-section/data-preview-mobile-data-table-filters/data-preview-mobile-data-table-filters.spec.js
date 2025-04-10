@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import DataPreviewMobileDataTableFilters from '../data-preview-mobile-data-table-filters/data-preview-mobile-data-table-filters';
 
-const mockFilters = [{ datasetName: 'Outlays of the U.S. Government' }, { datasetName: 'Outlays of the U.S. Government' }];
+const mockDataset = [{ datasetName: 'Outlays of the U.S. Government' }, { datasetName: 'Receipts of the U.S. Government' }];
 
 describe('Data preview mobile data table filters', () => {
   it('Renders the raw data button', () => {
@@ -24,7 +24,7 @@ describe('Data preview mobile data table filters', () => {
   });
 
   it('Renders the selected data table name at the top of the menu', () => {
-    const { getByText } = render(<DataPreviewMobileDataTableFilters />);
+    const { getByText } = render(<DataPreviewMobileDataTableFilters pivotOptions={mockDataset} />);
     expect(getByText('Outlays of the U.S. Government')).toBeInTheDocument();
   });
 
@@ -33,5 +33,10 @@ describe('Data preview mobile data table filters', () => {
     expect(getByRole('radio', { name: 'pivotData' })).not.toBeInTheDocument();
   });
 
-  it('Removes the faded class from the pivot data options when the radio is selected');
+  it('Removes the faded class from the pivot data options when the radio is selected', () => {
+    const { getByRole, getByTestId } = render(<DataPreviewMobileDataTableFilters />);
+    const pivotDataButton = getByRole('radio', { name: 'pivotData' });
+    fireEvent.click(pivotDataButton);
+    expect(getByTestId('pivotDataContainer')).not.toHaveClass('faded');
+  });
 });
