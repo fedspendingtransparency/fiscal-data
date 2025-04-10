@@ -84,7 +84,13 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
               onClose={handleCancel}
               filterName="Filters"
               searchText="Search filters"
-              filterComponent={<DataPreviewMobileFilterList filterOptions={placeholderFilters} />}
+              filterComponent={
+                <DataPreviewMobileFilterList
+                  filterOptions={placeholderFilters}
+                  getName={option => option.name}
+                  getSecondary={option => option.secondary}
+                />
+              }
             />
           )}
         </>

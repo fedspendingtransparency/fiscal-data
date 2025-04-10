@@ -28,19 +28,33 @@ export const placeholderDataTables = [
 
 export interface IMobileFilterList {
   filterOptions: { name: string; secondary?: string; selected?: boolean; active?: boolean }[];
-  onClick: () => void;
+  // onClick: () => void;
+  onTableSelected: () => void;
+  getName: (option: any) => string;
+  getSecondary: (option: any) => string;
 }
 
-const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({ filterOptions = placeholderFilters, onClick }) => {
+const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
+  filterOptions = placeholderFilters,
+  // onClick,
+  onTableSelected,
+  getName,
+  getSecondary = option => option.secondary,
+}) => {
   return (
     <>
       {filterOptions.map((filterOption, index) => {
         return (
           <div key={index}>
-            <button className={`${buttonSleeve} ${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`} onClick={onClick}>
+            <button
+              className={`${buttonSleeve} ${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`}
+              onClick={() => {
+                onTableSelected();
+              }}
+            >
               <div className={left}>
-                <span className={optionName}>{filterOption.name}</span>
-                {filterOption.secondary && <span className={optionSecondary}>{filterOption.secondary}</span>}
+                <span className={optionName}>{getName(filterOption)}</span>
+                {getSecondary(filterOption) && <span className={optionSecondary}>{getSecondary(filterOption)}</span>}
               </div>
               <div className={right}>
                 <FontAwesomeIcon icon={faCaretRight} />

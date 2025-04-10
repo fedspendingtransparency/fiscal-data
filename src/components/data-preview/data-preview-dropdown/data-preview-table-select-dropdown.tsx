@@ -9,9 +9,8 @@ import DataPreviewDropdownDialogSearch from '../data-preview-dropdown-search/dat
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../data-preview.module.scss';
 import DataPreviewMobileDialog from '../data-preview-mobile-dialog/data-preview-mobile-dialog';
-import DataPreviewMobileFilterList, {
-  placeholderDataTables,
-} from '../data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list';
+import DataPreviewMobileFilterList from '../data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list';
+import DataPreviewMobileDataTableFilters from '../data-preview-filter-section/data-preview-mobile-data-table-filters/data-preview-mobile-data-table-filters';
 
 const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = ({
   apis,
@@ -39,6 +38,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const [pivotToApply, setPivotToApply] = useState(selectedPivot);
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
+  const [dataTableSelected, setDataTableSelected] = useState(false);
   const options = disableAllTables
     ? apis
     : [
@@ -56,7 +56,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       selectedOption={allTablesSelected ? allTablesOption.tableName : selectedTable?.tableName}
       active={active}
       setActive={setActive}
-      dropdownWidth="30rem"
+      dropdownWidth={width < pxToNumber(breakpointLg) ? '20rem' : '30rem'}
     />
   );
 
@@ -119,6 +119,19 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     }
   }, [selectedTable]);
 
+  const mobileFilterComponent = dataTableSelected ? (
+    <DataPreviewMobileDataTableFilters
+      table={tableToApply}
+      pivotToApply={pivotToApply}
+      setPivotToApply={setPivotToApply}
+      tableViewSelection={tableViewSelection}
+      setTableViewSelection={setTableViewSelection}
+    />
+  ) : (
+    <DataPreviewMobileFilterList filterOptions={options} getName={option => option.tableName} onTableSelected={() => setDataTableSelected(true)} />
+  );
+
+  const mobileDialogFilterName = dataTableSelected ? 'test' : 'Data Tables';
   return (
     <>
       {!hideDropdown && width >= pxToNumber(breakpointLg) && (
@@ -154,9 +167,9 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           {active && (
             <DataPreviewMobileDialog
               onClose={handleCancel}
-              filterName="Data Tables"
+              filterName={mobileDialogFilterName}
               searchText="Search data tables"
-              filterComponent={<DataPreviewMobileFilterList filterOptions={placeholderDataTables} />}
+              filterComponent={mobileFilterComponent}
             />
           )}
         </>

@@ -1,14 +1,25 @@
-import React, { FunctionComponent } from 'react';
-import { pivotDataContainer } from '../../data-preview-filter-section/data-preview-mobile-data-table-filters/data-preview-mobile-data-table-filters.module.scss';
+import React from 'react';
+import DataPreviewPivotSelect from '../../data-preview-pivot-select/data-preview-pivot-select';
 
-export interface IMobileFilterList {
-  pivotOptions: { name: string }[];
-}
+// export interface IMobileFilterList {
+//   pivotOptions: { name: string }[];
+//   table;
+//   pivotToApply;
+//   setPivotToApply;
+//   tableViewSelection;
+//   setTableViewSelection;
+// }
 
-const DataPreviewMobileDataTableFilters: FunctionComponent<IMobileFilterList> = ({ pivotOptions }) => {
+const DataPreviewMobileDataTableFilters = ({ tableToApply, pivotToApply, setPivotToApply, tableViewSelection, setTableViewSelection }) => {
   return (
     <>
-      <div className={pivotDataContainer}>Test</div>
+      <DataPreviewPivotSelect
+        table={tableToApply}
+        pivotToApply={pivotToApply}
+        setPivotToApply={setPivotToApply}
+        tableViewSelection={tableViewSelection}
+        setTableViewSelection={setTableViewSelection}
+      />
     </>
   );
 };
