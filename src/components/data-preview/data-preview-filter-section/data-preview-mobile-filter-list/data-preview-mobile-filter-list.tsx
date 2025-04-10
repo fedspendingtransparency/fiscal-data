@@ -20,18 +20,19 @@ export const placeholderFilters = [
   { name: 'Current Month Budget Amount', secondary: 'No filter applied', selected: false, active: false },
 ];
 
-export const placeholderDataTables = [
-  { name: 'All Data Tables (Download Only)', secondary: null, selected: true, active: false },
-  { name: 'Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government', secondary: null, selected: false, active: false },
-  { name: 'Summary of Budget and Off-Budget Results and Financing of the U.S. Government', secondary: null, selected: false, active: false },
-];
-
 export interface IMobileFilterList {
   filterOptions: { name: string; secondary?: string; selected?: boolean; active?: boolean }[];
   onClick: () => void;
+  getName: (option: any) => string;
+  getSecondary: (option: any) => string;
 }
 
-const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({ filterOptions = placeholderFilters, onClick }) => {
+const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
+  filterOptions = placeholderFilters,
+  onClick,
+  getName,
+  getSecondary = option => option.secondary,
+}) => {
   return (
     <>
       {filterOptions.map((filterOption, index) => {
@@ -39,8 +40,8 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({ fil
           <div key={index}>
             <button className={`${buttonSleeve} ${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`} onClick={onClick}>
               <div className={left}>
-                <span className={optionName}>{filterOption.name}</span>
-                {filterOption.secondary && <span className={optionSecondary}>{filterOption.secondary}</span>}
+                <span className={optionName}>{getName(filterOption)}</span>
+                {getSecondary(filterOption) && <span className={optionSecondary}>{getSecondary(filterOption)}</span>}
               </div>
               <div className={right}>
                 <FontAwesomeIcon icon={faCaretRight} />
