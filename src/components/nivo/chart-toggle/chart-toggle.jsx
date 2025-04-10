@@ -1,5 +1,5 @@
 import React from 'react';
-import { chartToggle, toggleButton, toggleButtonLeft, toggleButtonRight, selected, buttonTitle } from './chart-toggle.module.scss';
+import { buttonTitle, chartToggle, selected, toggleButton, toggleButtonLeft, toggleButtonRight } from './chart-toggle.module.scss';
 
 const ChartToggle = ({ toggleClickHandler, primaryColor, chartId, leftButtonConfig, rightButtonConfig }) => {
   const { leftTitle, leftId, leftSelected } = leftButtonConfig;
@@ -7,7 +7,8 @@ const ChartToggle = ({ toggleClickHandler, primaryColor, chartId, leftButtonConf
 
   return (
     <div className={chartToggle}>
-      <button data-testid="leftChartToggle"
+      <button
+        data-testid="leftChartToggle"
         className={`${toggleButton} ${toggleButtonRight} ${leftSelected ? selected : null}`}
         style={{
           background: leftSelected ? primaryColor : '#f1f1f1',
