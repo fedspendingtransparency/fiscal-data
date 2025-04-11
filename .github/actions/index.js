@@ -19,7 +19,7 @@ const github = require('@actions/github');
       issue_number: pr_number,
       issue_url: `https://api.github.com/repos/fedspendingtransparency/fiscal-data/issues/${pr_number}`,
     });
-    console.log(context.payload.pull_request._links.comments);
+    console.log(context.payload);
 
     oktokit.rest.issues.createComment({
       ...context.repo,
