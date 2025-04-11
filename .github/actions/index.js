@@ -11,7 +11,7 @@ try {
   const context = github.context;
   const pr_number = context.payload.pull_request.number;
   const oktokit = github.getOctokit(token);
-  oktokit.rest.gists.listComments();
+  await oktokit.rest.gists.listComments();
 
   oktokit.rest.issues.createComment({
     ...context.repo,
