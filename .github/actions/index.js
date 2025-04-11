@@ -10,12 +10,13 @@ try {
   const token = core.getInput('GITHUB_TOKEN');
   const context = github.context;
   const pr_number = context.payload.pull_request.number;
+  const issue_number = context.payload.issue.number;
   const oktokit = github.getOctokit(token);
   // await oktokit.rest.gists.listComments();
   // await oktokit.request(`PATCH /repos/fedspendingtransparency/fiscal-data/pull/${pr_number}`, {
   //   body: `Total Line Coverage: ${coverage}% ${icon}`,
   // });
-  // await oktokit.request('GET /repos/fedspendingtransparency/fiscal-data/pull/${pr_number}');
+  await oktokit.request(`GET /repos/fedspendingtransparency/fiscal-data/issues/${issue_number}`);
 
   oktokit.rest.issues.createComment({
     ...context.repo,
