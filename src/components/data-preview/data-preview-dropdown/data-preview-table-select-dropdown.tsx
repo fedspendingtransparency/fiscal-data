@@ -81,7 +81,10 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   };
 
   const handleCancel = () => setActive(false);
-  const handleBack = () => setTableToApply(null);
+  const handleBack = () => {
+    setTableToApply(null);
+    setDataTableSelected(null);
+  };
 
   const updateSelectedTable = table => {
     if (table !== tableToApply) {
@@ -120,27 +123,14 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     }
   }, [selectedTable]);
 
-  // const mobileFilterComponent = dataTableSelected ? (
-  //   <DataPreviewMobileDataTableFilters
-  //     table={tableToApply}
-  //     pivotToApply={pivotToApply}
-  //     setPivotToApply={setPivotToApply}
-  //     tableViewSelection={tableViewSelection}
-  //     setTableViewSelection={setTableViewSelection}
-  //   />
-  // ) : (
-  //   <DataPreviewMobileFilterList filterOptions={options} getName={option => option.tableName} onTableSelected={() => setDataTableSelected(true)} />
-  // );
-  // const mobileDialogFilterName = dataTableSelected ? 'test' : 'Data Tables';
-
   const mobileFilterComponent = dataTableSelected ? (
-    // after data table selected
+    // after data table selected, view of pivot stuff
     <DataPreviewMobileDialog
       onCancel={handleCancel}
       onBack={handleBack}
-      filterName={'I need to insert the table name'}
-      searchText="Search data tables"
-      previousPageText={'Data Tables'}
+      filterName={tableToApply.tableName}
+      hasSearch={false}
+      backButtonText={'Data Tables'}
       filterComponent={
         <DataPreviewMobileDataTableFilters
           table={tableToApply}
@@ -149,21 +139,31 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           tableViewSelection={tableViewSelection}
           setTableViewSelection={setTableViewSelection}
         />
+        // ask about if we could use this as alternative
+        //     <DataPreviewPivotSelect
+        //     table={tableToApply}
+        //   pivotToApply={pivotToApply}
+        //   setPivotToApply={setPivotToApply}
+        //   tableViewSelection={tableViewSelection}
+        //   setTableViewSelection={setTableViewSelection}
+        // />
       }
     />
   ) : (
-    // before data table selected
+    // before data table selected, view of all tables to select
     <DataPreviewMobileDialog
       onCancel={handleCancel}
       onBack={handleCancel}
       filterName={'Data Tables'}
       searchText="Search data tables"
-      previousPageText={'Data Preview'}
       filterComponent={
         <DataPreviewMobileFilterList
           filterOptions={options}
           getName={option => option.tableName}
-          onTableSelected={() => setDataTableSelected(true)}
+          onTableSelected={table => {
+            setTableToApply(table);
+            setDataTableSelected(true);
+          }}
         />
       }
     />

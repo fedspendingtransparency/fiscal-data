@@ -28,7 +28,7 @@ export const placeholderDataTables = [
 
 export interface IMobileFilterList {
   filterOptions: { name: string; secondary?: string; selected?: boolean; active?: boolean }[];
-  onTableSelected: () => void;
+  onTableSelected: (selectedOption: any) => void;
   getName: (option: any) => string;
   getSecondary: (option: any) => string;
 }
@@ -47,7 +47,7 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
             <button
               className={`${buttonSleeve} ${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`}
               onClick={() => {
-                onTableSelected();
+                onTableSelected(filterOption);
               }}
             >
               <div className={left}>

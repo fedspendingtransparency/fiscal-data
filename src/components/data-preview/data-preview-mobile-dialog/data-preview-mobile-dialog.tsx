@@ -15,6 +15,7 @@ import {
   previewCaretButton,
   previewCaretContainer,
   searchBar as searchBarStyle,
+  searchBox,
   sectionHeader,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
@@ -26,7 +27,7 @@ interface IDataPreviewMobileDialog {
   filterComponent: ReactElement;
   filterName: string;
   searchText: string;
-  previousPageText: string;
+  backButtonText: string;
   hasSearch?: boolean;
   bottomButton: string;
   bottomButtonIcon?: IconProp;
@@ -38,7 +39,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   filterComponent,
   filterName,
   searchText,
-  previousPageText,
+  backButtonText = 'Data Preview',
   hasSearch = true,
   bottomButton = 'Apply',
   onBottomButtonClick,
@@ -60,15 +61,17 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
                 <div className={previewCaretContainer}>
                   <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
                 </div>
-                {previousPageText}
+                {backButtonText}
               </button>
             </div>
             <div className={topContainer}>
               <div className={sectionHeader}>{filterName}</div>
               {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
-                  <p>{searchText}</p>
-                  <SearchBar onChange={onSearchBarChange} filter={''} />
+                  <div className={searchBox}>
+                    <p>{searchText}</p>
+                    <SearchBar onChange={onSearchBarChange} filter={''} />
+                  </div>
                 </div>
               )}
             </div>
