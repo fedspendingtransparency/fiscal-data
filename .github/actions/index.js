@@ -12,7 +12,7 @@ try {
   oktokit.rest.issues.createComment({
     ...context.repo,
     issue_number: pr_number,
-    body: `Coverage: ${coverage}`,
+    body: `Coverage: ${coverageFormatted}`,
   });
 } catch (error) {
   // Handle errors and indicate failure
