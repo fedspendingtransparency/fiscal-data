@@ -15,12 +15,14 @@ const github = require('@actions/github');
     const oktokit = github.getOctokit(token);
     // const current_issue = await oktokit.rest.issues.
     const pr_id = context.payload.pull_request.id;
-    const comment_id = await oktokit.rest.issues.listComments({
+    const pr_comments = await oktokit.rest.issues.listComments({
       ...context.repo,
       issue_number: pr_number,
       id: pr_id,
     });
-    console.log(comment_id);
+    const last_comment = pr_comments.data[pr_comments.data.length - 1];
+    // const comment_id = last_comment.id
+    console.log(last_comment);
     console.log('**********************************************************');
     console.log(context);
 
