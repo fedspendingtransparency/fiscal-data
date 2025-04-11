@@ -25,10 +25,16 @@ const github = require('@actions/github');
     console.log(last_comment);
     console.log('**********************************************************');
     console.log(context);
-
+    //
+    // oktokit.rest.issues.createComment({
+    //   ...context.repo,
+    //   issue_number: pr_number,
+    //   body: `Total Line Coverage: ${coverage}% ${icon}`,
+    // });
     oktokit.rest.issues.createComment({
       ...context.repo,
       issue_number: pr_number,
+      comment_id: last_comment.id,
       body: `Total Line Coverage: ${coverage}% ${icon}`,
     });
   } catch (error) {
