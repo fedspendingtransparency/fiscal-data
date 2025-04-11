@@ -21,6 +21,7 @@ try {
   await oktokit.request(`GET /repos/{owner}/{repo}/issues/{issue_number}`, {
     owner: 'fedspendingtransparency',
     repo: 'fiscal-data',
+    issue_number: issue_number,
     headers: {
       'X-GitHub-Api-Version': '2022-11-28',
     },
