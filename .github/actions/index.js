@@ -24,7 +24,7 @@ const github = require('@actions/github');
     // const comment_id = last_comment.id
     if (pr_comments.length > 0) {
       const coverage_comment = pr_comments.find(comment => comment.body.includes('Total !! Line !! Coverage:'))[0];
-      const last_comment = pr_comments[pr_comments.data.length - 1];
+      const last_comment = pr_comments[pr_comments.length - 1];
       console.log(coverage_comment);
       oktokit.rest.issues.updateComment({
         ...context.repo,
