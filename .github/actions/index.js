@@ -13,7 +13,7 @@ try {
   // const issue_number = context.payload.issue.number;
   const oktokit = github.getOctokit(token);
 
-  const comment_id = oktokit.rest.issues.getComment({ ...context.repo, issue_number: pr_number })?.comment_id;
+  const comment_id = oktokit.rest.issues.getComment({ ...context.repo, issue_number: pr_number });
   console.log(comment_id);
 
   oktokit.rest.issues.createComment({
