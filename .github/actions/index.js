@@ -13,13 +13,15 @@ try {
   // const issue_number = context.payload.issue.number;
   const oktokit = github.getOctokit(token);
 
+  const comment_id = oktokit.rest.issues.getComment({ ...context.repo, issue_number: pr_number })?.comment_id;
+  console.log(comment_id);
+
   oktokit.rest.issues.createComment({
     ...context.repo,
     issue_number: pr_number,
     body: `Total Line Coverage: ${coverage}% ${icon}`,
     comment_id: `${pr_number}_total_coverage`,
   });
-  oktokit.rest.issues.updateComment({ ...context.repo, issue_number: pr_number, body: `Total Lines Coverage: ${coverage}% ${icon}` });
 } catch (error) {
   // Handle errors and indicate failure
   core.setFailed(error.message);
