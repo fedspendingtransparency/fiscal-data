@@ -4,7 +4,7 @@ const github = require('@actions/github');
 
 try {
   // const summaryData = require('../../coverage/coverage-summary.json');
-  // const coverage = summaryData.total.lines.pct;
+  // const coverage = summaryData.total.lines.pct; ??
   const coverage = 90.35;
   const icon = coverage < 90 ? '❌' : `✅`;
   const token = core.getInput('GITHUB_TOKEN');
