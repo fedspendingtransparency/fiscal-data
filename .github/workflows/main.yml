@@ -20,10 +20,10 @@ jobs:
         uses: actions/setup-node@v3.8.1
         with:
           node-version: 20
-#      - name: npm install
-#        env:
-#          NODE_OPTIONS: "--max_old_space_size=8192"
-#        run: npm install --legacy-peer-deps
+      - name: npm install
+        env:
+          NODE_OPTIONS: "--max_old_space_size=8192"
+        run: npm install --legacy-peer-deps
 #      - name: run tests with coverage
 #        env:
 #          NODE_OPTIONS: "--max_old_space_size=8192"
