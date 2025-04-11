@@ -20,9 +20,6 @@ const github = require('@actions/github');
     const pr_comments = pr_comments_response.data;
     const coverage_comment = pr_comments?.find(comment => comment.user.login === 'github-actions[bot]');
     if (pr_comments.length > 0 && coverage_comment) {
-      const last_comment = pr_comments[pr_comments.length - 1];
-      console.log(coverage_comment);
-      console.log(pr_comments);
       oktokit.rest.issues.updateComment({
         ...context.repo,
         issue_number: pr_number,
