@@ -16,7 +16,13 @@ try {
   // await oktokit.request(`PATCH /repos/fedspendingtransparency/fiscal-data/pull/${pr_number}`, {
   //   body: `Total Line Coverage: ${coverage}% ${icon}`,
   // });
-  await oktokit.request(`GET /repos/fedspendingtransparency/fiscal-data/issues/${issue_number}`);
+  await oktokit.request(`GET /repos/{owner}/{repo}/issues/{issue_number}`, {
+    owner: 'fedspendingtransparency',
+    repo: 'fiscal-data',
+    headers: {
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+  });
 
   oktokit.rest.issues.createComment({
     ...context.repo,
