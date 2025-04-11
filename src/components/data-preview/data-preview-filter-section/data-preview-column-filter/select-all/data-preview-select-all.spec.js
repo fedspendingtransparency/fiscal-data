@@ -1,0 +1,67 @@
+import { fireEvent, render } from '@testing-library/react';
+import React from 'react';
+import SelectAll from './data-preview-select-all';
+
+describe('Column Selector', () => {
+  const mockDefaultColumns = [
+    {
+      getIsVisible: () => true,
+      getToggleVisibilityHandler: () => jest.fn(),
+      id: 1,
+      columnDef: {
+        header: 'test default column name',
+      },
+    },
+    {
+      getIsVisible: () => true,
+      getToggleVisibilityHandler: () => jest.fn(),
+      id: 2,
+      columnDef: {
+        header: 'test default column name 2',
+      },
+    },
+  ];
+
+  const mockTable = {
+    getVisibleFlatColumns: () => mockDefaultColumns,
+    getAllLeafColumns: () => mockDefaultColumns,
+    getIsAllColumnsVisible: () => true,
+    toggleAllColumnsVisible: jest.fn(),
+    getIsSomeColumnsVisible: () => true,
+  };
+
+  const mockTable_allVisibleFalse = {
+    getVisibleFlatColumns: () => [{ id: 0 }, { id: 1 }],
+    getAllLeafColumns: () => mockDefaultColumns,
+    getIsAllColumnsVisible: () => false,
+    getIsSomeColumnsVisible: () => true,
+    toggleAllColumnsVisible: jest.fn(),
+    setColumnVisibility: jest.fn(),
+  };
+
+  it('renders column selector', () => {
+    const instance = render(<SelectAll table={mockTable} resetToDefault={jest.fn()} defaultColumns={mockDefaultColumns} />);
+    expect(instance).toBeTruthy();
+  });
+
+  it('renders select all button', () => {
+    const { getByRole } = render(<SelectAll table={mockTable} resetToDefault={jest.fn()} defaultColumns={mockDefaultColumns} />);
+    const selectAllButton = getByRole('checkbox', { name: 'All Columns' });
+    expect(selectAllButton).toBeInTheDocument();
+
+    selectAllButton.click();
+    expect(mockTable.toggleAllColumnsVisible).toHaveBeenCalled();
+
+    fireEvent.keyDown(selectAllButton, { key: 'Enter' });
+    expect(mockTable.toggleAllColumnsVisible).toHaveBeenCalled();
+  });
+
+  it('select all button', () => {
+    const { getByRole } = render(<SelectAll table={mockTable_allVisibleFalse} resetToDefault={jest.fn()} defaultColumns={mockDefaultColumns} />);
+    const selectAllButton = getByRole('checkbox', { name: 'All Columns' });
+    expect(selectAllButton).toBeInTheDocument();
+
+    selectAllButton.click();
+    expect(mockTable_allVisibleFalse.setColumnVisibility).toHaveBeenCalledWith(true);
+  });
+});

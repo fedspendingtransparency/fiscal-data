@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, fireEvent, getByText } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import DownloadReportTableRow from './download-report-table-row';
 import userEvent from '@testing-library/user-event';
 
@@ -86,5 +86,29 @@ describe('Download report table row component', () => {
     expect(icon).not.toHaveClass('downloadedIcon');
     expect(getByText('Download')).toBeInTheDocument();
     expect(getByRole('img', { hidden: true, name: '' })).toHaveClass('fa-cloud-arrow-down');
+  });
+
+  describe('Generated report table row', () => {
+    const mockGeneratedReport = {
+      name: 'Name',
+      downloadName: 'Download Name',
+      date: '5/1/2021',
+      size: '5K',
+      config: {},
+      data: [],
+      colConfig: {},
+    };
+
+    it('renders a file row', () => {
+      const { getByTestId } = render(<DownloadReportTableRow generatedReport={mockGeneratedReport} />);
+      expect(getByTestId('file-download-row')).toBeInTheDocument();
+    });
+
+    it('renders a download link', () => {
+      const { getByRole } = render(<DownloadReportTableRow generatedReport={mockGeneratedReport} />);
+      const downloadLink = getByRole('link');
+      expect(downloadLink).toBeInTheDocument();
+      expect(downloadLink).toHaveAttribute('download', 'Download Name');
+    });
   });
 });

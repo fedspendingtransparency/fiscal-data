@@ -1,6 +1,5 @@
-import React from 'react';
-import { getYearReportOptions, getMonthOptions, getDayOptions } from './util';
-import { reports, dailyReports } from '../test-helper';
+import { getDayOptions, getMonthOptions, getYearReportOptions } from './util';
+import { dailyReports, reports } from '../test-helper';
 
 describe('The util', () => {
   it('returns a list of year options', () => {

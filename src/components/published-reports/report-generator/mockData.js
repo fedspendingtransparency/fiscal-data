@@ -698,14 +698,21 @@ export const accountStatementFebData = {
 // 563 total width
 export const accountStatementReportConfig = {
   documentTitle: 'Account Statement Report',
-  downloadName: 'AccountStatement',
-  documentHeader: [
-    { name: 'Account', value: 'CALIFORNIA, 0000000000000000' },
-    { name: 'Report Date', value: 'January 2025' },
-    { name: 'Final Report', style: 'final' },
-    { name: 'Beginning Balance', value: '$12345' },
-    { name: 'Ending Balance', value: '$678910' },
+  downloadName: 'UTF_Account_Statement',
+  sort: ['eff_date', 'memo_nbr'],
+  customFormatting: [
+    {
+      type: 'NUMBER',
+      fields: ['shares_per_par'],
+      currency: true,
+    },
   ],
+  reportInfo: [
+    { name: 'Account', filter: 'account', secondaryField: 'acct_statement', value: 'Test' },
+    { name: 'Report Date', filter: 'date', value: 'May 2025' },
+    { name: 'Final Report', style: 'final' },
+  ],
+  reportSummary: [{ name: 'Beginning Balance' }, { name: 'Ending Balance' }],
   tables: [
     {
       width: '100%',
@@ -722,7 +729,7 @@ export const accountStatementReportConfig = {
   ],
 };
 
-export const config = {
+export const colConfig = {
   fields: [
     {
       columnName: 'acct_statement',

@@ -8,10 +8,10 @@ import { calendarEntryStatus, updateStatusIcon, notYetUpdated } from './calendar
  * @constructor
  */
 const CalendarEntryStatus = ({ isReleased }) => {
-  const [updatedText, setIsUpdatedText] = useState('Not yet updated');
+  const [updatedText, setIsUpdatedText] = useState('Not Released');
 
   useEffect(() => {
-    if (isReleased === true) setIsUpdatedText('Updated');
+    if (isReleased === true) setIsUpdatedText('Released');
   }, [isReleased]);
 
   return (

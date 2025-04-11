@@ -13,6 +13,7 @@ interface IMonthPickerDropdown {
   allReportDates: string[];
   active: boolean;
   allReportYears: string[];
+  ignoreDisabled?: boolean;
 }
 
 const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
@@ -22,6 +23,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   allReportDates,
   active,
   allReportYears,
+  ignoreDisabled,
 }: IMonthPickerDropdown) => {
   const [showYears, setShowYears] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(monthFullNames[selectedDate.getMonth()]);
@@ -87,7 +89,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
                         <li key={i}>
                           <button
                             className={option.toString() === selectedYear.toString() ? selected : null}
-                            disabled={disabled}
+                            disabled={ignoreDisabled ? false : disabled}
                             onClick={() => handleYearClick(option)}
                           >
                             {option}
@@ -107,7 +109,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
                         <li key={i}>
                           <button
                             className={option === selectedMonth ? selected : null}
-                            disabled={disabled}
+                            disabled={ignoreDisabled ? false : disabled}
                             onClick={() => handleMonthClick(option)}
                             ref={option === selectedMonth ? scrollToSelectedMonth : null}
                           >

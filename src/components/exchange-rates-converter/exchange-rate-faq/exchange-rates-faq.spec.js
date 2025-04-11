@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 import CurrencyExchangeFAQ from './exchange-rates-faq';
-import Analytics from '../../../utils/analytics/analytics';
-import { useStaticQuery, graphql } from 'gatsby';
+import { useStaticQuery } from 'gatsby';
 
 const mockData = {
   allExchangeRatesData: {

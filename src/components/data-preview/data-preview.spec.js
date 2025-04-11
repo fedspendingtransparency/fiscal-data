@@ -1,33 +1,27 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import DataTableSelect from '../datatable-select/datatable-select';
 import { format } from 'date-fns';
 import { pivotData } from '../../utils/api-utils';
 import {
+  bannerTableConfig,
   config,
-  mockApiData,
-  latestDate,
   fivePrior,
+  latestDate,
+  mockAccumulableData,
+  mockApiData,
   mockLocation,
   mockLocationWithTablePathName,
   mockPivotableData,
-  mockAccumulableData,
-  bannerTableConfig,
   noPivotConfig,
 } from '../../components/dataset-data/test-helper';
 import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import { whiteListIds, mockPublishedReportsMTS } from '../../helpers/published-reports/published-reports';
-import PagingOptionsMenu from '../pagination/paging-options-menu';
-import { fireEvent, render, within } from '@testing-library/react';
-import { reports } from '../published-reports/test-helper';
+import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
-import DataPreview from './data-preview';
+import { DataPreview } from './data-preview';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
-import DownloadWrapper from '../download-wrapper/download-wrapper';
-import RangePresets from '../filter-download-container/range-presets/range-presets';
-import DataPreviewDownloadWrapper from './data-preview-filter-section/data-preview-download-wrapper/data-preview-download-wrapper';
 import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 
 jest.useFakeTimers();
@@ -35,6 +29,7 @@ jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
 jest.mock('../../helpers/dataset-detail/report-helpers', function() {
   return {
     __esModule: true,
+    formatReportDate: jest.fn(),
     getPublishedDates: jest.fn().mockImplementation(() => [
       {
         path: '/downloads/mspd_reports/opdm092020.pdf',
@@ -58,8 +53,8 @@ jest.mock('../../helpers/dataset-detail/report-helpers', function() {
 });
 jest.mock('../../variables.module.scss', () => {
   return {
-    breakpointSm: 600,
-    breakpointLg: '992',
+    breakpointSm: '600px',
+    breakpointLg: '992px',
   };
 });
 
@@ -444,20 +439,22 @@ describe('DataPreview', () => {
     });
   });
 
-  it(`disables table filter buttons when "All Data Tables" is selected`, async () => {
-    const { getByRole, getByText } = render(<DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />, {
-      wrapper: RecoilRoot,
-    });
+  it(`limits table filters to just record date when "All Data Tables" is selected`, async () => {
+    const { getByRole, getByText } = render(
+      <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />,
+      {
+        wrapper: RecoilRoot,
+      }
+    );
 
+    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
+    const columnsDropdown = getByRole('button', { name: 'Columns: 3/3' });
     const tableSelectDropdown = getByRole('button', { name: 'Data Table: Table 1' });
     fireEvent.click(tableSelectDropdown);
-
     fireEvent.click(getByRole('button', { name: 'All Data Tables (Download Only)' }));
     fireEvent.click(getByRole('button', { name: 'Apply' }));
 
-    const columnsDropdown = getByRole('button', { name: 'Columns: 0/17' });
     expect(columnsDropdown).toBeDisabled();
-
     const allTablesBanner = getByText(`The current "All Data Tables" selection is for download only`);
     expect(allTablesBanner).toBeInTheDocument();
 
@@ -483,7 +480,7 @@ describe('DataPreview', () => {
   it('Updates selected table and pivot view', () => {
     const { getByRole } = render(
       <RecoilRoot>
-        <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />
+        <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />
       </RecoilRoot>
     );
 
@@ -522,12 +519,18 @@ describe('DataPreview', () => {
 describe('Nested Data Table', () => {
   global.console.error = jest.fn();
   const analyticsSpy = jest.spyOn(Analytics, 'event');
-
-  let instance;
   const setSelectedTableMock = jest.fn();
   const fetchSpy = jest.spyOn(global, 'fetch');
-  beforeEach(async () => {
-    instance = render(
+
+  afterEach(() => {
+    fetchSpy.mockClear();
+    global.fetch.mockClear();
+    analyticsSpy.mockClear();
+    global.console.error.mockClear();
+  });
+
+  it('Renders the summary table', async () => {
+    const { findByRole } = render(
       <RecoilRoot>
         <DataPreview
           config={{ ...config, detailView: { apiId: 300 } }}
@@ -537,16 +540,6 @@ describe('Nested Data Table', () => {
         />
       </RecoilRoot>
     );
-  });
-
-  afterEach(() => {
-    fetchSpy.mockClear();
-    global.fetch.mockClear();
-    analyticsSpy.mockClear();
-    global.console.error.mockClear();
-  });
-
-  it('Renders the summary table', () => {
-    expect(instance).toBeDefined();
+    expect(await findByRole('table')).toBeInTheDocument();
   });
 });

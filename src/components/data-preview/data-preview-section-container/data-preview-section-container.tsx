@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import GLOBALS from '../../../helpers/constants';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
-import moment from 'moment';
 import { buildDateFilter, buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
 import { queryClient } from '../../../../react-query-client';
 import { setTableConfig } from '../../dataset-data/table-section-container/set-table-config';
@@ -10,19 +9,10 @@ import Analytics from '../../../utils/analytics/analytics';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
 import { SetNoChartMessage } from '../../dataset-data/table-section-container/set-no-chart-message';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeftLong, faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import AggregationNotice from '../../dataset-data/table-section-container/aggregation-notice/aggregation-notice';
-import SummaryTable from '../../dataset-data/table-section-container/summary-table/summary-table';
 import DataPreviewTable from '../data-preview-table/data-preview-table';
 import {
-  active,
-  barContainer,
-  barExpander,
-  detailViewBack,
-  detailViewButton,
-  detailViewIcon,
-  header,
-  headerWrapper,
   loadingIcon,
   loadingSection,
   noticeContainer,
@@ -31,8 +21,8 @@ import {
   tableSection,
   titleContainer,
 } from './data-preview-section-container.module.scss';
-import DataPreviewPivotOptions from '../data-preview-pivot-options/data-preview-pivot-options';
 import ChartTableDisplay from '../data-preview-chart-table-display/data-preview-chart-table-display';
+import { DataTableContext } from '../data-preview-context';
 
 type DataPreviewSectionProps = {
   config;
@@ -101,13 +91,14 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   width,
   apiFilterDefault,
   setApiFilterDefault,
+  setPivotsUpdated,
+  pivotsUpdated,
 }) => {
+  const { tableProps, setTableProps } = useContext(DataTableContext);
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
-  const [tableProps, setTableProps] = useState();
   const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
   const [legendToggledByUser, setLegendToggledByUser] = useState(false);
-  const [pivotsUpdated, setPivotsUpdated] = useState(false);
   const [hasPivotOptions, setHasPivotOptions] = useState(false);
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
@@ -121,13 +112,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const [chartData, setChartData] = useState(null);
 
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
-  const formatDate = detailDate => {
-    const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
-    const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
-    return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
-  };
-
-  const formattedDetailViewState = formatDate(detailViewState?.value);
 
   const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
 
@@ -376,14 +360,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
               </div>
             </div>
           )}
-          {!!detailViewState && (
-            <SummaryTable
-              summaryTable={config?.detailView?.summaryTableFields}
-              summaryValues={summaryValues}
-              columnConfig={tableProps?.columnConfig}
-              customFormatConfig={selectedTable?.customFormatting}
-            />
-          )}
           <ChartTableDisplay
             allTablesSelected={allTablesSelected}
             selectedTable={selectedTable}
@@ -405,7 +381,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
                     setSummaryValues={setSummaryValues}
                     pivotSelected={selectedPivot}
                     setSelectColumnPanel={setSelectColumnPanel}
-                    tableProps={tableProps}
                     selectedTable={selectedTable}
                     perPage={perPage}
                     setPerPage={setPerPage}

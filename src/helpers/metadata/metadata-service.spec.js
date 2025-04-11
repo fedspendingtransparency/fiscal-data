@@ -1,9 +1,9 @@
-import { setGlobalFetchResponse, testVariables } from '../../utils/mock-utils';
+import { setGlobalFetchResponse } from '../../utils/mock-utils';
 import '@rxreact/jest-helpers';
 import { mockPublishedReportsAPIResponse, mockSummaryFormattedData, mockSummaryFormattedDataWithMod } from './metadata.mockdata';
 import globalConstants from '../constants';
 import { API_BASE_URL } from 'gatsby-env-variables';
-import { shareReplay, tap, take } from 'rxjs/operators';
+import { shareReplay, take, tap } from 'rxjs/operators';
 import { metadataSummaryData, metadataSummaryDataWithMod } from '../../components/datasets/mockData/mockDatasets';
 
 jest.useFakeTimers();

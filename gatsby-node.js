@@ -173,7 +173,6 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   const getDatasetConfig = dataset => {
     const allColumnNames = [];
     const allPrettyNames = [];
-
     if (dataset.apis.length > 0) {
       dataset.apis.forEach(api => {
         if (api.fields && api.fields.length) {
@@ -184,9 +183,12 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
         }
       });
     }
-
+    const releaseCalendarData = freshReleaseCalendarData;
+    const sortedRes = releaseCalendarData.filter(rcDataset => rcDataset.datasetId === dataset.datasetId && rcDataset.released === 'false');
     return {
       ...dataset,
+      dateExpected: sortedRes[0]?.date,
+      timeExpected: sortedRes[0]?.time,
       allColumnNames: allColumnNames,
       allPrettyNames: allPrettyNames,
     };
@@ -266,7 +268,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
   const trreApiUrl =
     API_BASE_URL +
-    '/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000';
+    '/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2018-01-01&sort=currency,-effective_date&page[size]=10000';
 
   const getExchangeRatesData = async () => {
     return new Promise((resolve, reject) => {
@@ -503,6 +505,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       downloadTimestamp: Boolean,
       sharedApiFilterOptions: Boolean,
       reportSelection: String,
+      dateExpected: String,
+      timeExpected: String,
       allColumnNames: [String],
       allPrettyNames: [String],
     }
@@ -581,6 +585,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           downloadTimestamp
           reportGenDefaultTable
           sharedApiFilterOptions
+          dateExpected
+          timeExpected
           allColumnNames
           allPrettyNames
           detailView {
@@ -862,7 +868,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       if (api.apiFilter) {
         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
         if (api.apiFilter.filterEndpoint) {
-          filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=1000`;
+          filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=10000`;
         } else {
           filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
           if (api.apiFilter?.labelField) {

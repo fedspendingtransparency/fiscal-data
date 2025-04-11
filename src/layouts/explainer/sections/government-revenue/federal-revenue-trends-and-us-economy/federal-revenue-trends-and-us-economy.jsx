@@ -3,7 +3,7 @@ import TotalRevenueChart from './government-revenue-and-us-economy-chart/total-r
 import useBeaGDP from '../../../../../hooks/useBeaGDP';
 import { faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 import QuoteBox from '../../../quote-box/quote-box';
-import { revenueExplainerPrimary, revenueExplainerLightSecondary } from '../revenue.module.scss';
+import { revenueExplainerLightSecondary, revenueExplainerPrimary } from '../revenue.module.scss';
 import { quoteBoxContent } from '../../../explainer.module.scss';
 import { section } from './federal-revenue-trends-and-us-economy.module.scss';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
@@ -11,7 +11,7 @@ import { explainerCitationsMap } from '../../../explainer-helpers/explainer-help
 const FederalRevenueTrendsAndUSEconomy = ({ cpiDataByYear }) => {
   const beaGDPData = useBeaGDP(cpiDataByYear, true, 'mts4');
 
-  const [fiscalYear, setFiscalYear] = useState(2022);
+  const [fiscalYear, setFiscalYear] = useState('');
   const [revenueRatio, setRevenueRatio] = useState('');
   const [revenueTotal, setRevenueTotal] = useState('');
 

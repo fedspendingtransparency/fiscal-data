@@ -15,7 +15,7 @@ describe('Filters', () => {
   });
 
   it('creates the Aggregation section with the desired id, heading tag and title', () => {
-    const title = 'Aggregation & Sums';
+    const title = 'Aggregation and Sums';
     const heading = instance.findByProps({ id: 'aggregation-sums' }).findByType('h2');
     expect(heading.children[0]).toBe(title);
   });
