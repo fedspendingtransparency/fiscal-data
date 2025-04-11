@@ -1,4 +1,4 @@
-import { getDateLabelForReport, getLatestReport, getPublishedDates } from './report-helpers';
+import { formatFileSize, getDateLabelForReport, getLatestReport, getPublishedDates } from './report-helpers';
 
 const mockReports = [
   {
@@ -55,5 +55,10 @@ describe('report-group helpers library', () => {
   it(`exposes a function that returns the most recent report from an array of
   report objects`, async () => {
     expect(getLatestReport(reports).path).toStrictEqual('/penny-report-02.pdf');
+  });
+
+  it('formats file size correctly', () => {
+    const blob = { size: 3265 };
+    expect(formatFileSize(blob.size)).toBe('4 KB');
   });
 });
