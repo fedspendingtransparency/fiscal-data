@@ -18,6 +18,7 @@ const github = require('@actions/github');
     const comment_id = await oktokit.rest.issues.getComment({
       ...context.repo,
       issue_number: pr_number,
+      id: pr_id,
     });
     console.log(comment_id);
     console.log('**********************************************************');
