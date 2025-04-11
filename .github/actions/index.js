@@ -15,7 +15,7 @@ const github = require('@actions/github');
     const oktokit = github.getOctokit(token);
     // const current_issue = await oktokit.rest.issues.
     const pr_id = context.payload.pull_request.id;
-    const comment_id = await oktokit.rest.issues.getComment({
+    const comment_id = await oktokit.rest.issues.listComments({
       ...context.repo,
       issue_number: pr_number,
       id: pr_id,
@@ -28,7 +28,6 @@ const github = require('@actions/github');
       ...context.repo,
       issue_number: pr_number,
       body: `Total Line Coverage: ${coverage}% ${icon}`,
-      comment_id: `${pr_number}_total_coverage`,
     });
   } catch (error) {
     // Handle errors and indicate failure
