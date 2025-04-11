@@ -35,7 +35,7 @@ const github = require('@actions/github');
       ...context.repo,
       issue_number: pr_number,
       comment_id: last_comment.id,
-      body: `Total Line Coverage: ${coverage}% ${icon}`,
+      body: `Total ! Line ! Coverage: ${coverage}% ${icon}`,
     });
   } catch (error) {
     // Handle errors and indicate failure
