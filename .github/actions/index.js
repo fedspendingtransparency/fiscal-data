@@ -10,7 +10,7 @@ try {
   const token = core.getInput('GITHUB_TOKEN');
   const context = github.context;
   const pr_number = context.payload.pull_request.number;
-  const issue_number = context.payload.issue.number;
+  // const issue_number = context.payload.issue.number;
   const oktokit = github.getOctokit(token);
 
   oktokit.rest.issues.getComment({ ...context.repo, issue_number: pr_number });
