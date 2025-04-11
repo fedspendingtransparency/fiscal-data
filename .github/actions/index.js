@@ -3,8 +3,7 @@ const github = require('@actions/github');
 
 try {
   const summaryData = require('../../coverage/coverage-summary.json');
-  const coverage = summaryData.total.lines.covered / summaryData.total.lines.total;
-  const coverageFormatted = (coverage * 100).toPrecision(2);
+  const coverage = summaryData.total.lines.pct;
   const token = core.getInput('GITHUB_TOKEN');
   const context = github.context;
   const pr_number = context.payload.pull_request.number;
@@ -12,7 +11,7 @@ try {
   oktokit.rest.issues.createComment({
     ...context.repo,
     issue_number: pr_number,
-    body: `Coverage: ${coverageFormatted}`,
+    body: `Coverage: ${coverage}`,
   });
 } catch (error) {
   // Handle errors and indicate failure
