@@ -31,7 +31,7 @@ const github = require('@actions/github');
     //   issue_number: pr_number,
     //   body: `Total Line Coverage: ${coverage}% ${icon}`,
     // });
-    oktokit.rest.issues.createComment({
+    oktokit.rest.issues.updateComment({
       ...context.repo,
       issue_number: pr_number,
       comment_id: last_comment.id,
