@@ -14,7 +14,11 @@ const github = require('@actions/github');
     // const issue_number = context.payload.issue.number;
     const oktokit = github.getOctokit(token);
 
-    const comment_id = await oktokit.rest.issues.getComment({ ...context.repo, issue_number: pr_number });
+    const comment_id = await oktokit.rest.issues.getComment({
+      ...context.repo,
+      issue_number: pr_number,
+      issue_url: `https://api.github.com/repos/fedspendingtransparency/fiscal-data/issues/${pr_number}`,
+    });
     console.log(comment_id);
 
     oktokit.rest.issues.createComment({
