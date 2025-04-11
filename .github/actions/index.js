@@ -29,7 +29,7 @@ const github = require('@actions/github');
       oktokit.rest.issues.updateComment({
         ...context.repo,
         issue_number: pr_number,
-        comment_id: last_comment.id,
+        comment_id: coverage_comment.id,
         body: `Total !! Line !! Coverage: ${coverage}% ${icon}`,
       });
     } else {
