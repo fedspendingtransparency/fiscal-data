@@ -15,11 +15,12 @@ const github = require('@actions/github');
     const oktokit = github.getOctokit(token);
     // const current_issue = await oktokit.rest.issues.
     const pr_id = context.payload.pull_request.id;
-    const pr_comments = await oktokit.rest.issues.listComments({
+    const pr_comments_response = await oktokit.rest.issues.listComments({
       ...context.repo,
       issue_number: pr_number,
       id: pr_id,
-    }).data;
+    });
+    const pr_comments = pr_comments_response.data;
     // const comment_id = last_comment.id
     if (pr_comments.length > 0) {
       const coverage_comment = pr_comments.find(comment => comment.body.includes('Total !! Line !! Coverage:'))[0];
