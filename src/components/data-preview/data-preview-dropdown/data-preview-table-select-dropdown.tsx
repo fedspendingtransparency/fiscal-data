@@ -10,7 +10,6 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../data-preview.module.scss';
 import DataPreviewMobileDialog from '../data-preview-mobile-dialog/data-preview-mobile-dialog';
 import DataPreviewMobileFilterList from '../data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list';
-import DataPreviewMobileDataTableFilters from '../data-preview-filter-section/data-preview-mobile-data-table-filters/data-preview-mobile-data-table-filters';
 
 const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = ({
   apis,
@@ -132,21 +131,13 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       hasSearch={false}
       backButtonText={'Data Tables'}
       filterComponent={
-        <DataPreviewMobileDataTableFilters
+        <DataPreviewPivotSelect
           table={tableToApply}
           pivotToApply={pivotToApply}
           setPivotToApply={setPivotToApply}
           tableViewSelection={tableViewSelection}
           setTableViewSelection={setTableViewSelection}
         />
-        // ask about if we could use this as alternative
-        //     <DataPreviewPivotSelect
-        //     table={tableToApply}
-        //   pivotToApply={pivotToApply}
-        //   setPivotToApply={setPivotToApply}
-        //   tableViewSelection={tableViewSelection}
-        //   setTableViewSelection={setTableViewSelection}
-        // />
       }
     />
   ) : (
