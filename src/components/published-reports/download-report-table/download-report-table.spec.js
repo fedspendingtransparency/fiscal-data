@@ -63,7 +63,7 @@ describe('Download Report Table', () => {
 
   it('renders generated report table rows', () => {
     const { getByRole } = render(<DownloadReportTable width={breakpointLg - 1} generatedReports={mockGeneratedReports} />);
-    expect(getByRole('link', { name: '.pdf icon Name 5/1/2021 5K Download' })).toBeInTheDocument();
-    expect(getByRole('link', { name: '.pdf icon Name 2 5/1/2022 5K Download' })).toBeInTheDocument();
+    expect(getByRole('link', { name: '.pdf icon Name 5/1/2021 Download' })).toBeInTheDocument();
+    expect(getByRole('link', { name: '.pdf icon Name 2 5/1/2022 Download' })).toBeInTheDocument();
   });
 });
