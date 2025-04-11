@@ -24,6 +24,7 @@ import {IconProp} from '@fortawesome/fontawesome-svg-core';
 interface IDataPreviewMobileDialog {
   onCancel: () => void;
   onBack: () => void;
+  onApply: () => void;
   filterComponent: ReactElement;
   filterName: string;
   searchText: string;
@@ -36,13 +37,13 @@ interface IDataPreviewMobileDialog {
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   onCancel,
   onBack,
+  onApply,
   filterComponent,
   filterName,
   searchText,
   backButtonText = 'Data Preview',
   hasSearch = true,
   bottomButton = 'Apply',
-  onBottomButtonClick,
   bottomButtonIcon = faCheck,
 }) => {
   const shouldTocShow = true;
@@ -80,7 +81,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
             {filterComponent}
           </div>
           <div className={bottomContainer}>
-            <button className={applyButton} onClick={onBottomButtonClick}>
+            <button className={applyButton} onClick={onApply}>
               <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
               {bottomButton}
             </button>

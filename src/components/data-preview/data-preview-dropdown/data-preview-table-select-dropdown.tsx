@@ -127,6 +127,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     <DataPreviewMobileDialog
       onCancel={handleCancel}
       onBack={handleBack}
+      onApply={handleApply}
       filterName={tableToApply.tableName}
       hasSearch={false}
       backButtonText={'Data Tables'}
@@ -145,6 +146,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     <DataPreviewMobileDialog
       onCancel={handleCancel}
       onBack={handleCancel}
+      onApply={handleApply}
       filterName={'Data Tables'}
       searchText="Search data tables"
       filterComponent={
