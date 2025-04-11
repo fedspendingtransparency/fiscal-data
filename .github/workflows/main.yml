@@ -28,12 +28,9 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: npm run test:coverage
-      - name: Test Report
-        uses: ctrf-io/github-test-reporter@v1
+      - name: Test Coverage Comment
+        uses: ./.github/actions
         with:
-          report-path: './ctrf/*.json'
-          pull-request-report: true
-        env:
           GITHUB_TOKEN: ${{ github.token }}
         if: always()
 #  run-branch-unit-tests-and-coverage:

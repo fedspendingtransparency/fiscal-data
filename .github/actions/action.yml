@@ -1,13 +1,5 @@
-name: 'This is a test'
-description: 'This is a test description'
-inputs:
-  who-to-greet:
-    description: 'Who to greet'
-    required: true
-    default: 'World'
-outputs:
-  time:
-    description: 'The time we greeted you'
+name: 'Test Coverage Comment'
+description: 'This action comments test coverage on the pr'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'index.js'
