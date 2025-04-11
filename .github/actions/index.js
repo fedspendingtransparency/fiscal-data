@@ -1,8 +1,6 @@
 /* istanbul ignore file */
-// const core = require('@actions/core');
-import core from '@actions/core';
-import github from '@actions/github';
-// const github = require('@actions/github');
+const core = require('@actions/core');
+const github = require('@actions/github');
 
 try {
   // const summaryData = require('../../coverage/coverage-summary.json');
