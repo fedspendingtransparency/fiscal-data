@@ -18,7 +18,6 @@ const github = require('@actions/github');
       ...context.repo,
       issue_number: pr_number,
       issue_url: `https://api.github.com/repos/fedspendingtransparency/fiscal-data/issues/${pr_number}`,
-      comment_id: `${pr_number}_total_coverage`,
     });
     console.log(comment_id);
 
