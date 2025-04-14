@@ -9,9 +9,7 @@ import DataPreviewDropdownDialogSearch from '../data-preview-dropdown-search/dat
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../data-preview.module.scss';
 import DataPreviewMobileDialog from '../data-preview-mobile-dialog/data-preview-mobile-dialog';
-import DataPreviewMobileFilterList, {
-  placeholderDataTables,
-} from '../data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list';
+import DataPreviewMobileFilterList from '../data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list';
 
 const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = ({
   apis,
@@ -134,7 +132,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   }, [selectedTable]);
 
   const mobileFilterComponent = isDataTableSelected ? (
-    // after data table selected, view of pivot stuff
+    // Shows raw/pivot data options
     <DataPreviewMobileDialog
       onCancel={handleCancel}
       onBack={handleBack}
@@ -144,6 +142,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       backButtonText={'Data Tables'}
       filterComponent={
         <DataPreviewPivotSelect
+          containerWidth="100%"
           table={tableToApply}
           pivotToApply={pivotToApply}
           setPivotToApply={setPivotToApply}
@@ -153,7 +152,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       }
     />
   ) : (
-    // before data table selected, view of all tables to select
+    // Shows tables to select
     <DataPreviewMobileDialog
       onCancel={handleCancel}
       onBack={handleCancel}
@@ -168,6 +167,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           onTableSelected={table => {
             setTableToApply(table);
             setIsDataTableSelected(true);
+            setTableViewSelection('rawData');
           }}
         />
       }

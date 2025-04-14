@@ -3,13 +3,13 @@ import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import {
-  tableName,
-  sectionContainer,
-  radioButton,
-  pivotSectionContainer,
-  buttonLabel,
   buttonContainer,
+  buttonLabel,
   disabled,
+  pivotSectionContainer,
+  radioButton,
+  sectionContainer,
+  tableName,
 } from './data-preview-pivot-select.module.scss';
 import { IPivotSelect } from '../../../models/data-preview/IPivotSelect';
 import { IPivotOption } from '../../../models/data-preview/IPivotOption';
@@ -22,6 +22,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
   setPivotToApply,
   tableViewSelection,
   setTableViewSelection,
+  containerWidth,
 }) => {
   const [pivotViewDropdownActive, setPivotViewDropdownActive] = useState(false);
   const [pivotValueDropdownActive, setPivotValueDropdownActive] = useState(false);
@@ -146,7 +147,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
             Pivot Data
           </label>
           <div className={pivotSectionContainer}>
-            <DropdownContainer dropdownButton={pivotViewButton} setActive={setPivotViewDropdownActive}>
+            <DropdownContainer dropdownButton={pivotViewButton} setActive={setPivotViewDropdownActive} containerWidth={containerWidth}>
               <ComboSelectDropdown
                 selectedOption={pivotToApply?.pivotView}
                 setDropdownActive={setPivotViewDropdownActive}
@@ -157,7 +158,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
                 updateSelection={pivotViewChangeHandler}
               />
             </DropdownContainer>
-            <DropdownContainer dropdownButton={pivotValueButton} setActive={setPivotValueDropdownActive}>
+            <DropdownContainer dropdownButton={pivotValueButton} setActive={setPivotValueDropdownActive} containerWidth={containerWidth}>
               <ComboSelectDropdown
                 options={pivotValueOptions}
                 optionLabelKey="prettyName"
