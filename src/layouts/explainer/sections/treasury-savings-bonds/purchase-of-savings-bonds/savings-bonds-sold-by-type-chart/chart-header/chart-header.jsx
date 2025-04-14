@@ -37,6 +37,8 @@ const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInfl
                 height: '1rem',
               }}
               secondary={false}
+              title={'adjusting for inflation'}
+              displayTitle={false}
             >
               {chartCopy.inflationToolTip}
             </InfoTip>

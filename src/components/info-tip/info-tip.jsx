@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { mobileFA, header, infoIcon, svgStyle, popupContainerStyle, popoverContents } from './info-tip.module.scss';
+import { header, infoIcon, mobileFA, popoverContents, popupContainerStyle, svgStyle } from './info-tip.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
@@ -46,7 +46,7 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click',
 };
 
-const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, children }) => {
+const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, children, displayTitle }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
 
@@ -106,7 +106,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   const label = `More information about ${title}.`;
 
   const getHeader = () => {
-    if (title) {
+    if (title && displayTitle) {
       return (
         <>
           {width < pxToNumber(breakpointLg) ? (
