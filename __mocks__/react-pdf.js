@@ -14,6 +14,13 @@ export const Document = ({ style, children }) => {
   return <div style={style}>{children}</div>;
 };
 
+export const pdf = () => {
+  const blob = { size: 4000 };
+  return {
+    toBlob: () => blob,
+  };
+};
+
 export const PDFDownloadLink = ({ children, fileName }) => {
   return (
     <a download={fileName} href="test/href">

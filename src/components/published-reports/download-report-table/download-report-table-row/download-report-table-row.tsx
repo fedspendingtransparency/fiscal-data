@@ -50,6 +50,7 @@ const DownloadReportTableRow: FunctionComponent<{
   const [publishedDate, setPublishedDate] = useState(null);
   const [fileTypeImage, setFileTypeImage] = useState(null);
   const [generatedReportInstance, setGeneratedReportInstance] = useState<React.ReactElement<DocumentProps>>(null);
+
   const updateData = () => {
     if (reportFile && !generatedReport) {
       const curReportFile: IPublishedReportDataJson = reportFile;
@@ -155,7 +156,7 @@ const DownloadReportTableRow: FunctionComponent<{
 
   return (
     <>
-      {displayName && (!generatedReport || generatedReportInstance) && (
+      {displayName && (!generatedReport || (generatedReportInstance && fileSize)) && (
         <tr className={fileDescription} data-testid="file-download-row">
           <td>
             <LinkComponent>
