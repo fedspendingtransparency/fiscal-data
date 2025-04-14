@@ -11,7 +11,8 @@ export const SetNoChartMessage = (
   allTablesSelected,
   userFilterSelection,
   userFilterUnmatchedForDateRange,
-  customNotShownMessage
+  customNotShownMessage,
+  emptyData
 ) => {
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
@@ -43,6 +44,14 @@ export const SetNoChartMessage = (
   } else if (userFilterUnmatchedForDateRange) {
     return getMessageForUnmatchedUserFilter(selectedTable);
   } else if (dateRange && dateRange.to && dateRange.from && differenceInHours(dateRange.to, dateRange.from) < 24) {
+    return (
+      <NotShownMessage
+        heading="Select a different date range to display a chart"
+        bodyText="No chart is available for the selected date range because it is too narrow to effectively chart."
+      />
+    );
+  } else if (emptyData && selectedPivot) {
+    console.log(dateRange, dateRange.to, dateRange.from);
     return (
       <NotShownMessage
         heading="Select a different date range to display a chart"

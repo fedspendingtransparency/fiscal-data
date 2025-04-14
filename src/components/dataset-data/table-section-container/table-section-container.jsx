@@ -177,6 +177,7 @@ const TableSectionContainer = ({
     if (userFilterSelection?.value && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
       setUserFilteredData({ ...apiData, data: displayData });
+      console.log('displayData: ', displayData);
     } else {
       setUserFilteredData(null);
     }
@@ -225,7 +226,7 @@ const TableSectionContainer = ({
 
   useMemo(async () => {
     await refreshTable();
-  }, [apiData, userFilterSelection, apiError]);
+  }, [apiData, userFilterSelection, apiError, dateRange, selectedPivot]);
 
   useMemo(async () => {
     if (serverSidePagination || userFilterSelection) {
@@ -467,7 +468,8 @@ const TableSectionContainer = ({
                     allTablesSelected,
                     userFilterSelection,
                     determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData),
-                    config?.customNoChartMessage
+                    config?.customNoChartMessage,
+                    apiData?.data?.length === 0
                   );
                   if (generatedMessage && !ignorePivots) {
                     return generatedMessage;
