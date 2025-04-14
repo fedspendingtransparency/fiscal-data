@@ -20,17 +20,13 @@ export const placeholderFilters = [
   { name: 'Current Month Budget Amount', secondary: 'No filter applied', selected: false, active: false },
 ];
 
-export const placeholderDataTables = [
-  { name: 'All Data Tables (Download Only)', secondary: null, selected: true, active: false },
-  { name: 'Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government', secondary: null, selected: false, active: false },
-  { name: 'Summary of Budget and Off-Budget Results and Financing of the U.S. Government', secondary: null, selected: false, active: false },
-];
-
 export interface IMobileFilterList {
   filterOptions: { name: string; secondary?: string; selected?: boolean; active?: boolean }[];
   onTableSelected: (selectedOption: any) => void;
   getName: (option: any) => string;
   getSecondary: (option: any) => string;
+  selectedTable: string;
+  selectedFilter: string;
 }
 
 const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
@@ -38,6 +34,8 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
   onTableSelected,
   getName,
   getSecondary = option => option.secondary,
+  selectedTable = '',
+  selectedFilter = '',
 }) => {
   return (
     <>
@@ -45,7 +43,9 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
         return (
           <div key={index}>
             <button
-              className={`${buttonSleeve} ${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`}
+              className={`${buttonSleeve} ${getName(filterOption) === selectedTable ? selected : ''} ${
+                getSecondary(filterOption) === selectedFilter ? active : ''
+              }`}
               onClick={() => {
                 onTableSelected(filterOption);
               }}

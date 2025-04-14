@@ -32,7 +32,6 @@ interface IDataPreviewMobileDialog {
   hasSearch?: boolean;
   bottomButton: string;
   bottomButtonIcon?: IconProp;
-  onBottomButtonClick: () => void;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   onCancel,

@@ -37,7 +37,8 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const [pivotToApply, setPivotToApply] = useState(selectedPivot);
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
-  const [dataTableSelected, setDataTableSelected] = useState(false);
+  const [isDataTableSelected, setIsDataTableSelected] = useState(false);
+
   const options = disableAllTables
     ? apis
     : [
@@ -77,12 +78,20 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       setSelectedPivot(pivot);
     }
     setActive(false);
+    if (isDataTableSelected) {
+      setIsDataTableSelected(false);
+    }
   };
 
-  const handleCancel = () => setActive(false);
+  const handleCancel = () => {
+    setActive(false);
+    if (isDataTableSelected) {
+      setIsDataTableSelected(false);
+    }
+  };
   const handleBack = () => {
     setTableToApply(null);
-    setDataTableSelected(null);
+    setIsDataTableSelected(null);
   };
 
   const updateSelectedTable = table => {
@@ -122,7 +131,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     }
   }, [selectedTable]);
 
-  const mobileFilterComponent = dataTableSelected ? (
+  const mobileFilterComponent = isDataTableSelected ? (
     // after data table selected, view of pivot stuff
     <DataPreviewMobileDialog
       onCancel={handleCancel}
@@ -153,9 +162,10 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
         <DataPreviewMobileFilterList
           filterOptions={options}
           getName={option => option.tableName}
+          selectedTable={selectedTable.tableName}
           onTableSelected={table => {
             setTableToApply(table);
-            setDataTableSelected(true);
+            setIsDataTableSelected(true);
           }}
         />
       }

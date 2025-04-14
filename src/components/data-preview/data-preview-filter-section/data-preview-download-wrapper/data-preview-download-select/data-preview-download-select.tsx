@@ -228,7 +228,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
             filterComponent={
               <DataPreviewMobileDownloadOptions options={mobileOptions} selectedOption={selectedOption} onSelect={setSelectedOption} />
             }
-            onBottomButtonClick={handleMobileDownload}
+            onApply={handleMobileDownload}
           />
         )}
       </div>
