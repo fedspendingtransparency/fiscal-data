@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { marginBottomOneRem, sectionBody } from '../api-quick-guide.module.scss';
 import DtgTable from '../../dtg-table/dtg-table';
 import ApiQuickGuideSection from '../api-quick-guide-section';
 import { apiPrefix } from '../../../utils/api-utils';
 
 const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
+  const [copiedEndpoint, setCopiedEndpoint] = useState(null);
   const rowsPerPage = 10;
+
+  const handleCopy = async textToCopy => {
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setCopiedEndpoint(textToCopy);
+      setTimeout(() => setCopiedEndpoint(null), 1500);
+    } catch (err) {
+      console.error('Failed to copy text:', err);
+    }
+  };
 
   const data = apis.map(a => {
     return {
@@ -26,6 +37,15 @@ const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
       name: 'Endpoint',
       order: 2,
       width: 25,
+      customRender: row => {
+        const fullUrl = `${apiPrefix}${row.endpoint}`;
+        return (
+          <div>
+            <code>{row.endpoint}</code>
+            <button onClick={() => handleCopy(fullUrl)}>{copiedEndpoint === fullUrl ? 'Copied' : 'Copy'}</button>
+          </div>
+        );
+      },
     },
   ];
 
@@ -38,7 +58,7 @@ const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
       'aria-label': `${selectedTable.tableName} API Endpoints`,
     },
   };
-
+  const fullURL = `${apiPrefix}${selectedTable.endpoint}`;
   const children = (
     <>
       <div> BASE URL: </div>
@@ -60,10 +80,13 @@ const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
         </>
       )}
       <div> FULL URL: </div>
-      <code id="endpoints-fullURL" className={marginBottomOneRem}>
-        {apiPrefix}
-        {selectedTable.endpoint}
-      </code>
+
+      <button onClick={() => handleCopy(fullURL)}>
+        <code id="endpoints-fullURL" className={marginBottomOneRem}>
+          {copiedEndpoint === fullURL ? 'Copied!' : fullURL}
+        </code>
+        {/*{copiedEndpoint === fullURL ? 'Copied' : 'Copy'}*/}
+      </button>
     </>
   );
 
