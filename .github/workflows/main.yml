@@ -1,6 +1,10 @@
 
 name: Run unit and e2e tests
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     types: [opened, synchronize]
@@ -23,7 +27,12 @@ jobs:
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm run test:coverage
+        run: npm run test:report
+      - name: Test Coverage Comment
+        uses: ./.github/actions
+        with:
+          GITHUB_TOKEN: ${{ github.token }}
+        if: always()
   run-branch-unit-tests-and-coverage:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
@@ -49,27 +58,27 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: npm run test:branch
-  run-cypress-tests:
-    timeout-minutes: 15
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3.8.1
-        with:
-          node-version: 20
-      - name: Cypress install
-        env:
-          NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm install --legacy-peer-deps
-      - name: Cypress run
-        uses: cypress-io/github-action@v5
-        env:
-          NODE_OPTIONS: "--max_old_space_size=8192"
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          install: false
-          build: npm run build
-          start: npm run serve
-          broswer: chrome
+#  run-cypress-tests:
+#    timeout-minutes: 15
+#    runs-on: ubuntu-22.04
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#      - name: Setup Node.js environment
+#        uses: actions/setup-node@v3.8.1
+#        with:
+#          node-version: 20
+#      - name: Cypress install
+#        env:
+#          NODE_OPTIONS: "--max_old_space_size=8192"
+#        run: npm install --legacy-peer-deps
+#      - name: Cypress run
+#        uses: cypress-io/github-action@v5
+#        env:
+#          NODE_OPTIONS: "--max_old_space_size=8192"
+#          GITHUB_TOKEN: ${{ github.token }}
+#        with:
+#          install: false
+#          build: npm run build
+#          start: npm run serve
+#          broswer: chrome

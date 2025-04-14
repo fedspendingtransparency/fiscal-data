@@ -9,7 +9,9 @@ import DataPreviewDropdownDialogSearch from '../data-preview-dropdown-search/dat
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../data-preview.module.scss';
 import DataPreviewMobileDialog from '../data-preview-mobile-dialog/data-preview-mobile-dialog';
-import DataPreviewMobileFilterList from '../data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list';
+import DataPreviewMobileFilterList, {
+  placeholderDataTables,
+} from '../data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list';
 
 const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = ({
   apis,
@@ -204,6 +206,14 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       {!hideDropdown && width < pxToNumber(breakpointLg) && (
         <>
           {dropdownButton}
+          {active && (
+            <DataPreviewMobileDialog
+              onClose={handleCancel}
+              filterName="Data Tables"
+              searchText="Search data tables"
+              filterComponent={<DataPreviewMobileFilterList filterOptions={options} getName={option => option.tableName} />}
+            />
+          )}
           {active && mobileFilterComponent}
         </>
       )}
