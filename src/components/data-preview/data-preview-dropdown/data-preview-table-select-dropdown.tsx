@@ -163,7 +163,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
         <DataPreviewMobileFilterList
           filterOptions={options}
           getName={option => option.tableName}
-          selectedTable={selectedTable.tableName}
+          selectedTable={tableToApply.tableName}
           onTableSelected={table => {
             setTableToApply(table);
             setIsDataTableSelected(true);
@@ -173,7 +173,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       }
     />
   );
-
   return (
     <>
       {!hideDropdown && width >= pxToNumber(breakpointLg) && (
