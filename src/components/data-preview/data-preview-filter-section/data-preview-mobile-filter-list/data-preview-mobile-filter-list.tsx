@@ -44,7 +44,7 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
           <div key={index}>
             <button
               className={`${buttonSleeve} ${getName(filterOption) === selectedTable ? selected : ''} ${
-                getSecondary(filterOption) === selectedFilter ? active : ''
+                getName(filterOption) === selectedFilter ? active : ''
               }`}
               onClick={() => {
                 onTableSelected(filterOption);
