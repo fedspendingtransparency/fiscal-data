@@ -69,7 +69,6 @@ export const setTableConfig = (config, selectedTable, selectedPivot, apiData) =>
   if (
     apiData &&
     apiData.data &&
-    apiData.data.length &&
     apiData.meta &&
     selectedPivot &&
     selectedTable &&
