@@ -20,7 +20,7 @@ describe('Calendar Entry', () => {
     expect(screen.getByTestId('title').textContent).toEqual('Test name');
     expect(screen.getByTestId('date').textContent).toEqual('01/01/2000');
     expect(screen.getByTestId('time').textContent).toEqual('8:00 am');
-    expect(screen.getByTestId('updated-text').textContent).toEqual('Not yet updated');
+    expect(screen.getByTestId('updated-text').textContent).toEqual('Not Released');
   });
 
   it('renders a calendar entry with the UTC -> ET conversion that changes date', () => {

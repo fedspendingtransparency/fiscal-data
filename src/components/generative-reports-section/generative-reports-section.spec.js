@@ -11,19 +11,19 @@ describe('Generative Report Footer', () => {
   beforeEach(() => {
     const mockEndpointBase = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
     fetchMock.get(
-      mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=eff_date,memo_nbr',
+      mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr',
       { data: [{ eff_date: '1/3/2024' }] }
     );
     fetchMock.get(
-      mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=eff_date,memo_nbr',
+      mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=-eff_date,memo_nbr',
       { data: [{ eff_date: '1/3/2024' }] }
     );
     fetchMock.get(
-      mockEndpointBase + 'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=eff_date,memo_nbr',
+      mockEndpointBase + 'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr',
       { data: [] }
     );
     fetchMock.get(
-      mockEndpointBase + 'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=eff_date,memo_nbr',
+      mockEndpointBase + 'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=-eff_date,memo_nbr',
       { data: [] }
     );
   });
