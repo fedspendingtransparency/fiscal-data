@@ -160,7 +160,7 @@ const DownloadReportTableRow: FunctionComponent<{
         <tr className={fileDescription} data-testid="file-download-row">
           <td>
             <LinkComponent>
-              {!mobileView && fileSize && (
+              {!mobileView && (!generatedReport || fileSize) && (
                 <>
                   <div className={downloadFileContainer}>
                     <div className={downloadName}>
@@ -176,7 +176,7 @@ const DownloadReportTableRow: FunctionComponent<{
                   </div>
                 </>
               )}
-              {mobileView && (
+              {mobileView && (!generatedReport || fileSize) && (
                 <div className={downloadFileContainer}>
                   <img src={fileTypeImage} alt={`${fileType} icon`} />
                   <div className={downloadItem}>
