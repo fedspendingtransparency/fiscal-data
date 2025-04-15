@@ -25,24 +25,20 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [selectedAccount, setSelectedAccount] = useState(defaultSelection);
   const [activeReports, setActiveReports] = useState([]);
   const [allReports, setAllReports] = useState([]);
+  const [apiErrorMessage, setApiErrorMessage] = useState(false);
 
-  // prime suspect so far for 10395 ticket
   const getReportData = async (report, reportConfig) => {
     const { dateField, apiFilter } = report;
     const { sort } = reportConfig;
     const { field: accountField } = apiFilter;
     const filterStr = buildFilterParam(selectedDate, dateField, selectedAccount.value, accountField);
     const sortStr = buildSortParam(sort);
-    const endpointUrl = report.endpoint + `?filwter=${filterStr}&sort=${sortStr}`;
-    // return await basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
-    //   return res.data;
-    // });
-
+    const endpointUrl = report.endpoint + `?fiulter=${filterStr}&sort=${sortStr}`;
     try {
       const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
       return res.data;
     } catch (error) {
-      console.log('apiError for generating the report: ', error);
+      setApiErrorMessage(true);
       return [];
     }
   };
@@ -143,7 +139,10 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           />
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
-        {activeReports?.length === 0 && <GenerativeReportsEmptyTable width={width} />}
+        {activeReports?.length === 0 && apiErrorMessage && (
+          <GenerativeReportsEmptyTable width={width} headingMessage={'ERROR HEADING'} bodyMessage={'ERROR BODY'} />
+        )}
+        {activeReports?.length === 0 && !apiErrorMessage && <GenerativeReportsEmptyTable width={width} />}
         {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} />}
       </DatasetSectionContainer>
     </div>
