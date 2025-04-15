@@ -26,16 +26,25 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [activeReports, setActiveReports] = useState([]);
   const [allReports, setAllReports] = useState([]);
 
+  // prime suspect so far for 10395 ticket
   const getReportData = async (report, reportConfig) => {
     const { dateField, apiFilter } = report;
     const { sort } = reportConfig;
     const { field: accountField } = apiFilter;
     const filterStr = buildFilterParam(selectedDate, dateField, selectedAccount.value, accountField);
     const sortStr = buildSortParam(sort);
-    const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
-    return await basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
+    const endpointUrl = report.endpoint + `?filwter=${filterStr}&sort=${sortStr}`;
+    // return await basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
+    //   return res.data;
+    // });
+
+    try {
+      const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
       return res.data;
-    });
+    } catch (error) {
+      console.log('apiError for generating the report: ', error);
+      return [];
+    }
   };
 
   const setSummaryValues = (reportConfig, formattedDate, reportData) => {
@@ -96,6 +105,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             config: reportConfig,
             colConfig: report,
           };
+          // console.log('reportData: ', report.tableName, reportData);
           reports.push(curReport);
           setSummaryValues(reportConfig, formattedDate, reportData);
         }
@@ -114,6 +124,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
       }
     });
     setActiveReports(reports);
+    // console.log('reports array:', reports);
   }, [allReports]);
 
   return (
