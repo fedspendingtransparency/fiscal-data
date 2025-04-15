@@ -7,26 +7,16 @@ import { chartCopy } from '../savings-bonds-sold-by-type-chart-helper';
 import React from 'react';
 import { analyticsEventHandler } from '../../../../../explainer-helpers/explainer-helpers';
 import { ga4DataLayerPush } from '../../../../../../../helpers/google-analytics/google-analytics-helper';
-import globalConstants from '../../../../../../../helpers/constants';
-
-let gaTimer;
 
 const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInflationAdjusted }) => {
-  const { explainers } = globalConstants;
   const handleTooltipMouseEnter = () => {
     const eventLabel = 'Savings Bonds - Additional Inflation Adjustment Info';
     const eventAction = 'Additional Info Hover';
-    gaTimer = setTimeout(() => {
-      analyticsEventHandler(eventLabel, eventAction);
-      ga4DataLayerPush({
-        event: eventAction,
-        eventLabel: eventLabel,
-      });
-    }, explainers.chartHoverDelay);
-  };
-
-  const handleTooltipMouseLeave = () => {
-    clearTimeout(gaTimer);
+    analyticsEventHandler(eventLabel, eventAction);
+    ga4DataLayerPush({
+      event: eventAction,
+      eventLabel: eventLabel,
+    });
   };
 
   return (
@@ -53,7 +43,7 @@ const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInfl
         <div className={inflationToggleContainer}>
           <span className={inflationLabel}>Adjust for Inflation</span>
           <InflationToggle onToggle={onToggle} isInflationAdjusted={isInflationAdjusted} />
-          <div className={infoTipContainer} onMouseEnter={handleTooltipMouseEnter} onMouseLeave={handleTooltipMouseLeave} role="presentation">
+          <div className={infoTipContainer}>
             <InfoTip
               hover
               iconStyle={{
@@ -62,8 +52,9 @@ const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInfl
                 height: '1rem',
               }}
               secondary={false}
-              title={'adjusting for inflation'}
+              title="adjusting for inflation"
               displayTitle={false}
+              clickEvent={handleTooltipMouseEnter}
             >
               {chartCopy.inflationToolTip}
             </InfoTip>
