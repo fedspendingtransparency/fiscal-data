@@ -19,10 +19,10 @@ export const treasurySavingsBondsSectionIds = [
 ];
 
 export const glossaryGAEvent = term => {
-  analyticsEventHandler('Savings Bonds', term, 'Glossary Term Click');
+  analyticsEventHandler('Explainers', 'Savings Bonds - ' + term, 'Glossary Term Click');
   ga4DataLayerPush({
     event: `Glossary Term Click`,
-    eventLabel: term,
+    eventLabel: 'Savings Bonds - ' + term,
   });
 };
 
