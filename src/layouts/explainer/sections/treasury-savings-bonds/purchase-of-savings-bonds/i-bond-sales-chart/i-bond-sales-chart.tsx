@@ -1,24 +1,14 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
-import {chartCopy, CustomTooltip} from './i-bond-sales-chart-helper';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { chartCopy, CustomTooltip } from './i-bond-sales-chart-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import {CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
+import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
-import {
-  chartLegend,
-  chartStyle,
-  headerContainer,
-  label,
-  leftLabel,
-  leftLine,
-  lengendItem,
-  line,
-  rightLine
-} from './i-bond-sales-chart.module.scss';
+import { chartLegend, chartStyle, headerContainer, label, leftLabel, leftLine, lengendItem, line, rightLine } from './i-bond-sales-chart.module.scss';
 import classNames from 'classnames';
-import {treasurySavingsBondsExplainerSecondary} from '../../treasury-savings-bonds.module.scss';
-import {apiPrefix, basicFetch} from '../../../../../../utils/api-utils';
-import {ICpiDataMap} from '../../../../../../models/ICpiDataMap';
-import {yAxisFormatter} from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import { treasurySavingsBondsExplainerSecondary } from '../../treasury-savings-bonds.module.scss';
+import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
+import { ICpiDataMap } from '../../../../../../models/ICpiDataMap';
+import { yAxisFormatter } from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import { analyticsEventHandler, getDateWithoutOffset } from '../../../../explainer-helpers/explainer-helpers';
 import globalConstants from '../../../../../../helpers/constants';
 import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
@@ -153,6 +143,7 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
   const { explainers } = globalConstants;
 
   const handleChartMouseEnter = () => {
+    setChartHover(true);
     const eventLabel = 'Savings Bonds - Correlation Between Inflation and I Bond Sales';
     const eventAction = 'Chart Hover';
     gaTimer = setTimeout(() => {
@@ -165,6 +156,7 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
   };
 
   const handleChartMouseLeave = () => {
+    setChartHover(false);
     clearTimeout(gaTimer);
     resetDataHeader();
   };
@@ -265,17 +257,11 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
                 resetDataHeader();
               }}
               onFocus={() => setChartFocus(true)}
-              onMouseOver={() => setChartHover(true)}
-              onMouseLeave={() => setChartHover(false)}
+              onMouseEnter={handleChartMouseEnter}
+              onMouseLeave={handleChartMouseLeave}
             >
               <ResponsiveContainer height={352} width="99%">
-                <LineChart
-                  data={chartData}
-                  margin={{ top: 12, bottom: -8, left: -8, right: -12 }}
-                  onMouseEnter={handleChartMouseEnter}
-                  onMouseLeave={handleChartMouseLeave}
-                  accessibilityLayer
-                >
+                <LineChart data={chartData} margin={{ top: 12, bottom: -8, left: -8, right: -12 }} accessibilityLayer>
                   <CartesianGrid vertical={false} stroke="#d9d9d9" />
                   <ReferenceLine y={0} stroke="#555555" />
                   <XAxis dataKey="recordDate" ticks={xAxisValues} tickCount={5} tickFormatter={value => formatTick(value).toString()} />

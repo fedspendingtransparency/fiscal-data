@@ -3,7 +3,7 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import { chartStyle } from './savings-bonds-sold-by-type-chart.module.scss';
 import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartLegend from './chart-legend/chart-legend';
-import { chartCopy, savingsBondsMap, savingsBonds, getXAxisValues, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
+import { chartCopy, getXAxisValues, savingsBonds, savingsBondsMap, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import ChartHeader from './chart-header/chart-header';
 import ChartDescription from './chart-description/chart-description';
@@ -54,6 +54,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
   const { explainers } = globalConstants;
 
   const handleChartMouseEnter = () => {
+    setChartHover(true);
     const eventLabel = 'Savings Bonds - Savings Bonds Sold by Type Over Time';
     const eventAction = 'Chart Hover';
     gaTimer = setTimeout(() => {
@@ -66,6 +67,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
   };
 
   const handleChartMouseLeave = () => {
+    setChartHover(false);
     clearTimeout(gaTimer);
   };
 
@@ -113,16 +115,9 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
               role="presentation"
               onBlur={() => setChartFocus(false)}
               onFocus={() => setChartFocus(true)}
-              onMouseEnter={() => {
-                setChartHover(true);
-                handleChartMouseEnter();
-              }}
-              onMouseLeave={() => () => {
-                setChartHover(false);
-                handleChartMouseLeave();
-              }}
+              onMouseEnter={handleChartMouseEnter}
+              onMouseLeave={handleChartMouseLeave}
             >
-              {' '}
               {chartData && sortedBonds && (
                 <ResponsiveContainer height={377} width="99%">
                   <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }} accessibilityLayer>
