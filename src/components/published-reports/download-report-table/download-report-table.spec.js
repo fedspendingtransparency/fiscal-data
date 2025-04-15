@@ -1,5 +1,5 @@
 import { DownloadReportTable } from './download-report-table';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import React from 'react';
 
 const breakpointLg = 993;
@@ -10,6 +10,7 @@ jest.mock('../../variables.module.scss', () => {
   };
 });
 
+// Mocks for react-pdf components can be found at __mocks__/react-pdf.js
 describe('Download Report Table', () => {
   const mockReports = [
     { path: '/test/file/path/file.pdf', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'The Download File (.pdf)' },
@@ -61,9 +62,15 @@ describe('Download Report Table', () => {
     expect(getByRole('link', { name: 'Download another_file.xml' })).toBeInTheDocument();
   });
 
-  it('renders generated report table rows', () => {
-    const { getByRole } = render(<DownloadReportTable width={breakpointLg - 1} generatedReports={mockGeneratedReports} />);
-    expect(getByRole('link', { name: '.pdf icon Name 5/1/2021 5K Download' })).toBeInTheDocument();
-    expect(getByRole('link', { name: '.pdf icon Name 2 5/1/2022 5K Download' })).toBeInTheDocument();
+  it('renders generated report table rows', async () => {
+    const { findAllByRole } = render(<DownloadReportTable width={breakpointLg - 1} generatedReports={mockGeneratedReports} />);
+    const downloadLinks = await findAllByRole('link');
+    expect(within(downloadLinks[0]).getByText('4 KB')).toBeInTheDocument();
+    expect(within(downloadLinks[0]).getByText('5/1/2021')).toBeInTheDocument();
+    expect(within(downloadLinks[0]).getByText('Name')).toBeInTheDocument();
+
+    expect(within(downloadLinks[1]).getByText('4 KB')).toBeInTheDocument();
+    expect(within(downloadLinks[1]).getByText('5/1/2022')).toBeInTheDocument();
+    expect(within(downloadLinks[1]).getByText('Name 2')).toBeInTheDocument();
   });
 });
