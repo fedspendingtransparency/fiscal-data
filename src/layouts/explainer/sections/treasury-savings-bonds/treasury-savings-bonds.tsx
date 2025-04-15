@@ -18,7 +18,7 @@ export const treasurySavingsBondsSectionIds = [
   'learn-more-buying-and-redeeming-savings-bonds-today',
 ];
 
-export const glossaryGAEvent = term => {
+export const glossaryGAEvent = (term: string): void => {
   analyticsEventHandler('Explainers', 'Savings Bonds - ' + term, 'Glossary Term Click');
   ga4DataLayerPush({
     event: `Glossary Term Click`,

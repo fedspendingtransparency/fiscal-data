@@ -68,6 +68,10 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
     ),
   };
 
+  const onAccordionClick = () => {
+    analyticsEventHandler('Savings Bonds - What is the Treasury Doing to Reduce Matured Unredeemed Debt?', 'Accordion Expand Click');
+  };
+
   return (
     <>
       <p>
@@ -126,7 +130,7 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
         icon={faMagnifyingGlass as IconProp}
         primaryColor={fontBodyCopy}
         secondaryColor={treasurySavingsBondsExplainerSecondary}
-        customTopMargin={'0'}
+        customTopMargin="0"
       >
         <p>
           Could there be a savings bond in your name that you might not know about? Go on a{' '}
@@ -143,7 +147,7 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
 
       <div className={postQuoteBoxAccordionContainer}>
         <div className={mudAccordion}>
-          <Accordion title="What is the Treasury Doing to Reduce Matured Unredeemed Debt?">
+          <Accordion title="What is the Treasury Doing to Reduce Matured Unredeemed Debt?" onOpen={onAccordionClick}>
             Treasury’s efforts to increase the redemption of MUD are complicated by issues such as the age and quality of MUD records, a paper-based
             redemption process, as well as reluctance by some bond owners to redeem their bonds. Treasury has been working for more than a decade to
             implement new techniques and technologies to reduce the amount of MUD and ensure that the public can access and redeem their matured
