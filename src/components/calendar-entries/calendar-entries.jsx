@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { loadingIcon, mainContainer, dropdownContainer, dropdown, entriesContainer, pagination } from './calendar-entries.module.scss';
+import { faCheckCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {
+  loadingIcon,
+  mainContainer,
+  dropdownContainer,
+  dropdown,
+  entriesContainer,
+  pagination,
+  releaseCalendarLegend,
+  updateStatusIcon,
+  notYetUpdated,
+  releaseCalendarLegendGray,
+} from './calendar-entries.module.scss';
 import SelectControl from '../select-control/select-control';
 import PageButtons from '../pagination/page-buttons';
 import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
@@ -146,6 +157,17 @@ const CalendarEntriesList = () => {
   ) : (
     <div className={mainContainer}>
       <div className={dropdownContainer}>
+        <div className={releaseCalendarLegend}>
+          <span>
+            {' '}
+            <FontAwesomeIcon icon={faCheckCircle} className={updateStatusIcon} />
+            Released
+          </span>
+          <span className={releaseCalendarLegendGray}>
+            <div className={notYetUpdated} />
+            Not Released
+          </span>
+        </div>
         <div className={dropdown}>
           <SelectControl label="Sort By:" options={sortOptions} selectedOption={selectedOption} changeHandler={handleSelectedOptionChange} />
         </div>

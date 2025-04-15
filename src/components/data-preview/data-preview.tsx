@@ -259,6 +259,8 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
     return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
   };
 
+  const checkDataDisplays = config.apis.every(api => (api?.dataDisplays?.length || 0) <= 1);
+
   return (
     <DatasetSectionContainer id="data-preview-table">
       <DataTableProvider config={config} detailViewState={detailViewState}>
@@ -278,7 +280,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
               selectedPivot={selectedPivot}
               setSelectedPivot={setSelectedPivot}
               pivotsUpdated={pivotsUpdated}
-              hideDropdown={(config.apis.length === 1 || (detailApi && config.apis.length === 2)) && config.apis[0]?.dataDisplays?.length <= 1}
+              hideDropdown={(config.apis.length === 1 || (detailApi && config.apis.length === 2)) && checkDataDisplays}
               detailViewState={detailViewState}
               width={width}
             />

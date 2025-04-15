@@ -22,6 +22,7 @@
     "serve-cypress": "run-cypress.sh",
     "test": "jest --logHeapUsage",
     "test:coverage": "jest --coverage",
+    "test:report": "jest --coverage --coverageReporters=\"json-summary\"",
     "test:silent": "jest --coverage --silent",
     "test:branch": "jest --coverage --changedSince=master",
     "tst": "jest --coverage",
@@ -44,6 +45,8 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.0",
     "@date-io/date-fns": "^1.3.13",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",

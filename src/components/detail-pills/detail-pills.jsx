@@ -37,11 +37,13 @@ const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected, timeExpec
           else if (aKey < bKey) return -1;
           else return 0;
         });
-        const date = rcEntries[0].date;
-        const time = rcEntries[0].time;
-        const formattedTime = time && time[2] === ':' ? time.replace(':', '') : time;
-        const formattedDateExpected = date && time ? format(new Date(convertDateAndTimeToDateTime(date, formattedTime)), 'MM/dd/yyyy') : null;
-        setDateTimeExpected(formattedDateExpected);
+        if (rcEntries?.length > 0) {
+          const date = rcEntries[0]?.date;
+          const time = rcEntries[0].time;
+          const formattedTime = time && time[2] === ':' ? time.replace(':', '') : time;
+          const formattedDateExpected = date && time ? format(new Date(convertDateAndTimeToDateTime(date, formattedTime)), 'MM/dd/yyyy') : null;
+          setDateTimeExpected(formattedDateExpected);
+        }
       }
     })();
   }, []);
