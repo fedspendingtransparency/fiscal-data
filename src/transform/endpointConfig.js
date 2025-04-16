@@ -104,6 +104,7 @@ const endpointConfig = {
       'yield_pct',
       'inflation_adj_amt',
     ],
+    valueFieldOptions: ['issued_amt', 'redeemed_amt', 'outstanding_amt'],
   },
   '94': {
     endpoint: 'v1/accounting/od/savings_bonds_pcs',
@@ -877,7 +878,7 @@ const endpointConfig = {
             operator: 'in',
             value:
               'null,Total Treasury Bills,Total Treasury Bonds,Total Treasury Floating ' +
-              'Rate Notes,Total Tresasury Floating Rate Notes,Total Treasury Inflation-Indexed ' +
+              'Rate Notes,Total Treasury Floating Rate Notes,Total Treasury Inflation-Indexed ' +
               'Bonds,Total Treasury Inflation-Indexed Notes,Total Treasury Inflation-Protected ' +
               'Securities,Total TIPS,Total Treasury Notes,',
           },
@@ -910,7 +911,7 @@ const endpointConfig = {
             operator: 'in',
             value:
               'Total Treasury Inflation-Indexed Bonds,Total Treasury Inflation-Indexed ' +
-              'Notes,Total Treasury Inflation-Protected Securities,Total TIPS',
+              'Notes,Total Treasury Inflation-Protected Securities,Total Treasury TIPS',
           },
         ],
       },

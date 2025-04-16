@@ -26,6 +26,10 @@ const PageScrollLink = ({ url, dataTestId, id, tabindex = 0, children, handleCli
       return;
     }
 
+    if (handleClick) {
+      handleClick();
+    }
+
     if (e) {
       e.preventDefault();
       e.stopPropagation();

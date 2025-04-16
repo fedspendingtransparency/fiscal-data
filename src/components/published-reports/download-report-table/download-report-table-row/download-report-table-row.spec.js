@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import DownloadReportTableRow from './download-report-table-row';
 import userEvent from '@testing-library/user-event';
 
@@ -9,7 +9,7 @@ describe('Download report table row component', () => {
     { path: '/test/file/path/another_file.xml', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.xml)' },
     { path: '/test/file/path/another_file.xls', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.xls)' },
     { path: '/test/file/path/another_file.txt', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.txt)' },
-    { path: '/test/file/path/another_file.txt', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'TST (.txt)' },
+    { path: '/test/file/path/TST.txt', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'TST (.txt)' },
   ];
 
   beforeEach(() => {
@@ -21,9 +21,10 @@ describe('Download report table row component', () => {
     expect(getByTestId('file-download-row')).toBeInTheDocument();
   });
 
-  it('renders a short file name in the row', () => {
-    const { getByText } = render(<DownloadReportTableRow reportFile={mockReports[4]} />);
-    expect(getByText('TST.txt')).toBeInTheDocument();
+  it('renders a short file name in the row', async () => {
+    const { findByText } = render(<DownloadReportTableRow reportFile={mockReports[4]} />);
+    const downloadText = await waitFor(() => findByText('TST.txt'));
+    expect(downloadText).toBeInTheDocument();
   });
 
   it('renders a pdf icon with a pdf filename', () => {
@@ -99,14 +100,14 @@ describe('Download report table row component', () => {
       colConfig: {},
     };
 
-    it('renders a file row', () => {
-      const { getByTestId } = render(<DownloadReportTableRow generatedReport={mockGeneratedReport} />);
-      expect(getByTestId('file-download-row')).toBeInTheDocument();
+    it('renders a file row', async () => {
+      const { findByTestId } = render(<DownloadReportTableRow generatedReport={mockGeneratedReport} />);
+      expect(await findByTestId('file-download-row')).toBeInTheDocument();
     });
 
-    it('renders a download link', () => {
-      const { getByRole } = render(<DownloadReportTableRow generatedReport={mockGeneratedReport} />);
-      const downloadLink = getByRole('link');
+    it('renders a download link', async () => {
+      const { findByRole } = render(<DownloadReportTableRow generatedReport={mockGeneratedReport} />);
+      const downloadLink = await findByRole('link');
       expect(downloadLink).toBeInTheDocument();
       expect(downloadLink).toHaveAttribute('download', 'Download Name');
     });

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
-import { container, accordion, open as openStyle, closed, heading, toggle, content } from './accordion.module.scss';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { accordion, closed, container, content, heading, open as openStyle, toggle } from './accordion.module.scss';
 import Analytics from '../../utils/analytics/analytics';
 import useGAEventTracking from '../../hooks/useGAEventTracking';
 
@@ -17,6 +17,7 @@ const Accordion = ({
   ga4ID,
   tabindex,
   dataTestId,
+  onOpen,
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
 
@@ -35,6 +36,9 @@ const Accordion = ({
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
       setOpen(prevState => !prevState);
+      if (onOpen && !open) {
+        onOpen();
+      }
       triggerGAEvent(!open);
     }
   };

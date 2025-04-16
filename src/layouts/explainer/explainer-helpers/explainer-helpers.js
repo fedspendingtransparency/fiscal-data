@@ -322,6 +322,7 @@ export const explainerCitationsMap = {
   'national-deficit': explainerCitations('Deficit'),
   'federal-spending': explainerCitations('Spending'),
   'government-revenue': explainerCitations('Revenue'),
+  'treasury-savings-bonds': explainerCitations('Savings Bonds'),
   afg: explainerCitations('AFG Overview'),
 };
 
@@ -335,6 +336,7 @@ export const explainerAnalyticsLabelMap = {
   'national-deficit': 'Deficit',
   'federal-spending': 'Spending',
   'government-revenue': 'Revenue',
+  'treasury-savings-bonds': 'Savings Bonds',
 };
 
 export const explainerColorMap = {

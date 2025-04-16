@@ -37,3 +37,14 @@ export const getDateLabelForReport = (_report, isDailyReport, fullMonth) => {
 export const getLatestReport = reports => {
   return reports.sort((a, b) => b.report_date.getTime() - a.report_date.getTime())[0];
 };
+
+export const formatFileSize = size => {
+  return `${Math.ceil(size / 1000)} KB`;
+};
+
+export const getGeneratedFileSize = (blob, setFileSize) => {
+  if (blob) {
+    setFileSize(formatFileSize(blob?.size));
+  }
+  return null;
+};

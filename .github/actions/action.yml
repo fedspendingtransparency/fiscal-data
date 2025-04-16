@@ -1,0 +1,5 @@
+name: 'Test Coverage Comment'
+description: 'This action comments test coverage on the pr'
+runs:
+  using: 'node20'
+  main: 'index.js'
