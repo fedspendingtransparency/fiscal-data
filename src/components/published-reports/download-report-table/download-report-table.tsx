@@ -12,7 +12,7 @@ export const DownloadReportTable: FunctionComponent<{
   isDailyReport: boolean;
   width?: number;
   generatedReports?;
-}> = ({ reports, isDailyReport, width, generatedReports, setReportGenErrorMessage }) => {
+}> = ({ reports, isDailyReport, width, generatedReports, setApiErrorMessage }) => {
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const DownloadReportTable: FunctionComponent<{
               isDailyReport={isDailyReport}
               mobileView={mobileView}
               key={i}
-              setReportGenErrorMessage={setReportGenErrorMessage}
+              setApiErrorMessage={setApiErrorMessage}
             />
           );
         })}
@@ -56,7 +56,7 @@ export const DownloadReportTable: FunctionComponent<{
               isDailyReport={isDailyReport}
               mobileView={mobileView}
               key={i}
-              setReportGenErrorMessage={setReportGenErrorMessage}
+              setApiErrorMessage={setApiErrorMessage}
             />
           );
         })}

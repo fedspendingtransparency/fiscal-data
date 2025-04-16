@@ -7,11 +7,8 @@ import { breakpointLg } from '../../../variables.module.scss';
 const GenerativeReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage }) => {
   const mobileView = width < pxToNumber(breakpointLg);
   const rowCount = 3;
-
-  // const headerText = apiErrorMessage ? 'Api error header text' : 'This table requires additional filters';
-  // const bodyText = apiErrorMessage ? 'Api error body text' : 'Select an account in the filter section above to display the reports.';
-  const headerText = 'This table requires additional filters';
-  const bodyText = 'Select an account in the filter section above to display the reports.';
+  const additionalFiltersHeading = 'This table requires additional filters';
+  const additionalFiltersBody = 'Select an account in the filter section above to display the reports.';
 
   return (
     <div className={container}>
@@ -40,7 +37,7 @@ const GenerativeReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage
           ))}
         </tbody>
       </table>
-      <GenerativeReportsTableNotice heading={headerText} bodyText={bodyText} />
+      <GenerativeReportsTableNotice heading={additionalFiltersHeading} bodyText={additionalFiltersBody} apiErrorMessage={apiErrorMessage} />
     </div>
   );
 };
