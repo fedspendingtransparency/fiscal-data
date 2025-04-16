@@ -90,8 +90,9 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     }
   };
   const handleBack = () => {
-    setTableToApply(null);
-    setIsDataTableSelected(null);
+    if (isDataTableSelected) {
+      setIsDataTableSelected(false);
+    }
   };
 
   const updateSelectedTable = table => {
@@ -163,7 +164,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
         <DataPreviewMobileFilterList
           filterOptions={options}
           getName={option => option.tableName}
-          selectedTable={tableToApply.tableName}
+          selectedTable={selectedTable.tableName}
           onTableSelected={table => {
             setTableToApply(table);
             setIsDataTableSelected(true);
