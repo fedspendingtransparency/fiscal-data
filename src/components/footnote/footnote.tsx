@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { footnoteHeading, footnoteBody, footnoteContainer } from './footnote.module.scss';
+import { footnoteBody, footnoteContainer, footnoteHeading } from './footnote.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
 
 type FootnoteAnchor = {
@@ -18,7 +18,7 @@ type FootnoteProps = {
   onBackToContentClick?: () => void;
 };
 
-const Footnote: FunctionComponent<FootnoteProps> = ({ footnotes, width = '80%', onBackToContentClick, lastAnchorClicked }) => {
+const Footnote: FunctionComponent<FootnoteProps> = ({ footnotes, width = '80%', onBackToContentClick }) => {
   return (
     <div className={footnoteContainer} id="footnote" data-testid="footnote-section" tabIndex={-1}>
       <h6 className={footnoteHeading}>Footnotes</h6>
@@ -29,7 +29,10 @@ const Footnote: FunctionComponent<FootnoteProps> = ({ footnotes, width = '80%', 
               <span data-testId="reference-number">{anchor.text}</span>
             </sup>
           ))}
-          {footnote.definition} <CustomLink href={`#${footnote.anchors[0].link}-footnote`}>Back to content</CustomLink>
+          {footnote.definition}{' '}
+          <CustomLink href={`#${footnote.anchors[0].link}-footnote`} onClick={onBackToContentClick}>
+            Back to content
+          </CustomLink>
         </div>
       ))}
     </div>
