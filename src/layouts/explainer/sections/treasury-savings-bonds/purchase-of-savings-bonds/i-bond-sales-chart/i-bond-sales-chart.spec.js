@@ -4,6 +4,7 @@ import IBondSalesChart from './i-bond-sales-chart';
 import { CustomTooltip } from './i-bond-sales-chart-helper';
 import { mockSavingsBondFetchResponses } from '../../../../explainer-test-helper';
 import userEvent from '@testing-library/user-event';
+import Analytics from '../../../../../../utils/analytics/analytics';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -110,5 +111,22 @@ describe('I Bond Sales Chart', () => {
     expect(chart).not.toHaveFocus();
     //Chart header resets
     expect(getByText('Oct 2023')).toBeInTheDocument();
+  });
+
+  it('calls chart hover analytics event', async () => {
+    jest.useFakeTimers();
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+    const { getByRole } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    const chart = getByRole('application');
+    userEvent.hover(chart);
+    jest.advanceTimersByTime(3001);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Chart Hover',
+      category: 'Explainers',
+      label: 'Savings Bonds - Correlation Between Inflation and I Bond Sales',
+    });
   });
 });

@@ -3,6 +3,8 @@ import { render, waitFor } from '@testing-library/react';
 import WhatInfluencesPurchaseOfSavingsBonds from './what-influences-purchase-of-savings-bonds';
 import mockSavingsBondFetchResponses from './../../../explainer-test-helper';
 import { useStaticQuery } from 'gatsby';
+import Analytics from '../../../../../utils/analytics/analytics';
+import userEvent from '@testing-library/user-event';
 
 global.ResizeObserver = class ResizeObserver {
   constructor(callback) {
@@ -33,6 +35,18 @@ describe('WhatInfluencesPurchaseOfSavingsBonds Component - Comprehensive Test', 
     const { getByText } = render(<WhatInfluencesPurchaseOfSavingsBonds />);
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(2));
     expect(getByText('The chart below shows savings bond sales over time for all savings bond types', { exact: false })).toBeInTheDocument();
+  });
+
+  it('calls footnote click ga events', () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByRole } = render(<WhatInfluencesPurchaseOfSavingsBonds />);
+    const accordion = getByRole('link', { name: '2' });
+    userEvent.click(accordion);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Footnote Click',
+      category: 'Explainers',
+      label: 'Savings Bonds - Footnote Click',
+    });
   });
 });
 jest.mock('gatsby', () => ({
