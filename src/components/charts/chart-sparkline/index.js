@@ -1,5 +1,5 @@
-import { axisBottom, mouse } from 'd3';
-import { select, selectAll } from 'd3-selection';
+import { axisBottom } from 'd3-axis';
+import { select, selectAll, pointer } from 'd3-selection';
 import 'd3-transition';
 import 'd3-selection-multi';
 import { extent } from 'd3-array';
@@ -64,8 +64,9 @@ const placeMarkers = () => {
     .append('circle')
     .attr('data-test-id', 'marker')
     .attr('r', 4)
-    .attr('fill', d =>
-      d[field] > 0 ? '#4971b7' : '#f2655b' // TODO: replace hard coded hex values with variables?
+    .attr(
+      'fill',
+      d => (d[field] > 0 ? '#4971b7' : '#f2655b') // TODO: replace hard coded hex values with variables?
     )
     .attr('transform', d => `translate(${scales.x(parseTime(d[dateField]))}, ${scales.y(Number(d[field]))})`);
 };
@@ -222,7 +223,9 @@ const mouseout = function() {
 
 const mousemove = function() {
   // This index represents the x value closest to where the mouse is on the graph
-  const closestXIndex = Math.round((mouse(this)[0] / w) * (data.length - 1));
+  // const closestXIndex = Math.round((pointer(this)[0] / w) * (data.length - 1));
+  const [pointers] = pointer(this);
+  const closestXIndex = Math.round((pointers / w) * (data.length - 1));
   const selectedData = data[closestXIndex];
 
   if (selectedData && selectedData[field]) {
