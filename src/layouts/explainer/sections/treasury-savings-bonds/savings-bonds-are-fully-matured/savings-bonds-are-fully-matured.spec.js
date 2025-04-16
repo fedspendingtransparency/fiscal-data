@@ -1,13 +1,17 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SavingsBondsAreFullyMatured from './savings-bonds-are-fully-matured';
 import Analytics from '../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
+import { mockSavingsBondFetchResponses } from '../../../explainer-test-helper';
 
 const fullyMaturedAccordion = 'What is the Treasury Doing to Reduce Matured Unredeemed Debt?';
 
 describe('What Happens when Savings Bonds are Fully Matured Section', () => {
+  beforeAll(() => {
+    mockSavingsBondFetchResponses();
+  });
   it('renders the section', () => {
     const { getByText } = render(<SavingsBondsAreFullyMatured />);
     expect(
@@ -20,7 +24,10 @@ describe('What Happens when Savings Bonds are Fully Matured Section', () => {
   });
 
   it('fetches evergreen values', async () => {
-    const { findByRole } = render(<SavingsBondsAreFullyMatured />);
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { findByText } = render(<SavingsBondsAreFullyMatured />);
+    await waitFor(() => expect(fetchSpy).toBeCalledTimes(2));
+    expect(await findByText('As of February 2023, there were 22 million', { exact: false })).toBeInTheDocument();
   });
 
   it('calls glossary ga events', () => {

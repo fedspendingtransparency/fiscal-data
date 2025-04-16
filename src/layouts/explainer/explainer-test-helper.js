@@ -856,6 +856,65 @@ export const mockSavingsBondFetchResponses = () => {
     { overwriteRoutes: true },
     { repeat: 1 }
   );
+  fetchMock.get(
+    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/savings_bonds_mud?sort=-record_date&page[size]=1`,
+    mockPreviousYearDate,
+    { overwriteRoutes: true },
+    { repeat: 1 }
+  );
+  fetchMock.get(
+    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/savings_bonds_mud?filter=record_date:eq:2023-02-28`,
+    savingsBondsMudData,
+    { overwriteRoutes: true },
+    { repeat: 1 }
+  );
+};
+
+const savingsBondsMudData = {
+  data: [
+    {
+      bonds_issued_cnt: '1026746',
+      bonds_out_cnt: '7005255',
+      record_calendar_day: '31',
+      record_calendar_month: '03',
+      record_calendar_quarter: '1',
+      record_calendar_year: '2023',
+      record_date: '2023-03-31',
+      record_fiscal_quarter: '2',
+      record_fiscal_year: '2023',
+      series_cd: 'A',
+      src_line_nbr: '1',
+      txn_year_month: '202503',
+    },
+    {
+      bonds_issued_cnt: '1026746',
+      bonds_out_cnt: '7520660',
+      record_calendar_day: '31',
+      record_calendar_month: '03',
+      record_calendar_quarter: '1',
+      record_calendar_year: '2023',
+      record_date: '2023-03-31',
+      record_fiscal_quarter: '2',
+      record_fiscal_year: '2023',
+      series_cd: 'B',
+      src_line_nbr: '1',
+      txn_year_month: '202503',
+    },
+    {
+      bonds_issued_cnt: '1026746',
+      bonds_out_cnt: '7500882',
+      record_calendar_day: '31',
+      record_calendar_month: '03',
+      record_calendar_quarter: '1',
+      record_calendar_year: '2023',
+      record_date: '2023-03-31',
+      record_fiscal_quarter: '2',
+      record_fiscal_year: '2023',
+      series_cd: 'C',
+      src_line_nbr: '1',
+      txn_year_month: '202503',
+    },
+  ],
 };
 
 export const mockDebtExpenseResponse = {
