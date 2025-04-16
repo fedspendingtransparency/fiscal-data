@@ -43,7 +43,6 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
 
         basicFetch(`${apiPrefix}${mudEndpoint}`).then(res => {
           if (res.data) {
-            console.log(res.data);
             const data = res.data;
             let mudTotal: number = 0;
             data.map(index => {

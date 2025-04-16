@@ -21,4 +21,18 @@ describe('Learn More Section', () => {
     userEvent.click(citation2);
     expect(analyticsSpy).toHaveBeenCalledWith({ action: 'Savings Bonds Citation Click', category: 'Explainers', label: 'Treasury Hunt' });
   });
+
+  it('calls footnote ga events', () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getAllByRole } = render(<LearnMore />);
+    const footnotes = getAllByRole('link', { name: 'Back to content' });
+    footnotes.forEach(footnote => {
+      userEvent.click(footnote);
+      expect(analyticsSpy).toHaveBeenCalledWith({
+        action: 'Footnote Click',
+        category: 'Explainers',
+        label: 'Savings Bonds - Footnote Click',
+      });
+    });
+  });
 });

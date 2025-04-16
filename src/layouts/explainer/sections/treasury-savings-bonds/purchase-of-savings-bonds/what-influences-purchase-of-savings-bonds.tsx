@@ -39,7 +39,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
   const [mostBondSales, setMostBondSales] = useState<number>(0);
   const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
   const [secondMostBondSales, setSecondMostBondSales] = useState<number>(0);
-
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`
       query {
@@ -53,7 +52,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
       }
     `
   );
-
   let savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
 
   const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond';

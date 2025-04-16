@@ -1,27 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import Footnote from '../../../../../components/footnote/footnote';
 import { getSaleBondsFootNotes } from './learn-more-helper';
 import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
 
 const LearnMore: React.FC = () => {
-  const [lastAnchorClicked, setLastAnchorClicked] = useState<string | null>(null);
-
-  const handleAnchorClick = (anchorId: string) => {
-    setLastAnchorClicked(anchorId);
-  };
-
-  const handleBackToContentClick = () => {
-    if (lastAnchorClicked) {
-      const anchorEl = document.getElementById(lastAnchorClicked);
-      if (anchorEl) {
-        anchorEl.scrollIntoView({ behavior: 'smooth' });
-        anchorEl.focus();
-      }
-      setLastAnchorClicked(null);
-    }
-  };
-
   const links = {
     treasury: (
       <CustomLink
@@ -41,6 +24,10 @@ const LearnMore: React.FC = () => {
         Treasury Hunt
       </CustomLink>
     ),
+  };
+
+  const handleBackToContentClick = () => {
+    analyticsEventHandler('Savings Bonds - Footnote Click', 'Footnote Click');
   };
 
   return (
