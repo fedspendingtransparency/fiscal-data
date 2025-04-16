@@ -3,12 +3,16 @@ import { container, date, emptyRow, headerRow, name, table } from './generative-
 import GenerativeReportsTableNotice from '../generative-reports-table-notice/generative-reports-table-notice';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
+import DtgTableApiError from '../../dtg-table/dtg-table-api-error/dtg-table-api-error';
 
-const GenerativeReportsEmptyTable: FunctionComponent = ({ width, headingMessage, bodyMessage }) => {
+const GenerativeReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage }) => {
   const mobileView = width < pxToNumber(breakpointLg);
   const rowCount = 3;
-  const additionalFiltersHeading = 'This table requires additional filters';
-  const additionalFiltersBody = 'Select an account in the filter section above to display the reports.';
+
+  // const headerText = apiErrorMessage ? 'Api error header text' : 'This table requires additional filters';
+  // const bodyText = apiErrorMessage ? 'Api error body text' : 'Select an account in the filter section above to display the reports.';
+  const headerText = 'This table requires additional filters';
+  const bodyText = 'Select an account in the filter section above to display the reports.';
 
   return (
     <div className={container}>
@@ -37,7 +41,8 @@ const GenerativeReportsEmptyTable: FunctionComponent = ({ width, headingMessage,
           ))}
         </tbody>
       </table>
-      <GenerativeReportsTableNotice heading={headingMessage || additionalFiltersHeading} bodyText={bodyMessage || additionalFiltersBody} />
+      {apiErrorMessage && <DtgTableApiError />}
+      {!apiErrorMessage && <GenerativeReportsTableNotice heading={headerText} bodyText={bodyText} />}
     </div>
   );
 };
