@@ -3,7 +3,6 @@ import { container, date, emptyRow, headerRow, name, table } from './generative-
 import GenerativeReportsTableNotice from '../generative-reports-table-notice/generative-reports-table-notice';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
-import DtgTableApiError from '../../dtg-table/dtg-table-api-error/dtg-table-api-error';
 
 const GenerativeReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage }) => {
   const mobileView = width < pxToNumber(breakpointLg);
@@ -41,8 +40,7 @@ const GenerativeReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage
           ))}
         </tbody>
       </table>
-      {apiErrorMessage && <DtgTableApiError />}
-      {!apiErrorMessage && <GenerativeReportsTableNotice heading={headerText} bodyText={bodyText} />}
+      <GenerativeReportsTableNotice heading={headerText} bodyText={bodyText} />
     </div>
   );
 };

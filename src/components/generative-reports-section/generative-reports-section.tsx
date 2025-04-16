@@ -26,6 +26,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [activeReports, setActiveReports] = useState([]);
   const [allReports, setAllReports] = useState([]);
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
+  const [reportGenErrorMessage, setReportGenErrorMessage] = useState(false);
 
   const getReportData = async (report, reportConfig) => {
     const { dateField, apiFilter } = report;
@@ -139,8 +140,15 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
         </div>
         {/*{apiErrorMessage && <DtgTableApiError />}*/}
         {activeReports?.length === 0 && <GenerativeReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} />}
-        {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} />}
-        {/*{activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} />}*/}
+        {activeReports?.length > 0 && !reportGenErrorMessage && (
+          <DownloadReportTable
+            isDailyReport={false}
+            generatedReports={activeReports}
+            width={width}
+            setReportGenErrorMessage={setReportGenErrorMessage}
+          />
+        )}
+        {activeReports?.length > 0 && reportGenErrorMessage && <GenerativeReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} />}
       </DatasetSectionContainer>
     </div>
   );
