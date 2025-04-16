@@ -1,9 +1,10 @@
 import React from 'react';
 import SavingsBondsSoldByTypeChart from './savings-bonds-sold-by-type-chart';
-import { fireEvent, render, act, waitFor } from '@testing-library/react';
-import { mockData, yAxisFormatter, mockInflationData } from './savings-bonds-sold-by-type-chart-helper';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { mockData, mockInflationData, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
 import { mockSavingsBondFetchResponses } from '../../../../explainer-test-helper';
 import userEvent from '@testing-library/user-event';
+import Analytics from '../../../../../../utils/analytics/analytics';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -98,5 +99,96 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     expect(chart).not.toHaveFocus();
     //Tooltip closes
     expect(getAllByText('1935').length).toBe(1);
+  });
+
+  it('calls the inflation toggle ga event', async () => {
+    jest.useFakeTimers();
+    const gaSpy = jest.spyOn(Analytics, 'event');
+    const { getByText, getByRole } = render(
+      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+    );
+    expect(getByText('$21.0 B')).toBeInTheDocument();
+
+    const inflationToggle = getByRole('checkbox', { name: 'inflation toggle switch active: false' });
+    fireEvent.click(inflationToggle);
+
+    expect(gaSpy).toHaveBeenCalledWith({
+      action: 'Chart Toggle',
+      category: 'Explainers',
+      label: 'Savings Bonds - Savings Bonds Sold Inflation Adjustment',
+    });
+  });
+
+  it('calls the info tip ga event', async () => {
+    const gaSpy = jest.spyOn(Analytics, 'event');
+    const { getByRole } = render(
+      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+    );
+
+    const infoTip = getByRole('button', { name: 'More information about adjusting for inflation.' });
+    userEvent.hover(infoTip);
+    expect(gaSpy).toHaveBeenCalledWith({
+      action: 'Additional Info Hover',
+      category: 'Explainers',
+      label: 'Savings Bonds - Additional Inflation Adjustment Info',
+    });
+  });
+
+  it('calls the chart hover ga event', async () => {
+    jest.useFakeTimers();
+    const gaSpy = jest.spyOn(Analytics, 'event');
+
+    const { getByRole } = render(
+      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+    );
+
+    const chart = getByRole('application');
+    userEvent.hover(chart);
+    jest.advanceTimersByTime(3001);
+    expect(gaSpy).toHaveBeenCalledWith({
+      action: 'Chart Hover',
+      category: 'Explainers',
+      label: 'Savings Bonds - Savings Bonds Sold by Type Over Time',
+    });
+  });
+
+  it('does not call the chart hover ga event before 3 seconds', async () => {
+    jest.useFakeTimers();
+    const gaSpy = jest.spyOn(Analytics, 'event');
+
+    const { getByRole } = render(
+      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+    );
+
+    const chart = getByRole('application');
+    userEvent.hover(chart);
+    jest.advanceTimersByTime(1000);
+    userEvent.unhover(chart);
+    jest.advanceTimersByTime(3000);
+    expect(gaSpy).not.toHaveBeenCalledWith();
+  });
+
+  it('calls the citation click events', async () => {
+    jest.useFakeTimers();
+    const gaSpy = jest.spyOn(Analytics, 'event');
+
+    const { getByRole } = render(
+      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+    );
+
+    const citation1 = getByRole('link', { name: 'Electronic Securities Transactions' });
+    const citation2 = getByRole('link', { name: 'Bureau of Labor Statistics' });
+    userEvent.click(citation1);
+    expect(gaSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'Electronic Securities Transactions',
+    });
+    userEvent.click(citation2);
+    expect(gaSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'Bureau of Labor Statistics',
+    });
   });
 });

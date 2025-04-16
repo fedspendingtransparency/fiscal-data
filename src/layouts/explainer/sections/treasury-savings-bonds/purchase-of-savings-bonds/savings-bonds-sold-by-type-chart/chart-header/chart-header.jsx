@@ -5,8 +5,20 @@ import InflationToggle from '../inflation-toogle/inflation-toggle';
 import InfoTip from '../../../../../../../components/info-tip/info-tip';
 import { chartCopy } from '../savings-bonds-sold-by-type-chart-helper';
 import React from 'react';
+import { analyticsEventHandler } from '../../../../../explainer-helpers/explainer-helpers';
+import { ga4DataLayerPush } from '../../../../../../../helpers/google-analytics/google-analytics-helper';
 
 const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInflationAdjusted }) => {
+  const handleTooltipMouseEnter = () => {
+    const eventLabel = 'Savings Bonds - Additional Inflation Adjustment Info';
+    const eventAction = 'Additional Info Hover';
+    analyticsEventHandler(eventLabel, eventAction);
+    ga4DataLayerPush({
+      event: eventAction,
+      eventLabel: eventLabel,
+    });
+  };
+
   return (
     <div className={dataHeader}>
       <ChartToggle
@@ -21,7 +33,10 @@ const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInfl
           rightId: 'description',
           rightSelected: selectedChartView === 'description',
         }}
-        toggleClickHandler={chartView => setSelectedChartView(chartView)}
+        toggleClickHandler={chartView => {
+          setSelectedChartView(chartView);
+          analyticsEventHandler('Savings Bonds - Savings Bonds Type Descriptions', 'Chart Toggle');
+        }}
         chartId={null}
       />
       {selectedChartView === 'amounts' && (
@@ -37,6 +52,9 @@ const ChartHeader = ({ selectedChartView, setSelectedChartView, onToggle, isInfl
                 height: '1rem',
               }}
               secondary={false}
+              title="adjusting for inflation"
+              displayTitle={false}
+              clickEvent={handleTooltipMouseEnter}
             >
               {chartCopy.inflationToolTip}
             </InfoTip>

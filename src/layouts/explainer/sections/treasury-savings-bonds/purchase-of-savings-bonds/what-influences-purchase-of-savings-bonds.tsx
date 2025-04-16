@@ -1,24 +1,23 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
-import SavingsBondsSoldByTypeChart, {
-  ISavingBondsByTypeChartData
-} from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import SavingsBondsSoldByTypeChart, { ISavingBondsByTypeChartData } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
-import {visWithCallout} from '../../../explainer.module.scss';
-import {treasurySavingsBondsExplainerSecondary} from '../treasury-savings-bonds.module.scss';
-import {subsectionHeader} from './what-influences-purchase-of-savings-bonds.module.scss';
+import { visWithCallout } from '../../../explainer.module.scss';
+import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
+import { subsectionHeader } from './what-influences-purchase-of-savings-bonds.module.scss';
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poster.png';
 import PresidentKennedy from '../../../../../../static/images/savings-bonds/President-Kennedy-Holding-Bond.png';
-import {apiPrefix, basicFetch} from '../../../../../utils/api-utils';
-import {getShortForm} from '../../../../../utils/rounding-utils';
+import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
+import { getShortForm } from '../../../../../utils/rounding-utils';
 import IBondSalesChart from './i-bond-sales-chart/i-bond-sales-chart';
-import {graphql, useStaticQuery} from 'gatsby';
-import {fyEndpoint, sortByType} from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
-import {getDateWithoutTimeZoneAdjust} from '../../../../../utils/date-utils';
+import { graphql, useStaticQuery } from 'gatsby';
+import { fyEndpoint, sortByType } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
-import {getSaleBondsFootNotes} from '../learn-more/learn-more-helper';
-import {adjustDataForInflation} from '../../../../../helpers/inflation-adjust/inflation-adjust';
-import {ICpiDataMap} from '../../../../../models/ICpiDataMap';
+import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
+import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';
+import { ICpiDataMap } from '../../../../../models/ICpiDataMap';
+import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
 
 interface BondSaleEntry {
   year: string;
@@ -40,7 +39,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
   const [mostBondSales, setMostBondSales] = useState<number>(0);
   const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
   const [secondMostBondSales, setSecondMostBondSales] = useState<number>(0);
-
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`
       query {
@@ -54,7 +52,6 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
       }
     `
   );
-
   let savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
 
   const savingsBondsEndpoint = 'v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond';
@@ -113,6 +110,10 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
     });
   }, []);
 
+  const footnoteClick = () => {
+    analyticsEventHandler('Savings Bonds - Footnote Click', 'Footnote Click');
+  };
+
   return (
     <>
       <p>
@@ -124,8 +125,9 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
       <p>
         The sale of U.S. Treasury marketable securities began with the nation’s founding, where private citizens purchased $27 million in government
         bonds to finance the Revolutionary War.
-        <AnchorText link={anchor.anchors[0].link} text={anchor.anchors[0].text} /> These early loans to the government were introduced to raise funds
-        from the American public to support war efforts as well as other national projects like the construction of the Panama Canal.
+        <AnchorText link={anchor.anchors[0].link} text={anchor.anchors[0].text} onAnchorClick={footnoteClick} /> These early loans to the government
+        were introduced to raise funds from the American public to support war efforts as well as other national projects like the construction of the
+        Panama Canal.
       </p>
       <p>
         During the Great Depression, the U.S. government sought to stabilize the economy by issuing a new type of Treasury security: savings bonds. In
