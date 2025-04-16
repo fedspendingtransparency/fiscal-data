@@ -215,7 +215,7 @@ const initChart = (_data, _chartId, _dateField, _field, _showXLabel, _xStartLabe
   placeMarkers();
 };
 
-const mouseout = function() {
+const mouseout = function(event) {
   markers = [data[data.length - 1]];
   placeMarkers();
   hoverFunction(null, null);
@@ -223,8 +223,8 @@ const mouseout = function() {
 
 const mousemove = function() {
   // This index represents the x value closest to where the mouse is on the graph
-  // const closestXIndex = Math.round((pointer(this)[0] / w) * (data.length - 1));
-  const [pointers] = pointer(this);
+  // const closestXIndex = Math.round((pointer(event, this) / w) * (data.length - 1));
+  const [pointers] = pointer(event, this);
   const closestXIndex = Math.round((pointers / w) * (data.length - 1));
   const selectedData = data[closestXIndex];
 

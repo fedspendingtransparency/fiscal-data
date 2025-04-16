@@ -25,7 +25,6 @@ describe('Sparkline Chart', () => {
 
     const hoverEffectsRect = document.getElementById(hoverEffectsId);
 
-    hoverFunction.mockClear();
     hoverEffectsRect.dispatchEvent(new MouseEvent('mousemove', { bubbles: true }));
     expect(hoverFunction).toHaveBeenCalled();
 
