@@ -17,6 +17,8 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { useRecoilValueLoadable } from 'recoil';
 import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
 import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
+import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
+import { glossaryGAEvent } from '../treasury-savings-bonds';
 
 interface ChartDataItem {
   name: string;
@@ -189,44 +191,103 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     },
   ];
 
+  const links = {
+    revenue: (
+      <CustomLink
+        url="/americas-finance-guide/government-revenue/"
+        id="Government Revenue"
+        onClick={() => analyticsEventHandler('Government Revenue', 'Savings Bonds Citation Click')}
+      >
+        revenue
+      </CustomLink>
+    ),
+    spends: (
+      <CustomLink
+        url="/americas-finance-guide/federal-spending/"
+        id="Federal Spending"
+        onClick={() => analyticsEventHandler('Federal Spending', 'Savings Bonds Citation Click')}
+      >
+        spends
+      </CustomLink>
+    ),
+    deficit: (
+      <CustomLink
+        url="/americas-finance-guide/national-deficit/"
+        id="National Deficit"
+        onClick={() => analyticsEventHandler('National Deficit', 'Savings Bonds Citation Click')}
+      >
+        deficit
+      </CustomLink>
+    ),
+    debt: (
+      <CustomLink
+        url="/americas-finance-guide/national-debt/"
+        id="National Debt"
+        onClick={() => analyticsEventHandler('National Debt', 'Savings Bonds Citation Click')}
+      >
+        debt
+      </CustomLink>
+    ),
+  };
+
   const marketable = (
-    <GlossaryPopoverDefinition term="Marketable Securities" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition
+      term="Marketable Securities"
+      page="Savings Bond Explainer"
+      handleClick={() => glossaryGAEvent('Marketable Securities')}
+    >
       marketable
     </GlossaryPopoverDefinition>
   );
 
   const nonMarketable = (
-    <GlossaryPopoverDefinition term="Non-Marketable Securities" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition
+      term="Non-Marketable Securities"
+      page="Savings Bond Explainer"
+      handleClick={() => glossaryGAEvent('Non-Marketable Securities')}
+    >
       non-marketable
     </GlossaryPopoverDefinition>
   );
 
   const govAccountSeries = (
-    <GlossaryPopoverDefinition term="Government Account Series" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition
+      term="Government Account Series"
+      page="Savings Bond Explainer"
+      handleClick={() => glossaryGAEvent('Government Account Series')}
+    >
       Government Account Series
     </GlossaryPopoverDefinition>
   );
 
   const stateLocalGovSeries = (
-    <GlossaryPopoverDefinition term="State and Local Government Series" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition
+      term="State and Local Government Series"
+      page="Savings Bond Explainer"
+      handleClick={() => glossaryGAEvent('State and Local Government Series')}
+    >
       State and Local Government Series
     </GlossaryPopoverDefinition>
   );
 
   const debtHeldByPublic = (
-    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition
+      term="Debt Held by the Public"
+      page="Savings Bond Explainer"
+      handleClick={() => glossaryGAEvent('Debt Held by the Public')}
+    >
       debt held by the public
     </GlossaryPopoverDefinition>
   );
 
   const seriesIBonds = (
-    <GlossaryPopoverDefinition term="Series I Bonds" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition term="Series I Bonds" page="Savings Bond Explainer" handleClick={() => glossaryGAEvent('Series I Bonds')}>
       Series I bonds
     </GlossaryPopoverDefinition>
   );
 
   const seriesEEBonds = (
-    <GlossaryPopoverDefinition term="Series EE Bonds" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition term="Series EE Bonds" page="Savings Bond Explainer" handleClick={() => glossaryGAEvent('Series EE Bonds')}>
       Series EE bonds
     </GlossaryPopoverDefinition>
   );
@@ -234,13 +295,11 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
   return (
     <>
       <span>
-        The government finances programs like building and maintaining roads, school funding, or support for veterans through{' '}
-        <CustomLink url={'/americas-finance-guide/government-revenue/'}>revenue</CustomLink> sources like taxes. When the government{' '}
-        <CustomLink url={'/americas-finance-guide/federal-spending/'}>spends</CustomLink> more than it collects from revenue, this results in a{' '}
-        <CustomLink url={'/americas-finance-guide/national-deficit/'}>deficit</CustomLink>, which requires the government to borrow money (
-        <CustomLink url={'/americas-finance-guide/national-debt/'}>debt</CustomLink>) by issuing loans (securities) that it promises to pay back with
-        interest. Different types of securities earn interest in different ways. Treasury groups securities into two categories called {marketable}{' '}
-        and {nonMarketable} securities, which reflects whether they can be resold to another individual or entity after they are purchased.
+        The government finances programs like building and maintaining roads, school funding, or support for veterans through {links['revenue']}{' '}
+        sources like taxes. When the government {links['spends']} more than it collects from revenue, this results in a {links['deficit']}, which
+        requires the government to borrow money {links['debt']} by issuing loans (securities) that it promises to pay back with interest. Different
+        types of securities earn interest in different ways. Treasury groups securities into two categories called {marketable} and {nonMarketable}{' '}
+        securities, which reflects whether they can be resold to another individual or entity after they are purchased.
       </span>
       <ImageContainer color={treasurySavingsBondsExplainerSecondary} caption="A paper Series E Savings Bond">
         <img src={BondImage} alt="A paper Series E Savings Bond" />

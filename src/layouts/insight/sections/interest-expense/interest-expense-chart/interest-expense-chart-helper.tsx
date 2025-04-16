@@ -45,6 +45,8 @@ export const Legend: FunctionComponent = (): ReactElement => {
               height: '1rem',
             }}
             secondary={false}
+            title={'the Interest Expense chart'}
+            displayTitle={false}
           >
             {'Bars in the chart with a solid fill represent completed fiscal years. The bar with the ' +
               'diagonal lines represents the current fiscal year to date.'}

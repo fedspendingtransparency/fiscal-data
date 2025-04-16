@@ -51,7 +51,7 @@ const InflationToggle: FunctionComponent<{
 
   return (
     <StyledSwitch
-      data-testid={'inflation-check-box'}
+      data-testid="inflation-check-box"
       checked={isInflationAdjusted}
       onChange={handleToggle}
       inputProps={{ 'aria-label': `inflation toggle switch active: ${isInflationAdjusted}` }}

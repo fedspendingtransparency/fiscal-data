@@ -1,8 +1,7 @@
-import { ComposedChart, ResponsiveContainer, XAxis, YAxis, Line, Bar, CartesianGrid, Tooltip, Cell } from 'recharts';
+import { Bar, CartesianGrid, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { CustomTooltip, footer, Legend } from './interest-expense-chart-helper';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Skeleton } from '@mui/material';
-import { useState } from 'react';
 import { interestExpensePrimary } from '../../../insight.module.scss';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
@@ -16,6 +15,7 @@ import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
 import { chartTableBoarder } from './interest-expense-chart.module.scss';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import ChartingTableToggle from '../../../../../components/chart-with-table/chart-table-toggle/charting-table-toggle';
+
 const breakpoint = {
   desktop: 1015,
   tablet: 600,
@@ -66,6 +66,8 @@ export const InterestExpenseChart = () => {
       chartId={null}
       leftIcon={faChartColumn}
       rightIcon={faTable}
+      leftLabel={'toggle for chart view'}
+      rightLabel={'toggle for table view'}
     />
   );
   const resetDataHeader = () => {

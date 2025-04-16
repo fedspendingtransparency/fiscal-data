@@ -19,10 +19,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay } from '../../util/util';
 import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
-import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
+import { getDateLabelForReport, getGeneratedFileSize } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
 import { PDFDownloadLink } from '@react-pdf/renderer/lib/react-pdf.browser';
 import ReportGenerator from '../../report-generator/report-generator';
+import { DocumentProps, pdf } from '@react-pdf/renderer';
 
 interface IGeneratedReport {
   name: string;
@@ -48,6 +49,7 @@ const DownloadReportTableRow: FunctionComponent<{
   const [displayName, setDisplayName] = useState(null);
   const [publishedDate, setPublishedDate] = useState(null);
   const [fileTypeImage, setFileTypeImage] = useState(null);
+  const [generatedReportInstance, setGeneratedReportInstance] = useState<React.ReactElement<DocumentProps>>(null);
 
   const updateData = () => {
     if (reportFile && !generatedReport) {
@@ -76,7 +78,6 @@ const DownloadReportTableRow: FunctionComponent<{
       setPublishedDate(curReportFile?.date);
       setFileType('.pdf');
       setFileTypeImage(getFileTypeImage('.pdf'));
-      setFileSize(curReportFile?.size);
       setReportLocation('');
     }
   };
@@ -98,13 +99,22 @@ const DownloadReportTableRow: FunctionComponent<{
     </>
   );
 
+  useEffect(() => {
+    if (generatedReport) {
+      (async () => {
+        const instance = (
+          <ReportGenerator reportConfig={generatedReport.config} reportData={generatedReport.data} colConfig={generatedReport.colConfig} />
+        );
+        setGeneratedReportInstance(instance);
+        const blob = await pdf(instance).toBlob();
+        getGeneratedFileSize(blob, setFileSize);
+      })();
+    }
+  }, [generatedReport]);
+
   const LinkComponent = ({ children }) => {
     return generatedReport ? (
-      <PDFDownloadLink
-        document={<ReportGenerator reportConfig={generatedReport.config} reportData={generatedReport.data} colConfig={generatedReport.colConfig} />}
-        fileName={generatedReport.downloadName}
-        onClick={onDownloadClick}
-      >
+      <PDFDownloadLink document={generatedReportInstance} fileName={generatedReport.downloadName} onClick={onDownloadClick}>
         {children}
       </PDFDownloadLink>
     ) : (
@@ -146,11 +156,11 @@ const DownloadReportTableRow: FunctionComponent<{
 
   return (
     <>
-      {displayName && (
+      {displayName && (!generatedReport || (generatedReportInstance && fileSize)) && (
         <tr className={fileDescription} data-testid="file-download-row">
           <td>
             <LinkComponent>
-              {!mobileView && (
+              {!mobileView && (!generatedReport || fileSize) && (
                 <>
                   <div className={downloadFileContainer}>
                     <div className={downloadName}>
@@ -166,7 +176,7 @@ const DownloadReportTableRow: FunctionComponent<{
                   </div>
                 </>
               )}
-              {mobileView && (
+              {mobileView && (!generatedReport || fileSize) && (
                 <div className={downloadFileContainer}>
                   <img src={fileTypeImage} alt={`${fileType} icon`} />
                   <div className={downloadItem}>
