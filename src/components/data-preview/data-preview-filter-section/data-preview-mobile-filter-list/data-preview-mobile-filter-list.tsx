@@ -22,23 +22,34 @@ export const placeholderFilters = [
 
 export interface IMobileFilterList {
   filterOptions: { name: string; secondary?: string; selected?: boolean; active?: boolean }[];
-  onClick: () => void;
+  onTableSelected: (selectedOption: any) => void;
   getName: (option: any) => string;
   getSecondary: (option: any) => string;
+  selectedTable: string;
+  selectedFilter: string;
 }
 
 const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
   filterOptions = placeholderFilters,
-  onClick,
+  onTableSelected,
   getName,
   getSecondary = option => option.secondary,
+  selectedTable = '',
+  selectedFilter = '',
 }) => {
   return (
     <>
       {filterOptions.map((filterOption, index) => {
         return (
           <div key={index}>
-            <button className={`${buttonSleeve} ${filterOption.selected ? selected : ''} ${filterOption.active ? active : ''}`} onClick={onClick}>
+            <button
+              className={`${buttonSleeve} ${getName(filterOption) === selectedTable ? selected : ''} ${
+                getName(filterOption) === selectedFilter ? active : ''
+              }`}
+              onClick={() => {
+                onTableSelected(filterOption);
+              }}
+            >
               <div className={left}>
                 <span className={optionName}>{getName(filterOption)}</span>
                 {getSecondary(filterOption) && <span className={optionSecondary}>{getSecondary(filterOption)}</span>}

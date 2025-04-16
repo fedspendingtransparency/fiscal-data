@@ -1,13 +1,13 @@
-import React, { FunctionComponent, useContext, useState } from 'react';
-import { faTable } from '@fortawesome/free-solid-svg-icons';
+import React, {FunctionComponent, useContext, useState} from 'react';
+import {faTable} from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
-import { DataTableContext } from '../../data-preview-context';
-import { dropdownContent, footer } from './data-preview-column-filter.module.scss';
+import {DataTableContext} from '../../data-preview-context';
+import {dropdownContent, footer} from './data-preview-column-filter.module.scss';
 import FilterButtons from '../../data-preview-dropdown-dialog/filter-buttons/filter-buttons';
 import ColumnSelectionList from './column-selection-list/column-selection-list';
-import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg } from '../../data-preview.module.scss';
+import {pxToNumber} from '../../../../helpers/styles-helper/styles-helper';
+import {breakpointLg} from '../../data-preview.module.scss';
 import DataPreviewMobileDialog from '../../data-preview-mobile-dialog/data-preview-mobile-dialog';
 
 interface iColumnFilter {
@@ -67,7 +67,8 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
           {filterDropdownButton}
           {active && (
             <DataPreviewMobileDialog
-              onClose={handleCancel}
+              onCancel={handleCancel}
+              onBack={handleCancel}
               filterName="Columns"
               searchText="Search columns"
               filterComponent={
