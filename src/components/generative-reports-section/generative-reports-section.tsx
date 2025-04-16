@@ -140,6 +140,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
         {/*{apiErrorMessage && <DtgTableApiError />}*/}
         {activeReports?.length === 0 && <GenerativeReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} />}
         {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} />}
+        {/*{activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} />}*/}
       </DatasetSectionContainer>
     </div>
   );
