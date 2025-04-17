@@ -177,7 +177,6 @@ const TableSectionContainer = ({
     if (userFilterSelection?.value && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
       setUserFilteredData({ ...apiData, data: displayData });
-      console.log('displayData: ', displayData);
     } else {
       setUserFilteredData(null);
     }
@@ -408,13 +407,7 @@ const TableSectionContainer = ({
                 userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
                 apiFilterDefault={apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData}
                 onToggleLegend={legendToggler}
-                emptyData={
-                  !isLoading &&
-                  !serverSidePagination &&
-                  (!apiData || !apiData.data || !apiData.data.length) &&
-                  (!tableMeta || tableMeta?.count === 0) &&
-                  !apiError
-                }
+                emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
                 unchartable={noChartMessage !== undefined}
                 currentTab={selectedTab}
                 datasetName={config?.name}

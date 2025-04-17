@@ -50,7 +50,7 @@ export const SetNoChartMessage = (
         bodyText="No chart is available for the selected date range because it is too narrow to effectively chart."
       />
     );
-  } else if (emptyData && selectedPivot) {
+  } else if (emptyData && pivotView) {
     console.log(dateRange, dateRange.to, dateRange.from);
     return (
       <NotShownMessage
