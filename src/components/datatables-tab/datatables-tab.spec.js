@@ -1,8 +1,8 @@
 import React from 'react';
-import DtgTable from '../dtg-table/dtg-table';
 import DataTablesTab from './datatables-tab';
 import { RecoilRoot } from 'recoil';
 import { render } from '@testing-library/react';
+import { numberFormatter } from '../../helpers/text-format/text-format';
 
 describe('DataTablesTab', () => {
   const mockData = [
@@ -21,14 +21,19 @@ describe('DataTablesTab', () => {
   ];
 
   it('should pass along its data array to the dtgTable component', () => {
-    const {} = render(
+    const { getByRole } = render(
       <RecoilRoot>
         <DataTablesTab apis={mockData} />
       </RecoilRoot>
     );
-    const tableData = instance.findByType(DtgTable).props.tableProps.data;
-    expect(tableData).toMatchSnapshot();
+    mockData.forEach(row => {
+      expect(getByRole('cell', { name: row.tableName })).toBeInTheDocument();
+      expect(getByRole('cell', { name: row.tableDescription })).toBeInTheDocument();
+      expect(getByRole('cell', { name: numberFormatter.format(row.rowCount) })).toBeInTheDocument();
+      expect(getByRole('cell', { name: row.rowDefinition })).toBeInTheDocument();
+    });
   });
+
   it('sets aria-label to [dataset name] data tables', () => {
     const name = 'test-dataset';
     const { getByRole } = render(
