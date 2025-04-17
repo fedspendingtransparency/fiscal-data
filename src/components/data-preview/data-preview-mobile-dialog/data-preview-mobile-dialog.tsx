@@ -1,7 +1,7 @@
-import React, { FunctionComponent, ReactElement } from 'react';
+import React, {FunctionComponent, ReactElement} from 'react';
 import SearchBar from '../../../components/search-bar/search-bar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCaretLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
 
 import {
   applyButton,
@@ -15,29 +15,34 @@ import {
   previewCaretButton,
   previewCaretContainer,
   searchBar as searchBarStyle,
+  searchBox,
   sectionHeader,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import {IconProp} from '@fortawesome/fontawesome-svg-core';
 
 interface IDataPreviewMobileDialog {
-  onClose: () => void;
+  onCancel: () => void;
+  onBack: () => void;
+  onApply: () => void;
   filterComponent: ReactElement;
   filterName: string;
   searchText: string;
+  backButtonText: string;
   hasSearch?: boolean;
   bottomButton: string;
   bottomButtonIcon?: IconProp;
-  onBottomButtonClick: () => void;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
-  onClose,
+  onCancel,
+  onBack,
+  onApply,
   filterComponent,
   filterName,
   searchText,
+  backButtonText = 'Data Preview',
   hasSearch = true,
   bottomButton = 'Apply',
-  onBottomButtonClick,
   bottomButtonIcon = faCheck,
 }) => {
   const shouldTocShow = true;
@@ -52,19 +57,21 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
         <>
           <div>
             <div className={dataPreviewHeader}>
-              <button onClick={onClose} className={previewCaretButton}>
+              <button onClick={onBack} className={previewCaretButton}>
                 <div className={previewCaretContainer}>
                   <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
                 </div>
-                Data Preview
+                {backButtonText}
               </button>
             </div>
             <div className={topContainer}>
               <div className={sectionHeader}>{filterName}</div>
               {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
-                  <p>{searchText}</p>
-                  <SearchBar onChange={onSearchBarChange} filter={''} />
+                  <div className={searchBox}>
+                    <p>{searchText}</p>
+                    <SearchBar onChange={onSearchBarChange} filter={''} />
+                  </div>
                 </div>
               )}
             </div>
@@ -73,11 +80,11 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
             {filterComponent}
           </div>
           <div className={bottomContainer}>
-            <button className={applyButton} onClick={onBottomButtonClick}>
+            <button className={applyButton} onClick={onApply}>
               <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
               {bottomButton}
             </button>
-            <button className={cancelButton} onClick={onClose}>
+            <button className={cancelButton} onClick={onCancel}>
               <u>Cancel</u>
             </button>
           </div>

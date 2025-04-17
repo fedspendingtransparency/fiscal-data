@@ -1,13 +1,28 @@
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import React from 'react';
+import { analyticsEventHandler } from '../../../../explainer-helpers/explainer-helpers';
 
 export const chartCopy = {
   altText: 'Inflation and I bond sales shown over time.',
   footer: (
     <p>
-      Visit the <CustomLink url="/datasets/electronic-securities-transactions/">Electronic Securities Transactions</CustomLink> dataset to explore and
-      download this data. Inflation data is from the{' '}
-      <CustomLink url="https://data.bls.gov/cgi-bin/surveymost?bls">Bureau of Labor Statistics</CustomLink>.
+      Visit the{' '}
+      <CustomLink
+        url="/datasets/electronic-securities-transactions/"
+        id="Electronics Securities Transactions"
+        onClick={() => analyticsEventHandler('Electronics Securities Transactions', 'Savings Bonds Citation Click')}
+      >
+        Electronic Securities Transactions
+      </CustomLink>{' '}
+      dataset to explore and download this data. Inflation data is from the{' '}
+      <CustomLink
+        url="https://data.bls.gov/cgi-bin/surveymost?bls"
+        id="Bureau of Labor Statistics"
+        onClick={() => analyticsEventHandler('Bureau of Labor Statistics', 'Savings Bonds Citation Click')}
+      >
+        Bureau of Labor Statistics
+      </CustomLink>
+      .
     </p>
   ),
 };

@@ -1,7 +1,15 @@
-import React, { FunctionComponent } from 'react';
-import { chartTableToggleContainer, toggleButton, toggleButtonLeft, toggleButtonRight, selected, icon } from './charting-table-toggle.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import React, {FunctionComponent} from 'react';
+import {
+  chartTableToggleContainer,
+  icon,
+  selected,
+  toggleButton,
+  toggleButtonLeft,
+  toggleButtonRight
+} from './charting-table-toggle.module.scss';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
+
 interface LeftButtonConfig {
   leftId: string;
   leftSelected: boolean;
@@ -30,6 +38,8 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
   rightButtonConfig,
   leftIcon,
   rightIcon,
+  leftLabel,
+  rightLabel,
 }) => {
   const { leftId, leftSelected } = leftButtonConfig;
   const { rightId, rightSelected } = rightButtonConfig;
@@ -45,6 +55,7 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
           color: leftSelected ? '#FFF' : primaryColor,
         }}
         id={chartId || undefined}
+        aria-label={leftLabel}
       >
         <FontAwesomeIcon className={icon} icon={leftIcon} />
       </button>
@@ -58,6 +69,7 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
           color: rightSelected ? '#FFF' : primaryColor,
         }}
         id={chartId || undefined}
+        aria-label={rightLabel}
       >
         <FontAwesomeIcon className={icon} icon={rightIcon} />
       </button>
