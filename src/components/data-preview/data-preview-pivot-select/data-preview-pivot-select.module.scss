@@ -41,3 +41,27 @@
     }
   }
 }
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .sectionContainer {
+    padding: 0 1rem 1rem 1.25rem;
+
+    .radioButton {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+    .tableName {
+      display: none;
+    }
+    .pivotSectionContainer {
+      margin-left: 1.25rem;
+      margin-top: 0;
+      margin-right: 2rem;
+    }
+    .DropdownContainer,
+    .ComboSelectDropdown {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+}

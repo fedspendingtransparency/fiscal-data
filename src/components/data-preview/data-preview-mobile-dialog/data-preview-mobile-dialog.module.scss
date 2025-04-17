@@ -79,19 +79,24 @@
     margin: 0;
     padding-bottom: 0.25rem;
   }
+  padding-bottom: 1rem;
+  border-bottom: 0.0625rem solid #d9d9d9;
+
+  .searchBox {
+    padding: 0 1rem 0 1rem;
+  }
 }
 
 .topContainer {
-  padding: 0 1rem 1rem 1rem;
   align-items: center;
   text-align: left;
-  border-bottom: 0.0625rem solid #d9d9d9;
 
   .sectionHeader {
     margin-top: 0;
     font-size: 1.5rem;
     color: $font-title;
     font-weight: 600;
+    padding: 0 1rem 1rem 1rem;
   }
 
   label {

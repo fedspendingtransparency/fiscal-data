@@ -76,7 +76,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   switch (true) {
     case ext || ['http', 'tel'].some(protocol => urlOrHref.startsWith(protocol)):
       return (
-        <ExternalLink url={urlOrHref} onClick={onClickEventHandler} dataTestId={dataTestId}>
+        <ExternalLink url={urlOrHref} onClick={onClickEventHandler} dataTestId={dataTestId} id={id}>
           {children}
         </ExternalLink>
       );
