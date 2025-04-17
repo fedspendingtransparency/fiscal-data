@@ -225,7 +225,7 @@ const TableSectionContainer = ({
 
   useMemo(async () => {
     await refreshTable();
-  }, [apiData, userFilterSelection, apiError, dateRange, selectedPivot]);
+  }, [apiData, userFilterSelection, apiError]);
 
   useMemo(async () => {
     if (serverSidePagination || userFilterSelection) {
