@@ -1,6 +1,5 @@
 import React, { act } from 'react';
 import SearchField, { searchFieldAnalyticsObject } from './search-field';
-import InfoTip from '../../info-tip/info-tip';
 import Analytics from '../../../utils/analytics/analytics';
 import { siteContext } from '../../persist/persist';
 import { fireEvent, render, within } from '@testing-library/react';
@@ -12,27 +11,14 @@ const testString = 'user typed query';
 const persistentTerms = 'my previous query';
 
 describe('Search Field', () => {
-  const mockInfoIcon = {
-    title: 'Dummy Title',
-    body: 'Dummy Body',
-  };
-
   const gaSpy = jest.spyOn(Analytics, 'event');
-  let queryTerm, instance, button, inputField;
+  let queryTerm;
   window.dataLayer = window.dataLayer || [];
   const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
 
   const mockChangeHandler = query => {
     queryTerm = query;
   };
-
-  // beforeEach(() => {
-  // component = renderer.create(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
-  //
-  // instance = component.root;
-  // button = instance.findAllByType('button')[0];
-  // inputField = instance.findByType('input');
-  // });
 
   it('places an input field', () => {
     const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
@@ -94,8 +80,8 @@ describe('Search Field', () => {
   });
 
   it('displays a search icon within a disabled button when no characters are present in the field', () => {
-    const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} />);
-    const button = getByRole('button');
+    const { getByTestId } = render(<SearchField changeHandler={mockChangeHandler} searchTerm={''} />);
+    const button = getByTestId('search-button');
     expect(button).toBeDisabled();
 
     // test fails if button doesn't contain exactly 1 search icon
@@ -105,17 +91,18 @@ describe('Search Field', () => {
   });
 
   it('populates the tooltip', () => {
-    const tooltip = instance.findByType(InfoTip);
+    const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
 
-    expect(tooltip.props.title).toBe('Dataset Keyword Search');
-    expect(tooltip.props.children).toBeDefined(); // was content sent to the body?
+    const tooltip = getByRole('button', { name: 'More information about Dataset Keyword Search.' });
+    expect(tooltip).toBeInTheDocument();
   });
 
   it('tracks when a user enters text into the search field and also test GA4 datalayer push', () => {
     const testString = 'Testing123';
-    // renderer.act(() => {
-    //   inputField.props.onChange({ target: { value: testString } });
-    // });
+    const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
+    const input = getByRole('textbox');
+    userEvent.click(input);
+    userEvent.keyboard(testString);
     jest.runAllTimers();
 
     expect(queryTerm).toBe(testString);
@@ -135,38 +122,41 @@ describe('search field persistence', () => {
   const mockChangeHandler = jest.fn();
   const setKeywordsSpy = jest.fn();
 
-  // let component, instance, inputField;
-
-  // beforeEach(() => {
-  //   component = renderer.create(
-  //     <siteContext.Provider
-  //       value={{
-  //         keywords: persistentTerms,
-  //         setKeywords: setKeywordsSpy,
-  //       }}
-  //     >
-  //       <SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />
-  //     </siteContext.Provider>
-  //   );
-  //
-  //   instance = component.root;
-  //   inputField = instance.findByType('input');
-  // });
-
   it('sets previous keywords on page load', () => {
+    const { getByRole } = render(
+      <siteContext.Provider
+        value={{
+          keywords: persistentTerms,
+          setKeywords: setKeywordsSpy,
+        }}
+      >
+        <SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />
+      </siteContext.Provider>
+    );
+    const inputField = getByRole('textbox');
+
     jest.runAllTimers();
-    // expect(inputField.props.value).toBe(persistentTerms);
+    expect(inputField).toHaveValue(persistentTerms);
     expect(mockChangeHandler).toHaveBeenCalledWith(persistentTerms);
   });
 
   it('stores keywords as they are entered', () => {
-    // renderer.act(() => {
-    //   inputField.props.onChange({ target: { value: testString } });
-    // });
-
+    const { getByRole } = render(
+      <siteContext.Provider
+        value={{
+          keywords: persistentTerms,
+          setKeywords: setKeywordsSpy,
+        }}
+      >
+        <SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />
+      </siteContext.Provider>
+    );
+    const inputField = getByRole('textbox');
+    userEvent.click(inputField);
+    userEvent.keyboard(testString);
     jest.runAllTimers();
 
-    expect(setKeywordsSpy).toHaveBeenCalledWith(testString);
+    expect(setKeywordsSpy).toHaveBeenCalledWith(persistentTerms + testString);
   });
 
   it('Testing GA4 datalayer push for handleInfoTipClick', () => {
