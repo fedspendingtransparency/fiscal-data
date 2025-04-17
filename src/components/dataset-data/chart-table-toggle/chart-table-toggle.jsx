@@ -126,12 +126,6 @@ const ChartTableToggle = ({
   } else if (emptyData) {
     emptyDataMessage = <NotShownMessage heading="Change selections in order to preview data" bodyText={emptyDataMessageBody} />;
   }
-  //
-  // {!isLoading && apiData?.data?.length === 0 && !serverSidePagination && !allTablesSelected && (
-  //   <div className={noticeContainer}>
-  //     <NotShownMessage heading="No data available for the selected date range" bodyText="Please select a different time range." />
-  //   </div>
-  // )}
 
   const emptyChartMessage = !unchartable || allTablesSelected ? emptyDataMessage : null;
   return (
