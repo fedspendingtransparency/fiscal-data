@@ -51,7 +51,6 @@ export const SetNoChartMessage = (
       />
     );
   } else if (emptyData && pivotView) {
-    console.log(dateRange, dateRange.to, dateRange.from);
     return (
       <NotShownMessage
         heading="Select a different date range to display a chart"
