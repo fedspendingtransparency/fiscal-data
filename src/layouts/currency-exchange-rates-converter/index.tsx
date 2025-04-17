@@ -45,7 +45,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             agencies to consistently report U.S. dollar equivalents. For more information on the calculation of exchange rates used by federal
             agencies, please see the{' '}
             <CustomLink
-              url="http://tfx.treasury.gov/tfm/volume1/part2/chapter-3200-foreign-currency-accounting-and-reporting#Section3235TranslatingForeignCurrenciestoUSDollarEquivalents"
+              url="https://tfx.treasury.gov/tfm/volume1/part2/chapter-3200-foreign-currency-accounting-and-reporting#Section3235TranslatingForeignCurrenciestoUSDollarEquivalents"
               onClick={() => analyticsHandler('Citation Click', 'Treasury Financial Manual')}
             >
               Treasury Financial Manual, volume 1, part 2, section 3235
