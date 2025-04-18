@@ -101,6 +101,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             data: reportData,
             config: reportConfig,
             colConfig: report,
+            setApiErrorMessage: apiErrorMessage,
           };
           reports.push(curReport);
           setSummaryValues(reportConfig, formattedDate, reportData);

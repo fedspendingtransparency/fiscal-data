@@ -87,30 +87,14 @@ describe('Generative Report Footer', () => {
 
   it('renders the error message when an api error is encountered', async () => {
     fetchMock.restore();
-    // jest.spyOn(global, 'fetch').mockRejectedValue(new Error('api error'));
     const mockEndpointBase = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
     fetchMock.get(
       mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr',
       { throws: new Error('api error') }
     );
-    fetchMock.get(
-      mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=-eff_date,memo_nbr',
-      { throws: new Error('api error') }
-    );
-    fetchMock.get(
-      mockEndpointBase + 'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr',
-      { throws: new Error('api error') }
-    );
-    fetchMock.get(
-      mockEndpointBase + 'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=-eff_date,memo_nbr',
-      { throws: new Error('api error') }
-    );
     const { getByRole, getByText } = render(<GenerativeReportsSection apisProp={mockApiConfig} />);
-    // expect(getByRole('tawble')).toBeInTheDocument();
-    // const accountFilter = getByRole('button', { name: 'Account: (None selected)' });
-    fireEvent.click(getByRole('button', { name: 'Account:' }));
-    // const accountOption = getByRole('button', { name: 'option2' });
+    fireEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
     fireEvent.click(getByRole('button', { name: 'option2' }));
-    expect(getByText('tawble')).toBeInTheDocument();
+    expect(await getByText('Table failed to load.')).toBeInTheDocument();
   });
 });
