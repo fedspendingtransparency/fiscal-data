@@ -1,15 +1,22 @@
-import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
+import React, {FunctionComponent, useContext, useEffect, useMemo, useState} from 'react';
 import GLOBALS from '../../../helpers/constants';
-import { useSetRecoilState } from 'recoil';
-import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
-import { buildDateFilter, buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
-import { queryClient } from '../../../../react-query-client';
-import { setTableConfig } from '../../dataset-data/table-section-container/set-table-config';
+import {useSetRecoilState} from 'recoil';
+import {disableDownloadButtonState} from '../../../recoil/disableDownloadButtonState';
+import {
+  buildDateFilter,
+  buildSortParams,
+  fetchAllTableData,
+  fetchTableMeta,
+  formatDateForApi,
+  MAX_PAGE_SIZE
+} from '../../../utils/api-utils';
+import {queryClient} from '../../../../react-query-client';
+import {setTableConfig} from '../../dataset-data/table-section-container/set-table-config';
 import Analytics from '../../../utils/analytics/analytics';
-import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import { SetNoChartMessage } from '../../dataset-data/table-section-container/set-no-chart-message';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {determineUserFilterUnmatchedForDateRange} from '../../filter-download-container/user-filter/user-filter';
+import {SetNoChartMessage} from '../../dataset-data/table-section-container/set-no-chart-message';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import AggregationNotice from '../../dataset-data/table-section-container/aggregation-notice/aggregation-notice';
 import DataPreviewTable from '../data-preview-table/data-preview-table';
 import {
@@ -22,7 +29,8 @@ import {
   titleContainer,
 } from './data-preview-section-container.module.scss';
 import ChartTableDisplay from '../data-preview-chart-table-display/data-preview-chart-table-display';
-import { DataTableContext } from '../data-preview-context';
+import {DataTableContext} from '../data-preview-context';
+import DynamicConfig from '../../dataset-data/table-section-container/dynamic-config/dynamicConfig';
 
 type DataPreviewSectionProps = {
   config;
@@ -343,6 +351,14 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
 
   return (
     <>
+      <div>
+        <DynamicConfig
+          selectedTable={selectedTable}
+          handleIgnorePivots={handleIgnorePivots}
+          handlePivotsUpdated={handlePivotConfigUpdated}
+          refreshTable={refreshTable}
+        />
+      </div>
       <div data-test-id="table-container" className={sectionBorder}>
         <div className={titleContainer}>
           {dateFieldForChart === 'CHART_DATE' && (
