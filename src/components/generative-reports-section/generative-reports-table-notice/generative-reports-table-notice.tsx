@@ -1,15 +1,28 @@
-import React, { FunctionComponent } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { container, icon, info, notShownBodyText, notShownHeading } from './generative-reports-table-notice.module.scss';
+import React, {FunctionComponent} from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faInfoCircle} from '@fortawesome/free-solid-svg-icons';
+import {
+  container,
+  errorContainer,
+  icon,
+  info,
+  notShownBodyText,
+  notShownHeading
+} from './generative-reports-table-notice.module.scss';
+import DtgTableApiError from '../../dtg-table/dtg-table-api-error/dtg-table-api-error';
 
 interface iTableMessage {
   heading: string;
   bodyText: string;
+  apiErrorMessage: boolean;
 }
 
-const GenerativeReportsTableNotice: FunctionComponent<iTableMessage> = ({ heading, bodyText }) => {
-  return (
+const GenerativeReportsTableNotice: FunctionComponent<iTableMessage> = ({ heading, bodyText, apiErrorMessage }) => {
+  return apiErrorMessage ? (
+    <div className={errorContainer}>
+      <DtgTableApiError />
+    </div>
+  ) : (
     <div className={container} data-testid="container">
       <div className={info}>
         <div className={icon}>

@@ -7,6 +7,14 @@
   top: 40%;
 }
 
+.errorContainer {
+  text-align: left;
+  position: absolute;
+  width: 100%;
+  top: 30%;
+  z-index: 0;
+}
+
 .info {
   display: inline-flex;
   padding: 1.125rem 2.25rem;

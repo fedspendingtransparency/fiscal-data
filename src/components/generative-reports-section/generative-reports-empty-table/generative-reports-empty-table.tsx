@@ -4,7 +4,7 @@ import GenerativeReportsTableNotice from '../generative-reports-table-notice/gen
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 
-const GenerativeReportsEmptyTable: FunctionComponent = ({ width }) => {
+const GenerativeReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage }) => {
   const mobileView = width < pxToNumber(breakpointLg);
   const rowCount = 3;
   const additionalFiltersHeading = 'This table requires additional filters';
@@ -37,7 +37,7 @@ const GenerativeReportsEmptyTable: FunctionComponent = ({ width }) => {
           ))}
         </tbody>
       </table>
-      <GenerativeReportsTableNotice heading={additionalFiltersHeading} bodyText={additionalFiltersBody} />
+      <GenerativeReportsTableNotice heading={additionalFiltersHeading} bodyText={additionalFiltersBody} apiErrorMessage={apiErrorMessage} />
     </div>
   );
 };

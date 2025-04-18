@@ -33,6 +33,7 @@ interface IGeneratedReport {
   config;
   data;
   colConfig;
+  setApiErrorMessage: (hasError: boolean) => void;
 }
 
 const DownloadReportTableRow: FunctionComponent<{
@@ -106,8 +107,14 @@ const DownloadReportTableRow: FunctionComponent<{
           <ReportGenerator reportConfig={generatedReport.config} reportData={generatedReport.data} colConfig={generatedReport.colConfig} />
         );
         setGeneratedReportInstance(instance);
-        const blob = await pdf(instance).toBlob();
-        getGeneratedFileSize(blob, setFileSize);
+        try {
+          const blob = await pdf(instance).toBlob();
+          getGeneratedFileSize(blob, setFileSize);
+        } catch (error) {
+          const { setApiErrorMessage } = generatedReport;
+          setApiErrorMessage(true);
+          return;
+        }
       })();
     }
   }, [generatedReport]);
