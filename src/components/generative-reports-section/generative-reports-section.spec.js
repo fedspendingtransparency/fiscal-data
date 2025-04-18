@@ -96,5 +96,5 @@ describe('Generative Report Footer', () => {
     fireEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
     fireEvent.click(getByRole('button', { name: 'option2' }));
     expect(await getByText('Table failed to load.')).toBeInTheDocument();
-  });
+  }); // test
 });
