@@ -206,14 +206,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       {!hideDropdown && width < pxToNumber(breakpointLg) && (
         <>
           {dropdownButton}
-          {active && (
-            <DataPreviewMobileDialog
-              onClose={handleCancel}
-              filterName="Data Tables"
-              searchText="Search data tables"
-              filterComponent={<DataPreviewMobileFilterList filterOptions={options} getName={option => option.tableName} />}
-            />
-          )}
           {active && mobileFilterComponent}
         </>
       )}
