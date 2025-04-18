@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
   center,
   downloadButton,
@@ -15,15 +15,15 @@ import {
   fileDescription,
   startName,
 } from './download-report-table-row.module.scss';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCircleCheck, faCloudArrowDown} from '@fortawesome/free-solid-svg-icons';
-import {getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay} from '../../util/util';
-import {IPublishedReportDataJson} from '../../../../models/IPublishedReportDataJson';
-import {getDateLabelForReport, getGeneratedFileSize} from '../../../../helpers/dataset-detail/report-helpers';
-import {getFileSize} from '../../download-report/download-helpers';
-import {PDFDownloadLink} from '@react-pdf/renderer/lib/react-pdf.browser';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay } from '../../util/util';
+import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
+import { getDateLabelForReport, getGeneratedFileSize } from '../../../../helpers/dataset-detail/report-helpers';
+import { getFileSize } from '../../download-report/download-helpers';
+import { PDFDownloadLink } from '@react-pdf/renderer/lib/react-pdf.browser';
 import ReportGenerator from '../../report-generator/report-generator';
-import {DocumentProps, pdf} from '@react-pdf/renderer';
+import { DocumentProps, pdf } from '@react-pdf/renderer';
 
 interface IGeneratedReport {
   name: string;
@@ -33,6 +33,7 @@ interface IGeneratedReport {
   config;
   data;
   colConfig;
+  setApiErrorMessage: boolean;
 }
 
 const DownloadReportTableRow: FunctionComponent<{
