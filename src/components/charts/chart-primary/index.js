@@ -1,10 +1,9 @@
-import { area, mouse } from 'd3';
-import { select, selectAll } from 'd3-selection';
+import { select, selectAll, pointer } from 'd3-selection';
 import { transition } from 'd3-transition';
 import { extent } from 'd3-array';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { timeParse } from 'd3-time-format';
-import { line } from 'd3-shape';
+import { area, line } from 'd3-shape';
 import { interpolateNumber } from 'd3-interpolate';
 import setAxes from './setAxes';
 import initTooltip from './tooltip';
@@ -418,7 +417,7 @@ const mouseout = function() {
 
 const mousemove = function() {
   // This index represents the x value closest to where the mouse is on the graph
-  const closestXIndex = data.length - Math.round((mouse(this)[0] / chartDimensions.width) * (data.length - 1));
+  const closestXIndex = data.length - Math.round((pointer(this)[0] / chartDimensions.width) * (data.length - 1));
   const selectedData = data[closestXIndex];
 
   if (selectedData && selectedData[fields[0]]) {

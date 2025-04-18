@@ -25,12 +25,11 @@ describe('Sparkline Chart', () => {
 
     const hoverEffectsRect = document.getElementById(hoverEffectsId);
 
-    hoverFunction.mockClear();
-    hoverEffectsRect.dispatchEvent(new MouseEvent('mousemove'), { bubbles: true });
+    hoverEffectsRect.dispatchEvent(new MouseEvent('mousemove', { bubbles: true }));
     expect(hoverFunction).toHaveBeenCalled();
 
     hoverFunction.mockClear();
-    hoverEffectsRect.dispatchEvent(new MouseEvent('mouseout'), { bubbles: true });
+    hoverEffectsRect.dispatchEvent(new MouseEvent('mouseout', { bubbles: true }));
     expect(hoverFunction).toHaveBeenCalledWith(null, null);
   });
 });

@@ -17,7 +17,9 @@ module.exports = {
   modulePathIgnorePatterns: ['.cache'],
   testMatch: ['<rootDir>/**/**.spec.{js,jsx,ts,tsx}'],
   testPathIgnorePatterns: [`node_modules`, `.cache`, `public`],
-  transformIgnorePatterns: [`node_modules/(?!(gatsby)|d3-color|@react-pdf/renderer)`],
+  transformIgnorePatterns: [
+    `node_modules/(?!(gatsby|d3|d3-color|d3-array|d3-scale|d3-shape|d3-selection|d3-time|d3-time-format|d3-transition|d3-interpolate|d3-axis|@react-pdf/renderer)/)`,
+  ],
   globals: {
     __PATH_PREFIX__: ``,
     'ts-jest': {

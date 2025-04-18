@@ -1,10 +1,9 @@
-import { area, mouse } from 'd3';
-import { BaseType, select, selectAll, Selection } from 'd3-selection';
+import { BaseType, select, selectAll, Selection, pointer } from 'd3-selection';
 import { transition } from 'd3-transition';
 import { extent } from 'd3-array';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { timeParse } from 'd3-time-format';
-import { line } from 'd3-shape';
+import { area, line } from 'd3-shape';
 import { interpolateNumber } from 'd3-interpolate';
 import setAxes from './setAxes';
 import { ChartConfig } from '../../../layouts/explainer/multichart/multichart';
@@ -326,7 +325,7 @@ export class MultichartRenderer {
     const dataSegments = this.chartConfigs[0].data.length;
     const segmentWidth = Math.round(this.chartDimensions.width / dataSegments);
     const colWidth = Math.round((this.chartDimensions.width + segmentWidth) / dataSegments);
-    const mousePos = mouse(trackingElem.node())[0];
+    const mousePos = pointer(trackingElem.node())[0];
     let closestXIndex = Math.floor((this.chartDimensions.width + segmentWidth - mousePos) / colWidth);
 
     // ensure the index value stays within range of available data
