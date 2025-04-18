@@ -40,7 +40,7 @@ const DownloadReportTableRow: FunctionComponent<{
   generatedReport?: IGeneratedReport;
   isDailyReport: boolean;
   mobileView?: boolean;
-}> = ({ reportFile, isDailyReport, mobileView, generatedReport, setApiErrorMessage }) => {
+}> = ({ reportFile, isDailyReport, mobileView, generatedReport }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);
   const [reportLocation, setReportLocation] = useState<string>(null);
@@ -110,7 +110,6 @@ const DownloadReportTableRow: FunctionComponent<{
           const blob = await pdf(instance).toBlob();
           getGeneratedFileSize(blob, setFileSize);
         } catch (error) {
-          setApiErrorMessage(true);
           return;
         }
       })();

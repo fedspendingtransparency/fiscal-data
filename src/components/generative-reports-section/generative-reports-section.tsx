@@ -36,6 +36,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
     try {
       const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
+      setApiErrorMessage(false);
       return res.data;
     } catch (error) {
       setApiErrorMessage(true);
@@ -139,7 +140,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
         </div>
         {(activeReports?.length === 0 || apiErrorMessage) && <GenerativeReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} />}
         {activeReports?.length > 0 && !apiErrorMessage && (
-          <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
+          <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} />
         )}
       </DatasetSectionContainer>
     </div>
