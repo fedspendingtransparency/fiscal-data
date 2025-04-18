@@ -84,4 +84,9 @@ describe('Generative Report Footer', () => {
     expect(within(downloadLink).getByText('ion2.pdf')).toBeInTheDocument();
     expect(within(downloadLink).getByText('July 2024')).toBeInTheDocument();
   });
+
+  it('renders the error message when an api error is encountered', () => {
+    const { getByText } = render(<GenerativeReportsSection apisProp={mockApiConfig} apiErrorMessage={true} />);
+    expect(getByText('Table failed to load.'));
+  });
 });
