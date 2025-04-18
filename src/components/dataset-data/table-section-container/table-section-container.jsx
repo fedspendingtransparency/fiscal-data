@@ -407,13 +407,7 @@ const TableSectionContainer = ({
                 userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
                 apiFilterDefault={apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData}
                 onToggleLegend={legendToggler}
-                emptyData={
-                  !isLoading &&
-                  !serverSidePagination &&
-                  (!apiData || !apiData.data || !apiData.data.length) &&
-                  (!tableMeta || tableMeta?.count === 0) &&
-                  !apiError
-                }
+                emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
                 unchartable={noChartMessage !== undefined}
                 currentTab={selectedTab}
                 datasetName={config?.name}
@@ -467,7 +461,8 @@ const TableSectionContainer = ({
                     allTablesSelected,
                     userFilterSelection,
                     determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData),
-                    config?.customNoChartMessage
+                    config?.customNoChartMessage,
+                    apiData?.data?.length === 0
                   );
                   if (generatedMessage && !ignorePivots) {
                     return generatedMessage;
