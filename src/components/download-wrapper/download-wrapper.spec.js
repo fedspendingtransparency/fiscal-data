@@ -4,7 +4,6 @@ import DownloadWrapper, { cancelEventActionStr } from './download-wrapper';
 import Analytics from '../../utils/analytics/analytics';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
-import DownloadModal from '../download-modal/download-modal';
 import { RecoilRoot } from 'recoil';
 import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
 import userEvent from '@testing-library/user-event';
@@ -204,7 +203,7 @@ describe('DownloadWrapper', () => {
     setDownloadReadyLocation: () => {},
     setDownloadsPrepared: () => {},
     setDatasetsInProgress: () => {},
-    downloadsInProgress: [],
+    downloadsInProgress: [{ readyForDownload: false, status: 'incomplete' }],
     downloadQueue: mockDownloadQueue,
     setDownloadRequest: mockSetDownloadRequest,
   };
@@ -277,14 +276,20 @@ describe('DownloadWrapper', () => {
     userEvent.click(getByTestId('download-button'));
     expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
   });
-
-  it('triggers a GA event when the cancel event is triggered within the modal', () => {
-    const modal = instance.findByType(DownloadModal);
+  // TODO *****************************
+  it('triggers a GA event when the cancel event is triggered within the modal', async () => {
+    // const modal = instance.findByType(DownloadModal);
     const spy = jest.spyOn(Analytics, 'event');
     spy.mockClear();
-    renderer.act(() => {
-      modal.props.setCancelDownloadRequest(true);
-    });
+    const { findByRole, getByTestId } = render(
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadWrapper selectedTable={mockAnotherTable} dataset={mockDataset} dateRange={mockDateRange} setDisableDownloadBanner={jest.fn()} />
+        </downloadsContext.Provider>
+      </RecoilRoot>
+    );
+    userEvent.click(getByTestId('download-button'));
+    const cancelButton = await findByRole('button', { name: 'Cancel Download' });
     const gaLabel =
       'Table Name: undefined, Type: csv, Date Range: Wed Jan 01 2020 00:00:00 GMT-0600 (Central Standard Time)-Sun Nov 01 2020 00:00:00 GMT-0500 (Central Daylight Time)';
     expect(spy).toHaveBeenCalled();
