@@ -40,7 +40,7 @@ const DownloadReportTableRow: FunctionComponent<{
   generatedReport?: IGeneratedReport;
   isDailyReport: boolean;
   mobileView?: boolean;
-  setApiErrorMessage: (hasError: boolean) => void;
+  setApiErrorMessage?: (errorState: boolean) => void;
 }> = ({ reportFile, isDailyReport, mobileView, generatedReport, setApiErrorMessage }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);

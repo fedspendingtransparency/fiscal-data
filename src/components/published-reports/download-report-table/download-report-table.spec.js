@@ -63,7 +63,10 @@ describe('Download Report Table', () => {
   });
 
   it('renders generated report table rows', async () => {
-    const { findAllByRole } = render(<DownloadReportTable width={breakpointLg - 1} generatedReports={mockGeneratedReports} />);
+    const setApiError = jest.fn();
+    const { findAllByRole } = render(
+      <DownloadReportTable width={breakpointLg - 1} generatedReports={mockGeneratedReports} setApiErrorMessage={setApiError} />
+    );
     const downloadLinks = await findAllByRole('link');
     expect(within(downloadLinks[0]).getByText('4 KB')).toBeInTheDocument();
     expect(within(downloadLinks[0]).getByText('5/1/2021')).toBeInTheDocument();
@@ -72,5 +75,6 @@ describe('Download Report Table', () => {
     expect(within(downloadLinks[1]).getByText('4 KB')).toBeInTheDocument();
     expect(within(downloadLinks[1]).getByText('5/1/2022')).toBeInTheDocument();
     expect(within(downloadLinks[1]).getByText('Name 2')).toBeInTheDocument();
+    expect(setApiError).toHaveBeenCalledWith(false);
   });
 });

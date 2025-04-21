@@ -92,9 +92,9 @@ describe('Generative Report Footer', () => {
       mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr',
       { throws: new Error('api error') }
     );
-    const { getByRole, getByText } = render(<GenerativeReportsSection apisProp={mockApiConfig} />);
+    const { getByRole, findByText } = render(<GenerativeReportsSection apisProp={mockApiConfig} />);
     fireEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
-    fireEvent.click(getByRole('button', { name: 'option2' }));
-    expect(await getByText('Table failed to load.')).toBeInTheDocument();
+    fireEvent.click(getByRole('button', { name: 'option1' }));
+    expect(await findByText('Table failed to load.')).toBeInTheDocument();
   });
 });
