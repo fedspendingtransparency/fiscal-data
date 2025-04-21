@@ -110,8 +110,6 @@ const DownloadReportTableRow: FunctionComponent<{
         try {
           const blob = await pdf(instance).toBlob();
           getGeneratedFileSize(blob, setFileSize);
-          const { setApiErrorMessage } = generatedReport;
-          setApiErrorMessage(false);
         } catch (error) {
           const { setApiErrorMessage } = generatedReport;
           setApiErrorMessage(true);
