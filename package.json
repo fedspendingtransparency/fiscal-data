@@ -86,6 +86,7 @@
     "classnames": "^2.3.1",
     "csv-stringify": "^6.4.2",
     "d3": "^7.9.0",
+    "d3-selection": "^3.0.0",
     "d3-selection-multi": "^1.0.1",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",

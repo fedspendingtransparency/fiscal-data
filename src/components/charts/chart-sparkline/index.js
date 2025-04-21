@@ -134,24 +134,28 @@ const calcLabelY = () => {
 };
 
 const drawXStartLabel = (label, formatter = defaultFormatter) => {
-  container
+  const txt = container
     .append('text')
     .attr('class', 'x-label-text')
     .attr('x', 0)
-    .attr('y', calcLabelY())
-    .attrs(formatter)
-    .text(label);
+    .attr('y', calcLabelY());
+  Object.entries(formatter).forEach(([key, val]) => {
+    txt.attr(key, val);
+  });
+  txt.text(label);
 };
 
 const drawXEndLabel = (label, formatter = defaultFormatter) => {
-  container
+  const txt = container
     .append('text')
     .attr('class', 'x-label-text')
     .attr('text-anchor', 'end')
     .attr('x', w)
-    .attr('y', calcLabelY())
-    .attrs(formatter)
-    .text(label);
+    .attr('y', calcLabelY());
+  Object.entries(formatter).forEach(([key, val]) => {
+    txt.attr(key, val);
+  });
+  txt.text(label);
 };
 
 const drawLineChart = ({ showXLabel, xStartLabel, xEndLabel, formatterXLabel }) => {
@@ -221,9 +225,8 @@ const mouseout = function(event) {
   hoverFunction(null, null);
 };
 
-const mousemove = function() {
+const mousemove = function(event) {
   // This index represents the x value closest to where the mouse is on the graph
-  // const closestXIndex = Math.round((pointer(event, this) / w) * (data.length - 1));
   const [pointers] = pointer(event, this);
   const closestXIndex = Math.round((pointers / w) * (data.length - 1));
   const selectedData = data[closestXIndex];
