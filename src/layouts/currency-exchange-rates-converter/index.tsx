@@ -2,12 +2,12 @@ import React, { FunctionComponent } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
-import { breadCrumbsContainer, legalDisclaimer, componenentContianer } from './currency-exchange-rates-converter.module.scss';
+import { breadCrumbsContainer, componenentContianer, legalDisclaimer } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
 import {
+  analyticsHandler,
   breadCrumbLinks,
   socialCopy,
-  analyticsHandler,
 } from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import CustomLink from '../../components/links/custom-link/custom-link';
 import CurrencyExchangeRateTool from '../../components/exchange-rates-converter/currency-exchange-rates-converter/currency-exchange-rates-converter';
@@ -45,7 +45,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             agencies to consistently report U.S. dollar equivalents. For more information on the calculation of exchange rates used by federal
             agencies, please see the{' '}
             <CustomLink
-              url="https://tfm.fiscal.treasury.gov/v1/p2/c320"
+              url="https://tfx.treasury.gov/tfm/volume1/part2/chapter-3200-foreign-currency-accounting-and-reporting#Section3235TranslatingForeignCurrenciestoUSDollarEquivalents"
               onClick={() => analyticsHandler('Citation Click', 'Treasury Financial Manual')}
             >
               Treasury Financial Manual, volume 1, part 2, section 3235
