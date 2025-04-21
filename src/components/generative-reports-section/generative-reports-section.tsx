@@ -34,14 +34,8 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const filterStr = buildFilterParam(selectedDate, dateField, selectedAccount.value, accountField);
     const sortStr = buildSortParam(sort);
     const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
-    try {
-      const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
-      setApiErrorMessage(false);
-      return res.data;
-    } catch (error) {
-      setApiErrorMessage(true);
-      return [];
-    }
+    const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
+    return res.data;
   };
 
   const setSummaryValues = (reportConfig, formattedDate, reportData) => {
@@ -91,7 +85,14 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           const reportConfig = reportsConfig.utf[report.apiId];
           const formattedDate = format(selectedDate, 'MMMM yyyy');
           const downloadDate = format(selectedDate, 'MMyyyy');
-          const reportData = await getReportData(report, reportConfig);
+          let reportData;
+          try {
+            reportData = await getReportData(report, reportConfig);
+          } catch (error) {
+            setApiErrorMessage(true);
+            break;
+          }
+          setApiErrorMessage(false);
           const curReport = {
             id: report.apiId,
             name: `${report.tableName} - ${selectedAccount.label}.pdf`,
@@ -141,7 +142,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
         </div>
         {(activeReports?.length === 0 || apiErrorMessage) && <GenerativeReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} />}
         {activeReports?.length > 0 && !apiErrorMessage && (
-          <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} />
+          <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
         )}
       </DatasetSectionContainer>
     </div>

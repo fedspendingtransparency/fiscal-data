@@ -33,7 +33,6 @@ interface IGeneratedReport {
   config;
   data;
   colConfig;
-  setApiErrorMessage: (hasError: boolean) => void;
 }
 
 const DownloadReportTableRow: FunctionComponent<{
@@ -41,7 +40,8 @@ const DownloadReportTableRow: FunctionComponent<{
   generatedReport?: IGeneratedReport;
   isDailyReport: boolean;
   mobileView?: boolean;
-}> = ({ reportFile, isDailyReport, mobileView, generatedReport }) => {
+  setApiErrorMessage: (hasError: boolean) => void;
+}> = ({ reportFile, isDailyReport, mobileView, generatedReport, setApiErrorMessage }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);
   const [reportLocation, setReportLocation] = useState<string>(null);
@@ -110,8 +110,8 @@ const DownloadReportTableRow: FunctionComponent<{
         try {
           const blob = await pdf(instance).toBlob();
           getGeneratedFileSize(blob, setFileSize);
+          setApiErrorMessage(false);
         } catch (error) {
-          const { setApiErrorMessage } = generatedReport;
           setApiErrorMessage(true);
           return;
         }
