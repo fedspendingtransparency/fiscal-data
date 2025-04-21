@@ -84,4 +84,17 @@ describe('Generative Report Footer', () => {
     expect(within(downloadLink).getByText('ion2.pdf')).toBeInTheDocument();
     expect(within(downloadLink).getByText('July 2024')).toBeInTheDocument();
   });
+
+  it('renders the error message when an api error is encountered', async () => {
+    fetchMock.restore();
+    const mockEndpointBase = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
+    fetchMock.get(
+      mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr',
+      { throws: new Error('api error') }
+    );
+    const { getByRole, findByText } = render(<GenerativeReportsSection apisProp={mockApiConfig} />);
+    fireEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
+    fireEvent.click(getByRole('button', { name: 'option1' }));
+    expect(await findByText('Table failed to load.')).toBeInTheDocument();
+  });
 });
