@@ -23,6 +23,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   setSelectedPivot,
   hideDropdown,
   width,
+  pivotsUpdated,
 }) => {
   const allTablesOption = {
     allDataTables: true,
@@ -149,6 +150,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           setPivotToApply={setPivotToApply}
           tableViewSelection={tableViewSelection}
           setTableViewSelection={setTableViewSelection}
+          pivotsUpdated={pivotsUpdated}
         />
       }
     />
@@ -195,6 +197,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
                   setPivotToApply={setPivotToApply}
                   tableViewSelection={tableViewSelection}
                   setTableViewSelection={setTableViewSelection}
+                  pivotsUpdated={pivotsUpdated}
                 />
               }
               handleApply={handleApply}

@@ -23,6 +23,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
   tableViewSelection,
   setTableViewSelection,
   containerWidth,
+  pivotsUpdated,
 }) => {
   const [pivotViewDropdownActive, setPivotViewDropdownActive] = useState(false);
   const [pivotValueDropdownActive, setPivotValueDropdownActive] = useState(false);
@@ -126,7 +127,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
       }
       setPivotValueOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
-  }, [table]);
+  }, [table, pivotsUpdated]);
 
   return (
     <div className={sectionContainer}>
