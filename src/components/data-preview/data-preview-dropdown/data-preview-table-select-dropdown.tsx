@@ -62,8 +62,10 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
 
   const handleApply = () => {
     setAppliedTableView(tableViewSelection);
+    // this line is causing the issue
     if (tableToApply !== selectedTable || (allTablesSelected && !tableToApply.allDataTables)) {
       setSelectedTable(tableToApply);
+      console.log(1);
     }
     if (tableViewSelection === 'pivotData') {
       if (pivotToApply !== selectedPivot) {
@@ -132,6 +134,9 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     }
   }, [selectedTable]);
 
+  console.log('selected table (OLD)', selectedTable);
+  console.log('table to apply (NEW)', tableToApply);
+
   const mobileFilterComponent = isDataTableSelected ? (
     // Shows raw/pivot data options
     <DataPreviewMobileDialog
@@ -165,10 +170,15 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           filterOptions={options}
           getName={option => option.tableName}
           selectedTable={selectedTable.tableName}
-          onTableSelected={table => {
-            setTableToApply(table);
+          // onTableSelected={table => {
+          //   setTableToApply(table);
+          //   setIsDataTableSelected(true);
+          //   setTableViewSelection('rawData');
+          //   setPivotToApply(null);
+          // }}
+          onTableSelected={updateSelectedTable}
+          onDataTableSelected={table => {
             setIsDataTableSelected(true);
-            setTableViewSelection('rawData');
           }}
         />
       }
