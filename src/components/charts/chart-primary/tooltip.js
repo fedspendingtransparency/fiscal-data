@@ -179,8 +179,8 @@ const initTooltip = ({
   };
 
   const onMouseOver = d => {
-    showPoint(d);
-    showTooltip(d);
+    showPoint(d.target.__data__);
+    showTooltip(d.target.__data__);
   };
 
   const onMouseOut = () => {
