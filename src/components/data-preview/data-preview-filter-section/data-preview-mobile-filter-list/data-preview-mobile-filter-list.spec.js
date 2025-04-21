@@ -48,12 +48,19 @@ describe('Data preview mobile filter list', () => {
   });
 
   it('Calls the onClick handle upon button click', () => {
-    const clickHandlerSpy = jest.fn();
+    const clickHandlerSpy1 = jest.fn();
+    const clickHandlerSpy2 = jest.fn();
     const { getByRole, getByText } = render(
-      <DataPreviewMobileFilterList filterOptions={mockFilters} getName={option => option.name} onTableSelected={clickHandlerSpy} />
+      <DataPreviewMobileFilterList
+        filterOptions={mockFilters}
+        getName={option => option.name}
+        onTableSelected={clickHandlerSpy1}
+        onDataTableSelected={clickHandlerSpy2}
+      />
     );
     const button = getByRole('button', { name: 'Record Date Last 5 years' });
     fireEvent.click(button);
-    expect(clickHandlerSpy).toHaveBeenCalled();
+    expect(clickHandlerSpy1).toHaveBeenCalled();
+    expect(clickHandlerSpy2).toHaveBeenCalled();
   });
 });
