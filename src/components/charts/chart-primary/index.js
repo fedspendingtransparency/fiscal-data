@@ -17,7 +17,6 @@ const d3 = {
   scaleTime,
   timeParse,
   line,
-  transition,
   interpolateNumber,
 };
 let w,
@@ -418,11 +417,9 @@ const mouseout = function() {
 
 const mousemove = function(event) {
   // This index represents the x value closest to where the mouse is on the graph
-  const [pointers] = pointer(event, this);
-  const poi = pointers;
-  console.log('pointers ', pointer(event, this));
-  const closestXIndex = Math.round((poi / chartDimensions.width) * (data.length - 1));
-  console.log('closestXIndex', closestXIndex);
+  const [mx] = pointer(event, this);
+  const closestXIndex = Math.round((mx / chartDimensions.width) * (data.length - 1));
+
   const selectedData = data[closestXIndex];
 
   if (selectedData && selectedData[fields[0]]) {

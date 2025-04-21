@@ -219,7 +219,7 @@ const initChart = (_data, _chartId, _dateField, _field, _showXLabel, _xStartLabe
   placeMarkers();
 };
 
-const mouseout = function(event) {
+const mouseout = function() {
   markers = [data[data.length - 1]];
   placeMarkers();
   hoverFunction(null, null);

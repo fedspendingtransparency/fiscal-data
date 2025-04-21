@@ -1,5 +1,6 @@
 import { BaseType, select, selectAll, Selection, pointer } from 'd3-selection';
-import { transition } from 'd3-transition';
+import 'd3-selection-multi';
+import 'd3-transition';
 import { extent } from 'd3-array';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { timeParse } from 'd3-time-format';
@@ -16,7 +17,6 @@ const d3 = {
   scaleTime,
   timeParse,
   line,
-  transition,
   interpolateNumber,
 };
 
@@ -95,6 +95,7 @@ export class MultichartRenderer {
     );
 
     //set min to 0 if greater than zero.
+
     extent[0] = extent[0] > 0 ? 0 : extent[0];
 
     const segmentHeight = (this.chartDimensions.height - this.chartDimensions.marginTop) / 2 - this.chartDimensions.xAxisHeight;
@@ -120,7 +121,7 @@ export class MultichartRenderer {
 
     scales.x = d3
       .scaleTime()
-      .domain(d3.extent(config.data, d => parseTime(d[config.dateField])))
+      .domain(d3.extent(config.data, d => parseTime(d[config.dateField] as string)) as [Date, Date])
       .range([config.chartDimensions.marginLeft, config.chartDimensions.yAxisWidth + config.chartDimensions.width]);
 
     return scales;
@@ -319,13 +320,13 @@ export class MultichartRenderer {
     });
   };
 
-  mousemove = (): void => {
+  mousemove = (event): void => {
     const trackingElem = d3.select(`#${this.hoverEffectsId}`);
     let selectedData;
     const dataSegments = this.chartConfigs[0].data.length;
     const segmentWidth = Math.round(this.chartDimensions.width / dataSegments);
     const colWidth = Math.round((this.chartDimensions.width + segmentWidth) / dataSegments);
-    const mousePos = pointer(trackingElem.node())[0];
+    const mousePos = pointer(event, trackingElem.node())[0];
     let closestXIndex = Math.floor((this.chartDimensions.width + segmentWidth - mousePos) / colWidth);
 
     // ensure the index value stays within range of available data
