@@ -25,6 +25,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [selectedAccount, setSelectedAccount] = useState(defaultSelection);
   const [activeReports, setActiveReports] = useState([]);
   const [allReports, setAllReports] = useState([]);
+  const [apiErrorMessage, setApiErrorMessage] = useState(false);
 
   const getReportData = async (report, reportConfig) => {
     const { dateField, apiFilter } = report;
@@ -33,9 +34,8 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const filterStr = buildFilterParam(selectedDate, dateField, selectedAccount.value, accountField);
     const sortStr = buildSortParam(sort);
     const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
-    return await basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
-      return res.data;
-    });
+    const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
+    return res.data;
   };
 
   const setSummaryValues = (reportConfig, formattedDate, reportData) => {
@@ -85,7 +85,14 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           const reportConfig = reportsConfig.utf[report.apiId];
           const formattedDate = format(selectedDate, 'MMMM yyyy');
           const downloadDate = format(selectedDate, 'MMyyyy');
-          const reportData = await getReportData(report, reportConfig);
+          let reportData;
+          try {
+            reportData = await getReportData(report, reportConfig);
+          } catch (error) {
+            setApiErrorMessage(true);
+            break;
+          }
+          setApiErrorMessage(false);
           const curReport = {
             id: report.apiId,
             name: `${report.tableName} - ${selectedAccount.label}.pdf`,
@@ -132,8 +139,10 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           />
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
-        {activeReports?.length === 0 && <GenerativeReportsEmptyTable width={width} />}
-        {activeReports?.length > 0 && <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} />}
+        {(activeReports?.length === 0 || apiErrorMessage) && <GenerativeReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} />}
+        {activeReports?.length > 0 && !apiErrorMessage && (
+          <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
+        )}
       </DatasetSectionContainer>
     </div>
   );

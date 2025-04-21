@@ -11,4 +11,9 @@ describe('Table Notice', () => {
     expect(getByText(heading)).toBeInTheDocument();
     expect(getByText(bodyText)).toBeInTheDocument();
   });
+
+  it('renders the api error component when error message is set to true', () => {
+    const { getByText } = render(<GenerativeReportsTableNotice apiErrorMessage={true} />);
+    expect(getByText('Table failed to load.')).toBeInTheDocument();
+  });
 });

@@ -101,12 +101,14 @@ describe('Download report table row component', () => {
     };
 
     it('renders a file row', async () => {
-      const { findByTestId } = render(<DownloadReportTableRow generatedReport={mockGeneratedReport} />);
+      const setApiError = jest.fn();
+      const { findByTestId } = render(<DownloadReportTableRow generatedReport={mockGeneratedReport} setApiErrorMessage={setApiError} />);
       expect(await findByTestId('file-download-row')).toBeInTheDocument();
     });
 
     it('renders a download link', async () => {
-      const { findByRole } = render(<DownloadReportTableRow generatedReport={mockGeneratedReport} />);
+      const setApiError = jest.fn();
+      const { findByRole } = render(<DownloadReportTableRow generatedReport={mockGeneratedReport} setApiErrorMessage={setApiError} />);
       const downloadLink = await findByRole('link');
       expect(downloadLink).toBeInTheDocument();
       expect(downloadLink).toHaveAttribute('download', 'Download Name');
