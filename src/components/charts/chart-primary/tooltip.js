@@ -178,8 +178,8 @@ const initTooltip = ({
     placeSeparator();
   };
 
-  const onMouseOver = evtOrDatum => {
-    const d = evtOrDatum?.target ? evtOrDatum.target.__data__ : evtOrDatum;
+  const onMouseOver = event => {
+    const d = event?.target ? event.target.__data__ : event;
     showPoint(d);
     showTooltip(d);
   };
