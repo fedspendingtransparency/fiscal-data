@@ -102,6 +102,9 @@ export default function DtgTable({
   const [tableSorting, setTableSorting] = useState([]);
 
   let loadCanceled = false;
+  useEffect(() => {
+    console.log(showPaginationControls);
+  }, [showPaginationControls]);
 
   let debounce;
   let loadTimer;
@@ -332,6 +335,7 @@ export default function DtgTable({
   }, [tableProps.data]);
 
   useEffect(() => {
+    console.log('here', currentPage);
     setShowPaginationControls(isPaginationControlNeeded());
   }, [maxRows]);
 
@@ -555,7 +559,7 @@ export default function DtgTable({
           {/* Table Footer */}
           {shouldPage && (
             <div data-testid="table-footer" className={tableFooter}>
-              <div data-test-id="rows-showing" className={rowsShowingStyle}>
+              <div data-testid="rows-showing" className={rowsShowingStyle}>
                 {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
               </div>
               {showPaginationControls && <PaginationControls pagingProps={pagingProps} />}
