@@ -102,9 +102,6 @@ export default function DtgTable({
   const [tableSorting, setTableSorting] = useState([]);
 
   let loadCanceled = false;
-  useEffect(() => {
-    console.log(showPaginationControls);
-  }, [showPaginationControls]);
 
   let debounce;
   let loadTimer;
@@ -335,7 +332,6 @@ export default function DtgTable({
   }, [tableProps.data]);
 
   useEffect(() => {
-    console.log('here', currentPage);
     setShowPaginationControls(isPaginationControlNeeded());
   }, [maxRows]);
 
