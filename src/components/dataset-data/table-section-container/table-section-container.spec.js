@@ -22,9 +22,10 @@ import {
 import * as setNoChartMessageMod from './set-no-chart-message';
 import DatasetChart from '../dataset-chart/dataset-chart';
 import GLOBALS from '../../../helpers/constants';
-import { fireEvent, render, within } from '@testing-library/react';
+import { act, fireEvent, render, within } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { dataAggregationNotice } from './aggregation-notice/aggregation-notice';
+import userEvent from '@testing-library/user-event';
 
 describe('TableSectionContainer initial state', () => {
   const mockSetSelectedPivot = jest.fn();
@@ -367,9 +368,8 @@ describe('TableSectionContainer with Pivot Options', () => {
   it(`configures the legend to be hidden by default when the screen size is tablet width
   or below  and keeps legend visibility tied to window size before the user interactively toggles
   the state.`, () => {
-    const tableSectionContainer = ''; //renderer.create();
     global.window.innerWidth = GLOBALS.breakpoints.large;
-    const { rerender } = render(
+    const { rerender, getByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -384,9 +384,8 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </RecoilRoot>
     );
-    const datasetChart = tableSectionContainer.root.findByType(DatasetChart);
-
-    expect(datasetChart.props.legend).toBeFalsy();
+    let datasetChart = getByTestId('dataset-chart');
+    expect(datasetChart).not.toHaveClass('legendActive');
 
     global.window.innerWidth = GLOBALS.breakpoints.large + 6;
     rerender(
@@ -405,127 +404,117 @@ describe('TableSectionContainer with Pivot Options', () => {
       </RecoilRoot>
     );
 
-    // datasetChart = tableSectionContainer.root.findByType(DatasetChart);
-    //
-    // expect(datasetChart.props.legend).toBeTruthy();
+    datasetChart = getByTestId('dataset-chart');
+    expect(datasetChart).toHaveClass('legendActive');
 
-    // renderer.act(() => {
-    //   global.window.innerWidth = GLOBALS.breakpoints.large - 125;
-    //   tableSectionContainer.update(
-    //     <RecoilRoot>
-    //       <TableSectionContainer
-    //         config={mockConfig}
-    //         dateRange={mockDateRange}
-    //         selectedTable={mockTableWithPivot}
-    //         apiData={mockApiData}
-    //         isLoading={false}
-    //         apiError={false}
-    //         selectedPivot={selectedPivotWithAggregation}
-    //         setSelectedPivot={mockSetSelectedPivot}
-    //       />
-    //     </RecoilRoot>
-    //   );
-    // });
-    //
-    // datasetChart = tableSectionContainer.root.findByType(DatasetChart);
-    //
-    // expect(datasetChart.props.legend).toBeFalsy();
+    global.window.innerWidth = GLOBALS.breakpoints.large - 125;
+    rerender(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithPivot}
+          apiData={mockApiData}
+          isLoading={false}
+          apiError={false}
+          selectedPivot={selectedPivotWithAggregation}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
+    );
+
+    datasetChart = getByTestId('dataset-chart');
+    expect(datasetChart).not.toHaveClass('legendActive');
   });
 
   it(`configures the legend to be visible by default when the screen size is wider than tablet
   width, but once the user interactively toggles the state, changes in screen size are ignored
   with respect to legend visibility`, () => {
-    // let tableSectionContainer = renderer.create();
-    // const onToggleLegendEvent = { preventDefault: jest.fn() };
-    //
-    // renderer.act(() => {
-    //   global.window.innerWidth = GLOBALS.breakpoints.large + 1;
-    //   tableSectionContainer = renderer.create(
-    //     <RecoilRoot>
-    //       <TableSectionContainer
-    //         config={mockConfig}
-    //         dateRange={mockDateRange}
-    //         selectedTable={mockTableWithPivot}
-    //         apiData={mockApiData}
-    //         isLoading={false}
-    //         apiError={false}
-    //         selectedPivot={selectedPivotWithAggregation}
-    //         setUserFilterSelection={jest.fn()}
-    //         setSelectedPivot={mockSetSelectedPivot}
-    //       />
-    //     </RecoilRoot>
-    //   );
-    // });
-    // let datasetChart = tableSectionContainer.root.findByType(DatasetChart);
-    // expect(datasetChart.props.legend).toBeTruthy();
-    //
-    // // "interactively" toggle the legend to INVISIBLE
-    // const chartTableToggle = tableSectionContainer.root.findByType(ChartTableToggle);
-    // renderer.act(() => {
-    //   chartTableToggle.props.onToggleLegend(onToggleLegendEvent);
-    // });
-    // datasetChart = tableSectionContainer.root.findByType(DatasetChart);
-    // expect(datasetChart.props.legend).toBeFalsy();
-    //
-    // // "interactively" toggle the legend to VISIBLE
-    // renderer.act(() => {
-    //   chartTableToggle.props.onToggleLegend(onToggleLegendEvent);
-    // });
-    // datasetChart = tableSectionContainer.root.findByType(DatasetChart);
-    // expect(datasetChart.props.legend).toBeTruthy();
-    //
-    // // Change the screen size be narrower than the tablet threshold
-    // renderer.act(() => {
-    //   global.window.innerWidth = GLOBALS.breakpoints.large - 5;
-    //   tableSectionContainer.update(
-    //     <RecoilRoot>
-    //       <TableSectionContainer
-    //         config={mockConfig}
-    //         dateRange={mockDateRange}
-    //         selectedTable={mockTableWithPivot}
-    //         apiData={mockApiData}
-    //         isLoading={false}
-    //         apiError={false}
-    //         selectedPivot={selectedPivotWithAggregation}
-    //         setUserFilterSelection={jest.fn()}
-    //         setSelectedPivot={mockSetSelectedPivot}
-    //       />
-    //     </RecoilRoot>
-    //   );
-    // });
-    // datasetChart = tableSectionContainer.root.findByType(DatasetChart);
-    // // Expect legend to still be visible after change to tablet size
-    // expect(datasetChart.props.legend).toBeTruthy();
-    //
-    // // "interactively" toggle the legend to INVISIBLE
-    // renderer.act(() => {
-    //   chartTableToggle.props.onToggleLegend(onToggleLegendEvent);
-    // });
-    // datasetChart = tableSectionContainer.root.findByType(DatasetChart);
-    // expect(datasetChart.props.legend).toBeFalsy();
-    //
-    // // re-widen the screen size to desktop width
-    // renderer.act(() => {
-    //   global.window.innerWidth = GLOBALS.breakpoints.large + 50;
-    //   tableSectionContainer.update(
-    //     <RecoilRoot>
-    //       <TableSectionContainer
-    //         config={mockConfig}
-    //         dateRange={mockDateRange}
-    //         selectedTable={mockTableWithPivot}
-    //         apiData={mockApiData}
-    //         isLoading={false}
-    //         apiError={false}
-    //         selectedPivot={selectedPivotWithAggregation}
-    //         setUserFilterSelection={jest.fn()}
-    //         setSelectedPivot={mockSetSelectedPivot}
-    //       />
-    //     </RecoilRoot>
-    //   );
-    // });
-    // datasetChart = tableSectionContainer.root.findByType(DatasetChart);
-    // // Expect legend to still be invisible after change to tablet
-    // expect(datasetChart.props.legend).toBeFalsy();
+    const onToggleLegendEvent = { preventDefault: jest.fn() };
+
+    global.window.innerWidth = GLOBALS.breakpoints.large + 1;
+    const { getByTestId, rerender, getByRole } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithPivot}
+          apiData={mockApiData}
+          isLoading={false}
+          apiError={false}
+          selectedPivot={selectedPivotWithAggregation}
+          setUserFilterSelection={jest.fn()}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
+    );
+
+    let datasetChart = getByTestId('dataset-chart');
+    expect(datasetChart).toHaveClass('legendActive');
+
+    // "interactively" toggle the legend to INVISIBLE
+    fireEvent.click(getByTestId('pivotToggle'));
+    datasetChart = getByTestId('dataset-chart');
+    expect(datasetChart).not.toHaveClass('legendActive');
+
+    // "interactively" toggle the legend to VISIBLE
+    fireEvent.click(getByTestId('pivotToggle'));
+    datasetChart = getByTestId('dataset-chart');
+    expect(datasetChart).toHaveClass('legendActive');
+
+    // Change the screen size be narrower than the tablet threshold
+
+    global.window.innerWidth = GLOBALS.breakpoints.large - 5;
+    act(() => {
+      rerender(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
+      );
+    });
+
+    datasetChart = getByTestId('dataset-chart');
+    // Expect legend to still be visible after change to tablet size
+    expect(datasetChart).toHaveClass('legendActive');
+
+    // "interactively" toggle the legend to INVISIBLE
+    userEvent.click(getByTestId('pivotToggle'));
+
+    datasetChart = getByTestId('dataset-chart');
+    expect(datasetChart).not.toHaveClass('legendActive');
+
+    // re-widen the screen size to desktop width
+    global.window.innerWidth = GLOBALS.breakpoints.large + 50;
+    act(() => {
+      rerender(
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setUserFilterSelection={jest.fn()}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
+      );
+    });
+    datasetChart = getByTestId('dataset-chart');
+    // Expect legend to still be invisible after change to tablet
+    expect(datasetChart).not.toHaveClass('legendActive');
   });
 
   it('renders selected detail view key with the dataset header', () => {
