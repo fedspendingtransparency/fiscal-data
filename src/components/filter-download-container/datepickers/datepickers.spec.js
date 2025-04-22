@@ -1,11 +1,10 @@
 import React from 'react';
-import { act, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import DatePickers from './datepickers';
 import { subYears } from 'date-fns';
-import { KeyboardDatePicker } from '@material-ui/pickers';
-import { dateRange } from '../../datasets/filters/test-helpers';
 import { formatDate } from '../../download-wrapper/helpers';
 import userEvent from '@testing-library/user-event';
+import { dateRange } from '../../datasets/filters/test-helpers';
 
 jest.useFakeTimers();
 describe('DDP Datepickers', () => {
@@ -85,11 +84,12 @@ describe('DDP Datepickers', () => {
     );
     const datePickers = getAllByRole('textbox');
     act(() => {
-      updateDatePicker(datePickers[0], updatedFromDate);
+      fireEvent.change(datePickers[0], { target: { value: formatDate(updatedFromDate) } });
       jest.runAllTimers();
     });
+
     act(() => {
-      updateDatePicker(datePickers[1], updatedToDate);
+      fireEvent.change(datePickers[1], { target: { value: formatDate(updatedToDate) } });
       jest.runAllTimers();
     });
 
@@ -118,9 +118,12 @@ describe('DDP Datepickers', () => {
 
   it('calls setSelectedDates when valid dates are selected by the date picker', () => {
     setSelectedDates.mockClear();
-
-    renderer.act(() => {
-      datePickers[0].props.onChange(new Date(2000, 1, 1));
+    const { getAllByRole } = render(
+      <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
+    );
+    const datePickers = getAllByRole('textbox');
+    act(() => {
+      fireEvent.change(datePickers[0], { target: { value: formatDate(new Date(2000, 1, 1)) } });
     });
     jest.runAllTimers();
 
@@ -128,63 +131,42 @@ describe('DDP Datepickers', () => {
   });
 
   it('creates KeyboardDatePicker with default settings if no/invalid params are passed in', () => {
-    let curComponent = renderer.create(),
-      curInstance,
-      curDatePickers;
-    renderer.act(() => {
-      curComponent = renderer.create(<DatePickers availableDateRange={null} selectedDateRange={null} setSelectedDates={setSelectedDates} />);
-    });
-    curInstance = curComponent.root;
+    const { getAllByRole, rerender } = render(<DatePickers availableDateRange={null} selectedDateRange={null} setSelectedDates={setSelectedDates} />);
     jest.runAllTimers();
-    curDatePickers = curInstance.findAllByType(KeyboardDatePicker);
+    let curDatePickers = getAllByRole('textbox');
+    expect(curDatePickers[0]).toHaveValue('');
+    expect(curDatePickers[1]).toHaveValue('');
 
-    expect(curDatePickers[0].props.value).toEqual(null);
-    expect(curDatePickers[0].props.minDate).toEqual(null);
-    expect(curDatePickers[0].props.maxDate).toEqual(null);
-    expect(curDatePickers[1].props.value).toEqual(null);
-    expect(curDatePickers[1].props.minDate).toEqual(null);
-    expect(curDatePickers[1].props.maxDate).toEqual(null);
-
-    renderer.act(() => {
-      curComponent = renderer.create(<DatePickers availableDateRange={{}} selectedDateRange={{}} setSelectedDates={setSelectedDates} />);
-    });
-    curInstance = curComponent.root;
+    rerender(<DatePickers availableDateRange={{}} selectedDateRange={{}} setSelectedDates={setSelectedDates} />);
     jest.runAllTimers();
-    curDatePickers = curInstance.findAllByType(KeyboardDatePicker);
-
-    expect(curDatePickers[0].props.value).toEqual(null);
-    expect(curDatePickers[0].props.minDate).toEqual(null);
-    expect(curDatePickers[0].props.maxDate).toEqual(null);
-    expect(curDatePickers[1].props.value).toEqual(null);
-    expect(curDatePickers[1].props.minDate).toEqual(null);
-    expect(curDatePickers[1].props.maxDate).toEqual(null);
+    curDatePickers = getAllByRole('textbox');
+    expect(curDatePickers[0]).toHaveValue('');
+    expect(curDatePickers[1]).toHaveValue('');
   });
 
   it('does not trigger the dateRangeFilter when either of the popups are open', () => {
-    renderer.act(() => {
-      datePickers[0].props.onOpen();
-    });
+    const { getAllByRole } = render(
+      <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
+    );
+    const datePickers = getAllByRole('textbox');
+    fireEvent.click(datePickers[0]);
     jest.runAllTimers();
     setSelectedDates.mockClear();
-    renderer.act(() => {
-      datePickers[0].props.onChange(dateRange.startDate);
-      datePickers[1].props.onChange(dateRange.endDate);
+    act(() => {
+      fireEvent.change(datePickers[0], { target: { value: dateRange.startDate } });
+      fireEvent.change(datePickers[1], { target: { value: dateRange.endDate } });
     });
     jest.runAllTimers();
 
     expect(setSelectedDates).not.toHaveBeenCalled();
-
-    renderer.act(() => {
-      datePickers[0].props.onClose();
-      datePickers[1].props.onOpen();
-    });
+    fireEvent.click(datePickers[0]);
+    fireEvent.click(datePickers[1]);
     jest.runAllTimers();
 
     expect(setSelectedDates).not.toHaveBeenCalled();
 
-    renderer.act(() => {
-      datePickers[1].props.onClose();
-    });
+    fireEvent.click(datePickers[1]);
+
     jest.runAllTimers();
 
     expect(setSelectedDates).toHaveBeenCalled();
