@@ -3,7 +3,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import { ellipsis, active, pagingButtons, arrow, pageButtons } from './pagination-controls.module.scss';
+import { active, arrow, ellipsis, pageButtons, pagingButtons } from './pagination-controls.module.scss';
 
 const PageButtons = ({ pageButtonProps }) => {
   const { maxPage, tableName, currentPage, handleJump, pagesArray } = pageButtonProps;
@@ -83,6 +83,7 @@ const PageButtons = ({ pageButtonProps }) => {
         <button
           key={`${tableName}-page${page}`}
           id={`${tableName}-page${page}`}
+          aria-label={`${tableName}-page${page}`}
           onClick={() => handlePageClick(page)}
           className={current === page ? active : {}}
         >
