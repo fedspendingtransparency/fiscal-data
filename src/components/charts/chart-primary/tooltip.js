@@ -1,4 +1,6 @@
 import { utcParse, utcFormat } from 'd3-time-format';
+import 'd3-transition';
+import 'd3-selection-multi';
 import { select, selectAll } from 'd3-selection';
 import { formatForDataType } from './utils';
 import { groupBy } from '../helpers/helpers';
@@ -176,7 +178,8 @@ const initTooltip = ({
     placeSeparator();
   };
 
-  const onMouseOver = d => {
+  const onMouseOver = event => {
+    const d = event?.target ? event.target.__data__ : event;
     showPoint(d);
     showTooltip(d);
   };

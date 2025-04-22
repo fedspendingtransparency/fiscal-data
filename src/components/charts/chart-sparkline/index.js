@@ -1,5 +1,5 @@
-import { axisBottom, mouse } from 'd3';
-import { select, selectAll } from 'd3-selection';
+import { axisBottom } from 'd3-axis';
+import { select, selectAll, pointer } from 'd3-selection';
 import 'd3-transition';
 import 'd3-selection-multi';
 import { extent } from 'd3-array';
@@ -64,8 +64,9 @@ const placeMarkers = () => {
     .append('circle')
     .attr('data-test-id', 'marker')
     .attr('r', 4)
-    .attr('fill', d =>
-      d[field] > 0 ? '#4971b7' : '#f2655b' // TODO: replace hard coded hex values with variables?
+    .attr(
+      'fill',
+      d => (d[field] > 0 ? '#4971b7' : '#f2655b') // TODO: replace hard coded hex values with variables?
     )
     .attr('transform', d => `translate(${scales.x(parseTime(d[dateField]))}, ${scales.y(Number(d[field]))})`);
 };
@@ -133,24 +134,28 @@ const calcLabelY = () => {
 };
 
 const drawXStartLabel = (label, formatter = defaultFormatter) => {
-  container
+  const txt = container
     .append('text')
     .attr('class', 'x-label-text')
     .attr('x', 0)
-    .attr('y', calcLabelY())
-    .attrs(formatter)
-    .text(label);
+    .attr('y', calcLabelY());
+  Object.entries(formatter).forEach(([key, val]) => {
+    txt.attr(key, val);
+  });
+  txt.text(label);
 };
 
 const drawXEndLabel = (label, formatter = defaultFormatter) => {
-  container
+  const txt = container
     .append('text')
     .attr('class', 'x-label-text')
     .attr('text-anchor', 'end')
     .attr('x', w)
-    .attr('y', calcLabelY())
-    .attrs(formatter)
-    .text(label);
+    .attr('y', calcLabelY());
+  Object.entries(formatter).forEach(([key, val]) => {
+    txt.attr(key, val);
+  });
+  txt.text(label);
 };
 
 const drawLineChart = ({ showXLabel, xStartLabel, xEndLabel, formatterXLabel }) => {
@@ -220,9 +225,10 @@ const mouseout = function() {
   hoverFunction(null, null);
 };
 
-const mousemove = function() {
+const mousemove = function(event) {
   // This index represents the x value closest to where the mouse is on the graph
-  const closestXIndex = Math.round((mouse(this)[0] / w) * (data.length - 1));
+  const [pointers] = pointer(event, this);
+  const closestXIndex = Math.round((pointers / w) * (data.length - 1));
   const selectedData = data[closestXIndex];
 
   if (selectedData && selectedData[field]) {
