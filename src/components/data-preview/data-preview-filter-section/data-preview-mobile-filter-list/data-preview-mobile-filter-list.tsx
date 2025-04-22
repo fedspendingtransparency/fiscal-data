@@ -23,6 +23,7 @@ export const placeholderFilters = [
 export interface IMobileFilterList {
   filterOptions: { name: string; secondary?: string; selected?: boolean; active?: boolean }[];
   onTableSelected: (selectedOption: any) => void;
+  onDataTableSelected: (selectedOption: any) => void;
   getName: (option: any) => string;
   getSecondary: (option: any) => string;
   selectedTable: string;
@@ -32,6 +33,7 @@ export interface IMobileFilterList {
 const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
   filterOptions = placeholderFilters,
   onTableSelected,
+  onDataTableSelected,
   getName,
   getSecondary = option => option.secondary,
   selectedTable = '',
@@ -47,6 +49,7 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
                 getName(filterOption) === selectedFilter ? active : ''
               }`}
               onClick={() => {
+                onDataTableSelected(filterOption);
                 onTableSelected(filterOption);
               }}
             >

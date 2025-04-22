@@ -166,11 +166,10 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
         <DataPreviewMobileFilterList
           filterOptions={options}
           getName={option => option.tableName}
-          selectedTable={selectedTable.tableName}
-          onTableSelected={table => {
-            setTableToApply(table);
+          selectedTable={allTablesSelected ? allTablesOption.tableName : selectedTable?.tableName}
+          onTableSelected={updateSelectedTable}
+          onDataTableSelected={table => {
             setIsDataTableSelected(true);
-            setTableViewSelection('rawData');
           }}
         />
       }
