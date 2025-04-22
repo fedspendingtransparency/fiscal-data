@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -6,21 +6,19 @@ import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
 import DtgTableRow from './dtg-table-row/dtg-table-row';
 import { loadingTimeout, netLoadingDelay, setColumns } from './dtg-table-helper';
 import PaginationControls, { defaultPerPageOptions } from '../pagination/pagination-controls';
-import { pagedDatatableRequest, formatDateForApi, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
+import { formatDateForApi, pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import {
-  overlayContainer,
-  overlay,
   loadingIcon,
-  overlayContainerNoFooter,
-  apiErrorStyle,
-  selectColumnsWrapper,
-  wrapper,
   noBorderStyle,
-  tableFooter,
+  overlay,
+  overlayContainer,
+  overlayContainerNoFooter,
   rowsShowingStyle,
+  selectColumnsWrapper,
+  tableFooter,
+  wrapper,
 } from './dtg-table.module.scss';
-import CustomLink from '../links/custom-link/custom-link';
 import DataTable from '../data-table/data-table';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
@@ -478,7 +476,7 @@ export default function DtgTable({
       )}
       {/* Data Dictionary and Dataset Detail tables */}
       {reactTable && reactTableData?.data && (
-        <div data-test-id="table-content" className={overlayContainerNoFooter}>
+        <div className={overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
             <>
@@ -534,13 +532,13 @@ export default function DtgTable({
       {/*Endpoints and Fields tables*/}
       {!reactTable && (
         <>
-          <div data-test-id="table-content" className={overlayContainerNoFooter}>
+          <div data-testid="table-content" className={overlayContainerNoFooter}>
             {/* API Error Message */}
             {(apiError || tableProps.apiError) && !emptyDataMessage && <DtgTableApiError />}
 
             <div className={selectColumnsWrapper}>
               {/* Table Wrapper */}
-              <div className={noBorder ? [wrapper, noBorderStyle].join(' ') : wrapper}>
+              <div data-testid="table-wrapper" className={noBorder ? [wrapper, noBorderStyle].join(' ') : wrapper}>
                 {/* Empty Data Message */}
                 {emptyDataMessage && emptyDataMessage}
                 {/* Table */}
@@ -556,7 +554,7 @@ export default function DtgTable({
           </div>
           {/* Table Footer */}
           {shouldPage && (
-            <div data-test-id="table-footer" className={tableFooter}>
+            <div data-testid="table-footer" className={tableFooter}>
               <div data-test-id="rows-showing" className={rowsShowingStyle}>
                 {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
               </div>

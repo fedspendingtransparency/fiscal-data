@@ -1,10 +1,11 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import DatePickers from './datepickers';
 import { subYears } from 'date-fns';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { dateRange } from '../../datasets/filters/test-helpers';
 import { formatDate } from '../../download-wrapper/helpers';
+import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
 describe('DDP Datepickers', () => {
@@ -21,6 +22,12 @@ describe('DDP Datepickers', () => {
   };
 
   const setSelectedDates = jest.fn();
+
+  const updateDatePicker = (datePicker, stringEntry) => {
+    userEvent.click(datePicker);
+    userEvent.keyboard(stringEntry);
+    userEvent.keyboard('{Enter}');
+  };
 
   it('contains two instances of KeyboardDatePicker', () => {
     const { getAllByRole } = render(
@@ -52,29 +59,42 @@ describe('DDP Datepickers', () => {
   });
 
   it('updates the selected dates when triggered after the onChange event', async () => {
-    const updatedFromDate = subYears(latestDate, 2);
-    const updatedToDate = subYears(latestDate, 1);
-    renderer.act(() => {
-      datePickers[0].props.onChange(updatedFromDate);
-      datePickers[1].props.onChange(updatedToDate);
-    });
-    jest.runAllTimers();
+    const updatedFromDate = subYears(latestDate, 2).toString();
+    const updatedToDate = subYears(latestDate, 1).toString();
+    const { getAllByRole } = render(
+      <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
+    );
+    const datePickers = getAllByRole('textbox');
 
-    expect(datePickers[0].props.value).toEqual(updatedFromDate);
-    expect(datePickers[1].props.value).toEqual(updatedToDate);
+    updateDatePicker(datePickers[0], updatedFromDate);
+    updateDatePicker(datePickers[1], updatedToDate);
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(datePickers[0]).toHaveValue(formatDate(selectedDates.from));
+    expect(datePickers[1]).toHaveValue(formatDate(selectedDates.to));
   });
 
-  it('swaps the dates if the From date is greater than the To date', () => {
+  it('swaps the dates if the From date is greater than the To date', async () => {
     const updatedFromDate = subYears(latestDate, 1);
     const updatedToDate = subYears(latestDate, 3);
-    renderer.act(() => {
-      datePickers[0].props.onChange(updatedFromDate);
-      datePickers[1].props.onChange(updatedToDate);
+    const { getAllByRole } = render(
+      <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
+    );
+    const datePickers = getAllByRole('textbox');
+    act(() => {
+      updateDatePicker(datePickers[0], updatedFromDate);
+      jest.runAllTimers();
     });
-    jest.runAllTimers();
+    act(() => {
+      updateDatePicker(datePickers[1], updatedToDate);
+      jest.runAllTimers();
+    });
 
-    expect(datePickers[0].props.value).toEqual(updatedToDate);
-    expect(datePickers[1].props.value).toEqual(updatedFromDate);
+    expect(datePickers[0]).toHaveValue(formatDate(updatedToDate));
+    expect(datePickers[1]).toHaveValue(formatDate(updatedFromDate));
   });
 
   it(`updates the selected dates of the KeyboardDatePicker when a new range of maximal dates are
@@ -83,9 +103,12 @@ describe('DDP Datepickers', () => {
       from: new Date(1800, 9, 15),
       to: new Date(2018, 3, 2),
     };
-    renderer.act(() => {
-      component.update(<DatePickers availableDateRange={newTableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />);
-    });
+    const { getAllByRole, rerender } = render(
+      <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
+    );
+    rerender(<DatePickers availableDateRange={newTableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />);
+    const datePickers = getAllByRole('textbox');
+
     jest.runAllTimers();
 
     // No need to check the min+max on both datepickers as this was done above.
