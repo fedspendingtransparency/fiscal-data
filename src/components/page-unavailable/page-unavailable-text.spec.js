@@ -1,62 +1,78 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import PageUnavailableText from './page-unavailable-text';
-import notFoundGraphic from '../page-glitch-graphic/page-glitch-graphic';
+import { render, within } from '@testing-library/react';
+import { RecoilRoot } from 'recoil';
 
 describe('Unavailable Text', () => {
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(<PageUnavailableText />);
-  });
-
-  const instance = component.root;
-
   it('includes an h1 header', () => {
-    const header = instance.findByType('h1');
-    expect(header).toBeDefined();
-    expect(header.props.className).toBe('unavailableHeader');
+    const { getByRole } = render(
+      <RecoilRoot>
+        <PageUnavailableText />
+      </RecoilRoot>
+    );
+    const header = getByRole('heading', { level: 1 });
+    expect(header).toHaveClass('unavailableHeader');
   });
 
   it('includes an h1 header', () => {
-    const header = instance.findByType('h1');
-    expect(header).toBeDefined();
-    expect(header.props.children.props.children).toBe('Fiscal Data is unavailable right now.');
+    const { getByRole } = render(
+      <RecoilRoot>
+        <PageUnavailableText />
+      </RecoilRoot>
+    );
+    const header = getByRole('heading', { name: 'Fiscal Data is unavailable right now.' });
+    expect(header).toBeInTheDocument();
   });
 
   it('includes an unavailable header', () => {
-    const header = instance.findByType('h2');
-    expect(header).toBeDefined();
-    expect(header.props.children.props.children).toBe('We will be back shortly.');
+    const { getByRole } = render(
+      <RecoilRoot>
+        <PageUnavailableText />
+      </RecoilRoot>
+    );
+    const header = getByRole('heading', { level: 2 });
+    expect(within(header).getByText('We will be back shortly.')).toBeInTheDocument();
   });
 
   it('includes the not found graphic', () => {
-    const graphic = instance.findByType(notFoundGraphic);
-    expect(graphic).toBeDefined();
+    const { getByAltText } = render(
+      <RecoilRoot>
+        <PageUnavailableText />
+      </RecoilRoot>
+    );
+    const image = getByAltText('404: Page Not Found');
+    expect(image).toBeInTheDocument();
   });
 });
 
 describe('Fallback for Error Boundary', () => {
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(<PageUnavailableText fallback="true" />);
-  });
-
-  const instance = component.root;
-
   it('includes an h1 header', () => {
-    const header = instance.findByType('h1');
-    expect(header).toBeDefined();
-    expect(header.props.className).toBe('unavailableHeader');
+    const { getByRole } = render(
+      <RecoilRoot>
+        <PageUnavailableText fallback={true} />
+      </RecoilRoot>
+    );
+    const header = getByRole('heading', { level: 1 });
+    expect(header).toHaveClass('unavailableHeader');
   });
 
   it('includes fallback header', () => {
-    const h2 = instance.findByType('h2');
-    expect(h2).toBeDefined();
-    expect(h2.props.children.props.children).toBe('This content is currently unavailable.');
+    const { getByRole } = render(
+      <RecoilRoot>
+        <PageUnavailableText fallback={true} />
+      </RecoilRoot>
+    );
+    const header = getByRole('heading', { level: 2 });
+    expect(within(header).getByText('This content is currently unavailable.')).toBeInTheDocument();
   });
 
   it('includes the not found graphic', () => {
-    const graphic = instance.findByType(notFoundGraphic);
-    expect(graphic).toBeDefined();
+    const { getByAltText } = render(
+      <RecoilRoot>
+        <PageUnavailableText fallback={true} />
+      </RecoilRoot>
+    );
+    const image = getByAltText('404: Page Not Found');
+    expect(image).toBeInTheDocument();
   });
 });

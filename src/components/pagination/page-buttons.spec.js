@@ -1,6 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import PageButtons from './page-buttons';
+import { render } from '@testing-library/react';
+import { RecoilRoot } from 'recoil';
 
 describe('PageButtons component', () => {
   const pages = [1, 2, 3, 4, 5, 6];
@@ -13,11 +15,14 @@ describe('PageButtons component', () => {
   };
   const { maxPage, tableName } = pageButtonProps;
 
-  const component = renderer.create(<PageButtons pageButtonProps={pageButtonProps} />);
-  const instance = component.root;
-
   it('renders correct number of buttons (pages + next + prev)', () => {
-    expect(instance.findAllByType('button').length).toEqual(pages.length + 2);
+    const { getAllByRole } = render(
+      <RecoilRoot>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </RecoilRoot>
+    );
+    const buttons = getAllByRole('button');
+    expect(buttons.length).toBe(pages.length + 2);
   });
 
   it('renders a next button that is active when active page is not last page', () => {
