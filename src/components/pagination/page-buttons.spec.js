@@ -82,9 +82,8 @@ describe('PageButtons component', () => {
       </RecoilRoot>
     );
     const firstButton = getByRole('button', { name: `${tableName}-page1` });
-    expect(firstButton);
-
-    expect(instance.findByProps({ id: `${tableName}-page1` })).toBeDefined();
-    expect(instance.findByProps({ id: `${tableName}-page10` })).toBeDefined();
+    expect(firstButton).toBeInTheDocument();
+    const lastButton = getByRole('button', { name: `${tableName}-page10` });
+    expect(lastButton).toBeInTheDocument();
   });
 });
