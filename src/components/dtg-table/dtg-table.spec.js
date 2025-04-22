@@ -250,15 +250,15 @@ describe('DtgTable component - API Error', () => {
     expect(within(rowsShowing).getByText(`Showing 0 - 0 rows of 0 rows`));
   });
 
-  //TODO ????????????
   it('does not render pagination controls if apiError exists && currentPage === 1 even when shouldPage === true', () => {
-    const { getByTestId } = render(
+    const { queryByRole } = render(
       <RecoilRoot>
         <DtgTable tableProps={{ data: TestData, apiError: 'Error', shouldPage: true }} />
       </RecoilRoot>
     );
-    const footer = getByTestId('table-footer');
-    expect(within(footer).queryByText('Rows Per Page')).toBeFalsy();
+    expect(queryByRole('button', { name: 'Previous Page' })).not.toBeInTheDocument();
+    expect(queryByRole('button', { name: 'Next Page' })).not.toBeInTheDocument();
+    expect(queryByRole('button', { name: '1' })).not.toBeInTheDocument();
   });
 });
 
