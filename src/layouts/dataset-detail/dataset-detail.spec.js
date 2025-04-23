@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { mockAPIs, mockSummaryDataset, mockMaxDates, mockTechSpecs, updateDates, mockSummaryDatasetNoUpdates } from './helper';
+import { mockAPIs, mockMaxDates, mockSummaryDataset, mockSummaryDatasetNoUpdates, mockTechSpecs, updateDates } from './helper';
 import DDNav from '../../components/dataset-detail-nav/dataset-detail-nav';
 import DatasetDetail from './dataset-detail';
 import DatasetAbout from '../../components/dataset-about/dataset-about';
@@ -477,5 +477,25 @@ describe('Dataset - banner callout', () => {
       </RecoilRoot>
     );
     expect(queryByTestId('callout')).toBeNull();
+  });
+
+  it('hides api specific sections when hideRawDataTable is true', () => {
+    const { getByRole, queryByRole } = render(
+      <RecoilRoot>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: { ...datasetPageSampleConfig, hideRawDataTable: true },
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </RecoilRoot>
+    );
+    expect(getByRole('heading', { name: 'Introduction' })).toBeInTheDocument();
+    expect(queryByRole('heading', { name: 'Data Preview' })).not.toBeInTheDocument();
+    expect(getByRole('heading', { name: 'Dataset Properties' })).toBeInTheDocument();
+    expect(queryByRole('heading', { name: 'API Quick Guide' })).not.toBeInTheDocument();
+    expect(queryByRole('heading', { name: 'Related Datasets' })).not.toBeInTheDocument();
   });
 });
