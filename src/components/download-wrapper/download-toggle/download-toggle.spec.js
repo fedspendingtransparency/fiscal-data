@@ -5,11 +5,6 @@ import userEvent from '@testing-library/user-event';
 
 describe('DownloadToggle', () => {
   const toggleFn = jest.fn();
-  let radioButtons, toggleSpy;
-  beforeEach(() => {
-    // toggleSpy = jest.spyOn(instance.props, 'onChange');
-    // radioButtons = instance.findAllByType('input');
-  });
 
   it('contains three radio buttons', () => {
     const { getAllByRole } = render(<DownloadToggle onChange={toggleFn} setDisableDownloadBanner={jest.fn()} />);

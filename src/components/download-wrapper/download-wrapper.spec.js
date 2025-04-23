@@ -54,8 +54,6 @@ describe('DownloadWrapper', () => {
 
   const nonFilteredDate = 'ALL';
 
-  // const downloadItemButtons = instance.findAllByType(DownloadItemButton);
-
   it('renders the component', () => {
     const { getByTestId } = render(
       <RecoilRoot>
