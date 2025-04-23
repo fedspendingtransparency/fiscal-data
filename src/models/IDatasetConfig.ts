@@ -4,7 +4,7 @@ import { IDatasetTechSpecs } from './IDatasetTechSpecs';
 export interface IDatasetConfig {
   apis: IDatasetApi[];
   currentDateButton: 'byMonth' | 'byDay' | 'byFullMonth' | null; // byFullMonth will gather data from the entire month, byMonth is just looks at the last day of the month
-  hideRawDataTable: boolean;
+  hideRawDataTable?: boolean; // true for any dataset with no raw data table, published reports only
   customNoChartMessage: boolean | null; // not used at the moment
   datePreset: string | null;
   customRangePreset: string | null; // *** Currently only used for TRRE
