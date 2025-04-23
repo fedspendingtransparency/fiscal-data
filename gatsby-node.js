@@ -580,6 +580,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          hideRawDataTable
           reportSelection
           disableAllTables
           downloadTimestamp
