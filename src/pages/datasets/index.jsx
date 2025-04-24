@@ -4,7 +4,7 @@ import dates from '../../helpers/datasets/dates';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import { searchContainer, page_title } from './datasets.module.scss';
+import { page_title, searchContainer } from './datasets.module.scss';
 import FilterSection from '../../components/datasets/filters/filters';
 import SearchField from '../../components/datasets/search-field/search-field';
 import { MuiThemeProvider } from '@material-ui/core';
@@ -17,7 +17,7 @@ const DatasetsPage = ({ pageContext }) => {
   const { allDatasets, allFile } = useStaticQuery(
     graphql`
       query {
-        allDatasets(filter: { apis: { elemMatch: { endpoint: { ne: "" } } } }) {
+        allDatasets {
           datasets: nodes {
             name
             datasetId

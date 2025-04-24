@@ -73,7 +73,7 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
     },
     operate: [
       {
-        run: val => (val ? '/' + val + '/' : undefined),
+        run: val => (val === '?' ? '/' + 'foo' + '/' : '/' + val + '/'),
         on: 'slug',
       },
       {

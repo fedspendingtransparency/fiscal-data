@@ -571,7 +571,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const result = await graphql(`
     query {
-      allDatasets(filter: { apis: { elemMatch: { endpoint: { ne: "" } } } }) {
+      allDatasets {
         datasets: nodes {
           dataFormats
           dataStartYear
@@ -852,7 +852,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   result.data.allBlsPublicApiData.blsPublicApiData.forEach(blsRow => {
     cpi12MonthPercentChangeMap[blsRow.period + blsRow.year] = blsRow['_12mo_percentage_change'];
   });
-
   for (const config of result.data.allDatasets.datasets) {
     const allResults = [];
     const allResultsLabels = {};
@@ -919,6 +918,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         api.apiFilter.optionValues = { all: [...new Set(allResults)] }; // uniquify results
         api.apiFilter.optionLabels = allResultsLabels;
       }
+    }
+    if (config.seoConfig.pageTitle === 'My Dataset') {
+      console.log(config);
     }
     createPage({
       path: `/datasets${config.slug}`,
