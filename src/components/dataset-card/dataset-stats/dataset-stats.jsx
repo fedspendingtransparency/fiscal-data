@@ -5,7 +5,7 @@ import futureDateIcon from '../../../images/futureDateIcon.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarWeek, faDatabase, faPen, faRepeat } from '@fortawesome/free-solid-svg-icons';
 
-export default function DatasetStats({ dataset }) {
+const DatasetStats = ({ dataset }) => {
   // TODO: clean some of these up a little
   const earliestDate = dataset && dataset.techSpecs && dataset.techSpecs.earliestDate ? dataset.techSpecs.earliestDate : null;
   const latestDate = dataset && dataset.techSpecs && dataset.techSpecs.latestDate ? dataset.techSpecs.latestDate : null;
@@ -73,4 +73,6 @@ export default function DatasetStats({ dataset }) {
       )}
     </ul>
   );
-}
+};
+
+export default DatasetStats;

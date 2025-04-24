@@ -1,7 +1,7 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import DatasetStats from './dataset-stats';
 import { add, format } from 'date-fns';
-import { render } from '@testing-library/react';
 
 describe('DatasetStats', () => {
   const mockDataset = {
@@ -12,7 +12,9 @@ describe('DatasetStats', () => {
       updateFrequency: 'Updated Monthly',
     },
     apis: [1, 2, 3, 4, 5],
+    hideRawDataTable: false,
   };
+
   const tomorrowObj = add(new Date(), { days: 1 });
   const tomorrowString = format(tomorrowObj, 'MM/dd/yyyy');
   const mockDataset2 = {
@@ -25,6 +27,7 @@ describe('DatasetStats', () => {
       updateFrequency: 'Updated Daily',
     },
     apis: [1, 2, 3, 4, 5],
+    hideRawDataTable: false,
   };
 
   it('should contain an li that displays the date range with a calendar week icon', () => {
@@ -67,5 +70,14 @@ describe('DatasetStats', () => {
     expect(numTables).toBeDefined();
     expect(databaseIcon).toBeDefined();
     expect(instance.getByText('5 Data Tables')).toBeInTheDocument();
+  });
+
+  it('should not display the date range, lastUpdated, or numTables when hideRawDataTable is true', () => {
+    const datasetWithHideRawDataTable = { ...mockDataset, hideRawDataTable: true };
+    const instance = render(<DatasetStats dataset={datasetWithHideRawDataTable} />);
+
+    expect(instance.queryByTestId('dateRange-li')).toBeNull();
+    expect(instance.queryByTestId('lastUpdated')).toBeNull();
+    expect(instance.queryByTestId('numTables-li')).toBeNull();
   });
 });
