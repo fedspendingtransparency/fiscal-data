@@ -83,6 +83,22 @@ describe('Detail-Pills component', () => {
     expect(queryByTestId('numTables')).not.toBeInTheDocument();
     expect(getByText('Released Daily')).toBeInTheDocument();
   });
+
+  it('does not render table count pill when hideRawDataTable is true', () => {
+    const mockData = {
+      name: 'Future Dataset',
+      techSpecs: {
+        latestDate: null,
+        earliestDate: null,
+        lastUpdated: null,
+        updateFrequency: 'Daily',
+      },
+    };
+    const { queryByTestId, getByText } = render(
+      <DetailPills techSpecs={mockData.techSpecs} config={{ datasetId: '015-BFS-2014Q3-051' }} numTables={1} hideRawDataTable={true} />
+    );
+    expect(queryByTestId('numTables')).not.toBeInTheDocument();
+  });
 });
 
 describe('DetailPills component with a dataset with a latestDate in the future', () => {
