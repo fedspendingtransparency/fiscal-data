@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'gatsby';
 import Card from '@material-ui/core/Card';
 import { MuiThemeProvider } from '@material-ui/core';
@@ -17,16 +17,16 @@ import {
   cardContent,
   cardHeaderLink,
   datasetArrow,
-  datasetLineLink,
   datasetIcon,
+  datasetLineLink,
   datasetName,
   header,
   highlightLink,
   imageContainer,
   sparkLine,
-  statsContainer,
   statDate,
   statLower,
+  statsContainer,
   statUpper,
   viewDataset,
   xAxis,
@@ -34,7 +34,7 @@ import {
 import { IDatasetApi } from '../../../models/IDatasetApi';
 import { IDataset } from '../../../models/IDataset';
 import { DatasetFieldDataType } from '../../../models/fdg-types';
-import { formatCardValue, ariaLabels } from '../home-highlight-cards-helper/home-highlight-cards-helper';
+import { ariaLabels, formatCardValue } from '../home-highlight-cards-helper/home-highlight-cards-helper';
 import BarGraph from '../../charts/bar/bar';
 import Sparkler from './sparkler/sparkler';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -325,7 +325,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 id={`chart-${displayOrder}`}
                 data-testid="highlight-chart"
                 className={sparkLine}
-                aria-label={ariaLabels.find(element => element.title === title)?.label}
+                // aria-label={ariaLabels.find(element => element.title === title)?.label}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
                 role={'presentation'}
