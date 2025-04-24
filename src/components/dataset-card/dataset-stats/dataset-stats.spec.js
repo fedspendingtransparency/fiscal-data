@@ -72,12 +72,10 @@ describe('DatasetStats', () => {
     expect(instance.getByText('5 Data Tables')).toBeInTheDocument();
   });
 
-  it('should not display the date range, lastUpdated, or numTables when hideRawDataTable is true', () => {
+  it('should not display the numTables when hideRawDataTable is true', () => {
     const datasetWithHideRawDataTable = { ...mockDataset, hideRawDataTable: true };
     const instance = render(<DatasetStats dataset={datasetWithHideRawDataTable} />);
 
-    // expect(instance.queryByTestId('dateRange-li')).toBeNull();
-    // expect(instance.queryByTestId('lastUpdated')).toBeNull();
     expect(instance.queryByTestId('numTables-li')).toBeNull();
   });
 });
