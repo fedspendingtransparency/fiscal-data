@@ -22,10 +22,9 @@ describe('Detail-Pills component', () => {
     const { getByTestId, getByText } = render(
       <DetailPills
         techSpecs={profilerConfigMockData.dataJson.datasets[0].techSpecs}
-        dictionary={false}
         numTables={1}
-        dateExpected={'2025-04-01'}
-        timeExpected={'1600'}
+        dateExpected="2025-04-01"
+        timeExpected="1600"
         config={{ datasetId: '015-BFS-2014Q3-051' }}
       />
     );
@@ -56,15 +55,33 @@ describe('Detail-Pills component', () => {
     const { findByText, queryByText } = render(
       <DetailPills
         techSpecs={profilerConfigMockData.dataJson.datasets[0].techSpecs}
-        dictionary={false}
         numTables={1}
-        dateExpected={'2025-04-01'}
-        timeExpected={'1600'}
+        dateExpected="2025-04-01"
+        timeExpected="1600"
         config={{ datasetId: '015-BFS-2014Q3-051' }}
       />
     );
     await waitForElementToBeRemoved(() => queryByText('New Data Expected 04/01/2025'));
     expect(await findByText('New Data Expected 05/01/2025')).toBeInTheDocument();
+  });
+
+  it('only renders pill with data available', () => {
+    const mockData = {
+      name: 'Future Dataset',
+      techSpecs: {
+        latestDate: null,
+        earliestDate: null,
+        lastUpdated: null,
+        updateFrequency: 'Daily',
+      },
+    };
+    const { queryByTestId, getByText } = render(<DetailPills techSpecs={mockData.techSpecs} config={{ datasetId: '015-BFS-2014Q3-051' }} />);
+    expect(queryByTestId('futureDateIcon')).not.toBeInTheDocument();
+    expect(queryByTestId('calendar-week-icon')).not.toBeInTheDocument();
+    expect(queryByTestId('lastUpdatedIcon')).not.toBeInTheDocument();
+    expect(queryByTestId('timerIcon')).not.toBeInTheDocument();
+    expect(queryByTestId('numTables')).not.toBeInTheDocument();
+    expect(getByText('Released Daily')).toBeInTheDocument();
   });
 });
 
@@ -82,7 +99,7 @@ describe('DetailPills component with a dataset with a latestDate in the future',
   };
 
   it('shows the futureDateIcon when the latestDate is in the future', () => {
-    const { getByTestId } = render(<DetailPills techSpecs={mockData.techSpecs} dictionary={false} config={{ datasetId: '015-BFS-2014Q3-051' }} />);
+    const { getByTestId } = render(<DetailPills techSpecs={mockData.techSpecs} config={{ datasetId: '015-BFS-2014Q3-051' }} />);
     expect(getByTestId('futureDateIcon')).toBeDefined();
   });
 });
