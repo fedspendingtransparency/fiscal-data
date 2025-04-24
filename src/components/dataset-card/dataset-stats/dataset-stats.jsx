@@ -17,7 +17,6 @@ const DatasetStats = ({ dataset }) => {
   const latestDateParts = dataset && dataset.techSpecs && dataset.techSpecs.latestDate ? latestDate.split('/') : ['', '', ''];
   const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0, 0, 0), new Date());
 
-  console.log('hideRawDataTable ', hideRawDataTable);
   return (
     <ul className={list}>
       {dateRange && (
