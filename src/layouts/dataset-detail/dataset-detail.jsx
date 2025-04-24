@@ -92,6 +92,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           dateExpected={pageConfig.dateExpected}
           timeExpected={pageConfig.timeExpected}
           config={pageContext.config}
+          hideRawDataTable={hideRawDataTable}
         />
         {pageConfig.reportGenDefaultTable && (
           <Experimental featureId="defaultReportTable">

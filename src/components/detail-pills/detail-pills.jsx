@@ -9,7 +9,7 @@ import { convertDateAndTimeToDateTime } from '../calendar-entries/calendar-entry
 import { basicFetch } from '../../utils/api-utils';
 import { API_BASE_URL } from 'gatsby-env-variables';
 
-const DetailPills = ({ techSpecs, numTables, dateExpected, timeExpected, config }) => {
+const DetailPills = ({ techSpecs, numTables, dateExpected, timeExpected, config, hideRawDataTable }) => {
   const earliestDate = techSpecs?.earliestDate;
   const latestDate = techSpecs?.latestDate;
   const dateRange = earliestDate && latestDate ? `${earliestDate} — ${latestDate}` : undefined;
@@ -78,7 +78,7 @@ const DetailPills = ({ techSpecs, numTables, dateExpected, timeExpected, config 
           <span className="pillText">New Data Expected {dateTimeExpected}</span>
         </span>
       )}
-      {numTables && (
+      {!hideRawDataTable && numTables && (
         <span className={pill}>
           <FontAwesomeIcon icon={faDatabase} size="1x" className={icon} data-testid="numTables" />
           <span className="pillText">
