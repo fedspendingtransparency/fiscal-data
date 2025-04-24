@@ -18,7 +18,7 @@ const DatasetStats = ({ dataset }) => {
 
   return (
     <ul className={list}>
-      {!hideRawDataTable && (
+      {dateRange && !hideRawDataTable && (
         <>
           <li data-testid="dateRange-li" aria-label={'Date Range: ' + dateRange}>
             <div className={statItem}>
