@@ -509,6 +509,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       timeExpected: String,
       allColumnNames: [String],
       allPrettyNames: [String],
+      hideRawDataTable: Boolean,
     }
     type DownloadLimit {
       fileType: String,
