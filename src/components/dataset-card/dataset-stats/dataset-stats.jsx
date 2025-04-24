@@ -44,7 +44,7 @@ const DatasetStats = ({ dataset }) => {
         </li>
       )}
       {lastUpdated && (
-        <li data-testid={'lastUpdated'} aria-label={'last updated' + lastUpdated}>
+        <li data-testid="lastUpdated" aria-label={'last updated' + lastUpdated}>
           <div className={statItem}>
             <FontAwesomeIcon icon={faPen} size="1x" className={icon} data-testid={'pen-icon'} />
             <div>

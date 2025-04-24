@@ -29,6 +29,18 @@ describe('DatasetStats', () => {
     apis: [1, 2, 3, 4, 5],
     hideRawDataTable: false,
   };
+  const mockDataset3 = {
+    name: 'Future Dataset',
+    techSpecs: {
+      latestDate: null,
+      earliestDate: null,
+      lastUpdated: null,
+      fileFormat: 'JSON, CSV, XML',
+      updateFrequency: 'Updated Daily',
+    },
+    apis: [1, 2, 3, 4, 5],
+    hideRawDataTable: true,
+  };
 
   it('should contain an li that displays the date range with a calendar week icon', () => {
     const instance = render(<DatasetStats dataset={mockDataset} />);
@@ -77,5 +89,12 @@ describe('DatasetStats', () => {
     const instance = render(<DatasetStats dataset={datasetWithHideRawDataTable} />);
 
     expect(instance.queryByTestId('numTables-li')).toBeNull();
+  });
+
+  it('should not display the numTables when hideRawDataTable is true', () => {
+    const instance = render(<DatasetStats dataset={mockDataset3} />);
+
+    expect(instance.queryByTestId('dateRange-li')).toBeNull();
+    expect(instance.queryByTestId('lastUpdated')).toBeNull();
   });
 });
