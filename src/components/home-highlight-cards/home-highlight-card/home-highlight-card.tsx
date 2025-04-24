@@ -325,7 +325,6 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 id={`chart-${displayOrder}`}
                 data-testid="highlight-chart"
                 className={sparkLine}
-                // aria-label={ariaLabels.find(element => element.title === title)?.label}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
                 role={'presentation'}
