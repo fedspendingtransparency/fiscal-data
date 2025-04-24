@@ -509,6 +509,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       timeExpected: String,
       allColumnNames: [String],
       allPrettyNames: [String],
+      hideRawDataTable: Boolean,
     }
     type DownloadLimit {
       fileType: String,
@@ -580,6 +581,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          hideRawDataTable
           reportSelection
           disableAllTables
           downloadTimestamp

@@ -110,6 +110,7 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.apis = dataset.apis.filter(api => !api.markedForDelete);
       dataset.relatedDatasets = mappedDataset && mappedDataset.relatedDatasets ? mappedDataset.relatedDatasets : [];
       dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton ? mappedDataset.currentDateButton : null;
+      dataset.hideRawDataTable = mappedDataset && mappedDataset.hideRawDataTable ? mappedDataset.hideRawDataTable : null;
       dataset.detailView = mappedDataset && mappedDataset.detailView ? mappedDataset.detailView : null;
       dataset.customNoChartMessage = mappedDataset && mappedDataset.customNoChartMessage ? mappedDataset.customNoChartMessage : null;
       dataset.datePreset = mappedDataset && mappedDataset.datePreset ? mappedDataset.datePreset : null;
