@@ -80,6 +80,19 @@ describe('Reports Section component', () => {
     expect(queryByText('Note:')).not.toBeInTheDocument();
   });
 
+  it('does not render the report date picker when hideReportDatePicker is true', () => {
+    const { queryByText } = render(
+      <ReportsSection
+        publishedReportsProp={[
+          { report_date: new Date('8/8/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)', path: 'test/test.pdf' },
+          { report_date: new Date('8/7/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)', path: 'test/test.pdf' },
+        ]}
+        dataset={{ hideReportDatePicker: true }}
+      />
+    );
+    expect(queryByText('Published Date:')).not.toBeInTheDocument();
+  });
+
   describe('Reports section with report filter', () => {
     it('renders report filter when reportSelection is byReport', () => {
       const datasetConfig = { reportSelection: 'byReport' };
