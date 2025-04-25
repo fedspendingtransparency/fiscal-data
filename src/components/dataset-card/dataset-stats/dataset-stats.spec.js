@@ -91,7 +91,7 @@ describe('DatasetStats', () => {
     expect(instance.queryByTestId('numTables-li')).toBeNull();
   });
 
-  it('should not display the numTables when hideRawDataTable is true', () => {
+  it('should not display the dateRange-li and lastupdated when hideRawDataTable is true', () => {
     const instance = render(<DatasetStats dataset={mockDataset3} />);
 
     expect(instance.queryByTestId('dateRange-li')).toBeNull();
