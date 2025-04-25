@@ -4,7 +4,7 @@ import dates from '../../helpers/datasets/dates';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import { searchContainer, page_title } from './datasets.module.scss';
+import { page_title, searchContainer } from './datasets.module.scss';
 import FilterSection from '../../components/datasets/filters/filters';
 import SearchField from '../../components/datasets/search-field/search-field';
 import { MuiThemeProvider } from '@material-ui/core';
@@ -17,13 +17,14 @@ const DatasetsPage = ({ pageContext }) => {
   const { allDatasets, allFile } = useStaticQuery(
     graphql`
       query {
-        allDatasets(filter: { apis: { elemMatch: { endpoint: { ne: "" } } } }) {
+        allDatasets {
           datasets: nodes {
             name
             datasetId
             relatedTopics
             allColumnNames
             allPrettyNames
+            hideRawDataTable
             apis {
               endpoint
               dateField
@@ -87,6 +88,7 @@ const DatasetsPage = ({ pageContext }) => {
 
   const { datasets } = allDatasets;
   const { topicIcons } = allFile;
+  const defaultDatasets = datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
 
   const breadCrumbLinks = [
     {
@@ -101,7 +103,7 @@ const DatasetsPage = ({ pageContext }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [innerWidth, setInnerWidth] = useState();
   const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
-  const updatedDatasets = useMetadataUpdater(datasets);
+  const updatedDatasets = useMetadataUpdater(defaultDatasets);
   const options = { keys: ['name', 'summaryText', 'relatedTopics', 'allPrettyNames'], threshold: 0.2, includeScore: true, ignoreLocation: true };
   const searchIndex = Fuse.createIndex(options.keys, updatedDatasets);
   const fuse = new Fuse(updatedDatasets, options, searchIndex);
