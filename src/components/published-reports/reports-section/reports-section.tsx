@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import DownloadReportTable from '../download-report-table/download-report-table';
-import { reportsTip, note, filtersContainer } from './reports-section.module.scss';
+import { filtersContainer, note, reportsTip } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 import ReportDatePicker from '../report-date-picker/report-date-picker';
-import { isReportGroupDailyFrequency, getAllReportDates } from '../util/util';
+import { getAllReportDates, isReportGroupDailyFrequency } from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
 import ReportFilter from '../report-filter/report-filter';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
@@ -25,6 +24,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
   const [allReportYears, setAllReportYears] = useState<string[]>();
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [filterByReport, setFilterByReport] = useState<boolean>();
+  const hideReportDatePicker = dataset?.hideReportDatePicker;
 
   const updateReportSelection = (date: Date, isDaily: boolean, sortedReports: IPublishedReportDataJson[]) => {
     if (date) {
@@ -91,20 +91,22 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
   return (
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={title} id="reports-and-files">
-        <div className={filtersContainer}>
-          {filterByReport && <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} />}
-          {latestReportDate && (
-            <ReportDatePicker
-              isDailyReport={isDailyReport}
-              latestReportDate={latestReportDate}
-              earliestReportDate={earliestReportDate}
-              allReportDates={allReportDates}
-              allReportYears={allReportYears}
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-            />
-          )}
-        </div>
+        {!hideReportDatePicker && (
+          <div className={filtersContainer}>
+            {filterByReport && <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} />}
+            {latestReportDate && (
+              <ReportDatePicker
+                isDailyReport={isDailyReport}
+                latestReportDate={latestReportDate}
+                earliestReportDate={earliestReportDate}
+                allReportDates={allReportDates}
+                allReportYears={allReportYears}
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+              />
+            )}
+          </div>
+        )}
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
         {dataset?.publishedReportsTip && (
           <div className={reportsTip}>

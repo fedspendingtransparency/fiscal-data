@@ -54,6 +54,7 @@ const DatasetsPage = ({ pageContext }) => {
             tagLine
             publisher
             dictionary
+            hideRawDataTable
             techSpecs {
               latestDate
               earliestDate

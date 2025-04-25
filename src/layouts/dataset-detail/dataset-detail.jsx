@@ -39,6 +39,7 @@ export const query = graphql`
         }
         dictionary
         hideRawDataTable
+        hideReportDatePicker
       }
     }
   }
