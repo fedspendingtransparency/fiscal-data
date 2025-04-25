@@ -3,12 +3,15 @@ import { container, date, emptyRow, headerRow, name, table } from './generative-
 import GenerativeReportsTableNotice from '../generative-reports-table-notice/generative-reports-table-notice';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
+import { reportsBannerCopy } from '../reports-config';
 
-const GenerativeReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage }) => {
+const GenerativeReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage, noMatchingData, reportGenKey }) => {
   const mobileView = width < pxToNumber(breakpointLg);
   const rowCount = 3;
-  const additionalFiltersHeading = 'This table requires additional filters';
-  const additionalFiltersBody = 'Select an account in the filter section above to display the reports.';
+
+  const bannerCopy = reportsBannerCopy[reportGenKey];
+  const heading = noMatchingData ? bannerCopy.noDataMatchHeader : bannerCopy.additionalFiltersHeader;
+  const body = noMatchingData ? bannerCopy.noDataMatchBody : bannerCopy.additionalFiltersBody;
 
   return (
     <div className={container}>
@@ -37,7 +40,7 @@ const GenerativeReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage
           ))}
         </tbody>
       </table>
-      <GenerativeReportsTableNotice heading={additionalFiltersHeading} bodyText={additionalFiltersBody} apiErrorMessage={apiErrorMessage} />
+      <GenerativeReportsTableNotice heading={heading} bodyText={body} apiErrorMessage={apiErrorMessage} />
     </div>
   );
 };

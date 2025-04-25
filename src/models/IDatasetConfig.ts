@@ -44,5 +44,5 @@ export interface IDatasetConfig {
   tagLine: string; // from short_description in metadata
   techSpecs: IDatasetTechSpecs;
   reportSelection: 'byReport' | null; // indicates if a report selection filter is available for published reports
-  reportGenDefaultTable: boolean | null; // displays a blank table before report generation *** Currently only used for UTF
+  reportGenKey: string | null; // displays a blank table before report generation *** Currently only used for UTF
 }
