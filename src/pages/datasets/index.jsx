@@ -24,6 +24,7 @@ const DatasetsPage = ({ pageContext }) => {
             relatedTopics
             allColumnNames
             allPrettyNames
+            hideRawDataTable
             apis {
               endpoint
               dateField
@@ -87,6 +88,7 @@ const DatasetsPage = ({ pageContext }) => {
 
   const { datasets } = allDatasets;
   const { topicIcons } = allFile;
+  const defaultDatasets = datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
 
   const breadCrumbLinks = [
     {
@@ -101,7 +103,7 @@ const DatasetsPage = ({ pageContext }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [innerWidth, setInnerWidth] = useState();
   const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
-  const updatedDatasets = useMetadataUpdater(datasets);
+  const updatedDatasets = useMetadataUpdater(defaultDatasets);
   const options = { keys: ['name', 'summaryText', 'relatedTopics', 'allPrettyNames'], threshold: 0.2, includeScore: true, ignoreLocation: true };
   const searchIndex = Fuse.createIndex(options.keys, updatedDatasets);
   const fuse = new Fuse(updatedDatasets, options, searchIndex);

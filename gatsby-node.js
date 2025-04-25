@@ -853,87 +853,87 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     cpi12MonthPercentChangeMap[blsRow.period + blsRow.year] = blsRow['_12mo_percentage_change'];
   });
   for (const config of result.data.allDatasets.datasets) {
-    const allResults = [];
-    const allResultsLabels = {};
-    for (const api of config.apis) {
-      if (api.userFilter) {
-        let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
-        filterOptionsUrl += `${api.endpoint}?fields=${api.userFilter.field}`;
-        filterOptionsUrl += `&page[size]=10000&sort=${api.userFilter.field}`;
+    // datasets must have an api with an endpoint, unless hideRawDataTable is true
+    if ((config.apis && config.apis[0].endpoint !== '') || config.hideRawDataTable) {
+      const allResults = [];
+      const allResultsLabels = {};
+      for (const api of config.apis) {
+        if (api.userFilter) {
+          let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+          filterOptionsUrl += `${api.endpoint}?fields=${api.userFilter.field}`;
+          filterOptionsUrl += `&page[size]=10000&sort=${api.userFilter.field}`;
 
-        const options = await fetch(filterOptionsUrl).then(res =>
-          res.json().then(body => body.data.map(row => row[api.userFilter.field]).sort((a, b) => a.localeCompare(b)))
-        );
-        api.userFilter.optionValues = [...new Set(options)]; // uniquify results
-      }
-      if (api.apiFilter) {
-        let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
-        if (api.apiFilter.filterEndpoint) {
-          filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=10000`;
-        } else {
-          filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
-          if (api.apiFilter?.labelField) {
-            filterOptionsUrl += `,${api.apiFilter.labelField}&page[size]=10000&sort=${api.apiFilter.labelField}`;
-          } else {
-            filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
-          }
+          const options = await fetch(filterOptionsUrl).then(res =>
+            res.json().then(body => body.data.map(row => row[api.userFilter.field]).sort((a, b) => a.localeCompare(b)))
+          );
+          api.userFilter.optionValues = [...new Set(options)]; // uniquify results
         }
+        if (api.apiFilter) {
+          let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+          if (api.apiFilter.filterEndpoint) {
+            filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=10000`;
+          } else {
+            filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
+            if (api.apiFilter?.labelField) {
+              filterOptionsUrl += `,${api.apiFilter.labelField}&page[size]=10000&sort=${api.apiFilter.labelField}`;
+            } else {
+              filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
+            }
+          }
 
-        if (api.apiFilter.fieldFilter) {
-          // Tables with subheaders within the dropdown (ex. UTF)
-          const multiOptions = {};
-          for (const val of api.apiFilter.fieldFilter.value) {
-            const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
-            const options = await fetch(newUrl).then(res =>
+          if (api.apiFilter.fieldFilter) {
+            // Tables with subheaders within the dropdown (ex. UTF)
+            const multiOptions = {};
+            for (const val of api.apiFilter.fieldFilter.value) {
+              const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
+              const options = await fetch(newUrl).then(res =>
+                res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+              );
+              multiOptions[val] = options;
+            }
+            api.apiFilter.optionValues = multiOptions; // uniquify results
+          } else if (api.apiFilter.labelField) {
+            //Different field used for value vs label (ex. FBP)
+            let options;
+            const labelOptions = {};
+            await fetch(filterOptionsUrl).then(res =>
+              res.json().then(body => {
+                const filterLabels = body.data;
+                if (api.apiFilter?.labelField) {
+                  filterLabels.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
+                }
+                options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
+              })
+            );
+            api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
+            api.apiFilter.optionLabels = labelOptions;
+          } else {
+            const options = await fetch(filterOptionsUrl).then(res =>
               res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
             );
-            multiOptions[val] = options;
+            api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
           }
-          api.apiFilter.optionValues = multiOptions; // uniquify results
-        } else if (api.apiFilter.labelField) {
-          //Different field used for value vs label (ex. FBP)
-          let options;
-          const labelOptions = {};
-          await fetch(filterOptionsUrl).then(res =>
-            res.json().then(body => {
-              const filterLabels = body.data;
-              if (api.apiFilter?.labelField) {
-                filterLabels.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
-              }
-              options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
-            })
-          );
-          api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
-          api.apiFilter.optionLabels = labelOptions;
-        } else {
-          const options = await fetch(filterOptionsUrl).then(res =>
-            res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
-          );
-          api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
         }
       }
-    }
-    if (allResults.length > 0) {
-      for (const api of config.apis) {
-        api.apiFilter.optionValues = { all: [...new Set(allResults)] }; // uniquify results
-        api.apiFilter.optionLabels = allResultsLabels;
+      if (allResults.length > 0) {
+        for (const api of config.apis) {
+          api.apiFilter.optionValues = { all: [...new Set(allResults)] }; // uniquify results
+          api.apiFilter.optionLabels = allResultsLabels;
+        }
       }
+      createPage({
+        path: `/datasets${config.slug}`,
+        matchPath: '/datasets' + config.slug + '*',
+        component: path.resolve(`./src/layouts/dataset-detail/dataset-detail.jsx`),
+        context: {
+          config: config,
+          relatedDatasets: config.relatedDatasets ? config.relatedDatasets : [],
+          experimental: false,
+          seoConfig: config.seoConfig,
+          isPreProd: ENV_ID === 'preprod',
+        },
+      });
     }
-    if (config.seoConfig.pageTitle === 'My Dataset') {
-      console.log(config);
-    }
-    createPage({
-      path: `/datasets${config.slug}`,
-      matchPath: '/datasets' + config.slug + '*',
-      component: path.resolve(`./src/layouts/dataset-detail/dataset-detail.jsx`),
-      context: {
-        config: config,
-        relatedDatasets: config.relatedDatasets ? config.relatedDatasets : [],
-        experimental: false,
-        seoConfig: config.seoConfig,
-        isPreProd: ENV_ID === 'preprod',
-      },
-    });
   }
 
   if (ENV_ID === 'preprod') {
