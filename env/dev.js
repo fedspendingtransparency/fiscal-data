@@ -5,7 +5,22 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://dev.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.dev.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'not-found-md', 'apiNKL', 'aboutUsMDX', 'publishedReportsSection', 'chartingConfigurationTool'],
-  ADDITIONAL_DATASETS: {},
+  ADDITIONAL_DATASETS: {
+    '015-BFS-2025Q2-002': {
+      slug: '/monthly-treasury-disbursements/',
+      hideRawDataTable: true,
+      seoConfig: {
+        pageTitle: 'Monthly Treasury Disbursements',
+        description: '?',
+        keywords: '',
+      },
+      topics: [],
+    },
+  },
   USE_MOCK_RELEASE_CALENDAR_DATA_ON_API_FAIL: true,
-  ADDITIONAL_ENDPOINTS: {},
+  ADDITIONAL_ENDPOINTS: {
+    322: {
+      endpoint: '',
+    },
+  },
 };
