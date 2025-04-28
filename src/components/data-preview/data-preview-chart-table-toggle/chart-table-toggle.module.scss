@@ -86,7 +86,7 @@
     width: 20rem;
   }
   .toggleButton {
-    width: calc(50% - 2rem - 2px); //accounts for middle border pixel
+    width: calc(50% - 2rem - 3px); //accounts for middle border pixel
     text-align: center;
     &:not(.selected) {
       width: calc(50% - 2rem - 1px);
