@@ -1,4 +1,6 @@
-import { axisBottom, axisLeft, timeDay, timeMonth, timeFormat } from 'd3';
+import { timeFormat } from 'd3-time-format';
+import { axisBottom, axisLeft } from 'd3-axis';
+import { timeDay, timeMonth } from 'd3-time';
 import { differenceInCalendarDays } from 'date-fns';
 import { formatForDataType } from './utils';
 

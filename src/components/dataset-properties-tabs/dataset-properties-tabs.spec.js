@@ -55,4 +55,16 @@ describe('DatasetAboutTabs', () => {
     expect(getByLabelText('Metadata')).toBeInTheDocument();
     expect(getByLabelText('Notes & Known Limitations')).toBeInTheDocument();
   });
+
+  it('hides api specific tabs when hideRawDataTable is true', () => {
+    const { getByLabelText, queryByLabelText } = render(
+      <RecoilRoot>
+        <DatasetAboutTabs config={{ ...tabData, hideRawDataTable: true }} test />
+      </RecoilRoot>
+    );
+    expect(queryByLabelText('Data Dictionary')).not.toBeInTheDocument();
+    expect(queryByLabelText('Data Tables')).not.toBeInTheDocument();
+    expect(getByLabelText('Metadata')).toBeInTheDocument();
+    expect(getByLabelText('Notes & Known Limitations')).toBeInTheDocument();
+  });
 });

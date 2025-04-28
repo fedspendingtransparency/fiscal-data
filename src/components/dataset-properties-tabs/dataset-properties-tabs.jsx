@@ -16,7 +16,7 @@ import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 
 const DatasetPropertiesTabs = ({ config, test, width }) => {
   const [dictionaryPerPage, setDictionaryPerPage] = useState(5);
-
+  const hideRawDataTable = config?.hideRawDataTable;
   const TabPanel = ({ children, value, index, ...other }) => (
     <Typography
       component="div"
@@ -70,10 +70,12 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
     {
       label: 'Data Dictionary',
       content: <DataDictionary datasetName={config.name} apis={config.apis} perPage={dictionaryPerPage} setPerPage={setDictionaryPerPage} />,
+      apiTabVisibility: hideRawDataTable,
     },
     {
       label: 'Data Tables',
       content: <DataTablesTab datasetName={config.name} apis={config.apis} />,
+      apiTabVisibility: hideRawDataTable,
     },
     {
       label: 'Metadata',
@@ -100,13 +102,17 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
             scrollButtons={scrollButton}
             aria-label="Dataset properties tabs"
           >
-            {tabs.map((tab, index) => (
-              <AntTabDatasetDetail key={index} label={tab.label} {...a11yProps(index)} data-testid={tab.label} />
-            ))}
+            {tabs.map((tab, index) => {
+              return !tab.apiTabVisibility ? (
+                <AntTabDatasetDetail key={index} label={tab.label} {...a11yProps(index)} data-testid={tab.label} />
+              ) : (
+                undefined
+              );
+            })}
           </Tabs>
         </div>
         {tabs.map((c, index) => (
-          <TabPanel role="tab" key={index} index={index} value={value}>
+          <TabPanel key={index} index={index} value={value}>
             {c.content}
           </TabPanel>
         ))}

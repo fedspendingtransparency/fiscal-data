@@ -23,6 +23,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   setSelectedPivot,
   hideDropdown,
   width,
+  pivotsUpdated,
 }) => {
   const allTablesOption = {
     allDataTables: true,
@@ -37,6 +38,8 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const [pivotToApply, setPivotToApply] = useState(selectedPivot);
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
+  const [isDataTableSelected, setIsDataTableSelected] = useState(false);
+
   const options = disableAllTables
     ? apis
     : [
@@ -76,9 +79,22 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       setSelectedPivot(pivot);
     }
     setActive(false);
+    if (isDataTableSelected) {
+      setIsDataTableSelected(false);
+    }
   };
 
-  const handleCancel = () => setActive(false);
+  const handleCancel = () => {
+    setActive(false);
+    if (isDataTableSelected) {
+      setIsDataTableSelected(false);
+    }
+  };
+  const handleBack = () => {
+    if (isDataTableSelected) {
+      setIsDataTableSelected(false);
+    }
+  };
 
   const updateSelectedTable = table => {
     if (table !== tableToApply) {
@@ -117,6 +133,47 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     }
   }, [selectedTable]);
 
+  const mobileFilterComponent = isDataTableSelected ? (
+    // Shows raw/pivot data options
+    <DataPreviewMobileDialog
+      onCancel={handleCancel}
+      onBack={handleBack}
+      onApply={handleApply}
+      filterName={tableToApply.tableName}
+      hasSearch={false}
+      backButtonText={'Data Tables'}
+      filterComponent={
+        <DataPreviewPivotSelect
+          table={tableToApply}
+          pivotToApply={pivotToApply}
+          setPivotToApply={setPivotToApply}
+          tableViewSelection={tableViewSelection}
+          setTableViewSelection={setTableViewSelection}
+          pivotsUpdated={pivotsUpdated}
+        />
+      }
+    />
+  ) : (
+    // Shows tables to select
+    <DataPreviewMobileDialog
+      onCancel={handleCancel}
+      onBack={handleCancel}
+      onApply={handleApply}
+      filterName={'Data Tables'}
+      searchText="Search data tables"
+      filterComponent={
+        <DataPreviewMobileFilterList
+          filterOptions={options}
+          getName={option => option.tableName}
+          selectedTable={allTablesSelected ? allTablesOption.tableName : selectedTable?.tableName}
+          onTableSelected={updateSelectedTable}
+          onDataTableSelected={table => {
+            setIsDataTableSelected(true);
+          }}
+        />
+      }
+    />
+  );
   return (
     <>
       {!hideDropdown && width >= pxToNumber(breakpointLg) && (
@@ -138,6 +195,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
                   setPivotToApply={setPivotToApply}
                   tableViewSelection={tableViewSelection}
                   setTableViewSelection={setTableViewSelection}
+                  pivotsUpdated={pivotsUpdated}
                 />
               }
               handleApply={handleApply}
@@ -149,14 +207,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       {!hideDropdown && width < pxToNumber(breakpointLg) && (
         <>
           {dropdownButton}
-          {active && (
-            <DataPreviewMobileDialog
-              onClose={handleCancel}
-              filterName="Data Tables"
-              searchText="Search data tables"
-              filterComponent={<DataPreviewMobileFilterList filterOptions={options} getName={option => option.tableName} />}
-            />
-          )}
+          {active && mobileFilterComponent}
         </>
       )}
     </>

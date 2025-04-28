@@ -3,13 +3,13 @@ import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import {
-  tableName,
-  sectionContainer,
-  radioButton,
-  pivotSectionContainer,
-  buttonLabel,
   buttonContainer,
+  buttonLabel,
   disabled,
+  pivotSectionContainer,
+  radioButton,
+  sectionContainer,
+  tableName,
 } from './data-preview-pivot-select.module.scss';
 import { IPivotSelect } from '../../../models/data-preview/IPivotSelect';
 import { IPivotOption } from '../../../models/data-preview/IPivotOption';
@@ -22,6 +22,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
   setPivotToApply,
   tableViewSelection,
   setTableViewSelection,
+  pivotsUpdated,
 }) => {
   const [pivotViewDropdownActive, setPivotViewDropdownActive] = useState(false);
   const [pivotValueDropdownActive, setPivotValueDropdownActive] = useState(false);
@@ -125,7 +126,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
       }
       setPivotValueOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
-  }, [table]);
+  }, [table, pivotsUpdated]);
 
   return (
     <div className={sectionContainer}>

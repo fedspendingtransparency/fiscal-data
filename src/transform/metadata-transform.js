@@ -110,6 +110,8 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.apis = dataset.apis.filter(api => !api.markedForDelete);
       dataset.relatedDatasets = mappedDataset && mappedDataset.relatedDatasets ? mappedDataset.relatedDatasets : [];
       dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton ? mappedDataset.currentDateButton : null;
+      dataset.hideRawDataTable = mappedDataset && mappedDataset.hideRawDataTable ? mappedDataset.hideRawDataTable : null;
+      dataset.hideReportDatePicker = mappedDataset && mappedDataset.hideReportDatePicker ? mappedDataset.hideReportDatePicker : null;
       dataset.detailView = mappedDataset && mappedDataset.detailView ? mappedDataset.detailView : null;
       dataset.customNoChartMessage = mappedDataset && mappedDataset.customNoChartMessage ? mappedDataset.customNoChartMessage : null;
       dataset.datePreset = mappedDataset && mappedDataset.datePreset ? mappedDataset.datePreset : null;
@@ -125,7 +127,7 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.timeExpected = mappedDataset && mappedDataset.timeExpected ? mappedDataset.timeExpected : null;
       dataset.allColumnNames = mappedDataset && mappedDataset.allColumnNames ? mappedDataset.allColumnNames : null;
       dataset.allPrettyNames = mappedDataset && mappedDataset.allPrettyNames ? mappedDataset.allPrettyNames : null;
-      dataset.reportGenDefaultTable = mappedDataset && mappedDataset.reportGenDefaultTable ? mappedDataset.reportGenDefaultTable : null;
+      dataset.reportGenKey = mappedDataset && mappedDataset.reportGenKey ? mappedDataset.reportGenKey : null;
 
       if (dataset.apis.length === 0) {
         if (mappedDataset && mappedDataset.apiIds) {

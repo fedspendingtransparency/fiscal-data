@@ -38,6 +38,8 @@ export const query = graphql`
           fileFormat
         }
         dictionary
+        hideRawDataTable
+        hideReportDatePicker
       }
     }
   }
@@ -50,7 +52,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
   const updatedPageConfig = useMetadataUpdater(pageContext);
   const updatedDatasetData = useMetadataUpdater(data.allDatasets.datasets);
   const canonical = `/datasets${pageContext.config.slug}`;
-
+  const hideRawDataTable = pageContext.config?.hideRawDataTable;
   const bannerCallout = pageContext.config.bannerCallout;
 
   useEffect(() => {
@@ -76,7 +78,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         canonical={canonical}
       />
       <Masthead title={pageContext.config.name} bannerCallout={pageContext?.config.bannerCallout} />
-      <DDNav hasPublishedReports={!!pageConfig.publishedReports} />
+      <DDNav hasPublishedReports={!!pageConfig.publishedReports} hideRawDataTable={hideRawDataTable} />
       <div className="ddpBodyBackground">
         {bannerCallout && (
           <div className={bannerCalloutContainer} data-testid="callout">
@@ -86,37 +88,45 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         <DatasetIntroduction
           summaryText={pageContext.config.summaryText}
           techSpecs={pageConfig.techSpecs}
-          dictionary={pageContext.config.dictionary}
           numTables={pageConfig.apis.length}
           dateExpected={pageConfig.dateExpected}
           timeExpected={pageConfig.timeExpected}
           config={pageContext.config}
+          hideRawDataTable={hideRawDataTable}
         />
-        {pageConfig.reportGenDefaultTable && (
+        {pageConfig.reportGenKey && (
           <Experimental featureId="defaultReportTable">
-            <GenerativeReportsSection apisProp={pageConfig.apis} />
+            <GenerativeReportsSection apisProp={pageConfig.apis} reportGenKey={pageConfig.reportGenKey} />
           </Experimental>
         )}
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
-        <Experimental featureId="dataPreview">
-          <DataPreview
-            setSelectedTableProp={setSelectedTable}
-            finalDatesNotFound={finalDatesNotFound}
-            config={pageConfig}
-            location={location}
-            publishedReportsProp={pageConfig.publishedReports}
-          />
-        </Experimental>
-        <DatasetData
-          setSelectedTableProp={setSelectedTable}
-          finalDatesNotFound={finalDatesNotFound}
-          config={pageConfig}
-          location={location}
-          publishedReportsProp={pageConfig.publishedReports}
-        />
+        {!hideRawDataTable && (
+          <>
+            <Experimental featureId="dataPreview">
+              <DataPreview
+                setSelectedTableProp={setSelectedTable}
+                finalDatesNotFound={finalDatesNotFound}
+                config={pageConfig}
+                location={location}
+                publishedReportsProp={pageConfig.publishedReports}
+              />
+            </Experimental>
+            <DatasetData
+              setSelectedTableProp={setSelectedTable}
+              finalDatesNotFound={finalDatesNotFound}
+              config={pageConfig}
+              location={location}
+              publishedReportsProp={pageConfig.publishedReports}
+            />
+          </>
+        )}
         <DatasetAbout config={pageContext.config} test={test} />
-        <ApiQuickGuide selectedTable={selectedTable} config={pageContext.config} />
-        <RelatedDatasets datasets={updatedDatasetData} referrer={pageContext.config.name} />
+        {!hideRawDataTable && (
+          <>
+            <ApiQuickGuide selectedTable={selectedTable} config={pageContext.config} />
+            <RelatedDatasets datasets={updatedDatasetData} referrer={pageContext.config.name} />
+          </>
+        )}
       </div>
     </SiteLayout>
   );
