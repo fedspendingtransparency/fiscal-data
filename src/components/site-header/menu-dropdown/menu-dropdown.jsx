@@ -20,7 +20,7 @@ import Analytics from '../../../utils/analytics/analytics';
 
 const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClickHandler, analyticsClickHandler }) => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
-  const [isExpanded, setExpanded] = useState(false);
+  const [isExpanded, setExpanded] = useState(true);
 
   const title = content.title;
   const getMinWidth = link => ({
@@ -171,19 +171,18 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
   };
 
   return (
-    <div
-      className={dropdown}
-      key={title}
-      onMouseEnter={handleMouseEnter}
-      onFocus={handleMouseEnter}
-      role="button"
-      tabIndex={0}
-      aria-label={`Page links for ${title}`}
-    >
-      <div className={`${isExpanded ? dropdownButtonExpanded : null} ${dropdownButton}`} style={{ minWidth: `${title.length * 7.5 + 28}px` }}>
+    <div className={dropdown}>
+      <button
+        className={`${isExpanded ? dropdownButtonExpanded : null} ${dropdownButton}`}
+        style={{ minWidth: `${title.length * 7.5 + 28}px` }}
+        aria-label={`Page links for ${title}`}
+        aria-expanded={isExpanded}
+        onMouseEnter={handleMouseEnter}
+        onFocus={handleMouseEnter}
+      >
         {title}
         <FontAwesomeIcon icon={isExpanded ? faCaretDown : faCaretRight} className={caret} />
-      </div>
+      </button>
       {isExpanded && (
         <div
           className={`${dropdownContent} ${toggleDropdown ? dropdownHidden : ''}`}
