@@ -66,7 +66,7 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
     setValue(newValue);
   };
 
-  const tabs = [
+  const rawDataTableTabs = [
     {
       label: 'Data Dictionary',
       content: <DataDictionary datasetName={config.name} apis={config.apis} perPage={dictionaryPerPage} setPerPage={setDictionaryPerPage} />,
@@ -77,15 +77,20 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
       content: <DataTablesTab datasetName={config.name} apis={config.apis} />,
       apiTabVisibility: hideRawDataTable,
     },
+  ];
+
+  const datasetTabs = [
     {
       label: 'Metadata',
       content: <MetadataTab config={config} />,
     },
     {
       label: 'Notes & Known Limitations',
-      content: <NotesAndLimitations bodyText={config.notesAndKnownLimitations} apis={config.apis} />,
+      content: <NotesAndLimitations bodyText={config.notesAndKnownLimitations} apis={config.apis} hideRawDataTable={hideRawDataTable} />,
     },
   ];
+
+  const tabs = !hideRawDataTable ? [...rawDataTableTabs, ...datasetTabs] : [...datasetTabs];
 
   useEffect(() => {
     setScrollButton(width <= pxToNumber(breakpointSm) ? SCROLL_TYPE.ON : SCROLL_TYPE.AUTO);
@@ -102,13 +107,9 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
             scrollButtons={scrollButton}
             aria-label="Dataset properties tabs"
           >
-            {tabs.map((tab, index) => {
-              return !tab.apiTabVisibility ? (
-                <AntTabDatasetDetail key={index} label={tab.label} {...a11yProps(index)} data-testid={tab.label} />
-              ) : (
-                undefined
-              );
-            })}
+            {tabs.map((tab, index) => (
+              <AntTabDatasetDetail key={index} label={tab.label} {...a11yProps(index)} data-testid={tab.label} />
+            ))}
           </Tabs>
         </div>
         {tabs.map((c, index) => (
