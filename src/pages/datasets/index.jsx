@@ -84,10 +84,6 @@ const DatasetsPage = ({ pageContext }) => {
     `
   );
 
-  const getActiveDatasets = dataset => {
-    return dataset.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
-  };
-
   const { filters } = pageContext;
 
   const { datasets } = allDatasets;
@@ -95,7 +91,8 @@ const DatasetsPage = ({ pageContext }) => {
   const [defaultDatasets, setDefaultDatasets] = useState();
 
   useEffect(() => {
-    setDefaultDatasets(getActiveDatasets([...datasets]));
+    const filteredDatasets = datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
+    setDefaultDatasets(filteredDatasets);
   }, []);
 
   const breadCrumbLinks = [
