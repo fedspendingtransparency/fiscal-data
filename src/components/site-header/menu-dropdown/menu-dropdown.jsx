@@ -172,17 +172,19 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
 
   return (
     <div className={dropdown}>
-      <button
+      <div
         className={`${isExpanded ? dropdownButtonExpanded : null} ${dropdownButton}`}
         style={{ minWidth: `${title.length * 7.5 + 29}px` }}
         aria-label={`Page links for ${title}`}
         aria-expanded={isExpanded}
         onMouseEnter={handleMouseEnter}
         onFocus={handleMouseEnter}
+        role={'button'}
+        tabIndex={0}
       >
         {title}
         <FontAwesomeIcon icon={isExpanded ? faCaretDown : faCaretRight} className={caret} />
-      </button>
+      </div>
       {isExpanded && (
         <div
           className={`${dropdownContent} ${toggleDropdown ? dropdownHidden : ''}`}
