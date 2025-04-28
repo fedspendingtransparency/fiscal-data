@@ -510,6 +510,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       allColumnNames: [String],
       allPrettyNames: [String],
       hideRawDataTable: Boolean,
+      hideReportDatePicker: Boolean,
     }
     type DownloadLimit {
       fileType: String,
@@ -582,6 +583,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           relatedDatasets
           currentDateButton
           hideRawDataTable
+          hideReportDatePicker
           reportSelection
           disableAllTables
           downloadTimestamp
