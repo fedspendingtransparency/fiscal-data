@@ -2,7 +2,7 @@
 
 .pageLinks {
   display: none;
- transition: 0.125s;
+  transition: 0.125s;
 }
 
 .pageLinkButton {
@@ -21,7 +21,7 @@
     transform: translateX(2rem);
     padding-right: 1rem;
     .pageLinkButton {
-      height: calc(100% - 0.125rem);
+      height: calc(100%);
       background-color: inherit;
       font-size: 1rem;
       border-bottom: 0.125rem solid transparent;
