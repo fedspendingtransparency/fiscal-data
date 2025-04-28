@@ -112,3 +112,12 @@ export const reportsConfig = {
     },
   },
 };
+
+export const reportsBannerCopy = {
+  utf: {
+    additionalFiltersHeader: 'This table requires additional filters.',
+    additionalFiltersBody: 'Select an account in the filter section above to display the reports.',
+    noDataMatchHeader: 'There is no data to display based on the current filters selected.',
+    noDataMatchBody: 'Select a different account description and/or report date in order to preview the data.',
+  },
+};

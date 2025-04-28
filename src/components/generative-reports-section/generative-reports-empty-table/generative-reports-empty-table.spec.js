@@ -7,10 +7,11 @@ jest.mock('../../../variables.module.scss', () => {
     breakpointLg: '992px',
   };
 });
+
 describe('Generative Report Empty Table', () => {
   const rowCount = 3;
   it('renders a table', () => {
-    const { getByRole, getAllByRole } = render(<GenerativeReportsEmptyTable width={1000} />);
+    const { getByRole, getAllByRole } = render(<GenerativeReportsEmptyTable width={1000} reportGenKey={'utf'} />);
 
     expect(getByRole('table')).toBeInTheDocument();
     expect(getAllByRole('row')).toHaveLength(rowCount + 1);
@@ -21,7 +22,7 @@ describe('Generative Report Empty Table', () => {
   });
 
   it('renders a mobile table', () => {
-    const { getByRole, getAllByRole } = render(<GenerativeReportsEmptyTable width={300} />);
+    const { getByRole, getAllByRole } = render(<GenerativeReportsEmptyTable width={300} reportGenKey={'utf'} />);
     expect(getByRole('table')).toBeInTheDocument();
     expect(getAllByRole('row')).toHaveLength(rowCount + 1);
     const headerRow = getByRole('columnheader');
