@@ -321,21 +321,23 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               </div>
             )}
             {graphType === 'LINE' && (
-              <div
-                id={`chart-${displayOrder}`}
-                data-testid="highlight-chart"
-                className={sparkLine}
-                onMouseEnter={handleCardMouseOver}
-                onMouseLeave={handleChartMouseLeave}
-                role={'presentation'}
-              >
-                {apiError && <p>API Error</p>}
-                {isLoading && (
-                  <div data-testid="loadingSection">
-                    <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-                    Loading...
-                  </div>
-                )}
+              <div aria-label={ariaLabels.find(element => element.title === title)?.label} role={'figure'}>
+                <div
+                  id={`chart-${displayOrder}`}
+                  data-testid="highlight-chart"
+                  className={sparkLine}
+                  onMouseEnter={handleCardMouseOver}
+                  onMouseLeave={handleChartMouseLeave}
+                  role={'presentation'}
+                >
+                  {apiError && <p>API Error</p>}
+                  {isLoading && (
+                    <div data-testid="loadingSection">
+                      <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
+                      Loading...
+                    </div>
+                  )}
+                </div>
               </div>
             )}
             {graphType === 'BAR' && (
