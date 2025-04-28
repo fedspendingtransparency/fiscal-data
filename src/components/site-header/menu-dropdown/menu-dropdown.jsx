@@ -174,7 +174,7 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
     <div className={dropdown}>
       <button
         className={`${isExpanded ? dropdownButtonExpanded : null} ${dropdownButton}`}
-        style={{ minWidth: `${title.length * 7.5 + 28}px` }}
+        style={{ minWidth: `${title.length * 7.5 + 29}px` }}
         aria-label={`Page links for ${title}`}
         aria-expanded={isExpanded}
         onMouseEnter={handleMouseEnter}
