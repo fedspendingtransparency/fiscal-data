@@ -116,4 +116,12 @@ describe('DDNav', () => {
     fireEvent.click(introductionLink);
     expect(introductionLink).toHaveClass(desktopLinks);
   });
+
+  it('hides api specific tabs when hideRawDataTable is true', () => {
+    const { getByText, queryByText } = render(<DDNav hideRawDataTable={true} />);
+    expect(getByText('Introduction')).toBeInTheDocument();
+    expect(queryByText('Data Preview')).not.toBeInTheDocument();
+    expect(getByText('Dataset Properties')).toBeInTheDocument();
+    expect(queryByText('API Quick Guide')).not.toBeInTheDocument();
+  });
 });
