@@ -9,7 +9,7 @@ import SearchField from '../../components/datasets/search-field/search-field';
 import FilterSection from '../../components/datasets/filters/filters';
 import { MuiThemeProvider } from '@material-ui/core';
 import { mockFilters } from '../../components/datasets/mockData/mockFilters';
-import { RecoilRoot } from "recoil";
+import { RecoilRoot } from 'recoil';
 
 const useStaticQueryMock = jest.spyOn(Gatsby, 'useStaticQuery');
 useStaticQueryMock.mockImplementation(() => pageQueryMock);

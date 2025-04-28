@@ -24,7 +24,6 @@ const DatasetsPage = ({ pageContext }) => {
             relatedTopics
             allColumnNames
             allPrettyNames
-            hideRawDataTable
             apis {
               endpoint
               dateField
@@ -85,11 +84,19 @@ const DatasetsPage = ({ pageContext }) => {
     `
   );
 
+  const getActiveDatasets = dataset => {
+    return dataset.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
+  };
+
   const { filters } = pageContext;
 
   const { datasets } = allDatasets;
   const { topicIcons } = allFile;
-  const defaultDatasets = datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
+  const [defaultDatasets, setDefaultDatasets] = useState();
+
+  useEffect(() => {
+    setDefaultDatasets(getActiveDatasets([...datasets]));
+  }, []);
 
   const breadCrumbLinks = [
     {
