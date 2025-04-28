@@ -20,7 +20,7 @@ import Analytics from '../../../utils/analytics/analytics';
 
 const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClickHandler, analyticsClickHandler }) => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
-  const [isExpanded, setExpanded] = useState(true);
+  const [isExpanded, setExpanded] = useState(false);
 
   const title = content.title;
   const getMinWidth = link => ({

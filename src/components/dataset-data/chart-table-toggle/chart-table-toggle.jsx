@@ -9,7 +9,7 @@ import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import NotShownMessage from '../table-section-container/not-shown-message/not-shown-message';
 import Analytics from '../../../utils/analytics/analytics';
 import HideLegendToggle from '../hide-legend-toggle/hideLegendToggle';
-import { tabIcon } from './chart-table-toggle.module.scss';
+import { tabIcon, chartTableToggleContainer } from './chart-table-toggle.module.scss';
 import { getMessageForDefaultApiFilter, getMessageForUnmatchedUserFilter } from '../../filter-download-container/user-filter/user-filter';
 import { faSlidersH, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import ResetTableSection from '../../data-table/reset-table-section/reset-table-section';
@@ -49,6 +49,7 @@ const AntTabs = withStyles({
   },
   flexContainer: {
     borderWidth: '1px',
+    borderBottom: 'none',
   },
 })(Tabs);
 
@@ -130,46 +131,51 @@ const ChartTableToggle = ({
   const emptyChartMessage = !unchartable || allTablesSelected ? emptyDataMessage : null;
   return (
     <div>
-      <AntTabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">
-        <AntTab
-          label="Table"
-          role="tab"
-          data-testid="tableTab"
-          icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />}
-          {...a11yProps(0)}
-          disableRipple
-        />
-        <AntTab
-          label="Chart"
-          role="tab"
-          data-testid="chartTab"
-          className="datasetChartEnabled"
-          icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
-          {...a11yProps(1)}
-          disableRipple
-        />
-        {selectedTab === 1 ? (
-          <HideLegendToggle
-            displayText={legend ? 'Hide Legend' : 'Show Legend'}
-            displayIcon={faSlidersH}
-            showToggle={showToggleChart}
-            onToggleLegend={onToggleLegend}
-            selectedTab={selectedTab === 1}
+      <div className={chartTableToggleContainer}>
+        <AntTabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">
+          <AntTab
+            label="Table"
             role="tab"
+            data-testid="tableTab"
+            icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />}
+            {...a11yProps(0)}
+            disableRipple
           />
-        ) : (
-          !pivotSelected?.pivotValue && (
+          <AntTab
+            label="Chart"
+            role="tab"
+            data-testid="chartTab"
+            className="datasetChartEnabled"
+            icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
+            {...a11yProps(1)}
+            disableRipple
+          />
+        </AntTabs>
+        <>
+          {selectedTab === 1 ? (
             <HideLegendToggle
-              displayText="Select Columns"
-              displayIcon={faCrosshairs}
-              showToggle={showToggleTable}
+              displayText={legend ? 'Hide Legend' : 'Show Legend'}
+              displayIcon={faSlidersH}
+              showToggle={showToggleChart}
               onToggleLegend={onToggleLegend}
-              selectedTab={selectedTab === 0}
+              selectedTab={selectedTab === 1}
               role="tab"
             />
-          )
-        )}
-      </AntTabs>
+          ) : (
+            !pivotSelected?.pivotValue && (
+              <HideLegendToggle
+                displayText="Select Columns"
+                displayIcon={faCrosshairs}
+                showToggle={showToggleTable}
+                onToggleLegend={onToggleLegend}
+                selectedTab={selectedTab === 0}
+                role="tab"
+              />
+            )
+          )}
+        </>
+      </div>
+
       {selectedTab === 0 && (
         <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} textFilteringDisabled={textFilteringDisabled} />
       )}

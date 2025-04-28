@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ChartTableToggle, { allTablesSelectedBody } from './chart-table-toggle';
 import Analytics from '../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
@@ -70,7 +70,7 @@ describe('Chart Table Toggle 0', () => {
   });
 
   it('displays the select column tab when selectColumns on table tab', () => {
-    const { getByRole } = render(
+    render(
       <ChartTableToggle
         currentTab={0}
         emptyData
@@ -83,11 +83,12 @@ describe('Chart Table Toggle 0', () => {
       />
     );
 
-    expect(getByRole('button', { name: 'Select Columns' })).toBeInTheDocument();
+    const selectColButton = screen.getByRole('button', { name: /Select Columns/i });
+    expect(selectColButton).toBeInTheDocument();
   });
 
   it('calls toggle when select column tab is clicked', () => {
-    const { getByRole } = render(
+    render(
       <ChartTableToggle
         currentTab={0}
         emptyData
@@ -100,10 +101,10 @@ describe('Chart Table Toggle 0', () => {
       />
     );
 
-    const selectColButton = getByRole('button', { name: 'Select Columns' });
-    expect(selectColButton).toBeInTheDocument();
+    const selectColButton = screen.getByRole('button', { name: /Select Columns/i });
 
     userEvent.click(selectColButton);
+    expect(selectColButton).toBeInTheDocument();
     expect(onToggleLegend).toHaveBeenCalledTimes(1);
   });
 
