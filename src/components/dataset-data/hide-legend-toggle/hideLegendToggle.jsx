@@ -8,7 +8,7 @@ const HideLegendToggle = ({ displayText, displayIcon, showToggle, onToggleLegend
     <>
       <div className={toggleContainer} role={role}>
         {selectedTab && showToggle && (
-          <button className={toggleButton} onClick={onToggleLegend} onKeyPress={onToggleLegend}>
+          <button className={toggleButton} onClick={onToggleLegend}>
             <span>
               <FontAwesomeIcon icon={displayIcon} className={displayIcon === faCrosshairs ? selectColumnsIcon : icon} size="1x" />
               {displayText}
