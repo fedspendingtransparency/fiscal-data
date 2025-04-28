@@ -128,6 +128,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
 
   const savingsBondCallOut = data2WidthPercentage.map((item, index) => {
     if (item.name === 'United States Savings Securities') {
+      z;
       item.name = 'Savings Bonds';
       if (savingBondsIndex === null) {
         setSavingBondsIndex(`data02-${index}`);
@@ -206,7 +207,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     const isActiveType = entry.securityType === activeSecurityType;
     return activeIndex === `${dataset}-${index}` || activeIndex === null ? (isActiveType ? 0.4 : 1) : 0.4;
   };
-  console.log(consolidateDataArray);
+
   return (
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={historyChartDate} footer={footer}>
@@ -230,7 +231,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                     fill={entry.securityType === 'Nonmarketable' ? color2 : color}
                     opacity={getOpacity('data01', index, entry)}
                     aria-label={`${entry.name}: Value: ${entry.value} Percent: ${entry.percent?.toFixed(2)}%`}
-                    tabIndex={0}
                   />
                 ))}
               </Pie>
@@ -247,7 +247,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                 endAngle={90}
                 onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}
               >
-                {savingsBondCallOut.map((entry: any, index) => (
+                {consolidateDataArray.map((entry: any, index) => (
                   <Cell
                     key={`cell-data02-${index}`}
                     fill={entry.securityType === 'Nonmarketable' ? color2 : color}
