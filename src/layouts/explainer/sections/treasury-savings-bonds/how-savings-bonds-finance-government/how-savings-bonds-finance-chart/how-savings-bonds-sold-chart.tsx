@@ -128,7 +128,6 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
 
   const savingsBondCallOut = data2WidthPercentage.map((item, index) => {
     if (item.name === 'United States Savings Securities') {
-      z;
       item.name = 'Savings Bonds';
       if (savingBondsIndex === null) {
         setSavingBondsIndex(`data02-${index}`);
