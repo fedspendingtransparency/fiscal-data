@@ -9,7 +9,7 @@ import { convertDateAndTimeToDateTime } from '../calendar-entries/calendar-entry
 import { basicFetch } from '../../utils/api-utils';
 import { API_BASE_URL } from 'gatsby-env-variables';
 
-const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected, timeExpected, config }) => {
+const DetailPills = ({ techSpecs, numTables, dateExpected, timeExpected, config, hideRawDataTable }) => {
   const earliestDate = techSpecs?.earliestDate;
   const latestDate = techSpecs?.latestDate;
   const dateRange = earliestDate && latestDate ? `${earliestDate} — ${latestDate}` : undefined;
@@ -72,18 +72,20 @@ const DetailPills = ({ techSpecs, dictionary, numTables, dateExpected, timeExpec
           <span className="pillText">Last Updated {lastUpdated}</span>
         </span>
       )}
-      {formattedDateExpected && (
+      {dateTimeExpected && (
         <span className={pill}>
           <AccessAlarm sx={{ width: '18px' }} size="1x" className={materialIcon} data-testid="timerIcon" />
-          <span className={'pillText'}>New Data Expected {dateTimeExpected}</span>
+          <span className="pillText">New Data Expected {dateTimeExpected}</span>
         </span>
       )}
-      <span className={pill}>
-        <FontAwesomeIcon icon={faDatabase} size="1x" className={icon} data-testid={'numTables'} />
-        <span className={'pillText'}>
-          {numTables} {numTables > 1 ? 'Data Tables' : 'Data Table'}
+      {!hideRawDataTable && numTables && (
+        <span className={pill}>
+          <FontAwesomeIcon icon={faDatabase} size="1x" className={icon} data-testid="numTables" />
+          <span className="pillText">
+            {numTables} {numTables > 1 ? 'Data Tables' : 'Data Table'}
+          </span>
         </span>
-      </span>
+      )}
     </div>
   );
 };
