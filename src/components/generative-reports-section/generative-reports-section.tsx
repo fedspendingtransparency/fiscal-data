@@ -16,7 +16,7 @@ export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
 export const defaultSelection = { label: '(None selected)', value: '' };
 
-const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp, width }) => {
+const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp, width, reportGenKey }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
@@ -26,6 +26,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [activeReports, setActiveReports] = useState([]);
   const [allReports, setAllReports] = useState([]);
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
+  const [noMatchingData, setNoMatchingData] = useState(false);
 
   const getReportData = async (report, reportConfig) => {
     const { dateField, apiFilter } = report;
@@ -123,6 +124,14 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     setActiveReports(reports);
   }, [allReports]);
 
+  useEffect(() => {
+    if (selectedAccount.label !== '(None selected)') {
+      setNoMatchingData(true);
+    } else {
+      setNoMatchingData(false);
+    }
+  }, [activeReports]);
+
   return (
     <div>
       <DatasetSectionContainer title={title} id="reports-and-files">
@@ -139,7 +148,9 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           />
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
-        {(activeReports?.length === 0 || apiErrorMessage) && <GenerativeReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} />}
+        {(activeReports?.length === 0 || apiErrorMessage) && (
+          <GenerativeReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} noMatchingData={noMatchingData} reportGenKey={reportGenKey} />
+        )}
         {activeReports?.length > 0 && !apiErrorMessage && (
           <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
         )}
