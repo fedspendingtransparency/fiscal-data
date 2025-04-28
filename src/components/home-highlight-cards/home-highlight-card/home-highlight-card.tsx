@@ -321,7 +321,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               </div>
             )}
             {graphType === 'LINE' && (
-              <div aria-label={ariaLabels.find(element => element.title === title)?.label} role={'figure'}>
+              <div role={'figure'} aria-label={ariaLabels.find(element => element.title === title)?.label}>
                 <div
                   id={`chart-${displayOrder}`}
                   data-testid="highlight-chart"
