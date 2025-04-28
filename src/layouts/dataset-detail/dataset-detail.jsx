@@ -88,11 +88,11 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         <DatasetIntroduction
           summaryText={pageContext.config.summaryText}
           techSpecs={pageConfig.techSpecs}
-          dictionary={pageContext.config.dictionary}
           numTables={pageConfig.apis.length}
           dateExpected={pageConfig.dateExpected}
           timeExpected={pageConfig.timeExpected}
           config={pageContext.config}
+          hideRawDataTable={hideRawDataTable}
         />
         {pageConfig.reportGenDefaultTable && (
           <Experimental featureId="defaultReportTable">
