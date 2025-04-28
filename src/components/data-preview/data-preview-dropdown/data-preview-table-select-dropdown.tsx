@@ -144,6 +144,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       backButtonText={'Data Tables'}
       filterComponent={
         <DataPreviewPivotSelect
+          containerWidth="100%"
           table={tableToApply}
           pivotToApply={pivotToApply}
           setPivotToApply={setPivotToApply}

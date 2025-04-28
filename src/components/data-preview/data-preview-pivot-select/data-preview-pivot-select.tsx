@@ -22,6 +22,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
   setPivotToApply,
   tableViewSelection,
   setTableViewSelection,
+  containerWidth,
   pivotsUpdated,
 }) => {
   const [pivotViewDropdownActive, setPivotViewDropdownActive] = useState(false);
@@ -147,7 +148,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
             Pivot Data
           </label>
           <div className={pivotSectionContainer}>
-            <DropdownContainer dropdownButton={pivotViewButton} setActive={setPivotViewDropdownActive}>
+            <DropdownContainer dropdownButton={pivotViewButton} setActive={setPivotViewDropdownActive} containerWidth={containerWidth}>
               <ComboSelectDropdown
                 selectedOption={pivotToApply?.pivotView}
                 setDropdownActive={setPivotViewDropdownActive}
@@ -158,7 +159,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
                 updateSelection={pivotViewChangeHandler}
               />
             </DropdownContainer>
-            <DropdownContainer dropdownButton={pivotValueButton} setActive={setPivotValueDropdownActive}>
+            <DropdownContainer dropdownButton={pivotValueButton} setActive={setPivotValueDropdownActive} containerWidth={containerWidth}>
               <ComboSelectDropdown
                 options={pivotValueOptions}
                 optionLabelKey="prettyName"
