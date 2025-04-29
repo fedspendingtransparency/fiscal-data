@@ -215,6 +215,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
     setTimeout(() => {
       applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
       applyTextScaling(chartConfigs.parent, chartConfigs.width, width, chartConfigs.fontSize);
+      addInnerChartAriaLabel(chartConfigs.parent);
     });
   }, [width, chartData]);
 

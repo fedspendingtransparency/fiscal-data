@@ -2,7 +2,7 @@ import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helpe
 import { breakpointLg, debtExplainerPrimary, fontSize_10 } from '../../../../../../variables.module.scss';
 import React, { useEffect, useState } from 'react';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import { container, lineChartContainer, header, headerContainer, subHeader } from './debt-trends-over-time-chart.module.scss';
+import { container, header, headerContainer, lineChartContainer, subHeader } from './debt-trends-over-time-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -90,6 +90,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
   useEffect(() => {
     applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
+    addInnerChartAriaLabel(chartParent);
   }, [isLoadingDebtTrends]);
 
   const customHeaderStyles = {
