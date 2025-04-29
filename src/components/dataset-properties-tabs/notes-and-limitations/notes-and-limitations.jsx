@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { accordion, accordionContainer, bodyContent, heading, wrapper } from './notes-and-limitations.module.scss';
 import ReactMarkdown from 'react-markdown';
 import Accordion from '../../accordion/accordion';
 
 export const sectionTitle = 'Notes & Known Limitations';
 
-const NotesAndLimitations = ({ apis, bodyText }) => {
+const NotesAndLimitations = ({ apis, bodyText, hideRawDataTable }) => {
   const [tablesNKL, setTablesNKL] = useState([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const NotesAndLimitations = ({ apis, bodyText }) => {
       <h4 className={heading}>{sectionTitle}</h4>
       <div className={bodyContent}>
         <ReactMarkdown children={bodyText} />
-        {!!tablesNKL.length && <div className={accordionContainer}>{tablesNKL}</div>}
+        {!!tablesNKL.length && !hideRawDataTable && <div className={accordionContainer}>{tablesNKL}</div>}
       </div>
     </div>
   );

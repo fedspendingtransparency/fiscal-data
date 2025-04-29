@@ -171,16 +171,17 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
   };
 
   return (
-    <div
-      className={dropdown}
-      key={title}
-      onMouseEnter={handleMouseEnter}
-      onFocus={handleMouseEnter}
-      role="button"
-      tabIndex={0}
-      aria-label={`Page links for ${title}`}
-    >
-      <div className={`${isExpanded ? dropdownButtonExpanded : null} ${dropdownButton}`} style={{ minWidth: `${title.length * 7.5 + 28}px` }}>
+    <div className={dropdown}>
+      <div
+        className={`${isExpanded ? dropdownButtonExpanded : null} ${dropdownButton}`}
+        style={{ minWidth: `${title.length * 7.5 + 29}px` }}
+        aria-label={`Page links for ${title}`}
+        aria-expanded={isExpanded}
+        onMouseEnter={handleMouseEnter}
+        onFocus={handleMouseEnter}
+        role={'button'}
+        tabIndex={0}
+      >
         {title}
         <FontAwesomeIcon icon={isExpanded ? faCaretDown : faCaretRight} className={caret} />
       </div>

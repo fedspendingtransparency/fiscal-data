@@ -25,7 +25,7 @@ describe('Detail-Pills component', () => {
         numTables={1}
         dateExpected="2025-04-01"
         timeExpected="1600"
-        config={{ datasetId: '015-BFS-2014Q3-051' }}
+        datasetId="015-BFS-2014Q3-051"
       />
     );
     expect(getByTestId('calendar-week-icon')).toBeInTheDocument();
@@ -46,7 +46,7 @@ describe('Detail-Pills component', () => {
   });
 
   it('does not render the Date Expected pill when the dataset has an undefined expected date', () => {
-    const { queryByTestId, queryByText } = render(<DetailPills dateExpected={undefined} config={{ datasetId: '015-BFS-2014Q3-051' }} />);
+    const { queryByTestId, queryByText } = render(<DetailPills dateExpected={undefined} c datasetId="015-BFS-2014Q3-051" />);
     expect(queryByTestId('timerIcon')).not.toBeInTheDocument();
     expect(queryByText('New Data Expected')).not.toBeInTheDocument();
   });
@@ -58,7 +58,7 @@ describe('Detail-Pills component', () => {
         numTables={1}
         dateExpected="2025-04-01"
         timeExpected="1600"
-        config={{ datasetId: '015-BFS-2014Q3-051' }}
+        datasetId="015-BFS-2014Q3-051"
       />
     );
     await waitForElementToBeRemoved(() => queryByText('New Data Expected 04/01/2025'));
@@ -75,7 +75,7 @@ describe('Detail-Pills component', () => {
         updateFrequency: 'Daily',
       },
     };
-    const { queryByTestId, getByText } = render(<DetailPills techSpecs={mockData.techSpecs} config={{ datasetId: '015-BFS-2014Q3-051' }} />);
+    const { queryByTestId, getByText } = render(<DetailPills techSpecs={mockData.techSpecs} datasetId="015-BFS-2014Q3-051" />);
     expect(queryByTestId('futureDateIcon')).not.toBeInTheDocument();
     expect(queryByTestId('calendar-week-icon')).not.toBeInTheDocument();
     expect(queryByTestId('lastUpdatedIcon')).not.toBeInTheDocument();
@@ -94,8 +94,8 @@ describe('Detail-Pills component', () => {
         updateFrequency: 'Daily',
       },
     };
-    const { queryByTestId, getByText } = render(
-      <DetailPills techSpecs={mockData.techSpecs} config={{ datasetId: '015-BFS-2014Q3-051' }} numTables={1} hideRawDataTable={true} />
+    const { queryByTestId } = render(
+      <DetailPills techSpecs={mockData.techSpecs} datasetId="015-BFS-2014Q3-051" numTables={1} hideRawDataTable={true} />
     );
     expect(queryByTestId('numTables')).not.toBeInTheDocument();
   });
@@ -115,7 +115,7 @@ describe('DetailPills component with a dataset with a latestDate in the future',
   };
 
   it('shows the futureDateIcon when the latestDate is in the future', () => {
-    const { getByTestId } = render(<DetailPills techSpecs={mockData.techSpecs} config={{ datasetId: '015-BFS-2014Q3-051' }} />);
+    const { getByTestId } = render(<DetailPills techSpecs={mockData.techSpecs} datasetId="015-BFS-2014Q3-051" />);
     expect(getByTestId('futureDateIcon')).toBeDefined();
   });
 });
