@@ -4,10 +4,10 @@ import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.scss';
-import { getChartCopy, dataHeader, chartConfigs } from './debt-over-last-100y-linechart-helper';
+import { chartConfigs, dataHeader, getChartCopy } from './debt-over-last-100y-linechart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
-import { lineChart, container } from './debt-over-last-100y-linechart.module.scss';
+import { container, lineChart } from './debt-over-last-100y-linechart.module.scss';
 import {
   addInnerChartAriaLabel,
   applyChartScaling,
@@ -122,6 +122,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
 
   useEffect(() => {
     applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
+    addInnerChartAriaLabel(chartParent);
   }, [isLoading]);
 
   const handleGroupOnMouseLeave = () => {
