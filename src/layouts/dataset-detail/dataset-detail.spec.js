@@ -496,6 +496,6 @@ describe('Dataset - banner callout', () => {
     expect(queryByRole('heading', { name: 'Data Preview' })).not.toBeInTheDocument();
     expect(getByRole('heading', { name: 'Dataset Properties' })).toBeInTheDocument();
     expect(queryByRole('heading', { name: 'API Quick Guide' })).not.toBeInTheDocument();
-    expect(queryByRole('heading', { name: 'Related Datasets' })).not.toBeInTheDocument();
+    expect(getByRole('heading', { name: 'Related Datasets' })).toBeInTheDocument();
   });
 });
