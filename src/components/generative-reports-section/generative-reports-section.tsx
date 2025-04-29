@@ -29,11 +29,13 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [noMatchingData, setNoMatchingData] = useState(false);
 
   const getSummaryReportData = async (report, reportConfig, reportData) => {
+    if (!reportConfig.summaryEndpoint) return;
+    console.log(' reportConfig.summaryDataKey  ', reportConfig.summaryDataKey);
     const { dateField } = report;
     const sortString = `-${dateField}`;
     const secondary = reportData[0][reportConfig.summaryDataKey];
     const filterString = buildFilterParam(selectedDate, dateField, secondary, reportConfig.summaryDataKey);
-    const endpointUrl = reportConfig.summaryEndpoint`?filter=${filterString}&sort=${sortString}`;
+    const endpointUrl = reportConfig.summaryEndpoint + `?filter=${filterString}&sort=${sortString}`;
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
     return res.data;
   };
@@ -45,7 +47,8 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const sortStr = buildSortParam(sort);
     const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
-    const summaryData = await getSummaryReportData(report, reportConfig, res);
+    const summaryData = await getSummaryReportData(report, reportConfig, res.data);
+    console.log('tableData: res.data, summaryData::::: ', res.data, summaryData);
     return { tableData: res.data, summaryData };
   };
 
