@@ -9,7 +9,7 @@ import { convertDateAndTimeToDateTime } from '../calendar-entries/calendar-entry
 import { basicFetch } from '../../utils/api-utils';
 import { API_BASE_URL } from 'gatsby-env-variables';
 
-const DetailPills = ({ techSpecs, numTables, dateExpected, timeExpected, config, hideRawDataTable }) => {
+const DetailPills = ({ techSpecs, numTables, dateExpected, timeExpected, datasetId, hideRawDataTable }) => {
   const earliestDate = techSpecs?.earliestDate;
   const latestDate = techSpecs?.latestDate;
   const dateRange = earliestDate && latestDate ? `${earliestDate} — ${latestDate}` : undefined;
@@ -28,7 +28,7 @@ const DetailPills = ({ techSpecs, numTables, dateExpected, timeExpected, config,
     (async () => {
       const res = await basicFetch(releaseCalendarUrl);
       if (res && res.length > 0) {
-        const sortedRes = res.filter(rcDataset => rcDataset.datasetId === config.datasetId && rcDataset.released === 'false');
+        const sortedRes = res.filter(rcDataset => rcDataset.datasetId === datasetId && rcDataset.released === 'false');
         const rcEntries = await sortedRes;
         rcEntries.sort((a, b) => {
           const aKey = generateSortKey(a);

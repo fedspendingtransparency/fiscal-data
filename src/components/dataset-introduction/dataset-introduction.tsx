@@ -8,8 +8,10 @@ import { noMargin } from './dataset-introduction.module.scss';
 interface IIntroduction {
   summaryText: string;
   techSpecs: IDatasetTechSpecs;
-  dictionary: number;
   numTables: number;
+  dateExpected: string;
+  timeExpected: string;
+  datasetId: string;
   hideRawDataTable?: boolean;
 }
 
@@ -20,7 +22,7 @@ const DatasetIntroduction: FunctionComponent<IIntroduction> = ({
   numTables,
   dateExpected,
   timeExpected,
-  config,
+  datasetId,
   hideRawDataTable,
 }) => {
   return (
@@ -30,7 +32,7 @@ const DatasetIntroduction: FunctionComponent<IIntroduction> = ({
         numTables={numTables}
         dateExpected={dateExpected}
         timeExpected={timeExpected}
-        config={config}
+        datasetId={datasetId}
         hideRawDataTable={hideRawDataTable}
       />
       <MarkdownTransform content={summaryText} isBanner={false} customClass={noMargin} />
