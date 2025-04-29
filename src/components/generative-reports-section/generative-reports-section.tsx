@@ -28,6 +28,15 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
 
+  const getSummaryReportData = async (report, reportConfig, reportData) => {
+    const { dateField } = report;
+    const sortString = `-${dateField}`;
+    const secondary = reportData[0][reportConfig.summaryDataKey];
+    const filterString = buildFilterParam(selectedDate, dateField, secondary, reportConfig.summaryDataKey);
+    const endpointUrl = reportConfig.summaryEndpoint`?filter=${filterString}&sort=${sortString}`;
+    const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
+    return res.data;
+  };
   const getReportData = async (report, reportConfig) => {
     const { dateField, apiFilter } = report;
     const { sort } = reportConfig;
@@ -36,20 +45,24 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const sortStr = buildSortParam(sort);
     const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
-    return res.data;
+    const summaryData = await getSummaryReportData(report, reportConfig, res);
+    return { tableData: res.data, summaryData };
   };
 
-  const setSummaryValues = (reportConfig, formattedDate, reportData) => {
-    const { reportInfo } = reportConfig;
+  const setSummaryValues = (reportConfig, formattedDate, reportData, summaryData) => {
+    const { reportInfo, reportSummary } = reportConfig;
 
-    reportInfo.forEach(summaryValue => {
-      if (summaryValue.filter === 'date') {
-        summaryValue.value = formattedDate;
-      } else if (summaryValue.filter === 'account' && reportData.length > 0 && summaryValue.secondaryField) {
-        const secondary = reportData[0][summaryValue.secondaryField];
-        summaryValue.value = selectedAccount.label + ', ' + secondary;
+    reportInfo.forEach(infoValue => {
+      if (infoValue.filter === 'date') {
+        infoValue.value = formattedDate;
+      } else if (infoValue.filter === 'account' && reportData.length > 0 && infoValue.secondaryField) {
+        const secondary = reportData[0][infoValue.secondaryField];
+        infoValue.value = selectedAccount.label + ', ' + secondary;
       }
     });
+    // reportSummary.forEach(summaryValue) => {
+    //
+    // }
   };
 
   useEffect(() => {
@@ -83,14 +96,17 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
       if (selectedAccount.value) {
         const reports = [];
         for (const report of apisProp) {
-          const reportConfig = reportsConfig.utf[report.apiId];
+          const reportConfig = reportsConfig[reportGenKey][report.apiId];
+          console.log('reportConfig ', reportConfig);
           const formattedDate = format(selectedDate, 'MMMM yyyy');
           const downloadDate = format(selectedDate, 'MMyyyy');
           let reportData;
           try {
             reportData = await getReportData(report, reportConfig);
+            console.log('reportData  ', reportData);
           } catch (error) {
             setApiErrorMessage(true);
+            console.log('ERROR ERROR');
             break;
           }
           setApiErrorMessage(false);
@@ -100,14 +116,16 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             date: formattedDate,
             size: '2KB',
             downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
-            data: reportData,
+            data: reportData.tableData,
             config: reportConfig,
             colConfig: report,
           };
           reports.push(curReport);
-          setSummaryValues(reportConfig, formattedDate, reportData);
+          setSummaryValues(reportConfig, formattedDate, reportData.tableData, reportData.summaryData);
+          console.log(setSummaryValues(reportConfig, formattedDate, reportData.tableData, reportData.summaryData));
         }
         setAllReports(reports);
+        console.log(reports);
       } else {
         setAllReports([]);
       }

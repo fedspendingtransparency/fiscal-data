@@ -3,6 +3,7 @@ export const reportsConfig = {
     305: {
       documentTitle: 'Account Statement Report',
       downloadName: 'UTF_Account_Statement',
+      summaryEndpoint: 'v1/accounting/od/utf_account_balances',
       sort: ['-eff_date', 'memo_nbr'],
       customFormatting: [
         {
@@ -16,7 +17,11 @@ export const reportsConfig = {
         { name: 'Report Date', filter: 'date' },
         { name: 'Final Report', style: 'final' },
       ],
-      reportSummary: [{ name: 'Beginning Balance' }, { name: 'Ending Balance' }],
+      reportSummary: [
+        { name: 'Beginning Balance', field: 'shares_per_par' },
+        { name: 'Ending Balance', field: 'shares_per_par' },
+      ],
+      summaryDataKey: 'acct_statement',
       tables: [
         {
           width: '100%',
