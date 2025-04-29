@@ -4,7 +4,7 @@ import { Sector } from 'recharts';
 interface ActiveShapeProps {
   cx?: number;
   cy?: number;
-  midAngle?: number; 
+  midAngle?: number;
   innerRadius?: number;
   outerRadius?: number;
   startAngle?: number;

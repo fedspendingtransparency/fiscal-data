@@ -3,12 +3,13 @@
 
 @media screen and (min-width: $breakpoint-lg) {
   .dropdown .dropdownButton {
+    padding: 0;
     transform: translateX(2rem);
     display: flex;
     align-items: center;
     overflow: hidden;
-    margin-top: -0.125rem;
     margin-right: 2rem;
+    margin-top: -0.125rem;
     border-top-style: none;
     border-right-style: none;
     border-left-style: none;
