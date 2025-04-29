@@ -6,9 +6,9 @@ import { getTableColumnConfig } from '../../../helpers/report-generator/report-g
 import { IReportGenerator } from '../../../models/report-generator/IReportGenerator';
 
 const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, reportData, colConfig }) => {
-  const { documentTitle, reportInfo, tables, downloadName, customFormatting } = reportConfig;
+  const { documentTitle, reportInfo, tables, downloadName, customFormatting, reportSummary } = reportConfig;
   const { pageContainer, headerFieldName } = styles;
-
+  console.log('reportConfig', reportConfig);
   return (
     <Document title={downloadName}>
       <Page style={pageContainer}>
@@ -20,6 +20,15 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, re
           return (
             <Text style={customContainerStyle ? customContainerStyle : styles.documentHeader} id={name} key={index}>
               <Text style={customStyle ? customStyle : headerFieldName}>{`${name}${!!value ? ': ' : ''}`}</Text>
+              {value}
+            </Text>
+          );
+        })}
+        {reportSummary?.map((line, index) => {
+          const { name, value } = line;
+          return (
+            <Text style={styles.documentHeader} id={name} key={index}>
+              <Text style={headerFieldName}>{`${name}${!!value ? ': ' : ''}`}</Text>
               {value}
             </Text>
           );
