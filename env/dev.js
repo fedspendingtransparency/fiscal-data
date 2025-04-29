@@ -8,13 +8,16 @@ module.exports = {
   ADDITIONAL_DATASETS: {
     '015-BFS-2025Q2-002': {
       slug: '/monthly-treasury-disbursements/',
-      hideRawDataTable: true,
       seoConfig: {
         pageTitle: 'Monthly Treasury Disbursements',
-        description: '?',
-        keywords: '',
+        description:
+          'The Monthly Treasury Disbursements dataset provides information on Treasury payments disbursed on behalf of government agencies each month.',
+        keywords: 'Spending, Financial Summaries',
       },
-      topics: [],
+      topics: ['spending', 'financial-summaries'],
+      relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03', '015-BFS-2014Q1-07'],
+      hideRawDataTable: true,
+      hideReportDatePicker: true,
     },
   },
   USE_MOCK_RELEASE_CALENDAR_DATA_ON_API_FAIL: true,

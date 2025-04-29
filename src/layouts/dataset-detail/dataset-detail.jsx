@@ -91,7 +91,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           numTables={pageConfig.apis.length}
           dateExpected={pageConfig.dateExpected}
           timeExpected={pageConfig.timeExpected}
-          config={pageContext.config}
+          datasetId={pageContext.config.datasetId}
           hideRawDataTable={hideRawDataTable}
         />
         {pageConfig.reportGenDefaultTable && (
@@ -121,12 +121,8 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           </>
         )}
         <DatasetAbout config={pageContext.config} test={test} />
-        {!hideRawDataTable && (
-          <>
-            <ApiQuickGuide selectedTable={selectedTable} config={pageContext.config} />
-            <RelatedDatasets datasets={updatedDatasetData} referrer={pageContext.config.name} />
-          </>
-        )}
+        {!hideRawDataTable && <ApiQuickGuide selectedTable={selectedTable} config={pageContext.config} />}
+        <RelatedDatasets datasets={updatedDatasetData} referrer={pageContext.config.name} />
       </div>
     </SiteLayout>
   );
