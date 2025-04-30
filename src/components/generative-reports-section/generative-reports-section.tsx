@@ -28,13 +28,14 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
 
-  const getSummaryReportData = async (report, reportConfig, reportData) => {
-    if (!reportConfig.summaryEndpoint || reportData.length === 0) return;
+  const getSummaryReportData = async (report, reportConfig, reportData, endpoint, dataKey, sortKey) => {
+    if (!reportConfig[endpoint] || reportData.length === 0) return;
     const { dateField } = report;
-    const sortString = `${dateField}`;
-    const secondary = reportData[0][reportConfig.summaryDataKey];
-    const filterString = buildFilterParam(selectedDate, dateField, secondary, reportConfig.summaryDataKey);
-    const endpointUrl = reportConfig.summaryEndpoint + `?filter=${filterString}&sort=${sortString}`;
+    const summarySort = reportConfig[sortKey];
+    const sortString = buildSortParam(summarySort);
+    const secondary = reportData[0][reportConfig[dataKey]];
+    const filterString = buildFilterParam(selectedDate, dateField, secondary, reportConfig[dataKey]);
+    const endpointUrl = reportConfig[endpoint] + `?filter=${filterString}&sort=${sortString}`;
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
     return res.data;
   };
@@ -46,9 +47,17 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const sortStr = buildSortParam(sort);
     const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
-    const summaryData = await getSummaryReportData(report, reportConfig, res.data);
-    console.log('summaryData', summaryData);
-    return { tableData: res.data, summaryData };
+    const summaryData = await getSummaryReportData(report, reportConfig, res.data, 'summaryEndpoint', 'summaryDataKey', 'summarySort');
+    const summaryTableData = await getSummaryReportData(
+      report,
+      reportConfig,
+      res.data,
+      'summaryTableEndpoint',
+      'summaryTableKey',
+      'summaryTableSort'
+    );
+
+    return { tableData: res.data, summaryData, summaryTableData };
   };
 
   const setSummaryValues = (reportConfig, formattedDate, reportData, summaryData) => {
@@ -103,7 +112,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
         const reports = [];
         for (const report of apisProp) {
           const reportConfig = reportsConfig[reportGenKey][report.apiId];
-          console.log('reportConfig ', reportConfig);
           const formattedDate = format(selectedDate, 'MMMM yyyy');
           const downloadDate = format(selectedDate, 'MMyyyy');
           let reportData;
@@ -111,7 +119,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             reportData = await getReportData(report, reportConfig);
           } catch (error) {
             setApiErrorMessage(true);
-            console.log('????');
             break;
           }
           setApiErrorMessage(false);
@@ -122,6 +129,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             size: '2KB',
             downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
             data: reportData.tableData,
+            summaryData: reportData.summaryTableData,
             config: reportConfig,
             colConfig: report,
           };

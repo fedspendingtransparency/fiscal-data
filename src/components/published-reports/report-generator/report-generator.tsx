@@ -5,10 +5,11 @@ import { styles } from './report-generator-styles';
 import { getTableColumnConfig } from '../../../helpers/report-generator/report-generator-helper';
 import { IReportGenerator } from '../../../models/report-generator/IReportGenerator';
 
-const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, reportData, colConfig }) => {
-  const { documentTitle, reportInfo, tables, downloadName, customFormatting, reportSummary } = reportConfig;
+const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport }) => {
+  const { config, data, colConfig, summaryData } = generatedReport;
+  const { documentTitle, reportInfo, tables, downloadName, customFormatting, reportSummary } = config;
   const { pageContainer, headerFieldName } = styles;
-  console.log('reportConfig', reportConfig);
+
   return (
     <Document title={downloadName}>
       <Page style={pageContainer}>
@@ -34,11 +35,12 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ reportConfig, re
           );
         })}
         {tables.map((table, index) => {
-          const { width, fields } = table;
+          const { width, fields, type } = table;
           const columnConfig = getTableColumnConfig(colConfig, fields);
+          const tableData = type === 'summary' ? summaryData : data;
           return (
             <View style={{ width: width }} key={index}>
-              <ReportTable data={reportData} colConfig={columnConfig} customFormatting={customFormatting} />
+              <ReportTable data={tableData} colConfig={columnConfig} customFormatting={customFormatting} />
             </View>
           );
         })}

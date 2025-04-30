@@ -5,6 +5,7 @@ export const reportsConfig = {
       downloadName: 'UTF_Account_Statement',
       summaryEndpoint: 'v1/accounting/od/utf_account_balances',
       sort: ['-eff_date', 'memo_nbr'],
+      summarySort: ['-eff_date'],
       customFormatting: [
         {
           type: 'NUMBER',
@@ -40,7 +41,10 @@ export const reportsConfig = {
     306: {
       documentTitle: 'Transaction Statement',
       downloadName: 'UTF_Transaction_Statement',
+      summaryTableEndpoint: 'v1/accounting/od/utf_transaction_subtotals',
+      summaryTableKey: 'trans_statement',
       sort: ['trans_desc_cd', '-eff_date', 'memo_nbr'],
+      summaryTableSort: ['trans_desc_cd', '-eff_date'],
       customFormatting: [
         {
           type: 'NUMBER',
@@ -54,14 +58,14 @@ export const reportsConfig = {
         { name: 'Final Report', style: 'final' },
       ],
       tables: [
-        // Will be added in a followup ticket
-        // {
-        //   width: '50%',
-        //   fields: [
-        //     { name: 'trans_desc_cd', width: 180 },
-        //     { name: 'shares_per_par', width: 70 },
-        //   ],
-        // },
+        {
+          type: 'summary',
+          width: '50%',
+          fields: [
+            { name: 'trans_desc_cd', width: 180 },
+            { name: 'shares_per_par', width: 70, style: { textAlign: 'right' } },
+          ],
+        },
         {
           width: '100%',
           fields: [
@@ -91,16 +95,15 @@ export const reportsConfig = {
         { name: 'Report Date', filter: 'date' },
         { name: 'Final Report', style: 'final' },
       ],
-      reportSummary: [{ name: 'Ending Balance' }],
+      reportSummary: [{ name: 'Ending Balance', field: 'shares_per_par', style: { textAlign: 'right' } }],
       tables: [
-        // Will be added in a followup ticket
-        // {
-        //   width: '50%',
-        //   fields: [
-        //     { name: 'trans_desc_cd', width: 180 },
-        //     { name: 'shares_per_par', width: 70 },
-        //   ],
-        // },
+        {
+          width: '50%',
+          fields: [
+            { name: 'trans_desc_cd', width: 180 },
+            { name: 'shares_per_par', width: 70 },
+          ],
+        },
         {
           width: '100%',
           fields: [
