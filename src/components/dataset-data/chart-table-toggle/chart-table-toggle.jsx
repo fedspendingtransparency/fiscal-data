@@ -159,7 +159,7 @@ const ChartTableToggle = ({
               showToggle={showToggleChart}
               onToggleLegend={onToggleLegend}
               selectedTab={selectedTab === 1}
-              role="tab"
+              role="presentation"
             />
           ) : (
             !pivotSelected?.pivotValue && (
@@ -169,7 +169,7 @@ const ChartTableToggle = ({
                 showToggle={showToggleTable}
                 onToggleLegend={onToggleLegend}
                 selectedTab={selectedTab === 0}
-                role="tab"
+                role="presentation"
               />
             )
           )}
