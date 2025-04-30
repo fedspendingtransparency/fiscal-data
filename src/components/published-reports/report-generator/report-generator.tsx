@@ -29,8 +29,7 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport 
           const { name, value } = line;
           return (
             <Text style={styles.documentHeader} id={name} key={index}>
-              <Text style={headerFieldName}>{`${name}${!!value ? ': ' : ''}`}</Text>
-              {value}
+              <Text style={headerFieldName}>{`${name}${!!value ? ': ' : ''}`}</Text>${value}
             </Text>
           );
         })}
