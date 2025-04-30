@@ -33,7 +33,8 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const { dateField } = report;
     const summarySort = reportConfig[sortKey];
     const sortString = buildSortParam(summarySort);
-    const secondary = reportData[0][reportConfig[dataKey]];
+    const reportDataKey = reportConfig.reportDataKey ? reportConfig.reportDataKey : reportConfig[dataKey];
+    const secondary = reportData[0][reportDataKey];
     const filterString = buildFilterParam(selectedDate, dateField, secondary, reportConfig[dataKey]);
     const endpointUrl = reportConfig[endpoint] + `?filter=${filterString}&sort=${sortString}`;
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);

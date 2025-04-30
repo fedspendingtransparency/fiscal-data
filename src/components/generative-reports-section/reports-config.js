@@ -3,9 +3,10 @@ export const reportsConfig = {
     305: {
       documentTitle: 'Account Statement Report',
       downloadName: 'UTF_Account_Statement',
-      summaryEndpoint: 'v1/accounting/od/utf_account_balances',
       sort: ['-eff_date', 'memo_nbr'],
+      summaryEndpoint: 'v1/accounting/od/utf_account_balances',
       summarySort: ['-eff_date'],
+      summaryDataKey: 'acct_statement',
       customFormatting: [
         {
           type: 'NUMBER',
@@ -22,7 +23,7 @@ export const reportsConfig = {
         { name: 'Beginning Balance', field: 'shares_per_par' },
         { name: 'Ending Balance', field: 'shares_per_par' },
       ],
-      summaryDataKey: 'acct_statement',
+
       tables: [
         {
           width: '100%',
@@ -83,6 +84,13 @@ export const reportsConfig = {
       documentTitle: 'Federal Activity Statement',
       downloadName: 'UTF_Federal_Activity_Statement',
       sort: ['trans_desc_cd', '-eff_date', 'memo_nbr'],
+      summaryEndpoint: 'v1/accounting/od/utf_account_balances',
+      summaryDataKey: 'acct_statement',
+      summarySort: ['eff_date'],
+      summaryTableEndpoint: 'v1/accounting/od/utf_transaction_subtotals',
+      summaryTableKey: 'trans_statement',
+      summaryTableSort: ['trans_desc_cd', '-eff_date'],
+      reportDataKey: 'fed_act_statement',
       customFormatting: [
         {
           type: 'NUMBER',
@@ -98,6 +106,7 @@ export const reportsConfig = {
       reportSummary: [{ name: 'Ending Balance', field: 'shares_per_par', style: { textAlign: 'right' } }],
       tables: [
         {
+          type: 'summary',
           width: '50%',
           fields: [
             { name: 'trans_desc_cd', width: 180 },
