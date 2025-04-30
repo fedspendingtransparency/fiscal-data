@@ -80,7 +80,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   useEffect(() => {
     if (data.state === 'hasValue') {
       processData();
-      addInnerChartAriaLabel(chartParent);
     }
   }, [data.state]);
 

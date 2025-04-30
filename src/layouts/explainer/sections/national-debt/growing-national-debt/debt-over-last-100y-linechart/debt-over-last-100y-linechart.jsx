@@ -112,7 +112,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   useEffect(() => {
     if (data.state === 'hasValue') {
       processData();
-      addInnerChartAriaLabel(chartParent);
     }
   }, [data.state]);
 
