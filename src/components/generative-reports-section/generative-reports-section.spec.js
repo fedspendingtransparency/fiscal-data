@@ -12,7 +12,7 @@ describe('Generative Report Footer', () => {
     const mockEndpointBase = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
     fetchMock.get(
       mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr',
-      { data: [{ eff_date: '1/3/2024' }] }
+      { data: [{ eff_date: '1/3/2024', shares_per_par: '123' }] }
     );
     fetchMock.get(
       mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=-eff_date,memo_nbr',
@@ -80,7 +80,7 @@ describe('Generative Report Footer', () => {
     expect(fetchSpy).toHaveBeenCalled();
     const downloadLink = await findByRole('link');
     expect(downloadLink).toBeInTheDocument();
-    expect(within(downloadLink).getByText(/Table 1 - opt/i)).toBeInTheDocument(); // file name is split between two elements
+    expect(within(downloadLink).getByText('Table 1 - opt')).toBeInTheDocument(); // file name is split between two elements
     expect(within(downloadLink).getByText('ion2.pdf')).toBeInTheDocument();
     expect(within(downloadLink).getByText('July 2024')).toBeInTheDocument();
   });

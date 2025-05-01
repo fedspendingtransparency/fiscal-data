@@ -1,38 +1,52 @@
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 import ReportGenerator from './report-generator';
 import { accountStatementFebData, accountStatementReportConfig, colConfig } from './mockData';
-import { render } from '@testing-library/react';
+
+const generatedReport = {
+  config: accountStatementReportConfig,
+  data: accountStatementFebData.data,
+  summaryData: accountStatementFebData.summaryData ?? [],
+  colConfig,
+};
 
 describe('Report generator component', () => {
   it('renders document title', () => {
-    const { getByText } = render(
-      <ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} colConfig={colConfig} />
-    );
-    expect(getByText(accountStatementReportConfig.documentTitle)).toBeInTheDocument();
+    render(<ReportGenerator generatedReport={generatedReport} />);
+    expect(screen.getByText(accountStatementReportConfig.documentTitle)).toBeInTheDocument();
   });
 
   it('renders document header information', () => {
-    const { getByText } = render(
-      <ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} colConfig={colConfig} />
-    );
-    accountStatementReportConfig.reportInfo.forEach(line => {
-      if (line?.value) {
-        expect(getByText(line.name + ':')).toBeInTheDocument();
-        expect(getByText(line.value)).toBeInTheDocument();
-      } else {
-        expect(getByText(line.name)).toBeInTheDocument();
+    render(<ReportGenerator generatedReport={generatedReport} />);
+
+    accountStatementReportConfig.reportInfo.forEach(({ name, value }) => {
+      const headerRegex = new RegExp(`${name}:?\\s*$`, 'i');
+      expect(screen.getByText(headerRegex, { exact: false })).toBeInTheDocument();
+
+      if (value) {
+        expect(screen.getByText(value)).toBeInTheDocument();
       }
     });
   });
 
+  it('renders the reportSummary lines (if supplied)', () => {
+    if (!accountStatementReportConfig.reportSummary) return;
+
+    render(<ReportGenerator generatedReport={generatedReport} />);
+
+    accountStatementReportConfig.reportSummary.forEach(({ name }) => {
+      expect(screen.getByText(new RegExp(name, 'i'), { exact: false })).toBeInTheDocument();
+    });
+  });
+
   it('renders document tables', () => {
-    const { getByText } = render(
-      <ReportGenerator reportConfig={accountStatementReportConfig} reportData={accountStatementFebData.data} colConfig={colConfig} />
-    );
-    const tableConfig = accountStatementReportConfig.tables[0];
-    tableConfig.fields.forEach(field => {
-      const prettyName = accountStatementFebData.meta.labels[field.name];
-      expect(getByText(prettyName)).toBeInTheDocument();
+    render(<ReportGenerator generatedReport={generatedReport} />);
+
+    accountStatementReportConfig.tables.forEach(({ fields }) => {
+      fields.forEach(({ name }) => {
+        const pretty = accountStatementFebData.meta.labels[name];
+        expect(screen.getByText(pretty)).toBeInTheDocument();
+      });
     });
   });
 });

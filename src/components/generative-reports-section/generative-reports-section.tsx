@@ -41,8 +41,12 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const key = reportDataKey || config.dataKey;
     const secondary = reportData[0][key];
     const endpointUrl = buildEndpoint(dateField, secondary, config);
-    const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
-    return res.data;
+    try {
+      const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
+      return res.data;
+    } catch {
+      return [];
+    }
   };
 
   const getReportData = async (report, reportConfig) => {
