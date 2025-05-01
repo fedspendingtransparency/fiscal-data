@@ -4,7 +4,7 @@ import { IDatasetApi } from '../../models/IDatasetApi';
 import { filtersContainer } from '../published-reports/reports-section/reports-section.module.scss';
 import { apiPrefix, basicFetch } from '../../utils/api-utils';
 import { format } from 'date-fns';
-import { buildFilterParam, buildSortParam } from './generative-report-helper';
+import { buildEndpoint } from './generative-report-helper';
 import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
 import ReportDatePicker from '../published-reports/report-date-picker/report-date-picker';
@@ -28,19 +28,12 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
 
-  const buildEndpoint = (dateField, secondary, endpointConfig) => {
-    const { endpoint, sort, dataKey } = endpointConfig;
-    const sortStr = buildSortParam(sort);
-    const filterString = buildFilterParam(selectedDate, dateField, secondary, dataKey);
-    return `${endpoint}?filter=${filterString}&sort=${sortStr}`;
-  };
-
   const getSummaryReportData = async (dateField, reportData, summary, reportDataKey?) => {
     if (!summary || reportData.length === 0) return [];
     const config = summary.values || summary;
     const key = reportDataKey || config.dataKey;
     const secondary = reportData[0][key];
-    const endpointUrl = buildEndpoint(dateField, secondary, config);
+    const endpointUrl = buildEndpoint(selectedDate, dateField, secondary, config.dataKey, config);
     try {
       const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
       return res.data;
@@ -53,9 +46,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const { dateField, apiFilter, endpoint } = report;
     const { sort } = reportConfig;
     const { field: accountField } = apiFilter;
-    const filterStr = buildFilterParam(selectedDate, dateField, selectedAccount.value, accountField);
-    const sortStr = buildSortParam(sort);
-    const endpointUrl = `${endpoint}?filter=${filterStr}&sort=${sortStr}`;
+    const endpointUrl = buildEndpoint(selectedDate, dateField, selectedAccount.value, accountField, { endpoint, sort });
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
     const summaryData = await getSummaryReportData(dateField, res.data, reportConfig.summaryConfig.values, reportConfig.summaryConfig.reportDataKey);
     const summaryTableData = await getSummaryReportData(

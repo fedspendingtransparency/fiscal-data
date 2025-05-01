@@ -110,7 +110,7 @@ export const reportsConfig = {
         { name: 'Report Date', filter: 'date' },
         { name: 'Final Report', style: 'final' },
       ],
-      reportSummary: [{ name: 'Ending Balance', field: 'shares_per_par' }],
+      reportSummary: [{ name: 'Ending Balance', field: 'shares_per_par', type: 'NUMBER' }],
       tables: [
         {
           type: 'summary',
