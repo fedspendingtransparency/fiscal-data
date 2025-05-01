@@ -207,7 +207,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
   }, [inView, chartData]);
 
   useEffect(() => {
-    addInnerChartAriaLabel(chartConfigs.parent);
     getChartData();
   }, []);
 
@@ -220,6 +219,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   useEffect(() => {
     if (!!chartData) {
+      addInnerChartAriaLabel(chartConfigs.parent);
       const tickValues = generateTickValues(chartData);
       setMinValue(tickValues[1][0]);
       setMaxValue(tickValues[1][tickValues[1].length - 1]);
