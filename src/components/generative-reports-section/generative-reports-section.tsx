@@ -35,12 +35,12 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     return `${endpoint}?filter=${filterString}&sort=${sortStr}`;
   };
 
-  const getSummaryReportData = async (dateField, reportData, summaryCfg, reportDataKey?) => {
-    if (!summaryCfg || reportData.length === 0) return [];
-    const cfg = summaryCfg.values || summaryCfg;
-    const key = reportDataKey || cfg.dataKey;
+  const getSummaryReportData = async (dateField, reportData, summary, reportDataKey?) => {
+    if (!summary || reportData.length === 0) return [];
+    const config = summary.values || summary;
+    const key = reportDataKey || config.dataKey;
     const secondary = reportData[0][key];
-    const endpointUrl = buildEndpoint(dateField, secondary, cfg);
+    const endpointUrl = buildEndpoint(dateField, secondary, config);
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
     return res.data;
   };
@@ -53,7 +53,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const sortStr = buildSortParam(sort);
     const endpointUrl = `${endpoint}?filter=${filterStr}&sort=${sortStr}`;
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
-
     const summaryData = await getSummaryReportData(dateField, res.data, reportConfig.summaryConfig.values, reportConfig.summaryConfig.reportDataKey);
     const summaryTableData = await getSummaryReportData(
       dateField,
