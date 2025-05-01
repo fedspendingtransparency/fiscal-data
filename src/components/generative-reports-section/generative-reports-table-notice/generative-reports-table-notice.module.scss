@@ -1,5 +1,6 @@
 @import 'src/variables.module.scss';
 
+$table-header-height: 2.375rem;
 .container {
   text-align: center;
   position: absolute;
@@ -43,14 +44,15 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .container {
-    text-align: center;
-    position: absolute;
-    top: 30%;
+    top: $table-header-height;
+    height: calc(100% - $table-header-height);
+    display: flex;
+    justify-content: center;
   }
 
   .info {
     padding: 1.5rem 2rem;
-    margin: 0 1.5rem;
+    margin: auto 1.5rem;
   }
 
   .notShownHeading {
