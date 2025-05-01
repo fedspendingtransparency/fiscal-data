@@ -80,7 +80,7 @@ describe('Generative Report Footer', () => {
     expect(fetchSpy).toHaveBeenCalled();
     const downloadLink = await findByRole('link');
     expect(downloadLink).toBeInTheDocument();
-    expect(within(downloadLink).getByText('Table 1 - opt')).toBeInTheDocument(); // file name is split between two elements
+    expect(within(downloadLink).getByText(/Table 1 - opt/i)).toBeInTheDocument(); // file name is split between two elements
     expect(within(downloadLink).getByText('ion2.pdf')).toBeInTheDocument();
     expect(within(downloadLink).getByText('July 2024')).toBeInTheDocument();
   });

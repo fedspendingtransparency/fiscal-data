@@ -9,12 +9,12 @@ export const reportsConfig = {
           endpoint: 'v1/accounting/od/utf_account_balances',
           sort: ['eff_date'],
           dataKey: 'acct_statement',
-          fields: [
-            { name: 'Beginning Balance', field: 'shares_per_par', type: 'NUMBER' },
-            { name: 'Ending Balance', field: 'shares_per_par', type: 'NUMBER' },
-          ],
         },
       },
+      reportSummary: [
+        { name: 'Beginning Balance', field: 'shares_per_par', type: 'NUMBER' },
+        { name: 'Ending Balance', field: 'shares_per_par', type: 'NUMBER' },
+      ],
       customFormatting: [
         {
           type: 'NUMBER',
