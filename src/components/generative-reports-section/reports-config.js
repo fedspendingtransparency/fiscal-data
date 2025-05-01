@@ -110,14 +110,14 @@ export const reportsConfig = {
         { name: 'Report Date', filter: 'date' },
         { name: 'Final Report', style: 'final' },
       ],
-      reportSummary: [{ name: 'Ending Balance', field: 'shares_per_par', style: { textAlign: 'right' } }],
+      reportSummary: [{ name: 'Ending Balance', field: 'shares_per_par' }],
       tables: [
         {
           type: 'summary',
           width: '50%',
           fields: [
             { name: 'trans_desc_cd', width: 180 },
-            { name: 'shares_per_par', width: 70 },
+            { name: 'shares_per_par', width: 70, style: { textAlign: 'right' } },
           ],
         },
         {
