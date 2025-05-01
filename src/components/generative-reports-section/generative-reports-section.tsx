@@ -28,15 +28,18 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
 
-  const getSummaryReportData = async (report, reportConfig, reportData, endpoint, dataKey, sortKey) => {
-    if (!reportConfig[endpoint] || reportData.length === 0) return;
-    const { dateField } = report;
-    const summarySort = reportConfig[sortKey];
-    const sortString = buildSortParam(summarySort);
-    const reportDataKey = reportConfig.reportDataKey ? reportConfig.reportDataKey : reportConfig[dataKey];
-    const secondary = reportData[0][reportDataKey];
-    const filterString = buildFilterParam(selectedDate, dateField, secondary, reportConfig[dataKey]);
-    const endpointUrl = reportConfig[endpoint] + `?filter=${filterString}&sort=${sortString}`;
+  const buildEndpoint = (dateField, secondary, endpointConfig) => {
+    const { endpoint, sort, dataKey } = endpointConfig;
+    const sortStr = buildSortParam(sort);
+    const filterString = buildFilterParam(selectedDate, dateField, secondary, dataKey);
+    return endpoint + `?filter=${filterString}&sort=${sortStr}`;
+  };
+  const getSummaryReportData = async (dateField, reportData, endpointConfig, reportDataKey) => {
+    if (!endpointConfig || reportData.length === 0) return;
+    const { dataKey } = endpointConfig;
+    const reportKey = reportDataKey ? reportDataKey : dataKey;
+    const secondary = reportData[0][reportKey];
+    const endpointUrl = buildEndpoint(dateField, secondary, endpointConfig);
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
     return res.data;
   };
@@ -48,16 +51,8 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const sortStr = buildSortParam(sort);
     const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
-    const summaryData = await getSummaryReportData(report, reportConfig, res.data, 'summaryEndpoint', 'summaryDataKey', 'summarySort');
-    const summaryTableData = await getSummaryReportData(
-      report,
-      reportConfig,
-      res.data,
-      'summaryTableEndpoint',
-      'summaryTableKey',
-      'summaryTableSort'
-    );
-
+    const summaryData = await getSummaryReportData(report.dateField, res.data, reportConfig.value, reportConfig.reportDataKey);
+    const summaryTableData = await getSummaryReportData(report.dateField, res.data, reportConfig.table, reportConfig.reportDataKey);
     return { tableData: res.data, summaryData, summaryTableData };
   };
 
