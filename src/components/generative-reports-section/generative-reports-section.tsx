@@ -28,8 +28,8 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
 
-  const buildEndpoint = (dateField, secondary, endpointCfg) => {
-    const { endpoint, sort, dataKey } = endpointCfg;
+  const buildEndpoint = (dateField, secondary, endpointConfig) => {
+    const { endpoint, sort, dataKey } = endpointConfig;
     const sortStr = buildSortParam(sort);
     const filterString = buildFilterParam(selectedDate, dateField, secondary, dataKey);
     return `${endpoint}?filter=${filterString}&sort=${sortStr}`;
