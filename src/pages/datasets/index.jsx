@@ -142,6 +142,7 @@ const DatasetsPage = ({ pageContext }) => {
   }, [updatedDatasets]);
 
   useEffect(() => {
+    console.log('here...', searchQuery);
     if (searchQuery) {
       setSearchResults(
         fuse.search(searchQuery).map(result => {
@@ -175,9 +176,7 @@ const DatasetsPage = ({ pageContext }) => {
         <div className="searchBodyBackground">
           <div className={searchContainer}>
             <BreadCrumbs links={breadCrumbLinks} />
-            <h1 data-testid="page-title" className={page_title}>
-              Datasets
-            </h1>
+            <h1 className={page_title}>Datasets</h1>
             <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} />
             <FilterSection
               searchIsActive={searchQuery.length > 0}

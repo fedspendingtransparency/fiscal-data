@@ -91,7 +91,7 @@ describe('ApiDocumentationPage', () => {
         <ApiDocumentationPage />
       </RecoilRoot>
     );
-    const gettingStarted = getByRole('heading', { name: 'Responses & Response Objects' });
+    const gettingStarted = getByRole('heading', { name: 'Responses and Response Objects' });
     expect(gettingStarted).toBeInTheDocument();
   });
 
@@ -101,7 +101,7 @@ describe('ApiDocumentationPage', () => {
         <ApiDocumentationPage />
       </RecoilRoot>
     );
-    const gettingStarted = getByRole('heading', { name: 'Aggregation & Sums' });
+    const gettingStarted = getByRole('heading', { name: 'Aggregation and Sums' });
     expect(gettingStarted).toBeInTheDocument();
   });
 
