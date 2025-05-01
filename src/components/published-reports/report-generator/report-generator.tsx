@@ -4,7 +4,6 @@ import ReportTable from './report-table/report-table';
 import { styles } from './report-generator-styles';
 import { getTableColumnConfig } from '../../../helpers/report-generator/report-generator-helper';
 import { IReportGenerator } from '../../../models/report-generator/IReportGenerator';
-import { formatCellValue } from '../../dtg-table/dtg-table-row/dtg-table-row';
 
 const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport }) => {
   const { config, data, colConfig, summaryData } = generatedReport;
@@ -27,13 +26,10 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport 
           );
         })}
         {reportSummary?.map((line, index) => {
-          const { name, value, field, type } = line;
-
-          const formattedValue = formatCellValue(value, type, '', field, customFormatting);
+          const { name, value } = line;
           return (
             <Text style={styles.documentHeader} id={name} key={index}>
-              <Text style={headerFieldName}>{`${name}${!!value ? ': ' : ''}`}</Text>
-              {formattedValue}
+              <Text style={headerFieldName}>{`${name}${!!value ? ': ' : ''}`}</Text>${value}
             </Text>
           );
         })}
