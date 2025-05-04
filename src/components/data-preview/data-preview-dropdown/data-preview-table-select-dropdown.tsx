@@ -39,7 +39,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
   const [isDataTableSelected, setIsDataTableSelected] = useState(false);
-  const containerWdith = '100%';
+  const containerWdith = 'calc(100vw - 54px)';
   const options = disableAllTables
     ? apis
     : [
