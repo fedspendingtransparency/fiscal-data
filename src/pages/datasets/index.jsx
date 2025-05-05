@@ -142,7 +142,6 @@ const DatasetsPage = ({ pageContext }) => {
   }, [updatedDatasets]);
 
   useEffect(() => {
-    console.log('here...', searchQuery);
     if (searchQuery) {
       setSearchResults(
         fuse.search(searchQuery).map(result => {

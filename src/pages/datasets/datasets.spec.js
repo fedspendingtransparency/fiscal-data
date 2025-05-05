@@ -18,8 +18,6 @@ jest.mock('../../helpers/metadata/use-metadata-updater-hook', () => ({
 }));
 
 describe('Dataset Page', () => {
-  let component, instance, filterComponent, searchField;
-
   jest.useFakeTimers();
 
   // Jest gives an error about the following not being implemented even though the tests pass.
@@ -32,25 +30,6 @@ describe('Dataset Page', () => {
     const searchIndex = Fuse.createIndex(options.keys, mockDatasets);
     searchEngine = new Fuse(mockDatasets, options, searchIndex);
   });
-
-  // beforeAll(() => {
-  // renderer.act(() => {
-  //   component = renderer.create(
-  //     <RecoilRoot>
-  //       <DatasetsPage
-  //         pageContext={{
-  //           filters: mockFilters,
-  //         }}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //   jest.runAllTimers();
-  // });
-  // jest.runAllTimers();
-  // instance = component.root;
-  // filterComponent = instance.find(e => e.type === FilterSection);
-  // searchField = instance.find(e => e.type === SearchField);
-  // });
 
   const clearSearch = jest.fn();
 
@@ -134,25 +113,25 @@ describe('Dataset Page', () => {
     expect(getByRole('textbox', { name: 'Enter search terms' })).toBeInTheDocument();
   });
 
-  // it('reports whether search is active or not', () => {
-  //   const { getByRole } = render(
-  //     <RecoilRoot>
-  //       <DatasetsPage
-  //         pageContext={{
-  //           filters: mockFilters,
-  //         }}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //   const searchField = getByRole('textbox', { name: 'Enter search terms' });
-  //   // expect(filterComponent.props.searchIsActive).toBeFalsy();
-  //
-  //   renderer.act(() => {
-  //     searchField.props.changeHandler('fiscal data is cool');
-  //   });
-  //
-  //   expect(filterComponent.props.searchIsActive).toBeTruthy();
-  //   // Revert search back to default state
-  //   clearSearch();
-  // });
+  it('reports whether search is active or not', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetsPage
+          pageContext={{
+            filters: mockFilters,
+          }}
+        />
+      </RecoilRoot>
+    );
+    const searchField = getByRole('textbox', { name: 'Enter search terms' });
+    // expect(filterComponent.props.searchIsActive).toBeFalsy();
+
+    renderer.act(() => {
+      searchField.props.changeHandler('fiscal data is cool');
+    });
+
+    expect(filterComponent.props.searchIsActive).toBeTruthy();
+    // Revert search back to default state
+    clearSearch();
+  });
 });
