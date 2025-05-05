@@ -111,6 +111,7 @@ describe('DDP Datepickers', () => {
 
     jest.runAllTimers();
 
+    //TODO: update expects
     // No need to check the min+max on both datepickers as this was done above.
     expect(datePickers[0].props.minDate).toEqual(newTableDates.from);
     expect(datePickers[1].props.maxDate).toEqual(newTableDates.to);

@@ -1,9 +1,9 @@
-import FilterRow from '../filterRow/filterRow';
 import FilterGroup from './filterGroup';
-import { renderHelper } from '../../../../helpers/renderHelper';
 import React from 'react';
 import { filtersByGroupId } from '../../../../transform/filters/filterDefinitions';
 import { mockFilters } from '../../mockData/mockFilters';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('filter group', () => {
   const filters = mockFilters;
@@ -13,10 +13,8 @@ describe('filter group', () => {
     mockChange = { mockKey: true },
     mockChangeHandler = jest.fn();
 
-  let instance, renderer, rows;
-
-  beforeEach(() => {
-    ({ instance, renderer } = renderHelper(
+  it('renders a filter row for every item in the group', () => {
+    const { getAllByRole } = render(
       <FilterGroup
         onChange={mockChangeHandler}
         currentFilters={filters}
@@ -27,23 +25,43 @@ describe('filter group', () => {
         }}
         groupId="lastUpdated"
       />
-    ));
-    rows = instance.findAllByType(FilterRow);
-  });
-
-  it('renders a filter row for every item in the group', () => {
-    expect(rows.length).toBe(group.length);
+    );
+    expect(getAllByRole('checkbox').length).toBe(group.length);
   });
 
   it('supplies a label to the filter row', () => {
-    expect(rows[0].props.children).toBe(group[0].label);
+    const { getByRole } = render(
+      <FilterGroup
+        onChange={mockChangeHandler}
+        currentFilters={filters}
+        filterTally={{
+          lastYear: 3,
+          ninetyDays: 2,
+          total: 11,
+        }}
+        groupId="lastUpdated"
+      />
+    );
+    expect(getByRole('checkbox', { name: group[0].label })).toBeInTheDocument();
   });
 
   it('passes filter changes up to the parent', () => {
-    renderer.act(() => {
-      rows[0].props.onChange(mockChange);
-    });
-    expect(mockChangeHandler).toHaveBeenCalledWith(mockChange);
+    const changeHandlerSpy = jest.fn();
+    const { getByRole } = render(
+      <FilterGroup
+        onChange={changeHandlerSpy}
+        currentFilters={filters}
+        filterTally={{
+          lastYear: 3,
+          ninetyDays: 2,
+          total: 11,
+        }}
+        groupId="lastUpdated"
+      />
+    );
+    const firstRow = getByRole('checkbox', { name: group[0].label });
+    userEvent.click(firstRow);
+    expect(changeHandlerSpy).toHaveBeenCalledWith(mockChange);
   });
 
   it('passes the current state to the row', () => {
