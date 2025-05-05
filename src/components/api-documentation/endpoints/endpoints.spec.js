@@ -15,9 +15,6 @@ describe('API Documentation/Endpoints', () => {
     },
   };
 
-  let component;
-  let instance;
-
   beforeAll(() => {
     useStaticQuery.mockReturnValue(profilerConfigMockData);
   });
@@ -38,29 +35,16 @@ describe('API Documentation/Endpoints', () => {
     expect(heading).toBeInTheDocument();
   });
 
-  it('defines the List of Endpoints table with specified id and column', () => {
-    const table = instance.findByProps({ id: 'list-of-endpoints-table' });
-    const columns = table.findAllByType('th');
+  it('defines the List of Endpoints table with specified id and column', async () => {
+    const { findByRole, findAllByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
+    const columns = await findAllByRole('columnheader');
     const expectedColumns = ['Dataset', 'Table Name', 'Endpoint', 'Endpoint Description'];
     const expectedColumnLength = 4;
     expect(columns.length).toBe(expectedColumnLength);
-    let foundAllColumns = true;
 
     for (let i = expectedColumnLength; i--; ) {
-      let columnFound = false;
-      for (let j = expectedColumnLength; j--; ) {
-        if (columns[i].children[0] === expectedColumns[j]) {
-          columnFound = true;
-          break;
-        }
-      }
-      if (!columnFound) {
-        foundAllColumns = false;
-        break;
-      }
+      expect(await findByRole('columnheader', { name: expectedColumns[i] }));
     }
-
-    expect(foundAllColumns).toBe(true);
   });
 
   it('sorts the endpoint table in alphabetical order of the table name', async () => {
