@@ -47,16 +47,13 @@ describe('API Documentation/Endpoints', () => {
     }
   });
 
-  it('sorts the endpoint table in alphabetical order of the table name', async () => {
-    const { findByTestId, findByRole, findAllByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
-    const table = await findByRole('table');
-    const tbody = await within(table).findByRole('rowgroup');
-
-    const firstTableRow = within(tbody).findAllByRole('tr')[0];
-    const firstTableName = within(firstTableRow).findAllByRole('td')[1];
+  it('sorts the endpoint table in alphabetical order of the table name', () => {
+    const { getAllByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
+    const firstTableRow = getAllByRole('row')[1];
+    const firstTableName = within(firstTableRow).getAllByRole('cell')[0];
     // We have at least one table whose name starts with "A" and the first dataset in our
     // mock object is not one of these tables.
-    expect(firstTableName.children[0][0]).toStrictEqual('A');
+    expect(within(firstTableName).getByText('Average Interest Rates on US Treasury Securities')).toBeInTheDocument();
   });
 
   it('defines the Fields by Endpoint section with expected title and heading level', async () => {
