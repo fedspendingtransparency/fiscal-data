@@ -104,7 +104,7 @@ const PageButtons = ({ pageButtonProps }) => {
         onClick={() => handleNext()}
         disabled={currentPage + 1 > maxPage}
         className={arrow}
-        data-testid={'page-next-button'}
+        data-testid="page-next-button"
         aria-label="Next page"
       >
         <ChevronRightIcon variant="outlined" size="small" />
