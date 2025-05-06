@@ -655,5 +655,18 @@
     "topics": ["debt", "revenue"],
     "relatedDatasets": ["015-BFS-2020Q4-xx", "015-BFS-2014Q1-03", "015-BFS-2014Q1-13", "015-BFS-2017Q2-003"],
     "currentDateButton": "byMonth"
+  },
+  "015-BFS-2025Q2-002": {
+    "slug": "/monthly-treasury-disbursements/",
+    "seoConfig": {
+      "pageTitle": "Monthly Treasury Disbursements",
+      "description":
+      "The Monthly Treasury Disbursements dataset provides information on Treasury payments disbursed on behalf of government agencies each month.",
+      "keywords": "Spending, Financial Summaries",
+    },
+    "topics": ["spending", "financial-summaries"],
+    "relatedDatasets": ["015-BFS-2014Q1-13", "015-BFS-2014Q1-03", "015-BFS-2014Q1-07"],
+    "hideRawDataTable": true,
+    "hideReportDatePicker": true
   }
 }
