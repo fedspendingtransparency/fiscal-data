@@ -1,7 +1,6 @@
 import React from 'react';
 import { DatasetDataComponent } from './dataset-data';
 import FilterAndDownload from '../filter-download-container/filter-download-container';
-import DataTableSelect from '../datatable-select/datatable-select';
 import { format } from 'date-fns';
 import { pivotData } from '../../utils/api-utils';
 import TableSectionContainer from './table-section-container/table-section-container';
@@ -21,14 +20,13 @@ import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
 import PagingOptionsMenu from '../pagination/paging-options-menu';
-import DownloadWrapper from '../download-wrapper/download-wrapper';
 import RangePresets from '../filter-download-container/range-presets/range-presets';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
-jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
+// jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
 jest.mock('../../helpers/dataset-detail/report-helpers', function() {
   return {
     __esModule: true,
@@ -555,13 +553,20 @@ describe('DatasetData', () => {
     expect(callsToApiForRevertToCompleteTableView.length).toEqual(1);
   });
 
-  it(`correctly notifies the download control when all tables are selected`, () => {
-    const datatableSelect = instance.findByType(DataTableSelect);
-    const downloadWrapper = instance.findByType(DownloadWrapper);
-    expect(downloadWrapper.props.allTablesSelected).toBeFalsy();
-    datatableSelect.props.setSelectedTable({ allDataTables: true });
-    const downloadWrapperAfter = instance.findByType(DownloadWrapper);
-    expect(downloadWrapperAfter.props.allTablesSelected).toBeTruthy();
+  it(`correctly notifies the download control when all tables are selected`, async () => {
+    const { getByRole, getByTestId } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    const downloadWrapper = getByTestId('wrapper');
+    expect(within(downloadWrapper).queryByText('All Data Tables (11)')).toBeFalsy();
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'All Data Tables' }));
+    await waitFor(() => {
+      expect(within(downloadWrapper).getByText('All Data Tables (11)')).toBeTruthy();
+    });
   });
 
   it("supplies the dataset's full dateRange to RangePresets", () => {
@@ -573,10 +578,17 @@ describe('DatasetData', () => {
   });
 
   it(`reflects whether "All Tables" is selected to RangePresets`, async () => {
-    const datatableSelect = instance.findByType(DataTableSelect);
-
+    const { getByRole, getByTestId } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    // const datatableSelect = instance.findByType(DataTableSelect);
+    expect(getByRole('radio', { name: '?' })).toBeInTheDocument();
+    userEvent.click(tableSelect);
     // passing down a falsy value to range Presets initially
-    let rangePresets = instance.findByType(RangePresets);
+    // let rangePresets = instance.findByType(RangePresets);
     expect(rangePresets.props.allTablesSelected).toBeFalsy();
 
     // select the All Tables option, and confirm the tables have been sent to Range Presets
