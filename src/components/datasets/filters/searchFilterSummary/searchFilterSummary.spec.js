@@ -1,15 +1,14 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import SearchFilterSummary from './searchFilterSummary';
 import { mockFilters } from '../../mockData/mockFilters';
-import * as filterTools from '../../../../transform/filters/filterDefinitions';
 import userEvent from '@testing-library/user-event';
 
 describe('Search Filter Summary', () => {
   const onGroupReset = jest.fn();
   const onIndividualReset = jest.fn();
 
-  const filtersByGroupKeyWithNameSpy = jest.spyOn(filterTools, 'filtersByGroupKeyWithName');
+  const filtersByGroupKeyWithNameSpy = jest.spyOn(require('../../../../transform/filters/filterDefinitions'), 'filtersByGroupKeyWithName');
 
   const defaultProps = {
     searchQuery: '',
@@ -30,9 +29,12 @@ describe('Search Filter Summary', () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it('calls filtersByGroupKeyWithName upon with the active filters and allFilters', () => {
-    renderSummary();
-    expect(filtersByGroupKeyWithNameSpy).toHaveBeenCalledWith(defaultProps.activeFilters, mockFilters);
+  it('calls filtersByGroupKeyWithName upon with the active filters and allFilters', async () => {
+    const active = ['startDateRangeThree'];
+    renderSummary({ activeFilters: active });
+    await waitFor(() => {
+      expect(filtersByGroupKeyWithNameSpy).toHaveBeenCalledWith(active, mockFilters);
+    });
   });
 
   it('renders no children if both searchQuery and activeFilters are empty', () => {
