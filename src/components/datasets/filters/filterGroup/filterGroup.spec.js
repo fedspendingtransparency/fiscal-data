@@ -2,7 +2,7 @@ import FilterGroup from './filterGroup';
 import React from 'react';
 import { filtersByGroupId } from '../../../../transform/filters/filterDefinitions';
 import { mockFilters } from '../../mockData/mockFilters';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('filter group', () => {
@@ -10,7 +10,6 @@ describe('filter group', () => {
   filters.filter(filter => filter.id === 'ninetyDays')[0].active = true;
 
   const group = filtersByGroupId('lastUpdated', filters),
-    mockChange = { mockKey: true },
     mockChangeHandler = jest.fn();
 
   it('renders a filter row for every item in the group', () => {
@@ -46,10 +45,9 @@ describe('filter group', () => {
   });
 
   it('passes filter changes up to the parent', () => {
-    const changeHandlerSpy = jest.fn();
     const { getByRole } = render(
       <FilterGroup
-        onChange={changeHandlerSpy}
+        onChange={mockChangeHandler}
         currentFilters={filters}
         filterTally={{
           lastYear: 3,
@@ -61,20 +59,46 @@ describe('filter group', () => {
     );
     const firstRow = getByRole('checkbox', { name: group[0].label });
     userEvent.click(firstRow);
-    expect(changeHandlerSpy).toHaveBeenCalledWith(mockChange);
+    expect(firstRow).toBeChecked();
+    expect(mockChangeHandler).toHaveBeenCalled();
   });
 
   it('passes the current state to the row', () => {
-    expect(instance.findByProps({ filterKey: 'lastYear' }).props.currentState).toBeFalsy();
-    expect(instance.findByProps({ filterKey: 'ninetyDays' }).props.currentState).toBeTruthy();
+    const { getByRole } = render(
+      <FilterGroup
+        onChange={mockChangeHandler}
+        currentFilters={filters}
+        filterTally={{
+          lastYear: 3,
+          ninetyDays: 2,
+          total: 11,
+        }}
+        groupId="lastUpdated"
+      />
+    );
+    const lastYear = getByRole('checkbox', { name: 'lastYear' });
+    const ninetyDays = getByRole('checkbox', { name: 'ninetyDays' });
+
+    expect(lastYear).not.toBeChecked();
+    expect(ninetyDays).toBeChecked();
   });
 
   it('passes the relevant filter tally to the row', () => {
-    expect(rows[0].props.filterTally.count).toBe(3);
-    expect(rows[4].props.filterTally.count).toBe(2);
-    expect(rows[2].props.filterTally).toStrictEqual({
-      count: 0,
-      of: 11,
-    });
+    const { getAllByTestId } = render(
+      <FilterGroup
+        onChange={mockChangeHandler}
+        currentFilters={filters}
+        filterTally={{
+          lastYear: 3,
+          ninetyDays: 2,
+          total: 11,
+        }}
+        groupId="lastUpdated"
+      />
+    );
+    const rows = getAllByTestId('filterRow');
+    expect(within(rows[0]).getByText('3')).toBeInTheDocument();
+    expect(within(rows[4]).getByText('2')).toBeInTheDocument();
+    expect(within(rows[2]).getByText('0')).toBeInTheDocument();
   });
 });
