@@ -12,7 +12,7 @@ describe('API Documentation Examples', () => {
   it('creates the Examples section with the desired id, heading tag and title', async () => {
     const title = 'Examples and Code Snippets';
     const { findByRole } = render(<Examples />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
+    const heading = await findByRole('heading', { name: title, level: 2 });
     expect(heading).toBeInTheDocument();
   });
 

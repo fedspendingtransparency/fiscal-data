@@ -89,9 +89,7 @@ describe('glossary term', () => {
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
-    act(() => {
-      glossaryTermButton.click();
-    });
+    userEvent.click(glossaryTermButton);
 
     const definition = findByText(termDefinition);
 
@@ -117,9 +115,7 @@ describe('glossary term', () => {
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = await findByRole('button', { name: termText });
-    act(() => {
-      glossaryTermButton.click();
-    });
+    userEvent.click(glossaryTermButton);
 
     const definitionText = await findByText('Test for term', { exact: false });
     expect(await findByRole('link', { name: 'link' })).toBeInTheDocument();
@@ -144,9 +140,8 @@ describe('glossary term', () => {
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
-    act(() => {
-      glossaryTermButton.click();
-    });
+
+    userEvent.click(glossaryTermButton);
 
     const styledText = findByText('not');
     expect(await styledText).toHaveStyle({ textDecoration: 'underline' });
@@ -166,7 +161,7 @@ describe('glossary term', () => {
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
-    glossaryTermButton.click();
+    userEvent.click(glossaryTermButton);
 
     const definition = getByText('For example', { exact: false });
     expect(definition.textContent).toEqual(expected);
@@ -193,9 +188,7 @@ describe('glossary term', () => {
     );
 
     const glossaryTermButton = getByRole('button', { name: termText });
-    act(() => {
-      glossaryTermButton.click();
-    });
+    userEvent.click(glossaryTermButton);
 
     const definition = findByText(termDefinition);
 
@@ -224,14 +217,11 @@ describe('glossary term', () => {
     );
 
     const glossaryTermButton = await findByRole('button', { name: termText });
-    act(() => {
-      glossaryTermButton.click();
-    });
+    userEvent.click(glossaryTermButton);
 
     const viewInGlossaryButton = await findByRole('button', { name: 'View in glossary' });
-    act(() => {
-      viewInGlossaryButton.click();
-    });
+    userEvent.click(viewInGlossaryButton);
+
     expect(window.history.pushState).toHaveBeenCalled();
   });
 
@@ -256,14 +246,10 @@ describe('glossary term', () => {
     );
 
     const glossaryTermButton = await findByRole('button', { name: termText });
-    act(() => {
-      glossaryTermButton.click();
-    });
+    userEvent.click(glossaryTermButton);
 
     const viewInGlossaryButton = await findByRole('button', { name: 'View in glossary' });
-    act(() => {
-      viewInGlossaryButton.click();
-    });
+    userEvent.click(viewInGlossaryButton);
 
     waitFor(() => expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument());
   });
@@ -288,8 +274,9 @@ describe('glossary term', () => {
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
+    userEvent.click(glossaryTermButton);
+
     act(() => {
-      glossaryTermButton.click();
       fireEvent.scroll(window, { target: { pageYOffset: 400 } });
     });
 

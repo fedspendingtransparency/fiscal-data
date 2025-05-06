@@ -1,7 +1,6 @@
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import React from 'react';
 import PivotOptions from './pivot-options';
-import SelectControl from '../../../select-control/select-control';
 import userEvent from '@testing-library/user-event';
 
 describe('PivotOptions component does not render children', () => {
@@ -267,11 +266,11 @@ describe('PivotOptions component does render children', () => {
       />
     );
 
-    getByRole('button', { name: 'Change pivot view from Complete Table' }).click();
-    getByRole('button', { name: 'Complete Table' }).click();
+    userEvent.click(getByRole('button', { name: 'Change pivot view from Complete Table' }));
+    userEvent.click(getByRole('button', { name: 'Complete Table' }));
 
-    getByRole('button', { name: 'Change pivot value from — N / A —' }).click();
-    getByRole('button', { name: '— N / A —' }).click();
+    userEvent.click(getByRole('button', { name: 'Change pivot value from — N / A —' }));
+    userEvent.click(getByRole('button', { name: '— N / A —' }));
     expect(setSelectedPivotSpy).not.toHaveBeenCalledWith({
       pivotValue: { prettyName: '— N / A —' },
       pivotView: { chartType: 'none', dimensionField: null, title: 'Complete Table' },

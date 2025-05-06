@@ -1,56 +1,50 @@
 import React from 'react';
-
+import { cleanup, render, screen } from '@testing-library/react';
 import RelatedDatasets, { context, title } from './related-datasets';
-import renderer from 'react-test-renderer';
-import DatasetCard from '../dataset-card/dataset-card';
-import { render } from '@testing-library/react';
+
+const mockCards = [];
+jest.mock('../dataset-card/dataset-card', () => props => {
+  mockCards.push(props);
+  return (
+    <div data-testid="cardWrapper" data-context={props.context} data-referrer={props.referrer}>
+      {props.name}
+    </div>
+  );
+});
+
+const sortedDataset1 = 'dataset b';
+const sortedDataset2 = 'dataset f';
+const sortedDataset3 = 'dataset w';
+
+const mockRelatedDatasets = [{ name: sortedDataset3 }, { name: sortedDataset1 }, { name: sortedDataset2 }];
+
+const referrer = 'Referring Dataset';
 
 describe('RelatedDatasets', () => {
-  // Jest gives an error about the following not being implemented even though the tests pass.
-  HTMLCanvasElement.prototype.getContext = jest.fn();
-
-  const sortedDataset1 = 'dataset b';
-  const sortedDataset2 = 'dataset f';
-  const sortedDataset3 = 'dataset w';
-
-  const mockRelatedDatasets = [
-    {
-      name: sortedDataset3,
-    },
-    {
-      name: sortedDataset1,
-    },
-    {
-      name: sortedDataset2,
-    },
-  ];
-
-  const referrer = 'Referring Dataset';
-
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
+  beforeEach(() => {
+    mockCards.length = 0;
   });
 
-  const instance = component.root;
-
-  it('should pass along its title param to the DatasetSectionContainer component', () => {
-    const { getByTestId } = render(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
-    expect(getByTestId('sectionContainer').innerHTML).toContain(title);
+  afterEach(() => {
+    cleanup();
   });
-
   it('should show the appropriate number of cards, and they should be in alphabetical order', () => {
-    const { queryAllByTestId } = render(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
-    const datasetCards = queryAllByTestId('cardWrapper');
-    expect(datasetCards.length).toBe(3);
-    expect(datasetCards[0].innerHTML).toContain(sortedDataset1);
-    expect(datasetCards[1].innerHTML).toContain(sortedDataset2);
-    expect(datasetCards[2].innerHTML).toContain(sortedDataset3);
+    render(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
+    const datasetCards = screen.getAllByTestId('cardWrapper');
+    expect(datasetCards).toHaveLength(3);
+    expect(datasetCards[0]).toHaveTextContent(sortedDataset1);
+    expect(datasetCards[1]).toHaveTextContent(sortedDataset2);
+    expect(datasetCards[2]).toHaveTextContent(sortedDataset3);
+  });
+  it('should pass along its title param to the DatasetSectionContainer component', () => {
+    render(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
+    expect(screen.getByTestId('sectionContainer').textContent).toContain(title);
   });
 
   it('should pass along context and referrer props to the Dataset Card for analytics', () => {
-    const cards = instance.findAllByType(DatasetCard);
-    expect(cards[0].props.context).toBe(context);
-    expect(cards[0].props.referrer).toBe(referrer);
+    render(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
+
+    expect(mockCards[0].context).toBe(context);
+    expect(mockCards[0].referrer).toBe(referrer);
   });
 });

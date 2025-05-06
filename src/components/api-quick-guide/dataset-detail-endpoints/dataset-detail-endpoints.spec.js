@@ -86,8 +86,8 @@ describe('DataSetDetailEndpoints multiple endpoints', () => {
   });
 
   it('sets aria-label to dataset name + API endpoints', async () => {
-    const { findByAltText } = render(<DatasetDetailEndpoints apis={testData} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
-    const table = await findByAltText(`${selectedTable.tableName} API Endpoints`);
+    const { findByLabelText } = render(<DatasetDetailEndpoints apis={testData} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    const table = await findByLabelText(`${selectedTable.tableName} API Endpoints`);
     expect(table).toBeInTheDocument();
   });
 });
