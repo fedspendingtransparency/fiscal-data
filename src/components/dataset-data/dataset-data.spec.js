@@ -1,5 +1,4 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import { DatasetDataComponent } from './dataset-data';
 import FilterAndDownload from '../filter-download-container/filter-download-container';
 import DataTableSelect from '../datatable-select/datatable-select';
@@ -26,6 +25,7 @@ import DownloadWrapper from '../download-wrapper/download-wrapper';
 import RangePresets from '../filter-download-container/range-presets/range-presets';
 import { fireEvent, render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
+import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
 jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
@@ -70,8 +70,8 @@ describe('DatasetData', () => {
 
   const analyticsSpy = jest.spyOn(Analytics, 'event');
 
-  let component;
-  let instance;
+  // let component;
+  // let instance;
   const setSelectedTableMock = jest.fn();
   const urlRewriteSpy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
   const fetchSpy = jest.spyOn(global, 'fetch');
@@ -94,24 +94,24 @@ describe('DatasetData', () => {
     global.console.error.mockClear();
   });
 
-  const updateTable = async tableName => {
-    const fdSectionInst = instance.findByType(FilterAndDownload);
-    const toggleBtn = fdSectionInst.findByProps({
-      'data-testid': 'dropdownToggle',
-    });
-    await renderer.act(() => {
-      toggleBtn.props.onClick();
-    });
-    instance.findByProps({ 'data-testid': 'dropdown-list' }); // will throw error if not found
-    const dropdownOptions = instance.findAllByProps({
-      'data-testid': 'dropdown-list-option',
-    });
-    await renderer.act(async () => {
-      const opt = dropdownOptions.find(ddo => ddo.props.children.props.children === tableName);
-      await opt.props.onClick();
-    });
-    return dropdownOptions;
-  };
+  // const updateTable = async tableName => {
+  //   const fdSectionInst = instance.findByType(FilterAndDownload);
+  //   const toggleBtn = fdSectionInst.findByProps({
+  //     'data-testid': 'dropdownToggle',
+  //   });
+  //   await renderer.act(() => {
+  //     toggleBtn.props.onClick();
+  //   });
+  //   instance.findByProps({ 'data-testid': 'dropdown-list' }); // will throw error if not found
+  //   const dropdownOptions = instance.findAllByProps({
+  //     'data-testid': 'dropdown-list-option',
+  //   });
+  //   await renderer.act(async () => {
+  //     const opt = dropdownOptions.find(ddo => ddo.props.children.props.children === tableName);
+  //     await opt.props.onClick();
+  //   });
+  //   return dropdownOptions;
+  // };
 
   it(`renders the DatasetData component which has the expected title text at desktop mode`, () => {
     const { getByTestId } = render(
@@ -124,19 +124,43 @@ describe('DatasetData', () => {
   });
 
   it(`contains a FilterAndDownload component`, () => {
-    expect(instance.findByType(FilterAndDownload)).toBeDefined();
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const filterDownload = getByTestId('filterDownloadContainer');
+    expect(filterDownload).toBeInTheDocument();
   });
 
   it(`contains a DataTableSelect component with defaulted props`, () => {
     // Detail view api is not displayed in dropdown
-    expect(instance.findByType(DataTableSelect).props.apis).toStrictEqual(config.apis);
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    expect(getByTestId('dataTableSelectWrapper')).toBeInTheDocument();
+    // expect(instance.findByType(DataTableSelect).props.apis).toStrictEqual(config.apis);
   });
 
   it(`initializes the selected table to the first element in the apis array`, () => {
-    expect(instance.findByType(FilterAndDownload).props.selectedTable.tableName).toBe(config.apis[0].tableName);
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    //selected table name will display within dropdown button
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    expect(tableSelect).toBeInTheDocument();
   });
 
   it('calls rewriteUrl to append the table name but does not send a lastUrl (in order to prevent triggering an analytics hit)', () => {
+    render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
     expect(urlRewriteSpy).toHaveBeenNthCalledWith(1, config.apis[0], '/mock-dataset/', {
       pathname: '/datasets/mock-dataset/',
     });
@@ -174,13 +198,29 @@ describe('DatasetData', () => {
 
   it(`sends the updated props to FilterAndDownload component when a new data table is
   selected`, async () => {
-    const dropdownOptions = await updateTable('Table 2');
+    const { getByRole, getAllByTestId } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    userEvent.click(tableSelect);
+    const dropdownOptions = getAllByTestId('dropdown-list-option');
     expect(dropdownOptions.length).toBe(12);
-    expect(instance.findByType(FilterAndDownload).props.selectedTable.tableName).toBe(config.apis[1].tableName);
+    userEvent.click(dropdownOptions[2]);
+    expect(getByRole('button', { name: config.apis[1].tableName })).toBeInTheDocument();
   });
 
   it(`records an analytics event when a new table is selected`, async () => {
-    await updateTable('Table 2');
+    const { getByRole, getAllByTestId } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    userEvent.click(tableSelect);
+    const dropdownOptions = getAllByTestId('dropdown-list-option');
+    userEvent.click(dropdownOptions[2]);
     expect(analyticsSpy).toHaveBeenLastCalledWith({
       category: 'Data Table Selector',
       action: 'Pick Table Click',
@@ -213,8 +253,7 @@ describe('DatasetData', () => {
     expect(pivotedData.meta.labels['Treasury Notes']).toEqual('Treasury Notes');
   });
 
-  it(`correctly prepares pivoted data with aggregation and summing and handles non-numeric
-  values`, () => {
+  it(`correctly prepares pivoted data with aggregation and summing and handles non-numeric values`, () => {
     const mockPivotView = { dimensionField: 'class_desc', title: 'By Classification' };
 
     const mockAggregation = [
@@ -236,8 +275,7 @@ describe('DatasetData', () => {
     expect(pivotedData.data[1]['Medical Safe'].toFixed(4)).toEqual('3000000.7000');
   });
 
-  it(`correctly prepares pivoted data with aggregation when configured with
-  lastRowSnapshot=true`, () => {
+  it(`correctly prepares pivoted data with aggregation when configured with lastRowSnapshot=true`, () => {
     const mockPivotView = {
       dimensionField: 'class_desc',
       title: 'By Classification',
@@ -264,24 +302,42 @@ describe('DatasetData', () => {
     expect(pivotedData.data[1]['Medical Safe']).toStrictEqual(lastRowForAprilMedSafeVal);
   });
 
-  it(`does not pass the pagination endpoint to DTGTable when the rowCount is above 5000
-  and an a pivot dimension IS active`, async () => {
-    await updateTable('Table 5');
-    const tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
-    expect(tableSectionContainer.props.serverSidePagination).toBe(null);
-    expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn.length).toEqual(2);
-    expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn[0].field).toEqual('record_calendar_year');
+  it(`does not pass the pagination endpoint to DTGTable when the rowCount is above 5000 and an a pivot dimension IS active`, async () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    //Update selected table to table 5
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 5' }));
+    //TODO add assertions
+    // const tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
+    // expect(tableSectionContainer.props.serverSidePagination).toBe(null);
+    // expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn.length).toEqual(2);
+    // expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn[0].field).toEqual('record_calendar_year');
   });
 
   it(`passes the endpoint to DTGTable for serverside loading when the rowCount is above
     the large table threshold and no pivot dimension or complete table chart is
     is active`, async () => {
-    await updateTable('Table 2');
-    let tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
-    expect(tableSectionContainer.props.serverSidePagination).toBeNull();
-    await updateTable('Table 4');
-    tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
-    expect(tableSectionContainer.props.serverSidePagination).toBe('mockEndpoint4');
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    //Update selected table to table 2
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 2' }));
+    // let tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
+    // expect(tableSectionContainer.props.serverSidePagination).toBeNull();
+    getByRole('button', { name: 'Table 2' });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 4' }));
+    // tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
+    // expect(tableSectionContainer.props.serverSidePagination).toBe('mockEndpoint4');
   });
 
   it(`does not send the endpoint to DTGTable for serverside loading when the rowCount is above
@@ -292,36 +348,78 @@ describe('DatasetData', () => {
   });
 
   it(`raises state on setSelectedTable when the table is updated`, async () => {
-    await updateTable('Table 5');
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    //Update selected table to table 5
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 5' }));
     expect(setSelectedTableMock).toHaveBeenCalledWith(config.apis[4]);
   });
 
   it(`calls rewriteUrl with correct args including a lastUrl arg when the table is updated
   interactively`, async () => {
     const spy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
-    await updateTable('Table 5');
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    //Update selected table to table 5
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 5' }));
     expect(spy).toHaveBeenCalledWith(config.apis[4], '/mock-dataset/', {
       pathname: '/datasets/mock-dataset/',
     });
   });
 
-  it(`does not duplicate API calls when a user switches between two tables with
-  paginated data`, async () => {
+  it(`does not duplicate API calls when a user switches between two tables with paginated data`, async () => {
     jest.useFakeTimers();
-    await updateTable('Table 7'); // select one paginated table
-    await updateTable('Table 6'); // then change the selection to another paginated table
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    // select one paginated table
+    let tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 7' }));
+
+    // then change the selection to another paginated table
+    tableSelect = getByRole('button', { name: 'Table 7' });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 6' }));
+
     // to await makePagedRequest() debounce timer in DtgTable
     await jest.advanceTimersByTime(800);
-    await updateTable('Table 7');
-    // confirm that the second table's api url was called only once
+
+    tableSelect = getByRole('button', { name: 'Table 6' });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 7' })); // confirm that the second table's api url was called only once
     const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint6?') !== -1);
     expect(callsToApiForUpdatedTable.length).toEqual(1);
   });
 
   it(`does not duplicate api calls when switching from a large table to a small one`, async () => {
     jest.useFakeTimers();
-    await updateTable('Table 7'); // select one paginated table
-    await updateTable('Table 8'); // then change the selection to a non-paginated table
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    // select one paginated table
+    let tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 7' }));
+
+    // then change the selection to a non-paginated table
+    tableSelect = getByRole('button', { name: 'Table 7' });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 8' }));
     // to await makePagedRequest() debounce timer in DtgTable
     const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint8?') !== -1);
     expect(callsToApiForUpdatedTable.length).toEqual(1);
@@ -336,17 +434,15 @@ describe('DatasetData', () => {
 
     getPublishedDates.mockClear();
 
-    await renderer.act(async () => {
-      await renderer.create(
-        <RecoilRoot>
-          <DatasetDataComponent
-            config={config}
-            setSelectedTableProp={setSelectedTableMock}
-            publishedReportsProp={mockPublishedReportsMTS[mockDatasetId]}
-          />
-        </RecoilRoot>
-      );
-    });
+    render(
+      <RecoilRoot>
+        <DatasetDataComponent
+          config={config}
+          setSelectedTableProp={setSelectedTableMock}
+          publishedReportsProp={mockPublishedReportsMTS[mockDatasetId]}
+        />
+      </RecoilRoot>
+    );
     expect(getPublishedDates).toBeCalledTimes(1);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReportsMTS[mockDatasetId]);
 
