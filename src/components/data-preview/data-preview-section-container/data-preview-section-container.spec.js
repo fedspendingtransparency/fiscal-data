@@ -123,7 +123,7 @@ describe('DataPreviewSectionContainer with data', () => {
 
   it('sets noBorder on the table', () => {
     const mockSetTableProps = jest.fn();
-    const { getByRole } = render(
+    render(
       <DataTableContext.Provider
         value={{
           ...contextProps,
@@ -184,9 +184,7 @@ describe('DataPreviewSectionContainer with data', () => {
 
 describe('DataPreviewSectionContainer with userFilter Options', () => {
   // it('displays the NotShownMessage when a user filter is engaged that matches no rows', () => {
-  //   let tableSectionContainer = {};
-  //   renderer.act(() => {
-  //     tableSectionContainer = renderer.create(
+  // const { getByRole, getAllByTestId } = render(
   //       <RecoilRoot>
   //         <DataPreviewSectionContainer
   //           config={mockConfig}
@@ -201,16 +199,12 @@ describe('DataPreviewSectionContainer with userFilter Options', () => {
   //         />
   //       </RecoilRoot>
   //     );
-  //   });
   //
-  //   const notShownMessages = tableSectionContainer.root.findAllByType(NotShownMessage);
-  //   expect(notShownMessages.length).toStrictEqual(2);
-  //   notShownMessages.forEach(notShownMessage => {
-  //     expect(notShownMessage.props.heading).toContain('The Facility Description specified does not have');
-  //     expect(notShownMessage.props.heading).toContain('available data within the date range selected.');
-  //     expect(notShownMessage.props.bodyText).toStrictEqual(mockTableWithUserFilterAvailable.userFilter.dataUnmatchedMessage);
-  //   });
-  // });
+  // const notShownMessage = getAllByTestId('notShownContainer')[0];
+  // expect(
+  //   within(notShownMessage).getByText('The Facility Description specified does not have available data within the date range selected.')
+  // ).toBeInTheDocument();
+  // expect(within(notShownMessage).getByText('Sorry, no facilities of that type for the date range.')).toBeInTheDocument();
 });
 
 describe('DataPreviewSectionContainer with Pivot Options', () => {
@@ -242,10 +236,6 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //       />
   //     <
   // );
-
-  // it('shows a pivot options toggle button when pivots are available', () => {
-  //   expect(instance.findAllByType(PivotToggle).length).toEqual(1);
-  // });
 
   // it('pivot options are in view by default', () => {
   //   const { getByTestId } = render(

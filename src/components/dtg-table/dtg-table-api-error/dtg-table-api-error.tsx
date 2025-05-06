@@ -1,15 +1,12 @@
 import CustomLink from '../../links/custom-link/custom-link';
 import React from 'react';
-import {
-  overlay,
-  apiErrorStyle,
-} from '../dtg-table.module.scss';
+import { apiErrorStyle, overlay } from '../dtg-table.module.scss';
 
 export default function DtgTableApiError() {
   return (
     <>
       <div data-test-id="error-overlay" className={overlay} />
-      <div data-test-id="api-error" className={apiErrorStyle}>
+      <div data-testid="api-error" className={apiErrorStyle}>
         <p>
           <strong>Table failed to load.</strong>
         </p>

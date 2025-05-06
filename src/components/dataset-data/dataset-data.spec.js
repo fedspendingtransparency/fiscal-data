@@ -76,16 +76,16 @@ describe('DatasetData', () => {
   const urlRewriteSpy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
   const fetchSpy = jest.spyOn(global, 'fetch');
 
-  beforeEach(async () => {
-    await renderer.act(async () => {
-      component = await renderer.create(
-        <RecoilRoot>
-          <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-        </RecoilRoot>
-      );
-      instance = component.root;
-    });
-  });
+  // beforeEach(async () => {
+  //   await renderer.act(async () => {
+  //     component = await renderer.create(
+  //       <RecoilRoot>
+  //         <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+  //       </RecoilRoot>
+  //     );
+  //     instance = component.root;
+  //   });
+  // });
 
   afterEach(() => {
     fetchSpy.mockClear();
