@@ -42,16 +42,32 @@ describe('Filter Dataset Publisher', () => {
     expect(within(treasuryLabel).getByText('Treasury Department')).toBeInTheDocument();
   });
 
-  it('contains an inner container that also calculates and displays a the number of publishers with the heading "Bureau of Fiscal Service"', () => {
-    const innerLabel = instance.findByProps({ 'data-testid': 'publisher-inner-container-label' });
-    expect(innerLabel).toBeDefined();
-    const publisherCount = innerLabel.findByProps({ 'data-testid': 'publisher-count' });
-    expect(publisherCount).toBeDefined();
-    expect(publisherCount.children[1]).toEqual('2 Publishers');
-    const innerContainer = instance.findByProps({ 'data-testid': 'publisher-inner-container' });
-    expect(innerContainer).toBeDefined();
-    const bfsLabel = innerContainer.findByProps({ 'data-testid': 'fiscal-title' });
-    expect(bfsLabel.children[0]).toEqual('Bureau of the Fiscal Service');
+  it('shows an inner “Bureau of the Fiscal Service” section with the right count', () => {
+    const { getByTestId } = render(
+      <FilterPublisher
+        filterList={[
+          { groupId: 'publisher', id: 'FA' },
+          { groupId: 'non-publisher', id: 'NP' },
+          { groupId: 'publisher', id: 'RSS' },
+        ]}
+      >
+        Test Filter Publisher Wrapper
+      </FilterPublisher>
+    );
+
+    // ---- label above the inner container ----
+    const innerLabel = getByTestId('publisher-inner-container-label');
+    expect(innerLabel).toBeInTheDocument();
+
+    const publisherCount = within(innerLabel).getByTestId('publisher-count');
+    expect(within(publisherCount).getByText('2 Publishers')).toBeInTheDocument();
+
+    // ---- actual inner container ----
+    const innerContainer = getByTestId('publisher-inner-container');
+    expect(innerContainer).toBeInTheDocument();
+
+    const bfsLabel = within(innerContainer).getByTestId('fiscal-title');
+    expect(bfsLabel).toHaveTextContent('Bureau of the Fiscal Service');
   });
 
   it('contains a child inside wrapper', () => {
