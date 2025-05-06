@@ -10,7 +10,7 @@ describe('Links Object', () => {
   });
 
   it('creates the Link Object section with the desired id, heading tag and title', async () => {
-    const title = 'Link Object';
+    const title = 'Links Object';
     const { findByRole } = render(<LinksObject />);
     const heading = await findByRole('heading', { name: title, level: 3 });
     expect(heading).toBeInTheDocument();
