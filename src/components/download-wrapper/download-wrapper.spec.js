@@ -347,7 +347,7 @@ describe('DownloadWrapper', () => {
     );
     userEvent.click(getByTestId('download-button'));
 
-    await waitFor(() => expect(mockSetDownloadRequest().toHaveBeenCalledWith(expect.objectContaining(expectedArgs))));
+    await waitFor(() => expect(mockSetDownloadRequest).toHaveBeenCalledWith(expect.objectContaining(expectedArgs)));
     mockSetDownloadRequest.mockClear();
   });
 
