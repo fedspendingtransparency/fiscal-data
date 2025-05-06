@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, within } from '@testing-library/react';
+import { waitFor, render, within } from '@testing-library/react';
 import DownloadWrapper from './download-wrapper';
 import Analytics from '../../utils/analytics/analytics';
 import { enableFetchMocks } from 'jest-fetch-mock';
@@ -316,7 +316,7 @@ describe('DownloadWrapper', () => {
     expect(within(filterValue).getByText('ABCD123')).toBeInTheDocument();
   });
 
-  it('creates the expected download configuration when a detailViewFilter is applied', () => {
+  it('creates the expected download configuration when a detailViewFilter is applied', async () => {
     const curTableName = 'Table 1';
     const selectedTable = {
       tableName: curTableName,
@@ -331,25 +331,23 @@ describe('DownloadWrapper', () => {
       selectedDetailViewFilter: mockSelectedDetailViewFilter,
     };
 
-    let component = null;
-    act(() => {
-      component = render(
-        <RecoilRoot>
-          <downloadsContext.Provider value={mockSiteProviderValue}>
-            <DownloadWrapper
-              allTablesSelected={false}
-              selectedTable={selectedTable}
-              dataset={mockDataset}
-              dateRange={mockDateRange}
-              selectedDetailViewFilter={mockSelectedDetailViewFilter}
-              setDisableDownloadBanner={jest.fn()}
-            />
-          </downloadsContext.Provider>
-        </RecoilRoot>
-      );
-      component.getByTestId('download-button').click();
-    });
-    expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadWrapper
+            allTablesSelected={false}
+            selectedTable={selectedTable}
+            dataset={mockDataset}
+            dateRange={mockDateRange}
+            selectedDetailViewFilter={mockSelectedDetailViewFilter}
+            setDisableDownloadBanner={jest.fn()}
+          />
+        </downloadsContext.Provider>
+      </RecoilRoot>
+    );
+    userEvent.click(getByTestId('download-button'));
+
+    await waitFor(() => expect(mockSetDownloadRequest().toHaveBeenCalledWith(expect.objectContaining(expectedArgs))));
     mockSetDownloadRequest.mockClear();
   });
 
