@@ -102,14 +102,14 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 
     case urlOrHref.endsWith('.pdf'):
       return (
-        <a href={urlOrHref} className="primary" download data-testid={dataTestId || 'download-link'}>
+        <a href={urlOrHref} className="primary" download data-testid={dataTestId || 'download-link'} onClick={onClickEventHandler}>
           {children}
         </a>
       );
 
     case urlOrHref.endsWith('.xml'):
       return (
-        <a href={urlOrHref} className="primary" download data-testid={dataTestId || 'download-link'}>
+        <a href={urlOrHref} className="primary" download data-testid={dataTestId || 'download-link'} onClick={onClickEventHandler}>
           {children}
         </a>
       );
