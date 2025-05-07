@@ -73,8 +73,13 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
     }
   }, [ext, url, href]);
 
+  const isAbsolute = urlOrHref.startsWith('http');
+  const isSameSite = isAbsolute && urlOrHref.startsWith('https://fiscaldata.treasury.gov/');
+
+  const treatAsExternal = (ext ?? false) || (isAbsolute && !isSameSite && ['http', 'tel'].some(p => urlOrHref.startsWith(p)));
+
   switch (true) {
-    case ext || ['http', 'tel'].some(protocol => urlOrHref.startsWith(protocol)):
+    case treatAsExternal:
       return (
         <ExternalLink url={urlOrHref} onClick={onClickEventHandler} dataTestId={dataTestId} id={id}>
           {children}
