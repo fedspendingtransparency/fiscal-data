@@ -662,7 +662,7 @@
       "pageTitle": "Monthly Treasury Disbursements",
       "description":
       "The Monthly Treasury Disbursements dataset provides information on Treasury payments disbursed on behalf of government agencies each month.",
-      "keywords": "Spending, Financial Summaries",
+      "keywords": "Spending, Financial Summaries"
     },
     "topics": ["spending", "financial-summaries"],
     "relatedDatasets": ["015-BFS-2014Q1-13", "015-BFS-2014Q1-03", "015-BFS-2014Q1-07"],
