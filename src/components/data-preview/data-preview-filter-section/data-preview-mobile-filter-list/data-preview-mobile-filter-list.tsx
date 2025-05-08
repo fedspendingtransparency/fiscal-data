@@ -22,8 +22,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IMobileFilterList {
   filterOptions: { name: string; secondary?: string; selected?: boolean; active?: boolean }[];
-  onTableSelected: (selectedOption: any) => void;
-  onDataTableSelected: (selectedOption: any) => void;
+  onTableSelected?: (selectedOption: any) => void;
+  onDataTableSelected?: (selectedOption: any) => void;
+  onIsFilterSelected?: (selectedOption: any) => void;
+  onWhichFilterSelected?: (selectedOption: any) => void;
   getName: (option: any) => string;
   getSecondary: (option: any) => string;
   selectedTable: string;
@@ -31,9 +33,11 @@ export interface IMobileFilterList {
 }
 
 const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
-  filterOptions = placeholderFilters,
+  filterOptions,
   onTableSelected,
   onDataTableSelected,
+  onIsFilterSelected,
+  onWhichFilterSelected,
   getName,
   getSecondary = option => option.secondary,
   selectedTable = '',
@@ -49,8 +53,10 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
                 getName(filterOption) === selectedFilter ? active : ''
               }`}
               onClick={() => {
-                onDataTableSelected(filterOption);
-                onTableSelected(filterOption);
+                onDataTableSelected?.(filterOption);
+                onTableSelected?.(filterOption);
+                onIsFilterSelected?.(filterOption);
+                onWhichFilterSelected?.(filterOption);
               }}
             >
               <div className={left}>

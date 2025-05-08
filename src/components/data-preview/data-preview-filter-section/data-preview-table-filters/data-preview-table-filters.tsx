@@ -26,16 +26,31 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
   // TODO update default value to first column in list
-  const [selectedColumn, setSelectedColumn] = useState({ name: 'Record Date', type: 'Date', field: 'record_date' });
+  // const [selectedColumn, setSelectedColumn] = useState({ name: 'Record Date', type: 'Not a date', field: 'record_date' });
+  const [selectedColumn, setSelectedColumn] = useState('');
+  const [isFilterSelected, setIsFilterSelected] = useState(false);
+
   const filterDropdownButton = (
     <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
   );
 
   const handleApply = () => {
     setActive(false);
+    if (isFilterSelected) {
+      setIsFilterSelected(false);
+    }
   };
   const handleCancel = () => {
     setActive(false);
+    if (isFilterSelected) {
+      setIsFilterSelected(false);
+    }
+  };
+
+  const handleBack = () => {
+    if (isFilterSelected) {
+      setIsFilterSelected(false);
+    }
   };
 
   // Need to find a way to prevent background scrolling for mobile users
@@ -47,7 +62,47 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   //   }
   // }, [active]);
 
-  console.log('selected table: ', selectedTable.fields);
+  const fireLogging = table => {
+    console.log('firing the logs');
+  };
+
+  // console.log(selectedTable.fields);
+  console.log('selectedColumn: ', selectedColumn);
+  // console.log('selected table: ', selectedTable.fields);
+
+  const mobileFilterComponent = isFilterSelected ? (
+    // Shows the selected filter's options
+    <DataPreviewMobileDialog
+      onCancel={handleCancel}
+      onBack={handleBack}
+      filterName={selectedColumn}
+      hasSearch={false}
+      backButtonText={'Filters'}
+      searchText="Search filters"
+      filterComponent={<>plz load</>}
+    />
+  ) : (
+    // Shows the different filters
+    <DataPreviewMobileDialog
+      onCancel={handleCancel}
+      onBack={handleCancel}
+      filterName="Filters"
+      searchText="Search filters"
+      filterComponent={
+        <DataPreviewMobileFilterList
+          filterOptions={selectedTable.fields}
+          getName={option => option.prettyName}
+          getSecondary={option => option.secondary}
+          onIsFilterSelected={filter => {
+            setIsFilterSelected(true);
+          }}
+          onWhichFilterSelected={filter => {
+            setSelectedColumn(filter.prettyName);
+          }}
+        />
+      }
+    />
+  );
 
   return (
     <>
@@ -81,21 +136,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       {width < pxToNumber(breakpointLg) && (
         <>
           {filterDropdownButton}
-          {active && (
-            <DataPreviewMobileDialog
-              onCancel={handleCancel}
-              onBack={handleCancel}
-              filterName="Filters"
-              searchText="Search filters"
-              filterComponent={
-                <DataPreviewMobileFilterList
-                  filterOptions={selectedTable.fields}
-                  getName={option => option.prettyName}
-                  getSecondary={option => option.secondary}
-                />
-              }
-            />
-          )}
+          {active && mobileFilterComponent}
         </>
       )}
     </>
