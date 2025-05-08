@@ -62,16 +62,10 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   //   }
   // }, [active]);
 
-  const fireLogging = table => {
-    console.log('firing the logs');
-  };
-
-  // console.log(selectedTable.fields);
   console.log('selectedColumn: ', selectedColumn);
-  // console.log('selected table: ', selectedTable.fields);
 
   const mobileFilterComponent = isFilterSelected ? (
-    // Shows the selected filter's options
+    // Shows the selected filter and its options
     <DataPreviewMobileDialog
       onCancel={handleCancel}
       onBack={handleBack}
@@ -79,10 +73,25 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       hasSearch={false}
       backButtonText={'Filters'}
       searchText="Search filters"
-      filterComponent={<>plz load</>}
+      filterComponent={
+        <ColumnFilterOptions
+          setAppliedFilters={setAppliedFilters}
+          selectedColumn={selectedColumn}
+          selectedTable={selectedTable}
+          config={config}
+          setDateRange={setDateRange}
+          allTablesSelected={allTablesSelected}
+          handleDateRangeChange={handleDateRangeChange}
+          setIsCustomDateRange={setIsCustomDateRange}
+          finalDatesNotFound={finalDatesNotFound}
+          detailApi={detailApi}
+          detailViewState={detailViewState}
+          apiData={apiData}
+        />
+      }
     />
   ) : (
-    // Shows the different filters
+    // Shows the different filters to select
     <DataPreviewMobileDialog
       onCancel={handleCancel}
       onBack={handleCancel}
