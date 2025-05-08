@@ -8,7 +8,7 @@ import { ITableFilters } from '../../../../models/data-preview/ITableFilters';
 import DataPreviewMobileDialog from '../../data-preview-mobile-dialog/data-preview-mobile-dialog';
 import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../data-preview.module.scss';
-import DataPreviewMobileFilterList, { placeholderFilters } from '../data-preview-mobile-filter-list/data-preview-mobile-filter-list';
+import DataPreviewMobileFilterList from '../data-preview-mobile-filter-list/data-preview-mobile-filter-list';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -46,6 +46,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   //     document.body.style.overflow = '';
   //   }
   // }, [active]);
+
+  console.log('selected table: ', selectedTable.fields);
 
   return (
     <>
@@ -87,8 +89,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
               searchText="Search filters"
               filterComponent={
                 <DataPreviewMobileFilterList
-                  filterOptions={placeholderFilters}
-                  getName={option => option.name}
+                  filterOptions={selectedTable.fields}
+                  getName={option => option.prettyName}
                   getSecondary={option => option.secondary}
                 />
               }
