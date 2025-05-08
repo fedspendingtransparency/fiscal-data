@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import SelectAll from '../select-all/data-preview-select-all';
 import {
   additionalSection,
@@ -28,7 +28,21 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   defaultSelectedColumns,
   additionalColumns,
   defaultColumns,
+  filter,
+  setFilter,
 }) => {
+  const [displayDefaultColumns, setDisplayDefaultColumns] = useState(defaultColumns);
+  const [displayAdditionalColumns, setDisplayAdditionalColumns] = useState(additionalColumns);
+
+  useEffect(() => {
+    const filteredDefaultColumns = defaultColumns.filter(col => col.columnDef.header.toUpperCase().includes(filter.toUpperCase()));
+    const filteredAdditionalColumns = additionalColumns.filter(col => col.columnDef.header.toUpperCase().includes(filter.toUpperCase()));
+
+    setDisplayDefaultColumns(filteredDefaultColumns);
+    setDisplayAdditionalColumns(filteredAdditionalColumns);
+    console.log(filteredAdditionalColumns, filteredDefaultColumns);
+  }, [filter]);
+
   const CheckBoxList = columnList => (
     <>
       {columnList.map(({ id, getIsVisible, toggleVisibility, getToggleVisibilityHandler, columnDef }) => {
@@ -57,17 +71,17 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
 
   return (
     <>
-      <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />
+      {filter.length === 0 && <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />}
       <div className={buttonContainer}>
         {displayDefault ? (
           <div>
             <div className={sectionContainer}>
-              <span className={sectionHeading}>DEFAULTS</span>
-              {CheckBoxList(defaultColumns)}
+              {filter.length === 0 && <span className={sectionHeading}>DEFAULTS</span>}
+              {CheckBoxList(displayDefaultColumns)}
             </div>
             <div className={sectionContainer}>
-              <span className={`${sectionHeading} ${additionalSection}`}>ADDITIONAL</span>
-              {CheckBoxList(additionalColumns)}
+              {filter.length === 0 && <span className={`${sectionHeading} ${additionalSection}`}>ADDITIONAL</span>}
+              {CheckBoxList(displayAdditionalColumns)}
             </div>
           </div>
         ) : (
