@@ -7,7 +7,6 @@ $filter-width: $dropdown-width - $search-width;
 
 .dropdownContent {
   width: $dropdown-width;
-  //height: 27.125rem;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -16,16 +15,4 @@ $filter-width: $dropdown-width - $search-width;
   box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
   z-index: $data-table-select-dropdown;
   margin-top: 0.25rem;
-  //.search {
-  //  width: $search-width;
-  //  overflow-y: auto;
-  //}
-  //
-  //.footer {
-  //  width: $dropdown-width;
-  //}
-  //
-  //.filter {
-  //  width: $filter-width;
-  //}
 }

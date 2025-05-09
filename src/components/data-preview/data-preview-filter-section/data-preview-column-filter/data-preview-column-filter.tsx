@@ -79,6 +79,8 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
               onBack={handleCancel}
               filterName="Columns"
               searchText="Search columns"
+              filter={filter}
+              setFilter={setFilter}
               filterComponent={columnSelectList}
             />
           )}
