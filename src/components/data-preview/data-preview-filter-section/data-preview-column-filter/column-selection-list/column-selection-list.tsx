@@ -21,30 +21,45 @@ interface IColumnSelectionList {
   defaultSelectedColumns;
   additionalColumns;
   defaultColumns;
-  setNoResults;
   filteredColumns;
+  filter: string;
 }
 
 const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   table,
   displayDefault,
   defaultSelectedColumns,
-  additionalColumns,
   defaultColumns,
-  filter,
-  setNoResults,
+  additionalColumns,
   filteredColumns,
+  filter,
+  pendingColumnSelection,
+  setPendingColumnSelection,
 }) => {
+  const handleChange = col => {
+    if (pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id) < 0) {
+      setPendingColumnSelection([...pendingColumnSelection, col]);
+    }
+  };
+
+  const isChecked = (col, pending) => {
+    const pendingChange = pending.findIndex(pendingCol => col.id === pendingCol.id);
+    const columnVisibility = col.getIsVisible();
+    console.log(col, pendingChange, columnVisibility);
+    return pendingChange > 0 ? !columnVisibility : columnVisibility;
+  };
+
   const CheckBoxList = columnList => (
     <>
-      {columnList.map(({ id, getIsVisible, toggleVisibility, getToggleVisibilityHandler, columnDef }) => {
+      {columnList.map(col => {
+        const { id, getIsVisible, toggleVisibility, columnDef } = col;
         return (
           <label className={checkbox_label} key={id}>
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
-                checked={getIsVisible()}
-                onChange={getToggleVisibilityHandler()}
+                checked={isChecked(col, [...pendingColumnSelection])}
+                onChange={() => handleChange(col)}
                 onKeyDown={e => e.key === 'Enter' && toggleVisibility()}
                 className={optionCheckbox}
               />
