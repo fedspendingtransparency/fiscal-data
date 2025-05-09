@@ -62,14 +62,12 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   //   }
   // }, [active]);
 
-  console.log('selectedColumn: ', selectedColumn);
-
   const mobileFilterComponent = isFilterSelected ? (
     // Shows the selected filter and its options
     <DataPreviewMobileDialog
       onCancel={handleCancel}
       onBack={handleBack}
-      filterName={selectedColumn}
+      filterName={selectedColumn.prettyName}
       hasSearch={false}
       backButtonText={'Filters'}
       searchText="Search filters"
@@ -106,7 +104,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
             setIsFilterSelected(true);
           }}
           onWhichFilterSelected={filter => {
-            setSelectedColumn(filter.prettyName);
+            setSelectedColumn(filter);
           }}
         />
       }
