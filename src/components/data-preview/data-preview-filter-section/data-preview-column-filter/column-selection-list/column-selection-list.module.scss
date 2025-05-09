@@ -1,7 +1,8 @@
 @import 'src/variables.module';
 .buttonContainer {
-  padding: 0.125rem 1rem 1rem;
-  overflow-y: auto;
+  //padding: 0.125rem 1rem 1rem;
+  //overflow-y: auto;
+  height: 100%;
 }
 
 .checkbox_container {
@@ -14,13 +15,13 @@
 
 .checkbox_label {
   display: flex;
-  margin: 0 0 1.25rem 0;
-  width: 100%;
+  margin: 1rem 1rem 0;
+  //width: 100%;
   color: $font-body-copy;
   transition: color ease 0.2s;
 
   &:last-child {
-    margin-bottom: 0;
+    margin-bottom: 1rem;
   }
 
   &:hover {
@@ -36,7 +37,6 @@ input.optionCheckbox {
 .label {
   max-width: 95%;
   font-size: $font-size-14;
-
   &:focus-within .optionCheckbox + span {
     border: 1px solid $primary;
   }
@@ -91,9 +91,11 @@ input.optionCheckbox {
   font-size: $font-size-14;
   color: $font-title;
   font-weight: $semi-bold-weight;
-  padding-bottom: 1rem;
+  margin: 0 1rem;
+
+  //padding-bottom: 1rem;
 }
 
 .additionalSection {
-  padding-top: 1.5rem;
+  padding-top: 0;
 }

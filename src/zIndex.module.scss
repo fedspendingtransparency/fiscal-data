@@ -67,6 +67,7 @@ $main-sticky-footer: $above + $download-sticky-footer;
 $radio-button: $above + $backdrop;
 $toc-button: $above + $illustration-whiteout; // $illustration-whiteout is highest on explainer
 $select-control: $above + $table-loading-icon;
+$scroll-gradient: $above + $backdrop;
 
 // menu
 $menu-dropdown: $above + $dataset-detail-nav;
