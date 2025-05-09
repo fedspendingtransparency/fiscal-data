@@ -42,22 +42,26 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     />
   );
 
+  const columnSelectList = (
+    <ColumnSelectionList
+      table={table}
+      defaultSelectedColumns={defaultSelectedColumns}
+      defaultColumns={defaultColumns}
+      additionalColumns={additionalColumns}
+      displayDefault={displayDefault}
+      filter={filter}
+      setFilter={setFilter}
+    />
+  );
+
   return (
     <>
       {width >= pxToNumber(breakpointLg) && (
         <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
-          {active && (
+          {true && (
             <div className={dropdownContent}>
               <SearchContainer filter={filter} setFilter={setFilter} searchLabel="Search columns">
-                <ColumnSelectionList
-                  table={table}
-                  defaultSelectedColumns={defaultSelectedColumns}
-                  defaultColumns={defaultColumns}
-                  additionalColumns={additionalColumns}
-                  displayDefault={displayDefault}
-                  filter={filter}
-                  setFilter={setFilter}
-                />
+                {columnSelectList}
               </SearchContainer>
               <div className={footer}>
                 <FilterButtons handleApply={handleApply} handleCancel={handleCancel} />
@@ -75,15 +79,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
               onBack={handleCancel}
               filterName="Columns"
               searchText="Search columns"
-              filterComponent={
-                <ColumnSelectionList
-                  table={table}
-                  defaultSelectedColumns={defaultSelectedColumns}
-                  defaultColumns={defaultColumns}
-                  additionalColumns={additionalColumns}
-                  displayDefault={displayDefault}
-                />
-              }
+              filterComponent={columnSelectList}
             />
           )}
         </>

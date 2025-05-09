@@ -33,7 +33,6 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
 }) => {
   const [filteredColumns, setFilteredColumns] = useState(table?.getAllLeafColumns());
 
-  console.log(defaultSelectedColumns, defaultColumns);
   useEffect(() => {
     const filteredList = table.getAllLeafColumns().filter(col => col.columnDef.header.toUpperCase().includes(filter.toUpperCase()));
     setFilteredColumns(filteredList);
@@ -66,7 +65,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   );
 
   return (
-    <div style={{ height: '18rem' }}>
+    <div style={{ maxHeight: '15.75rem' }}>
       {filter.length === 0 && <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />}
       <div className={buttonContainer}>
         {displayDefault && filter.length === 0 ? (

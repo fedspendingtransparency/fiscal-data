@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { searchBox } from '../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
+import { searchBox } from './search-container.module.scss';
 import SearchBar from '../search-bar/search-bar';
 import ScrollContainer from '../scroll-container/scroll-container';
 
