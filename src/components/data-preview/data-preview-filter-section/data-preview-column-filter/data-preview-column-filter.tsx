@@ -3,7 +3,7 @@ import { faTable } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
 import { DataTableContext } from '../../data-preview-context';
-import { dropdownContent, footer } from './data-preview-column-filter.module.scss';
+import { dropdownContent, noMatch, unmatchedTerm } from './data-preview-column-filter.module.scss';
 import FilterButtons from '../../data-preview-dropdown-dialog/filter-buttons/filter-buttons';
 import ColumnSelectionList from './column-selection-list/column-selection-list';
 import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
@@ -22,6 +22,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [active, setActive] = useState(false);
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
   const [filter, setFilter] = useState('');
+  const [noResults, setNoResults] = useState(false);
 
   const handleApply = () => {
     setActive(false);
@@ -43,29 +44,35 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   );
 
   const columnSelectList = (
-    <ColumnSelectionList
-      table={table}
-      defaultSelectedColumns={defaultSelectedColumns}
-      defaultColumns={defaultColumns}
-      additionalColumns={additionalColumns}
-      displayDefault={displayDefault}
-      filter={filter}
-      setFilter={setFilter}
-    />
+    <>
+      {noResults ? (
+        <div className={noMatch}>
+          No match for <span className={unmatchedTerm}>'{filter}'</span>. Please revise your search and try again.
+        </div>
+      ) : (
+        <ColumnSelectionList
+          table={table}
+          defaultSelectedColumns={defaultSelectedColumns}
+          defaultColumns={defaultColumns}
+          additionalColumns={additionalColumns}
+          displayDefault={displayDefault}
+          filter={filter}
+          setNoResults={setNoResults}
+        />
+      )}
+    </>
   );
 
   return (
     <>
       {width >= pxToNumber(breakpointLg) && (
         <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
-          {true && (
+          {active && (
             <div className={dropdownContent}>
-              <SearchContainer filter={filter} setFilter={setFilter} searchLabel="Search columns">
+              <SearchContainer filter={filter} setFilter={setFilter} searchLabel="Search columns" setNoResults={setNoResults}>
                 {columnSelectList}
               </SearchContainer>
-              <div className={footer}>
-                <FilterButtons handleApply={handleApply} handleCancel={handleCancel} />
-              </div>
+              <FilterButtons handleApply={handleApply} handleCancel={handleCancel} />
             </div>
           )}
         </DropdownContainer>

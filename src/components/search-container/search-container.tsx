@@ -8,13 +8,22 @@ interface iSearchContainer {
   searchLabel: string;
   filter: string;
   setFilter: (val: string) => void;
+  setNoResults: (val: boolean) => void;
 }
 
-const SearchContainer: FunctionComponent<iSearchContainer> = ({ children, filter, setFilter, searchLabel }) => {
+const SearchContainer: FunctionComponent<iSearchContainer> = ({ children, filter, setFilter, searchLabel, setNoResults }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilter(val);
+    if (val === '') {
+      setNoResults(false);
+    }
+  };
+
+  const onClear = () => {
+    setNoResults(false);
+    setFilter('');
   };
 
   return (
@@ -24,7 +33,7 @@ const SearchContainer: FunctionComponent<iSearchContainer> = ({ children, filter
           onChange={onSearchBarChange}
           filter={filter}
           label={searchLabel}
-          handleClear={() => setFilter('')}
+          handleClear={onClear}
           active={searchBarActive}
           setActive={setSearchBarActive}
         />

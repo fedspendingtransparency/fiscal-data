@@ -16,3 +16,11 @@ $filter-width: $dropdown-width - $search-width;
   z-index: $data-table-select-dropdown;
   margin-top: 0.25rem;
 }
+
+.unmatchedTerm {
+  font-weight: 600;
+}
+
+.noMatch {
+  margin: 0 1rem;
+}
