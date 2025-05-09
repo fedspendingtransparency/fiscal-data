@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import SelectAll from '../select-all/data-preview-select-all';
 import {
   additionalSection,
@@ -22,6 +22,7 @@ interface IColumnSelectionList {
   additionalColumns;
   defaultColumns;
   setNoResults;
+  filteredColumns;
 }
 
 const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
@@ -32,16 +33,8 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   defaultColumns,
   filter,
   setNoResults,
+  filteredColumns,
 }) => {
-  const [filteredColumns, setFilteredColumns] = useState(table?.getAllLeafColumns());
-
-  useEffect(() => {
-    const filteredList = table.getAllLeafColumns().filter(col => col.columnDef.header.toUpperCase().includes(filter.toUpperCase()));
-    setFilteredColumns(filteredList);
-    setNoResults(filteredList.length === 0);
-    console.log(filteredList.length === 0);
-  }, [filter]);
-
   const CheckBoxList = columnList => (
     <>
       {columnList.map(({ id, getIsVisible, toggleVisibility, getToggleVisibilityHandler, columnDef }) => {

@@ -16,9 +16,6 @@ const SearchContainer: FunctionComponent<iSearchContainer> = ({ children, filter
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilter(val);
-    if (val === '') {
-      setNoResults(false);
-    }
   };
 
   const onClear = () => {

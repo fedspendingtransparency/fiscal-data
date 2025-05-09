@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
@@ -23,6 +23,13 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
   const [filter, setFilter] = useState('');
   const [noResults, setNoResults] = useState(false);
+  const [filteredColumns, setFilteredColumns] = useState(table?.getAllLeafColumns());
+
+  useEffect(() => {
+    const filteredList = table.getAllLeafColumns().filter(col => col.columnDef.header.toUpperCase().includes(filter.toUpperCase()));
+    setFilteredColumns(filteredList);
+    setNoResults(filteredList.length === 0);
+  }, [filter]);
 
   const handleApply = () => {
     setActive(false);
@@ -58,6 +65,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
           displayDefault={displayDefault}
           filter={filter}
           setNoResults={setNoResults}
+          filteredColumns={filteredColumns}
         />
       )}
     </>
