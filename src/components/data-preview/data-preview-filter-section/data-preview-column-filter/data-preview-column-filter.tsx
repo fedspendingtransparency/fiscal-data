@@ -47,25 +47,22 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
       {width >= pxToNumber(breakpointLg) && (
         <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
           {active && (
-            <>
-              <div className={dropdownContent}>
-                <SearchContainer filter={filter} setFilter={setFilter}>
-                  <ColumnSelectionList
-                    table={table}
-                    defaultSelectedColumns={defaultSelectedColumns}
-                    defaultColumns={defaultColumns}
-                    additionalColumns={additionalColumns}
-                    displayDefault={displayDefault}
-                    filter={filter}
-                    setFilter={setFilter}
-                  />
-                </SearchContainer>
-
-                <div className={footer}>
-                  <FilterButtons handleApply={handleApply} handleCancel={handleCancel} />
-                </div>
+            <div className={dropdownContent}>
+              <SearchContainer filter={filter} setFilter={setFilter} searchLabel="Search columns">
+                <ColumnSelectionList
+                  table={table}
+                  defaultSelectedColumns={defaultSelectedColumns}
+                  defaultColumns={defaultColumns}
+                  additionalColumns={additionalColumns}
+                  displayDefault={displayDefault}
+                  filter={filter}
+                  setFilter={setFilter}
+                />
+              </SearchContainer>
+              <div className={footer}>
+                <FilterButtons handleApply={handleApply} handleCancel={handleCancel} />
               </div>
-            </>
+            </div>
           )}
         </DropdownContainer>
       )}
