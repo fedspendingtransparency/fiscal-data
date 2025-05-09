@@ -13,6 +13,7 @@ import {
 } from './column-selection-list.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { underlineMatchedString } from '../../../../search-bar/search-bar-helper';
 
 interface IColumnSelectionList {
   table;
@@ -57,7 +58,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
                 </span>
               </span>
             </div>
-            <span>{columnDef.header}</span>
+            <span>{underlineMatchedString(columnDef.header, filter)}</span>
           </label>
         );
       })}
