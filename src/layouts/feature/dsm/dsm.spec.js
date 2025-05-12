@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import dsmComponents from './dsm';
+import userEvent from '@testing-library/user-event';
 
 describe('Feature DSM Components', () => {
   it('creates a DS&M section with passed in content', () => {
@@ -7,7 +8,7 @@ describe('Feature DSM Components', () => {
     const dsmTitle = `Data Sources & Methodologies`;
     const { getByText } = render(dsmComponents.DSM(dsmText));
     const dsmAccordion = getByText(dsmTitle);
-    dsmAccordion.click();
+    userEvent.click(dsmAccordion);
     expect(getByText(dsmText)).toBeDefined();
   });
 
