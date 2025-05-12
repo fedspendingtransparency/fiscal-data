@@ -13,14 +13,12 @@ import {
   overlay,
   loadingIcon,
   overlayContainerNoFooter,
-  apiErrorStyle,
   selectColumnsWrapper,
   wrapper,
   noBorderStyle,
   tableFooter,
   rowsShowingStyle,
 } from './dtg-table.module.scss';
-import CustomLink from '../links/custom-link/custom-link';
 import DataTable from '../data-table/data-table';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
@@ -408,13 +406,16 @@ export default function DtgTable({
       if (tableData?.meta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
         // data with current date range < 20000
         if (!(reactTableData?.pivotApplied && !updatedData(tableData.data, reactTableData?.data.slice(0, itemsPerPage)))) {
+          setReactTableData(dePaginated);
+          setManualPagination(false);
           if (
-            !reactTableData ||
-            JSON.stringify(tableData?.data) !== JSON.stringify(reactTableData?.data) ||
-            tableData?.meta['total-count'] !== reactTableData?.meta['total-count']
+            (!reactTableData ||
+              JSON.stringify(tableData?.data) !== JSON.stringify(reactTableData?.data) ||
+              tableData?.meta['total-count'] !== reactTableData?.meta['total-count']) &&
+            dePaginated === undefined
           ) {
             setReactTableData(tableData);
-            setManualPagination(true);
+            setManualPagination(false);
           }
         }
       } else if (tableData.data && !rawData && !dePaginated) {
