@@ -177,8 +177,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             ignoreDisabled={true}
           />
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
-          {/*{selectedAccount.value && activeReports.length > 0 &&*/}
-          {/*  <DatatableBanner bannerNotice={activeReports[0].colConfig.apiFilter.notice} />}*/}
         </div>
         {(activeReports?.length === 0 || apiErrorMessage) && (
           <GenerativeReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} noMatchingData={noMatchingData} reportGenKey={reportGenKey} />
