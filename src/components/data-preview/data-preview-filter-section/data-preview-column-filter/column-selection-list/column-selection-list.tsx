@@ -35,6 +35,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   filter,
   pendingColumnSelection,
   setPendingColumnSelection,
+  selectedColumns,
 }) => {
   const handleChange = col => {
     const index = pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id);
@@ -47,12 +48,6 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     }
   };
 
-  const isChecked = (col, isVisible) => {
-    const pendingChange = pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id);
-    console.log(col, pendingChange > 0 ? !isVisible : isVisible);
-    return pendingChange > 0 ? !isVisible : isVisible;
-  };
-
   const CheckBoxList = columnList => (
     <>
       {columnList.map(col => {
@@ -62,7 +57,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
-                checked={isChecked(col, getIsVisible())}
+                defaultChecked={selectedColumns.includes(col)}
                 onChange={() => handleChange(col)}
                 onKeyDown={e => e.key === 'Enter' && toggleVisibility()}
                 className={optionCheckbox}
