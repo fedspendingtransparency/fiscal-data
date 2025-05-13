@@ -15,9 +15,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { underlineMatchedString } from '../../../../search-bar/search-bar-helper';
 
 interface IColumnSelectionList {
-  table;
   displayDefault;
-  defaultSelectedColumns;
   additionalColumns;
   defaultColumns;
   filteredColumns;
@@ -25,9 +23,7 @@ interface IColumnSelectionList {
 }
 
 const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
-  table,
   displayDefault,
-  defaultSelectedColumns,
   defaultColumns,
   additionalColumns,
   filteredColumns,
@@ -47,16 +43,22 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     }
   };
 
+  const defaultSelection = col => {
+    const currentlySelected = selectedColumns.findIndex(x => x.id === col.id) >= 0;
+    const pendingSelected = pendingColumnSelection.findIndex(x => x.id === col.id) >= 0;
+    return pendingSelected ? !currentlySelected : currentlySelected;
+  };
+
   const CheckBoxList = columnList => (
     <>
       {columnList?.map(col => {
-        const { id, getIsVisible, toggleVisibility, columnDef } = col;
+        const { id, columnDef } = col;
         return (
           <label className={checkbox_label} key={id}>
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
-                defaultChecked={getIsVisible()}
+                defaultChecked={defaultSelection(col)}
                 onChange={() => handleChange(col)}
                 onKeyDown={e => e.key === 'Enter' && handleChange(col)}
                 className={optionCheckbox}

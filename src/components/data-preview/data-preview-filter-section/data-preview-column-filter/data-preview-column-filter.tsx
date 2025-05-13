@@ -24,7 +24,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [filter, setFilter] = useState('');
   const [noResults, setNoResults] = useState(false);
   const [filteredColumns, setFilteredColumns] = useState(table?.getAllLeafColumns());
-  const [selectedColumns, setSelectedColumns] = useState(displayDefault ? [...defaultColumns] : table?.getAllLeafColumns());
+  const [selectedColumns, setSelectedColumns] = useState(table?.getVisibleFlatColumns());
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const searchLabel = 'Search columns';
 
@@ -33,9 +33,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     pendingColumnSelection.forEach(col => {
       const { toggleVisibility } = col;
       toggleVisibility();
-      // if (updatedSelection.includes(col)) {
-      //   updatedSelection.splice(col, 1);
-      // } else updatedSelection.push(col);
     });
     setPendingColumnSelection([]);
     setDropdownActive(false);
@@ -47,16 +44,10 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     setPendingColumnSelection([]);
   };
   //
-  // useEffect(() => {
-  //   //initialize selectedColumns after defaultColumns is initialized
-  //   console.log(displayDefault, [...defaultColumns], table?.getAllLeafColumns());
-  //   setSelectedColumns(displayDefault ? [...defaultColumns] : table?.getAllLeafColumns());
-  // }, [defaultColumns, table?.getAllLeafColumns()]);
-
   useEffect(() => {
-    console.log(table?.getVisibleFlatColumns());
-    // setSelectedColumns(table?.getVisibleFlatColumns());
-  }, [dropdownActive, table]);
+    //initialize selectedColumns after table is initialized
+    setSelectedColumns(table?.getVisibleFlatColumns());
+  }, [defaultColumns, table?.getVisibleFlatColumns()]);
 
   const filterDropdownButton = (
     <DropdownLabelButton
@@ -77,8 +68,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
         </div>
       ) : (
         <ColumnSelectionList
-          table={table}
-          defaultSelectedColumns={defaultSelectedColumns}
           defaultColumns={defaultColumns}
           additionalColumns={additionalColumns}
           displayDefault={displayDefault}
