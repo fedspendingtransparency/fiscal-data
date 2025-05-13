@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import SelectAll from '../select-all/data-preview-select-all';
 import {
   additionalSection,
   buttonContainer,
@@ -50,16 +49,16 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
 
   const CheckBoxList = columnList => (
     <>
-      {columnList.map(col => {
+      {columnList?.map(col => {
         const { id, getIsVisible, toggleVisibility, columnDef } = col;
         return (
           <label className={checkbox_label} key={id}>
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
-                defaultChecked={selectedColumns.includes(col)}
+                defaultChecked={getIsVisible()}
                 onChange={() => handleChange(col)}
-                onKeyDown={e => e.key === 'Enter' && toggleVisibility()}
+                onKeyDown={e => e.key === 'Enter' && handleChange(col)}
                 className={optionCheckbox}
               />
               <span className={label_checkmark_container}>
@@ -77,7 +76,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
 
   return (
     <div style={{ maxHeight: '15.75rem' }}>
-      {filter.length === 0 && <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />}
+      {/*{filter.length === 0 && <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />}*/}
       <div className={buttonContainer}>
         {displayDefault && filter.length === 0 ? (
           <div>

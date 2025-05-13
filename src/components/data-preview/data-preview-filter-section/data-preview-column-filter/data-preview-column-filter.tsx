@@ -24,22 +24,18 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [filter, setFilter] = useState('');
   const [noResults, setNoResults] = useState(false);
   const [filteredColumns, setFilteredColumns] = useState(table?.getAllLeafColumns());
-  const [selectedColumns, setSelectedColumns] = useState([...defaultColumns]);
+  const [selectedColumns, setSelectedColumns] = useState(displayDefault ? [...defaultColumns] : table?.getAllLeafColumns());
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const searchLabel = 'Search columns';
-
-  useEffect(() => {
-    setSelectedColumns([...defaultColumns]);
-  }, [defaultColumns]);
 
   const handleApply = () => {
     const updatedSelection = selectedColumns;
     pendingColumnSelection.forEach(col => {
       const { toggleVisibility } = col;
       toggleVisibility();
-      if (updatedSelection.includes(col)) {
-        updatedSelection.splice(col, 1);
-      } else updatedSelection.push(col);
+      // if (updatedSelection.includes(col)) {
+      //   updatedSelection.splice(col, 1);
+      // } else updatedSelection.push(col);
     });
     setPendingColumnSelection([]);
     setDropdownActive(false);
@@ -50,6 +46,17 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     setDropdownActive(false);
     setPendingColumnSelection([]);
   };
+  //
+  // useEffect(() => {
+  //   //initialize selectedColumns after defaultColumns is initialized
+  //   console.log(displayDefault, [...defaultColumns], table?.getAllLeafColumns());
+  //   setSelectedColumns(displayDefault ? [...defaultColumns] : table?.getAllLeafColumns());
+  // }, [defaultColumns, table?.getAllLeafColumns()]);
+
+  useEffect(() => {
+    console.log(table?.getVisibleFlatColumns());
+    // setSelectedColumns(table?.getVisibleFlatColumns());
+  }, [dropdownActive, table]);
 
   const filterDropdownButton = (
     <DropdownLabelButton
@@ -61,9 +68,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
       disabled={allTablesSelected || isDisabled}
     />
   );
-  useEffect(() => {
-    console.log(pendingColumnSelection);
-  }, [pendingColumnSelection]);
 
   const columnSelectList = (
     <>
