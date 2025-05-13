@@ -37,16 +37,20 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   setPendingColumnSelection,
 }) => {
   const handleChange = col => {
-    if (pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id) < 0) {
+    const index = pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id);
+    if (index < 0) {
       setPendingColumnSelection([...pendingColumnSelection, col]);
+    } else {
+      const updatedSelection = [...pendingColumnSelection];
+      updatedSelection.splice(index, 1);
+      setPendingColumnSelection(updatedSelection);
     }
   };
 
-  const isChecked = (col, pending) => {
-    const pendingChange = pending.findIndex(pendingCol => col.id === pendingCol.id);
-    const columnVisibility = col.getIsVisible();
-    console.log(col, pendingChange, columnVisibility);
-    return pendingChange > 0 ? !columnVisibility : columnVisibility;
+  const isChecked = (col, isVisible) => {
+    const pendingChange = pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id);
+    console.log(col, pendingChange > 0 ? !isVisible : isVisible);
+    return pendingChange > 0 ? !isVisible : isVisible;
   };
 
   const CheckBoxList = columnList => (
@@ -58,7 +62,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
-                checked={isChecked(col, [...pendingColumnSelection])}
+                checked={isChecked(col, getIsVisible())}
                 onChange={() => handleChange(col)}
                 onKeyDown={e => e.key === 'Enter' && toggleVisibility()}
                 className={optionCheckbox}
