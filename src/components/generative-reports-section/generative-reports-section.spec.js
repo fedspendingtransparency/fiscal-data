@@ -97,4 +97,14 @@ describe('Generative Report Footer', () => {
     fireEvent.click(getByRole('button', { name: 'option1' }));
     expect(await findByText('Table failed to load.')).toBeInTheDocument();
   });
+  it('renders the banner with the API filter notice once an account is selected', async () => {
+    const { getByRole, findByText, findByRole } = render(<GenerativeReportsSection apisProp={mockApiConfig} reportGenKey="utf" />);
+
+    fireEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
+    fireEvent.click(getByRole('button', { name: 'option2' }));
+
+    await findByRole('link');
+
+    expect(await findByText(mockApiConfig[0].apiFilter.notice)).toBeInTheDocument();
+  });
 });
