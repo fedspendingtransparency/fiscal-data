@@ -13,6 +13,7 @@ import {
 } from './column-selection-list.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { underlineMatchedString } from '../../../../search-bar/search-bar-helper';
 
 interface IColumnSelectionList {
   table;
@@ -20,25 +21,45 @@ interface IColumnSelectionList {
   defaultSelectedColumns;
   additionalColumns;
   defaultColumns;
+  filteredColumns;
+  filter: string;
 }
 
 const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   table,
   displayDefault,
   defaultSelectedColumns,
-  additionalColumns,
   defaultColumns,
+  additionalColumns,
+  filteredColumns,
+  filter,
+  pendingColumnSelection,
+  setPendingColumnSelection,
 }) => {
+  const handleChange = col => {
+    if (pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id) < 0) {
+      setPendingColumnSelection([...pendingColumnSelection, col]);
+    }
+  };
+
+  const isChecked = (col, pending) => {
+    const pendingChange = pending.findIndex(pendingCol => col.id === pendingCol.id);
+    const columnVisibility = col.getIsVisible();
+    console.log(col, pendingChange, columnVisibility);
+    return pendingChange > 0 ? !columnVisibility : columnVisibility;
+  };
+
   const CheckBoxList = columnList => (
     <>
-      {columnList.map(({ id, getIsVisible, toggleVisibility, getToggleVisibilityHandler, columnDef }) => {
+      {columnList.map(col => {
+        const { id, getIsVisible, toggleVisibility, columnDef } = col;
         return (
           <label className={checkbox_label} key={id}>
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
-                checked={getIsVisible()}
-                onChange={getToggleVisibilityHandler()}
+                checked={isChecked(col, [...pendingColumnSelection])}
+                onChange={() => handleChange(col)}
                 onKeyDown={e => e.key === 'Enter' && toggleVisibility()}
                 className={optionCheckbox}
               />
@@ -48,7 +69,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
                 </span>
               </span>
             </div>
-            <span>{columnDef.header}</span>
+            <span>{underlineMatchedString(columnDef.header, filter)}</span>
           </label>
         );
       })}
@@ -56,10 +77,10 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   );
 
   return (
-    <>
-      <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />
+    <div style={{ maxHeight: '15.75rem' }}>
+      {filter.length === 0 && <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />}
       <div className={buttonContainer}>
-        {displayDefault ? (
+        {displayDefault && filter.length === 0 ? (
           <div>
             <div className={sectionContainer}>
               <span className={sectionHeading}>DEFAULTS</span>
@@ -71,10 +92,10 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
             </div>
           </div>
         ) : (
-          <div className={sectionContainer}>{CheckBoxList(table.getAllLeafColumns())}</div>
+          <div className={sectionContainer}>{CheckBoxList(filteredColumns)}</div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
