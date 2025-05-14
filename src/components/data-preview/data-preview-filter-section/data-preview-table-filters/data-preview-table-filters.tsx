@@ -29,6 +29,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // const [selectedColumn, setSelectedColumn] = useState({ name: 'Record Date', type: 'Not a date', field: 'record_date' });
   const [selectedColumn, setSelectedColumn] = useState('');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
+  const [filter, setFilter] = useState('');
+  const [noResults, setNoResults] = useState(false);
 
   const filterDropdownButton = (
     <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
@@ -95,6 +97,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       onBack={handleCancel}
       filterName="Filters"
       searchText="Search filters"
+      filter={filter}
+      setFilter={setFilter}
       filterComponent={
         <DataPreviewMobileFilterList
           filterOptions={selectedTable.fields}

@@ -1,15 +1,12 @@
-import React, { FunctionComponent, ReactElement } from 'react';
-import SearchBar from '../../../components/search-bar/search-bar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
-
+import React, {FunctionComponent, ReactElement, useState} from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCaretLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
 import {
   applyButton,
   bottomContainer,
   cancelButton,
   checkIcon,
   dataPreviewHeader,
-  filtersScrollContainer,
   mainContainer,
   previewCaret,
   previewCaretButton,
@@ -19,7 +16,8 @@ import {
   sectionHeader,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import {IconProp} from '@fortawesome/fontawesome-svg-core';
+import SearchContainer from '../../search-container/search-container';
 
 interface IDataPreviewMobileDialog {
   onCancel: () => void;
@@ -48,11 +46,25 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   bottomButtonIcon = faCheck,
 }) => {
   const shouldTocShow = true;
+  const [noResults, setNoResults] = useState(false);
+  // const [filter, setFilter] = useState('');
 
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilter(val);
   };
+
+  // const filterSelectList = (
+  //   <>
+  //     {noResults ? (
+  //       <div>
+  //         No match for <span>'{filter}'</span>. Please revise your search and try again.
+  //       </div>
+  //     ) : (
+  //       <div>TEST</div>
+  //     )}
+  //   </>
+  // );
 
   return (
     <div className={mainContainer}>
@@ -72,15 +84,18 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
               {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
                   <div className={searchBox}>
-                    <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} />
+                    <SearchContainer searchLabel={'test'} filter={filter} setFilter={setFilter} setNoResults={setNoResults}>
+                      {/*{filterSelectList}*/}
+                      {filterComponent}
+                    </SearchContainer>
                   </div>
                 </div>
               )}
             </div>
           </div>
-          <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
-            {filterComponent}
-          </div>
+          {/*<div data-testid="filters-scroll-container" className={filtersScrollContainer}>*/}
+          {/*  {filterSelectList}*/}
+          {/*</div>*/}
           <div className={bottomContainer}>
             <button className={applyButton} onClick={onApply}>
               <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
