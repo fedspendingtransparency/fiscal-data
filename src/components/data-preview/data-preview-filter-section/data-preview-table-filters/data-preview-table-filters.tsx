@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
@@ -30,6 +30,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const [selectedColumn, setSelectedColumn] = useState('');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [filter, setFilter] = useState('');
+  const [visibleOptions, setVisibleOptions] = useState(selectedTable.fields);
   const [noResults, setNoResults] = useState(false);
 
   const filterDropdownButton = (
@@ -63,6 +64,25 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   //     document.body.style.overflow = '';
   //   }
   // }, [active]);
+
+  useEffect(() => {
+    const search = filter.trim().toLowerCase();
+
+    if (!search) {
+      setVisibleOptions(selectedTable.fields);
+      setNoResults(false);
+      return;
+    }
+
+    const matches = selectedTable.fields.filter(option => {
+      const name = option.prettyName.toLowerCase();
+      const secondary = (option.secondary ?? '').toLowerCase();
+      return name.includes(search) || secondary.includes(search);
+    });
+
+    setVisibleOptions(matches);
+    setNoResults(matches.length === 0);
+  }, [filter, selectedTable.fields]);
 
   const mobileFilterComponent = isFilterSelected ? (
     // Shows the selected filter and its options
@@ -101,7 +121,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       setFilter={setFilter}
       filterComponent={
         <DataPreviewMobileFilterList
-          filterOptions={selectedTable.fields}
+          filterOptions={visibleOptions}
+          filter={filter}
           getName={option => option.prettyName}
           getSecondary={option => option.secondary}
           onIsFilterSelected={filter => {

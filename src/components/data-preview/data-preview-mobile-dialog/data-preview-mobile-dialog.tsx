@@ -29,6 +29,8 @@ interface IDataPreviewMobileDialog {
   hasSearch?: boolean;
   bottomButton: string;
   bottomButtonIcon?: IconProp;
+  filter: string;
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   onCancel,

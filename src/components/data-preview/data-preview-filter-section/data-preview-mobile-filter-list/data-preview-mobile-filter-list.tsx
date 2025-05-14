@@ -10,6 +10,7 @@ import {
 } from '../../../data-preview/data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list.module.scss';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 
 // export const placeholderFilters = [
 //   { name: 'Record Date', secondary: 'Last 5 years', selected: false, active: true },
@@ -30,6 +31,7 @@ export interface IMobileFilterList {
   getSecondary: (option: any) => string;
   selectedTable: string;
   selectedFilter: string;
+  filter: string;
 }
 
 const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
@@ -42,6 +44,7 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
   getSecondary = option => option.secondary,
   selectedTable = '',
   selectedFilter = '',
+  filter,
 }) => {
   return (
     <>
@@ -60,8 +63,8 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
               }}
             >
               <div className={left}>
-                <span className={optionName}>{getName(filterOption)}</span>
-                {getSecondary(filterOption) && <span className={optionSecondary}>{getSecondary(filterOption)}</span>}
+                <span className={optionName}>{underlineMatchedString(getName(filterOption), filter)}</span>
+                {getSecondary(filterOption) && <span className={optionSecondary}>{underlineMatchedString(getSecondary(filterOption)!, filter)}</span>}
               </div>
               <div className={right}>
                 <FontAwesomeIcon icon={faCaretRight} />

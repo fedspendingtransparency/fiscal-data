@@ -39,6 +39,8 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
   const [isDataTableSelected, setIsDataTableSelected] = useState(false);
+  const [filter, setFilter] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   // 54px comes from subtracting the padding and margins on both sides of the container
   const containerWdith = 'calc(100vw - 54px)';
   const options = disableAllTables
@@ -50,6 +52,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           latestDate,
         },
       ].concat(apis);
+  const filterOptions = options.filter(option => option.tableName.toUpperCase().includes(filter.toUpperCase()));
 
   const dropdownButton = (
     <DropdownLabelButton
@@ -162,10 +165,12 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       onBack={handleCancel}
       onApply={handleApply}
       filterName={'Data Tables'}
+      filter={searchTerm}
+      setFilter={setSearchTerm}
       searchText="Search data tables"
       filterComponent={
         <DataPreviewMobileFilterList
-          filterOptions={options}
+          filterOptions={filterOptions}
           getName={option => option.tableName}
           selectedTable={allTablesSelected ? allTablesOption.tableName : selectedTable?.tableName}
           onTableSelected={updateSelectedTable}
