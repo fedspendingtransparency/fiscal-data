@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { checkmarkText, container, labelCheckmarkContainer, selectAll } from './data-preview-select-all.module.scss';
 
-const SelectAll = ({ allColumnsSelected, setAllColumnsSelected }) => {
+const SelectAll = ({ allColumnsSelected, setAllColumnsSelected, checkboxesSelected, allSelected }) => {
   const onButtonClick = () => {
     const updatedValue = !allColumnsSelected;
     setAllColumnsSelected(updatedValue);
@@ -20,14 +20,15 @@ const SelectAll = ({ allColumnsSelected, setAllColumnsSelected }) => {
         <input
           name="selectAll"
           onKeyDown={e => e.key === 'Enter' && onButtonClick()}
-          onChange={onButtonClick}
+          onClick={onButtonClick}
           type="checkbox"
-          defaultChecked={allColumnsSelected}
+          checked={checkboxesSelected.length > 0}
+          // defaultChecked={allColumnsSelected}
           className={selectAll}
         />
         <span className={labelCheckmarkContainer}>
           <span className={checkmarkText}>
-            <FontAwesomeIcon icon={faCheck} size="sm" />
+            <FontAwesomeIcon icon={allSelected ? faCheck : faMinus} size="sm" />
           </span>
         </span>
         All Columns

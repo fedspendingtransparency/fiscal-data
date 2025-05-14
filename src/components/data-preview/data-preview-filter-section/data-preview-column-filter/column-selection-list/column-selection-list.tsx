@@ -35,6 +35,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   table,
 }) => {
   const [allColumnsSelected, setAllColumnsSelected] = useState(false);
+  const [checkboxesSelected, setCheckboxesSelected] = useState([...selectedColumns]);
 
   const handleChange = col => {
     const index = pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id);
@@ -47,11 +48,11 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     }
   };
 
-  const defaultSelection = col => {
-    const currentlySelected = selectedColumns.findIndex(x => x.id === col.id) >= 0;
-    const pendingSelected = pendingColumnSelection.findIndex(x => x.id === col.id) >= 0;
-    return pendingSelected ? !currentlySelected : currentlySelected;
-  };
+  // const defaultSelection = col => {
+  //   const currentlySelected = selectedColumns.findIndex(x => x.id === col.id) >= 0;
+  //   const pendingSelected = pendingColumnSelection.findIndex(x => x.id === col.id) >= 0;
+  //   return pendingSelected ? !currentlySelected : currentlySelected;
+  // };
 
   // useEffect(() => {
   //   console.log('allColumnsSelected: ', allColumnsSelected);
@@ -93,6 +94,18 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     }
   }, [pendingColumnSelection]);
 
+  const checkboxClick = col => {
+    const index = checkboxesSelected.findIndex(x => x.id === col.id);
+    let test;
+    if (index >= 0) {
+      test = checkboxesSelected;
+      test.splice(index, 1);
+    } else {
+      test = [...checkboxesSelected, col];
+    }
+    setCheckboxesSelected(test);
+  };
+
   const CheckBoxList = columnList => (
     <>
       {columnList?.map(col => {
@@ -102,8 +115,8 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
-                // checked={allColumnsSelected || undefined}
-                defaultChecked={defaultSelection(col)}
+                checked={checkboxesSelected.findIndex(x => x.id === col.id) >= 0}
+                onClick={() => checkboxClick(col)}
                 onChange={() => handleChange(col)}
                 onKeyDown={e => e.key === 'Enter' && handleChange(col)}
                 className={optionCheckbox}
@@ -123,7 +136,14 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
 
   return (
     <div style={{ maxHeight: '15.75rem' }}>
-      {filter.length === 0 && <SelectAll setAllColumnsSelected={setAllColumnsSelected} allColumnsSelected={allColumnsSelected} />}
+      {filter.length === 0 && (
+        <SelectAll
+          checkboxesSelected={checkboxesSelected}
+          setAllColumnsSelected={setAllColumnsSelected}
+          allColumnsSelected={allColumnsSelected}
+          allSelected={checkboxesSelected.length === table.getAllLeafColumns().length}
+        />
+      )}
       <div className={buttonContainer}>
         {displayDefault && filter.length === 0 ? (
           <div>
