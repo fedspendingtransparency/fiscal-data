@@ -12,7 +12,6 @@ import {
   previewCaretButton,
   previewCaretContainer,
   searchBar as searchBarStyle,
-  searchBox,
   sectionHeader,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
@@ -47,24 +46,24 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
 }) => {
   const shouldTocShow = true;
   const [noResults, setNoResults] = useState(false);
-  // const [filter, setFilter] = useState('');
+  // const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
 
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilter(val);
   };
 
-  // const filterSelectList = (
-  //   <>
-  //     {noResults ? (
-  //       <div>
-  //         No match for <span>'{filter}'</span>. Please revise your search and try again.
-  //       </div>
-  //     ) : (
-  //       <div>TEST</div>
-  //     )}
-  //   </>
-  // );
+  const filterSelectList = (
+    <>
+      {noResults ? (
+        <div>
+          No match for <span>'{filter}'</span>. Please revise your search and try again.
+        </div>
+      ) : (
+        filterComponent
+      )}
+    </>
+  );
 
   return (
     <div className={mainContainer}>
@@ -83,12 +82,9 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
               <div className={sectionHeader}>{filterName}</div>
               {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
-                  <div className={searchBox}>
-                    <SearchContainer searchLabel={'test'} filter={filter} setFilter={setFilter} setNoResults={setNoResults}>
-                      {/*{filterSelectList}*/}
-                      {filterComponent}
-                    </SearchContainer>
-                  </div>
+                  <SearchContainer searchLabel={searchText} filter={filter} setFilter={setFilter} setNoResults={setNoResults}>
+                    {filterSelectList}
+                  </SearchContainer>
                 </div>
               )}
             </div>
