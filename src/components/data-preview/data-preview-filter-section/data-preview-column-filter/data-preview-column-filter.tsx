@@ -26,6 +26,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [filteredColumns, setFilteredColumns] = useState(table?.getAllLeafColumns());
   const [selectedColumns, setSelectedColumns] = useState(table?.getVisibleFlatColumns());
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
+
   const searchLabel = 'Search columns';
 
   const handleApply = () => {
@@ -43,7 +44,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     setDropdownActive(false);
     setPendingColumnSelection([]);
   };
-  //
+
   useEffect(() => {
     //initialize selectedColumns after table is initialized
     setSelectedColumns(table?.getVisibleFlatColumns());
@@ -76,6 +77,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
           setPendingColumnSelection={setPendingColumnSelection}
           pendingColumnSelection={pendingColumnSelection}
           selectedColumns={selectedColumns}
+          table={table}
         />
       )}
     </>

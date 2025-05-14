@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
   additionalSection,
   buttonContainer,
@@ -13,6 +13,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { underlineMatchedString } from '../../../../search-bar/search-bar-helper';
+import SelectAll from '../select-all/data-preview-select-all';
 
 interface IColumnSelectionList {
   displayDefault;
@@ -31,7 +32,10 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   pendingColumnSelection,
   setPendingColumnSelection,
   selectedColumns,
+  table,
 }) => {
+  const [allColumnsSelected, setAllColumnsSelected] = useState(false);
+
   const handleChange = col => {
     const index = pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id);
     if (index < 0) {
@@ -49,6 +53,46 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     return pendingSelected ? !currentlySelected : currentlySelected;
   };
 
+  // useEffect(() => {
+  //   console.log('allColumnsSelected: ', allColumnsSelected);
+  //   if (allColumnsSelected) {
+  //     console.log('select all columns');
+  //     // setPendingColumnSelection([...table.getAllLeafColumns()]);
+  //   } else {
+  //     console.log('deselect all column');
+  //     //incorrect from inialization
+  //     // setPendingColumnSelection([]);
+  //   }
+  // }, [allColumnsSelected]);
+
+  const sortSelected = () => {
+    const selected = [];
+    const deselected = [];
+    pendingColumnSelection.forEach(col => {
+      if (col.getIsVisible()) {
+        deselected.push(col);
+      } else {
+        selected.push(col);
+      }
+    });
+    return { selected, deselected };
+  };
+
+  useEffect(() => {
+    const totalSelection = [...selectedColumns, ...pendingColumnSelection];
+    const { selected, deselected } = sortSelected();
+
+    if (deselected.length === 0 && selected.length + selectedColumns.length === table.getAllLeafColumns().length) {
+      console.log('mark all columns button as selected', selected, selectedColumns);
+      // setAllColumnsSelected(true);
+    } else if (selectedColumns.length - deselected.length === 0) {
+      console.log('mark all columns button as unselected');
+      //   setAllColumnsSelected(false);
+    } else {
+      console.log('mark all columns button as indeterminate');
+    }
+  }, [pendingColumnSelection]);
+
   const CheckBoxList = columnList => (
     <>
       {columnList?.map(col => {
@@ -58,6 +102,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
+                // checked={allColumnsSelected || undefined}
                 defaultChecked={defaultSelection(col)}
                 onChange={() => handleChange(col)}
                 onKeyDown={e => e.key === 'Enter' && handleChange(col)}
@@ -78,7 +123,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
 
   return (
     <div style={{ maxHeight: '15.75rem' }}>
-      {/*{filter.length === 0 && <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />}*/}
+      {filter.length === 0 && <SelectAll setAllColumnsSelected={setAllColumnsSelected} allColumnsSelected={allColumnsSelected} />}
       <div className={buttonContainer}>
         {displayDefault && filter.length === 0 ? (
           <div>
