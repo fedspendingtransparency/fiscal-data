@@ -11,6 +11,7 @@ import ReportDatePicker from '../published-reports/report-date-picker/report-dat
 import { withWindowSize } from 'react-fns';
 import { reportsConfig } from './reports-config';
 import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
+import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 
 export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
@@ -176,6 +177,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             ignoreDisabled={true}
           />
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
+          {selectedAccount.value && activeReports.length > 0 && <DatatableBanner bannerNotice={activeReports[0].colConfig.apiFilter.notice} />}
         </div>
         {(activeReports?.length === 0 || apiErrorMessage) && (
           <GenerativeReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} noMatchingData={noMatchingData} reportGenKey={reportGenKey} />
