@@ -1,6 +1,6 @@
-import React, { FunctionComponent, ReactElement, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
+import React, {FunctionComponent, ReactElement, useState} from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCaretLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
 import {
   applyButton,
   bottomContainer,
@@ -15,7 +15,7 @@ import {
   sectionHeader,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import SearchContainer from '../../search-container/search-container';
 
 interface IDataPreviewMobileDialog {
@@ -87,8 +87,6 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
                   <SearchContainer searchLabel={searchText} filter={filter} setFilter={setFilter} setNoResults={setNoResults}>
                     {filterSelectList}
                   </SearchContainer>
-                  {/*<SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} />*/}
-                  {/*<ScrollContainer deps={[filter]}>{filterSelectList}</ScrollContainer>*/}
                 </div>
               )}
             </div>

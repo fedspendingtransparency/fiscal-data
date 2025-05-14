@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {
   container,
   listItems,
-  scrollContainerTop,
-  scrollGradientTop,
-  scrollGradientBottom,
   scrollContainerBottom,
+  scrollContainerTop,
+  scrollGradientBottom,
+  scrollGradientTop,
 } from './scroll-container.module.scss';
 
 const ScrollContainer = ({
@@ -49,6 +49,8 @@ const ScrollContainer = ({
       };
     }
   }, [...deps]);
+
+  // {!hideDropdown && width >= pxToNumber(breakpointLg) && (
 
   return (
     <>
