@@ -8,7 +8,10 @@ export class TableCache {
     this.dataDisplayCache = {};
   }
 
-  updateDataCache = fetchedRecordSets => {
+  updateDataCache = (fetchedRecordSets, requestedRange) => {
+    if (this.dataCache.length && (this.dataCache[0].range.from !== requestedRange.from || this.dataCache[0].range.to !== requestedRange.to)) {
+      this.dataCache = [];
+    }
     this.dataCache.push(...fetchedRecordSets);
     // keep recordSet segments in date-descending order
     return this.dataCache.sort((a, b) => b.range.from - a.range.from);
