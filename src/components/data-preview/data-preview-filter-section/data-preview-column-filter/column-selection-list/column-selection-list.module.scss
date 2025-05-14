@@ -99,3 +99,9 @@ input.optionCheckbox {
 .additionalSection {
   padding-top: 0;
 }
+
+@media screen and (min-width: $breakpoint-lg) {
+  .mainContainer {
+    max-height: 15.75rem;
+  }
+}

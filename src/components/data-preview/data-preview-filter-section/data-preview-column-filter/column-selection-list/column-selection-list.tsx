@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent} from 'react';
 import {
   additionalSection,
   buttonContainer,
@@ -6,13 +6,14 @@ import {
   checkbox_wrapper,
   label_checkmark_container,
   label_checkmark_text,
+  mainContainer,
   optionCheckbox,
   sectionContainer,
   sectionHeading,
 } from './column-selection-list.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { underlineMatchedString } from '../../../../search-bar/search-bar-helper';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCheck} from '@fortawesome/free-solid-svg-icons';
+import {underlineMatchedString} from '../../../../search-bar/search-bar-helper';
 
 interface IColumnSelectionList {
   displayDefault;
@@ -77,7 +78,8 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   );
 
   return (
-    <div style={{ maxHeight: '15.75rem' }}>
+    <div className={mainContainer}>
+      {/*// <div style={{ maxHeight: '15.75rem' }}>*/}
       {/*{filter.length === 0 && <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />}*/}
       <div className={buttonContainer}>
         {displayDefault && filter.length === 0 ? (

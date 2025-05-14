@@ -88,6 +88,8 @@
 .topContainer {
   align-items: center;
   text-align: left;
+  flex: 1;
+  overflow-y: auto;
 
   .sectionHeader {
     margin-top: 0;
