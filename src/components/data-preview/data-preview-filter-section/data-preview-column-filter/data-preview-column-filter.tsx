@@ -24,22 +24,30 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [filter, setFilter] = useState('');
   const [noResults, setNoResults] = useState(false);
   const [filteredColumns, setFilteredColumns] = useState(table?.getAllLeafColumns());
+  const [selectedColumns, setSelectedColumns] = useState(table?.getVisibleFlatColumns());
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const searchLabel = 'Search columns';
 
   const handleApply = () => {
+    const updatedSelection = selectedColumns;
     pendingColumnSelection.forEach(col => {
       const { toggleVisibility } = col;
       toggleVisibility();
     });
     setPendingColumnSelection([]);
     setDropdownActive(false);
+    setSelectedColumns(updatedSelection);
   };
 
   const handleCancel = () => {
     setDropdownActive(false);
     setPendingColumnSelection([]);
   };
+  //
+  useEffect(() => {
+    //initialize selectedColumns after table is initialized
+    setSelectedColumns(table?.getVisibleFlatColumns());
+  }, [defaultColumns, table?.getVisibleFlatColumns()]);
 
   const filterDropdownButton = (
     <DropdownLabelButton
@@ -51,9 +59,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
       disabled={allTablesSelected || isDisabled}
     />
   );
-  useEffect(() => {
-    console.log(pendingColumnSelection);
-  }, [pendingColumnSelection]);
 
   const columnSelectList = (
     <>
@@ -63,8 +68,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
         </div>
       ) : (
         <ColumnSelectionList
-          table={table}
-          defaultSelectedColumns={defaultSelectedColumns}
           defaultColumns={defaultColumns}
           additionalColumns={additionalColumns}
           displayDefault={displayDefault}
@@ -72,6 +75,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
           filteredColumns={filteredColumns}
           setPendingColumnSelection={setPendingColumnSelection}
           pendingColumnSelection={pendingColumnSelection}
+          selectedColumns={selectedColumns}
         />
       )}
     </>

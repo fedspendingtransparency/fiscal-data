@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import SelectAll from '../select-all/data-preview-select-all';
 import {
   additionalSection,
   buttonContainer,
@@ -16,9 +15,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { underlineMatchedString } from '../../../../search-bar/search-bar-helper';
 
 interface IColumnSelectionList {
-  table;
   displayDefault;
-  defaultSelectedColumns;
   additionalColumns;
   defaultColumns;
   filteredColumns;
@@ -26,41 +23,44 @@ interface IColumnSelectionList {
 }
 
 const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
-  table,
   displayDefault,
-  defaultSelectedColumns,
   defaultColumns,
   additionalColumns,
   filteredColumns,
   filter,
   pendingColumnSelection,
   setPendingColumnSelection,
+  selectedColumns,
 }) => {
   const handleChange = col => {
-    if (pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id) < 0) {
+    const index = pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id);
+    if (index < 0) {
       setPendingColumnSelection([...pendingColumnSelection, col]);
+    } else {
+      const updatedSelection = [...pendingColumnSelection];
+      updatedSelection.splice(index, 1);
+      setPendingColumnSelection(updatedSelection);
     }
   };
 
-  const isChecked = (col, pending) => {
-    const pendingChange = pending.findIndex(pendingCol => col.id === pendingCol.id);
-    const columnVisibility = col.getIsVisible();
-    console.log(col, pendingChange, columnVisibility);
-    return pendingChange > 0 ? !columnVisibility : columnVisibility;
+  const defaultSelection = col => {
+    const currentlySelected = selectedColumns.findIndex(x => x.id === col.id) >= 0;
+    const pendingSelected = pendingColumnSelection.findIndex(x => x.id === col.id) >= 0;
+    return pendingSelected ? !currentlySelected : currentlySelected;
   };
 
   const CheckBoxList = columnList => (
     <>
-      {columnList.map(col => {
-        const { id, getIsVisible, toggleVisibility, columnDef } = col;
+      {columnList?.map(col => {
+        const { id, columnDef } = col;
         return (
           <label className={checkbox_label} key={id}>
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
-                checked={isChecked(col, [...pendingColumnSelection])}
+                defaultChecked={defaultSelection(col)}
                 onChange={() => handleChange(col)}
-                onKeyDown={e => e.key === 'Enter' && toggleVisibility()}
+                onKeyDown={e => e.key === 'Enter' && handleChange(col)}
                 className={optionCheckbox}
               />
               <span className={label_checkmark_container}>
@@ -78,7 +78,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
 
   return (
     <div style={{ maxHeight: '15.75rem' }}>
-      {filter.length === 0 && <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />}
+      {/*{filter.length === 0 && <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />}*/}
       <div className={buttonContainer}>
         {displayDefault && filter.length === 0 ? (
           <div>

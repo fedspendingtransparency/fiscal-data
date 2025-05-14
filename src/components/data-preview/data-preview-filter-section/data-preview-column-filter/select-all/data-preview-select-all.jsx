@@ -3,7 +3,7 @@ import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { checkmarkText, container, labelCheckmarkContainer, selectAll } from './data-preview-select-all.module.scss';
 
-const SelectAll = ({ table, defaultColumns }) => {
+const SelectAll = ({ table, defaultColumns, selectedColumns, pendingColumns }) => {
   const defaultState = () => {
     const selectedColumns = table.getVisibleFlatColumns();
     if (table.getIsSomeColumnsVisible() && selectedColumns.length === defaultColumns.length) {
