@@ -12,40 +12,27 @@ const SelectAll = ({
   pendingColumnSelection,
   setPendingColumnSelection,
 }) => {
+  const updateColumnSelection = selectAll => {
+    const selectAllUpdates = pendingColumnSelection;
+    allColumns.forEach(col => {
+      const columnVisibility = selectAll ? col.getIsVisible() : !col.getIsVisible();
+      const pendingColumnIndex = pendingColumnSelection.findIndex(pendingCol => pendingCol.id === col.id);
+      if (pendingColumnIndex >= 0) {
+        if (columnVisibility) {
+          selectAllUpdates.splice(pendingColumnIndex, 1);
+        }
+      } else if (!columnVisibility) {
+        selectAllUpdates.push(col);
+      }
+    });
+    return selectAllUpdates;
+  };
+
   const onButtonClick = () => {
     const updatedValue = !allColumnsSelected;
     setAllColumnsSelected(updatedValue);
-    if (updatedValue) {
-      const updates = pendingColumnSelection;
-      allColumns.forEach(col => {
-        const pendingIndex = pendingColumnSelection.findIndex(c => c.id === col.id);
-        if (pendingIndex >= 0) {
-          const viz = col.getIsVisible();
-          if (viz) {
-            updates.splice(pendingIndex, 1);
-          }
-        } else if (!col.getIsVisible()) {
-          updates.push(col);
-        }
-      });
-      setPendingColumnSelection(updates);
-      setCheckboxesSelected(allColumns);
-    } else {
-      const updates = pendingColumnSelection;
-      allColumns.forEach(col => {
-        const pendingIndex = pendingColumnSelection.findIndex(c => c.id === col.id);
-        if (pendingIndex >= 0) {
-          const viz = !col.getIsVisible();
-          if (viz) {
-            updates.splice(pendingIndex, 1);
-          }
-        } else if (col.getIsVisible()) {
-          updates.push(col);
-        }
-      });
-      setPendingColumnSelection(updates);
-      setCheckboxesSelected([]);
-    }
+    setPendingColumnSelection(updateColumnSelection(updatedValue));
+    setCheckboxesSelected(updatedValue ? allColumns : []);
   };
 
   return (
