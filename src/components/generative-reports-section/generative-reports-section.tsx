@@ -185,7 +185,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
         )}
         {selectedAccount.value && activeReports.length > 0 && (
-          <DataPreviewDatatableBanner bannerNotice={activeReports[0].colConfig.apiFilter.notice} />
+          <DataPreviewDatatableBanner bannerNotice={activeReports[0].colConfig.apiFilter.notice} isReport={true} />
         )}
       </DatasetSectionContainer>
     </div>
