@@ -25,6 +25,7 @@ interface IDataPreviewMobileDialog {
   onCancel: () => void;
   onBack: () => void;
   onApply: () => void;
+  setNoSearchResults: (val: boolean) => void;
   filterComponent: ReactElement;
   filterName: string;
   searchText: string;
@@ -37,6 +38,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   onCancel,
   onBack,
   onApply,
+  setNoSearchResults,
   filter,
   setFilter,
   filterComponent,
@@ -52,6 +54,13 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilter(val);
+  };
+
+  const onClear = () => {
+    setFilter('');
+    if (setNoSearchResults) {
+      setNoSearchResults(false);
+    }
   };
 
   return (
@@ -72,7 +81,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
               {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
                   <div className={searchBox}>
-                    <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} />
+                    <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} />
                   </div>
                 </div>
               )}

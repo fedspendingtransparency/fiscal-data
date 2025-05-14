@@ -63,11 +63,10 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
 
   const columnSelectList = (
     <>
-      {noResults ? (
-        <div className={noMatch}>
-          No match for <span className={unmatchedTerm}>'{filter}'</span>. Please revise your search and try again.
-        </div>
-      ) : (
+      <div className={noMatch} hidden={!noResults}>
+        No match for <span className={unmatchedTerm}>'{filter}'</span>. Please revise your search and try again.
+      </div>
+      <div hidden={noResults}>
         <ColumnSelectionList
           defaultColumns={defaultColumns}
           additionalColumns={additionalColumns}
@@ -79,7 +78,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
           selectedColumns={selectedColumns}
           table={table}
         />
-      )}
+      </div>
     </>
   );
 
@@ -111,7 +110,9 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
           {dropdownActive && (
             <DataPreviewMobileDialog
               onCancel={handleCancel}
+              onApply={handleApply}
               onBack={handleCancel}
+              setNoSearchResults={setNoResults}
               filterName="Columns"
               searchText={searchLabel}
               filter={filter}

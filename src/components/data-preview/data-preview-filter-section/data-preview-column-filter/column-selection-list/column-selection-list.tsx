@@ -21,6 +21,10 @@ interface IColumnSelectionList {
   defaultColumns;
   filteredColumns;
   filter: string;
+  pendingColumnSelection;
+  setPendingColumnSelection;
+  selectedColumns;
+  table;
 }
 
 const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
@@ -38,7 +42,6 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   const [checkboxesSelected, setCheckboxesSelected] = useState([...selectedColumns]);
 
   const handleChange = col => {
-    console.log('change!');
     const index = pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id);
     if (index < 0) {
       setPendingColumnSelection([...pendingColumnSelection, col]);
@@ -50,15 +53,15 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   };
 
   const checkboxClick = col => {
-    const index = checkboxesSelected.findIndex(x => x.id === col.id);
-    let test;
-    if (index >= 0) {
-      test = checkboxesSelected;
-      test.splice(index, 1);
+    const selectedIndex = checkboxesSelected.findIndex(x => x.id === col.id);
+    let selectedUpdate;
+    if (selectedIndex >= 0) {
+      selectedUpdate = checkboxesSelected;
+      selectedUpdate.splice(selectedIndex, 1);
     } else {
-      test = [...checkboxesSelected, col];
+      selectedUpdate = [...checkboxesSelected, col];
     }
-    setCheckboxesSelected(test);
+    setCheckboxesSelected(selectedUpdate);
   };
 
   const CheckBoxList = columnList => (

@@ -19,9 +19,11 @@ const SelectAll = ({
       const pendingColumnIndex = pendingColumnSelection.findIndex(pendingCol => pendingCol.id === col.id);
       if (pendingColumnIndex >= 0) {
         if (columnVisibility) {
+          //remove from pending updates if column is already selected / deselected
           selectAllUpdates.splice(pendingColumnIndex, 1);
         }
       } else if (!columnVisibility) {
+        //add to pending updates if column will need to be selected / deselected
         selectAllUpdates.push(col);
       }
     });
