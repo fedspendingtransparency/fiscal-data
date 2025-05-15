@@ -36,3 +36,6 @@ export const mockApiConfig = [
     alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
   },
 ];
+export const mockDataset = {
+  publishedReportsTip: 'Effective dates on FiscalData.gov may differ from the published effective date for…',
+};
