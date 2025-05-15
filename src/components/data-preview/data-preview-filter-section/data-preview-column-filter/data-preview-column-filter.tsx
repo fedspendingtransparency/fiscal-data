@@ -5,11 +5,11 @@ import DropdownContainer from '../../../dropdown-container/dropdown-container';
 import { DataTableContext } from '../../data-preview-context';
 import { dropdownContent, noMatch, unmatchedTerm } from './data-preview-column-filter.module.scss';
 import FilterButtons from '../../data-preview-dropdown-dialog/filter-buttons/filter-buttons';
-import ColumnSelectionList from './column-selection-list/column-selection-list';
 import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../data-preview.module.scss';
 import DataPreviewMobileDialog from '../../data-preview-mobile-dialog/data-preview-mobile-dialog';
 import SearchContainer from '../../../search-container/search-container';
+import ColumnSelectionList from './column-selection-list/column-selection-list';
 
 interface iColumnFilter {
   allTablesSelected: boolean;
@@ -23,10 +23,9 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
   const [filter, setFilter] = useState('');
   const [noResults, setNoResults] = useState(false);
-  const [filteredColumns, setFilteredColumns] = useState(table?.getAllLeafColumns());
-  const [selectedColumns, setSelectedColumns] = useState(table?.getVisibleFlatColumns());
+  const [filteredColumns, setFilteredColumns] = useState();
+  const [selectedColumns, setSelectedColumns] = useState();
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
-
   const searchLabel = 'Search columns';
 
   const handleApply = () => {
@@ -79,11 +78,11 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
 
   useMemo(() => {
     //initialize selectedColumns after table is initialized
+    setFilteredColumns(table?.getAllLeafColumns());
     setSelectedColumns(table?.getVisibleFlatColumns());
-  }, [table?.getVisibleFlatColumns()]);
+  }, [table]);
 
   useEffect(() => {
-    console.log('!');
     if (table) {
       const filteredList = table.getAllLeafColumns().filter(col => col.columnDef.header.toUpperCase().includes(filter.toUpperCase()));
       setFilteredColumns(filteredList);

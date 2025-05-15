@@ -1,9 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
 import {
   additionalSection,
-  buttonContainer,
   checkbox_label,
   checkbox_wrapper,
+  columnButtonContainer,
+  columnSelectContainer,
   label_checkmark_container,
   label_checkmark_text,
   optionCheckbox,
@@ -100,7 +101,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   );
 
   return (
-    <div style={{ maxHeight: '15.75rem' }}>
+    <div className={columnSelectContainer}>
       {filter.length === 0 && (
         <SelectAll
           checkboxesSelected={checkboxesSelected}
@@ -112,15 +113,15 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
           setPendingColumnSelection={setPendingColumnSelection}
         />
       )}
-      <div className={buttonContainer}>
+      <div className={columnButtonContainer}>
         {displayDefault && filter.length === 0 ? (
           <div>
             <div className={sectionContainer}>
               <span className={sectionHeading}>DEFAULTS</span>
               {CheckBoxList(defaultColumns)}
             </div>
-            <div className={sectionContainer}>
-              <span className={`${sectionHeading} ${additionalSection}`}>ADDITIONAL</span>
+            <div className={`${sectionContainer} ${additionalSection}`}>
+              <span className={sectionHeading}>ADDITIONAL</span>
               {CheckBoxList(additionalColumns)}
             </div>
           </div>
