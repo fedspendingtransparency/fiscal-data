@@ -12,12 +12,11 @@ import { withWindowSize } from 'react-fns';
 import { reportsConfig } from './reports-config';
 import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
 import DataPreviewDatatableBanner from '../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
-
 export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
 export const defaultSelection = { label: '(None selected)', value: '' };
 
-const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp, width, reportGenKey }) => {
+const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp, width, reportGenKey, dataset }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
@@ -50,6 +49,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const endpointUrl = buildEndpoint(selectedDate, dateField, selectedAccount.value, accountField, { endpoint, sort });
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
     const summaryData = await getSummaryReportData(dateField, res.data, reportConfig.summaryConfig.values, reportConfig.summaryConfig.reportDataKey);
+    console.log(summaryData);
     const summaryTableData = await getSummaryReportData(
       dateField,
       res.data,
@@ -118,6 +118,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           let reportData;
           try {
             reportData = await getReportData(report, reportConfig);
+            console.log('reportData', reportData);
           } catch (error) {
             setApiErrorMessage(true);
             break;
@@ -184,9 +185,8 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
         {activeReports?.length > 0 && !apiErrorMessage && (
           <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
         )}
-        {selectedAccount.value && activeReports.length > 0 && (
-          <DataPreviewDatatableBanner bannerNotice={activeReports[0].colConfig.apiFilter.notice} isReport={true} />
-        )}
+
+        <DataPreviewDatatableBanner bannerNotice={dataset.publishedReportsTip} isReport={true} />
       </DatasetSectionContainer>
     </div>
   );
