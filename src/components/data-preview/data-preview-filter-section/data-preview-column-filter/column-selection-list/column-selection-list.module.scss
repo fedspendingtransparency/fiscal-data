@@ -14,10 +14,6 @@
   color: $font-body-copy;
   transition: color ease 0.2s;
 
-  &:last-child {
-    //margin-bottom: 1rem;
-  }
-
   &:hover {
     color: darken($font-body-copy, 40%);
   }
