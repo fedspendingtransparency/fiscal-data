@@ -119,6 +119,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       searchText="Search filters"
       filter={filter}
       setFilter={setFilter}
+      setNoSearchResults={setNoResults}
       filterComponent={
         <DataPreviewMobileFilterList
           filterOptions={visibleOptions}

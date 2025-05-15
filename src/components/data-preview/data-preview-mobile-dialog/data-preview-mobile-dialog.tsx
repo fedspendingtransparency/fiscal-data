@@ -93,8 +93,14 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
               <div className={sectionHeader}>{filterName}</div>
               {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
-                  <SearchContainer searchLabel={searchText} filter={filter} setFilter={setFilter} setNoResults={setNoResults}>
-                    {/*<div className={filtersScrollContainer}>{filterSelectList}</div>*/}
+                  <SearchContainer
+                    searchLabel={searchText}
+                    filter={filter}
+                    setFilter={setFilter}
+                    setNoResults={setNoResults}
+                    handleClear={onClear}
+                    onChange={onSearchBarChange}
+                  >
                     {filterSelectList}
                   </SearchContainer>
                 </div>
