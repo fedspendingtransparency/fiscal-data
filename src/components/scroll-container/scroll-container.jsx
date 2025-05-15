@@ -50,8 +50,6 @@ const ScrollContainer = ({
     }
   }, [...deps]);
 
-  // {!hideDropdown && width >= pxToNumber(breakpointLg) && (
-
   return (
     <>
       <div

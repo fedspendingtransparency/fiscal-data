@@ -1,4 +1,4 @@
-import React, {FunctionComponent, ReactElement, useState} from 'react';
+import React, {FunctionComponent, ReactElement} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCaretLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
 import {
@@ -7,6 +7,7 @@ import {
   cancelButton,
   checkIcon,
   dataPreviewHeader,
+  filtersScrollContainer,
   mainContainer,
   previewCaret,
   previewCaretButton,
@@ -16,7 +17,7 @@ import {
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
-import SearchContainer from '../../search-container/search-container';
+import SearchBar from '../../search-bar/search-bar';
 
 interface IDataPreviewMobileDialog {
   onCancel: () => void;
@@ -49,25 +50,11 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   bottomButtonIcon = faCheck,
 }) => {
   const shouldTocShow = true;
-  const [noResults, setNoResults] = useState(false);
-  // const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
 
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilter(val);
   };
-
-  const filterSelectList = (
-    <>
-      {noResults ? (
-        <div>
-          No match for <span>'{filter}'</span>. Please revise your search and try again.
-        </div>
-      ) : (
-        filterComponent
-      )}
-    </>
-  );
 
   const onClear = () => {
     setFilter('');
@@ -75,6 +62,18 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
       setNoSearchResults(false);
     }
   };
+
+  // const filterSelectList = (
+  //   <>
+  //     {noResults ? (
+  //       <div>
+  //         No match for <span>'{filter}'</span>. Please revise your search and try again.
+  //       </div>
+  //     ) : (
+  //       filterComponent
+  //     )}
+  //   </>
+  // );
 
   return (
     <div className={mainContainer}>
@@ -93,24 +92,14 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
               <div className={sectionHeader}>{filterName}</div>
               {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
-                  <SearchContainer
-                    searchLabel={searchText}
-                    filter={filter}
-                    setFilter={setFilter}
-                    setNoResults={setNoResults}
-                    handleClear={onClear}
-                    onChange={onSearchBarChange}
-                  >
-                    {filterSelectList}
-                  </SearchContainer>
+                  <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} setFilter={setFilter} />
                 </div>
               )}
-              {!hasSearch && filterComponent}
             </div>
           </div>
-          {/*<div data-testid="filters-scroll-container" className={filtersScrollContainer}>*/}
-          {/*  {filterSelectList}*/}
-          {/*</div>*/}
+          <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
+            {filterComponent}
+          </div>
           <div className={bottomContainer}>
             <button className={applyButton} onClick={onApply}>
               <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
