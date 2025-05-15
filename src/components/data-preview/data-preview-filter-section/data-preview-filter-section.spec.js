@@ -28,7 +28,7 @@ describe('Data preview filter section', () => {
         </RecoilRoot>
       </DataTableContext.Provider>
     );
-    expect(getByRole('button', { name: 'Columns: 0/17' })).toBeInTheDocument();
+    expect(getByRole('button', { name: 'Columns: 17/17' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Download' })).toBeInTheDocument();
     expect(queryByRole('radio', { name: 'Table' })).not.toBeInTheDocument();
@@ -49,7 +49,7 @@ describe('Data preview filter section', () => {
         </RecoilRoot>
       </DataTableContext.Provider>
     );
-    expect(getByRole('button', { name: 'Columns: 0/17' })).toBeInTheDocument();
+    expect(getByRole('button', { name: 'Columns: 17/17' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Download' })).toBeInTheDocument();
     expect(getByRole('radio', { name: 'Table' })).toBeInTheDocument();
@@ -69,7 +69,7 @@ describe('Data preview filter section', () => {
         </RecoilRoot>
       </DataTableContext.Provider>
     );
-    expect(getByRole('button', { name: 'Columns: 0/17' })).toBeInTheDocument();
+    expect(getByRole('button', { name: 'Columns: 17/17' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Download' })).toBeInTheDocument();
     expect(getByRole('radio', { name: 'Table' })).toBeInTheDocument();
@@ -90,7 +90,7 @@ describe('Data preview filter section', () => {
         </RecoilRoot>
       </DataTableContext.Provider>
     );
-    expect(getByRole('button', { name: 'Columns: 0/17' })).toBeInTheDocument();
+    expect(getByRole('button', { name: 'Columns: 17/17' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Download' })).toBeInTheDocument();
     expect(getByRole('radio', { name: 'Table' })).toBeInTheDocument();
@@ -111,7 +111,7 @@ describe('Data preview filter section', () => {
         </RecoilRoot>
       </DataTableContext.Provider>
     );
-    expect(getByRole('button', { name: 'Columns: 0/17' })).toBeInTheDocument();
+    expect(getByRole('button', { name: 'Columns: 17/17' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Download' })).toBeInTheDocument();
     expect(queryByRole('radio', { name: 'Table' })).not.toBeInTheDocument();
