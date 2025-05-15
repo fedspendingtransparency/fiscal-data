@@ -30,8 +30,6 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
     // handleDateRangeChange(dateRange);
   };
 
-  console.log('presets', presets);
-
   return (
     <div className={sectionContainer}>
       <div className={columnName}>{columnConfig.prettyName}</div>
