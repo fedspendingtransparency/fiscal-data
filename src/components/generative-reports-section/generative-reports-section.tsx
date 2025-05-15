@@ -49,7 +49,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
     const endpointUrl = buildEndpoint(selectedDate, dateField, selectedAccount.value, accountField, { endpoint, sort });
     const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
     const summaryData = await getSummaryReportData(dateField, res.data, reportConfig.summaryConfig.values, reportConfig.summaryConfig.reportDataKey);
-    console.log(summaryData);
     const summaryTableData = await getSummaryReportData(
       dateField,
       res.data,
@@ -118,7 +117,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
           let reportData;
           try {
             reportData = await getReportData(report, reportConfig);
-            console.log('reportData', reportData);
           } catch (error) {
             setApiErrorMessage(true);
             break;
