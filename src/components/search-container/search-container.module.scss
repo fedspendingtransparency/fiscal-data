@@ -1,14 +1,4 @@
-@import '../../variables.module.scss';
-
 .searchBox {
   padding: 1rem 1rem 0;
   margin-bottom: -1rem;
-}
-
-@media screen and (max-width: $breakpoint-lg) {
-  .searchBox {
-    padding: 0 1rem 1rem;
-    margin-bottom: 0;
-    border-bottom: 0.0625rem solid #d9d9d9;
-  }
 }

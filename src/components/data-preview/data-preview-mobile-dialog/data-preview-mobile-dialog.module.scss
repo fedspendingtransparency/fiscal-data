@@ -27,9 +27,6 @@
   background-color: $content-section-background;
   padding: 1rem;
   box-shadow: 0 -0.25rem 1rem rgba(0, 0, 0, 0.15);
-  position: absolute;
-  bottom: 0;
-  width: 100%;
 }
 
 .navigableContent {
@@ -89,8 +86,6 @@
 .topContainer {
   align-items: center;
   text-align: left;
-  flex: 1;
-  overflow-y: auto;
 
   .sectionHeader {
     margin-top: 0;
@@ -132,16 +127,4 @@
 
 .checkIcon {
   padding-right: 0.5rem;
-}
-
-.dropdownContent {
-  width: 100%;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  background: white;
-  border-radius: 0.25rem;
-  box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
-  z-index: $data-table-select-dropdown;
-  margin-top: 0.25rem;
 }

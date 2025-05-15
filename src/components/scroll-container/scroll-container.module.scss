@@ -1,5 +1,4 @@
 @import 'src/zIndex.module';
-@import '../../variables.module.scss';
 
 .container {
   display: flex;
@@ -8,8 +7,6 @@
 }
 
 .listItems {
-  width: 100%;
-  height: 100%;
   overflow-y: auto;
 }
 
@@ -38,22 +35,4 @@
 
 .scrollContainerBottom {
   background: rgba(255, 255, 255, 0);
-}
-
-@media screen and (max-width: $breakpoint-lg) {
-  .scrollGradientTop,
-  .scrollContainerTop {
-    display: none;
-  }
-  //
-  //  //.container {
-  //  //  display: flex;
-  //  //  flex-direction: column;
-  //  //  height: 100%;
-  //  //}
-  //  //
-  //  //.listItems {
-  //  //  overflow-y: auto;
-  //  //  flex: 1;
-  //  //}
 }
