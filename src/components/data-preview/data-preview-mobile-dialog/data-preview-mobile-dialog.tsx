@@ -7,7 +7,6 @@ import {
   cancelButton,
   checkIcon,
   dataPreviewHeader,
-  filtersScrollContainer,
   mainContainer,
   previewCaret,
   previewCaretButton,
@@ -87,10 +86,11 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
                 <div data-testid="search-container" className={searchBarStyle}>
                   <SearchContainer searchLabel={searchText} filter={filter} setFilter={setFilter} setNoResults={setNoResults}>
                     {/*<div className={filtersScrollContainer}>{filterSelectList}</div>*/}
-                    <div className={filtersScrollContainer}>{filterSelectList}</div>
+                    {filterSelectList}
                   </SearchContainer>
                 </div>
               )}
+              {!hasSearch && filterComponent}
             </div>
           </div>
           {/*<div data-testid="filters-scroll-container" className={filtersScrollContainer}>*/}

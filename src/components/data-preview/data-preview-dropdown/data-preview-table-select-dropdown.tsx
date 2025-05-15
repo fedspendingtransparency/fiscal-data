@@ -52,6 +52,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           latestDate,
         },
       ].concat(apis);
+
   const filterOptions = options.filter(option => option.tableName.toUpperCase().includes(filter.toUpperCase()));
 
   const dropdownButton = (

@@ -12,15 +12,6 @@ import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 
-// export const placeholderFilters = [
-//   { name: 'Record Date', secondary: 'Last 5 years', selected: false, active: true },
-//   { name: 'Parent ID', secondary: 'No filter applied', selected: false, active: false },
-//   { name: 'Classification ID', secondary: 'No filter applied', selected: false, active: false },
-//   { name: 'Classification Description', secondary: 'No filter applied', selected: false, active: false },
-//   { name: 'Record Type Code', secondary: 'No filter applied', selected: false, active: false },
-//   { name: 'Current Month Budget Amount', secondary: 'No filter applied', selected: false, active: false },
-// ];
-
 export interface IMobileFilterList {
   filterOptions: { name: string; secondary?: string; selected?: boolean; active?: boolean }[];
   onTableSelected?: (selectedOption: any) => void;
@@ -63,8 +54,21 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
               }}
             >
               <div className={left}>
-                <span className={optionName}>{underlineMatchedString(getName(filterOption), filter)}</span>
-                {getSecondary(filterOption) && <span className={optionSecondary}>{underlineMatchedString(getSecondary(filterOption)!, filter)}</span>}
+                {/*temp fix until we add search/filter functionality to data tables on mobile dialog*/}
+                {filter !== undefined && (
+                  <div>
+                    <span className={optionName}>{underlineMatchedString(getName(filterOption), filter)}</span>
+                    {getSecondary(filterOption) && (
+                      <span className={optionSecondary}>{underlineMatchedString(getSecondary(filterOption)!, filter)}</span>
+                    )}
+                  </div>
+                )}
+                {filter === undefined && (
+                  <div>
+                    <span className={optionName}>{getName(filterOption)}</span>
+                    {getSecondary(filterOption) && <span className={optionSecondary}>{getSecondary(filterOption)}</span>}
+                  </div>
+                )}
               </div>
               <div className={right}>
                 <FontAwesomeIcon icon={faCaretRight} />
