@@ -17,8 +17,7 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   detailViewState,
   apiData,
 }) => {
-  // const presets = selectedTable?.dateField === columnConfig?.field;
-  const presets = true;
+  const presets = selectedTable?.dateField === columnConfig?.field;
   const [selectedToggle, setSelectedToggle] = useState(presets ? 'preset' : 'custom');
   const [pickerDateRange, setPickerDateRange] = useState({
     from: undefined,
@@ -30,6 +29,8 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   const handleDateRangeSelect = dateRange => {
     // handleDateRangeChange(dateRange);
   };
+
+  console.log('presets', presets);
 
   return (
     <div className={sectionContainer}>
