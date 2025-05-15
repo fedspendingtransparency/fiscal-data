@@ -3,27 +3,38 @@ import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { checkmarkText, container, labelCheckmarkContainer, selectAll } from './data-preview-select-all.module.scss';
 
-const SelectAll = ({ table, defaultColumns, selectedColumns, pendingColumns }) => {
-  const defaultState = () => {
-    const selectedColumns = table.getVisibleFlatColumns();
-    if (table.getIsSomeColumnsVisible() && selectedColumns.length === defaultColumns.length) {
-      for (const column of selectedColumns) {
-        if (!defaultColumns.includes(column.id)) {
-          return false;
+const SelectAll = ({
+  allColumnsSelected,
+  setAllColumnsSelected,
+  allColumns,
+  checkboxesSelected,
+  setCheckboxesSelected,
+  pendingColumnSelection,
+  setPendingColumnSelection,
+}) => {
+  const updateColumnSelection = selectAll => {
+    const selectAllUpdates = pendingColumnSelection;
+    allColumns.forEach(col => {
+      const columnVisibility = selectAll ? col.getIsVisible() : !col.getIsVisible();
+      const pendingColumnIndex = pendingColumnSelection.findIndex(pendingCol => pendingCol.id === col.id);
+      if (pendingColumnIndex >= 0) {
+        if (columnVisibility) {
+          //remove from pending updates if column is already selected / deselected
+          selectAllUpdates.splice(pendingColumnIndex, 1);
         }
+      } else if (!columnVisibility) {
+        //add to pending updates if column will need to be selected / deselected
+        selectAllUpdates.push(col);
       }
-      return true;
-    }
+    });
+    return selectAllUpdates;
   };
 
-  const checked = () => table.getIsAllColumnsVisible() || (!defaultState() && table.getIsSomeColumnsVisible());
-
   const onButtonClick = () => {
-    if (table.getIsAllColumnsVisible() || !table.getIsSomeColumnsVisible()) {
-      table.toggleAllColumnsVisible();
-    } else {
-      table.setColumnVisibility(true);
-    }
+    const updatedValue = !allColumnsSelected;
+    setAllColumnsSelected(updatedValue);
+    setPendingColumnSelection(updateColumnSelection(updatedValue));
+    setCheckboxesSelected(updatedValue ? allColumns : []);
   };
 
   return (
@@ -34,15 +45,12 @@ const SelectAll = ({ table, defaultColumns, selectedColumns, pendingColumns }) =
           onKeyDown={e => e.key === 'Enter' && onButtonClick()}
           onChange={onButtonClick}
           type="checkbox"
-          checked={checked()}
+          checked={checkboxesSelected.length > 0}
           className={selectAll}
         />
         <span className={labelCheckmarkContainer}>
           <span className={checkmarkText}>
-            <FontAwesomeIcon
-              icon={!table.getIsAllColumnsVisible() && table.getIsSomeColumnsVisible() && !defaultState() ? faMinus : faCheck}
-              size="sm"
-            />
+            <FontAwesomeIcon icon={allColumns.length === checkboxesSelected.length ? faCheck : faMinus} size="sm" />
           </span>
         </span>
         All Columns

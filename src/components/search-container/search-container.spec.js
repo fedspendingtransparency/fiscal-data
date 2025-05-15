@@ -33,7 +33,17 @@ describe('Search Container', () => {
     userEvent.click(searchBar);
     userEvent.keyboard('filter text...');
     expect(setFilter).toHaveBeenCalled();
-    // userEvent.click(getByRole('button', { name: 'clear' }));
-    // expect(setFilter).toHaveBeenCalledWith('');
+  });
+
+  it('clears search text', () => {
+    const setNoResults = jest.fn();
+    const { getByRole } = render(
+      <SearchContainer setFilter={setFilter} filter="test" searchLabel="Search columns" setNoResults={setNoResults}>
+        list component
+      </SearchContainer>
+    );
+    userEvent.click(getByRole('button', { name: 'Clear search bar' }));
+    expect(setFilter).toHaveBeenCalledWith('');
+    expect(setNoResults).toHaveBeenCalledWith(false);
   });
 });

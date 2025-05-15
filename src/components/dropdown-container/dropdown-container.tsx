@@ -4,7 +4,7 @@ import useOnClickOutside from 'use-onclickoutside';
 interface IDropdownContainer {
   dropdownButton: ReactElement;
   children: ReactElement;
-  setActive: () => void;
+  setActive: (active: boolean) => void;
   containerWidth?: string;
 }
 
@@ -37,7 +37,7 @@ const DropdownContainer: FunctionComponent<IDropdownContainer> = ({
       const parent = dropdownRef.current;
       const related = event?.relatedTarget as HTMLElement;
       if (!parent?.outerText?.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
-        setActive();
+        setActive(false);
       }
     }
   };

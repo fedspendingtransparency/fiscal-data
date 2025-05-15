@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import {
   additionalSection,
   buttonContainer,
@@ -6,14 +6,14 @@ import {
   checkbox_wrapper,
   label_checkmark_container,
   label_checkmark_text,
-  mainContainer,
   optionCheckbox,
   sectionContainer,
   sectionHeading,
 } from './column-selection-list.module.scss';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCheck} from '@fortawesome/free-solid-svg-icons';
-import {underlineMatchedString} from '../../../../search-bar/search-bar-helper';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { underlineMatchedString } from '../../../../search-bar/search-bar-helper';
+import SelectAll from '../select-all/data-preview-select-all';
 
 interface IColumnSelectionList {
   displayDefault;
@@ -21,6 +21,10 @@ interface IColumnSelectionList {
   defaultColumns;
   filteredColumns;
   filter: string;
+  pendingColumnSelection;
+  setPendingColumnSelection;
+  selectedColumns;
+  table;
 }
 
 const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
@@ -32,7 +36,11 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   pendingColumnSelection,
   setPendingColumnSelection,
   selectedColumns,
+  table,
 }) => {
+  const [allColumnsSelected, setAllColumnsSelected] = useState(false);
+  const [checkboxesSelected, setCheckboxesSelected] = useState([...selectedColumns]);
+
   const handleChange = col => {
     const index = pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id);
     if (index < 0) {
@@ -44,10 +52,23 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     }
   };
 
-  const defaultSelection = col => {
-    const currentlySelected = selectedColumns.findIndex(x => x.id === col.id) >= 0;
-    const pendingSelected = pendingColumnSelection.findIndex(x => x.id === col.id) >= 0;
-    return pendingSelected ? !currentlySelected : currentlySelected;
+  const checkboxClick = col => {
+    const selectedIndex = checkboxesSelected.findIndex(x => x.id === col.id);
+    let selectedUpdate;
+    if (selectedIndex >= 0) {
+      selectedUpdate = checkboxesSelected;
+      selectedUpdate.splice(selectedIndex, 1);
+    } else {
+      selectedUpdate = [...checkboxesSelected, col];
+    }
+    setCheckboxesSelected(selectedUpdate);
+  };
+
+  const handleKeyDown = (e, col) => {
+    if (e.key === 'Enter') {
+      handleChange(col);
+      checkboxClick(col);
+    }
   };
 
   const CheckBoxList = columnList => (
@@ -59,9 +80,10 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
-                defaultChecked={defaultSelection(col)}
+                checked={checkboxesSelected.findIndex(x => x.id === col.id) >= 0}
+                onClick={() => checkboxClick(col)}
                 onChange={() => handleChange(col)}
-                onKeyDown={e => e.key === 'Enter' && handleChange(col)}
+                onKeyDown={e => handleKeyDown(e, col)}
                 className={optionCheckbox}
               />
               <span className={label_checkmark_container}>
@@ -78,9 +100,18 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   );
 
   return (
-    <div className={mainContainer}>
-      {/*// <div style={{ maxHeight: '15.75rem' }}>*/}
-      {/*{filter.length === 0 && <SelectAll table={table} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />}*/}
+    <div style={{ maxHeight: '15.75rem' }}>
+      {filter.length === 0 && (
+        <SelectAll
+          checkboxesSelected={checkboxesSelected}
+          setAllColumnsSelected={setAllColumnsSelected}
+          allColumnsSelected={allColumnsSelected}
+          allColumns={table.getAllLeafColumns()}
+          setCheckboxesSelected={setCheckboxesSelected}
+          pendingColumnSelection={pendingColumnSelection}
+          setPendingColumnSelection={setPendingColumnSelection}
+        />
+      )}
       <div className={buttonContainer}>
         {displayDefault && filter.length === 0 ? (
           <div>
