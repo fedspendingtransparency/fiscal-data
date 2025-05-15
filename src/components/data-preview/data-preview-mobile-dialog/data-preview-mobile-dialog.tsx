@@ -27,9 +27,9 @@ interface IDataPreviewMobileDialog {
   filterComponent: ReactElement;
   filterName: string;
   searchText: string;
-  backButtonText: string;
+  backButtonText?: string;
   hasSearch?: boolean;
-  bottomButton: string;
+  bottomButton?: string;
   bottomButtonIcon?: IconProp;
   filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;

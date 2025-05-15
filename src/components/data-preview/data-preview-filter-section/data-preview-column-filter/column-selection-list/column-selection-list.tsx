@@ -1,9 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
 import {
   additionalSection,
-  buttonContainer,
   checkbox_label,
   checkbox_wrapper,
+  columnButtonContainer,
+  columnSelectContainer,
   label_checkmark_container,
   label_checkmark_text,
   optionCheckbox,
@@ -23,7 +24,6 @@ interface IColumnSelectionList {
   filter: string;
   pendingColumnSelection;
   setPendingColumnSelection;
-  selectedColumns;
   table;
 }
 
@@ -35,11 +35,10 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   filter,
   pendingColumnSelection,
   setPendingColumnSelection,
-  selectedColumns,
   table,
 }) => {
-  const [allColumnsSelected, setAllColumnsSelected] = useState(false);
-  const [checkboxesSelected, setCheckboxesSelected] = useState([...selectedColumns]);
+  const [allColumnsSelected, setAllColumnsSelected] = useState(table?.getAllLeafColumns().length === table?.getVisibleFlatColumns().length);
+  const [checkboxesSelected, setCheckboxesSelected] = useState([...table?.getVisibleFlatColumns()]);
 
   const handleChange = col => {
     const index = pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id);
@@ -56,7 +55,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     const selectedIndex = checkboxesSelected.findIndex(x => x.id === col.id);
     let selectedUpdate;
     if (selectedIndex >= 0) {
-      selectedUpdate = checkboxesSelected;
+      selectedUpdate = [...checkboxesSelected];
       selectedUpdate.splice(selectedIndex, 1);
     } else {
       selectedUpdate = [...checkboxesSelected, col];
@@ -100,7 +99,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   );
 
   return (
-    <div style={{ maxHeight: '15.75rem' }}>
+    <div className={columnSelectContainer}>
       {filter.length === 0 && (
         <SelectAll
           checkboxesSelected={checkboxesSelected}
@@ -112,15 +111,15 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
           setPendingColumnSelection={setPendingColumnSelection}
         />
       )}
-      <div className={buttonContainer}>
+      <div className={columnButtonContainer}>
         {displayDefault && filter.length === 0 ? (
           <div>
             <div className={sectionContainer}>
               <span className={sectionHeading}>DEFAULTS</span>
               {CheckBoxList(defaultColumns)}
             </div>
-            <div className={sectionContainer}>
-              <span className={`${sectionHeading} ${additionalSection}`}>ADDITIONAL</span>
+            <div className={`${sectionContainer} ${additionalSection}`}>
+              <span className={sectionHeading}>ADDITIONAL</span>
               {CheckBoxList(additionalColumns)}
             </div>
           </div>

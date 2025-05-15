@@ -1,12 +1,7 @@
 @import 'src/variables.module';
-.buttonContainer {
-  //padding: 0.125rem 1rem 1rem;
-  //overflow-y: auto;
-  height: 100%;
-}
 
-.checkbox_container {
-  position: relative;
+.columnButtonContainer {
+  height: 100%;
 }
 
 .checkbox_wrapper {
@@ -16,13 +11,8 @@
 .checkbox_label {
   display: flex;
   margin: 1rem 1rem 0;
-  //width: 100%;
   color: $font-body-copy;
   transition: color ease 0.2s;
-
-  &:last-child {
-    margin-bottom: 1rem;
-  }
 
   &:hover {
     color: darken($font-body-copy, 40%);
@@ -91,13 +81,18 @@ input.optionCheckbox {
   font-size: $font-size-14;
   color: $font-title;
   font-weight: $semi-bold-weight;
-  margin: 0 1rem;
-
-  //padding-bottom: 1rem;
+  margin: 1rem 1rem 0;
 }
 
 .additionalSection {
   padding-top: 0;
+  padding-bottom: 1rem;
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .columnSelectContainer {
+    max-height: 15.75rem;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
