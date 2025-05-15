@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
@@ -24,19 +24,16 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [filter, setFilter] = useState('');
   const [noResults, setNoResults] = useState(false);
   const [filteredColumns, setFilteredColumns] = useState();
-  const [selectedColumns, setSelectedColumns] = useState();
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const searchLabel = 'Search columns';
 
   const handleApply = () => {
-    const updatedSelection = selectedColumns;
     pendingColumnSelection.forEach(col => {
       const { toggleVisibility } = col;
       toggleVisibility();
     });
     setPendingColumnSelection([]);
     setDropdownActive(false);
-    setSelectedColumns(updatedSelection);
   };
 
   const handleCancel = () => {
@@ -69,17 +66,15 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
           filteredColumns={filteredColumns}
           setPendingColumnSelection={setPendingColumnSelection}
           pendingColumnSelection={pendingColumnSelection}
-          selectedColumns={selectedColumns}
           table={table}
         />
       </div>
     </>
   );
 
-  useMemo(() => {
-    //initialize selectedColumns after table is initialized
+  useEffect(() => {
+    //initialize filteredColumns after table is initialized
     setFilteredColumns(table?.getAllLeafColumns());
-    setSelectedColumns(table?.getVisibleFlatColumns());
   }, [table]);
 
   useEffect(() => {

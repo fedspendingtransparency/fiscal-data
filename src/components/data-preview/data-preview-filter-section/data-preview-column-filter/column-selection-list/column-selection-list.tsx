@@ -24,7 +24,6 @@ interface IColumnSelectionList {
   filter: string;
   pendingColumnSelection;
   setPendingColumnSelection;
-  selectedColumns;
   table;
 }
 
@@ -36,11 +35,10 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   filter,
   pendingColumnSelection,
   setPendingColumnSelection,
-  selectedColumns,
   table,
 }) => {
   const [allColumnsSelected, setAllColumnsSelected] = useState(false);
-  const [checkboxesSelected, setCheckboxesSelected] = useState([...selectedColumns]);
+  const [checkboxesSelected, setCheckboxesSelected] = useState([...table?.getVisibleFlatColumns()]);
 
   const handleChange = col => {
     const index = pendingColumnSelection.findIndex(pendingCol => col.id === pendingCol.id);
