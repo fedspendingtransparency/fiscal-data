@@ -64,6 +64,13 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     setCheckboxesSelected(selectedUpdate);
   };
 
+  const handleKeyDown = (e, col) => {
+    if (e.key === 'Enter') {
+      handleChange(col);
+      checkboxClick(col);
+    }
+  };
+
   const CheckBoxList = columnList => (
     <>
       {columnList?.map(col => {
@@ -76,7 +83,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
                 checked={checkboxesSelected.findIndex(x => x.id === col.id) >= 0}
                 onClick={() => checkboxClick(col)}
                 onChange={() => handleChange(col)}
-                onKeyDown={e => e.key === 'Enter' && handleChange(col)}
+                onKeyDown={e => handleKeyDown(e, col)}
                 className={optionCheckbox}
               />
               <span className={label_checkmark_container}>

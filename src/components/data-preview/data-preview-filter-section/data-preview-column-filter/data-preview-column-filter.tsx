@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
@@ -45,15 +45,10 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     setPendingColumnSelection([]);
   };
 
-  useEffect(() => {
-    //initialize selectedColumns after table is initialized
-    setSelectedColumns(table?.getVisibleFlatColumns());
-  }, [defaultColumns, table?.getVisibleFlatColumns()]);
-
   const filterDropdownButton = (
     <DropdownLabelButton
       label="Columns"
-      selectedOption={!!table ? table.getVisibleFlatColumns().length + '/' + fields?.length : ''}
+      selectedOption={!!table ? table?.getVisibleFlatColumns().length + '/' + fields?.length : ''}
       icon={faTable}
       active={dropdownActive}
       setActive={setDropdownActive}
@@ -82,7 +77,13 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     </>
   );
 
+  useMemo(() => {
+    //initialize selectedColumns after table is initialized
+    setSelectedColumns(table?.getVisibleFlatColumns());
+  }, [table?.getVisibleFlatColumns()]);
+
   useEffect(() => {
+    console.log('!');
     if (table) {
       const filteredList = table.getAllLeafColumns().filter(col => col.columnDef.header.toUpperCase().includes(filter.toUpperCase()));
       setFilteredColumns(filteredList);
