@@ -32,10 +32,13 @@ const SelectAll = ({
 
   const onButtonClick = () => {
     const updatedValue = !allColumnsSelected;
+    console.log('updatedValue', updatedValue);
     setAllColumnsSelected(updatedValue);
     setPendingColumnSelection(updateColumnSelection(updatedValue));
     setCheckboxesSelected(updatedValue ? allColumns : []);
   };
+
+  console.log(allColumns, checkboxesSelected);
 
   return (
     <div className={container}>

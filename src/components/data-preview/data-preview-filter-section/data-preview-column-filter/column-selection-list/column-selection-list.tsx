@@ -37,7 +37,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   setPendingColumnSelection,
   table,
 }) => {
-  const [allColumnsSelected, setAllColumnsSelected] = useState(false);
+  const [allColumnsSelected, setAllColumnsSelected] = useState(table?.getAllLeafColumns().length === table?.getVisibleFlatColumns().length);
   const [checkboxesSelected, setCheckboxesSelected] = useState([...table?.getVisibleFlatColumns()]);
 
   const handleChange = col => {
@@ -55,7 +55,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     const selectedIndex = checkboxesSelected.findIndex(x => x.id === col.id);
     let selectedUpdate;
     if (selectedIndex >= 0) {
-      selectedUpdate = checkboxesSelected;
+      selectedUpdate = [...checkboxesSelected];
       selectedUpdate.splice(selectedIndex, 1);
     } else {
       selectedUpdate = [...checkboxesSelected, col];

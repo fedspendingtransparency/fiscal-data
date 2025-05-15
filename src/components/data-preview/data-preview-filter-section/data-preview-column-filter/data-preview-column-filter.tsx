@@ -89,7 +89,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     <>
       {width >= pxToNumber(breakpointLg) && (
         <DropdownContainer dropdownButton={filterDropdownButton} setActive={handleCancel}>
-          {dropdownActive && (
+          {dropdownActive && table && (
             <div className={dropdownContent}>
               <SearchContainer filter={filter} setFilter={setFilter} searchLabel={searchLabel} setNoResults={setNoResults}>
                 {columnSelectList}
