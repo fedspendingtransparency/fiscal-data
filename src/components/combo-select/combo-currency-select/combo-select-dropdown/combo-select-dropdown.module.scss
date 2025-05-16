@@ -40,6 +40,14 @@
         color: $primary;
       }
 
+      //&.dropdownFilterListItem_Selected {
+      //  background-color: $primary-blue;
+      //  color: $primary;
+      //  border-left: 0.25rem solid $primary;
+      //  // wasn't showing up on text, look into this
+      //  font-weight: $semi-bold-weight;
+      //}
+
       &.dropdownListItem_child {
         padding-left: 2rem;
       }

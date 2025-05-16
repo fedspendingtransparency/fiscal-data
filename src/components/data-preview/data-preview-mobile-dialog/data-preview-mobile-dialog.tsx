@@ -62,17 +62,6 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
       setNoSearchResults(false);
     }
   };
-  // const filterSelectList = (
-  //   <>
-  //     {noResults ? (
-  //       <div>
-  //         No match for <span>'{filter}'</span>. Please revise your search and try again.
-  //       </div>
-  //     ) : (
-  //       filterComponent
-  //     )}
-  //   </>
-  // );
 
   return (
     <div className={mainContainer}>

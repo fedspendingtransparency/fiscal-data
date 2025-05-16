@@ -22,7 +22,8 @@ $filter-width: $dropdown-width - $search-width;
     display: flex;
     .search {
       width: $search-width;
-      border-right: 1px solid #d9d9d9;
+      //border-right: 1px solid #d9d9d9;
+      border-right: 1px solid red;
       overflow-y: auto;
     }
 

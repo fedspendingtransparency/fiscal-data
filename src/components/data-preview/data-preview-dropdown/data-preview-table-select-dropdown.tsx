@@ -176,6 +176,10 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       }
     />
   );
+
+  // console.log('table select table to apply: ', tableToApply);
+  // console.log(options);
+
   return (
     <>
       {!hideDropdown && width >= pxToNumber(breakpointLg) && (
@@ -188,6 +192,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
                   searchBarLabel="Search data tables"
                   selectedTable={tableToApply}
                   setSelectedTable={updateSelectedTable}
+                  optionLabelKey={'tableName'}
                 />
               }
               filterComponent={
