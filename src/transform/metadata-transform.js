@@ -305,6 +305,7 @@ const datasetPublishedReportsCustomSelectionTips = {
   '015-BFS-2014Q1-03':
     'Daily Treasury Statement reports dated before FY 1998 are grouped ' +
     'by fiscal year. Once inside the desired year, scroll to the specific month and day.',
+  '015-BFS-2014Q3-053': 'Effective Dates on Fiscal Data may differ from the published effective dates for corresponding reports on TreasuryDirect',
 };
 
 const determineSEO = (dataset, mappedDataset) => {

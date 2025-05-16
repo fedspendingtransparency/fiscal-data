@@ -96,7 +96,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         />
         {pageConfig.reportGenKey && (
           <Experimental featureId="defaultReportTable">
-            <GenerativeReportsSection apisProp={pageConfig.apis} reportGenKey={pageConfig.reportGenKey} />
+            <GenerativeReportsSection dataset={pageConfig} apisProp={pageConfig.apis} reportGenKey={pageConfig.reportGenKey} />
           </Experimental>
         )}
         <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
