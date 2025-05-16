@@ -59,7 +59,6 @@ describe('Column Filter', () => {
     expect(queryByRole('checkbox', { name: 'Select All' })).not.toBeInTheDocument();
   });
 
-  //Todo update test case for full apply button interaction in the next column filter ticket
   it('closes dropdown on cancel button click', () => {
     const { getByRole, queryByRole } = render(
       <DataTableContext.Provider

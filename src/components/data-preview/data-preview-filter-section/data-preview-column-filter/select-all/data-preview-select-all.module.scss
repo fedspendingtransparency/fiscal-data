@@ -1,15 +1,13 @@
 @import 'src/variables.module';
 
 .container {
-  padding: 1rem;
+  padding: 1rem 1rem 0;
   font-size: $font-size-16;
 
   .selectAll {
-    position: absolute;
-    display: inline-block;
     min-width: 1rem;
     min-height: 1rem;
-    margin-right: 1px;
+    margin-right: -19px;
     overflow: hidden;
     opacity: 0;
   }

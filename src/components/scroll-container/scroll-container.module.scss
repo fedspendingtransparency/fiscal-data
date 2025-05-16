@@ -1,3 +1,4 @@
+@import 'src/zIndex.module';
 .container {
   display: flex;
   flex-direction: column;
@@ -13,7 +14,7 @@
 .scrollGradientTop,
 .scrollContainerTop,
 .scrollGradientBottom,
-.scrollContainerBottom, {
+.scrollContainerBottom {
   height: 2.5rem;
   position: sticky;
   pointer-events: none;
@@ -22,6 +23,7 @@
 .scrollGradientTop,
 .scrollContainerTop {
   margin-top: 1.5rem;
+  z-index: $scroll-gradient;
 }
 .scrollGradientBottom,
 .scrollContainerBottom {
