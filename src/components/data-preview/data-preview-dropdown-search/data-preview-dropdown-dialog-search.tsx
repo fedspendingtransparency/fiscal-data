@@ -17,6 +17,7 @@ interface DialogSearchProps {
   selectedFilter: any;
   setSelectedFilter: any;
   optionLabelKey: string;
+  secondaryLabelKey: string;
 }
 
 const DataPreviewDropdownDialogSearch: FunctionComponent<DialogSearchProps> = ({
@@ -27,6 +28,8 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<DialogSearchProps> = ({
   options,
   searchBarLabel,
   optionLabelKey,
+  secondaryLabelKey,
+  isFilter,
   active,
 }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
@@ -50,6 +53,8 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<DialogSearchProps> = ({
         optionLabelKey={optionLabelKey}
         searchBarActive={searchBarActive}
         setSearchBarActive={setSearchBarActive}
+        secondaryLabelKey={secondaryLabelKey}
+        isFilter={isFilter}
       />
     </div>
   );

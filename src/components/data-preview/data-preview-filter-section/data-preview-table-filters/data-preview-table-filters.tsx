@@ -164,6 +164,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
                   selectedFilter={selectedColumn}
                   setSelectedFilter={setSelectedColumn}
                   optionLabelKey={'prettyName'}
+                  secondaryLabelKey={'filter'}
+                  isFilter={true}
                 />
               }
               filterComponent={
