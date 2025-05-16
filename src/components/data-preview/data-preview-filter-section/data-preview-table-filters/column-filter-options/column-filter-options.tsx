@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent} from 'react';
 import DateColumnFilter from './date-column-filter/date-column-filter';
 
 interface IColumnFilterOptions {
-  selectedColumn: { name: string; type: string };
+  selectedColumn;
   config;
   setDateRange;
   allTablesSelected;
@@ -29,7 +29,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
 }) => {
   return (
     <>
-      {selectedColumn.type === 'Date' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
+      {selectedColumn.dataType === 'DATE' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
         <DateColumnFilter
           columnConfig={selectedColumn}
           selectedTable={selectedTable}

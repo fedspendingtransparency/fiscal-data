@@ -4,10 +4,16 @@ import { fireEvent, render } from '@testing-library/react';
 
 describe('Table filters dropdown', () => {
   const datasetConfig = { currentDateButton: 'byFullMonth', techSpecs: { earliestDate: '3-17-2020', latestDate: '3-17-2025' } };
-  const mockSelectedTable = { userFilter: null, earliestDate: '3-17-2020', latestDate: '3-17-2025', dateField: 'record_date' };
+  const mockSelectedTable = {
+    userFilter: null,
+    earliestDate: '3-17-2020',
+    latestDate: '3-17-2025',
+    dateField: 'record_date',
+    fields: { prettyName: 'Record Date' },
+  };
 
   it('renders the dropdown button', () => {
-    const { getByRole } = render(<DataPreviewTableFilters width={1000} />);
+    const { getByRole } = render(<DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />);
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
     //Filters dropdown opens on click
@@ -15,7 +21,7 @@ describe('Table filters dropdown', () => {
     expect(applyButton).toBeInTheDocument();
   });
   it('apply button closes dropdown panel and applies any selected filters', () => {
-    const { getByRole } = render(<DataPreviewTableFilters width={1000} />);
+    const { getByRole } = render(<DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />);
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
     //Filters dropdown opens on click
@@ -28,7 +34,7 @@ describe('Table filters dropdown', () => {
   });
 
   it('cancel button closes dropdown panel without applying filters', () => {
-    const { getByRole } = render(<DataPreviewTableFilters width={1000} />);
+    const { getByRole } = render(<DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />);
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
     //Filters dropdown opens on click
@@ -40,11 +46,12 @@ describe('Table filters dropdown', () => {
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
   });
 
+  // TODO: Update test after completion of FDG-10399
   it('renders the column filters', () => {
     const { getByRole, getByText } = render(<DataPreviewTableFilters selectedTable={mockSelectedTable} config={datasetConfig} width={1000} />);
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
-    expect(getByRole('radio', { name: 'Preset' })).toBeInTheDocument();
-    expect(getByText('Record Date')).toBeInTheDocument();
+    // expect(getByRole('radio', { name: 'Custom' })).toBeInTheDocument();
+    expect(getByText('search component placeholder')).toBeInTheDocument();
   });
 });

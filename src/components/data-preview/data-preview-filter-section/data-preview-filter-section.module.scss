@@ -21,3 +21,11 @@
   display: flex;
   gap: 0.5rem;
 }
+
+.noFilterMatchContainer {
+  padding: 1rem;
+
+  .boldedSearchText {
+    font-weight: $semi-bold-weight;
+  }
+}
