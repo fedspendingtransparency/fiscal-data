@@ -148,9 +148,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     />
   );
 
-  // console.log(visibleOptions);
-  console.log(selectedColumn);
-
   return (
     <>
       {width >= pxToNumber(breakpointLg) && (
