@@ -407,13 +407,16 @@ export default function DtgTable({
       if (tableData?.meta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
         // data with current date range < 20000
         if (!(reactTableData?.pivotApplied && !updatedData(tableData.data, reactTableData?.data.slice(0, itemsPerPage)))) {
+          setReactTableData(dePaginated);
+          setManualPagination(false);
           if (
-            !reactTableData ||
-            JSON.stringify(tableData?.data) !== JSON.stringify(reactTableData?.data) ||
-            tableData?.meta['total-count'] !== reactTableData?.meta['total-count']
+            (!reactTableData ||
+              JSON.stringify(tableData?.data) !== JSON.stringify(reactTableData?.data) ||
+              tableData?.meta['total-count'] !== reactTableData?.meta['total-count']) &&
+            dePaginated === undefined
           ) {
             setReactTableData(tableData);
-            setManualPagination(true);
+            setManualPagination(false);
           }
         }
       } else if (tableData.data && !rawData && !dePaginated) {

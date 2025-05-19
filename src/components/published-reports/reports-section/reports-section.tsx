@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import DownloadReportTable from '../download-report-table/download-report-table';
-import { filtersContainer, note, reportsTip } from './reports-section.module.scss';
+import { filtersContainer } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 import ReportDatePicker from '../report-date-picker/report-date-picker';
@@ -8,6 +8,7 @@ import { getAllReportDates, isReportGroupDailyFrequency } from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
 import ReportFilter from '../report-filter/report-filter';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
+import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
 
 export const title = 'Reports and Files';
 
@@ -108,12 +109,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
           </div>
         )}
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
-        {dataset?.publishedReportsTip && (
-          <div className={reportsTip}>
-            <span className={note}>Note: </span>
-            <span>{dataset.publishedReportsTip}</span>
-          </div>
-        )}
+        {dataset?.publishedReportsTip && <DataPreviewDatatableBanner bannerNotice={dataset.publishedReportsTip} isReport={true} />}
       </DatasetSectionContainer>
     </div>
   );

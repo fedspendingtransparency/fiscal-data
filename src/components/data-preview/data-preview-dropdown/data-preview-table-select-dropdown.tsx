@@ -39,7 +39,8 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
   const [isDataTableSelected, setIsDataTableSelected] = useState(false);
-
+  // 54px comes from subtracting the padding and margins on both sides of the container
+  const containerWdith = 'calc(100vw - 54px)';
   const options = disableAllTables
     ? apis
     : [
@@ -150,6 +151,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
           tableViewSelection={tableViewSelection}
           setTableViewSelection={setTableViewSelection}
           pivotsUpdated={pivotsUpdated}
+          containerWidth={containerWdith}
         />
       }
     />

@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import SelectAll from './data-preview-select-all';
+import userEvent from '@testing-library/user-event';
 
 describe('Column Selector', () => {
   const mockDefaultColumns = [
@@ -20,48 +21,74 @@ describe('Column Selector', () => {
         header: 'test default column name 2',
       },
     },
+    {
+      getIsVisible: () => false,
+      getToggleVisibilityHandler: () => jest.fn(),
+      id: 3,
+      columnDef: {
+        header: 'test default column name 3',
+      },
+    },
   ];
 
-  const mockTable = {
-    getVisibleFlatColumns: () => mockDefaultColumns,
-    getAllLeafColumns: () => mockDefaultColumns,
-    getIsAllColumnsVisible: () => true,
-    toggleAllColumnsVisible: jest.fn(),
-    getIsSomeColumnsVisible: () => true,
-  };
-
-  const mockTable_allVisibleFalse = {
-    getVisibleFlatColumns: () => [{ id: 0 }, { id: 1 }],
-    getAllLeafColumns: () => mockDefaultColumns,
-    getIsAllColumnsVisible: () => false,
-    getIsSomeColumnsVisible: () => true,
-    toggleAllColumnsVisible: jest.fn(),
-    setColumnVisibility: jest.fn(),
-  };
-
   it('renders column selector', () => {
-    const instance = render(<SelectAll table={mockTable} resetToDefault={jest.fn()} defaultColumns={mockDefaultColumns} />);
+    const instance = render(
+      <SelectAll
+        allColumns={[]}
+        setAllColumnsSelected={jest.fn()}
+        checkboxesSelected={[]}
+        setCheckboxesSelected={jest.fn()}
+        setPendingColumnSelection={jest.fn()}
+      />
+    );
     expect(instance).toBeTruthy();
   });
 
   it('renders select all button', () => {
-    const { getByRole } = render(<SelectAll table={mockTable} resetToDefault={jest.fn()} defaultColumns={mockDefaultColumns} />);
+    const setAllColumnsSelectedSpy = jest.fn();
+    const setCheckboxesSelectedSpy = jest.fn();
+    const setPendingColumnSelectionSpy = jest.fn();
+    const { getByRole } = render(
+      <SelectAll
+        allColumns={mockDefaultColumns}
+        allColumnsSelected={false}
+        setAllColumnsSelected={setAllColumnsSelectedSpy}
+        checkboxesSelected={[]}
+        pendingColumnSelection={[mockDefaultColumns[1]]}
+        setCheckboxesSelected={setCheckboxesSelectedSpy}
+        setPendingColumnSelection={setPendingColumnSelectionSpy}
+      />
+    );
     const selectAllButton = getByRole('checkbox', { name: 'All Columns' });
     expect(selectAllButton).toBeInTheDocument();
 
-    selectAllButton.click();
-    expect(mockTable.toggleAllColumnsVisible).toHaveBeenCalled();
-
-    fireEvent.keyDown(selectAllButton, { key: 'Enter' });
-    expect(mockTable.toggleAllColumnsVisible).toHaveBeenCalled();
+    userEvent.click(selectAllButton);
+    expect(setAllColumnsSelectedSpy).toHaveBeenCalledWith(true);
+    expect(setCheckboxesSelectedSpy).toHaveBeenCalledWith(mockDefaultColumns);
+    expect(setPendingColumnSelectionSpy).toHaveBeenCalledWith([mockDefaultColumns[2]]);
   });
 
-  it('select all button', () => {
-    const { getByRole } = render(<SelectAll table={mockTable_allVisibleFalse} resetToDefault={jest.fn()} defaultColumns={mockDefaultColumns} />);
+  it('renders select all button with keyboard accessibility', () => {
+    const setAllColumnsSelectedSpy = jest.fn();
+    const setCheckboxesSelectedSpy = jest.fn();
+    const setPendingColumnSelectionSpy = jest.fn();
+    const { getByRole } = render(
+      <SelectAll
+        allColumns={mockDefaultColumns}
+        allColumnsSelected={false}
+        setAllColumnsSelected={setAllColumnsSelectedSpy}
+        checkboxesSelected={[]}
+        pendingColumnSelection={[mockDefaultColumns[1]]}
+        setCheckboxesSelected={setCheckboxesSelectedSpy}
+        setPendingColumnSelection={setPendingColumnSelectionSpy}
+      />
+    );
     const selectAllButton = getByRole('checkbox', { name: 'All Columns' });
     expect(selectAllButton).toBeInTheDocument();
 
-    selectAllButton.click();
-    expect(mockTable_allVisibleFalse.setColumnVisibility).toHaveBeenCalledWith(true);
+    fireEvent.keyDown(selectAllButton, { key: 'Enter' });
+    expect(setAllColumnsSelectedSpy).toHaveBeenCalledWith(true);
+    expect(setCheckboxesSelectedSpy).toHaveBeenCalledWith(mockDefaultColumns);
+    expect(setPendingColumnSelectionSpy).toHaveBeenCalledWith([mockDefaultColumns[2]]);
   });
 });

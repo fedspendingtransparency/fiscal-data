@@ -2896,6 +2896,10 @@ const endpointConfig = {
       maxYearRange: 5,
     },
   },
+  //MTD Empty endpoint
+  322: {
+    endpoint: '',
+  },
 };
 
 const setCompleteTableDisplayItem = response => {

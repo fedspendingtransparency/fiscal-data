@@ -17,3 +17,9 @@ export const buildSortParam = sortFields => {
   });
   return sortStr;
 };
+
+export const buildEndpoint = (date, dateField, accountValue, accountField, endpointConfig) => {
+  const sortStr = buildSortParam(endpointConfig.sort);
+  const filterStr = buildFilterParam(date, dateField, accountValue, accountField);
+  return `${endpointConfig.endpoint}?filter=${filterStr}&sort=${sortStr}`;
+};

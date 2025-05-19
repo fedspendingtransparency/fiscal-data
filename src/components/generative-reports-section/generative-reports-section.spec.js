@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, within } from '@testing-library/react';
 import GenerativeReportsSection from './generative-reports-section';
-import { mockApiConfig } from './generative-report-section-test-helper';
+import { mockApiConfig, mockDataset } from './generative-report-section-test-helper';
 import fetchMock from 'fetch-mock';
 
 describe('Generative Report Footer', () => {
@@ -12,7 +12,7 @@ describe('Generative Report Footer', () => {
     const mockEndpointBase = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
     fetchMock.get(
       mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr',
-      { data: [{ eff_date: '1/3/2024' }] }
+      { data: [{ eff_date: '1/3/2024', shares_per_par: '123' }] }
     );
     fetchMock.get(
       mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=-eff_date,memo_nbr',
@@ -96,5 +96,17 @@ describe('Generative Report Footer', () => {
     fireEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
     fireEvent.click(getByRole('button', { name: 'option1' }));
     expect(await findByText('Table failed to load.')).toBeInTheDocument();
+  });
+  it('renders the banner with the API filter notice once an account is selected', async () => {
+    const { getByRole, findByText, findByRole } = render(
+      <GenerativeReportsSection apisProp={mockApiConfig} reportGenKey="utf" dataset={mockDataset} />
+    );
+
+    fireEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
+    fireEvent.click(getByRole('button', { name: 'option2' }));
+
+    await findByRole('link');
+
+    expect(await findByText(mockDataset.publishedReportsTip)).toBeInTheDocument();
   });
 });

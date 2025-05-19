@@ -50,4 +50,14 @@ describe('Custom Link', () => {
     expect(getByTestId('download-link')).toBeInTheDocument();
     expect(getByText(text)).toBeInTheDocument();
   });
+
+  it('renders an internal link when the absolute URL is on the fiscaldata.treasury.gov domain', () => {
+    const fiscalDataUrl = 'https://fiscaldata.treasury.gov/datasets/daily-government-account-series/held-by-the-public-daily-activity';
+
+    const { getByTestId, getByText, queryByTestId } = render(<CustomLink url={fiscalDataUrl}>{content}</CustomLink>);
+
+    expect(getByTestId('internal-link')).toBeInTheDocument();
+    expect(getByText(text)).toBeInTheDocument();
+    expect(queryByTestId('external-link')).not.toBeInTheDocument();
+  });
 });

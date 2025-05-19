@@ -4,19 +4,19 @@ import { IDatasetApi } from '../../models/IDatasetApi';
 import { filtersContainer } from '../published-reports/reports-section/reports-section.module.scss';
 import { apiPrefix, basicFetch } from '../../utils/api-utils';
 import { format } from 'date-fns';
-import { buildFilterParam, buildSortParam } from './generative-report-helper';
+import { buildEndpoint } from './generative-report-helper';
 import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
 import ReportDatePicker from '../published-reports/report-date-picker/report-date-picker';
 import { withWindowSize } from 'react-fns';
 import { reportsConfig } from './reports-config';
 import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
-
+import DataPreviewDatatableBanner from '../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
 export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
 export const defaultSelection = { label: '(None selected)', value: '' };
 
-const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp, width, reportGenKey }) => {
+const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp, width, reportGenKey, dataset }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
@@ -28,28 +28,56 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
 
-  const getReportData = async (report, reportConfig) => {
-    const { dateField, apiFilter } = report;
-    const { sort } = reportConfig;
-    const { field: accountField } = apiFilter;
-    const filterStr = buildFilterParam(selectedDate, dateField, selectedAccount.value, accountField);
-    const sortStr = buildSortParam(sort);
-    const endpointUrl = report.endpoint + `?filter=${filterStr}&sort=${sortStr}`;
-    const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
-    return res.data;
+  const getSummaryReportData = async (dateField, reportData, summary, reportDataKey?) => {
+    if (!summary || reportData.length === 0) return [];
+    const config = summary.values || summary;
+    const key = reportDataKey || config.dataKey;
+    const secondary = reportData[0][key];
+    const endpointUrl = buildEndpoint(selectedDate, dateField, secondary, config.dataKey, config);
+    try {
+      const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
+      return res.data;
+    } catch {
+      return [];
+    }
   };
 
-  const setSummaryValues = (reportConfig, formattedDate, reportData) => {
-    const { reportInfo } = reportConfig;
+  const getReportData = async (report, reportConfig) => {
+    const { dateField, apiFilter, endpoint } = report;
+    const { sort } = reportConfig;
+    const { field: accountField } = apiFilter;
+    const endpointUrl = buildEndpoint(selectedDate, dateField, selectedAccount.value, accountField, { endpoint, sort });
+    const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
+    const summaryData = await getSummaryReportData(dateField, res.data, reportConfig.summaryConfig.values, reportConfig.summaryConfig.reportDataKey);
+    const summaryTableData = await getSummaryReportData(
+      dateField,
+      res.data,
+      reportConfig.summaryConfig.table,
+      reportConfig.summaryConfig.reportDataKey
+    );
 
-    reportInfo.forEach(summaryValue => {
-      if (summaryValue.filter === 'date') {
-        summaryValue.value = formattedDate;
-      } else if (summaryValue.filter === 'account' && reportData.length > 0 && summaryValue.secondaryField) {
-        const secondary = reportData[0][summaryValue.secondaryField];
-        summaryValue.value = selectedAccount.label + ', ' + secondary;
+    return { tableData: res.data, summaryData, summaryTableData };
+  };
+
+  const setSummaryValues = (reportConfig, formattedDate, reportData, summaryData) => {
+    const { reportInfo, reportSummary } = reportConfig;
+
+    reportInfo.forEach(infoValue => {
+      if (infoValue.filter === 'date') {
+        infoValue.value = formattedDate;
+      } else if (infoValue.filter === 'account' && reportData.length > 0 && infoValue.secondaryField) {
+        const secondary = reportData[0][infoValue.secondaryField];
+        infoValue.value = `${selectedAccount.label}, ${secondary}`;
       }
     });
+
+    if (reportSummary && summaryData) {
+      reportSummary.forEach((summaryValue, index) => {
+        if (summaryData[index]) {
+          summaryValue.value = summaryData[index][summaryValue.field];
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -83,7 +111,7 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
       if (selectedAccount.value) {
         const reports = [];
         for (const report of apisProp) {
-          const reportConfig = reportsConfig.utf[report.apiId];
+          const reportConfig = reportsConfig[reportGenKey][report.apiId];
           const formattedDate = format(selectedDate, 'MMMM yyyy');
           const downloadDate = format(selectedDate, 'MMyyyy');
           let reportData;
@@ -100,12 +128,13 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
             date: formattedDate,
             size: '2KB',
             downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
-            data: reportData,
+            data: reportData.tableData,
+            summaryData: reportData.summaryTableData,
             config: reportConfig,
             colConfig: report,
           };
           reports.push(curReport);
-          setSummaryValues(reportConfig, formattedDate, reportData);
+          setSummaryValues(reportConfig, formattedDate, reportData.tableData, reportData.summaryData);
         }
         setAllReports(reports);
       } else {
@@ -154,6 +183,8 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
         {activeReports?.length > 0 && !apiErrorMessage && (
           <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
         )}
+
+        <DataPreviewDatatableBanner bannerNotice={dataset?.publishedReportsTip} isReport={true} />
       </DatasetSectionContainer>
     </div>
   );
