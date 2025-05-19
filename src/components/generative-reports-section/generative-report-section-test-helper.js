@@ -8,6 +8,7 @@ export const mockApiConfig = [
         Federal: ['option1', 'option2', 'option3'],
         State: ['option4', 'option5', 'option6'],
       },
+      notice: 'Effective Dates on Fiscal Data may differ from the published effective dates for corresponding reports on TreasuryDirect.',
     },
     tableName: 'Table 1',
     endpoint: 'v1/table1/mockendpoint',
@@ -25,6 +26,7 @@ export const mockApiConfig = [
         Federal: ['option1', 'option2', 'option3'],
         State: ['option4', 'option5', 'option6'],
       },
+      notice: 'Effective Dates on Fiscal Data may differ from the published effective dates for corresponding reports on TreasuryDirect.',
     },
     tableName: 'Table 2',
     endpoint: 'v1/table2/mockendpoint',
@@ -34,3 +36,6 @@ export const mockApiConfig = [
     alwaysSortWith: ['acct_desc', '-eff_date', 'memo_nbr'],
   },
 ];
+export const mockDataset = {
+  publishedReportsTip: 'Effective dates on FiscalData.gov may differ from the published effective date for…',
+};

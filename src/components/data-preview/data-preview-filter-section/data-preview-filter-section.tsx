@@ -3,12 +3,12 @@ import DataPreviewDownloadWrapper from './data-preview-download-wrapper/data-pre
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { filterAndDownloadContainer, filterContainer, toggleDownloadContainer } from './data-preview-filter-section.module.scss';
 import DataPreviewTableFilters from './data-preview-table-filters/data-preview-table-filters';
-import DataPreviewColumnFilter from './data-preview-column-filter/data-preview-column-filter';
 import { breakpointXl } from '../data-preview.module.scss';
 import { withWindowSize } from 'react-fns';
 import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
 import { differenceInHours } from 'date-fns';
 import { DataPreviewFilterSectionProps } from '../../../models/data-preview/IFilterSectionProps';
+import DataPreviewColumnFilter from './data-preview-column-filter/data-preview-column-filter';
 
 type DataPreviewFilterSectionProps = {
   width?: number;

@@ -1,7 +1,7 @@
-import React, {FunctionComponent, ReactElement} from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import SearchBar from '../../../components/search-bar/search-bar';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCaretLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 import {
   applyButton,
@@ -19,24 +19,28 @@ import {
   sectionHeader,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
-import {IconProp} from '@fortawesome/fontawesome-svg-core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface IDataPreviewMobileDialog {
   onCancel: () => void;
   onBack: () => void;
   onApply: () => void;
+  setNoSearchResults: (val: boolean) => void;
   filterComponent: ReactElement;
   filterName: string;
   searchText: string;
-  backButtonText: string;
+  backButtonText?: string;
   hasSearch?: boolean;
-  bottomButton: string;
+  bottomButton?: string;
   bottomButtonIcon?: IconProp;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   onCancel,
   onBack,
   onApply,
+  setNoSearchResults,
+  filter,
+  setFilter,
   filterComponent,
   filterName,
   searchText,
@@ -48,7 +52,15 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   const shouldTocShow = true;
 
   const onSearchBarChange = event => {
-    // placeholder for search handler
+    const val = event && event.target ? event.target.value : '';
+    setFilter(val);
+  };
+
+  const onClear = () => {
+    setFilter('');
+    if (setNoSearchResults) {
+      setNoSearchResults(false);
+    }
   };
 
   return (
@@ -69,8 +81,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
               {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
                   <div className={searchBox}>
-                    <p>{searchText}</p>
-                    <SearchBar onChange={onSearchBarChange} filter={''} />
+                    <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} />
                   </div>
                 </div>
               )}
