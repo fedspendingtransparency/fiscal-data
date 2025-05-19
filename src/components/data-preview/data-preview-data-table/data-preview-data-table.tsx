@@ -190,7 +190,8 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
       downloadData = downloadData.map(entry => {
         const dataWithTextQualifiers = [];
         Object.values(entry).forEach(val => {
-          dataWithTextQualifiers.push(val?.includes(',') ? `"${val}"` : val);
+          const stringValue = String(val ?? '');
+          dataWithTextQualifiers.push(stringValue.includes(',') ? `"${stringValue}"` : stringValue);
         });
         return dataWithTextQualifiers;
       });
