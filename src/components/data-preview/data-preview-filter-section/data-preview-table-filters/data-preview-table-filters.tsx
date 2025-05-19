@@ -10,6 +10,7 @@ import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../data-preview.module.scss';
 import DataPreviewMobileFilterList from '../data-preview-mobile-filter-list/data-preview-mobile-filter-list';
 import DataPreviewDropdownDialogSearch from '../../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
+import { boldedSearchText, noFilterMatchContainer } from '../data-preview-filter-section.module.scss';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -88,8 +89,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const filterSelectList = (
     <>
       {noResults ? (
-        <div style={{ padding: '1rem' }}>
-          No match for <span>'{filter}'</span>. Please revise your search and try again.
+        <div className={noFilterMatchContainer}>
+          No match for <span className={boldedSearchText}>'{filter}'</span>. Please revise your search and try again.
         </div>
       ) : (
         <DataPreviewMobileFilterList
