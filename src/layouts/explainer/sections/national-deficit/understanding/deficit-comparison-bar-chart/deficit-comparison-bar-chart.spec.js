@@ -31,7 +31,7 @@ describe('Deficit Comparison Bar Chart', () => {
   it('renders the chart $ values and labels', async () => {
     jest.useFakeTimers();
 
-    const { findByText, findByTestId } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
+    const { findByText, findByTestId, getByText } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
     const chartParent = await findByTestId('chartParentDiv');
 
     act(() => {
@@ -51,7 +51,7 @@ describe('Deficit Comparison Bar Chart', () => {
     });
 
     for (const mockMarker of mockDeficitComparisonChartMarkers) {
-      const marker = await findByText(mockMarker);
+      const marker = getByText(mockMarker);
       expect(marker).toBeInTheDocument();
       await waitFor(() => expect(marker).toHaveStyle({ opacity: 1 }));
     }
@@ -79,12 +79,9 @@ describe('Callout text', () => {
   it('renders correct callout text when the deficit decreased from the prior fiscal year', async () => {
     setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers);
     const sectionId = nationalDeficitSectionIds[1];
-
     const { getByText } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
-    await act(async () => {
-      await waitFor(() => {
-        expect(getByText('a decrease of', { exact: false })).toBeInTheDocument();
-      });
+    await waitFor(() => {
+      expect(getByText('a decrease of', { exact: false })).toBeInTheDocument();
     });
   });
 
@@ -93,10 +90,8 @@ describe('Callout text', () => {
     const sectionId = nationalDeficitSectionIds[1];
 
     const { getByText } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
-    await act(async () => {
-      await waitFor(() => {
-        expect(getByText('an increase of', { exact: false })).toBeInTheDocument();
-      });
+    await waitFor(() => {
+      expect(getByText('an increase of', { exact: false })).toBeInTheDocument();
     });
   });
 
@@ -105,10 +100,8 @@ describe('Callout text', () => {
     const sectionId = nationalDeficitSectionIds[1];
 
     const { getByText } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
-    await act(async () => {
-      await waitFor(() => {
-        expect(getByText('remaining unchanged', { exact: false })).toBeInTheDocument();
-      });
+    await waitFor(() => {
+      expect(getByText('remaining unchanged', { exact: false })).toBeInTheDocument();
     });
   });
 });
