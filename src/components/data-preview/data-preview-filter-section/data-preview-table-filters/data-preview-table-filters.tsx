@@ -68,7 +68,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // }, [active]);
 
   useEffect(() => {
-    const search = filter.trim().toLowerCase();
+    const search = filter.toLowerCase();
 
     if (!search) {
       setVisibleOptions(selectedTable.fields);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, within } from '@testing-library/react';
 import GenerativeReportsSection from './generative-reports-section';
-import { mockApiConfig } from './generative-report-section-test-helper';
+import { mockApiConfig, mockDataset } from './generative-report-section-test-helper';
 import fetchMock from 'fetch-mock';
 
 describe('Generative Report Footer', () => {
@@ -98,13 +98,15 @@ describe('Generative Report Footer', () => {
     expect(await findByText('Table failed to load.')).toBeInTheDocument();
   });
   it('renders the banner with the API filter notice once an account is selected', async () => {
-    const { getByRole, findByText, findByRole } = render(<GenerativeReportsSection apisProp={mockApiConfig} reportGenKey="utf" />);
+    const { getByRole, findByText, findByRole } = render(
+      <GenerativeReportsSection apisProp={mockApiConfig} reportGenKey="utf" dataset={mockDataset} />
+    );
 
     fireEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
     fireEvent.click(getByRole('button', { name: 'option2' }));
 
     await findByRole('link');
 
-    expect(await findByText(mockApiConfig[0].apiFilter.notice)).toBeInTheDocument();
+    expect(await findByText(mockDataset.publishedReportsTip)).toBeInTheDocument();
   });
 });
