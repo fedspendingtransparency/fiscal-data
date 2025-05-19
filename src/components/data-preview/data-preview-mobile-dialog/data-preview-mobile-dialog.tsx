@@ -50,7 +50,6 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   bottomButtonIcon = faCheck,
 }) => {
   const shouldTocShow = true;
-  // const [searchBarActive, setSearchBarActive] = useState(false);
 
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
@@ -81,15 +80,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
               <div className={sectionHeader}>{filterName}</div>
               {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
-                  <SearchBar
-                    onChange={onSearchBarChange}
-                    filter={filter}
-                    label={searchText}
-                    handleClear={onClear}
-                    setFilter={setFilter}
-                    // active={searchBarActive}
-                    // setActive={setSearchBarActive}
-                  />
+                  <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} setFilter={setFilter} />
                 </div>
               )}
             </div>
