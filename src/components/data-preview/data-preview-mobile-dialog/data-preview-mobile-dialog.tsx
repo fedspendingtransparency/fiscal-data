@@ -1,6 +1,6 @@
-import React, {FunctionComponent, ReactElement} from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCaretLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
+import React, { FunctionComponent, ReactElement } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
   applyButton,
   bottomContainer,
@@ -16,7 +16,7 @@ import {
   sectionHeader,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
-import {IconProp} from '@fortawesome/fontawesome-svg-core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import SearchBar from '../../search-bar/search-bar';
 
 interface IDataPreviewMobileDialog {
@@ -50,6 +50,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   bottomButtonIcon = faCheck,
 }) => {
   const shouldTocShow = true;
+  // const [searchBarActive, setSearchBarActive] = useState(false);
 
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
@@ -80,7 +81,15 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
               <div className={sectionHeader}>{filterName}</div>
               {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
-                  <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} setFilter={setFilter} />
+                  <SearchBar
+                    onChange={onSearchBarChange}
+                    filter={filter}
+                    label={searchText}
+                    handleClear={onClear}
+                    setFilter={setFilter}
+                    // active={searchBarActive}
+                    // setActive={setSearchBarActive}
+                  />
                 </div>
               )}
             </div>
