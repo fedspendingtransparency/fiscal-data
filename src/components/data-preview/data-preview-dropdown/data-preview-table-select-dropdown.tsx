@@ -177,9 +177,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     />
   );
 
-  // console.log('table select table to apply: ', tableToApply);
-  // console.log(options);
-
   return (
     <>
       {!hideDropdown && width >= pxToNumber(breakpointLg) && (
