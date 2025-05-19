@@ -1,8 +1,6 @@
 import React, { FunctionComponent, ReactElement } from 'react';
-import SearchBar from '../../../components/search-bar/search-bar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
-
 import {
   applyButton,
   bottomContainer,
@@ -15,11 +13,11 @@ import {
   previewCaretButton,
   previewCaretContainer,
   searchBar as searchBarStyle,
-  searchBox,
   sectionHeader,
   topContainer,
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import SearchBar from '../../search-bar/search-bar';
 
 interface IDataPreviewMobileDialog {
   onCancel: () => void;
@@ -33,6 +31,8 @@ interface IDataPreviewMobileDialog {
   hasSearch?: boolean;
   bottomButton?: string;
   bottomButtonIcon?: IconProp;
+  filter: string;
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   onCancel,
@@ -80,9 +80,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
               <div className={sectionHeader}>{filterName}</div>
               {hasSearch && (
                 <div data-testid="search-container" className={searchBarStyle}>
-                  <div className={searchBox}>
-                    <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} />
-                  </div>
+                  <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} setFilter={setFilter} />
                 </div>
               )}
             </div>
