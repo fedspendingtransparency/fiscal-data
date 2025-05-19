@@ -3,7 +3,7 @@
 
 $dropdown-width: 45rem;
 $search-width: 20rem;
-$filter-width: $dropdown-width - $search-width;
+$filter-width: calc($dropdown-width - $search-width - 1px);
 
 .dropdownContent {
   width: $dropdown-width;
