@@ -9,6 +9,7 @@ import DataPreviewMobileDialog from '../../data-preview-mobile-dialog/data-previ
 import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../data-preview.module.scss';
 import DataPreviewMobileFilterList from '../data-preview-mobile-filter-list/data-preview-mobile-filter-list';
+import DataPreviewDropdownDialogSearch from '../../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
 import { boldedSearchText, noFilterMatchContainer } from '../data-preview-filter-section.module.scss';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
@@ -154,7 +155,17 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
           {active && (
             <DataPreviewDropdownDialogContainer
-              searchComponent={<>search component placeholder</>}
+              searchComponent={
+                <DataPreviewDropdownDialogSearch
+                  options={visibleOptions}
+                  searchBarLabel="Search filters"
+                  selectedFilter={selectedColumn}
+                  setSelectedFilter={setSelectedColumn}
+                  optionLabelKey={'prettyName'}
+                  secondaryLabelKey={'filter'}
+                  isFilter={true}
+                />
+              }
               filterComponent={
                 <ColumnFilterOptions
                   setAppliedFilters={setAppliedFilters}

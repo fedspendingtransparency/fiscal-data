@@ -9,7 +9,7 @@ describe('Table filters dropdown', () => {
     earliestDate: '3-17-2020',
     latestDate: '3-17-2025',
     dateField: 'record_date',
-    fields: { prettyName: 'Record Date' },
+    fields: [{ prettyName: 'Record Date' }],
   };
 
   it('renders the dropdown button', () => {
@@ -46,12 +46,10 @@ describe('Table filters dropdown', () => {
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
   });
 
-  // TODO: Update test after completion of FDG-10399
   it('renders the column filters', () => {
     const { getByRole, getByText } = render(<DataPreviewTableFilters selectedTable={mockSelectedTable} config={datasetConfig} width={1000} />);
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
-    // expect(getByRole('radio', { name: 'Custom' })).toBeInTheDocument();
-    expect(getByText('search component placeholder')).toBeInTheDocument();
+    expect(getByText('Record Date')).toBeInTheDocument();
   });
 });

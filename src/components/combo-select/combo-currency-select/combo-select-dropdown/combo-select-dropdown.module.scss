@@ -40,6 +40,18 @@
         color: $primary;
       }
 
+      &.dropdownFilterListItem_Selected {
+        border-left: 0.25rem solid $primary;
+        font-weight: $semi-bold-weight;
+      }
+
+      .secondaryLabel {
+        font-size: $font-size-14;
+        font-weight: 400;
+        display: block;
+        padding-top: 0.25rem;
+      }
+
       &.dropdownListItem_child {
         padding-left: 2rem;
       }
@@ -48,7 +60,7 @@
         color: inherit;
         padding: 0.5rem 1rem;
         background-color: transparent;
-        font-weight: normal;
+        font-weight: inherit;
         font-size: $font-size-16;
         line-height: unset;
         width: 100%;
