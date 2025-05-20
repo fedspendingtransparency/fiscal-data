@@ -9,15 +9,19 @@ export class TableCache {
   }
 
   updateDataCache = fetchedRecordSets => {
+    //If nothing change just return
     if (!Array.isArray(fetchedRecordSets) || fetchedRecordSets.length === 0) {
       return this.dataCache;
     }
+    // for each new fetch search, remove any old search that overlap
     fetchedRecordSets.forEach(newSearch => {
       this.dataCache = this.dataCache.filter(oldSearch => {
+        //keep oldSearch only if it sits completely before or completely after newSearch.
         return isBefore(oldSearch.range.to, newSearch.range.from) || isAfter(oldSearch.range.from, newSearch.range.to);
       });
       this.dataCache.push(newSearch);
     });
+    // keep recordSet segments in date-descending order
     this.dataCache.sort((a, b) => b.range.from - a.range.from);
     return this.dataCache;
   };
