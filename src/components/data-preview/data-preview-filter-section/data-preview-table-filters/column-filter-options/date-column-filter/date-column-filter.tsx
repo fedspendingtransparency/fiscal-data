@@ -32,7 +32,7 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
 
   return (
     <div className={sectionContainer}>
-      <div className={columnName}>{columnConfig.name}</div>
+      <div className={columnName}>{columnConfig.prettyName}</div>
       <div className={inputContainer}>
         {presets && (
           <div>
