@@ -8,6 +8,7 @@ import { setGlobalFetchMatchingResponse } from '../../../../../../utils/mock-uti
 class ResizeObserver {
   observe() {}
   unobserve() {}
+  disconnect() {}
 }
 
 describe('Circle chart', () => {
