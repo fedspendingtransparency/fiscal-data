@@ -42,6 +42,11 @@ const TextFilter: FunctionComponent<ITextFilter> = ({ column, resetFilters, setA
   useEffect(() => {
     clearFilter();
   }, [resetFilters]);
+  useEffect(() => {
+    if (disabled) {
+      clearFilter();
+    }
+  }, [disabled]);
 
   return (
     <SearchBar
