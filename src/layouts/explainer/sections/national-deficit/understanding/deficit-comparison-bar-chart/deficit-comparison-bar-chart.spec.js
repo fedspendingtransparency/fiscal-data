@@ -31,7 +31,7 @@ describe('Deficit Comparison Bar Chart', () => {
   it('renders the chart $ values and labels', async () => {
     jest.useFakeTimers();
 
-    const { findByText, findByTestId, getByText } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
+    const { findByText, findByTestId } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
     const chartParent = await findByTestId('chartParentDiv');
 
     act(() => {
@@ -45,16 +45,34 @@ describe('Deficit Comparison Bar Chart', () => {
       expect(marker).toHaveStyle({ opacity: 0 });
     }
 
+    mockIsIntersecting(chartParent, true);
+
     act(() => {
-      mockIsIntersecting(chartParent, true);
       jest.runAllTimers();
     });
 
     for (const mockMarker of mockDeficitComparisonChartMarkers) {
-      const marker = getByText(mockMarker);
+      const marker = await findByText(mockMarker);
       expect(marker).toBeInTheDocument();
-      await waitFor(() => expect(marker).toHaveStyle({ opacity: 1 }));
+      expect(marker).toHaveStyle({ opacity: 1 });
     }
+  });
+});
+
+describe('Deficit Comparison Bar Chart Copy', () => {
+  const sectionId = nationalDeficitSectionIds[1];
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers);
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    global.fetch.mockReset();
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
   });
 
   it('renders the chart header', async () => {
