@@ -105,7 +105,7 @@ describe('DatasetData', () => {
   //     'data-testid': 'dropdown-list-option',
   //   });
   //   await renderer.act(async () => {
-  //     const opt = dropdownOptions.find(ddo => ddo.props.children.props.children === tableName);
+  //     const opt = dropdownOptions.find(ddo => ddo.props.children[0].props.children === tableName);
   //     await opt.props.onClick();
   //   });
   //   return dropdownOptions;

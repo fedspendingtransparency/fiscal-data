@@ -10,7 +10,7 @@ export default function HTML(props) {
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script
-          src={`//gateway.foresee.com/sites/fiscaldata/${ENV_ID !== 'production' ? 'staging' : 'production'}/gateway.min.js`}
+          src={`https://eex-gateway.fr011.ttecfed.com/sites/fiscaldata/${ENV_ID === 'production' ? 'production' : 'staging'}/gateway.min.js`}
           type="text/javascript"
           async
           data-vendor="fs"
