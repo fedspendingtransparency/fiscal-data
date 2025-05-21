@@ -9,24 +9,13 @@ export default function HTML(props) {
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {ENV_ID === 'production' && (
-          <script
-            src={`//gateway.foresee.com/sites/fiscaldata/production/gateway.min.js`}
-            type="text/javascript"
-            async
-            data-vendor="fs"
-            data-role="gateway"
-          />
-        )}
-        {ENV_ID !== 'production' && (
-          <script
-            src={`https://eex-gateway.fr011.ttecfed.com/sites/fiscaldata/staging/gateway.min.js`}
-            type="text/javascript"
-            async
-            data-vendor="fs"
-            data-role="gateway"
-          />
-        )}
+        <script
+          src={`https://eex-gateway.fr011.ttecfed.com/sites/fiscaldata/${ENV_ID === 'production' ? 'production' : 'staging'}/gateway.min.js`}
+          type="text/javascript"
+          async
+          data-vendor="fs"
+          data-role="gateway"
+        />
         {props.headComponents}
       </head>
       <body {...props.bodyAttributes}>
