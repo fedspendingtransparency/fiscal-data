@@ -15,11 +15,23 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   const handleStartDateClose = () => setStartDateActive(false);
   const handleEndDateClose = () => setEndDateActive(false);
 
+  const swapDates = () => {
+    const startDate = selectedStartDate;
+    setSelectedStartDate(selectedEndDate);
+    setSelectedEndDate(startDate);
+  };
+
   useEffect(() => {
     if (pickerDateRange?.from && pickerDateRange?.to) {
       setSelectedStartDate(pickerDateRange.from);
       setSelectedEndDate(pickerDateRange.to);
     }
+    console.log('selected start date: ', selectedStartDate);
+    console.log('selected end date: ', selectedEndDate);
+
+    // if (isBefore(selectedEndDate, selectedStartDate)) {
+    //   swapDates();
+    // }
   }, [pickerDateRange]);
 
   const startDateButton = (

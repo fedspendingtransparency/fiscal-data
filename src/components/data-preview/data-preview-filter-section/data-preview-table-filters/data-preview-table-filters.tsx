@@ -153,7 +153,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     <>
       {width >= pxToNumber(breakpointLg) && (
         <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
-          {active && (
+          {true && (
             <DataPreviewDropdownDialogContainer
               searchComponent={
                 <DataPreviewDropdownDialogSearch
