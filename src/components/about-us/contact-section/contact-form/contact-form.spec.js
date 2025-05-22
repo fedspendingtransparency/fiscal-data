@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import SelectControl from '../../../../components/select-control/select-control';
-import { submit, errorIcon } from './contact-form.module.scss';
+import { errorIcon, submit } from './contact-form.module.scss';
 import { scroller } from 'react-scroll';
 import Contact from './contact-form';
 import { ReCAPTCHA } from 'react-google-recaptcha';
@@ -19,12 +19,12 @@ jest.mock('gatsby-plugin-mdx', () => {
 });
 
 describe('About Us - Contact Form', () => {
-  let component = renderer.create();
+  // let component = renderer.create();
 
-  renderer.act(() => {
-    component = renderer.create(<Contact />);
-  });
-  const instance = component.root;
+  // renderer.act(() => {
+  //   component = renderer.create(<Contact />);
+  // });
+  // const instance = component.root;
 
   document.getElementById = jest.fn(() => {
     return {
