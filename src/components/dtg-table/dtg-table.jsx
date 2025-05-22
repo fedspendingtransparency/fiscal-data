@@ -144,6 +144,10 @@ export default function DtgTable({
     }
   };
 
+  useEffect(() => {
+    console.log(reactTableData, dePaginated, rawData);
+  }, [reactTableData]);
+
   const getPagedData = resetPage => {
     if (debounce || loadCanceled) {
       clearTimeout(debounce);
