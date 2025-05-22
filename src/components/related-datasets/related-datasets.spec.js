@@ -3,15 +3,6 @@ import { cleanup, render, screen } from '@testing-library/react';
 import RelatedDatasets, { context, title } from './related-datasets';
 
 const mockCards = [];
-jest.mock('../dataset-card/dataset-card', () => props => {
-  mockCards.push(props);
-  return (
-    <div data-testid="cardWrapper" data-context={props.context} data-referrer={props.referrer}>
-      {props.name}
-    </div>
-  );
-});
-
 const sortedDataset1 = 'dataset b';
 const sortedDataset2 = 'dataset f';
 const sortedDataset3 = 'dataset w';
