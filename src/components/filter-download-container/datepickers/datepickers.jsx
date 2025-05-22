@@ -33,6 +33,8 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
     setSelecting(false);
   };
 
+  // console.log('old use endDate', endDate);
+
   const prepDateFilterValue = () => {
     if (!isPristine && !selecting && endDate !== null && beginDate !== null) {
       if (isBefore(endDate, beginDate)) {
