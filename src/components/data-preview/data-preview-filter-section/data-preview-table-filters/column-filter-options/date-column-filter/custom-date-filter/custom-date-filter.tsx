@@ -20,8 +20,13 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
     const startDate = selectedStartDate;
     setSelectedStartDate(selectedEndDate);
     setSelectedEndDate(startDate);
-    console.log('fire swap dates');
   };
+
+  useEffect(() => {
+    if (isBefore(selectedEndDate, selectedStartDate)) {
+      swapDates();
+    }
+  }, [selectedStartDate, selectedEndDate]);
 
   useEffect(() => {
     if (pickerDateRange?.from && pickerDateRange?.to) {
@@ -29,14 +34,6 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
       setSelectedEndDate(pickerDateRange.to);
     }
   }, [pickerDateRange]);
-
-  useEffect(() => {
-    if (isBefore(selectedEndDate, selectedStartDate)) {
-      swapDates();
-    }
-  }, [selectedStartDate, selectedEndDate]);
-  console.log('Start: ', selectedStartDate);
-  console.log('End: ', selectedEndDate);
 
   const startDateButton = (
     <DropdownLabelButton
