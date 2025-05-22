@@ -1,7 +1,14 @@
-import React, { FunctionComponent, ReactElement, useState } from 'react';
-import { applyButton, buttonContainer, cancelButton, checkIcon, dropdownContainer, inputContainer } from './report-date-dropdown.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import React, {FunctionComponent, ReactElement, useState} from 'react';
+import {
+  applyButton,
+  buttonContainer,
+  cancelButton,
+  checkIcon,
+  dropdownContainer,
+  inputContainer
+} from './report-date-dropdown.module.scss';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import DateTextInput from '../date-text-input/date-text-input';
 
 interface IReportDateDropdown {
@@ -25,19 +32,19 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
   children,
   allDates,
   selectedDate,
-  daily,
   label,
+  noMatchErrorMessage,
 }: IReportDateDropdown) => {
   const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
-  const reportLabel = daily ? 'Published Date (Example: May 1, 1998 or 05/01/1998)' : 'Published Date (Example: May 1998 or 05/1998)';
+  // const reportLabel = daily ? 'Published Date (Example: May 1, 1998 or 05/01/1998)' : 'Published Date (Example: May 1998 or 05/1998)';
 
   return (
     <>
       <div className={dropdownContainer}>
         <div className={inputContainer}>
           <DateTextInput
-            label={label ? label : reportLabel}
+            label={label}
             validInput={validInput}
             setValidInput={setValidInput}
             inputFocus={inputFocus}
@@ -47,6 +54,7 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
             allDates={allDates}
             selectedDate={selectedDate}
             setCurrentDate={setCurrentDate}
+            noMatchErrorMessage={noMatchErrorMessage}
           />
         </div>
         {children}

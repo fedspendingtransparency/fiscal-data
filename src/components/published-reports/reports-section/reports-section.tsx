@@ -6,7 +6,6 @@ import { getPublishedDates } from '../../../helpers/dataset-detail/report-helper
 import ReportDatePicker from '../report-date-picker/report-date-picker';
 import { getAllReportDates, isReportGroupDailyFrequency } from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
-import ReportFilter from '../report-filter/report-filter';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
 
@@ -94,7 +93,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
       <DatasetSectionContainer title={title} id="reports-and-files">
         {!hideReportDatePicker && (
           <div className={filtersContainer}>
-            {filterByReport && <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} />}
+            {/*{filterByReport && <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} label={'test-label'} />}*/}
             {latestReportDate && (
               <ReportDatePicker
                 isDailyReport={isDailyReport}
@@ -104,6 +103,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
                 allReportYears={allReportYears}
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
+                label={'Published Date (Example: May 1, 1998 or 05/01/1998)'}
               />
             )}
           </div>

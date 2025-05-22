@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import ReportDateDropdown from '../report-date-dropdown/report-date-dropdown';
-import { DayPicker } from 'react-day-picker';
+import {DayPicker} from 'react-day-picker';
 import '../../../data-table/data-table-header/date-range-filter/day-picker-overrides.css';
 import 'react-day-picker/dist/style.css';
-import { datePickerSelected } from './report-day-picker.module.scss';
-import { formatReportDate } from '../../../../helpers/dataset-detail/report-helpers';
-import { monthFullNames } from '../../../../utils/api-utils';
+import {datePickerSelected} from './report-day-picker.module.scss';
+import {formatReportDate} from '../../../../helpers/dataset-detail/report-helpers';
+import {monthFullNames} from '../../../../utils/api-utils';
 
 interface IReportDayPicker {
   handleClose: () => void;
@@ -26,6 +26,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
   allReportDates,
   active,
   label,
+  noMatchErrorMessage,
 }: IReportDayPicker) => {
   const [currentDate, setCurrentDate] = useState<Date>(selectedDate);
   const [month, setMonth] = useState<Date>(selectedDate);
@@ -65,8 +66,8 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
           setCurrentDate={setCurrentDate}
           selectedDate={currentDate !== undefined && formatReportDate(currentDate, true, true)}
           allDates={allReportDates}
-          daily
           label={label}
+          noMatchErrorMessage={noMatchErrorMessage}
         >
           <DayPicker
             mode="single"
