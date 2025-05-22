@@ -10,13 +10,11 @@ describe('Combo Select Dropdown', () => {
 
   it('renders the dropdown when active is true', () => {
     const { getByTestId } = render(<ComboSelectDropdown active={true} options={[]} />);
-
     expect(getByTestId('dropdown-container')).toBeInTheDocument();
   });
 
   it('does not render the dropdown when active is false', () => {
     const { queryByTestId } = render(<ComboSelectDropdown active={false} options={[]} />);
-
     expect(queryByTestId('dropdown-container')).not.toBeInTheDocument();
   });
 
@@ -86,7 +84,7 @@ describe('Combo Select Dropdown', () => {
   it('shows options in the dropdown list that match input characters', () => {
     const defaultSelection = mockOptions[1];
     const mockUpdateSelection = jest.fn();
-    const { getByRole, getByTestId } = render(
+    const { getByRole, getByTestId, getAllByText } = render(
       <ComboSelectDropdown
         active={true}
         options={mockOptions}
@@ -95,6 +93,7 @@ describe('Combo Select Dropdown', () => {
         setDropdownActive={jest.fn()}
         optionLabelKey={'label'}
         updateSelection={mockUpdateSelection}
+        secondaryLabelKey={true}
       />
     );
 
@@ -107,6 +106,8 @@ describe('Combo Select Dropdown', () => {
     const filteredOptions = within(dropdownContainer).getAllByRole('button');
     expect(filteredOptions.length).toEqual(3);
     const option = getByRole('button', { name: 'Blue-greenstuff' });
+    const secondaryRendering = getAllByText('No filter applied');
+    expect(secondaryRendering.length).toBeGreaterThan(0);
     userEvent.click(option);
     expect(mockUpdateSelection).toHaveBeenCalledWith({ label: 'Blue-greenstuff', value: 'Blue-greenstuff' }, true);
   });

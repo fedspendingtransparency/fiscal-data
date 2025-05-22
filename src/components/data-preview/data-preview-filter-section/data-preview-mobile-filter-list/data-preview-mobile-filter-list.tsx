@@ -10,34 +10,32 @@ import {
 } from '../../../data-preview/data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list.module.scss';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-export const placeholderFilters = [
-  { name: 'Record Date', secondary: 'Last 5 years', selected: false, active: true },
-  { name: 'Parent ID', secondary: 'No filter applied', selected: false, active: false },
-  { name: 'Classification ID', secondary: 'No filter applied', selected: false, active: false },
-  { name: 'Classification Description', secondary: 'No filter applied', selected: false, active: false },
-  { name: 'Record Type Code', secondary: 'No filter applied', selected: false, active: false },
-  { name: 'Current Month Budget Amount', secondary: 'No filter applied', selected: false, active: false },
-];
+import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 
 export interface IMobileFilterList {
   filterOptions: { name: string; secondary?: string; selected?: boolean; active?: boolean }[];
-  onTableSelected: (selectedOption: any) => void;
-  onDataTableSelected: (selectedOption: any) => void;
+  onTableSelected?: (selectedOption: any) => void;
+  onDataTableSelected?: (selectedOption: any) => void;
+  onIsFilterSelected?: (selectedOption: any) => void;
+  onWhichFilterSelected?: (selectedOption: any) => void;
   getName: (option: any) => string;
   getSecondary: (option: any) => string;
   selectedTable: string;
   selectedFilter: string;
+  filter: string;
 }
 
 const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
-  filterOptions = placeholderFilters,
+  filterOptions,
   onTableSelected,
   onDataTableSelected,
+  onIsFilterSelected,
+  onWhichFilterSelected,
   getName,
   getSecondary = option => option.secondary,
   selectedTable = '',
   selectedFilter = '',
+  filter,
 }) => {
   return (
     <>
@@ -49,13 +47,28 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
                 getName(filterOption) === selectedFilter ? active : ''
               }`}
               onClick={() => {
-                onDataTableSelected(filterOption);
-                onTableSelected(filterOption);
+                onDataTableSelected?.(filterOption);
+                onTableSelected?.(filterOption);
+                onIsFilterSelected?.(filterOption);
+                onWhichFilterSelected?.(filterOption);
               }}
             >
               <div className={left}>
-                <span className={optionName}>{getName(filterOption)}</span>
-                {getSecondary(filterOption) && <span className={optionSecondary}>{getSecondary(filterOption)}</span>}
+                {/*temp fix until we add search/filter functionality to data tables on mobile dialog*/}
+                {filter !== undefined && (
+                  <div>
+                    <span className={optionName}>{underlineMatchedString(getName(filterOption), filter)}</span>
+                    {getSecondary(filterOption) && (
+                      <span className={optionSecondary}>{underlineMatchedString(getSecondary(filterOption)!, filter)}</span>
+                    )}
+                  </div>
+                )}
+                {filter === undefined && (
+                  <div>
+                    <span className={optionName}>{getName(filterOption)}</span>
+                    {getSecondary(filterOption) && <span className={optionSecondary}>{getSecondary(filterOption)}</span>}
+                  </div>
+                )}
               </div>
               <div className={right}>
                 <FontAwesomeIcon icon={faCaretRight} />
