@@ -22,7 +22,7 @@ import {
 import * as setNoChartMessageMod from './set-no-chart-message';
 import DatasetChart from '../dataset-chart/dataset-chart';
 import GLOBALS from '../../../helpers/constants';
-import { act, fireEvent, render, within } from '@testing-library/react';
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { dataAggregationNotice } from './aggregation-notice/aggregation-notice';
 import userEvent from '@testing-library/user-event';
@@ -429,11 +429,11 @@ describe('TableSectionContainer with Pivot Options', () => {
 
   it(`configures the legend to be visible by default when the screen size is wider than tablet
   width, but once the user interactively toggles the state, changes in screen size are ignored
-  with respect to legend visibility`, () => {
-    const onToggleLegendEvent = { preventDefault: jest.fn() };
+  with respect to legend visibility`, async () => {
+    // const onToggleLegendEvent = { preventDefault: jest.fn() };
 
     global.window.innerWidth = GLOBALS.breakpoints.large + 1;
-    const { getByTestId, rerender, getByRole } = render(
+    const { getByTestId, rerender } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -455,7 +455,7 @@ describe('TableSectionContainer with Pivot Options', () => {
     // "interactively" toggle the legend to INVISIBLE
     fireEvent.click(getByTestId('pivotToggle'));
     datasetChart = getByTestId('dataset-chart');
-    expect(datasetChart).not.toHaveClass('legendActive');
+    await waitFor(() => expect(datasetChart).not.toHaveClass('legendActive'));
 
     // "interactively" toggle the legend to VISIBLE
     fireEvent.click(getByTestId('pivotToggle'));
