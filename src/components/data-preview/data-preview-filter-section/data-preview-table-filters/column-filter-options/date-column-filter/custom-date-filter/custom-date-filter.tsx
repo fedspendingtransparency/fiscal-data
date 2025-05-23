@@ -6,6 +6,7 @@ import DropdownContainer from '../../../../../../dropdown-container/dropdown-con
 import { formatReportDate } from '../../../../../../../helpers/dataset-detail/report-helpers';
 import { customDatesContainer } from './custom-date-filter.module.scss';
 import { ICustomDateFilter } from '../../../../../../../models/data-preview/ICustomDateFilter';
+import { isBefore } from 'date-fns';
 
 const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(null);
@@ -14,6 +15,18 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   const [endDateActive, setEndDateActive] = useState(false);
   const handleStartDateClose = () => setStartDateActive(false);
   const handleEndDateClose = () => setEndDateActive(false);
+
+  const swapDates = () => {
+    const startDate = selectedStartDate;
+    setSelectedStartDate(selectedEndDate);
+    setSelectedEndDate(startDate);
+  };
+
+  useEffect(() => {
+    if (isBefore(selectedEndDate, selectedStartDate)) {
+      swapDates();
+    }
+  }, [selectedStartDate, selectedEndDate]);
 
   useEffect(() => {
     if (pickerDateRange?.from && pickerDateRange?.to) {
