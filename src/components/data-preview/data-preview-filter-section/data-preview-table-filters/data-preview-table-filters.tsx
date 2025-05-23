@@ -27,12 +27,10 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 }) => {
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
-  // TODO update default value to first column in list
-  // const [selectedColumn, setSelectedColumn] = useState({ name: 'Record Date', type: 'Not a date', field: 'record_date' });
-  const [selectedColumn, setSelectedColumn] = useState('');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [filter, setFilter] = useState('');
   const [visibleOptions, setVisibleOptions] = useState(selectedTable.fields);
+  const [selectedColumn, setSelectedColumn] = useState(visibleOptions[0]);
   const [noResults, setNoResults] = useState(false);
 
   const filterDropdownButton = (
