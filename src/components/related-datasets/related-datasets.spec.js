@@ -1,16 +1,8 @@
 import React from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
 import RelatedDatasets, { context, title } from './related-datasets';
-
-const mockCards = [];
-jest.mock('../dataset-card/dataset-card', () => props => {
-  mockCards.push(props);
-  return (
-    <div data-testid="cardWrapper" data-context={props.context} data-referrer={props.referrer}>
-      {props.name}
-    </div>
-  );
-});
+import Analytics from '../../utils/analytics/analytics';
+import userEvent from '@testing-library/user-event';
 
 const sortedDataset1 = 'dataset b';
 const sortedDataset2 = 'dataset f';
@@ -21,10 +13,6 @@ const mockRelatedDatasets = [{ name: sortedDataset3 }, { name: sortedDataset1 },
 const referrer = 'Referring Dataset';
 
 describe('RelatedDatasets', () => {
-  beforeEach(() => {
-    mockCards.length = 0;
-  });
-
   afterEach(() => {
     cleanup();
   });
@@ -41,10 +29,11 @@ describe('RelatedDatasets', () => {
     expect(screen.getByTestId('sectionContainer').textContent).toContain(title);
   });
 
-  it('should pass along context and referrer props to the Dataset Card for analytics', () => {
-    render(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
-
-    expect(mockCards[0].context).toBe(context);
-    expect(mockCards[0].referrer).toBe(referrer);
+  it('should call analytics event with the appropriate context', () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getAllByRole } = render(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
+    const datasetCards = getAllByRole('button');
+    userEvent.click(datasetCards[0]);
+    expect(analyticsSpy).toHaveBeenCalledWith({ action: `${context} Click`, category: `${context} Click`, label: sortedDataset1 });
   });
 });

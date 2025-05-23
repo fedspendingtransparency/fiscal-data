@@ -71,7 +71,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
   const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
-
+  console.log('...........');
   useEffect(() => {
     if (!detailViewState) {
       setConfigOption(columnConfig);
@@ -275,7 +275,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
 
   return (
     <>
-      <div data-test-id="table-content" className={!chartTable ? overlayContainerNoFooterChart : overlayContainerNoFooter}>
+      <div data-testid="table-content" className={!chartTable ? overlayContainerNoFooterChart : overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
           {defaultSelectedColumns && (
             <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">

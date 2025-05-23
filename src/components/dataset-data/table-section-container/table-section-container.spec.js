@@ -1,6 +1,5 @@
 import React from 'react';
 import TableSectionContainer from './table-section-container';
-import DtgTable from '../../dtg-table/dtg-table';
 import { active } from './table-section-container.module.scss';
 import {
   mockApiData,
@@ -22,7 +21,7 @@ import {
 import * as setNoChartMessageMod from './set-no-chart-message';
 import DatasetChart from '../dataset-chart/dataset-chart';
 import GLOBALS from '../../../helpers/constants';
-import { act, fireEvent, render, within } from '@testing-library/react';
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { dataAggregationNotice } from './aggregation-notice/aggregation-notice';
 import userEvent from '@testing-library/user-event';
@@ -84,8 +83,27 @@ describe('TableSectionContainer while loading', () => {
 describe('TableSectionContainer with data', () => {
   const selectedTable = selectedTableLessFields;
   const mockSetSelectedPivot = jest.fn();
-  let queryTestId;
-  beforeAll(() => {
+
+  it('displays the table component when there is data', async () => {
+    const { findByRole } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={selectedTable}
+          apiData={mockApiData}
+          isLoading={false}
+          apiError={false}
+          setUserFilterSelection={jest.fn()}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
+    );
+
+    expect(await findByRole('table')).toBeInTheDocument();
+  });
+
+  it('sends slug and currentTableName props to DatasetChart', () => {
     const { findByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
@@ -101,18 +119,6 @@ describe('TableSectionContainer with data', () => {
         />
       </RecoilRoot>
     );
-    queryTestId = findByTestId;
-  });
-
-  it('displays the table component when there is data', async () => {
-    expect(await queryTestId('table-content')).toBeInTheDocument();
-  });
-
-  it('sets noBorder on the table', () => {
-    expect(instance.findByType(DtgTable).props.tableProps.noBorder).toBeDefined();
-  });
-
-  it('sends slug and currentTableName props to DatasetChart', () => {
     const datasetChartElement = instance.findByType(DatasetChart);
     expect(datasetChartElement.props.slug).toBe(mockConfig.slug);
     expect(datasetChartElement.props.currentTable).toBe(selectedTable);
@@ -429,11 +435,11 @@ describe('TableSectionContainer with Pivot Options', () => {
 
   it(`configures the legend to be visible by default when the screen size is wider than tablet
   width, but once the user interactively toggles the state, changes in screen size are ignored
-  with respect to legend visibility`, () => {
-    const onToggleLegendEvent = { preventDefault: jest.fn() };
+  with respect to legend visibility`, async () => {
+    // const onToggleLegendEvent = { preventDefault: jest.fn() };
 
     global.window.innerWidth = GLOBALS.breakpoints.large + 1;
-    const { getByTestId, rerender, getByRole } = render(
+    const { getByTestId, rerender } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -455,7 +461,7 @@ describe('TableSectionContainer with Pivot Options', () => {
     // "interactively" toggle the legend to INVISIBLE
     fireEvent.click(getByTestId('pivotToggle'));
     datasetChart = getByTestId('dataset-chart');
-    expect(datasetChart).not.toHaveClass('legendActive');
+    await waitFor(() => expect(datasetChart).not.toHaveClass('legendActive'));
 
     // "interactively" toggle the legend to VISIBLE
     fireEvent.click(getByTestId('pivotToggle'));

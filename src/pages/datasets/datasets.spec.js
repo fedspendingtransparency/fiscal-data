@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import DatasetsPage from './index';
 import { mockDatasets, pageQueryMock } from '../../components/datasets/mockData/mockDatasets';
 import * as Gatsby from 'gatsby';
@@ -60,21 +60,8 @@ describe('Dataset Page', () => {
     expect(title).toBeInTheDocument();
   });
 
-  // it('initially passes all datasets to the filter component', () => {
-  //   const { getByRole } = render(
-  //     <RecoilRoot>
-  //       <DatasetsPage
-  //         pageContext={{
-  //           filters: mockFilters,
-  //         }}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //   expect(filterComponent.props.searchResults.length).toBe(pageQueryMock.allDatasets.datasets.length);
-  // });
-
-  it('filters datasets when search is activated', async () => {
-    const { findAllByTestId, getByRole } = render(
+  it('initially passes all datasets to the filter component', async () => {
+    const { findAllByText } = render(
       <RecoilRoot>
         <DatasetsPage
           pageContext={{
@@ -83,21 +70,32 @@ describe('Dataset Page', () => {
         />
       </RecoilRoot>
     );
-    // expect(getByRole('button', { name: 'here' }));
+
+    const datasetCount = pageQueryMock.allDatasets.datasets.length;
+    const text = await findAllByText(`Showing ${datasetCount} of ${datasetCount} Datasets`, { exact: false });
+    expect(text.length).toBeGreaterThan(0);
+  });
+
+  it('filters datasets when search is activated', async () => {
+    const { findAllByTestId, getByRole, findAllByText } = render(
+      <RecoilRoot>
+        <DatasetsPage
+          pageContext={{
+            filters: mockFilters,
+          }}
+        />
+      </RecoilRoot>
+    );
     const searchField = getByRole('textbox', { name: 'Enter search terms' });
 
     expect(await findAllByTestId('cardPlacement')).toHaveLength(3);
-    fireEvent.change(searchField, { target: { value: 'asdfasdfasdfasdfasdf' } });
-    // expect(await findAllByTestId('cardPlacement')).toHaveLength(0);
+    act(() => {
+      fireEvent.change(searchField, { target: { value: 'asdfasdfasdfasdfasdf' } });
+    });
+    const datasetCount = pageQueryMock.allDatasets.datasets.length;
 
-    // renderer.act(() => {
-    //   searchField.props.changeHandler('asdfasdfasdfasdfasdf');
-    // });
-
-    // expect(filterComponent.props.searchResults.length).toBe(0);
-
-    // Revert search back to default state
-    // clearSearch();
+    const text = await findAllByText(`Showing 0 of ${datasetCount} Datasets`, { exact: false });
+    expect(text.length).toBeGreaterThan(0);
   });
 
   it('includes the search field', () => {
@@ -113,8 +111,8 @@ describe('Dataset Page', () => {
     expect(getByRole('textbox', { name: 'Enter search terms' })).toBeInTheDocument();
   });
 
-  it('reports whether search is active or not', () => {
-    const { getByRole } = render(
+  it('reports whether search is active or not', async () => {
+    const { getByRole, findByRole } = render(
       <RecoilRoot>
         <DatasetsPage
           pageContext={{
@@ -124,14 +122,14 @@ describe('Dataset Page', () => {
       </RecoilRoot>
     );
     const searchField = getByRole('textbox', { name: 'Enter search terms' });
-    // expect(filterComponent.props.searchIsActive).toBeFalsy();
-
-    renderer.act(() => {
-      searchField.props.changeHandler('fiscal data is cool');
+    const sortByAlphabetical = await findByRole('button', { name: 'Change sort order from Alphabetical (A to Z)' });
+    //sort by defaults to alphabetical when search is not active
+    expect(sortByAlphabetical).toBeInTheDocument();
+    act(() => {
+      fireEvent.change(searchField, { target: { value: 'fiscal data is cool' } });
     });
-
-    expect(filterComponent.props.searchIsActive).toBeTruthy();
-    // Revert search back to default state
-    clearSearch();
+    //updates to most relevant when search is active
+    const sortByMostRelevant = await findByRole('button', { name: 'Change sort order from Most Relevant' });
+    expect(sortByMostRelevant).toBeInTheDocument();
   });
 });

@@ -110,8 +110,6 @@ describe('Example Response', () => {
       instance.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'Finally a...oh wait...this table is also ignored' }} />);
       instance.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'NOT IGNORED' }} />);
     });
-
-    await waitForElementToBeRemoved(() => instance.getByTestId('loadingIcon'));
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
@@ -151,24 +149,24 @@ describe('Example Response', () => {
       .mockResponses([async () => await new Promise(res => setTimeout(() => res(new Error('invalid-json')), 100)), {}])
       .mockResponse(JSON.stringify({ data: 'This is GOOD data', meta: 'This is GOOD meta' }));
 
-    await act(() => {
-      rendered.rerender(
-        <DatasetDetailExamples
-          isAccordionOpen
-          selectedTable={{
-            dummy: 'Does not match any previous tests',
-            endpoint: 'Testing',
-            dateField: '1900-01-01',
-          }}
-        />
-      );
+    rendered.rerender(
+      <DatasetDetailExamples
+        isAccordionOpen
+        selectedTable={{
+          dummy: 'Does not match any previous tests',
+          endpoint: 'Testing',
+          dateField: '1900-01-01',
+        }}
+      />
+    );
+    act(() => {
       jest.runAllTimers();
-      rendered.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={selectedTable} />);
     });
+    rendered.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={selectedTable} />);
 
     await waitForElementToBeRemoved(() => rendered.getByTestId('loadingIcon'));
-    const responseEl = await rendered.findByTestId('exampleResponse').textContent;
-    expect(responseEl).toContain('This is GOOD data');
-    expect(responseEl).toContain('This is GOOD meta');
+    const responseEl = await rendered.findByTestId('exampleResponse');
+    expect(responseEl.textContent).toContain('This is GOOD data');
+    expect(responseEl.textContent).toContain('This is GOOD meta');
   });
 });
