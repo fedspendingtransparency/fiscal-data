@@ -278,6 +278,7 @@ const TableSectionContainer = ({
   }, [userFilterSelection]);
 
   const legendToggler = e => {
+    console.log('legend', legend);
     if (e.key === undefined || e.key === 'Enter') {
       if (legend) {
         Analytics.event({

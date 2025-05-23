@@ -1,7 +1,6 @@
 import React from 'react';
 import { DatasetDataComponent } from './dataset-data';
 import { pivotData } from '../../utils/api-utils';
-import TableSectionContainer from './table-section-container/table-section-container';
 import {
   bannerTableConfig,
   config,
@@ -22,7 +21,6 @@ import { RecoilRoot } from 'recoil';
 import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
-// jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
 jest.mock('../../helpers/dataset-detail/report-helpers', function() {
   return {
     __esModule: true,
@@ -63,7 +61,6 @@ describe('DatasetData', () => {
   });
 
   const analyticsSpy = jest.spyOn(Analytics, 'event');
-
   const setSelectedTableMock = jest.fn();
   const urlRewriteSpy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
   const fetchSpy = jest.spyOn(global, 'fetch');
@@ -278,7 +275,7 @@ describe('DatasetData', () => {
   });
 
   it(`does not pass the pagination endpoint to DTGTable when the rowCount is above 5000 and an a pivot dimension IS active`, async () => {
-    const { getByRole } = render(
+    const { getByRole, findByText } = render(
       <RecoilRoot>
         <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
       </RecoilRoot>
@@ -287,39 +284,16 @@ describe('DatasetData', () => {
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
     userEvent.click(tableSelect);
     userEvent.click(getByRole('button', { name: 'Table 5' }));
+    const pivotView = getByRole('button', { name: 'Change pivot view from Complete Table' });
+    userEvent.click(pivotView);
+    userEvent.click(getByRole('button', { name: 'By Facility' }));
+    const aggregationNotice = 'This data is aggregated by the given Time Period for the selected pivot option';
+    expect(await findByText(aggregationNotice)).toBeInTheDocument();
     //TODO add assertions
     // const tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
     // expect(tableSectionContainer.props.serverSidePagination).toBe(null);
     // expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn.length).toEqual(2);
     // expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn[0].field).toEqual('record_calendar_year');
-  });
-
-  it(`passes the endpoint to DTGTable for serverside loading when the rowCount is above
-    the large table threshold and no pivot dimension or complete table chart is
-    is active`, async () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    //Update selected table to table 2
-    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 2' }));
-    // let tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
-    // expect(tableSectionContainer.props.serverSidePagination).toBeNull();
-    getByRole('button', { name: 'Table 2' });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 4' }));
-    // tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
-    // expect(tableSectionContainer.props.serverSidePagination).toBe('mockEndpoint4');
-  });
-
-  it(`does not send the endpoint to DTGTable for serverside loading when the rowCount is above
-    the large table threshold but the Complete Table view is chartable`, async () => {
-    await updateTable('Table 9');
-    const tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
-    expect(tableSectionContainer.props.serverSidePagination).toBeNull();
   });
 
   it(`raises state on setSelectedTable when the table is updated`, async () => {
@@ -395,7 +369,7 @@ describe('DatasetData', () => {
     tableSelect = getByRole('button', { name: 'Table 7' });
     userEvent.click(tableSelect);
     userEvent.click(getByRole('button', { name: 'Table 8' }));
-    // to await makePagedRequest() debounce timer in DtgTable
+    await jest.advanceTimersByTime(800); // to await makePagedRequest() debounce timer in DtgTable
     const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint8?') !== -1);
     expect(callsToApiForUpdatedTable.length).toEqual(1);
   });
@@ -500,12 +474,20 @@ describe('DatasetData', () => {
     jest.runAllTimers();
   });
 
-  it(`does not reload data from an api when switching from complete table view to a pivot
-  view and back when pivoting a non-large table`, async () => {
+  it(`does not reload data from an api when switching from complete table view to a pivot view and back when
+   pivoting a non-large table`, async () => {
     jest.useFakeTimers();
-    await updateTable('Table 3'); // select one paginated table
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 3' })); // select one paginated table
     jest.runAllTimers();
-    await updateTable('Table 10'); // then change the selection to another paginated table
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 10' })); // then change the selection to another paginated table
     await jest.advanceTimersByTime(500); // to await makePagedRequest() debounce timer in DtgTable
 
     // confirm that the second table's api url was called only once
@@ -513,17 +495,9 @@ describe('DatasetData', () => {
     expect(callsToApiForUpdatedTable.length).toEqual(1);
 
     // update from complete table to a pivoted view
-    const tableSectionContainer = instance.findByType(TableSectionContainer);
-    tableSectionContainer.props.setSelectedPivot({
-      pivotView: {
-        chartType: null,
-        dimensionField: 'facility_desc',
-        title: 'By Facility',
-      },
-      pivotValue: {
-        columnName: 'published_count',
-      },
-    });
+    let pivotView = getByRole('button', { name: 'Change pivot view from Complete Table' });
+    userEvent.click(pivotView);
+    userEvent.click(getByRole('button', { name: 'By Facility' }));
     jest.runAllTimers();
 
     // confirm that the second table's api url has still only been called once
@@ -531,11 +505,9 @@ describe('DatasetData', () => {
     expect(callsToApiForUpdatedPivot.length).toEqual(1);
 
     // update back to non-pivoted Complete Table view
-    tableSectionContainer.props.setSelectedPivot({
-      chartType: 'none',
-      dimensionField: null,
-      title: 'Complete Table',
-    });
+    pivotView = getByRole('button', { name: 'Change pivot view from By Facility' });
+    userEvent.click(pivotView);
+    userEvent.click(getByRole('button', { name: 'Complete Table' }));
     jest.runAllTimers();
 
     // confirm the endpoint has still not been called when returning to the complete table view

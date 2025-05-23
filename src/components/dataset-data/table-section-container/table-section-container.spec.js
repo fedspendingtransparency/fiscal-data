@@ -436,10 +436,9 @@ describe('TableSectionContainer with Pivot Options', () => {
   it(`configures the legend to be visible by default when the screen size is wider than tablet
   width, but once the user interactively toggles the state, changes in screen size are ignored
   with respect to legend visibility`, async () => {
-    // const onToggleLegendEvent = { preventDefault: jest.fn() };
-
+    jest.useFakeTimers();
     global.window.innerWidth = GLOBALS.breakpoints.large + 1;
-    const { getByTestId, rerender } = render(
+    const { getByTestId, rerender, findByRole } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -459,12 +458,13 @@ describe('TableSectionContainer with Pivot Options', () => {
     expect(datasetChart).toHaveClass('legendActive');
 
     // "interactively" toggle the legend to INVISIBLE
-    fireEvent.click(getByTestId('pivotToggle'));
-    datasetChart = getByTestId('dataset-chart');
+    fireEvent.click(await findByRole('button', { name: 'Hide Legend' }));
+    // datasetChart = getByTestId('dataset-chart');
+    jest.runAllTimers();
     await waitFor(() => expect(datasetChart).not.toHaveClass('legendActive'));
 
     // "interactively" toggle the legend to VISIBLE
-    fireEvent.click(getByTestId('pivotToggle'));
+    userEvent.click(getByTestId('pivotToggle'));
     datasetChart = getByTestId('dataset-chart');
     expect(datasetChart).toHaveClass('legendActive');
 

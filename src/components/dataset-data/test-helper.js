@@ -219,6 +219,7 @@ export const config = {
       rowCount: 150001,
       dateField: 'record_date',
       dataDisplays: [
+        { chartType: 'none', dimensionField: null, title: 'Complete Table' },
         {
           chartType: null,
           dimensionField: 'facility_desc',

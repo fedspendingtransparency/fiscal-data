@@ -14,39 +14,38 @@ import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { DataPreview } from './data-preview';
-import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
-jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
-jest.mock('../../helpers/dataset-detail/report-helpers', function() {
-  return {
-    __esModule: true,
-    formatReportDate: jest.fn(),
-    getPublishedDates: jest.fn().mockImplementation(() => [
-      {
-        path: '/downloads/mspd_reports/opdm092020.pdf',
-        report_group_desc: 'Entire (.pdf)',
-        report_date: new Date('2020-09-30'),
-        filesize: '188264',
-        report_group_sort_order_nbr: 0,
-        report_group_id: 3,
-      },
-    ]),
-    getLatestReport: jest.fn().mockImplementation(() => ({
-      path: '/downloads/mspd_reports/opdm092020.pdf',
-      report_group_desc: 'Entire (.pdf)',
-      report_date: new Date('2020-09-30'),
-      filesize: '188264',
-      report_group_sort_order_nbr: 0,
-      report_group_id: 3,
-    })),
-    getDateLabelForReport: jest.fn().mockImplementation(() => 'Sept 2020'),
-  };
-});
+// jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
+// jest.mock('../../helpers/dataset-detail/report-helpers', function() {
+//   return {
+//     __esModule: true,
+//     formatReportDate: jest.fn().mockImplementation(),
+//     getPublishedDates: jest.fn().mockImplementation(() => [
+//       {
+//         path: '/downloads/mspd_reports/opdm092020.pdf',
+//         report_group_desc: 'Entire (.pdf)',
+//         report_date: new Date('2020-09-30'),
+//         filesize: '188264',
+//         report_group_sort_order_nbr: 0,
+//         report_group_id: 3,
+//       },
+//     ]),
+//     getLatestReport: jest.fn().mockImplementation(() => ({
+//       path: '/downloads/mspd_reports/opdm092020.pdf',
+//       report_group_desc: 'Entire (.pdf)',
+//       report_date: new Date('2020-09-30'),
+//       filesize: '188264',
+//       report_group_sort_order_nbr: 0,
+//       report_group_id: 3,
+//     })),
+//     getDateLabelForReport: jest.fn().mockImplementation(() => 'Sept 2020'),
+//   };
+// });
 jest.mock('../../variables.module.scss', () => {
   return {
     breakpointSm: '600px',
@@ -64,23 +63,9 @@ describe('DataPreview', () => {
   });
 
   const analyticsSpy = jest.spyOn(Analytics, 'event');
-
-  let component;
-  let instance;
   const setSelectedTableMock = jest.fn();
   const urlRewriteSpy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
   const fetchSpy = jest.spyOn(global, 'fetch');
-
-  // beforeEach(async () => {
-  //   await renderer.act(async () => {
-  //     component = await renderer.create(
-  //       <RecoilRoot>
-  //         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-  //       </RecoilRoot>
-  //     );
-  //     instance = component.root;
-  //   });
-  // });
 
   afterEach(() => {
     fetchSpy.mockClear();
@@ -88,25 +73,6 @@ describe('DataPreview', () => {
     analyticsSpy.mockClear();
     global.console.error.mockClear();
   });
-
-  // const updateTable = async tableName => {
-  //   const fdSectionInst = instance.findByType(DataPreviewFilterSection);
-  //   const toggleBtn = fdSectionInst.findByProps({
-  //     'data-testid': 'dropdownToggle',
-  //   });
-  //   await renderer.act(() => {
-  //     toggleBtn.props.onClick();
-  //   });
-  //   instance.findByProps({ 'data-testid': 'dropdown-list' }); // will throw error if not found
-  //   const dropdownOptions = instance.findAllByProps({
-  //     'data-testid': 'dropdown-list-option',
-  //   });
-  //   await renderer.act(async () => {
-  //     const opt = dropdownOptions.find(ddo => ddo.props.children.props.children === tableName);
-  //     await opt.props.onClick();
-  //   });
-  //   return dropdownOptions;
-  // };
 
   it(`renders the DataPreview component which has the expected title text at desktop mode`, () => {
     const { getByTestId } = render(
@@ -333,27 +299,50 @@ describe('DataPreview', () => {
   //   });
   // });
   //
-  // it(`does not duplicate API calls when a user switches between two tables with
-  // paginated data`, async () => {
-  //   jest.useFakeTimers();
-  //   await updateTable('Table 7'); // select one paginated table
-  //   await updateTable('Table 6'); // then change the selection to another paginated table
-  //   // to await makePagedRequest() debounce timer in DtgTable
-  //   await jest.advanceTimersByTime(800);
-  //   await updateTable('Table 7');
-  //   // confirm that the second table's api url was called only once
-  //   const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint6?') !== -1);
-  //   expect(callsToApiForUpdatedTable.length).toEqual(1);
-  // });
+  it(`does not duplicate API calls when a user switches between two tables with paginated data`, async () => {
+    jest.useFakeTimers();
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    // select one paginated table
+    const tableSelect = getByRole('button', { name: 'Data Table: Table 1' });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 7' }));
 
-  // it(`does not duplicate api calls when switching from a large table to a small one`, async () => {
-  //   jest.useFakeTimers();
-  //   await updateTable('Table 7'); // select one paginated table
-  //   await updateTable('Table 8'); // then change the selection to a non-paginated table
-  //   // to await makePagedRequest() debounce timer in DtgTable
-  //   const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint8?') !== -1);
-  //   expect(callsToApiForUpdatedTable.length).toEqual(1);
-  // });
+    // then change the selection to another paginated table
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 6' }));
+
+    // to await makePagedRequest() debounce timer in DtgTable
+    await jest.advanceTimersByTime(800);
+
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 7' })); // confirm that the second table's api url was called only once
+    const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint6?') !== -1);
+    expect(callsToApiForUpdatedTable.length).toEqual(1);
+  });
+
+  it(`does not duplicate api calls when switching from a large table to a small one`, async () => {
+    jest.useFakeTimers();
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    // select one paginated table
+    const tableSelect = getByRole('button', { name: 'Data Table: Table 1' });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 7' }));
+
+    // then change the selection to a non-paginated table
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 8' }));
+    await jest.runAllTimers(); // to await makePagedRequest() debounce timer in DtgTable
+    const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint8?') !== -1);
+    expect(callsToApiForUpdatedTable.length).toEqual(1);
+  });
 
   it(`grabs the published reports from the publishedReports prop if the dataset is whitelisted`, async () => {
     const origId = config.datasetId;
@@ -471,16 +460,21 @@ describe('DataPreview', () => {
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
       </RecoilRoot>
     );
-    const rangePresets = instance.findByType(DateRangeFilter);
-    expect(rangePresets.props.datasetDateRange).toEqual({
-      earliestDate: '2002-01-01',
-      latestDate: '2020-04-13',
-    });
+    const filtersDropdown = getByRole('button', { name: 'Filters: 0 applied' });
+    userEvent.click(filtersDropdown);
+    userEvent.click(getByRole('button', { name: 'Record Date' }));
+    userEvent.click(getByRole('radio', { name: 'Preset' }));
+    userEvent.click(getByRole('radio', { name: 'All' }));
+    userEvent.click(getByRole('radio', { name: 'Custom' }));
+    const fromDatePicker = getByRole('button', { name: 'Select Start Date' });
+    const toDatePicker = getByRole('button', { name: 'Select End Date' });
+    expect(within(fromDatePicker).getByText('January 1, 2002', { exact: false })).toBeInTheDocument();
+    expect(within(toDatePicker).getByText('April 13, 2020', { exact: false })).toBeInTheDocument();
   });
 
   it(`limits table filters to just record date when "All Data Tables" is selected`, async () => {
     const { getByRole, getByText } = render(
-      <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />,
+      <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={null} />,
       {
         wrapper: RecoilRoot,
       }
@@ -519,7 +513,7 @@ describe('DataPreview', () => {
   it('Updates selected table and pivot view', () => {
     const { getByRole } = render(
       <RecoilRoot>
-        <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />
+        <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={null} />
       </RecoilRoot>
     );
 
@@ -547,7 +541,7 @@ describe('DataPreview', () => {
   it('hides data table select when there is only one api with no pivot options', () => {
     const { queryByRole } = render(
       <RecoilRoot>
-        <DataPreview config={noPivotConfig} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={{}} />
+        <DataPreview config={noPivotConfig} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={null} />
       </RecoilRoot>
     );
     const tableSelectDropdown = queryByRole('button', { name: 'Data Table: Table 1' });
@@ -580,5 +574,33 @@ describe('Nested Data Table', () => {
       </RecoilRoot>
     );
     expect(await findByRole('table')).toBeInTheDocument();
+  });
+});
+
+describe('published reports', () => {
+  jest.mock('../../helpers/dataset-detail/report-helpers', function() {
+    return {
+      __esModule: true,
+      formatReportDate: jest.fn().mockImplementation(),
+      getPublishedDates: jest.fn().mockImplementation(() => [
+        {
+          path: '/downloads/mspd_reports/opdm092020.pdf',
+          report_group_desc: 'Entire (.pdf)',
+          report_date: new Date('2020-09-30'),
+          filesize: '188264',
+          report_group_sort_order_nbr: 0,
+          report_group_id: 3,
+        },
+      ]),
+      getLatestReport: jest.fn().mockImplementation(() => ({
+        path: '/downloads/mspd_reports/opdm092020.pdf',
+        report_group_desc: 'Entire (.pdf)',
+        report_date: new Date('2020-09-30'),
+        filesize: '188264',
+        report_group_sort_order_nbr: 0,
+        report_group_id: 3,
+      })),
+      getDateLabelForReport: jest.fn().mockImplementation(() => 'Sept 2020'),
+    };
   });
 });

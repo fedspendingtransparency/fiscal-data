@@ -71,7 +71,6 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
   const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
-  console.log('...........');
   useEffect(() => {
     if (!detailViewState) {
       setConfigOption(columnConfig);

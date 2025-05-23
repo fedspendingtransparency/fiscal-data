@@ -350,10 +350,7 @@ export default function DtgTable({
   };
 
   useMemo(() => {
-    console.log(!!tableProps, selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE, !pivotSelected?.pivotValue);
     if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
-      console.log(23);
-
       if (dePaginated !== null && dePaginated !== undefined) {
         // large dataset tables <= 20000 rows
         setReactTableData(dePaginated);
@@ -364,7 +361,6 @@ export default function DtgTable({
           const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
           setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });
         } else {
-          console.log(1);
           setReactTableData(rawData);
         }
         setManualPagination(false);
@@ -389,10 +385,8 @@ export default function DtgTable({
 
   useMemo(() => {
     if (tableProps) {
-      console.log(22);
       // Pivot data
       if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
-        console.log(2);
         setReactTableData(rawData);
         if (setManualPagination) {
           setManualPagination(false);
@@ -444,11 +438,9 @@ export default function DtgTable({
       !pivotSelected?.pivotValue &&
       !rawData?.pivotApplied
     ) {
-      console.log(44);
       if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
         // data with current date range < 20000
         if (rawData) {
-          console.log(4);
           setReactTableData(rawData);
           setManualPagination(false);
         }
