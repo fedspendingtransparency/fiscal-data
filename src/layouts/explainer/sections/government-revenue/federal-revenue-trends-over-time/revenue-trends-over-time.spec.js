@@ -1,11 +1,12 @@
 import React from 'react';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import FederalRevenueTrendsOverTime from './federal-revenue-trends-over-time';
 import fetchMock from 'fetch-mock';
 
 class ResizeObserver {
   observe() {}
   unobserve() {}
+  disconnect() {}
 }
 
 jest.useFakeTimers();
@@ -271,29 +272,31 @@ describe('revenue trends over time section', () => {
 
   it('renders the revenue trends line chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId } = render(<FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />);
+    const { findByTestId } = render(<FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getByTestId('revenueTrendsLineChart')).toBeInTheDocument();
+    expect(await findByTestId('revenueTrendsLineChart')).toBeInTheDocument();
   });
 
   it('chart fires ga4 event on mouse over', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId } = render(<FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />);
+    const { findByTestId } = render(<FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getByTestId('revenueTrendsLineChart')).toBeInTheDocument();
-    fireEvent.mouseOver(getByTestId('chartParentTrends'));
-    jest.runAllTimers();
+    expect(await findByTestId('revenueTrendsLineChart')).toBeInTheDocument();
+    fireEvent.mouseOver(await findByTestId('chartParentTrends'));
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'chart-hover-federal-rev-trends',
     });
-    fireEvent.mouseLeave(getByTestId('chartParentTrends'));
+    fireEvent.mouseLeave(await findByTestId('chartParentTrends'));
   });
 
   it('custom slices mouse interactions', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getAllByTestId } = render(<FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />);
+    const { findAllByTestId } = render(<FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    const slices = await getAllByTestId('slice');
+    const slices = await findAllByTestId('slice');
     expect(slices).toBeDefined();
     fireEvent.mouseEnter(slices[0]);
     fireEvent.mouseMove(slices[0]);
@@ -304,9 +307,9 @@ describe('revenue trends over time section', () => {
 
   it('renders data for section', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText } = render(<FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />);
+    const { findByText } = render(<FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getByText('since 2015', { exact: false })).toBeInTheDocument();
-    expect(await getByText('- 2021 dollars', { exact: false })).toBeInTheDocument();
+    expect(await findByText('since 2015', { exact: false })).toBeInTheDocument();
+    expect(await findByText('- 2021 dollars', { exact: false })).toBeInTheDocument();
   });
 });

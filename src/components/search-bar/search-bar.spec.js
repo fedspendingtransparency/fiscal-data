@@ -1,5 +1,4 @@
 import { fireEvent, render } from '@testing-library/react';
-import { act } from 'react-test-renderer';
 import React from 'react';
 import SearchBar from './search-bar';
 import userEvent from '@testing-library/user-event';
@@ -40,9 +39,7 @@ describe('', () => {
 
     const searchBar = getByRole('textbox');
 
-    act(() => {
-      fireEvent.change(searchBar, { target: { value: 'test' } });
-    });
+    fireEvent.change(searchBar, { target: { value: 'test' } });
     expect(changeHandlerSpy).toHaveBeenCalled();
   });
 

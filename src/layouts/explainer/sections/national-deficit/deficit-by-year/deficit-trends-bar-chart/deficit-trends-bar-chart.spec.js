@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, fireEvent, act } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { setGlobalFetchResponse } from '../../../../../../utils/mock-utils';
 import { mockDeficitTrendsData } from '../../../../explainer-test-helper';
 import { DeficitTrendsBarChart } from './deficit-trends-bar-chart';
@@ -30,9 +30,10 @@ describe('Deficit Trends Bar Chart', () => {
 
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
+    const { findAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getAllByTestId('customBar')[0]).toBeInTheDocument();
+    const customBars = await findAllByTestId('customBar');
+    expect(customBars[0]).toBeInTheDocument();
 
     // explicitly declare that the chart is not scrolled into view
     await act(async () => {
@@ -76,9 +77,10 @@ describe('Deficit Trends Bar Chart', () => {
 
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
+    const { findAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getAllByTestId('customBar')[0]).toBeInTheDocument();
+    const customBars = await findAllByTestId('customBar');
+    expect(customBars[0]).toBeInTheDocument();
 
     await act(async () => {
       // explicitly declare that the chart is not scrolled into view
@@ -87,7 +89,6 @@ describe('Deficit Trends Bar Chart', () => {
 
     let yearHeader = await getByTestId('deficitFiscalYearHeader');
     let deficitAmountHeader = await getByTestId('deficitTotalHeader');
-    const customBars = getAllByTestId('customBar');
     const firstBar = customBars[0];
 
     await act(async () => {
@@ -114,9 +115,10 @@ describe('Deficit Trends Bar Chart', () => {
 
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
+    const { findAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getAllByTestId('customBar')[0]).toBeInTheDocument();
+    const customBars = await findAllByTestId('customBar');
+    expect(customBars[0]).toBeInTheDocument();
 
     await act(async () => {
       // explicitly declare that the chart is not scrolled into view
