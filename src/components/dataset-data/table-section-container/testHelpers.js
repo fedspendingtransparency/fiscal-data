@@ -131,6 +131,7 @@ export const selectedTableLessFields = {
   apiId: 2,
   endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
   tableName: 'Table 1',
+  rowCount: 4,
   fields: [
     { columnName: 'facility_desc', prettyName: 'Facility Description', dataType: 'string' },
     { columnName: 'book_value_amt', prettyName: 'Book Value', dataType: 'string' },
