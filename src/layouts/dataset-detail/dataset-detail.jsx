@@ -14,9 +14,8 @@ import DatasetIntroduction from '../../components/dataset-introduction/dataset-i
 import BannerCallout from '../../components/banner-callout/banner-callout';
 import Experimental from '../../components/experimental/experimental';
 import { bannerCalloutContainer } from '../../components/masthead/masthead.module.scss';
-import ReportsSection from '../../components/published-reports/reports-section/reports-section';
-import GenerativeReportsSection from '../../components/generative-reports-section/generative-reports-section';
 import DataPreview from '../../components/data-preview/data-preview';
+import PublishedReports from '../../components/published-reports/published-reports';
 
 export const query = graphql`
   query relatedDatasets($relatedDatasets: [String]) {
@@ -94,12 +93,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           datasetId={pageContext.config.datasetId}
           hideRawDataTable={hideRawDataTable}
         />
-        {pageConfig.reportGenKey && (
-          <Experimental featureId="defaultReportTable">
-            <GenerativeReportsSection dataset={pageConfig} apisProp={pageConfig.apis} reportGenKey={pageConfig.reportGenKey} />
-          </Experimental>
-        )}
-        <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
+        <PublishedReports pageConfig={pageConfig} />
         {!hideRawDataTable && (
           <>
             <Experimental featureId="dataPreview">
