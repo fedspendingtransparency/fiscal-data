@@ -72,7 +72,8 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
               earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
               active={startDateActive}
               label="Enter Start Date"
-              noMatchErrorMessage={'out of range error'}
+              minDateErrorMessage={'Date should not be before minimal date'}
+              maxDateErrorMessage={'Date should not be after maximal date'}
             />
           </DropdownContainer>
           <DropdownContainer setActive={setEndDateActive} active={endDateActive} dropdownButton={endDateButton}>
@@ -84,7 +85,8 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
               earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
               active={endDateActive}
               label="Enter End Date"
-              noMatchErrorMessage={'Date should not be after maximal date'}
+              minDateErrorMessage={'Date should not be before minimal date'}
+              maxDateErrorMessage={'Date should not be after maximal date'}
             />
           </DropdownContainer>
         </>
