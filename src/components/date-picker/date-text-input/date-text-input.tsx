@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 import {errorState, errorStateLabel, helpLabel, inputLabel, selectedDateDisplay} from './date-text-input.module.scss';
-import {monthFullNames, monthNames} from '../../../../utils/api-utils';
+import {monthFullNames, monthNames} from '../../../utils/api-utils';
 
 interface iDateTextInput {
   label: string;

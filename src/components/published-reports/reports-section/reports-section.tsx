@@ -3,7 +3,7 @@ import DownloadReportTable from '../download-report-table/download-report-table'
 import { filtersContainer } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
-import DatePicker from '../date-picker/date-picker';
+import DatePicker from '../../../components/date-picker/date-picker';
 import { getAllReportDates, isReportGroupDailyFrequency } from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';

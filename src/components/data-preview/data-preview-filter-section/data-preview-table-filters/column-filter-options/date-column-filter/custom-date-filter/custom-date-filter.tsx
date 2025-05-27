@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import DaySelector from '../../../../../../published-reports/date-picker/day-selector/day-selector';
 import DropdownLabelButton from '../../../../../../dropdown-label-button/dropdown-label-button';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import DropdownContainer from '../../../../../../dropdown-container/dropdown-container';
@@ -7,6 +6,7 @@ import { formatReportDate } from '../../../../../../../helpers/dataset-detail/re
 import { customDatesContainer } from './custom-date-filter.module.scss';
 import { ICustomDateFilter } from '../../../../../../../models/data-preview/ICustomDateFilter';
 import { isBefore } from 'date-fns';
+import DaySelector from '../../../../../../date-picker/day-selector/day-selector';
 
 const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(null);
