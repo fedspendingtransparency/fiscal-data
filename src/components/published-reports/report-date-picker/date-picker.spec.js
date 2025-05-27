@@ -58,7 +58,7 @@ describe('Month Picker', () => {
         selectedDate={mockSelectedDate}
       />
     );
-    const button = getByRole('button', { name: 'Select Published Report Date' });
+    const button = getByRole('button', { name: 'Select Published Date' });
     act(() => {
       userEvent.tab();
       expect(button).toHaveFocus();
@@ -82,7 +82,7 @@ describe('Month Picker', () => {
         setSelectedDate={mockSetSelectedDate}
       />
     );
-    const button = getByRole('button', { name: 'Select Published Report Date' });
+    const button = getByRole('button', { name: 'Select Published Date' });
     act(() => {
       fireEvent.click(button);
     });
@@ -112,7 +112,7 @@ describe('Month Picker', () => {
         selectedDate={mockSelectedDate}
       />
     );
-    const button = getByRole('button', { name: 'Select Published Report Date' });
+    const button = getByRole('button', { name: 'Select Published Date' });
     expect(within(button).getByText('August 2024')).toBeInTheDocument();
 
     act(() => {
@@ -139,7 +139,7 @@ describe('Month Picker', () => {
         selectedDate={mockSelectedDate}
       />
     );
-    const button = getByRole('button', { name: 'Select Published Report Date' });
+    const button = getByRole('button', { name: 'Select Published Date' });
     expect(within(button).getByText('August 8, 2024')).toBeInTheDocument();
 
     act(() => {
@@ -162,6 +162,7 @@ describe('Month Picker', () => {
         allDates={[]}
         allYears={yearDropdownList}
         selectedDate={mockSelectedDate}
+        label={'Published Date (Example: May 1998 or 05/1998)'}
       />
     );
     const button = getByRole('button');
@@ -186,7 +187,7 @@ describe('Month Picker', () => {
         setSelectedDate={mockSetSelectedDate}
       />
     );
-    const button = getByRole('button', { name: 'Select Published Report Date' });
+    const button = getByRole('button', { name: 'Select Published Date' });
     expect(within(button).getByText('August 8, 2024')).toBeInTheDocument();
 
     act(() => {

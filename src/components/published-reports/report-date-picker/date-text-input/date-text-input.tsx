@@ -167,7 +167,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
 
   return (
     <>
-      <div className={inputLabel}>{label}</div>
+      <div className={inputLabel}>{label || 'Published Date (Example: May 1998 or 05/1998)'}</div>
       <input
         type="text"
         className={`${selectedDateDisplay} ${!!errorMessage && errorState}`}
