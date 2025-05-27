@@ -30,7 +30,9 @@ describe('Deficit Trends Bar Chart', () => {
 
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
+
     const { findAllByTestId, findByTestId } = render(<DeficitTrendsBarChart />);
+
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const customBars = await findAllByTestId('customBar');
     expect(customBars[0]).toBeInTheDocument();
