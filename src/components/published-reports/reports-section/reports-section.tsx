@@ -57,6 +57,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
     // todo - Use a better manner of reassigning the report_date prop to jsdates.
     if (allReports?.length > 0) {
       const sortedReports = getPublishedDates(allReports).sort((a, b) => b.report_date - a.report_date);
+      console.log(sortedReports);
       const latestReport = sortedReports[0].report_date;
       if (latestReport.toString() !== 'Invalid Date') {
         const earliestReport = sortedReports[sortedReports.length - 1].report_date;
@@ -104,6 +105,8 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
                 label={'Published Date (Example: May 1, 1998 or 05/01/1998)'}
+                minDateErrorMessage={'Date should not be before minimal date'}
+                maxDateErrorMessage={'Date should not be after maximal date'}
               />
             )}
           </div>

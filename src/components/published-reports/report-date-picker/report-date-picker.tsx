@@ -27,7 +27,8 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
   setSelectedDate,
   ignoreDisabled,
   label,
-  noMatchErrorMessage,
+  minDateErrorMessage,
+  maxDateErrorMessage,
 }: IMonthPicker) => {
   const [active, setActive] = useState(false);
 
@@ -72,7 +73,8 @@ const ReportDatePicker: FunctionComponent<IMonthPicker> = ({
             allReportDates={allReportDates}
             active={active}
             label={label}
-            noMatchErrorMessage={noMatchErrorMessage}
+            minDateErrorMessage={minDateErrorMessage}
+            maxDateErrorMessage={maxDateErrorMessage}
           />
         )}
       </>

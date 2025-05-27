@@ -33,11 +33,18 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
   allDates,
   selectedDate,
   label,
-  noMatchErrorMessage,
+  minDateErrorMessage,
+  maxDateErrorMessage,
+  fromDate,
+  toDate,
 }: IReportDateDropdown) => {
   const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
   // const reportLabel = daily ? 'Published Date (Example: May 1, 1998 or 05/01/1998)' : 'Published Date (Example: May 1998 or 05/1998)';
+
+  console.log('earliest report date', fromDate);
+  // console.log('latest report date', toDate);
+  console.log('selected date', selectedDate);
 
   return (
     <>
@@ -54,7 +61,10 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
             allDates={allDates}
             selectedDate={selectedDate}
             setCurrentDate={setCurrentDate}
-            noMatchErrorMessage={noMatchErrorMessage}
+            minDateErrorMessage={minDateErrorMessage}
+            maxDateErrorMessage={maxDateErrorMessage}
+            fromDate={fromDate}
+            toDate={toDate}
           />
         </div>
         {children}

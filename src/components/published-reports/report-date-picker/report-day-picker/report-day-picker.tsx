@@ -26,7 +26,8 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
   allReportDates,
   active,
   label,
-  noMatchErrorMessage,
+  minDateErrorMessage,
+  maxDateErrorMessage,
 }: IReportDayPicker) => {
   const [currentDate, setCurrentDate] = useState<Date>(selectedDate);
   const [month, setMonth] = useState<Date>(selectedDate);
@@ -67,7 +68,10 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
           selectedDate={currentDate !== undefined && formatReportDate(currentDate, true, true)}
           allDates={allReportDates}
           label={label}
-          noMatchErrorMessage={noMatchErrorMessage}
+          fromDate={earliestReportDate}
+          toDate={latestReportDate}
+          minDateErrorMessage={minDateErrorMessage}
+          maxDateErrorMessage={maxDateErrorMessage}
         >
           <DayPicker
             mode="single"

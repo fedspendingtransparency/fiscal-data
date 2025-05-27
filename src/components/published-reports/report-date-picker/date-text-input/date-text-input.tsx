@@ -16,8 +16,6 @@ interface iDateTextInput {
 }
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
-// below is what we make a custom error message for
-// export const noReportMatch = 'No reports or files available for this date.';
 export const helpText = 'Press Enter/Return to confirm.';
 
 const DateTextInput: FunctionComponent<iDateTextInput> = ({
@@ -31,7 +29,10 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   allDates,
   selectedDate,
   setCurrentDate,
-  noMatchErrorMessage,
+  minDateErrorMessage,
+  maxDateErrorMessage,
+  fromDate,
+  toDate,
 }) => {
   const dateInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -105,7 +106,11 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
 
       const reportMatch = allDates?.includes(formattedDate);
       if (!reportMatch) {
-        setErrorMessage(noMatchErrorMessage);
+        if (new Date(formattedDate) < new Date(fromDate)) {
+          setErrorMessage(minDateErrorMessage);
+        } else if (new Date(formattedDate) > new Date(toDate)) {
+          setErrorMessage(maxDateErrorMessage);
+        }
       } else {
         setErrorMessage(null);
         if (setSelectedMonth) {
@@ -124,6 +129,8 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       setErrorMessage(invalidDateText);
     }
   };
+
+  // console.log(selectedDate);
 
   const handleOnKeyDown = e => {
     const input = e.target.value;
