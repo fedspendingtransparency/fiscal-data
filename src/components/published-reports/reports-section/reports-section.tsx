@@ -8,6 +8,7 @@ import { getAllReportDates, isReportGroupDailyFrequency } from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
+import ReportFilter from '../report-filter/report-filter';
 
 export const title = 'Reports and Files';
 
@@ -93,7 +94,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
       <DatasetSectionContainer title={title} id="reports-and-files">
         {!hideReportDatePicker && (
           <div className={filtersContainer}>
-            {/*{filterByReport && <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} label={'test-label'} />}*/}
+            {filterByReport && <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} label={'test-label'} />}
             {latestReportDate && (
               <DatePicker
                 isDaily={isDailyReport}

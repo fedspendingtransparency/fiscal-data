@@ -106,7 +106,7 @@ describe('Reports Section component', () => {
 
       const datasetConfig = { reportSelection: 'byReport' };
       const { getByRole } = render(<ReportsSection dataset={datasetConfig} publishedReportsProp={mockReports} />);
-      const dateFilter = getByRole('button', { name: 'Select Published Report Date' });
+      const dateFilter = getByRole('button', { name: 'Select Published Date' });
       expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
       const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
       reportFilter.click();
@@ -121,7 +121,7 @@ describe('Reports Section component', () => {
       const datasetConfig = { reportSelection: 'byReport' };
       jest.useFakeTimers();
       const { getByRole, queryByRole } = render(<ReportsSection dataset={datasetConfig} publishedReportsProp={mockReports} />);
-      const dateFilter = getByRole('button', { name: 'Select Published Report Date' });
+      const dateFilter = getByRole('button', { name: 'Select Published Date' });
       expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
       const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
       reportFilter.click();

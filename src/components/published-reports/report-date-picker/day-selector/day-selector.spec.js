@@ -19,7 +19,7 @@ describe('Report Day Picker', () => {
       />
     );
     const dayButton = getByRole('gridcell', { name: '7' });
-    const input = getByRole('textbox', { name: 'Enter report date' });
+    const input = getByRole('textbox', { name: 'Enter date' });
     act(() => {
       userEvent.click(dayButton);
     });

@@ -30,7 +30,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [filter, setFilter] = useState('');
   const [visibleOptions, setVisibleOptions] = useState(selectedTable.fields);
-  const [selectedColumn, setSelectedColumn] = useState(visibleOptions[0]);
+  const [selectedColumn, setSelectedColumn] = useState(visibleOptions ? visibleOptions[0] : '');
   const [noResults, setNoResults] = useState(false);
 
   const filterDropdownButton = (

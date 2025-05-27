@@ -70,6 +70,6 @@ describe('Report Date Dropdown', () => {
         <div>children</div>
       </DateDropdown>
     );
-    expect(getByText('Published Date (Example: May 1, 1998 or 05/01/1998)')).toBeInTheDocument();
+    expect(getByText('Published Date (Example: May 1998 or 05/1998)')).toBeInTheDocument();
   });
 });
