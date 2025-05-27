@@ -5,7 +5,7 @@ export const getPublishedDates = reports => {
   if (!reports) {
     return reports;
   }
-  console.log(reports);
+
   reports.forEach(report => {
     const reportDate = report.report_date;
     if (isDate(reportDate)) return;

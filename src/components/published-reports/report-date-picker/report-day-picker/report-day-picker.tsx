@@ -55,7 +55,7 @@ const ReportDayPicker: FunctionComponent<IReportDayPicker> = ({
   useEffect(() => {
     setMonth(currentDate);
   }, [currentDate]);
-  console.log(formatReportDate(currentDate, true, true));
+
   return (
     <>
       {active && (
