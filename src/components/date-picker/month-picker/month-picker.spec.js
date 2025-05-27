@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, fireEvent } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import MonthPicker from './month-picker';
 
 describe('Month Picker', () => {
