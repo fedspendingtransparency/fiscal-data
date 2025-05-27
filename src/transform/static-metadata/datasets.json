@@ -559,7 +559,14 @@
     },
     "topics": ["financial-summaries"],
     "relatedDatasets": ["015-BFS-2014Q3-098"],
-    "currentDateButton": "byMonth"
+    "currentDateButton": "byMonth",
+    "runTimeReportConfig" :  {
+      "filterField": "account_number_tas",
+      "filterLabel": "Account",
+      "dateFilterType": "byMonth",
+      "noMatchHeader": "Header",
+      "noMatchBody": "Body"
+    }
   },
   "015-BFS-2024Q1-004": {
     "slug": "/receipts-by-department/",
