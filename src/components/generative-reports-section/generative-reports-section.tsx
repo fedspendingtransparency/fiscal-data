@@ -17,6 +17,7 @@ export const notice = 'Banner Notice';
 export const defaultSelection = { label: '(None selected)', value: '' };
 
 const GenerativeReportsSection: FunctionComponent<{ width: number }> = ({ width, dataset }) => {
+  console.log('here');
   const { apis: apisProp, reportGenKey } = dataset;
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
