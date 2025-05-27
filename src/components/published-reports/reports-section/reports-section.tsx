@@ -3,7 +3,7 @@ import DownloadReportTable from '../download-report-table/download-report-table'
 import { filtersContainer } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
-import ReportDatePicker from '../report-date-picker/report-date-picker';
+import DatePicker from '../report-date-picker/date-picker';
 import { getAllReportDates, isReportGroupDailyFrequency } from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
@@ -57,7 +57,6 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
     // todo - Use a better manner of reassigning the report_date prop to jsdates.
     if (allReports?.length > 0) {
       const sortedReports = getPublishedDates(allReports).sort((a, b) => b.report_date - a.report_date);
-      console.log(sortedReports);
       const latestReport = sortedReports[0].report_date;
       if (latestReport.toString() !== 'Invalid Date') {
         const earliestReport = sortedReports[sortedReports.length - 1].report_date;
@@ -96,12 +95,12 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
           <div className={filtersContainer}>
             {/*{filterByReport && <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} label={'test-label'} />}*/}
             {latestReportDate && (
-              <ReportDatePicker
-                isDailyReport={isDailyReport}
-                latestReportDate={latestReportDate}
-                earliestReportDate={earliestReportDate}
-                allReportDates={allReportDates}
-                allReportYears={allReportYears}
+              <DatePicker
+                isDaily={isDailyReport}
+                latestDate={latestReportDate}
+                earliestDate={earliestReportDate}
+                allDates={allReportDates}
+                allYears={allReportYears}
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
                 label={'Published Date (Example: May 1, 1998 or 05/01/1998)'}

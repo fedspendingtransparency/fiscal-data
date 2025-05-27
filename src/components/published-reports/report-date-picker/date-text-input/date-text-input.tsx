@@ -13,9 +13,14 @@ interface iDateTextInput {
   allDates: string[];
   selectedDate: string;
   setCurrentDate: (date: Date) => void;
+  minDateErrorMessage?: string;
+  maxDateErrorMessage?: string;
+  fromDate: Date;
+  toDate: Date;
 }
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
+export const noMatchDefaultMessage = 'No reports or files available for this date.';
 export const helpText = 'Press Enter/Return to confirm.';
 
 const DateTextInput: FunctionComponent<iDateTextInput> = ({
@@ -104,12 +109,12 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       formattedDate = day ? inputMonth + ' ' + day + ', ' + year : inputMonth + ' ' + year;
       dateInputRef.current.value = formattedDate;
 
-      const reportMatch = allDates?.includes(formattedDate);
-      if (!reportMatch) {
+      const dateMatch = allDates?.includes(formattedDate);
+      if (!dateMatch) {
         if (new Date(formattedDate) < new Date(fromDate)) {
-          setErrorMessage(minDateErrorMessage);
+          setErrorMessage(minDateErrorMessage || noMatchDefaultMessage);
         } else if (new Date(formattedDate) > new Date(toDate)) {
-          setErrorMessage(maxDateErrorMessage);
+          setErrorMessage(maxDateErrorMessage || noMatchDefaultMessage);
         }
       } else {
         setErrorMessage(null);
@@ -129,8 +134,6 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       setErrorMessage(invalidDateText);
     }
   };
-
-  // console.log(selectedDate);
 
   const handleOnKeyDown = e => {
     const input = e.target.value;
@@ -173,7 +176,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
         onFocus={handleFocus}
         onBlur={handleOnBlur}
         onChange={handleOnChange}
-        aria-label="Enter report date"
+        aria-label="Enter date"
       />
       {inputFocus && !validInput && !errorMessage && <div className={helpLabel}>{helpText}</div>}
       {inputFocus && !validInput && errorMessage && <div className={errorStateLabel}>{errorMessage}</div>}

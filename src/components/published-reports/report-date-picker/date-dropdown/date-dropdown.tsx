@@ -6,12 +6,12 @@ import {
   checkIcon,
   dropdownContainer,
   inputContainer
-} from './report-date-dropdown.module.scss';
+} from './date-dropdown.module.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import DateTextInput from '../date-text-input/date-text-input';
 
-interface IReportDateDropdown {
+interface IDateDropdown {
   handleClose: () => void;
   handleApply: () => void;
   setSelectedMonth?: (month: string) => void;
@@ -21,9 +21,14 @@ interface IReportDateDropdown {
   allDates: string[];
   selectedDate: string;
   daily?: boolean;
+  label: string;
+  minDateErrorMessage: string;
+  maxDateErrorMessage: string;
+  fromDate: Date;
+  toDate: Date;
 }
 
-const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
+const DateDropdown: FunctionComponent<IDateDropdown> = ({
   handleClose,
   handleApply,
   setSelectedMonth,
@@ -37,14 +42,9 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
   maxDateErrorMessage,
   fromDate,
   toDate,
-}: IReportDateDropdown) => {
+}: IDateDropdown) => {
   const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
-  // const reportLabel = daily ? 'Published Date (Example: May 1, 1998 or 05/01/1998)' : 'Published Date (Example: May 1998 or 05/1998)';
-
-  console.log('earliest report date', fromDate);
-  // console.log('latest report date', toDate);
-  console.log('selected date', selectedDate);
 
   return (
     <>
@@ -81,4 +81,4 @@ const ReportDateDropdown: FunctionComponent<IReportDateDropdown> = ({
     </>
   );
 };
-export default ReportDateDropdown;
+export default DateDropdown;

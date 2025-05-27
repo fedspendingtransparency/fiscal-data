@@ -1,10 +1,10 @@
-import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { dropdownList, selected, yearButton, arrowIcon } from './month-picker.module.scss';
+import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
+import {faCaretDown, faCaretUp} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {arrowIcon, dropdownList, selected, yearButton} from './month-picker.module.scss';
 import ScrollContainer from '../../../scroll-container/scroll-container';
-import ReportDateDropdown from '../report-date-dropdown/report-date-dropdown';
-import { monthFullNames } from '../../../../utils/api-utils';
+import DateDropdown from '../date-dropdown/date-dropdown';
+import {monthFullNames} from '../../../../utils/api-utils';
 
 interface IMonthPickerDropdown {
   selectedDate: Date;
@@ -67,7 +67,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   return (
     <>
       {active && (
-        <ReportDateDropdown
+        <DateDropdown
           handleClose={handleClose}
           handleApply={handleApply}
           setSelectedMonth={setSelectedMonth}
@@ -123,7 +123,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
               )}
             </div>
           </>
-        </ReportDateDropdown>
+        </DateDropdown>
       )}
     </>
   );

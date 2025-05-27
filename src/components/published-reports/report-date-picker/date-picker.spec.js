@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, within, act, fireEvent } from '@testing-library/react';
-import ReportDatePicker from './report-date-picker';
+import { act, fireEvent, render, within } from '@testing-library/react';
+import DatePicker from './date-picker';
 import userEvent from '@testing-library/user-event';
 
 describe('Month Picker', () => {
@@ -12,11 +12,11 @@ describe('Month Picker', () => {
 
   it('Default button', () => {
     const { getByRole } = render(
-      <ReportDatePicker
-        latestReportDate={new Date('8/8/2024')}
-        earliestReportDate={new Date('8/8/2016')}
-        allReportDates={[]}
-        allReportYears={yearDropdownList}
+      <DatePicker
+        latestDate={new Date('8/8/2024')}
+        earliestDate={new Date('8/8/2016')}
+        allDates={[]}
+        allYears={yearDropdownList}
         selectedDate={mockSelectedDate}
       />
     );
@@ -28,11 +28,11 @@ describe('Month Picker', () => {
 
   it('Opens and closes date picker dropdown on click', () => {
     const { getByRole, getAllByRole } = render(
-      <ReportDatePicker
-        latestReportDate={new Date('8/8/2024')}
-        earliestReportDate={new Date('8/8/2016')}
-        allReportDates={[]}
-        allReportYears={yearDropdownList}
+      <DatePicker
+        latestDate={new Date('8/8/2024')}
+        earliestDate={new Date('8/8/2016')}
+        allDates={[]}
+        allYears={yearDropdownList}
         selectedDate={mockSelectedDate}
       />
     );
@@ -50,11 +50,11 @@ describe('Month Picker', () => {
 
   it('Opens date picker dropdown on enter key press', () => {
     const { getByRole, getAllByRole } = render(
-      <ReportDatePicker
-        latestReportDate={new Date('8/8/2024')}
-        earliestReportDate={new Date('8/8/2016')}
-        allReportDates={[]}
-        allReportYears={yearDropdownList}
+      <DatePicker
+        latestDate={new Date('8/8/2024')}
+        earliestDate={new Date('8/8/2016')}
+        allDates={[]}
+        allYears={yearDropdownList}
         selectedDate={mockSelectedDate}
       />
     );
@@ -73,11 +73,11 @@ describe('Month Picker', () => {
 
   it('updates selected date ', () => {
     const { getByRole, getAllByRole } = render(
-      <ReportDatePicker
-        latestReportDate={new Date('8/8/2024')}
-        earliestReportDate={new Date('8/8/2016')}
-        allReportDates={['March 2022']}
-        allReportYears={yearDropdownList}
+      <DatePicker
+        latestDate={new Date('8/8/2024')}
+        earliestDate={new Date('8/8/2016')}
+        allDates={['March 2022']}
+        allYears={yearDropdownList}
         selectedDate={mockSelectedDate}
         setSelectedDate={mockSetSelectedDate}
       />
@@ -104,11 +104,11 @@ describe('Month Picker', () => {
 
   it('cancels selected date ', () => {
     const { getByRole, getAllByRole } = render(
-      <ReportDatePicker
-        latestReportDate={new Date('8/8/2024')}
-        earliestReportDate={new Date('8/8/2016')}
-        allReportDates={[]}
-        allReportYears={yearDropdownList}
+      <DatePicker
+        latestDate={new Date('8/8/2024')}
+        earliestDate={new Date('8/8/2016')}
+        allDates={[]}
+        allYears={yearDropdownList}
         selectedDate={mockSelectedDate}
       />
     );
@@ -131,11 +131,11 @@ describe('Month Picker', () => {
 
   it('cancels selected date for daily reports', () => {
     const { getByRole, getAllByRole } = render(
-      <ReportDatePicker
-        latestReportDate={new Date('8/8/2024')}
-        earliestReportDate={new Date('8/8/2016')}
-        allReportDates={[]}
-        isDailyReport={true}
+      <DatePicker
+        latestDate={new Date('8/8/2024')}
+        earliestDate={new Date('8/8/2016')}
+        allDates={[]}
+        isDaily={true}
         selectedDate={mockSelectedDate}
       />
     );
@@ -156,11 +156,11 @@ describe('Month Picker', () => {
 
   it('closes dropdown on blur', () => {
     const { getByRole, queryByText, getByText } = render(
-      <ReportDatePicker
-        latestReportDate={new Date('8/8/2024')}
-        earliestReportDate={new Date('8/8/2016')}
-        allReportDates={[]}
-        allReportYears={yearDropdownList}
+      <DatePicker
+        latestDate={new Date('8/8/2024')}
+        earliestDate={new Date('8/8/2016')}
+        allDates={[]}
+        allYears={yearDropdownList}
         selectedDate={mockSelectedDate}
       />
     );
@@ -177,11 +177,11 @@ describe('Month Picker', () => {
 
   it('resets an incomplete date selection on close', () => {
     const { getByRole } = render(
-      <ReportDatePicker
-        latestReportDate={new Date('8/8/2024')}
-        earliestReportDate={new Date('8/8/2016')}
-        allReportDates={[]}
-        isDailyReport={true}
+      <DatePicker
+        latestDate={new Date('8/8/2024')}
+        earliestDate={new Date('8/8/2016')}
+        allDates={[]}
+        isDaily={true}
         selectedDate={mockSelectedDate}
         setSelectedDate={mockSetSelectedDate}
       />

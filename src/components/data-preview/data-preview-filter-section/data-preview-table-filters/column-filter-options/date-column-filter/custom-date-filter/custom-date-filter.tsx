@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import ReportDayPicker from '../../../../../../published-reports/report-date-picker/report-day-picker/report-day-picker';
+import DaySelector from '../../../../../../published-reports/report-date-picker/day-selector/day-selector';
 import DropdownLabelButton from '../../../../../../dropdown-label-button/dropdown-label-button';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import DropdownContainer from '../../../../../../dropdown-container/dropdown-container';
@@ -64,24 +64,24 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
       {pickerDateRange && selectedStartDate && selectedEndDate && (
         <>
           <DropdownContainer setActive={setStartDateActive} active={startDateActive} dropdownButton={startDateButton}>
-            <ReportDayPicker
+            <DaySelector
               handleClose={handleStartDateClose}
               selectedDate={selectedStartDate}
               setSelectedDate={setSelectedStartDate}
-              latestReportDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
-              earliestReportDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
+              latestDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
+              earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
               active={startDateActive}
               label="Enter Start Date"
               noMatchErrorMessage={'out of range error'}
             />
           </DropdownContainer>
           <DropdownContainer setActive={setEndDateActive} active={endDateActive} dropdownButton={endDateButton}>
-            <ReportDayPicker
+            <DaySelector
               handleClose={handleEndDateClose}
               selectedDate={selectedEndDate}
               setSelectedDate={setSelectedEndDate}
-              latestReportDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
-              earliestReportDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
+              latestDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
+              earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
               active={endDateActive}
               label="Enter End Date"
               noMatchErrorMessage={'Date should not be after maximal date'}
