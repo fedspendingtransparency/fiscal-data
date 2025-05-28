@@ -1,4 +1,4 @@
-import DateTextInput, { invalidDateText, noReportMatch, helpText } from './date-text-input';
+import DateTextInput, { helpText, invalidDateText, noMatchDefaultMessage } from './date-text-input';
 import { render } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
@@ -18,7 +18,7 @@ describe('Date Text Entry', () => {
     const { getByRole, getByText } = render(
       <DateTextInput label="Report Date" setInputFocus={jest.fn()} validInput={false} inputFocus={true} helpText={helpText} />
     );
-    const inputBox = getByRole('textbox', { name: 'Enter report date' });
+    const inputBox = getByRole('textbox', { name: 'Enter date' });
     userEvent.tab();
     expect(inputBox).toHaveFocus();
     expect(getByText(helpText));
@@ -161,7 +161,7 @@ describe('Monthly Date Text Entry', () => {
     expect(getByText(invalidDateText)).toBeInTheDocument();
   });
 
-  it('validates the entry on enter key press and shows error when no match is found', () => {
+  it('validates the entry on enter key press and shows error when no date match is found', () => {
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
     const setValidInputSpy = jest.fn();
@@ -175,16 +175,18 @@ describe('Monthly Date Text Entry', () => {
         allDates={['June 2022']}
         selectedDate=""
         inputFocus={true}
+        fromDate={'June, 2001'}
+        toDate={'June, 2025'}
       />
     );
 
     userEvent.tab();
-    userEvent.keyboard('June 2021{Enter}');
+    userEvent.keyboard('June 2000{Enter}');
 
     expect(setSelectedYearSpy).not.toHaveBeenCalled();
     expect(setSelectedMonthSpy).not.toHaveBeenCalled();
     expect(setValidInputSpy).toHaveBeenCalledWith(false);
-    expect(getByText(noReportMatch)).toBeInTheDocument();
+    expect(getByText(noMatchDefaultMessage)).toBeInTheDocument();
   });
 
   it('resets incomplete date entry on blur', () => {});
@@ -308,7 +310,7 @@ describe('Daily Date Text Entry', () => {
     expect(getByText(invalidDateText)).toBeInTheDocument();
   });
 
-  it('validates the entry on enter key press and shows error when no match is found', () => {
+  it('validates the entry on enter key press and shows error when no date match is found', () => {
     const setCurrentDateSpy = jest.fn();
     const setValidInputSpy = jest.fn();
     const setInputFocusSpy = jest.fn();
@@ -321,15 +323,17 @@ describe('Daily Date Text Entry', () => {
         setValidInput={setValidInputSpy}
         inputFocus={true}
         setInputFocus={setInputFocusSpy}
+        fromDate={'June 1, 2001'}
+        toDate={'June 1, 2025'}
       />
     );
 
     userEvent.tab();
-    userEvent.keyboard('June 01, 2021{Enter}');
+    userEvent.keyboard('June 02, 2000{Enter}');
 
     expect(setCurrentDateSpy).not.toHaveBeenCalled();
     expect(setValidInputSpy).toHaveBeenCalledWith(false);
-    expect(getByText(noReportMatch)).toBeInTheDocument();
+    expect(getByText(noMatchDefaultMessage)).toBeInTheDocument();
   });
 
   it('resets incomplete date entry on blur', () => {
