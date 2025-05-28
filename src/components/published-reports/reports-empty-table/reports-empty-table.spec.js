@@ -1,5 +1,5 @@
 import React from 'react';
-import GenerativeReportsEmptyTable from './generative-reports-empty-table';
+import ReportsEmptyTable from './reports-empty-table';
 import { render, within } from '@testing-library/react';
 
 jest.mock('../../../variables.module.scss', () => {
@@ -11,7 +11,7 @@ jest.mock('../../../variables.module.scss', () => {
 describe('Generative Report Empty Table', () => {
   const rowCount = 3;
   it('renders a table', () => {
-    const { getByRole, getAllByRole } = render(<GenerativeReportsEmptyTable width={1000} reportGenKey={'utf'} />);
+    const { getByRole, getAllByRole } = render(<ReportsEmptyTable width={1000} reportGenKey={'utf'} />);
 
     expect(getByRole('table')).toBeInTheDocument();
     expect(getAllByRole('row')).toHaveLength(rowCount + 1);
@@ -22,7 +22,7 @@ describe('Generative Report Empty Table', () => {
   });
 
   it('renders a mobile table', () => {
-    const { getByRole, getAllByRole } = render(<GenerativeReportsEmptyTable width={300} reportGenKey={'utf'} />);
+    const { getByRole, getAllByRole } = render(<ReportsEmptyTable width={300} reportGenKey={'utf'} />);
     expect(getByRole('table')).toBeInTheDocument();
     expect(getAllByRole('row')).toHaveLength(rowCount + 1);
     const headerRow = getByRole('columnheader');
