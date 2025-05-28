@@ -1,7 +1,7 @@
 import React from 'react';
 import ReportsSection from './reports-section';
 import { render, within } from '@testing-library/react';
-import { mockReports } from '../published-reports-test-helper';
+import { mockDailyReports, mockReports } from '../published-reports-test-helper';
 
 describe('Reports Section component', () => {
   beforeEach(() => {
