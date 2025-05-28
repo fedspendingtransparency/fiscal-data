@@ -6,7 +6,7 @@ import {faCalendar} from '@fortawesome/free-regular-svg-icons';
 import DropdownLabelButton from '../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../dropdown-container/dropdown-container';
 
-interface IMonthPicker {
+interface IDatePicker {
   isDaily: boolean;
   latestDate: Date;
   earliestDate: Date;
@@ -19,7 +19,7 @@ interface IMonthPicker {
   maxDateErrorMessage: string;
 }
 
-const DatePicker: FunctionComponent<IMonthPicker> = ({
+const DatePicker: FunctionComponent<IDatePicker> = ({
   isDaily,
   latestDate,
   earliestDate,
@@ -31,7 +31,7 @@ const DatePicker: FunctionComponent<IMonthPicker> = ({
   label,
   minDateErrorMessage,
   maxDateErrorMessage,
-}: IMonthPicker) => {
+}: IDatePicker) => {
   const [active, setActive] = useState(false);
 
   const dropdownButton = (
