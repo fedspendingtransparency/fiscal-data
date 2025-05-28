@@ -11,12 +11,12 @@ import { withWindowSize } from 'react-fns';
 import { reportsBannerCopy, reportsConfig } from './reports-config';
 import { DownloadReportTable } from '../download-report-table/download-report-table';
 import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
+import { IDatasetConfig } from '../../../models/IDatasetConfig';
+import { sectionTitle } from '../published-reports';
 
-export const title = 'Reports and Files';
-export const notice = 'Banner Notice';
 export const defaultSelection = { label: '(None selected)', value: '' };
 
-const GenerativeReportsSection: FunctionComponent<{ width: number }> = ({ width, dataset }) => {
+const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; width: number }> = ({ width, dataset }) => {
   const { apis: apisProp, reportGenKey } = dataset;
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
@@ -168,7 +168,7 @@ const GenerativeReportsSection: FunctionComponent<{ width: number }> = ({ width,
 
   return (
     <div>
-      <DatasetSectionContainer title={title} id="reports-and-files">
+      <DatasetSectionContainer title={sectionTitle} id="reports-and-files">
         <div className={filtersContainer}>
           <ReportDatePicker
             isDailyReport={false}
