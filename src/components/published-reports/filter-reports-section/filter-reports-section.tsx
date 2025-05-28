@@ -6,7 +6,7 @@ import { withWindowSize } from 'react-fns';
 import { IRunTimeReportConfig } from '../../../models/IRunTimeReportConfig';
 import { sectionTitle } from '../published-reports';
 
-const PublishedReports: FunctionComponent<{ reportConfig: IRunTimeReportConfig; width: number }> = ({ reportConfig, width }) => {
+const FilterReportsSection: FunctionComponent<{ reportConfig: IRunTimeReportConfig; width: number }> = ({ reportConfig, width }) => {
   const { unmatchedHeader, unmatchedMessage, defaultHeader, defaultMessage } = reportConfig;
   const [activeReports, setActiveReports] = useState([]);
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
@@ -26,4 +26,4 @@ const PublishedReports: FunctionComponent<{ reportConfig: IRunTimeReportConfig; 
   );
 };
 
-export default withWindowSize(PublishedReports);
+export default withWindowSize(FilterReportsSection);
