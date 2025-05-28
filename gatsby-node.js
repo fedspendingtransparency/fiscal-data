@@ -582,6 +582,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          runTimeReportConfig {
+            filterField
+            filterLabel
+            dateFilterType
+            unmatchedHeader
+            unmatchedMessage
+            defaultHeader
+            defaultMessage
+          }
           hideRawDataTable
           hideReportDatePicker
           reportSelection

@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
-import { IDatasetApi } from '../../models/IDatasetApi';
 import { filtersContainer } from '../published-reports/reports-section/reports-section.module.scss';
 import { apiPrefix, basicFetch } from '../../utils/api-utils';
 import { format } from 'date-fns';
@@ -17,7 +16,8 @@ export const title = 'Reports and Files';
 export const notice = 'Banner Notice';
 export const defaultSelection = { label: '(None selected)', value: '' };
 
-const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> = ({ apisProp, width, reportGenKey, dataset }) => {
+const GenerativeReportsSection: FunctionComponent<{ width: number }> = ({ width, dataset }) => {
+  const { apis: apisProp, reportGenKey } = dataset;
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
@@ -184,7 +184,6 @@ const GenerativeReportsSection: FunctionComponent<{ apisProp: IDatasetApi[] }> =
         {activeReports?.length > 0 && !apiErrorMessage && (
           <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
         )}
-
         <DataPreviewDatatableBanner bannerNotice={dataset?.publishedReportsTip} isReport={true} />
       </DatasetSectionContainer>
     </div>

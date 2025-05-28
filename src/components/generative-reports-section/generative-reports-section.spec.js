@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, within } from '@testing-library/react';
 import GenerativeReportsSection from './generative-reports-section';
-import { mockApiConfig, mockDataset } from './generative-report-section-test-helper';
+import { mockDataset } from './generative-report-section-test-helper';
 import fetchMock from 'fetch-mock';
 
 describe('Generative Report Footer', () => {
@@ -33,7 +33,7 @@ describe('Generative Report Footer', () => {
   });
 
   it('renders empty table with default banner messaging', async () => {
-    const { getByRole, getByText } = render(<GenerativeReportsSection apisProp={mockApiConfig} reportGenKey={'utf'} />);
+    const { getByRole, getByText } = render(<GenerativeReportsSection dataset={mockDataset} />);
 
     expect(getByRole('table')).toBeInTheDocument();
     expect(getByText('This table requires additional filters.')).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe('Generative Report Footer', () => {
   });
 
   it('renders a published date filter', () => {
-    const { getByRole, queryByRole } = render(<GenerativeReportsSection apisProp={mockApiConfig} reportGenKey={'utf'} />);
+    const { getByRole, queryByRole } = render(<GenerativeReportsSection dataset={mockDataset} />);
     const publishedDateFilter = getByRole('button', { name: 'Select Published Date' });
     //defaults to latest date
     expect(within(publishedDateFilter).getByText('July 2024'));
@@ -58,7 +58,7 @@ describe('Generative Report Footer', () => {
   });
 
   it('renders an account filter', () => {
-    const { getByRole, getByText } = render(<GenerativeReportsSection apisProp={mockApiConfig} reportGenKey={'utf'} />);
+    const { getByRole, getByText } = render(<GenerativeReportsSection dataset={mockDataset} />);
     const accountFilter = getByRole('button', { name: 'Account: (None selected)' });
     fireEvent.click(accountFilter);
     // filter section headers are available within the dropdown
@@ -72,7 +72,7 @@ describe('Generative Report Footer', () => {
   it('renders download buttons for any reports matching the selected filters', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
-    const { getByRole, findByRole } = render(<GenerativeReportsSection apisProp={mockApiConfig} reportGenKey={'utf'} />);
+    const { getByRole, findByRole } = render(<GenerativeReportsSection dataset={mockDataset} />);
     const accountFilter = getByRole('button', { name: 'Account: (None selected)' });
     fireEvent.click(accountFilter);
     const accountOption = getByRole('button', { name: 'option2' });
@@ -92,15 +92,13 @@ describe('Generative Report Footer', () => {
       mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr',
       { throws: new Error('api error') }
     );
-    const { getByRole, findByText } = render(<GenerativeReportsSection apisProp={mockApiConfig} reportGenKey={'utf'} />);
+    const { getByRole, findByText } = render(<GenerativeReportsSection dataset={mockDataset} />);
     fireEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
     fireEvent.click(getByRole('button', { name: 'option1' }));
     expect(await findByText('Table failed to load.')).toBeInTheDocument();
   });
   it('renders the banner with the API filter notice once an account is selected', async () => {
-    const { getByRole, findByText, findByRole } = render(
-      <GenerativeReportsSection apisProp={mockApiConfig} reportGenKey="utf" dataset={mockDataset} />
-    );
+    const { getByRole, findByText, findByRole } = render(<GenerativeReportsSection dataset={mockDataset} />);
 
     fireEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
     fireEvent.click(getByRole('button', { name: 'option2' }));
