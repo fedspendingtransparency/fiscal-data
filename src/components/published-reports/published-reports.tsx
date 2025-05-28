@@ -6,7 +6,6 @@ import FilterReportsSection from './filter-reports-section/filter-reports-sectio
 
 const PublishedReports: FunctionComponent = ({ pageConfig }) => {
   //TODO: add experimental tag
-  console.log(pageConfig);
   return (
     <>
       {pageConfig.reportGenKey && (
@@ -15,7 +14,7 @@ const PublishedReports: FunctionComponent = ({ pageConfig }) => {
         </Experimental>
       )}
       <ReportsSection publishedReportsProp={pageConfig.publishedReports} dataset={pageConfig} />
-      {pageConfig.runTimeReportConfig && <FilterReportsSection />}
+      {pageConfig.runTimeReportConfig && <FilterReportsSection reportConfig={pageConfig.runTimeReportConfig} />}
     </>
   );
 };

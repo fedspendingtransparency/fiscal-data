@@ -6,14 +6,17 @@ import { withWindowSize } from 'react-fns';
 
 const title = 'Reports and Files';
 
-const PublishedReports: FunctionComponent = ({ pageConfig, width }) => {
+const PublishedReports: FunctionComponent = ({ reportConfig, width }) => {
+  const { unmatchedHeader, unmatchedMessage, defaultHeader, defaultMessage } = reportConfig;
   const [activeReports, setActiveReports] = useState([]);
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
+  const heading = noMatchingData ? unmatchedHeader : defaultHeader;
+  const body = noMatchingData ? unmatchedMessage : defaultMessage;
   return (
     <DatasetSectionContainer title={title} id="reports-and-files">
       {(activeReports?.length === 0 || apiErrorMessage) && (
-        <EmptyTable width={width} apiErrorMessage={apiErrorMessage} noMatchingData={noMatchingData} />
+        <EmptyTable width={width} apiErrorMessage={apiErrorMessage} heading={heading} body={body} />
       )}
       {activeReports?.length > 0 && !apiErrorMessage && (
         <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
