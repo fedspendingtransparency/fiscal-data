@@ -1,6 +1,6 @@
 import React from 'react';
 import { fileSizeTranslator, fileSizeTranslator2, makeTheDataArray } from './datatables-tab-helpers';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import DataTablesTab from './datatables-tab';
 import { RecoilRoot } from 'recoil';
 
@@ -20,22 +20,18 @@ describe('DataTablesTabHelpers', () => {
     },
   ];
 
-  let component = renderer.create();
-  let instance;
-  beforeAll(() => {
-    renderer.act(() => {
-      component = renderer.create(
+  it(
+    'has a function called makeTheDataArray that grabs properties from the objects in the apis array and makes' +
+      ' the array to send to the dtgTable component for the datatables tab',
+    () => {
+      render(
         <RecoilRoot>
           <DataTablesTab apis={mockData} />
         </RecoilRoot>
       );
-    });
-    instance = component.root;
-  });
-
-  it('has a function called makeTheDataArray that grabs properties from the objects in the apis array and makes the array to send to the dtgTable component for the datatables tab', () => {
-    expect(makeTheDataArray(mockData)).toMatchSnapshot();
-  });
+      expect(makeTheDataArray(mockData)).toMatchSnapshot();
+    }
+  );
   it('has a fileSizeTranslator function that returns file sizes in KB or MB, as strings', () => {
     expect(fileSizeTranslator('999999.999')).toBe('1 MB');
     expect(fileSizeTranslator('1000000')).toBe('1 MB');

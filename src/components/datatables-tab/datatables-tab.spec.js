@@ -1,8 +1,8 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import DtgTable from '../dtg-table/dtg-table';
 import DataTablesTab from './datatables-tab';
 import { RecoilRoot } from 'recoil';
+import { render } from '@testing-library/react';
+import { numberFormatter } from '../../helpers/text-format/text-format';
 
 describe('DataTablesTab', () => {
   const mockData = [
@@ -19,35 +19,30 @@ describe('DataTablesTab', () => {
       rowDefinition: 'that row does that',
     },
   ];
-  let component = renderer.create();
-  let instance;
-  beforeAll(() => {
-    renderer.act(() => {
-      component = renderer.create(
-        <RecoilRoot>
-          <DataTablesTab apis={mockData} />
-        </RecoilRoot>
-      );
-    });
-    instance = component.root;
-  });
 
   it('should pass along its data array to the dtgTable component', () => {
-    const tableData = instance.findByType(DtgTable).props.tableProps.data;
-    expect(tableData).toMatchSnapshot();
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DataTablesTab apis={mockData} />
+      </RecoilRoot>
+    );
+    mockData.forEach(row => {
+      expect(getByRole('cell', { name: row.tableName })).toBeInTheDocument();
+      expect(getByRole('cell', { name: row.tableDescription })).toBeInTheDocument();
+      expect(getByRole('cell', { name: numberFormatter.format(row.rowCount) })).toBeInTheDocument();
+      expect(getByRole('cell', { name: row.rowDefinition })).toBeInTheDocument();
+    });
   });
+
   it('sets aria-label to [dataset name] data tables', () => {
     const name = 'test-dataset';
-    const newComponent = renderer.create();
-    renderer.act(() => {
-      newComponent.update(
-        <RecoilRoot>
-          <DataTablesTab apis={mockData} datasetName={name} />
-        </RecoilRoot>
-      );
-    });
-    const updated = newComponent.root;
-    const table = updated.findByType('table');
-    expect(table.props['aria-label']).toBe(`${name} data tables`);
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DataTablesTab apis={mockData} datasetName={name} />
+      </RecoilRoot>
+    );
+
+    const table = getByRole('table', { name: `${name} data tables` });
+    expect(table).toBeInTheDocument();
   });
 });

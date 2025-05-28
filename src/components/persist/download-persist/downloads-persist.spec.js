@@ -1,7 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import domUtils from 'react-dom/test-utils';
-import DownloadsPersist, { downloadsContext, DownloadsProvider, getGreatestProgress } from './downloads-persist';
+import { act } from '@testing-library/react';
+import { getGreatestProgress } from './downloads-persist';
 import { ReplaySubject } from 'rxjs';
 import downloadService from '../../../helpers/download-service/download-service';
 import * as progressHelpers from './download-progress-helper';
@@ -62,20 +60,19 @@ describe('Downloads Persist', () => {
       },
     });
 
-    ReactDOM.render(
-      DownloadsPersist({
-        element: (
-          <DownloadsProvider>
-            <downloadsContext.Consumer>
-              {context => {
-                persistedsiteContext = context;
-              }}
-            </downloadsContext.Consumer>
-          </DownloadsProvider>
-        ),
-      }),
-      document.createElement('div')
-    );
+    // render(
+    //   DownloadsPersist({
+    //     element: (
+    //       <DownloadsProvider>
+    //         <downloadsContext.Consumer>
+    //           {context => {
+    //             persistedsiteContext = context;
+    //           }}
+    //         </downloadsContext.Consumer>
+    //       </DownloadsProvider>
+    //     ),
+    //   })
+    // );
 
     jest.clearAllMocks();
   });
@@ -120,11 +117,11 @@ describe('Downloads Persist', () => {
     // should not yet have called updateProgress
     expect(updateProgressSpy).toHaveBeenCalledTimes(0);
 
-    domUtils.act(() => {
+    act(() => {
       persistedsiteContext.setDownloadRequest(downloadRequest);
     });
 
-    domUtils.act(() => {
+    act(() => {
       mockDownloadStatus.next({
         status: 'started',
         final_file_name: '/someTable_someDateRange.type.zip',
@@ -139,12 +136,12 @@ describe('Downloads Persist', () => {
     expect(updatePercentageSpy).toHaveBeenCalledTimes(0);
 
     // should attempt to update download preparation progress at one second intervals
-    domUtils.act(() => {
+    act(() => {
       jest.advanceTimersByTime(3300);
       expect(updatePercentageSpy).toHaveBeenCalledTimes(3);
     });
 
-    domUtils.act(() => {
+    act(() => {
       mockDownloadStatus.next({
         status: 'completed',
         final_file_name: '/someTable_someDateRange.type.zip',
@@ -157,7 +154,7 @@ describe('Downloads Persist', () => {
 
     // should have stopped attempting to update download preparation progress at one
     // second intervals
-    domUtils.act(() => {
+    act(() => {
       jest.advanceTimersByTime(3300);
       expect(updatePercentageSpy).toHaveBeenCalledTimes(3);
     });
@@ -251,15 +248,15 @@ describe('Downloads Persist', () => {
 
     expect(persistedsiteContext.downloadsInProgress).toStrictEqual([]);
 
-    domUtils.act(() => {
+    act(() => {
       mockDownloadStatus.next({});
     });
 
-    domUtils.act(() => {
+    act(() => {
       persistedsiteContext.setDownloadRequest(downloadRequest);
     });
 
-    domUtils.act(() => {
+    act(() => {
       mockDownloadStatus.next({
         status: 'started',
         final_file_name: '/someTable_someDateRange.type.zip',
@@ -272,7 +269,7 @@ describe('Downloads Persist', () => {
 
     expect(persistedsiteContext.downloadsInProgress.length).toBeGreaterThan(0);
 
-    domUtils.act(() => {
+    act(() => {
       persistedsiteContext.setCancelDownloadRequest(expectedDownloadInProgressResult);
       jest.runAllTimers();
     });
@@ -319,11 +316,11 @@ describe('Downloads Persist', () => {
       requestTime: downloadRequest.requestTime,
     };
 
-    domUtils.act(() => {
+    act(() => {
       persistedsiteContext.setDownloadRequest(downloadRequest);
     });
 
-    domUtils.act(() => {
+    act(() => {
       mockDownloadStatus.next({
         status: 'started',
         final_file_name: '/someTable_someDateRange.type.zip',
@@ -334,7 +331,7 @@ describe('Downloads Persist', () => {
       });
     });
 
-    domUtils.act(() => {
+    act(() => {
       mockDownloadStatus.next({
         status: 'completed',
         final_file_name: '/someTable_someDateRange.type.zip',
@@ -378,7 +375,7 @@ describe('Downloads Persist', () => {
     // should now have an item in downloadsPrepared
     expect(persistedsiteContext.downloadsPrepared).toMatchObject(expectedDownloadPreparedResult);
 
-    domUtils.act(() => {
+    act(() => {
       // ask that the item be canceled
       persistedsiteContext.setCancelDownloadRequest(expectedDownloadPreparedResult[0]);
       jest.runAllTimers();
@@ -424,11 +421,11 @@ describe('Downloads Persist', () => {
       requestTime: downloadRequest.requestTime,
     };
 
-    domUtils.act(() => {
+    act(() => {
       persistedsiteContext.setDownloadRequest(downloadRequest);
     });
 
-    domUtils.act(() => {
+    act(() => {
       mockDownloadStatus.next({
         status: 'started',
         final_file_name: '/someTable_someDateRange.type.zip',
@@ -439,7 +436,7 @@ describe('Downloads Persist', () => {
       });
     });
 
-    domUtils.act(() => {
+    act(() => {
       mockDownloadStatus.error({
         status: 'failed',
         error: { message: 'Internal Server Error' },

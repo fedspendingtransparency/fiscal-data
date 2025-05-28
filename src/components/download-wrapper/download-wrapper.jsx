@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { wrapper, downloadDescription, describer, dateStringStyle } from './download-wrapper.module.scss';
+import { dateStringStyle, describer, downloadDescription, wrapper } from './download-wrapper.module.scss';
 import Truncator from '../truncate/truncate';
 import DownloadItemButton from './download-item-button/download-item-button';
 import Analytics from '../../utils/analytics/analytics';
@@ -150,9 +150,9 @@ const DownloadWrapper = ({
 
   const setIconComponent = inProgress => {
     return inProgress ? (
-      <FontAwesomeIcon icon={faSpinner} className="fa-pulse" data-test-id="report-icon" />
+      <FontAwesomeIcon icon={faSpinner} className="fa-pulse" data-testid="report-icon" />
     ) : (
-      <FontAwesomeIcon icon={faFileDownload} data-test-id="report-icon" />
+      <FontAwesomeIcon icon={faFileDownload} data-testid="report-icon" />
     );
   };
 
@@ -231,29 +231,21 @@ const DownloadWrapper = ({
   };
 
   return (
-    <div className={wrapper} data-test-id="wrapper">
+    <div className={wrapper} data-testid="wrapper">
       <DownloadModal open={open} onClose={onClose} downloadsPrepared={downloadsPrepared} setCancelDownloadRequest={handleCancelRequest} />
       <div className={downloadDescription}>
-        <div data-test-id="tableName" className={describer}>
+        <div data-testid="tableName" className={describer}>
           <strong>Data Table:</strong>
           <div>
             <Truncator>
-              <span data-test-id="tableNameText">{tableName}</span>
+              <span data-testid="tableNameText">{tableName}</span>
             </Truncator>
           </div>
         </div>
         <div className={describer}>
           <strong>Date Range:</strong>
-          {!isFiltered && (
-            <span data-test-id="allString" className={dateStringStyle}>
-              {' '}
-              {allString}
-            </span>
-          )}
-          <div data-test-id="dateString" className={dateStringStyle}>
-            {' '}
-            {dateString}
-          </div>
+          {!isFiltered && <span className={dateStringStyle}> {allString}</span>}
+          <div className={dateStringStyle}> {dateString}</div>
         </div>
         {(selectedTable?.userFilter || selectedTable?.apiFilter) && (
           <div className={describer}>
