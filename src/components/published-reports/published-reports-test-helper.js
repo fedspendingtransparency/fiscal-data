@@ -31,3 +31,12 @@ export const mockDailyReports = [
     report_group_id: '01',
   },
 ];
+
+export const runTimeFilterDatasetConfig = {
+  runTimeReportConfig: {
+    unmatchedHeader: 'Unmatched Header',
+    unmatchedMessage: 'Unmatched Message',
+    defaultHeader: 'Default Header',
+    defaultMessage: 'Default Message',
+  },
+};

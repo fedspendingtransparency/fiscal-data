@@ -1,5 +1,5 @@
-import { formatDateForApi } from '../../utils/api-utils';
-import { getFirstOfTheMonth, getLastOfTheMonth } from '../../utils/date-utils';
+import { formatDateForApi } from '../../../utils/api-utils';
+import { getFirstOfTheMonth, getLastOfTheMonth } from '../../../utils/date-utils';
 
 export const buildFilterParam = (date, dateField, account, accountField) => {
   const startDate = formatDateForApi(getFirstOfTheMonth(date));
