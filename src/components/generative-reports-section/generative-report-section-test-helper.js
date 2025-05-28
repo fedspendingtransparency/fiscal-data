@@ -37,5 +37,7 @@ export const mockApiConfig = [
   },
 ];
 export const mockDataset = {
+  apis: mockApiConfig,
+  reportGenKey: 'utf',
   publishedReportsTip: 'Effective dates on FiscalData.gov may differ from the published effective date for…',
 };
