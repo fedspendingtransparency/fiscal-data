@@ -564,8 +564,10 @@
       "filterField": "account_number_tas",
       "filterLabel": "Account",
       "dateFilterType": "byMonth",
-      "noMatchHeader": "Header",
-      "noMatchBody": "Body"
+      "unmatchedHeader": "There is no data to display based on the current filters selected.",
+      "unmatchedBody": "Select a different account number and/or date range in order to preview the data.",
+      "defaultHeader": "This table requires additional filters.",
+      "defaultMessage": "Select an account in the filter section above to display the reports."
     }
   },
   "015-BFS-2024Q1-004": {

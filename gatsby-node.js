@@ -586,8 +586,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             filterField
             filterLabel
             dateFilterType
-            noMatchHeader
-            noMatchBody
+            unmatchedHeader
+            unmatchedBody
+            defaultHeader
+            defaultBody
           }
           hideRawDataTable
           hideReportDatePicker
