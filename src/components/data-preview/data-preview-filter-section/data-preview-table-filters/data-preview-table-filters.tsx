@@ -24,16 +24,47 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   detailViewState,
   apiData,
   width,
+  filteredColumns,
 }) => {
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
-  // TODO update default value to first column in list
-  // const [selectedColumn, setSelectedColumn] = useState({ name: 'Record Date', type: 'Not a date', field: 'record_date' });
-  const [selectedColumn, setSelectedColumn] = useState('');
+  const [selectedColumn, setSelectedColumn] = useState(selectedTable.fields ? selectedTable.fields[0] : '');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [filter, setFilter] = useState('');
   const [visibleOptions, setVisibleOptions] = useState(selectedTable.fields);
   const [noResults, setNoResults] = useState(false);
+
+  /*
+   [
+    {field: 'index_date',
+    label: 'Index Date'
+    filter: null,
+    }
+   ]
+   */
+
+  const initializeVisibleColumns = (activeFields, allFields) => {
+    if (activeFields && activeFields) {
+      const filtered = allFields.filter(field => activeFields.findIndex(x => x.id === field.columnName) >= 0);
+      //   if (visibleFi) const filtered = allFields.filter(field => visibleFields.includes(x => x.id === field.columnName));
+      //   console.log('here', filtered);
+      // console.log(filtered);
+      return filtered;
+    }
+  };
+  //
+  useEffect(() => {
+    if (filteredColumns && visibleOptions) {
+      //   console.log(
+      //     visibleOptions,
+      //     filteredColumns,
+      //     filteredColumns.findIndex(x => x.id === visibleOptions[0].columnName)
+      //   );
+      // initializeVisibleColumns(filteredColumns, selectedTable.fields);
+    }
+    //   console.log(filteredColumns, visibleOptions);
+    //   initializeVisibleColumns(filteredColumns, visibleOptions);
+  }, [filteredColumns]);
 
   const filterDropdownButton = (
     <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
@@ -71,7 +102,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     const search = filter.toLowerCase();
 
     if (!search) {
-      setVisibleOptions(selectedTable.fields);
+      const initialCols = initializeVisibleColumns(filteredColumns, selectedTable.fields);
+      console.log(initialCols);
+      setVisibleOptions(initialCols);
       setNoResults(false);
       return;
     }
@@ -84,7 +117,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
     setVisibleOptions(matches);
     setNoResults(matches.length === 0);
-  }, [filter, selectedTable.fields]);
+  }, [filter, selectedTable.fields, filteredColumns]);
 
   const filterSelectList = (
     <>
@@ -98,7 +131,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
           filter={filter}
           getName={option => option.prettyName}
           getSecondary={option => option.secondary}
-          onIsFilterSelected={filter => {
+          onIsFilterSelected={() => {
             setIsFilterSelected(true);
           }}
           onWhichFilterSelected={filter => {

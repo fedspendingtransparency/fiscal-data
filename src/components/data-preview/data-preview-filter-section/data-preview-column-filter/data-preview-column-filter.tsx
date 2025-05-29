@@ -17,13 +17,12 @@ interface iColumnFilter {
   width?: number;
 }
 
-const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width }) => {
+const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width, filteredColumns }) => {
   const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
   const [dropdownActive, setDropdownActive] = useState(false);
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
   const [filter, setFilter] = useState('');
   const [noResults, setNoResults] = useState(false);
-  const [filteredColumns, setFilteredColumns] = useState();
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const searchLabel = 'Search columns';
 
@@ -72,10 +71,10 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     </>
   );
 
-  useEffect(() => {
-    //initialize filteredColumns after table is initialized
-    setFilteredColumns(table?.getAllLeafColumns());
-  }, [table]);
+  // useEffect(() => {
+  //   //initialize filteredColumns after table is initialized
+  //   setFilteredColumns(table?.getAllLeafColumns());
+  // }, [table]);
 
   useEffect(() => {
     if (table) {
