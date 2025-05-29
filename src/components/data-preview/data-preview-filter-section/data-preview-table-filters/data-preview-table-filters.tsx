@@ -28,7 +28,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 }) => {
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
-  const [selectedColumn, setSelectedColumn] = useState(selectedTable.fields ? selectedTable.fields[0] : '');
+  const [selectedColumn, setSelectedColumn] = useState('');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [filter, setFilter] = useState('');
   const [visibleOptions, setVisibleOptions] = useState(selectedTable.fields);
@@ -103,8 +103,12 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
     if (!search) {
       const initialCols = initializeVisibleColumns(filteredColumns, selectedTable.fields);
-      console.log(initialCols);
+      console.log('Updating visible options...', initialCols);
       setVisibleOptions(initialCols);
+      if (initialCols?.length > 0) {
+        setSelectedColumn(initialCols[0]);
+      }
+
       setNoResults(false);
       return;
     }
