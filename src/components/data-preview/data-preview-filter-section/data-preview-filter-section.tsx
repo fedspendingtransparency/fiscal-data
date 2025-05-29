@@ -69,7 +69,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
 
   useEffect(() => {
     //initialize filteredColumns after table is initialized
-    console.log(table?.getAllLeafColumns());
     setFilteredColumns(table?.getAllLeafColumns());
   }, [table]);
 
