@@ -5,11 +5,9 @@ export interface IDatePresets {
   datePreset;
   customRangePreset;
   selectedTable: IDatasetApi;
-  apiData;
   handleDateRangeChange;
   allTablesSelected: boolean;
   datasetDateRange;
   finalDatesNotFound;
-  hideButtons;
   hidden: boolean;
 }

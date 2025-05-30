@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
@@ -11,6 +11,7 @@ import { breakpointLg } from '../../data-preview.module.scss';
 import DataPreviewMobileFilterList from '../data-preview-mobile-filter-list/data-preview-mobile-filter-list';
 import DataPreviewDropdownDialogSearch from '../../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
 import { boldedSearchText, noFilterMatchContainer } from '../data-preview-filter-section.module.scss';
+import { DataTableContext } from '../../data-preview-context';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -25,15 +26,21 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   apiData,
   width,
 }) => {
+  const { tableState: table } = useContext(DataTableContext);
+
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
-  // TODO update default value to first column in list
-  // const [selectedColumn, setSelectedColumn] = useState({ name: 'Record Date', type: 'Not a date', field: 'record_date' });
   const [selectedColumn, setSelectedColumn] = useState('');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [filter, setFilter] = useState('');
   const [visibleOptions, setVisibleOptions] = useState(selectedTable.fields);
   const [noResults, setNoResults] = useState(false);
+
+  const initializeVisibleColumns = (activeFields, allFields) => {
+    if (activeFields && allFields) {
+      return allFields.filter(field => activeFields.findIndex(x => x.id === field.columnName) >= 0);
+    }
+  };
 
   const filterDropdownButton = (
     <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
@@ -71,7 +78,12 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     const search = filter.toLowerCase();
 
     if (!search) {
-      setVisibleOptions(selectedTable.fields);
+      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields);
+      setVisibleOptions(initialCols);
+      if (initialCols?.length > 0) {
+        setSelectedColumn(initialCols[0]);
+      }
+
       setNoResults(false);
       return;
     }
@@ -84,7 +96,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
     setVisibleOptions(matches);
     setNoResults(matches.length === 0);
-  }, [filter, selectedTable.fields]);
+  }, [filter, selectedTable.fields, table]);
 
   const filterSelectList = (
     <>
@@ -98,7 +110,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
           filter={filter}
           getName={option => option.prettyName}
           getSecondary={option => option.secondary}
-          onIsFilterSelected={filter => {
+          onIsFilterSelected={() => {
             setIsFilterSelected(true);
           }}
           onWhichFilterSelected={filter => {

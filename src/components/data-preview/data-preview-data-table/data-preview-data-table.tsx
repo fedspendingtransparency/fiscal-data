@@ -153,9 +153,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
       setColumnVisibility(defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {});
       constructDefaultColumnsFromTableData();
     }
-    if (detailViewState) {
-      setColumnVisibility(defaultInvisibleColumns);
-    }
   }, [defaultSelectedColumns]);
 
   useEffect(() => {
