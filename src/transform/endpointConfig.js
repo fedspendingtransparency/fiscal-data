@@ -2478,7 +2478,6 @@ const endpointConfig = {
     dateField: 'index_date',
     alwaysSortWith: ['-index_date'],
     hideColumns: ['cusip', 'original_issue_date'],
-    selectColumns: [],
     customFormatting: [
       {
         type: 'NUMBER',

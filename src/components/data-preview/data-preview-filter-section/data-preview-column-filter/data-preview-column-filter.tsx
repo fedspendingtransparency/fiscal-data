@@ -25,7 +25,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [noResults, setNoResults] = useState(false);
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const [filteredColumns, setFilteredColumns] = useState();
-
   const searchLabel = 'Search columns';
 
   const handleApply = () => {
