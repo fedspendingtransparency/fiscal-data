@@ -1,0 +1,13 @@
+.buttonContainer {
+  padding: 0.5rem;
+  max-height: 470px;
+  overflow-y: auto;
+  width: fit-content;
+}
+
+.sectionContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,13 +1,24 @@
 import React, { FunctionComponent } from 'react';
-import Checkbox from '../../../checkbox/checkbox';
-import { buttonContainer } from '../chart-legend-panel/chart-legend-panel.module.scss';
+import CheckboxLabel from '../../../checkbox/checkbox-label/checkbox-label';
+import { buttonContainer, sectionContainer } from './chart-legend.module.scss';
 
 const ChartLegend: FunctionComponent = ({ fields, onLabelChange, onHover }) => {
+  const handleClick = (e, isKeyPress, checkedValue) => {
+    if (isKeyPress) {
+      fields[e.target.value].active = checkedValue;
+    } else {
+      fields[e.target.value].active = e.target.checked;
+    }
+    onLabelChange(fields.filter(obj => obj.active));
+  };
+
   return (
-    <section>
-      <div className={buttonContainer}>
-        <Checkbox checkboxData={fields} changeHandler={onLabelChange} onHover={onHover} />
-      </div>
+    <section className={sectionContainer}>
+      {fields.map((field, index) => (
+        <div className={buttonContainer}>
+          <CheckboxLabel obj={field} handleClick={handleClick} onHover={onHover} index={index} />
+        </div>
+      ))}
     </section>
   );
 };

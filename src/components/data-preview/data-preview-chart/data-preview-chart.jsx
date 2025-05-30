@@ -183,7 +183,7 @@ const DataPreviewChart = ({ data, slug, currentTable, isVisible, legend, selecte
   }, [selectedPivot]);
   ////${legend ? legendActive : ''}`}>
   return (
-    <div className={`${chartArea} ${legendActive}`}>
+    <div className={`${chartArea} ${chartFields.length <= 12 ? undefined : legendActive}`}>
       <div className={chartPane}>
         <div className={chartLegendWrapper} style={chartFields.length <= 12 ? { flexDirection: 'column' } : { flexDirection: 'row' }}>
           <div className={vizClass}>
