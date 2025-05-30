@@ -603,6 +603,7 @@
     "topics": ["debt", "auctions"],
     "relatedDatasets": ["015-BFS-2014Q3-045", "015-BFS-2014Q3-050", "015-BFS-2014Q3-049", "015-BFS-2014Q1-14", "015-BFS-2014Q3-048"],
     "currentDateButton": "byDay",
+    "datePreset": "all",
     "detailView": {
       "apiId": 317,
       "field": "operation_date",
