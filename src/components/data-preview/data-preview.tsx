@@ -413,19 +413,17 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
                     setPivotsUpdated={setPivotsUpdated}
                   />
                 ) : (
-                  <>
-                    <DataPreviewChart
-                      legend={false}
-                      dateRange={dateRange}
-                      data={apiData}
-                      slug={config.slug}
-                      currentTable={selectedTable}
-                      isVisible={true}
-                      chartCitation={false}
-                      selectedPivot={selectedPivot}
-                      dateField={dateFieldForChart}
-                    />
-                  </>
+                  <DataPreviewChart
+                    legend={false}
+                    dateRange={dateRange}
+                    data={apiData}
+                    slug={config.slug}
+                    currentTable={selectedTable}
+                    isVisible={true}
+                    chartCitation={false}
+                    selectedPivot={selectedPivot}
+                    dateField={dateFieldForChart}
+                  />
                 ))}
             </DataPreviewFilterSection>
           )}

@@ -1,21 +1,22 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import drawChart from '../../charts/chart-primary';
-import ChartLegend from '../../charts/chart-legend/chartLegend';
+import ChartLegend from './chart-legend/chart-legend';
 import { thinDataAsNeededForChart } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
 import {
-  info,
-  icon,
   chartArea,
-  legendActive,
-  chartPane,
   chartLegendWrapper,
-  viz as vizClass,
-  legend as legendClass,
-  yAxisLabel,
+  chartPane,
+  icon,
+  info,
   labelContainer,
+  legend as legendClass,
+  legendActive,
+  viz as vizClass,
+  yAxisLabel,
 } from './data-preview-chart.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import ChartLegendPanel from './chart-legend-panel/chart-legend-panel';
 
 export let chartHooks;
 export const callbacks = {
@@ -180,11 +181,11 @@ const DataPreviewChart = ({ data, slug, currentTable, isVisible, legend, selecte
       setCapitalized(selectedPivot.pivotView?.roundingDenomination.charAt(0).toUpperCase() + selectedPivot.pivotView.roundingDenomination.slice(1));
     }
   }, [selectedPivot]);
-
+  ////${legend ? legendActive : ''}`}>
   return (
-    <div className={`${chartArea} ${legend ? legendActive : ''}`}>
+    <div className={`${chartArea} ${legendActive}`}>
       <div className={chartPane}>
-        <div className={chartLegendWrapper}>
+        <div className={chartLegendWrapper} style={chartFields.length <= 12 ? { flexDirection: 'column' } : { flexDirection: 'row' }}>
           <div className={vizClass}>
             {chartNotes}
             {selectedPivot && selectedPivot.pivotView?.roundingDenomination && (
@@ -196,15 +197,24 @@ const DataPreviewChart = ({ data, slug, currentTable, isVisible, legend, selecte
             )}
             <div id="viz" ref={viz} />
           </div>
-          <div className={legendClass}>
+          {chartFields.length > 12 ? (
+            <div className={legendClass}>
+              <ChartLegendPanel
+                isVisible={isVisible}
+                fields={chartFields}
+                // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
+                onHover={(on, item) => callbacks.onHover(on, item, hasUpdate, chartFields)}
+                onLabelChange={handleLabelChange}
+              />
+            </div>
+          ) : (
             <ChartLegend
-              isVisible={isVisible}
               fields={chartFields}
               // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
               onHover={(on, item) => callbacks.onHover(on, item, hasUpdate, chartFields)}
               onLabelChange={handleLabelChange}
             />
-          </div>
+          )}
         </div>
       </div>
     </div>

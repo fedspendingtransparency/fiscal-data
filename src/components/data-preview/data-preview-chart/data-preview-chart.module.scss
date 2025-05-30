@@ -54,10 +54,9 @@ $paddingOffset: 87px;
 }
 
 .legend {
-  display: none;
   width: $legendWidth;
   box-sizing: border-box;
-  border-left: 1px solid $border-color;
+  border: 1px solid $border-color;
   transition: width 250ms ease-in;
 }
 

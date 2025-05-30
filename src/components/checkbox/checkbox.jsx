@@ -1,14 +1,14 @@
 import React from 'react';
 import {
+  additionalSection,
   checkbox_container,
   checkbox_label,
   checkbox_wrapper,
-  sectionHeading,
-  additionalSection,
-  optionCheckbox,
   label_checkmark_container,
   label_checkmark_text,
   label_text,
+  optionCheckbox,
+  sectionHeading,
 } from './checkbox.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -55,7 +55,7 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
               data-testid="checkbox-label-element"
               onMouseEnter={() => handleHover(true, obj)}
               onMouseLeave={() => handleHover(false, obj)}
-              role={'presentation'}
+              role="presentation"
             >
               <div className={checkbox_wrapper}>
                 <input
