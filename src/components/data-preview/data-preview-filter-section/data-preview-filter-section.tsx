@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import DataPreviewDownloadWrapper from './data-preview-download-wrapper/data-preview-download-wrapper';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { filterAndDownloadContainer, filterContainer, toggleDownloadContainer } from './data-preview-filter-section.module.scss';
@@ -9,7 +9,6 @@ import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-tog
 import { differenceInHours } from 'date-fns';
 import { DataPreviewFilterSectionProps } from '../../../models/data-preview/IFilterSectionProps';
 import DataPreviewColumnFilter from './data-preview-column-filter/data-preview-column-filter';
-import { DataTableContext } from '../data-preview-context';
 
 type DataPreviewFilterSectionProps = {
   width?: number;
@@ -54,7 +53,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   setViewMode,
 }) => {
   const isDisabled = apiFilterDefault;
-  const { tableState: table } = useContext(DataTableContext);
 
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
@@ -65,12 +63,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
     const dateRangeCharting = dateRange && dateRange.to && dateRange.from && differenceInHours(dateRange.to, dateRange.from) < 24;
     return !pivotCharting && !dataDisplaysCharting && !allTablesSelected && !userFilterCharting && !dateRangeCharting;
   };
-  const [filteredColumns, setFilteredColumns] = useState();
-
-  useEffect(() => {
-    //initialize filteredColumns after table is initialized
-    setFilteredColumns(table?.getAllLeafColumns());
-  }, [table]);
 
   const downloadComponent = () => (
     <DataPreviewDownloadWrapper
@@ -104,9 +96,8 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             detailViewState={detailViewState}
             apiData={apiData}
             width={width}
-            filteredColumns={filteredColumns}
           />
-          <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} filteredColumns={filteredColumns} />
+          <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
         </div>
         {width >= pxToNumber(breakpointXl) && (
