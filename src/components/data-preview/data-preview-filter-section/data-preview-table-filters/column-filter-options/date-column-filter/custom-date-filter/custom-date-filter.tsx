@@ -35,6 +35,57 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
     }
   }, [pickerDateRange]);
 
+  const setMostAppropriatePreset = () => {
+    // We need to pass back the date range for the new data table. Note, the actual dates
+    // might not be the same from the previously selected table, even though the preset is
+    // the same.
+    //TODO adjust logic for external custom pickers
+    const adjustedRange = fitDateRangeToTable(dateRange, availableDateRange);
+    setPickerDateRange(availableDateRange);
+    setCurDateRange(adjustedRange);
+    handleDateRangeChange(adjustedRange);
+
+    return;
+
+    //TODO: Add this logic back in when implementing default custom date range option
+    if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
+      idealDefaultPreset = presets.find(({ key }) => key === 'custom');
+
+      const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
+      const quarterRange = {
+        userSelected: {
+          from: subQuarters(addDays(dateObj, 1), 1),
+          to: dateObj,
+        },
+      };
+      const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
+      updateDateRange(adjRange);
+    }
+    // Check if the default date option is available in the preset list. If so, select the default
+    // preset, else select the next available option.
+    const defaultPresetIsFound = presets.some(preset => preset.key === idealDefaultPreset.key);
+    let defaultKey = null;
+
+    // If the desired default preset is not available because of the date range on the dataset
+    // table, find the next appropriate button to highlight
+    if (!defaultPresetIsFound) {
+      for (let i = 0, il = fallbackPresets.length; i < il; i++) {
+        const fallbackPreset = presets.find(p => p.key === fallbackPresets[i]);
+        if (fallbackPreset) {
+          defaultKey = fallbackPreset;
+          break;
+        }
+      }
+    } else {
+      defaultKey = idealDefaultPreset;
+    }
+    applyPreset(defaultKey);
+  };
+
+  useEffect(() => {
+    setMostAppropriatePreset();
+  }, [presets]);
+
   const startDateButton = (
     <DropdownLabelButton
       label="Start Date"

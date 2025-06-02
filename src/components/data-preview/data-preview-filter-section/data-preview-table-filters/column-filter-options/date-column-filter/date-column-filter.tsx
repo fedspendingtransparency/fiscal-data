@@ -18,7 +18,8 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   apiData,
 }) => {
   const presets = selectedTable?.dateField === columnConfig?.columnName;
-  const [selectedToggle, setSelectedToggle] = useState(presets ? 'preset' : 'custom');
+  const [selectedToggle, setSelectedToggle] = useState(config.datePreset ? config.datePreset : 'preset');
+  // const [selectedToggle, setSelectedToggle] = useState(presets ? 'preset' : 'custom');
   const [pickerDateRange, setPickerDateRange] = useState({
     from: undefined,
     to: undefined,
@@ -79,7 +80,7 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
             Custom
           </label>
           <div className={presetContainer}>
-            <CustomDateFilter pickerDateRange={pickerDateRange} disabled={selectedToggle !== 'custom'} />
+            <CustomDateFilter pickerDateRange={pickerDateRange} disabled={selectedToggle !== 'custom'} datePreset={config.datePreset} />
           </div>
         </div>
       </div>
