@@ -1,22 +1,22 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
-import { filtersContainer } from '../published-reports/reports-section/reports-section.module.scss';
-import { apiPrefix, basicFetch } from '../../utils/api-utils';
+import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
+import { filtersContainer } from '../reports-section/reports-section.module.scss';
+import { apiPrefix, basicFetch } from '../../../utils/api-utils';
 import { format } from 'date-fns';
 import { buildEndpoint } from './generative-report-helper';
-import GenerativeReportsEmptyTable from './generative-reports-empty-table/generative-reports-empty-table';
+import ReportsEmptyTable from '../reports-empty-table/reports-empty-table';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
 import DatePicker from '../date-picker/date-picker';
 import { withWindowSize } from 'react-fns';
-import { reportsConfig } from './reports-config';
-import { DownloadReportTable } from '../published-reports/download-report-table/download-report-table';
-import DataPreviewDatatableBanner from '../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
+import { reportsBannerCopy, reportsConfig } from './reports-config';
+import { DownloadReportTable } from '../download-report-table/download-report-table';
+import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
+import { IDatasetConfig } from '../../../models/IDatasetConfig';
+import { sectionTitle } from '../published-reports';
 
-export const title = 'Reports and Files';
-export const notice = 'Banner Notice';
 export const defaultSelection = { label: '(None selected)', value: '' };
 
-const GenerativeReportsSection: FunctionComponent<{ width: number }> = ({ width, dataset }) => {
+const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; width: number }> = ({ width, dataset }) => {
   const { apis: apisProp, reportGenKey } = dataset;
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
@@ -28,6 +28,10 @@ const GenerativeReportsSection: FunctionComponent<{ width: number }> = ({ width,
   const [allReports, setAllReports] = useState([]);
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
+
+  const bannerCopy = reportsBannerCopy[reportGenKey];
+  const heading = noMatchingData ? bannerCopy?.noDataMatchHeader : bannerCopy?.additionalFiltersHeader;
+  const body = noMatchingData ? bannerCopy?.noDataMatchBody : bannerCopy?.additionalFiltersBody;
 
   const getSummaryReportData = async (dateField, reportData, summary, reportDataKey?) => {
     if (!summary || reportData.length === 0) return [];
@@ -164,7 +168,7 @@ const GenerativeReportsSection: FunctionComponent<{ width: number }> = ({ width,
 
   return (
     <div>
-      <DatasetSectionContainer title={title} id="reports-and-files">
+      <DatasetSectionContainer title={sectionTitle} id="reports-and-files">
         <div className={filtersContainer}>
           <DatePicker
             isDaily={false}
@@ -180,7 +184,7 @@ const GenerativeReportsSection: FunctionComponent<{ width: number }> = ({ width,
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
         {(activeReports?.length === 0 || apiErrorMessage) && (
-          <GenerativeReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} noMatchingData={noMatchingData} reportGenKey={reportGenKey} />
+          <ReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} heading={heading} body={body} />
         )}
         {activeReports?.length > 0 && !apiErrorMessage && (
           <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
