@@ -1,17 +1,12 @@
 import React, { FunctionComponent } from 'react';
-import { container, date, emptyRow, headerRow, name, table } from './generative-reports-empty-table.module.scss';
-import GenerativeReportsTableNotice from '../generative-reports-table-notice/generative-reports-table-notice';
+import { container, date, emptyRow, headerRow, name, table } from './reports-empty-table.module.scss';
+import ReportsTableNotice from '../reports-table-notice/reports-table-notice';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
-import { reportsBannerCopy } from '../reports-config';
 
-const GenerativeReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage, noMatchingData, reportGenKey }) => {
+const ReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage, heading, body }) => {
   const mobileView = width < pxToNumber(breakpointLg);
   const rowCount = 3;
-
-  const bannerCopy = reportsBannerCopy[reportGenKey];
-  const heading = noMatchingData ? bannerCopy.noDataMatchHeader : bannerCopy.additionalFiltersHeader;
-  const body = noMatchingData ? bannerCopy.noDataMatchBody : bannerCopy.additionalFiltersBody;
 
   return (
     <div className={container}>
@@ -40,9 +35,9 @@ const GenerativeReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage
           ))}
         </tbody>
       </table>
-      <GenerativeReportsTableNotice heading={heading} bodyText={body} apiErrorMessage={apiErrorMessage} />
+      <ReportsTableNotice heading={heading} bodyText={body} apiErrorMessage={apiErrorMessage} />
     </div>
   );
 };
 
-export default GenerativeReportsEmptyTable;
+export default ReportsEmptyTable;
