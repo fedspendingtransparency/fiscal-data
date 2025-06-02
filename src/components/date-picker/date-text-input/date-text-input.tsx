@@ -141,8 +141,6 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     }
   };
 
-  // console.log(errorMessage);
-
   const handleOnKeyDown = e => {
     const input = e.target.value;
     if (e.code === 'Enter') {
