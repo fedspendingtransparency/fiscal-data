@@ -15,19 +15,19 @@ import determineDateRange, {
 const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({
   pickerDateRange,
   disabled,
-  setPickerDateRange,
-  handleDateRangeChange,
-  datasetDateRange,
-  currentDateButton,
-  selectedToggle,
+  // setPickerDateRange,
+  // handleDateRangeChange,
+  // datasetDateRange,
+  // currentDateButton,
+  // selectedToggle,
 }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(null);
   const [selectedEndDate, setSelectedEndDate] = useState<Date>(null);
   const [startDateActive, setStartDateActive] = useState(false);
   const [endDateActive, setEndDateActive] = useState(false);
-  const [dateRange, setCurDateRange] = useState(null);
-  const [availableDateRange, setAvailableDateRange] = useState(null);
-  const [activePresetKey, setActivePresetKey] = useState(null);
+  // const [dateRange, setCurDateRange] = useState(null);
+  // const [availableDateRange, setAvailableDateRange] = useState(null);
+  // const [activePresetKey, setActivePresetKey] = useState(null);
   const handleStartDateClose = () => setStartDateActive(false);
   const handleEndDateClose = () => setEndDateActive(false);
 
@@ -50,83 +50,85 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({
     }
   }, [pickerDateRange]);
 
-  const applyPreset = preset => {
-    let label = '';
-    if (true) {
-      label = generateFormattedDate(dateRange);
-    }
-    generateAnalyticsEvent(label);
-    setActivePresetKey('custom');
-    prepUpdateDateRange(preset);
-  };
+  // const applyPreset = preset => {
+  //   let label = '';
+  //   if (true) {
+  //     label = generateFormattedDate(dateRange);
+  //   }
+  //   generateAnalyticsEvent(label);
+  //   setActivePresetKey('custom');
+  //   prepUpdateDateRange(preset);
+  // };
+  //
+  // const prepUpdateDateRange = preset => {
+  //   const curDateRange = determineDateRange(availableDateRange, preset, currentDateButton);
+  //   updateDateRange(curDateRange);
+  // };
 
-  const prepUpdateDateRange = preset => {
-    const curDateRange = determineDateRange(availableDateRange, preset, currentDateButton);
-    updateDateRange(curDateRange);
-  };
-
-  const updateDateRange = curDateRange => {
-    if (curDateRange) {
-      console.log('curDateRange: ', curDateRange);
-      setPickerDateRange({ ...availableDateRange, from: curDateRange.from, to: curDateRange.to });
-      setCurDateRange(curDateRange);
-      handleDateRangeChange(curDateRange);
-    }
-  };
-
-  const setMostAppropriatePreset = () => {
-    // We need to pass back the date range for the new data table. Note, the actual dates
-    // might not be the same from the previously selected table, even though the preset is
-    // the same.
-    //TODO adjust logic for external custom pickers
-    const adjustedRange = fitDateRangeToTable(dateRange, availableDateRange);
-    setPickerDateRange(availableDateRange);
-    setCurDateRange(adjustedRange);
-    handleDateRangeChange(adjustedRange);
-
-    return;
-
-    //TODO: Add this logic back in when implementing default custom date range option
-
-    // if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
-    //   idealDefaultPreset = presets.find(({ key }) => key === 'custom');
-
-    const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
-    const quarterRange = {
-      userSelected: {
-        from: subQuarters(addDays(dateObj, 1), 1),
-        to: dateObj,
-      },
-    };
-    const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
-    updateDateRange(adjRange);
-    // }
-    // Check if the default date option is available in the preset list. If so, select the default
-    // preset, else select the next available option.
-
-    // let defaultKey = null;
-
-    // If the desired default preset is not available because of the date range on the dataset
-    // table, find the next appropriate button to highlight
-    // if (!defaultPresetIsFound) {
-    //   for (let i = 0, il = fallbackPresets.length; i < il; i++) {
-    //     const fallbackPreset = presets.find(p => p.key === fallbackPresets[i]);
-    //     if (fallbackPreset) {
-    //       defaultKey = fallbackPreset;
-    //       break;
-    //     }
-    //   }
-    // } else {
-    //   // defaultKey = idealDefaultPreset;
-    // }
-    applyPreset('custom');
-
-    console.log(quarterRange, availableDateRange);
-  };
-
-  useEffect(() => {
-    setMostAppropriatePreset();
-  }, [selectedToggle]);
+  // const updateDateRange = curDateRange => {
+  //   if (curDateRange) {
+  //     console.log('curDateRange: ', curDateRange);
+  //     setPickerDateRange({ ...availableDateRange, from: curDateRange.from, to: curDateRange.to });
+  //     setCurDateRange(curDateRange);
+  //     handleDateRangeChange(curDateRange);
+  //   }
+  // };
+  //
+  // const setMostAppropriatePreset = () => {
+  //   // We need to pass back the date range for the new data table. Note, the actual dates
+  //   // might not be the same from the previously selected table, even though the preset is
+  //   // the same.
+  //   //TODO adjust logic for external custom pickers
+  //   console.log('drange', dateRange);
+  //   const adjustedRange = fitDateRangeToTable(dateRange, availableDateRange);
+  //   setPickerDateRange(availableDateRange);
+  //   setCurDateRange(adjustedRange);
+  //   handleDateRangeChange(adjustedRange);
+  //
+  //   return;
+  //
+  //   //TODO: Add this logic back in when implementing default custom date range option
+  //
+  //   // if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
+  //   //   idealDefaultPreset = presets.find(({ key }) => key === 'custom');
+  //
+  //   const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
+  //   const quarterRange = {
+  //     userSelected: {
+  //       from: subQuarters(addDays(dateObj, 1), 1),
+  //       to: dateObj,
+  //     },
+  //   };
+  //   const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
+  //   updateDateRange(adjRange);
+  //   console.log('quarterRange: ', quarterRange);
+  //   // }
+  //   // Check if the default date option is available in the preset list. If so, select the default
+  //   // preset, else select the next available option.
+  //
+  //   // let defaultKey = null;
+  //
+  //   // If the desired default preset is not available because of the date range on the dataset
+  //   // table, find the next appropriate button to highlight
+  //   // if (!defaultPresetIsFound) {
+  //   //   for (let i = 0, il = fallbackPresets.length; i < il; i++) {
+  //   //     const fallbackPreset = presets.find(p => p.key === fallbackPresets[i]);
+  //   //     if (fallbackPreset) {
+  //   //       defaultKey = fallbackPreset;
+  //   //       break;
+  //   //     }
+  //   //   }
+  //   // } else {
+  //   //   // defaultKey = idealDefaultPreset;
+  //   // }
+  //   applyPreset('custom');
+  //
+  //   console.log(quarterRange, availableDateRange);
+  // };
+  //
+  // useEffect(() => {
+  //   setMostAppropriatePreset();
+  // }, [selectedToggle]);
 
   const startDateButton = (
     <DropdownLabelButton
@@ -189,33 +191,35 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({
 };
 
 export default CustomDateFilter;
-
-export const fitDateRangeToTable = (dateRange, availableRange) => {
-  // if there's a userSelected range stored, start with that instead of whatever it was adjusted to
-  // const selectedRange = dateRange.userSelected ? dateRange.userSelected : dateRange;
-  const selectedRange = dateRange;
-  const adjRange = Object.assign({}, selectedRange);
-  if (selectedRange.to < availableRange.from) {
-    // the whole selected range comes before new available range, so set both dates to the earliest
-    // available
-    adjRange.to = adjRange.from = availableRange.from;
-    adjRange.userSelected = selectedRange; // store the range as it was when requested
-    return adjRange;
-  }
-  if (selectedRange.from > availableRange.to) {
-    // the whole selected range comes after new available range, so set both dates to the latest
-    // available
-    adjRange.to = adjRange.from = availableRange.to;
-    adjRange.userSelected = selectedRange; // store the range as it was when requested
-    return adjRange;
-  }
-  adjRange.from = selectedRange.from > availableRange.from ? selectedRange.from : availableRange.from;
-  adjRange.to = selectedRange.to < availableRange.to ? selectedRange.to : availableRange.to;
-  if (adjRange.from.getTime() === selectedRange.from.getTime() && adjRange.to.getTime() === selectedRange.to.getTime()) {
-    // able to use the full latest user selected range as-is, so don't store it separately
-    delete adjRange.userSelected;
-  } else {
-    adjRange.userSelected = selectedRange; // store the range as it was when requested
-  }
-  return adjRange;
-};
+//
+// export const fitDateRangeToTable = (dateRange, availableRange) => {
+//   console.log(dateRange);
+//   console.log(availableRange);
+//   // if there's a userSelected range stored, start with that instead of whatever it was adjusted to
+//   const selectedRange = dateRange.userSelected ? dateRange.userSelected : dateRange;
+//   // const selectedRange = dateRange;
+//   const adjRange = Object.assign({}, selectedRange);
+//   if (selectedRange.to < availableRange.from) {
+//     // the whole selected range comes before new available range, so set both dates to the earliest
+//     // available
+//     adjRange.to = adjRange.from = availableRange.from;
+//     adjRange.userSelected = selectedRange; // store the range as it was when requested
+//     return adjRange;
+//   }
+//   if (selectedRange.from > availableRange.to) {
+//     // the whole selected range comes after new available range, so set both dates to the latest
+//     // available
+//     adjRange.to = adjRange.from = availableRange.to;
+//     adjRange.userSelected = selectedRange; // store the range as it was when requested
+//     return adjRange;
+//   }
+//   adjRange.from = selectedRange.from > availableRange.from ? selectedRange.from : availableRange.from;
+//   adjRange.to = selectedRange.to < availableRange.to ? selectedRange.to : availableRange.to;
+//   if (adjRange.from.getTime() === selectedRange.from.getTime() && adjRange.to.getTime() === selectedRange.to.getTime()) {
+//     // able to use the full latest user selected range as-is, so don't store it separately
+//     delete adjRange.userSelected;
+//   } else {
+//     adjRange.userSelected = selectedRange; // store the range as it was when requested
+//   }
+//   return adjRange;
+// };
