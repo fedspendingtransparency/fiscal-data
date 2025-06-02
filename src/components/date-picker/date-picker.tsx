@@ -1,8 +1,8 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import MonthPicker from './month-picker/month-picker';
 import DaySelector from './day-selector/day-selector';
-import {formatReportDate} from '../../helpers/dataset-detail/report-helpers';
-import {faCalendar} from '@fortawesome/free-regular-svg-icons';
+import { formatReportDate } from '../../helpers/dataset-detail/report-helpers';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import DropdownLabelButton from '../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../dropdown-container/dropdown-container';
 

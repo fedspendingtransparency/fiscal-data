@@ -1,6 +1,6 @@
-import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
-import {errorState, errorStateLabel, helpLabel, inputLabel, selectedDateDisplay} from './date-text-input.module.scss';
-import {monthFullNames, monthNames} from '../../../utils/api-utils';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { errorState, errorStateLabel, helpLabel, inputLabel, selectedDateDisplay } from './date-text-input.module.scss';
+import { monthFullNames, monthNames } from '../../../utils/api-utils';
 
 interface iDateTextInput {
   label?: string;
@@ -111,21 +111,16 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       formattedDate = day ? inputMonth + ' ' + day + ', ' + year : inputMonth + ' ' + year;
       dateInputRef.current.value = formattedDate;
 
-      // console.log('fromDate: ', fromDate);
-      // console.log('toDate: ', toDate);
-      // console.log('formatted date: ', formattedDate);
-
-      // console.log(new Date(formattedDate));
-      // console.log(new Date(fromDate));
-
       const dateMatch = allDates?.includes(formattedDate);
-      // console.log('dateMatch: ', dateMatch);
       if (!dateMatch) {
-        // console.log('trying to run date stuff');
-        if (new Date(formattedDate) < new Date(fromDate)) {
-          setErrorMessage(minDateErrorMessage || noMatchDefaultMessage);
-        } else if (new Date(formattedDate) > new Date(toDate)) {
-          setErrorMessage(maxDateErrorMessage || noMatchDefaultMessage);
+        if (minDateErrorMessage && maxDateErrorMessage) {
+          if (new Date(formattedDate) < new Date(fromDate)) {
+            setErrorMessage(minDateErrorMessage);
+          } else if (new Date(formattedDate) > new Date(toDate)) {
+            setErrorMessage(maxDateErrorMessage);
+          }
+        } else {
+          setErrorMessage(noMatchDefaultMessage);
         }
       } else {
         setErrorMessage(null);

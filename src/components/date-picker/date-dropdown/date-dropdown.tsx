@@ -1,14 +1,7 @@
-import React, {FunctionComponent, ReactElement, useState} from 'react';
-import {
-  applyButton,
-  buttonContainer,
-  cancelButton,
-  checkIcon,
-  dropdownContainer,
-  inputContainer
-} from './date-dropdown.module.scss';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCheck} from '@fortawesome/free-solid-svg-icons';
+import React, { FunctionComponent, ReactElement, useState } from 'react';
+import { applyButton, buttonContainer, cancelButton, checkIcon, dropdownContainer, inputContainer } from './date-dropdown.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import DateTextInput from '../date-text-input/date-text-input';
 
 interface IDateDropdown {
