@@ -3,7 +3,7 @@ import {errorState, errorStateLabel, helpLabel, inputLabel, selectedDateDisplay}
 import {monthFullNames, monthNames} from '../../../utils/api-utils';
 
 interface iDateTextInput {
-  label: string;
+  label?: string;
   validInput: boolean;
   setValidInput: (inputState: boolean) => void;
   inputFocus: boolean;
@@ -15,8 +15,8 @@ interface iDateTextInput {
   setCurrentDate: (date: Date) => void;
   minDateErrorMessage?: string;
   maxDateErrorMessage?: string;
-  fromDate: Date;
-  toDate: Date;
+  fromDate?: Date;
+  toDate?: Date;
 }
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
@@ -24,7 +24,7 @@ export const noMatchDefaultMessage = 'No reports or files available for this dat
 export const helpText = 'Press Enter/Return to confirm.';
 
 const DateTextInput: FunctionComponent<iDateTextInput> = ({
-  label,
+  label = 'Published Date (Example: May 1998 or 05/1998)',
   validInput,
   setValidInput,
   inputFocus,
@@ -167,7 +167,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
 
   return (
     <>
-      <div className={inputLabel}>{label || 'Published Date (Example: May 1998 or 05/1998)'}</div>
+      <div className={inputLabel}>{label}</div>
       <input
         type="text"
         className={`${selectedDateDisplay} ${!!errorMessage && errorState}`}

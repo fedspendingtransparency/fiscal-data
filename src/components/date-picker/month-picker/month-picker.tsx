@@ -2,9 +2,9 @@ import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 import {faCaretDown, faCaretUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {arrowIcon, dropdownList, selected, yearButton} from './month-picker.module.scss';
-import ScrollContainer from '../../scroll-container/scroll-container';
 import DateDropdown from '../date-dropdown/date-dropdown';
 import {monthFullNames} from '../../../utils/api-utils';
+import ScrollContainer from '../../scroll-container/scroll-container';
 
 interface IMonthPickerDropdown {
   selectedDate: Date;
@@ -24,6 +24,8 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   active,
   allReportYears,
   ignoreDisabled,
+  latestDate,
+  earliestDate,
 }: IMonthPickerDropdown) => {
   const [showYears, setShowYears] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(monthFullNames[selectedDate.getMonth()]);
@@ -74,6 +76,8 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
           setSelectedYear={setSelectedYear}
           allDates={allReportDates}
           selectedDate={selectedMonth + ' ' + selectedYear}
+          fromDate={earliestDate}
+          toDate={latestDate}
         >
           <>
             <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">

@@ -105,8 +105,6 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
                 label={'Published Date (Example: May 1, 1998 or 05/01/1998)'}
-                minDateErrorMessage={'Date should not be before minimal date'}
-                maxDateErrorMessage={'Date should not be after maximal date'}
               />
             )}
           </div>

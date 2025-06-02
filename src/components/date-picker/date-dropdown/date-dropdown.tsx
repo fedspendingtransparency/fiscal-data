@@ -21,11 +21,11 @@ interface IDateDropdown {
   allDates: string[];
   selectedDate: string;
   daily?: boolean;
-  label: string;
-  minDateErrorMessage: string;
-  maxDateErrorMessage: string;
-  fromDate: Date;
-  toDate: Date;
+  label?: string;
+  minDateErrorMessage?: string;
+  maxDateErrorMessage?: string;
+  fromDate?: Date;
+  toDate?: Date;
 }
 
 const DateDropdown: FunctionComponent<IDateDropdown> = ({

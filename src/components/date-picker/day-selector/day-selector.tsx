@@ -15,9 +15,9 @@ interface IDaySelector {
   earliestDate: Date;
   allDates?: string[];
   active: boolean;
-  label: string;
-  minDateErrorMessage: string;
-  maxDateErrorMessage: string;
+  label?: string;
+  minDateErrorMessage?: string;
+  maxDateErrorMessage?: string;
 }
 
 const DaySelector: FunctionComponent<IDaySelector> = ({

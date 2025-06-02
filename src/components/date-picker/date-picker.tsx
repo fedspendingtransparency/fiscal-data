@@ -14,9 +14,9 @@ interface IDatePicker {
   allYears: string[];
   selectedDate: Date;
   setSelectedDate: (value: Date) => void;
-  label: string;
-  minDateErrorMessage: string;
-  maxDateErrorMessage: string;
+  label?: string;
+  minDateErrorMessage?: string;
+  maxDateErrorMessage?: string;
 }
 
 const DatePicker: FunctionComponent<IDatePicker> = ({
@@ -63,6 +63,8 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             active={active}
             allReportYears={allYears}
             ignoreDisabled={ignoreDisabled}
+            latestDate={latestDate}
+            earliestDate={earliestDate}
           />
         )}
         {active && isDaily && (
