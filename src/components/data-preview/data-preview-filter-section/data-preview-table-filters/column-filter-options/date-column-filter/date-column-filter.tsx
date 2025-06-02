@@ -80,7 +80,19 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
             Custom
           </label>
           <div className={presetContainer}>
-            <CustomDateFilter pickerDateRange={pickerDateRange} disabled={selectedToggle !== 'custom'} datePreset={config.datePreset} />
+            <CustomDateFilter
+              pickerDateRange={pickerDateRange}
+              disabled={selectedToggle !== 'custom'}
+              datePreset={config.datePreset}
+              setPickerDateRange={setPickerDateRange}
+              handleDateRangeChange={handleDateRangeSelect}
+              datasetDateRange={{
+                earliestDate: config.techSpecs.earliestDate,
+                latestDate: config.techSpecs.latestDate,
+              }}
+              currentDateButton={config.currentDateButton}
+              selectedToggle={selectedToggle}
+            />
           </div>
         </div>
       </div>
