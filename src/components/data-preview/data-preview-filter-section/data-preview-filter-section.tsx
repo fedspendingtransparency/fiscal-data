@@ -53,6 +53,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   setViewMode,
 }) => {
   const isDisabled = apiFilterDefault;
+
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
   const getChartingInfo = () => {

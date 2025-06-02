@@ -1,6 +1,7 @@
 import React from 'react';
 import DataPreviewTableFilters from './data-preview-table-filters';
 import { fireEvent, render } from '@testing-library/react';
+import { DataTableContext } from '../../data-preview-context';
 
 describe('Table filters dropdown', () => {
   const datasetConfig = { currentDateButton: 'byFullMonth', techSpecs: { earliestDate: '3-17-2020', latestDate: '3-17-2025' } };
@@ -9,11 +10,24 @@ describe('Table filters dropdown', () => {
     earliestDate: '3-17-2020',
     latestDate: '3-17-2025',
     dateField: 'record_date',
-    fields: [{ prettyName: 'Record Date' }],
+    fields: [{ prettyName: 'Record Date', columnName: 'record_date' }],
   };
-
+  const mockColumnConfigs = [{ id: 'record_date' }];
+  const mockContextValues = {
+    tableState: {
+      getAllLeafColumns: jest.fn().mockImplementation(() => mockColumnConfigs),
+    },
+  };
   it('renders the dropdown button', () => {
-    const { getByRole } = render(<DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />);
+    const { getByRole } = render(
+      <DataTableContext.Provider
+        value={{
+          ...mockContextValues,
+        }}
+      >
+        <DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />
+      </DataTableContext.Provider>
+    );
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
     //Filters dropdown opens on click
@@ -21,7 +35,15 @@ describe('Table filters dropdown', () => {
     expect(applyButton).toBeInTheDocument();
   });
   it('apply button closes dropdown panel and applies any selected filters', () => {
-    const { getByRole } = render(<DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />);
+    const { getByRole } = render(
+      <DataTableContext.Provider
+        value={{
+          ...mockContextValues,
+        }}
+      >
+        <DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />
+      </DataTableContext.Provider>
+    );
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
     //Filters dropdown opens on click
@@ -34,7 +56,15 @@ describe('Table filters dropdown', () => {
   });
 
   it('cancel button closes dropdown panel without applying filters', () => {
-    const { getByRole } = render(<DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />);
+    const { getByRole } = render(
+      <DataTableContext.Provider
+        value={{
+          ...mockContextValues,
+        }}
+      >
+        <DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />
+      </DataTableContext.Provider>
+    );
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
     //Filters dropdown opens on click
@@ -47,7 +77,15 @@ describe('Table filters dropdown', () => {
   });
 
   it('renders the column filters', () => {
-    const { getByRole, getByText } = render(<DataPreviewTableFilters selectedTable={mockSelectedTable} config={datasetConfig} width={1000} />);
+    const { getByRole, getByText } = render(
+      <DataTableContext.Provider
+        value={{
+          ...mockContextValues,
+        }}
+      >
+        <DataPreviewTableFilters selectedTable={mockSelectedTable} config={datasetConfig} width={1000} />
+      </DataTableContext.Provider>
+    );
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
     expect(getByText('Record Date')).toBeInTheDocument();

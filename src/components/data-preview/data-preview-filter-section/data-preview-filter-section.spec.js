@@ -12,7 +12,7 @@ const mockContextValue = {
   defaultSelectedColumns: [],
   tableState: {
     getVisibleFlatColumns: () => new Array(17).fill({ columnDef: { header: 'header' } }),
-    getAllLeafColumns: () => new Array(17).fill({ columnDef: { header: 'header' } }),
+    getAllLeafColumns: () => new Array(17).fill({ columnDef: { header: 'header' }, id: 'id' }),
   },
 };
 

@@ -14,12 +14,10 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
   datePreset,
   customRangePreset,
   selectedTable,
-  apiData,
   handleDateRangeChange,
   allTablesSelected,
   datasetDateRange,
   finalDatesNotFound,
-  hideButtons,
   setPickerDateRange,
   hidden,
 }) => {
@@ -183,45 +181,33 @@ const DatePresets: FunctionComponent<IDatePresets> = ({
     }
   }, [allTablesSelected, finalDatesNotFound, selectedTable]);
 
-  useEffect(() => {
-    // This hook is used for nested tables
-    // when the summary view date range is locked, all rows should display
-    if (hideButtons) {
-      setActivePresetKey('all');
-    }
-  }, [hideButtons]);
-
   return (
-    <>
-      {!hideButtons && (
-        <div id={presetContainer}>
-          {presets.map(preset => (
-            <React.Fragment key={preset.key}>
-              <input
-                type="radio"
-                name="range-toggle"
-                className={radio}
-                checked={preset.key === activePresetKey}
-                id={`radio-${preset.key}`}
-                onChange={() => {
-                  applyPreset(preset);
-                }}
-                tabIndex={hidden ? -1 : 0}
-                disabled={hidden}
-              />
-              <label
-                className={`
+    <div id={presetContainer}>
+      {presets.map(preset => (
+        <React.Fragment key={preset.key}>
+          <input
+            type="radio"
+            name="range-toggle"
+            className={radio}
+            checked={preset.key === activePresetKey}
+            id={`radio-${preset.key}`}
+            onChange={() => {
+              applyPreset(preset);
+            }}
+            tabIndex={hidden ? -1 : 0}
+            disabled={hidden}
+          />
+          <label
+            className={`
                     ${toggleButton} ${activePresetKey === preset.key ? selected : ''}
                   `}
-                htmlFor={`radio-${preset.key}`}
-              >
-                {preset.label}
-              </label>
-            </React.Fragment>
-          ))}
-        </div>
-      )}
-    </>
+            htmlFor={`radio-${preset.key}`}
+          >
+            {preset.label}
+          </label>
+        </React.Fragment>
+      ))}
+    </div>
   );
 };
 
