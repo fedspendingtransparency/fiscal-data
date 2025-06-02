@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { buildEndpoint } from './generative-report-helper';
 import ReportsEmptyTable from '../reports-empty-table/reports-empty-table';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
-import DatePicker from '../date-picker/date-picker';
+import DatePicker from '../../date-picker/date-picker';
 import { withWindowSize } from 'react-fns';
 import { reportsBannerCopy, reportsConfig } from './reports-config';
 import { DownloadReportTable } from '../download-report-table/download-report-table';
