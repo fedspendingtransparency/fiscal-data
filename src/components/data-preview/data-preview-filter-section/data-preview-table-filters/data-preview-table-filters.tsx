@@ -73,7 +73,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   //     document.body.style.overflow = '';
   //   }
   // }, [active]);
-
+  // checkmate
   useEffect(() => {
     const search = filter.toLowerCase();
 
