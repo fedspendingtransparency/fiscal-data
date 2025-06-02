@@ -14,6 +14,8 @@ interface IMonthPickerDropdown {
   active: boolean;
   allReportYears: string[];
   ignoreDisabled?: boolean;
+  latestDate: Date;
+  earliestDate: Date;
 }
 
 const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
@@ -65,6 +67,8 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
       scrollToSelectedMonth.current.scrollIntoView({ block: 'nearest' });
     }
   }, [active, selectedMonth]);
+
+  // console.log('test');
 
   return (
     <>

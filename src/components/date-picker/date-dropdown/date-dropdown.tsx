@@ -22,6 +22,7 @@ interface IDateDropdown {
   selectedDate: string;
   daily?: boolean;
   label?: string;
+  ariaLabel?: string;
   minDateErrorMessage?: string;
   maxDateErrorMessage?: string;
   fromDate?: Date;
@@ -38,6 +39,7 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
   allDates,
   selectedDate,
   label,
+  ariaLabel,
   minDateErrorMessage,
   maxDateErrorMessage,
   fromDate,
@@ -52,6 +54,7 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
         <div className={inputContainer}>
           <DateTextInput
             label={label}
+            ariaLabel={ariaLabel}
             validInput={validInput}
             setValidInput={setValidInput}
             inputFocus={inputFocus}

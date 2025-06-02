@@ -4,6 +4,7 @@ import {monthFullNames, monthNames} from '../../../utils/api-utils';
 
 interface iDateTextInput {
   label?: string;
+  ariaLabel?: string;
   validInput: boolean;
   setValidInput: (inputState: boolean) => void;
   inputFocus: boolean;
@@ -25,6 +26,7 @@ export const helpText = 'Press Enter/Return to confirm.';
 
 const DateTextInput: FunctionComponent<iDateTextInput> = ({
   label = 'Published Date (Example: May 1998 or 05/1998)',
+  ariaLabel = 'Enter date',
   validInput,
   setValidInput,
   inputFocus,
@@ -109,8 +111,17 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       formattedDate = day ? inputMonth + ' ' + day + ', ' + year : inputMonth + ' ' + year;
       dateInputRef.current.value = formattedDate;
 
+      // console.log('fromDate: ', fromDate);
+      // console.log('toDate: ', toDate);
+      // console.log('formatted date: ', formattedDate);
+
+      // console.log(new Date(formattedDate));
+      // console.log(new Date(fromDate));
+
       const dateMatch = allDates?.includes(formattedDate);
+      // console.log('dateMatch: ', dateMatch);
       if (!dateMatch) {
+        // console.log('trying to run date stuff');
         if (new Date(formattedDate) < new Date(fromDate)) {
           setErrorMessage(minDateErrorMessage || noMatchDefaultMessage);
         } else if (new Date(formattedDate) > new Date(toDate)) {
@@ -134,6 +145,8 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       setErrorMessage(invalidDateText);
     }
   };
+
+  // console.log(errorMessage);
 
   const handleOnKeyDown = e => {
     const input = e.target.value;
@@ -176,7 +189,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
         onFocus={handleFocus}
         onBlur={handleOnBlur}
         onChange={handleOnChange}
-        aria-label="Enter date"
+        aria-label={ariaLabel}
       />
       {inputFocus && !validInput && !errorMessage && <div className={helpLabel}>{helpText}</div>}
       {inputFocus && !validInput && errorMessage && <div className={errorStateLabel}>{errorMessage}</div>}

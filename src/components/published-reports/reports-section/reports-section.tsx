@@ -105,6 +105,7 @@ const ReportsSection: FunctionComponent<{ publishedReportsProp: IPublishedReport
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
                 label={'Published Date (Example: May 1, 1998 or 05/01/1998)'}
+                ariaLabel={'Enter report date'}
               />
             )}
           </div>

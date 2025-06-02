@@ -16,6 +16,7 @@ interface IDaySelector {
   allDates?: string[];
   active: boolean;
   label?: string;
+  ariaLabel?: string;
   minDateErrorMessage?: string;
   maxDateErrorMessage?: string;
 }
@@ -29,6 +30,7 @@ const DaySelector: FunctionComponent<IDaySelector> = ({
   allDates,
   active,
   label,
+  ariaLabel,
   minDateErrorMessage,
   maxDateErrorMessage,
 }: IDaySelector) => {
@@ -71,6 +73,7 @@ const DaySelector: FunctionComponent<IDaySelector> = ({
           selectedDate={currentDate !== undefined && formatReportDate(currentDate, true, true)}
           allDates={allDates}
           label={label}
+          ariaLabel={ariaLabel}
           fromDate={earliestDate}
           toDate={latestDate}
           minDateErrorMessage={minDateErrorMessage}

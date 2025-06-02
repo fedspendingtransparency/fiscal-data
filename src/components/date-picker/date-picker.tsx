@@ -15,6 +15,7 @@ interface IDatePicker {
   selectedDate: Date;
   setSelectedDate: (value: Date) => void;
   label?: string;
+  ariaLabel?: string;
   minDateErrorMessage?: string;
   maxDateErrorMessage?: string;
 }
@@ -29,6 +30,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
   setSelectedDate,
   ignoreDisabled,
   label,
+  ariaLabel,
   minDateErrorMessage,
   maxDateErrorMessage,
 }: IDatePicker) => {
@@ -77,6 +79,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             allDates={allDates}
             active={active}
             label={label}
+            ariaLabel={ariaLabel}
             minDateErrorMessage={minDateErrorMessage}
             maxDateErrorMessage={maxDateErrorMessage}
           />

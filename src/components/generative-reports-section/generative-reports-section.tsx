@@ -175,6 +175,7 @@ const GenerativeReportsSection: FunctionComponent<{ width: number }> = ({ width,
             allDates={allReportDates}
             allYears={allReportYears}
             ignoreDisabled={true}
+            ariaLabel={'Enter report date'}
           />
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
