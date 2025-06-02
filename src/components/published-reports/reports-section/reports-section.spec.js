@@ -72,7 +72,7 @@ describe('Reports Section component', () => {
     it('Updates most recent date in date picker on report change', () => {
       jest.useFakeTimers();
       const { getByRole } = render(<ReportsSection dataset={datasetConfig} />);
-      const dateFilter = getByRole('button', { name: 'Select Published Report Date' });
+      const dateFilter = getByRole('button', { name: 'Select Published Date' });
       expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
       const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
       reportFilter.click();
@@ -86,7 +86,7 @@ describe('Reports Section component', () => {
     it('Only shows selected report in the report table', () => {
       jest.useFakeTimers();
       const { getByRole, queryByRole } = render(<ReportsSection dataset={datasetConfig} />);
-      const dateFilter = getByRole('button', { name: 'Select Published Report Date' });
+      const dateFilter = getByRole('button', { name: 'Select Published Date' });
       expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
       const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
       reportFilter.click();

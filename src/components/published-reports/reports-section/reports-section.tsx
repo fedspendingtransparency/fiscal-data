@@ -3,12 +3,12 @@ import DownloadReportTable from '../download-report-table/download-report-table'
 import { filtersContainer } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
-import ReportDatePicker from '../report-date-picker/report-date-picker';
+import DatePicker from '../../../components/date-picker/date-picker';
 import { getAllReportDates, isReportGroupDailyFrequency } from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
-import ReportFilter from '../report-filter/report-filter';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
+import ReportFilter from '../report-filter/report-filter';
 import { sectionTitle } from '../published-reports';
 
 const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ dataset }) => {
@@ -92,14 +92,16 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
           <div className={filtersContainer}>
             {filterByReport && <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} />}
             {latestReportDate && (
-              <ReportDatePicker
-                isDailyReport={isDailyReport}
-                latestReportDate={latestReportDate}
-                earliestReportDate={earliestReportDate}
-                allReportDates={allReportDates}
-                allReportYears={allReportYears}
+              <DatePicker
+                isDaily={isDailyReport}
+                latestDate={latestReportDate}
+                earliestDate={earliestReportDate}
+                allDates={allReportDates}
+                allYears={allReportYears}
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
+                label={'Published Date (Example: May 1, 1998 or 05/01/1998)'}
+                ariaLabel={'Enter report date'}
               />
             )}
           </div>

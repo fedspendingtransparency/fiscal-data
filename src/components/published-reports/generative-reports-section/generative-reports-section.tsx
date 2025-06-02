@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { buildEndpoint } from './generative-report-helper';
 import ReportsEmptyTable from '../reports-empty-table/reports-empty-table';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
-import ReportDatePicker from '../report-date-picker/report-date-picker';
+import DatePicker from '../../date-picker/date-picker';
 import { withWindowSize } from 'react-fns';
 import { reportsBannerCopy, reportsConfig } from './reports-config';
 import { DownloadReportTable } from '../download-report-table/download-report-table';
@@ -170,15 +170,16 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     <div>
       <DatasetSectionContainer title={sectionTitle} id="reports-and-files">
         <div className={filtersContainer}>
-          <ReportDatePicker
-            isDailyReport={false}
+          <DatePicker
+            isDaily={false}
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
-            latestReportDate={latestReportDate}
-            earliestReportDate={earliestReportDate}
-            allReportDates={allReportDates}
-            allReportYears={allReportYears}
+            latestDate={latestReportDate}
+            earliestDate={earliestReportDate}
+            allDates={allReportDates}
+            allYears={allReportYears}
             ignoreDisabled={true}
+            ariaLabel={'Enter report date'}
           />
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>

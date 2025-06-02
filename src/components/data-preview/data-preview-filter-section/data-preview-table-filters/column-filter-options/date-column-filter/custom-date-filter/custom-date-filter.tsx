@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import ReportDayPicker from '../../../../../../published-reports/report-date-picker/report-day-picker/report-day-picker';
 import DropdownLabelButton from '../../../../../../dropdown-label-button/dropdown-label-button';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import DropdownContainer from '../../../../../../dropdown-container/dropdown-container';
@@ -7,6 +6,7 @@ import { formatReportDate } from '../../../../../../../helpers/dataset-detail/re
 import { customDatesContainer } from './custom-date-filter.module.scss';
 import { ICustomDateFilter } from '../../../../../../../models/data-preview/ICustomDateFilter';
 import { isBefore } from 'date-fns';
+import DaySelector from '../../../../../../date-picker/day-selector/day-selector';
 
 const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(null);
@@ -64,25 +64,29 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
       {pickerDateRange && selectedStartDate && selectedEndDate && (
         <>
           <DropdownContainer setActive={setStartDateActive} active={startDateActive} dropdownButton={startDateButton}>
-            <ReportDayPicker
+            <DaySelector
               handleClose={handleStartDateClose}
               selectedDate={selectedStartDate}
               setSelectedDate={setSelectedStartDate}
-              latestReportDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
-              earliestReportDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
+              latestDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
+              earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
               active={startDateActive}
               label="Enter Start Date"
+              minDateErrorMessage={'Date should not be before minimal date'}
+              maxDateErrorMessage={'Date should not be after maximal date'}
             />
           </DropdownContainer>
           <DropdownContainer setActive={setEndDateActive} active={endDateActive} dropdownButton={endDateButton}>
-            <ReportDayPicker
+            <DaySelector
               handleClose={handleEndDateClose}
               selectedDate={selectedEndDate}
               setSelectedDate={setSelectedEndDate}
-              latestReportDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
-              earliestReportDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
+              latestDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
+              earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
               active={endDateActive}
               label="Enter End Date"
+              minDateErrorMessage={'Date should not be before minimal date'}
+              maxDateErrorMessage={'Date should not be after maximal date'}
             />
           </DropdownContainer>
         </>
