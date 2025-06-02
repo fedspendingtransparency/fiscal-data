@@ -43,7 +43,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   tableColumnSortData,
   selectedDetailViewFilter,
   apiFilterDefault,
-  setIsFiltered,
   handleDateRangeChange,
   setIsCustomDateRange,
   finalDatesNotFound,
@@ -51,6 +50,12 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   detailViewState,
   apiData,
   setViewMode,
+  currentDateButton,
+  datePreset,
+  customRangePreset,
+  setIsFiltered,
+  datasetDateRange,
+  hideButtons,
 }) => {
   const isDisabled = apiFilterDefault;
   const { dataDisplays, userFilter } = selectedTable;
@@ -95,6 +100,12 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             detailViewState={detailViewState}
             apiData={apiData}
             width={width}
+            currentDateButton={currentDateButton}
+            datePreset={datePreset}
+            customRangePreset={customRangePreset}
+            setIsFiltered={setIsFiltered}
+            datasetDateRange={datasetDateRange}
+            hideButtons={hideButtons}
           />
           <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}

@@ -338,32 +338,41 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
               apiData={apiData}
               viewMode={viewMode}
               setViewMode={setViewMode}
+              currentDateButton={config.currentDateButton}
+              datePreset={config.datePreset}
+              customRangePreset={config.customRangePreset}
+              setIsFiltered={setIsFiltered}
+              datasetDateRange={{
+                earliestDate: config.techSpecs.earliestDate,
+                latestDate: config.techSpecs.latestDate,
+              }}
+              hideButtons={detailApi && !detailViewState}
             >
               {selectedTable && (
                 <>
-                  {!selectedTable?.apiFilter?.disableDateRangeFilter && (
-                    <DateRangeFilter
-                      setDateRange={setDateRange}
-                      handleDateRangeChange={handleDateRangeChange}
-                      selectedTable={!!detailViewState ? detailApi : selectedTable}
-                      apiData={apiData}
-                      onUserFilter={setUserFilterSelection}
-                      setIsFiltered={setIsFiltered}
-                      currentDateButton={config.currentDateButton}
-                      datePreset={config.datePreset}
-                      customRangePreset={config.customRangePreset}
-                      setIsCustomDateRange={setIsCustomDateRange}
-                      allTablesSelected={allTablesSelected}
-                      datasetDateRange={{
-                        earliestDate: config.techSpecs.earliestDate,
-                        latestDate: config.techSpecs.latestDate,
-                      }}
-                      finalDatesNotFound={finalDatesNotFound}
-                      setResetFilters={setResetFilters}
-                      datatableBanner={config.datatableBanner}
-                      hideButtons={detailApi && !detailViewState}
-                    />
-                  )}
+                  {/*{!selectedTable?.apiFilter?.disableDateRangeFilter && (*/}
+                  {/*  <DateRangeFilter*/}
+                  {/*    setDateRange={setDateRange}*/}
+                  {/*    handleDateRangeChange={handleDateRangeChange}*/}
+                  {/*    selectedTable={!!detailViewState ? detailApi : selectedTable}*/}
+                  {/*    apiData={apiData}*/}
+                  {/*    onUserFilter={setUserFilterSelection}*/}
+                  {/*    setIsFiltered={setIsFiltered}*/}
+                  {/*    currentDateButton={config.currentDateButton}*/}
+                  {/*    datePreset={config.datePreset}*/}
+                  {/*    customRangePreset={config.customRangePreset}*/}
+                  {/*    setIsCustomDateRange={setIsCustomDateRange}*/}
+                  {/*    allTablesSelected={allTablesSelected}*/}
+                  {/*    datasetDateRange={{*/}
+                  {/*      earliestDate: config.techSpecs.earliestDate,*/}
+                  {/*      latestDate: config.techSpecs.latestDate,*/}
+                  {/*    }}*/}
+                  {/*    finalDatesNotFound={finalDatesNotFound}*/}
+                  {/*    setResetFilters={setResetFilters}*/}
+                  {/*    datatableBanner={config.datatableBanner}*/}
+                  {/*    hideButtons={detailApi && !detailViewState}*/}
+                  {/*  />*/}
+                  {/*)}*/}
                   {selectedTable?.apiFilter?.disableDateRangeFilter && <div className={increaseSpacing}></div>}
                 </>
               )}
