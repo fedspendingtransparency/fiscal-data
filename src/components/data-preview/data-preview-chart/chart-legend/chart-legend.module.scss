@@ -1,8 +1,7 @@
 .buttonContainer {
   padding: 0.5rem;
-  max-height: 470px;
-  overflow-y: auto;
   width: fit-content;
+  flex: 0 1 21%;
 }
 
 .sectionContainer {
@@ -10,4 +9,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
 }
