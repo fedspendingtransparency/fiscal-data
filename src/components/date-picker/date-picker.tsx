@@ -1,8 +1,8 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import MonthPicker from './month-picker/month-picker';
 import DaySelector from './day-selector/day-selector';
-import {formatReportDate} from '../../helpers/dataset-detail/report-helpers';
-import {faCalendar} from '@fortawesome/free-regular-svg-icons';
+import { formatReportDate } from '../../helpers/dataset-detail/report-helpers';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import DropdownLabelButton from '../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../dropdown-container/dropdown-container';
 
@@ -14,9 +14,10 @@ interface IDatePicker {
   allYears: string[];
   selectedDate: Date;
   setSelectedDate: (value: Date) => void;
-  label: string;
-  minDateErrorMessage: string;
-  maxDateErrorMessage: string;
+  label?: string;
+  ariaLabel?: string;
+  minDateErrorMessage?: string;
+  maxDateErrorMessage?: string;
 }
 
 const DatePicker: FunctionComponent<IDatePicker> = ({
@@ -29,6 +30,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
   setSelectedDate,
   ignoreDisabled,
   label,
+  ariaLabel,
   minDateErrorMessage,
   maxDateErrorMessage,
 }: IDatePicker) => {
@@ -63,6 +65,8 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             active={active}
             allReportYears={allYears}
             ignoreDisabled={ignoreDisabled}
+            latestDate={latestDate}
+            earliestDate={earliestDate}
           />
         )}
         {active && isDaily && (
@@ -75,6 +79,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             allDates={allDates}
             active={active}
             label={label}
+            ariaLabel={ariaLabel}
             minDateErrorMessage={minDateErrorMessage}
             maxDateErrorMessage={maxDateErrorMessage}
           />

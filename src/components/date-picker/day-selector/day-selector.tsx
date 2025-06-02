@@ -1,11 +1,11 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import DateDropdown from '../date-dropdown/date-dropdown';
-import {DayPicker} from 'react-day-picker';
+import { DayPicker } from 'react-day-picker';
 import '../../data-table/data-table-header/date-range-filter/day-picker-overrides.css';
 import 'react-day-picker/dist/style.css';
-import {datePickerSelected} from './day-selector.module.scss';
-import {formatReportDate} from '../../../helpers/dataset-detail/report-helpers';
-import {monthFullNames} from '../../../utils/api-utils';
+import { datePickerSelected } from './day-selector.module.scss';
+import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';
+import { monthFullNames } from '../../../utils/api-utils';
 
 interface IDaySelector {
   handleClose: () => void;
@@ -15,9 +15,10 @@ interface IDaySelector {
   earliestDate: Date;
   allDates?: string[];
   active: boolean;
-  label: string;
-  minDateErrorMessage: string;
-  maxDateErrorMessage: string;
+  label?: string;
+  ariaLabel?: string;
+  minDateErrorMessage?: string;
+  maxDateErrorMessage?: string;
 }
 
 const DaySelector: FunctionComponent<IDaySelector> = ({
@@ -29,6 +30,7 @@ const DaySelector: FunctionComponent<IDaySelector> = ({
   allDates,
   active,
   label,
+  ariaLabel,
   minDateErrorMessage,
   maxDateErrorMessage,
 }: IDaySelector) => {
@@ -71,6 +73,7 @@ const DaySelector: FunctionComponent<IDaySelector> = ({
           selectedDate={currentDate !== undefined && formatReportDate(currentDate, true, true)}
           allDates={allDates}
           label={label}
+          ariaLabel={ariaLabel}
           fromDate={earliestDate}
           toDate={latestDate}
           minDateErrorMessage={minDateErrorMessage}

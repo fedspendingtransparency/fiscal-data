@@ -1,14 +1,7 @@
-import React, {FunctionComponent, ReactElement, useState} from 'react';
-import {
-  applyButton,
-  buttonContainer,
-  cancelButton,
-  checkIcon,
-  dropdownContainer,
-  inputContainer
-} from './date-dropdown.module.scss';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCheck} from '@fortawesome/free-solid-svg-icons';
+import React, { FunctionComponent, ReactElement, useState } from 'react';
+import { applyButton, buttonContainer, cancelButton, checkIcon, dropdownContainer, inputContainer } from './date-dropdown.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import DateTextInput from '../date-text-input/date-text-input';
 
 interface IDateDropdown {
@@ -21,11 +14,12 @@ interface IDateDropdown {
   allDates: string[];
   selectedDate: string;
   daily?: boolean;
-  label: string;
-  minDateErrorMessage: string;
-  maxDateErrorMessage: string;
-  fromDate: Date;
-  toDate: Date;
+  label?: string;
+  ariaLabel?: string;
+  minDateErrorMessage?: string;
+  maxDateErrorMessage?: string;
+  fromDate?: Date;
+  toDate?: Date;
 }
 
 const DateDropdown: FunctionComponent<IDateDropdown> = ({
@@ -38,6 +32,7 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
   allDates,
   selectedDate,
   label,
+  ariaLabel,
   minDateErrorMessage,
   maxDateErrorMessage,
   fromDate,
@@ -52,6 +47,7 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
         <div className={inputContainer}>
           <DateTextInput
             label={label}
+            ariaLabel={ariaLabel}
             validInput={validInput}
             setValidInput={setValidInput}
             inputFocus={inputFocus}

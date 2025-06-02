@@ -57,7 +57,12 @@ describe('Report Date Dropdown', () => {
 
   it('renders help text for monthly date picker', () => {
     const { getByText } = render(
-      <DateDropdown handleClose={jest.fn()} handleApply={jest.fn()} selectedDate="August 2024">
+      <DateDropdown
+        handleClose={jest.fn()}
+        handleApply={jest.fn()}
+        selectedDate="August 2024"
+        label={'Published Date (Example: May 1998 or 05/1998)'}
+      >
         <div>children</div>
       </DateDropdown>
     );
@@ -66,10 +71,16 @@ describe('Report Date Dropdown', () => {
 
   it('renders help text for daily date picker', () => {
     const { getByText } = render(
-      <DateDropdown handleClose={jest.fn()} handleApply={jest.fn()} selectedDate="August 1, 2024" daily={true}>
+      <DateDropdown
+        handleClose={jest.fn()}
+        handleApply={jest.fn()}
+        selectedDate="August 1, 2024"
+        daily={true}
+        label={'Published Date (Example: May 1, 1998 or 05/01/1998)'}
+      >
         <div>children</div>
       </DateDropdown>
     );
-    expect(getByText('Published Date (Example: May 1998 or 05/1998)')).toBeInTheDocument();
+    expect(getByText('Published Date (Example: May 1, 1998 or 05/01/1998)')).toBeInTheDocument();
   });
 });
