@@ -148,19 +148,19 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       if (datePreset === 'all' && presets[4].key === 'all') {
         idealDefaultPreset = presets[4];
       }
-      if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
-        idealDefaultPreset = presets.find(({ key }) => key === 'custom');
-
-        const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
-        const quarterRange = {
-          userSelected: {
-            from: subQuarters(addDays(dateObj, 1), 1),
-            to: dateObj,
-          },
-        };
-        const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
-        updateDateRange(adjRange);
-      }
+      // if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
+      //   idealDefaultPreset = presets.find(({ key }) => key === 'custom');
+      //
+      //   const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
+      //   const quarterRange = {
+      //     userSelected: {
+      //       from: subQuarters(addDays(dateObj, 1), 1),
+      //       to: dateObj,
+      //     },
+      //   };
+      //   const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
+      //   updateDateRange(adjRange);
+      // }
       // Check if the default date option is available in the preset list. If so, select the default
       // preset, else select the next available option.
       const defaultPresetIsFound = presets.some(preset => preset.key === idealDefaultPreset.key);
@@ -327,6 +327,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
           detailApi={detailApi}
           detailViewState={detailViewState}
           apiData={apiData}
+          presets={presets}
+          activePresetKey={activePresetKey}
         />
       }
     />
@@ -375,6 +377,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
                   detailApi={detailApi}
                   detailViewState={detailViewState}
                   apiData={apiData}
+                  presets={presets}
+                  activePresetKey={activePresetKey}
                 />
               }
               handleApply={handleApply}

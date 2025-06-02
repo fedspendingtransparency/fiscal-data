@@ -6,7 +6,14 @@ import determineDateRange, {
 import { presetContainer, radio, selected, toggleButton } from './date-presets.module.scss';
 import { IDatePresets } from '../../../../../../../models/data-preview/IDatePresets';
 
-const DatePresets: FunctionComponent<IDatePresets> = ({ handleDateRangeChange, hideButtons, setPickerDateRange, hidden }) => {
+const DatePresets: FunctionComponent<IDatePresets> = ({
+  handleDateRangeChange,
+  hideButtons,
+  setPickerDateRange,
+  hidden,
+  presets,
+  activePresetKey,
+}) => {
   // const applyPreset = preset => {
   //   let label = preset.label;
   //   if (label && label.toLowerCase() === 'custom') {
@@ -17,13 +24,13 @@ const DatePresets: FunctionComponent<IDatePresets> = ({ handleDateRangeChange, h
   //   prepUpdateDateRange(preset);
   // };
 
-  const updateDateRange = curDateRange => {
-    if (curDateRange) {
-      setPickerDateRange({ ...availableDateRange, from: curDateRange.from, to: curDateRange.to });
-      setCurDateRange(curDateRange);
-      handleDateRangeChange(curDateRange);
-    }
-  };
+  // const updateDateRange = curDateRange => {
+  //   if (curDateRange) {
+  //     setPickerDateRange({ ...availableDateRange, from: curDateRange.from, to: curDateRange.to });
+  //     setCurDateRange(curDateRange);
+  //     handleDateRangeChange(curDateRange);
+  //   }
+  // };
 
   return (
     <>
@@ -38,7 +45,7 @@ const DatePresets: FunctionComponent<IDatePresets> = ({ handleDateRangeChange, h
                 checked={preset.key === activePresetKey}
                 id={`radio-${preset.key}`}
                 onChange={() => {
-                  applyPreset(preset);
+                  // applyPreset(preset);
                 }}
                 tabIndex={hidden ? -1 : 0}
                 disabled={hidden}
