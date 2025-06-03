@@ -4,7 +4,7 @@ import { IDatePresets } from '../../../../../../../models/data-preview/IDatePres
 
 const DatePresets: FunctionComponent<IDatePresets> = ({ hideButtons, hidden, presets, activePresetKey }) => {
   const [selectedPreset, setSelectedPreset] = useState(activePresetKey);
-
+  console.log(activePresetKey);
   return (
     <>
       {!hideButtons && (
