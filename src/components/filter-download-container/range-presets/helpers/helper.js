@@ -92,6 +92,8 @@ export default function determineDateRange(table, preset, currentDateButton) {
     return null;
   }
 
+  dateRangeObj.earliestDate = table.earliestDate;
+  dateRangeObj.latestDate = table.latestDate;
   return dateRangeObj;
 }
 

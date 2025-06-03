@@ -178,7 +178,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       } else {
         defaultKey = idealDefaultPreset;
       }
-      applyPreset(defaultKey);
+      if (datePreset !== 'custom') {
+        applyPreset(defaultKey);
+      }
     }
   };
 
