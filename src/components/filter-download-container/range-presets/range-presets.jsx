@@ -299,6 +299,8 @@ export const fitDateRangeToTable = (dateRange, availableRange) => {
   }
   adjRange.from = selectedRange.from > availableRange.from ? selectedRange.from : availableRange.from;
   adjRange.to = selectedRange.to < availableRange.to ? selectedRange.to : availableRange.to;
+  adjRange.earliestDate = availableRange.earliestDate;
+  adjRange.latestDate = availableRange.latestDate;
   if (adjRange.from.getTime() === selectedRange.from.getTime() && adjRange.to.getTime() === selectedRange.to.getTime()) {
     // able to use the full latest user selected range as-is, so don't store it separately
     delete adjRange.userSelected;

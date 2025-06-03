@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, { FunctionComponent } from 'react';
 import DateColumnFilter from './date-column-filter/date-column-filter';
 
 interface IColumnFilterOptions {
@@ -26,6 +26,10 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   detailApi,
   detailViewState,
   apiData,
+  presets,
+  activePresetKey,
+  pickerDateRange,
+  setPickerDateRange,
 }) => {
   return (
     <>
@@ -42,6 +46,10 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
           detailApi={detailApi}
           detailViewState={detailViewState}
           apiData={apiData}
+          presets={presets}
+          activePresetKey={activePresetKey}
+          pickerDateRange={pickerDateRange}
+          setPickerDateRange={setPickerDateRange}
         />
       )}
     </>

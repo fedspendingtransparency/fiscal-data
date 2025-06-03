@@ -22,7 +22,6 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { DataPreview } from './data-preview';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
-import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 
 jest.useFakeTimers();
 jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
@@ -430,14 +429,6 @@ describe('DataPreview', () => {
   //   const downloadWrapperAfter = instance.findByType(DataPreviewDownload);
   //   expect(downloadWrapperAfter.props.allTablesSelected).toBeTruthy();
   // });
-
-  it("supplies the dataset's full dateRange to DateRangeFilter  ", () => {
-    const rangePresets = instance.findByType(DateRangeFilter);
-    expect(rangePresets.props.datasetDateRange).toEqual({
-      earliestDate: '2002-01-01',
-      latestDate: '2020-04-13',
-    });
-  });
 
   it(`limits table filters to just record date when "All Data Tables" is selected`, async () => {
     const { getByRole, getByText } = render(

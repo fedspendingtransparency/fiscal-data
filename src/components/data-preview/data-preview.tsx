@@ -8,7 +8,6 @@ import {
   detailViewBack,
   detailViewButton,
   detailViewIcon,
-  increaseSpacing,
   placeholderButton,
   placeholderText,
   selectedTableName,
@@ -23,7 +22,6 @@ import { getApiData } from '../dataset-data/dataset-data-api-helper/dataset-data
 import { queryClient } from '../../../react-query-client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
-import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
 import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
@@ -338,35 +336,15 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
               apiData={apiData}
               viewMode={viewMode}
               setViewMode={setViewMode}
+              currentDateButton={config.currentDateButton}
+              datePreset={config.datePreset}
+              customRangePreset={config.customRangePreset}
+              setIsFiltered={setIsFiltered}
+              datasetDateRange={{
+                earliestDate: config.techSpecs.earliestDate,
+                latestDate: config.techSpecs.latestDate,
+              }}
             >
-              {selectedTable && (
-                <>
-                  {!selectedTable?.apiFilter?.disableDateRangeFilter && (
-                    <DateRangeFilter
-                      setDateRange={setDateRange}
-                      handleDateRangeChange={handleDateRangeChange}
-                      selectedTable={!!detailViewState ? detailApi : selectedTable}
-                      apiData={apiData}
-                      onUserFilter={setUserFilterSelection}
-                      setIsFiltered={setIsFiltered}
-                      currentDateButton={config.currentDateButton}
-                      datePreset={config.datePreset}
-                      customRangePreset={config.customRangePreset}
-                      setIsCustomDateRange={setIsCustomDateRange}
-                      allTablesSelected={allTablesSelected}
-                      datasetDateRange={{
-                        earliestDate: config.techSpecs.earliestDate,
-                        latestDate: config.techSpecs.latestDate,
-                      }}
-                      finalDatesNotFound={finalDatesNotFound}
-                      setResetFilters={setResetFilters}
-                      datatableBanner={config.datatableBanner}
-                      hideButtons={detailApi && !detailViewState}
-                    />
-                  )}
-                  {selectedTable?.apiFilter?.disableDateRangeFilter && <div className={increaseSpacing}></div>}
-                </>
-              )}
               {!selectedTable && (
                 <div data-testid="dateRangePlaceholder">
                   <h3 className={placeholderText}>Date Range</h3>
