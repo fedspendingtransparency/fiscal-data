@@ -310,6 +310,27 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     </>
   );
 
+  const columnFilter = (
+    <ColumnFilterOptions
+      setAppliedFilters={setAppliedFilters}
+      selectedColumn={selectedColumn}
+      selectedTable={selectedTable}
+      config={config}
+      setDateRange={setDateRange}
+      allTablesSelected={allTablesSelected}
+      handleDateRangeChange={handleDateRangeChange}
+      setIsCustomDateRange={setIsCustomDateRange}
+      finalDatesNotFound={finalDatesNotFound}
+      detailApi={detailApi}
+      detailViewState={detailViewState}
+      apiData={apiData}
+      presets={presets}
+      activePresetKey={activePresetKey}
+      pickerDateRange={pickerDateRange}
+      setPickerDateRange={setPickerDateRange}
+    />
+  );
+
   const mobileFilterComponent = isFilterSelected ? (
     // Shows the selected filter and its options
     <DataPreviewMobileDialog
@@ -317,26 +338,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       onBack={handleBack}
       filterName={selectedColumn.prettyName}
       hasSearch={false}
-      backButtonText={'Filters'}
+      backButtonText="Filters"
       searchText="Search filters"
-      filterComponent={
-        <ColumnFilterOptions
-          setAppliedFilters={setAppliedFilters}
-          selectedColumn={selectedColumn}
-          selectedTable={selectedTable}
-          config={config}
-          setDateRange={setDateRange}
-          allTablesSelected={allTablesSelected}
-          handleDateRangeChange={handleDateRangeChange}
-          setIsCustomDateRange={setIsCustomDateRange}
-          finalDatesNotFound={finalDatesNotFound}
-          detailApi={detailApi}
-          detailViewState={detailViewState}
-          apiData={apiData}
-          presets={presets}
-          activePresetKey={activePresetKey}
-        />
-      }
+      filterComponent={columnFilter}
     />
   ) : (
     // Shows the different filters to select
@@ -364,31 +368,12 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
                   searchBarLabel="Search filters"
                   selectedFilter={selectedColumn}
                   setSelectedFilter={setSelectedColumn}
-                  optionLabelKey={'prettyName'}
-                  secondaryLabelKey={'filter'}
+                  optionLabelKey="prettyName"
+                  secondaryLabelKey="filter"
                   isFilter={true}
                 />
               }
-              filterComponent={
-                <ColumnFilterOptions
-                  setAppliedFilters={setAppliedFilters}
-                  selectedColumn={selectedColumn}
-                  selectedTable={selectedTable}
-                  config={config}
-                  setDateRange={setDateRange}
-                  allTablesSelected={allTablesSelected}
-                  handleDateRangeChange={handleDateRangeChange}
-                  setIsCustomDateRange={setIsCustomDateRange}
-                  finalDatesNotFound={finalDatesNotFound}
-                  detailApi={detailApi}
-                  detailViewState={detailViewState}
-                  apiData={apiData}
-                  presets={presets}
-                  activePresetKey={activePresetKey}
-                  pickerDateRange={pickerDateRange}
-                  setPickerDateRange={setPickerDateRange}
-                />
-              }
+              filterComponent={columnFilter}
               handleApply={handleApply}
               handleCancel={handleCancel}
             />
