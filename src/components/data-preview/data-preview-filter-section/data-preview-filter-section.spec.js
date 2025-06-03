@@ -16,6 +16,8 @@ const mockContextValue = {
   },
 };
 
+const mockDateRange = { from: new Date('3/17/2024'), to: new Date('3/17/2025'), latestDate: '3-17-2020', earliestDate: '3-17-2025' };
+
 describe('Data preview filter section', () => {
   it('Renders all components', async () => {
     const selectedTable = {
@@ -24,7 +26,7 @@ describe('Data preview filter section', () => {
     const { getByRole, queryByRole } = render(
       <DataTableContext.Provider value={mockContextValue}>
         <RecoilRoot>
-          <DataPreviewFilterSection dataset={{ name: 'Mock dataset' }} selectedTable={selectedTable} />
+          <DataPreviewFilterSection dataset={{ name: 'Mock dataset' }} selectedTable={selectedTable} datasetDateRange={mockDateRange} />
         </RecoilRoot>
       </DataTableContext.Provider>
     );

@@ -18,6 +18,10 @@ describe('Table filters dropdown', () => {
       getAllLeafColumns: jest.fn().mockImplementation(() => mockColumnConfigs),
     },
   };
+  const setIsCustomDateRange = jest.fn();
+  const handleDateRangeChange = jest.fn();
+  const setIsFiltered = jest.fn();
+
   it('renders the dropdown button', () => {
     const { getByRole } = render(
       <DataTableContext.Provider
@@ -25,7 +29,13 @@ describe('Table filters dropdown', () => {
           ...mockContextValues,
         }}
       >
-        <DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />
+        <DataPreviewTableFilters
+          width={1000}
+          selectedTable={mockSelectedTable}
+          setIsCustomDateRange={setIsCustomDateRange}
+          handleDateRangeChange={handleDateRangeChange}
+          setIsFiltered={setIsFiltered}
+        />
       </DataTableContext.Provider>
     );
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
@@ -41,7 +51,13 @@ describe('Table filters dropdown', () => {
           ...mockContextValues,
         }}
       >
-        <DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />
+        <DataPreviewTableFilters
+          width={1000}
+          selectedTable={mockSelectedTable}
+          setIsCustomDateRange={setIsCustomDateRange}
+          handleDateRangeChange={handleDateRangeChange}
+          setIsFiltered={setIsFiltered}
+        />
       </DataTableContext.Provider>
     );
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
@@ -62,7 +78,13 @@ describe('Table filters dropdown', () => {
           ...mockContextValues,
         }}
       >
-        <DataPreviewTableFilters width={1000} selectedTable={mockSelectedTable} />
+        <DataPreviewTableFilters
+          width={1000}
+          selectedTable={mockSelectedTable}
+          setIsCustomDateRange={setIsCustomDateRange}
+          handleDateRangeChange={handleDateRangeChange}
+          setIsFiltered={setIsFiltered}
+        />
       </DataTableContext.Provider>
     );
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
@@ -83,7 +105,14 @@ describe('Table filters dropdown', () => {
           ...mockContextValues,
         }}
       >
-        <DataPreviewTableFilters selectedTable={mockSelectedTable} config={datasetConfig} width={1000} />
+        <DataPreviewTableFilters
+          selectedTable={mockSelectedTable}
+          config={datasetConfig}
+          width={1000}
+          setIsCustomDateRange={setIsCustomDateRange}
+          handleDateRangeChange={handleDateRangeChange}
+          setIsFiltered={setIsFiltered}
+        />
       </DataTableContext.Provider>
     );
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });

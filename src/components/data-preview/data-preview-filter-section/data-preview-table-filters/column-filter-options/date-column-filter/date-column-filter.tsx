@@ -22,8 +22,8 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   setPickerDateRange,
 }) => {
   const hasPresets = selectedTable?.dateField === columnConfig?.columnName;
-  const [selectedToggle, setSelectedToggle] = useState(config.datePreset ? config.datePreset : 'preset');
-  // const [selectedToggle, setSelectedToggle] = useState(hasPresets ? 'preset' : 'custom');
+
+  const [selectedToggle, setSelectedToggle] = useState(hasPresets && config.datePreset !== 'custom' ? 'preset' : 'custom');
   // const [pickerDateRange, setPickerDateRange] = useState({
   //   from: undefined,
   //   to: undefined,
