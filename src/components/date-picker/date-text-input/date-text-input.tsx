@@ -143,7 +143,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
 
   const handleOnKeyDown = e => {
     const input = e.target.value;
-    if (e.code === 'Enter') {
+    if (e.key === 'Enter') {
       isValid(input);
     }
   };
