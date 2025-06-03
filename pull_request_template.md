@@ -1,31 +1,30 @@
-[//]: # (**Description:**)
+**Description:**
 
 High level description of the PR.  Please include technical details for the knowledge of other developers.
 
-[//]: # (**JIRA Ticket:**)
+**JIRA Ticket:**
 
-[//]: # ([Ticket number]&#40;link&#41;)
+[Ticket number](link)
 
-[//]: # ()
-[//]: # (**FIGMA MOCKS:**)
 
-[//]: # ()
-[//]: # ()
-[//]: # (The following are ALL required for the PR to be merged:)
+**FIGMA MOCK LINK:**
 
-[//]: # ()
-[//]: # (Author:)
 
-[//]: # (- [ ] Linked to this PR in JIRA ticket)
+The following are ALL required for the PR to be merged:
 
-[//]: # (- [ ] Scheduled and completed design review )
 
-[//]: # (- [ ] Provided instructions for testing in JIRA ticket `if applicable`)
+Author:
 
-[//]: # (- [ ] Verified cross-browser compatibility: Chrome, Safari, Firefox, Edge)
+- [ ] Linked to this PR in JIRA ticket
 
-[//]: # (- [ ] Verified mobile/tablet/desktop/monitor responsiveness)
+- [ ] Scheduled and completed design review 
 
-[//]: # (- [ ] Verified that this PR does not create any *new* accessibility issues &#40;via Axe Chrome extension or Lighthouse report&#41;)
+- [ ] Provided testing instructions in JIRA ticket `if applicable`
 
-[//]: # (- [ ] Make sure each file has a spec &#40;test&#41; file `if applicable` )
+- [ ] Verified cross-browser compatibility: Chrome, Safari, Firefox, Edge
+
+- [ ] Verified mobile/tablet/desktop/monitor responsiveness
+
+- [ ] Verified that this PR does not create any *new* accessibility issues (via Axe Chrome extension or Lighthouse report)
+
+- [ ] Make sure each file has a spec (test) file `if applicable` 
