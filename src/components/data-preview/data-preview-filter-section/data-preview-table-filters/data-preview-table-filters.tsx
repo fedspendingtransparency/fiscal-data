@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
@@ -19,6 +19,7 @@ import determineDateRange, {
 import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
 import { monthNames } from '../../../../utils/api-utils';
+import { DataTableContext } from '../../data-preview-context';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -39,12 +40,14 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   datasetDateRange,
   hideButtons,
 }) => {
+  const { tableState: table } = useContext(DataTableContext);
+
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
+  const [selectedColumn, setSelectedColumn] = useState('');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [filter, setFilter] = useState('');
   const [visibleOptions, setVisibleOptions] = useState(selectedTable.fields);
-  const [selectedColumn, setSelectedColumn] = useState(visibleOptions ? visibleOptions[0] : '');
   const [noResults, setNoResults] = useState(false);
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
@@ -223,6 +226,12 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   }, [allTablesSelected, finalDatesNotFound, selectedTable]);
 
+  const initializeVisibleColumns = (activeFields, allFields) => {
+    if (activeFields && allFields) {
+      return allFields.filter(field => activeFields.findIndex(x => x.id === field.columnName) >= 0);
+    }
+  };
+
   const filterDropdownButton = (
     <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
   );
@@ -259,7 +268,12 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     const search = filter.toLowerCase();
 
     if (!search) {
-      setVisibleOptions(selectedTable.fields);
+      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields);
+      setVisibleOptions(initialCols);
+      if (initialCols?.length > 0) {
+        setSelectedColumn(initialCols[0]);
+      }
+
       setNoResults(false);
       return;
     }
@@ -272,7 +286,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
     setVisibleOptions(matches);
     setNoResults(matches.length === 0);
-  }, [filter, selectedTable.fields]);
+  }, [filter, selectedTable.fields, table]);
 
   const filterSelectList = (
     <>
@@ -286,7 +300,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
           filter={filter}
           getName={option => option.prettyName}
           getSecondary={option => option.secondary}
-          onIsFilterSelected={filter => {
+          onIsFilterSelected={() => {
             setIsFilterSelected(true);
           }}
           onWhichFilterSelected={filter => {

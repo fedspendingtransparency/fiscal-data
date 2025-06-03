@@ -34,7 +34,6 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   const handleDateRangeSelect = dateRange => {
     // handleDateRangeChange(dateRange);
   };
-
   return (
     <div className={sectionContainer}>
       <div className={columnName}>{columnConfig.prettyName}</div>
@@ -65,7 +64,6 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
                   latestDate: config.techSpecs.latestDate,
                 }}
                 finalDatesNotFound={finalDatesNotFound}
-                hideButtons={detailApi && !detailViewState}
                 setPickerDateRange={setPickerDateRange}
                 hidden={selectedToggle !== 'preset'}
                 presets={presets}

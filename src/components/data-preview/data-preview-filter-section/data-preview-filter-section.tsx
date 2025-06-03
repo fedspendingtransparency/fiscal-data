@@ -58,6 +58,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   hideButtons,
 }) => {
   const isDisabled = apiFilterDefault;
+
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
   const getChartingInfo = () => {

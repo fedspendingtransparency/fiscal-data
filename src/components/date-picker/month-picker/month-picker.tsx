@@ -68,8 +68,6 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
     }
   }, [active, selectedMonth]);
 
-  // console.log('test');
-
   return (
     <>
       {active && (

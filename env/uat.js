@@ -11,6 +11,7 @@ module.exports = {
     'dataPreview',
     'chartingConfigurationTool',
     'defaultReportTable',
+    'fipReportsSection',
   ],
   ADDITIONAL_DATASETS: {
     '015-BFS-2014Q3-052': {

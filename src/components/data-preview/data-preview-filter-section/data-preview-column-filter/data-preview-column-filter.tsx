@@ -23,8 +23,8 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
   const [filter, setFilter] = useState('');
   const [noResults, setNoResults] = useState(false);
-  const [filteredColumns, setFilteredColumns] = useState();
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
+  const [filteredColumns, setFilteredColumns] = useState();
   const searchLabel = 'Search columns';
 
   const handleApply = () => {
