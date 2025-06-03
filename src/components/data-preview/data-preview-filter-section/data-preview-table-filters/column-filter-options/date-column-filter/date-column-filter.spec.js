@@ -8,6 +8,18 @@ describe('Date column filter', () => {
   const mockCustomColumnConfig = { name: 'Different Date', columnName: 'different_date' };
   const datasetConfig = { currentDateButton: 'byFullMonth', techSpecs: { earliestDate: '3-17-2020', latestDate: '3-17-2025' } };
   const mockSelectedTable = { userFilter: null, earliestDate: '3-17-2020', latestDate: '3-17-2025', dateField: 'record_date' };
+  const mockPickerDateRange1 = { from: new Date('3/17/2024'), to: new Date('3/17/2025'), latestDate: '3-17-2020', earliestDate: '3-17-2025' };
+
+  const mockPresets = [
+    { label: '1 Year', key: '1yr', years: 1 },
+    { label: '5 Years', key: '5yr', years: 5 },
+    { label: '10 Years', key: '10yr', years: 10 },
+    { label: 'Mar 2025', key: 'current', years: null },
+    { label: 'All', key: 'all', years: null },
+  ];
+
+  const activePresetKey = '5yr';
+
   it('renders radio buttons', () => {
     const { getByRole } = render(
       <DateColumnFilter
@@ -16,6 +28,7 @@ describe('Date column filter', () => {
         config={datasetConfig}
         selectedTable={mockSelectedTable}
         setIsFiltered={jest.fn()}
+        presets={mockPresets}
       />
     );
     const presetRadio = getByRole('radio', { name: 'Preset' });
@@ -34,6 +47,8 @@ describe('Date column filter', () => {
         config={datasetConfig}
         selectedTable={mockSelectedTable}
         setIsFiltered={jest.fn()}
+        presets={mockPresets}
+        activePresetKey={activePresetKey}
       />
     );
     const currentDate = getByRole('radio', { name: 'Mar 2025' });
@@ -57,6 +72,8 @@ describe('Date column filter', () => {
         config={datasetConfig}
         selectedTable={mockSelectedTable}
         setIsFiltered={jest.fn()}
+        presets={mockPresets}
+        pickerDateRange={mockPickerDateRange1}
       />
     );
     const startDatePicker = getByRole('button', { name: 'Select Start Date', hidden: true });
@@ -67,7 +84,14 @@ describe('Date column filter', () => {
 
   it('custom date pickers are not disabled when custom is selected', () => {
     const { getByRole } = render(
-      <DateColumnFilter columnConfig={mockPresetColumnConfig} config={datasetConfig} selectedTable={mockSelectedTable} setIsFiltered={jest.fn()} />
+      <DateColumnFilter
+        columnConfig={mockPresetColumnConfig}
+        config={datasetConfig}
+        selectedTable={mockSelectedTable}
+        setIsFiltered={jest.fn()}
+        presets={mockPresets}
+        pickerDateRange={mockPickerDateRange1}
+      />
     );
     const startDatePicker = getByRole('button', { name: 'Select Start Date', hidden: true });
     const endDatePicker = getByRole('button', { name: 'Select End Date', hidden: true });
@@ -101,16 +125,18 @@ describe('Date column filter', () => {
         config={datasetConfig}
         selectedTable={mockSelectedTable}
         setIsFiltered={jest.fn()}
+        presets={mockPresets}
+        pickerDateRange={mockPickerDateRange1}
       />
     );
     const startDatePicker = await findByRole('button', { name: 'Select Start Date' });
     const endDatePicker = await findByRole('button', { name: 'Select End Date' });
-    expect(within(startDatePicker).getByText('March 18, 2020'));
+    expect(within(startDatePicker).getByText('March 17, 2024'));
     expect(within(endDatePicker).getByText('March 17, 2025'));
 
     const oneYearPreset = getByRole('radio', { name: '1 Year' });
     userEvent.click(oneYearPreset);
 
-    expect(within(startDatePicker).getByText('March 18, 2024'));
+    expect(within(startDatePicker).getByText('March 17, 2024'));
   });
 });
