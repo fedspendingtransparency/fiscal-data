@@ -16,17 +16,28 @@ const mockContextValue = {
   },
 };
 
-const mockDateRange = { from: new Date('3/17/2024'), to: new Date('3/17/2025'), latestDate: '3-17-2020', earliestDate: '3-17-2025' };
+// const mockDateRange = { from: new Date('3/17/2024'), to: new Date('3/17/2025'), latestDate: '3-17-2020', earliestDate: '3-17-2025' };
+const setIsCustomDateRange = jest.fn();
+const handleDateRangeChange = jest.fn();
+const setIsFiltered = jest.fn();
 
 describe('Data preview filter section', () => {
   it('Renders all components', async () => {
     const selectedTable = {
       dataDisplays: [{ chartType: 'none', title: 'Complete Table' }],
+      earliestDate: '3-17-2025',
+      latestDate: '3-17-2020',
     };
     const { getByRole, queryByRole } = render(
       <DataTableContext.Provider value={mockContextValue}>
         <RecoilRoot>
-          <DataPreviewFilterSection dataset={{ name: 'Mock dataset' }} selectedTable={selectedTable} datasetDateRange={mockDateRange} />
+          <DataPreviewFilterSection
+            dataset={{ name: 'Mock dataset' }}
+            selectedTable={selectedTable}
+            setIsCustomDateRange={setIsCustomDateRange}
+            handleDateRangeChange={handleDateRangeChange}
+            setIsFiltered={setIsFiltered}
+          />
         </RecoilRoot>
       </DataTableContext.Provider>
     );
@@ -43,11 +54,19 @@ describe('Data preview filter section', () => {
         { chartType: 'none', title: 'Complete Table' },
         { chartType: null, title: 'By Type of Account' },
       ],
+      earliestDate: '3-17-2025',
+      latestDate: '3-17-2020',
     };
     const { getByRole } = render(
       <DataTableContext.Provider value={mockContextValue}>
         <RecoilRoot>
-          <DataPreviewFilterSection dataset={{ name: 'Mock dataset' }} selectedTable={selectedTable} />
+          <DataPreviewFilterSection
+            dataset={{ name: 'Mock dataset' }}
+            selectedTable={selectedTable}
+            setIsCustomDateRange={setIsCustomDateRange}
+            handleDateRangeChange={handleDateRangeChange}
+            setIsFiltered={setIsFiltered}
+          />
         </RecoilRoot>
       </DataTableContext.Provider>
     );
@@ -61,13 +80,22 @@ describe('Data preview filter section', () => {
   it('Renders chart/table toggle when user filter charting is available', () => {
     const selectedTable = {
       userFilter: {},
+      earliestDate: '3-17-2025',
+      latestDate: '3-17-2020',
     };
     const userFilterSelection = { value: 'Euro Zone-Euro' };
 
     const { getByRole } = render(
       <DataTableContext.Provider value={mockContextValue}>
         <RecoilRoot>
-          <DataPreviewFilterSection dataset={{ name: 'Mock dataset' }} selectedTable={selectedTable} selectedUserFilter={userFilterSelection} />
+          <DataPreviewFilterSection
+            dataset={{ name: 'Mock dataset' }}
+            selectedTable={selectedTable}
+            selectedUserFilter={userFilterSelection}
+            setIsCustomDateRange={setIsCustomDateRange}
+            handleDateRangeChange={handleDateRangeChange}
+            setIsFiltered={setIsFiltered}
+          />
         </RecoilRoot>
       </DataTableContext.Provider>
     );
@@ -85,10 +113,22 @@ describe('Data preview filter section', () => {
     };
     const dataset = { name: '', techSpecs: { earliestDate: new Date('4/1/2024'), latestDate: new Date('4/1/2024') } };
 
+    const selectedTable = {
+      earliestDate: '3-17-2025',
+      latestDate: '3-17-2020',
+    };
+
     const { getByRole } = render(
       <DataTableContext.Provider value={mockContextValue}>
         <RecoilRoot>
-          <DataPreviewFilterSection dataset={dataset} dateRange={dateRange} selectedTable={selectedTable} />
+          <DataPreviewFilterSection
+            dataset={dataset}
+            dateRange={dateRange}
+            selectedTable={selectedTable}
+            setIsCustomDateRange={setIsCustomDateRange}
+            handleDateRangeChange={handleDateRangeChange}
+            setIsFiltered={setIsFiltered}
+          />
         </RecoilRoot>
       </DataTableContext.Provider>
     );
@@ -106,10 +146,23 @@ describe('Data preview filter section', () => {
     };
     const dataset = { name: '', techSpecs: { earliestDate: new Date('4/1/2024'), latestDate: new Date('4/1/2024') } };
 
+    const selectedTable = {
+      dataDisplays: [{ chartType: 'none', title: 'Complete Table' }],
+      earliestDate: '3-17-2025',
+      latestDate: '3-17-2020',
+    };
+
     const { getByRole, queryByRole } = render(
       <DataTableContext.Provider value={mockContextValue}>
         <RecoilRoot>
-          <DataPreviewFilterSection dataset={dataset} dateRange={dateRange} selectedTable={selectedTable} />
+          <DataPreviewFilterSection
+            dataset={dataset}
+            dateRange={dateRange}
+            selectedTable={selectedTable}
+            setIsCustomDateRange={setIsCustomDateRange}
+            handleDateRangeChange={handleDateRangeChange}
+            setIsFiltered={setIsFiltered}
+          />
         </RecoilRoot>
       </DataTableContext.Provider>
     );
