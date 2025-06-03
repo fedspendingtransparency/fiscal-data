@@ -2,7 +2,6 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import DataPreviewFilterSection from './data-preview-filter-section';
 import { RecoilRoot } from 'recoil';
-import { selectedTable } from '../../api-quick-guide/test-helpers/test-helpers';
 import { DataTableContext } from '../data-preview-context';
 
 const mockContextValue = {
@@ -16,7 +15,6 @@ const mockContextValue = {
   },
 };
 
-// const mockDateRange = { from: new Date('3/17/2024'), to: new Date('3/17/2025'), latestDate: '3-17-2020', earliestDate: '3-17-2025' };
 const setIsCustomDateRange = jest.fn();
 const handleDateRangeChange = jest.fn();
 const setIsFiltered = jest.fn();

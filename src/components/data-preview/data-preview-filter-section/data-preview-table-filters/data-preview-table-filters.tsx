@@ -38,7 +38,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   customRangePreset,
   setIsFiltered,
   datasetDateRange,
-  hideButtons,
 }) => {
   const { tableState: table } = useContext(DataTableContext);
 
