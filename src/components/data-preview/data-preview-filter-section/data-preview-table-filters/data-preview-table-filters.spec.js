@@ -297,9 +297,6 @@ describe('Table Filter Date Range Presets', () => {
       to: new Date('01/01/2020'),
       min: new Date('01/31/2002'),
     };
-    const setDateRangeMock = jest.fn();
-    const setIsFilteredMock = jest.fn();
-    const setIsCustomDateRangeMock = jest.fn();
 
     it('updates the selected radio button when pressed', async () => {
       const { getByRole } = render(
