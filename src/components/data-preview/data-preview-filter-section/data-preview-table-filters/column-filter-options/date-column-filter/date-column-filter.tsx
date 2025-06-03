@@ -18,16 +18,18 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   apiData,
   presets,
   activePresetKey,
+  pickerDateRange,
+  setPickerDateRange,
 }) => {
   const hasPresets = selectedTable?.dateField === columnConfig?.columnName;
   const [selectedToggle, setSelectedToggle] = useState(config.datePreset ? config.datePreset : 'preset');
   // const [selectedToggle, setSelectedToggle] = useState(hasPresets ? 'preset' : 'custom');
-  const [pickerDateRange, setPickerDateRange] = useState({
-    from: undefined,
-    to: undefined,
-    earliestDate: '1-1-1900',
-    latestDate: '12-31-2999',
-  });
+  // const [pickerDateRange, setPickerDateRange] = useState({
+  //   from: undefined,
+  //   to: undefined,
+  //   earliestDate: '1-1-1900',
+  //   latestDate: '12-31-2999',
+  // });
 
   const handleDateRangeSelect = dateRange => {
     // handleDateRangeChange(dateRange);

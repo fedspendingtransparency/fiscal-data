@@ -28,6 +28,8 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   apiData,
   presets,
   activePresetKey,
+  pickerDateRange,
+  setPickerDateRange,
 }) => {
   return (
     <>
@@ -46,6 +48,8 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
           apiData={apiData}
           presets={presets}
           activePresetKey={activePresetKey}
+          pickerDateRange={pickerDateRange}
+          setPickerDateRange={setPickerDateRange}
         />
       )}
     </>
