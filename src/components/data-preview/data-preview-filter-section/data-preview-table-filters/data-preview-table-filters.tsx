@@ -223,14 +223,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   }, [allTablesSelected, finalDatesNotFound, selectedTable]);
 
-  useEffect(() => {
-    // This hook is used for nested tables
-    // when the summary view date range is locked, all rows should display
-    if (hideButtons) {
-      setActivePresetKey('all');
-    }
-  }, [hideButtons]);
-
   const filterDropdownButton = (
     <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
   );
