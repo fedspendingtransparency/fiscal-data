@@ -21,6 +21,8 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import ChartLegendPanel from './chart-legend-panel/chart-legend-panel';
 import { callbacks, dataTableChartNotesText, determineFormat, setFieldsToChart } from './chart-helper';
 import ChartCitation from '../../dataset-data/dataset-chart/chart-citation/chart-citation';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 export let chartHooks;
 
@@ -164,7 +166,7 @@ const DataPreviewChart = ({ data, slug, currentTable, legend, selectedPivot, dat
           {chartFields.length > 12 ? (
             <>
               <button className={legendToggle} onClick={() => setShowLegend(!showLegend)}>
-                X
+                {showLegend ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </button>
               <div className={legendClass}>
                 <ChartLegendPanel

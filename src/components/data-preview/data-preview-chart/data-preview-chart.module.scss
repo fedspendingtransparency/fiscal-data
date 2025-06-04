@@ -59,7 +59,7 @@ $paddingOffset: 87px;
 }
 
 .legend {
-  //display: none;
+  min-width: 2rem;
   margin-top: 0.5rem;
   box-sizing: border-box;
   border: 1px solid $border-color;
@@ -85,6 +85,15 @@ $paddingOffset: 87px;
   width: 24px;
   height: 24px;
   border-radius: 1rem;
+  position: relative;
+  top: 1.25rem;
+  left: 0.75rem;
+  border: 1px solid $border-color;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $primary;
 }
 
 @media screen and (max-width: $breakpoint-lg) {
