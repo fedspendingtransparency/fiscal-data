@@ -268,11 +268,10 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
     if (!search) {
       const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields);
-      setVisibleOptions(initialCols);
       if (initialCols?.length > 0) {
+        setVisibleOptions(initialCols);
         setSelectedColumn(initialCols[0]);
       }
-
       setNoResults(false);
       return;
     }
