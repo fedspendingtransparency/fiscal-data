@@ -8,9 +8,10 @@ interface iSearchFilter {
   header: string;
   setFilter: (val: string) => void;
   setNoResults: (val: boolean) => void;
+  hideIcons?: boolean;
 }
 
-const SearchFilter: FunctionComponent<iSearchFilter> = ({ filter, header, setFilter, setNoResults, searchLabel }) => {
+const SearchFilter: FunctionComponent<iSearchFilter> = ({ filter, header, setFilter, setNoResults, searchLabel, hideIcons }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
@@ -33,6 +34,7 @@ const SearchFilter: FunctionComponent<iSearchFilter> = ({ filter, header, setFil
           handleClear={onClear}
           setActive={setSearchBarActive}
           label={searchLabel}
+          hideIcons={hideIcons}
         />
       </div>
     </>

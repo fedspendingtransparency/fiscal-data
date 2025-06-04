@@ -1,3 +1,5 @@
+@import 'src/variables.module';
+
 .searchBox {
   padding: 1rem 1rem 0;
   margin-bottom: -1rem;
@@ -5,4 +7,5 @@
 
 .headerBox {
   margin: 1rem 1rem 0 1rem;
+  font-weight: $semi-bold-weight;
 }
