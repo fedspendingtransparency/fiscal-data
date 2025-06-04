@@ -3,16 +3,20 @@ import SelectAll from '../../../select-all/selectAll';
 import Checkbox from '../../../checkbox/checkbox';
 import { buttonContainer, heading, selectAllContainer } from './chart-legend-panel.module.scss';
 
-const ChartLegendPanel: FunctionComponent = ({ fields, isVisible, onLabelChange, onHover }) => {
+const ChartLegendPanel: FunctionComponent = ({ fields, onLabelChange, onHover, legendVisibility }) => {
   return (
     <section>
-      <h1 className={heading}>Legend ({fields.length})</h1>
-      <div className={selectAllContainer}>
-        <SelectAll fields={fields} isVisible={isVisible} onUpdateFields={onLabelChange} />
-      </div>
-      <div className={buttonContainer}>
-        <Checkbox checkboxData={fields} changeHandler={onLabelChange} onHover={onHover} />
-      </div>
+      {legendVisibility && (
+        <>
+          <h1 className={heading}>Legend ({fields.length})</h1>
+          <div className={selectAllContainer}>
+            <SelectAll fields={fields} isVisible={true} onUpdateFields={onLabelChange} />
+          </div>
+          <div className={buttonContainer}>
+            <Checkbox checkboxData={fields} changeHandler={onLabelChange} onHover={onHover} />
+          </div>
+        </>
+      )}
     </section>
   );
 };

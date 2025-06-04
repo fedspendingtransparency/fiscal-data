@@ -18,10 +18,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   selectedColumn,
   selectedTable,
   config,
-  setDateRange,
   allTablesSelected,
-  handleDateRangeChange,
-  setIsCustomDateRange,
   finalDatesNotFound,
   detailApi,
   detailViewState,
@@ -38,10 +35,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
           columnConfig={selectedColumn}
           selectedTable={selectedTable}
           config={config}
-          setDateRange={setDateRange}
           allTablesSelected={allTablesSelected}
-          handleDateRangeChange={handleDateRangeChange}
-          setIsCustomDateRange={setIsCustomDateRange}
           finalDatesNotFound={finalDatesNotFound}
           detailApi={detailApi}
           detailViewState={detailViewState}
