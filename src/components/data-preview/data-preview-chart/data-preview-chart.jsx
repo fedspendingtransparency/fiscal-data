@@ -19,7 +19,15 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import ChartLegendPanel from './chart-legend-panel/chart-legend-panel';
-import { callbacks, dataTableChartNotesText, determineFormat, setFieldsToChart } from './chart-helper';
+import {
+  callbacks,
+  dataTableChartNotesText,
+  determineFormat,
+  determineIfAxisWillHaveBillions,
+  getActiveChartFields,
+  getVisibleChartFields,
+  setFieldsToChart,
+} from './chart-helper';
 import ChartCitation from '../../dataset-data/dataset-chart/chart-citation/chart-citation';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -29,12 +37,12 @@ export let chartHooks;
 /*
 TODO
 - data props
-- legend button
 - style footer buttons
 - legend panel height
+- reduce spacing around select all button
  */
 
-const DataPreviewChart = ({ data, slug, currentTable, legend, selectedPivot, dateField }) => {
+const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }) => {
   const [chartFields, setChartFields] = useState([]);
   const [chartNotes, setChartNotes] = useState(null);
   const [hasUpdate, setHasUpdate] = useState(true);
@@ -57,6 +65,11 @@ const DataPreviewChart = ({ data, slug, currentTable, legend, selectedPivot, dat
     }
   };
 
+  const handleLabelChange = update => {
+    setHasUpdate(update.length > 0);
+    callbacks.onLabelChange(update, chartFields, setChartFields);
+  };
+
   useEffect(() => {
     chartHooks = undefined;
   }, [data]);
@@ -77,20 +90,17 @@ const DataPreviewChart = ({ data, slug, currentTable, legend, selectedPivot, dat
       setChartNotes(null);
     }
   }, []);
-  const getVisibleChartFields = arr => arr.filter(f => f.active).map(ff => ff.field);
-  const getActiveChartFields = arr => arr.filter(f => f.active);
+
   const activeChartFields = getActiveChartFields(chartFields);
 
   useEffect(() => {
     if (chartHooks) {
-      console.log('here');
       chartHooks.onUpdateChartWidth(viz.current, activeChartFields, getVisibleChartFields(chartFields));
     }
   }, [showLegend, window.innerWidth]);
 
   useEffect(() => {
     if (chartHooks) {
-      console.log('here 2');
       const nonActiveChartFields = getVisibleChartFields(chartFields);
       chartHooks.onUpdateChartWidth(
         viz.current,
@@ -100,14 +110,6 @@ const DataPreviewChart = ({ data, slug, currentTable, legend, selectedPivot, dat
       callbacks.onLabelChange(activeChartFields, chartFields, setChartFields);
     }
   }, [chartHooks]);
-
-  const determineIfAxisWillHaveBillions = data => {
-    const valueArrays = data.map(v => Object.values(v));
-    const filtered = valueArrays.map(v => v.filter(e => !isNaN(Number(e))));
-    const values = Array.prototype.concat.call(...filtered);
-    const max = Math.max(...values);
-    return max >= 1000000000;
-  };
 
   useEffect(() => {
     let localChartFields;
@@ -138,17 +140,12 @@ const DataPreviewChart = ({ data, slug, currentTable, legend, selectedPivot, dat
     }
   }, [data]);
 
-  const handleLabelChange = update => {
-    setHasUpdate(update.length > 0);
-    callbacks.onLabelChange(update, chartFields, setChartFields);
-  };
-
   useEffect(() => {
     if (selectedPivot && selectedPivot.pivotView?.roundingDenomination) {
       setCapitalized(selectedPivot.pivotView?.roundingDenomination.charAt(0).toUpperCase() + selectedPivot.pivotView.roundingDenomination.slice(1));
     }
   }, [selectedPivot]);
-  ////${legend ? legendActive : ''}`}>
+
   return (
     <div className={`${chartArea} ${chartFields.length <= 12 || !showLegend ? undefined : legendActive}`}>
       <div className={chartPane}>

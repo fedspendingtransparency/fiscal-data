@@ -50,3 +50,14 @@ export const callbacks = {
     setChartFields(chartFields.slice());
   },
 };
+
+export const determineIfAxisWillHaveBillions = data => {
+  const valueArrays = data.map(v => Object.values(v));
+  const filtered = valueArrays.map(v => v.filter(e => !isNaN(Number(e))));
+  const values = Array.prototype.concat.call(...filtered);
+  const max = Math.max(...values);
+  return max >= 1000000000;
+};
+
+export const getVisibleChartFields = arr => arr.filter(f => f.active).map(ff => ff.field);
+export const getActiveChartFields = arr => arr.filter(f => f.active);

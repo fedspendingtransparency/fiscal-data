@@ -1,6 +1,5 @@
 import React from 'react';
-import DataPreviewChart, { determineFormat, dataTableChartNotesText, callbacks, chartHooks, setFieldsToChart } from './data-preview-chart';
-import globalConstants from '../../../helpers/constants';
+import DataPreviewChart, { callbacks, chartHooks, dataTableChartNotesText, determineFormat, setFieldsToChart } from './data-preview-chart';
 import * as Helpers from '../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { fireEvent, render } from '@testing-library/react';
 
@@ -387,4 +386,8 @@ describe('Dataset Chart', () => {
     );
     expect(updateChartWidthSpy).toHaveBeenCalledTimes(1);
   });
+
+  it('should render the panel legend when there are more than 12 fields', () => {});
+  it('should render a legend toggle button with the panel legend', () => {});
+  it('should render the footer legend when there are less than 13 fields', () => {});
 });
