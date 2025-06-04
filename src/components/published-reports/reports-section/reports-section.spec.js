@@ -9,29 +9,31 @@ describe('Reports Section component', () => {
   });
 
   it('renders a Reports and Files header', () => {
-    const { getByText } = render(<ReportsSection />);
+    const { getByText } = render(<ReportsSection dataset={{ publishedReports: null }} />);
     expect(getByText('Reports and Files')).toBeInTheDocument();
   });
 
   it('renders a date picker', () => {
-    const { getByText } = render(
-      <ReportsSection
-        publishedReportsProp={[
-          { report_date: new Date('8/8/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)', path: 'test/test.pdf' },
-          { report_date: new Date('8/7/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)', path: 'test/test.pdf' },
-        ]}
-      />
-    );
+    const datasetConfig = {
+      publishedReports: [
+        { report_date: new Date('8/8/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)', path: 'test/test.pdf' },
+        { report_date: new Date('8/7/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)', path: 'test/test.pdf' },
+      ],
+    };
+
+    const { getByText } = render(<ReportsSection dataset={datasetConfig} />);
     expect(getByText('Published Date:')).toBeInTheDocument();
   });
 
   it('renders a download table', () => {
-    const { getByRole } = render(<ReportsSection publishedReportsProp={mockReports} />);
+    const datasetConfig = { reportSelection: 'byReport', publishedReports: mockReports };
+    const { getByRole } = render(<ReportsSection dataset={datasetConfig} />);
     expect(getByRole('table')).toBeInTheDocument();
   });
 
   it('renders a download table with daily reports', () => {
-    const { getByRole } = render(<ReportsSection publishedReportsProp={mockDailyReports} />);
+    const datasetConfig = { reportSelection: 'byReport', publishedReports: mockDailyReports };
+    const { getByRole } = render(<ReportsSection dataset={datasetConfig} />);
     expect(getByRole('table')).toBeInTheDocument();
   });
 
@@ -43,37 +45,34 @@ describe('Reports Section component', () => {
   });
 
   it('does not render the note section when a published report tip is not available', () => {
-    const { queryByText } = render(<ReportsSection />);
+    const { queryByText } = render(<ReportsSection dataset={{ publishedReports: null }} />);
     expect(queryByText('Note:')).not.toBeInTheDocument();
   });
 
   it('does not render the report date picker when hideReportDatePicker is true', () => {
-    const { queryByText } = render(
-      <ReportsSection
-        publishedReportsProp={[
-          { report_date: new Date('8/8/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)', path: 'test/test.pdf' },
-          { report_date: new Date('8/7/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)', path: 'test/test.pdf' },
-        ]}
-        dataset={{ hideReportDatePicker: true }}
-      />
-    );
+    const datasetConfig = {
+      hideReportDatePicker: true,
+      publishedReports: [
+        { report_date: new Date('8/8/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)', path: 'test/test.pdf' },
+        { report_date: new Date('8/7/2024'), report_group_sort_order_nbr: 1, report_group_desc: 'test (.pdf)', path: 'test/test.pdf' },
+      ],
+    };
+    const { queryByText } = render(<ReportsSection dataset={datasetConfig} />);
     expect(queryByText('Published Date:')).not.toBeInTheDocument();
   });
 
   describe('Reports section with report filter', () => {
+    const datasetConfig = { reportSelection: 'byReport', publishedReports: mockReports };
     it('renders report filter when reportSelection is byReport', () => {
-      const datasetConfig = { reportSelection: 'byReport' };
-      const { getByRole } = render(<ReportsSection dataset={datasetConfig} publishedReportsProp={mockReports} />);
+      const { getByRole } = render(<ReportsSection dataset={datasetConfig} />);
       const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
       expect(reportFilter).toBeInTheDocument();
     });
 
     it('Updates most recent date in date picker on report change', () => {
       jest.useFakeTimers();
-
-      const datasetConfig = { reportSelection: 'byReport' };
-      const { getByRole } = render(<ReportsSection dataset={datasetConfig} publishedReportsProp={mockReports} />);
-      const dateFilter = getByRole('button', { name: 'Select Published Report Date' });
+      const { getByRole } = render(<ReportsSection dataset={datasetConfig} />);
+      const dateFilter = getByRole('button', { name: 'Select Published Date' });
       expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
       const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
       reportFilter.click();
@@ -85,10 +84,9 @@ describe('Reports Section component', () => {
     });
 
     it('Only shows selected report in the report table', () => {
-      const datasetConfig = { reportSelection: 'byReport' };
       jest.useFakeTimers();
-      const { getByRole, queryByRole } = render(<ReportsSection dataset={datasetConfig} publishedReportsProp={mockReports} />);
-      const dateFilter = getByRole('button', { name: 'Select Published Report Date' });
+      const { getByRole, queryByRole } = render(<ReportsSection dataset={datasetConfig} />);
+      const dateFilter = getByRole('button', { name: 'Select Published Date' });
       expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
       const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
       reportFilter.click();

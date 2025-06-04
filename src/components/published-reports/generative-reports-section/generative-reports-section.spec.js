@@ -42,7 +42,7 @@ describe('Generative Report Footer', () => {
 
   it('renders a published date filter', () => {
     const { getByRole, queryByRole } = render(<GenerativeReportsSection dataset={mockDataset} />);
-    const publishedDateFilter = getByRole('button', { name: 'Select Published Report Date' });
+    const publishedDateFilter = getByRole('button', { name: 'Select Published Date' });
     //defaults to latest date
     expect(within(publishedDateFilter).getByText('July 2024'));
     fireEvent.click(publishedDateFilter);

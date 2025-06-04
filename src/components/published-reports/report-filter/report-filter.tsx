@@ -14,7 +14,7 @@ interface IReportFilter {
 }
 
 const ReportFilter: FunctionComponent<IReportFilter> = ({ reports, setAllReports }: IReportFilter) => {
-  const [reportGroups, setReportGroups] = useState({});
+  const [reportGroups, setReportGroups] = useState([]);
   const [selectedReportGroup, setSelectedReportGroup] = useState<IPublishedReportGroup>();
   const [searchBarActive, setSearchBarActive] = useState(false);
   const [active, setActive] = useState(false);

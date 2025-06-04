@@ -16,25 +16,22 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   detailApi,
   detailViewState,
   apiData,
+  presets,
+  activePresetKey,
+  pickerDateRange,
+  setPickerDateRange,
 }) => {
-  const presets = selectedTable?.dateField === columnConfig?.columnName;
-  const [selectedToggle, setSelectedToggle] = useState(presets ? 'preset' : 'custom');
-  const [pickerDateRange, setPickerDateRange] = useState({
-    from: undefined,
-    to: undefined,
-    earliestDate: '1-1-1900',
-    latestDate: '12-31-2999',
-  });
+  const hasPresets = selectedTable?.dateField === columnConfig?.columnName;
+  const [selectedToggle, setSelectedToggle] = useState(hasPresets && config?.datePreset !== 'custom' ? 'preset' : 'custom');
 
   const handleDateRangeSelect = dateRange => {
     // handleDateRangeChange(dateRange);
   };
-
   return (
     <div className={sectionContainer}>
       <div className={columnName}>{columnConfig.prettyName}</div>
       <div className={inputContainer}>
-        {presets && (
+        {hasPresets && (
           <div>
             <label className={radioButton}>
               <input
@@ -60,9 +57,10 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
                   latestDate: config.techSpecs.latestDate,
                 }}
                 finalDatesNotFound={finalDatesNotFound}
-                hideButtons={detailApi && !detailViewState}
                 setPickerDateRange={setPickerDateRange}
                 hidden={selectedToggle !== 'preset'}
+                presets={presets}
+                activePresetKey={activePresetKey}
               />
             </div>
           </div>
@@ -79,7 +77,19 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
             Custom
           </label>
           <div className={presetContainer}>
-            <CustomDateFilter pickerDateRange={pickerDateRange} disabled={selectedToggle !== 'custom'} />
+            <CustomDateFilter
+              pickerDateRange={pickerDateRange}
+              disabled={selectedToggle !== 'custom'}
+              datePreset={config.datePreset}
+              setPickerDateRange={setPickerDateRange}
+              handleDateRangeChange={handleDateRangeSelect}
+              datasetDateRange={{
+                earliestDate: config.techSpecs.earliestDate,
+                latestDate: config.techSpecs.latestDate,
+              }}
+              currentDateButton={config.currentDateButton}
+              selectedToggle={selectedToggle}
+            />
           </div>
         </div>
       </div>

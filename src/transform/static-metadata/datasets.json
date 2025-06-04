@@ -35,7 +35,7 @@
     "slug": "/daily-treasury-statement/",
     "seoConfig": {
       "pageTitle": "Daily Treasury Statement (DTS)",
-      "description": "Daily cash and debt operations of the U.S. Treasury, including cash balance, deposits, and withdrawals; tax deposits and refunds; and debt transactions.",
+      "description": "Daily cash and debt operations of the U.S. Treasury, including cash balance, deposits, and withdrawals; income tax refunds; and debt transactions.",
       "keywords": "US debt, DTS, daily treasury statement, cash balance, federal tax refund, us securities, treasury securities, debt limit, treasury cash balance"
     },
     "topics": ["debt", "revenue", "spending", "financial-summaries", "savings-bonds"],
@@ -546,7 +546,7 @@
         "ref_cpi_on_dated_date",
         "additional_issue_date"
       ],
-      "selectColumns": ["index_date", "ref_cpi", "index_ratio", "pdf_link", "xml_link"]
+      "selectColumns": []
     }
   },
   "015-BFS-2014Q3-051": {
@@ -603,6 +603,7 @@
     "topics": ["debt", "auctions"],
     "relatedDatasets": ["015-BFS-2014Q3-045", "015-BFS-2014Q3-050", "015-BFS-2014Q3-049", "015-BFS-2014Q1-14", "015-BFS-2014Q3-048"],
     "currentDateButton": "byDay",
+    "datePreset": "all",
     "detailView": {
       "apiId": 317,
       "field": "operation_date",

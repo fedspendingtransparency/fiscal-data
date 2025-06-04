@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { FunctionComponent } from 'react';
-import { selectedDateDisplay, inputLabel, helpLabel, errorState, errorStateLabel } from './date-text-input.module.scss';
-import { monthFullNames, monthNames } from '../../../../utils/api-utils';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { errorState, errorStateLabel, helpLabel, inputLabel, selectedDateDisplay } from './date-text-input.module.scss';
+import { monthFullNames, monthNames } from '../../../utils/api-utils';
 
 interface iDateTextInput {
-  label: string;
+  label?: string;
+  ariaLabel?: string;
   validInput: boolean;
   setValidInput: (inputState: boolean) => void;
   inputFocus: boolean;
@@ -14,14 +14,19 @@ interface iDateTextInput {
   allDates: string[];
   selectedDate: string;
   setCurrentDate: (date: Date) => void;
+  minDateErrorMessage?: string;
+  maxDateErrorMessage?: string;
+  fromDate?: Date;
+  toDate?: Date;
 }
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
-export const noReportMatch = 'No reports or files available for this date.';
+export const noMatchDefaultMessage = 'No reports or files available for this date.';
 export const helpText = 'Press Enter/Return to confirm.';
 
 const DateTextInput: FunctionComponent<iDateTextInput> = ({
-  label,
+  label = 'Published Date (Example: May 1998 or 05/1998)',
+  ariaLabel = 'Enter date',
   validInput,
   setValidInput,
   inputFocus,
@@ -31,6 +36,10 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   allDates,
   selectedDate,
   setCurrentDate,
+  minDateErrorMessage,
+  maxDateErrorMessage,
+  fromDate,
+  toDate,
 }) => {
   const dateInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -102,9 +111,17 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       formattedDate = day ? inputMonth + ' ' + day + ', ' + year : inputMonth + ' ' + year;
       dateInputRef.current.value = formattedDate;
 
-      const reportMatch = allDates?.includes(formattedDate);
-      if (!reportMatch) {
-        setErrorMessage(noReportMatch);
+      const dateMatch = allDates?.includes(formattedDate);
+      if (!dateMatch) {
+        if (minDateErrorMessage && maxDateErrorMessage) {
+          if (new Date(formattedDate) < new Date(fromDate)) {
+            setErrorMessage(minDateErrorMessage);
+          } else if (new Date(formattedDate) > new Date(toDate)) {
+            setErrorMessage(maxDateErrorMessage);
+          }
+        } else {
+          setErrorMessage(noMatchDefaultMessage);
+        }
       } else {
         setErrorMessage(null);
         if (setSelectedMonth) {
@@ -126,7 +143,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
 
   const handleOnKeyDown = e => {
     const input = e.target.value;
-    if (e.code === 'Enter') {
+    if (e.key === 'Enter') {
       isValid(input);
     }
   };
@@ -165,7 +182,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
         onFocus={handleFocus}
         onBlur={handleOnBlur}
         onChange={handleOnChange}
-        aria-label="Enter report date"
+        aria-label={ariaLabel}
       />
       {inputFocus && !validInput && !errorMessage && <div className={helpLabel}>{helpText}</div>}
       {inputFocus && !validInput && errorMessage && <div className={errorStateLabel}>{errorMessage}</div>}
