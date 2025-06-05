@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import CheckboxLabel from '../../../checkbox/checkbox-label/checkbox-label';
-import { buttonContainer, sectionContainer } from './chart-legend.module.scss';
+import { buttonContainer, legendButtons, sectionContainer } from './chart-legend.module.scss';
 
 const ChartLegend: FunctionComponent = ({ fields, onLabelChange, onHover }) => {
   const handleClick = (e, isKeyPress, checkedValue) => {
@@ -13,14 +13,16 @@ const ChartLegend: FunctionComponent = ({ fields, onLabelChange, onHover }) => {
   };
 
   return (
-    <section className={sectionContainer}>
-      {fields.map((field, index) => (
-        <>
-          <div className={buttonContainer}>
-            <CheckboxLabel obj={field} handleClick={handleClick} onHover={onHover} index={index} />
-          </div>
-        </>
-      ))}
+    <section className={legendButtons}>
+      <div className={sectionContainer}>
+        {fields.map((field, index) => (
+          <>
+            <div className={buttonContainer}>
+              <CheckboxLabel obj={field} handleClick={handleClick} onHover={onHover} index={index} />
+            </div>
+          </>
+        ))}
+      </div>
     </section>
   );
 };
