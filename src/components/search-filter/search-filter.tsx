@@ -18,11 +18,6 @@ const SearchFilter: FunctionComponent<iSearchFilter> = ({ filter, header, setFil
     setFilter(val);
   };
 
-  const onClear = () => {
-    setNoResults(false);
-    setFilter('');
-  };
-
   return (
     <>
       <div className={headerBox}>{header}</div>
@@ -31,7 +26,6 @@ const SearchFilter: FunctionComponent<iSearchFilter> = ({ filter, header, setFil
           onChange={onSearchBarChange}
           filter={filter}
           active={searchBarActive}
-          handleClear={onClear}
           setActive={setSearchBarActive}
           label={searchLabel}
           hideIcons={hideIcons}

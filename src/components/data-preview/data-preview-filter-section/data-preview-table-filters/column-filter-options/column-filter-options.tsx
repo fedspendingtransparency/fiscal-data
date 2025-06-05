@@ -33,9 +33,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   setPickerDateRange,
 }) => {
   const [filter, setFilter] = useState('');
-  const [noResults, setNoResults] = useState(false);
 
-  console.log('dataType: ', selectedColumn.dataType);
   return (
     <>
       {selectedColumn.dataType === 'DATE' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
@@ -57,7 +55,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
           setPickerDateRange={setPickerDateRange}
         />
       )}
-      {selectedColumn.dataType === 'STRING' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
+      {selectedColumn.dataType !== 'DATE' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
         <SearchFilter
           searchLabel={'Enter filter term'}
           filter={filter}
