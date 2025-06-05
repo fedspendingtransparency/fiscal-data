@@ -106,7 +106,6 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
 
   const handleDateRangeChange = range => {
     if (range && isValidDateRange(range.from, range.to, config.techSpecs.earliestDate, config.techSpecs.latestDate)) {
-      console.log('here?');
       setDateRange(range);
     }
   };
@@ -136,10 +135,9 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
   }, [apis]);
 
   useEffect(() => {
-    console.log(selectedTable);
     if (selectedTable) {
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
-        // setDateRange(null);
+        setDateRange(null);
       } else if (selectedTable?.apiFilter?.disableDateRangeFilter) {
         const defaultYear = new Date().getFullYear();
         const defaultMonth = new Date().getMonth();
@@ -257,10 +255,6 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
   };
 
   const checkDataDisplays = config.apis.every(api => (api?.dataDisplays?.length || 0) <= 1);
-
-  useEffect(() => {
-    console.log('dateRange', dateRange);
-  }, [dateRange]);
 
   return (
     <DatasetSectionContainer id="data-preview-table">

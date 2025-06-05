@@ -34,14 +34,6 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 export let chartHooks;
 
-/*
-TODO
-- data props
-- style footer buttons
-- legend panel height
-- reduce spacing around select all button
- */
-
 const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }) => {
   const [chartFields, setChartFields] = useState([]);
   const [chartNotes, setChartNotes] = useState(null);
