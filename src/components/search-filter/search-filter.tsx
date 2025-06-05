@@ -7,11 +7,10 @@ interface iSearchFilter {
   filter: string;
   header: string;
   setFilter: (val: string) => void;
-  setNoResults: (val: boolean) => void;
   hideIcons?: boolean;
 }
 
-const SearchFilter: FunctionComponent<iSearchFilter> = ({ filter, header, setFilter, setNoResults, searchLabel, hideIcons }) => {
+const SearchFilter: FunctionComponent<iSearchFilter> = ({ filter, header, setFilter, searchLabel, hideIcons }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
