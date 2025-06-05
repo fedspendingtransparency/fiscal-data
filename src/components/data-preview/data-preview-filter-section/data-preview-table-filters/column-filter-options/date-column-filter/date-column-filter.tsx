@@ -1,5 +1,13 @@
 import React, { FunctionComponent, useState } from 'react';
-import { columnName, inputContainer, presetContainer, radioButton, sectionContainer, sectionDisabled } from './date-column-filter.module.scss';
+import {
+  columnName,
+  inputContainer,
+  presetContainer,
+  radioButton,
+  containerAdjustment,
+  sectionContainer,
+  sectionDisabled,
+} from './date-column-filter.module.scss';
 import DatePresets from './date-presets/date-presets';
 import CustomDateFilter from './custom-date-filter/custom-date-filter';
 import { IDateColumnFilter } from '../../../../../../models/data-preview/IDateColumnFilter';
@@ -66,17 +74,19 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
           </div>
         )}
         <div>
-          <label className={radioButton}>
-            <input
-              type="radio"
-              name="date-toggle"
-              id="radio-custom"
-              checked={selectedToggle === 'custom'}
-              onChange={() => setSelectedToggle('custom')}
-            />
-            Custom
-          </label>
-          <div className={presetContainer}>
+          {hasPresets && (
+            <label className={radioButton}>
+              <input
+                type="radio"
+                name="date-toggle"
+                id="radio-custom"
+                checked={selectedToggle === 'custom'}
+                onChange={() => setSelectedToggle('custom')}
+              />
+              Custom
+            </label>
+          )}
+          <div className={`${presetContainer} ${!hasPresets ? containerAdjustment : ''}`}>
             <CustomDateFilter
               pickerDateRange={pickerDateRange}
               disabled={selectedToggle !== 'custom'}
