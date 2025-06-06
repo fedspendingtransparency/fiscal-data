@@ -3,9 +3,8 @@ import SelectAll from '../../../select-all/selectAll';
 import Checkbox from '../../../checkbox/checkbox';
 import { buttonContainer, heading, selectAllContainer } from './chart-legend-panel.module.scss';
 import { IChartLegend } from '../chart-legend/chart-legend';
-import { legendColors } from '../chart-helper';
 
-const ChartLegendPanel: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, onHover, legendVisibility }) => {
+const ChartLegendPanel: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, onHover, legendVisibility, legendColors }) => {
   return (
     <section>
       {legendVisibility && (

@@ -35,7 +35,11 @@ const CheckboxLabel = ({ obj, handleClick, onHover, index, boxColor }) => {
           data-testid="checkbox-input-element"
           checked={obj.active}
         />
-        <span className={label_checkmark_container} style={obj.active ? { borderColor: boxColor, backgroundColor: boxColor } : undefined}>
+        <span
+          className={label_checkmark_container}
+          style={obj.active ? { borderColor: boxColor, backgroundColor: boxColor } : undefined}
+          data-testid="checkboxLabelContainer"
+        >
           <span className={label_checkmark_text}>
             <FontAwesomeIcon icon={faCheck} size="sm" />
           </span>

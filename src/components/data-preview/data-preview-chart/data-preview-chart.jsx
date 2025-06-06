@@ -168,6 +168,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
                   onHover={(on, item) => callbacks.onHover(on, item, hasUpdate, chartFields)}
                   onLabelChange={handleLabelChange}
                   legendVisibility={showLegend}
+                  legendColors={legendColors}
                 />
               </div>
             </>
@@ -177,6 +178,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
               // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
               onHover={(on, item) => callbacks.onHover(on, item, hasUpdate, chartFields)}
               onLabelChange={handleLabelChange}
+              legendColors={legendColors}
             />
           )}
           {chartFields.length <= 12 && <ChartCitation slug={slug} currentTableName={currentTable.tableName} />}
