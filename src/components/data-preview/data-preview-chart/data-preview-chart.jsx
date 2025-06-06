@@ -28,6 +28,7 @@ import {
   determineIfAxisWillHaveBillions,
   getActiveChartFields,
   getVisibleChartFields,
+  legendColors,
   setFieldsToChart,
 } from './chart-helper';
 import ChartCitation from '../../dataset-data/dataset-chart/chart-citation/chart-citation';
@@ -128,6 +129,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
           {
             format: determineFormat(localChartFields, data.meta.dataTypes),
             toolTipDateKey: aggFieldName || false,
+            fieldColors: legendColors,
           }
         );
       }

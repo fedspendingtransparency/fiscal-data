@@ -71,7 +71,7 @@ export const legendColors = [
   '#00A4A6',
   '#E667AB',
   '#49A6D8',
-  '#49A6D8',
+  '#007A7C',
   '#7F6DEB',
   '#9F7A1B',
   '#708090',

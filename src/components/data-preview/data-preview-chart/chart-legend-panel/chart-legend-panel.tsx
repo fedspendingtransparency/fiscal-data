@@ -3,6 +3,7 @@ import SelectAll from '../../../select-all/selectAll';
 import Checkbox from '../../../checkbox/checkbox';
 import { buttonContainer, heading, selectAllContainer } from './chart-legend-panel.module.scss';
 import { IChartLegend } from '../chart-legend/chart-legend';
+import { legendColors } from '../chart-helper';
 
 const ChartLegendPanel: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, onHover, legendVisibility }) => {
   return (
@@ -14,7 +15,7 @@ const ChartLegendPanel: FunctionComponent<IChartLegend> = ({ fields, onLabelChan
             <SelectAll fields={fields} isVisible={true} onUpdateFields={onLabelChange} />
           </div>
           <div className={buttonContainer}>
-            <Checkbox checkboxData={fields} changeHandler={onLabelChange} onHover={onHover} />
+            <Checkbox checkboxData={fields} changeHandler={onLabelChange} onHover={onHover} legendColors={legendColors} />
           </div>
         </>
       )}
