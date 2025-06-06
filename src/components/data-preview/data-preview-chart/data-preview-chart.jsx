@@ -154,7 +154,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
           </div>
           {chartFields.length > 12 ? (
             <>
-              <button className={legendToggle} onClick={() => setShowLegend(!showLegend)}>
+              <button className={legendToggle} onClick={() => setShowLegend(!showLegend)} aria-label={`${showLegend ? 'Hide' : 'Show'} Legend`}>
                 {showLegend ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </button>
               <div className={legendClass}>

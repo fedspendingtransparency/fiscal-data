@@ -29,12 +29,10 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
     <div className={checkbox_container}>
       {defaultData.length ? <div className={sectionHeading}>DEFAULTS</div> : ''}
       {currentCheckboxData.map((obj, index) => (
-        <>
+        <React.Fragment key={index}>
           {defaultData.length && defaultData.length === index ? <div className={[sectionHeading, additionalSection].join(' ')}>ADDITIONAL</div> : ''}
-          <React.Fragment key={index}>
-            <CheckboxLabel obj={obj} handleClick={handleClick} onHover={onHover} index={index} />
-          </React.Fragment>
-        </>
+          <CheckboxLabel obj={obj} handleClick={handleClick} onHover={onHover} index={index} />
+        </React.Fragment>
       ))}
     </div>
   );
