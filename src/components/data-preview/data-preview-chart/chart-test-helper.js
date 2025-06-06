@@ -1,5 +1,10 @@
 export const mockDateField = 'reporting_date';
 
+const mockYears = {
+  from: 2019,
+  to: 2020,
+};
+
 export const mockData = {
   data: [
     {

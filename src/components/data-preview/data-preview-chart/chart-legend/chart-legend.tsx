@@ -16,11 +16,9 @@ const ChartLegend: FunctionComponent = ({ fields, onLabelChange, onHover }) => {
     <section className={legendButtons}>
       <div className={sectionContainer}>
         {fields.map((field, index) => (
-          <>
-            <div className={buttonContainer}>
-              <CheckboxLabel obj={field} handleClick={handleClick} onHover={onHover} index={index} />
-            </div>
-          </>
+          <div className={buttonContainer} key={index}>
+            <CheckboxLabel obj={field} handleClick={handleClick} onHover={onHover} index={index} />
+          </div>
         ))}
       </div>
     </section>
