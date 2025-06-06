@@ -1,4 +1,4 @@
-import { utcParse, utcFormat } from 'd3-time-format';
+import { utcFormat, utcParse } from 'd3-time-format';
 import 'd3-transition';
 import 'd3-selection-multi';
 import { select, selectAll } from 'd3-selection';
@@ -36,6 +36,7 @@ const initTooltip = ({
   dataType,
   toolTipDateKey,
   roundingDenomination,
+  fieldColors,
 }) => {
   if (!visibleFields || visibleFields.length === 0) {
     container.selectAll(`g.dots`).remove();
@@ -145,7 +146,11 @@ const initTooltip = ({
       .attr('y2', tooltipDimensions.height / 2);
   };
 
-  const showPoint = d => {
+  const showPoint = (d, i) => {
+    let pointColor = '#0071bc';
+    if (fieldColors) {
+      pointColor = fieldColors[i % fieldColors.length];
+    }
     pointLayer
       .append('circle')
       .raise()
@@ -155,7 +160,7 @@ const initTooltip = ({
       .attr('fill', 'transparent')
       .transition()
       .duration(10)
-      .attr('fill', '#0071bc');
+      .attr('fill', pointColor);
   };
 
   const showTooltip = d => {
@@ -178,9 +183,9 @@ const initTooltip = ({
     placeSeparator();
   };
 
-  const onMouseOver = event => {
+  const onMouseOver = (event, i) => {
     const d = event?.target ? event.target.__data__ : event;
-    showPoint(d);
+    showPoint(d, i);
     showTooltip(d);
   };
 
@@ -218,7 +223,7 @@ const initTooltip = ({
 
     dots.length = 0;
 
-    Object.keys(groupedData).forEach(key => {
+    Object.keys(groupedData).forEach((key, i) => {
       if (!visibleFields.includes(key)) {
         return;
       }
@@ -236,7 +241,7 @@ const initTooltip = ({
           .attr('r', radius)
           .attr('fill', 'transparent')
           .attr('transform', d => `translate(${currentScales.x(parseDate(d.date))}, ${currentScales.y(d.value)})`)
-          .on('mouseover', onMouseOver)
+          .on('mouseover', event => onMouseOver(event, i))
           .on('mouseout', onMouseOut)
       );
     });

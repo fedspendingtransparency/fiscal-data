@@ -308,6 +308,7 @@ const setTooltips = (fieldsToShow, currentScales) => {
       dataType,
       toolTipDateKey,
       roundingDenomination,
+      fieldColors,
     });
   }
 };
