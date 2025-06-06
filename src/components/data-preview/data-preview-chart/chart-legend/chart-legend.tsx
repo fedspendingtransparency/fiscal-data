@@ -2,7 +2,20 @@ import React, { FunctionComponent } from 'react';
 import CheckboxLabel from '../../../checkbox/checkbox-label/checkbox-label';
 import { buttonContainer, legendButtons, sectionContainer } from './chart-legend.module.scss';
 
-const ChartLegend: FunctionComponent = ({ fields, onLabelChange, onHover }) => {
+export interface IField {
+  active: boolean;
+  field: string;
+  label: string;
+}
+
+export interface IChartLegend {
+  fields: IField[];
+  onLabelChange: (fields: IField[]) => void;
+  onHover: (boolean, field: IField) => void;
+  legendVisibility?: boolean;
+}
+
+const ChartLegend: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, onHover }) => {
   const handleClick = (e, isKeyPress, checkedValue) => {
     if (isKeyPress) {
       fields[e.target.value].active = checkedValue;

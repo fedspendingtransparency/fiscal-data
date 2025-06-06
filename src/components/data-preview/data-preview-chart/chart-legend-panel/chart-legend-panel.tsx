@@ -2,8 +2,9 @@ import React, { FunctionComponent } from 'react';
 import SelectAll from '../../../select-all/selectAll';
 import Checkbox from '../../../checkbox/checkbox';
 import { buttonContainer, heading, selectAllContainer } from './chart-legend-panel.module.scss';
+import { IChartLegend } from '../chart-legend/chart-legend';
 
-const ChartLegendPanel: FunctionComponent = ({ fields, onLabelChange, onHover, legendVisibility }) => {
+const ChartLegendPanel: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, onHover, legendVisibility }) => {
   return (
     <section>
       {legendVisibility && (
