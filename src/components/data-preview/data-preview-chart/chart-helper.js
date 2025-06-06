@@ -61,3 +61,18 @@ export const determineIfAxisWillHaveBillions = data => {
 
 export const getVisibleChartFields = arr => arr.filter(f => f.active).map(ff => ff.field);
 export const getActiveChartFields = arr => arr.filter(f => f.active);
+
+export const legendColors = [
+  '#E17141',
+  '#5270B2',
+  '#DDAA01',
+  '#5E9F69',
+  '#B04ABD',
+  '#00A4A6',
+  '#E667AB',
+  '#49A6D8',
+  '#49A6D8',
+  '#7F6DEB',
+  '#9F7A1B',
+  '#708090',
+];

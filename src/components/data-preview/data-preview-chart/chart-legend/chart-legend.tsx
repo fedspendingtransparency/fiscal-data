@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import CheckboxLabel from '../../../checkbox/checkbox-label/checkbox-label';
 import { buttonContainer, centerFields, field as fieldStyle, legendButtons, sectionContainer } from './chart-legend.module.scss';
+import { legendColors } from '../chart-helper';
 
 export interface IField {
   active: boolean;
@@ -47,7 +48,7 @@ const ChartLegend: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, o
             key={index}
           >
             <div className={buttonContainer}>
-              <CheckboxLabel obj={field} handleClick={handleClick} onHover={onHover} index={index} />
+              <CheckboxLabel obj={field} handleClick={handleClick} onHover={onHover} index={index} boxColor={legendColors[index]} />
             </div>
           </div>
         ))}
