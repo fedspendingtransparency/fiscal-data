@@ -7,12 +7,14 @@ import {
   chartArea,
   chartLegendWrapper,
   chartPane,
+  footerLegendWrapper,
   icon,
   info,
   labelContainer,
   legend as legendClass,
   legendActive,
   legendToggle,
+  panelLegendWrapper,
   viz as vizClass,
   yAxisLabel,
 } from './data-preview-chart.module.scss';
@@ -141,7 +143,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
   return (
     <div className={`${chartArea} ${chartFields.length <= 12 || !showLegend ? undefined : legendActive}`}>
       <div className={chartPane}>
-        <div className={chartLegendWrapper} style={chartFields.length <= 12 ? { flexDirection: 'column' } : { flexDirection: 'row' }}>
+        <div className={`${chartLegendWrapper} ${chartFields.length <= 12 ? footerLegendWrapper : panelLegendWrapper}`}>
           <div className={vizClass}>
             {chartNotes}
             {selectedPivot && selectedPivot.pivotView?.roundingDenomination && (

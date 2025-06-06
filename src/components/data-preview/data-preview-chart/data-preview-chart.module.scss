@@ -41,6 +41,14 @@ $paddingOffset: 87px;
   display: flex;
   align-items: stretch;
   min-width: calc(#{$breakpoint-lg} - #{$paddingOffset});
+
+  &.panelLegendWrapper {
+    flex-direction: row;
+  }
+
+  &.footerLegendWrapper {
+    flex-direction: column;
+  }
 }
 
 .viz {

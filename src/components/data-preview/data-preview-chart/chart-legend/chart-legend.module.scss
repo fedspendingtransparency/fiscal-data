@@ -1,7 +1,14 @@
 .buttonContainer {
   padding: 0.5rem;
   width: fit-content;
-  flex: 0 1 21%;
+}
+
+.field {
+  display: flex;
+  justify-content: flex-start;
+  &.centerFields {
+    justify-content: center;
+  }
 }
 
 .sectionContainer {

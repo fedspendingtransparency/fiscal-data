@@ -158,3 +158,23 @@ export const mockPivot = { pivotView: { title: 'my selection', dimensionField: '
 export const mockSlug = 'mock/slug/here';
 
 export const mockTable = { tableName: 'TableOne' };
+
+export const mockFields = [
+  { active: true, field: 'a', label: 'A' },
+  { active: true, field: 'b', label: 'B' },
+  { active: true, field: 'c', label: 'C' },
+  { active: true, field: 'd', label: 'D' },
+];
+export const mockFields2 = [
+  { active: true, field: 'a', label: 'A' },
+  { active: true, field: 'b', label: 'B' },
+];
+
+export const mockFields6 = [
+  { active: true, field: 'a', label: 'A' },
+  { active: true, field: 'b', label: 'B' },
+  { active: true, field: 'c', label: 'C' },
+  { active: true, field: 'd', label: 'D' },
+  { active: true, field: 'e', label: 'E' },
+  { active: true, field: 'f', label: 'F' },
+];

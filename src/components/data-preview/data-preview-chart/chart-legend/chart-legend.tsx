@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import CheckboxLabel from '../../../checkbox/checkbox-label/checkbox-label';
-import { buttonContainer, legendButtons, sectionContainer } from './chart-legend.module.scss';
+import { buttonContainer, centerFields, field as fieldStyle, legendButtons, sectionContainer } from './chart-legend.module.scss';
 
 export interface IField {
   active: boolean;
@@ -25,12 +25,30 @@ const ChartLegend: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, o
     onLabelChange(fields.filter(obj => obj.active));
   };
 
+  const flexWidth = arr => {
+    const length = arr.length;
+    let width = 21;
+    if (length < 4) {
+      width = Math.floor(100 / length);
+    } else if (length % 3 === 0) {
+      width = 33;
+    }
+    return width;
+  };
+
   return (
     <section className={legendButtons}>
       <div className={sectionContainer}>
         {fields.map((field, index) => (
-          <div className={buttonContainer} key={index}>
-            <CheckboxLabel obj={field} handleClick={handleClick} onHover={onHover} index={index} />
+          <div
+            className={`${fieldStyle} ${fields.length < 4 ? centerFields : undefined}`}
+            style={{ width: `${flexWidth(fields)}%` }}
+            data-testid="legendField"
+            key={index}
+          >
+            <div className={buttonContainer}>
+              <CheckboxLabel obj={field} handleClick={handleClick} onHover={onHover} index={index} />
+            </div>
           </div>
         ))}
       </div>
