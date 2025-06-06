@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import DataPreviewChart, { chartHooks } from './data-preview-chart';
-import { callbacks, dataTableChartNotesText, determineFormat, setFieldsToChart } from './chart-helper';
+import { callbacks, dataTableChartNotesText, determineFormat, legendColors, setFieldsToChart } from './chart-helper';
 import * as Helpers from '../../dataset-data/dataset-data-helper/dataset-data-helper';
 import userEvent from '@testing-library/user-event';
 import {
@@ -183,5 +183,13 @@ describe('Dataset Chart', () => {
     const showLegendButton = queryByRole('button', { name: 'Hide Legend' });
     // Show / hide legend button is not included in the footer legend
     expect(showLegendButton).not.toBeInTheDocument();
+  });
+
+  it('should use set of colors of the legend checkboxes', () => {
+    const { getAllByTestId } = render(
+      <DataPreviewChart data={mockData} dateField={mockDateField} selectedPivot={mockPivot} slug={mockSlug} currentTable={mockTable} />
+    );
+    const checkboxes = getAllByTestId('checkboxLabelContainer');
+    checkboxes.forEach((box, i) => expect(box).toHaveStyle({ backgroundColor: legendColors[i] }));
   });
 });

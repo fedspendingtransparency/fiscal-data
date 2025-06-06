@@ -4,7 +4,7 @@ import Checkbox from '../../../checkbox/checkbox';
 import { buttonContainer, heading, selectAllContainer } from './chart-legend-panel.module.scss';
 import { IChartLegend } from '../chart-legend/chart-legend';
 
-const ChartLegendPanel: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, onHover, legendVisibility }) => {
+const ChartLegendPanel: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, onHover, legendVisibility, legendColors }) => {
   return (
     <section>
       {legendVisibility && (
@@ -14,7 +14,7 @@ const ChartLegendPanel: FunctionComponent<IChartLegend> = ({ fields, onLabelChan
             <SelectAll fields={fields} isVisible={true} onUpdateFields={onLabelChange} />
           </div>
           <div className={buttonContainer}>
-            <Checkbox checkboxData={fields} changeHandler={onLabelChange} onHover={onHover} />
+            <Checkbox checkboxData={fields} changeHandler={onLabelChange} onHover={onHover} legendColors={legendColors} />
           </div>
         </>
       )}
