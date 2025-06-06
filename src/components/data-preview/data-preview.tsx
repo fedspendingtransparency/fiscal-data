@@ -8,8 +8,6 @@ import {
   detailViewBack,
   detailViewButton,
   detailViewIcon,
-  placeholderButton,
-  placeholderText,
   selectedTableName,
   summaryTableHeader,
 } from './data-preview.module.scss';
@@ -140,6 +138,14 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
     if (selectedTable) {
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
+      } else if (selectedTable?.apiFilter?.disableDateRangeFilter) {
+        const defaultYear = new Date().getFullYear();
+        const defaultMonth = new Date().getMonth();
+        const startDate = new Date(defaultYear, defaultMonth, 1);
+        const endDate = new Date(defaultYear, defaultMonth + 1, 0);
+        // setSelectedMonth({ value: selectedTable?.apiFilter?.futureDated ? defaultMonth + 2 : defaultMonth + 1, label: monthFullNames[defaultMonth] });
+        // setSelectedYear({ value: defaultYear, label: defaultYear });
+        setDateRange({ from: startDate, to: endDate });
       }
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
@@ -150,15 +156,6 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
       }
       setSelectedTableProp(selectedTable);
       // setYears(generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate));
-      const defaultYear = new Date().getFullYear();
-      const defaultMonth = new Date().getMonth();
-      if (selectedTable?.apiFilter?.disableDateRangeFilter) {
-        const startDate = new Date(defaultYear, defaultMonth, 1);
-        const endDate = new Date(defaultYear, defaultMonth + 1, 0);
-        // setSelectedMonth({ value: selectedTable?.apiFilter?.futureDated ? defaultMonth + 2 : defaultMonth + 1, label: monthFullNames[defaultMonth] });
-        // setSelectedYear({ value: defaultYear, label: defaultYear });
-        setDateRange({ from: startDate, to: endDate });
-      }
     }
   }, [selectedTable]);
 
@@ -339,18 +336,11 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
               currentDateButton={config.currentDateButton}
               datePreset={config.datePreset}
               customRangePreset={config.customRangePreset}
-              setIsFiltered={setIsFiltered}
               datasetDateRange={{
                 earliestDate: config.techSpecs.earliestDate,
                 latestDate: config.techSpecs.latestDate,
               }}
             >
-              {!selectedTable && (
-                <div data-testid="dateRangePlaceholder">
-                  <h3 className={placeholderText}>Date Range</h3>
-                  <div className={placeholderButton} />
-                </div>
-              )}
               {dateRange &&
                 (viewMode === 'table' ? (
                   <DataPreviewSectionContainer
@@ -391,19 +381,14 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
                     setPivotsUpdated={setPivotsUpdated}
                   />
                 ) : (
-                  <>
-                    <DataPreviewChart
-                      legend={false}
-                      dateRange={dateRange}
-                      data={apiData}
-                      slug={config.slug}
-                      currentTable={selectedTable}
-                      isVisible={true}
-                      chartCitation={false}
-                      selectedPivot={selectedPivot}
-                      dateField={dateFieldForChart}
-                    />
-                  </>
+                  <DataPreviewChart
+                    dateRange={dateRange}
+                    data={apiData}
+                    slug={config.slug}
+                    currentTable={selectedTable}
+                    selectedPivot={selectedPivot}
+                    dateField={dateFieldForChart}
+                  />
                 ))}
             </DataPreviewFilterSection>
           )}
