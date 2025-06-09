@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
 import {
   columnName,
+  containerAdjustment,
   inputContainer,
   presetContainer,
   radioButton,
-  containerAdjustment,
   sectionContainer,
   sectionDisabled,
 } from './date-column-filter.module.scss';
@@ -85,17 +85,18 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
           )}
           <div className={`${presetContainer} ${!hasPresets ? containerAdjustment : ''}`}>
             <CustomDateFilter
+              columnConfig={columnConfig}
               pickerDateRange={pickerDateRange}
               disabled={selectedToggle !== 'custom'}
-              datePreset={config.datePreset}
-              setPickerDateRange={setPickerDateRange}
-              handleDateRangeChange={handleDateRangeSelect}
-              datasetDateRange={{
-                earliestDate: config.techSpecs.earliestDate,
-                latestDate: config.techSpecs.latestDate,
-              }}
-              currentDateButton={config.currentDateButton}
-              selectedToggle={selectedToggle}
+              // datePreset={config.datePreset}
+              // setPickerDateRange={setPickerDateRange}
+              // handleDateRangeChange={handleDateRangeSelect}
+              // datasetDateRange={{
+              //   earliestDate: config.techSpecs.earliestDate,
+              //   latestDate: config.techSpecs.latestDate,
+              // }}
+              // currentDateButton={config.currentDateButton}
+              // selectedToggle={selectedToggle}
               hasPresets={hasPresets}
             />
           </div>

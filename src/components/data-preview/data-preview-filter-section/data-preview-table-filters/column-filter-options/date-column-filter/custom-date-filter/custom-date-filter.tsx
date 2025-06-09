@@ -8,13 +8,17 @@ import { ICustomDateFilter } from '../../../../../../../models/data-preview/ICus
 import { isBefore } from 'date-fns';
 import DaySelector from '../../../../../../date-picker/day-selector/day-selector';
 
-const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled, hasPresets }) => {
-  const [selectedStartDate, setSelectedStartDate] = useState<Date>(null);
-  const [selectedEndDate, setSelectedEndDate] = useState<Date>(null);
+const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled, hasPresets, columnConfig }) => {
+  const [selectedStartDate, setSelectedStartDate] = useState<Date>(
+    columnConfig?.defaultStartDate ? new Date(columnConfig?.defaultStartDate.replace(/-/g, '/')) : null
+  );
+  const [selectedEndDate, setSelectedEndDate] = useState<Date>(
+    columnConfig?.defaultEndDate ? new Date(columnConfig?.defaultEndDate.replace(/-/g, '/')) : null
+  );
   const [startDateActive, setStartDateActive] = useState(false);
   const [endDateActive, setEndDateActive] = useState(false);
-  const [startDateChosen, setStartDateChosen] = useState(false);
-  const [endDateChosen, setEndDateChosen] = useState(false);
+  const [startDateChosen, setStartDateChosen] = useState(columnConfig.pendingStartDate);
+  const [endDateChosen, setEndDateChosen] = useState(columnConfig.pendingEndDate);
 
   const handleStartDateClose = () => setStartDateActive(false);
   const handleEndDateClose = () => setEndDateActive(false);
@@ -33,16 +37,22 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
 
   useEffect(() => {
     if (pickerDateRange?.from && pickerDateRange?.to) {
-      setSelectedStartDate(pickerDateRange.from);
-      setSelectedEndDate(pickerDateRange.to);
+      // setSelectedStartDate(pickerDateRange.from);
+      // setSelectedEndDate(pickerDateRange.to);
     }
   }, [pickerDateRange]);
+
+  useEffect(() => {
+    setSelectedStartDate(columnConfig?.defaultStartDate ? new Date(columnConfig?.defaultStartDate.replace(/-/g, '/')) : null);
+    setSelectedEndDate(columnConfig?.defaultEndDate ? new Date(columnConfig?.defaultEndDate.replace(/-/g, '/')) : null);
+  }, [columnConfig]);
+
   console.log('selectedStartDate', selectedStartDate);
 
   const startDateButton = (
     <DropdownLabelButton
       label="Start Date"
-      selectedOption={hasPresets || selectedStartDate ? formatReportDate(selectedStartDate, true, true) : null}
+      selectedOption={formatReportDate(selectedStartDate, true, true)}
       icon={faCalendar}
       setActive={setStartDateActive}
       active={startDateActive}
@@ -54,7 +64,7 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   const endDateButton = (
     <DropdownLabelButton
       label="End Date"
-      selectedOption={hasPresets ? formatReportDate(selectedEndDate, true, true) : null}
+      selectedOption={formatReportDate(selectedEndDate, true, true)}
       icon={faCalendar}
       setActive={setEndDateActive}
       active={endDateActive}
