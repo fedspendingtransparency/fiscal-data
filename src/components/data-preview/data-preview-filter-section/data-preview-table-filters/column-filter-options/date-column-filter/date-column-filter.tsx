@@ -16,15 +16,9 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   columnConfig,
   selectedTable,
   config,
-  allTablesSelected,
-  finalDatesNotFound,
-  detailApi,
-  detailViewState,
-  apiData,
   presets,
   activePresetKey,
   pickerDateRange,
-  setPickerDateRange,
 }) => {
   const hasPresets = selectedTable?.dateField === columnConfig?.columnName;
   const [selectedToggle, setSelectedToggle] = useState(hasPresets && config?.datePreset !== 'custom' ? 'preset' : 'custom');
@@ -49,24 +43,7 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
               Preset
             </label>
             <div className={`${presetContainer} ${selectedToggle !== 'preset' ? sectionDisabled : undefined}`}>
-              <DatePresets
-                handleDateRangeChange={handleDateRangeSelect}
-                selectedTable={!!detailViewState ? detailApi : selectedTable}
-                apiData={apiData}
-                currentDateButton={config.currentDateButton}
-                datePreset={config.datePreset}
-                customRangePreset={config.customRangePreset}
-                allTablesSelected={allTablesSelected}
-                datasetDateRange={{
-                  earliestDate: config.techSpecs.earliestDate,
-                  latestDate: config.techSpecs.latestDate,
-                }}
-                finalDatesNotFound={finalDatesNotFound}
-                setPickerDateRange={setPickerDateRange}
-                hidden={selectedToggle !== 'preset'}
-                presets={presets}
-                activePresetKey={activePresetKey}
-              />
+              <DatePresets hidden={selectedToggle !== 'preset'} presets={presets} activePresetKey={activePresetKey} />
             </div>
           </div>
         )}
@@ -88,17 +65,7 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
               columnConfig={columnConfig}
               pickerDateRange={pickerDateRange}
               disabled={selectedToggle !== 'custom'}
-              // datePreset={config.datePreset}
-              // setPickerDateRange={setPickerDateRange}
-              // handleDateRangeChange={handleDateRangeSelect}
-              // datasetDateRange={{
-              //   earliestDate: config.techSpecs.earliestDate,
-              //   latestDate: config.techSpecs.latestDate,
-              // }}
-              // currentDateButton={config.currentDateButton}
-              // selectedToggle={selectedToggle}
               hasPresets={hasPresets}
-              columnConfig={columnConfig}
             />
           </div>
         </div>

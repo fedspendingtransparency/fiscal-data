@@ -9,12 +9,8 @@ import { isBefore } from 'date-fns';
 import DaySelector from '../../../../../../date-picker/day-selector/day-selector';
 
 const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled, hasPresets, columnConfig }) => {
-  const [selectedStartDate, setSelectedStartDate] = useState<Date>(
-    columnConfig?.defaultStartDate ? new Date(columnConfig?.defaultStartDate.replace(/-/g, '/')) : null
-  );
-  const [selectedEndDate, setSelectedEndDate] = useState<Date>(
-    columnConfig?.defaultEndDate ? new Date(columnConfig?.defaultEndDate.replace(/-/g, '/')) : null
-  );
+  const [selectedStartDate, setSelectedStartDate] = useState<Date>(null);
+  const [selectedEndDate, setSelectedEndDate] = useState<Date>(null);
   const [startDateActive, setStartDateActive] = useState(false);
   const [endDateActive, setEndDateActive] = useState(false);
   const [startDateChosen, setStartDateChosen] = useState(columnConfig.pendingStartDate);
@@ -24,10 +20,8 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   const handleEndDateClose = () => setEndDateActive(false);
 
   useEffect(() => {
-    if (!hasPresets) {
-      setSelectedStartDate(null);
-      setSelectedEndDate(null);
-    }
+    setSelectedStartDate(columnConfig?.defaultStartDate);
+    setSelectedEndDate(columnConfig?.defaultEndDate);
   }, [columnConfig]);
 
   const swapDates = () => {
@@ -41,18 +35,6 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
       swapDates();
     }
   }, [selectedStartDate, selectedEndDate]);
-
-  useEffect(() => {
-    if (pickerDateRange?.from && pickerDateRange?.to) {
-      // setSelectedStartDate(pickerDateRange.from);
-      // setSelectedEndDate(pickerDateRange.to);
-    }
-  }, [pickerDateRange]);
-
-  useEffect(() => {
-    setSelectedStartDate(columnConfig?.defaultStartDate ? new Date(columnConfig?.defaultStartDate.replace(/-/g, '/')) : null);
-    setSelectedEndDate(columnConfig?.defaultEndDate ? new Date(columnConfig?.defaultEndDate.replace(/-/g, '/')) : null);
-  }, [columnConfig]);
 
   console.log('selectedStartDate', selectedStartDate);
 
@@ -93,8 +75,8 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
               earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
               active={startDateActive}
               label="Enter Start Date"
-              minDateErrorMessage={'Date should not be before minimal date'}
-              maxDateErrorMessage={'Date should not be after maximal date'}
+              minDateErrorMessage="Date should not be before minimal date"
+              maxDateErrorMessage="Date should not be after maximal date"
               hasPresets={hasPresets}
             />
           </DropdownContainer>
@@ -107,8 +89,8 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
               earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
               active={endDateActive}
               label="Enter End Date"
-              minDateErrorMessage={'Date should not be before minimal date'}
-              maxDateErrorMessage={'Date should not be after maximal date'}
+              minDateErrorMessage="Date should not be before minimal date"
+              maxDateErrorMessage="Date should not be after maximal date"
               hasPresets={hasPresets}
             />
           </DropdownContainer>
