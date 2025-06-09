@@ -8,21 +8,29 @@ import { ICustomDateFilter } from '../../../../../../../models/data-preview/ICus
 import { isBefore } from 'date-fns';
 import DaySelector from '../../../../../../date-picker/day-selector/day-selector';
 
-const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled, hasPresets, columnConfig }) => {
+const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled, hasPresets, columnConfig, colId }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(null);
   const [selectedEndDate, setSelectedEndDate] = useState<Date>(null);
   const [startDateActive, setStartDateActive] = useState(false);
   const [endDateActive, setEndDateActive] = useState(false);
-  const [startDateChosen, setStartDateChosen] = useState(columnConfig.pendingStartDate);
-  const [endDateChosen, setEndDateChosen] = useState(columnConfig.pendingEndDate);
 
   const handleStartDateClose = () => setStartDateActive(false);
   const handleEndDateClose = () => setEndDateActive(false);
 
   useEffect(() => {
-    setSelectedStartDate(columnConfig?.defaultStartDate);
-    setSelectedEndDate(columnConfig?.defaultEndDate);
-  }, [columnConfig]);
+    setSelectedStartDate(columnConfig?.pendingStartDate ? columnConfig?.pendingStartDate : columnConfig?.defaultStartDate);
+    setSelectedEndDate(columnConfig?.pendingEndDate ? columnConfig?.pendingEndDate : columnConfig?.defaultEndDate);
+  }, [columnConfig, colId]);
+
+  const updateSelectedDate = (date, dateField) => {
+    columnConfig[dateField] = date;
+    console.log(columnConfig);
+    if (dateField === 'pendingStartDate') {
+      setSelectedStartDate(date);
+    } else {
+      setSelectedEndDate(date);
+    }
+  };
 
   const swapDates = () => {
     const startDate = selectedStartDate;
@@ -69,8 +77,8 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
           <DropdownContainer setActive={setStartDateActive} active={startDateActive} dropdownButton={startDateButton}>
             <DaySelector
               handleClose={handleStartDateClose}
-              selectedDate={hasPresets ? selectedStartDate : null}
-              setSelectedDate={setSelectedStartDate}
+              selectedDate={selectedStartDate}
+              setSelectedDate={date => updateSelectedDate(date, 'pendingStartDate')}
               latestDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
               earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
               active={startDateActive}
@@ -83,8 +91,8 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
           <DropdownContainer setActive={setEndDateActive} active={endDateActive} dropdownButton={endDateButton}>
             <DaySelector
               handleClose={handleEndDateClose}
-              selectedDate={hasPresets ? selectedEndDate : null}
-              setSelectedDate={setSelectedEndDate}
+              selectedDate={selectedEndDate}
+              setSelectedDate={date => updateSelectedDate(date, 'pendingEndDate')}
               latestDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
               earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
               active={endDateActive}

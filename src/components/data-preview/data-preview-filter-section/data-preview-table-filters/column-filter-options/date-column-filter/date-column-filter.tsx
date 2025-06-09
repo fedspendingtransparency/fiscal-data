@@ -66,6 +66,7 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
               pickerDateRange={pickerDateRange}
               disabled={selectedToggle !== 'custom'}
               hasPresets={hasPresets}
+              colId={selectedTable.tableName}
             />
           </div>
         </div>
