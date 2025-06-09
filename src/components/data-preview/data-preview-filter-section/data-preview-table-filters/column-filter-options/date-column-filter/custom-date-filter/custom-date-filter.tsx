@@ -8,16 +8,21 @@ import { ICustomDateFilter } from '../../../../../../../models/data-preview/ICus
 import { isBefore } from 'date-fns';
 import DaySelector from '../../../../../../date-picker/day-selector/day-selector';
 
-const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled, hasPresets }) => {
+const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled, hasPresets, columnConfig }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(null);
   const [selectedEndDate, setSelectedEndDate] = useState<Date>(null);
   const [startDateActive, setStartDateActive] = useState(false);
   const [endDateActive, setEndDateActive] = useState(false);
-  const [startDateChosen, setStartDateChosen] = useState(false);
-  const [endDateChosen, setEndDateChosen] = useState(false);
 
   const handleStartDateClose = () => setStartDateActive(false);
   const handleEndDateClose = () => setEndDateActive(false);
+
+  useEffect(() => {
+    if (!hasPresets) {
+      setSelectedStartDate(null);
+      setSelectedEndDate(null);
+    }
+  }, [columnConfig]);
 
   const swapDates = () => {
     const startDate = selectedStartDate;
@@ -37,7 +42,6 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
       setSelectedEndDate(pickerDateRange.to);
     }
   }, [pickerDateRange]);
-  console.log('selectedStartDate', selectedStartDate);
 
   const startDateButton = (
     <DropdownLabelButton
@@ -54,7 +58,7 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   const endDateButton = (
     <DropdownLabelButton
       label="End Date"
-      selectedOption={hasPresets ? formatReportDate(selectedEndDate, true, true) : null}
+      selectedOption={hasPresets || selectedEndDate ? formatReportDate(selectedEndDate, true, true) : null}
       icon={faCalendar}
       setActive={setEndDateActive}
       active={endDateActive}
@@ -65,7 +69,7 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
 
   return (
     <div className={customDatesContainer}>
-      {pickerDateRange && selectedStartDate && selectedEndDate && (
+      {pickerDateRange && (
         <>
           <DropdownContainer setActive={setStartDateActive} active={startDateActive} dropdownButton={startDateButton}>
             <DaySelector
