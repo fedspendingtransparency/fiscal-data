@@ -159,6 +159,8 @@ export const mockSlug = 'mock/slug/here';
 
 export const mockTable = { tableName: 'TableOne' };
 
+export const mockLegendColors = ['#123456', '#234567', '#345678', '#456789'];
+
 export const mockFields = [
   { active: true, field: 'a', label: 'A' },
   { active: true, field: 'b', label: 'B' },
