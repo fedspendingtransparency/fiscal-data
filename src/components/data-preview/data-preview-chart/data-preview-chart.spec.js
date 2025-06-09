@@ -185,7 +185,7 @@ describe('Dataset Chart', () => {
     expect(showLegendButton).not.toBeInTheDocument();
   });
 
-  it('should use set of colors of the legend checkboxes', () => {
+  it('should use set of colors for the legend checkboxes', () => {
     const { getAllByTestId } = render(
       <DataPreviewChart data={mockData} dateField={mockDateField} selectedPivot={mockPivot} slug={mockSlug} currentTable={mockTable} />
     );

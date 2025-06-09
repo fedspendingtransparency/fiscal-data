@@ -17,7 +17,7 @@ export interface IChartLegend {
 }
 
 const ChartLegend: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, onHover, legendColors }) => {
-  const shouldUseLegendColors = fields.length === legendColors.length;
+  const shouldUseLegendColors = fields.length <= legendColors.length;
 
   const handleClick = (e, isKeyPress, checkedValue) => {
     if (isKeyPress) {
