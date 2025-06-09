@@ -42,12 +42,13 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const { tableState: table } = useContext(DataTableContext);
 
   const createFilterConfigs = (fields, datePreset) => {
+    console.log(selectedTable);
     const fieldsConfig = [...fields];
     fieldsConfig.forEach(field => {
       if (field.dataType === 'DATE') {
         field.pendingStartDate = field?.pendingStartDate;
         field.pendingEndDate = field?.pendingEndDate;
-        if (field.columnName === 'record_date' && datePreset) {
+        if (field.columnName === selectedTable?.dateField && datePreset) {
           console.log(datePreset);
           field.defaultStartDate = datePreset?.from;
           field.defaultEndDate = datePreset?.to;
@@ -384,7 +385,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     <>
       {width >= pxToNumber(breakpointLg) && (
         <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
-          {true && (
+          {active && (
             <DataPreviewDropdownDialogContainer
               searchComponent={
                 <DataPreviewDropdownDialogSearch
