@@ -19,6 +19,7 @@ interface IDaySelector {
   ariaLabel?: string;
   minDateErrorMessage?: string;
   maxDateErrorMessage?: string;
+  hasPresets?: boolean;
 }
 
 const DaySelector: FunctionComponent<IDaySelector> = ({
@@ -33,6 +34,7 @@ const DaySelector: FunctionComponent<IDaySelector> = ({
   ariaLabel,
   minDateErrorMessage,
   maxDateErrorMessage,
+  hasPresets,
 }: IDaySelector) => {
   const [currentDate, setCurrentDate] = useState<Date>(selectedDate);
   const [month, setMonth] = useState<Date>(selectedDate);
