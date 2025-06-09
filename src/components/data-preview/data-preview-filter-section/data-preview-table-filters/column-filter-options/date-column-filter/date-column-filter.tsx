@@ -98,6 +98,7 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
               // currentDateButton={config.currentDateButton}
               // selectedToggle={selectedToggle}
               hasPresets={hasPresets}
+              columnConfig={columnConfig}
             />
           </div>
         </div>

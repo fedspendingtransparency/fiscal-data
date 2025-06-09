@@ -23,6 +23,13 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   const handleStartDateClose = () => setStartDateActive(false);
   const handleEndDateClose = () => setEndDateActive(false);
 
+  useEffect(() => {
+    if (!hasPresets) {
+      setSelectedStartDate(null);
+      setSelectedEndDate(null);
+    }
+  }, [columnConfig]);
+
   const swapDates = () => {
     const startDate = selectedStartDate;
     setSelectedStartDate(selectedEndDate);
@@ -75,7 +82,7 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
 
   return (
     <div className={customDatesContainer}>
-      {pickerDateRange && selectedStartDate && selectedEndDate && (
+      {pickerDateRange && (
         <>
           <DropdownContainer setActive={setStartDateActive} active={startDateActive} dropdownButton={startDateButton}>
             <DaySelector
