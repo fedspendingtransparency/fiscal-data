@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useLayoutEffect, useState } from 'react';
 import DropdownLabelButton from '../../../../../../dropdown-label-button/dropdown-label-button';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import DropdownContainer from '../../../../../../dropdown-container/dropdown-container';
@@ -8,7 +8,7 @@ import { ICustomDateFilter } from '../../../../../../../models/data-preview/ICus
 import { isBefore } from 'date-fns';
 import DaySelector from '../../../../../../date-picker/day-selector/day-selector';
 
-const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled, hasPresets, columnConfig, colId }) => {
+const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled, hasPresets, columnConfig }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(null);
   const [selectedEndDate, setSelectedEndDate] = useState<Date>(null);
   const [startDateActive, setStartDateActive] = useState(false);
@@ -17,10 +17,10 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   const handleStartDateClose = () => setStartDateActive(false);
   const handleEndDateClose = () => setEndDateActive(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setSelectedStartDate(columnConfig?.pendingStartDate ? columnConfig?.pendingStartDate : columnConfig?.defaultStartDate);
     setSelectedEndDate(columnConfig?.pendingEndDate ? columnConfig?.pendingEndDate : columnConfig?.defaultEndDate);
-  }, [columnConfig, colId]);
+  }, [columnConfig]);
 
   const updateSelectedDate = (date, dateField) => {
     columnConfig[dateField] = date;
