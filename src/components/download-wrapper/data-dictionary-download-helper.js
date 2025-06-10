@@ -1,4 +1,4 @@
-import { fileSizeTranslator } from '../datatables-tab/datatables-tab-helpers';
+import { fileSizeTranslator, fileSizeTranslator2 } from '../datatables-tab/datatables-tab-helpers';
 import fileDownload from 'js-file-download';
 import { stringify } from 'csv-stringify/sync';
 import { replaceNbsps } from './download-helpers';
@@ -59,6 +59,21 @@ export const suggestDictionaryDownloadName = datasetName => {
 
 export const calcDictionaryDownloadSize = csvData => {
   return fileSizeTranslator(1000 + csvData.length);
+};
+
+const rowsToCsv = rows => rows.map(row => row.join(',')).join('\n');
+export const prettySize = data => {
+  let bytes;
+  if (typeof data === 'string') {
+    bytes = new Blob([data]).size;
+  } else if (data instanceof Blob) {
+    bytes = data.size;
+  } else if (Array.isArray(data)) {
+    bytes = new Blob([rowsToCsv(data)].size);
+  } else {
+    return '-';
+  }
+  return fileSizeTranslator2(bytes) || '—';
 };
 
 export const triggerDataDictionaryDownload = (csvData, datasetName) => {
