@@ -42,14 +42,13 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const { tableState: table } = useContext(DataTableContext);
 
   const createFilterConfigs = (fields, datePreset) => {
-    console.log(selectedTable);
     const fieldsConfig = [...fields];
     fieldsConfig.forEach(field => {
       if (field.dataType === 'DATE') {
         field.pendingStartDate = field?.pendingStartDate;
         field.pendingEndDate = field?.pendingEndDate;
         if (field.columnName === selectedTable?.dateField && datePreset) {
-          console.log(datePreset);
+          // console.log(datePreset);
           field.defaultStartDate = datePreset?.from;
           field.defaultEndDate = datePreset?.to;
         }
@@ -57,7 +56,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         field.pendingValue = '';
       }
     });
-    console.log(fieldsConfig);
     return fieldsConfig;
   };
 
@@ -123,15 +121,14 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     updateDateRange(curDateRange);
   };
 
-  useEffect(() => {
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!');
-  }, []);
+  // useEffect(() => {
+  //   console.log('!!!!!!!!!!!!!!!!!!!!!!!!!');
+  // }, []);
 
   // useEffect(() => {}, [pickerDateRange]);
 
   const updateDateRange = curDateRange => {
     if (curDateRange) {
-      console.log('!', pickerDateRange);
       setPickerDateRange(curDateRange);
       setFilterFieldsConfig(createFilterConfigs(filterFieldConfig, curDateRange));
       setCurDateRange(curDateRange);

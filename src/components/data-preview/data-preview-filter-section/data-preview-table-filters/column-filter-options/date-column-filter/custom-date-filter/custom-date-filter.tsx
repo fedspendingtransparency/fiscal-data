@@ -24,7 +24,6 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
 
   const updateSelectedDate = (date, dateField) => {
     columnConfig[dateField] = date;
-    console.log(columnConfig);
     if (dateField === 'pendingStartDate') {
       setSelectedStartDate(date);
     } else {
@@ -43,8 +42,6 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
       swapDates();
     }
   }, [selectedStartDate, selectedEndDate]);
-
-  console.log('selectedStartDate', selectedStartDate);
 
   const startDateButton = (
     <DropdownLabelButton

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import {
   columnName,
   containerAdjustment,
@@ -22,6 +22,14 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
 }) => {
   const hasPresets = selectedTable?.dateField === columnConfig?.columnName;
   const [selectedToggle, setSelectedToggle] = useState(hasPresets && config?.datePreset !== 'custom' ? 'preset' : 'custom');
+
+  useEffect(() => {
+    if (!hasPresets) {
+      setSelectedToggle('custom');
+    } else {
+      setSelectedToggle(config?.datePreset !== 'custom' ? 'preset' : 'custom');
+    }
+  }, [columnConfig]);
 
   const handleDateRangeSelect = dateRange => {
     // handleDateRangeChange(dateRange);
