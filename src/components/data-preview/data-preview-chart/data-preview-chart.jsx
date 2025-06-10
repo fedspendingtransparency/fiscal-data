@@ -45,6 +45,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
   const [axisHasBillions, setAxisHasBillions] = useState(false);
   const [showLegend, setShowLegend] = useState(true);
   const viz = useRef();
+  const [colorMap, setColorMap] = useState({});
 
   const buildLegendConfig = fields => {
     if (chartFields.length === 0 && fields.length !== 0) {
@@ -111,12 +112,16 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
 
     if (data && data.meta && !chartHooks) {
       localChartFields = setFieldsToChart(data.meta.dataTypes, selectedPivot, dateField);
+      const fieldColors = {};
+      localChartFields.forEach((f, i) => {
+        fieldColors[f] = legendColors[i % legendColors.length];
+      });
+      setColorMap(fieldColors);
 
       buildLegendConfig(localChartFields);
       const aggFieldName = Object.keys(data.meta.dataTypes).find(f => data.meta.dataTypes[f] === 'AGGREGATION_DATE');
 
       const chartData = thinDataAsNeededForChart(data.data, slug, dateField, currentTable);
-
       if (chartData.length > 0 && localChartFields.length > 0) {
         setAxisHasBillions(determineIfAxisWillHaveBillions(chartData));
         chartHooks = drawChart(
@@ -129,7 +134,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
           {
             format: determineFormat(localChartFields, data.meta.dataTypes),
             toolTipDateKey: aggFieldName || false,
-            fieldColors: legendColors,
+            fieldColors: fieldColors,
           }
         );
       }
@@ -178,7 +183,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
               // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
               onHover={(on, item) => callbacks.onHover(on, item, hasUpdate, chartFields)}
               onLabelChange={handleLabelChange}
-              legendColors={legendColors}
+              legendColors={colorMap}
             />
           )}
           {chartFields.length <= 12 && <ChartCitation slug={slug} currentTableName={currentTable.tableName} />}

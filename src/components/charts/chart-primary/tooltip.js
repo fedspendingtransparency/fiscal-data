@@ -146,10 +146,10 @@ const initTooltip = ({
       .attr('y2', tooltipDimensions.height / 2);
   };
 
-  const showPoint = (d, i) => {
+  const showPoint = d => {
     let pointColor = '#0071bc';
     if (fieldColors) {
-      pointColor = fieldColors[i % fieldColors.length];
+      pointColor = fieldColors[d.field];
     }
     pointLayer
       .append('circle')
@@ -183,9 +183,9 @@ const initTooltip = ({
     placeSeparator();
   };
 
-  const onMouseOver = (event, i) => {
+  const onMouseOver = event => {
     const d = event?.target ? event.target.__data__ : event;
-    showPoint(d, i);
+    showPoint(d);
     showTooltip(d);
   };
 
@@ -241,7 +241,7 @@ const initTooltip = ({
           .attr('r', radius)
           .attr('fill', 'transparent')
           .attr('transform', d => `translate(${currentScales.x(parseDate(d.date))}, ${currentScales.y(d.value)})`)
-          .on('mouseover', event => onMouseOver(event, i))
+          .on('mouseover', onMouseOver)
           .on('mouseout', onMouseOut)
       );
     });

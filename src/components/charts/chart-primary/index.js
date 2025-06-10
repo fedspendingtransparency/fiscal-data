@@ -205,7 +205,7 @@ const draw = (container, scales, fields, fieldColors, _visibleFields) => {
       .attr('stroke', function(d, i) {
         let color = '#4971b7';
         if (fieldColors) {
-          color = fieldColors[i % fieldColors.length];
+          color = fieldColors[d];
         }
         return color;
       })
@@ -451,7 +451,6 @@ export const addHoverEffects = (_data, _chartId, _dateField, _fields, _hoverFunc
   fields = _fields;
   markers = [_data[0]];
   hoverFunction = _hoverFunction;
-
   const parentSelection = d3.select(`#${chartId}`);
   container = parentSelection.select('svg');
 
