@@ -48,7 +48,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         field.pendingStartDate = field?.pendingStartDate;
         field.pendingEndDate = field?.pendingEndDate;
         if (field.columnName === selectedTable?.dateField && datePreset) {
-          // console.log(datePreset);
           field.defaultStartDate = datePreset?.from;
           field.defaultEndDate = datePreset?.to;
         }
@@ -85,6 +84,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // If a data table has less than 5 years of data, we need to find the next best option to select
   // by default.
   const fallbackPresets = ['1yr', 'current', 'all'];
+  console.log('new options ', visibleOptions);
+  console.log('prior options ', selectedTable.fields);
+  console.log('config ', filterFieldConfig);
 
   const allTablesDateRange = prepAvailableDates(datasetDateRange);
   /**
