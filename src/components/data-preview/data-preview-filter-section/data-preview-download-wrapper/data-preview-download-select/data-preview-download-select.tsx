@@ -77,7 +77,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
 
     if (direct) {
       setSizes({
-        csv: smallTableCSVData && calcDictionaryDownloadSize(smallTableCSVData),
+        csv: smallTableCSVData && prettySize(smallTableCSVData),
         json: smallTableJSONData && prettySize(smallTableJSONData),
         xml: smallTableXMLData && prettySize(smallTableXMLData),
       });

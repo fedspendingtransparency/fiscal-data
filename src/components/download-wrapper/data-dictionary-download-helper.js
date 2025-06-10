@@ -1,4 +1,4 @@
-import { fileSizeTranslator, fileSizeTranslator2 } from '../datatables-tab/datatables-tab-helpers';
+import { fileSizeTranslator2, fileSizeTranslator } from '../datatables-tab/datatables-tab-helpers';
 import fileDownload from 'js-file-download';
 import { stringify } from 'csv-stringify/sync';
 import { replaceNbsps } from './download-helpers';
@@ -69,7 +69,7 @@ export const prettySize = data => {
   } else if (data instanceof Blob) {
     bytes = data.size;
   } else if (Array.isArray(data)) {
-    bytes = new Blob([rowsToCsv(data)].size);
+    bytes = new Blob([rowsToCsv(data)]).size;
   } else {
     return '-';
   }
