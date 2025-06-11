@@ -13,6 +13,20 @@ const insightPagesSource = {
       subHeading: '',
     },
   },
+  'state-and-local-government-series': {
+    slug: '/state-and-local-government-series/',
+    breadCrumbLinkName: 'State and Local Government Series',
+    seoConfig: {
+      pageTitle: 'SLGS Page Title',
+      description: '',
+      keywords: 'SLGS, State and Local Government Series, US Treasury SLGS',
+    },
+    prodReady: false,
+    heroImage: {
+      heading: 'Outstanding State and Local Government Series (SLGS) Securities',
+      subHeading: '',
+    },
+  },
 };
 
 const freshInsightPages = () => {
