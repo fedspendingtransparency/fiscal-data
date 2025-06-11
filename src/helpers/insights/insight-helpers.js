@@ -8,11 +8,15 @@ const envBaseUrl = BASE_URL;
 
 export const insightsPageName = {
   'interest-expense': 'Interest Expense',
+  'state-and-local-government-series': 'State and Local Government Series',
 };
 
 export const insightHeroMap = {
   'interest-expense': {
     component: () => <InterestExpenseHero />,
+  },
+  'state-and-local-government-series': {
+    component: () => <></>,
   },
 };
 
@@ -20,6 +24,9 @@ export const insightLastUpdated = {
   'interest-expense': {
     endpoint: 'v2/accounting/od/interest_expense?sort=-record_date&page[size]=1',
   },
+  // 'state-and-local-government-series': {
+  //   endpoint: '',
+  // },
 };
 
 export const insightSocialShareMap = {
@@ -38,6 +45,15 @@ export const insightSocialShareMap = {
     url: envBaseUrl + '/interest-expense-avg-interest-rates/',
     image: envBaseUrl + '/images/Interest-Expense-Social-Share-Graph-and-Money_1200x630.png',
   },
+  'state-and-local-government-series': {
+    title: '',
+    description: '',
+    body: '',
+    emailSubject: '',
+    emailBody: '',
+    url: envBaseUrl + '',
+    image: envBaseUrl + '',
+  },
 };
 
 export const exploreMoreCitationsMap = {
@@ -45,10 +61,32 @@ export const exploreMoreCitationsMap = {
     { text: 'Federal Spending', url: '/americas-finance-guide/federal-spending/' },
     { text: 'Understanding the National Debt', url: '/americas-finance-guide/national-debt/' },
   ],
+  'state-and-local-government-series': [
+    { text: 'Test1', url: '' },
+    { text: 'Test2', url: '' },
+  ],
 };
 
 export const discoverDatasetsCitationsMap = {
   'interest-expense': [
+    {
+      text: 'Interest Expense on the Debt Outstanding',
+      url: '/datasets/interest-expense-debt-outstanding/interest-expense-on-the-public-debt-outstanding',
+    },
+    {
+      text: 'Average Interest Rates on U.S. Treasury Securities',
+      url: '/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities',
+    },
+    {
+      text: 'Monthly Treasury Statement (MTS)',
+      url: '/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government',
+    },
+    {
+      text: 'Monthly Statement of the Public Debt (MSPD)',
+      url: '/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding',
+    },
+  ],
+  'state-and-local-government-series': [
     {
       text: 'Interest Expense on the Debt Outstanding',
       url: '/datasets/interest-expense-debt-outstanding/interest-expense-on-the-public-debt-outstanding',
@@ -96,9 +134,19 @@ const insightsCitations = page => {
         Average Interest Rates on U.S. Treasury Securities
       </CustomLink>
     ),
+    stateLocalGovernmentSeriesDataset: (
+      <CustomLink
+        url="/datasets/interest-expense-debt-outstanding/interest-expense-on-the-public-debt-outstanding"
+        id="SLGS Test ID"
+        onClick={() => analyticsEventHandler(page, 'SLGS Test')}
+      >
+        SLGS Placeholder
+      </CustomLink>
+    ),
   };
 };
 
 export const insightsCitationsMap = {
   'interest-expense': insightsCitations('Interest Expense'),
+  'state-and-local-government-series': insightsCitations('State and Local Government Series'),
 };
