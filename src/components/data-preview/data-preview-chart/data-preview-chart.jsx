@@ -173,7 +173,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
                   onHover={(on, item) => callbacks.onHover(on, item, hasUpdate, chartFields)}
                   onLabelChange={handleLabelChange}
                   legendVisibility={showLegend}
-                  legendColors={legendColors}
+                  legendColors={colorMap}
                 />
               </div>
             </>

@@ -53,6 +53,9 @@ describe('Footer Chart Legend', () => {
       <ChartLegend fields={mockFields} onHover={jest.fn()} onLabelChange={jest.fn()} legendColors={mockLegendColors} />
     );
     const checkboxContainers = getAllByTestId('checkboxLabelContainer');
-    checkboxContainers.forEach((box, i) => expect(box).toHaveStyle({ backgroundColor: mockLegendColors[i] }));
+    expect(checkboxContainers[0]).toHaveStyle({ backgroundColor: mockLegendColors.a });
+    expect(checkboxContainers[1]).toHaveStyle({ backgroundColor: mockLegendColors.b });
+    expect(checkboxContainers[2]).toHaveStyle({ backgroundColor: mockLegendColors.c });
+    expect(checkboxContainers[3]).toHaveStyle({ backgroundColor: mockLegendColors.d });
   });
 });

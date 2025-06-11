@@ -17,7 +17,6 @@ export interface IChartLegend {
 }
 
 const ChartLegend: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, onHover, legendColors }) => {
-  console.log(fields);
   const handleClick = (e, isKeyPress, checkedValue) => {
     if (isKeyPress) {
       fields[e.target.value].active = checkedValue;
@@ -37,7 +36,7 @@ const ChartLegend: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, o
     }
     return width;
   };
-  console.log(legendColors);
+
   return (
     <section className={legendButtons}>
       <div className={sectionContainer}>
@@ -54,7 +53,7 @@ const ChartLegend: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, o
                 handleClick={handleClick}
                 onHover={onHover}
                 index={index}
-                boxColor={legendColors[field.label] ? legendColors[field.label] : null}
+                boxColor={legendColors[field.field] ? legendColors[field.field] : null}
               />
             </div>
           </div>

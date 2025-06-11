@@ -41,7 +41,7 @@ const Checkbox = ({ onHover, changeHandler, checkboxData, legendColors }) => {
               handleClick={handleClick}
               onHover={onHover}
               index={index}
-              boxColor={legendColors ? legendColors[index % legendColors.length] : null}
+              boxColor={legendColors ? legendColors[obj.field] : null}
             />
           </React.Fragment>
         );
