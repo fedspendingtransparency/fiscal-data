@@ -33,7 +33,7 @@ const MockComponent = () => (
 const stateLocalGovernmentSeriesSections = [
   {
     index: 0,
-    component: <MockComponent />,
+    component: <> </>,
   },
 ];
 
