@@ -13,9 +13,10 @@ export interface IChartLegend {
   onLabelChange: (fields: IField[]) => void;
   onHover: (boolean, field: IField) => void;
   legendVisibility?: boolean;
+  legendColors: string[];
 }
 
-const ChartLegend: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, onHover }) => {
+const ChartLegend: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, onHover, legendColors }) => {
   const handleClick = (e, isKeyPress, checkedValue) => {
     if (isKeyPress) {
       fields[e.target.value].active = checkedValue;
@@ -47,7 +48,13 @@ const ChartLegend: FunctionComponent<IChartLegend> = ({ fields, onLabelChange, o
             key={index}
           >
             <div className={buttonContainer}>
-              <CheckboxLabel obj={field} handleClick={handleClick} onHover={onHover} index={index} />
+              <CheckboxLabel
+                obj={field}
+                handleClick={handleClick}
+                onHover={onHover}
+                index={index}
+                boxColor={legendColors[field.field] ? legendColors[field.field] : null}
+              />
             </div>
           </div>
         ))}
