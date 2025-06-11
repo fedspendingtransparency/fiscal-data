@@ -205,7 +205,6 @@ const draw = (container, scales, fields, fieldColors, _visibleFields) => {
       .attr('stroke', function(d, i) {
         let color = '#4971b7';
         if (fieldColors) {
-          console.log(d);
           color = fieldColors[d];
         }
         return color;

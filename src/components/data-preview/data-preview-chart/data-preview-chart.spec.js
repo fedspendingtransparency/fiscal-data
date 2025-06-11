@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import DataPreviewChart, { chartHooks } from './data-preview-chart';
 import { callbacks, dataTableChartNotesText, determineFormat, legendColors, setFieldsToChart } from './chart-helper';
 import * as Helpers from '../../dataset-data/dataset-data-helper/dataset-data-helper';
@@ -190,13 +190,8 @@ describe('Dataset Chart', () => {
       <DataPreviewChart data={mockData} dateField={mockDateField} selectedPivot={mockPivot} slug={mockSlug} currentTable={mockTable} />
     );
     const checkboxes = getAllByTestId('checkboxLabelContainer');
-    // checkboxes.forEach( (box, i) => {
-    //   console.log(box.style);
-    //   await waitFor(() => expect(box).toHaveStyle({ backgroundColor: legendColors[i] }));
-    // });
-    await waitFor(() => expect(checkboxes[0]).toHaveStyle({ backgroundColor: legendColors[0] }));
-    // expect(checkboxes[1]).toHaveStyle({ backgroundColor: mockLegendColors.B });
-    // expect(checkboxes[2]).toHaveStyle({ backgroundColor: mockLegendColors.C });
-    // expect(checkboxes[3]).toHaveStyle({ backgroundColor: mockLegendColors.D });
+    checkboxes.forEach((box, i) => {
+      expect(box).toHaveStyle({ backgroundColor: legendColors[i] });
+    });
   });
 });
