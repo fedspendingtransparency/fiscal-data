@@ -2,7 +2,7 @@ import React from 'react';
 import { additionalSection, checkbox_container, sectionHeading } from './checkbox.module.scss';
 import CheckboxLabel from './checkbox-label/checkbox-label';
 
-const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
+const Checkbox = ({ onHover, changeHandler, checkboxData, legendColors }) => {
   const defaultData = checkboxData.filter(field => field?.default === true);
   const additionalData = checkboxData.filter(field => field?.default === false);
   if (defaultData.length && defaultData[0]?.label) {
@@ -28,12 +28,24 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
   return (
     <div className={checkbox_container}>
       {defaultData.length ? <div className={sectionHeading}>DEFAULTS</div> : ''}
-      {currentCheckboxData.map((obj, index) => (
-        <React.Fragment key={index}>
-          {defaultData.length && defaultData.length === index ? <div className={[sectionHeading, additionalSection].join(' ')}>ADDITIONAL</div> : ''}
-          <CheckboxLabel obj={obj} handleClick={handleClick} onHover={onHover} index={index} />
-        </React.Fragment>
-      ))}
+      {currentCheckboxData.map((obj, index) => {
+        return (
+          <React.Fragment key={index}>
+            {defaultData.length && defaultData.length === index ? (
+              <div className={[sectionHeading, additionalSection].join(' ')}>ADDITIONAL</div>
+            ) : (
+              ''
+            )}
+            <CheckboxLabel
+              obj={obj}
+              handleClick={handleClick}
+              onHover={onHover}
+              index={index}
+              boxColor={legendColors ? legendColors[obj.field] : null}
+            />
+          </React.Fragment>
+        );
+      })}
     </div>
   );
 };

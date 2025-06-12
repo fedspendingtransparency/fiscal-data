@@ -1,4 +1,4 @@
-import { select, selectAll, pointer } from 'd3-selection';
+import { pointer, select, selectAll } from 'd3-selection';
 import 'd3-selection-multi';
 import 'd3-transition';
 import { extent } from 'd3-array';
@@ -34,7 +34,8 @@ let w,
   previousExtent,
   toolTipDateKey,
   svgDefs,
-  roundingDenomination;
+  roundingDenomination,
+  fieldColors;
 
 const baseYAxisWidth = 72;
 
@@ -108,7 +109,7 @@ const lineFn = (field, scales) => {
   }
 };
 
-const draw = (container, scales, fields, _visibleFields) => {
+const draw = (container, scales, fields, fieldColors, _visibleFields) => {
   if (options && options.shading) {
     lines = container
       .append('g')
@@ -202,7 +203,11 @@ const draw = (container, scales, fields, _visibleFields) => {
       .classed('dataviz-line', true)
       .attr('data-testid', 'dataviz-line')
       .attr('stroke', function(d, i) {
-        return '#4971b7';
+        let color = '#4971b7';
+        if (fieldColors) {
+          color = fieldColors[d];
+        }
+        return color;
       })
       .attr('stroke-width', (d, i) => {
         if (Array.isArray(_visibleFields)) {
@@ -262,7 +267,7 @@ const onUpdateChartWidth = (ref, _fields, _visibleFields) => {
   setContainer();
   scales = setScales(_fields);
   y = setAxes(container, scales, chartDimensions, dataType, roundingDenomination, roundingDenomination ? true : false);
-  draw(container, scales, fields, _visibleFields);
+  draw(container, scales, fields, fieldColors, _visibleFields);
   setTooltips();
 };
 
@@ -303,6 +308,7 @@ const setTooltips = (fieldsToShow, currentScales) => {
       dataType,
       toolTipDateKey,
       roundingDenomination,
+      fieldColors,
     });
   }
 };
@@ -320,7 +326,7 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _roundingDenominati
   toolTipDateKey = options.toolTipDateKey;
   chartDimensions.height = options.forceHeight || chartDimensions.height;
   chartDimensions.yAxisWidth = roundingDenomination ? 130 : options.forceYAxisWidth || baseYAxisWidth;
-
+  fieldColors = options.fieldColors;
   setContainer();
 
   if (data) {
@@ -328,7 +334,7 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _roundingDenominati
     const isRoundedAxis = !!roundingDenomination;
     y = setAxes(container, scales, chartDimensions, dataType, roundingDenomination, isRoundedAxis, options);
 
-    draw(container, scales, fields);
+    draw(container, scales, fields, fieldColors);
   }
 
   setTooltips();
@@ -445,7 +451,6 @@ export const addHoverEffects = (_data, _chartId, _dateField, _fields, _hoverFunc
   fields = _fields;
   markers = [_data[0]];
   hoverFunction = _hoverFunction;
-
   const parentSelection = d3.select(`#${chartId}`);
   container = parentSelection.select('svg');
 
