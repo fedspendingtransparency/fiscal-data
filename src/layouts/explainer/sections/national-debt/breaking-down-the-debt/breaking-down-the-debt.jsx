@@ -236,7 +236,6 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
         const fytdNet = response.data[0].current_fytd_net_outly_amt;
         basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:4177&sort=-record_date&page[size]=1`).then(response => {
           if (response && response.data && response.data.length) {
-            console.log(response);
             setInterestExpenseEndYear(response.data[0].record_calendar_year);
             const date = new Date();
             date.setMonth(response.data[0].record_calendar_month - 1);
