@@ -10,7 +10,7 @@ export const insightsSections = {
 
 export const insightsDataSources = {
   'interest-expense': interestExpenseDataSources,
-  'state-and-local-governmental-series': stateLocalGovernmentSeriesDataSources,
+  'state-and-local-government-series': stateLocalGovernmentSeriesDataSources,
 };
 
 export const insightsDescriptionGenerators = {
