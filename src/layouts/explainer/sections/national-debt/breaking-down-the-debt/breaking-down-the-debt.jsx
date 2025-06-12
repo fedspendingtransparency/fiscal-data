@@ -229,9 +229,10 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   }, []);
 
   useEffect(() => {
-    basicFetch(
-      `${apiPrefix}v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year&filter=line_code_nbr:eq:5691&sort=-record_date&page%5bsize%5d=1`
-    ).then(response => {
+    const endpoint = 'v1/accounting/mts/mts_table_5';
+    const fields = 'current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
+    const filter = 'line_code_nbr:eq:5691';
+    basicFetch(`${apiPrefix}${endpoint}?fields=${fields}&filter=${filter}&sort=-record_date&page%5bsize%5d=1`).then(response => {
       if (response && response.data && response.data.length) {
         const fytdNet = response.data[0].current_fytd_net_outly_amt;
         basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:4177&sort=-record_date&page[size]=1`).then(response => {
