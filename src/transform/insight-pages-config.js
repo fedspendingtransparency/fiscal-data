@@ -17,7 +17,7 @@ const insightPagesSource = {
     slug: '/state-and-local-government-series/',
     breadCrumbLinkName: 'State and Local Government Series',
     seoConfig: {
-      pageTitle: 'SLGS Page Title',
+      pageTitle: 'State and Local Government Series (SLGS) | U.S. Treasury Fiscal Data ',
       description: '',
       keywords: 'SLGS, State and Local Government Series, US Treasury SLGS',
     },
