@@ -2,12 +2,25 @@ import { API_BASE_URL, AUTHENTICATE_API } from 'gatsby-env-variables';
 import { format, subDays, subMonths, subYears } from 'date-fns';
 import queryString from 'query-string';
 import GLOBALS from '../helpers/constants';
-import authenticatingFetch from './authenticating-fetch/authenticating-fetch';
 import { divvyUpFilters, pivotApiData, pivotApiDataFn } from '../components/dataset-data/dataset-data-api-helper/dataset-data-api-helper';
 import { buildTableColumnSortParams } from './api-utils-helper';
+import authenticatingFetch from './authenticating-fetch/authenticating-fetch';
 
 const apiKey = AUTHENTICATE_API ? process.env.GATSBY_API_KEY : false;
-export const getIFetch = () => (apiKey ? authenticatingFetch(apiKey, fetch) : fetch);
+// export const getIFetch = () => (apiKey ? authenticatingFetch(apiKey, fetch) : fetch);
+
+export const getIFetch = () => {
+  const base = apiKey ? authenticatingFetch(apiKey, fetch) : fetch;
+  return (url, opts = {}) =>
+    base(url, {
+      ...opts,
+      cache: 'no-cache',
+      headers: {
+        ...(opts.headers || {}),
+        'Cache-Control': 'no-cache',
+      },
+    });
+};
 
 export const apiPrefix = `${API_BASE_URL}/services/api/fiscal_service/`;
 
@@ -85,6 +98,7 @@ export const postAPI = (url, options) => {
 export const fetchAPI = url => fetch(url).then(res => res.json());
 
 export const basicFetch = url => getIFetch()(url).then(res => res.json());
+//export const basicFetch = (url, options = {}) => getIFetch()(url, options).then(res => res.json());
 
 export const callApiUrl = url => {
   const iFetch = getIFetch();
