@@ -10,22 +10,22 @@ import Accordion from '../../../../../components/accordion/accordion';
 import { chartPatternBackground, nationalDebtSectionConfigs } from '../national-debt';
 import { spendingLink } from '../../../explainer-helpers/national-debt/national-debt-helper';
 import React, { useEffect, useState } from 'react';
-import { breakpointLg, fontSize_10, fontSize_14, debtExplainerPrimary, debtExplainerLightSecondary } from '../../../../../variables.module.scss';
+import { breakpointLg, debtExplainerLightSecondary, debtExplainerPrimary, fontSize_10, fontSize_14 } from '../../../../../variables.module.scss';
 import { chartBackdrop, visWithCallout } from '../../../explainer.module.scss';
 import { debtAccordion, postGraphAccordionContainer, postGraphContent } from '../national-debt.module.scss';
 import {
   aveInterestLegend,
-  debtLegend,
   debtBreakdownSectionGraphContainer,
-  multichartContainer,
-  multichartLegend,
+  debtLegend,
+  footerContainer,
   header,
   headerContainer,
+  multichartContainer,
+  multichartLegend,
+  multichartWrapper,
+  simple,
   subHeader,
   title,
-  simple,
-  footerContainer,
-  multichartWrapper,
 } from './breaking-down-the-debt.module.scss';
 import IntragovernmentalHoldingsChart from './intragovernmental-holdings-chart/intragovernmental-holdings-chart';
 import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';
@@ -229,14 +229,14 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   }, []);
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?fields=
-        current_fytd_net_outly_amt,prior_fytd_net_outly_amt,
-        record_date,record_calendar_month,record_calendar_year,record_fiscal_year
-        &filter=line_code_nbr:eq:5691&sort=-record_date&page%5bsize%5d=1`).then(response => {
+    basicFetch(
+      `${apiPrefix}v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year&filter=line_code_nbr:eq:5691&sort=-record_date&page%5bsize%5d=1`
+    ).then(response => {
       if (response && response.data && response.data.length) {
         const fytdNet = response.data[0].current_fytd_net_outly_amt;
         basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:4177&sort=-record_date&page[size]=1`).then(response => {
           if (response && response.data && response.data.length) {
+            console.log(response);
             setInterestExpenseEndYear(response.data[0].record_calendar_year);
             const date = new Date();
             date.setMonth(response.data[0].record_calendar_month - 1);
