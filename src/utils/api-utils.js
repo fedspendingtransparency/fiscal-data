@@ -9,14 +9,10 @@ import { buildTableColumnSortParams } from './api-utils-helper';
 const apiKey = AUTHENTICATE_API ? process.env.GATSBY_API_KEY : false;
 export const getIFetch = () => {
   const base = apiKey ? authenticatingFetch(apiKey, fetch) : fetch;
-  return (url, opts = {}) =>
+  return url =>
     base(url, {
-      ...opts,
       cache: 'no-cache',
-      headers: {
-        ...(opts.headers || {}),
-        'Cache-Control': 'no-cache',
-      },
+      headers: { 'Cache-Control': 'no-cache' },
     });
 };
 
