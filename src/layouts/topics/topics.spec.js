@@ -1,46 +1,50 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render, screen, within } from '@testing-library/react';
 import Topics from './topics';
-import SiteHeader from '../../components/site-header/site-header';
-import SiteFooter from '../../components/site-footer/site-footer';
-import MastHead from './masthead/masthead';
 import { config } from './test-helpers';
-import RelatedDatasets from '../../components/related-datasets/related-datasets';
-import { RecoilRoot } from "recoil";
+import { RecoilRoot } from 'recoil';
 
-describe('Topics Layout', () => {
-  let component;
-  let instance;
+jest.mock('../../components/site-footer/site-footer', () => () => <div data-testid="siteFooter" />);
+const renderTopics = () =>
+  render(
+    <RecoilRoot>
+      <Topics pageContext={{ config, isPreProd: true }} />
+    </RecoilRoot>
+  );
 
-  const preProdInd = true;
-
-  beforeEach(() => {
-    component = renderer.create(<RecoilRoot><Topics pageContext={{ config: config, isPreProd: preProdInd }} /></RecoilRoot>);
-    instance = component.root;
-  });
-
+describe('Topics layout', () => {
   it('includes the site header', () => {
-    expect(instance.findByType(SiteHeader)).toBeDefined();
+    renderTopics();
+    expect(screen.getByRole('banner')).toBeInTheDocument();
   });
 
   it('includes the site footer', () => {
-    expect(instance.findByType(SiteFooter)).toBeDefined();
+    renderTopics();
+    expect(screen.getByTestId('siteFooter')).toBeInTheDocument();
   });
 
   it('contains the Masthead component', () => {
-    expect(instance.findByType(MastHead)).toBeDefined();
+    renderTopics();
+    expect(screen.getByRole('heading', { name: /debt highlights/i })).toBeInTheDocument();
   });
 
   it('contains the Highlights section with the title Debt', () => {
-    // this test is temporary, while the Debt part is hard-coded for the demo
-    expect(instance.findByProps({ id: 'highlights' }).props.title).toBe('Debt Highlights');
+    const { container } = renderTopics();
+    const highlights = container.querySelector('#highlights');
+    expect(highlights).toBeInTheDocument();
+    expect(within(highlights).getByText('Debt Highlights')).toBeInTheDocument();
   });
 
   it('contains a Related Datasets component', () => {
-    expect(instance.findByType(RelatedDatasets)).toBeDefined();
+    renderTopics();
+    expect(screen.getByText(/related datasets/i)).toBeInTheDocument();
   });
 
   it('contains a Related Analyses section', () => {
-    expect(instance.findByProps({ id: 'related-analyses' }).props.title).toBe('Related Analyses');
+    const { container } = renderTopics();
+
+    const relatedAnalyses = container.querySelector('#related-analyses');
+    expect(relatedAnalyses).toBeInTheDocument();
+    expect(within(relatedAnalyses).getByText('Related Analyses')).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useVerifyAdditionalChartData } from './use-verify-additional-chart-data';
 import fetchMock from 'fetch-mock';
 

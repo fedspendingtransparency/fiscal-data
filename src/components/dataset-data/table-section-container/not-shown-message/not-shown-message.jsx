@@ -1,11 +1,11 @@
 import React from 'react';
-import { container, info, icon, notShownHeading, notShownBodyText } from './not-shown-message.module.scss';
+import { container, icon, info, notShownBodyText, notShownHeading } from './not-shown-message.module.scss';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const NotShownMessage = ({ heading, bodyText }) => {
   return (
-    <div className={container} data-testid="container">
+    <div className={container} data-testid="notShownContainer">
       <div className={info}>
         <div className={icon}>
           <FontAwesomeIcon icon={faInfoCircle} />

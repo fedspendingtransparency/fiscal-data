@@ -38,36 +38,40 @@ const CalendarEntriesList = () => {
   const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(async () => {
-    const getMetaData = async () => {
-      return new Promise(resolve => {
-        fetch(metadataUrl).then(res => {
-          resolve(res.json());
+  useEffect(() => {
+    (async () => {
+      const getMetaData = async () => {
+        return new Promise(resolve => {
+          fetch(metadataUrl).then(res => {
+            resolve(res.json());
+          });
         });
-      });
-    };
-    const data = await getMetaData();
-    setMetaData(data);
+      };
+      const data = await getMetaData();
+      setMetaData(data);
+    })();
   }, []);
 
-  useEffect(async () => {
-    if (metaData) {
-      const res = await basicFetch(releaseCalendarUrl);
-      res.forEach((element, index) => {
-        const datasetMetaData = metaData.find(d => d.dataset_id === element.datasetId);
-        if (datasetMetaData) {
-          res[index] = {
-            ...element,
-            dataset: {
-              name: datasetMetaData.title,
-              slug: `/${datasetMetaData.dataset_path}/`,
-            },
-          };
-        }
-      });
-      setApiData(sortByDate(res));
-      setEntries(sortByDate(res));
-    }
+  useEffect(() => {
+    (async () => {
+      if (metaData) {
+        const res = await basicFetch(releaseCalendarUrl);
+        res.forEach((element, index) => {
+          const datasetMetaData = metaData.find(d => d.dataset_id === element.datasetId);
+          if (datasetMetaData) {
+            res[index] = {
+              ...element,
+              dataset: {
+                name: datasetMetaData.title,
+                slug: `/${datasetMetaData.dataset_path}/`,
+              },
+            };
+          }
+        });
+        setApiData(sortByDate(res));
+        setEntries(sortByDate(res));
+      }
+    })();
   }, [metaData]);
 
   useEffect(() => {

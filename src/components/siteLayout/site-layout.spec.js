@@ -1,39 +1,49 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render, screen } from '@testing-library/react';
 import SiteLayout, { preProdEnvMsg } from './siteLayout';
-import SiteHeader from '../site-header/site-header';
-import SiteFooter from '../site-footer/site-footer';
-import { RecoilRoot } from "recoil";
+import { RecoilRoot } from 'recoil';
 
-const preprodMsg = preProdEnvMsg;
+// import * as modules so we can spy on their default exports
+import * as HeaderModule from '../site-header/site-header';
+import * as FooterModule from '../site-footer/site-footer';
 
 describe('SiteLayout', () => {
-  let instance;
-  let component;
+  const renderLayout = (props = {}) =>
+    render(
+      <RecoilRoot>
+        <SiteLayout {...props}>
+          <div>child content</div>
+        </SiteLayout>
+      </RecoilRoot>
+    );
 
-  beforeAll(() => {
-    component = renderer.create(<RecoilRoot><SiteLayout /></RecoilRoot>);
-    instance = component.root;
+  beforeEach(() => {
+    // spy on the export of each module
+    jest.spyOn(HeaderModule, 'default');
+    jest.spyOn(FooterModule, 'default');
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('displays the SiteHeader', () => {
-    expect(instance.findByType(SiteHeader)).toBeDefined();
+    renderLayout();
+    expect(HeaderModule.default).toHaveBeenCalledTimes(1);
   });
 
   it('displays the SiteFooter', () => {
-    expect(instance.findByType(SiteFooter)).toBeDefined();
+    renderLayout();
+    expect(FooterModule.default).toHaveBeenCalledTimes(1);
   });
 
   it('does not set lowerEnvMsg by default', () => {
-    const header = instance.findByType(SiteHeader);
-    const msg = header.props.lowerEnvMsg;
-    expect(msg).toBeUndefined();
+    renderLayout();
+    expect(screen.queryByText(preProdEnvMsg)).not.toBeInTheDocument();
   });
 
   it('sets lowerEnvMsg to appropriate text when isPreProd is true', () => {
-    const newInstance = renderer.create(<RecoilRoot><SiteLayout isPreProd={true} /></RecoilRoot>).root;
-    const header = newInstance.findByType(SiteHeader);
-    const msg = header.props.lowerEnvMsg;
-    expect(msg).toBe(preprodMsg);
+    renderLayout({ isPreProd: true });
+    expect(screen.getByText(preProdEnvMsg)).toBeInTheDocument();
   });
 });
