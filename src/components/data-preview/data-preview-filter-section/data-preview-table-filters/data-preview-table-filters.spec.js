@@ -101,7 +101,7 @@ describe('Table filters dropdown', () => {
   });
 
   it('renders the column filters', () => {
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <DataTableContext.Provider
         value={{
           ...mockContextValues,
@@ -119,7 +119,8 @@ describe('Table filters dropdown', () => {
     );
     const dropdownButton = getByRole('button', { name: 'Filters: 0 applied' });
     fireEvent.click(dropdownButton);
-    expect(getByText('Record Date')).toBeInTheDocument();
+    const filterButton = getByRole('button', { name: 'Record Date' });
+    expect(filterButton).toBeInTheDocument();
   });
 });
 

@@ -41,12 +41,30 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 }) => {
   const { tableState: table } = useContext(DataTableContext);
 
+  const createFilterConfigs = (fields, datePreset) => {
+    const fieldsConfig = [...fields];
+    fieldsConfig.forEach(field => {
+      if (field.dataType === 'DATE') {
+        field.pendingStartDate = field?.pendingStartDate;
+        field.pendingEndDate = field?.pendingEndDate;
+        if (field.columnName === selectedTable?.dateField && datePreset) {
+          field.defaultStartDate = datePreset?.from;
+          field.defaultEndDate = datePreset?.to;
+        }
+      } else {
+        field.pendingValue = '';
+      }
+    });
+    return fieldsConfig;
+  };
+
+  const [filterFieldConfig, setFilterFieldsConfig] = useState(createFilterConfigs(selectedTable.fields, null));
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState('');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [filter, setFilter] = useState('');
-  const [visibleOptions, setVisibleOptions] = useState(selectedTable.fields);
+  const [visibleOptions, setVisibleOptions] = useState(filterFieldConfig);
   const [noResults, setNoResults] = useState(false);
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
@@ -66,6 +84,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // If a data table has less than 5 years of data, we need to find the next best option to select
   // by default.
   const fallbackPresets = ['1yr', 'current', 'all'];
+  console.log('new options ', visibleOptions);
+  console.log('prior options ', selectedTable.fields);
+  console.log('config ', filterFieldConfig);
 
   const allTablesDateRange = prepAvailableDates(datasetDateRange);
   /**
@@ -102,9 +123,16 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     updateDateRange(curDateRange);
   };
 
+  // useEffect(() => {
+  //   console.log('!!!!!!!!!!!!!!!!!!!!!!!!!');
+  // }, []);
+
+  // useEffect(() => {}, [pickerDateRange]);
+
   const updateDateRange = curDateRange => {
     if (curDateRange) {
       setPickerDateRange(curDateRange);
+      setFilterFieldsConfig(createFilterConfigs(filterFieldConfig, curDateRange));
       setCurDateRange(curDateRange);
       handleDateRangeChange(curDateRange);
     }
@@ -267,7 +295,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     const search = filter.toLowerCase();
 
     if (!search) {
-      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields);
+      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), filterFieldConfig);
       if (initialCols?.length > 0) {
         setVisibleOptions(initialCols);
         setSelectedColumn(initialCols[0]);
@@ -276,7 +304,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       return;
     }
 
-    const matches = selectedTable.fields.filter(option => {
+    const matches = filterFieldConfig.filter(option => {
       const name = option.prettyName.toLowerCase();
       const secondary = (option.secondary ?? '').toLowerCase();
       return name.includes(search) || secondary.includes(search);
