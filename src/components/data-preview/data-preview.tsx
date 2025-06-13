@@ -8,9 +8,6 @@ import {
   detailViewBack,
   detailViewButton,
   detailViewIcon,
-  increaseSpacing,
-  placeholderButton,
-  placeholderText,
   selectedTableName,
   summaryTableHeader,
 } from './data-preview.module.scss';
@@ -23,7 +20,6 @@ import { getApiData } from '../dataset-data/dataset-data-api-helper/dataset-data
 import { queryClient } from '../../../react-query-client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
-import DateRangeFilter from './data-preview-filter-section/date-range-filter/date-range-filter';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
 import Analytics from '../../utils/analytics/analytics';
 import { withWindowSize } from 'react-fns';
@@ -142,6 +138,14 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
     if (selectedTable) {
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
+      } else if (selectedTable?.apiFilter?.disableDateRangeFilter) {
+        const defaultYear = new Date().getFullYear();
+        const defaultMonth = new Date().getMonth();
+        const startDate = new Date(defaultYear, defaultMonth, 1);
+        const endDate = new Date(defaultYear, defaultMonth + 1, 0);
+        // setSelectedMonth({ value: selectedTable?.apiFilter?.futureDated ? defaultMonth + 2 : defaultMonth + 1, label: monthFullNames[defaultMonth] });
+        // setSelectedYear({ value: defaultYear, label: defaultYear });
+        setDateRange({ from: startDate, to: endDate });
       }
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
@@ -152,15 +156,6 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
       }
       setSelectedTableProp(selectedTable);
       // setYears(generateYearOptions(selectedTable?.earliestDate, selectedTable?.latestDate));
-      const defaultYear = new Date().getFullYear();
-      const defaultMonth = new Date().getMonth();
-      if (selectedTable?.apiFilter?.disableDateRangeFilter) {
-        const startDate = new Date(defaultYear, defaultMonth, 1);
-        const endDate = new Date(defaultYear, defaultMonth + 1, 0);
-        // setSelectedMonth({ value: selectedTable?.apiFilter?.futureDated ? defaultMonth + 2 : defaultMonth + 1, label: monthFullNames[defaultMonth] });
-        // setSelectedYear({ value: defaultYear, label: defaultYear });
-        setDateRange({ from: startDate, to: endDate });
-      }
     }
   }, [selectedTable]);
 
@@ -338,41 +333,14 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
               apiData={apiData}
               viewMode={viewMode}
               setViewMode={setViewMode}
+              currentDateButton={config.currentDateButton}
+              datePreset={config.datePreset}
+              customRangePreset={config.customRangePreset}
+              datasetDateRange={{
+                earliestDate: config.techSpecs.earliestDate,
+                latestDate: config.techSpecs.latestDate,
+              }}
             >
-              {selectedTable && (
-                <>
-                  {!selectedTable?.apiFilter?.disableDateRangeFilter && (
-                    <DateRangeFilter
-                      setDateRange={setDateRange}
-                      handleDateRangeChange={handleDateRangeChange}
-                      selectedTable={!!detailViewState ? detailApi : selectedTable}
-                      apiData={apiData}
-                      onUserFilter={setUserFilterSelection}
-                      setIsFiltered={setIsFiltered}
-                      currentDateButton={config.currentDateButton}
-                      datePreset={config.datePreset}
-                      customRangePreset={config.customRangePreset}
-                      setIsCustomDateRange={setIsCustomDateRange}
-                      allTablesSelected={allTablesSelected}
-                      datasetDateRange={{
-                        earliestDate: config.techSpecs.earliestDate,
-                        latestDate: config.techSpecs.latestDate,
-                      }}
-                      finalDatesNotFound={finalDatesNotFound}
-                      setResetFilters={setResetFilters}
-                      datatableBanner={config.datatableBanner}
-                      hideButtons={detailApi && !detailViewState}
-                    />
-                  )}
-                  {selectedTable?.apiFilter?.disableDateRangeFilter && <div className={increaseSpacing}></div>}
-                </>
-              )}
-              {!selectedTable && (
-                <div data-testid="dateRangePlaceholder">
-                  <h3 className={placeholderText}>Date Range</h3>
-                  <div className={placeholderButton} />
-                </div>
-              )}
               {dateRange &&
                 (viewMode === 'table' ? (
                   <DataPreviewSectionContainer
@@ -413,19 +381,14 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
                     setPivotsUpdated={setPivotsUpdated}
                   />
                 ) : (
-                  <>
-                    <DataPreviewChart
-                      legend={false}
-                      dateRange={dateRange}
-                      data={apiData}
-                      slug={config.slug}
-                      currentTable={selectedTable}
-                      isVisible={true}
-                      chartCitation={false}
-                      selectedPivot={selectedPivot}
-                      dateField={dateFieldForChart}
-                    />
-                  </>
+                  <DataPreviewChart
+                    dateRange={dateRange}
+                    data={apiData}
+                    slug={config.slug}
+                    currentTable={selectedTable}
+                    selectedPivot={selectedPivot}
+                    dateField={dateFieldForChart}
+                  />
                 ))}
             </DataPreviewFilterSection>
           )}

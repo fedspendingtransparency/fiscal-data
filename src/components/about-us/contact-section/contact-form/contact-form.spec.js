@@ -153,7 +153,9 @@ describe('About Us - Contact Form', () => {
     it('calls the environment specific API for Contact Us', async () => {
       const callArgs = {
         body: '{"subject":"Test Label","name":"param val","email":"param val","comment":"param val","token":null}',
+        cache: 'no-cache',
         headers: {
+          'Cache-Control': 'no-cache',
           'Content-Type': 'application/json',
         },
         method: 'POST',

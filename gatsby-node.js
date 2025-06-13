@@ -313,7 +313,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     createNode(node);
   });
 
-  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=41b56eb5e4f5472ca610239b734d279c`;
+  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=50b554ded02341bd895de05ff7b0495e`;
   const getBLSData = async () => {
     return new Promise((resolve, reject) => {
       fetch(blsPublicApiUrl)
@@ -582,6 +582,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          runTimeReportConfig {
+            filterField
+            filterLabel
+            dateFilterType
+            unmatchedHeader
+            unmatchedMessage
+            defaultHeader
+            defaultMessage
+          }
           hideRawDataTable
           hideReportDatePicker
           reportSelection

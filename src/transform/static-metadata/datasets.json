@@ -35,7 +35,7 @@
     "slug": "/daily-treasury-statement/",
     "seoConfig": {
       "pageTitle": "Daily Treasury Statement (DTS)",
-      "description": "Daily cash and debt operations of the U.S. Treasury, including cash balance, deposits, and withdrawals; tax deposits and refunds; and debt transactions.",
+      "description": "Daily cash and debt operations of the U.S. Treasury, including cash balance, deposits, and withdrawals; income tax refunds; and debt transactions.",
       "keywords": "US debt, DTS, daily treasury statement, cash balance, federal tax refund, us securities, treasury securities, debt limit, treasury cash balance"
     },
     "topics": ["debt", "revenue", "spending", "financial-summaries", "savings-bonds"],
@@ -472,7 +472,16 @@
     "topics": ["auctions", "debt", "savings-bonds"],
     "relatedDatasets": ["015-BFS-2014Q1-14"],
     "slug": "/auctions/",
-    "currentDateButton": "byLast30Days"
+    "currentDateButton": "byLast30Days",
+    "runTimeReportConfig" :  {
+      "filterField": "cusip",
+      "filterLabel": "CUSIP",
+      "dateFilterType": "byDay",
+      "unmatchedHeader": "There is no data to display based on the current filters selected.",
+      "unmatchedMessage": "Select a different CUSIP and/or date in order to preview the data.",
+      "defaultHeader": "This table requires additional filters.",
+      "defaultMessage": "Select a CUSIP in the filter section above to display the reports."
+    }
   },
   "015-BFS-2014Q3-046": {
     "slug": "/treasury-bulletin/",
@@ -559,7 +568,16 @@
     },
     "topics": ["financial-summaries"],
     "relatedDatasets": ["015-BFS-2014Q3-098"],
-    "currentDateButton": "byMonth"
+    "currentDateButton": "byMonth",
+    "runTimeReportConfig" :  {
+      "filterField": "account_number_tas",
+      "filterLabel": "Account",
+      "dateFilterType": "byMonth",
+      "unmatchedHeader": "There is no data to display based on the current filters selected.",
+      "unmatchedMessage": "Select a different account number and/or date range in order to preview the data.",
+      "defaultHeader": "This table requires additional filters.",
+      "defaultMessage": "Select an account in the filter section above to display the reports."
+    }
   },
   "015-BFS-2024Q1-004": {
     "slug": "/receipts-by-department/",
@@ -594,6 +612,7 @@
     "topics": ["debt", "auctions"],
     "relatedDatasets": ["015-BFS-2014Q3-045", "015-BFS-2014Q3-050", "015-BFS-2014Q3-049", "015-BFS-2014Q1-14", "015-BFS-2014Q3-048"],
     "currentDateButton": "byDay",
+    "datePreset": "all",
     "detailView": {
       "apiId": 317,
       "field": "operation_date",

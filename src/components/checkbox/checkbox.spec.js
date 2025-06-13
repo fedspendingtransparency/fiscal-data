@@ -1,6 +1,6 @@
 import React from 'react';
 import Checkbox from './checkbox';
-import { fireEvent, render, within } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 describe('Checkbox component', () => {
   const mockCheckboxData = [
@@ -11,17 +11,17 @@ describe('Checkbox component', () => {
   ];
 
   it('contains a checkbox element with a label for each object in the array', () => {
-    const { getAllByTestId } = render(<Checkbox checkboxData={mockCheckboxData} changeHandler={jest.fn()} />);
-    const checkboxLabelElements = getAllByTestId('checkbox-label-element');
+    const { getAllByRole } = render(<Checkbox checkboxData={mockCheckboxData} changeHandler={jest.fn()} />);
+    const checkboxLabelElements = getAllByRole('checkbox');
     checkboxLabelElements.forEach((checkbox, i) => {
-      within(checkbox).getByText(mockCheckboxData[i].label);
+      expect(checkbox.name).toBe(mockCheckboxData[i].label);
     });
   });
 
   it('calls its handleClick function when a checkbox state changes, which sends an array of clicked objects to parent component', () => {
     const mockChangeHandler = jest.fn();
-    const { getAllByTestId } = render(<Checkbox checkboxData={mockCheckboxData} changeHandler={mockChangeHandler} />);
-    const checkboxLabelElements = getAllByTestId('checkbox-label-element');
+    const { getAllByRole } = render(<Checkbox checkboxData={mockCheckboxData} changeHandler={mockChangeHandler} />);
+    const checkboxLabelElements = getAllByRole('checkbox');
     fireEvent.click(checkboxLabelElements[0]);
     expect(mockChangeHandler).toHaveBeenCalledWith([{ active: true, filterCount: 4, label: 'Mock Option 1', value: 'one' }]);
   });

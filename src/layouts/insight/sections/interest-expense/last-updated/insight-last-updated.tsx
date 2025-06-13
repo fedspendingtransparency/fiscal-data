@@ -22,7 +22,9 @@ export const InsightLastUpdated: FunctionComponent<{ endpoint: string }> = ({ en
   };
 
   useEffect(() => {
-    getLastUpdatedDate().then(res => setLastUpdatedDate(res));
+    if (endpoint) {
+      getLastUpdatedDate().then(res => setLastUpdatedDate(res));
+    }
   }, []);
   return <>{<span className={lastUpdated}>Last Updated: {lastUpdatedDate}</span>}</>;
 };

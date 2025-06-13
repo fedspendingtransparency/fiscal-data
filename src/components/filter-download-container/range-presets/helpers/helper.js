@@ -87,10 +87,13 @@ export default function determineDateRange(table, preset, currentDateButton) {
       min: table.earliestDate,
       selectionPath: 'current_report',
     };
+  } else if (preset.key === 'custom') {
   } else {
     return null;
   }
 
+  dateRangeObj.earliestDate = table.earliestDate;
+  dateRangeObj.latestDate = table.latestDate;
   return dateRangeObj;
 }
 
