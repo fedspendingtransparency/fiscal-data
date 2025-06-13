@@ -439,6 +439,7 @@ describe('DatasetData', () => {
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
   });
 
+  //TODO: Data is not laoding into the table
   it(`keeps the rows per page selection when a pivot is updated`, async () => {
     const { getByRole, findByRole, findByTestId } = render(
       <RecoilRoot>
@@ -484,6 +485,7 @@ describe('DatasetData', () => {
       </RecoilRoot>
     );
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+
     userEvent.click(tableSelect);
     userEvent.click(getByRole('button', { name: 'Table 3' })); // select one paginated table
     jest.runAllTimers();
