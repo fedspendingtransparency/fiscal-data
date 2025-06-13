@@ -1,8 +1,16 @@
 import React from 'react';
-import { fireEvent, render, within } from '@testing-library/react';
+import { fireEvent, render, within, screen } from '@testing-library/react';
 import DataPreviewDownloadSelect from './data-preview-download-select';
 import userEvent from '@testing-library/user-event';
 import { RecoilRoot } from 'recoil';
+import * as downloadHelper from '../download-wrapper-helper';
+import * as ddHelper from '../../../../download-wrapper/data-dictionary-download-helper';
+import {
+  tableRowLengthState,
+  smallTableDownloadDataCSV,
+  smallTableDownloadDataJSON,
+  smallTableDownloadDataXML,
+} from '../../../../../recoil/smallTableDownloadData';
 
 jest.mock('../../../../../variables.module.scss', () => {
   return {
@@ -40,6 +48,14 @@ describe('DataPreviewDownloadSelect', () => {
     allTablesSelected: false,
     downloadClickHandler: jest.fn(),
     isDisabled: false,
+  };
+  const baseProps = { ...defaultProps, width: 1000 };
+
+  const initSmallTableState = ({ set }) => {
+    set(tableRowLengthState, 5);
+    set(smallTableDownloadDataCSV, 'csv blob');
+    set(smallTableDownloadDataJSON, 'json blob');
+    set(smallTableDownloadDataXML, 'xml blob');
   };
 
   it('renders the desktop button default state', () => {
@@ -108,5 +124,24 @@ describe('DataPreviewDownloadSelect', () => {
     userEvent.click(mobileDownloadButton);
 
     expect(global.URL.createObjectURL).toHaveBeenCalled();
+  });
+
+  it('adds sizes when direct download is allowed', async () => {
+    const sizeSpy = jest.spyOn(ddHelper, 'prettySize').mockReturnValue('1 KB');
+    const dictSpy = jest.spyOn(ddHelper, 'calcDictionaryDownloadSize').mockReturnValue('2 KB');
+    const directSpy = jest.spyOn(downloadHelper, 'shouldUseDirectDownload').mockReturnValue(true);
+
+    render(<DataPreviewDownloadSelect {...baseProps} />, {
+      wrapper: ({ children }) => <RecoilRoot initializeState={initSmallTableState}>{children}</RecoilRoot>,
+    });
+
+    userEvent.click(screen.getByRole('button', { name: /download/i }));
+
+    expect(await screen.findAllByText('1 KB')).toHaveLength(3);
+    expect(screen.getByRole('button', { name: 'Data Dictionary 2 KB' })).toBeInTheDocument();
+
+    sizeSpy.mockRestore();
+    dictSpy.mockRestore();
+    directSpy.mockRestore();
   });
 });
