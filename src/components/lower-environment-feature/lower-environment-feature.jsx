@@ -1,7 +1,7 @@
 import React from 'react';
 import { ENV_ID, LOWER_ENV_FEATURE_WHITELIST } from 'gatsby-env-variables';
 
-export const isAllowedInContext = featureId => ENV_ID !== 'production' && LOWER_ENV_FEATURE_WHITELIST.includes(featureId);
+export const isAllowedInContext = featureId => ENV_ID !== 'production' && LOWER_ENV_FEATURE_WHITELIST?.includes(featureId);
 
 /**
  *
