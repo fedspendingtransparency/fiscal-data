@@ -71,7 +71,7 @@ describe('API Utility', () => {
     }
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith(url);
+    expect(global.fetch).toHaveBeenCalledWith(url, { cache: 'no-cache', headers: { 'Cache-Control': 'no-cache' } });
     expect(error).toBeUndefined();
   });
 
@@ -104,7 +104,7 @@ describe('API Utility', () => {
     await util.fetchHighlights(mockData.endpoint, filters, mockData.fields, mockData.dateField, mockData.limit);
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith(formedUrl);
+    expect(global.fetch).toHaveBeenCalledWith(formedUrl, { cache: 'no-cache', headers: { 'Cache-Control': 'no-cache' } });
   });
 
   it('serializes filters correctly', () => {

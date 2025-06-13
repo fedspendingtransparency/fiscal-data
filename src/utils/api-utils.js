@@ -7,7 +7,18 @@ import { divvyUpFilters, pivotApiData, pivotApiDataFn } from '../components/data
 import { buildTableColumnSortParams } from './api-utils-helper';
 
 const apiKey = AUTHENTICATE_API ? process.env.GATSBY_API_KEY : false;
-export const getIFetch = () => (apiKey ? authenticatingFetch(apiKey, fetch) : fetch);
+export const getIFetch = () => {
+  const base = apiKey ? authenticatingFetch(apiKey, fetch) : fetch;
+  return (url, opts = {}) =>
+    base(url, {
+      ...opts,
+      cache: 'no-cache',
+      headers: {
+        ...(opts.headers || {}),
+        'Cache-Control': 'no-cache',
+      },
+    });
+};
 
 export const apiPrefix = `${API_BASE_URL}/services/api/fiscal_service/`;
 
