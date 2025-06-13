@@ -73,7 +73,7 @@ export const prettySize = data => {
   } else {
     return '-';
   }
-  return fileSizeTranslator2(bytes) || '—';
+  return fileSizeTranslator2(bytes) || '-';
 };
 
 export const triggerDataDictionaryDownload = (csvData, datasetName) => {

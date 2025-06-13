@@ -81,11 +81,8 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
         json: smallTableJSONData && prettySize(smallTableJSONData),
         xml: smallTableXMLData && prettySize(smallTableXMLData),
       });
-      console.log('Sizes IFFFF', sizes);
     } else if (selectedTable?.endpoint) {
-      // big tables file size
-
-      console.log('Sizes else', sizes);
+      // TODO: Create Big table data download file size
     }
   }, [tableSize, allTablesSelected, selectedTable, smallTableCSVData, smallTableJSONData, smallTableXMLData]);
   const getDownloadOptions = () => {
@@ -99,13 +96,13 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
       {
         displayName: 'JSON',
         type: 'json',
-        size: sizes.json ?? 'N/A',
+        size: sizes.json ?? '-',
         onClick: () => handleDownloadClick('json'),
       },
       {
         displayName: 'XML',
         type: 'xml',
-        size: sizes.xml ?? '#',
+        size: sizes.xml ?? '-',
         onClick: () => handleDownloadClick('xml'),
       },
       {
