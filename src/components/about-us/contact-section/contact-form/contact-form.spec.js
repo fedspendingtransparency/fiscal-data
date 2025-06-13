@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import SelectControl from '../../../../components/select-control/select-control';
-import { submit, errorIcon } from './contact-form.module.scss';
+import { errorIcon, submit } from './contact-form.module.scss';
 import { scroller } from 'react-scroll';
 import Contact from './contact-form';
 import { ReCAPTCHA } from 'react-google-recaptcha';
@@ -153,7 +153,9 @@ describe('About Us - Contact Form', () => {
     it('calls the environment specific API for Contact Us', async () => {
       const callArgs = {
         body: '{"subject":"Test Label","name":"param val","email":"param val","comment":"param val","token":null}',
+        cache: 'no-cache',
         headers: {
+          'Cache-Control': 'no-cache',
           'Content-Type': 'application/json',
         },
         method: 'POST',

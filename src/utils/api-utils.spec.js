@@ -1,16 +1,16 @@
 import {
+  buildDateFilter,
+  buildFields,
+  buildSortParams,
   datatableRequest,
   fetchAllPages,
-  pagedDatatableRequest,
-  buildSortParams,
-  buildFields,
   incorporateChartDates,
-  buildDateFilter,
+  pagedDatatableRequest,
 } from './api-utils';
 import * as helpers from './api-utils-helper';
 import { TableCache } from '../components/dataset-data/table-cache/table-cache';
 import { mockFetchApi } from './mock-utils';
-import { mockPivotView, mockDataToPivot, mockPivotedData } from './api-utils-test-data';
+import { mockDataToPivot, mockPivotedData, mockPivotView } from './api-utils-test-data';
 import { QueryClient } from '@tanstack/react-query';
 
 describe('Api Utils function library', () => {
@@ -74,7 +74,13 @@ describe('Api Utils function library', () => {
           'fiscal_service/testEndpoint?filter=test_date_field' +
           ':gte:2021-01-01,test_date_field:lte:2021-02-01' +
           '&sort=field1,field2,field3&page%5Bnumber%5D=1&page%5Bsize%5D=10000',
-        { signal: null },
+        {
+          cache: 'no-cache',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+          signal: null,
+        },
       ],
     ]);
   });
@@ -101,7 +107,13 @@ describe('Api Utils function library', () => {
       [
         'https://www.transparency.treasury.gov/services/api/fiscal_service/testEndpoint?filter=test_date_field:gte:2021-01-01,' +
           'test_date_field:lte:2021-02-01,index_date:eq:2022-10-10&sort=field1,field2,field3&page%5Bnumber%5D=1&page%5Bsize%5D=10000',
-        { signal: null },
+        {
+          cache: 'no-cache',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+          signal: null,
+        },
       ],
     ]);
   });
@@ -151,11 +163,47 @@ describe('Api Utils function library', () => {
         .mockImplementationOnce(mockFetchApi(2, 200))
         .mockImplementationOnce(mockFetchApi(3, 100));
 
-      await fetchAllPages('https://mockapirequest.url/', { isCanceled: false, abortController: { signal: null } }).then(result => {
+      await fetchAllPages('https://mockapirequest.url/', {
+        isCanceled: false,
+        abortController: {
+          cache: 'no-cache',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+          signal: null,
+        },
+      }).then(result => {
         expect(global.fetch.mock.calls).toEqual([
-          ['https://mockapirequest.url/&page%5Bnumber%5D=1&page%5Bsize%5D=10000', { signal: null }],
-          ['https://mockapirequest.url/&page%5Bnumber%5D=2&page%5Bsize%5D=10000', { signal: null }],
-          ['https://mockapirequest.url/&page%5Bnumber%5D=3&page%5Bsize%5D=10000', { signal: null }],
+          [
+            'https://mockapirequest.url/&page%5Bnumber%5D=1&page%5Bsize%5D=10000',
+            {
+              cache: 'no-cache',
+              headers: {
+                'Cache-Control': 'no-cache',
+              },
+              signal: null,
+            },
+          ],
+          [
+            'https://mockapirequest.url/&page%5Bnumber%5D=2&page%5Bsize%5D=10000',
+            {
+              cache: 'no-cache',
+              headers: {
+                'Cache-Control': 'no-cache',
+              },
+              signal: null,
+            },
+          ],
+          [
+            'https://mockapirequest.url/&page%5Bnumber%5D=3&page%5Bsize%5D=10000',
+            {
+              cache: 'no-cache',
+              headers: {
+                'Cache-Control': 'no-cache',
+              },
+              signal: null,
+            },
+          ],
         ]);
 
         const sequences = result.data.map(r => r.pageNumber);

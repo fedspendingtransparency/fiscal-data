@@ -10,7 +10,7 @@ import {
   optionCheckbox,
 } from '../checkbox.module.scss';
 
-const CheckboxLabel = ({ obj, handleClick, onHover, index }) => {
+const CheckboxLabel = ({ obj, handleClick, onHover, index, boxColor }) => {
   const handleHover = (enter, obj) => {
     if (onHover) {
       onHover(enter, obj);
@@ -35,7 +35,11 @@ const CheckboxLabel = ({ obj, handleClick, onHover, index }) => {
           data-testid="checkbox-input-element"
           checked={obj.active}
         />
-        <span className={label_checkmark_container}>
+        <span
+          className={label_checkmark_container}
+          style={obj.active ? { borderColor: boxColor, backgroundColor: boxColor } : undefined}
+          data-testid="checkboxLabelContainer"
+        >
           <span className={label_checkmark_text}>
             <FontAwesomeIcon icon={faCheck} size="sm" />
           </span>

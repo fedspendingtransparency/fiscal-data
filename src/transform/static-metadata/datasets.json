@@ -472,7 +472,16 @@
     "topics": ["auctions", "debt", "savings-bonds"],
     "relatedDatasets": ["015-BFS-2014Q1-14"],
     "slug": "/auctions/",
-    "currentDateButton": "byLast30Days"
+    "currentDateButton": "byLast30Days",
+    "runTimeReportConfig" :  {
+      "filterField": "cusip",
+      "filterLabel": "CUSIP",
+      "dateFilterType": "byDay",
+      "unmatchedHeader": "There is no data to display based on the current filters selected.",
+      "unmatchedMessage": "Select a different CUSIP and/or date in order to preview the data.",
+      "defaultHeader": "This table requires additional filters.",
+      "defaultMessage": "Select a CUSIP in the filter section above to display the reports."
+    }
   },
   "015-BFS-2014Q3-046": {
     "slug": "/treasury-bulletin/",
