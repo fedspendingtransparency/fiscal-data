@@ -144,24 +144,4 @@ describe('DataPreviewDownloadSelect', () => {
     dictSpy.mockRestore();
     directSpy.mockRestore();
   });
-
-  it('falls back to “-” when direct download is NOT allowed', () => {
-    jest.spyOn(downloadHelper, 'shouldUseDirectDownload').mockReturnValue(false);
-
-    const initState = ({ set }) => {
-      set(tableRowLengthState, 50000);
-    };
-
-    const { getByRole, getAllByTestId } = render(<DataPreviewDownloadSelect {...baseProps} />, {
-      wrapper: ({ children }) => <RecoilRoot initializeState={initState}>{children}</RecoilRoot>,
-    });
-
-    userEvent.click(getByRole('button', { name: 'Download' }));
-
-    getAllByTestId('download-button')
-      .slice(0, 3)
-      .forEach(link => {
-        expect(within(link).getByText('-')).toBeInTheDocument();
-      });
-  });
 });

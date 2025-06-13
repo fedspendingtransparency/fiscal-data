@@ -114,14 +114,5 @@ describe('Data Dictionary Helper function collection', () => {
       expect(fileSizeTranslator2).toHaveBeenCalledWith(new Blob([csvString]).size);
       expect(result).toBe('7 B');
     });
-
-    it('falls back to "-" for unsupported types', () => {
-      expect(prettySize(123)).toBe('-');
-    });
-
-    it('falls back to "-" if translator returns falsy', () => {
-      fileSizeTranslator2.mockReturnValue('');
-      expect(prettySize('x')).toBe('-');
-    });
   });
 });

@@ -90,19 +90,19 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
       {
         displayName: 'CSV',
         type: 'csv',
-        size: sizes.csv ?? '-',
+        size: sizes.csv,
         onClick: () => handleDownloadClick('csv'),
       },
       {
         displayName: 'JSON',
         type: 'json',
-        size: sizes.json ?? '-',
+        size: sizes.json,
         onClick: () => handleDownloadClick('json'),
       },
       {
         displayName: 'XML',
         type: 'xml',
-        size: sizes.xml ?? '-',
+        size: sizes.xml,
         onClick: () => handleDownloadClick('xml'),
       },
       {

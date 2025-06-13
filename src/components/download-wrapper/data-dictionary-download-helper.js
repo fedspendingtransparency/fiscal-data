@@ -70,10 +70,8 @@ export const prettySize = data => {
     bytes = data.size;
   } else if (Array.isArray(data)) {
     bytes = new Blob([rowsToCsv(data)]).size;
-  } else {
-    return '-';
   }
-  return fileSizeTranslator2(bytes) || '-';
+  return fileSizeTranslator2(bytes);
 };
 
 export const triggerDataDictionaryDownload = (csvData, datasetName) => {
