@@ -48,17 +48,15 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
   const [colorMap, setColorMap] = useState({});
 
   const buildLegendConfig = fields => {
-    if (chartFields.length === 0 && fields.length !== 0) {
-      setChartFields(
-        fields.map(f => {
-          return {
-            field: f,
-            active: true,
-            label: data.meta.labels[f],
-          };
-        })
-      );
-    }
+    setChartFields(
+      fields.map(f => {
+        return {
+          field: f,
+          active: true,
+          label: data.meta.labels[f],
+        };
+      })
+    );
   };
 
   const handleLabelChange = update => {
@@ -109,7 +107,6 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
 
   useEffect(() => {
     let localChartFields;
-
     if (data && data.meta && !chartHooks) {
       localChartFields = setFieldsToChart(data.meta.dataTypes, selectedPivot, dateField);
       const fieldColors = {};
