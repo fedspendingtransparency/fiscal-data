@@ -14,38 +14,38 @@ import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
-import { fireEvent, render, waitFor, within } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { DataPreview } from './data-preview';
 import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
 // jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
-// jest.mock('../../helpers/dataset-detail/report-helpers', function() {
-//   return {
-//     __esModule: true,
-//     formatReportDate: jest.fn().mockImplementation(),
-//     getPublishedDates: jest.fn().mockImplementation(() => [
-//       {
-//         path: '/downloads/mspd_reports/opdm092020.pdf',
-//         report_group_desc: 'Entire (.pdf)',
-//         report_date: new Date('2020-09-30'),
-//         filesize: '188264',
-//         report_group_sort_order_nbr: 0,
-//         report_group_id: 3,
-//       },
-//     ]),
-//     getLatestReport: jest.fn().mockImplementation(() => ({
-//       path: '/downloads/mspd_reports/opdm092020.pdf',
-//       report_group_desc: 'Entire (.pdf)',
-//       report_date: new Date('2020-09-30'),
-//       filesize: '188264',
-//       report_group_sort_order_nbr: 0,
-//       report_group_id: 3,
-//     })),
-//     getDateLabelForReport: jest.fn().mockImplementation(() => 'Sept 2020'),
-//   };
-// });
+jest.mock('../../helpers/dataset-detail/report-helpers', function() {
+  return {
+    __esModule: true,
+    formatReportDate: jest.fn().mockImplementation(),
+    getPublishedDates: jest.fn().mockImplementation(() => [
+      {
+        path: '/downloads/mspd_reports/opdm092020.pdf',
+        report_group_desc: 'Entire (.pdf)',
+        report_date: new Date('2020-09-30'),
+        filesize: '188264',
+        report_group_sort_order_nbr: 0,
+        report_group_id: 3,
+      },
+    ]),
+    getLatestReport: jest.fn().mockImplementation(() => ({
+      path: '/downloads/mspd_reports/opdm092020.pdf',
+      report_group_desc: 'Entire (.pdf)',
+      report_date: new Date('2020-09-30'),
+      filesize: '188264',
+      report_group_sort_order_nbr: 0,
+      report_group_id: 3,
+    })),
+    getDateLabelForReport: jest.fn().mockImplementation(() => 'Sept 2020'),
+  };
+});
 jest.mock('../../variables.module.scss', () => {
   return {
     breakpointSm: '600px',
@@ -84,13 +84,13 @@ describe('DataPreview', () => {
     expect(title.innerHTML).toBe('');
   });
 
-  it(`contains a DataPreviewFilterSection  component`, () => {
-    const { getByTestId } = render(
+  it(`contains a DataPreviewFilterSection component`, async () => {
+    const { findByTestId } = render(
       <RecoilRoot>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
       </RecoilRoot>
     );
-    const filterDownload = getByTestId('filterDownloadContainer');
+    const filterDownload = await findByTestId('filterDownloadContainer');
     expect(filterDownload).toBeInTheDocument();
   });
 
@@ -352,14 +352,17 @@ describe('DataPreview', () => {
     }
 
     getPublishedDates.mockClear();
-
-    // await renderer.act(async () => {
-    //   await renderer.create(
-    //     <RecoilRoot>
-    //       <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={mockPublishedReportsMTS[mockDatasetId]} />
-    //     </RecoilRoot>
-    //   );
-    // });
+    render(
+      <RecoilRoot>
+        <DataPreview
+          config={config}
+          width={2000}
+          setSelectedTableProp={setSelectedTableMock}
+          location={mockLocation}
+          publishedReportsProp={mockPublishedReportsMTS[mockDatasetId]}
+        />
+      </RecoilRoot>
+    );
     expect(getPublishedDates).toBeCalledTimes(1);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReportsMTS[mockDatasetId]);
 
@@ -455,7 +458,7 @@ describe('DataPreview', () => {
   // });
 
   it("supplies the dataset's full dateRange to DateRangeFilter  ", () => {
-    const { getByRole } = render(
+    const { getByRole, queryByRole } = render(
       <RecoilRoot>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
       </RecoilRoot>
@@ -467,9 +470,13 @@ describe('DataPreview', () => {
     userEvent.click(getByRole('radio', { name: 'All' }));
     userEvent.click(getByRole('radio', { name: 'Custom' }));
     const fromDatePicker = getByRole('button', { name: 'Select Start Date' });
-    const toDatePicker = getByRole('button', { name: 'Select End Date' });
-    expect(within(fromDatePicker).getByText('January 1, 2002', { exact: false })).toBeInTheDocument();
-    expect(within(toDatePicker).getByText('April 13, 2020', { exact: false })).toBeInTheDocument();
+    userEvent.click(fromDatePicker);
+    const fromDateYearEntry = getByRole('combobox', { name: 'Year:' });
+    fireEvent.click(fromDateYearEntry);
+    expect(getByRole('option', { name: '2002' })).toBeInTheDocument();
+    expect(queryByRole('option', { name: '2001' })).not.toBeInTheDocument();
+    expect(getByRole('option', { name: '2020' })).toBeInTheDocument();
+    expect(queryByRole('option', { name: '2021' })).not.toBeInTheDocument();
   });
 
   it(`limits table filters to just record date when "All Data Tables" is selected`, async () => {
