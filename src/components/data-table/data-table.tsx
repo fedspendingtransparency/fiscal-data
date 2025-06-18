@@ -79,7 +79,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
       setConfigOption(detailColumnConfig);
     }
   }, [rawData]);
-
+  console.log('rawData', rawData);
   const allColumns = React.useMemo(() => {
     const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
 

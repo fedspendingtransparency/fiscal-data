@@ -99,9 +99,9 @@ const publishedReportsLinksProcessor = (tableName, property, value) => {
       case 'final_ann_xml':
         return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/announcement/`, value, 'XML');
       case 'preliminary_ann_xml':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/preliminary/`, value, 'XML');
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/tentative/`, value, 'XML');
       case 'preliminary_ann_pdf':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/preliminary/`, value, 'PDF');
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/tentative/`, value, 'PDF');
       case 'special_ann_pdf':
         return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/special-announcement/`, value, 'PDF');
       default:
