@@ -21,6 +21,7 @@ interface ISearchBar {
   height?: string;
   ariaLabel?: string;
   disabled?: boolean;
+  hideIcons?: boolean;
 }
 
 const SearchBar: FunctionComponent<ISearchBar> = ({
@@ -36,6 +37,7 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
   height,
   ariaLabel,
   disabled,
+  hideIcons,
 }) => {
   let searchCleared = false;
 
@@ -96,7 +98,7 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
               value={filter}
               aria-label={label}
               InputProps={{
-                endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
+                endAdornment: <InputAdornment position="end">{!hideIcons && icon}</InputAdornment>,
                 style: {
                   height: height,
                 },

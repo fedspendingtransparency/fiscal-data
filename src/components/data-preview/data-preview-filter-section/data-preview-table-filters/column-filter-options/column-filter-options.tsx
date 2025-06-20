@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import DateColumnFilter from './date-column-filter/date-column-filter';
+import SearchFilter from '../../../../search-filter/search-filter';
 
 interface IColumnFilterOptions {
   selectedColumn;
@@ -45,6 +46,9 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
           pickerDateRange={pickerDateRange}
           setPickerDateRange={setPickerDateRange}
         />
+      )}
+      {selectedColumn.dataType !== 'DATE' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
+        <SearchFilter searchLabel="Enter filter term" header={selectedColumn.prettyName} hideIcons={true} columnConfig={selectedColumn} />
       )}
     </>
   );

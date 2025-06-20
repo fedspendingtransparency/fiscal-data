@@ -1,5 +1,5 @@
-import React, {FunctionComponent, useState} from 'react';
-import {dataTableSearchContainer} from './data-preview-dropdown-dialog-search.module.scss';
+import React, { FunctionComponent, useState } from 'react';
+import { dataTableSearchContainer } from './data-preview-dropdown-dialog-search.module.scss';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 
 interface ButtonData {
@@ -12,10 +12,10 @@ interface ButtonData {
 interface DialogSearchProps {
   options: ButtonData[];
   searchBarLabel: string;
-  selectedTable: any;
-  setSelectedTable: any;
-  selectedFilter: any;
-  setSelectedFilter: any;
+  selectedTable?: any;
+  setSelectedTable?: any;
+  selectedFilter?: any;
+  setSelectedFilter?: any;
   optionLabelKey: string;
   secondaryLabelKey: string;
 }
