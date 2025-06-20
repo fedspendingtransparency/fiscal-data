@@ -87,6 +87,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             customRangePreset={customRangePreset}
             setIsFiltered={setIsFiltered}
             datasetDateRange={datasetDateRange}
+            pivotView={pivotView}
           />
           <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} pivotView={pivotView} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
