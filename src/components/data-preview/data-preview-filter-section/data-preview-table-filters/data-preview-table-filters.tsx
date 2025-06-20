@@ -248,7 +248,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const initializeVisibleColumns = (activeFields, allFields, pivotView) => {
     let visibleCols;
     if (activeFields && allFields) {
-      if (pivotView.title !== 'Complete Table') {
+      if (pivotView?.title !== 'Complete Table' && pivotView?.dimensionField) {
         visibleCols = [];
         activeFields.forEach(field => visibleCols.push({ id: field.id, prettyName: field.columnDef.header }));
       } else {
