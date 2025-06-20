@@ -1,21 +1,27 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import SearchBar from '../search-bar/search-bar';
-import { searchBox, headerBox } from './search-filter.module.scss';
+import { headerBox, searchBox } from './search-filter.module.scss';
 
 interface iSearchFilter {
   searchLabel: string;
-  filter: string;
   header: string;
-  setFilter: (val: string) => void;
   hideIcons?: boolean;
+  columnConfig;
 }
 
-const SearchFilter: FunctionComponent<iSearchFilter> = ({ filter, header, setFilter, searchLabel, hideIcons }) => {
+const SearchFilter: FunctionComponent<iSearchFilter> = ({ header, searchLabel, hideIcons, columnConfig }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
+  const [filterVal, setFilterVal] = useState(columnConfig?.pendingValue);
+
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
-    setFilter(val);
+    setFilterVal(val);
+    columnConfig['pendingValue'] = val;
   };
+
+  useEffect(() => {
+    setFilterVal(columnConfig?.pendingValue);
+  }, [columnConfig]);
 
   return (
     <>
@@ -23,7 +29,7 @@ const SearchFilter: FunctionComponent<iSearchFilter> = ({ filter, header, setFil
       <div className={searchBox}>
         <SearchBar
           onChange={onSearchBarChange}
-          filter={filter}
+          filter={filterVal}
           active={searchBarActive}
           setActive={setSearchBarActive}
           label={searchLabel}

@@ -46,14 +46,20 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     const fieldsConfig = [...fields];
     fieldsConfig.forEach(field => {
       if (field.dataType === 'DATE') {
-        field.pendingStartDate = field?.pendingStartDate;
-        field.pendingEndDate = field?.pendingEndDate;
+        if (!field?.pendingStartDate) {
+          field.pendingStartDate = null;
+        }
+        if (!field?.pendingEndDate) {
+          field.pendingEndDate = null;
+        }
         if (field.columnName === selectedTable?.dateField && datePreset) {
           field.defaultStartDate = datePreset?.from;
           field.defaultEndDate = datePreset?.to;
         }
       } else {
-        field.pendingValue = '';
+        if (!field?.pendingValue) {
+          field.pendingValue = '';
+        }
       }
     });
     return fieldsConfig;
@@ -317,7 +323,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
     setVisibleOptions(matches);
     setNoResults(matches.length === 0);
-  }, [filter, selectedTable.fields, allColumns, filterFieldConfig]);
+  }, [filter, selectedTable.fields, table, filterFieldConfig, allColumns]);
 
   const filterSelectList = (
     <>

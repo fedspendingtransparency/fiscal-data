@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import DateColumnFilter from './date-column-filter/date-column-filter';
 import SearchFilter from '../../../../search-filter/search-filter';
 
@@ -29,8 +29,6 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   pickerDateRange,
   setPickerDateRange,
 }) => {
-  const [filter, setFilter] = useState('');
-
   return (
     <>
       {selectedColumn.dataType === 'DATE' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
@@ -50,7 +48,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
         />
       )}
       {selectedColumn.dataType !== 'DATE' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
-        <SearchFilter searchLabel={'Enter filter term'} filter={filter} header={selectedColumn.prettyName} setFilter={setFilter} hideIcons={true} />
+        <SearchFilter searchLabel="Enter filter term" header={selectedColumn.prettyName} hideIcons={true} columnConfig={selectedColumn} />
       )}
     </>
   );
