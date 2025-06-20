@@ -85,9 +85,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // If a data table has less than 5 years of data, we need to find the next best option to select
   // by default.
   const fallbackPresets = ['1yr', 'current', 'all'];
-  console.log('new options ', visibleOptions);
-  console.log('prior options ', selectedTable.fields);
-  console.log('config ', filterFieldConfig);
 
   const allTablesDateRange = prepAvailableDates(datasetDateRange);
   /**
@@ -294,6 +291,12 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // }, [active]);
 
   useEffect(() => {
+    if (filterFieldConfig) {
+      setFilterFieldsConfig(createFilterConfigs(selectedTable.fields, null));
+    }
+  }, [selectedTable]);
+
+  useEffect(() => {
     const search = filter.toLowerCase();
 
     if (!search) {
@@ -314,7 +317,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
     setVisibleOptions(matches);
     setNoResults(matches.length === 0);
-  }, [filter, selectedTable.fields, allColumns]);
+  }, [filter, selectedTable.fields, allColumns, filterFieldConfig]);
 
   const filterSelectList = (
     <>
