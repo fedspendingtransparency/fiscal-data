@@ -20,7 +20,8 @@ interface iColumnFilter {
 const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width, pivotView }) => {
   const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
   const [dropdownActive, setDropdownActive] = useState(false);
-  const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0 && pivotView.title === 'Complete Table';
+  const pivotDisplay = pivotView?.title !== 'Complete Table' && pivotView?.dimensionField;
+  const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotDisplay;
   const [filter, setFilter] = useState('');
   const [noResults, setNoResults] = useState(false);
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
