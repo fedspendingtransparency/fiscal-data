@@ -15,6 +15,7 @@ const DataTableProvider = ({ children, config, detailViewState }) => {
 
   React.useMemo(() => {
     const { hideColumns, tableName, customFormatting } = tableProps ?? {};
+    console.log('Update default values', reactTableData, tableProps);
     const colConfig = detailViewState ? tableProps?.detailColumnConfig : tableProps?.columnConfig;
     if (reactTableData) {
       const detailViewAPI = config?.detailView ? config.apis.find(api => api.apiId === config.detailView.apiId) : null;
@@ -27,6 +28,7 @@ const DataTableProvider = ({ children, config, detailViewState }) => {
       setConfigOption(colConfig);
       const defaultSelection = config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : tableProps.selectColumns;
       setDefaultSelectedColumns(defaultSelection);
+      console.log(defaultSelection);
     }
   }, [tableProps, reactTableData]);
 

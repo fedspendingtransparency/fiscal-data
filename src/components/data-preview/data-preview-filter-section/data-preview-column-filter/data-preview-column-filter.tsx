@@ -17,7 +17,7 @@ interface iColumnFilter {
   width?: number;
 }
 
-const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width }) => {
+const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width, pivotView }) => {
   const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
   const [dropdownActive, setDropdownActive] = useState(false);
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
@@ -26,7 +26,9 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const [filteredColumns, setFilteredColumns] = useState();
   const searchLabel = 'Search columns';
-
+  useEffect(() => {
+    console.log('pivotView', pivotView);
+  }, [pivotView]);
   const handleApply = () => {
     pendingColumnSelection.forEach(col => {
       const { toggleVisibility } = col;
@@ -44,7 +46,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const filterDropdownButton = (
     <DropdownLabelButton
       label="Columns"
-      selectedOption={!!table ? table?.getVisibleFlatColumns().length + '/' + fields?.length : ''}
+      selectedOption={!!table && !allTablesSelected ? table?.getVisibleFlatColumns().length + '/' + fields?.length : ''}
       icon={faTable}
       active={dropdownActive}
       setActive={setDropdownActive}
