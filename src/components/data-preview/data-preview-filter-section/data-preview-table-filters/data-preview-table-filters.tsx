@@ -264,22 +264,28 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   };
 
-  const filterDropdownButton = (
-    <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
-  );
-
   const handleApply = () => {
     setActive(false);
     if (isFilterSelected) {
       setIsFilterSelected(false);
     }
   };
+
   const handleCancel = () => {
     setActive(false);
     if (isFilterSelected) {
       setIsFilterSelected(false);
     }
+    filterFieldConfig.forEach(field => {
+      field['pendingStartDate'] = '';
+      field['pendingEndDate'] = '';
+      field['pendingValue'] = '';
+    });
   };
+
+  const filterDropdownButton = (
+    <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
+  );
 
   const handleBack = () => {
     if (isFilterSelected) {
@@ -394,7 +400,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   return (
     <>
       {width >= pxToNumber(breakpointLg) && (
-        <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
+        <DropdownContainer dropdownButton={filterDropdownButton} setActive={handleCancel}>
           {active && (
             <DataPreviewDropdownDialogContainer
               searchComponent={
