@@ -28,6 +28,7 @@ import {
   determineIfAxisWillHaveBillions,
   getActiveChartFields,
   getVisibleChartFields,
+  legendColors,
   setFieldsToChart,
 } from './chart-helper';
 import ChartCitation from '../../dataset-data/dataset-chart/chart-citation/chart-citation';
@@ -44,19 +45,18 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
   const [axisHasBillions, setAxisHasBillions] = useState(false);
   const [showLegend, setShowLegend] = useState(true);
   const viz = useRef();
+  const [colorMap, setColorMap] = useState({});
 
   const buildLegendConfig = fields => {
-    if (chartFields.length === 0 && fields.length !== 0) {
-      setChartFields(
-        fields.map(f => {
-          return {
-            field: f,
-            active: true,
-            label: data.meta.labels[f],
-          };
-        })
-      );
-    }
+    setChartFields(
+      fields.map(f => {
+        return {
+          field: f,
+          active: true,
+          label: data.meta.labels[f],
+        };
+      })
+    );
   };
 
   const handleLabelChange = update => {
@@ -107,15 +107,18 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
 
   useEffect(() => {
     let localChartFields;
-
     if (data && data.meta && !chartHooks) {
       localChartFields = setFieldsToChart(data.meta.dataTypes, selectedPivot, dateField);
+      const fieldColors = {};
+      localChartFields.forEach((f, i) => {
+        fieldColors[f] = legendColors[i % legendColors.length];
+      });
+      setColorMap(fieldColors);
 
       buildLegendConfig(localChartFields);
       const aggFieldName = Object.keys(data.meta.dataTypes).find(f => data.meta.dataTypes[f] === 'AGGREGATION_DATE');
 
       const chartData = thinDataAsNeededForChart(data.data, slug, dateField, currentTable);
-
       if (chartData.length > 0 && localChartFields.length > 0) {
         setAxisHasBillions(determineIfAxisWillHaveBillions(chartData));
         chartHooks = drawChart(
@@ -128,6 +131,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
           {
             format: determineFormat(localChartFields, data.meta.dataTypes),
             toolTipDateKey: aggFieldName || false,
+            fieldColors: fieldColors,
           }
         );
       }
@@ -166,6 +170,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
                   onHover={(on, item) => callbacks.onHover(on, item, hasUpdate, chartFields)}
                   onLabelChange={handleLabelChange}
                   legendVisibility={showLegend}
+                  legendColors={colorMap}
                 />
               </div>
             </>
@@ -175,6 +180,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
               // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
               onHover={(on, item) => callbacks.onHover(on, item, hasUpdate, chartFields)}
               onLabelChange={handleLabelChange}
+              legendColors={colorMap}
             />
           )}
           {chartFields.length <= 12 && <ChartCitation slug={slug} currentTableName={currentTable.tableName} />}

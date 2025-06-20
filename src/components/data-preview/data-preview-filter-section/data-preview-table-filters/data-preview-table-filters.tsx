@@ -38,8 +38,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   customRangePreset,
   setIsFiltered,
   datasetDateRange,
+  pivotView,
 }) => {
-  const { tableState: table } = useContext(DataTableContext);
+  const { tableState: table, allColumns } = useContext(DataTableContext);
 
   const createFilterConfigs = (fields, datePreset) => {
     const fieldsConfig = [...fields];
@@ -122,12 +123,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     const curDateRange = determineDateRange(availableDateRange, preset, currentDateButton);
     updateDateRange(curDateRange);
   };
-
-  // useEffect(() => {
-  //   console.log('!!!!!!!!!!!!!!!!!!!!!!!!!');
-  // }, []);
-
-  // useEffect(() => {}, [pickerDateRange]);
 
   const updateDateRange = curDateRange => {
     if (curDateRange) {
@@ -253,9 +248,16 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   }, [allTablesSelected, finalDatesNotFound, selectedTable]);
 
-  const initializeVisibleColumns = (activeFields, allFields) => {
+  const initializeVisibleColumns = (activeFields, allFields, pivotView) => {
+    let visibleCols;
     if (activeFields && allFields) {
-      return allFields.filter(field => activeFields.findIndex(x => x.id === field.columnName) >= 0);
+      if (pivotView.title !== 'Complete Table') {
+        visibleCols = [];
+        activeFields.forEach(field => visibleCols.push({ id: field.id, prettyName: field.columnDef.header }));
+      } else {
+        visibleCols = allFields.filter(field => activeFields.findIndex(x => x.id === field.columnName) >= 0);
+      }
+      return visibleCols;
     }
   };
 
@@ -295,7 +297,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     const search = filter.toLowerCase();
 
     if (!search) {
-      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), filterFieldConfig);
+      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), filterFieldConfig, pivotView);
       if (initialCols?.length > 0) {
         setVisibleOptions(initialCols);
         setSelectedColumn(initialCols[0]);
@@ -312,7 +314,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
     setVisibleOptions(matches);
     setNoResults(matches.length === 0);
-  }, [filter, selectedTable.fields, table]);
+  }, [filter, selectedTable.fields, allColumns]);
 
   const filterSelectList = (
     <>
