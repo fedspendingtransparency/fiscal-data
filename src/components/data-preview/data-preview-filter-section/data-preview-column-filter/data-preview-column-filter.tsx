@@ -20,15 +20,13 @@ interface iColumnFilter {
 const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width, pivotView }) => {
   const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
   const [dropdownActive, setDropdownActive] = useState(false);
-  const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
+  const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0 && pivotView.title === 'Complete Table';
   const [filter, setFilter] = useState('');
   const [noResults, setNoResults] = useState(false);
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const [filteredColumns, setFilteredColumns] = useState();
   const searchLabel = 'Search columns';
-  useEffect(() => {
-    console.log('pivotView', pivotView);
-  }, [pivotView]);
+
   const handleApply = () => {
     pendingColumnSelection.forEach(col => {
       const { toggleVisibility } = col;
@@ -77,7 +75,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   useEffect(() => {
     //initialize filteredColumns after table is initialized
     setFilteredColumns(table?.getAllLeafColumns());
-  }, [table]);
+  }, [table?.getAllLeafColumns()]);
 
   useEffect(() => {
     if (table) {
