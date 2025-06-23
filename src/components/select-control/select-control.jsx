@@ -70,7 +70,6 @@ const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandle
             {options.map((option, index) => {
               const colName = option.columnName;
               const isSelectedOption = option === optionSelected || (colName && optionSelected.columnName && colName === optionSelected.columnName);
-
               return (
                 <React.Fragment key={`${colName}-${index}`}>
                   {(!option.hideable || showAll) && (

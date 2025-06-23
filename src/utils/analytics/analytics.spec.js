@@ -1,6 +1,6 @@
 import Analytics from './analytics';
-import renderer from 'react-test-renderer';
 import { ENV_ID } from 'gatsby-env-variables';
+import { act } from '@testing-library/react';
 
 jest.useFakeTimers();
 describe('Analytics Util', () => {
@@ -21,7 +21,7 @@ describe('Analytics Util', () => {
   });
 
   it('calls window.gas and window.ga with expected arguments in Prod environment', async () => {
-    renderer.act(() => {
+    act(() => {
       Analytics.event({
         category: 'Glossary',
         action: 'Opened Glossary',

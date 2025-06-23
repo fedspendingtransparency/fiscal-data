@@ -33,7 +33,7 @@ describe('glossary list container', () => {
     );
 
     const termButton = getByRole('button', { name: 'Apple' });
-    termButton.click();
+    userEvent.click(termButton);
 
     expect(getByText('Apple')).toBeInTheDocument();
     expect(getByText('An apple')).toBeInTheDocument();
@@ -63,10 +63,10 @@ describe('glossary list container', () => {
     );
 
     const termButton = getByText('Banana');
-    termButton.click();
+    userEvent.click(termButton);
 
     const backButton = getByRole('button', { name: 'Back to list' });
-    backButton.click();
+    userEvent.click(backButton);
   });
 
   it('renders the back to list button when the list is filtered', () => {
@@ -78,7 +78,7 @@ describe('glossary list container', () => {
     expect(queryByText('All Terms')).toBeFalsy();
     expect(backButton).toBeInTheDocument();
 
-    backButton.click();
+    userEvent.click(backButton);
 
     expect(getByText('All Terms')).toBeInTheDocument();
   });
@@ -93,7 +93,7 @@ describe('glossary list container', () => {
     expect(queryByText('All Terms')).toBeFalsy();
     expect(backButton).toBeInTheDocument();
 
-    backButton.click();
+    userEvent.click(backButton);
 
     expect(getByText('All Terms')).toBeInTheDocument();
   });
