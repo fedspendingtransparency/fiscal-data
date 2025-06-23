@@ -274,7 +274,7 @@ describe('DatasetData', () => {
     expect(pivotedData.data[1]['Medical Safe']).toStrictEqual(lastRowForAprilMedSafeVal);
   });
 
-  it(`does not pass the pagination endpoint to DTGTable when the rowCount is above 5000 and an a pivot dimension IS active`, async () => {
+  it(`does not pass the pagination endpoint to DTGTable when the rowCount is above 5000 and a pivot dimension IS active`, async () => {
     const { getByRole, findByText } = render(
       <RecoilRoot>
         <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
@@ -309,8 +309,7 @@ describe('DatasetData', () => {
     expect(setSelectedTableMock).toHaveBeenCalledWith(config.apis[4]);
   });
 
-  it(`calls rewriteUrl with correct args including a lastUrl arg when the table is updated
-  interactively`, async () => {
+  it(`calls rewriteUrl with correct args including a lastUrl arg when the table is updated interactively`, async () => {
     const spy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
     const { getByRole } = render(
       <RecoilRoot>
@@ -440,6 +439,7 @@ describe('DatasetData', () => {
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
   });
 
+  //TODO: Data is not laoding into the table
   it(`keeps the rows per page selection when a pivot is updated`, async () => {
     const { getByRole, findByRole, findByTestId } = render(
       <RecoilRoot>
@@ -453,8 +453,10 @@ describe('DatasetData', () => {
     act(() => {
       jest.runAllTimers();
     });
-    const tableSectionContainer = await findByTestId('table-content');
-    await waitFor(() => expect(tableSectionContainer).toBeInTheDocument());
+    await waitFor(async () => {
+      const tableSectionContainer = await findByTestId('table-content');
+      expect(tableSectionContainer).toBeInTheDocument();
+    });
     const pagingOptions = await findByTestId('paginationMenu');
     await waitFor(() => expect(pagingOptions).toBeInTheDocument());
     const pagingOptionsButton = await findByRole('button', { name: 'rows-per-page-menu' });
@@ -483,6 +485,7 @@ describe('DatasetData', () => {
       </RecoilRoot>
     );
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+
     userEvent.click(tableSelect);
     userEvent.click(getByRole('button', { name: 'Table 3' })); // select one paginated table
     jest.runAllTimers();
@@ -616,6 +619,7 @@ it('updates selected download type if current selection is disabled for new date
   expect(await findByText('XML download disabled due to large table size.', { exact: false })).toBeInTheDocument();
 });
 
+//TODO I don't believe this is doing anything
 describe('Nested Data Table', () => {
   global.console.error = jest.fn();
   const analyticsSpy = jest.spyOn(Analytics, 'event');
