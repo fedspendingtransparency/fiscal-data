@@ -5,6 +5,16 @@ import { subYears } from 'date-fns';
 import { formatDate } from '../../download-wrapper/helpers';
 import userEvent from '@testing-library/user-event';
 
+export const updateDatePicker = (datePicker, stringEntry) => {
+  userEvent.click(datePicker);
+  userEvent.keyboard('{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}');
+  userEvent.keyboard(stringEntry);
+  userEvent.keyboard('{Enter}');
+  act(() => {
+    jest.runAllTimers();
+  });
+};
+
 jest.useFakeTimers();
 describe('DDP Datepickers', () => {
   const latestDate = new Date(2021, 0, 1);
@@ -25,16 +35,6 @@ describe('DDP Datepickers', () => {
   };
 
   const setSelectedDates = jest.fn();
-
-  const updateDatePicker = (datePicker, stringEntry) => {
-    userEvent.click(datePicker);
-    userEvent.keyboard('{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}');
-    userEvent.keyboard(stringEntry);
-    userEvent.keyboard('{Enter}');
-    act(() => {
-      jest.runAllTimers();
-    });
-  };
 
   it('contains two instances of KeyboardDatePicker', () => {
     const { getAllByRole } = render(
