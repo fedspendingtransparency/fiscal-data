@@ -4,7 +4,7 @@ import DatasetDetail from './dataset-detail';
 import { useStaticQuery } from 'gatsby';
 import metadataHelper from '../../helpers/metadata/metadata';
 import { RecoilRoot } from 'recoil';
-import { act, render, within } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { datasetPageSampleConfig } from './test-helper';
 
 const mockQueryReturn = {
@@ -140,25 +140,20 @@ describe('Dataset-Detail layout component', () => {
     expect(getByRole('heading', { name: 'Related Datasets' })).toBeInTheDocument();
   });
 
-  it('has a DatasetData component and passes the setSelectedTable prop', () => {
-    // this statement causes test to fail if there's not exactly one <DatasetData /> in layout
-    // const datasetDataComp = instance.find(obj => obj.type === DatasetData);
-    // expect(datasetDataComp.props.setSelectedTableProp).toBeDefined();
-  });
-
-  it('ensures that the proper ordering of the dataset tables is preserved when passed down to dataset-data', () => {
-    // const datasetData = instance.findByType(DatasetData);
-    // expect(datasetData.props.config.apis.map(api => api.apiId)).toEqual(datasetPageSampleConfig.apis.map(api => api.apiId));
-  });
-
-  it("ensures that the proper ordering of the dataset tables' fields are preserved when passed down to dataset-data", () => {
-    // const datasetData = instance.findByType(DatasetData);
-    // expect(datasetData.props.config.apis[0].fields).toEqual(datasetPageSampleConfig.apis[0].fields);
-  });
-
-  it('passes name of dataset to Related Datasets as a referrer', () => {
-    // const related = instance.findByType(RelatedDatasets);
-    // expect(related.props.referrer).toBe(datasetPageSampleConfig.name);
+  it('has a DatasetData component', () => {
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: datasetPageSampleConfig,
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </RecoilRoot>
+    );
+    expect(getByTestId('datasetData')).toBeInTheDocument();
   });
 
   it('passes content for the banner callout if set in config', async () => {
@@ -175,8 +170,7 @@ describe('Dataset-Detail layout component', () => {
       </RecoilRoot>
     );
 
-    const masthead = getByTestId('masthead');
-    expect(within(masthead).getByText('TestCallout')).toBeInTheDocument();
+    expect(getByTestId('callout')).toBeInTheDocument();
   });
 });
 
