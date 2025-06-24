@@ -62,8 +62,8 @@ export const exploreMoreCitationsMap = {
     { text: 'Understanding the National Debt', url: '/americas-finance-guide/national-debt/' },
   ],
   'state-and-local-government-series': [
-    { text: 'Test1', url: '' },
-    { text: 'Test2', url: '' },
+    { text: 'Understanding the National Debt', url: '/americas-finance-guide/national-debt/' },
+    { text: 'Treasury Savings Bonds Explained ', url: '/treasury-savings-bonds/' },
   ],
 };
 
@@ -88,20 +88,20 @@ export const discoverDatasetsCitationsMap = {
   ],
   'state-and-local-government-series': [
     {
-      text: 'Interest Expense on the Debt Outstanding',
-      url: '/datasets/interest-expense-debt-outstanding/interest-expense-on-the-public-debt-outstanding',
+      text: 'State and Local Government Series Securities (Non-Marketable)',
+      url: '/datasets/slgs-securities/state-and-local-government-series-securities-non-marketable',
     },
     {
-      text: 'Average Interest Rates on U.S. Treasury Securities',
-      url: '/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities',
+      text: 'SLGS Daily Rate Table',
+      url: '/datasets/slgs-daily-rate-table/demand-deposit-rate',
     },
     {
-      text: 'Monthly Treasury Statement (MTS)',
-      url: '/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government',
+      text: 'Debt to the Penny',
+      url: '/datasets/debt-to-the-penny/debt-to-the-penny',
     },
     {
       text: 'Monthly Statement of the Public Debt (MSPD)',
-      url: '/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding',
+      url: '/datasets/monthly-statement-public-debt/detail-of-treasury-securities-outstanding',
     },
   ],
 };
