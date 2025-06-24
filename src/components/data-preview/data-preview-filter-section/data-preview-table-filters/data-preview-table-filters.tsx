@@ -356,19 +356,12 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
   const columnFilter = (
     <ColumnFilterOptions
-      setAppliedFilters={setAppliedFilters}
       selectedColumn={selectedColumn}
       selectedTable={selectedTable}
       config={config}
-      allTablesSelected={allTablesSelected}
-      finalDatesNotFound={finalDatesNotFound}
-      detailApi={detailApi}
-      detailViewState={detailViewState}
-      apiData={apiData}
       presets={presets}
       activePresetKey={activePresetKey}
       pickerDateRange={pickerDateRange}
-      setPickerDateRange={setPickerDateRange}
     />
   );
 

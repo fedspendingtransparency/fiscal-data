@@ -8,7 +8,7 @@ import { ICustomDateFilter } from '../../../../../../../models/data-preview/ICus
 import { isBefore } from 'date-fns';
 import DaySelector from '../../../../../../date-picker/day-selector/day-selector';
 
-const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled, hasPresets, columnConfig }) => {
+const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRange, disabled, columnConfig }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(null);
   const [selectedEndDate, setSelectedEndDate] = useState<Date>(null);
   const [startDateActive, setStartDateActive] = useState(false);
@@ -22,15 +22,6 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
     setSelectedEndDate(columnConfig?.pendingEndDate ? columnConfig?.pendingEndDate : columnConfig?.defaultEndDate);
   }, [columnConfig]);
 
-  const updateSelectedDate = (date, dateField) => {
-    columnConfig[dateField] = date;
-    if (dateField === 'pendingStartDate') {
-      setSelectedStartDate(date);
-    } else {
-      setSelectedEndDate(date);
-    }
-  };
-
   const swapDates = () => {
     const startDate = selectedStartDate;
     setSelectedStartDate(selectedEndDate);
@@ -40,6 +31,9 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   useEffect(() => {
     if (isBefore(selectedEndDate, selectedStartDate)) {
       swapDates();
+    } else {
+      columnConfig['pendingStartDate'] = selectedStartDate;
+      columnConfig['pendingEndDate'] = selectedEndDate;
     }
   }, [selectedStartDate, selectedEndDate]);
 
@@ -69,38 +63,32 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
 
   return (
     <div className={customDatesContainer}>
-      {pickerDateRange && (
-        <>
-          <DropdownContainer setActive={setStartDateActive} active={startDateActive} dropdownButton={startDateButton}>
-            <DaySelector
-              handleClose={handleStartDateClose}
-              selectedDate={selectedStartDate}
-              setSelectedDate={date => updateSelectedDate(date, 'pendingStartDate')}
-              latestDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
-              earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
-              active={startDateActive}
-              label="Enter Start Date"
-              minDateErrorMessage="Date should not be before minimal date"
-              maxDateErrorMessage="Date should not be after maximal date"
-              hasPresets={hasPresets}
-            />
-          </DropdownContainer>
-          <DropdownContainer setActive={setEndDateActive} active={endDateActive} dropdownButton={endDateButton}>
-            <DaySelector
-              handleClose={handleEndDateClose}
-              selectedDate={selectedEndDate}
-              setSelectedDate={date => updateSelectedDate(date, 'pendingEndDate')}
-              latestDate={new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
-              earliestDate={new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
-              active={endDateActive}
-              label="Enter End Date"
-              minDateErrorMessage="Date should not be before minimal date"
-              maxDateErrorMessage="Date should not be after maximal date"
-              hasPresets={hasPresets}
-            />
-          </DropdownContainer>
-        </>
-      )}
+      <DropdownContainer setActive={setStartDateActive} active={startDateActive} dropdownButton={startDateButton}>
+        <DaySelector
+          handleClose={handleStartDateClose}
+          selectedDate={selectedStartDate}
+          setSelectedDate={date => setSelectedStartDate(date)}
+          latestDate={pickerDateRange && new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
+          earliestDate={pickerDateRange && new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
+          active={startDateActive}
+          label="Enter Start Date"
+          minDateErrorMessage="Date should not be before minimal date"
+          maxDateErrorMessage="Date should not be after maximal date"
+        />
+      </DropdownContainer>
+      <DropdownContainer setActive={setEndDateActive} active={endDateActive} dropdownButton={endDateButton}>
+        <DaySelector
+          handleClose={handleEndDateClose}
+          selectedDate={selectedEndDate}
+          setSelectedDate={date => setSelectedEndDate(date)}
+          latestDate={pickerDateRange && new Date(pickerDateRange.latestDate.replace(/-/g, '/'))}
+          earliestDate={pickerDateRange && new Date(pickerDateRange.earliestDate.replace(/-/g, '/'))}
+          active={endDateActive}
+          label="Enter End Date"
+          minDateErrorMessage="Date should not be before minimal date"
+          maxDateErrorMessage="Date should not be after maximal date"
+        />
+      </DropdownContainer>
     </div>
   );
 };

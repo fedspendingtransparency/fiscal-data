@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
   columnName,
   containerAdjustment,
@@ -69,13 +69,7 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
             </label>
           )}
           <div className={`${presetContainer} ${!hasPresets ? containerAdjustment : ''}`}>
-            <CustomDateFilter
-              columnConfig={columnConfig}
-              pickerDateRange={pickerDateRange}
-              disabled={selectedToggle !== 'custom'}
-              hasPresets={hasPresets}
-              colId={selectedTable.tableName}
-            />
+            <CustomDateFilter columnConfig={columnConfig} pickerDateRange={hasPresets && pickerDateRange} disabled={selectedToggle !== 'custom'} />
           </div>
         </div>
       </div>
