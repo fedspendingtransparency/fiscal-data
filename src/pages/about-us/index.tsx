@@ -13,7 +13,6 @@ import FAQ from './faq-section/faq-section';
 import Contact from './contact-section/contact-section';
 import AboutMDX from '../../components/about-us/about-section/about-section';
 import FAQMDX from '../../components/about-us/faq-section/faq-section';
-import ContactMDX from '../../components/about-us/contact-section/contact-section';
 import { tocBuilder } from '../../components/about-us/toc/toc'; // todo - toc cms
 import TOCData from './toc-data.json';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
@@ -21,7 +20,8 @@ import SecondaryNav from '../../components/secondary-nav/secondary-nav';
 import Experimental from '../../components/experimental/experimental';
 
 import { tocHeader } from '../../components/table-of-contents/toc.module.scss';
-import { aboutPageWrapper, activeLink, hoverLink, content, linkClass } from './about-us.module.scss';
+import { aboutPageWrapper, activeLink, content, hoverLink, linkClass } from './about-us.module.scss';
+
 const tocSections = ['about-section', 'faq', 'contact-section'];
 
 const AboutUsPage: FunctionComponent = ({ data }) => {
@@ -99,7 +99,7 @@ const AboutUsPage: FunctionComponent = ({ data }) => {
             <div id={content} className={content} data-test-id="about-content">
               <AboutMDX />
               <FAQMDX triggerHighlight={highlight} />
-              <ContactMDX onUnsupportedSubject={() => doHighlight(prevState => prevState + 1)} />
+              {/*<ContactMDX onUnsupportedSubject={() => doHighlight(prevState => prevState + 1)} />*/}
             </div>
           </SecondaryNav>
         </Experimental>
