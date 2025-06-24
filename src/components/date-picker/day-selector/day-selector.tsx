@@ -38,6 +38,7 @@ const DaySelector: FunctionComponent<IDaySelector> = ({
   const [month, setMonth] = useState<Date>(selectedDate);
 
   const handleApply = () => {
+    console.log(currentDate);
     setSelectedDate(currentDate !== undefined ? currentDate : latestDate);
     if (handleClose) {
       handleClose();
