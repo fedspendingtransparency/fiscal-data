@@ -88,7 +88,6 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
   const activeChartFields = getActiveChartFields(chartFields);
 
   useEffect(() => {
-    console.log(showLegend, window.innerWidth);
     if (chartHooks) {
       chartHooks.onUpdateChartWidth(viz.current, activeChartFields, getVisibleChartFields(chartFields));
     }
