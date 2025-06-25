@@ -113,9 +113,9 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
       const dateMatch = allDates?.includes(formattedDate);
       if (!dateMatch && allDates) {
         setErrorMessage(noMatchDefaultMessage);
-      } else if (minDateErrorMessage && new Date(formattedDate) < new Date(fromDate)) {
+      } else if (minDateErrorMessage && fromDate && new Date(formattedDate) < new Date(fromDate)) {
         setErrorMessage(minDateErrorMessage);
-      } else if (maxDateErrorMessage && new Date(formattedDate) > new Date(toDate)) {
+      } else if (maxDateErrorMessage && toDate && new Date(formattedDate) > new Date(toDate)) {
         setErrorMessage(maxDateErrorMessage);
       } else {
         setErrorMessage(null);
