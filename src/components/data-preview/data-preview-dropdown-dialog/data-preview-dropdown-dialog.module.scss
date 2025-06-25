@@ -31,6 +31,11 @@ $filter-width: calc($dropdown-width - $search-width - 1px);
     }
   }
 
+  .headerBox {
+    margin: 1rem 1rem 0 1rem;
+    font-weight: $semi-bold-weight;
+  }
+
   .footer {
     border-top: 1px solid #d9d9d9;
   }

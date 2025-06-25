@@ -105,23 +105,18 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
     if (validEntry) {
       let inputMonth = month;
       if (numeric) {
-        const monthText = monthFullNames[Number(month) - 1];
-        inputMonth = monthText;
+        inputMonth = monthFullNames[Number(month) - 1];
       }
       formattedDate = day ? inputMonth + ' ' + day + ', ' + year : inputMonth + ' ' + year;
       dateInputRef.current.value = formattedDate;
 
       const dateMatch = allDates?.includes(formattedDate);
-      if (!dateMatch) {
-        if (minDateErrorMessage && maxDateErrorMessage) {
-          if (new Date(formattedDate) < new Date(fromDate)) {
-            setErrorMessage(minDateErrorMessage);
-          } else if (new Date(formattedDate) > new Date(toDate)) {
-            setErrorMessage(maxDateErrorMessage);
-          }
-        } else {
-          setErrorMessage(noMatchDefaultMessage);
-        }
+      if (!dateMatch && allDates) {
+        setErrorMessage(noMatchDefaultMessage);
+      } else if (minDateErrorMessage && fromDate && new Date(formattedDate) < new Date(fromDate)) {
+        setErrorMessage(minDateErrorMessage);
+      } else if (maxDateErrorMessage && toDate && new Date(formattedDate) > new Date(toDate)) {
+        setErrorMessage(maxDateErrorMessage);
       } else {
         setErrorMessage(null);
         if (setSelectedMonth) {
@@ -155,7 +150,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
 
   const handleOnBlur = () => {
     if (!validInput && dateInputRef?.current) {
-      dateInputRef.current.value = selectedDate;
+      dateInputRef.current.value = !!selectedDate ? selectedDate : '';
     }
     setErrorMessage(null);
     setInputFocus(false);

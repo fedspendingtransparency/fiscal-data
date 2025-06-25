@@ -25,6 +25,7 @@ describe('Data preview filter section', () => {
       dataDisplays: [{ chartType: 'none', title: 'Complete Table' }],
       earliestDate: '3-17-2025',
       latestDate: '3-17-2020',
+      fields: [],
     };
     const { getByRole, queryByRole } = render(
       <DataTableContext.Provider value={mockContextValue}>
@@ -54,6 +55,7 @@ describe('Data preview filter section', () => {
       ],
       earliestDate: '3-17-2025',
       latestDate: '3-17-2020',
+      fields: [],
     };
     const { getByRole } = render(
       <DataTableContext.Provider value={mockContextValue}>
@@ -80,6 +82,7 @@ describe('Data preview filter section', () => {
       userFilter: {},
       earliestDate: '3-17-2025',
       latestDate: '3-17-2020',
+      fields: [],
     };
     const userFilterSelection = { value: 'Euro Zone-Euro' };
 
@@ -114,6 +117,7 @@ describe('Data preview filter section', () => {
     const selectedTable = {
       earliestDate: '3-17-2025',
       latestDate: '3-17-2020',
+      fields: [],
     };
 
     const { getByRole } = render(
@@ -148,6 +152,7 @@ describe('Data preview filter section', () => {
       dataDisplays: [{ chartType: 'none', title: 'Complete Table' }],
       earliestDate: '3-17-2025',
       latestDate: '3-17-2020',
+      fields: [],
     };
 
     const { getByRole, queryByRole } = render(
