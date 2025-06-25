@@ -408,6 +408,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
               filterComponent={columnFilter}
               handleApply={handleApply}
               handleCancel={handleCancel}
+              header={selectedColumn.prettyName}
             />
           )}
         </DropdownContainer>

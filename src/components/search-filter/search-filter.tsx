@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import SearchBar from '../search-bar/search-bar';
-import { headerBox, searchBox } from './search-filter.module.scss';
+import { searchBox } from './search-filter.module.scss';
 
 interface iSearchFilter {
   searchLabel: string;
@@ -24,19 +24,16 @@ const SearchFilter: FunctionComponent<iSearchFilter> = ({ header, searchLabel, h
   }, [columnConfig]);
 
   return (
-    <>
-      <div className={headerBox}>{header}</div>
-      <div className={searchBox}>
-        <SearchBar
-          onChange={onSearchBarChange}
-          filter={filterVal}
-          active={searchBarActive}
-          setActive={setSearchBarActive}
-          label={searchLabel}
-          hideIcons={hideIcons}
-        />
-      </div>
-    </>
+    <div className={searchBox}>
+      <SearchBar
+        onChange={onSearchBarChange}
+        filter={filterVal}
+        active={searchBarActive}
+        setActive={setSearchBarActive}
+        label={searchLabel}
+        hideIcons={hideIcons}
+      />
+    </div>
   );
 };
 

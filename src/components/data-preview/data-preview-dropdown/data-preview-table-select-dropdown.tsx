@@ -189,7 +189,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
                   searchBarLabel="Search data tables"
                   selectedTable={tableToApply}
                   setSelectedTable={updateSelectedTable}
-                  optionLabelKey={'tableName'}
+                  optionLabelKey="tableName"
                 />
               }
               filterComponent={
@@ -202,6 +202,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
                   pivotsUpdated={pivotsUpdated}
                 />
               }
+              header={selectedTable?.tableName}
               handleApply={handleApply}
               handleCancel={handleCancel}
             />

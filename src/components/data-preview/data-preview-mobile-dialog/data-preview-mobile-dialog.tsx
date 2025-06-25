@@ -22,8 +22,8 @@ import SearchBar from '../../search-bar/search-bar';
 interface IDataPreviewMobileDialog {
   onCancel: () => void;
   onBack: () => void;
-  onApply: () => void;
-  setNoSearchResults: (val: boolean) => void;
+  onApply?: () => void;
+  setNoSearchResults?: (val: boolean) => void;
   filterComponent: ReactElement;
   filterName: string;
   searchText: string;
@@ -31,8 +31,8 @@ interface IDataPreviewMobileDialog {
   hasSearch?: boolean;
   bottomButton?: string;
   bottomButtonIcon?: IconProp;
-  filter: string;
-  setFilter: React.Dispatch<React.SetStateAction<string>>;
+  filter?: string;
+  setFilter?: React.Dispatch<React.SetStateAction<string>>;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   onCancel,

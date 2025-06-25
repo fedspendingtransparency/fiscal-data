@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
-  columnName,
   containerAdjustment,
   inputContainer,
+  presetButton,
   presetContainer,
   radioButton,
   sectionContainer,
@@ -36,11 +36,10 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   };
   return (
     <div className={sectionContainer}>
-      <div className={columnName}>{columnConfig.prettyName}</div>
       <div className={inputContainer}>
         {hasPresets && (
           <div>
-            <label className={radioButton}>
+            <label className={`${radioButton} ${presetButton}`}>
               <input
                 type="radio"
                 name="date-toggle"
