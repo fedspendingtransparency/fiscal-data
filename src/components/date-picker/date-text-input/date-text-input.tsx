@@ -150,7 +150,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
 
   const handleOnBlur = () => {
     if (!validInput && dateInputRef?.current) {
-      dateInputRef.current.value = selectedDate;
+      dateInputRef.current.value = !!selectedDate ? selectedDate : '';
     }
     setErrorMessage(null);
     setInputFocus(false);

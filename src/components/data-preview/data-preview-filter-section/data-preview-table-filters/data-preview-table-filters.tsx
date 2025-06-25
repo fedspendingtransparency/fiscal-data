@@ -29,8 +29,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   handleDateRangeChange,
   setIsCustomDateRange,
   finalDatesNotFound,
-  detailApi,
-  detailViewState,
   apiData,
   width,
   currentDateButton,
