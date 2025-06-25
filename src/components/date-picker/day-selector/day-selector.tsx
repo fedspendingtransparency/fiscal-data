@@ -19,6 +19,7 @@ interface IDaySelector {
   ariaLabel?: string;
   minDateErrorMessage?: string;
   maxDateErrorMessage?: string;
+  required?: boolean;
 }
 
 const DaySelector: FunctionComponent<IDaySelector> = ({
@@ -33,6 +34,7 @@ const DaySelector: FunctionComponent<IDaySelector> = ({
   ariaLabel,
   minDateErrorMessage,
   maxDateErrorMessage,
+  required = true,
 }: IDaySelector) => {
   const [currentDate, setCurrentDate] = useState<Date>(selectedDate);
   const [month, setMonth] = useState<Date>(selectedDate);
@@ -100,7 +102,7 @@ const DaySelector: FunctionComponent<IDaySelector> = ({
             defaultMonth={selectedDate}
             onMonthChange={setMonth}
             month={month ? month : undefined}
-            required
+            required={required}
           />
         </DateDropdown>
       )}
