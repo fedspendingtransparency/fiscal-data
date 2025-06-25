@@ -31,4 +31,7 @@ const stateLocalGovernmentSeriesSections = [
   },
 ];
 
+export const stateLocalGovernmentSeriesDescription =
+  'View charts with outstanding State and Local Government (SLGS) securities over time and learn how these securities support state and local government finances';
+
 export default stateLocalGovernmentSeriesSections;

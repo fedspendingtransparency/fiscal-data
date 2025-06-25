@@ -1,6 +1,7 @@
 import interestExpenseSections, { interestExpenseDataSources, interestExpenseDescriptionGenerator } from './interest-expense/interest-expense';
 import stateLocalGovernmentSeriesSections, {
   stateLocalGovernmentSeriesDataSources,
+  stateLocalGovernmentSeriesDescription,
 } from './state-and-local-government-series/state-and-local-government-series';
 
 export const insightsSections = {
@@ -15,6 +16,7 @@ export const insightsDataSources = {
 
 export const insightsDescriptionGenerators = {
   'interest-expense': interestExpenseDescriptionGenerator,
+  'state-and-local-government-series': stateLocalGovernmentSeriesDescription,
 };
 
 export default insightsSections;
