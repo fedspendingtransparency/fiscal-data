@@ -89,7 +89,6 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
   };
 
   useEffect(() => {
-    console.log('SHHHHHHHH     ', isRedirectOpen());
     if (activeDropdown !== title) {
       setExpanded(false);
       setToggleDropdown(true);
