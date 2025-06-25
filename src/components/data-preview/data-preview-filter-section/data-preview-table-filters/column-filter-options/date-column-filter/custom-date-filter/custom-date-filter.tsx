@@ -18,6 +18,8 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   const handleEndDateClose = () => setEndDateActive(false);
 
   useLayoutEffect(() => {
+    handleStartDateClose();
+    handleEndDateClose();
     setSelectedStartDate(columnConfig?.pendingStartDate ? columnConfig?.pendingStartDate : columnConfig?.defaultStartDate);
     setSelectedEndDate(columnConfig?.pendingEndDate ? columnConfig?.pendingEndDate : columnConfig?.defaultEndDate);
   }, [columnConfig]);
