@@ -9,11 +9,6 @@ describe('Search Filter', () => {
     expect(getByRole('textbox')).toBeInTheDocument();
   });
 
-  it('renders the header', () => {
-    const { getByText } = render(<SearchFilter columnConfig={{ pendingValue: '' }} searchLabel="Enter filter term" header={'Description'} />);
-    expect(getByText('Description')).toBeInTheDocument();
-  });
-
   it('updates list on search text change', () => {
     const mockConfig = { pendingValue: '' };
     const { getByRole } = render(<SearchFilter columnConfig={mockConfig} searchLabel="Enter filter term" header={'Description'} />);

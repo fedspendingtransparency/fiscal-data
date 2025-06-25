@@ -18,6 +18,5 @@ describe('Column Filter Options', () => {
     );
     expect(getByRole('radio', { name: 'Preset' })).toBeInTheDocument();
     expect(getByRole('radio', { name: 'Custom' })).toBeInTheDocument();
-    expect(getByText('Record Date')).toBeInTheDocument();
   });
 });

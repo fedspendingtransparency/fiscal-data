@@ -10,7 +10,7 @@ describe('Date column filter', () => {
   const mockColumnConfig3 = { defaultEndDate: new Date('3/16/2025'), defaultStartDate: new Date('3/26/2025') };
 
   it('renders start and end date pickers', () => {
-    const { getByRole } = render(<CustomDateFilter pickerDateRange={mockPickerDateRange1} />);
+    const { getByRole } = render(<CustomDateFilter pickerDateRange={mockPickerDateRange1} columnConfig={{}} />);
     const startDatePicker = getByRole('button', { name: 'Select Start Date' });
     const endDatePicker = getByRole('button', { name: 'Select End Date' });
     expect(startDatePicker).toBeInTheDocument();
@@ -26,7 +26,7 @@ describe('Date column filter', () => {
   });
 
   it('disables both date pickers with disabled is true', () => {
-    const { getByRole } = render(<CustomDateFilter pickerDateRange={mockPickerDateRange1} disabled />);
+    const { getByRole } = render(<CustomDateFilter pickerDateRange={mockPickerDateRange1} disabled columnConfig={{}} />);
     const startDatePicker = getByRole('button', { name: 'Select Start Date' });
     const endDatePicker = getByRole('button', { name: 'Select End Date' });
     expect(startDatePicker).toBeDisabled();

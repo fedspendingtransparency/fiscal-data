@@ -202,7 +202,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
                   pivotsUpdated={pivotsUpdated}
                 />
               }
-              header={selectedTable?.tableName}
+              header={tableToApply?.tableName}
               handleApply={handleApply}
               handleCancel={handleCancel}
             />
