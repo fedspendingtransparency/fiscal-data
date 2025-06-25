@@ -19,8 +19,6 @@ import { Link } from 'gatsby';
 import Analytics from '../../../utils/analytics/analytics';
 import CustomLink from '../../links/custom-link/custom-link';
 
-const isRedirectOpen = () => typeof document !== 'undefined' && document.body.hasAttribute('data-redirect-open');
-
 const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClickHandler, analyticsClickHandler }) => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [isExpanded, setExpanded] = useState(false);
@@ -70,9 +68,7 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
     }
   };
 
-  const handleMouseLeave = () => {
-    if (!isRedirectOpen()) setActiveDropdown(null);
-  };
+  const handleMouseLeave = () => setActiveDropdown(null);
 
   const handleMouseEnter = () => {
     setTimeout(() => {
@@ -94,7 +90,7 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
 
   useEffect(() => {
     console.log('SHHHHHHHH     ', isRedirectOpen());
-    if (activeDropdown !== title && !isRedirectOpen()) {
+    if (activeDropdown !== title) {
       setExpanded(false);
       setToggleDropdown(true);
       setTimeout(() => setToggleDropdown(false), 10);
