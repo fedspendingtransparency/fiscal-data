@@ -1,0 +1,38 @@
+@import 'src/variables.module';
+
+.redirectModalContainer {
+  padding: 30px 45px 45px;
+  text-align: center;
+  max-width: 672px;
+}
+.titleText {
+  flex: 1 1 auto;
+  font-size: $font-size-32;
+  font-weight: 600;
+  text-align: center;
+}
+.explanation {
+  font-size: $font-size-18;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+  text-align: center;
+}
+.directions {
+  font-size: $font-size-14;
+  font-weight: 600;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+.linkContainer {
+  font-size: $font-size-20;
+  font-weight: 600;
+  text-align: center;
+}
+.externalLink {
+  color: #2378c3;
+  text-decoration: none;
+  text-align: center;
+}
+
+.primary {
+}

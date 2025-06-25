@@ -89,6 +89,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
     case treatAsExternal:
       return (
         <ExternalLink url={urlOrHref} onClick={onClickEventHandler} dataTestId={dataTestId} id={id}>
+          {console.log('ACTUALLY EXTERNAL', urlOrHref)}
           {children}
         </ExternalLink>
       );
