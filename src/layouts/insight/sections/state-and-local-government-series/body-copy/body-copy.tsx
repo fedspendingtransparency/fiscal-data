@@ -58,9 +58,3 @@ export const BodyCopy = (): ReactElement => {
     </div>
   );
 };
-
-// three things I need to grab from SLGS api data:
-
-// latest date
-// SLGS total
-// __ -number (and maybe calculation needed) of percent of total public debt outstanding
