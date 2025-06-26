@@ -18,7 +18,7 @@ import determineDateRange, {
 } from '../../../filter-download-container/range-presets/helpers/helper';
 import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
-import { monthNames } from '../../../../utils/api-utils';
+import { formatDateForApi, monthNames } from '../../../../utils/api-utils';
 import { DataTableContext } from '../../data-preview-context';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
@@ -263,6 +263,24 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   };
 
   const handleApply = () => {
+    const { fields } = selectedTable;
+    table.getAllLeafColumns().forEach(col => {
+      const matchedIndex = fields.findIndex(field => field.columnName === col.columnDef.accessorKey);
+      if (matchedIndex > -1) {
+        const field = fields[matchedIndex];
+        if (field.dataType !== 'DATE') {
+          const filterToApply = fields[matchedIndex]?.pendingValue;
+          col.setFilterValue(filterToApply);
+          console.log(col.columnDef.accessorKey, fields[matchedIndex]?.pendingValue);
+        } else {
+          const startDate = fields[matchedIndex]?.pendingStartDate;
+          const endDate = fields[matchedIndex]?.pendingEndDate;
+          //       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
+          console.log(col.columnDef.accessorKey, formatDateForApi(startDate), formatDateForApi(endDate));
+        }
+      }
+    });
+    console.log(config, selectedTable, table.getAllLeafColumns());
     setActive(false);
     if (isFilterSelected) {
       setIsFilterSelected(false);
