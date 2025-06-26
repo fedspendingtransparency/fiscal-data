@@ -17,8 +17,9 @@ const insightPagesSource = {
     slug: '/state-and-local-government-series/',
     breadCrumbLinkName: 'State and Local Government Series',
     seoConfig: {
-      pageTitle: 'State and Local Government Series (SLGS) | U.S. Treasury Fiscal Data ',
-      description: '',
+      pageTitle: 'State and Local Government Series (SLGS)',
+      description:
+        'View charts with outstanding State and Local Government (SLGS) securities over time and learn how these securities support state and local government finances.',
       keywords: 'SLGS, State and Local Government Series, US Treasury SLGS',
     },
     prodReady: false,
