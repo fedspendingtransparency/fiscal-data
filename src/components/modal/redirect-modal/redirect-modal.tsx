@@ -28,7 +28,6 @@ type RedirectModalProps = {
 
 const RedirectModal: FunctionComponent<RedirectModalProps> = ({ isOpen, url, onClose, onProceed }) => {
   if (!isOpen) return null;
-  console.log('pop pop');
   return (
     <ModalComponent open={isOpen} onClose={onClose} contentClass={redirectContentOverride}>
       <div className={redirectModalContainer}>

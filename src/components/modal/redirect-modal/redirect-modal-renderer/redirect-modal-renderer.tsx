@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { useRecoilState } from 'recoil';
-import { redirectModalState } from './redirect-modal-helper';
-import RedirectModal from './redirect-modal';
+import { redirectModalState } from '../redirect-modal-helper';
+import RedirectModal from '../redirect-modal';
 
 const RedirectModalRenderer: FunctionComponent = () => {
   const [{ open, url, after }, setModal] = useRecoilState(redirectModalState);
