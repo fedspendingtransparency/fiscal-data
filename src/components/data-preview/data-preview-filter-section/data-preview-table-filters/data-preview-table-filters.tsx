@@ -20,10 +20,12 @@ import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
 import { formatDateForApi, monthNames } from '../../../../utils/api-utils';
 import { DataTableContext } from '../../data-preview-context';
+import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
   config,
+  dateRange2,
   setDateRange,
   allTablesSelected,
   handleDateRangeChange,
@@ -39,7 +41,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   pivotView,
 }) => {
   const { tableState: table, allColumns } = useContext(DataTableContext);
-
   const createFilterConfigs = (fields, datePreset) => {
     const fieldsConfig = [...fields];
     fieldsConfig.forEach(field => {
@@ -62,7 +63,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     });
     return fieldsConfig;
   };
-
   const [filterFieldConfig, setFilterFieldsConfig] = useState(createFilterConfigs(selectedTable.fields, null));
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
@@ -262,26 +262,46 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   };
 
+  const getDaysArray = (start, end) => {
+    const arr = [];
+    for (let dt = convertDate(start); dt <= convertDate(end); dt.setDate(dt.getDate() + 1)) {
+      arr.push(formatDateForApi(new Date(dt)));
+    }
+    return arr;
+  };
+
   const handleApply = () => {
     const { fields } = selectedTable;
+    const allAppliedFilters = [];
+    console.log('filterFieldConfig', filterFieldConfig);
     table.getAllLeafColumns().forEach(col => {
       const matchedIndex = fields.findIndex(field => field.columnName === col.columnDef.accessorKey);
       if (matchedIndex > -1) {
         const field = fields[matchedIndex];
         if (field.dataType !== 'DATE') {
           const filterToApply = fields[matchedIndex]?.pendingValue;
+          fields[matchedIndex]['filterValue'] = fields[matchedIndex]?.pendingValue;
           col.setFilterValue(filterToApply);
-          console.log(col.columnDef.accessorKey, fields[matchedIndex]?.pendingValue);
+
+          if (filterToApply) {
+            allAppliedFilters.push(field.columnName);
+          }
         } else {
           const startDate = fields[matchedIndex]?.pendingStartDate;
           const endDate = fields[matchedIndex]?.pendingEndDate;
-          //       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
-          console.log(col.columnDef.accessorKey, formatDateForApi(startDate), formatDateForApi(endDate));
+          if (startDate && endDate) {
+            const datesToApply = getDaysArray(formatDateForApi(startDate), formatDateForApi(endDate));
+            const dateRangeToApply = { ...dateRange2, from: startDate, to: endDate };
+            col.setFilterValue(datesToApply);
+            setDateRange(dateRangeToApply);
+            console.log(col.columnDef.accessorKey, datesToApply);
+          }
         }
       }
     });
     console.log(config, selectedTable, table.getAllLeafColumns());
     setActive(false);
+    setAppliedFilters(allAppliedFilters);
     if (isFilterSelected) {
       setIsFilterSelected(false);
     }
