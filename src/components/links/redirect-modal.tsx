@@ -1,7 +1,23 @@
 import React, { FunctionComponent } from 'react';
-import { redirectModalContainer, externalLink, titleText, explanation, directions, linkContainer } from './redirect-modal.module.scss';
+import {
+  redirectModalContainer,
+  externalLink,
+  titleText,
+  explanation,
+  directions,
+  linkContainer,
+  closeButton,
+  topBar,
+  redirectContentOverride,
+  redirectBody,
+  icon,
+  titleContainer,
+  iconTriangle,
+} from './redirect-modal.module.scss';
 
 import ModalComponent from '../modal/modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 type RedirectModalProps = {
   isOpen: boolean;
@@ -14,19 +30,29 @@ const RedirectModal: FunctionComponent<RedirectModalProps> = ({ isOpen, url, onC
   if (!isOpen) return null;
   console.log('pop pop');
   return (
-    <ModalComponent open={isOpen} onClose={onClose}>
+    <ModalComponent open={isOpen} onClose={onClose} contentClass={redirectContentOverride}>
       <div className={redirectModalContainer}>
-        <div className={titleText}>You’re leaving a Federal Government website.</div>
-
-        <div className={explanation}>
-          You’re going to a website that is not managed or controlled by the Federal Government. Its privacy policies may differ from ours.
+        <div className={topBar}>
+          <button className={closeButton} aria-label="Close modal" onClick={onClose}>
+            <FontAwesomeIcon icon={faTimes} className={icon} />
+          </button>
         </div>
+        <div className={redirectBody}>
+          <div className={titleContainer}>
+            <FontAwesomeIcon icon={faExclamationTriangle} className={iconTriangle} />
+            <div className={titleText}>You’re leaving a Federal Government website.</div>
+          </div>
 
-        <div className={directions}>Click this link to go to the website you have selected.</div>
-        <div className={linkContainer}>
-          <a href={url} target="_blank" rel="noopener noreferrer" className={externalLink} onClick={onProceed}>
-            {url}
-          </a>
+          <div className={explanation}>
+            You’re going to a website that is not managed or controlled by the Federal Government. Its privacy policies may differ from ours.
+          </div>
+
+          <div className={directions}>Click this link to go to the website you have selected.</div>
+          <div className={linkContainer}>
+            <a href={url} target="_blank" rel="noopener noreferrer" className={externalLink} onClick={onProceed}>
+              {url}
+            </a>
+          </div>
         </div>
       </div>
     </ModalComponent>

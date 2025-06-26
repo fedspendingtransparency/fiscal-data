@@ -1,9 +1,8 @@
 @import 'src/variables.module';
 
 .redirectModalContainer {
-  padding: 30px 45px 45px;
-  text-align: center;
-  max-width: 672px;
+  position: relative;
+  max-width: 789px;
 }
 .titleText {
   flex: 1 1 auto;
@@ -33,6 +32,42 @@
   text-decoration: none;
   text-align: center;
 }
-
-.primary {
+.titleContainer {
+  display: inline-flex;
+  align-items: anchor-center;
+}
+.closeButton {
+  top: 0.75rem;
+  right: 0.75rem;
+  background: transparent;
+  border: 0;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding-right: 0.5rem;
+}
+.topBar {
+  display: flex;
+  justify-content: end;
+  top: 0;
+  left: 0;
+  height: 38px;
+  width: 100%;
+  background: #0071bc;
+}
+.redirectBody {
+  padding: 30px 45px 45px;
+  text-align: center;
+}
+.redirectContentOverride {
+  padding: 0 !important;
+}
+.iconTriangle {
+  width: 1.5rem;
+  height: 1.5rem;
+  padding-right: 0.5rem;
+}
+.icon {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: $content-section-background;
 }
