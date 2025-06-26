@@ -9,9 +9,15 @@ export const getLastDayOfEachMonth = async () => {
 };
 
 export const getSlgsTotal = async () => {
-  return basicFetch(
-    `${apiPrefix}v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt,record_calendar_month,record_calendar_day,record_calendar_year&filter=record_date:eq:(last_updated)&sort=-record_date`
-  );
+  return getLastDayOfEachMonth().then(res => {
+    const lastUpdated = res.data[0].record_date;
+    return basicFetch(
+      `${apiPrefix}v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt,record_calendar_month,record_calendar_day,record_calendar_year&filter=record_date:eq:${lastUpdated}&sort=-record_date`
+    ).then(res => {
+      const slgsTotal = res.data[0].outstanding_0_3_mos_amt;
+      return `the test amount is ${slgsTotal}`;
+    });
+  });
 };
 
 export const BodyCopy = (): ReactElement => {
