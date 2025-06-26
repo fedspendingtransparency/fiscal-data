@@ -39,3 +39,24 @@
   padding-left: 1rem;
   min-width: 10px;
 }
+.resourcesDropDown {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  gap: 6rem;
+
+  button {
+    margin-bottom: 0.5rem;
+    padding: 0;
+  }
+}
+.resourceLink {
+  color: #666666;
+  font-weight: normal;
+  &:hover {
+    color: $primary;
+    font-weight: $semi-bold-weight;
+  }
+}

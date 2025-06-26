@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { sectionHeader, mainHeader, headerExpanded, caret, linkContainer } from './mobile-menu-dropdown.module.scss';
+import { sectionHeader, mainHeader, headerExpanded, caret, linkContainer, resourceLink } from './mobile-menu-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'gatsby';
 import Analytics from '../../../../utils/analytics/analytics';
+import CustomLink from '../../../links/custom-link/custom-link';
 
 const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, setActiveState }) => {
   const [isExpanded, setIsExpanded] = useState(defaultOpen);
@@ -85,13 +86,19 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
                         </button>
                       </div>
                     );
-                  } else {
+                  }
+                  if (page.external) {
                     return (
-                      <Link to={page.to} onClick={() => clickHandler(page.name, section.analyticsAction)} key={page.name}>
+                      <CustomLink url={page.to} external onClick={() => clickHandler(page.name, section.analyticsAction)} className={resourceLink}>
                         {page.name}
-                      </Link>
+                      </CustomLink>
                     );
                   }
+                  return (
+                    <Link to={page.to} onClick={() => clickHandler(page.name, section.analyticsAction)} key={page.name}>
+                      {page.name}
+                    </Link>
+                  );
                 })}
               </div>
             </div>
