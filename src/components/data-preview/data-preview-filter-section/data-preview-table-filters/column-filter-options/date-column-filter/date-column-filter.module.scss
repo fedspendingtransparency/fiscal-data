@@ -1,7 +1,7 @@
 @import 'src/variables.module';
 
 .sectionContainer {
-  padding: 1rem;
+  padding: 0 1rem 1rem;
   font-size: $font-size-16;
   .radioButton {
     display: flex;
@@ -32,4 +32,16 @@
 .presetContainer {
   padding-left: 1.25rem;
   width: 250px;
+}
+
+.containerAdjustment {
+  margin-top: 1rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .radioButton {
+    &.presetButton {
+      margin-top: 0;
+    }
+  }
 }

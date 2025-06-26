@@ -29,8 +29,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   handleDateRangeChange,
   setIsCustomDateRange,
   finalDatesNotFound,
-  detailApi,
-  detailViewState,
   apiData,
   width,
   currentDateButton,
@@ -42,12 +40,36 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 }) => {
   const { tableState: table, allColumns } = useContext(DataTableContext);
 
+  const createFilterConfigs = (fields, datePreset) => {
+    const fieldsConfig = [...fields];
+    fieldsConfig.forEach(field => {
+      if (field.dataType === 'DATE') {
+        if (!field?.pendingStartDate) {
+          field.pendingStartDate = null;
+        }
+        if (!field?.pendingEndDate) {
+          field.pendingEndDate = null;
+        }
+        if (field.columnName === selectedTable?.dateField && datePreset) {
+          field.defaultStartDate = datePreset?.from;
+          field.defaultEndDate = datePreset?.to;
+        }
+      } else {
+        if (!field?.pendingValue) {
+          field.pendingValue = '';
+        }
+      }
+    });
+    return fieldsConfig;
+  };
+
+  const [filterFieldConfig, setFilterFieldsConfig] = useState(createFilterConfigs(selectedTable.fields, null));
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState('');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [filter, setFilter] = useState('');
-  const [visibleOptions, setVisibleOptions] = useState(selectedTable.fields);
+  const [visibleOptions, setVisibleOptions] = useState(filterFieldConfig);
   const [noResults, setNoResults] = useState(false);
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
@@ -106,6 +128,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const updateDateRange = curDateRange => {
     if (curDateRange) {
       setPickerDateRange(curDateRange);
+      setFilterFieldsConfig(createFilterConfigs(filterFieldConfig, curDateRange));
       setCurDateRange(curDateRange);
       handleDateRangeChange(curDateRange);
     }
@@ -239,22 +262,28 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   };
 
-  const filterDropdownButton = (
-    <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
-  );
-
   const handleApply = () => {
     setActive(false);
     if (isFilterSelected) {
       setIsFilterSelected(false);
     }
   };
+
   const handleCancel = () => {
     setActive(false);
     if (isFilterSelected) {
       setIsFilterSelected(false);
     }
+    filterFieldConfig.forEach(field => {
+      field['pendingStartDate'] = '';
+      field['pendingEndDate'] = '';
+      field['pendingValue'] = '';
+    });
   };
+
+  const filterDropdownButton = (
+    <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
+  );
 
   const handleBack = () => {
     if (isFilterSelected) {
@@ -272,10 +301,16 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // }, [active]);
 
   useEffect(() => {
+    if (filterFieldConfig) {
+      setFilterFieldsConfig(createFilterConfigs(selectedTable.fields, null));
+    }
+  }, [selectedTable]);
+
+  useEffect(() => {
     const search = filter.toLowerCase();
 
     if (!search) {
-      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields, pivotView);
+      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), filterFieldConfig, pivotView);
       if (initialCols?.length > 0) {
         setVisibleOptions(initialCols);
         setSelectedColumn(initialCols[0]);
@@ -284,7 +319,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       return;
     }
 
-    const matches = selectedTable.fields.filter(option => {
+    const matches = filterFieldConfig.filter(option => {
       const name = option.prettyName.toLowerCase();
       const secondary = (option.secondary ?? '').toLowerCase();
       return name.includes(search) || secondary.includes(search);
@@ -292,7 +327,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
     setVisibleOptions(matches);
     setNoResults(matches.length === 0);
-  }, [filter, selectedTable.fields, allColumns]);
+  }, [filter, selectedTable.fields, table, filterFieldConfig, allColumns]);
 
   const filterSelectList = (
     <>
@@ -319,19 +354,12 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
   const columnFilter = (
     <ColumnFilterOptions
-      setAppliedFilters={setAppliedFilters}
       selectedColumn={selectedColumn}
       selectedTable={selectedTable}
       config={config}
-      allTablesSelected={allTablesSelected}
-      finalDatesNotFound={finalDatesNotFound}
-      detailApi={detailApi}
-      detailViewState={detailViewState}
-      apiData={apiData}
       presets={presets}
       activePresetKey={activePresetKey}
       pickerDateRange={pickerDateRange}
-      setPickerDateRange={setPickerDateRange}
     />
   );
 
@@ -363,7 +391,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   return (
     <>
       {width >= pxToNumber(breakpointLg) && (
-        <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
+        <DropdownContainer dropdownButton={filterDropdownButton} setActive={handleCancel}>
           {active && (
             <DataPreviewDropdownDialogContainer
               searchComponent={
@@ -380,6 +408,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
               filterComponent={columnFilter}
               handleApply={handleApply}
               handleCancel={handleCancel}
+              header={selectedColumn.prettyName}
             />
           )}
         </DropdownContainer>

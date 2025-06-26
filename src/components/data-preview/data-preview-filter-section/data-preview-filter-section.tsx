@@ -78,8 +78,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             handleDateRangeChange={handleDateRangeChange}
             setIsCustomDateRange={setIsCustomDateRange}
             finalDatesNotFound={finalDatesNotFound}
-            detailApi={detailApi}
-            detailViewState={detailViewState}
             apiData={apiData}
             width={width}
             currentDateButton={currentDateButton}
