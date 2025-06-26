@@ -125,8 +125,6 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
       <div className={resourcesDropDown}>
         {content.children.map(link => {
           if (link.external) {
-            console.log('link.external', link.external);
-            console.log('link.to', link.to);
             return (
               <div key={link.title} className={dropdownListItem} style={getMinWidth(link.title)}>
                 <CustomLink
