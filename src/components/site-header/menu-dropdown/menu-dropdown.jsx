@@ -134,6 +134,7 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
                   external
                   onClick={() => handlePageClick(title, link.title)}
                   data-testid={`${link.title.toLowerCase().replace(/\s+/g, '-')}-link`}
+                  className={activeDropdownLink}
                 >
                   {link.title}
                 </CustomLink>

@@ -1,36 +1,66 @@
-import React from 'react';
+import React, { FunctionComponent, SyntheticEvent } from 'react';
 import { redirectModalState } from './../redirect-modal-helper';
 import { useSetRecoilState } from 'recoil';
 
-const isGovDomain = (href: string) => /\.gov(?:\/|$)/i.test(new URL(href).hostname);
-
-const ExternalLink: React.FC<{
+type ExternalLinkProps = {
   url: string;
   children: React.ReactNode;
   onClick?: () => void;
-  'data-testid'?: string;
+  dataTestId?: string;
   id?: string;
-}> = ({ url, children, onClick, ...rest }) => {
+  className?: string;
+  style?: React.CSSProperties;
+};
+
+const isGovDomain = (href: string) => /\.gov(?:\/|$)/i.test(new URL(href).hostname);
+
+const ExternalLink: FunctionComponent<ExternalLinkProps> = ({ url, children, onClick, dataTestId = 'external-link', id, className, style }) => {
   const setModal = useSetRecoilState(redirectModalState);
 
-  const handleClick = e => {
-    if (isGovDomain(url)) return;
-
+  const openModal = (e: SyntheticEvent) => {
     e.preventDefault();
     setModal({
       open: true,
       url,
       after: () => {
-        window.open(url, '_blank', 'noopener, noreferrer');
+        window.open(url, '_blank', 'noopener,noreferrer');
         onClick?.();
       },
     });
   };
 
+  if (isGovDomain(url)) {
+    return (
+      <a
+        href={url}
+        id={id}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-testid={dataTestId}
+        onClick={onClick}
+        style={style}
+        className={className ? className : 'primary'}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <a className="primary" {...rest} href={url} target="_blank" rel="noopener noreferrer" onClick={handleClick}>
-      {children}
-    </a>
+    <>
+      <a
+        href={url}
+        id={id}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-testid={dataTestId}
+        className={className ? className : 'primary'}
+        style={style}
+        onClick={openModal}
+      >
+        {children}
+      </a>
+    </>
   );
 };
 
