@@ -1,5 +1,5 @@
 import React, { FunctionComponent, SyntheticEvent } from 'react';
-import { redirectModalState } from './../redirect-modal-helper';
+import { redirectModalState } from '../../modal/redirect-modal/redirect-modal-helper';
 import { useSetRecoilState } from 'recoil';
 
 type ExternalLinkProps = {
@@ -12,19 +12,25 @@ type ExternalLinkProps = {
   style?: React.CSSProperties;
 };
 
-const isGovDomain = (href: string) => /\.gov(?:\/|$)/i.test(new URL(href).hostname);
-
+const isGovDomain = (href: string): boolean => {
+  if (!/^https?:\/\//i.test(href)) return false;
+  try {
+    return /\.gov(?:\/|$)/i.test(new URL(href).hostname);
+  } catch {
+    return false;
+  }
+};
 const ExternalLink: FunctionComponent<ExternalLinkProps> = ({ url, children, onClick, dataTestId = 'external-link', id, className, style }) => {
   const setModal = useSetRecoilState(redirectModalState);
 
   const openModal = (e: SyntheticEvent) => {
     e.preventDefault();
+    onClick?.();
     setModal({
       open: true,
       url,
       after: () => {
-        window.open(url, '_blank', 'noopener,noreferrer');
-        onClick?.();
+        window.open(url, '_blank', 'noreferrer, noopener');
       },
     });
   };
@@ -35,7 +41,7 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = ({ url, children, onC
         href={url}
         id={id}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noreferrer noopener"
         data-testid={dataTestId}
         onClick={onClick}
         style={style}
@@ -52,7 +58,7 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = ({ url, children, onC
         href={url}
         id={id}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noreferrer noopener"
         data-testid={dataTestId}
         className={className ? className : 'primary'}
         style={style}

@@ -4,7 +4,7 @@ import SiteFooter from '../site-footer/site-footer';
 import { ErrorBoundary } from 'react-error-boundary';
 import '../../../src/styles.scss';
 import NotFound from '../../pages/404';
-import RedirectModalRenderer from '../links/redirect-modal-renderer';
+import RedirectModalRenderer from '../modal/redirect-modal/redirect-modal-renderer';
 
 export const preProdEnvMsg = 'Loading metadata and data from endpoints in pre-production environment.';
 
