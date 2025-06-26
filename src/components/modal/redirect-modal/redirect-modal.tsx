@@ -15,7 +15,7 @@ import {
   iconTriangle,
 } from './redirect-modal.module.scss';
 
-import ModalComponent from '../modal/modal';
+import ModalComponent from '../modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
