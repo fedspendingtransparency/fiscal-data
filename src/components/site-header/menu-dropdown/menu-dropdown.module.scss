@@ -103,7 +103,14 @@
       padding: 0;
     }
   }
-
+  .resourcesDropDown .resourceLink {
+    color: #666666;
+    font-weight: normal;
+    &:hover {
+      color: $primary;
+      font-weight: $semi-bold-weight;
+    }
+  }
   .dropdownColumnOne {
     flex-flow: column nowrap;
     justify-content: center;

@@ -11,6 +11,7 @@ import {
   dropdownListItem,
   activeDropdownLink,
   resourcesDropDown,
+  resourceLink,
 } from './menu-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
@@ -132,7 +133,7 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
                   external
                   onClick={() => handlePageClick(title, link.title)}
                   data-testid={`${link.title.toLowerCase().replace(/\s+/g, '-')}-link`}
-                  className={activeDropdownLink}
+                  className={resourceLink}
                 >
                   {link.title}
                 </CustomLink>
