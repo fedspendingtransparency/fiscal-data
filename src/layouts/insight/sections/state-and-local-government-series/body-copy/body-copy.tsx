@@ -43,8 +43,7 @@ export const BodyCopy = (): ReactElement => {
 
   const percentCalc = (slgsTotal, totalPublicDebtOutstanding) => {
     const num = (slgsTotal / totalPublicDebtOutstanding) * 100;
-    const debtPercent = Math.round(num * 100) / 100;
-    return debtPercent < 1 ? '<1' : debtPercent;
+    return Math.round(num * 100) / 100;
   };
 
   return (
