@@ -96,6 +96,7 @@ const MobileMenu = ({ setOpenGlossary }) => {
         {
           to: 'https://onevoicecrm.my.site.com/FiscalDataCommunity/s/',
           name: 'Community Site',
+          external: true,
         },
       ],
     },
