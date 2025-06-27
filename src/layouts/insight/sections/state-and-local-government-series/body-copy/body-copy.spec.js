@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { BodyCopy } from './body-copy';
 import { mockSLGSFetchResponses } from '../../../../explainer/explainer-test-helper';
