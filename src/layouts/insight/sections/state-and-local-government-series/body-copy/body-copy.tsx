@@ -2,12 +2,12 @@ import React, { useState, ReactElement, useEffect } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { format } from 'date-fns';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
+import { getShortForm } from '../../../../../utils/rounding-utils';
 
 export const BodyCopy = (): ReactElement => {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [slgsTotal, setSlgsTotal] = useState(null);
   const [totalPublicDebtOutstanding, setTotalPublicDebtOutstanding] = useState(null);
-  const [percentOfTheTotalPublicDebt, setPercentOfTheTotalPublicDebt] = useState(null);
 
   useEffect(() => {
     basicFetch(`${apiPrefix}v2/accounting/od/debt_to_penny?sort=-record_date`).then(res => {
@@ -35,15 +35,17 @@ export const BodyCopy = (): ReactElement => {
               parseFloat(res.data[0]['outstanding_5_10_yrs_amt']) +
               parseFloat(res.data[0]['outstanding_over_10_yrs_amt']);
             setSlgsTotal(slgsTotalSum);
-
-            const num = (slgsTotal / totalPublicDebtOutstanding) * 100;
-            const percentOfTheTotalPublicDebtOutstanding = Math.round(num * 100) / 100;
-            setPercentOfTheTotalPublicDebt(percentOfTheTotalPublicDebtOutstanding);
           }
         });
       }
     });
   }, []);
+
+  const percentCalc = (slgsTotal, totalPublicDebtOutstanding) => {
+    const num = (slgsTotal / totalPublicDebtOutstanding) * 100;
+    const percentOfTotalPublicDebt = Math.round(num * 100) / 100;
+    return percentOfTotalPublicDebt;
+  };
 
   return (
     <div>
@@ -53,8 +55,8 @@ export const BodyCopy = (): ReactElement => {
       school. As a result, state and local governments will invest these funds. The IRS has strict guidelines about how state and local governments
       can invest these funds to ensure they're used properly. SLGS securities are an attractive option because they make it easier to comply with IRS
       regulations. SLGS also serve the federal government as a means of financing the federal debt, similar to other treasury securities. As of{' '}
-      {lastUpdated}, there are ${Math.round(slgsTotal / 1000000000)} B outstanding SLGS securities, {percentOfTheTotalPublicDebt} percent of the total
-      public debt outstanding.
+      {lastUpdated}, there are ${getShortForm(slgsTotal, true)} outstanding SLGS securities, {percentCalc(slgsTotal, totalPublicDebtOutstanding)}{' '}
+      percent of the total public debt outstanding.
     </div>
   );
 };

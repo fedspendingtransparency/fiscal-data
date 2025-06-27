@@ -18,5 +18,6 @@ describe('State and Local Government Series Body Copy', () => {
     const { findByText } = render(<BodyCopy />);
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
     expect(await findByText('88 B', { exact: false })).toBeInTheDocument();
+    // add more expect statements for the other 2 evergreen value spots (date, and % of total debt)
   });
 });
