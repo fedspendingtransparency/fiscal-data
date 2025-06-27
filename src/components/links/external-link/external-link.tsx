@@ -35,23 +35,6 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = ({ url, children, onC
     });
   };
 
-  if (isGovDomain(url)) {
-    return (
-      <a
-        href={url}
-        id={id}
-        target="_blank"
-        rel="noreferrer noopener"
-        data-testid={dataTestId}
-        onClick={onClick}
-        style={style}
-        className={className ? className : 'primary'}
-      >
-        {children}
-      </a>
-    );
-  }
-
   return (
     <>
       <a
@@ -62,7 +45,7 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = ({ url, children, onC
         data-testid={dataTestId}
         className={className ? className : 'primary'}
         style={style}
-        onClick={openModal}
+        onClick={isGovDomain(url) ? onClick : openModal}
       >
         {children}
       </a>

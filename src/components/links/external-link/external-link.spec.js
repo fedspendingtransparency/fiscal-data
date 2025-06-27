@@ -1,8 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import ExternalLink from './external-link';
 import globalConstants from '../../../helpers/constants';
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useRecoilValue } from 'recoil';
+import { redirectModalState } from '../../modal/redirect-modal/redirect-modal-helper';
 
 describe('External Link', () => {
   const testUrl = 'https://example.com/';
@@ -38,5 +39,22 @@ describe('External Link', () => {
       </RecoilRoot>
     );
     expect(getByTestId('external-link').classList.contains('test-class')).toBe(true);
+  });
+
+  it('sets redirectModalState when a non-.gov link is clicked', () => {
+    const Probe = () => {
+      const modal = useRecoilValue(redirectModalState);
+      return <span data-testid="probe">{modal.open ? modal.url : 'closed'}</span>;
+    };
+
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <ExternalLink url="https://example.com/">ext</ExternalLink>
+        <Probe />
+      </RecoilRoot>
+    );
+    expect(getByTestId('probe').textContent).toBe('closed');
+    fireEvent.click(getByTestId('external-link'));
+    expect(getByTestId('probe').textContent).toBe('https://example.com/');
   });
 });
