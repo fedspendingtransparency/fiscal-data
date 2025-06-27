@@ -11,16 +11,12 @@ import { breakpointLg } from '../../data-preview.module.scss';
 import DataPreviewMobileFilterList from '../data-preview-mobile-filter-list/data-preview-mobile-filter-list';
 import DataPreviewDropdownDialogSearch from '../../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
 import { boldedSearchText, noFilterMatchContainer } from '../data-preview-filter-section.module.scss';
-import determineDateRange, {
-  generateAnalyticsEvent,
-  generateFormattedDate,
-  prepAvailableDates,
-} from '../../../filter-download-container/range-presets/helpers/helper';
+import determineDateRange, { generateFormattedDate, prepAvailableDates } from '../../../filter-download-container/range-presets/helpers/helper';
 import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
 import { formatDateForApi, monthNames } from '../../../../utils/api-utils';
 import { DataTableContext } from '../../data-preview-context';
-import { getDaysArray } from './data-preview-filter-helper';
+import { basePreset, createFilterConfigs, customPreset, fallbackPresets, getDaysArray, possiblePresets } from './data-preview-filter-helper';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -41,29 +37,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   pivotView,
 }) => {
   const { tableState: table, allColumns } = useContext(DataTableContext);
-  const createFilterConfigs = (fields, datePreset) => {
-    const fieldsConfig = [...fields];
-    fieldsConfig.forEach(field => {
-      if (field.dataType === 'DATE') {
-        if (!field?.pendingStartDate) {
-          field.pendingStartDate = null;
-        }
-        if (!field?.pendingEndDate) {
-          field.pendingEndDate = null;
-        }
-        if (field.columnName === selectedTable?.dateField && datePreset) {
-          field.defaultStartDate = datePreset?.from;
-          field.defaultEndDate = datePreset?.to;
-        }
-      } else {
-        if (!field?.pendingValue) {
-          field.pendingValue = '';
-        }
-      }
-    });
-    return fieldsConfig;
-  };
-  const [filterFieldConfig, setFilterFieldsConfig] = useState(createFilterConfigs(selectedTable.fields, null));
+
+  const [filterFieldConfig, setFilterFieldsConfig] = useState(createFilterConfigs(selectedTable.fields, null, selectedTable));
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState('');
@@ -71,24 +46,17 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const [filter, setFilter] = useState('');
   const [visibleOptions, setVisibleOptions] = useState(filterFieldConfig);
   const [noResults, setNoResults] = useState(false);
+
+  // Date Range Presets
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
-  const [pickerDateRange, setPickerDateRange] = useState(null);
+  const [presetCustomDateRange, setPresetCustomDateRange] = useState(null);
   const [dateRange, setCurDateRange] = useState(null);
   const [presets, setPresets] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
-  const basePreset = [{ label: 'All', key: 'all', years: null }];
-  const possiblePresets = [
-    { label: '1 Year', key: '1yr', years: 1 },
-    { label: '5 Years', key: '5yr', years: 5 },
-    { label: '10 Years', key: '10yr', years: 10 },
-  ];
-  const customPreset = { label: 'Custom', key: 'custom', years: null };
+
   // Not all datasets will have 5 years of information; but, this is the ideal default preset.
   let idealDefaultPreset = { key: '5yr', years: 5 };
-  // If a data table has less than 5 years of data, we need to find the next best option to select
-  // by default.
-  const fallbackPresets = ['1yr', 'current', 'all'];
 
   const allTablesDateRange = prepAvailableDates(datasetDateRange);
   /**
@@ -102,8 +70,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     if (label && label.toLowerCase() === 'custom') {
       label = generateFormattedDate(dateRange);
     }
-    generateAnalyticsEvent(label);
-
+    // generateAnalyticsEvent(label);
     setActivePresetKey(preset.key);
     setIsCustomDateRange(preset.key === customPreset.key);
 
@@ -127,8 +94,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
   const updateDateRange = curDateRange => {
     if (curDateRange) {
-      setPickerDateRange(curDateRange);
-      setFilterFieldsConfig(createFilterConfigs(filterFieldConfig, curDateRange));
+      setPresetCustomDateRange(curDateRange);
+      setFilterFieldsConfig(createFilterConfigs(filterFieldConfig, curDateRange, selectedTable));
       setCurDateRange(curDateRange);
       handleDateRangeChange(curDateRange);
     }
@@ -160,7 +127,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         // the same.
         if (curSelectedOption.key === 'custom') {
           const adjustedRange = fitDateRangeToTable(dateRange, availableDateRange);
-          setPickerDateRange(availableDateRange);
+          setPresetCustomDateRange(availableDateRange);
           setCurDateRange(adjustedRange);
           handleDateRangeChange(adjustedRange);
         } else {
@@ -211,6 +178,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   };
 
   useEffect(() => {
+    console.log('setMostAppropriatePreset');
     setMostAppropriatePreset();
   }, [presets]);
 
@@ -329,7 +297,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
   useEffect(() => {
     if (filterFieldConfig) {
-      setFilterFieldsConfig(createFilterConfigs(selectedTable.fields, null));
+      setFilterFieldsConfig(createFilterConfigs(selectedTable.fields, null, selectedTable));
     }
   }, [selectedTable]);
 
@@ -386,7 +354,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       config={config}
       presets={presets}
       activePresetKey={activePresetKey}
-      pickerDateRange={pickerDateRange}
+      pickerDateRange={presetCustomDateRange}
     />
   );
 
