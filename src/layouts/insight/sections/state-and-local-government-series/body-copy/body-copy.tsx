@@ -1,4 +1,4 @@
-import React, { useState, ReactElement, useEffect } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { format } from 'date-fns';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
@@ -43,8 +43,8 @@ export const BodyCopy = (): ReactElement => {
 
   const percentCalc = (slgsTotal, totalPublicDebtOutstanding) => {
     const num = (slgsTotal / totalPublicDebtOutstanding) * 100;
-    const percentOfTotalPublicDebt = Math.round(num * 100) / 100;
-    return percentOfTotalPublicDebt;
+    const debtPercent = Math.round(num * 100) / 100;
+    return debtPercent < 1 ? '<1' : debtPercent;
   };
 
   return (

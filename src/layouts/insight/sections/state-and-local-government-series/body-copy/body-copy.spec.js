@@ -17,7 +17,8 @@ describe('State and Local Government Series Body Copy', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByText } = render(<BodyCopy />);
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
-    expect(await findByText('88 B', { exact: false })).toBeInTheDocument();
-    // add more expect statements for the other 2 evergreen value spots (date, and % of total debt)
+    expect(await findByText('June 25, 2025', { exact: false })).toBeInTheDocument();
+    expect(await findByText('$88 B outstanding SLGS securities', { exact: false })).toBeInTheDocument();
+    expect(await findByText('0.24 percent of the total public debt outstanding', { exact: false })).toBeInTheDocument();
   });
 });
