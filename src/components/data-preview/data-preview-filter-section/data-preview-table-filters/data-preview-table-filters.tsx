@@ -51,8 +51,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
           field.pendingEndDate = null;
         }
         if (field.columnName === selectedTable?.dateField && datePreset) {
-          field.defaultStartDate = datePreset?.from;
-          field.defaultEndDate = datePreset?.to;
+          field.defaultStartDate = datePreset?.from?.toString();
+          field.defaultEndDate = datePreset?.to?.toString();
         }
       } else {
         if (!field?.pendingValue) {
