@@ -20,8 +20,8 @@ const CustomDateFilter: FunctionComponent<ICustomDateFilter> = ({ pickerDateRang
   useLayoutEffect(() => {
     handleStartDateClose();
     handleEndDateClose();
-    setSelectedStartDate(columnConfig?.pendingStartDate ? columnConfig?.pendingStartDate : columnConfig?.defaultStartDate);
-    setSelectedEndDate(columnConfig?.pendingEndDate ? columnConfig?.pendingEndDate : columnConfig?.defaultEndDate);
+    setSelectedStartDate(columnConfig?.pendingStartDate ? columnConfig?.pendingStartDate : new Date(columnConfig?.defaultStartDate));
+    setSelectedEndDate(columnConfig?.pendingEndDate ? columnConfig?.pendingEndDate : new Date(columnConfig?.defaultEndDate));
   }, [columnConfig]);
 
   const swapDates = () => {
