@@ -873,19 +873,6 @@ export const mockSavingsBondFetchResponses = () => {
 export const mockSlgsDebtToPennyDate = {
   data: [
     {
-      record_date: '2025-10-04',
-      debt_held_public_amt: '28566347626909.20',
-      intragov_hold_amt: '7318053388944.87',
-      tot_pub_debt_out_amt: '35884401015854.29',
-      src_line_nbr: '1',
-      record_fiscal_year: '2026',
-      record_fiscal_quarter: '1',
-      record_calendar_year: '2025',
-      record_calendar_quarter: '4',
-      record_calendar_month: '10',
-      record_calendar_day: '04',
-    },
-    {
       record_date: '2025-06-25',
       debt_held_public_amt: '28888758862953.29',
       intragov_hold_amt: '7325110705163.71',
@@ -958,7 +945,7 @@ export const mockSLGSFetchResponses = () => {
   );
 
   fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt,record_calendar_month,record_calendar_day,record_calendar_year&filter=record_date:eq:2025-06-25&sort=-record_date`,
+    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
     mockSlgsTotalAmount,
     { overwriteRoutes: true },
     { repeat: 1 }

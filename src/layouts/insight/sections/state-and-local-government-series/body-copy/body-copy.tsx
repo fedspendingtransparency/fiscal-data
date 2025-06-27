@@ -11,29 +11,33 @@ export const BodyCopy = (): ReactElement => {
 
   useEffect(() => {
     basicFetch(`${apiPrefix}v2/accounting/od/debt_to_penny?sort=-record_date`).then(res => {
-      if (res.data) {
-        const lastUpdatedDate = res.data[1].record_date;
+      if (res.data && res.data.length > 0) {
+        const lastUpdatedDate = res.data[0].record_date;
         const formattedDate = format(getDateWithoutTimeZoneAdjust(lastUpdatedDate), 'MMMM d, yyyy');
         setLastUpdated(formattedDate);
 
-        basicFetch(`${apiPrefix}v2/accounting/od/debt_to_penny?filter=record_date:eq:${lastUpdatedDate}`).then(res => {
-          if (res.data) {
-            const totalDebtHeld = res.data[0]['tot_pub_debt_out_amt'];
+        basicFetch(`${apiPrefix}v2/accounting/od/debt_to_penny?filter=record_date:eq:${lastUpdatedDate}`).then(resTotal => {
+          if (resTotal.data && resTotal.data.length > 0) {
+            const totalDebtHeld = resTotal.data[0]['tot_pub_debt_out_amt'];
             setTotalPublicDebtOutstanding(totalDebtHeld);
           }
         });
 
-        basicFetch(
-          `${apiPrefix}v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt,record_calendar_month,record_calendar_day,record_calendar_year&filter=record_date:eq:${lastUpdatedDate}&sort=-record_date`
-        ).then(res => {
-          if (res.data) {
+        const endpoint = 'v1/accounting/od/slgs_securities';
+        const fields =
+          'record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,' +
+          'outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,' +
+          'outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt';
+
+        basicFetch(`${apiPrefix}${endpoint}?fields=${fields}&filter=record_date:eq:${lastUpdatedDate}&sort=-record_date`).then(resSum => {
+          if (resSum.data && resSum.data.length > 0) {
             const slgsTotalSum =
-              parseFloat(res.data[0]['outstanding_0_3_mos_amt']) +
-              parseFloat(res.data[0]['outstanding_3_6_mos_amt']) +
-              parseFloat(res.data[0]['outstanding_6_mos_to_2_yrs_amt']) +
-              parseFloat(res.data[0]['outstanding_2_5_yrs_amt']) +
-              parseFloat(res.data[0]['outstanding_5_10_yrs_amt']) +
-              parseFloat(res.data[0]['outstanding_over_10_yrs_amt']);
+              parseFloat(resSum.data[0]['outstanding_0_3_mos_amt']) +
+              parseFloat(resSum.data[0]['outstanding_3_6_mos_amt']) +
+              parseFloat(resSum.data[0]['outstanding_6_mos_to_2_yrs_amt']) +
+              parseFloat(resSum.data[0]['outstanding_2_5_yrs_amt']) +
+              parseFloat(resSum.data[0]['outstanding_5_10_yrs_amt']) +
+              parseFloat(resSum.data[0]['outstanding_over_10_yrs_amt']);
             setSlgsTotal(slgsTotalSum);
           }
         });
