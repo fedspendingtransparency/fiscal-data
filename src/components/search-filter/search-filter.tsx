@@ -4,12 +4,11 @@ import { searchBox } from './search-filter.module.scss';
 
 interface iSearchFilter {
   searchLabel: string;
-  header: string;
   hideIcons?: boolean;
   columnConfig;
 }
 
-const SearchFilter: FunctionComponent<iSearchFilter> = ({ header, searchLabel, hideIcons, columnConfig }) => {
+const SearchFilter: FunctionComponent<iSearchFilter> = ({ searchLabel, hideIcons, columnConfig }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
   const [filterVal, setFilterVal] = useState(columnConfig?.pendingValue);
 

@@ -30,7 +30,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
         />
       )}
       {selectedColumn.dataType !== 'DATE' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
-        <SearchFilter searchLabel="Enter filter term" header={selectedColumn.prettyName} hideIcons={true} columnConfig={selectedColumn} />
+        <SearchFilter searchLabel="Enter filter term" hideIcons={true} columnConfig={selectedColumn} />
       )}
     </>
   );

@@ -14,9 +14,9 @@ import { boldedSearchText, noFilterMatchContainer } from '../data-preview-filter
 import determineDateRange, { generateFormattedDate, prepAvailableDates } from '../../../filter-download-container/range-presets/helpers/helper';
 import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
-import { formatDateForApi, monthNames } from '../../../../utils/api-utils';
+import { monthNames } from '../../../../utils/api-utils';
 import { DataTableContext } from '../../data-preview-context';
-import { basePreset, createFilterConfigs, customPreset, fallbackPresets, getDaysArray } from './data-preview-filter-helper';
+import { basePreset, createFilterConfigs, customPreset, fallbackPresets } from './data-preview-filter-helper';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -240,22 +240,23 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       if (matchedIndex > -1) {
         const field = fields[matchedIndex];
         if (field.dataType !== 'DATE') {
-          // const filterToApply = fields[matchedIndex]?.pendingValue;
-          // fields[matchedIndex]['filterValue'] = fields[matchedIndex]?.pendingValue;
-          // col.setFilterValue(filterToApply);
-          //
-          // if (filterToApply) {
-          //   allAppliedFilters.push(field.columnName);
-          // }
-        } else {
-          const startDate = fields[matchedIndex]?.pendingStartDate;
-          const endDate = fields[matchedIndex]?.pendingEndDate;
-          if (startDate && endDate) {
-            const datesToApply = getDaysArray(formatDateForApi(startDate), formatDateForApi(endDate));
-            const dateRangeToApply = { ...dateRange, from: startDate, to: endDate };
-            col.setFilterValue(datesToApply);
-            setDateRange(dateRangeToApply);
+          const filterToApply = field?.pendingValue;
+          fields[matchedIndex]['filterValue'] = field?.pendingValue;
+          col.setFilterValue(filterToApply);
+
+          if (filterToApply) {
+            allAppliedFilters.push(field.columnName);
           }
+        } else {
+          //TODO: Readd code when implementing date filters
+          // const startDate = fields[matchedIndex]?.pendingStartDate;
+          // const endDate = fields[matchedIndex]?.pendingEndDate;
+          // if (startDate && endDate) {
+          //   const datesToApply = getDaysArray(formatDateForApi(startDate), formatDateForApi(endDate));
+          //   const dateRangeToApply = { ...dateRange, from: startDate, to: endDate };
+          //   col.setFilterValue(datesToApply);
+          //   setDateRange(dateRangeToApply);
+          // }
         }
       }
     });
