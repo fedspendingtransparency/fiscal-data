@@ -12,14 +12,7 @@ import DatePresets from './date-presets/date-presets';
 import CustomDateFilter from './custom-date-filter/custom-date-filter';
 import { IDateColumnFilter } from '../../../../../../models/data-preview/IDateColumnFilter';
 
-const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
-  columnConfig,
-  selectedTable,
-  config,
-  presets,
-  activePresetKey,
-  presetCustomDateRange,
-}) => {
+const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({ columnConfig, selectedTable, presets, activePresetKey, presetCustomDateRange }) => {
   const hasPresets = selectedTable?.dateField === columnConfig?.columnName;
   const shouldUsePreset = preset => (preset !== 'custom' ? 'preset' : 'custom');
   const getDefaultToggle = () => {

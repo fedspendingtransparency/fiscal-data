@@ -33,7 +33,6 @@ export const createFilterConfigs = (fields, datePreset, selectedTable) => {
       if (field.columnName === selectedTable?.dateField && datePreset) {
         field.defaultStartDate = datePreset?.from;
         field.defaultEndDate = datePreset?.to;
-        console.log(datePreset);
       }
     } else {
       if (!field?.pendingValue) {

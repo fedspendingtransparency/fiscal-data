@@ -69,7 +69,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
         <div className={filterContainer}>
           <DataPreviewTableFilters
             selectedTable={selectedTable}
-            config={dataset}
             setDateRange={setDateRange}
             dateRange={dateRange}
             allTablesSelected={allTablesSelected}

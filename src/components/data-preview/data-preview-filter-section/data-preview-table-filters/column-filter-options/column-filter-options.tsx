@@ -14,7 +14,6 @@ interface IColumnFilterOptions {
 const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   selectedColumn,
   selectedTable,
-  config,
   activePresetKey,
   presetCustomDateRange,
   presets,
@@ -25,7 +24,6 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
         <DateColumnFilter
           columnConfig={selectedColumn}
           selectedTable={selectedTable}
-          config={config}
           presets={presets}
           activePresetKey={activePresetKey}
           presetCustomDateRange={presetCustomDateRange}

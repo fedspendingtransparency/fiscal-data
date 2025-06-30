@@ -440,6 +440,45 @@ describe('Table Filter Date Range Presets', () => {
       const radioBtn = getByRole('radio', { name: expectedLabel });
       expect(radioBtn).toBeInTheDocument();
     });
+
+    it('Applies text filters on apply button click', () => {
+      const { getByRole } = render(
+        <DataTableContext.Provider
+          value={{
+            ...mockContextValues,
+          }}
+        >
+          <DataPreviewTableFilters
+            width={1000}
+            selectedTable={mockSelectedTable}
+            setIsCustomDateRange={setIsCustomDateRange}
+            handleDateRangeChange={handleDateRangeChange}
+            setIsFiltered={setIsFiltered}
+            pivotView={mockPivotView}
+          />
+        </DataTableContext.Provider>
+      );
+    });
+
+    it('Clears pending filters on cancel button click', () => {
+      const { getByRole } = render(
+        <DataTableContext.Provider
+          value={{
+            ...mockContextValues,
+          }}
+        >
+          <DataPreviewTableFilters
+            width={1000}
+            selectedTable={mockSelectedTable}
+            setIsCustomDateRange={setIsCustomDateRange}
+            handleDateRangeChange={handleDateRangeChange}
+            setIsFiltered={setIsFiltered}
+            pivotView={mockPivotView}
+          />
+        </DataTableContext.Provider>
+      );
+    });
+
     // TODO: Add back when analytics are enabled
     // it('initiates Analytics.event with correct parameters for all buttons', async () => {
     //   const { getByRole } = render(

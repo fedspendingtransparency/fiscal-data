@@ -20,7 +20,6 @@ import { basePreset, createFilterConfigs, customPreset, fallbackPresets, getDays
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
-  config,
   dateRange,
   setDateRange,
   allTablesSelected,
@@ -104,7 +103,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const placeApplicableYearPresets = ({ to, from }) => {
     const curPresets = basePreset.slice();
     const dateYearDifference = differenceInYears(to, from);
-
+    console.log(dateYearDifference, possiblePresets);
     for (let i = possiblePresets.length; i--; ) {
       if (possiblePresets[i].years <= dateYearDifference) {
         possiblePresets.length = i + 1;
@@ -112,7 +111,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         break;
       }
     }
-
+    // console.log('curPresets', curPresets);
     return curPresets;
   };
 
@@ -350,7 +349,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     <ColumnFilterOptions
       selectedColumn={selectedColumn}
       selectedTable={selectedTable}
-      config={config}
       presets={presets}
       activePresetKey={activePresetKey}
       presetCustomDateRange={presetCustomDateRange}
