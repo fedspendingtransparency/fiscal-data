@@ -30,7 +30,6 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<DialogSearchProps> = ({
   const [searchBarActive, setSearchBarActive] = useState(false);
   const handleSearchChange = (option: ButtonData) => {
     if (setSelectedOption) {
-      console.log(option);
       setSelectedOption(option);
     }
   };

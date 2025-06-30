@@ -19,7 +19,6 @@ export interface IMobileFilterList {
   onIsFilterSelected?: (selectedOption: any) => void;
   onWhichFilterSelected?: (selectedOption: any) => void;
   selectedTable: string;
-  selectedFilter: string;
   filter: string;
   optionLabelKey: string;
   secondaryLabelKey?: string;
@@ -34,7 +33,6 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
   optionLabelKey,
   secondaryLabelKey,
   selectedTable = '',
-  selectedFilter = '',
   filter,
 }) => {
   return (
@@ -42,10 +40,11 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
       {filterOptions.map((filterOption, index) => {
         const displayName = filterOption[optionLabelKey];
         const subHeader = filterOption[secondaryLabelKey];
+        const activeFilter = secondaryLabelKey && filterOption[secondaryLabelKey];
         return (
           <div key={index}>
             <button
-              className={`${buttonSleeve} ${displayName === selectedTable ? selected : ''} ${displayName === selectedFilter ? active : ''}`}
+              className={`${buttonSleeve} ${displayName === selectedTable ? selected : ''} ${activeFilter ? active : ''}`}
               onClick={() => {
                 onDataTableSelected?.(filterOption);
                 onTableSelected?.(filterOption);
