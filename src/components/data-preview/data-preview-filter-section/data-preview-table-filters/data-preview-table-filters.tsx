@@ -364,6 +364,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     <DataPreviewMobileDialog
       onCancel={handleCancel}
       onBack={handleBack}
+      onApply={handleApply}
       filterName={selectedColumn.prettyName}
       hasSearch={false}
       backButtonText="Filters"
@@ -375,6 +376,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     <DataPreviewMobileDialog
       onCancel={handleCancel}
       onBack={handleCancel}
+      onApply={handleApply}
       filterName="Filters"
       searchText="Search filters"
       filter={filter}
