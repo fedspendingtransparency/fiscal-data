@@ -71,7 +71,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             selectedTable={selectedTable}
             config={dataset}
             setDateRange={setDateRange}
-            dateRange2={dateRange}
+            dateRange={dateRange}
             allTablesSelected={allTablesSelected}
             handleDateRangeChange={handleDateRangeChange}
             setIsCustomDateRange={setIsCustomDateRange}

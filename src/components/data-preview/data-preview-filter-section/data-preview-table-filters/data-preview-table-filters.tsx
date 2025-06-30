@@ -21,7 +21,7 @@ import { basePreset, createFilterConfigs, customPreset, fallbackPresets, getDays
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
   config,
-  dateRange2,
+  dateRange,
   setDateRange,
   allTablesSelected,
   handleDateRangeChange,
@@ -51,7 +51,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
   const [presetCustomDateRange, setPresetCustomDateRange] = useState(null);
-  const [dateRange, setCurDateRange] = useState(null);
+  const [curDateRange, setCurDateRange] = useState(null);
   const [presets, setPresets] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
 
@@ -68,7 +68,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
     let label = preset.label;
     if (label && label.toLowerCase() === 'custom') {
-      label = generateFormattedDate(dateRange);
+      label = generateFormattedDate(curDateRange);
     }
     // generateAnalyticsEvent(label);
     setActivePresetKey(preset.key);
@@ -77,7 +77,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     if (preset.key !== customPreset.key) {
       prepUpdateDateRange(preset);
     } else {
-      handleDateRangeChange(dateRange);
+      handleDateRangeChange(curDateRange);
     }
 
     if (preset.key === 'all') {
@@ -92,12 +92,12 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     updateDateRange(curDateRange);
   };
 
-  const updateDateRange = curDateRange => {
-    if (curDateRange) {
-      setPresetCustomDateRange(curDateRange);
-      setFilterFieldsConfig(createFilterConfigs(filterFieldConfig, curDateRange, selectedTable));
-      setCurDateRange(curDateRange);
-      handleDateRangeChange(curDateRange);
+  const updateDateRange = range => {
+    if (range) {
+      setPresetCustomDateRange(range);
+      setFilterFieldsConfig(createFilterConfigs(filterFieldConfig, range, selectedTable));
+      setCurDateRange(range);
+      handleDateRangeChange(range);
     }
   };
 
@@ -126,7 +126,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         // might not be the same from the previously selected table, even though the preset is
         // the same.
         if (curSelectedOption.key === 'custom') {
-          const adjustedRange = fitDateRangeToTable(dateRange, availableDateRange);
+          const adjustedRange = fitDateRangeToTable(curDateRange, availableDateRange);
           setPresetCustomDateRange(availableDateRange);
           setCurDateRange(adjustedRange);
           handleDateRangeChange(adjustedRange);
@@ -237,19 +237,19 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       if (matchedIndex > -1) {
         const field = fields[matchedIndex];
         if (field.dataType !== 'DATE') {
-          const filterToApply = fields[matchedIndex]?.pendingValue;
-          fields[matchedIndex]['filterValue'] = fields[matchedIndex]?.pendingValue;
-          col.setFilterValue(filterToApply);
-
-          if (filterToApply) {
-            allAppliedFilters.push(field.columnName);
-          }
+          // const filterToApply = fields[matchedIndex]?.pendingValue;
+          // fields[matchedIndex]['filterValue'] = fields[matchedIndex]?.pendingValue;
+          // col.setFilterValue(filterToApply);
+          //
+          // if (filterToApply) {
+          //   allAppliedFilters.push(field.columnName);
+          // }
         } else {
           const startDate = fields[matchedIndex]?.pendingStartDate;
           const endDate = fields[matchedIndex]?.pendingEndDate;
           if (startDate && endDate) {
             const datesToApply = getDaysArray(formatDateForApi(startDate), formatDateForApi(endDate));
-            const dateRangeToApply = { ...dateRange2, from: startDate, to: endDate };
+            const dateRangeToApply = { ...dateRange, from: startDate, to: endDate };
             col.setFilterValue(datesToApply);
             setDateRange(dateRangeToApply);
           }
