@@ -178,7 +178,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   };
 
   useEffect(() => {
-    console.log('setMostAppropriatePreset');
     setMostAppropriatePreset();
   }, [presets]);
 
@@ -354,7 +353,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       config={config}
       presets={presets}
       activePresetKey={activePresetKey}
-      pickerDateRange={presetCustomDateRange}
+      presetCustomDateRange={presetCustomDateRange}
     />
   );
 

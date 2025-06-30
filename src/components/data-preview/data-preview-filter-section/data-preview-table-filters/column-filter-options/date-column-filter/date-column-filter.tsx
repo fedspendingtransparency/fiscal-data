@@ -18,22 +18,32 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
   config,
   presets,
   activePresetKey,
-  pickerDateRange,
+  presetCustomDateRange,
 }) => {
   const hasPresets = selectedTable?.dateField === columnConfig?.columnName;
-  const [selectedToggle, setSelectedToggle] = useState(hasPresets && config?.datePreset !== 'custom' ? 'preset' : 'custom');
+  const shouldUsePreset = preset => (preset !== 'custom' ? 'preset' : 'custom');
+  const getDefaultToggle = () => {
+    let defaultVal = 'custom';
+    if (hasPresets) {
+      defaultVal = !!columnConfig?.pendingPreset ? shouldUsePreset(columnConfig.pendingPreset) : shouldUsePreset(activePresetKey);
+    }
+    return defaultVal;
+  };
+
+  const [selectedToggle, setSelectedToggle] = useState(getDefaultToggle());
 
   useEffect(() => {
-    if (!hasPresets) {
-      setSelectedToggle('custom');
-    } else {
-      setSelectedToggle(config?.datePreset !== 'custom' ? 'preset' : 'custom');
-    }
+    setSelectedToggle(getDefaultToggle());
   }, [columnConfig]);
+
+  useEffect(() => {
+    columnConfig['pendingPreset'] = selectedToggle !== 'custom' ? activePresetKey : 'custom';
+  }, [selectedToggle]);
 
   const handleDateRangeSelect = dateRange => {
     // handleDateRangeChange(dateRange);
   };
+
   return (
     <div className={sectionContainer}>
       <div className={inputContainer}>
@@ -68,7 +78,11 @@ const DateColumnFilter: FunctionComponent<IDateColumnFilter> = ({
             </label>
           )}
           <div className={`${presetContainer} ${!hasPresets ? containerAdjustment : ''}`}>
-            <CustomDateFilter columnConfig={columnConfig} pickerDateRange={hasPresets && pickerDateRange} disabled={selectedToggle !== 'custom'} />
+            <CustomDateFilter
+              columnConfig={columnConfig}
+              pickerDateRange={hasPresets && presetCustomDateRange}
+              disabled={selectedToggle !== 'custom'}
+            />
           </div>
         </div>
       </div>

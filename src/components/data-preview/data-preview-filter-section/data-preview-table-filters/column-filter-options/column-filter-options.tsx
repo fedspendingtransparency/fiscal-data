@@ -7,7 +7,7 @@ interface IColumnFilterOptions {
   selectedTable;
   config;
   activePresetKey;
-  pickerDateRange;
+  presetCustomDateRange;
   presets;
 }
 
@@ -16,7 +16,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   selectedTable,
   config,
   activePresetKey,
-  pickerDateRange,
+  presetCustomDateRange,
   presets,
 }) => {
   return (
@@ -28,7 +28,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
           config={config}
           presets={presets}
           activePresetKey={activePresetKey}
-          pickerDateRange={pickerDateRange}
+          presetCustomDateRange={presetCustomDateRange}
         />
       )}
       {selectedColumn.dataType !== 'DATE' && !selectedTable?.apiFilter?.disableDateRangeFilter && (

@@ -3,6 +3,6 @@ export interface IDateColumnFilter {
   selectedTable;
   config;
   activePresetKey;
-  pickerDateRange;
+  presetCustomDateRange;
   presets;
 }
