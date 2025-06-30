@@ -5,18 +5,16 @@ import SearchFilter from '../../../../search-filter/search-filter';
 interface IColumnFilterOptions {
   selectedColumn;
   selectedTable;
-  config;
   activePresetKey;
-  pickerDateRange;
+  presetCustomDateRange;
   presets;
 }
 
 const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   selectedColumn,
   selectedTable,
-  config,
   activePresetKey,
-  pickerDateRange,
+  presetCustomDateRange,
   presets,
 }) => {
   return (
@@ -25,14 +23,13 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
         <DateColumnFilter
           columnConfig={selectedColumn}
           selectedTable={selectedTable}
-          config={config}
           presets={presets}
           activePresetKey={activePresetKey}
-          pickerDateRange={pickerDateRange}
+          presetCustomDateRange={presetCustomDateRange}
         />
       )}
       {selectedColumn.dataType !== 'DATE' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
-        <SearchFilter searchLabel="Enter filter term" header={selectedColumn.prettyName} hideIcons={true} columnConfig={selectedColumn} />
+        <SearchFilter searchLabel="Enter filter term" hideIcons={true} columnConfig={selectedColumn} />
       )}
     </>
   );

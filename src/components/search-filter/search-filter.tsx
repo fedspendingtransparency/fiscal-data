@@ -4,14 +4,14 @@ import { searchBox } from './search-filter.module.scss';
 
 interface iSearchFilter {
   searchLabel: string;
-  header: string;
   hideIcons?: boolean;
   columnConfig;
 }
 
-const SearchFilter: FunctionComponent<iSearchFilter> = ({ header, searchLabel, hideIcons, columnConfig }) => {
+const SearchFilter: FunctionComponent<iSearchFilter> = ({ searchLabel, hideIcons, columnConfig }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
-  const [filterVal, setFilterVal] = useState(columnConfig?.pendingValue);
+  const defaultDisplayValue = () => (columnConfig?.pendingValue ? columnConfig?.pendingValue : columnConfig?.filterValue);
+  const [filterVal, setFilterVal] = useState(defaultDisplayValue());
 
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
@@ -20,7 +20,7 @@ const SearchFilter: FunctionComponent<iSearchFilter> = ({ header, searchLabel, h
   };
 
   useEffect(() => {
-    setFilterVal(columnConfig?.pendingValue);
+    setFilterVal(defaultDisplayValue());
   }, [columnConfig]);
 
   return (

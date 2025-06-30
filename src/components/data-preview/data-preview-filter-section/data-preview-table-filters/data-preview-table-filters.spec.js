@@ -3,6 +3,7 @@ import DataPreviewTableFilters from './data-preview-table-filters';
 import { fireEvent, render } from '@testing-library/react';
 import { DataTableContext } from '../../data-preview-context';
 import { monthNames } from '../../../../utils/api-utils';
+import userEvent from '@testing-library/user-event';
 
 describe('Table filters dropdown', () => {
   const datasetConfig = { currentDateButton: 'byFullMonth', techSpecs: { earliestDate: '3-17-2020', latestDate: '3-17-2025' } };
@@ -11,9 +12,16 @@ describe('Table filters dropdown', () => {
     earliestDate: '3-17-2020',
     latestDate: '3-17-2025',
     dateField: 'record_date',
-    fields: [{ prettyName: 'Record Date', columnName: 'record_date' }],
+    fields: [
+      { prettyName: 'Record Date', columnName: 'record_date', dataType: 'DATE' },
+      { prettyName: 'Test Field', columnName: 'test_field', dataType: 'STRING' },
+    ],
   };
-  const mockColumnConfigs = [{ id: 'record_date' }];
+  const setFilterValueSpy = jest.fn();
+  const mockColumnConfigs = [
+    { id: 'record_date', columnDef: { accessorKey: 'record_date' }, setFilterValue: jest.fn() },
+    { id: 'test_field', columnDef: { accessorKey: 'test_field' }, setFilterValue: setFilterValueSpy },
+  ];
   const mockContextValues = {
     tableState: {
       getAllLeafColumns: jest.fn().mockImplementation(() => mockColumnConfigs),
@@ -127,11 +135,72 @@ describe('Table filters dropdown', () => {
     const filterButton = getByRole('button', { name: 'Record Date' });
     expect(filterButton).toBeInTheDocument();
   });
+
+  it('Applies text filters on apply button click', () => {
+    const { getByRole } = render(
+      <DataTableContext.Provider
+        value={{
+          ...mockContextValues,
+        }}
+      >
+        <DataPreviewTableFilters
+          width={1000}
+          selectedTable={mockSelectedTable}
+          setIsCustomDateRange={setIsCustomDateRange}
+          handleDateRangeChange={handleDateRangeChange}
+          setIsFiltered={setIsFiltered}
+          pivotView={mockPivotView}
+        />
+      </DataTableContext.Provider>
+    );
+
+    const filterDropdown = getByRole('button', { name: 'Filters: 0 applied' });
+    fireEvent.click(filterDropdown);
+    fireEvent.click(getByRole('button', { name: 'Test Field' }));
+    const filter = getByRole('textbox', { name: 'Enter filter term' });
+    userEvent.click(filter);
+    expect(filter).toHaveFocus();
+    userEvent.keyboard('test');
+    fireEvent.click(getByRole('button', { name: 'Apply' }));
+    expect(getByRole('button', { name: 'Filters: 1 applied' })).toBeInTheDocument();
+    expect(setFilterValueSpy).toHaveBeenCalled();
+  });
+
+  it('Clears pending filters on cancel button click', () => {
+    setFilterValueSpy.mockClear();
+    const { getByRole } = render(
+      <DataTableContext.Provider
+        value={{
+          ...mockContextValues,
+        }}
+      >
+        <DataPreviewTableFilters
+          width={1000}
+          selectedTable={mockSelectedTable}
+          setIsCustomDateRange={setIsCustomDateRange}
+          handleDateRangeChange={handleDateRangeChange}
+          setIsFiltered={setIsFiltered}
+          pivotView={mockPivotView}
+        />
+      </DataTableContext.Provider>
+    );
+
+    const filterDropdown = getByRole('button', { name: 'Filters: 0 applied' });
+    fireEvent.click(filterDropdown);
+    fireEvent.click(getByRole('button', { name: 'Test Field' }));
+    const filter = getByRole('textbox', { name: 'Enter filter term' });
+    userEvent.click(filter);
+    expect(filter).toHaveFocus();
+    userEvent.keyboard('test');
+    fireEvent.click(getByRole('button', { name: 'Cancel' }));
+    expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
+    expect(setFilterValueSpy).not.toHaveBeenCalled();
+  });
 });
 
 describe('Table Filter Date Range Presets', () => {
   const datasetConfig = { currentDateButton: 'byFullMonth', techSpecs: { earliestDate: '3-17-2020', latestDate: '3-17-2025' } };
-  const mockColumnConfigs = [{ id: 'column A' }];
+  const mockColumnConfigs = [{ id: 'column A' }, { id: 'column B' }];
   const mockContextValues = {
     tableState: {
       getAllLeafColumns: jest.fn().mockImplementation(() => mockColumnConfigs),
@@ -141,7 +210,10 @@ describe('Table Filter Date Range Presets', () => {
     earliestDate: '2002-01-01',
     latestDate: '2020-01-01',
     dateField: 'column A',
-    fields: [{ columnName: 'column A', prettyName: 'Column A', dataType: 'DATE' }],
+    fields: [
+      { columnName: 'column A', prettyName: 'Column A', dataType: 'DATE' },
+      { columnName: 'column B', prettyName: 'Column B', dataType: 'STRING' },
+    ],
   };
   const mockPivotView = { title: 'Complete Table' };
 
@@ -440,6 +512,7 @@ describe('Table Filter Date Range Presets', () => {
       const radioBtn = getByRole('radio', { name: expectedLabel });
       expect(radioBtn).toBeInTheDocument();
     });
+
     // TODO: Add back when analytics are enabled
     // it('initiates Analytics.event with correct parameters for all buttons', async () => {
     //   const { getByRole } = render(

@@ -28,8 +28,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   handleDateRangeChange,
   setIsCustomDateRange,
   finalDatesNotFound,
-  detailApi,
-  detailViewState,
   apiData,
   setViewMode,
   currentDateButton,
@@ -41,7 +39,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   const isDisabled = apiFilterDefault;
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
-
   const getChartingInfo = () => {
     const pivotCharting = selectedPivot && pivotView && pivotView.chartType === 'none';
     const dataDisplaysCharting = dataDisplays && dataDisplays.every(dd => dd.chartType === 'none');
@@ -72,8 +69,8 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
         <div className={filterContainer}>
           <DataPreviewTableFilters
             selectedTable={selectedTable}
-            config={dataset}
             setDateRange={setDateRange}
+            dateRange={dateRange}
             allTablesSelected={allTablesSelected}
             handleDateRangeChange={handleDateRangeChange}
             setIsCustomDateRange={setIsCustomDateRange}

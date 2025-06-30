@@ -12,33 +12,25 @@ interface ButtonData {
 interface DialogSearchProps {
   options: ButtonData[];
   searchBarLabel: string;
-  selectedTable?: any;
-  setSelectedTable?: any;
-  selectedFilter?: any;
-  setSelectedFilter?: any;
+  selectedOption;
+  setSelectedOption;
   optionLabelKey: string;
-  secondaryLabelKey: string;
+  secondaryLabelKey?: string;
 }
 
 const DataPreviewDropdownDialogSearch: FunctionComponent<DialogSearchProps> = ({
-  selectedTable,
-  setSelectedTable,
-  selectedFilter,
-  setSelectedFilter,
+  selectedOption,
+  setSelectedOption,
   options,
   searchBarLabel,
   optionLabelKey,
   secondaryLabelKey,
   isFilter,
-  active,
 }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
   const handleSearchChange = (option: ButtonData) => {
-    if (setSelectedTable) {
-      setSelectedTable(option);
-    }
-    if (setSelectedFilter) {
-      setSelectedFilter(option);
+    if (setSelectedOption) {
+      setSelectedOption(option);
     }
   };
 
@@ -46,7 +38,7 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<DialogSearchProps> = ({
     <div className={dataTableSearchContainer}>
       <ComboSelectDropdown
         active={true}
-        selectedOption={selectedTable || selectedFilter}
+        selectedOption={selectedOption}
         updateSelection={handleSearchChange}
         searchBarLabel={searchBarLabel}
         options={options}
