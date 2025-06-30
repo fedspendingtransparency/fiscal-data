@@ -134,17 +134,6 @@ describe('DataPreview', () => {
     expect(to).toContain(latestDate);
     // should be previous 5 years since the earliestDate is more than 5 years
     expect(from).toContain(fivePrior);
-
-    // const { getByRole, findByRole } = render(
-    //   <RecoilRoot>
-    //     <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-    //   </RecoilRoot>
-    // );
-    //
-    // const filtersDropdown = getByRole('button', { name: 'Filters: 0 applied' });
-    // fireEvent.click(filtersDropdown);
-    // const to = await findByRole('radio');
-    // fireEvent.click(to);
   });
 
   // it(`updates date range to appropriate values when new table is selected`, async () => {

@@ -16,7 +16,7 @@ import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
 import { formatDateForApi, monthNames } from '../../../../utils/api-utils';
 import { DataTableContext } from '../../data-preview-context';
-import { basePreset, createFilterConfigs, customPreset, fallbackPresets, getDaysArray, possiblePresets } from './data-preview-filter-helper';
+import { basePreset, createFilterConfigs, customPreset, fallbackPresets, getDaysArray } from './data-preview-filter-helper';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -57,6 +57,11 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // Not all datasets will have 5 years of information; but, this is the ideal default preset.
   let idealDefaultPreset = { key: '5yr', years: 5 };
 
+  const possiblePresets = [
+    { label: '1 Year', key: '1yr', years: 1 },
+    { label: '5 Years', key: '5yr', years: 5 },
+    { label: '10 Years', key: '10yr', years: 10 },
+  ];
   const allTablesDateRange = prepAvailableDates(datasetDateRange);
   /**
    * DATE RANGE
@@ -103,7 +108,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const placeApplicableYearPresets = ({ to, from }) => {
     const curPresets = basePreset.slice();
     const dateYearDifference = differenceInYears(to, from);
-    console.log(dateYearDifference, possiblePresets);
     for (let i = possiblePresets.length; i--; ) {
       if (possiblePresets[i].years <= dateYearDifference) {
         possiblePresets.length = i + 1;

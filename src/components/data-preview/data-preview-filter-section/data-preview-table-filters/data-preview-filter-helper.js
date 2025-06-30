@@ -10,11 +10,6 @@ export const getDaysArray = (start, end) => {
 };
 
 export const basePreset = [{ label: 'All', key: 'all', years: null }];
-export const possiblePresets = [
-  { label: '1 Year', key: '1yr', years: 1 },
-  { label: '5 Years', key: '5yr', years: 5 },
-  { label: '10 Years', key: '10yr', years: 10 },
-];
 export const customPreset = { label: 'Custom', key: 'custom', years: null };
 // If a data table has less than 5 years of data, we need to find the next best option to select
 // by default.
@@ -31,8 +26,8 @@ export const createFilterConfigs = (fields, datePreset, selectedTable) => {
         field.pendingEndDate = null;
       }
       if (field.columnName === selectedTable?.dateField && datePreset) {
-        field.defaultStartDate = datePreset?.from;
-        field.defaultEndDate = datePreset?.to;
+        field.defaultStartDate = datePreset?.from?.toString();
+        field.defaultEndDate = datePreset?.to?.toString();
       }
     } else {
       if (!field?.pendingValue) {
