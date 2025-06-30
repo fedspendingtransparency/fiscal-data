@@ -16,7 +16,7 @@ export const customPreset = { label: 'Custom', key: 'custom', years: null };
 export const fallbackPresets = ['1yr', 'current', 'all'];
 
 export const createFilterConfigs = (fields, datePreset, selectedTable) => {
-  const fieldsConfig = [...fields];
+  const fieldsConfig = JSON.parse(JSON.stringify(fields));
   fieldsConfig.forEach(field => {
     if (field.dataType === 'DATE') {
       if (!field?.pendingStartDate) {

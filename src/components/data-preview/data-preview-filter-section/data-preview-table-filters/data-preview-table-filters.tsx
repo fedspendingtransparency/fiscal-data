@@ -233,7 +233,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   };
 
   const handleApply = () => {
-    const { fields } = selectedTable;
+    const fields = filterFieldConfig;
     const allAppliedFilters = [];
     table.getAllLeafColumns().forEach(col => {
       const matchedIndex = fields.findIndex(field => field.columnName === col.columnDef?.accessorKey);
@@ -248,7 +248,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
             allAppliedFilters.push(field.columnName);
           }
         } else {
-          //TODO: Readd code when implementing date filters
+          //TODO: Re-add code when implementing date filters
           // const startDate = fields[matchedIndex]?.pendingStartDate;
           // const endDate = fields[matchedIndex]?.pendingEndDate;
           // if (startDate && endDate) {
@@ -299,10 +299,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // }, [active]);
 
   useEffect(() => {
-    if (filterFieldConfig) {
-      setFilterFieldsConfig(createFilterConfigs(selectedTable.fields, null, selectedTable));
-    }
-  }, [selectedTable]);
+    setFilterFieldsConfig(createFilterConfigs(selectedTable.fields, null, selectedTable));
+    setAppliedFilters([]);
+  }, [selectedTable, pivotView]);
 
   useEffect(() => {
     const search = filter.toLowerCase();
