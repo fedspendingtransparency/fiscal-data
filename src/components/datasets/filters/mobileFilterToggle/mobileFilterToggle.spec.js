@@ -1,53 +1,54 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render, screen } from '@testing-library/react';
 import MobileFilterToggle from './mobileFilterToggle';
 import { resetButton } from './mobileFilterToggle.module.scss';
-jest.useFakeTimers();
+import userEvent from '@testing-library/user-event';
+
 describe('Mobile Filter Toggle', () => {
-  let component = renderer.create();
-  let instance;
-  let mobileToggleSpy = null;
-  let mobileToggle;
-  let toggleButton;
   const mobileToggleFn = jest.fn();
   const filterResetFn = jest.fn();
 
-  renderer.act(() => {
-    component = renderer.create(
-      <MobileFilterToggle filterCnt={3} datasetsView={true} toggleDatasetView={mobileToggleFn} datasetsCount={13} filterReset={filterResetFn} />
+  const renderToggle = (props = {}) =>
+    render(
+      <MobileFilterToggle
+        filterCnt={3}
+        datasetsView={true}
+        toggleDatasetView={mobileToggleFn}
+        datasetsCount={13}
+        filterReset={filterResetFn}
+        {...props}
+      />
     );
+
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  instance = component.root;
-  mobileToggleSpy = jest.spyOn(instance.props, 'toggleDatasetView');
-  mobileToggle = instance.findByType(MobileFilterToggle);
-  toggleButton = mobileToggle.findByProps({ className: 'toggleButton' });
-
   it('renders element', () => {
-    expect(mobileToggle).toBeDefined();
+    renderToggle();
+    expect(screen.getByTestId('mobile-filter-toggle')).toBeInTheDocument();
   });
 
   it('shows toggle button text as filter your results when viewing datasets', () => {
-    expect(toggleButton.props.children).toBe('Filter Your Results');
+    renderToggle({ datasetsView: true });
+    expect(screen.getByRole('button', { name: 'Filter Your Results' })).toBeInTheDocument();
   });
 
   it('toggles datasetView when toggle button is clicked', async () => {
-    renderer.act(() => {
-      toggleButton.props.onClick(false);
-    });
-
-    jest.runAllTimers();
-    expect(mobileToggleSpy).toHaveBeenCalled();
+    renderToggle({ datasetsView: true });
+    await userEvent.click(screen.getByRole('button', { name: 'Filter Your Results' }));
+    expect(mobileToggleFn).toHaveBeenCalledTimes(1);
   });
 
-  it('shows filter reset button when datasetViews are false and activeFilters.length >0', () => {
-    renderer.act(() => {
-      component = renderer.create(
-        <MobileFilterToggle filterCnt={3} datasetsView={false} toggleDatasetView={mobileToggleFn} datasetsCount={13} filterReset={filterResetFn} />
-      );
-    });
-    instance = component.root;
-    const resetFiltersButton = instance.findByProps({ className: resetButton });
-    expect(resetFiltersButton).toBeDefined();
+  it('shows filter reset button when datasetViews are false and activeFilters.length >0', async () => {
+    renderToggle({ datasetsView: false });
+
+    expect(screen.getByRole('button', { name: /reset/i })).toHaveClass(resetButton);
+  });
+
+  it('calls filterReset when the reset button is clicked', async () => {
+    renderToggle({ datasetsView: false });
+    await userEvent.click(screen.getByRole('button', { name: /reset/i }));
+    expect(filterResetFn).toHaveBeenCalledTimes(1);
   });
 });

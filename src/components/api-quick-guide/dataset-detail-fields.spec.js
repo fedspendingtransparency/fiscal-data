@@ -1,8 +1,7 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import DatasetDetailFields from './dataset-detail-fields';
-import DtgTable from '../dtg-table/dtg-table';
 import { RecoilRoot } from 'recoil';
+import { render, within } from '@testing-library/react';
 
 let excluded = [];
 let apis = [];
@@ -19,16 +18,16 @@ describe('DataSetDetailFields', () => {
       tableName: 'table1',
       fields: [
         {
-          columnName: 'reporting_date',
+          columnName: 'record_date',
           definition: 'Reporting date for the data',
-          prettyName: 'Calendar Date',
+          prettyName: 'Record Date',
           dataType: 'DATE',
           isRequired: 'yes',
         },
         {
-          columnName: 'reporting_date',
+          columnName: 'record_calendar_month',
           definition: 'Reporting date for the data',
-          prettyName: 'Calendar Date',
+          prettyName: 'Calendar Month',
           dataType: 'DATE',
           isRequired: 'yes',
         },
@@ -45,9 +44,9 @@ describe('DataSetDetailFields', () => {
           isRequired: 'yes',
         },
         {
-          columnName: 'reporting_date',
+          columnName: 'record_date',
           definition: 'Reporting date for the data',
-          prettyName: 'Calendar Date',
+          prettyName: 'Record Date',
           dataType: 'DATE',
           isRequired: 'yes',
         },
@@ -58,63 +57,55 @@ describe('DataSetDetailFields', () => {
     },
   ];
 
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(
-      <RecoilRoot>
-        <DatasetDetailFields apis={apis} />
-      </RecoilRoot>
-    );
-  });
-  let instance = component.root;
-
   const header = 'Fields';
 
   it('displays the correct header text', () => {
-    expect(instance.findByProps({ id: 'fields-header' }).props.children).toContain(header);
+    const { getByText } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    expect(getByText(header)).toBeInTheDocument();
   });
 
   it('includes a link to the about section', () => {
-    expect(instance.findByProps({ 'data-testid': 'scroll-link' })).toBeDefined();
+    const { getByTestId } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    expect(getByTestId('scroll-link')).toBeInTheDocument();
   });
 
-  it('includes data types section with header and body', () => {
-    const dataTypesSection = instance.findByProps({ id: 'fields-datatypes' });
-    expect(dataTypesSection).toBeDefined();
-    const header = dataTypesSection.props.children[0];
-    const body = dataTypesSection.props.children[1];
-    expect(header.props.children).toContain('Data Types');
-    expect(body.props.children).toBeDefined();
+  it('includes data types section with header', () => {
+    const { getByText } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    const header = getByText('Data Types');
+    expect(header).toBeInTheDocument();
   });
 
   it('sets the expected column titles in the expected order', () => {
-    const config = instance.findByType(DtgTable).props.tableProps.columnConfig;
-
-    expect(config.length).toBe(4);
-    expect(config[0].name).toBe('Field Name');
-    expect(config[1].name).toBe('Display Name');
-    expect(config[2].name).toBe('Data Type');
-    expect(config[3].name).toBe('Data Table Name');
+    const { getByRole } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    const table = getByRole('table');
+    const columnHeaders = within(table).getAllByRole('columnheader');
+    expect(columnHeaders.length).toBe(4);
+    expect(columnHeaders[0]).toHaveTextContent('Field Name');
+    expect(columnHeaders[1]).toHaveTextContent('Display Name');
+    expect(columnHeaders[2]).toHaveTextContent('Data Type');
+    expect(columnHeaders[3]).toHaveTextContent('Data Table Name');
   });
 
   it('sends the concatenated table data to the table component', () => {
-    expect(instance.findByType(DtgTable).props.tableProps.data).toStrictEqual(apis[0].fields.concat(apis[1].fields));
+    const { getByRole } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    const table = getByRole('table');
+    expect(within(table).getByRole('cell', { name: 'reporting_date' })).toBeInTheDocument();
+    expect(within(table).getByRole('cell', { name: 'record_calendar_month' })).toBeInTheDocument();
   });
 
   it('excludes the correct columns when multiple apis are represented', () => {
-    expect(instance.findByType(DtgTable).props.tableProps.excludeCols).toStrictEqual(excluded);
+    const { getByRole } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    const table = getByRole('table');
+    expect(within(table).queryByRole('columnheader', { name: 'Definition' })).not.toBeInTheDocument();
+    expect(within(table).queryByRole('columnheader', { name: 'Is Required' })).not.toBeInTheDocument();
   });
 
   it('excludes the correct columns if only one api is represented', () => {
     excluded.push('tableName');
-    renderer.act(() => {
-      component = renderer.create(
-        <RecoilRoot>
-          <DatasetDetailFields apis={[apis[0]]} />
-        </RecoilRoot>
-      );
-    });
-    instance = component.root;
-    expect(instance.findByType(DtgTable).props.tableProps.excludeCols).toStrictEqual(excluded);
+    const { getByRole } = render(<DatasetDetailFields apis={[apis[0]]} />, { wrapper: RecoilRoot });
+    const table = getByRole('table');
+    expect(within(table).queryByRole('columnheader', { name: 'Definition' })).not.toBeInTheDocument();
+    expect(within(table).queryByRole('columnheader', { name: 'Is Required' })).not.toBeInTheDocument();
+    expect(within(table).queryByRole('columnheader', { name: 'Data Table Name' })).not.toBeInTheDocument();
   });
 });

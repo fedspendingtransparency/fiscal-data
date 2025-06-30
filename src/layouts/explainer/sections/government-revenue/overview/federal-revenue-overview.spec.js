@@ -65,12 +65,12 @@ describe('Spending Key Takeaways evergreen values', () => {
 
   it('renders the data correctly in the overview section', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText, getAllByText } = render(<FederalRevenueOverview />);
+    const { findByText, getAllByText } = render(<FederalRevenueOverview />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getByText('in FY 2021', { exact: false })).toBeInTheDocument();
-    expect(await getAllByText('2 billion', { exact: false })[0]).toBeInTheDocument();
-    expect(await getByText('spent more', { exact: false })).toBeInTheDocument();
-    expect(await getAllByText('deficit', { exact: false })[0]).toBeInTheDocument();
-    expect(await getByText('22 billion', { exact: false })).toBeInTheDocument();
+    expect(await findByText('in FY 2021', { exact: false })).toBeInTheDocument();
+    expect(getAllByText('2 billion', { exact: false })[0]).toBeInTheDocument();
+    expect(await findByText('spent more', { exact: false })).toBeInTheDocument();
+    expect(getAllByText('deficit', { exact: false })[0]).toBeInTheDocument();
+    expect(await findByText('22 billion', { exact: false })).toBeInTheDocument();
   });
 });
