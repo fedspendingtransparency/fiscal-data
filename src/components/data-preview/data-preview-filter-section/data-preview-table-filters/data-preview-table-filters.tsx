@@ -115,7 +115,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         break;
       }
     }
-    // console.log('curPresets', curPresets);
     return curPresets;
   };
 
