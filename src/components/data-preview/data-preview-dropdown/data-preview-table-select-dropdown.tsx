@@ -142,7 +142,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       onApply={handleApply}
       filterName={tableToApply.tableName}
       hasSearch={false}
-      backButtonText={'Data Tables'}
+      backButtonText="Data Tables"
       filterComponent={
         <DataPreviewPivotSelect
           table={tableToApply}
@@ -161,15 +161,17 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       onCancel={handleCancel}
       onBack={handleCancel}
       onApply={handleApply}
-      filterName={'Data Tables'}
+      filterName="Data Tables"
       searchText="Search data tables"
+      // filter={}
+      // setFilter={}
       filterComponent={
         <DataPreviewMobileFilterList
           filterOptions={options}
-          getName={option => option.tableName}
+          optionLabelKey="tableName"
           selectedTable={allTablesSelected ? allTablesOption.tableName : selectedTable?.tableName}
           onTableSelected={updateSelectedTable}
-          onDataTableSelected={table => {
+          onDataTableSelected={() => {
             setIsDataTableSelected(true);
           }}
         />
@@ -187,8 +189,8 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
                 <DataPreviewDropdownDialogSearch
                   options={options}
                   searchBarLabel="Search data tables"
-                  selectedTable={tableToApply}
-                  setSelectedTable={updateSelectedTable}
+                  selectedOption={tableToApply}
+                  setSelectedOption={updateSelectedTable}
                   optionLabelKey="tableName"
                 />
               }

@@ -336,8 +336,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         <DataPreviewMobileFilterList
           filterOptions={visibleOptions}
           filter={filter}
-          getName={option => option.prettyName}
-          getSecondary={option => option.secondary}
+          optionLabelKey="prettyName"
+          secondaryLabelKey="filterValue"
           onIsFilterSelected={() => {
             setIsFilterSelected(true);
           }}
@@ -396,8 +396,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
                 <DataPreviewDropdownDialogSearch
                   options={visibleOptions}
                   searchBarLabel="Search filters"
-                  selectedFilter={selectedColumn}
-                  setSelectedFilter={setSelectedColumn}
+                  selectedOption={selectedColumn}
+                  setSelectedOption={setSelectedColumn}
                   optionLabelKey="prettyName"
                   secondaryLabelKey="filterValue"
                   isFilter={true}

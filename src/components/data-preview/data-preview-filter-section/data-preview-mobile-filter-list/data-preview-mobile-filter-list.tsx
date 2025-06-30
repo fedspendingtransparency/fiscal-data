@@ -18,11 +18,11 @@ export interface IMobileFilterList {
   onDataTableSelected?: (selectedOption: any) => void;
   onIsFilterSelected?: (selectedOption: any) => void;
   onWhichFilterSelected?: (selectedOption: any) => void;
-  getName: (option: any) => string;
-  getSecondary: (option: any) => string;
   selectedTable: string;
   selectedFilter: string;
   filter: string;
+  optionLabelKey: string;
+  secondaryLabelKey?: string;
 }
 
 const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
@@ -31,8 +31,8 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
   onDataTableSelected,
   onIsFilterSelected,
   onWhichFilterSelected,
-  getName,
-  getSecondary = option => option.secondary,
+  optionLabelKey,
+  secondaryLabelKey,
   selectedTable = '',
   selectedFilter = '',
   filter,
@@ -40,12 +40,12 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
   return (
     <>
       {filterOptions.map((filterOption, index) => {
+        const displayName = filterOption[optionLabelKey];
+        const subHeader = filterOption[secondaryLabelKey];
         return (
           <div key={index}>
             <button
-              className={`${buttonSleeve} ${getName(filterOption) === selectedTable ? selected : ''} ${
-                getName(filterOption) === selectedFilter ? active : ''
-              }`}
+              className={`${buttonSleeve} ${displayName === selectedTable ? selected : ''} ${displayName === selectedFilter ? active : ''}`}
               onClick={() => {
                 onDataTableSelected?.(filterOption);
                 onTableSelected?.(filterOption);
@@ -54,21 +54,8 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
               }}
             >
               <div className={left}>
-                {/*temp fix until we add search/filter functionality to data tables on mobile dialog*/}
-                {filter !== undefined && (
-                  <div>
-                    <span className={optionName}>{underlineMatchedString(getName(filterOption), filter)}</span>
-                    {getSecondary(filterOption) && (
-                      <span className={optionSecondary}>{underlineMatchedString(getSecondary(filterOption)!, filter)}</span>
-                    )}
-                  </div>
-                )}
-                {filter === undefined && (
-                  <div>
-                    <span className={optionName}>{getName(filterOption)}</span>
-                    {getSecondary(filterOption) && <span className={optionSecondary}>{getSecondary(filterOption)}</span>}
-                  </div>
-                )}
+                <span className={optionName}>{filter !== undefined ? underlineMatchedString(displayName, filter) : displayName}</span>
+                {secondaryLabelKey && <span className={optionSecondary}>{subHeader || 'No filter selected'}</span>}
               </div>
               <div className={right}>
                 <FontAwesomeIcon icon={faCaretRight} />
