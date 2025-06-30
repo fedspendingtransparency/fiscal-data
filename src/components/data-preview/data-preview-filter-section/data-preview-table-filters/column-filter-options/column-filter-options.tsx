@@ -5,7 +5,6 @@ import SearchFilter from '../../../../search-filter/search-filter';
 interface IColumnFilterOptions {
   selectedColumn;
   selectedTable;
-  config;
   activePresetKey;
   presetCustomDateRange;
   presets;

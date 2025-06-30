@@ -10,7 +10,8 @@ interface iSearchFilter {
 
 const SearchFilter: FunctionComponent<iSearchFilter> = ({ searchLabel, hideIcons, columnConfig }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
-  const [filterVal, setFilterVal] = useState(columnConfig?.pendingValue);
+  const defaultDisplayValue = () => (columnConfig?.pendingValue ? columnConfig?.pendingValue : columnConfig?.filterValue);
+  const [filterVal, setFilterVal] = useState(defaultDisplayValue());
 
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
@@ -19,7 +20,7 @@ const SearchFilter: FunctionComponent<iSearchFilter> = ({ searchLabel, hideIcons
   };
 
   useEffect(() => {
-    setFilterVal(columnConfig?.pendingValue);
+    setFilterVal(defaultDisplayValue());
   }, [columnConfig]);
 
   return (
