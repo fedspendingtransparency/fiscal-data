@@ -4,6 +4,7 @@ import { monthFullNames } from '../../../../../../utils/api-utils';
 import DropdownLabelButton from '../../../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogSearch from '../../../../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 
 const generateYearOptions = (earliestDate: Date, latestDate: Date) => {
   const startYear = new Date(earliestDate).getFullYear();
@@ -90,9 +91,17 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
     }
   };
 
-  const monthsButton = <DropdownLabelButton label="Month" selectedOption={selectedMonth?.label} active={monthsActive} setActive={setMonthsActive} />;
+  const monthsButton = (
+    <DropdownLabelButton label="Month" selectedOption={selectedMonth?.label} active={monthsActive} setActive={setMonthsActive} icon={faCalendar} />
+  );
   const yearsButton = (
-    <DropdownLabelButton label="Year" selectedOption={selectedYear?.label.toString()} active={yearsActive} setActive={setYearsActive} />
+    <DropdownLabelButton
+      label="Year"
+      selectedOption={selectedYear?.label.toString()}
+      active={yearsActive}
+      setActive={setYearsActive}
+      icon={faCalendar}
+    />
   );
 
   return (
