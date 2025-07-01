@@ -3,11 +3,13 @@
 .dataTableSearchContainer {
   width: inherit;
 
-  :global(.dropdownContainerBorder) {
-    box-shadow: none;
-    border-radius: 0;
-    margin-top: 0;
-    height: 22.75rem;
+  .hideDropdownBorder {
+    :global(.dropdownContainerBorder) {
+      box-shadow: none;
+      border-radius: 0;
+      margin-top: 0;
+      height: 22.75rem;
+    }
   }
 
   :global(.globalDropdownList) {

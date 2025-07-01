@@ -100,7 +100,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
       {years && months && (
         <div className={monthYearContainer}>
           <div className={filterContainer}>
-            <DropdownContainer dropdownButton={monthsButton} setActive={updateMonth} active={monthsActive}>
+            <DropdownContainer dropdownButton={monthsButton} setActive={setMonthsActive} active={monthsActive}>
               {monthsActive && (
                 <DataPreviewDropdownDialogSearch
                   options={months}
@@ -108,6 +108,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
                   selectedOption={selectedMonth}
                   setSelectedOption={updateMonth}
                   optionLabelKey="label"
+                  noBorder={false}
                 />
               )}
             </DropdownContainer>
@@ -121,6 +122,7 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
                   selectedOption={selectedYear}
                   setSelectedOption={updateYear}
                   optionLabelKey="label"
+                  noBorder={false}
                 />
               )}
             </DropdownContainer>
