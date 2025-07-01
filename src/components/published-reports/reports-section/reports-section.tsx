@@ -84,7 +84,7 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
   const getDisplayStatus = (reports: IPublishedReportDataJson[]) => {
     return reports && reports.length > 0 ? 'block' : 'none';
   };
-
+  console.log('filterByReport', filterByReport);
   return (
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={sectionTitle} id="reports-and-files">
