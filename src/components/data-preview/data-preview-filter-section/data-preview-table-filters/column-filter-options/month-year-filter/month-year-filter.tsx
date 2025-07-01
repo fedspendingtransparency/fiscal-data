@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { filterContainer, monthYearContainer, selectorContainer } from './month-year-filter.module.scss';
+import { filterContainer, monthYearContainer } from './month-year-filter.module.scss';
 import { monthFullNames } from '../../../../../../utils/api-utils';
 import DropdownLabelButton from '../../../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../../../dropdown-container/dropdown-container';
@@ -90,40 +90,40 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
     }
   };
 
-  const monthsButton = <DropdownLabelButton label="Month" selectedOption={selectedMonth.label} active={monthsActive} setActive={setMonthsActive} />;
+  const monthsButton = <DropdownLabelButton label="Month" selectedOption={selectedMonth?.label} active={monthsActive} setActive={setMonthsActive} />;
   const yearsButton = (
-    <DropdownLabelButton label="Year" selectedOption={selectedYear.label.toString()} active={yearsActive} setActive={setYearsActive} />
+    <DropdownLabelButton label="Year" selectedOption={selectedYear?.label.toString()} active={yearsActive} setActive={setYearsActive} />
   );
 
   return (
     <>
       {years && months && (
         <div className={monthYearContainer}>
-          <div className={selectorContainer}>
-            <div className={filterContainer}>
-              <DropdownContainer dropdownButton={monthsButton} setActive={setMonthsActive} active={monthsActive}>
-                {monthsActive && (
-                  <DataPreviewDropdownDialogSearch
-                    options={months}
-                    searchBarLabel="Search months"
-                    selectedOption={selectedMonth}
-                    setSelectedOption={setSelectedMonth}
-                    optionLabelKey="label"
-                  />
-                )}
-              </DropdownContainer>
-              <DropdownContainer dropdownButton={yearsButton} setActive={setYearsActive} active={yearsActive}>
-                {yearsActive && (
-                  <DataPreviewDropdownDialogSearch
-                    options={years}
-                    searchBarLabel="Search years"
-                    selectedOption={selectedYear}
-                    setSelectedOption={setSelectedYear}
-                    optionLabelKey="label"
-                  />
-                )}
-              </DropdownContainer>
-            </div>
+          <div className={filterContainer}>
+            <DropdownContainer dropdownButton={monthsButton} setActive={updateMonth} active={monthsActive}>
+              {monthsActive && (
+                <DataPreviewDropdownDialogSearch
+                  options={months}
+                  searchBarLabel="Search months"
+                  selectedOption={selectedMonth}
+                  setSelectedOption={updateMonth}
+                  optionLabelKey="label"
+                />
+              )}
+            </DropdownContainer>
+          </div>
+          <div className={filterContainer}>
+            <DropdownContainer dropdownButton={yearsButton} setActive={setYearsActive} active={yearsActive}>
+              {yearsActive && (
+                <DataPreviewDropdownDialogSearch
+                  options={years}
+                  searchBarLabel="Search years"
+                  selectedOption={selectedYear}
+                  setSelectedOption={updateYear}
+                  optionLabelKey="label"
+                />
+              )}
+            </DropdownContainer>
           </div>
         </div>
       )}
