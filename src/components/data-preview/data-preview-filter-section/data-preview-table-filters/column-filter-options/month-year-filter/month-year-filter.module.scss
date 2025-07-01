@@ -1,0 +1,30 @@
+@import 'src/variables.module.scss';
+
+.monthYearContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+}
+
+.selectorContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.filterLabel {
+  font-size: $font-size-18;
+  font-weight: $semi-bold-weight;
+  padding: 0;
+  min-width: 20rem;
+}
+
+.filterContainer {
+  position: relative;
+  min-width: 20rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .selectorContainer {
+    flex-direction: column;
+  }
+}
