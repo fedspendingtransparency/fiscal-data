@@ -79,7 +79,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
 
   useEffect(() => {
     const allOptions = [defaultSelection];
-    reportConfig.optionValues.forEach(option => {
+    reportConfig.optionValues?.forEach(option => {
       allOptions.push({ label: option, value: option });
     });
     setFilterOptions(allOptions);
