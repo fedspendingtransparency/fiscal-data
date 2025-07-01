@@ -3,7 +3,7 @@
 .dataTableSearchContainer {
   width: inherit;
 
-  .hideDropdownBorder {
+  &.hideDropdownBorder {
     :global(.dropdownContainerBorder) {
       box-shadow: none;
       border-radius: 0;

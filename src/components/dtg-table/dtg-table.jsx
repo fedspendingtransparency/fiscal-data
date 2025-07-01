@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -6,18 +6,18 @@ import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
 import DtgTableRow from './dtg-table-row/dtg-table-row';
 import { loadingTimeout, netLoadingDelay, setColumns } from './dtg-table-helper';
 import PaginationControls, { defaultPerPageOptions } from '../pagination/pagination-controls';
-import { pagedDatatableRequest, formatDateForApi, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
+import { formatDateForApi, pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import {
-  overlayContainer,
-  overlay,
   loadingIcon,
-  overlayContainerNoFooter,
-  selectColumnsWrapper,
-  wrapper,
   noBorderStyle,
-  tableFooter,
+  overlay,
+  overlayContainer,
+  overlayContainerNoFooter,
   rowsShowingStyle,
+  selectColumnsWrapper,
+  tableFooter,
+  wrapper,
 } from './dtg-table.module.scss';
 import DataTable from '../data-table/data-table';
 import { useRecoilValue } from 'recoil';
@@ -355,7 +355,7 @@ export default function DtgTable({
         setReactTableData(dePaginated);
         setManualPagination(false);
         setIsLoading(false);
-      } else if (rawData && rawData.hasOwnProperty('data')) {
+      } else if (rawData !== null && rawData.hasOwnProperty('data')) {
         if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
           const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
           setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });

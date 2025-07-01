@@ -19,11 +19,12 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   presets,
 }) => {
   const monthYearCustomFilter = selectedTable?.dateField === selectedColumn?.columnName && selectedTable?.apiFilter?.disableDateRangeFilter;
+  const applyDateRange = () => {
+    // Apply date range to table
+  };
   return (
     <>
-      {selectedColumn.dataType === 'DATE' && monthYearCustomFilter && (
-        <MonthYearFilter selectedTable={selectedTable} setDateRange={() => console.log('set date range')} />
-      )}
+      {selectedColumn.dataType === 'DATE' && monthYearCustomFilter && <MonthYearFilter selectedTable={selectedTable} setDateRange={applyDateRange} />}
       {selectedColumn.dataType === 'DATE' && !monthYearCustomFilter && (
         <DateColumnFilter
           columnConfig={selectedColumn}
