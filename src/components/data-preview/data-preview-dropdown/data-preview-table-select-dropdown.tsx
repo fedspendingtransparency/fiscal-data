@@ -39,6 +39,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const [appliedTableView, setAppliedTableView] = useState('rawData');
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
   const [isDataTableSelected, setIsDataTableSelected] = useState(false);
+  const [filter, setFilter] = useState('');
   // 54px comes from subtracting the padding and margins on both sides of the container
   const containerWdith = 'calc(100vw - 54px)';
   const options = disableAllTables
@@ -142,7 +143,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       onApply={handleApply}
       filterName={tableToApply.tableName}
       hasSearch={false}
-      backButtonText={'Data Tables'}
+      backButtonText="Data Tables"
       filterComponent={
         <DataPreviewPivotSelect
           table={tableToApply}
@@ -161,17 +162,20 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       onCancel={handleCancel}
       onBack={handleCancel}
       onApply={handleApply}
-      filterName={'Data Tables'}
+      filterName="Data Tables"
       searchText="Search data tables"
+      filter={filter}
+      setFilter={setFilter}
       filterComponent={
         <DataPreviewMobileFilterList
           filterOptions={options}
-          getName={option => option.tableName}
+          optionLabelKey="tableName"
           selectedTable={allTablesSelected ? allTablesOption.tableName : selectedTable?.tableName}
           onTableSelected={updateSelectedTable}
-          onDataTableSelected={table => {
+          onDataTableSelected={() => {
             setIsDataTableSelected(true);
           }}
+          filter={filter}
         />
       }
     />
@@ -187,8 +191,8 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
                 <DataPreviewDropdownDialogSearch
                   options={options}
                   searchBarLabel="Search data tables"
-                  selectedTable={tableToApply}
-                  setSelectedTable={updateSelectedTable}
+                  selectedOption={tableToApply}
+                  setSelectedOption={updateSelectedTable}
                   optionLabelKey="tableName"
                 />
               }
