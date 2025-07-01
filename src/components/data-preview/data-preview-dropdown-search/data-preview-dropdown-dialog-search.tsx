@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { dataTableSearchContainer } from './data-preview-dropdown-dialog-search.module.scss';
+import { dataTableSearchContainer, hideDropdownBorder } from './data-preview-dropdown-dialog-search.module.scss';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 
 interface ButtonData {
@@ -26,6 +26,7 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<DialogSearchProps> = ({
   optionLabelKey,
   secondaryLabelKey,
   isFilter,
+  noBorder = true,
 }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
   const handleSearchChange = (option: ButtonData) => {
@@ -35,7 +36,7 @@ const DataPreviewDropdownDialogSearch: FunctionComponent<DialogSearchProps> = ({
   };
 
   return (
-    <div className={dataTableSearchContainer}>
+    <div className={`${dataTableSearchContainer} ${noBorder ? hideDropdownBorder : ''}`}>
       <ComboSelectDropdown
         active={true}
         selectedOption={selectedOption}
