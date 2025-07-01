@@ -8,10 +8,11 @@
       box-shadow: none;
       border-radius: 0;
       margin-top: 0;
-      height: 22.75rem;
     }
   }
-
+  :global(.dropdownContainerBorder) {
+    height: 22.75rem;
+  }
   :global(.globalDropdownList) {
     max-height: 16.0625rem !important;
   }
@@ -39,7 +40,7 @@
   display: flex;
   align-items: center;
   text-align: left;
-  padding: 0px 1rem;
+  padding: 0 1rem;
 
   &:hover {
     background-color: #eff6fb;
