@@ -69,6 +69,7 @@ describe('Month year filter', () => {
     fireEvent.click(decemberButton);
     monthButton = getByRole('button', { name: 'Month: December' });
     expect(monthButton).toBeInTheDocument();
+    userEvent.click(monthButton);
     const augustButton = getByRole('button', { name: 'August' });
     fireEvent.click(augustButton);
     monthButton = getByRole('button', { name: 'Month: August' });
