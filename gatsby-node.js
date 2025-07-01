@@ -492,6 +492,17 @@ exports.createSchemaCustomization = ({ actions }) => {
       customType: String,
       dateFormat: String,
     }
+    type RunTimeReportConfig {
+      filterField: String,
+      filterLabel: String,
+      dateFilterType: String,
+      unmatchedHeader: String,
+      unmatchedMessage: String,
+      defaultHeader: String,
+      defaultMessage: String,
+      searchText: String,
+      optionValues: [String!],
+    }
     type Datasets implements Node {
       publishedReports: [PublishedReport!],
       dataFormats: [String!],
@@ -511,6 +522,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       allPrettyNames: [String],
       hideRawDataTable: Boolean,
       hideReportDatePicker: Boolean,
+      runTimeReportConfig: RunTimeReportConfig,
     }
     type DownloadLimit {
       fileType: String,
@@ -590,6 +602,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             unmatchedMessage
             defaultHeader
             defaultMessage
+            optionValues
           }
           hideRawDataTable
           hideReportDatePicker
@@ -868,7 +881,18 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     if ((config.apis && config.apis[0].endpoint !== '') || config.hideRawDataTable) {
       const allResults = [];
       const allResultsLabels = {};
+      const runTimeReportOptions = [];
       for (const api of config.apis) {
+        if (config?.runTimeReportConfig) {
+          const filterConfig = config.runTimeReportConfig;
+          let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+          filterOptionsUrl += `${api.endpoint}?fields=${filterConfig.filterField}`;
+          filterOptionsUrl += `&page[size]=10000&sort=${filterConfig.filterField}`;
+          const options = await fetch(filterOptionsUrl).then(res =>
+            res.json().then(body => body.data.map(row => row[filterConfig.filterField]).sort((a, b) => a.localeCompare(b)))
+          );
+          runTimeReportOptions.push(...options);
+        }
         if (api.userFilter) {
           let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
           filterOptionsUrl += `${api.endpoint}?fields=${api.userFilter.field}`;
@@ -925,6 +949,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
           }
         }
+      }
+      if (config?.runTimeReportConfig) {
+        config.runTimeReportConfig.optionValues = [...new Set(runTimeReportOptions)]; // uniquify results
       }
       if (allResults.length > 0) {
         for (const api of config.apis) {
