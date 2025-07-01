@@ -33,6 +33,9 @@ export const createFilterConfigs = (fields, datePreset, selectedTable) => {
       if (!field?.pendingValue) {
         field.pendingValue = '';
       }
+      if (!field?.filterValue) {
+        field.filterValue = '';
+      }
     }
   });
   return fieldsConfig;
