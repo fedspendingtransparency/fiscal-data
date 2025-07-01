@@ -83,11 +83,13 @@ const MonthYearFilter: FunctionComponent<MonthYearFilterProps> = ({ selectedTabl
   const updateYear = (selection: { label: number; value: number }) => {
     if (selection !== null) {
       setSelectedYear(selection);
+      setYearsActive(false);
     }
   };
   const updateMonth = (selection: { label: string; value: number }) => {
     if (selection !== null) {
       setSelectedMonth(selection);
+      setMonthsActive(false);
     }
   };
 
