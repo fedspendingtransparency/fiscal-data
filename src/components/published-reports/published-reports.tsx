@@ -9,6 +9,7 @@ import LowerEnvironmentFeature from '../lower-environment-feature/lower-environm
 export const sectionTitle = 'Reports and Files';
 
 const PublishedReports: FunctionComponent<{ pageConfig: IDatasetConfig }> = ({ pageConfig }) => {
+  console.log(pageConfig);
   return (
     <>
       {pageConfig.reportGenKey && (
