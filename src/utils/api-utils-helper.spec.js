@@ -342,6 +342,6 @@ describe('API Utils Helper', () => {
     ];
 
     const res2 = helpers.buildTableColumnSortParams(tableColumnSortData2);
-    expect(res2.sort).toEqual('+record_date');
+    expect(res2.sort).toEqual('record_date');
   });
 });
