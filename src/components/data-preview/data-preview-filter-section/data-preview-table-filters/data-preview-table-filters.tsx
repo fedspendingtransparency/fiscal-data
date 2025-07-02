@@ -37,8 +37,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   filterFields,
 }) => {
   const { tableState: table, allColumns } = useContext(DataTableContext);
-
-  const [filterFieldConfig, setFilterFieldsConfig] = useState(createFilterConfigs(filterFields, null, selectedTable));
+  const [filterFieldConfig, setFilterFieldsConfig] = useState();
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState('');
@@ -181,6 +180,10 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   };
 
   useEffect(() => {
+    setFilterFieldsConfig(createFilterConfigs(filterFields, null, selectedTable));
+  }, []);
+
+  useEffect(() => {
     setMostAppropriatePreset();
   }, [presets]);
 
@@ -315,7 +318,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       if (initialCols?.length > 0) {
         setVisibleOptions(initialCols);
         setSelectedColumn(initialCols[0]);
-      } else {
+      } else if (filterFieldConfig) {
         setSelectedColumn(filterFieldConfig[0]);
       }
       setNoResults(false);
