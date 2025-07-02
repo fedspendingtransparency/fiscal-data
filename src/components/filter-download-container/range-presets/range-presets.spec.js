@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render, within } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import RangePresets from './range-presets';
 import { monthNames } from '../../../utils/api-utils';
 import Analytics from '../../../utils/analytics/analytics';
@@ -7,6 +7,7 @@ import { testReformatter } from './helpers/test-helper';
 import { addDays, subQuarters } from 'date-fns';
 import userEvent from '@testing-library/user-event';
 import { formatDate } from '../../download-wrapper/helpers';
+import { updateDatePicker } from '../datepickers/datepickers.spec';
 
 jest.useFakeTimers();
 
@@ -270,7 +271,7 @@ describe('Range Presets Component, without the current report radio option', () 
   });
 
   it('passes in expected parameters to DatePickers', async () => {
-    const { queryAllByRole, getByTestId } = render(
+    const { getAllByRole, getByTestId, getByText } = render(
       <RangePresets
         selectedTable={selectedTable}
         setIsFiltered={setIsFilteredMock}
@@ -283,28 +284,28 @@ describe('Range Presets Component, without the current report radio option', () 
 
     jest.runAllTimers();
 
-    const datePickers = queryAllByRole('textbox');
-    const availableDateRange = {
-      from: new Date(selectedTable.earliestDate.replace(/-/g, '/')),
-      to: new Date(selectedTable.latestDate.replace(/-/g, '/')),
-      earliestDate: selectedTable.earliestDate,
-      latestDate: selectedTable.latestDate,
-    };
-    const dateRangeSelection = {
-      from: new Date(2001, 1, 1),
-      to: new Date(),
-    };
+    const datePickers = getAllByRole('textbox');
+    //Displays error message for out of range dates
+    updateDatePicker(datePickers[0], '01/01/2001');
+    expect(getByText('Date should not be before minimal date')).toBeInTheDocument();
 
-    expect(datePickers.props.availableDateRange).toEqual(availableDateRange);
+    updateDatePicker(datePickers[0], '01/01/2025');
+    expect(getByText('Date should not be after maximal date')).toBeInTheDocument();
 
     setDateRangeMock.mockClear();
 
-    renderer.act(() => {
-      datePickers.props.setSelectedDates(dateRangeSelection);
-    });
-    jest.runAllTimers();
+    updateDatePicker(datePickers[0], '01/01/2005');
+    updateDatePicker(datePickers[1], '01/01/2019');
 
-    expect(setDateRangeMock).toHaveBeenCalledWith(dateRangeSelection);
+    expect(setDateRangeMock).toHaveBeenCalledWith({
+      earliestDate: '2002-01-01',
+      from: new Date('2005-01-01T06:00:00.000Z'),
+      latestDate: '2020-01-01',
+      min: '2002-01-01',
+      selectionPath: '5_years',
+      to: new Date('2019-01-01T06:00:00.000Z'),
+    });
+    setDateRangeMock.mockClear();
   });
 
   it(`fits a currently selected custom date to a newly selected table's available date range as needed`, () => {
@@ -313,7 +314,15 @@ describe('Range Presets Component, without the current report radio option', () 
     const mockFarEarlyTable = { earliestDate: '1995-01-01', latestDate: '1999-01-01' };
     const mockEarlyTable = { earliestDate: '1998-01-01', latestDate: '2011-01-01' };
     const mockInteriorTable = { earliestDate: '2005-01-01', latestDate: '2015-01-01' };
-    const rangeSelected = { from: new Date(2004, 0, 1), to: new Date(2020, 0, 1) };
+    const rangeSelected = {
+      from: new Date(2004, 0, 1),
+      to: new Date(2020, 0, 1),
+      earliestDate: '2002-01-01',
+      latestDate: '2020-01-01',
+      min: '2002-01-01',
+      selectionPath: '5_years',
+    };
+    const rangeSelectedStr = { from: '01/01/2004', to: '01/01/2020' };
     const { getAllByRole, getByTestId, rerender } = render(
       <RangePresets
         selectedTable={selectedTable}
@@ -329,15 +338,8 @@ describe('Range Presets Component, without the current report radio option', () 
     const datePickers = getAllByRole('textbox');
     setDateRangeMock.mockClear();
 
-    act(() => {
-      fireEvent.change(datePickers[0], { target: { value: formatDate(rangeSelected.from) } });
-      jest.runAllTimers();
-    });
-
-    act(() => {
-      fireEvent.change(datePickers[1], { target: { value: rangeSelected.to } });
-      jest.runAllTimers();
-    });
+    updateDatePicker(datePickers[0], rangeSelectedStr.from);
+    updateDatePicker(datePickers[1], rangeSelectedStr.to);
 
     expect(setDateRangeMock).toHaveBeenCalledWith(rangeSelected);
 
@@ -351,32 +353,27 @@ describe('Range Presets Component, without the current report radio option', () 
     rerender(<RangePresets selectedTable={mockLateTable} setIsFiltered={setIsFilteredMock} handleDateRangeChange={setDateRangeMock} />);
 
     expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('2010-01-01 - 2020-01-01');
-    expect(testReformatter(datePickers.props.selectedDateRange)).toEqual('2010-01-01 - 2020-01-01');
 
     // Early without overlap
     setDateRangeMock.mockClear();
     rerender(<RangePresets selectedTable={mockFarEarlyTable} setIsFiltered={setIsFilteredMock} handleDateRangeChange={setDateRangeMock} />);
     expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('1999-01-01 - 1999-01-01');
-    expect(testReformatter(datePickers.props.selectedDateRange)).toEqual('1999-01-01 - 1999-01-01');
 
     // Overlapping early
     setDateRangeMock.mockClear();
     rerender(<RangePresets selectedTable={mockEarlyTable} setIsFiltered={setIsFilteredMock} handleDateRangeChange={setDateRangeMock} />);
 
     expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('2004-01-01 - 2011-01-01');
-    expect(testReformatter(datePickers.props.selectedDateRange)).toEqual('2004-01-01 - 2011-01-01');
 
     // Inset on both ends
     setDateRangeMock.mockClear();
     rerender(<RangePresets selectedTable={mockInteriorTable} setIsFiltered={setIsFilteredMock} handleDateRangeChange={setDateRangeMock} />);
     expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('2005-01-01 - 2015-01-01');
-    expect(testReformatter(datePickers.props.selectedDateRange)).toEqual('2005-01-01 - 2015-01-01');
 
     // Overlapping both ends
     setDateRangeMock.mockClear();
     rerender(<RangePresets selectedTable={selectedTable} setIsFiltered={setIsFilteredMock} handleDateRangeChange={setDateRangeMock} />);
     expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('2004-01-01 - 2020-01-01');
-    expect(testReformatter(datePickers.props.selectedDateRange)).toEqual('2004-01-01 - 2020-01-01');
   });
 
   it('expands the range of available dates when allTablesSelected is set to true', () => {

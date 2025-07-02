@@ -19,8 +19,8 @@ import {
   selectedTableLessFields,
 } from './testHelpers';
 import * as setNoChartMessageMod from './set-no-chart-message';
-import DatasetChart from '../dataset-chart/dataset-chart';
 import GLOBALS from '../../../helpers/constants';
+import globalConstants from '../../../helpers/constants';
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { dataAggregationNotice } from './aggregation-notice/aggregation-notice';
@@ -103,8 +103,8 @@ describe('TableSectionContainer with data', () => {
     expect(await findByRole('table')).toBeInTheDocument();
   });
 
-  it('sends slug and currentTableName props to DatasetChart', () => {
-    const { findByTestId } = render(
+  it('sends slug and currentTableName props to DatasetChart citation', () => {
+    const { getByTestId, getByText } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -119,9 +119,8 @@ describe('TableSectionContainer with data', () => {
         />
       </RecoilRoot>
     );
-    const datasetChartElement = instance.findByType(DatasetChart);
-    expect(datasetChartElement.props.slug).toBe(mockConfig.slug);
-    expect(datasetChartElement.props.currentTable).toBe(selectedTable);
+    expect(getByText(`${globalConstants.BASE_SITE_URL}/datasets${mockConfig.slug}`)).toBeInTheDocument();
+    expect(getByText(selectedTable.tableName)).toBeInTheDocument();
   });
 
   it('shows no pivot options toggle when none are available', () => {
@@ -436,11 +435,9 @@ describe('TableSectionContainer with Pivot Options', () => {
   it(`configures the legend to be visible by default when the screen size is wider than tablet
   width, but once the user interactively toggles the state, changes in screen size are ignored
   with respect to legend visibility`, async () => {
-
     jest.useFakeTimers();
     global.window.innerWidth = GLOBALS.breakpoints.large + 1;
-    const { getByTestId, rerender, findByRole } = render(
-
+    const { getByTestId, rerender, findByRole, getByRole } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -452,27 +449,27 @@ describe('TableSectionContainer with Pivot Options', () => {
           selectedPivot={selectedPivotWithAggregation}
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
+          tabChangeHandler={jest.fn()}
+          selectedTab={1}
         />
       </RecoilRoot>
     );
 
     let datasetChart = getByTestId('dataset-chart');
     expect(datasetChart).toHaveClass('legendActive');
-
     // "interactively" toggle the legend to INVISIBLE
-    fireEvent.click(await findByRole('button', { name: 'Hide Legend' }));
-    // datasetChart = getByTestId('dataset-chart');
+    userEvent.click(getByRole('button', { name: 'Hide Legend' }));
+    datasetChart = getByTestId('dataset-chart');
     jest.runAllTimers();
 
     await waitFor(() => expect(datasetChart).not.toHaveClass('legendActive'));
 
     // "interactively" toggle the legend to VISIBLE
-    userEvent.click(getByTestId('pivotToggle'));
+    userEvent.click(getByRole('button', { name: 'Show Legend' }));
     datasetChart = getByTestId('dataset-chart');
     expect(datasetChart).toHaveClass('legendActive');
 
     // Change the screen size be narrower than the tablet threshold
-
     global.window.innerWidth = GLOBALS.breakpoints.large - 5;
     act(() => {
       rerender(
@@ -487,6 +484,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             selectedPivot={selectedPivotWithAggregation}
             setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
+            selectedTab={1}
           />
         </RecoilRoot>
       );
@@ -497,7 +495,7 @@ describe('TableSectionContainer with Pivot Options', () => {
     expect(datasetChart).toHaveClass('legendActive');
 
     // "interactively" toggle the legend to INVISIBLE
-    userEvent.click(getByTestId('pivotToggle'));
+    userEvent.click(getByRole('button', { name: 'Hide Legend' }));
 
     datasetChart = getByTestId('dataset-chart');
     expect(datasetChart).not.toHaveClass('legendActive');
@@ -517,6 +515,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             selectedPivot={selectedPivotWithAggregation}
             setUserFilterSelection={jest.fn()}
             setSelectedPivot={mockSetSelectedPivot}
+            selectedTab={1}
           />
         </RecoilRoot>
       );

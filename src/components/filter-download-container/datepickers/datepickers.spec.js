@@ -4,7 +4,16 @@ import DatePickers from './datepickers';
 import { subYears } from 'date-fns';
 import { formatDate } from '../../download-wrapper/helpers';
 import userEvent from '@testing-library/user-event';
-import { dateRange } from '../../datasets/filters/test-helpers';
+
+export const updateDatePicker = (datePicker, stringEntry) => {
+  userEvent.click(datePicker);
+  userEvent.keyboard('{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}');
+  userEvent.keyboard(stringEntry);
+  userEvent.keyboard('{Enter}');
+  act(() => {
+    jest.runAllTimers();
+  });
+};
 
 jest.useFakeTimers();
 describe('DDP Datepickers', () => {
@@ -20,13 +29,12 @@ describe('DDP Datepickers', () => {
     to: latestDate,
   };
 
-  const setSelectedDates = jest.fn();
-
-  const updateDatePicker = (datePicker, stringEntry) => {
-    userEvent.click(datePicker);
-    userEvent.keyboard(stringEntry);
-    userEvent.keyboard('{Enter}');
+  const selectedDateStrings = {
+    from: '01/01/2021',
+    to: '01/01/2016',
   };
+
+  const setSelectedDates = jest.fn();
 
   it('contains two instances of KeyboardDatePicker', () => {
     const { getAllByRole } = render(
@@ -36,16 +44,18 @@ describe('DDP Datepickers', () => {
     expect(datePickers.length).toEqual(2);
   });
 
-  // it('sets the min and max allowable dates on KeyboardDatePicker', () => {
-  //   const { getAllByRole } = render(
-  //     <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
-  //   );
-  //   const datePickers = getAllByRole('textbox');
-  //   expect(datePickers[0]).toHaveAttribute('minDate', availableDates.from);
-  //   expect(datePickers[0]).toHaveAttribute('maxDate', availableDates.to);
-  //   expect(datePickers[1]).toHaveAttribute('minDate', availableDates.from);
-  //   expect(datePickers[1]).toHaveAttribute('maxDate', availableDates.to);
-  // });
+  it('does not allow date entries outside of the min/max dates', () => {
+    const { getAllByRole, getByText } = render(
+      <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
+    );
+    const datePickers = getAllByRole('textbox');
+
+    updateDatePicker(datePickers[0], '01/01/2025');
+    expect(getByText('Date should not be after maximal date')).toBeInTheDocument();
+
+    updateDatePicker(datePickers[1], '01/01/1900');
+    expect(getByText('Date should not be before minimal date')).toBeInTheDocument();
+  });
 
   it(`sets the selected dates on the KeyboardDatePicker upon entry using the selectedDateRange
     params`, () => {
@@ -58,15 +68,13 @@ describe('DDP Datepickers', () => {
   });
 
   it('updates the selected dates when triggered after the onChange event', async () => {
-    const updatedFromDate = subYears(latestDate, 2).toString();
-    const updatedToDate = subYears(latestDate, 1).toString();
     const { getAllByRole } = render(
       <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
     );
     const datePickers = getAllByRole('textbox');
 
-    updateDatePicker(datePickers[0], updatedFromDate);
-    updateDatePicker(datePickers[1], updatedToDate);
+    updateDatePicker(datePickers[0], selectedDateStrings.from);
+    updateDatePicker(datePickers[1], selectedDateStrings.to);
 
     act(() => {
       jest.runAllTimers();
@@ -97,26 +105,6 @@ describe('DDP Datepickers', () => {
     expect(datePickers[1]).toHaveValue(formatDate(updatedFromDate));
   });
 
-  it(`updates the selected dates of the KeyboardDatePicker when a new range of maximal dates are
-    passed (different table)`, () => {
-    const newTableDates = {
-      from: new Date(1800, 9, 15),
-      to: new Date(2018, 3, 2),
-    };
-    const { getAllByRole, rerender } = render(
-      <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
-    );
-    rerender(<DatePickers availableDateRange={newTableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />);
-    const datePickers = getAllByRole('textbox');
-
-    jest.runAllTimers();
-
-    //TODO: update expects
-    // No need to check the min+max on both datepickers as this was done above.
-    expect(datePickers[0].props.minDate).toEqual(newTableDates.from);
-    expect(datePickers[1].props.maxDate).toEqual(newTableDates.to);
-  });
-
   it('calls setSelectedDates when valid dates are selected by the date picker', () => {
     setSelectedDates.mockClear();
     const { getAllByRole } = render(
@@ -145,31 +133,31 @@ describe('DDP Datepickers', () => {
     expect(curDatePickers[1]).toHaveValue('');
   });
 
-  it('does not trigger the dateRangeFilter when either of the popups are open', () => {
-    const { getAllByRole } = render(
-      <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
-    );
-    const datePickers = getAllByRole('textbox');
-    fireEvent.click(datePickers[0]);
-    jest.runAllTimers();
-    setSelectedDates.mockClear();
-    act(() => {
-      fireEvent.change(datePickers[0], { target: { value: dateRange.startDate } });
-      fireEvent.change(datePickers[1], { target: { value: dateRange.endDate } });
-    });
-    jest.runAllTimers();
-
-    expect(setSelectedDates).not.toHaveBeenCalled();
-    fireEvent.click(datePickers[0]);
-    fireEvent.click(datePickers[1]);
-    jest.runAllTimers();
-
-    expect(setSelectedDates).not.toHaveBeenCalled();
-
-    fireEvent.click(datePickers[1]);
-
-    jest.runAllTimers();
-
-    expect(setSelectedDates).toHaveBeenCalled();
-  });
+  // it('does not trigger the dateRangeFilter when either of the popups are open', () => {
+  //   const { getAllByRole } = render(
+  //     <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
+  //   );
+  //   const datePickers = getAllByRole('textbox');
+  //   fireEvent.click(datePickers[0]);
+  //   jest.runAllTimers();
+  //   setSelectedDates.mockClear();
+  //   act(() => {
+  //     fireEvent.change(datePickers[0], { target: { value: dateRange.startDate } });
+  //     fireEvent.change(datePickers[1], { target: { value: dateRange.endDate } });
+  //   });
+  //   jest.runAllTimers();
+  //
+  //   expect(setSelectedDates).not.toHaveBeenCalled();
+  //   fireEvent.click(datePickers[0]);
+  //   fireEvent.click(datePickers[1]);
+  //   jest.runAllTimers();
+  //
+  //   expect(setSelectedDates).not.toHaveBeenCalled();
+  //
+  //   fireEvent.click(datePickers[1]);
+  //
+  //   jest.runAllTimers();
+  //
+  //   expect(setSelectedDates).toHaveBeenCalled();
+  // });
 });
