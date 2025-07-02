@@ -1,0 +1,44 @@
+$state-and-local-government-series-primary: #a4bcfd;
+
+.legendContainer {
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.amountLegend {
+  display: flex;
+}
+.footerText {
+  font-weight: 600;
+}
+.amountText {
+  font-weight: 600;
+}
+
+.line {
+  margin-top: 0.5rem;
+  margin-right: 0.2rem;
+  display: inline-block;
+  width: 20px;
+  border-top: 2px solid #555555;
+}
+
+.rectangle {
+  width: 12px;
+  height: 16px;
+  background: $state-and-local-government-series-primary;
+  margin-left: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+.countLegend {
+  display: flex;
+}
+
+.chartTableBoarder {
+  border: 1px;
+  padding: 1rem 0.5rem;
+}
