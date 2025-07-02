@@ -37,6 +37,8 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   datasetDateRange,
 }) => {
   const isDisabled = apiFilterDefault;
+  const filterFields = JSON.parse(JSON.stringify(selectedTable.fields));
+
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
   const getChartingInfo = () => {
@@ -83,6 +85,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             setIsFiltered={setIsFiltered}
             datasetDateRange={datasetDateRange}
             pivotView={pivotView}
+            filterFields={filterFields}
           />
           <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} pivotView={pivotView} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
