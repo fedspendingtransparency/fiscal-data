@@ -89,27 +89,8 @@ describe('DataPreview', () => {
     fetchSpy.mockClear();
     global.fetch.mockClear();
     analyticsSpy.mockClear();
-    global.console.error.mockClear();
+    // global.console.error.mockClear();
   });
-
-  const updateTable = async tableName => {
-    const fdSectionInst = instance.findByType(DataPreviewFilterSection);
-    const toggleBtn = fdSectionInst.findByProps({
-      'data-testid': 'dropdownToggle',
-    });
-    await renderer.act(() => {
-      toggleBtn.props.onClick();
-    });
-    instance.findByProps({ 'data-testid': 'dropdown-list' }); // will throw error if not found
-    const dropdownOptions = instance.findAllByProps({
-      'data-testid': 'dropdown-list-option',
-    });
-    await renderer.act(async () => {
-      const opt = dropdownOptions.find(ddo => ddo.props.children.props.children === tableName);
-      await opt.props.onClick();
-    });
-    return dropdownOptions;
-  };
 
   it(`renders the DataPreview component which has the expected title text at desktop mode`, () => {
     const { getByTestId } = render(
@@ -146,7 +127,7 @@ describe('DataPreview', () => {
     expect(setSelectedTableFromUrl).toHaveBeenCalledWith(config.apis[2]);
   });
 
-  it(`initializes the dateRange to the appropriate values`, () => {
+  it(`initializes the dateRange to the appropriate values`, async () => {
     const dateRange = instance.findByType(DataPreviewFilterSection).props.dateRange;
     const from = format(dateRange.from, 'yyyy-MM-dd');
     const to = format(dateRange.to, 'yyyy-MM-dd');

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import {
   dropdownContainer,
@@ -15,9 +15,9 @@ import {
   unmatchedTerm,
 } from './combo-select-dropdown.module.scss';
 import SearchBar from '../../../search-bar/search-bar';
-import {underlineMatchedString} from '../../../search-bar/search-bar-helper';
+import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 import ScrollContainer from '../../../scroll-container/scroll-container';
-import {filterYearOptions} from '../../../published-reports/util/util';
+import { filterYearOptions } from '../../../published-reports/util/util';
 
 /**
  * @param active {boolean}
@@ -185,13 +185,14 @@ const ComboSelectDropdown = ({
 
   const filteredOptionButton = (option, child) => {
     const optionSelected = selectedOption && option[optionLabelKey] === selectedOption[optionLabelKey];
+    const activeFilter = secondaryLabelKey && option[secondaryLabelKey];
     return (
       <li
         className={classNames([
           dropdownListItem,
           optionSelected && dropdownListItem_Selected,
           child && dropdownListItem_child,
-          optionSelected && isFilter && dropdownFilterListItem_Selected,
+          (optionSelected || activeFilter) && isFilter && dropdownFilterListItem_Selected,
         ])}
       >
         <button
@@ -203,7 +204,7 @@ const ComboSelectDropdown = ({
           data-testid="dropdown-list-option"
         >
           {underlineMatchedString(option[optionLabelKey], filterValue)}
-          {secondaryLabelKey && <span className={secondaryLabel}>No filter applied</span>}
+          {secondaryLabelKey && <span className={secondaryLabel}>{option[secondaryLabelKey] ? option[secondaryLabelKey] : 'No filter applied'}</span>}
         </button>
       </li>
     );
