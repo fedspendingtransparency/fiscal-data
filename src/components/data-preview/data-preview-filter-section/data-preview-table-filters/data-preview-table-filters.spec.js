@@ -46,6 +46,7 @@ describe('Table filters dropdown', () => {
           handleDateRangeChange={handleDateRangeChange}
           setIsFiltered={setIsFiltered}
           pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
         />
       </DataTableContext.Provider>
     );
@@ -70,6 +71,7 @@ describe('Table filters dropdown', () => {
           handleDateRangeChange={handleDateRangeChange}
           setIsFiltered={setIsFiltered}
           pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
         />
       </DataTableContext.Provider>
     );
@@ -98,6 +100,7 @@ describe('Table filters dropdown', () => {
           handleDateRangeChange={handleDateRangeChange}
           setIsFiltered={setIsFiltered}
           pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
         />
       </DataTableContext.Provider>
     );
@@ -127,6 +130,7 @@ describe('Table filters dropdown', () => {
           handleDateRangeChange={handleDateRangeChange}
           setIsFiltered={setIsFiltered}
           pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
         />
       </DataTableContext.Provider>
     );
@@ -150,6 +154,7 @@ describe('Table filters dropdown', () => {
           handleDateRangeChange={handleDateRangeChange}
           setIsFiltered={setIsFiltered}
           pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
         />
       </DataTableContext.Provider>
     );
@@ -181,6 +186,7 @@ describe('Table filters dropdown', () => {
           handleDateRangeChange={handleDateRangeChange}
           setIsFiltered={setIsFiltered}
           pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
         />
       </DataTableContext.Provider>
     );
@@ -236,6 +242,7 @@ describe('Table Filter Date Range Presets', () => {
           setIsFiltered={setIsFiltered}
           config={datasetConfig}
           pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
         />
       </DataTableContext.Provider>
     );
@@ -260,6 +267,7 @@ describe('Table Filter Date Range Presets', () => {
           setIsFiltered={setIsFiltered}
           config={datasetConfig}
           pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
         />
       </DataTableContext.Provider>
     );
@@ -288,6 +296,7 @@ describe('Table Filter Date Range Presets', () => {
           setIsFiltered={setIsFiltered}
           config={datasetConfig}
           pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
         />
       </DataTableContext.Provider>
     );
@@ -315,6 +324,7 @@ describe('Table Filter Date Range Presets', () => {
           config={datasetConfig}
           currentDateButton={true}
           pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
         />
       </DataTableContext.Provider>
     );
@@ -352,6 +362,7 @@ describe('Table Filter Date Range Presets', () => {
           currentDateButton={true}
           datePreset="current"
           pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
         />
       </DataTableContext.Provider>
     );
@@ -400,6 +411,7 @@ describe('Table Filter Date Range Presets', () => {
             datePreset="current"
             currentDateButton="byMonth"
             pivotView={mockPivotView}
+            filterFields={mockSelectedTable.fields}
           />
         </DataTableContext.Provider>
       );
@@ -444,6 +456,7 @@ describe('Table Filter Date Range Presets', () => {
             config={datasetConfig}
             currentDateButton="byMonth"
             pivotView={mockPivotView}
+            filterFields={mockSelectedTable.fields}
           />
         </DataTableContext.Provider>
       );
@@ -474,6 +487,7 @@ describe('Table Filter Date Range Presets', () => {
             config={datasetConfig}
             currentDateButton="byDay"
             pivotView={mockPivotView}
+            filterFields={mockSelectedTable.fields}
           />
         </DataTableContext.Provider>
       );
@@ -502,6 +516,7 @@ describe('Table Filter Date Range Presets', () => {
             config={datasetConfig}
             currentDateButton="byLast30Days"
             pivotView={mockPivotView}
+            filterFields={mockSelectedTable.fields}
           />
         </DataTableContext.Provider>
       );

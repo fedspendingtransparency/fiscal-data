@@ -12,4 +12,5 @@ export interface ITableFilters {
   detailApi;
   detailViewState?: { value?: string; secondary?: string };
   apiData;
+  filterFields;
 }
