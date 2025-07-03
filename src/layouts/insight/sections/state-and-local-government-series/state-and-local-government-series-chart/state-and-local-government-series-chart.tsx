@@ -6,11 +6,13 @@ import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import { Legend } from './state-and-local-government-series-chart-helper';
 import { Bar, CartesianGrid, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
 
 export const StateAndLocalGovernmentSeriesChart = () => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
+  const { chartData, result } = useGetStateAndLocalGovernmentSeriesData(true);
 
   const chartTitle = `Outstanding State and Local Government Series (SLGS) Securities`;
   const toggle = (
@@ -33,6 +35,8 @@ export const StateAndLocalGovernmentSeriesChart = () => {
     />
   );
 
+  console.log(chartData, result);
+
   return (
     <>
       <ChartTableContainer title={chartTitle} toggle={toggle}>
@@ -54,11 +58,7 @@ export const StateAndLocalGovernmentSeriesChart = () => {
             onMouseOver={() => setChartHover(true)}
             onMouseLeave={() => setChartHover(false)}
           ></div>
-          <ResponsiveContainer>
-            <ComposedChart>
-              {/*<Line dataKey="rate" yAxisId={1} stroke="#666666" type="monotone" strokeWidth={1} activeDot={false} isAnimationActive={false} />*/}
-            </ComposedChart>
-          </ResponsiveContainer>
+          {/*<ResponsiveContainer>/!*<ComposedChart data={chartData}></ComposedChart>*!/</ResponsiveContainer>*/}
         </div>
 
         {/*{selectedChartView === 'tableView' && <DtgTable />}*/}
