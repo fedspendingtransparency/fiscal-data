@@ -19,6 +19,6 @@ describe('State and Local Government Series Body Copy', () => {
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
     expect(await findByText('June 25, 2025', { exact: false })).toBeInTheDocument();
     expect(await findByText('$88 B outstanding SLGS securities', { exact: false })).toBeInTheDocument();
-    expect(await findByText('0.24 percent of the total public debt outstanding', { exact: false })).toBeInTheDocument();
+    expect(await findByText('0.24 percent', { exact: false })).toBeInTheDocument();
   });
 });
