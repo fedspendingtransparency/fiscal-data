@@ -6,17 +6,36 @@ import { getMonth } from 'date-fns';
 const getLatestCompleteMonth = async () => {
   const data = await basicFetch(`https://api.fiscaldata.treasury.gov/services/calendar/release`);
   const filteredDataset = data.filter(entry => entry.datasetId === '015-BFS-2014Q3-yy');
-
   const todayDate = new Date();
   const currentMonth = todayDate.getMonth();
+  const currentYear = todayDate.getFullYear();
   const filteredMonth = filteredDataset.filter(entry => getMonth(new Date(entry.date)) === currentMonth);
   const lastDay = filteredMonth[1];
+  let lastMonth;
   if (lastDay.released === 'false') {
     // 0 for January
-    return getMonth(new Date(lastDay.date)) - 1;
+    return (lastMonth = getMonth(new Date(lastDay.date)) - 1);
   } else {
-    return getMonth(new Date(lastDay.date));
+    return (lastMonth = new Date(lastDay.date));
   }
+
+  const getLatestDayOfEachMonth = async () => {
+    const data = await basicFetch(
+      `${apiPrefix}/v1/accounting/od/slgs_securities?fields=record_date,record_calendar_month,record_calendar_day,record_calendar_year&sort=-record_date`
+    );
+    const startDate = new Date(currentYear, lastMonth - 11);
+    const endDate = new Date(currentYear, lastMonth);
+    const last12MonthsData = data.filter(entry => new Date(entry.date) >= startDate && new Date(entry.date) <= endDate);
+    return last12MonthsData;
+
+    // find the last day of each of the 12 months we've filtered to
+
+    // add each of those dates in an array (ex: const monthArray = ["2025-10-31", "2025-11-30", "2025-12-31"]
+
+    // find the sum/amount data in the api call below for each of the dates in the monthArray.
+    // ^ that should be the last step in getting the different data points for the bar chart (under the assumption
+    // that we are showing 12 months of data at a time, and the api call just re-fires when user changes the dates
+  };
 };
 
 const getTotalSumCount = async () => {
