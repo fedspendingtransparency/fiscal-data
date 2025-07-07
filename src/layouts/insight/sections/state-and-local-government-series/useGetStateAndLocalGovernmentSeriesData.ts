@@ -1,6 +1,23 @@
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { useState, useEffect, useMemo } from 'react';
 import { queryClient } from '../../../../../react-query-client';
+import { getMonth } from 'date-fns';
+
+const getLatestCompleteMonth = async () => {
+  const data = await basicFetch(`https://api.fiscaldata.treasury.gov/services/calendar/release`);
+  const filteredDataset = data.filter(entry => entry.datasetId === '015-BFS-2014Q3-yy');
+
+  const todayDate = new Date();
+  const currentMonth = todayDate.getMonth();
+  const filteredMonth = filteredDataset.filter(entry => getMonth(new Date(entry.date)) === currentMonth);
+  const lastDay = filteredMonth[1];
+  if (lastDay.released === 'false') {
+    // 0 for January
+    return getMonth(new Date(lastDay.date)) - 1;
+  } else {
+    return getMonth(new Date(lastDay.date));
+  }
+};
 
 const getTotalSumCount = async () => {
   const endpoint = 'v1/accounting/od/slgs_securities';
@@ -14,6 +31,7 @@ const getTotalSumCount = async () => {
 
 export const useGetStateAndLocalGovernmentSeriesData = (shouldHaveChartData: boolean) => {
   const [result, setResult] = useState(null);
+  const [latestMonth, setLatestMonth] = useState(null);
   const [chartData, setChartData] = useState(null);
   // TODO: Confirm if I need rawData split out between Amount and Count
   const [rawData, setRawData] = useState(null);
@@ -28,6 +46,12 @@ export const useGetStateAndLocalGovernmentSeriesData = (shouldHaveChartData: boo
   useEffect(() => {
     queryClient.ensureQueryData([`${apiPrefix}${endpoint}?fields=${fields}&sort=-record_date&page[size]=10000`], getTotalSumCount).then(res => {
       setResult(res);
+    });
+  }, []);
+
+  useEffect(() => {
+    queryClient.ensureQueryData([`${apiPrefix}/services/calendar/release`], getLatestCompleteMonth).then(res => {
+      setLatestMonth(res);
     });
   }, []);
 
@@ -75,5 +99,6 @@ export const useGetStateAndLocalGovernmentSeriesData = (shouldHaveChartData: boo
   return {
     chartData,
     result,
+    latestMonth,
   };
 };

@@ -12,7 +12,7 @@ export const StateAndLocalGovernmentSeriesChart = () => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const { chartData, result } = useGetStateAndLocalGovernmentSeriesData(true);
+  const { chartData, result, latestMonth } = useGetStateAndLocalGovernmentSeriesData(true);
 
   const chartTitle = `Outstanding State and Local Government Series (SLGS) Securities`;
   const toggle = (
@@ -35,7 +35,13 @@ export const StateAndLocalGovernmentSeriesChart = () => {
     />
   );
 
-  console.log(chartData, result);
+  // console.log(chartData, result);
+  console.log('latest month', latestMonth);
+
+  // const todayDate = new Date('2025-12-24');
+  // const currentMonth = todayDate.getMonth();
+  // console.log('todayDate', todayDate);
+  // console.log(currentMonth);
 
   return (
     <>
