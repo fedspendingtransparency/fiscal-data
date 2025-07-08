@@ -6,6 +6,8 @@ interface iSearchFilter {
   searchLabel: string;
   hideIcons?: boolean;
   columnConfig;
+  filterMap;
+  setFilterMap;
 }
 
 const SearchFilter: FunctionComponent<iSearchFilter> = ({ searchLabel, hideIcons, columnConfig, filterMap, setFilterMap }) => {

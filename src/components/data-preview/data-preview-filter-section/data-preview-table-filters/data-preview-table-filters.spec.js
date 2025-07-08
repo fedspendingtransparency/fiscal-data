@@ -58,6 +58,7 @@ describe('Table filters dropdown', () => {
   });
 
   it('apply button closes dropdown panel and applies any selected filters', () => {
+    jest.useFakeTimers();
     const { getByRole } = render(
       <DataTableContext.Provider
         value={{
@@ -81,6 +82,7 @@ describe('Table filters dropdown', () => {
     const applyButton = getByRole('button', { name: 'Apply' });
     expect(applyButton).toBeInTheDocument();
     fireEvent.click(applyButton);
+    jest.runAllTimers();
     expect(applyButton).not.toBeInTheDocument();
     //Todo: check that filters are applied
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
