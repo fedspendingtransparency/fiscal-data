@@ -20,8 +20,7 @@ const SearchFilter: FunctionComponent<iSearchFilter> = ({ searchLabel, hideIcons
     const val = event && event.target ? event.target.value : '';
     setFilterVal(val);
     const map = JSON.parse(JSON.stringify(filterMap));
-    const name = columnConfig.columnName;
-    map[name].pendingValue = val;
+    map[columnConfig.columnName].pendingValue = val;
     setFilterMap(map);
   };
 

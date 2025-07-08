@@ -16,7 +16,7 @@ import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
 import { monthNames } from '../../../../utils/api-utils';
 import { DataTableContext } from '../../data-preview-context';
-import { basePreset, customPreset, fallbackPresets, inializeFilterConfigMap } from './data-preview-filter-helper';
+import { basePreset, customPreset, fallbackPresets, initializeFilterConfigMap } from './data-preview-filter-helper';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -37,7 +37,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   filterFields,
 }) => {
   const { tableState: table, allColumns } = useContext(DataTableContext);
-  const [filterFieldConfig, setFilterFieldsConfig] = useState();
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [active, setActive] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState('');
@@ -99,7 +98,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const updateDateRange = range => {
     if (range) {
       setPresetCustomDateRange(range);
-      // setFilterFieldsConfig(createFilterConfigs(filterFieldConfig, range, selectedTable));
       setCurDateRange(range);
       handleDateRangeChange(range);
     }
@@ -180,7 +178,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   };
 
   useEffect(() => {
-    setFiltersMap(inializeFilterConfigMap(filterFields, null, selectedTable, filterMap));
+    setFiltersMap(initializeFilterConfigMap(filterFields, null, selectedTable));
   }, []);
 
   useEffect(() => {
@@ -217,7 +215,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         }
         curPresets.unshift({ label: buttonLabel, key: 'current', years: null });
       }
-      // curPresets.push(customPreset);
       setPresets(curPresets);
     }
   }, [allTablesSelected, finalDatesNotFound, selectedTable]);
@@ -238,7 +235,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const handleApply = () => {
     const allAppliedFilters = [];
     const map = JSON.parse(JSON.stringify(filterMap));
-    console.log(filterMap);
     const allLeafCols = table?.getAllLeafColumns();
     if (allLeafCols) {
       allLeafCols.forEach(col => {
@@ -322,9 +318,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // }, [active]);
 
   useEffect(() => {
-    // const defaultcols = JSON.parse(JSON.stringify(selectedTable.fields));
-    // setFilterFieldsConfig(createFilterConfigs(defaultcols, null, selectedTable));
-    setFiltersMap(inializeFilterConfigMap(selectedTable.fields, null, selectedTable));
+    setFiltersMap(initializeFilterConfigMap(selectedTable.fields, null, selectedTable));
     setAppliedFilters([]);
   }, [selectedTable, pivotView]);
 
@@ -336,8 +330,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       if (initialCols?.length > 0) {
         setVisibleOptions(initialCols);
         setSelectedColumn(initialCols[0]);
-      } else if (filterFieldConfig) {
-        setSelectedColumn(filterFieldConfig[0]);
+      } else {
+        setVisibleOptions(selectedTable.fields);
+        setSelectedColumn(selectedTable.fields[0]);
       }
       setNoResults(false);
       return;

@@ -15,7 +15,7 @@ export const customPreset = { label: 'Custom', key: 'custom', years: null };
 // by default.
 export const fallbackPresets = ['1yr', 'current', 'all'];
 
-export const inializeFilterConfigMap = (fieldsArray, datePreset, selectedTable) => {
+export const initializeFilterConfigMap = (fieldsArray, datePreset, selectedTable) => {
   const filterMap = {};
   fieldsArray.forEach(field => {
     if (field.dataType === 'DATE') {
