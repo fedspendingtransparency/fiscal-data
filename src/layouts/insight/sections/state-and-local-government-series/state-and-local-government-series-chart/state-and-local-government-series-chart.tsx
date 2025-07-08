@@ -12,7 +12,7 @@ export const StateAndLocalGovernmentSeriesChart = () => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const { chartData, result, latestMonth } = useGetStateAndLocalGovernmentSeriesData(true);
+  const { chartData } = useGetStateAndLocalGovernmentSeriesData(true);
 
   const chartTitle = `Outstanding State and Local Government Series (SLGS) Securities`;
   const toggle = (
@@ -35,7 +35,7 @@ export const StateAndLocalGovernmentSeriesChart = () => {
     />
   );
 
-  console.log('last 12 months', result);
+  console.log('last 12 months', chartData);
 
   return (
     <>
@@ -58,7 +58,15 @@ export const StateAndLocalGovernmentSeriesChart = () => {
             onMouseOver={() => setChartHover(true)}
             onMouseLeave={() => setChartHover(false)}
           ></div>
-          {/*<ResponsiveContainer>/!*<ComposedChart data={chartData}></ComposedChart>*!/</ResponsiveContainer>*/}
+          <ResponsiveContainer>
+            <ComposedChart data={chartData}>
+              <Bar>
+                {chartData.map(entry => {
+                  return <Cell key={`cell`} />;
+                })}
+              </Bar>
+            </ComposedChart>
+          </ResponsiveContainer>
         </div>
 
         {/*{selectedChartView === 'tableView' && <DtgTable />}*/}

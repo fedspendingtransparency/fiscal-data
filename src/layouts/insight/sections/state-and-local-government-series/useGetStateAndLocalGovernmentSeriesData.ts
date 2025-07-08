@@ -81,20 +81,8 @@ export const useGetStateAndLocalGovernmentSeriesData = (shouldHaveChartData: boo
     'outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt,' +
     'record_calendar_month,record_calendar_day,record_calendar_year';
 
-  // useEffect(() => {
-  //   queryClient.ensureQueryData([`${apiPrefix}${endpoint}?fields=${fields}&sort=-record_date&page[size]=10000`], getTotalSumCount).then(res => {
-  //     setResult(res);
-  //   });
-  // }, []);
-
-  useEffect(() => {
-    queryClient.ensureQueryData([`${apiPrefix}/services/calendar/release`], getSlgsData).then(res => {
-      setResult(res);
-    });
-  }, []);
-
   const generateAmountTicks = (chartData): number[] => {
-    const amountValues = chartData.map(element => element.expense);
+    const amountValues = chartData.map(element => element.totalAmount);
     const max = Math.max(...amountValues);
     // TODO: Add rounding internal for amount
     const top = Math.round(max);
@@ -105,8 +93,14 @@ export const useGetStateAndLocalGovernmentSeriesData = (shouldHaveChartData: boo
     return ticks;
   };
 
+  useEffect(() => {
+    queryClient.ensureQueryData([`${apiPrefix}/services/calendar/release`], getSlgsData).then(res => {
+      setChartData(res);
+    });
+  }, []);
+
   const generateCountTicks = (chartData): number[] => {
-    const countValues = chartData.map(element => element.expense);
+    const countValues = chartData.map(element => element.totalCount);
     const max = Math.max(...countValues);
     // TODO: Add rounding internal for amount
     const top = Math.round(max);
@@ -136,7 +130,5 @@ export const useGetStateAndLocalGovernmentSeriesData = (shouldHaveChartData: boo
 
   return {
     chartData,
-    result,
-    latestMonth,
   };
 };

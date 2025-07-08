@@ -70,6 +70,8 @@ export const InterestExpenseChart = () => {
       rightLabel={'toggle for table view'}
     />
   );
+
+  // console.log(chartData);
   const resetDataHeader = () => {
     if (latestChartData) {
       setFiscalYear(latestChartData.year);
