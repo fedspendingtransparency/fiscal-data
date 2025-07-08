@@ -16,7 +16,7 @@ import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import { fitDateRangeToTable } from '../../../filter-download-container/range-presets/range-presets';
 import { monthNames } from '../../../../utils/api-utils';
 import { DataTableContext } from '../../data-preview-context';
-import { basePreset, createFilterConfigs, customPreset, fallbackPresets } from './data-preview-filter-helper';
+import { basePreset, customPreset, fallbackPresets, inializeFilterConfigMap } from './data-preview-filter-helper';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -43,9 +43,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const [selectedColumn, setSelectedColumn] = useState('');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [filter, setFilter] = useState('');
-  const [visibleOptions, setVisibleOptions] = useState(filterFieldConfig);
+  const [visibleOptions, setVisibleOptions] = useState();
   const [noResults, setNoResults] = useState(false);
-
+  const [filterMap, setFiltersMap] = useState();
   // Date Range Presets
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
@@ -99,7 +99,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const updateDateRange = range => {
     if (range) {
       setPresetCustomDateRange(range);
-      setFilterFieldsConfig(createFilterConfigs(filterFieldConfig, range, selectedTable));
+      // setFilterFieldsConfig(createFilterConfigs(filterFieldConfig, range, selectedTable));
       setCurDateRange(range);
       handleDateRangeChange(range);
     }
@@ -180,7 +180,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   };
 
   useEffect(() => {
-    setFilterFieldsConfig(createFilterConfigs(filterFields, null, selectedTable));
+    setFiltersMap(inializeFilterConfigMap(filterFields, null, selectedTable, filterMap));
   }, []);
 
   useEffect(() => {
@@ -236,22 +236,27 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   };
 
   const handleApply = () => {
-    const fields = filterFieldConfig;
     const allAppliedFilters = [];
+    const map = JSON.parse(JSON.stringify(filterMap));
+    console.log(filterMap);
     const allLeafCols = table?.getAllLeafColumns();
     if (allLeafCols) {
       allLeafCols.forEach(col => {
-        const matchedIndex = fields.findIndex(field => field.columnName === col.columnDef?.accessorKey);
+        const matchedIndex = selectedTable.fields.findIndex(field => field.columnName === col.columnDef?.accessorKey);
         if (matchedIndex > -1) {
-          const field = fields[matchedIndex];
-          if (field.dataType !== 'DATE') {
-            const filterToApply = field?.pendingValue;
-            fields[matchedIndex]['filterValue'] = field?.pendingValue;
-            col.setFilterValue(filterToApply);
-
-            if (filterToApply) {
-              allAppliedFilters.push(field.columnName);
+          const { columnName, dataType } = selectedTable.fields[matchedIndex];
+          if (dataType !== 'DATE') {
+            const pendingVal = map[columnName].pendingValue;
+            const filterVal = map[columnName].filterValue;
+            if (pendingVal !== filterVal) {
+              map[columnName].filterValue = pendingVal;
             }
+            col.setFilterValue(pendingVal);
+
+            if (pendingVal) {
+              allAppliedFilters.push(columnName);
+            }
+            setFiltersMap(map);
           } else {
             //TODO: Re-add code when implementing date filters
             // const startDate = fields[matchedIndex]?.pendingStartDate;
@@ -266,7 +271,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         }
       });
     }
-    setActive(false);
+    setTimeout(() => {
+      setActive(false);
+    });
     setAppliedFilters(allAppliedFilters);
     if (isFilterSelected) {
       setIsFilterSelected(false);
@@ -278,12 +285,22 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     if (isFilterSelected) {
       setIsFilterSelected(false);
     }
-    filterFieldConfig.forEach(field => {
-      field['pendingStartDate'] = '';
-      field['pendingEndDate'] = '';
-      field['pendingValue'] = '';
-    });
   };
+
+  useEffect(() => {
+    if (!active) {
+      if (filterMap) {
+        const map = JSON.parse(JSON.stringify(filterMap));
+        selectedTable.fields.forEach(field => {
+          const { columnName } = field;
+          if (map[columnName].filterValue === '') {
+            map[columnName].pendingValue = '';
+          }
+        });
+        setFiltersMap(map);
+      }
+    }
+  }, [active]);
 
   const filterDropdownButton = (
     <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} />
@@ -305,8 +322,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // }, [active]);
 
   useEffect(() => {
-    const defaultcols = JSON.parse(JSON.stringify(selectedTable.fields));
-    setFilterFieldsConfig(createFilterConfigs(defaultcols, null, selectedTable));
+    // const defaultcols = JSON.parse(JSON.stringify(selectedTable.fields));
+    // setFilterFieldsConfig(createFilterConfigs(defaultcols, null, selectedTable));
+    setFiltersMap(inializeFilterConfigMap(selectedTable.fields, null, selectedTable));
     setAppliedFilters([]);
   }, [selectedTable, pivotView]);
 
@@ -314,7 +332,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     const search = filter.toLowerCase();
 
     if (!search) {
-      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), filterFieldConfig, pivotView);
+      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields, pivotView); //selectedTable.fields;
       if (initialCols?.length > 0) {
         setVisibleOptions(initialCols);
         setSelectedColumn(initialCols[0]);
@@ -325,7 +343,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       return;
     }
 
-    const matches = filterFieldConfig.filter(option => {
+    const matches = selectedTable.fields.filter(option => {
       const name = option.prettyName.toLowerCase();
       const secondary = (option.secondary ?? '').toLowerCase();
       return name.includes(search) || secondary.includes(search);
@@ -333,7 +351,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
     setVisibleOptions(matches);
     setNoResults(matches.length === 0);
-  }, [filter, selectedTable.fields, table, filterFieldConfig, allColumns]);
+  }, [filter, selectedTable.fields, table, allColumns]);
 
   const filterSelectList = (
     <>
@@ -365,6 +383,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       presets={presets}
       activePresetKey={activePresetKey}
       presetCustomDateRange={presetCustomDateRange}
+      filterMap={filterMap}
+      setFilterMap={setFiltersMap}
     />
   );
 
