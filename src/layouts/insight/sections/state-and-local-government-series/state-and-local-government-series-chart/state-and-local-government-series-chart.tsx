@@ -35,13 +35,7 @@ export const StateAndLocalGovernmentSeriesChart = () => {
     />
   );
 
-  // console.log(chartData, result);
-  console.log('latest complete month', latestMonth);
-
-  // const todayDate = new Date('2025-12-24');
-  // const currentMonth = todayDate.getMonth();
-  // console.log('todayDate', todayDate);
-  // console.log(currentMonth);
+  console.log('last 12 months', result);
 
   return (
     <>

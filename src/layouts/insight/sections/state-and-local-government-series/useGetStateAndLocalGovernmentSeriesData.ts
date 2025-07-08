@@ -3,55 +3,68 @@ import { useState, useEffect, useMemo } from 'react';
 import { queryClient } from '../../../../../react-query-client';
 import { getMonth, getYear } from 'date-fns';
 
-const getLatestCompleteMonth = async () => {
-  const data = await basicFetch(`https://api.fiscaldata.treasury.gov/services/calendar/release`);
-  const filteredDataset = data.filter(entry => entry.datasetId === '015-BFS-2014Q3-yy');
+const getSlgsData = async () => {
+  const lastMonthData = await basicFetch(`https://api.fiscaldata.treasury.gov/services/calendar/release`);
+  const filteredDataset = lastMonthData.filter(entry => entry.datasetId === '015-BFS-2014Q3-yy');
   const todayDate = new Date();
   const currentMonth = todayDate.getMonth();
   const currentYear = todayDate.getFullYear();
   const filteredMonth = filteredDataset.filter(entry => getMonth(new Date(entry.date)) === currentMonth);
   const lastDay = filteredMonth[1];
-  let lastMonth;
+  let lastCompleteMonth;
   if (lastDay.released === 'false') {
     // 0 for January
-    lastMonth = getMonth(new Date(lastDay.date)) - 1;
+    lastCompleteMonth = getMonth(new Date(lastDay.date));
   } else {
-    lastMonth = new Date(lastDay.date);
+    lastCompleteMonth = new Date(lastDay.date) + 1;
+  }
+  const listOfRecordsData = await basicFetch(
+    `${apiPrefix}/v1/accounting/od/slgs_securities?fields=record_date,record_calendar_month,record_calendar_day,record_calendar_year&sort=-record_date&page[size]=500`
+  );
+  const allDates = [];
+  for (let i = 0; i < 12; i++) {
+    if (listOfRecordsData) {
+      const yearCheck = lastCompleteMonth - i > 0 ? currentYear : currentYear - 1;
+      const nextMonth = lastCompleteMonth - i > 0 ? lastCompleteMonth - i : 12 + lastCompleteMonth - i;
+      const curMonth = listOfRecordsData.data.filter(
+        entry => Number(entry.record_calendar_month) === nextMonth && Number(entry.record_calendar_year) === yearCheck
+      );
+      allDates.push(curMonth[0].record_date);
+      console.log(allDates);
+    }
   }
 
-  const data1 = await basicFetch(
-    `${apiPrefix}/v1/accounting/od/slgs_securities?fields=record_date,record_calendar_month,record_calendar_day,record_calendar_year&sort=-record_date`
-  );
-  const startDateMonth = getMonth(new Date(currentYear, lastMonth - 11));
-  const startDateYear = getYear(new Date(currentYear, lastMonth - 11));
-  const endDateMonth = getMonth(new Date(currentYear, lastMonth));
-  const endDateYear = getYear(new Date(currentYear, lastMonth));
-  // const startDate = new Date(currentYear, lastMonth - 11);
-  // const endDate = new Date(currentYear, lastMonth - 11);
-  // const filteredDates = data1.filter(entry1 => {
-  //   const entryDate = new Date(entry1.date);
-  //   return entryDate >= startDate && entryDate <= endDate;
-  // });
-  // const last12MonthsData = data.filter(entry => new Date(entry.date) >= startDate && new Date(entry.date) <= endDate);
-  return endDateYear;
-
-  // find the last day of each of the 12 months we've filtered to
-
-  // add each of those dates in an array (ex: const monthArray = ["2025-10-31", "2025-11-30", "2025-12-31"]
-
-  // find the sum/amount data in the api call below for each of the dates in the monthArray.
-  // ^ that should be the last step in getting the different data points for the bar chart (under the assumption
-  // that we are showing 12 months of data at a time, and the api call just re-fires when user changes the dates
-};
-
-const getTotalSumCount = async () => {
   const endpoint = 'v1/accounting/od/slgs_securities';
   const fields =
     'record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,' +
     'outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,' +
     'outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt,' +
     'record_calendar_month,record_calendar_day,record_calendar_year';
-  return basicFetch(`${apiPrefix}${endpoint}?fields=${fields}&sort=-record_date&page[size]=10000`);
+  const amountCountData = await basicFetch(`${apiPrefix}${endpoint}?fields=${fields}&sort=-record_date&page[size]=10000`);
+  if (amountCountData) {
+    const allRecords = amountCountData.data
+      .filter(entry => allDates.includes(entry.record_date))
+      .map(entry => ({
+        date: entry.record_date,
+        totalAmount: Math.round(
+          Number(entry.outstanding_0_3_mos_amt) +
+            Number(entry.outstanding_3_6_mos_amt) +
+            Number(entry.outstanding_6_mos_to_2_yrs_amt) +
+            Number(entry.outstanding_2_5_yrs_amt) +
+            Number(entry.outstanding_5_10_yrs_amt) +
+            Number(entry.outstanding_over_10_yrs_amt)
+        ),
+        totalCount: Math.round(
+          Number(entry.outstanding_0_3_mos_cnt) +
+            Number(entry.outstanding_3_6_mos_cnt) +
+            Number(entry.outstanding_6_mos_to_2_yrs_cnt) +
+            Number(entry.outstanding_2_5_yrs_cnt) +
+            Number(entry.outstanding_5_10_yrs_cnt) +
+            Number(entry.outstanding_over_10_yrs_cnt)
+        ),
+      }));
+    return allRecords;
+  }
 };
 
 export const useGetStateAndLocalGovernmentSeriesData = (shouldHaveChartData: boolean) => {
@@ -68,15 +81,15 @@ export const useGetStateAndLocalGovernmentSeriesData = (shouldHaveChartData: boo
     'outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt,' +
     'record_calendar_month,record_calendar_day,record_calendar_year';
 
-  useEffect(() => {
-    queryClient.ensureQueryData([`${apiPrefix}${endpoint}?fields=${fields}&sort=-record_date&page[size]=10000`], getTotalSumCount).then(res => {
-      setResult(res);
-    });
-  }, []);
+  // useEffect(() => {
+  //   queryClient.ensureQueryData([`${apiPrefix}${endpoint}?fields=${fields}&sort=-record_date&page[size]=10000`], getTotalSumCount).then(res => {
+  //     setResult(res);
+  //   });
+  // }, []);
 
   useEffect(() => {
-    queryClient.ensureQueryData([`${apiPrefix}/services/calendar/release`], getLatestCompleteMonth).then(res => {
-      setLatestMonth(res);
+    queryClient.ensureQueryData([`${apiPrefix}/services/calendar/release`], getSlgsData).then(res => {
+      setResult(res);
     });
   }, []);
 
