@@ -1,7 +1,7 @@
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { useState, useEffect, useMemo } from 'react';
 import { queryClient } from '../../../../../react-query-client';
-import { getMonth } from 'date-fns';
+import { getMonth, getYear } from 'date-fns';
 
 const getLatestCompleteMonth = async () => {
   const data = await basicFetch(`https://api.fiscaldata.treasury.gov/services/calendar/release`);
@@ -14,28 +14,34 @@ const getLatestCompleteMonth = async () => {
   let lastMonth;
   if (lastDay.released === 'false') {
     // 0 for January
-    return (lastMonth = getMonth(new Date(lastDay.date)) - 1);
+    lastMonth = getMonth(new Date(lastDay.date)) - 1;
   } else {
-    return (lastMonth = new Date(lastDay.date));
+    lastMonth = new Date(lastDay.date);
   }
 
-  const getLatestDayOfEachMonth = async () => {
-    const data = await basicFetch(
-      `${apiPrefix}/v1/accounting/od/slgs_securities?fields=record_date,record_calendar_month,record_calendar_day,record_calendar_year&sort=-record_date`
-    );
-    const startDate = new Date(currentYear, lastMonth - 11);
-    const endDate = new Date(currentYear, lastMonth);
-    const last12MonthsData = data.filter(entry => new Date(entry.date) >= startDate && new Date(entry.date) <= endDate);
-    return last12MonthsData;
+  const data1 = await basicFetch(
+    `${apiPrefix}/v1/accounting/od/slgs_securities?fields=record_date,record_calendar_month,record_calendar_day,record_calendar_year&sort=-record_date`
+  );
+  const startDateMonth = getMonth(new Date(currentYear, lastMonth - 11));
+  const startDateYear = getYear(new Date(currentYear, lastMonth - 11));
+  const endDateMonth = getMonth(new Date(currentYear, lastMonth));
+  const endDateYear = getYear(new Date(currentYear, lastMonth));
+  // const startDate = new Date(currentYear, lastMonth - 11);
+  // const endDate = new Date(currentYear, lastMonth - 11);
+  // const filteredDates = data1.filter(entry1 => {
+  //   const entryDate = new Date(entry1.date);
+  //   return entryDate >= startDate && entryDate <= endDate;
+  // });
+  // const last12MonthsData = data.filter(entry => new Date(entry.date) >= startDate && new Date(entry.date) <= endDate);
+  return endDateYear;
 
-    // find the last day of each of the 12 months we've filtered to
+  // find the last day of each of the 12 months we've filtered to
 
-    // add each of those dates in an array (ex: const monthArray = ["2025-10-31", "2025-11-30", "2025-12-31"]
+  // add each of those dates in an array (ex: const monthArray = ["2025-10-31", "2025-11-30", "2025-12-31"]
 
-    // find the sum/amount data in the api call below for each of the dates in the monthArray.
-    // ^ that should be the last step in getting the different data points for the bar chart (under the assumption
-    // that we are showing 12 months of data at a time, and the api call just re-fires when user changes the dates
-  };
+  // find the sum/amount data in the api call below for each of the dates in the monthArray.
+  // ^ that should be the last step in getting the different data points for the bar chart (under the assumption
+  // that we are showing 12 months of data at a time, and the api call just re-fires when user changes the dates
 };
 
 const getTotalSumCount = async () => {

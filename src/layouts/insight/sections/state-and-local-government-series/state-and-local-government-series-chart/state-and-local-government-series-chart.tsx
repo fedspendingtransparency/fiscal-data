@@ -36,7 +36,7 @@ export const StateAndLocalGovernmentSeriesChart = () => {
   );
 
   // console.log(chartData, result);
-  console.log('latest month', latestMonth);
+  console.log('latest complete month', latestMonth);
 
   // const todayDate = new Date('2025-12-24');
   // const currentMonth = todayDate.getMonth();
