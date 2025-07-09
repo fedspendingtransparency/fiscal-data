@@ -3,17 +3,21 @@ import ChartDataHeader from '../../../../explainer/explainer-components/chart-da
 import { ChartTableContainer } from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import ChartingTableToggle from '../../../../../components/chart-with-table/chart-table-toggle/charting-table-toggle';
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
-import { Legend } from './state-and-local-government-series-chart-helper';
+import { CustomTooltip, Legend } from './state-and-local-government-series-chart-helper';
 import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
-import { Bar, Cell, ComposedChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { getShortForm } from '../../../../../utils/rounding-utils';
-import { stateAndLocalGovernmentSeriesPrimary } from '../../../insight.module.scss';
+import { stateAndLocalGovernmentSeriesLight, stateAndLocalGovernmentSeriesPrimary } from '../../../insight.module.scss';
 
 export const StateAndLocalGovernmentSeriesChart = () => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
   const { chartData, result, latestMonth } = useGetStateAndLocalGovernmentSeriesData(true);
+  const [isMobile, setIsMobile] = useState<boolean>(null);
+  const [curDate, setCurDate] = useState<number>(0);
+  const [curAmount, setCurAmount] = useState<number>(0);
+  const [curCount, setCurCount] = useState<number>(0);
 
   const chartTitle = `Outstanding State and Local Government Series (SLGS) Securities`;
   const toggle = (
@@ -42,11 +46,16 @@ export const StateAndLocalGovernmentSeriesChart = () => {
         {selectedChartView === 'chartView' && result && (
           <>
             <div>
-              <ChartDataHeader dateField="Date" fiscalYear="p1" right={{ label: 'Amount', value: `p2` }} left={{ label: 'Count', value: `p3` }} />
+              <ChartDataHeader
+                dateField="Date"
+                fiscalYear={curDate}
+                right={{ label: 'Amount', value: curAmount }}
+                left={{ label: 'Count', value: curCount }}
+              />
             </div>
             <div>
               {/*TODO: alter size on light blue legend square*/}
-              <Legend />.{/*TODO: add hover/focus stuff to underneath div*/}
+              <Legend />
               <div
                 role="presentation"
                 onBlur={() => {
@@ -88,6 +97,15 @@ export const StateAndLocalGovernmentSeriesChart = () => {
                         }
                       }}
                       tickCount={7}
+                    />
+                    <Tooltip
+                      cursor={{
+                        stroke: stateAndLocalGovernmentSeriesLight,
+                        strokeWidth: 32,
+                      }}
+                      content={<CustomTooltip setCount={setCurCount} setAmount={setCurAmount} setDate={setCurDate} />}
+                      isAnimationActive={false}
+                      active={chartFocus || chartHover}
                     />
                     <Bar dataKey="totalAmount" barSize={20} fill={stateAndLocalGovernmentSeriesPrimary} isAnimationActive={false}>
                       {result.map((entry, index) => {
