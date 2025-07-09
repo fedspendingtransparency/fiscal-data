@@ -5,9 +5,9 @@ import ChartingTableToggle from '../../../../../components/chart-with-table/char
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Legend } from './state-and-local-government-series-chart-helper';
 import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
-import { Bar, CartesianGrid, Cell, ComposedChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Bar, Cell, ComposedChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { getShortForm } from '../../../../../utils/rounding-utils';
-import { interestExpensePrimary } from '../../../insight.module.scss';
+import { stateAndLocalGovernmentSeriesPrimary } from '../../../insight.module.scss';
 
 export const StateAndLocalGovernmentSeriesChart = () => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
@@ -36,8 +36,6 @@ export const StateAndLocalGovernmentSeriesChart = () => {
     />
   );
 
-  console.log('last 12 months', result);
-
   return (
     <>
       <ChartTableContainer title={chartTitle} toggle={toggle}>
@@ -61,8 +59,6 @@ export const StateAndLocalGovernmentSeriesChart = () => {
               >
                 <ResponsiveContainer height={360} width="99%">
                   <ComposedChart data={result} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer>
-                    <CartesianGrid vertical={false} stroke="#d9d9d9" />
-                    <XAxis dataKey="date" />
                     <YAxis
                       dataKey="totalAmount"
                       type="number"
@@ -75,9 +71,7 @@ export const StateAndLocalGovernmentSeriesChart = () => {
                       }}
                       axisLine={false}
                       tickLine={false}
-                      tickCount={5}
-                      // ticks={expenseYAxisValues}
-                      tick={{ fill: interestExpensePrimary }}
+                      tickCount={7}
                     />
                     <YAxis
                       yAxisId={1}
@@ -88,19 +82,16 @@ export const StateAndLocalGovernmentSeriesChart = () => {
                       type="number"
                       tickFormatter={value => {
                         if (value === 0) {
-                          return '$0';
+                          return '0';
                         } else {
-                          return `$${getShortForm(value)}`;
+                          return `${value / 1000}K`;
                         }
                       }}
-                      tickCount={5}
-                      // ticks={expenseYAxisValues}
-                      tick={{ fill: interestExpensePrimary }}
+                      tickCount={7}
                     />
-                    <Bar dataKey="totalAmount" barSize={20} fill={interestExpensePrimary} isAnimationActive={false}>
+                    <Bar dataKey="totalAmount" barSize={20} fill={stateAndLocalGovernmentSeriesPrimary} isAnimationActive={false}>
                       {result.map((entry, index) => {
-                        console.log(entry);
-                        return <Cell key={`cell-${index}`} fill={interestExpensePrimary} />;
+                        return <Cell key={`cell-${index}`} fill={stateAndLocalGovernmentSeriesPrimary} />;
                       })}
                     </Bar>
                     <Line
@@ -108,10 +99,13 @@ export const StateAndLocalGovernmentSeriesChart = () => {
                       yAxisId={1}
                       stroke="#666666"
                       type="monotone"
-                      strokeWidth={1}
+                      strokeWidth={2}
                       activeDot={false}
+                      dot={false}
                       isAnimationActive={false}
+                      strokeDasharray="2 2"
                     />
+                    <XAxis dataKey="date" />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
