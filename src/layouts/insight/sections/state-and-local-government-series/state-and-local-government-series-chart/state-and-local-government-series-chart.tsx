@@ -3,10 +3,11 @@ import ChartDataHeader from '../../../../explainer/explainer-components/chart-da
 import { ChartTableContainer } from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import ChartingTableToggle from '../../../../../components/chart-with-table/chart-table-toggle/charting-table-toggle';
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
-import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import { Legend } from './state-and-local-government-series-chart-helper';
-import { Bar, CartesianGrid, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
+import { Bar, CartesianGrid, Cell, ComposedChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { getShortForm } from '../../../../../utils/rounding-utils';
+import { interestExpensePrimary } from '../../../insight.module.scss';
 
 export const StateAndLocalGovernmentSeriesChart = () => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
@@ -30,8 +31,8 @@ export const StateAndLocalGovernmentSeriesChart = () => {
       chartId={null}
       leftIcon={faChartColumn}
       rightIcon={faTable}
-      leftLabel={'toggle for chart view'}
-      rightLabel={'toggle for table view'}
+      leftLabel="toggle for chart view"
+      rightLabel="toggle for table view"
     />
   );
 
@@ -40,27 +41,83 @@ export const StateAndLocalGovernmentSeriesChart = () => {
   return (
     <>
       <ChartTableContainer title={chartTitle} toggle={toggle}>
-        {selectedChartView === 'chartView' && (
-          <div>
-            <ChartDataHeader dateField={'Date'} fiscalYear={'p1'} right={{ label: 'Amount', value: `p2` }} left={{ label: 'Count', value: `p3` }} />
-          </div>
+        {selectedChartView === 'chartView' && result && (
+          <>
+            <div>
+              <ChartDataHeader dateField="Date" fiscalYear="p1" right={{ label: 'Amount', value: `p2` }} left={{ label: 'Count', value: `p3` }} />
+            </div>
+            <div>
+              {/*TODO: alter size on light blue legend square*/}
+              <Legend />.{/*TODO: add hover/focus stuff to underneath div*/}
+              <div
+                role="presentation"
+                onBlur={() => {
+                  setChartFocus(false);
+                  // resetDataHeader();
+                }}
+                onFocus={() => setChartFocus(true)}
+                onMouseOver={() => setChartHover(true)}
+                onMouseLeave={() => setChartHover(false)}
+              >
+                <ResponsiveContainer height={360} width="99%">
+                  <ComposedChart data={result} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer>
+                    <CartesianGrid vertical={false} stroke="#d9d9d9" />
+                    <XAxis dataKey="date" />
+                    <YAxis
+                      dataKey="totalAmount"
+                      type="number"
+                      tickFormatter={value => {
+                        if (value === 0) {
+                          return '$0';
+                        } else {
+                          return `$${getShortForm(value)}`;
+                        }
+                      }}
+                      axisLine={false}
+                      tickLine={false}
+                      tickCount={5}
+                      // ticks={expenseYAxisValues}
+                      tick={{ fill: interestExpensePrimary }}
+                    />
+                    <YAxis
+                      yAxisId={1}
+                      dataKey="totalCount"
+                      orientation="right"
+                      axisLine={false}
+                      tickLine={false}
+                      type="number"
+                      tickFormatter={value => {
+                        if (value === 0) {
+                          return '$0';
+                        } else {
+                          return `$${getShortForm(value)}`;
+                        }
+                      }}
+                      tickCount={5}
+                      // ticks={expenseYAxisValues}
+                      tick={{ fill: interestExpensePrimary }}
+                    />
+                    <Bar dataKey="totalAmount" barSize={20} fill={interestExpensePrimary} isAnimationActive={false}>
+                      {result.map((entry, index) => {
+                        console.log(entry);
+                        return <Cell key={`cell-${index}`} fill={interestExpensePrimary} />;
+                      })}
+                    </Bar>
+                    <Line
+                      dataKey="totalCount"
+                      yAxisId={1}
+                      stroke="#666666"
+                      type="monotone"
+                      strokeWidth={1}
+                      activeDot={false}
+                      isAnimationActive={false}
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </>
         )}
-        <div>
-          {/*TODO: alter size on light blue legend square*/}
-          <Legend />.{/*TODO: add hover/focus stuff to underneath div*/}
-          <div
-            role="presentation"
-            onBlur={() => {
-              setChartFocus(false);
-              // resetDataHeader();
-            }}
-            onFocus={() => setChartFocus(true)}
-            onMouseOver={() => setChartHover(true)}
-            onMouseLeave={() => setChartHover(false)}
-          ></div>
-          {/*<ResponsiveContainer>/!*<ComposedChart data={chartData}></ComposedChart>*!/</ResponsiveContainer>*/}
-        </div>
-
         {/*{selectedChartView === 'tableView' && <DtgTable />}*/}
       </ChartTableContainer>
     </>
