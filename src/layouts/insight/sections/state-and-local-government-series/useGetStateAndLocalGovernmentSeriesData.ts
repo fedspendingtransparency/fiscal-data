@@ -76,21 +76,25 @@ const getChartData = async allDates => {
   });
 };
 
-export const useGetStateAndLocalGovernmentSeriesData = (): { chartData; latestMonth } => {
+export const useGetStateAndLocalGovernmentSeriesData = (): { xAxisValues: string[]; xAxisMobileValues; chartData; latestMonth } => {
   const [latestMonth, setLatestMonth] = useState(null);
   const [chartData, setChartData] = useState(null);
-  // TODO: Confirm if I need rawData split out between Amount and Count
-  const [rawData, setRawData] = useState(null);
+  const [xAxisValues, setXAxisValues] = useState<string[]>(null);
+  const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
 
   useEffect(() => {
     getLastCompletedMonth('015-BFS-2014Q3-yy').then(async lastCompleteMonth => {
       getChartDates(lastCompleteMonth).then(async chartDates => {
+        setXAxisValues(chartDates);
+        setXAxisMobileValues(chartDates.filter(index => index % 2 !== 0));
         getChartData(chartDates).then(chartData => setChartData(chartData));
       });
     });
   }, []);
 
   return {
+    xAxisValues,
+    xAxisMobileValues,
     chartData,
     latestMonth,
   };

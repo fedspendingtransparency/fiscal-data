@@ -1,9 +1,8 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 import {
-  amountLegend,
-  amountText,
-  countLegend,
   legendContainer,
+  legendSection,
+  legendText,
   line,
   rectangle,
 } from '../../state-and-local-government-series/state-and-local-government-series-chart/state-and-local-government-series-chart.module.scss';
@@ -42,14 +41,13 @@ export const formatDate = dateStr => {
 export const Legend: FunctionComponent = (): ReactElement => {
   return (
     <div className={legendContainer}>
-      <div className={amountLegend}>
-        <span className={amountText}>Amount</span>
+      <div className={legendSection}>
+        <span className={legendText}>Amount</span>
         <div className={rectangle} />
       </div>
-      <div className={countLegend}>
-        {/*TODO: Change line from solid to dotted*/}
+      <div className={legendSection}>
         <div className={line} />
-        <span>Count</span>
+        <span className={legendText}>Count</span>
       </div>
     </div>
   );
