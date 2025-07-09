@@ -71,7 +71,8 @@
           line-height: $font-size-24;
         }
 
-        .dataLabel {
+        .dataLabel,
+        .dateFieldLabel {
           font-size: $font-size-10;
           margin: 0 1rem;
         }
