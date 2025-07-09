@@ -36,13 +36,13 @@ export const CustomTooltip: Tooltip = ({ payload = [], setDate, setCount, setAmo
   return null;
 };
 
-export const formatDate = (dateStr, wrap = false) => {
+export const formatDate = dateStr => {
   if (dateStr) {
     const date = convertDate(dateStr);
     if (date) {
       const monthIndex = getMonth(date);
       const monthStr = monthNames[monthIndex];
-      return `${monthStr}${wrap ? '\n' : ' '}${getYear(date)}`;
+      return `${monthStr} ${getYear(date)}`;
     }
   }
 };
