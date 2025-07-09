@@ -246,6 +246,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
             const filterVal = map[columnName].filterValue;
             if (pendingVal !== filterVal) {
               map[columnName].filterValue = pendingVal;
+              selectedTable.fields[matchedIndex].filterValue = pendingVal;
             }
             col.setFilterValue(pendingVal);
 
