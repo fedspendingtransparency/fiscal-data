@@ -1,14 +1,15 @@
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
-import { useEffect, useMemo, useState } from 'react';
-import { queryClient } from '../../../../../react-query-client';
+import { useEffect, useState } from 'react';
 import { getMonth } from 'date-fns';
 import { convertDate } from '../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 
 const slgsEndpoint = 'v1/accounting/od/slgs_securities';
+const releaseCalendarUrl = `https://api.fiscaldata.treasury.gov/services/calendar/release`;
+
 const getCurrentMonthData = async datasetId => {
   const todayDate = new Date();
   const currentMonth = todayDate.getMonth();
-  return await basicFetch(`https://api.fiscaldata.treasury.gov/services/calendar/release`).then(res => {
+  return await basicFetch(releaseCalendarUrl).then(res => {
     return res.filter(entry => entry.datasetId === datasetId && getMonth(convertDate(entry.date)) === currentMonth);
   });
 };
@@ -69,66 +70,28 @@ const getChartData = async allDates => {
               Number(entry.outstanding_over_10_yrs_cnt)
           ),
         }));
+      allRecords.reverse();
       return allRecords;
     }
   });
 };
 
-const getSlgsData = async () => {
-  return getLastCompletedMonth('015-BFS-2014Q3-yy').then(async lastCompleteMonth => {
-    return getChartDates(lastCompleteMonth).then(async allDates => {
-      return getChartData(allDates);
-    });
-  });
-};
-
-export const useGetStateAndLocalGovernmentSeriesData = (shouldHaveChartData: boolean) => {
-  const [result, setResult] = useState(null);
+export const useGetStateAndLocalGovernmentSeriesData = (): { chartData; latestMonth } => {
   const [latestMonth, setLatestMonth] = useState(null);
   const [chartData, setChartData] = useState(null);
   // TODO: Confirm if I need rawData split out between Amount and Count
   const [rawData, setRawData] = useState(null);
 
-  const endpoint = 'v1/accounting/od/slgs_securities';
-  const fields =
-    'record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,' +
-    'outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,' +
-    'outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt,' +
-    'record_calendar_month,record_calendar_day,record_calendar_year';
-
-  // useEffect(() => {
-  //   queryClient.ensureQueryData([`${apiPrefix}${endpoint}?fields=${fields}&sort=-record_date&page[size]=10000`], getTotalSumCount).then(res => {
-  //     setResult(res);
-  //   });
-  // }, []);
-
   useEffect(() => {
-    queryClient.ensureQueryData([`${apiPrefix}/services/calendar/release`], getSlgsData).then(res => {
-      console.log(res);
-      setResult(res);
+    getLastCompletedMonth('015-BFS-2014Q3-yy').then(async lastCompleteMonth => {
+      getChartDates(lastCompleteMonth).then(async chartDates => {
+        getChartData(chartDates).then(chartData => setChartData(chartData));
+      });
     });
   }, []);
 
-  useMemo(() => {
-    if (result) {
-      const gatherChartData = async () => {
-        const chartData = [];
-        // Amount and Count Chart data
-        await basicFetch(`${apiPrefix}${endpoint}?fields=${fields}&sort=-record_date&page[size]=10000`).then(res1 => {
-          setRawData(res1);
-        });
-      };
-      if (shouldHaveChartData) {
-        gatherChartData();
-      }
-    }
-  }, [result]);
-
-  const testVar = 52;
-
   return {
     chartData,
-    result,
     latestMonth,
   };
 };

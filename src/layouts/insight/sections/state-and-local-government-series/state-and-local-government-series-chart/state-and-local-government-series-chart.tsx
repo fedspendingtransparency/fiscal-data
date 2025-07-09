@@ -1,23 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import { ChartTableContainer } from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import ChartingTableToggle from '../../../../../components/chart-with-table/chart-table-toggle/charting-table-toggle';
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
-import { CustomTooltip, Legend } from './state-and-local-government-series-chart-helper';
+import { CustomTooltip, formatDate, Legend } from './state-and-local-government-series-chart-helper';
 import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
 import { Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { stateAndLocalGovernmentSeriesLight, stateAndLocalGovernmentSeriesPrimary } from '../../../insight.module.scss';
 
+/*
+TODO:
+- mobile style
+- format x axis
+- Update header style, spacing is jumping around
+- add spacing below chart
+- confirm bar width
+- legend box size / confirm style
+ */
 export const StateAndLocalGovernmentSeriesChart = () => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const { chartData, result, latestMonth } = useGetStateAndLocalGovernmentSeriesData(true);
+  const { chartData, latestMonth } = useGetStateAndLocalGovernmentSeriesData();
   const [isMobile, setIsMobile] = useState<boolean>(null);
   const [curDate, setCurDate] = useState<number>(0);
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
+
+  const setDefaultHeaderValues = () => {
+    if (chartData) {
+      setCurDate(chartData[chartData.length - 1].date);
+      setCurAmount(chartData[chartData.length - 1].totalAmount);
+      setCurCount(chartData[chartData.length - 1].totalCount);
+    }
+  };
+
+  useEffect(() => {
+    setDefaultHeaderValues();
+  }, [chartData]);
 
   const chartTitle = `Outstanding State and Local Government Series (SLGS) Securities`;
   const toggle = (
@@ -43,13 +64,13 @@ export const StateAndLocalGovernmentSeriesChart = () => {
   return (
     <>
       <ChartTableContainer title={chartTitle} toggle={toggle}>
-        {selectedChartView === 'chartView' && result && (
+        {selectedChartView === 'chartView' && chartData && (
           <>
             <div>
               <ChartDataHeader
                 dateField="Date"
-                fiscalYear={curDate}
-                right={{ label: 'Amount', value: curAmount }}
+                fiscalYear={formatDate(curDate)}
+                right={{ label: 'Amount', value: `$${getShortForm(curAmount.toString())}` }}
                 left={{ label: 'Count', value: curCount }}
               />
             </div>
@@ -60,14 +81,14 @@ export const StateAndLocalGovernmentSeriesChart = () => {
                 role="presentation"
                 onBlur={() => {
                   setChartFocus(false);
-                  // resetDataHeader();
+                  setDefaultHeaderValues();
                 }}
                 onFocus={() => setChartFocus(true)}
                 onMouseOver={() => setChartHover(true)}
                 onMouseLeave={() => setChartHover(false)}
               >
                 <ResponsiveContainer height={360} width="99%">
-                  <ComposedChart data={result} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer>
+                  <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer>
                     <YAxis
                       dataKey="totalAmount"
                       type="number"
@@ -108,7 +129,7 @@ export const StateAndLocalGovernmentSeriesChart = () => {
                       active={chartFocus || chartHover}
                     />
                     <Bar dataKey="totalAmount" barSize={20} fill={stateAndLocalGovernmentSeriesPrimary} isAnimationActive={false}>
-                      {result.map((entry, index) => {
+                      {chartData.map((entry, index) => {
                         return <Cell key={`cell-${index}`} fill={stateAndLocalGovernmentSeriesPrimary} />;
                       })}
                     </Bar>
@@ -123,7 +144,7 @@ export const StateAndLocalGovernmentSeriesChart = () => {
                       isAnimationActive={false}
                       strokeDasharray="2 2"
                     />
-                    <XAxis dataKey="date" />
+                    <XAxis dataKey="date" tickFormatter={value => formatDate(value)} />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>

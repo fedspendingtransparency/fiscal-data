@@ -7,6 +7,9 @@ import {
   line,
   rectangle,
 } from '../../state-and-local-government-series/state-and-local-government-series-chart/state-and-local-government-series-chart.module.scss';
+import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
+import { getMonth, getYear } from 'date-fns';
+import { monthNames } from '../../../../../utils/api-utils';
 
 type Tooltip = (object: {
   payload: [{ payload: { year: number; expense: number; rate: number }; dataKey: string }];
@@ -23,6 +26,17 @@ export const CustomTooltip: Tooltip = ({ payload = [], setDate, setCount, setAmo
     setAmount(amount.payload.totalAmount);
   }
   return null;
+};
+
+export const formatDate = dateStr => {
+  if (dateStr) {
+    const date = convertDate(dateStr);
+    if (date) {
+      const monthIndex = getMonth(date);
+      const monthStr = monthNames[monthIndex];
+      return `${monthStr} ${getYear(date)}`;
+    }
+  }
 };
 
 export const Legend: FunctionComponent = (): ReactElement => {
