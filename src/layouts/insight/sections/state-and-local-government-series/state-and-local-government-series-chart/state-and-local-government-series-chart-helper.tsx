@@ -16,6 +16,15 @@ type Tooltip = (object: {
   setCount: (x: number) => void;
   setAmount: (x: number) => void;
 }) => void;
+
+export const chartConfig = {
+  height: 360,
+  altText:
+    'A bar chart that shows the amount of outstanding securities over the last 12 months with an overlayed ' +
+    'line chart showing the count of outstanding securities. Generally, as the amount of outstanding securities ' +
+    'increases or decreases, the count also increases or decreases. ',
+};
+
 export const CustomTooltip: Tooltip = ({ payload = [], setDate, setCount, setAmount }): null => {
   if (payload.length > 0 && setDate && setCount && setAmount) {
     setDate(payload[0]?.payload.date);
@@ -27,13 +36,13 @@ export const CustomTooltip: Tooltip = ({ payload = [], setDate, setCount, setAmo
   return null;
 };
 
-export const formatDate = dateStr => {
+export const formatDate = (dateStr, wrap = false) => {
   if (dateStr) {
     const date = convertDate(dateStr);
     if (date) {
       const monthIndex = getMonth(date);
       const monthStr = monthNames[monthIndex];
-      return `${monthStr} ${getYear(date)}`;
+      return `${monthStr}${wrap ? '\n' : ' '}${getYear(date)}`;
     }
   }
 };

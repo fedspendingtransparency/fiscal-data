@@ -3,7 +3,7 @@ import ChartDataHeader from '../../../../explainer/explainer-components/chart-da
 import { ChartTableContainer } from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import ChartingTableToggle from '../../../../../components/chart-with-table/chart-table-toggle/charting-table-toggle';
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
-import { CustomTooltip, formatDate, Legend } from './state-and-local-government-series-chart-helper';
+import { chartConfig, CustomTooltip, formatDate, Legend } from './state-and-local-government-series-chart-helper';
 import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
 import { Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { getShortForm } from '../../../../../utils/rounding-utils';
@@ -17,7 +17,6 @@ TODO:
 - mobile style
 - format x axis
 - Update header style, spacing is jumping around
-- add spacing below chart
  */
 const breakpoint = {
   desktop: 1015,
@@ -34,6 +33,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
 
+  const { height, altText, yAxis } = chartConfig;
   const setDefaultHeaderValues = () => {
     if (chartData) {
       setCurDate(chartData[chartData.length - 1].date);
@@ -85,12 +85,12 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                 width="99%"
                 variant="rounded"
                 sx={{
-                  minHeight: 360,
+                  minHeight: height,
                   transition: 'opacity 2s',
                 }}
               />
             ) : (
-              <div className={chartTableBorder}>
+              <div className={chartTableBorder} aria-label={altText}>
                 <ChartDataHeader
                   dateField="Date"
                   fiscalYear={formatDate(curDate)}
@@ -98,9 +98,9 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                   left={{ label: 'Count', value: customNumberFormatter.format(curCount, 0) }}
                 />
                 <div>
-                  {/*TODO: alter size on light blue legend square*/}
                   <Legend />
                   <div
+                    data-testid="chartParent"
                     role="presentation"
                     onBlur={() => {
                       setChartFocus(false);
@@ -110,7 +110,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                     onMouseOver={() => setChartHover(true)}
                     onMouseLeave={() => setChartHover(false)}
                   >
-                    <ResponsiveContainer height={360} width="99%">
+                    <ResponsiveContainer height={height} width="99%">
                       <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer>
                         <YAxis
                           dataKey="totalAmount"
