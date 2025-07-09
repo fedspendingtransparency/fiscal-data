@@ -34,7 +34,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   setIsFiltered,
   datasetDateRange,
   pivotView,
-  filterFields,
 }) => {
   const { tableState: table, allColumns } = useContext(DataTableContext);
   const [appliedFilters, setAppliedFilters] = useState([]);
@@ -178,7 +177,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   };
 
   useEffect(() => {
-    setFiltersMap(initializeFilterConfigMap(filterFields, null, selectedTable));
+    setFiltersMap(initializeFilterConfigMap(selectedTable, null));
   }, []);
 
   useEffect(() => {
@@ -319,7 +318,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // }, [active]);
 
   useEffect(() => {
-    setFiltersMap(initializeFilterConfigMap(selectedTable.fields, null, selectedTable));
+    setFiltersMap(initializeFilterConfigMap(selectedTable, null));
     setAppliedFilters([]);
   }, [selectedTable, pivotView]);
 

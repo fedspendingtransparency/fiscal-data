@@ -15,20 +15,24 @@ export const customPreset = { label: 'Custom', key: 'custom', years: null };
 // by default.
 export const fallbackPresets = ['1yr', 'current', 'all'];
 
-export const initializeFilterConfigMap = (fieldsArray, datePreset, selectedTable) => {
+export const initializeFilterConfigMap = (selectedTable, datePreset) => {
   const filterMap = {};
-  fieldsArray.forEach(field => {
-    if (field.dataType === 'DATE') {
+  const { fields: fieldsArray, dateField } = selectedTable;
+
+  fieldsArray?.forEach(field => {
+    const { dataType, columnName } = field;
+    if (dataType === 'DATE') {
       const dateConfig = {};
       dateConfig.pendingStartDate = null;
       dateConfig.pendingEndDate = null;
-      if (field.columnName === selectedTable?.dateField && datePreset) {
+      if (columnName === dateField && datePreset) {
         dateConfig.defaultStartDate = datePreset?.from?.toString();
         dateConfig.defaultEndDate = datePreset?.to?.toString();
       }
-      filterMap[field.columnName] = dateConfig;
+      filterMap[columnName] = dateConfig;
     } else {
-      filterMap[field.columnName] = { pendingValue: '', filterValue: '' };
+      filterMap[columnName] = { pendingValue: '', filterValue: '' };
+      field.filterValue = '';
     }
   });
   return filterMap;
