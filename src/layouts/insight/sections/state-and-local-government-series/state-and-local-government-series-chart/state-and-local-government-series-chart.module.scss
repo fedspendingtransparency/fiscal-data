@@ -11,6 +11,7 @@ $state-and-local-government-series-primary: #a4bcfd;
 
 .legendSection {
   display: flex;
+  justify-content: center;
 }
 
 .legendText,
@@ -37,4 +38,14 @@ $state-and-local-government-series-primary: #a4bcfd;
 .chartTableBorder {
   border: 1px;
   padding: 1rem 0.5rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .legendText {
+    font-size: $font-size-14;
+    justify-content: center;
+  }
+  .rectangle {
+    margin-top: 0.1rem;
+  }
 }
