@@ -55,7 +55,8 @@ export const Legend: FunctionComponent = (): ReactElement => {
         <div className={rectangle} />
       </div>
       <div className={legendSection}>
-        <div className={line} />
+        <div className={line}>.....</div>
+
         <span className={legendText}>Count</span>
       </div>
     </div>

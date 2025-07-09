@@ -12,12 +12,7 @@ import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
 import { Skeleton } from '@mui/material';
 import { chartTableBorder } from './state-and-local-government-series-chart.module.scss';
-/*
-TODO:
-- mobile style
-- format x axis
-- Update header style, spacing is jumping around
- */
+
 const breakpoint = {
   desktop: 1015,
   tablet: 600,
@@ -33,7 +28,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
 
-  const { height, altText, yAxis } = chartConfig;
+  const { height, altText } = chartConfig;
   const setDefaultHeaderValues = () => {
     if (chartData) {
       setCurDate(chartData[chartData.length - 1].date);
@@ -77,7 +72,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
 
   return (
     <>
-      <ChartTableContainer title={chartTitle} tableView={selectedChartView === 'tableView'} toggle={toggle}>
+      <ChartTableContainer title={chartTitle} toggle={toggle}>
         {selectedChartView === 'chartView' && (
           <>
             {!chartData ? (
