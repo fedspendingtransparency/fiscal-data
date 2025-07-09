@@ -6,17 +6,24 @@ interface iSearchFilter {
   searchLabel: string;
   hideIcons?: boolean;
   columnConfig;
+  filterMap;
+  setFilterMap;
 }
 
-const SearchFilter: FunctionComponent<iSearchFilter> = ({ searchLabel, hideIcons, columnConfig }) => {
+const SearchFilter: FunctionComponent<iSearchFilter> = ({ searchLabel, hideIcons, columnConfig, filterMap, setFilterMap }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
-  const defaultDisplayValue = () => (columnConfig?.pendingValue ? columnConfig?.pendingValue : columnConfig?.filterValue);
+  const defaultDisplayValue = () =>
+    filterMap[columnConfig.columnName]?.pendingValue
+      ? filterMap[columnConfig.columnName].pendingValue
+      : filterMap[columnConfig.columnName]?.filterValue;
   const [filterVal, setFilterVal] = useState(defaultDisplayValue());
 
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilterVal(val);
-    columnConfig['pendingValue'] = val;
+    const map = JSON.parse(JSON.stringify(filterMap));
+    map[columnConfig.columnName].pendingValue = val;
+    setFilterMap(map);
   };
 
   useEffect(() => {

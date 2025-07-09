@@ -17,6 +17,8 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   activePresetKey,
   presetCustomDateRange,
   presets,
+  filterMap,
+  setFilterMap,
 }) => {
   const monthYearCustomFilter = selectedTable?.dateField === selectedColumn?.columnName && selectedTable?.apiFilter?.disableDateRangeFilter;
   const applyDateRange = () => {
@@ -34,7 +36,15 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
           presetCustomDateRange={presetCustomDateRange}
         />
       )}
-      {selectedColumn.dataType !== 'DATE' && <SearchFilter searchLabel="Enter filter term" hideIcons={true} columnConfig={selectedColumn} />}
+      {selectedColumn.dataType !== 'DATE' && (
+        <SearchFilter
+          searchLabel="Enter filter term"
+          hideIcons={true}
+          columnConfig={selectedColumn}
+          filterMap={filterMap}
+          setFilterMap={setFilterMap}
+        />
+      )}
     </>
   );
 };
