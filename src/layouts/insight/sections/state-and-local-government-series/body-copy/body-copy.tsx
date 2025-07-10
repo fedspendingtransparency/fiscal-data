@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 
-export const BodyCopy = (): ReactElement => {
+const BodyCopy = (): ReactElement => {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [slgsTotal, setSlgsTotal] = useState(null);
   const [totalPublicDebtOutstanding, setTotalPublicDebtOutstanding] = useState(null);
@@ -63,3 +63,5 @@ export const BodyCopy = (): ReactElement => {
     </div>
   );
 };
+
+export default BodyCopy;

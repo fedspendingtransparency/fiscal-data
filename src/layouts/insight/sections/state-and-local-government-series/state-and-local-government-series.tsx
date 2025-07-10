@@ -1,6 +1,6 @@
 import React from 'react';
-import { BodyCopy } from './body-copy/body-copy';
-import { StateAndLocalGovernmentSeriesChart } from './state-and-local-government-series-chart/state-and-local-government-series-chart';
+import BodyCopy from './body-copy/body-copy';
+import StateAndLocalGovernmentSeriesChart from './state-and-local-government-series-chart/state-and-local-government-series-chart';
 
 export const stateLocalGovernmentSeriesDataSources = (
   <>
