@@ -71,7 +71,6 @@ export const InterestExpenseChart = () => {
     />
   );
 
-  // console.log(chartData);
   const resetDataHeader = () => {
     if (latestChartData) {
       setFiscalYear(latestChartData.year);
