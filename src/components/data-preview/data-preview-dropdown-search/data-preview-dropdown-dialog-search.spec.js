@@ -18,8 +18,8 @@ describe('Data Preview Dropdown Dialog search', () => {
   it('renders the dataTableSearchContainer', () => {
     const { container } = render(
       <DataPreviewDropdownDialogSearch
-        selectedTable={{ label: 'Default Table', tableName: 'Default Table' }}
-        setSelectedTable={mockSetSelectedTable}
+        selectedOption={{ label: 'Default Table', tableName: 'Default Table' }}
+        setSelectedOption={mockSetSelectedTable}
         options={mockOptions}
         searchBarLabel="Search..."
         active={false}
@@ -32,8 +32,8 @@ describe('Data Preview Dropdown Dialog search', () => {
   it('calls setSelectedTable when an option is selected (handleSearchChange)', async () => {
     render(
       <DataPreviewDropdownDialogSearch
-        selectedTable={{ label: 'Default Table', tableName: 'Default Table' }}
-        setSelectedTable={mockSetSelectedTable}
+        selectedOption={{ label: 'Default Table', tableName: 'Default Table' }}
+        setSelectedOption={mockSetSelectedTable}
         options={mockOptions}
         searchBarLabel="Search..."
         active={true}

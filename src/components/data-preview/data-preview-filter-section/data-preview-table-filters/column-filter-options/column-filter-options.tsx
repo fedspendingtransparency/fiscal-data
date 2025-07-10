@@ -1,49 +1,48 @@
 import React, { FunctionComponent } from 'react';
 import DateColumnFilter from './date-column-filter/date-column-filter';
+import SearchFilter from '../../../../search-filter/search-filter';
+import MonthYearFilter from './month-year-filter/month-year-filter';
 
 interface IColumnFilterOptions {
   selectedColumn;
-  config;
-  setDateRange;
-  allTablesSelected;
-  handleDateRangeChange;
-  setIsCustomDateRange;
-  finalDatesNotFound;
-  detailApi;
-  detailViewState;
   selectedTable;
+  activePresetKey;
+  presetCustomDateRange;
+  presets;
 }
 
 const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   selectedColumn,
   selectedTable,
-  config,
-  allTablesSelected,
-  finalDatesNotFound,
-  detailApi,
-  detailViewState,
-  apiData,
-  presets,
   activePresetKey,
-  pickerDateRange,
-  setPickerDateRange,
+  presetCustomDateRange,
+  presets,
+  filterMap,
+  setFilterMap,
 }) => {
+  const monthYearCustomFilter = selectedTable?.dateField === selectedColumn?.columnName && selectedTable?.apiFilter?.disableDateRangeFilter;
+  const applyDateRange = () => {
+    // Apply date range to table
+  };
   return (
     <>
-      {selectedColumn.dataType === 'DATE' && !selectedTable?.apiFilter?.disableDateRangeFilter && (
+      {selectedColumn.dataType === 'DATE' && monthYearCustomFilter && <MonthYearFilter selectedTable={selectedTable} setDateRange={applyDateRange} />}
+      {selectedColumn.dataType === 'DATE' && !monthYearCustomFilter && (
         <DateColumnFilter
           columnConfig={selectedColumn}
           selectedTable={selectedTable}
-          config={config}
-          allTablesSelected={allTablesSelected}
-          finalDatesNotFound={finalDatesNotFound}
-          detailApi={detailApi}
-          detailViewState={detailViewState}
-          apiData={apiData}
           presets={presets}
           activePresetKey={activePresetKey}
-          pickerDateRange={pickerDateRange}
-          setPickerDateRange={setPickerDateRange}
+          presetCustomDateRange={presetCustomDateRange}
+        />
+      )}
+      {selectedColumn.dataType !== 'DATE' && (
+        <SearchFilter
+          searchLabel="Enter filter term"
+          hideIcons={true}
+          columnConfig={selectedColumn}
+          filterMap={filterMap}
+          setFilterMap={setFilterMap}
         />
       )}
     </>

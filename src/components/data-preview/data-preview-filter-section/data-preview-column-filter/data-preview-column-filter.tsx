@@ -17,10 +17,11 @@ interface iColumnFilter {
   width?: number;
 }
 
-const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width }) => {
+const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width, pivotView }) => {
   const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
   const [dropdownActive, setDropdownActive] = useState(false);
-  const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
+  const pivotDisplay = pivotView?.title !== 'Complete Table' && pivotView?.dimensionField;
+  const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotDisplay;
   const [filter, setFilter] = useState('');
   const [noResults, setNoResults] = useState(false);
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
@@ -44,7 +45,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const filterDropdownButton = (
     <DropdownLabelButton
       label="Columns"
-      selectedOption={!!table ? table?.getVisibleFlatColumns().length + '/' + fields?.length : ''}
+      selectedOption={!!table && !allTablesSelected ? table?.getVisibleFlatColumns().length + '/' + fields?.length : ''}
       icon={faTable}
       active={dropdownActive}
       setActive={setDropdownActive}
@@ -75,7 +76,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   useEffect(() => {
     //initialize filteredColumns after table is initialized
     setFilteredColumns(table?.getAllLeafColumns());
-  }, [table]);
+  }, [fields]);
 
   useEffect(() => {
     if (table) {

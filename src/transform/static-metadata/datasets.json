@@ -576,7 +576,8 @@
       "unmatchedHeader": "There is no data to display based on the current filters selected.",
       "unmatchedMessage": "Select a different account number and/or date range in order to preview the data.",
       "defaultHeader": "This table requires additional filters.",
-      "defaultMessage": "Select an account in the filter section above to display the reports."
+      "defaultMessage": "Select an account in the filter section above to display the reports.",
+      "searchText": "Search accounts"
     }
   },
   "015-BFS-2024Q1-004": {

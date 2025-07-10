@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement } from 'react';
+import React, { FunctionComponent } from 'react';
 import DataPreviewDownloadWrapper from './data-preview-download-wrapper/data-preview-download-wrapper';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { filterAndDownloadContainer, filterContainer, toggleDownloadContainer } from './data-preview-filter-section.module.scss';
@@ -9,24 +9,6 @@ import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-tog
 import { differenceInHours } from 'date-fns';
 import { DataPreviewFilterSectionProps } from '../../../models/data-preview/IFilterSectionProps';
 import DataPreviewColumnFilter from './data-preview-column-filter/data-preview-column-filter';
-
-type DataPreviewFilterSectionProps = {
-  width?: number;
-  children: ReactElement | string;
-  dateRange;
-  isFiltered;
-  selectedTable;
-  selectedPivot;
-  dataset;
-  allTablesSelected: boolean;
-  isCustomDateRange: boolean;
-  selectedUserFilter;
-  tableColumnSortData;
-  filteredDateRange;
-  selectedDetailViewFilter;
-  apiFilterDefault;
-  setViewMode: (mode: string) => void;
-};
 
 const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps> = ({
   width,
@@ -46,8 +28,6 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   handleDateRangeChange,
   setIsCustomDateRange,
   finalDatesNotFound,
-  detailApi,
-  detailViewState,
   apiData,
   setViewMode,
   currentDateButton,
@@ -90,14 +70,12 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
         <div className={filterContainer}>
           <DataPreviewTableFilters
             selectedTable={selectedTable}
-            config={dataset}
             setDateRange={setDateRange}
+            dateRange={dateRange}
             allTablesSelected={allTablesSelected}
             handleDateRangeChange={handleDateRangeChange}
             setIsCustomDateRange={setIsCustomDateRange}
             finalDatesNotFound={finalDatesNotFound}
-            detailApi={detailApi}
-            detailViewState={detailViewState}
             apiData={apiData}
             width={width}
             currentDateButton={currentDateButton}
@@ -105,8 +83,9 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             customRangePreset={customRangePreset}
             setIsFiltered={setIsFiltered}
             datasetDateRange={datasetDateRange}
+            pivotView={pivotView}
           />
-          <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} />
+          <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} pivotView={pivotView} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
         </div>
         {width >= pxToNumber(breakpointXl) && (
