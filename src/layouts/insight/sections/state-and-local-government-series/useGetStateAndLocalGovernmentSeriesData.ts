@@ -76,8 +76,7 @@ const getChartData = async allDates => {
   });
 };
 
-export const useGetStateAndLocalGovernmentSeriesData = (): { xAxisValues: string[]; xAxisMobileValues; chartData; latestMonth } => {
-  const [latestMonth, setLatestMonth] = useState(null);
+export const useGetStateAndLocalGovernmentSeriesData = (): { xAxisValues: string[]; xAxisMobileValues; chartData } => {
   const [chartData, setChartData] = useState(null);
   const [xAxisValues, setXAxisValues] = useState<string[]>(null);
   const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
@@ -96,6 +95,5 @@ export const useGetStateAndLocalGovernmentSeriesData = (): { xAxisValues: string
     xAxisValues,
     xAxisMobileValues,
     chartData,
-    latestMonth,
   };
 };
