@@ -485,10 +485,10 @@ describe('Nested Data Table', () => {
   });
 });
 
-const renderComp = (cfg, loc = { pathname: '/datasets/mock-dataset/' }) =>
+const renderComp = (config, location = { pathname: '/datasets/mock-dataset/' }) =>
   render(
     <RecoilRoot>
-      <DatasetDataComponent config={cfg} width={1200} location={loc} setSelectedTableProp={() => {}} />
+      <DatasetDataComponent config={config} width={1200} location={location} setSelectedTableProp={() => {}} />
     </RecoilRoot>
   );
 
