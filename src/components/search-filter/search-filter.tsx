@@ -12,11 +12,9 @@ interface iSearchFilter {
 
 const SearchFilter: FunctionComponent<iSearchFilter> = ({ searchLabel, hideIcons, columnConfig, filterMap, setFilterMap }) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
-  const defaultDisplayValue = () =>
-    filterMap[columnConfig.columnName]?.pendingValue
-      ? filterMap[columnConfig.columnName].pendingValue
-      : filterMap[columnConfig.columnName]?.filterValue;
-  const [filterVal, setFilterVal] = useState(defaultDisplayValue());
+  const defaultDisplayValue = filterMap[columnConfig.columnName]?.pendingValue;
+
+  const [filterVal, setFilterVal] = useState(defaultDisplayValue);
 
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
@@ -27,7 +25,7 @@ const SearchFilter: FunctionComponent<iSearchFilter> = ({ searchLabel, hideIcons
   };
 
   useEffect(() => {
-    setFilterVal(defaultDisplayValue());
+    setFilterVal(defaultDisplayValue);
   }, [columnConfig]);
 
   return (
