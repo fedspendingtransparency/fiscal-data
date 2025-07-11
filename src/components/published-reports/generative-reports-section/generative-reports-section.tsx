@@ -117,7 +117,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
         const reports = [];
         for (const report of apisProp) {
           const reportConfig = reportsConfig[reportGenKey][report.apiId];
-          if (reportsConfig) {
+          if (reportConfig) {
             const formattedDate = format(selectedDate, 'MMMM yyyy');
             const downloadDate = format(selectedDate, 'MMyyyy');
             let reportData;
