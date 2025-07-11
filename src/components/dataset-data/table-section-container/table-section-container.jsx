@@ -233,7 +233,7 @@ const TableSectionContainer = ({
     }
   }, [dateRange]);
 
-  useEffect(async () => {
+  useMemo(async () => {
     if (config?.sharedApiFilterOptions && userFilterSelection) {
       await refreshTable();
     }
@@ -332,7 +332,7 @@ const TableSectionContainer = ({
 
   return (
     <>
-      <div data-test-id="table-container" className={sectionBorder}>
+      <div data-testid="table-container" className={sectionBorder}>
         <div className={titleContainer}>
           <div className={headerWrapper}>
             {!!detailViewState && selectedTab === 0 && (
