@@ -13,6 +13,9 @@ import AccountBox from '@material-ui/icons/AccountBox';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { DownloadReportTable } from '../download-report-table/download-report-table';
+import { buildEndpoint } from '../generative-reports-section/generative-report-helper';
+import { apiPrefix, basicFetch } from '../../../utils/api-utils';
+import { format } from 'date-fns';
 
 type Props = {
   reportConfig: IRunTimeReportConfig;
@@ -47,35 +50,44 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
   }, [apis]);
 
   // TODO: Re-add when filters are applied to the table
-  // useEffect(() => {
-  //   (async () => {
-  //     if (!selectedOption.value || !selectedDate) {
-  //       setReports([]);
-  //       return;
-  //     }
-  //     try {
-  //       const data = await Promise.all(
-  //         apis.map(async api => {
-  //           const url = `${apiPrefix}${buildEndpoint(selectedDate, api.dateField, selectedOption.value, reportConfig.filterField, api)}`;
-  //           const res = await basicFetch(url);
-  //           return {
-  //             id: api.apiId,
-  //             name: `${api.tableName}-${selectedOption.label}.pdf`,
-  //             date: format(selectedDate, 'MMMM yyyy'),
-  //             size: `${(res.data.length / 1024).toFixed(1)} KB`,
-  //             data: res.data,
-  //             colConfig: api,
-  //           };
-  //         })
-  //       );
-  //       setReports(data.filter(r => r.data.length));
-  //       setApiError(false);
-  //     } catch {
-  //       setApiError(true);
-  //       setReports([]);
-  //     }
-  //   })();
-  // }, [selectedAccount, selectedDate, apis, reportConfig.filterField]);
+  useEffect(() => {
+    (async () => {
+      if (!selectedOption.value || !selectedDate) {
+        setReports([]);
+        console.log('test 1');
+        return;
+      }
+      try {
+        const data = await Promise.all(
+          apis.map(async api => {
+            // const urlNo = `${apiPrefix}${buildEndpoint(selectedDate, api.dateField, selectedOption.value, reportConfig.filterField, api)}`;
+            const formatted
+
+            const url = `https://api.uat.fiscaldata.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=${selectedOption}${}`;
+            const res = await basicFetch(url);
+            console.log(res);
+            // console.log(res);
+            return {
+              id: api.apiId,
+              name: `${api.tableName}-${selectedOption.label}.pdf`,
+              date: format(selectedDate, 'MMMM yyyy'),
+              size: `${(res.data.length / 1024).toFixed(1)} KB`,
+              data: res.data,
+              colConfig: api,
+            };
+          })
+        );
+        setReports(data.filter(r => r.data.length));
+        setApiError(false);
+      } catch {
+        setApiError(true);
+        setReports([]);
+      }
+    })();
+  }, [selectedOption, selectedDate, apis, reportConfig.filterField]);
+
+  console.log('selected option: ', selectedOption);
+  console.log('selected date: ', String(allDates[1]).replace('-', ''));
 
   useEffect(() => {
     const allOptions = [defaultSelection];
