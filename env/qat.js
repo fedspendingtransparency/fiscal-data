@@ -13,7 +13,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/utf_account_balances',
       dateField: 'eff_date',
       downloadName: 'UTF_Account_Balances ',
-      alwaysSortWith: ['acct_desc', '-eff_date', 'acct_statement'],
+      alwaysSortWith: ['-eff_date', 'acct_statement'],
       apiFilter: {
         field: 'acct_desc',
         downloadLabel: 'Account',
@@ -35,7 +35,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/utf_transaction_subtotals',
       dateField: 'eff_date',
       downloadName: 'UTF_Transaction_Subtotals ',
-      alwaysSortWith: ['acct_desc', '-eff_date', 'trans_statement', 'trans_desc_cd'],
+      alwaysSortWith: ['-eff_date', 'trans_statement', 'trans_desc_cd'],
       apiFilter: {
         field: 'acct_desc',
         downloadLabel: 'Account',
