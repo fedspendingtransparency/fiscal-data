@@ -10,7 +10,6 @@ import {
   dowloadLableContainer,
   downloadCSV,
   downloaderContainer,
-  footerContainer,
   headerContainer,
   icon,
   tableBoarder,
@@ -23,7 +22,6 @@ import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
 interface IChartTableContainer {
   title: string;
   altText: string;
-  footer;
   downloader;
   children;
   customTestId;
@@ -39,7 +37,6 @@ interface IChartTableContainer {
 const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   title,
   altText,
-  footer,
   downloader,
   customTestId = null,
   downloadData,
@@ -132,7 +129,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
           />
         )}
       </div>
-      <div className={footerContainer}>{footer}</div>
+      {/*<div className={footerContainer}>{footer}</div>*/}
     </div>
   );
 };

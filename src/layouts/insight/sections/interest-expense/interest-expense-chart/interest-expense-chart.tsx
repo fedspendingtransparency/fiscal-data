@@ -1,5 +1,5 @@
 import { Bar, CartesianGrid, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { CustomTooltip, footer, Legend } from './interest-expense-chart-helper';
+import { CustomTooltip, Legend } from './interest-expense-chart-helper';
 import React, { useEffect, useState } from 'react';
 import { interestExpensePrimary } from '../../../insight.module.scss';
 import { getShortForm } from '../../../../../utils/rounding-utils';
@@ -96,7 +96,6 @@ export const InterestExpenseChart = () => {
     <>
       <ChartTableContainer
         title={chartTitle}
-        footer={footer}
         downloadData={downloadData}
         selectedTable={{ downloadName: 'interest-expense-avg-interest-rates' }}
         dateRange={{ from: startFY, to: currentFY }}

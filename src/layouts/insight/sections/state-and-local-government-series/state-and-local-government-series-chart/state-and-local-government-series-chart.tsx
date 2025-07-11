@@ -49,11 +49,12 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     <>
       <ChartTableContainer
         title="Outstanding State and Local Government Series (SLGS) Securities"
+        altText={altText}
         isLoading={!chartData}
         height={height}
         chart={
           <>
-            <div className={chartTableBorder} aria-label={altText}>
+            <div className={chartTableBorder}>
               <ChartDataHeader
                 dateField="Date"
                 fiscalYear={formatDate(curDate)}
