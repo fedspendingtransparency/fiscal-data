@@ -6,7 +6,7 @@ import { active, datePickers, dateRangePicker, dropdownButton, dropdownContent, 
 import MonthPicker from './month-picker/month-picker';
 import FilterButtons from '../data-preview/data-preview-dropdown-dialog/filter-buttons/filter-buttons';
 
-const DateRangeMonthPicker: FunctionComponent = ({ earliestDate, latestDate }) => {
+const DateRangeMonthPicker: FunctionComponent = ({ dateRange }) => {
   const [selectedStartDate, setSelectedStartDate] = useState();
   const [selectedEndDate, setSelectedEndDate] = useState();
   const [dropdownActive, setDropdownActive] = useState(false);
@@ -24,6 +24,7 @@ const DateRangeMonthPicker: FunctionComponent = ({ earliestDate, latestDate }) =
   const handleCancel = () => {
     console.log('cancel');
   };
+
   return (
     <div className={dateRangePicker}>
       <DropdownContainer dropdownButton={button} setActive={setDropdownActive} containerWidth="210px">

@@ -18,11 +18,13 @@ const breakpoint = {
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const { chartData, xAxisValues, xAxisMobileValues } = useGetStateAndLocalGovernmentSeriesData();
+  const { chartData, xAxisValues, xAxisMobileValues, latestDate } = useGetStateAndLocalGovernmentSeriesData();
   const [isMobile, setIsMobile] = useState<boolean>(null);
   const [curDate, setCurDate] = useState<number>(0);
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
+  const [selectedStartDate, setSelectedStartDate] = useState('2024-07-31');
+  const [selectedEndDate, setSelectedEndDate] = useState('2025-06-30');
 
   const { height, altText } = chartConfig;
   const setDefaultHeaderValues = () => {
@@ -37,6 +39,10 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     setDefaultHeaderValues();
   }, [chartData]);
 
+  // useEffect(() => {
+  //   setSelectedEndDate(latestDate);
+  // }, [latestDate]);
+
   useEffect(() => {
     if (window.innerWidth < breakpoint.desktop) {
       setIsMobile(true);
@@ -50,6 +56,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
       <ChartTableContainer
         title="Outstanding State and Local Government Series (SLGS) Securities"
         altText={altText}
+        dateRange={{ from: selectedStartDate, to: selectedEndDate }}
         isLoading={!chartData}
         height={height}
         chart={

@@ -80,11 +80,14 @@ export const useGetStateAndLocalGovernmentSeriesData = (): { xAxisValues: string
   const [chartData, setChartData] = useState(null);
   const [xAxisValues, setXAxisValues] = useState<string[]>(null);
   const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
+  const [latestDate, setLatestDate] = useState(null);
 
   useEffect(() => {
     getLastCompletedMonth('015-BFS-2014Q3-yy').then(async lastCompleteMonth => {
       getChartDates(lastCompleteMonth).then(async chartDates => {
         setXAxisValues(chartDates);
+        setLatestDate(chartDates[0]);
+        console.log(chartDates);
         setXAxisMobileValues(chartDates.filter(index => index % 2 !== 0));
         getChartData(chartDates).then(chartData => setChartData(chartData));
       });
@@ -95,5 +98,6 @@ export const useGetStateAndLocalGovernmentSeriesData = (): { xAxisValues: string
     xAxisValues,
     xAxisMobileValues,
     chartData,
+    latestDate,
   };
 };
