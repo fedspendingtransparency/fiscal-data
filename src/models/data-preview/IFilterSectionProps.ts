@@ -18,4 +18,5 @@ export interface DataPreviewFilterSectionProps {
   filteredDateRange?: { from: string; to: string };
   selectedDetailViewFilter?: { field: string; value: string };
   apiFilterDefault;
+  setViewMode: (mode: string) => void;
 }

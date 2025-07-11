@@ -1,0 +1,11 @@
+@import 'src/variables.module.scss';
+
+.monthYearContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filterContainer {
+  padding-top: 1rem;
+}

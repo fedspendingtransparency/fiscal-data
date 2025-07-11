@@ -71,7 +71,7 @@ describe('DataPreview', () => {
     fetchSpy.mockClear();
     global.fetch.mockClear();
     analyticsSpy.mockClear();
-    global.console.error.mockClear();
+    // global.console.error.mockClear();
   });
 
   it(`renders the DataPreview component which has the expected title text at desktop mode`, () => {
@@ -144,8 +144,6 @@ describe('DataPreview', () => {
 
     expect(setSelectedTableFromUrl).toHaveBeenCalledWith(config.apis[2]);
   });
-
-  //TODO: Adjust unit tests to fit new design
 
   // it(`initializes the dateRange to the appropriate values`, () => {
   //   const dateRange = instance.findByType(DataPreviewFilterSection).props.dateRange;

@@ -1,0 +1,74 @@
+@import '../../../variables.module';
+
+.redirectModalContainer {
+  position: relative;
+  max-width: 789px;
+}
+.titleText {
+  flex: 1 1 auto;
+  font-size: $font-size-32;
+  font-weight: 600;
+  text-align: center;
+}
+.explanation {
+  font-size: $font-size-18;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+  text-align: center;
+}
+.directions {
+  font-size: $font-size-14;
+  font-weight: 600;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+.linkContainer {
+  font-size: $font-size-20;
+  font-weight: 600;
+  text-align: center;
+  word-break: break-all;
+}
+.externalLink {
+  color: #2378c3;
+  text-decoration: none;
+  text-align: center;
+}
+.titleContainer {
+  display: inline-flex;
+  align-items: anchor-center;
+}
+.closeButton {
+  top: 0.75rem;
+  right: 0.75rem;
+  background: transparent;
+  border: 0;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding-right: 0.5rem;
+}
+.topBar {
+  display: flex;
+  justify-content: end;
+  top: 0;
+  left: 0;
+  height: 38px;
+  width: 100%;
+  background: #0071bc;
+}
+.redirectBody {
+  padding: 30px 45px 45px;
+  text-align: center;
+}
+.redirectContentOverride {
+  padding: 0 !important;
+}
+.iconTriangle {
+  width: 1.5rem;
+  height: 1.5rem;
+  padding-right: 0.5rem;
+}
+.icon {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: $content-section-background;
+}

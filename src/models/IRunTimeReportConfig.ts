@@ -5,4 +5,5 @@ export interface IRunTimeReportConfig {
   unmatchedMessage: string;
   defaultHeader: string;
   defaultMessage: string;
+  searchText: string;
 }

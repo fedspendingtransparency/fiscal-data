@@ -4,8 +4,18 @@ import React from 'react';
 import DateColumnFilter from './date-column-filter';
 
 describe('Date column filter', () => {
-  const mockPresetColumnConfig = { name: 'Record Date', columnName: 'record_date' };
-  const mockCustomColumnConfig = { name: 'Different Date', columnName: 'different_date' };
+  const mockPresetColumnConfig = {
+    name: 'Record Date',
+    columnName: 'record_date',
+    defaultEndDate: new Date('3/17/2025'),
+    defaultStartDate: new Date('3/17/2024'),
+  };
+  const mockCustomColumnConfig = {
+    name: 'Different Date',
+    columnName: 'different_date',
+    defaultEndDate: new Date('3/17/2025'),
+    defaultStartDate: new Date('3/17/2024'),
+  };
   const datasetConfig = { currentDateButton: 'byFullMonth', techSpecs: { earliestDate: '3-17-2020', latestDate: '3-17-2025' } };
   const mockSelectedTable = { userFilter: null, earliestDate: '3-17-2020', latestDate: '3-17-2025', dateField: 'record_date' };
   const mockPickerDateRange1 = { from: new Date('3/17/2024'), to: new Date('3/17/2025'), latestDate: '3-17-2020', earliestDate: '3-17-2025' };

@@ -181,6 +181,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             ignoreDisabled={true}
             ariaLabel={'Enter report date'}
           />
+
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
         {(activeReports?.length === 0 || apiErrorMessage) && (

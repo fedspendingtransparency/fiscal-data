@@ -9,7 +9,6 @@ import {
   pivotSectionContainer,
   radioButton,
   sectionContainer,
-  tableName,
 } from './data-preview-pivot-select.module.scss';
 import { IPivotSelect } from '../../../models/data-preview/IPivotSelect';
 import { IPivotOption } from '../../../models/data-preview/IPivotOption';
@@ -133,7 +132,6 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
 
   return (
     <div className={sectionContainer}>
-      <div className={tableName}>{table?.tableName}</div>
       <label className={radioButton}>
         <input type="radio" name="table-data" checked={tableViewSelection === 'rawData'} onChange={() => updateTableViewSelection('rawData')} />
         Raw Data
