@@ -1,0 +1,51 @@
+@import 'src/variables.module';
+$state-and-local-government-series-primary: #a4bcfd;
+
+.legendContainer {
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.legendSection {
+  display: flex;
+  justify-content: center;
+}
+
+.legendText,
+.footerText {
+  font-weight: $semi-bold-weight;
+}
+
+.line {
+  margin-right: 0.5rem;
+  display: inline-block;
+  width: 1.25rem;
+  line-height: 0.75rem;
+  font-weight: $semi-bold-weight;
+}
+
+.rectangle {
+  width: 1rem;
+  height: 1rem;
+  background: $state-and-local-government-series-primary;
+  margin-left: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+.chartTableBorder {
+  border: 1px;
+  padding: 1rem 0.5rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .legendText {
+    font-size: $font-size-14;
+    justify-content: center;
+  }
+  .rectangle {
+    margin-top: 0.1rem;
+  }
+}
