@@ -16,7 +16,6 @@ const breakpoint = {
 };
 
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
-  const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
   const { chartData, xAxisValues, xAxisMobileValues } = useGetStateAndLocalGovernmentSeriesData();
@@ -52,8 +51,6 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         title="Outstanding State and Local Government Series (SLGS) Securities"
         isLoading={!chartData}
         height={height}
-        selectedChartView={selectedChartView}
-        setSelectedChartView={setSelectedChartView}
         chart={
           <>
             <div className={chartTableBorder} aria-label={altText}>

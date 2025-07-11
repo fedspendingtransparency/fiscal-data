@@ -21,8 +21,6 @@ const breakpoint = {
 let gaTimer;
 
 export const InterestExpenseChart = () => {
-  const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
-
   const { explainers } = globalConstants;
   const [width] = useWindowSize();
   const [isMobile, setIsMobile] = useState<boolean>(null);
@@ -103,8 +101,6 @@ export const InterestExpenseChart = () => {
         selectedTable={{ downloadName: 'interest-expense-avg-interest-rates' }}
         dateRange={{ from: startFY, to: currentFY }}
         enabledClickedColorChange={true}
-        selectedChartView={selectedChartView}
-        setSelectedChartView={setSelectedChartView}
         isLoading={chartLoading}
         height={360}
         chart={

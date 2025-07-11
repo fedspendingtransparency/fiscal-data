@@ -23,8 +23,6 @@ import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
 interface IChartTableContainer {
   title: string;
   altText: string;
-  selectedChartView: string;
-  setSelectedChartView: (view: string) => void;
   footer;
   downloader;
   children;
@@ -41,8 +39,6 @@ interface IChartTableContainer {
 const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   title,
   altText,
-  selectedChartView,
-  setSelectedChartView,
   footer,
   downloader,
   customTestId = null,
@@ -57,6 +53,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   chart,
   table,
 }) => {
+  const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [downloadClicked, setDownloadClick] = useState(false);
   const handleDownloadClicked = () => {
     if (enabledClickedColorChange) {
