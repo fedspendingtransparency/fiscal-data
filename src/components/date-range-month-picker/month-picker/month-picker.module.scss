@@ -1,0 +1,15 @@
+@import 'src/variables.module';
+
+.dropdownButton {
+  display: flex;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  border-radius: 3px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  width: 178px;
+  color: $font-body-copy;
+  font-size: $font-size-16;
+}
