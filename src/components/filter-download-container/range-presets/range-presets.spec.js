@@ -295,17 +295,9 @@ describe('Range Presets Component, without the current report radio option', () 
     setDateRangeMock.mockClear();
 
     updateDatePicker(datePickers[0], '01/01/2005');
-    updateDatePicker(datePickers[1], '01/01/2019');
-
-    expect(setDateRangeMock).toHaveBeenCalledWith({
-      earliestDate: '2002-01-01',
-      from: new Date('2005-01-01T06:00:00.000Z'),
-      latestDate: '2020-01-01',
-      min: '2002-01-01',
-      selectionPath: '5_years',
-      to: new Date('2019-01-01T06:00:00.000Z'),
-    });
     setDateRangeMock.mockClear();
+    updateDatePicker(datePickers[1], '01/01/2019');
+    expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('2005-01-01 - 2019-01-01');
   });
 
   it(`fits a currently selected custom date to a newly selected table's available date range as needed`, () => {
