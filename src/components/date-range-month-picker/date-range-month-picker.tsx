@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarWeek, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import DropdownContainer from '../dropdown-container/dropdown-container';
-import { datePickers, dateRangePicker, dropdownButton, dropdownContent, icon } from './date-range-month-picker.module.scss';
+import { active, datePickers, dateRangePicker, dropdownButton, dropdownContent, icon } from './date-range-month-picker.module.scss';
 import MonthPicker from './month-picker/month-picker';
 import FilterButtons from '../data-preview/data-preview-dropdown-dialog/filter-buttons/filter-buttons';
 
@@ -11,7 +11,7 @@ const DateRangeMonthPicker: FunctionComponent = ({ earliestDate, latestDate }) =
   const [selectedEndDate, setSelectedEndDate] = useState();
   const [dropdownActive, setDropdownActive] = useState(false);
   const button = (
-    <button className={dropdownButton} onClick={() => setDropdownActive(!dropdownActive)}>
+    <button className={`${dropdownButton} ${dropdownActive && active}`} onClick={() => setDropdownActive(!dropdownActive)}>
       <FontAwesomeIcon icon={faCalendarWeek} className={icon} size="1x" data-testid="calendar-week-icon" />
       Start Date — End Date
       {true && <FontAwesomeIcon className={icon} icon={faCaretUp} />}
@@ -19,10 +19,10 @@ const DateRangeMonthPicker: FunctionComponent = ({ earliestDate, latestDate }) =
   );
 
   const handleApply = () => {
-    console.log('applu');
+    console.log('apply');
   };
   const handleCancel = () => {
-    console.log('applu');
+    console.log('cancel');
   };
   return (
     <div className={dateRangePicker}>
