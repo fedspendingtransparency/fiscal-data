@@ -20,6 +20,8 @@ export const DownloadReportTable: FunctionComponent<{
     setMobileView(pxToNumber(breakpointLg) > width);
   }, [width]);
 
+  console.log(reports); // dts or mspd see what prop is expecting
+
   return (
     <table className={table}>
       <thead>
