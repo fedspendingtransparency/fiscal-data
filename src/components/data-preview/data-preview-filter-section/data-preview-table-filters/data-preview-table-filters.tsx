@@ -289,9 +289,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         const map = JSON.parse(JSON.stringify(filterMap));
         selectedTable.fields.forEach(field => {
           const { columnName } = field;
-          if (map[columnName].filterValue === '') {
-            map[columnName].pendingValue = '';
-          }
+          map[columnName].pendingValue = map[columnName].filterValue;
         });
         setFiltersMap(map);
       }
