@@ -1,11 +1,12 @@
 import { TestData } from '../dtg-table/test-data';
 import { addDays, format, subYears } from 'date-fns';
+import { convertDate } from './dataset-data-helper/dataset-data-helper';
 
 export const latestDate = '2020-04-13';
-let testDate = subYears(new Date(2020, 3, 13), 5);
+let testDate = subYears(convertDate(2020, 3, 13), 5);
 testDate = addDays(testDate, 1);
 export const fivePrior = format(testDate, 'yyyy-MM-dd');
-export const latestDateFormatted = format(addDays(new Date(latestDate), 1), 'MM/dd/yyyy');
+export const latestDateFormatted = format(addDays(convertDate(latestDate), 1), 'MM/dd/yyyy');
 export const fivePriorFormatted = format(testDate, 'MM/dd/yyyy');
 const mockYears = {
   from: 2019,
