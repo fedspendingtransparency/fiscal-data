@@ -464,29 +464,27 @@ describe('DataPreview', () => {
   //   expect(downloadWrapperAfter.props.allTablesSelected).toBeTruthy();
   // });
 
-  //TODO we need to add this test back end. its currently failing related to a bug in the custom date range picker.
-
-  // it("supplies the dataset's full dateRange to DateRangeFilter  ", () => {
-  //   const { getByRole, queryByRole } = render(
-  //     <RecoilRoot>
-  //       <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-  //     </RecoilRoot>
-  //   );
-  //   const filtersDropdown = getByRole('button', { name: 'Filters: 0 applied' });
-  //   fireEvent.click(filtersDropdown);
-  //   fireEvent.click(getByRole('button', { name: 'Record Date No filter selected' }));
-  //   fireEvent.click(getByRole('radio', { name: 'Preset' }));
-  //   fireEvent.click(getByRole('radio', { name: 'All' }));
-  //   fireEvent.click(getByRole('radio', { name: 'Custom' }));
-  //   const fromDatePicker = getByRole('button', { name: 'Select Start Date' });
-  //   fireEvent.click(fromDatePicker);
-  //   const fromDateYearEntry = getByRole('combobox', { name: 'Year:' });
-  //   fireEvent.click(fromDateYearEntry);
-  //   expect(getByRole('option', { name: '2002' })).toBeInTheDocument();
-  //   expect(queryByRole('option', { name: '2001' })).not.toBeInTheDocument();
-  //   expect(getByRole('option', { name: '2020' })).toBeInTheDocument();
-  //   expect(queryByRole('option', { name: '2021' })).not.toBeInTheDocument();
-  // });
+  it("supplies the dataset's full dateRange to DateRangeFilter  ", () => {
+    const { getByRole, queryByRole } = render(
+      <RecoilRoot>
+        <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const filtersDropdown = getByRole('button', { name: 'Filters: 0 applied' });
+    userEvent.click(filtersDropdown);
+    userEvent.click(getByRole('button', { name: 'Record Date' }));
+    userEvent.click(getByRole('radio', { name: 'Preset' }));
+    userEvent.click(getByRole('radio', { name: 'All' }));
+    userEvent.click(getByRole('radio', { name: 'Custom' }));
+    const fromDatePicker = getByRole('button', { name: 'Select Start Date' });
+    userEvent.click(fromDatePicker);
+    const fromDateYearEntry = getByRole('combobox', { name: 'Year:' });
+    fireEvent.click(fromDateYearEntry);
+    expect(getByRole('option', { name: '2002' })).toBeInTheDocument();
+    expect(queryByRole('option', { name: '2001' })).not.toBeInTheDocument();
+    expect(getByRole('option', { name: '2020' })).toBeInTheDocument();
+    expect(queryByRole('option', { name: '2021' })).not.toBeInTheDocument();
+  });
 
   it(`limits table filters to just record date when "All Data Tables" is selected`, async () => {
     const { getByRole, getByText } = render(

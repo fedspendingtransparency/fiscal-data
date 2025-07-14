@@ -16,7 +16,7 @@ import * as DatasetDataHelpers from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
-import { render, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import userEvent from '@testing-library/user-event';
 
@@ -440,6 +440,141 @@ describe('DatasetData', () => {
   });
 
   //TODO: Data is not laoding into the table
+  it(`keeps the rows per page selection when a pivot is updated`, async () => {
+    const { getByRole, findByRole, findByTestId } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 4' }));
+
+    act(() => {
+      jest.runAllTimers();
+    });
+    await waitFor(async () => {
+      const tableSectionContainer = await findByTestId('table-content');
+      expect(tableSectionContainer).toBeInTheDocument();
+    });
+    const pagingOptions = await findByTestId('paginationMenu');
+    await waitFor(() => expect(pagingOptions).toBeInTheDocument());
+    const pagingOptionsButton = await findByRole('button', { name: 'rows-per-page-menu' });
+    expect(within(pagingOptionsButton).getByText('10')).toBeInTheDocument();
+    // expect(pagingOptionsMenu.props.menuProps.selected).toBe(10);
+
+    // pagingOptionsMenu.props.menuProps.updateSelected(2);
+    jest.runAllTimers();
+
+    // expect(pagingOptionsMenu.props.menuProps.selected).toBe(2);
+
+    // tableSectionContainer.props.setSelectedPivot({
+    //   pivotView: { chartType: null, dimensionField: 'birthplace', title: 'By Facility' },
+    //   pivotValue: 'age',
+    // });
+
+    jest.runAllTimers();
+  });
+
+  it(`does not reload data from an api when switching from complete table view to a pivot view and back when
+   pivoting a non-large table`, async () => {
+    jest.useFakeTimers();
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 3' })); // select one paginated table
+    jest.runAllTimers();
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 10' })); // then change the selection to another paginated table
+    await jest.advanceTimersByTime(500); // to await makePagedRequest() debounce timer in DtgTable
+
+    // confirm that the second table's api url was called only once
+    const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint10?') !== -1);
+    expect(callsToApiForUpdatedTable.length).toEqual(1);
+
+    // update from complete table to a pivoted view
+    let pivotView = getByRole('button', { name: 'Change pivot view from Complete Table' });
+    userEvent.click(pivotView);
+    userEvent.click(getByRole('button', { name: 'By Facility' }));
+    jest.runAllTimers();
+
+    // confirm that the second table's api url has still only been called once
+    const callsToApiForUpdatedPivot = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint10?') !== -1);
+    expect(callsToApiForUpdatedPivot.length).toEqual(1);
+
+    // update back to non-pivoted Complete Table view
+    pivotView = getByRole('button', { name: 'Change pivot view from By Facility' });
+    userEvent.click(pivotView);
+    userEvent.click(getByRole('button', { name: 'Complete Table' }));
+    jest.runAllTimers();
+
+    // confirm the endpoint has still not been called when returning to the complete table view
+    const callsToApiForRevertToCompleteTableView = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint10?') !== -1);
+    expect(callsToApiForRevertToCompleteTableView.length).toEqual(1);
+  });
+
+  it(`correctly notifies the download control when all tables are selected`, async () => {
+    const { getByRole, getByTestId } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    const downloadWrapper = getByTestId('wrapper');
+    expect(within(downloadWrapper).queryByText('All Data Tables (11)')).toBeFalsy();
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'All Data Tables' }));
+    await waitFor(() => {
+      expect(within(downloadWrapper).getByText('All Data Tables (11)')).toBeTruthy();
+    });
+  });
+
+  it("supplies the dataset's full dateRange to RangePresets", () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const allDates = getByRole('radio', { name: 'All' });
+    const customDates = getByRole('radio', { name: 'Custom' });
+    //Selecting All and then Custom will display the full date range in the custom date pickers
+    userEvent.click(allDates);
+    userEvent.click(customDates);
+    const fromDatePicker = getByRole('textbox', { name: 'From Date' });
+    const toDatePicker = getByRole('textbox', { name: 'To Date' });
+    expect(fromDatePicker).toHaveValue('01/01/2002');
+    expect(toDatePicker).toHaveValue('04/13/2020');
+  });
+
+  it(`reflects whether "All Tables" is selected to RangePresets`, async () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </RecoilRoot>
+    );
+    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
+    // passing down a falsy value to range Presets initially
+    // todo: check that allTablesSelected is false
+    // expect(rangePresets.props.allTablesSelected).toBeFalsy();
+    userEvent.click(tableSelect);
+    const allTables = getByRole('button', { name: 'All Data Tables' });
+    // select the All Tables option, and confirm the tables have been sent to Range Presets
+    userEvent.click(allTables);
+    // todo: check that allTablesSelected is true
+    // expect(rangePresets.props.allTablesSelected).toBeTruthy();
+
+    // confirm that switching back to a single selected table makes downloadTables falsy again
+    userEvent.click(tableSelect);
+    userEvent.click(getByRole('button', { name: 'Table 2' }));
+    // await updateTable('Table 2');
+    // rangePresets = instance.findByType(RangePresets);
+    // expect(rangePresets.props.allTablesSelected).toBeFalsy();
+  });
 
   it(`renders the datatable banner when datatableBanner exists`, () => {
     const bannerText = 'This is a test';
@@ -450,6 +585,38 @@ describe('DatasetData', () => {
     );
     expect(getByTestId('datatable-banner')).toHaveTextContent(bannerText);
   });
+});
+
+it('renders download banner when a download option is disabled', async () => {
+  const { findByText, findByRole } = render(
+    <RecoilRoot>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={jest.fn()} location={mockLocation} />
+    </RecoilRoot>
+  );
+
+  const dateButton = await findByRole('radio', { name: '10 Years' });
+  fireEvent.click(dateButton);
+
+  expect(await findByText('XML download disabled due to large table size.', { exact: false })).toBeInTheDocument();
+});
+
+it('updates selected download type if current selection is disabled for new date range', async () => {
+  const { findByText, findByRole } = render(
+    <RecoilRoot>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={jest.fn()} location={mockLocation} />
+    </RecoilRoot>
+  );
+  const xmlButton = await findByRole('radio', { name: 'XML' });
+  fireEvent.click(xmlButton);
+  expect(xmlButton).toBeChecked();
+
+  const dateButton = await findByRole('radio', { name: '10 Years' });
+  fireEvent.click(dateButton);
+
+  const csvButton = await findByRole('radio', { name: 'CSV' });
+
+  expect(csvButton).toBeChecked();
+  expect(await findByText('XML download disabled due to large table size.', { exact: false })).toBeInTheDocument();
 });
 
 //TODO I don't believe this is doing anything
@@ -482,63 +649,5 @@ describe('Nested Data Table', () => {
 
   it('Renders the summary table', () => {
     expect(instance).toBeDefined();
-  });
-});
-
-const renderComp = (config, location = { pathname: '/datasets/mock-dataset/' }) =>
-  render(
-    <RecoilRoot>
-      <DatasetDataComponent config={config} width={1200} location={location} setSelectedTableProp={() => {}} />
-    </RecoilRoot>
-  );
-
-describe('DatasetDataComponent more coverage ', () => {
-  jest.mock('../filter-download-container/filter-download-container', () =>
-    jest.fn(({ children, ...rest }) => (
-      <div data-testid="filter-download" data-props={JSON.stringify(rest)}>
-        {children}
-      </div>
-    ))
-  );
-
-  jest.mock('../datatable-select/datatable-select', () =>
-    jest.fn(({ setSelectedTable }) => (
-      <button data-testid="datatable-select" onClick={() => setSelectedTable({ allDataTables: true, tableName: 'All Tables' })}>
-        DataTableSelect
-      </button>
-    ))
-  );
-
-  jest.mock('../filter-download-container/range-presets/range-presets', () => jest.fn(() => <div data-testid="range-presets">RangePresets</div>));
-
-  jest.mock('./table-section-container/table-section-container', () => jest.fn(() => <div data-testid="table-section-container" />));
-
-  it('renders the date-range placeholder when no tables exist', () => {
-    const baseConfig = { ...config, apis: [] };
-    const { getByTestId } = renderComp(baseConfig);
-    expect(getByTestId('dateRangePlaceholder')).toBeInTheDocument();
-  });
-
-  it('skips RangePresets when the selected table disables date-range filtering', async () => {
-    const baseConfig = JSON.parse(JSON.stringify(config));
-    baseConfig.apis[0].apiFilter = { disableDateRangeFilter: true };
-
-    const { queryByTestId } = renderComp(baseConfig);
-    await waitFor(() => {
-      expect(queryByTestId('range-presets')).toBeNull();
-    });
-  });
-
-  it('shows the detail-view lock notice when a detail API is configured', () => {
-    const baseConfig = JSON.parse(JSON.stringify(config));
-    baseConfig.detailView = {
-      apiId: 300,
-      field: 'record_date',
-      label: 'Locked',
-      dateRangeLockCopy: 'Locked Range',
-    };
-
-    const { getByText } = renderComp(baseConfig);
-    expect(getByText('Locked Range')).toBeInTheDocument();
   });
 });

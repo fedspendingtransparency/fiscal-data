@@ -1,5 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`DataPreview correctly prepares pivoted data with aggregation and summing and handles non-numeric
+  values 1`] = `
+{
+  "data": [
+    {
+      "CHART_DATE": "2020-05-01",
+      "Federal Bank": 1010.1010000000001,
+      "Medical Safe": 3020202,
+      "record_calendar_year__record_calendar_month": "May 2020",
+    },
+    {
+      "CHART_DATE": "2020-04-01",
+      "Federal Bank": "1000.0001",
+      "Medical Safe": 3000000.7,
+      "record_calendar_year__record_calendar_month": "Apr 2020",
+    },
+  ],
+  "meta": {
+    "dataTypes": {
+      "Federal Bank": "CURRENCY",
+      "Medical Safe": "CURRENCY",
+      "record_calendar_year__record_calendar_month": "AGGREGATION_DATE",
+    },
+    "labels": {
+      "Federal Bank": "Federal Bank",
+      "Medical Safe": "Medical Safe",
+      "record_calendar_year__record_calendar_month": "Time Period",
+    },
+  },
+  "pivotApplied": "By Classification:cost",
+}
+`;
+
 exports[`DataPreview correctly prepares pivoted data with aggregation and summing and handles non-numeric values 1`] = `
 {
   "data": [
