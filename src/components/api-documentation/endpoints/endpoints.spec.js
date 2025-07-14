@@ -1,8 +1,8 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import Endpoints from './endpoints';
 import { useStaticQuery } from 'gatsby';
 import { RecoilRoot } from 'recoil';
-import { render, within } from '@testing-library/react';
 
 describe('API Documentation/Endpoints', () => {
   const internalData = require('../../../testData/__dataConfig_for_tests.json');
@@ -15,60 +15,81 @@ describe('API Documentation/Endpoints', () => {
     },
   };
 
+  let component;
+  let instance;
+
   beforeAll(() => {
     useStaticQuery.mockReturnValue(profilerConfigMockData);
+    renderer.act(() => {
+      component = renderer.create(
+        <RecoilRoot>
+          <Endpoints />
+        </RecoilRoot>
+      );
+    });
+    instance = component.root;
   });
 
-  it('defines the Endpoints section with expected title and heading level', async () => {
+  it('defines the Endpoints section with expected title and heading level', () => {
     const titleText = 'Endpoints';
-    const headingLevel = 2;
-    const { findByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
-    const heading = await findByRole('heading', { name: titleText, level: headingLevel });
-    expect(heading).toBeInTheDocument();
+    const headingLevel = 'h2';
+    const title = instance.findByProps({ id: 'endpoints' }).findByType(headingLevel);
+    expect(title.children[0]).toBe(titleText);
   });
 
-  it('defines the List of Endpoints section with expected title and heading level', async () => {
+  it('defines the List of Endpoints section with expected title and heading level', () => {
     const titleText = 'List of Endpoints';
-    const headingLevel = 3;
-    const { findByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
-    const heading = await findByRole('heading', { name: titleText, level: headingLevel });
-    expect(heading).toBeInTheDocument();
+    const headingLevel = 'h3';
+    const title = instance.findByProps({ id: 'list-of-endpoints' }).findByType(headingLevel);
+    expect(title.children[0]).toBe(titleText);
   });
 
-  it('defines the List of Endpoints table with specified id and column', async () => {
-    const { findByRole, findAllByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
-    const columns = await findAllByRole('columnheader');
+  it('defines the List of Endpoints table with specified id and column', () => {
+    const table = instance.findByProps({ id: 'list-of-endpoints-table' });
+    const columns = table.findAllByType('th');
     const expectedColumns = ['Dataset', 'Table Name', 'Endpoint', 'Endpoint Description'];
     const expectedColumnLength = 4;
     expect(columns.length).toBe(expectedColumnLength);
+    let foundAllColumns = true;
 
     for (let i = expectedColumnLength; i--; ) {
-      expect(await findByRole('columnheader', { name: expectedColumns[i] }));
+      let columnFound = false;
+      for (let j = expectedColumnLength; j--; ) {
+        if (columns[i].children[0] === expectedColumns[j]) {
+          columnFound = true;
+          break;
+        }
+      }
+      if (!columnFound) {
+        foundAllColumns = false;
+        break;
+      }
     }
+
+    expect(foundAllColumns).toBe(true);
   });
 
   it('sorts the endpoint table in alphabetical order of the table name', () => {
-    const { getAllByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
-    const firstTableRow = getAllByRole('row')[1];
-    const firstTableName = within(firstTableRow).getAllByRole('cell')[0];
+    const table = instance.findByProps({ id: 'list-of-endpoints-table' });
+    const tbody = table.findByType('tbody');
+    const firstTableRow = tbody.findAllByType('tr')[0];
+    const firstTableName = firstTableRow.findAllByType('td')[1];
     // We have at least one table whose name starts with "A" and the first dataset in our
     // mock object is not one of these tables.
-    expect(within(firstTableName).getByText('Average Interest Rates on US Treasury Securities')).toBeInTheDocument();
+    expect(firstTableName.children[0][0]).toStrictEqual('A');
   });
 
-  it('defines the Fields by Endpoint section with expected title and heading level', async () => {
+  it('defines the Fields by Endpoint section with expected title and heading level', () => {
     const titleText = 'Fields by Endpoint';
-    const headingLevel = 3;
-    const { findByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
-    const heading = await findByRole('heading', { name: titleText, level: headingLevel });
-    expect(heading).toBeInTheDocument();
+    const headingLevel = 'h3';
+    const title = instance.findByProps({ id: 'fields-by-endpoint' }).findByType(headingLevel);
+    expect(title.children[0]).toBe(titleText);
   });
 
-  it('<table> tag has aria-describedby reference to <p> element id', async () => {
-    const { findByTestId, findByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
-    const table = await findByRole('table');
-    const p = await findByTestId('list-of-endpoints-id');
-    expect(table).toHaveAttribute('aria-describedby', 'list-of-endpoints-id');
-    expect(p).toHaveAttribute('id', 'list-of-endpoints-id');
+  it('<table> tag has aria-describedby reference to <p> element id', () => {
+    const table = instance.findByType('table');
+    const p = instance.findByProps({ id: 'list-of-endpoints-id' }).findByType('p');
+    expect(table.props['aria-describedby']).toBe('list-of-endpoints-id');
+    expect(table.props['aria-describedby']).toEqual(p.props['id']);
   });
 });

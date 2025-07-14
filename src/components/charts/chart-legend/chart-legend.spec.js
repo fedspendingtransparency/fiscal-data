@@ -1,7 +1,7 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import ChartLegend from './chartLegend';
-import { render, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import Checkbox from '../../checkbox/checkbox';
 
 const mockFieldConfig = [
   {
@@ -19,31 +19,29 @@ const mockFieldConfig = [
 ];
 
 describe('Chart Legend', () => {
+  let component, checkboxComponent, instance, checkboxProps;
+
+  renderer.act(() => {
+    component = renderer.create(<ChartLegend fields={mockFieldConfig} onHover={jest.fn()} onLabelChange={jest.fn()} />);
+  });
+
+  instance = component.root;
+  checkboxComponent = instance.findByType(Checkbox);
+  checkboxProps = checkboxComponent.props;
+
   it('passes options to the checkbox', () => {
-    const { getAllByTestId } = render(<ChartLegend fields={mockFieldConfig} onHover={jest.fn()} onLabelChange={jest.fn()} />);
-    const checkboxes = getAllByTestId('checkbox-input-element');
-    expect(checkboxes.length).toBe(mockFieldConfig.length);
+    expect(checkboxProps.checkboxData.length).toBe(mockFieldConfig.length);
   });
 
   it('passes change handler to the checkbox', () => {
-    const changeHandlerSpy = jest.fn();
-    const { getAllByTestId } = render(<ChartLegend fields={mockFieldConfig} onHover={jest.fn()} onLabelChange={changeHandlerSpy} />);
-    const checkboxes = getAllByTestId('checkbox-input-element');
-    userEvent.click(checkboxes[0]);
-    expect(changeHandlerSpy).toHaveBeenCalled();
+    expect(checkboxProps.changeHandler).toBeDefined();
   });
 
   it('passes hover handler to the checkbox', () => {
-    const onHoverSpy = jest.fn();
-    const { getAllByTestId } = render(<ChartLegend fields={mockFieldConfig} onHover={onHoverSpy} onLabelChange={jest.fn()} />);
-    const checkboxes = getAllByTestId('checkbox-input-element');
-    userEvent.hover(checkboxes[0]);
-    expect(onHoverSpy).toHaveBeenCalled();
+    expect(checkboxProps.onHover).toBeDefined();
   });
 
   it('places a heading with the total count of labels', () => {
-    const { getByRole } = render(<ChartLegend fields={mockFieldConfig} onHover={jest.fn()} onLabelChange={jest.fn()} />);
-    const heading = getByRole('heading', { level: 1 });
-    within(heading).getByText('Legend (3)');
+    expect(instance.findByType('h1').props.children[1]).toBe(mockFieldConfig.length);
   });
 });

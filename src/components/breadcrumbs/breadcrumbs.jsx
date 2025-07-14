@@ -1,5 +1,5 @@
 import React from 'react';
-import { container, currentEvent, linkDiv, linkSeparator } from './breadcrumbs.module.scss';
+import { container, linkSeparator, linkDiv, currentEvent } from './breadcrumbs.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
 
 const BreadCrumbs = ({ links }) => {
@@ -8,7 +8,7 @@ const BreadCrumbs = ({ links }) => {
   const currentPage = bcLinks.pop();
 
   return (
-    <div className={container} data-testid="breadcrumbs">
+    <div className={container}>
       {bcLinks.map((link, i) => (
         <div key={`breadCrumbLink${i}`} className={linkDiv}>
           <CustomLink url={link.link}>{link.name}</CustomLink>

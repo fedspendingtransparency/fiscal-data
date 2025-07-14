@@ -1,9 +1,9 @@
-import { renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { useMetadataUpdater } from './use-metadata-updater-hook';
 import { mockPublishedReportsFormattedData, mockSummaryFormattedData } from './metadata.mockdata';
 import { ReplaySubject } from 'rxjs';
 import { mockDatasets, mockUpdatedMetadataDatasets } from '../../components/datasets/mockData/mockDatasets';
-import { datasetPageSampleConfig } from '../../layouts/dataset-detail/test-helper';
+import { datasetPageSampleConfig } from '../../layouts/dataset-detail/dataset-detail.spec';
 import { testVariables } from '../../utils/mock-utils';
 import { format } from 'date-fns';
 
@@ -20,6 +20,8 @@ jest.mock('./metadata-service', () => {
 });
 
 describe('useMetadataUpdaterHook', () => {
+  beforeEach(() => {});
+
   it('passes through context unchanged if there is no updated summary data', () => {
     const testContext = { test: 'test' };
     mockSummaryUpdated.next(null);

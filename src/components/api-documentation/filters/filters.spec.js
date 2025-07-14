@@ -1,18 +1,22 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
+import SectionContent from '../section-content/section-content';
 import Filters from './filters';
-import { render } from '@testing-library/react';
 
 describe('Filters', () => {
-  it('has SectionContent as a part of its layout', async () => {
-    const { findAllByTestId } = render(<Filters />);
-    const sectionContent = await findAllByTestId('section-content');
-    expect(sectionContent.length).toBeGreaterThan(0);
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<Filters />);
+  });
+  const instance = component.root;
+
+  it('has SectionContent as a part of its layout', () => {
+    expect(instance.findAllByType(SectionContent).length).toBeGreaterThan(0);
   });
 
-  it('creates the Filters section with the desired id, heading tag and title', async () => {
+  it('creates the Filters section with the desired id, heading tag and title', () => {
     const title = 'Filters';
-    const { findByRole } = render(<Filters />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'filters' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 });

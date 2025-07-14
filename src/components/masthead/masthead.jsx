@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
   breadCrumb,
-  breadCrumbBackground,
-  mainWidth,
   pageHeader,
+  mainWidth,
   pageTitle,
   stickyHeader,
-  stickyHeight,
+  breadCrumbBackground,
   stickyMainWidth,
+  stickyHeight,
 } from './masthead.module.scss';
 import BreadCrumbs from '../breadcrumbs/breadcrumbs';
 import { withWindowSize } from 'react-fns';
@@ -47,7 +47,7 @@ const Masthead = ({ title, width }) => {
 
   return (
     <>
-      <div className={breadCrumbBackground} data-testid="masthead">
+      <div className={breadCrumbBackground}>
         <div className={breadCrumb}>
           <BreadCrumbs links={breadCrumbLinks} />
         </div>

@@ -98,18 +98,20 @@ describe('Example Response', () => {
 
   it('only calls the API once if multiple useEffect triggers take place simultaneously to call the fetchAPI', async () => {
     // first open the accordion without changing the table...
-    const instance = render(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'Ignored table' }} />);
+    rendered.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'Ignored table' }} />);
 
     fetchMock.resetMocks();
     // ...then change the table several times.
     // React state management does not fire the relevant useEffect until after a rapid succession
     // of simultaneous updates like this reaches its final change
     await act(() => {
-      instance.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'Ignored table' }} />);
-      instance.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'Another ignored table' }} />);
-      instance.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'Finally a...oh wait...this table is also ignored' }} />);
-      instance.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'NOT IGNORED' }} />);
+      rendered.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'Ignored table' }} />);
+      rendered.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'Another ignored table' }} />);
+      rendered.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'Finally a...oh wait...this table is also ignored' }} />);
+      rendered.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={{ endpoint: 'NOT IGNORED' }} />);
     });
+
+    await waitForElementToBeRemoved(() => rendered.getByTestId('loadingIcon'));
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
@@ -149,24 +151,24 @@ describe('Example Response', () => {
       .mockResponses([async () => await new Promise(res => setTimeout(() => res(new Error('invalid-json')), 100)), {}])
       .mockResponse(JSON.stringify({ data: 'This is GOOD data', meta: 'This is GOOD meta' }));
 
-    rendered.rerender(
-      <DatasetDetailExamples
-        isAccordionOpen
-        selectedTable={{
-          dummy: 'Does not match any previous tests',
-          endpoint: 'Testing',
-          dateField: '1900-01-01',
-        }}
-      />
-    );
-    act(() => {
+    await act(() => {
+      rendered.rerender(
+        <DatasetDetailExamples
+          isAccordionOpen
+          selectedTable={{
+            dummy: 'Does not match any previous tests',
+            endpoint: 'Testing',
+            dateField: '1900-01-01',
+          }}
+        />
+      );
       jest.runAllTimers();
+      rendered.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={selectedTable} />);
     });
-    rendered.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={selectedTable} />);
 
     await waitForElementToBeRemoved(() => rendered.getByTestId('loadingIcon'));
-    const responseEl = await rendered.findByTestId('exampleResponse');
-    expect(responseEl.textContent).toContain('This is GOOD data');
-    expect(responseEl.textContent).toContain('This is GOOD meta');
+    const responseEl = rendered.getByTestId('exampleResponse').textContent;
+    expect(responseEl).toContain('This is GOOD data');
+    expect(responseEl).toContain('This is GOOD meta');
   });
 });

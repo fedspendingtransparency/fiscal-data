@@ -27,7 +27,7 @@ const SectionContent = ({ id, children, className, headingLevel, title }) => {
   }, []);
 
   return (
-    <section id={id} className={`${sectionContainer} ${className || ''}`} data-testid="section-content">
+    <section id={id} className={`${sectionContainer} ${className || ''}`}>
       {header}
       {children}
     </section>

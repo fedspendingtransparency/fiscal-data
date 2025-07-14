@@ -5,9 +5,9 @@ import fetchMock from 'fetch-mock';
 import { determineBEAFetchResponse } from '../../../../../../utils/mock-utils';
 import { mockBeaGDPData } from '../../../../explainer-test-helper';
 import {
+  mockSpendingData,
   mockCallOutData,
   mockCpiDataset,
-  mockSpendingData,
   mockSpendingData_decreased,
   mockSpendingData_NoChange,
 } from '../../../../explainer-helpers/federal-spending/federal-spending-test-helper';
@@ -36,10 +36,10 @@ describe('Total Spending Chart', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were successful.
-    expect(await findByText('Since 2015, the Spending to GDP ratio has increased from 20% to 25%', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Since 2015, the Spending to GDP ratio has increased from 20% to 25%', { exact: false })).toBeInTheDocument();
   });
 
   it('renders the chart', async () => {
@@ -62,13 +62,10 @@ describe('Total Spending Chart', () => {
 
   it('renders the CustomPoints layer', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
-    );
+    const { getByTestId } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const customPoints = await findByTestId('customPoints');
-    expect(customPoints).toBeInTheDocument();
-    expect(customPoints.querySelector('circle').length === 4);
+    expect(await getByTestId('customPoints')).toBeInTheDocument();
+    expect(getByTestId('customPoints').querySelector('circle').length === 4);
   });
 
   it('renders the CustomSlices layer', async () => {
@@ -93,11 +90,9 @@ describe('Total Spending Chart', () => {
     const gaSpy = jest.spyOn(Analytics, 'event');
     const ga4Spy = jest.spyOn(window.dataLayer, 'push');
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
-    );
+    const { getByTestId } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const chart = await findByTestId('chartParent');
+    const chart = getByTestId('chartParent');
     fireEvent.mouseEnter(chart);
 
     jest.runAllTimers();
@@ -108,11 +103,11 @@ describe('Total Spending Chart', () => {
 
   it('fires the mouse events for Total Spending view', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId, getByRole } = render(
+    const { getByTestId, getByRole } = render(
       <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const slices = await findByTestId('customSlices');
+    const slices = await getByTestId('customSlices');
     const spendingButton = getByRole('button', { name: 'Total Spending' });
     fireEvent.click(spendingButton);
     expect(slices).toBeInTheDocument();
@@ -123,11 +118,11 @@ describe('Total Spending Chart', () => {
 
   it('fires the mouse events for GDP view', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId, findByRole } = render(
+    const { getByTestId, getByRole } = render(
       <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const gdpButton = await findByRole('button', { name: 'Percentage of GDP' });
+    const gdpButton = getByRole('button', { name: 'Percentage of GDP' });
     fireEvent.click(gdpButton);
     const slices = await getByTestId('customSlices');
     expect(slices).toBeInTheDocument();
@@ -154,10 +149,10 @@ describe('Total Spending Chart Spending to GDP Ratio Decreased', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were successful.
-    expect(await findByText('Since 2015, the Spending to GDP ratio has decreased from 35% to 13%', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Since 2015, the Spending to GDP ratio has decreased from 35% to 13%', { exact: false })).toBeInTheDocument();
   });
 });
 
@@ -178,9 +173,9 @@ describe('Total Spending Chart Spending to GDP Ratio No Change', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were successful.
-    expect(await findByText('Since 2015, the Spending to GDP ratio has not changed, remaining at 25%', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Since 2015, the Spending to GDP ratio has not changed, remaining at 25%', { exact: false })).toBeInTheDocument();
   });
 });

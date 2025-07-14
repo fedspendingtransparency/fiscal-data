@@ -126,7 +126,7 @@ const Endpoints = () => {
         </p>
       </SectionContent>
       <SectionContent id="list-of-endpoints" headingLevel={3} title="List of Endpoints">
-        <p id="list-of-endpoints-id" data-testid="list-of-endpoints-id">
+        <p id="list-of-endpoints-id">
           The table below <strong>lists the available endpoints by dataset and data table, along with a brief description</strong> of the
           corresponding endpoint.
         </p>

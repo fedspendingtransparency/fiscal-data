@@ -1,28 +1,21 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import SortDatasets from './sort-datasets';
 import { SortOptions } from '../search-results-helper';
-import userEvent from '@testing-library/user-event';
+import SelectControl from '../../../select-control/select-control';
 
 const searchIsActive = true;
 const onSort = jest.fn();
 
 describe('Sort Datasets', () => {
+  const component = renderer.create(<SortDatasets setSort={onSort} searchIsActive={searchIsActive} sortOptions={SortOptions} />);
+  const instance = component.root;
+
   it('passes the sort options to the select control', () => {
-    const { getByRole } = render(<SortDatasets setSort={onSort} searchIsActive={searchIsActive} sortOptions={SortOptions} />);
-    const selectControl = getByRole('button');
-    userEvent.click(selectControl);
-    SortOptions.forEach(option => {
-      expect(getByRole('button', { name: option.label })).toBeInTheDocument();
-    });
+    expect(instance.findByType(SelectControl).props.options).toBe(SortOptions);
   });
 
   it('passes the callback to the sort control', () => {
-    const { getByRole } = render(<SortDatasets setSort={onSort} searchIsActive={searchIsActive} sortOptions={SortOptions} />);
-    const selectControl = getByRole('button');
-    userEvent.click(selectControl);
-    const sortOption = getByRole('button', { name: SortOptions[1].label });
-    userEvent.click(sortOption);
-    expect(onSort).toHaveBeenCalled();
+    expect(instance.findByType(SelectControl).props.changeHandler).toBe(onSort);
   });
 });

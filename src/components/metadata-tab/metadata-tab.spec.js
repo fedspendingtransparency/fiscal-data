@@ -1,7 +1,8 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import MetadataTab from './metadata-tab';
+import DtgTable from '../dtg-table/dtg-table';
 import { RecoilRoot } from 'recoil';
-import { render, within } from '@testing-library/react';
 
 describe('MetadataTab', () => {
   const mockConfig = {
@@ -17,28 +18,25 @@ describe('MetadataTab', () => {
     slug: '/detailed-url-info/',
   };
 
+  let component = renderer.create();
+  let instance;
+  beforeAll(() => {
+    renderer.act(() => {
+      component = renderer.create(
+        <RecoilRoot>
+          <MetadataTab config={mockConfig} />
+        </RecoilRoot>
+      );
+    });
+    instance = component.root;
+  });
+
   it('should pass along its data array to the dtgTable component', () => {
-    const { getAllByRole, getByRole } = render(
-      <RecoilRoot>
-        <MetadataTab config={mockConfig} />
-      </RecoilRoot>
-    );
-    expect(getByRole('columnheader', { name: 'Name' })).toBeInTheDocument();
-    expect(getByRole('columnheader', { name: 'Definition' })).toBeInTheDocument();
-    const rows = getAllByRole('row');
-    expect(within(rows[1]).getByRole('cell', { name: 'Title' })).toBeInTheDocument();
-    expect(within(rows[1]).getByRole('cell', { name: mockConfig.name })).toBeInTheDocument();
-    expect(within(rows[2]).getByRole('cell', { name: 'Description (Long)' })).toBeInTheDocument();
-    expect(within(rows[2]).getByRole('cell', { name: mockConfig.summaryText })).toBeInTheDocument();
-    expect(rows).toHaveLength(8);
+    const tableData = instance.findByType(DtgTable).props.tableProps.data;
+    expect(tableData).toMatchSnapshot();
   });
 
   it('sets aria-label to dataset name metadata', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <MetadataTab config={mockConfig} />
-      </RecoilRoot>
-    );
-    expect(getByRole('table', { name: `${mockConfig.name} metadata` })).toBeInTheDocument();
+    expect(instance.findByType('table').props['aria-label']).toBe(`${mockConfig.name} metadata`);
   });
 });

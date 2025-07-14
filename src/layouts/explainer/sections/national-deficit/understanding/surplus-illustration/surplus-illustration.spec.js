@@ -1,9 +1,8 @@
 import React from 'react';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import SurplusIllustration from './surplus-illustration';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { mockIsIntersecting } from 'react-intersection-observer/test-utils';
-import userEvent from '@testing-library/user-event';
 
 describe('Surplus Illustration', () => {
   const glossary = [];
@@ -36,14 +35,14 @@ describe('Surplus Illustration', () => {
     global.console = { warn: jest.fn() };
     const { getByTestId, getByText } = render(<SurplusIllustration glossary={glossary} />);
     const tab = getByText('Balanced Budget');
-    userEvent.click(tab);
+    tab.click();
     expect(getByTestId('balanced-budget-image')).toBeInTheDocument();
   });
 
   it('renders the deficit image', () => {
     const { getByTestId, getByText } = render(<SurplusIllustration glossary={glossary} />);
     const tab = getByText('Deficit');
-    userEvent.click(tab);
+    tab.click();
     expect(getByTestId('deficit-image')).toBeInTheDocument();
   });
 

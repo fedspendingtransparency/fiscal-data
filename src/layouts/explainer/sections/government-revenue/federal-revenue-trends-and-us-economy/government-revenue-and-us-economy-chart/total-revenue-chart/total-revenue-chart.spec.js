@@ -48,67 +48,62 @@ describe('Total Revenue Chart', () => {
 
   it('chart fires on mouse over leave - for percentage of GDP', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findAllByText, findByTestId, findAllByTestId } = render(
+    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(
       <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
     );
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(2));
-    const totalRevenue = await findAllByText('Total Revenue');
-    expect(totalRevenue.length).toBe(3);
-    const customSlices = await findByTestId('customSlices');
-    expect(customSlices).toBeInTheDocument();
+    expect(await getAllByText('Total Revenue').length).toBe(3);
+    expect(await getByTestId('customSlices')).toBeInTheDocument();
 
     userEvent.tab();
     userEvent.tab();
     userEvent.keyboard('{Enter}');
-    const allSlices = await findAllByTestId('customSlice');
+    const slice = getAllByTestId('customSlice')[0];
     userEvent.tab();
-    expect(allSlices[0]).toHaveFocus();
+    expect(slice).toHaveFocus();
     // 2015 is in the header after slice was focused
-    const year = await findAllByText('2015');
-    expect(year.length).toBe(2);
+    expect(await getAllByText('2015').length).toBe(2);
   });
 
   it('chart fires on mouse over leave - for total revenue', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findAllByText, findByTestId, findAllByTestId } = render(
+    const { getByRole, getAllByText, getByTestId, getAllByTestId } = render(
       <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    const totalRevenue = await findAllByText('Total Revenue');
-    expect(totalRevenue.length).toBe(3);
-    expect(await findByTestId('customSlices')).toBeInTheDocument();
-    const allSlices = await findAllByTestId('customSlice');
+    expect(await getAllByText('Total Revenue').length).toBe(3);
+    expect(await getByTestId('customSlices')).toBeInTheDocument();
+    const slice = getAllByTestId('customSlice')[0];
+
     userEvent.tab();
     userEvent.tab();
     userEvent.tab();
-    expect(allSlices[0]).toHaveFocus();
+    expect(slice).toHaveFocus();
     // 2015 is in the header after slice was focused
-    const year = await findAllByText('2015');
-    expect(year.length).toBe(2);
+    expect(await getAllByText('2015').length).toBe(2);
   });
 
   it('chart fires ga4 event on mouse over', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByRole } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByRole } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const chart = await findByRole('presentation');
-    expect(chart).toBeInTheDocument();
-    fireEvent.mouseOver(chart);
+    expect(await getByRole('presentation')).toBeInTheDocument();
+    fireEvent.mouseOver(getByRole('presentation'));
     jest.runAllTimers();
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'chart-hover-total-revenue',
     });
-    fireEvent.mouseLeave(chart);
+    fireEvent.mouseLeave(getByRole('presentation'));
   });
 
   it('calls the appropriate analytics event when selecting ChartToggle', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const spy = jest.spyOn(Analytics, 'event');
-    const { findByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await findByTestId('totalRevenueChartParent')).toBeInTheDocument();
-    expect(await findByTestId('leftChartToggle')).toBeInTheDocument();
-    fireEvent.click(await findByTestId('leftChartToggle'));
+    expect(await getByTestId('totalRevenueChartParent')).toBeInTheDocument();
+    expect(await getByTestId('leftChartToggle')).toBeInTheDocument();
+    getByTestId('leftChartToggle').click();
     expect(spy).toHaveBeenCalledWith({
       action: 'Chart Toggle',
       category: 'Explainers',
@@ -119,55 +114,52 @@ describe('Total Revenue Chart', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
-    expect(await findByText('Since 2015, the Revenue-to-GDP ratio has increased from 18% to 20%.', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Since 2015, the Revenue-to-GDP ratio has increased from 18% to 20%.', { exact: false })).toBeInTheDocument();
   });
 
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await findByTestId('totalRevenueChartParent')).toBeInTheDocument();
+    expect(await getByTestId('totalRevenueChartParent')).toBeInTheDocument();
   });
 
   it('renders the chart markers and data header labels', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findAllByText, findByText } = render(
+    const { getAllByText, getByText } = render(
       <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await findAllByText('Total Revenue')).toHaveLength(3);
-    expect(await findAllByText('GDP')).toHaveLength(2);
-    expect(await findByText('Fiscal Year')).toBeInTheDocument();
+    expect(getAllByText('Total Revenue')).toHaveLength(3);
+    expect(getAllByText('GDP')).toHaveLength(2);
+    expect(await getByText('Fiscal Year')).toBeInTheDocument();
   });
 
   it('renders the CustomPoints layer', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const customPoints = await findByTestId('customPoints');
-    expect(customPoints).toBeInTheDocument();
-    expect(customPoints.querySelector('circle')?.length === 4);
+    expect(await getByTestId('customPoints')).toBeInTheDocument();
+    expect((await getByTestId('customPoints').querySelector('circle')?.length) === 4);
   });
 
   it('renders the CustomSlices layer', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const customSlices = await findByTestId('customSlices');
-    expect(customSlices).toBeInTheDocument();
-    expect(customSlices?.querySelector('rect')?.length === 8);
+    expect(await getByTestId('customSlices')).toBeInTheDocument();
+    expect((await getByTestId('customSlices')?.querySelector('rect')?.length) === 8);
   });
 
   it('renders the chart headers', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-
-    expect(await findByText('Federal Revenue and the U.S. Economy (GDP), FY 2015 – 2022', { exact: false })).toBeInTheDocument();
-    expect(await findByText('Inflation Adjusted - 2022 Dollars', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Federal Revenue and the U.S. Economy (GDP), FY 2015 – 2022', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Inflation Adjusted - 2022 Dollars', { exact: false })).toBeInTheDocument();
   });
 });
 
@@ -188,10 +180,10 @@ describe('Total Revenue Chart Revenue-to-GDP Ratio Decreased', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
-    expect(await findByText('Since 2015, the Revenue-to-GDP ratio has decreased from 25% to 13%.', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Since 2015, the Revenue-to-GDP ratio has decreased from 25% to 13%.', { exact: false })).toBeInTheDocument();
   });
 });
 
@@ -212,9 +204,9 @@ describe('Total Revenue Chart Revenue-to-GDP Ratio No Change', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
-    expect(await findByText('Since 2015, the Revenue-to-GDP ratio has not changed, remaining at 20%.', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Since 2015, the Revenue-to-GDP ratio has not changed, remaining at 20%.', { exact: false })).toBeInTheDocument();
   });
 });

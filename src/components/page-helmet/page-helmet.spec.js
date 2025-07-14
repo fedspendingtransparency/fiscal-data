@@ -3,7 +3,7 @@ import PageHelmet from './page-helmet';
 import mockDatasetDetails from './mockDatasetDetails';
 import { useStaticQuery } from 'gatsby';
 import { renderIntoDocument } from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import { Helmet } from 'react-helmet';
 import globalConstants from '../../helpers/constants';
 import { waitFor } from '@testing-library/dom';
@@ -177,12 +177,11 @@ describe('page helmet with static SEO description', () => {
 
 describe('page helmet with dynamic SEO description', () => {
   it('calls the descriptionGenerator when one is supplied', async () => {
-    const mockDescriptionGenerator = jest.fn().mockResolvedValue(dynamicDescription);
+    const mockDescriptionGenerator = () => Promise.resolve(dynamicDescription);
 
-    render(<PageHelmet description="stand in" descriptionGenerator={mockDescriptionGenerator} />);
-
-    await waitFor(() => expect(getMetaByName('description')).toBe(dynamicDescription));
-
-    expect(mockDescriptionGenerator).toHaveBeenCalled();
+    await act(async () => {
+      render(<PageHelmet description={'stand-in'} descriptionGenerator={mockDescriptionGenerator} />);
+      await waitFor(() => expect(getMetaByName('description')).toEqual(dynamicDescription));
+    });
   });
 });

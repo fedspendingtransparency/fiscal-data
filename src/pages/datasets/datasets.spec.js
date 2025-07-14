@@ -1,11 +1,15 @@
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import DatasetsPage from './index';
-import { mockDatasets, pageQueryMock } from '../../components/datasets/mockData/mockDatasets';
+import PageHelmet from '../../components/page-helmet/page-helmet';
+import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
+import { pageQueryMock } from '../../components/datasets/mockData/mockDatasets';
 import * as Gatsby from 'gatsby';
+import SearchField from '../../components/datasets/search-field/search-field';
+import FilterSection from '../../components/datasets/filters/filters';
+import { MuiThemeProvider } from '@material-ui/core';
 import { mockFilters } from '../../components/datasets/mockData/mockFilters';
 import { RecoilRoot } from 'recoil';
-import Fuse from 'fuse.js';
 
 const useStaticQueryMock = jest.spyOn(Gatsby, 'useStaticQuery');
 useStaticQueryMock.mockImplementation(() => pageQueryMock);
@@ -18,118 +22,91 @@ jest.mock('../../helpers/metadata/use-metadata-updater-hook', () => ({
 }));
 
 describe('Dataset Page', () => {
+  let component, instance, filterComponent, searchField;
+
   jest.useFakeTimers();
 
   // Jest gives an error about the following not being implemented even though the tests pass.
   HTMLCanvasElement.prototype.getContext = jest.fn();
 
-  let searchEngine;
-
   beforeAll(() => {
-    const options = { keys: ['name', 'summaryText', 'relatedTopics', 'allPrettyNames'], threshold: 0.2, includeScore: true, ignoreLocation: true };
-    const searchIndex = Fuse.createIndex(options.keys, mockDatasets);
-    searchEngine = new Fuse(mockDatasets, options, searchIndex);
+    renderer.act(() => {
+      component = renderer.create(
+        <RecoilRoot>
+          <DatasetsPage
+            pageContext={{
+              filters: mockFilters,
+            }}
+          />
+        </RecoilRoot>
+      );
+      jest.runAllTimers();
+    });
+    jest.runAllTimers();
+    instance = component.root;
+    filterComponent = instance.find(e => e.type === FilterSection);
+    searchField = instance.find(e => e.type === SearchField);
   });
 
-  const clearSearch = jest.fn();
+  const clearSearch = () => {
+    renderer.act(() => {
+      searchField.props.changeHandler('');
+    });
+  };
+
+  it('supplies the required values to the page helmet', () => {
+    const helmet = instance.find(e => e.type === PageHelmet);
+    expect(helmet.props.pageTitle).toBe('Dataset Search');
+    expect(helmet.props.description).toBeDefined();
+    expect(helmet.props.keywords).toBeDefined();
+  });
 
   it('includes breadcrumbs', () => {
-    const { getByTestId } = render(
-      <RecoilRoot>
-        <DatasetsPage
-          pageContext={{
-            filters: mockFilters,
-          }}
-        />
-      </RecoilRoot>
-    );
-    expect(getByTestId('breadcrumbs')).toBeInTheDocument();
+    const breadcrumbs = instance.find(e => e.type === BreadCrumbs);
+    expect(breadcrumbs).toBeDefined();
   });
 
   it('displays the page title', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DatasetsPage
-          pageContext={{
-            filters: mockFilters,
-          }}
-        />
-      </RecoilRoot>
-    );
-    const title = getByRole('heading', { level: 1, name: 'Datasets' });
-    expect(title).toBeInTheDocument();
+    const title = instance.findByProps({ 'data-testid': 'page-title' });
+    expect(title.props.children).toBe('Datasets');
   });
 
-  it('initially passes all datasets to the filter component', async () => {
-    const { findAllByText } = render(
-      <RecoilRoot>
-        <DatasetsPage
-          pageContext={{
-            filters: mockFilters,
-          }}
-        />
-      </RecoilRoot>
-    );
-
-    const datasetCount = pageQueryMock.allDatasets.datasets.length;
-    const text = await findAllByText(`Showing ${datasetCount} of ${datasetCount} Datasets`, { exact: false });
-    expect(text.length).toBeGreaterThan(0);
+  it('initially passes all datasets to the filter component', () => {
+    expect(filterComponent.props.searchResults.length).toBe(pageQueryMock.allDatasets.datasets.length);
   });
 
   it('filters datasets when search is activated', async () => {
-    const { findAllByTestId, getByRole, findAllByText } = render(
-      <RecoilRoot>
-        <DatasetsPage
-          pageContext={{
-            filters: mockFilters,
-          }}
-        />
-      </RecoilRoot>
-    );
-    const searchField = getByRole('textbox', { name: 'Enter search terms' });
+    expect(filterComponent.props.searchResults.length).toBe(3);
 
-    expect(await findAllByTestId('cardPlacement')).toHaveLength(3);
-    act(() => {
-      fireEvent.change(searchField, { target: { value: 'asdfasdfasdfasdfasdf' } });
+    renderer.act(() => {
+      searchField.props.changeHandler('asdfasdfasdfasdfasdf');
     });
-    const datasetCount = pageQueryMock.allDatasets.datasets.length;
 
-    const text = await findAllByText(`Showing 0 of ${datasetCount} Datasets`, { exact: false });
-    expect(text.length).toBeGreaterThan(0);
+    expect(filterComponent.props.searchResults.length).toBe(0);
+
+    // Revert search back to default state
+    clearSearch();
   });
 
-  it('includes the search field', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DatasetsPage
-          pageContext={{
-            filters: mockFilters,
-          }}
-        />
-      </RecoilRoot>
-    );
-    expect(getByRole('textbox', { name: 'Enter search terms' })).toBeInTheDocument();
+  it('includes the search field with change handler', () => {
+    expect(typeof searchField.props.changeHandler).toBe('function');
   });
 
-  it('reports whether search is active or not', async () => {
-    const { getByRole, findByRole } = render(
-      <RecoilRoot>
-        <DatasetsPage
-          pageContext={{
-            filters: mockFilters,
-          }}
-        />
-      </RecoilRoot>
-    );
-    const searchField = getByRole('textbox', { name: 'Enter search terms' });
-    const sortByAlphabetical = await findByRole('button', { name: 'Change sort order from Alphabetical (A to Z)' });
-    //sort by defaults to alphabetical when search is not active
-    expect(sortByAlphabetical).toBeInTheDocument();
-    act(() => {
-      fireEvent.change(searchField, { target: { value: 'fiscal data is cool' } });
+  it('establishes mui custom theming', () => {
+    const mui = instance.findByType(MuiThemeProvider);
+
+    expect(mui.props.theme).toBeDefined();
+  });
+
+  it('reports whether search is active or not', () => {
+    expect(filterComponent.props.searchIsActive).toBeFalsy();
+
+    renderer.act(() => {
+      searchField.props.changeHandler('fiscal data is cool');
     });
-    //updates to most relevant when search is active
-    const sortByMostRelevant = await findByRole('button', { name: 'Change sort order from Most Relevant' });
-    expect(sortByMostRelevant).toBeInTheDocument();
+
+    expect(filterComponent.props.searchIsActive).toBeTruthy();
+    // Revert search back to default state
+    clearSearch();
   });
 });

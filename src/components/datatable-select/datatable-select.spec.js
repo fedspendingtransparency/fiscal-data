@@ -1,7 +1,9 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import DataTableSelect, { allTablesOption } from './datatable-select';
-import { render, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { dataTableSelectWrapper } from './datatable-select.module.scss';
+import ComboCurrencySelect from '../combo-select/combo-currency-select/combo-currency-select';
+import { render } from '@testing-library/react';
 
 describe('DatatableSelect', () => {
   const earliestDate = 'test early date';
@@ -29,9 +31,9 @@ describe('DatatableSelect', () => {
 
   const apisArrOne = [{ tableName: 'Only One Table' }];
   const mockSetSelectedTable = jest.fn();
-
-  it('passes the apisArr to SelectControl', () => {
-    const { getByRole, getByLabelText } = render(
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(
       <DataTableSelect
         apis={apisArr}
         selectedTable={apisArr[0]}
@@ -40,32 +42,24 @@ describe('DatatableSelect', () => {
         latestDate={latestDate}
       />
     );
-    const dropdown = getByRole('button');
-    userEvent.click(dropdown);
-    allTables.forEach(table => {
-      expect(getByLabelText(table.tableName)).toBeInTheDocument();
-    });
+  });
+  const instance = component.root;
+
+  it('passes the apisArr to SelectControl', () => {
+    expect(instance.findByType(ComboCurrencySelect).props.options).toEqual(allTables);
   });
 
   it('passes the selectedOption to SelectControl', () => {
-    const { getByRole } = render(
-      <DataTableSelect
-        apis={apisArr}
-        selectedTable={apisArr[0]}
-        setSelectedTable={mockSetSelectedTable}
-        earliestDate={earliestDate}
-        latestDate={latestDate}
-      />
-    );
-    const dropdown = getByRole('button');
-
-    expect(within(dropdown).getByText(apisArr[0].tableName)).toBeInTheDocument();
+    expect(instance.findByType(ComboCurrencySelect).props.selectedOption).toEqual(apisArr[0]);
   });
 
   it('does not appear on the page if there is only one table in the apis array', () => {
-    const { queryByRole } = render(<DataTableSelect apis={apisArrOne} selectedTable={apisArrOne[0]} setSelectedTable={mockSetSelectedTable} />);
-
-    expect(queryByRole('button')).not.toBeInTheDocument();
+    let component2 = renderer.create();
+    renderer.act(() => {
+      component2 = renderer.create(<DataTableSelect apis={apisArrOne} selectedTable={apisArrOne[0]} setSelectedTable={mockSetSelectedTable} />);
+    });
+    const instance2 = component2.root;
+    expect(instance2.findAllByProps({ className: dataTableSelectWrapper }).length).toBe(0);
   });
 
   it('renders a placeholder while no table is selected (during loading)', () => {

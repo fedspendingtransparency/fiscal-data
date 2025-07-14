@@ -1,5 +1,5 @@
-import React, { act } from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 import GlossaryPopoverDefinition from './glossary-popover-definition';
 import { GlossaryContext } from '../glossary-context/glossary-context';
 import userEvent from '@testing-library/user-event';
@@ -70,81 +70,62 @@ describe('glossary term', () => {
     expect(glossaryTermButton).toBeInTheDocument();
   });
 
-  it('renders the glossary popover with the matching term and definition on click', async () => {
+  it('renders the glossary popover with the matching term and definition on click', () => {
     const termText = 'Hello';
     const termDefinition = 'A greeting';
     const testPage = 'Test Page';
 
-    const { getByRole, findByText } = render(
-      <GlossaryContext.Provider
-        value={{
-          glossaryClickEvent: false,
-          setGlossaryClickEvent: jest.fn(),
-          glossary: testGlossary,
-        }}
-      >
+    const { getByRole, getByText } = render(
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
         <GlossaryPopoverDefinition term={termText} page={testPage}>
           {termText}
         </GlossaryPopoverDefinition>
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    glossaryTermButton.click();
 
-    const definition = findByText(termDefinition);
+    const definition = getByText(termDefinition);
 
-    expect(await definition).toBeInTheDocument();
+    expect(definition).toBeInTheDocument();
   });
 
-  it('adds the link into the definition, if url_display is found within the definition text', async () => {
+  it('adds the link into the definition, if url_display is found within the definition text', () => {
     const glossaryDefinition = 'Test for term with link.';
     const termText = 'Hello again';
     const testPage = 'Test Page';
 
-    const { findByRole, findByText } = render(
-      <GlossaryContext.Provider
-        value={{
-          glossaryClickEvent: false,
-          setGlossaryClickEvent: jest.fn(),
-          glossary: testGlossary,
-        }}
-      >
+    const { getByRole, getByText } = render(
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
         <GlossaryPopoverDefinition term={termText} page={testPage}>
           {termText}
         </GlossaryPopoverDefinition>
       </GlossaryContext.Provider>
     );
-    const glossaryTermButton = await findByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    const glossaryTermButton = getByRole('button', { name: termText });
+    glossaryTermButton.click();
 
-    const definitionText = await findByText('Test for term', { exact: false });
-    expect(await findByRole('link', { name: 'link' })).toBeInTheDocument();
+    const definitionText = getByText('Test for term', { exact: false });
+    expect(getByRole('link', { name: 'link' })).toBeInTheDocument();
     expect(definitionText.textContent).toEqual(glossaryDefinition);
   });
 
-  it('adds the custom style into the definition', async () => {
+  it('adds the custom style into the definition', () => {
     const termText = 'Debt Held by the Public';
     const testPage = 'Test Page';
 
-    const { getByRole, findByText } = render(
-      <GlossaryContext.Provider
-        value={{
-          glossaryClickEvent: false,
-          setGlossaryClickEvent: jest.fn(),
-          glossary: testGlossary,
-        }}
-      >
+    const { getByRole, getByText } = render(
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
         <GlossaryPopoverDefinition term="Debt Held by the Public" page={testPage}>
           {termText}
         </GlossaryPopoverDefinition>
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
+    glossaryTermButton.click();
 
-    userEvent.click(glossaryTermButton);
-
-    const styledText = findByText('not');
-    expect(await styledText).toHaveStyle({ textDecoration: 'underline' });
+    const styledText = getByText('not');
+    expect(styledText).toHaveStyle({ textDecoration: 'underline' });
   });
 
   it('handles the fiscal year special case', () => {
@@ -161,26 +142,20 @@ describe('glossary term', () => {
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    glossaryTermButton.click();
 
     const definition = getByText('For example', { exact: false });
     expect(definition.textContent).toEqual(expected);
   });
 
-  it('correctly displays the definition for the term associated with the specified page', async () => {
+  it('correctly displays the definition for the term associated with the specified page', () => {
     const termText = 'Hello';
     const termDefinition = 'A different greeting';
     const differentPageTermDefinition = 'A greeting';
     const testPage = 'Another Test Page';
 
-    const { getByRole, findByText, queryByText } = render(
-      <GlossaryContext.Provider
-        value={{
-          glossaryClickEvent: false,
-          setGlossaryClickEvent: jest.fn(),
-          glossary: testGlossary,
-        }}
-      >
+    const { getByRole, getByText, queryByText } = render(
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
         <GlossaryPopoverDefinition term={termText} page={testPage}>
           {termText}
         </GlossaryPopoverDefinition>
@@ -188,70 +163,57 @@ describe('glossary term', () => {
     );
 
     const glossaryTermButton = getByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    glossaryTermButton.click();
 
-    const definition = findByText(termDefinition);
+    const definition = getByText(termDefinition);
 
-    expect(await definition).toBeInTheDocument();
+    expect(definition).toBeInTheDocument();
     expect(queryByText(differentPageTermDefinition)).toBeNull();
   });
 
-  it('Adds query to window.history when View in Glossary button is clicked ', async () => {
+  it('Adds query to window.history when View in Glossary button is clicked ', () => {
     const termText = 'Hello';
     const testPage = 'Another Test Page';
 
     window.history.pushState = jest.fn();
 
-    const { findByRole } = render(
-      <GlossaryContext.Provider
-        value={{
-          glossaryClickEvent: false,
-          setGlossaryClickEvent: jest.fn(),
-          glossary: testGlossary,
-        }}
-      >
+    const { getByRole } = render(
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
         <GlossaryPopoverDefinition term={termText} page={testPage}>
           {termText}
         </GlossaryPopoverDefinition>
       </GlossaryContext.Provider>
     );
 
-    const glossaryTermButton = await findByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    const glossaryTermButton = getByRole('button', { name: termText });
+    glossaryTermButton.click();
 
-    const viewInGlossaryButton = await findByRole('button', { name: 'View in glossary' });
-    userEvent.click(viewInGlossaryButton);
-
+    const viewInGlossaryButton = getByRole('button', { name: 'View in glossary' });
+    viewInGlossaryButton.click();
     expect(window.history.pushState).toHaveBeenCalled();
   });
 
-  it('closes the popover when the full glossary tab is opened', async () => {
+  it('closes the popover when the full glossary tab is opened', () => {
     const termText = 'Hello';
     const testPage = 'Another Test Page';
 
     window.history.pushState = jest.fn();
 
-    const { findByRole, queryByRole } = render(
-      <GlossaryContext.Provider
-        value={{
-          glossaryClickEvent: false,
-          setGlossaryClickEvent: jest.fn(),
-          glossary: testGlossary,
-        }}
-      >
+    const { getByRole, queryByRole } = render(
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
         <GlossaryPopoverDefinition term={termText} page={testPage}>
           {termText}
         </GlossaryPopoverDefinition>
       </GlossaryContext.Provider>
     );
 
-    const glossaryTermButton = await findByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    const glossaryTermButton = getByRole('button', { name: termText });
+    glossaryTermButton.click();
 
-    const viewInGlossaryButton = await findByRole('button', { name: 'View in glossary' });
-    userEvent.click(viewInGlossaryButton);
+    const viewInGlossaryButton = getByRole('button', { name: 'View in glossary' });
+    viewInGlossaryButton.click();
 
-    waitFor(() => expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument());
+    expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument();
   });
 
   it('closes popover on scroll', () => {
@@ -261,25 +223,16 @@ describe('glossary term', () => {
     window.history.pushState = jest.fn();
 
     const { getByRole, queryByRole } = render(
-      <GlossaryContext.Provider
-        value={{
-          glossaryClickEvent: false,
-          setGlossaryClickEvent: jest.fn(),
-          glossary: testGlossary,
-        }}
-      >
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
         <GlossaryPopoverDefinition term={termText} page={testPage}>
           {termText}
         </GlossaryPopoverDefinition>
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    glossaryTermButton.click();
 
-    act(() => {
-      fireEvent.scroll(window, { target: { pageYOffset: 400 } });
-    });
-
+    fireEvent.scroll(window, { target: { pageYOffset: 400 } });
     expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument();
   });
 

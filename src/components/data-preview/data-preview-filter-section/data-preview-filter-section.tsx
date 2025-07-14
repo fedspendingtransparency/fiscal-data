@@ -65,7 +65,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   );
 
   return (
-    <div data-testid="filterDownloadContainer">
+    <>
       <div className={filterAndDownloadContainer}>
         <div className={filterContainer}>
           <DataPreviewTableFilters
@@ -97,7 +97,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
       </div>
       {children}
       {width < pxToNumber(breakpointXl) && downloadComponent()}
-    </div>
+    </>
   );
 };
 

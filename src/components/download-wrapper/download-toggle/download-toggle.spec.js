@@ -1,42 +1,49 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import DownloadToggle from './download-toggle';
 import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 describe('DownloadToggle', () => {
   const toggleFn = jest.fn();
+  let component = renderer.create();
+  let instance, radioButtons, toggleSpy;
+  beforeEach(() => {
+    component = renderer.create(<DownloadToggle onChange={toggleFn} setDisableDownloadBanner={jest.fn()} />);
+    instance = component.root;
+    toggleSpy = jest.spyOn(instance.props, 'onChange');
+    radioButtons = instance.findAllByType('input');
+  });
 
   it('contains three radio buttons', () => {
-    const { getAllByRole } = render(<DownloadToggle onChange={toggleFn} setDisableDownloadBanner={jest.fn()} />);
-    const radioButtons = getAllByRole('radio');
-    expect(radioButtons).toHaveLength(3);
+    expect(radioButtons.length).toStrictEqual(3);
   });
 
   it('defaults to having the first radio button selected', () => {
-    const { getAllByRole } = render(<DownloadToggle onChange={toggleFn} setDisableDownloadBanner={jest.fn()} />);
-    const radioButtons = getAllByRole('radio');
-    expect(radioButtons[0]).toBeChecked();
+    expect(radioButtons[0].props.checked).toStrictEqual('checked');
   });
 
   it(`when a radio button is clicked, it updates the selected button and calls the onChange function
     with the radio button value`, () => {
-    const { getAllByRole } = render(<DownloadToggle onChange={toggleFn} setDisableDownloadBanner={jest.fn()} />);
-    const radioButtons = getAllByRole('radio');
+    renderer.act(() => {
+      radioButtons[1].props.onChange();
+    });
 
-    userEvent.click(radioButtons[1]);
+    expect(radioButtons[1].props.checked).toStrictEqual('checked');
+    expect(toggleSpy).toHaveBeenCalledWith(radioButtons[1].props.value);
 
-    expect(radioButtons[1]).toBeChecked();
-    expect(toggleFn).toHaveBeenCalledWith('json');
+    renderer.act(() => {
+      radioButtons[2].props.onChange();
+    });
 
-    userEvent.click(radioButtons[2]);
+    expect(radioButtons[2].props.checked).toStrictEqual('checked');
+    expect(toggleSpy).toHaveBeenCalledWith(radioButtons[2].props.value);
 
-    expect(radioButtons[2]).toBeChecked();
-    expect(toggleFn).toHaveBeenCalledWith('xml');
+    renderer.act(() => {
+      radioButtons[0].props.onChange();
+    });
 
-    userEvent.click(radioButtons[0]);
-
-    expect(radioButtons[0]).toBeChecked();
-    expect(toggleFn).toHaveBeenCalledWith('csv');
+    expect(radioButtons[0].props.checked).toStrictEqual('checked');
+    expect(toggleSpy).toHaveBeenCalledWith(radioButtons[0].props.value);
   });
 
   it('disables large XML download', () => {

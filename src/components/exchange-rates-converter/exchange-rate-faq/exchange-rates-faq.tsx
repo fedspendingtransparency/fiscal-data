@@ -112,8 +112,8 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
         <h2 className={title}>Related Resources</h2>
         <div>
           {relatedResources.map((resource, index) => (
-            <div className={relatedResource} key={index}>
-              <CustomLink external url={resource.url} id={resource.text}>
+            <div className={relatedResource}>
+              <CustomLink key={index} external url={resource.url} id={resource.text}>
                 <div className={linkText}>
                   <FontAwesomeIcon icon={faExternalLink} className={externalIcon} />
                   <span>{resource.text}</span>

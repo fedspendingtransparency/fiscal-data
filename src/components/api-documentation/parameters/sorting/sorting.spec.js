@@ -1,18 +1,22 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import Sorting from './sorting';
-import { render } from '@testing-library/react';
+import SectionContent from '../../section-content/section-content';
 
 describe('Parameters Sorting', () => {
-  it('has SectionContent as a part of its layout', async () => {
-    const { findAllByTestId } = render(<Sorting />);
-    const sectionContent = await findAllByTestId('section-content');
-    expect(sectionContent.length).toBeGreaterThan(0);
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<Sorting />);
+  });
+  const instance = component.root;
+
+  it('expects SectionContent to be a part of its layout', () => {
+    expect(instance.findByType(SectionContent)).toBeTruthy();
   });
 
-  it('creates the Sorting section with the desired id, heading tag and title', async () => {
+  it('creates the Sorting section with the desired id, heading tag and title', () => {
     const title = 'Sorting';
-    const { findByRole } = render(<Sorting />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'parameters-sorting' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 });
