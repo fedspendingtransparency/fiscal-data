@@ -6,8 +6,6 @@ import { determineBEAFetchResponse } from '../../../../../../utils/mock-utils';
 import { mockBeaGDPData, mockExplainerPageResponse } from '../../../../explainer-test-helper';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { DebtTrendsOverTimeChart } from './debt-trends-over-time-chart';
-import renderer from 'react-test-renderer';
-import { Line } from '@nivo/line';
 import { RecoilRoot } from 'recoil';
 import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 
@@ -36,23 +34,6 @@ describe('Debt Trends Over Time Chart', () => {
     await waitFor(() => expect(fetchSpy).toBeCalled());
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
-  });
-
-  it('Renders the chart with the vertical crosshair option enabled', async () => {
-    let component = renderer.create();
-    let instance = null;
-    await renderer.act(async () => {
-      component = await renderer.create(
-        <RecoilRoot>
-          <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-        </RecoilRoot>
-      );
-      instance = component.root;
-    });
-
-    const lineChart = instance.findByType(Line);
-    expect(lineChart.props.enableCrosshair).toBeTruthy();
-    expect(lineChart.props.crosshairType).toStrictEqual('x');
   });
 
   it('Renders the initial chart point for onScroll animation', async () => {

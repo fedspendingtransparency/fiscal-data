@@ -15,27 +15,25 @@ export const customPreset = { label: 'Custom', key: 'custom', years: null };
 // by default.
 export const fallbackPresets = ['1yr', 'current', 'all'];
 
-export const createFilterConfigs = (fieldsConfig, datePreset, selectedTable) => {
-  fieldsConfig.forEach(field => {
-    if (field.dataType === 'DATE') {
-      if (!field?.pendingStartDate) {
-        field.pendingStartDate = null;
+export const initializeFilterConfigMap = (selectedTable, datePreset) => {
+  const filterMap = {};
+  const { fields: fieldsArray, dateField } = selectedTable;
+
+  fieldsArray?.forEach(field => {
+    const { dataType, columnName } = field;
+    if (dataType === 'DATE') {
+      const dateConfig = {};
+      dateConfig.pendingStartDate = null;
+      dateConfig.pendingEndDate = null;
+      if (columnName === dateField && datePreset) {
+        dateConfig.defaultStartDate = datePreset?.from?.toString();
+        dateConfig.defaultEndDate = datePreset?.to?.toString();
       }
-      if (!field?.pendingEndDate) {
-        field.pendingEndDate = null;
-      }
-      if (field.columnName === selectedTable?.dateField && datePreset) {
-        field.defaultStartDate = datePreset?.from?.toString();
-        field.defaultEndDate = datePreset?.to?.toString();
-      }
+      filterMap[columnName] = dateConfig;
     } else {
-      if (!field?.pendingValue) {
-        field.pendingValue = '';
-      }
-      if (!field?.filterValue) {
-        field.filterValue = '';
-      }
+      filterMap[columnName] = { pendingValue: '', filterValue: '' };
+      field.filterValue = '';
     }
   });
-  return fieldsConfig;
+  return filterMap;
 };

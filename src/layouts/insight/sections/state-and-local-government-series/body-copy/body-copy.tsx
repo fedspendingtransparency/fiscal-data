@@ -3,11 +3,12 @@ import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { format } from 'date-fns';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
+import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 
 export const BodyCopy = (): ReactElement => {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [slgsTotal, setSlgsTotal] = useState(null);
-  const [totalPublicDebtOutstanding, setTotalPublicDebtOutstanding] = useState(null);
+  const [totalDebtOutstanding, setTotalDebtOutstanding] = useState(null);
 
   useEffect(() => {
     basicFetch(`${apiPrefix}v2/accounting/od/debt_to_penny?sort=-record_date`).then(res => {
@@ -19,7 +20,7 @@ export const BodyCopy = (): ReactElement => {
         basicFetch(`${apiPrefix}v2/accounting/od/debt_to_penny?filter=record_date:eq:${lastUpdatedDate}`).then(resTotal => {
           if (resTotal.data && resTotal.data.length > 0) {
             const totalDebtHeld = resTotal.data[0]['tot_pub_debt_out_amt'];
-            setTotalPublicDebtOutstanding(totalDebtHeld);
+            setTotalDebtOutstanding(totalDebtHeld);
           }
         });
 
@@ -45,21 +46,51 @@ export const BodyCopy = (): ReactElement => {
     });
   }, []);
 
-  const percentCalc = (slgsTotal, totalPublicDebtOutstanding) => {
-    const num = (slgsTotal / totalPublicDebtOutstanding) * 100;
+  const percentCalc = (slgsTotal, totalDebtOutstanding) => {
+    const num = (slgsTotal / totalDebtOutstanding) * 100;
     return Math.round(num * 100) / 100;
   };
 
+  const totalPublicDebtOutstanding = (
+    <GlossaryPopoverDefinition term="Total Public Debt Outstanding" page="State and Local Government Series Insight">
+      total public debt outstanding
+    </GlossaryPopoverDefinition>
+  );
+
+  const stateAndLocalGovernmentSeries = (
+    <GlossaryPopoverDefinition term="State and Local Government Series" page="State and Local Government Series Insight">
+      State and Local Government Series (SLGS)
+    </GlossaryPopoverDefinition>
+  );
+
+  const nonMarketableSecurities = (
+    <GlossaryPopoverDefinition term="Non-Marketable Securities" page="State and Local Government Series Insight">
+      non-marketable securities
+    </GlossaryPopoverDefinition>
+  );
+
+  const federalDebt = (
+    <GlossaryPopoverDefinition term="Federal Debt" page="State and Local Government Series Insight">
+      federal debt
+    </GlossaryPopoverDefinition>
+  );
+
+  const treasurySecurity = (
+    <GlossaryPopoverDefinition term="Treasury Security" page="State and Local Government Series Insight">
+      treasury securities
+    </GlossaryPopoverDefinition>
+  );
+
   return (
     <div>
-      State and Local Government Series (SLGS) are non-marketable securities that exist to help state and local governments meet their financing needs
-      while remaining in accordance with Internal Revenue Service (IRS) law. For example, if a city issues municipal bonds to pay for a new elementary
+      {stateAndLocalGovernmentSeries} are {nonMarketableSecurities} that exist to help state and local governments meet their financing needs while
+      remaining in accordance with Internal Revenue Service (IRS) law. For example, if a city issues municipal bonds to pay for a new elementary
       school, there may be a delay between when the funds are acquired through the bond sales and when the city must pay the bills to build the
       school. As a result, state and local governments will invest these funds. The IRS has strict guidelines about how state and local governments
       can invest these funds to ensure they're used properly. SLGS securities are an attractive option because they make it easier to comply with IRS
-      regulations. SLGS also serve the federal government as a means of financing the federal debt, similar to other treasury securities. As of{' '}
-      {lastUpdated}, there are ${getShortForm(slgsTotal, true)} outstanding SLGS securities, {percentCalc(slgsTotal, totalPublicDebtOutstanding)}{' '}
-      percent of the total public debt outstanding.
+      regulations. SLGS also serve the federal government as a means of financing the {federalDebt}, similar to other {treasurySecurity}. As of{' '}
+      {lastUpdated}, there are ${getShortForm(slgsTotal, true)} outstanding SLGS securities, {percentCalc(slgsTotal, totalDebtOutstanding)} percent of
+      the {totalPublicDebtOutstanding}.
     </div>
   );
 };

@@ -1,22 +1,18 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import Methods from './methods';
-import SectionContent from '../section-content/section-content';
+import { render } from '@testing-library/react';
 
 describe('Methods', () => {
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(<Methods />);
-  });
-  const instance = component.root;
-
-  it('has SectionContent as a part of its layout', () => {
-    expect(instance.findAllByType(SectionContent).length).toBeGreaterThan(0);
+  it('has SectionContent as a part of its layout', async () => {
+    const { findAllByTestId } = render(<Methods />);
+    const sectionContent = await findAllByTestId('section-content');
+    expect(sectionContent.length).toBeGreaterThan(0);
   });
 
-  it('creates the Methods section with the desired id, heading tag and title', () => {
+  it('creates the Methods section with the desired id, heading tag and title', async () => {
     const title = 'Methods';
-    const heading = instance.findByProps({ id: 'methods' }).findByType('h2');
-    expect(heading.children[0]).toBe(title);
+    const { findByRole } = render(<Methods />);
+    const heading = await findByRole('heading', { name: title, level: 2 });
+    expect(heading).toBeInTheDocument();
   });
 });
