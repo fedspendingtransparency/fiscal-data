@@ -9,17 +9,23 @@ import FilterButtons from '../data-preview/data-preview-dropdown-dialog/filter-b
 const DateRangeMonthPicker: FunctionComponent = ({ dateRange }) => {
   const [selectedStartDate, setSelectedStartDate] = useState();
   const [selectedEndDate, setSelectedEndDate] = useState();
+  const [selectedRange, setSelectedRange] = useState();
   const [dropdownActive, setDropdownActive] = useState(false);
   const button = (
     <button className={`${dropdownButton} ${dropdownActive && active}`} onClick={() => setDropdownActive(!dropdownActive)}>
       <FontAwesomeIcon icon={faCalendarWeek} className={icon} size="1x" data-testid="calendar-week-icon" />
-      Start Date — End Date
-      {true && <FontAwesomeIcon className={icon} icon={faCaretUp} />}
+      {`${selectedRange ? selectedRange : 'Start Date — End Date'}`}
+      <div className={icon}>{dropdownActive && <FontAwesomeIcon icon={faCaretUp} />}</div>
     </button>
   );
 
   const handleApply = () => {
-    console.log('apply');
+    let dateRangeStr = '';
+    if (selectedStartDate && selectedEndDate) {
+      dateRangeStr = `${selectedStartDate} — ${selectedEndDate}`;
+      setSelectedRange(dateRangeStr);
+    }
+    setDropdownActive(false);
   };
   const handleCancel = () => {
     console.log('cancel');
@@ -27,8 +33,8 @@ const DateRangeMonthPicker: FunctionComponent = ({ dateRange }) => {
 
   return (
     <div className={dateRangePicker}>
-      <DropdownContainer dropdownButton={button} setActive={setDropdownActive} containerWidth="210px">
-        {true && (
+      <DropdownContainer dropdownButton={button} setActive={setDropdownActive} containerWidth="230px">
+        {dropdownActive && (
           <div className={dropdownContent}>
             <div className={datePickers}>
               <MonthPicker text="From" setSelectedDate={setSelectedStartDate} selectedDate={selectedStartDate} />
