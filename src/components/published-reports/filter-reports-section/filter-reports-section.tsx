@@ -17,6 +17,7 @@ import { DownloadReportTable } from '../download-report-table/download-report-ta
 import { buildEndpoint } from '../generative-reports-section/generative-report-helper';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
 import { format } from 'date-fns';
+import { convertDate } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
 
 type Props = {
   reportConfig: IRunTimeReportConfig;
@@ -50,7 +51,6 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
     setAllYears(yrs);
   }, [apis]);
 
-  // TODO: Re-add when filters are applied to the table
   useEffect(() => {
     (async () => {
       if (!selectedOption.value || !selectedDate) {
@@ -62,16 +62,13 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
         const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=${selectedOption.value}${formattedDate}`;
         const res = await basicFetch(url);
         console.log(res);
-        // return {
-        // id: api.apiId,
-        // name: `${api.tableName}-${selectedOption.label}.pdf`,
-        // date: format(selectedDate, 'MMMM yyyy'),
-        // size: `${(res.data.length / 1024).toFixed(1)} KB`, // hard code for now
-        // data: res[0].path,
-        // colConfig: api,
-        // };
+        if (res.length) {
+          res.forEach(report => {
+            const date = report.report_date;
+            report.report_date = convertDate(date);
+          });
+        }
         setReports(res);
-
         setApiError(false);
       } catch {
         setApiError(true);
