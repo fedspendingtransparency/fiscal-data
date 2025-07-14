@@ -60,8 +60,6 @@ const DownloadReportTableRow: FunctionComponent<{
       setReportLocation(location || null);
       const name = location ? location.split('/').slice(-1)[0] : 'report';
       setFileName(name);
-      console.log(curReportFile.report_date);
-      console.log('test ', getDateLabelForReport(curReportFile, isDailyReport, true));
       setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile, isDailyReport, true) : 'N/A');
       if (location) {
         getFileSize(location).then(size => {

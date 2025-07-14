@@ -61,7 +61,6 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
         const formattedDate = format(selectedDate, 'yyyyMM');
         const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=${selectedOption.value}${formattedDate}`;
         const res = await basicFetch(url);
-        console.log(res);
         if (res.length) {
           res.forEach(report => {
             const date = report.report_date;
