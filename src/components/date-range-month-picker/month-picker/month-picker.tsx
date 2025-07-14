@@ -19,9 +19,12 @@ import ScrollContainer from '../../scroll-container/scroll-container';
 import { monthFullNames } from '../../../utils/api-utils';
 
 const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, availableRange }) => {
+  const currentSelection = selectedDate?.split(' ');
+  const defaultMonth = currentSelection?.length > 1 ? currentSelection[0] : 'Month';
+  const defaultYear = currentSelection?.length > 1 ? currentSelection[1] : 'Year';
   const [dropdownActive, setDropdownActive] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState('Month');
-  const [selectedYear, setSelectedYear] = useState('Year');
+  const [selectedMonth, setSelectedMonth] = useState(defaultMonth);
+  const [selectedYear, setSelectedYear] = useState(defaultYear);
   const [activeDropdown, setActiveDropdown] = useState('month');
 
   const monthDropdownOptions = monthFullNames;

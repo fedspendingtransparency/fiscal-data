@@ -24,9 +24,11 @@ const getLastCompletedMonth = async datasetId => {
 const getChartDates = async (lastCompleteMonth, totalMonths = 12) => {
   const currentYear = new Date().getFullYear();
   const allDates = [];
+  const size = totalMonths * 23;
   await basicFetch(
-    `${apiPrefix}${slgsEndpoint}?fields=record_date,record_calendar_month,record_calendar_day,record_calendar_year&sort=-record_date&page[size]=500`
+    `${apiPrefix}${slgsEndpoint}?fields=record_date,record_calendar_month,record_calendar_day,record_calendar_year&sort=-record_date&page[size]=${size}`
   ).then(chartData => {
+    console.log(chartData);
     for (let i = 0; i < totalMonths; i++) {
       if (chartData.data) {
         const yearCheck = lastCompleteMonth - i > 0 ? currentYear : currentYear - 1;
@@ -76,7 +78,20 @@ const getChartData = async allDates => {
   });
 };
 
-export const useGetStateAndLocalGovernmentSeriesData = (): { xAxisValues: string[]; xAxisMobileValues; chartData } => {
+/* Next steps
+calc month difference between date range
+use amount of months in api call
+fetch total date range for data set
+if over two years selected, load bar chart
+ */
+
+export const useGetStateAndLocalGovernmentSeriesData = (
+  setSelectedStartDate,
+  setSelectedEndDate,
+  selectedStartDate,
+  selectedEndDate,
+  dateRange
+): { xAxisValues: string[]; xAxisMobileValues; chartData } => {
   const [chartData, setChartData] = useState(null);
   const [xAxisValues, setXAxisValues] = useState<string[]>(null);
   const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
@@ -87,12 +102,11 @@ export const useGetStateAndLocalGovernmentSeriesData = (): { xAxisValues: string
       getChartDates(lastCompleteMonth).then(async chartDates => {
         setXAxisValues(chartDates);
         setLatestDate(chartDates[0]);
-        console.log(chartDates);
         setXAxisMobileValues(chartDates.filter(index => index % 2 !== 0));
         getChartData(chartDates).then(chartData => setChartData(chartData));
       });
     });
-  }, []);
+  }, [dateRange]);
 
   return {
     xAxisValues,

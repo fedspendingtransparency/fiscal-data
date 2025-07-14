@@ -5,8 +5,9 @@ import DropdownContainer from '../dropdown-container/dropdown-container';
 import { active, datePickers, dateRangePicker, dropdownButton, dropdownContent, icon } from './date-range-month-picker.module.scss';
 import MonthPicker from './month-picker/month-picker';
 import FilterButtons from '../data-preview/data-preview-dropdown-dialog/filter-buttons/filter-buttons';
+import { convertDate } from '../dataset-data/dataset-data-helper/dataset-data-helper';
 
-const DateRangeMonthPicker: FunctionComponent = ({ dateRange }) => {
+const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange }) => {
   const [selectedStartDate, setSelectedStartDate] = useState();
   const [selectedEndDate, setSelectedEndDate] = useState();
   const [selectedRange, setSelectedRange] = useState();
@@ -20,10 +21,12 @@ const DateRangeMonthPicker: FunctionComponent = ({ dateRange }) => {
   );
 
   const handleApply = () => {
-    let dateRangeStr = '';
     if (selectedStartDate && selectedEndDate) {
-      dateRangeStr = `${selectedStartDate} — ${selectedEndDate}`;
+      const dateRangeStr = `${selectedStartDate} — ${selectedEndDate}`;
+      const dateRangeObject = { from: convertDate(selectedStartDate), to: convertDate(selectedEndDate) };
+      console.log(dateRangeObject);
       setSelectedRange(dateRangeStr);
+      setDateRange(dateRangeObject);
     }
     setDropdownActive(false);
   };
