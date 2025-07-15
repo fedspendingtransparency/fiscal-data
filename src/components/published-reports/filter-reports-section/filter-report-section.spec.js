@@ -15,7 +15,7 @@ const apiMock = {
 jest.spyOn(ApiUtils, 'basicFetch');
 
 describe('Run Time Filter Report Section', () => {
-  it('Should call the api with a basicFetch', async () => {
+  it('Should check to see if the api call was fetched', async () => {
     const mockReponse = [{ file_name: 'mock-file.csv', report_Date: '2024-06-04' }];
     jest.spyOn(ApiUtils, 'basicFetch').mockRejectedValueOnce(mockReponse);
 
