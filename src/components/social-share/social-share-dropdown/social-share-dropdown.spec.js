@@ -1,76 +1,51 @@
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import SocialShareDropdown from './social-share-dropdown';
 
-const testCopy = {
-  title: 'test',
-  description: 'test',
-  body: 'test',
-  emailSubject: 'test',
-  emailBody: 'test',
-  url: 'test',
-  image: 'test',
-};
-
-beforeEach(() => {
-  jest.useFakeTimers();
-});
-
-afterEach(() => {
-  jest.runOnlyPendingTimers();
-  jest.useRealTimers();
-});
+jest.useFakeTimers();
 
 describe('exchange rates banner', () => {
+  const testCopy = {
+    title: 'test',
+    description: 'test',
+    body: 'test',
+    emailSubject: 'test',
+    emailBody: 'test',
+    url: 'test',
+    image: 'test',
+  };
+
   it('Renders the share button with the text and icon', () => {
-    render(<SocialShareDropdown copy={testCopy} pageName="" />);
-    const shareBtn = screen.getByRole('button', { name: 'Share' });
-    expect(shareBtn).toBeInTheDocument();
-    expect(screen.getByText('Share')).toBeInTheDocument();
-    expect(screen.getByRole('img', { hidden: true })).toBeInTheDocument();
+    const { getByText, getByRole } = render(<SocialShareDropdown copy={testCopy} pageName={''} />);
+    expect(getByRole('button')).toBeInTheDocument();
+    expect(getByText('Share')).toBeInTheDocument();
+    expect(getByRole('img', { hidden: true })).toBeInTheDocument();
   });
 
   it('opens the dropdown on click', () => {
-    render(<SocialShareDropdown copy={testCopy} pageName="" />);
-    expect(screen.queryByText('Facebook')).toBeNull();
-
-    const shareBtn = screen.getByRole('button', { name: 'Share' });
-    userEvent.click(shareBtn);
-
-    expect(screen.getByText('Facebook')).toBeInTheDocument();
+    const { getByText, getByRole, queryByText } = render(<SocialShareDropdown copy={testCopy} pageName={''} />);
+    const shareButton = getByRole('button');
+    expect(queryByText('Facebook')).not.toBeInTheDocument();
+    shareButton.click();
+    expect(getByText('Facebook')).toBeInTheDocument();
   });
 
   it('closes the dropdown when a social button is clicked', () => {
-    render(<SocialShareDropdown copy={testCopy} pageName="" />);
-    const shareBtn = screen.getByRole('button', { name: 'Share' });
-
-    userEvent.click(shareBtn);
-    const facebookBtn = screen.getByRole('button', { name: 'facebook' });
-    userEvent.click(facebookBtn);
-
-    act(() => {
-      jest.advanceTimersByTime(1000);
-    });
-    expect(screen.queryByText('Facebook')).toBeNull();
+    const { getByRole, queryByText } = render(<SocialShareDropdown copy={testCopy} pageName={''} />);
+    const shareButton = getByRole('button');
+    shareButton.click();
+    const facebookButton = getByRole('button', { name: 'facebook' });
+    facebookButton.click();
+    jest.advanceTimersByTime(1000);
+    expect(queryByText('Facebook')).not.toBeInTheDocument();
   });
-
   it('closes the dropdown on scroll', () => {
-    window.pageYOffset = 40;
-    const { getByRole, queryByText } = render(<SocialShareDropdown copy={testCopy} pageName="" />);
-
-    const shareBtn = getByRole('button', { name: 'Share' });
-    userEvent.click(shareBtn);
-    expect(queryByText('Facebook')).toBeInTheDocument();
-
-    act(() => {
-      window.pageYOffset = 100;
-      window.dispatchEvent(new Event('scroll'));
-    });
-
-    act(() => {
-      jest.runAllTimers();
-    });
-    expect(queryByText('Facebook')).toBeNull();
+    global.window.pageYOffset = 40;
+    const { getByRole, queryByText } = render(<SocialShareDropdown copy={testCopy} pageName={''} />);
+    const shareButton = getByRole('button');
+    shareButton.click();
+    fireEvent.scroll(window, { target: { scrollTop: 100 } });
+    jest.advanceTimersByTime(1000);
+    expect(queryByText('Facebook')).not.toBeInTheDocument();
   });
 });

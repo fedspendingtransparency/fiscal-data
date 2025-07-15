@@ -22,20 +22,27 @@ const h3Headers = [
 ];
 
 describe('About section', () => {
-  it('renders a SectionContent component with correct title and headingLevel for main title', () => {
-    const { getByRole } = render(<About />);
-    const title = getByRole('heading', { level: 2, name: 'About Fiscal Data' });
-    expect(title).toBeInTheDocument();
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<About />);
+  });
+  const instance = component.root;
+
+  it(`renders a SectionContent component with correct title and
+  headingLevel for main title`, () => {
+    const title = instance.find(e => e.props.id === 'about-fiscal-data');
+    expect(title.props.title).toEqual('About Fiscal Data');
+    expect(title.props.headingLevel).toEqual(2);
   });
 
   it('renders the correct number of SectionContent components with headingLevel 3', () => {
-    const { getAllByRole } = render(<About />);
-    const headers = getAllByRole('heading', { level: 3 });
+    const headers = instance.findAllByProps({ headingLevel: 3 });
     expect(headers.length).toEqual(h3Headers.length);
   });
 
   it('provides a link to Fiscal Service About Us', () => {
     const { getByTestId } = render(<About />);
+
     expect(getByTestId('fsLink')).toHaveAttribute('href', `${globalConstants.FISCAL_TREASURY_URL}/about.html`);
   });
 });

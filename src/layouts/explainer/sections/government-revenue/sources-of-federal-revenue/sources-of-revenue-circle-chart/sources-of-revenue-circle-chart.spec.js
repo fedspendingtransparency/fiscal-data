@@ -8,7 +8,6 @@ import { setGlobalFetchMatchingResponse } from '../../../../../../utils/mock-uti
 class ResizeObserver {
   observe() {}
   unobserve() {}
-  disconnect() {}
 }
 
 describe('Circle chart', () => {
@@ -64,6 +63,6 @@ describe('Circle chart', () => {
     const { getByText } = render(<SourcesOfRevenueCircleChart />);
     await waitFor(() => expect(getByText('In FY 2015', { exact: false })).toBeInTheDocument());
     expect(await getByText('corporate income taxes is $2.43 T', { exact: false })).toBeInTheDocument();
-    await waitFor(() => expect(getByText('making up 11%', { exact: false })).toBeInTheDocument());
+    expect(await getByText('making up 11%', { exact: false })).toBeInTheDocument();
   });
 });

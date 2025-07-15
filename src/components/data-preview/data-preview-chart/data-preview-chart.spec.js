@@ -157,14 +157,15 @@ describe('Dataset Chart', () => {
     const { getByRole } = render(
       <DataPreviewChart data={mockDataPanelLegend} dateField={mockDateField} selectedPivot={mockPivot} slug={mockSlug} currentTable={mockTable} />
     );
+
     const updateChartWidthSpy = jest.spyOn(chartHooks, 'onUpdateChartWidth');
     const showLegendButton = getByRole('button', { name: 'Hide Legend' });
     userEvent.click(showLegendButton);
-    expect(updateChartWidthSpy).toHaveBeenCalled();
+    expect(updateChartWidthSpy).toHaveBeenCalledTimes(1);
     updateChartWidthSpy.mockClear();
 
     userEvent.click(showLegendButton);
-    expect(updateChartWidthSpy).toHaveBeenCalled();
+    expect(updateChartWidthSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should render the panel legend when there are more than 12 fields with a legend toggle button', () => {

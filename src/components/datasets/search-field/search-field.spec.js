@@ -1,9 +1,10 @@
-import React, { act } from 'react';
+import React from 'react';
+import renderer from 'react-test-renderer';
 import SearchField, { searchFieldAnalyticsObject } from './search-field';
+import InfoTip from '../../info-tip/info-tip';
 import Analytics from '../../../utils/analytics/analytics';
 import { siteContext } from '../../persist/persist';
-import { fireEvent, render, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render } from '@testing-library/react';
 
 jest.useFakeTimers();
 
@@ -11,8 +12,13 @@ const testString = 'user typed query';
 const persistentTerms = 'my previous query';
 
 describe('Search Field', () => {
+  const mockInfoIcon = {
+    title: 'Dummy Title',
+    body: 'Dummy Body',
+  };
+
   const gaSpy = jest.spyOn(Analytics, 'event');
-  let queryTerm;
+  let queryTerm, component, instance, button, inputField;
   window.dataLayer = window.dataLayer || [];
   const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
 
@@ -20,25 +26,27 @@ describe('Search Field', () => {
     queryTerm = query;
   };
 
+  beforeEach(() => {
+    component = renderer.create(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
+
+    instance = component.root;
+    button = instance.findAllByType('button')[0];
+    inputField = instance.findByType('input');
+  });
+
   it('places an input field', () => {
-    const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
-    expect(getByRole('textbox')).toBeDefined();
+    expect(inputField).toBeDefined();
   });
 
   it('includes placeholder per design spec', () => {
-    const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
-    const inputField = getByRole('textbox');
-    expect(inputField).toHaveAttribute('placeholder', 'Search for Datasets by Keyword...');
+    expect(inputField.props.placeholder).toBe('Search for Datasets by Keyword...');
   });
 
   it('calls supplied change handler when text value changes', () => {
     queryTerm = 'something else';
-    const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
-    const inputField = getByRole('textbox');
 
-    act(() => {
-      userEvent.click(inputField);
-      userEvent.keyboard(testString);
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: testString } });
     });
 
     jest.runAllTimers();
@@ -48,61 +56,60 @@ describe('Search Field', () => {
 
   it(`displays a functional "clear" icon button (with screen-reader accessible label "clear")
     when text is present in the field`, () => {
-    const { getByRole, getByTestId, queryByTestId } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
-    const inputField = getByRole('textbox');
-
-    act(() => {
-      userEvent.click(inputField);
-      userEvent.keyboard(testString);
-      jest.runAllTimers();
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: testString } });
     });
 
-    const button = getByRole('button', { name: 'clear' });
-    expect(button).not.toBeDisabled(); // button is present and not disabled
-    expect(getByTestId('clear-search-icon')).toBeInTheDocument();
-    expect(queryByTestId('search-icon')).not.toBeInTheDocument();
+    jest.runAllTimers();
+
+    expect(button.props.disabled).toBeFalsy(); // button is present and not disabled
+    expect(button.props['aria-label']).toBe('clear'); // button has screen-reader accessible label
+
+    // test fails if button doesn't contain exactly 1 clear-search icon
+    button.findByProps({ 'data-test-id': 'clear-search-icon' });
+
+    // fails if button contains search icon
+    const anyWrongIcons = button.findAllByProps({ 'data-test-id': 'search-icon' });
+    expect(anyWrongIcons.length).toBe(0);
   });
 
   it('clears the search when the button is clicked', () => {
     const testString = 'anything';
     queryTerm = testString;
-    const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
-    const button = getByRole('button');
-    const inputField = getByRole('textbox');
 
-    act(() => {
-      fireEvent.click(button);
-      jest.runAllTimers();
+    renderer.act(() => {
+      button.props.onClick();
     });
 
-    expect(inputField).toHaveValue('');
+    expect(inputField.props.value).toBe('');
     expect(queryTerm).toBe(''); // search text cleared after button is clicked
   });
 
   it('displays a search icon within a disabled button when no characters are present in the field', () => {
-    const { getByTestId } = render(<SearchField changeHandler={mockChangeHandler} searchTerm={''} />);
-    const button = getByTestId('search-button');
-    expect(button).toBeDisabled();
+    const staticComponent = renderer.create(<SearchField changeHandler={mockChangeHandler} searchTerm="" infoIcon={mockInfoIcon} />);
+    const inst = staticComponent.root;
+    const button = inst.findAllByType('button')[0];
+    expect(button.props.disabled).toBeTruthy(); //button is disabled
 
     // test fails if button doesn't contain exactly 1 search icon
-    expect(within(button).getByTestId('search-icon')).toBeInTheDocument();
+    button.findByProps({ 'data-test-id': 'search-icon' });
     // test fails if button contains clear icon
-    expect(within(button).queryByTestId('clear-search-icon')).not.toBeInTheDocument();
+    const anyWrongIcons = button.findAllByProps({ 'data-test-id': 'clear-search-icon' });
+    expect(anyWrongIcons.length).toBe(0);
   });
 
   it('populates the tooltip', () => {
-    const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
+    const tooltip = instance.findByType(InfoTip);
 
-    const tooltip = getByRole('button', { name: 'More information about Dataset Keyword Search.' });
-    expect(tooltip).toBeInTheDocument();
+    expect(tooltip.props.title).toBe('Dataset Keyword Search');
+    expect(tooltip.props.children).toBeDefined(); // was content sent to the body?
   });
 
   it('tracks when a user enters text into the search field and also test GA4 datalayer push', () => {
     const testString = 'Testing123';
-    const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
-    const input = getByRole('textbox');
-    userEvent.click(input);
-    userEvent.keyboard(testString);
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: testString } });
+    });
     jest.runAllTimers();
 
     expect(queryTerm).toBe(testString);
@@ -122,8 +129,10 @@ describe('search field persistence', () => {
   const mockChangeHandler = jest.fn();
   const setKeywordsSpy = jest.fn();
 
-  it('sets previous keywords on page load', () => {
-    const { getByRole } = render(
+  let component, instance, inputField;
+
+  beforeEach(() => {
+    component = renderer.create(
       <siteContext.Provider
         value={{
           keywords: persistentTerms,
@@ -133,30 +142,25 @@ describe('search field persistence', () => {
         <SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />
       </siteContext.Provider>
     );
-    const inputField = getByRole('textbox');
 
+    instance = component.root;
+    inputField = instance.findByType('input');
+  });
+
+  it('sets previous keywords on page load', () => {
     jest.runAllTimers();
-    expect(inputField).toHaveValue(persistentTerms);
+    expect(inputField.props.value).toBe(persistentTerms);
     expect(mockChangeHandler).toHaveBeenCalledWith(persistentTerms);
   });
 
   it('stores keywords as they are entered', () => {
-    const { getByRole } = render(
-      <siteContext.Provider
-        value={{
-          keywords: persistentTerms,
-          setKeywords: setKeywordsSpy,
-        }}
-      >
-        <SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />
-      </siteContext.Provider>
-    );
-    const inputField = getByRole('textbox');
-    userEvent.click(inputField);
-    userEvent.keyboard(testString);
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: testString } });
+    });
+
     jest.runAllTimers();
 
-    expect(setKeywordsSpy).toHaveBeenCalledWith(persistentTerms + testString);
+    expect(setKeywordsSpy).toHaveBeenCalledWith(testString);
   });
 
   it('Testing GA4 datalayer push for handleInfoTipClick', () => {

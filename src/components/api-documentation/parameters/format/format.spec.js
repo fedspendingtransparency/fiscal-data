@@ -1,18 +1,22 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import Format from './format';
-import { render } from '@testing-library/react';
+import SectionContent from '../../section-content/section-content';
 
 describe('Parameters Format', () => {
-  it('has SectionContent as a part of its layout', async () => {
-    const { findAllByTestId } = render(<Format />);
-    const sectionContent = await findAllByTestId('section-content');
-    expect(sectionContent.length).toBeGreaterThan(0);
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<Format />);
+  });
+  const instance = component.root;
+
+  it('expects SectionContent to be a part of its layout', () => {
+    expect(instance.findByType(SectionContent)).toBeTruthy();
   });
 
-  it('creates the Format section with the desired id, heading tag and title', async () => {
+  it('creates the Format section with the desired id, heading tag and title', () => {
     const title = 'Format';
-    const { findByRole } = render(<Format />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'parameters-format' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 });

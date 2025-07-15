@@ -94,7 +94,7 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
   }, [activeSort]);
 
   return (
-    <div className={cardContainer} data-testid="wrapper" style={setContainerHeight(filteredDatasets.length)}>
+    <div className={cardContainer} data-test-id="wrapper" style={setContainerHeight(filteredDatasets.length)}>
       {allDatasets &&
         allDatasets.map((dataset, i) => (
           <div data-testid="cardPlacement" className={`${cardPlacement} ${dataset.hidden ? hiddenCard : ''}`} style={placeCard(dataset.name)} key={i}>

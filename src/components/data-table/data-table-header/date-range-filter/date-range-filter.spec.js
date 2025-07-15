@@ -1,8 +1,7 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import DateRangeFilter from './date-range-filter';
-import React, { act } from 'react';
+import React from 'react';
 import { RecoilRoot } from 'recoil';
-import userEvent from '@testing-library/user-event';
 
 describe('date range filter', () => {
   Date.now = jest.fn(() => new Date('2023-01-02 12:00:00 GMT-0600'));
@@ -68,8 +67,8 @@ describe('date range filter', () => {
     fireEvent.click(dateRangeButton);
   });
 
-  it('today and clear buttons keyboard accessibility', async () => {
-    const { findByRole, getAllByText } = render(
+  it('today and clear buttons keyboard accessibility', () => {
+    const { getByRole, getAllByText } = render(
       <RecoilRoot>
         <DateRangeFilter
           column={mockColumn}
@@ -80,27 +79,41 @@ describe('date range filter', () => {
         />
       </RecoilRoot>
     );
-    const dateRangeButton = await findByRole('button');
-    userEvent.tab();
-    userEvent.keyboard('{Enter}');
-    const todayButton = await findByRole('button', { name: 'Today' });
-    act(() => {
-      todayButton.focus();
-    });
-    userEvent.keyboard('{Enter}');
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+    const todayButton = getByRole('button', { name: 'Today' });
+    fireEvent.keyDown(todayButton, { key: 'Enter' });
     expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
-    act(() => {
-      dateRangeButton.focus();
-    });
-    userEvent.keyboard('{Enter}');
-    const clearButton = await findByRole('button', { name: 'Clear' });
-    act(() => {
-      clearButton.focus();
-    });
-    userEvent.keyboard('{Enter}');
+    dateRangeButton.click();
+    const clearButton = getByRole('button', { name: 'Clear' });
+    fireEvent.keyDown(clearButton, { key: 'Enter' });
+    dateRangeButton.click();
   });
 
-  it('closes the dropdown on blur', async () => {
+  it('today and clear buttons keyboard accessibility', () => {
+    const { getByRole, getAllByText } = render(
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    fireEvent.keyDown(dateRangeButton, { key: 'Enter' });
+    const todayButton = getByRole('button', { name: 'Today' });
+    fireEvent.keyDown(todayButton, { key: 'Enter' });
+    expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
+    fireEvent.keyDown(dateRangeButton, { key: 'Enter' });
+    const clearButton = getByRole('button', { name: 'Clear' });
+    fireEvent.keyDown(clearButton, { key: 'Enter' });
+    dateRangeButton.click();
+  });
+
+  it('closes the dropdown on blur', () => {
     const { getByRole, queryByRole } = render(
       <RecoilRoot>
         <DateRangeFilter
@@ -113,18 +126,15 @@ describe('date range filter', () => {
       </RecoilRoot>
     );
     const dateRangeButton = getByRole('button');
-    fireEvent.click(dateRangeButton);
+    dateRangeButton.click();
     const clearButton = getByRole('button', { name: 'Clear' });
-    act(() => {
-      clearButton.focus();
-    });
-    expect(clearButton).toHaveFocus();
-    userEvent.tab();
-    await waitFor(() => expect(queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument());
+    clearButton.focus();
+    clearButton.blur();
+    expect(queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument();
   });
 
-  it('calls mouse handlers ', async () => {
-    const { getByRole, queryByTestId, getByTestId } = render(
+  it('calls mouse handlers ', () => {
+    const { getByRole, queryByTestId } = render(
       <RecoilRoot>
         <DateRangeFilter
           column={mockColumn}
@@ -136,13 +146,14 @@ describe('date range filter', () => {
       </RecoilRoot>
     );
     const dateRangeButton = getByRole('button');
-    userEvent.click(dateRangeButton);
-    const dropdown = getByTestId('Date Picker Dropdown');
-    userEvent.click(dropdown);
+    dateRangeButton.click();
+    const dropdown = queryByTestId('Date Picker Dropdown');
+    fireEvent.mouseOver(dropdown);
+    fireEvent.click(dropdown);
     expect(dropdown).toBeInTheDocument();
-    userEvent.unhover(dropdown);
-    userEvent.click(dateRangeButton);
-    await waitFor(() => expect(queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument());
+    fireEvent.mouseLeave(dropdown);
+    dateRangeButton.click();
+    expect(dropdown).not.toBeInTheDocument();
   });
 
   // it('adjusts dates entered based on keyboard entry, complete valid range', () => {

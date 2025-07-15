@@ -1,9 +1,9 @@
+import ReactTestUtils from 'react-dom/test-utils';
+import ReactDom from 'react-dom';
 import ApiQuickGuide from './api-quick-guide';
 import { selectedTable } from './test-helpers/test-helpers';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { act, render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 describe('API Quick Guide Tab Index', () => {
   const config = {
@@ -32,30 +32,46 @@ describe('API Quick Guide Tab Index', () => {
   };
 
   jest.spyOn(document, 'getElementById').mockReturnValueOnce({ scrollHeight: 100 });
-
-  it('ensures links are tabIndex: -1 when collapsed and tabIndex: 0 when expanded', async () => {
+  it('ensures buttons and links are tabIndex: -1 when collapsed and tabIndex: 0 when expanded', async () => {
     jest.useFakeTimers();
-    const { getByRole } = render(
-      <RecoilRoot>
-        <ApiQuickGuide config={config} selectedTable={selectedTable} />
-      </RecoilRoot>
-    );
-    jest.runAllTimers();
-    const datasetProperties = getByRole('link', { name: 'Dataset Properties', hidden: true });
-    expect(datasetProperties).toHaveAttribute('tabIndex', '-1');
-
-    userEvent.click(getByRole('button', { name: 'Show More' }));
-    act(() => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    ReactTestUtils.act(() => {
+      ReactDom.render(
+        <RecoilRoot>
+          <ApiQuickGuide config={config} selectedTable={selectedTable} />
+        </RecoilRoot>,
+        container
+      );
       jest.runAllTimers();
     });
+    const collapse = document.querySelector('#api-quick-guide-expandable');
+    let nodeList = collapse.querySelectorAll('button, a');
+    let nodeArray = Array.prototype.slice.call(nodeList);
+    // initially collapsed, all tabIndices are -1
+    expect(nodeArray.every(rs => rs.tabIndex === -1)).toBeTruthy();
+
+    const collapseButton = container.querySelector('#api-quick-guide-collapse-button');
+    ReactTestUtils.act(() => {
+      collapseButton.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      jest.runAllTimers();
+      nodeList = collapse.querySelectorAll('button, a');
+    });
+    nodeArray = Array.prototype.slice.call(nodeList);
     // expanded after click, all tabIndices are 0
-    expect(datasetProperties).toHaveAttribute('tabIndex', '0');
+    expect(nodeArray.every(rs => rs.tabIndex === 0)).toBeTruthy();
 
-    userEvent.click(getByRole('button', { name: 'Show Less' }));
-    act(() => {
+    ReactTestUtils.act(() => {
+      collapseButton.dispatchEvent(new MouseEvent('click', { bubbles: true }));
       jest.runAllTimers();
+      nodeList = collapse.querySelectorAll('button, a');
     });
+    nodeArray = Array.prototype.slice.call(nodeList);
     // collapsed after second click, all tabIndices are -1
-    expect(datasetProperties).toHaveAttribute('tabIndex', '-1');
+    expect(nodeArray.every(node => node.tabIndex === -1)).toBeTruthy();
+
+    ReactTestUtils.act(() => {
+      ReactDom.unmountComponentAtNode(container);
+    });
   });
 });

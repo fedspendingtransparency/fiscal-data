@@ -177,6 +177,7 @@ export default function ComboSelect({
   };
 
   const labelText = yearFilter ? `Year (${options[options.length - 1].label} - ${options[0].label})` : label;
+
   return (
     <div className={selector_container}>
       {labelText !== '' ? (
@@ -185,7 +186,7 @@ export default function ComboSelect({
           {required && <span className="required">*</span>}
         </div>
       ) : null}
-      <div ref={ref} onFocus={onFocusHandler} role="presentation">
+      <div ref={ref} onFocus={onFocusHandler} role={'presentation'}>
         <div>
           {yearFilter ? (
             <input
@@ -197,11 +198,11 @@ export default function ComboSelect({
               max={options[0].value}
               min={options[options.length - 1].label}
               maxLength={4}
-              placeholder="Enter or select a year"
+              placeholder={'Enter or select a year'}
               onKeyPress={restrictKeyPress}
               onInput={restrictInput}
-              title="Enter a year"
-              autoComplete="off"
+              title={'Enter a year'}
+              autoComplete={'off'}
             />
           ) : (
             <div className={inputContainerStyle ? inputContainerStyle : inputContainer}>
@@ -214,10 +215,10 @@ export default function ComboSelect({
                 onBlur={onBlurAnalyticsHandler}
                 max={options[0].value}
                 min={options[options.length - 1].label}
-                placeholder="Enter or select option"
-                autoComplete="off"
+                placeholder={'Enter or select option'}
+                autoComplete={'off'}
                 ref={inputRef}
-                data-testid="combo-box"
+                data-testid={'combo-box'}
               />
               {!filterCharacters || !(filterCharacters.length > 0) ? (
                 <button
@@ -246,7 +247,7 @@ export default function ComboSelect({
           <ul
             className={`${selector_list} ${scrollable ? scrollableList : ''}`}
             data-testid="selectorList"
-            role="presentation"
+            role={'presentation'}
             onBlur={onBlurHandler}
             onMouseDown={() => setMouseOverDropdown(true)}
             onMouseLeave={() => setMouseOverDropdown(false)}

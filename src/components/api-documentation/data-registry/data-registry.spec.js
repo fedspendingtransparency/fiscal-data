@@ -1,17 +1,21 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import DataRegistry, { dataRegistryTitle } from './data-registry';
-import { render } from '@testing-library/react';
+import SectionContent from '../section-content/section-content';
 
 describe('DataRegistry', () => {
-  it('has SectionContent as a part of its layout', async () => {
-    const { findByTestId } = render(<DataRegistry />);
-    const sectionContent = await findByTestId('section-content');
-    expect(sectionContent).toBeInTheDocument();
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<DataRegistry />);
+  });
+  const instance = component.root;
+
+  it('has SectionContent as a part of its layout', () => {
+    expect(instance.findAllByType(SectionContent).length).toBeGreaterThan(0);
   });
 
-  it('creates the DataRegistry section with the desired id, heading tag and title', async () => {
-    const { findByRole } = render(<DataRegistry />);
-    const heading = await findByRole('heading', { name: dataRegistryTitle });
-    expect(heading).toBeInTheDocument();
+  it('creates the DataRegistry section with the desired id, heading tag and title', () => {
+    const heading = instance.findByProps({ id: 'data-registry' }).findByType('h2');
+    expect(heading.children[0]).toBe(dataRegistryTitle);
   });
 });

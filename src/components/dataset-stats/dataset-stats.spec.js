@@ -1,7 +1,7 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import DatasetStats from './dataset-stats';
 import { add, format } from 'date-fns';
-import { render, within } from '@testing-library/react';
 
 describe('DatasetStats', () => {
   const mockDataset = {
@@ -25,71 +25,60 @@ describe('DatasetStats', () => {
       updateFrequency: 'Updated Daily',
     },
   };
+  const tree = renderer.create(<DatasetStats dataset={mockDataset} />);
+  const instance = tree.root;
 
   it('renders a ul element', () => {
-    const { getByRole } = render(<DatasetStats dataset={mockDataset} />);
-    const ulElement = getByRole('list');
-    expect(ulElement).toBeInTheDocument();
+    const ul = instance.findByType('ul');
+    expect(ul).toBeDefined();
   });
 
   it('should contain an li that displays the date range with a calendar week icon', () => {
-    const { getByRole } = render(<DatasetStats dataset={mockDataset} />);
-    const dateRangeLi = getByRole('listitem', { name: 'Date Range: 12/12/2019 - 02/07/2020' });
-    const calendarWeekIcon = within(dateRangeLi).getByTestId('calendar-week-icon');
-    const dateRangeText = within(dateRangeLi).getByText('12/12/2019 - 02/07/2020');
-    expect(calendarWeekIcon).toBeInTheDocument();
-    expect(dateRangeText).toBeInTheDocument();
+    const lastUpdatedLi = instance.findByProps({ 'data-test-id': 'dateRange-li' });
+    const calendarWeekIcon = lastUpdatedLi.findByProps({ 'data-test-id': 'calendar-week-icon' });
+    expect(lastUpdatedLi).toBeDefined();
+    expect(lastUpdatedLi.children[0]).toEqual(calendarWeekIcon);
+    expect(lastUpdatedLi.children[1]).toEqual('12/12/2019 - 02/07/2020');
   });
 
-  it('should contain an li that displays the futureDateIcon when the latestDate is in the future', () => {
-    const { getByRole } = render(<DatasetStats dataset={mockDataset3} />);
-    const lastUpdatedLi = getByRole('listitem', { name: 'Date Range: 10/03/2005 - ' + tomorrowString });
-    const futureDateIcon = within(lastUpdatedLi).getByTestId('futureDateIcon');
-    expect(futureDateIcon).toBeInTheDocument();
+  it('should show the futureDateIcon when the latestDate is in the future', () => {
+    const tree3 = renderer.create(<DatasetStats dataset={mockDataset3} />);
+    const instance3 = tree3.root;
+    const lastUpdatedLi = instance3.findByProps({ 'data-test-id': 'dateRange-li' });
+    expect(lastUpdatedLi.findByProps({ 'data-test-id': 'futureDateIcon' })).toBeDefined();
   });
 
   it('should contain an li that displays the update frequency with a sync-alt icon', () => {
-    const { getByRole } = render(<DatasetStats dataset={mockDataset} />);
-    const frequencyLi = getByRole('listitem', { name: 'Updated Monthly' });
-    const syncAltIcon = within(frequencyLi).getByTestId('sync-alt-icon');
-    const lastUpdatedText = within(frequencyLi).getByText('Updated Monthly');
-    expect(syncAltIcon).toBeInTheDocument();
-    expect(lastUpdatedText).toBeInTheDocument();
+    const fileTypeLi = instance.findByProps({ 'data-testid': 'updateFrequency-li' });
+    const syncAltIcon = instance.findByProps({ 'data-testid': 'sync-alt-icon' });
+    expect(fileTypeLi.children[0]).toEqual(syncAltIcon);
+    expect(fileTypeLi.children[1]).toEqual('Updated Monthly');
   });
 
   it('should contain an li that displays the lastUpdated date with a calendarCheck icon', () => {
-    const { getByRole } = render(<DatasetStats dataset={mockDataset} />);
-    const lastUpdatedLi = getByRole('listitem', { name: 'Last Updated: 12/12/19' });
-    const calendarCheckIcon = within(lastUpdatedLi).getByTestId('calendarCheckIcon');
-    const lastUpdatedText = within(lastUpdatedLi).getByText('Last Updated 12/12/19');
-    expect(calendarCheckIcon).toBeInTheDocument();
-    expect(lastUpdatedText).toBeInTheDocument();
+    const lastUpdatedLi = instance.findByProps({ 'data-test-id': 'lastUpdated' });
+    const calendarCheckIcon = instance.findByProps({ 'data-test-id': 'calendarCheckIcon' });
+    expect(lastUpdatedLi.children[0]).toEqual(calendarCheckIcon);
+    expect(lastUpdatedLi.children[1]).toEqual('Last Updated 12/12/19');
   });
 
   it('should contain an li that displays the hard-coded text "CSV, JSON, XML" with a page icon', () => {
-    const { getByRole } = render(<DatasetStats dataset={mockDataset} />);
-    const fileTypeLi = getByRole('listitem', { name: 'CSV, JSON, XML' });
-    const pageIcon = within(fileTypeLi).getByTestId('page-icon');
-    const downloadText = within(fileTypeLi).getByText('CSV, JSON, XML');
-    expect(pageIcon).toBeInTheDocument();
-    expect(downloadText).toBeInTheDocument();
+    const fileTypeLi = instance.findByProps({ 'data-testid': 'fileType-li' });
+    const pageIcon = instance.findByProps({ 'data-testid': 'page-icon' });
+    expect(fileTypeLi.children[0]).toEqual(pageIcon);
+    expect(fileTypeLi.children[1]).toEqual('CSV, JSON, XML');
   });
 
-  it('should contain an li that displays the hard-coded text "Data Dictionary", and an icon for a data dictionary in the dataset', () => {
-    const { getByRole } = render(<DatasetStats dataset={mockDataset2} />);
-    const dictionaryLi1 = getByRole('listitem', { name: 'data dictionary complete' });
-    const dictionaryIcon1 = within(dictionaryLi1).getByTestId('dictionary-icon');
-    const dictionaryText1 = within(dictionaryLi1).getByText('Data Dictionary');
-    expect(dictionaryIcon1).toBeInTheDocument();
-    expect(dictionaryText1).toBeInTheDocument();
-  });
-
-  it('should contain an li that displays the hard-coded text "Data Dictionary", and an icon for a data dictionary not in the dataset', () => {
-    const { getByRole } = render(<DatasetStats dataset={mockDataset} />);
-    const dictionaryLi2 = getByRole('listitem', { name: 'data dictionary incomplete' });
-    const dictionaryIcon2 = within(dictionaryLi2).getByTestId('dictionary-icon');
-    const dictionaryText2 = within(dictionaryLi2).getByText('Data Dictionary');
-    expect(dictionaryIcon2).toBeInTheDocument();
-    expect(dictionaryText2).toBeInTheDocument();
+  it('should contain an li that displays the hard-coded text "Data Dictionary", and an icon depending on the presence of a data dictionary in the dataset', () => {
+    const dictionaryLi = instance.findByProps({ 'data-testid': 'dictionary-li' });
+    const dictionaryIcon = instance.findByProps({ 'data-testid': 'dictionary-icon' });
+    expect(dictionaryLi.children[0]).toEqual(dictionaryIcon);
+    expect(dictionaryLi.children[1]).toBe('Data Dictionary');
+    // make new instance with the dictionary prop true
+    const tree2 = renderer.create(<DatasetStats dataset={mockDataset2} />);
+    const instance2 = tree2.root;
+    const dictionary2Li = instance2.findByProps({ 'data-testid': 'dictionary-li' });
+    const dictionary2Icon = instance2.findByProps({ 'data-testid': 'dictionary-icon' });
+    expect(dictionary2Li.children[0]).toEqual(dictionary2Icon);
   });
 });

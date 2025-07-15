@@ -37,16 +37,16 @@ describe('I Bond Sales Chart', () => {
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
-    const { findByTestId } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    const { getByTestId } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await findByTestId('chartParent')).toBeDefined();
+    expect(getByTestId('chartParent')).toBeDefined();
   });
 
   it('formats y axis values', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText, getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    const { getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await findByText('$16.0 B')).toBeInTheDocument();
+    expect(getByText('$16.0 B')).toBeInTheDocument();
     expect(getByText('-$2.0 B')).toBeInTheDocument();
     expect(getByText('$0')).toBeInTheDocument();
     expect(getByText('5.0%')).toBeInTheDocument();
@@ -56,9 +56,9 @@ describe('I Bond Sales Chart', () => {
 
   it('formats y axis values with different CPI data', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText, findByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockAltCPIData} curFy={2024} />);
+    const { getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockAltCPIData} curFy={2024} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await findByText('$18.0 B')).toBeInTheDocument();
+    expect(getByText('$18.0 B')).toBeInTheDocument();
     expect(getByText('$16.0 B')).toBeInTheDocument();
     expect(getByText('-$2.0 B')).toBeInTheDocument();
     expect(getByText('$0')).toBeInTheDocument();
@@ -69,9 +69,9 @@ describe('I Bond Sales Chart', () => {
 
   it('chart mouse events', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    const { getByTestId } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const chartParent = await findByTestId('chartParent');
+    const chartParent = getByTestId('chartParent');
     const chart = chartParent.children[1].children[0];
     expect(chart).toBeInTheDocument();
     fireEvent.mouseOver(chart);
@@ -100,9 +100,9 @@ describe('I Bond Sales Chart', () => {
 
   it('chart is keyboard accessible', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByRole, getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    const { getByRole, getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const chart = await findByRole('application');
+    const chart = getByRole('application');
     userEvent.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date
@@ -118,9 +118,9 @@ describe('I Bond Sales Chart', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const analyticsSpy = jest.spyOn(Analytics, 'event');
 
-    const { findByRole } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    const { getByRole } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const chart = await findByRole('application');
+    const chart = getByRole('application');
     userEvent.hover(chart);
     jest.advanceTimersByTime(3001);
     expect(analyticsSpy).toHaveBeenCalledWith({

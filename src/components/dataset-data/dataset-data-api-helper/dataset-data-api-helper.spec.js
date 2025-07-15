@@ -1,9 +1,9 @@
 import { divvyUpFilters, getApiData, pivotApiData, pivotApiDataFn, unitTestFunctions } from './dataset-data-api-helper';
+import renderer from 'react-test-renderer';
 import * as TestHelpers from '../test-helper';
 import { createFilter, mockApiData, filteringOperators } from '../test-helper';
 import * as ApiUtils from '../../../utils/api-utils';
 import { TableCache } from '../table-cache/table-cache';
-import { act } from 'react';
 
 jest.useFakeTimers();
 describe('DatasetDataApiHelper with proper dataset table props', () => {
@@ -122,7 +122,7 @@ describe('DatasetDataApiHelper with proper dataset table props', () => {
     const origConsoleLog = global.console.log;
     global.console.log = jest.fn();
     mockCanceledObj = { isCanceled: false };
-    await act(async () => {
+    await renderer.act(async () => {
       await getApiData(
         TestHelpers.mockDateRange,
         TestHelpers.mockSelectedTable,
@@ -136,7 +136,7 @@ describe('DatasetDataApiHelper with proper dataset table props', () => {
       await jest.runAllTimers();
     });
 
-    await act(async () => {
+    await renderer.act(async () => {
       await expect(mockSetApiError).toHaveBeenCalledWith(error);
     });
 

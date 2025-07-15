@@ -1,80 +1,109 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import SearchFilterSummary from './searchFilterSummary';
 import { mockFilters } from '../../mockData/mockFilters';
-import userEvent from '@testing-library/user-event';
+import filterTools from '../../../../transform/filters/filterDefinitions';
+import { render } from '@testing-library/react';
 
 describe('Search Filter Summary', () => {
-  const onGroupReset = jest.fn();
-  const onIndividualReset = jest.fn();
+  let component = renderer.create(),
+    instance,
+    activeFilters = [],
+    searchQuery = '',
+    summary,
+    onGroupResetSpy = null,
+    onIndividualResetSpy = null,
+    filters;
 
-  const filtersByGroupKeyWithNameSpy = jest.spyOn(require('../../../../transform/filters/filterDefinitions'), 'filtersByGroupKeyWithName');
+  const filtersByGroupKeyWithNameSpy = jest.spyOn(filterTools, 'filtersByGroupKeyWithName');
 
-  const defaultProps = {
-    searchQuery: '',
-    activeFilters: [],
-    allFilters: mockFilters,
-    onGroupReset,
-    onIndividualReset,
-  };
-
-  const renderSummary = (props = {}) => render(<SearchFilterSummary {...defaultProps} {...props} />);
-
+  const onGroupResetMock = jest.fn();
+  const onIndividualResetMock = jest.fn();
   beforeEach(() => {
-    jest.clearAllMocks();
+    filters = mockFilters;
+    filtersByGroupKeyWithNameSpy.mockClear();
+
+    renderer.act(() => {
+      component = renderer.create(
+        <SearchFilterSummary
+          searchQuery={searchQuery}
+          activeFilters={activeFilters}
+          onGroupReset={onGroupResetMock}
+          onIndividualReset={onIndividualResetMock}
+          allFilters={filters}
+        />
+      );
+    });
+    instance = component.root;
+    onGroupResetSpy = jest.spyOn(instance.props, 'onGroupReset');
+    onIndividualResetSpy = jest.spyOn(instance.props, 'onIndividualReset');
+    summary = instance.findByType(SearchFilterSummary);
   });
 
   it('renders element', () => {
-    const { container } = renderSummary();
-    expect(container).toBeEmptyDOMElement();
+    expect(summary).toBeDefined();
   });
 
   it('calls filtersByGroupKeyWithName upon with the active filters and allFilters', async () => {
-    const active = ['startDateRangeThree'];
-    renderSummary({ activeFilters: active });
-    await waitFor(() => {
-      expect(filtersByGroupKeyWithNameSpy).toHaveBeenCalledWith(active, mockFilters);
-    });
+    // to ensure any dynamically added filters are utilized
+    expect(filtersByGroupKeyWithNameSpy).toHaveBeenCalledWith(activeFilters, filters);
   });
 
   it('renders no children if both searchQuery and activeFilters are empty', () => {
-    const { container } = renderSummary();
-    expect(container).toBeEmptyDOMElement();
+    expect(summary.children.length).toBe(0);
   });
 
   it('renders both search summary and filter summary when both searchQuery and activeFilters are not empty', () => {
-    renderSummary({
-      searchQuery: 'test',
-      activeFilters: ['startDateRangeThree', 'savingsBonds'],
+    filters = mockFilters;
+    searchQuery = 'test';
+    activeFilters = ['startDateRangeThree', 'savingsBonds'];
+
+    renderer.act(() => {
+      component = renderer.create(
+        <SearchFilterSummary
+          searchQuery={searchQuery}
+          activeFilters={activeFilters}
+          onGroupReset={onGroupResetMock}
+          onIndividualReset={onIndividualResetMock}
+          allFilters={filters}
+        />
+      );
     });
 
-    expect(screen.getByText(/searching datasets matching/i)).toBeInTheDocument();
-    expect(screen.getByText('test')).toBeInTheDocument();
-    expect(screen.getAllByRole('button').length).toBeGreaterThan(2);
+    instance = component.root;
+    onGroupResetSpy = jest.spyOn(instance.props, 'onGroupReset');
+    onIndividualResetSpy = jest.spyOn(instance.props, 'onIndividualReset');
+    summary = instance.findByType(SearchFilterSummary);
+
+    expect(summary.children.length).toBe(2);
   });
 
-  it('clears selected filter when onClick on specific filter', async () => {
-    renderSummary({
-      activeFilters: ['startDateRangeThree'],
+  it('clears selected filter when onClick on specific filter', () => {
+    expect(summary.children[1].children.length).toBe(3);
+    renderer.act(() => {
+      summary.children[1].children[0].children[1].props.onClick();
     });
-
-    const filterBtn = screen.getByRole('button', { name: /startDateRangeThree/i });
-    await userEvent.click(filterBtn);
-
-    expect(onIndividualReset).toHaveBeenCalledTimes(1);
+    expect(onIndividualResetSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('clears all filters', async () => {
-    renderSummary({
-      searchQuery: 'test',
-      activeFilters: ['startDateRangeThree', 'savingsBonds'],
-    });
-
-    const clearAll = screen.getByRole('button', { name: /clear all filters/i });
-    await userEvent.click(clearAll);
-
-    expect(onGroupReset).toHaveBeenCalledWith('startDate');
-    expect(onGroupReset).toHaveBeenCalledWith('topics');
-    expect(onGroupReset).toHaveBeenCalledTimes(2);
+  it('clears all filters', () => {
+    filters = mockFilters;
+    searchQuery = 'test';
+    activeFilters = ['startDateRangeThree', 'savingsBonds'];
+    const { getByRole } = render(
+      <SearchFilterSummary
+        searchQuery={searchQuery}
+        activeFilters={activeFilters}
+        onGroupReset={onGroupResetMock}
+        onIndividualReset={onIndividualResetMock}
+        allFilters={filters}
+      />
+    );
+    const clearAll = getByRole('button', { name: 'Clear All Filters' });
+    expect(clearAll).toBeInTheDocument();
+    clearAll.click();
+    expect(onGroupResetSpy).toHaveBeenCalledWith('startDate');
+    expect(onGroupResetSpy).toHaveBeenCalledWith('topics');
+    expect(onGroupResetSpy).toHaveBeenCalledTimes(2);
   });
 });

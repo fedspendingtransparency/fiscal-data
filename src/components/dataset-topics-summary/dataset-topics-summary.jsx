@@ -15,7 +15,7 @@ export default function datasetTopicsSummary(props) {
           </p>
         </>
       ) : (
-        <div className={emptyDiv} data-testid={'topics-empty-div'} />
+        <div className={emptyDiv} data-test-id={'topics-empty-div'} />
       )}
     </>
   );

@@ -1,11 +1,12 @@
 import React from 'react';
-import { render, screen, configure } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import renderer from 'react-test-renderer';
 import Truncator from './truncate';
 import { expandedStyle } from './truncate.module.scss';
 
-configure({ testIdAttribute: 'data-test-id' });
 describe('Truncate component', () => {
+  // Jest gives an error about the following not being implemented even though the tests pass.
+  HTMLCanvasElement.prototype.getContext = jest.fn();
+
   const textToTruncate = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
@@ -21,6 +22,15 @@ describe('Truncate component', () => {
     laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui
     in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat
     quo voluptas nulla pariatur?`;
+  let component = renderer.create();
+  let componentWithButtons = renderer.create();
+
+  renderer.act(() => {
+    component = renderer.create(<Truncator>{textToTruncate}</Truncator>);
+    componentWithButtons = renderer.create(<Truncator showMore>{textToTruncate}</Truncator>);
+  });
+  const instance = component.root;
+  const instanceWithButtons = componentWithButtons.root;
 
   /**
    * The following tests that the text provided to the component is available and seen. We can't
@@ -28,34 +38,36 @@ describe('Truncate component', () => {
    * jest as well as the css stylings that may or may not be applied.
    */
   it('shows the desired blob of text within the component', () => {
-    render(<Truncator>{textToTruncate}</Truncator>);
-    const truncatedDiv = screen.getByTestId('truncateDiv');
-    const joinTurncatedDiv = s => s.replace(/\s+/g, '').trim();
-    expect(joinTurncatedDiv(truncatedDiv.textContent)).toBe(joinTurncatedDiv(textToTruncate));
+    const displayText = instance.findByProps({ 'data-test-id': 'truncateDiv' });
+    const displayTextWithButton = instanceWithButtons.findByProps({ 'data-test-id': 'truncateDiv' });
+    expect(displayText.props.children).toStrictEqual(textToTruncate);
+    expect(displayTextWithButton.props.children).toStrictEqual(textToTruncate);
   });
 
   it('does not create a "Show More" button on default.', () => {
-    render(<Truncator>{textToTruncate}</Truncator>);
-
-    expect(screen.queryByTestId('showMoreLessButton')).not.toBeInTheDocument();
+    const showMoreLessButtons = instance.findAllByProps({ 'data-test-id': 'showMoreLessButton' });
+    expect(showMoreLessButtons.length).toBe(0);
   });
 
   it('creates a "Show More" button when showMore prop is true', () => {
-    render(<Truncator showMore>{textToTruncate}</Truncator>);
-
-    expect(screen.getByTestId('showMoreLessButton')).toHaveTextContent('Show More');
+    const showMoreLessButtons = instanceWithButtons.findAllByProps({
+      'data-test-id': 'showMoreLessButton',
+    });
+    expect(showMoreLessButtons[0].children[0]).toBe('Show More');
   });
 
   it('adds the "expanded" class to the truncator when the show more button is clicked', async () => {
-    render(<Truncator showMore>{textToTruncate}</Truncator>);
+    const showMoreLessButtons = instanceWithButtons.findAllByProps({
+      'data-test-id': 'showMoreLessButton',
+    });
+    const truncatorElement = instanceWithButtons.findByProps({ 'data-test-id': 'truncateDiv' });
 
-    const button = screen.getByTestId('showMoreLessButton');
-    const truncator = screen.getByTestId('truncateDiv');
+    expect(truncatorElement.props.className).not.toContain(expandedStyle);
 
-    expect(truncator.className).not.toContain(expandedStyle);
+    renderer.act(() => {
+      showMoreLessButtons[0].props.onClick();
+    });
 
-    await userEvent.click(button);
-
-    expect(truncator.className).toContain(expandedStyle);
+    expect(truncatorElement.props.className).toContain(expandedStyle);
   });
 });

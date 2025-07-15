@@ -1,6 +1,6 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import SectionContent from './section-content';
-import { render } from '@testing-library/react';
 
 describe('Section Content', () => {
   const testSectionContent = {
@@ -9,38 +9,40 @@ describe('Section Content', () => {
     title: 'Test Section',
   };
   const testParagraph = 'Test Paragraph - This time it is not Lorem Ipsum';
+  let section = null;
 
-  it('creates a section with the specified anchor id', () => {
-    const instance = render(
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(
       <SectionContent id={testSectionContent.id} headingLevel={testSectionContent.headingLevel} title={testSectionContent.title}>
-        <p data-testid="testParagraph">{testParagraph}</p>
+        <p data-test-id={'testParagraph'}>{testParagraph}</p>
       </SectionContent>
     );
-    expect(instance).toBeDefined();
+  });
+
+  const instance = component.root;
+
+  beforeEach(() => {
+    section = instance.findByProps({ id: testSectionContent.id });
+  });
+
+  it('creates a section with the specified anchor id', () => {
+    expect(section).toBeDefined();
   });
 
   it('creates the heading tag with the appropriate heading level', async () => {
-    const { findByRole } = render(
-      <SectionContent id={testSectionContent.id} headingLevel={testSectionContent.headingLevel} title={testSectionContent.title}>
-        <p data-testid="testParagraph">{testParagraph}</p>
-      </SectionContent>
-    );
-    const heading = await findByRole('heading', { name: testSectionContent.title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    // Verifies the headingLevel is applied appropriately
+    const heading = section.findByType('h3');
+
+    expect(heading.children[0]).toBe(testSectionContent.title);
   });
 
-  it('creates the desired content within the section content', async () => {
-    const { findByText } = render(
-      <SectionContent id={testSectionContent.id} headingLevel={testSectionContent.headingLevel} title={testSectionContent.title}>
-        <p data-testid="testParagraph">{testParagraph}</p>
-      </SectionContent>
-    );
-
-    const paragraph = await findByText(testParagraph);
-    expect(paragraph).toBeInTheDocument();
+  it('creates the desired content within the section content', () => {
+    const paragraph = section.findByProps({ 'data-test-id': 'testParagraph' });
+    expect(paragraph.children[0]).toBe(testParagraph);
   });
 
-  it('header level generates expected h tag', async () => {
+  it('header level generates expected h tag', () => {
     const nextSectionContent = [
       {
         id: 'next-section-1',
@@ -68,14 +70,19 @@ describe('Section Content', () => {
       },
     ];
 
-    nextSectionContent.forEach(async section => {
-      const { findByRole } = render(
-        <SectionContent id={section.id} headingLevel={section.headingLevel} title={section.title}>
-          <p>The Next paragraph's paragraph.</p>
-        </SectionContent>
-      );
-      const heading = await findByRole('heading', { name: section.title, level: section.headingLevel });
-      expect(heading).toBeInTheDocument();
+    nextSectionContent.forEach(section => {
+      let component = renderer.create();
+      renderer.act(() => {
+        component = renderer.create(
+          <SectionContent id={section.id} headingLevel={section.headingLevel} title={section.title}>
+            <p>The Next paragraph's paragraph.</p>
+          </SectionContent>
+        );
+      });
+      const instance = component.root;
+      const sectionNode = instance.findByProps({ id: section.id });
+      const heading = sectionNode.findByType(`${section.expectedHeader}`);
+      expect(heading.children[0]).toBe(section.title);
     });
   });
 });

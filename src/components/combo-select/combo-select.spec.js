@@ -1,11 +1,14 @@
-import React, { act } from 'react';
-import { fireEvent, waitFor, render, within, getByTestId, getAllByRole } from '@testing-library/react';
+import renderer from 'react-test-renderer';
+import React from 'react';
+import { fireEvent, waitFor, render, within } from '@testing-library/react';
 import ComboSelect from './combo-select';
 import { mockOptions } from './combo-select-test-helper';
 import Analytics from '../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
 
 describe('The ComboSelect Component for Published Report year filtering', () => {
+  let component = renderer.create();
+  let instance;
   const mockYearOptions = [];
   for (let i = 2020; i > 1995; i--) {
     mockYearOptions.push({ label: i, value: i });
@@ -13,123 +16,117 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
 
   const changeHandlerSpy = jest.fn();
 
-  it('renders an input field that opens a dropdown list of all options on focus', () => {
-    const { getByRole, queryAllByRole } = render(
+  beforeEach(() => {
+    component = renderer.create(
       <ComboSelect
         changeHandler={changeHandlerSpy}
-        optionLabelKey="label"
+        optionLabelKey={'label'}
         options={mockYearOptions}
         selectedOption={null}
         yearFilter={true}
         required={true}
       />
     );
-    const inputField = getByRole('spinbutton', { type: 'number' });
+    instance = component.root;
+  });
+
+  it('renders an input field that opens a dropdown list of all options on focus', () => {
+    const inputField = instance.findByType('input');
+
+    expect(inputField.props.type).toEqual('number');
 
     // no option list rendered initially
-    expect(queryAllByRole('button').length).toBe(0);
+    expect(instance.findAllByType('button')).toEqual([]);
 
     // focus
-    fireEvent.focus(inputField);
-    const optionButtons = queryAllByRole('button');
-    expect(optionButtons.length).toBe(25);
-
-    expect(within(optionButtons[0]).getByText('2020')).toBeInTheDocument();
-    expect(within(optionButtons[9]).getByText('2011')).toBeInTheDocument();
+    renderer.act(() => {
+      inputField.props.onFocus();
+    });
+    const optionButtons = instance.findByType('ul').findAllByType('button');
+    expect(optionButtons.length).toEqual(25);
+    expect(optionButtons[0].children).toEqual(['2020']);
+    expect(optionButtons[9].children).toEqual(['2011']);
   });
 
   it('shows up to ten topmost options in the dropdown list that match input digits', () => {
-    const { getByRole, getAllByRole } = render(
-      <ComboSelect
-        changeHandler={changeHandlerSpy}
-        optionLabelKey="label"
-        options={mockYearOptions}
-        selectedOption={null}
-        yearFilter={true}
-        required={true}
-      />
-    );
-    const inputField = getByRole('spinbutton', { type: 'number' });
+    const inputField = instance.findByType('input');
 
-    userEvent.type(inputField, '01');
-    let optionButtons = getAllByRole('button');
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: '01' } });
+    });
+    let optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(11);
-    expect(within(optionButtons[0]).getByText('2019')).toBeInTheDocument();
-    expect(within(optionButtons[9]).getByText('2010')).toBeInTheDocument();
-
-    userEvent.type(inputField, '9');
-    optionButtons = getAllByRole('button');
+    expect(optionButtons[0].children).toEqual(['2019']);
+    expect(optionButtons[9].children).toEqual(['2010']);
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: '019' } });
+    });
+    optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(1);
-    expect(within(optionButtons[0]).getByText('2019')).toBeInTheDocument();
+    expect(optionButtons[0].children).toEqual(['2019']);
   });
 
   it('only allows numeric entries', () => {
-    const charsRejected = ['a', 'Z', '-', ',', '.', '+', 'e'];
-    const charsAccepted = ['1996', '2005', '2020'];
+    const mockKeyPresses = ['a', 'Z', '-', '1', ',', '.', '2', '+', 'e', '3', '0'];
+    let charsRejected = '';
+    let charsAccepted = '';
 
-    const { getByRole, getByDisplayValue, queryByDisplayValue } = render(
-      <ComboSelect
-        changeHandler={changeHandlerSpy}
-        optionLabelKey="label"
-        options={mockYearOptions}
-        selectedOption={null}
-        yearFilter={true}
-        required={true}
-      />
-    );
-    const inputField = getByRole('spinbutton', { type: 'number' });
+    const mockUpKeyPressEvent = (press, currenValue) => {
+      return {
+        target: {
+          value: currenValue,
+        },
+        key: press,
+        preventDefault: () => {
+          charsRejected += press;
+        },
+      };
+    };
 
-    charsAccepted.forEach(kp => {
-      userEvent.type(inputField, kp);
-      expect(getByDisplayValue(Number(kp))).toBeInTheDocument();
-      userEvent.type(inputField, '{backspace}{backspace}{backspace}{backspace}');
+    const inputField = instance.findByType('input');
+    renderer.act(() => {
+      mockKeyPresses.forEach(kp => {
+        const rejectedSoFar = charsRejected;
+        inputField.props.onKeyPress(mockUpKeyPressEvent(kp, charsAccepted));
+        if (rejectedSoFar === charsRejected) {
+          charsAccepted += kp;
+        }
+      });
     });
-    charsRejected.forEach(kp => {
-      userEvent.type(inputField, kp);
-      expect(queryByDisplayValue(kp)).not.toBeInTheDocument();
-      userEvent.type(inputField, '{backspace}');
-    });
+    expect(charsAccepted).toEqual('1230');
+    expect(charsRejected).toEqual('aZ-,.+e');
   });
 
   it('correctly cleans input when multiple characters are input (pasted in) by the user in a single event', () => {
-    const { getByRole, getByDisplayValue } = render(
-      <ComboSelect
-        changeHandler={changeHandlerSpy}
-        optionLabelKey="label"
-        options={mockYearOptions}
-        selectedOption={null}
-        yearFilter={true}
-        required={true}
-      />
-    );
-    const inputField = getByRole('spinbutton', { type: 'number' });
-    userEvent.type(inputField, '-1.5+e109');
-    expect(getByDisplayValue('1510')).toBeInTheDocument();
+    const inputField = instance.findByType('input');
+
+    // no option list rendered initially
+    const mockInputEvent = { target: { value: '-1.5+e109' } };
+
+    // cleans up numeric entry that is pasted in
+    renderer.act(() => {
+      inputField.props.onInput(mockInputEvent);
+    });
+
+    expect(mockInputEvent.target.value).toEqual('1510');
   });
 
   it('calls the change handler when a year option is selected', () => {
-    changeHandlerSpy.mockClear();
+    const inputField = instance.findByType('input');
 
-    const { getByRole, getAllByRole, queryAllByRole } = render(
-      <ComboSelect
-        changeHandler={changeHandlerSpy}
-        optionLabelKey="label"
-        options={mockYearOptions}
-        selectedOption={null}
-        yearFilter={true}
-        required={true}
-      />
-    );
-    const inputField = getByRole('spinbutton', { type: 'number' });
     // no option list rendered initially
-    expect(queryAllByRole('button')).toEqual([]);
+    expect(instance.findAllByType('button')).toEqual([]);
 
-    fireEvent.focus(inputField);
-    const optionButtons = getAllByRole('button');
+    // focus
+    renderer.act(() => {
+      inputField.props.onFocus();
+    });
+    const optionButtons = instance.findByType('ul').findAllByType('button');
+    expect(optionButtons[5].children).toEqual(['2015']);
 
-    const button = optionButtons[5];
-    expect(within(button).getByText('2015')).toBeInTheDocument();
-    fireEvent.click(button);
+    renderer.act(() => {
+      optionButtons[5].props.onClick();
+    });
 
     expect(changeHandlerSpy).toHaveBeenNthCalledWith(1, { label: 2015, value: 2015 });
   });
@@ -137,116 +134,125 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
 
 describe('The ComboSelect Component for general text use', () => {
   jest.useFakeTimers();
+  let component = renderer.create();
+  let instance;
+
   const changeHandlerSpy = jest.fn();
 
-  it('renders an input field that opens a dropdown list of all options on focus', () => {
-    const { getByRole, getAllByRole, queryAllByTestId } = render(
-      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={null} />
+  beforeEach(() => {
+    component = renderer.create(
+      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey={'label'} options={mockOptions} selectedOption={null} />
     );
-    const inputField = getByRole('textbox');
+    instance = component.root;
+  });
+
+  it('renders an input field that opens a dropdown list of all options on focus', () => {
+    const inputField = instance.findByType('input');
+    expect(inputField.props.type).toEqual('text');
 
     // the option list is initially not in view
-    expect(queryAllByTestId('selectorList').length).toStrictEqual(0);
+    expect(instance.findAllByProps({ 'data-testid': 'selectorList' }).length).toStrictEqual(0);
 
-    fireEvent.focus(inputField);
-
-    const optionButtons = getAllByRole('listitem');
+    // focus
+    renderer.act(() => {
+      inputField.props.onFocus();
+    });
+    const optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(16);
     // spot check options/ordering
-    expect(within(optionButtons[0]).getByText('(None selected)')).toBeInTheDocument();
-    expect(within(optionButtons[15]).getByText('Nice3-lettuce')).toBeInTheDocument();
+    expect(optionButtons[0].children).toEqual(['(None selected)']);
+    expect(optionButtons[15].children).toEqual(['Nice3-lettuce']);
   });
 
   it('changes from a chevron icon to a circleX icon when en entry is made', () => {
-    const { getByRole, queryAllByTestId, getByTestId } = render(
-      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={null} />
-    );
-    const inputField = getByRole('textbox');
-    fireEvent.focus(inputField);
+    const inputField = instance.findByType('input');
+
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: '' } });
+    });
 
     // with no entry value, there should be no circle-X (clear-entry) icon
-    expect(queryAllByTestId('clear-button').length).toStrictEqual(0);
+    expect(instance.findAllByProps({ 'data-testid': 'clear-button' }).length).toStrictEqual(0);
 
     // and there should be a chevron icon
-    expect(getByTestId('dropdown-button')).toBeInTheDocument();
+    expect(instance.findByProps({ 'data-testid': 'dropdown-button' })).toBeDefined();
 
-    userEvent.type(inputField, 'guess');
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: 'guess' } });
+    });
 
     // with an entry value present, there should be no chevron icon (clear-entry) icon
-    expect(queryAllByTestId('dropdown-button').length).toStrictEqual(0);
+    expect(instance.findAllByProps({ 'data-testid': 'dropdown-button' }).length).toStrictEqual(0);
 
     // and there should be a circle-X (clear-entry) icon
-    expect(getByTestId('clear-button')).toBeInTheDocument();
+    expect(instance.findByProps({ 'data-testid': 'clear-button' })).toBeDefined();
   });
 
   it('clears any existing entry when the clear-entry/circle-x icon is clicked', () => {
-    const { getByRole, getByTestId } = render(
-      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={null} />
-    );
-    const inputField = getByRole('textbox');
-    userEvent.type(inputField, 'guess');
+    const inputField = instance.findByType('input');
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: 'guess' } });
+    });
+    expect(inputField.props.value).toStrictEqual('guess');
 
-    expect(inputField).toHaveValue('guess');
+    const button = instance.findByProps({ 'data-testid': 'clear-button' });
+    renderer.act(() => {
+      button.props.onClick();
+    });
 
-    const button = getByTestId('clear-button');
-    userEvent.click(button);
-
-    expect(inputField).toHaveValue('');
+    expect(inputField.props.value).toStrictEqual('');
   });
 
   it('toggles the dropdown when the chevron icon is clicked', () => {
-    const { getAllByRole, queryAllByRole, getByRole } = render(
-      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={null} />
-    );
-
     // the option list is initially not in view
-    expect(queryAllByRole('listitem').length).toStrictEqual(0);
+    expect(instance.findAllByProps({ 'data-testid': 'selectorList' }).length).toStrictEqual(0);
 
     // click the chevron dropdown button
-    const dropdownButton = getByRole('button', { name: 'Show options' });
-    userEvent.click(dropdownButton);
+    const dropDownButton = instance.findByProps({ 'data-testid': 'dropdown-button' });
+    renderer.act(() => {
+      dropDownButton.props.onClick();
+    });
 
     // the list should be visible/dropped down
-    expect(getAllByRole('listitem').length).toBeGreaterThan(0);
+    const optionList = instance.findByProps({ 'data-testid': 'selectorList' });
+    expect(optionList).toBeDefined();
 
     // again click the chevron dropdown button
-    act(() => {
-      userEvent.click(dropdownButton);
+    renderer.act(() => {
+      dropDownButton.props.onClick();
       jest.runAllTimers();
     });
 
     // now the list should be gone
-    expect(queryAllByRole('listitem').length).toStrictEqual(0);
+    expect(instance.findAllByProps({ 'data-testid': 'selectorList' }).length).toStrictEqual(0);
   });
 
   it('shows options in the dropdown list that match input characters', () => {
     changeHandlerSpy.mockClear();
-    const { getByRole, getAllByRole, getByTestId } = render(
-      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={null} />
-    );
-    const inputField = getByRole('textbox');
+    const inputField = instance.findByType('input');
 
-    userEvent.type(inputField, 'Blue');
-
-    let optionButtons = getAllByRole('listitem');
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: 'Blue' } });
+    });
+    let optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(3);
-    expect(within(optionButtons[0]).getByText('Blue-greenstuff')).toBeInTheDocument();
-    expect(within(optionButtons[2]).getByText('Blue3-greenstuff')).toBeInTheDocument();
-
-    userEvent.click(getByTestId('clear-button'));
-    userEvent.type(inputField, '2-');
-
-    optionButtons = getAllByRole('listitem');
+    expect(optionButtons[0].children).toEqual(['Blue-greenstuff']);
+    expect(optionButtons[2].children).toEqual(['Blue3-greenstuff']);
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: '2-' } });
+    });
+    optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(5);
-    expect(within(optionButtons[0]).getByText('Abcd2-money')).toBeInTheDocument();
-    expect(within(optionButtons[4]).getByText('Nice2-lettuce')).toBeInTheDocument();
+    expect(optionButtons[0].children).toEqual(['Abcd2-money']);
+    expect(optionButtons[4].children).toEqual(['Nice2-lettuce']);
 
     // not case-sensitive, and can limit to a single matching result
-    userEvent.click(getByTestId('clear-button'));
-    userEvent.type(inputField, 'nice2-Let');
-    optionButtons = getAllByRole('listitem');
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: 'nice2-Let' } });
+    });
+    optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(1);
-    expect(within(optionButtons[0]).getByText('Nice2-lettuce')).toBeInTheDocument();
+    expect(optionButtons[0].children).toEqual(['Nice2-lettuce']);
   });
 
   it('collapses dropdown when not focused', async () => {

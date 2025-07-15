@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import React from 'react';
 import Multichart from './multichart';
 import { percentageFormatter, trillionsFormatter } from '../sections/national-debt/national-debt';
@@ -99,18 +99,18 @@ export const mockChartConfigs = [
 jest.useFakeTimers();
 describe('Multichart', () => {
   it('renders expected chart container element', async () => {
-    const { findByTestId } = render(<Multichart chartId="test-multichart" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />);
-    const chartContainer = await findByTestId('multichart');
+    const { getByTestId } = render(<Multichart chartId="test-multichart" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />);
+    const chartContainer = getByTestId('multichart');
     expect(chartContainer).toBeInTheDocument();
   });
 
-  it('renders the expected margin labels with string formatting applied', async () => {
-    const { findByText } = render(<Multichart chartId="test-multichart" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />);
-    expect(await findByText('2.52%')).toBeInTheDocument();
-    expect(await findByText('1.57%')).toBeInTheDocument();
-    expect(await findByText('$16.43 T')).toBeInTheDocument();
-    expect(await findByText('$29.62 T')).toBeInTheDocument();
-    expect(await findByText('0')).toBeInTheDocument();
+  it('renders the expected margin labels with string formatting applied', () => {
+    const { getByText } = render(<Multichart chartId="test-multichart" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />);
+    expect(getByText('2.52%')).toBeInTheDocument();
+    expect(getByText('1.57%')).toBeInTheDocument();
+    expect(getByText('$16.43 T')).toBeInTheDocument();
+    expect(getByText('$29.62 T')).toBeInTheDocument();
+    expect(getByText('0')).toBeInTheDocument();
   });
   it('renders a chart for each config', () => {
     const { getAllByTestId } = render(<Multichart chartId="test-multichart" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />);
@@ -124,18 +124,20 @@ describe('Multichart', () => {
 
   it(`renders a mouseTracking element on mouseEnter event and
   removes it on mouseOut`, async () => {
-    const { queryAllByTestId, getByTestId } = await render(
-      <Multichart chartId="testy" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />
-    );
-    jest.runAllTimers();
-    const chartContainer = getByTestId('multichart');
-    expect(queryAllByTestId('testy-line-chart-hover-effects').length).toStrictEqual(0);
-    await fireEvent.mouseOver(chartContainer);
-    await waitFor(() => getByTestId('testy-line-chart-hover-effects'));
-    expect(queryAllByTestId('testy-line-chart-hover-effects').length).toStrictEqual(1);
-    await fireEvent.mouseOut(chartContainer);
-    jest.advanceTimersByTime(500);
-    expect(queryAllByTestId('testy-line-chart-hover-effects').length).toStrictEqual(0);
+    await act(async () => {
+      const { queryAllByTestId, getByTestId } = await render(
+        <Multichart chartId="testy" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />
+      );
+      jest.runAllTimers();
+      const chartContainer = getByTestId('multichart');
+      expect(queryAllByTestId('testy-line-chart-hover-effects').length).toStrictEqual(0);
+      await fireEvent.mouseOver(chartContainer);
+      await waitFor(() => getByTestId('testy-line-chart-hover-effects'));
+      expect(queryAllByTestId('testy-line-chart-hover-effects').length).toStrictEqual(1);
+      await fireEvent.mouseOut(chartContainer);
+      jest.advanceTimersByTime(500);
+      expect(queryAllByTestId('testy-line-chart-hover-effects').length).toStrictEqual(0);
+    });
 
     jest.runAllTimers();
   });

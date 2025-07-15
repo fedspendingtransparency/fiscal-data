@@ -1,12 +1,11 @@
 import { TestData } from '../dtg-table/test-data';
-import { addDays, format, subYears } from 'date-fns';
-import { convertDate } from './dataset-data-helper/dataset-data-helper';
+import { subYears, format, addDays } from 'date-fns';
 
 export const latestDate = '2020-04-13';
-const testDate = subYears(convertDate(latestDate), 5);
-export const fivePrior = addDays(testDate, 1);
-export const latestDateFormatted = format(convertDate(latestDate), 'MM/dd/yyyy');
-export const fivePriorFormatted = format(fivePrior, 'MM/dd/yyyy');
+let testDate = subYears(new Date(2020, 3, 13), 5);
+testDate = addDays(testDate, 1);
+export const fivePrior = format(testDate, 'yyyy-MM-dd');
+
 const mockYears = {
   from: 2019,
   to: 2020,
@@ -219,7 +218,6 @@ export const config = {
       rowCount: 150001,
       dateField: 'record_date',
       dataDisplays: [
-        { chartType: 'none', dimensionField: null, title: 'Complete Table' },
         {
           chartType: null,
           dimensionField: 'facility_desc',

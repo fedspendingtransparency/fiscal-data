@@ -1,18 +1,22 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import DataObject from './data-object';
-import { render } from '@testing-library/react';
+import SectionContent from '../../section-content/section-content';
 
 describe('Data Object', () => {
-  it('has SectionContent as a part of its layout', async () => {
-    const { findByTestId } = render(<DataObject />);
-    const sectionContent = await findByTestId('section-content');
-    expect(sectionContent).toBeInTheDocument();
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<DataObject />);
+  });
+  const instance = component.root;
+
+  it('has SectionContent as a part of its layout', () => {
+    expect(instance.findAllByType(SectionContent).length).toBeGreaterThan(0);
   });
 
-  it('creates the Data Object section with the desired id, heading tag and title', async () => {
-    const title = 'Data Object';
-    const { findByRole } = render(<DataObject />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+  it('has a defined title', () => {
+    const titleText = 'Data Object';
+    const title = instance.findByProps({ id: 'responses-data-object' }).findByType('h3');
+    expect(title.children[0]).toEqual(titleText);
   });
 });

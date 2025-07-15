@@ -80,7 +80,6 @@ export default function DtgTable({
     customFormatting,
     chartTable,
   } = tableProps;
-
   const [reactTableData, setReactTableData] = useState(null);
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
@@ -479,7 +478,7 @@ export default function DtgTable({
       )}
       {/* Data Dictionary and Dataset Detail tables */}
       {reactTable && reactTableData?.data && (
-        <div className={overlayContainerNoFooter}>
+        <div data-test-id="table-content" className={overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
             <>
@@ -535,13 +534,13 @@ export default function DtgTable({
       {/*Endpoints and Fields tables*/}
       {!reactTable && (
         <>
-          <div data-testid="table-content" className={overlayContainerNoFooter}>
+          <div data-test-id="table-content" className={overlayContainerNoFooter}>
             {/* API Error Message */}
             {(apiError || tableProps.apiError) && !emptyDataMessage && <DtgTableApiError />}
 
             <div className={selectColumnsWrapper}>
               {/* Table Wrapper */}
-              <div data-testid="table-wrapper" className={noBorder ? [wrapper, noBorderStyle].join(' ') : wrapper}>
+              <div className={noBorder ? [wrapper, noBorderStyle].join(' ') : wrapper}>
                 {/* Empty Data Message */}
                 {emptyDataMessage && emptyDataMessage}
                 {/* Table */}
@@ -557,8 +556,8 @@ export default function DtgTable({
           </div>
           {/* Table Footer */}
           {shouldPage && (
-            <div data-testid="table-footer" className={tableFooter}>
-              <div data-testid="rows-showing" className={rowsShowingStyle}>
+            <div data-test-id="table-footer" className={tableFooter}>
+              <div data-test-id="rows-showing" className={rowsShowingStyle}>
                 {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
               </div>
               {showPaginationControls && <PaginationControls pagingProps={pagingProps} />}
