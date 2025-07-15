@@ -20,7 +20,7 @@ const breakpoint = {
 
 let gaTimer;
 
-export const InterestExpenseChart = () => {
+const InterestExpenseChart = () => {
   const { explainers } = globalConstants;
   const [width] = useWindowSize();
   const [isMobile, setIsMobile] = useState<boolean>(null);
@@ -218,3 +218,5 @@ export const InterestExpenseChart = () => {
     </>
   );
 };
+
+export default InterestExpenseChart;

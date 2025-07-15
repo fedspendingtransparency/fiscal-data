@@ -100,7 +100,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
           </>
         }
         table={<>table</>}
-      ></ChartTableContainer>
+      />
     </>
   );
 };
