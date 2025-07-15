@@ -14,8 +14,7 @@ import AccountBox from '@material-ui/icons/AccountBox';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { DownloadReportTable } from '../download-report-table/download-report-table';
-import { buildEndpoint } from '../generative-reports-section/generative-report-helper';
-import { apiPrefix, basicFetch } from '../../../utils/api-utils';
+import { basicFetch } from '../../../utils/api-utils';
 import { format } from 'date-fns';
 import { convertDate } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
 
@@ -55,6 +54,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
     (async () => {
       if (!selectedOption.value || !selectedDate) {
         setReports([]);
+        setApiError(false);
         return;
       }
       try {
