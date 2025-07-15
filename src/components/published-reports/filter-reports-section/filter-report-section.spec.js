@@ -35,4 +35,20 @@ describe('Run Time Filter Report Section', () => {
     fireEvent.click(screen.getByText('1234'));
     expect(screen.getByRole('button', { name: '1234' })).toBeInTheDocument();
   });
+  it('should render an unmatched message when no filters match', async () => {
+    jest.spyOn(global, 'fetch').mockRejectedValueOnce(new Error('error'));
+    const { getByText } = render(
+      <FilterReportsSection
+        reportConfig={{ ...runTimeFilterDatasetConfig.runTimeReportConfig, optionValues: ['1234', '5678'] }}
+        apis={[apiMock]}
+        width={1024}
+      />
+    );
+    expect(screen.getByRole('button', { name: /\(None selected\)/i })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /Account/i }));
+    fireEvent.click(screen.getByText('1234'));
+    const { unmatchedHeader, unmatchedMessage } = runTimeFilterDatasetConfig.runTimeReportConfig;
+    expect(getByText(unmatchedHeader)).toBeInTheDocument();
+    expect(getByText(unmatchedMessage)).toBeInTheDocument();
+  });
 });
