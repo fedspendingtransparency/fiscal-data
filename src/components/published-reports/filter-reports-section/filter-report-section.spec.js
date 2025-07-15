@@ -1,7 +1,8 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import FilterReportsSection from './filter-reports-section';
 import { runTimeFilterDatasetConfig } from '../published-reports-test-helper';
+import * as ApiUtils from '../../../utils/api-utils';
 
 const apiMock = {
   apiId: 302,
@@ -10,6 +11,8 @@ const apiMock = {
   latestDate: '2024-07-01',
   tableName: 'mockTable',
 };
+
+jest.spyOn(ApiUtils, 'basicFetch');
 
 describe('Run Time Filter Report Section', () => {
   it('should render an empty table by default', () => {
@@ -36,36 +39,36 @@ describe('Run Time Filter Report Section', () => {
     expect(screen.getByRole('button', { name: '1234' })).toBeInTheDocument();
   });
 
-  // it('should render an unmatched message when no filters match', async () => {
-  //   jest.spyOn(global, 'fetch').mockRejectedValueOnce(new Error('error'));
-  //   const { getByText } = render(
-  //     <FilterReportsSection
-  //       reportConfig={{ ...runTimeFilterDatasetConfig.runTimeReportConfig, optionValues: ['1234', '5678'] }}
-  //       apis={[apiMock]}
-  //       width={1024}
-  //     />
-  //   );
-  //   expect(screen.getByRole('button', { name: /\(None selected\)/i })).toBeInTheDocument();
-  //   fireEvent.click(screen.getByRole('button', { name: /Account/i }));
-  //   fireEvent.click(screen.getByText('1234'));
-  //   const { unmatchedHeader, unmatchedMessage } = runTimeFilterDatasetConfig.runTimeReportConfig;
-  //   expect(getByText(unmatchedHeader)).toBeInTheDocument();
-  //   expect(getByText(unmatchedMessage)).toBeInTheDocument();
-  // });
+  it('should render an unmatched message when no filters match', async () => {
+    ApiUtils.basicFetch.mockRejectedValueOnce(new Error('error'));
+    const { getByText } = render(
+      <FilterReportsSection
+        reportConfig={{ ...runTimeFilterDatasetConfig.runTimeReportConfig, optionValues: ['1234', '5678'] }}
+        apis={[apiMock]}
+        width={1024}
+      />
+    );
+    expect(screen.getByRole('button', { name: /\(None selected\)/i })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /Account/i }));
+    fireEvent.click(screen.getByText('1234'));
+    const { unmatchedHeader, unmatchedMessage } = runTimeFilterDatasetConfig.runTimeReportConfig;
+    await waitFor(() => {
+      expect(screen.getByText(unmatchedHeader)).toBeInTheDocument();
+      expect(screen.getByText(unmatchedMessage)).toBeInTheDocument();
+    });
+  });
 
-  // it('should convert and display the correct date', () => {
-  //   const mockChartData = [{ name: 'testFile1.txt', date: 'June 2024', size: '3 KB' }];
-  //
-  //   render(
-  //     <FilterReportsSection
-  //       reportConfig={{ ...runTimeFilterDatasetConfig.runTimeReportConfig, optionValues: ['1234', '5678'] }}
-  //       apis={[apiMock]}
-  //       width={1024}
-  //     />
-  //   );
-  //   expect(screen.getByRole('button', { name: /\(None selected\)/i })).toBeInTheDocument();
-  //   fireEvent.click(screen.getByRole('button', { name: /Account/i }));
-  //   fireEvent.click(screen.getByText('1234'));
-  //   expect(screen.getByText('June 2024')).toBeInTheDocument();
-  // });
+  it('should convert and display the correct date', () => {
+    render(
+      <FilterReportsSection
+        reportConfig={{ ...runTimeFilterDatasetConfig.runTimeReportConfig, optionValues: ['1234', '5678'] }}
+        apis={[apiMock]}
+        width={1024}
+      />
+    );
+    expect(screen.getByRole('button', { name: /\(None selected\)/i })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /Account/i }));
+    fireEvent.click(screen.getByText('1234'));
+    expect(screen.getByText('June 2024')).toBeInTheDocument();
+  });
 });

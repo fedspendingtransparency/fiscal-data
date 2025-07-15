@@ -70,7 +70,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
         setReports(res);
         setApiError(false);
       } catch {
-        setApiError(false);
+        setApiError(true);
         setReports([]);
       }
     })();
@@ -138,7 +138,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
           width={width}
           heading={apiError ? reportConfig.unmatchedHeader : reportConfig.defaultHeader}
           body={apiError ? reportConfig.unmatchedMessage : reportConfig.defaultMessage}
-          apiErrorMessage={apiError}
+          apiErrorMessage={false}
         />
       )}
       {showTable && <DownloadReportTable isDailyReport={false} reports={reports} setApiErrorMessage={setApiError} width={width} />}
