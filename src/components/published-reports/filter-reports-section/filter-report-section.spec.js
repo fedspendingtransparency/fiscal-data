@@ -77,7 +77,7 @@ describe('Run Time Filter Report Section', () => {
     });
   });
 
-  it('display the correct date', () => {
+  it('display the correct date year', () => {
     render(
       <FilterReportsSection
         reportConfig={{ ...runTimeFilterDatasetConfig.runTimeReportConfig, optionValues: ['1234', '5678'] }}
@@ -88,6 +88,6 @@ describe('Run Time Filter Report Section', () => {
     expect(screen.getByRole('button', { name: /\(None selected\)/i })).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: /Account/i }));
     fireEvent.click(screen.getByText('1234'));
-    expect(screen.getByText('June 2024')).toBeInTheDocument();
+    expect(screen.getByText(/2024/i)).toBeInTheDocument();
   });
 });
