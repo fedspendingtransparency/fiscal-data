@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { InterestExpenseChart } from './interest-expense-chart';
+import InterestExpenseChart from './interest-expense-chart';
 import { CustomTooltip } from './interest-expense-chart-helper';
 import userEvent from '@testing-library/user-event';
 import Analytics from '../../../../../utils/analytics/analytics';
@@ -47,16 +47,6 @@ const mockHookReturnValues = {
 jest.mock('../useGetInterestExpenseData', () => ({
   useGetInterestExpenseData: () => mockHookReturnValues,
 }));
-
-jest.mock('../../../../../components/chart-with-table/chart-table-container/chart-table-container', () => {
-  return {
-    ChartTableContainer: ({ children, downloadData, ...props }) => (
-      <div data-testid="chartTableContainer" data-download={JSON.stringify(downloadData)}>
-        {children}
-      </div>
-    ),
-  };
-});
 
 describe('Interest Expense Chart', () => {
   class ResizeObserver {
@@ -143,7 +133,6 @@ describe('Interest Expense Chart', () => {
   it('chart is keyboard accessible', async () => {
     const { getByRole, getByText } = render(<InterestExpenseChart />);
     const chart = getByRole('application');
-    userEvent.tab();
     userEvent.tab();
     userEvent.tab();
     userEvent.tab();

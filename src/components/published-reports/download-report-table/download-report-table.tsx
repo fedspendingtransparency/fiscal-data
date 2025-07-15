@@ -15,7 +15,6 @@ export const DownloadReportTable: FunctionComponent<{
   setApiErrorMessage?: (errorState: boolean) => void;
 }> = ({ reports, isDailyReport, width, generatedReports, setApiErrorMessage }) => {
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
-
   useEffect(() => {
     setMobileView(pxToNumber(breakpointLg) > width);
   }, [width]);
