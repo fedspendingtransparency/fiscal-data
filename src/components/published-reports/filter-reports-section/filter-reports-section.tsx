@@ -70,7 +70,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
         setReports(res);
         setApiError(false);
       } catch {
-        setApiError(true);
+        setApiError(false);
         setReports([]);
       }
     })();
