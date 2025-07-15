@@ -15,6 +15,25 @@ const apiMock = {
 jest.spyOn(ApiUtils, 'basicFetch');
 
 describe('Run Time Filter Report Section', () => {
+  it('Should call the api with a basicFetch', async () => {
+    const mockReponse = [{ file_name: 'mock-file.csv', report_Date: '2024-06-04' }];
+    jest.spyOn(ApiUtils, 'basicFetch').mockRejectedValueOnce(mockReponse);
+
+    render(
+      <FilterReportsSection
+        reportConfig={{ ...runTimeFilterDatasetConfig.runTimeReportConfig, optionValues: ['1234'] }}
+        apis={[apiMock]}
+        width={1024}
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /Account/i }));
+    fireEvent.click(screen.getByText('1234'));
+
+    await waitFor(() => {
+      expect(ApiUtils.basicFetch).toHaveBeenCalledTimes(1);
+    });
+  });
+
   it('should render an empty table by default', () => {
     const { getByText } = render(<FilterReportsSection reportConfig={runTimeFilterDatasetConfig.runTimeReportConfig} apis={[]} width={1024} />);
     const { defaultHeader, defaultMessage } = runTimeFilterDatasetConfig.runTimeReportConfig;
@@ -58,7 +77,7 @@ describe('Run Time Filter Report Section', () => {
     });
   });
 
-  it('should convert and display the correct date', () => {
+  it('display the correct date', () => {
     render(
       <FilterReportsSection
         reportConfig={{ ...runTimeFilterDatasetConfig.runTimeReportConfig, optionValues: ['1234', '5678'] }}
