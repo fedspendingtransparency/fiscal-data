@@ -2,14 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarWeek, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import DropdownContainer from '../dropdown-container/dropdown-container';
-import {
-  active,
-  datePickers,
-  dateRangePicker,
-  dropdownButton,
-  dropdownContent,
-  icon,
-} from './date-range-month-picker.module.scss';
+import { active, datePickers, dateRangePicker, dropdownButton, dropdownContent, icon } from './date-range-month-picker.module.scss';
 import MonthPicker from './month-picker/month-picker';
 import FilterButtons from '../data-preview/data-preview-dropdown-dialog/filter-buttons/filter-buttons';
 import { convertDate } from '../dataset-data/dataset-data-helper/dataset-data-helper';
@@ -29,7 +22,6 @@ const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, data
       <div className={icon}>{dropdownActive && <FontAwesomeIcon icon={faCaretUp} />}</div>
     </button>
   );
-  useEffect(() => {
 
   const handleApply = () => {
     if (selectedStartDate && selectedEndDate) {
