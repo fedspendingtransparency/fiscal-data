@@ -35,13 +35,13 @@ const getLastCompletedMonth = async datasetId => {
   }
 };
 
-const getChartDates = async (lastCompleteMonth, totalMonths = 12) => {
-  const currentYear = new Date().getFullYear();
+const getChartDates = async (lastCompleteMonth, totalMonths = 12, lastYear = 2025) => {
+  const currentYear = lastYear ? lastYear : new Date().getFullYear();
   const allDates = [];
-  const size = totalMonths * 23;
+  const size = totalMonths * 23 + 253;
   let totalYears = 1;
   await basicFetch(
-    `${apiPrefix}${slgsEndpoint}?fields=record_date,record_calendar_month,record_calendar_day,record_calendar_year&sort=-record_date&page[size]=${size}`
+    `${apiPrefix}${slgsEndpoint}?fields=record_date,record_calendar_month,record_calendar_day,record_calendar_year&filter=record_calendar_year:lte:${lastYear}&sort=-record_date&page[size]=${size}`
   ).then(chartData => {
     for (let i = 0; i < totalMonths; i++) {
       if (chartData.data) {
@@ -106,8 +106,8 @@ const getChartData = async allDates => {
 };
 
 export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
-  from: string;
-  to: string;
+  from: Date;
+  to: Date;
 }): {
   xAxisMobileValues: string[];
   chartData: unknown;
@@ -128,14 +128,16 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   useEffect(() => {
     getLastCompletedMonth('015-BFS-2014Q3-yy').then(async lastCompleted => {
       const { month: lastCompleteMonth, year } = lastCompleted;
-      let chartEndDate = lastCompleteMonth;
+      let chartEndMonth = lastCompleteMonth;
+      let chartEndYear = year;
       if (dateRange?.to) {
         const useDateRange = dateRange.to?.getFullYear() < year || dateRange.to?.getMonth() + 1 < lastCompleteMonth;
-        chartEndDate = useDateRange ? dateRange.to.getMonth() + 1 : lastCompleteMonth;
+        chartEndMonth = useDateRange ? dateRange.to.getMonth() + 1 : lastCompleteMonth;
+        chartEndYear = useDateRange ? dateRange.to.getFullYear() : year;
       }
 
       if (lastCompleteMonth)
-        getChartDates(chartEndDate, totalMonths).then(async chartDates => {
+        getChartDates(chartEndMonth, totalMonths, chartEndYear).then(async chartDates => {
           setXAxisValues(chartDates);
 
           setXAxisMobileValues(chartDates.filter(index => index % 2 !== 0));
