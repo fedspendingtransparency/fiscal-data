@@ -91,7 +91,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
         <div className={chartTitle}>{title}</div>
         <div className={headerContainer}>{toggle}</div>
       </div>
-      <DateRangeMonthPicker dateRange={dateRange} setDateRange={setDateRange} datasetDateRange={datasetDateRange} />
+      <DateRangeMonthPicker setDateRange={setDateRange} datasetDateRange={datasetDateRange} />
       {isLoading && (
         <Skeleton
           width="99%"

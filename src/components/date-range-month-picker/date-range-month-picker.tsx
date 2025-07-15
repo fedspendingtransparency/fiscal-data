@@ -7,7 +7,7 @@ import MonthPicker from './month-picker/month-picker';
 import FilterButtons from '../data-preview/data-preview-dropdown-dialog/filter-buttons/filter-buttons';
 import { convertDate } from '../dataset-data/dataset-data-helper/dataset-data-helper';
 
-const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, datasetDateRange }) => {
+const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRange }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<string>('');
   const [selectedEndDate, setSelectedEndDate] = useState<string>('');
   const [selectedRange, setSelectedRange] = useState<string>();

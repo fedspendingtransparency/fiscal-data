@@ -24,9 +24,15 @@ const getCurrentMonthData = async datasetId => {
 
 const getLastCompletedMonth = async datasetId => {
   const currentMonthData = await getCurrentMonthData(datasetId);
-  const lastDay = currentMonthData[0];
-  const lastCompletedMonth = lastDay.released === 'false' ? convertDate(lastDay.date) : convertDate(lastDay.date) + 1;
-  return getMonth(lastCompletedMonth);
+  if (currentMonthData.length) {
+    const { released, date } = currentMonthData[0];
+    const latestDate = convertDate(date);
+    const month = latestDate.getMonth() + 1;
+    const year = month === 1 && !released ? latestDate.getFullYear() - 1 : latestDate.getFullYear();
+    const lastMonth = month === 1 ? 12 : month - 1;
+    const lastCompletedMonth = !released ? lastMonth : month;
+    return { month: lastCompletedMonth, year: year };
+  }
 };
 
 const getChartDates = async (lastCompleteMonth, totalMonths = 12) => {
@@ -99,34 +105,42 @@ const getChartData = async allDates => {
   });
 };
 
-/* Next steps
-based chart dates on date range
- */
-
-export const useGetStateAndLocalGovernmentSeriesData = (
-  setSelectedStartDate,
-  setSelectedEndDate,
-  selectedStartDate,
-  selectedEndDate,
-  dateRange
-): { xAxisValues: string[]; xAxisMobileValues; chartData } => {
+export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
+  from: string;
+  to: string;
+}): {
+  xAxisMobileValues: string[];
+  chartData: unknown;
+  totalMonths: number;
+  datasetDateRange: { from: string; to: string };
+  xAxisValues: string[];
+} => {
   const [chartData, setChartData] = useState(null);
-  const [datasetDateRange, setDatasetDateRange] = useState();
+  const [datasetDateRange, setDatasetDateRange] = useState<{ from: string; to: string }>();
   const [xAxisValues, setXAxisValues] = useState<string[]>(null);
   const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
-  const [latestDate, setLatestDate] = useState(null);
   const totalMonths = getMonthDifference(dateRange?.from, dateRange?.to);
 
   useEffect(() => {
     getDatasetDateRange().then(async completeDateRange => setDatasetDateRange(completeDateRange));
-    getLastCompletedMonth('015-BFS-2014Q3-yy').then(async lastCompleteMonth => {
-      getChartDates(lastCompleteMonth, totalMonths).then(async chartDates => {
-        setXAxisValues(chartDates);
-        setLatestDate(chartDates[0]);
+  }, []);
 
-        setXAxisMobileValues(chartDates.filter(index => index % 2 !== 0));
-        getChartData(chartDates).then(chartData => setChartData(chartData));
-      });
+  useEffect(() => {
+    getLastCompletedMonth('015-BFS-2014Q3-yy').then(async lastCompleted => {
+      const { month: lastCompleteMonth, year } = lastCompleted;
+      let chartEndDate = lastCompleteMonth;
+      if (dateRange?.to) {
+        const useDateRange = dateRange.to?.getFullYear() < year || dateRange.to?.getMonth() + 1 < lastCompleteMonth;
+        chartEndDate = useDateRange ? dateRange.to.getMonth() + 1 : lastCompleteMonth;
+      }
+
+      if (lastCompleteMonth)
+        getChartDates(chartEndDate, totalMonths).then(async chartDates => {
+          setXAxisValues(chartDates);
+
+          setXAxisMobileValues(chartDates.filter(index => index % 2 !== 0));
+          getChartData(chartDates).then(chartData => setChartData(chartData));
+        });
     });
   }, [dateRange]);
 
@@ -134,7 +148,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (
     xAxisValues,
     xAxisMobileValues,
     chartData,
-    latestDate,
     datasetDateRange,
+    totalMonths,
   };
 };
