@@ -138,7 +138,6 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
           width={width}
           heading={apiError ? reportConfig.unmatchedHeader : reportConfig.defaultHeader}
           body={apiError ? reportConfig.unmatchedMessage : reportConfig.defaultMessage}
-          apiErrorMessage={false}
         />
       )}
       {showTable && <DownloadReportTable isDailyReport={false} reports={reports} setApiErrorMessage={setApiError} width={width} />}
