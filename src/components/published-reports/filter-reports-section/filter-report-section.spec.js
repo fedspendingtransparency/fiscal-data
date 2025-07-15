@@ -35,6 +35,7 @@ describe('Run Time Filter Report Section', () => {
     fireEvent.click(screen.getByText('1234'));
     expect(screen.getByRole('button', { name: '1234' })).toBeInTheDocument();
   });
+
   // it('should render an unmatched message when no filters match', async () => {
   //   jest.spyOn(global, 'fetch').mockRejectedValueOnce(new Error('error'));
   //   const { getByText } = render(
@@ -50,5 +51,21 @@ describe('Run Time Filter Report Section', () => {
   //   const { unmatchedHeader, unmatchedMessage } = runTimeFilterDatasetConfig.runTimeReportConfig;
   //   expect(getByText(unmatchedHeader)).toBeInTheDocument();
   //   expect(getByText(unmatchedMessage)).toBeInTheDocument();
+  // });
+
+  // it('should convert and display the correct date', () => {
+  //   const mockChartData = [{ name: 'testFile1.txt', date: 'June 2024', size: '3 KB' }];
+  //
+  //   render(
+  //     <FilterReportsSection
+  //       reportConfig={{ ...runTimeFilterDatasetConfig.runTimeReportConfig, optionValues: ['1234', '5678'] }}
+  //       apis={[apiMock]}
+  //       width={1024}
+  //     />
+  //   );
+  //   expect(screen.getByRole('button', { name: /\(None selected\)/i })).toBeInTheDocument();
+  //   fireEvent.click(screen.getByRole('button', { name: /Account/i }));
+  //   fireEvent.click(screen.getByText('1234'));
+  //   expect(screen.getByText('June 2024')).toBeInTheDocument();
   // });
 });
