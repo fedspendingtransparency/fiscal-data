@@ -2,12 +2,21 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarWeek, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import DropdownContainer from '../dropdown-container/dropdown-container';
-import { active, datePickers, dateRangePicker, dropdownButton, dropdownContent, icon } from './date-range-month-picker.module.scss';
+import {
+  active,
+  datePickers,
+  dateRangePicker,
+  dropdownButton,
+  dropdownContent,
+  icon,
+} from './date-range-month-picker.module.scss';
 import MonthPicker from './month-picker/month-picker';
 import FilterButtons from '../data-preview/data-preview-dropdown-dialog/filter-buttons/filter-buttons';
 import { convertDate } from '../dataset-data/dataset-data-helper/dataset-data-helper';
+import { monthFullNames } from '../../utils/api-utils';
+import { isAfter } from 'date-fns';
 
-const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRange }) => {
+const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, datasetDateRange }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<string>('');
   const [selectedEndDate, setSelectedEndDate] = useState<string>('');
   const [selectedRange, setSelectedRange] = useState<string>();
@@ -20,18 +29,42 @@ const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRang
       <div className={icon}>{dropdownActive && <FontAwesomeIcon icon={faCaretUp} />}</div>
     </button>
   );
+  useEffect(() => {
 
   const handleApply = () => {
     if (selectedStartDate && selectedEndDate) {
-      const dateRangeStr = `${selectedStartDate} — ${selectedEndDate}`;
-      const dateRangeObject = { from: convertDate(selectedStartDate), to: convertDate(selectedEndDate) };
+      let startDate = selectedStartDate;
+      let endDate = selectedEndDate;
+      if (isAfter(convertDate(startDate), convertDate(endDate))) {
+        startDate = selectedEndDate;
+        endDate = selectedStartDate;
+        setSelectedStartDate(startDate);
+        setSelectedEndDate(endDate);
+      }
+      const dateRangeStr = `${startDate} — ${endDate}`;
+      const dateRangeObject = { from: convertDate(startDate), to: convertDate(endDate) };
       setSelectedRange(dateRangeStr);
       setDateRange(dateRangeObject);
+    } else {
+      resetDateFields();
     }
     setDropdownActive(false);
   };
+
+  const resetDateFields = () => {
+    const to = dateRange?.to;
+    const from = dateRange?.from;
+    if (to && from) {
+      setSelectedStartDate(monthFullNames[from.getMonth()] + ' ' + from.getFullYear());
+      setSelectedEndDate(monthFullNames[to.getMonth()] + ' ' + to.getFullYear());
+    } else {
+      setSelectedStartDate('');
+      setSelectedEndDate('');
+    }
+  };
   const handleCancel = () => {
-    console.log('cancel');
+    resetDateFields();
+    setDropdownActive(false);
   };
 
   const getAllYears = range => {
@@ -40,7 +73,7 @@ const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRang
       const endDate = convertDate(range.to).getFullYear();
       const years = [];
       for (let i = endDate; i >= startDate; i--) {
-        years.push(i);
+        years.push(i.toString());
       }
       return years;
     }
