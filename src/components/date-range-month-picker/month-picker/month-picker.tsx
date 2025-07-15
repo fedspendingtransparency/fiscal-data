@@ -18,7 +18,7 @@ import {
 import ScrollContainer from '../../scroll-container/scroll-container';
 import { monthFullNames } from '../../../utils/api-utils';
 
-const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, availableRange, allYears }) => {
+const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, allYears }) => {
   const currentSelection = selectedDate?.split(' ');
   const defaultMonth = currentSelection?.length > 1 ? currentSelection[0] : 'Month';
   const defaultYear = currentSelection?.length > 1 ? currentSelection[1] : 'Year';
@@ -76,15 +76,9 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
                 <ul>
                   {activeDropdown === 'month' &&
                     monthDropdownOptions?.map((option, i) => {
-                      // const disabled = !allReportDates.includes(option + ' ' + selectedYear);
                       return (
                         <li key={i}>
-                          <button
-                            className={option === selectedMonth ? selected : null}
-                            // disabled={ignoreDisabled ? false : disabled}
-                            onClick={() => handleMonthClick(option)}
-                            // ref={option === selectedMonth ? scrollToSelectedMonth : null}
-                          >
+                          <button className={option === selectedMonth ? selected : null} onClick={() => handleMonthClick(option)}>
                             {option}
                           </button>
                         </li>
@@ -92,15 +86,9 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
                     })}
                   {activeDropdown === 'year' &&
                     allYears?.map((option, i) => {
-                      // const disabled = !allReportDates.includes(option + ' ' + selectedYear);
                       return (
                         <li key={i}>
-                          <button
-                            className={option === selectedYear ? selected : null}
-                            // disabled={ignoreDisabled ? false : disabled}
-                            onClick={() => handleYearClick(option)}
-                            // ref={option === selectedMonth ? scrollToSelectedMonth : null}
-                          >
+                          <button className={option === selectedYear ? selected : null} onClick={() => handleYearClick(option)}>
                             {option}
                           </button>
                         </li>
