@@ -25,7 +25,8 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [selectedStartDate, setSelectedStartDate] = useState();
   const [selectedEndDate, setSelectedEndDate] = useState();
   const [dateRange, setDateRange] = useState();
-  const { chartData, xAxisValues, xAxisMobileValues, latestDate } = useGetStateAndLocalGovernmentSeriesData(
+
+  const { chartData, xAxisValues, xAxisMobileValues, latestDate, datasetDateRange } = useGetStateAndLocalGovernmentSeriesData(
     setSelectedStartDate,
     setSelectedEndDate,
     selectedStartDate,
@@ -33,7 +34,12 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     dateRange
   );
 
+  useEffect(() => {
+    console.log(datasetDateRange);
+  }, [datasetDateRange]);
+
   const { height, altText } = chartConfig;
+
   const setDefaultHeaderValues = () => {
     if (chartData) {
       setCurDate(chartData[chartData.length - 1].date);
@@ -61,6 +67,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         altText={altText}
         dateRange={dateRange}
         setDateRange={setDateRange}
+        datasetDateRange={datasetDateRange}
         isLoading={!chartData}
         height={height}
         chart={

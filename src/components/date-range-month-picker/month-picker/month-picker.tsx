@@ -18,7 +18,7 @@ import {
 import ScrollContainer from '../../scroll-container/scroll-container';
 import { monthFullNames } from '../../../utils/api-utils';
 
-const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, availableRange }) => {
+const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, availableRange, allYears }) => {
   const currentSelection = selectedDate?.split(' ');
   const defaultMonth = currentSelection?.length > 1 ? currentSelection[0] : 'Month';
   const defaultYear = currentSelection?.length > 1 ? currentSelection[1] : 'Year';
@@ -28,7 +28,6 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
   const [activeDropdown, setActiveDropdown] = useState('month');
 
   const monthDropdownOptions = monthFullNames;
-  const yearDropdownOptions = ['2020', '2021', '2022', '2023', '2024', '2025'];
 
   const button = (
     <button onClick={() => setDropdownActive(!dropdownActive)} className={dropdownButton}>
@@ -92,7 +91,7 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
                       );
                     })}
                   {activeDropdown === 'year' &&
-                    yearDropdownOptions?.map((option, i) => {
+                    allYears?.map((option, i) => {
                       // const disabled = !allReportDates.includes(option + ' ' + selectedYear);
                       return (
                         <li key={i}>

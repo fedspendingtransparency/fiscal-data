@@ -10,7 +10,6 @@ const getMonthDifference = (startDate, endDate) => {
   if (startDate && endDate) {
     const yearDiff = Math.abs(startDate.getYear() - endDate.getYear());
     const monthDiff = startDate.getMonth() - endDate.getMonth();
-    console.log(yearDiff * 12 - monthDiff);
     return yearDiff * 12 - monthDiff + 1;
   }
 };
@@ -38,25 +37,31 @@ const getChartDates = async (lastCompleteMonth, totalMonths = 12) => {
   await basicFetch(
     `${apiPrefix}${slgsEndpoint}?fields=record_date,record_calendar_month,record_calendar_day,record_calendar_year&sort=-record_date&page[size]=${size}`
   ).then(chartData => {
-    console.log(chartData);
     for (let i = 0; i < totalMonths; i++) {
       if (chartData.data) {
         if (i - lastCompleteMonth > 0 && (i - lastCompleteMonth) % 12 === 0) {
-          console.log('adding to total years', lastCompleteMonth, i);
           totalYears = totalYears + 1;
         }
         const yearCheck = lastCompleteMonth - i > 0 ? currentYear : currentYear - totalYears;
         const nextMonth = lastCompleteMonth - i > 0 ? lastCompleteMonth - i : 12 * totalYears + lastCompleteMonth - i;
-        console.log(yearCheck, nextMonth, lastCompleteMonth, i);
         const curMonth = chartData.data.filter(
           entry => Number(entry.record_calendar_month) === nextMonth && Number(entry.record_calendar_year) === yearCheck
         );
-        console.log(curMonth);
         allDates.push(curMonth[0].record_date);
       }
     }
   });
   return allDates;
+};
+
+const getDatasetDateRange = async () => {
+  const max = await basicFetch(`${apiPrefix}${slgsEndpoint}?sort=-record_date&page[size]=1`).then(res => {
+    if (res.data?.length > 0) return res.data[0].record_date;
+  });
+  const min = await basicFetch(`${apiPrefix}${slgsEndpoint}?sort=record_date&page[size]=1`).then(res => {
+    if (res.data?.length > 0) return res.data[0].record_date;
+  });
+  return { from: min, to: max };
 };
 
 const getChartData = async allDates => {
@@ -95,10 +100,7 @@ const getChartData = async allDates => {
 };
 
 /* Next steps
-calc month difference between date range
-use amount of months in api call
-fetch total date range for data set
-if over two years selected, load bar chart
+based chart dates on date range
  */
 
 export const useGetStateAndLocalGovernmentSeriesData = (
@@ -109,11 +111,14 @@ export const useGetStateAndLocalGovernmentSeriesData = (
   dateRange
 ): { xAxisValues: string[]; xAxisMobileValues; chartData } => {
   const [chartData, setChartData] = useState(null);
+  const [datasetDateRange, setDatasetDateRange] = useState();
   const [xAxisValues, setXAxisValues] = useState<string[]>(null);
   const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
   const [latestDate, setLatestDate] = useState(null);
   const totalMonths = getMonthDifference(dateRange?.from, dateRange?.to);
+
   useEffect(() => {
+    getDatasetDateRange().then(async completeDateRange => setDatasetDateRange(completeDateRange));
     getLastCompletedMonth('015-BFS-2014Q3-yy').then(async lastCompleteMonth => {
       getChartDates(lastCompleteMonth, totalMonths).then(async chartDates => {
         setXAxisValues(chartDates);
@@ -130,5 +135,6 @@ export const useGetStateAndLocalGovernmentSeriesData = (
     xAxisMobileValues,
     chartData,
     latestDate,
+    datasetDateRange,
   };
 };
