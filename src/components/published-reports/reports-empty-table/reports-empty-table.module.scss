@@ -3,6 +3,23 @@
   position: relative;
 }
 
+.loadingIcon {
+  z-index: $dtg-table-loading-icon;
+  color: $font-title;
+  font-size: $font-size-18;
+  width: 100%;
+  top: 40%;
+  text-align: center;
+  position: absolute;
+
+  > * {
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    font-size: 64px;
+    color: $loading-icon-color;
+  }
+}
+
 .table {
   display: table;
   width: 100%;
