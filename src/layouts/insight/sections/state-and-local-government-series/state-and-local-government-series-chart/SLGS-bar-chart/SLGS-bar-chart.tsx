@@ -19,7 +19,7 @@ const SLGSBarChart: FunctionComponent = ({
 }) => {
   return (
     <ResponsiveContainer height={height} width="99%">
-      <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -18 }} accessibilityLayer>
+      <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -15 }} accessibilityLayer>
         <YAxis
           dataKey="totalAmount"
           type="number"
@@ -76,8 +76,6 @@ const SLGSBarChart: FunctionComponent = ({
               fill={stateAndLocalGovernmentSeriesPrimary}
               fillOpacity={1}
               isAnimationActive={false}
-              type="monotone"
-              strokeWidth={2}
               activeDot={false}
               dot={false}
             />
