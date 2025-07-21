@@ -117,29 +117,31 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
         const reports = [];
         for (const report of apisProp) {
           const reportConfig = reportsConfig[reportGenKey][report.apiId];
-          const formattedDate = format(selectedDate, 'MMMM yyyy');
-          const downloadDate = format(selectedDate, 'MMyyyy');
-          let reportData;
-          try {
-            reportData = await getReportData(report, reportConfig);
-          } catch (error) {
-            setApiErrorMessage(true);
-            break;
+          if (reportConfig) {
+            const formattedDate = format(selectedDate, 'MMMM yyyy');
+            const downloadDate = format(selectedDate, 'MMyyyy');
+            let reportData;
+            try {
+              reportData = await getReportData(report, reportConfig);
+            } catch (error) {
+              setApiErrorMessage(true);
+              break;
+            }
+            setApiErrorMessage(false);
+            const curReport = {
+              id: report.apiId,
+              name: `${report.tableName} - ${selectedAccount.label}.pdf`,
+              date: formattedDate,
+              size: '2KB',
+              downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
+              data: reportData.tableData,
+              summaryData: reportData.summaryTableData,
+              config: reportConfig,
+              colConfig: report,
+            };
+            reports.push(curReport);
+            setSummaryValues(reportConfig, formattedDate, reportData.tableData, reportData.summaryData);
           }
-          setApiErrorMessage(false);
-          const curReport = {
-            id: report.apiId,
-            name: `${report.tableName} - ${selectedAccount.label}.pdf`,
-            date: formattedDate,
-            size: '2KB',
-            downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
-            data: reportData.tableData,
-            summaryData: reportData.summaryTableData,
-            config: reportConfig,
-            colConfig: report,
-          };
-          reports.push(curReport);
-          setSummaryValues(reportConfig, formattedDate, reportData.tableData, reportData.summaryData);
         }
         setAllReports(reports);
       } else {

@@ -24,9 +24,9 @@ export const insightLastUpdated = {
   'interest-expense': {
     endpoint: 'v2/accounting/od/interest_expense?sort=-record_date&page[size]=1',
   },
-  // 'state-and-local-government-series': {
-  //   endpoint: '',
-  // },
+  'state-and-local-government-series': {
+    endpoint: 'v1/accounting/od/slgs_securities?fields=record_date&sort=-record_date&page[size]=1',
+  },
 };
 
 export const insightSocialShareMap = {
