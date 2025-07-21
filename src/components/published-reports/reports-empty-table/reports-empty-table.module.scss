@@ -20,6 +20,19 @@
   }
 }
 
+.overlay {
+  z-index: $dtg-table-overlay;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.85);
+  transition: opacity 0.5s 0.5s, left 0.5s ease-in-out;
+  display: block;
+  animation: fadeIn 1s;
+  overflow: hidden;
+}
+
 .table {
   display: table;
   width: 100%;

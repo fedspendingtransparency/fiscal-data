@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { container, date, emptyRow, headerRow, name, table, loadingIcon } from './reports-empty-table.module.scss';
+import { container, date, emptyRow, headerRow, name, table, loadingIcon, overlay } from './reports-empty-table.module.scss';
 import ReportsTableNotice from '../reports-table-notice/reports-table-notice';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
@@ -39,10 +39,13 @@ const ReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage, heading,
         </tbody>
       </table>
       {isLoading ? (
-        <div data-testid="loadingSection" className={loadingIcon}>
-          <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-          Loading...
-        </div>
+        <>
+          <div data-test-id="loading-overlay" className={overlay} />
+          <div data-testid="loadingSection" className={loadingIcon}>
+            <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
+            Loading...
+          </div>
+        </>
       ) : (
         <ReportsTableNotice heading={heading} bodyText={body} apiErrorMessage={apiErrorMessage} />
       )}
