@@ -193,7 +193,13 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
           <ReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} heading={heading} body={body} isLoading={isLoading} />
         )}
         {activeReports?.length > 0 && !apiErrorMessage && (
-          <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
+          <DownloadReportTable
+            isDailyReport={false}
+            generatedReports={activeReports}
+            width={width}
+            setApiErrorMessage={setApiErrorMessage}
+            isLoading={isLoading}
+          />
         )}
         <DataPreviewDatatableBanner bannerNotice={dataset?.publishedReportsTip} isReport={true} />
       </DatasetSectionContainer>
