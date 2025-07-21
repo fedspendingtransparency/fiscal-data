@@ -2,9 +2,7 @@ import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { useEffect, useState } from 'react';
 import { getMonth } from 'date-fns';
 import { convertDate } from '../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
-
-const slgsEndpoint = 'v1/accounting/od/slgs_securities';
-const releaseCalendarUrl = `https://api.fiscaldata.treasury.gov/services/calendar/release`;
+import { apiCalls, releaseCalendarUrl, slgsEndpoint } from './slgs-helper';
 
 const getMonthDifference = (startDate, endDate) => {
   if (startDate && endDate) {
@@ -40,43 +38,42 @@ const getChartDates = async (lastCompleteMonth, totalMonths = 12, lastYear = 202
   const allDates = [];
   const size = totalMonths * 23 + 253;
   let totalYears = 1;
-  await basicFetch(
-    `${apiPrefix}${slgsEndpoint}?fields=record_date,record_calendar_month,record_calendar_day,record_calendar_year&filter=record_calendar_year:lte:${lastYear}&sort=-record_date&page[size]=${size}`
-  ).then(chartData => {
-    for (let i = 0; i < totalMonths; i++) {
-      if (chartData.data) {
-        if (i - lastCompleteMonth > 0 && (i - lastCompleteMonth) % 12 === 0) {
-          totalYears = totalYears + 1;
+  const { fields, sort } = apiCalls.chartDates;
+  await basicFetch(`${apiPrefix}${slgsEndpoint}?fields=${fields}&filter=record_calendar_year:lte:${lastYear}&sort=${sort}&page[size]=${size}`).then(
+    chartData => {
+      for (let i = 0; i < totalMonths; i++) {
+        if (chartData.data) {
+          if (i - lastCompleteMonth > 0 && (i - lastCompleteMonth) % 12 === 0) {
+            totalYears = totalYears + 1;
+          }
+          const yearCheck = lastCompleteMonth - i > 0 ? currentYear : currentYear - totalYears;
+          const nextMonth = lastCompleteMonth - i > 0 ? lastCompleteMonth - i : 12 * totalYears + lastCompleteMonth - i;
+          const curMonth = chartData.data.filter(
+            entry => Number(entry.record_calendar_month) === nextMonth && Number(entry.record_calendar_year) === yearCheck
+          );
+          allDates.push(curMonth[0].record_date);
         }
-        const yearCheck = lastCompleteMonth - i > 0 ? currentYear : currentYear - totalYears;
-        const nextMonth = lastCompleteMonth - i > 0 ? lastCompleteMonth - i : 12 * totalYears + lastCompleteMonth - i;
-        const curMonth = chartData.data.filter(
-          entry => Number(entry.record_calendar_month) === nextMonth && Number(entry.record_calendar_year) === yearCheck
-        );
-        allDates.push(curMonth[0].record_date);
       }
     }
-  });
+  );
   return allDates;
 };
 
 const getDatasetDateRange = async () => {
-  const max = await basicFetch(`${apiPrefix}${slgsEndpoint}?sort=-record_date&page[size]=1`).then(res => {
+  const { sort: maxSort } = apiCalls.toDateRange;
+  const { sort: minSort } = apiCalls.fromDateRange;
+  const max = await basicFetch(`${apiPrefix}${slgsEndpoint}?sort=${maxSort}&page[size]=1`).then(res => {
     if (res.data?.length > 0) return res.data[0].record_date;
   });
-  const min = await basicFetch(`${apiPrefix}${slgsEndpoint}?sort=record_date&page[size]=1`).then(res => {
+  const min = await basicFetch(`${apiPrefix}${slgsEndpoint}?sort=${minSort}&page[size]=1`).then(res => {
     if (res.data?.length > 0) return res.data[0].record_date;
   });
   return { from: min, to: max };
 };
 
 const getChartData = async allDates => {
-  const fields =
-    'record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,' +
-    'outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,' +
-    'outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt,' +
-    'record_calendar_month,record_calendar_day,record_calendar_year';
-  return basicFetch(`${apiPrefix}${slgsEndpoint}?fields=${fields}&sort=-record_date&page[size]=10000`).then(amountCountData => {
+  const { fields, sort } = apiCalls.chartData;
+  return basicFetch(`${apiPrefix}${slgsEndpoint}?fields=${fields}&sort=${sort}&page[size]=10000`).then(amountCountData => {
     if (amountCountData) {
       const allRecords = amountCountData.data
         .filter(entry => allDates.includes(entry.record_date))
@@ -120,7 +117,6 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   const [xAxisValues, setXAxisValues] = useState<string[]>(null);
   const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
   const totalMonths = getMonthDifference(dateRange?.from, dateRange?.to);
-
   useEffect(() => {
     getDatasetDateRange().then(async completeDateRange => setDatasetDateRange(completeDateRange));
   }, []);
