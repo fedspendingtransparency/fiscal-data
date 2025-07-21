@@ -1,7 +1,7 @@
 import { Area, Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { stateAndLocalGovernmentSeriesLight, stateAndLocalGovernmentSeriesPrimary } from '../../../../insight.module.scss';
-import { CustomTooltip, formatDate } from '../state-and-local-government-series-chart-helper';
+import { CustomTooltip, formatXAxis } from '../state-and-local-government-series-chart-helper';
 import React, { FunctionComponent } from 'react';
 
 const SLGSBarChart: FunctionComponent = ({
@@ -100,8 +100,7 @@ const SLGSBarChart: FunctionComponent = ({
         />
         <XAxis
           dataKey="date"
-          tickFormatter={value => formatDate(value)}
-          tickCount={isMobile ? 6 : 12}
+          tickFormatter={value => formatXAxis(value, totalMonths)}
           fontSize={12}
           ticks={isMobile ? xAxisMobileValues : xAxisValues}
         />
