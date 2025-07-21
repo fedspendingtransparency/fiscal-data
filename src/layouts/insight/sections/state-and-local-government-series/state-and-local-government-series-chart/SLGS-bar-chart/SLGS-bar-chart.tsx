@@ -1,10 +1,10 @@
-import { Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Area, Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { stateAndLocalGovernmentSeriesLight, stateAndLocalGovernmentSeriesPrimary } from '../../../../insight.module.scss';
 import { CustomTooltip, formatDate } from '../state-and-local-government-series-chart-helper';
 import React, { FunctionComponent } from 'react';
 
-const SLGSLineChart: FunctionComponent = ({
+const SLGSBarChart: FunctionComponent = ({
   chartData,
   height,
   isMobile,
@@ -15,6 +15,7 @@ const SLGSLineChart: FunctionComponent = ({
   setCurDate,
   chartFocus,
   chartHover,
+  totalMonths,
 }) => {
   return (
     <ResponsiveContainer height={height} width="99%">
@@ -49,20 +50,45 @@ const SLGSLineChart: FunctionComponent = ({
           }}
           tickCount={7}
         />
-        <Tooltip
-          cursor={{
-            stroke: stateAndLocalGovernmentSeriesLight,
-            strokeWidth: 32,
-          }}
-          content={<CustomTooltip setCount={setCurCount} setAmount={setCurAmount} setDate={setCurDate} />}
-          isAnimationActive={false}
-          active={chartFocus || chartHover}
-        />
-        <Bar dataKey="totalAmount" barSize={isMobile ? 12 : 24} fill={stateAndLocalGovernmentSeriesPrimary} isAnimationActive={false}>
-          {chartData?.map((entry, index) => {
-            return <Cell key={`cell-${index}`} fill={stateAndLocalGovernmentSeriesPrimary} />;
-          })}
-        </Bar>
+        {(!totalMonths || totalMonths <= 24) && (
+          <>
+            <Tooltip
+              cursor={{
+                stroke: stateAndLocalGovernmentSeriesLight,
+                strokeWidth: 32,
+              }}
+              content={<CustomTooltip setCount={setCurCount} setAmount={setCurAmount} setDate={setCurDate} />}
+              isAnimationActive={false}
+              active={chartFocus || chartHover}
+            />
+            <Bar dataKey="totalAmount" barSize={isMobile ? 12 : 24} fill={stateAndLocalGovernmentSeriesPrimary} isAnimationActive={false}>
+              {chartData?.map((entry, index) => {
+                return <Cell key={`cell-${index}`} fill={stateAndLocalGovernmentSeriesPrimary} />;
+              })}
+            </Bar>
+          </>
+        )}
+        {totalMonths > 24 && (
+          <>
+            <Area
+              dataKey="totalAmount"
+              stroke={stateAndLocalGovernmentSeriesPrimary}
+              fill={stateAndLocalGovernmentSeriesPrimary}
+              fillOpacity={1}
+              isAnimationActive={false}
+              type="monotone"
+              strokeWidth={2}
+              activeDot={false}
+              dot={false}
+            />
+            <Tooltip
+              cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
+              content={<CustomTooltip setCount={setCurCount} setAmount={setCurAmount} setDate={setCurDate} />}
+              isAnimationActive={false}
+              active={chartFocus || chartHover}
+            />
+          </>
+        )}
         <Line
           dataKey="totalCount"
           yAxisId={1}
@@ -85,4 +111,4 @@ const SLGSLineChart: FunctionComponent = ({
     </ResponsiveContainer>
   );
 };
-export default SLGSLineChart;
+export default SLGSBarChart;

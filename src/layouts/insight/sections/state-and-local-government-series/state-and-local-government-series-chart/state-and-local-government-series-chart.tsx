@@ -7,7 +7,7 @@ import { getShortForm } from '../../../../../utils/rounding-utils';
 import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
 import { chartTableBorder } from './state-and-local-government-series-chart.module.scss';
-import SLGSLineChart from './SLGS_line_chart/SLGS_line_chart';
+import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
 
 const breakpoint = {
   desktop: 1015,
@@ -65,37 +65,34 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                 right={{ label: 'Amount', value: `$${getShortForm(curAmount.toString())}` }}
                 left={{ label: 'Count', value: customNumberFormatter.format(curCount, 0) }}
               />
-              <div>
-                {(!totalMonths || totalMonths <= 24) && (
-                  <>
-                    <Legend />
-                    <div
-                      data-testid="chartParent"
-                      role="presentation"
-                      onBlur={() => {
-                        setChartFocus(false);
-                        setDefaultHeaderValues();
-                      }}
-                      onFocus={() => setChartFocus(true)}
-                      onMouseOver={() => setChartHover(true)}
-                      onMouseLeave={() => setChartHover(false)}
-                    >
-                      <SLGSLineChart
-                        setCurAmount={setCurAmount}
-                        setCurCount={setCurCount}
-                        setCurDate={setCurDate}
-                        height={height}
-                        isMobile={isMobile}
-                        chartData={chartData}
-                        xAxisValues={xAxisValues}
-                        xAxisMobileValues={xAxisMobileValues}
-                        chartFocus={chartFocus}
-                        chartHover={chartHover}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
+              <>
+                <Legend />
+                <div
+                  data-testid="chartParent"
+                  role="presentation"
+                  onBlur={() => {
+                    setChartFocus(false);
+                    setDefaultHeaderValues();
+                  }}
+                  onFocus={() => setChartFocus(true)}
+                  onMouseOver={() => setChartHover(true)}
+                  onMouseLeave={() => setChartHover(false)}
+                >
+                  <SLGSBarChart
+                    setCurAmount={setCurAmount}
+                    setCurCount={setCurCount}
+                    setCurDate={setCurDate}
+                    height={height}
+                    isMobile={isMobile}
+                    chartData={chartData}
+                    xAxisValues={xAxisValues}
+                    xAxisMobileValues={xAxisMobileValues}
+                    chartFocus={chartFocus}
+                    chartHover={chartHover}
+                    totalMonths={totalMonths}
+                  />
+                </div>
+              </>
             </div>
           </>
         }
