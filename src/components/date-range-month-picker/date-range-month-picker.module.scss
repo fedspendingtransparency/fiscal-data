@@ -5,7 +5,7 @@
 }
 
 .dropdownButton {
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background: #eff6fb;
   border: 1.5px solid #eff6fb;
   box-shadow: 0 0 0 0 rgba(0, 113, 188, 0.5);
@@ -16,8 +16,14 @@
   font-size: $font-size-14;
   justify-content: space-between;
   width: 100%;
+
   &.active {
-    border: 1.5px solid #aacdec;
+    border: 1px solid #aacdec;
+  }
+  .selectedDateRange {
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
@@ -41,4 +47,5 @@
 .icon {
   font-size: $font-size-16;
   width: 1.5rem;
+  height: 1rem;
 }

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, ReactElement, useState } from 'react';
 import DownloadIcon from '@mui/icons-material/Download';
 import DownloadItemButton from '../../data-preview/data-preview-filter-section/data-preview-download-wrapper/download-button/download-button';
 import {
@@ -23,16 +23,17 @@ interface IChartTableContainer {
   title: string;
   altText: string;
   downloader;
-  children;
-  customTestId;
+  customTestId: string;
   downloadData;
   fileType: 'csv' | 'xml' | 'json';
   dateRange;
-  selectedTable;
+  setDateRange;
   downloadTimestamp;
   enabledClickedColorChange;
   isLoading: boolean;
   height?: number;
+  chart: ReactElement;
+  table: ReactElement;
 }
 const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   title,
@@ -131,7 +132,6 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
           />
         )}
       </div>
-      {/*<div className={footerContainer}>{footer}</div>*/}
     </div>
   );
 };
