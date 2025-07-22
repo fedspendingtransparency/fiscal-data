@@ -18,7 +18,6 @@ const breakpoint = {
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const { chartData, xAxisValues, xAxisMobileValues, columnConfig, mergedTableData, datasetDateRange, totalMonths } = useGetStateAndLocalGovernmentSeriesData();
   const [isMobile, setIsMobile] = useState<boolean>(null);
   const [curDate, setCurDate] = useState<number>(0);
   const [curAmount, setCurAmount] = useState<number>(0);
@@ -26,6 +25,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [dateRange, setDateRange] = useState();
   const [sorting, setSorting] = useState([]);
 
+  const { chartData, xAxisValues, xAxisMobileValues, datasetDateRange, totalMonths, columnConfig, mergedTableData } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
 
   const setDefaultHeaderValues = () => {
@@ -101,28 +101,23 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
             </div>
           </>
         }
-        table={<>table</>}
+        table={          <DtgTable
+          tableProps={{
+            data: mergedTableData,
+            columnConfig,
+            tableName: 'SLGS name',
+            caption: 'SLGS captain',
+            shouldPage: true,
+            width: '99%',
+            chartTable: false,
+            noBorder: true,
+          }}
+          reactTable={true}
+          sorting={sorting}
+          setSorting={setSorting}
+          width
+        />}
       />
-        )}
-        {selectedChartView === 'tableView' && (
-          <DtgTable
-            tableProps={{
-              data: mergedTableData,
-              columnConfig,
-              tableName: 'State and Local Government Series Details',
-              caption: 'State and Local Government Series Table',
-              shouldPage: true,
-              width: '99%',
-              chartTable: false,
-              noBorder: true,
-            }}
-            reactTable={true}
-            sorting={sorting}
-            setSorting={setSorting}
-            width
-          />
-        )}
-      </ChartTableContainer>
     </>
   );
 };
