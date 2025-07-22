@@ -30,16 +30,6 @@ jest.mock('../useGetStateAndLocalGovernmentSeriesData', () => ({
   useGetStateAndLocalGovernmentSeriesData: () => mockHookReturnValues,
 }));
 
-jest.mock('../../../../../components/chart-with-table/chart-table-container/chart-table-container', () => {
-  return {
-    ChartTableContainer: ({ children, downloadData, ...props }) => (
-      <div data-testid="chartTableContainer" data-download={JSON.stringify(downloadData)}>
-        {children}
-      </div>
-    ),
-  };
-});
-
 describe('Interest Expense Chart', () => {
   class ResizeObserver {
     observe() {}
@@ -103,6 +93,8 @@ describe('Interest Expense Chart', () => {
   it('chart is keyboard accessible', async () => {
     const { getByRole, getByText } = render(<StateAndLocalGovernmentSeriesChart />);
     const chart = getByRole('application');
+    userEvent.tab();
+    userEvent.tab();
     userEvent.tab();
     userEvent.tab();
     userEvent.tab();
