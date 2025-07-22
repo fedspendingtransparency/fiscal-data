@@ -9,6 +9,7 @@ const fs = require('fs');
 // TODO:  remove preprod holdover and give all environments and env config filename that directly
 //  matches the build-time process.env.BUILD_ENV
 const varToEnvironmentConfig = {
+  production: 'prod',
   preprod: 'qat',
   qat: 'qat',
   uat: 'uat',
