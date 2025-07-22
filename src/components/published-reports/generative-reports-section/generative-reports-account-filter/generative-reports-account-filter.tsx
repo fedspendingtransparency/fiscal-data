@@ -5,7 +5,7 @@ import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-b
 import AccountBox from '@material-ui/icons/AccountBox';
 import { IDatasetApi } from '../../../../models/IDatasetApi';
 import { defaultSelection } from '../generative-reports-section';
-import { container } from 'generative-reports-account-filter.module.scss';
+import { container } from './generative-reports-account-filter.module.scss';
 
 interface IAccountFilter {
   apiData: IDatasetApi[];
