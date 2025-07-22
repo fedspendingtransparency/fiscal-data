@@ -184,8 +184,8 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
             tableProps={{
               data: mergedTableData,
               columnConfig,
-              tableName: 'SLGS name',
-              caption: 'SLGS captain',
+              tableName: 'State and Local Government Series Details',
+              caption: 'State and Local Government Series Table',
               shouldPage: true,
               width: '99%',
               chartTable: false,
