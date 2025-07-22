@@ -12,6 +12,7 @@ import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
 import { Skeleton } from '@mui/material';
 import { chartTableBorder } from './state-and-local-government-series-chart.module.scss';
+import DtgTable from '../../../../../components/dtg-table/dtg-table';
 
 const breakpoint = {
   desktop: 1015,
@@ -22,11 +23,12 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const { chartData, xAxisValues, xAxisMobileValues } = useGetStateAndLocalGovernmentSeriesData();
+  const { chartData, xAxisValues, xAxisMobileValues, columnConfig, mergedTableData } = useGetStateAndLocalGovernmentSeriesData();
   const [isMobile, setIsMobile] = useState<boolean>(null);
   const [curDate, setCurDate] = useState<number>(0);
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
+  const [sorting, setSorting] = useState([]);
 
   const { height, altText } = chartConfig;
   const setDefaultHeaderValues = () => {
@@ -69,6 +71,8 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
       rightLabel="toggle for table view"
     />
   );
+
+  console.log(chartData);
 
   return (
     <>
@@ -177,7 +181,24 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
             )}
           </>
         )}
-        {/*{selectedChartView === 'tableView' && <DtgTable />}*/}
+        {selectedChartView === 'tableView' && (
+          <DtgTable
+            tableProps={{
+              data: mergedTableData,
+              columnConfig,
+              tableName: 'SLGS name',
+              caption: 'SLGS captain',
+              shouldPage: true,
+              width: '99%',
+              chartTable: false,
+              noBorder: true,
+            }}
+            reactTable={true}
+            sorting={sorting}
+            setSorting={setSorting}
+            width
+          />
+        )}
       </ChartTableContainer>
     </>
   );

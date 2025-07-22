@@ -1,6 +1,6 @@
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
-import { useEffect, useState } from 'react';
-import { getMonth } from 'date-fns';
+import { useEffect, useMemo, useState } from 'react';
+import { format, getMonth } from 'date-fns';
 import { convertDate } from '../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 
 const slgsEndpoint = 'v1/accounting/od/slgs_securities';
@@ -80,6 +80,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (): { xAxisValues: string
   const [chartData, setChartData] = useState(null);
   const [xAxisValues, setXAxisValues] = useState<string[]>(null);
   const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
+  const [mergedTableData, setMergedTableData] = useState<any[]>([]);
 
   useEffect(() => {
     getLastCompletedMonth('015-BFS-2014Q3-yy').then(async lastCompleteMonth => {
@@ -91,9 +92,37 @@ export const useGetStateAndLocalGovernmentSeriesData = (): { xAxisValues: string
     });
   }, []);
 
+  const chartData1 = [
+    { date: '2024-07-30', totalAmount: 320883, totalCount: 1052 },
+    { date: '2024-08-31', totalAmount: 194402, totalCount: 2709 },
+  ];
+
+  useMemo(() => {
+    const newTableData = chartData1.map(item => {
+      return {
+        date: format(new Date(item.date), 'MMMM yyyy'),
+        totalAmount: '$' + item.totalAmount.toLocaleString(),
+        totalCount: item.totalCount.toLocaleString(),
+      };
+    });
+    setMergedTableData(newTableData);
+  }, [chartData]);
+
+  const columnConfigArray = ['Date', 'Amount', 'Count'];
+
+  const columnConfig = useMemo(() => {
+    return [
+      { property: 'date', name: 'Date', type: 'string' },
+      { property: 'totalAmount', name: 'Amount', type: 'string' },
+      { property: 'totalCount', name: 'Count', type: 'string' },
+    ];
+  }, []);
+
   return {
     xAxisValues,
     xAxisMobileValues,
     chartData,
+    columnConfig,
+    mergedTableData,
   };
 };
