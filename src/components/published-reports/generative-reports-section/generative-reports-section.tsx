@@ -126,6 +126,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
               setIsLoading(true);
               reportData = await getReportData(report, reportConfig);
             } catch (error) {
+              setIsLoading(false);
               setApiErrorMessage(true);
               break;
             }

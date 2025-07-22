@@ -112,6 +112,7 @@ const DownloadReportTableRow: FunctionComponent<{
           getGeneratedFileSize(blob, setFileSize);
           setApiErrorMessage(false);
         } catch (error) {
+          setIsLoading(false);
           setApiErrorMessage(true);
           return;
         }
