@@ -1,5 +1,5 @@
 import React from 'react';
-import { InterestExpenseChart } from './interest-expense-chart/interest-expense-chart';
+import InterestExpenseChart from './interest-expense-chart/interest-expense-chart';
 import { BodyCopy } from './body-copy/body-copy';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { getShortForm } from '../../../../utils/rounding-utils';
