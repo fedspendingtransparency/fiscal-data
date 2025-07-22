@@ -72,8 +72,6 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     />
   );
 
-  console.log(chartData);
-
   return (
     <>
       <ChartTableContainer title={chartTitle} toggle={toggle}>

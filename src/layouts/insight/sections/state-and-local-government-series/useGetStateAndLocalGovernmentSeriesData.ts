@@ -92,20 +92,17 @@ export const useGetStateAndLocalGovernmentSeriesData = (): { xAxisValues: string
     });
   }, []);
 
-  const chartData1 = [
-    { date: '2024-07-30', totalAmount: 320883, totalCount: 1052 },
-    { date: '2024-08-31', totalAmount: 194402, totalCount: 2709 },
-  ];
-
   useMemo(() => {
-    const newTableData = chartData1.map(item => {
-      return {
-        date: format(new Date(item.date), 'MMMM yyyy'),
-        totalAmount: '$' + item.totalAmount.toLocaleString(),
-        totalCount: item.totalCount.toLocaleString(),
-      };
-    });
-    setMergedTableData(newTableData);
+    if (chartData) {
+      const newTableData = chartData.map(item => {
+        return {
+          date: format(new Date(item.date), 'MMMM yyyy'),
+          totalAmount: '$' + item.totalAmount.toLocaleString(),
+          totalCount: item.totalCount.toLocaleString(),
+        };
+      });
+      setMergedTableData(newTableData);
+    }
   }, [chartData]);
 
   const columnConfigArray = ['Date', 'Amount', 'Count'];

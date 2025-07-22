@@ -116,9 +116,6 @@ export const InterestExpenseChart = () => {
     setDownloadData(downloaderData);
   }, [mergedTableData]);
 
-  console.log('merged TableData: ', mergedTableData);
-  console.log('columnConfig: ', columnConfig);
-
   return (
     <>
       <ChartTableContainer
