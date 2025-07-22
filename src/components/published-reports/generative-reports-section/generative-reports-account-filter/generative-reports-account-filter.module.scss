@@ -1,0 +1,5 @@
+@import '../../../../zIndex.module';
+
+.container {
+  z-index: $dtg-table-overlay;
+}

@@ -160,6 +160,9 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
         reports.push(report);
       }
     });
+    if (reports.length === 0) {
+      setIsLoading(false);
+    }
     setActiveReports(reports);
   }, [allReports]);
 
