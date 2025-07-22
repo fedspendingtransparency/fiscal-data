@@ -145,7 +145,6 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             setSummaryValues(reportConfig, formattedDate, reportData.tableData, reportData.summaryData);
           }
         }
-        setIsLoading(false);
         setAllReports(reports);
       } else {
         setAllReports([]);
@@ -199,6 +198,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             width={width}
             setApiErrorMessage={setApiErrorMessage}
             isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         )}
         <DataPreviewDatatableBanner bannerNotice={dataset?.publishedReportsTip} isReport={true} />
