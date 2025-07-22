@@ -51,7 +51,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/i_bonds_interest_rates',
       dateField: 'earning_period_start',
       downloadName: 'I_Bonds_Interest_Rates',
-      alwaysSortWith: ['-earning_period', '-issue_year_month'],
+      alwaysSortWith: ['-earning_period_start', '-issue_year_month'],
       selectColumns: [],
     },
     '299': {
