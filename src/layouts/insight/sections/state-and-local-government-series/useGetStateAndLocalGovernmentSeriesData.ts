@@ -147,9 +147,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
 
       if (lastCompleteMonth)
         getChartDates(chartEndMonth, totalMonths, chartEndYear).then(async chartDates => {
-          const axisVals = getAxisValues(totalMonths, chartDates);
-          console.log(axisVals);
-          setXAxisValues(axisVals);
+          setXAxisValues(getAxisValues(totalMonths, chartDates));
           setXAxisMobileValues(chartDates.filter(index => index % 2 !== 0));
           getChartData(chartDates).then(chartData => setChartData(chartData));
         });
