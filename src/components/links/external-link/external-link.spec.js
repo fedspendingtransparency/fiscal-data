@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import ExternalLink from './external-link';
 import globalConstants from '../../../helpers/constants';
 import { RecoilRoot, useRecoilValue } from 'recoil';
@@ -56,5 +56,24 @@ describe('External Link', () => {
     expect(getByTestId('probe').textContent).toBe('closed');
     fireEvent.click(getByTestId('external-link'));
     expect(getByTestId('probe').textContent).toBe('https://example.com/');
+  });
+
+  it('does not set redirectModalState when a non-.gov link is clicked when skipExternalModal is true', () => {
+    const Probe = () => {
+      const modal = useRecoilValue(redirectModalState);
+      return <span data-testid="probe">{modal.open ? modal.url : 'closed'}</span>;
+    };
+
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <ExternalLink url="https://example.com/" skipExternalModal={true}>
+          ext
+        </ExternalLink>
+        <Probe />
+      </RecoilRoot>
+    );
+    expect(getByTestId('probe').textContent).toBe('closed');
+    fireEvent.click(getByTestId('external-link'));
+    expect(getByTestId('probe').textContent).toBe('closed');
   });
 });

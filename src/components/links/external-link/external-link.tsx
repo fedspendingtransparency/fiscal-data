@@ -10,6 +10,7 @@ type ExternalLinkProps = {
   id?: string;
   className?: string;
   style?: React.CSSProperties;
+  skipExternalModal?: boolean;
 };
 
 const isGovDomain = (href: string): boolean => {
@@ -20,7 +21,16 @@ const isGovDomain = (href: string): boolean => {
     return false;
   }
 };
-const ExternalLink: FunctionComponent<ExternalLinkProps> = ({ url, children, onClick, dataTestId = 'external-link', id, className, style }) => {
+const ExternalLink: FunctionComponent<ExternalLinkProps> = ({
+  url,
+  children,
+  onClick,
+  dataTestId = 'external-link',
+  id,
+  className,
+  style,
+  skipExternalModal = false,
+}) => {
   const setModal = useSetRecoilState(redirectModalState);
 
   const openModal = (e: SyntheticEvent) => {
@@ -45,7 +55,7 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = ({ url, children, onC
         data-testid={dataTestId}
         className={className ? className : 'primary'}
         style={style}
-        onClick={isGovDomain(url) ? onClick : openModal}
+        onClick={isGovDomain(url) || skipExternalModal ? onClick : openModal}
       >
         {children}
       </a>

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import {
-  footerBottom,
-  footerBottomLinks,
-  copyright,
   bottomContent,
   column,
   columnTitle,
-  footerMain,
   content,
+  copyright,
+  footerBottom,
+  footerBottomLinks,
+  footerMain,
   logo,
   pageLinks,
 } from './site-footer.module.scss';
@@ -115,7 +115,12 @@ const SiteFooter = () => {
                 <div className={column} key={columnContent.title}>
                   <div className={columnTitle}>{columnContent.title}</div>
                   {columnContent.links.map(link => (
-                    <CustomLink key={link.testId} href={link.to} onClick={() => clickHandler(link.actionTitle || link.title)}>
+                    <CustomLink
+                      key={link.testId}
+                      href={link.to}
+                      onClick={() => clickHandler(link.actionTitle || link.title)}
+                      skipExternalModal={true}
+                    >
                       {link.title}
                     </CustomLink>
                   ))}
