@@ -121,6 +121,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
               width: '99%',
               chartTable: false,
               noBorder: true,
+              refreshTableData: true,
             }}
             reactTable={true}
             sorting={sorting}
