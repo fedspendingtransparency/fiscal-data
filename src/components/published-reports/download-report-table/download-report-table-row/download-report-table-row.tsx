@@ -41,7 +41,8 @@ const DownloadReportTableRow: FunctionComponent<{
   isDailyReport: boolean;
   mobileView?: boolean;
   setApiErrorMessage?: (errorState: boolean) => void;
-}> = ({ reportFile, isDailyReport, mobileView, generatedReport, setApiErrorMessage }) => {
+  setIsLoading?: (loadingState: boolean) => void;
+}> = ({ reportFile, isDailyReport, mobileView, generatedReport, setApiErrorMessage, setIsLoading }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);
   const [reportLocation, setReportLocation] = useState<string>(null);
@@ -80,6 +81,7 @@ const DownloadReportTableRow: FunctionComponent<{
       setFileType('.pdf');
       setFileTypeImage(getFileTypeImage('.pdf'));
       setReportLocation('');
+      setIsLoading(false);
     }
   };
 
@@ -110,6 +112,7 @@ const DownloadReportTableRow: FunctionComponent<{
           getGeneratedFileSize(blob, setFileSize);
           setApiErrorMessage(false);
         } catch (error) {
+          setIsLoading(false);
           setApiErrorMessage(true);
           return;
         }
