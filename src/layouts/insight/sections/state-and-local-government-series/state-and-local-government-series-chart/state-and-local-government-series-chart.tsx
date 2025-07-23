@@ -25,7 +25,15 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [dateRange, setDateRange] = useState();
   const [sorting, setSorting] = useState([]);
 
-  const { chartData, xAxisValues, xAxisMobileValues, datasetDateRange, totalMonths, columnConfig, mergedTableData } = useGetStateAndLocalGovernmentSeriesData(dateRange);
+  const {
+    chartData,
+    xAxisValues,
+    xAxisMobileValues,
+    datasetDateRange,
+    totalMonths,
+    columnConfig,
+    mergedTableData,
+  } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
 
   const setDefaultHeaderValues = () => {
@@ -35,6 +43,8 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
       setCurCount(chartData[chartData.length - 1].totalCount);
     }
   };
+
+  // useEffect(() => {}, [dateRange]);
 
   useEffect(() => {
     setDefaultHeaderValues();
@@ -58,6 +68,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         datasetDateRange={datasetDateRange}
         isLoading={!chartData}
         height={height}
+        paddingBuffer={true}
         chart={
           <>
             <div className={chartTableBorder}>
@@ -101,22 +112,24 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
             </div>
           </>
         }
-        table={          <DtgTable
-          tableProps={{
-            data: mergedTableData,
-            columnConfig,
-            tableName: 'SLGS name',
-            caption: 'SLGS captain',
-            shouldPage: true,
-            width: '99%',
-            chartTable: false,
-            noBorder: true,
-          }}
-          reactTable={true}
-          sorting={sorting}
-          setSorting={setSorting}
-          width
-        />}
+        table={
+          <DtgTable
+            tableProps={{
+              data: mergedTableData,
+              columnConfig,
+              tableName: 'State and Local Government Series Details',
+              caption: 'State and Local Government Series Table',
+              shouldPage: true,
+              width: '99%',
+              chartTable: false,
+              noBorder: true,
+            }}
+            reactTable={true}
+            sorting={sorting}
+            setSorting={setSorting}
+            width
+          />
+        }
       />
     </>
   );
