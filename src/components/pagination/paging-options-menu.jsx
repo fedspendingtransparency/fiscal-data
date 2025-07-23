@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import { Menu, MenuItem } from '@material-ui/core';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// import Button from '@material-ui/core/Button';
+// import { Menu, MenuItem } from '@material-ui/core';
 import { pageOptions, perPageLabel } from './pagination-controls.module.scss';
 
 const PagingOptionsMenu = ({ menuProps }) => {
@@ -40,25 +38,25 @@ const PagingOptionsMenu = ({ menuProps }) => {
   return (
     <div className={pageOptions} data-testid="paginationMenu">
       <span className={perPageLabel}>{label}</span>
-      <Button
-        aria-label="rows-per-page-menu"
-        onClick={handleOpen}
-        variant="outlined"
-        endIcon={anchorElement === null ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-        disabled={disabled}
-      >
-        {selectedOption}
-      </Button>
-      <Menu
-        id="rows-per-page"
-        anchorEl={anchorElement}
-        keepMounted
-        disablePortal
-        open={Boolean(anchorElement)}
-        onClose={() => handleCloseOrChange(selectedOption)}
-      >
-        {renderMenuItems()}
-      </Menu>
+      {/*<Button*/}
+      {/*  aria-label="rows-per-page-menu"*/}
+      {/*  onClick={handleOpen}*/}
+      {/*  variant="outlined"*/}
+      {/*  endIcon={anchorElement === null ? <ExpandMoreIcon /> : <ExpandLessIcon />}*/}
+      {/*  disabled={disabled}*/}
+      {/*>*/}
+      {/*  {selectedOption}*/}
+      {/*</Button>*/}
+      {/*<Menu*/}
+      {/*  id="rows-per-page"*/}
+      {/*  anchorEl={anchorElement}*/}
+      {/*  keepMounted*/}
+      {/*  disablePortal*/}
+      {/*  open={Boolean(anchorElement)}*/}
+      {/*  onClose={() => handleCloseOrChange(selectedOption)}*/}
+      {/*>*/}
+      {/*  {renderMenuItems()}*/}
+      {/*</Menu>*/}
     </div>
   );
 };

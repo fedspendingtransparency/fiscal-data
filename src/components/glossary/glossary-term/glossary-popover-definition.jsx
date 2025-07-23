@@ -1,23 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import {
-  arrowIcon,
-  glossaryButton,
-  glossaryLink,
-  glossaryText,
-  header,
-  mobileFA,
-  termNameText,
-  bookIcon,
-  glossaryHover,
-} from './glossary-popover-definition.module.scss';
-import Popover from '@material-ui/core/Popover';
+// import { makeStyles } from '@material-ui/core/styles';
+import { bookIcon, glossaryHover, glossaryLink } from './glossary-popover-definition.module.scss';
+// import Popover from '@material-ui/core/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightLong, faXmark, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { glossaryLookup } from '../../../helpers/glossary-helper/glossary-lookup';
 import { withWindowSize } from 'react-fns';
-import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
-import { breakpointLg } from '../../../variables.module.scss';
 import { GlossaryContext } from '../glossary-context/glossary-context';
 
 const style = {
@@ -131,37 +119,37 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
         <span>{displayText}</span>
         <FontAwesomeIcon icon={faBook} className={bookIcon} />
       </span>
-      <Popover
-        id={id}
-        className={popOver}
-        disableScrollLock={true}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
-        }}
-      >
-        <div className={popupContainer} data-testid="popupContainer" role="presentation">
-          <div className={glossaryText}>
-            <div className={header}>
-              <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyDown={handleClose} tabIndex={0} size="lg" />
-              <span>Definition</span>
-            </div>
-            <div className={termNameText}>{termName}</div>
-            <div>{definition}</div>
-            <div className={glossaryButton} role="button" onClick={glossaryNavigation} onKeyDown={glossaryNavigation} tabIndex={0}>
-              <div>View in glossary</div>
-              <FontAwesomeIcon icon={faArrowRightLong} className={arrowIcon} />
-            </div>
-          </div>
-        </div>
-      </Popover>
+      {/*<Popover*/}
+      {/*  id={id}*/}
+      {/*  className={popOver}*/}
+      {/*  disableScrollLock={true}*/}
+      {/*  open={open}*/}
+      {/*  anchorEl={anchorEl}*/}
+      {/*  onClose={handleClose}*/}
+      {/*  anchorOrigin={{*/}
+      {/*    vertical: 'bottom',*/}
+      {/*    horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',*/}
+      {/*  }}*/}
+      {/*  transformOrigin={{*/}
+      {/*    vertical: 'top',*/}
+      {/*    horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <div className={popupContainer} data-testid="popupContainer" role="presentation">*/}
+      {/*    <div className={glossaryText}>*/}
+      {/*      <div className={header}>*/}
+      {/*        <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyDown={handleClose} tabIndex={0} size="lg" />*/}
+      {/*        <span>Definition</span>*/}
+      {/*      </div>*/}
+      {/*      <div className={termNameText}>{termName}</div>*/}
+      {/*      <div>{definition}</div>*/}
+      {/*      <div className={glossaryButton} role="button" onClick={glossaryNavigation} onKeyDown={glossaryNavigation} tabIndex={0}>*/}
+      {/*        <div>View in glossary</div>*/}
+      {/*        <FontAwesomeIcon icon={faArrowRightLong} className={arrowIcon} />*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</Popover>*/}
     </span>
   );
 };

@@ -1,9 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import renderer from 'react-test-renderer';
+import { fireEvent, render } from '@testing-library/react';
 import BarGraph from './bar';
 import { staggeredData } from '../helpers/helpersData';
-import { ResponsiveBar } from '@nivo/bar';
 import helpers from './helpers/helpers';
 
 class ResizeObserver {

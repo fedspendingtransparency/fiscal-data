@@ -1,6 +1,5 @@
 import React from 'react';
-import { MuiThemeProvider } from '@material-ui/core';
-import { theme } from '../../theme';
+// import { MuiThemeProvider } from '@material-ui/core';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
@@ -22,20 +21,20 @@ const ReleaseCalendar = () => {
   return (
     <SiteLayout>
       <PageHelmet pageTitle="Fiscal Data Release Calendar" description={tagLineText} keywords="" />
-      <MuiThemeProvider theme={theme}>
-        <div className="pageHeader">
-          <div className="content">
-            <BreadCrumbs links={breadCrumbLinks} />
-            <h1 data-testid="page-title" className={pageTitle}>
-              Release Calendar
-            </h1>
-            <p className={tagLine} data-testid="tag-line">
-              {tagLineText}
-            </p>
-          </div>
+      {/*<MuiThemeProvider theme={theme}>*/}
+      <div className="pageHeader">
+        <div className="content">
+          <BreadCrumbs links={breadCrumbLinks} />
+          <h1 data-testid="page-title" className={pageTitle}>
+            Release Calendar
+          </h1>
+          <p className={tagLine} data-testid="tag-line">
+            {tagLineText}
+          </p>
         </div>
-        <CalendarEntriesList />
-      </MuiThemeProvider>
+      </div>
+      <CalendarEntriesList />
+      {/*</MuiThemeProvider>*/}
     </SiteLayout>
   );
 };

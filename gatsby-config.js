@@ -25,19 +25,19 @@ module.exports = {
         defer: true,
       },
     },
-    `gatsby-plugin-mdx`,
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `pages`,
-        path: `${__dirname}/src/pages`,
-      },
-    },
+    // `gatsby-plugin-mdx`,
+    // {
+    //   resolve: `gatsby-source-filesystem`,
+    //   options: {
+    //     name: `pages`,
+    //     path: `${__dirname}/src/pages`,
+    //   },
+    // },
     {
       resolve: 'gatsby-plugin-exclude',
       options: { paths: EXCLUDED_PAGE_PATHS },
     },
-    `gatsby-source-local-git`,
+    // `gatsby-source-local-git`,
     `gatsby-plugin-react-helmet`,
     // {
     //   resolve: `gatsby-plugin-build-date`,
@@ -98,20 +98,20 @@ module.exports = {
       //   },
       // },
     },
-    'gatsby-plugin-material-ui',
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: 'Fiscal Data',
-        short_name: 'Fiscal Data',
-        start_url: '/',
-        background_color: 'white',
-        theme_color: '#112e51',
-        display: 'standalone',
-        icon: 'src/images/favicon.png',
-        crossOrigin: `use-credentials`,
-      },
-    },
+    // 'gatsby-plugin-material-ui',
+    // {
+    //   resolve: `gatsby-plugin-manifest`,
+    //   options: {
+    //     name: 'Fiscal Data',
+    //     short_name: 'Fiscal Data',
+    //     start_url: '/',
+    //     background_color: 'white',
+    //     theme_color: '#112e51',
+    //     display: 'standalone',
+    //     icon: 'src/images/favicon.png',
+    //     crossOrigin: `use-credentials`,
+    //   },
+    // },
     'gatsby-env-variables',
     {
       resolve: `gatsby-plugin-robots-txt`,
@@ -147,14 +147,14 @@ module.exports = {
         path: `${__dirname}/static/topics-section-images/`,
       },
     },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `markdown`,
-        path: `${__dirname}/src/markdown/`,
-        ignore: [`**/\.*`], // ignore files starting with a dot
-      },
-    },
+    // {
+    //   resolve: `gatsby-source-filesystem`,
+    //   options: {
+    //     name: `markdown`,
+    //     path: `${__dirname}/src/markdown/`,
+    //     ignore: [`**/\.*`], // ignore files starting with a dot
+    //   },
+    // },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -218,16 +218,16 @@ module.exports = {
         path: `${__dirname}/static/data/ga-event-tracking/`,
       },
     },
-    `gatsby-transformer-csv`,
-    {
-      resolve: `gatsby-plugin-mdx`,
-      options: {
-        extensions: [`.mdx`, `.md`],
-        defaultLayouts: {
-          default: require.resolve('./src/components/mdx/defaultLayout.jsx'),
-        },
-      },
-    },
+    // `gatsby-transformer-csv`,
+    // {
+    // resolve: `gatsby-plugin-mdx`,
+    // options: {
+    //   extensions: [`.mdx`, `.md`],
+    //   defaultLayouts: {
+    //     default: require.resolve('./src/components/mdx/defaultLayout.jsx'),
+    //   },
+    // },
+    // },
     `gatsby-plugin-client-side-redirect`,
     // {
     //   resolve: 'gatsby-plugin-axe-core-react',

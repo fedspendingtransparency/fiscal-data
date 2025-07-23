@@ -1,21 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import { Container } from '@material-ui/core';
+// import { Container } from '@material-ui/core';
 import DataSourcesMethodologies from '../../layouts/explainer/data-sources-methodologies/data-sources-methodologies';
 import {
-  quoteIcon,
-  bottomContainer,
+  citation,
+  constitutionImg,
+  mainContainer,
   quote,
   quoteBar,
-  citation,
-  topContainer,
-  mainContainer,
   quoteContainer,
-  socialShare,
+  quoteIcon,
   quoteSection,
+  socialShare,
   treasuryReportImg,
-  constitutionImg,
 } from './afg-overview.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -28,15 +26,17 @@ import { basicFetch } from '../../utils/api-utils';
 import AfgHero from '../../layouts/explainer/explainer-components/afg-components/afg-hero/afg-hero';
 import ApiRequest from '../../helpers/api-request';
 import { revenueRequest } from '../../layouts/explainer/explainer-helpers/afg-overview-helpers';
-import CustomLink from '../../components/links/custom-link/custom-link';
 import Footnote from '../../components/footnote/footnote';
 import { getAFGFootnotes } from '../../helpers/footnotes-helper/footnotes-helper';
 import TopicSection from '../../layouts/explainer/explainer-components/afg-components/topic-section/topic-section';
-import { explainerAnalyticsLabelMap, explainerSocialShareMap } from '../../layouts/explainer/explainer-helpers/explainer-helpers';
+import {
+  explainerAnalyticsLabelMap,
+  explainerCitationsMap,
+  explainerSocialShareMap,
+} from '../../layouts/explainer/explainer-helpers/explainer-helpers';
 import SocialShare from '../../components/social-share/social-share';
 import { useWindowSize } from '../../hooks/windowResize';
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
-import { explainerCitationsMap } from '../../layouts/explainer/explainer-helpers/explainer-helpers';
 
 const AmericasFinanceGuidePage = ({ width }) => {
   const pageName = 'americas-finance-guide';
@@ -46,7 +46,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
   const [containerHeight, setContainerHeight] = useState(765);
   const refSocialShare = useRef(0);
 
-  const {mspdOutstanding, mtsSummary, debtToThePenny} = explainerCitationsMap['afg'];
+  const { mspdOutstanding, mtsSummary, debtToThePenny } = explainerCitationsMap['afg'];
 
   useEffect(() => {
     basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
@@ -77,18 +77,18 @@ const AmericasFinanceGuidePage = ({ width }) => {
         />
         <AfgHero />
         <div className={mainContainer}>
-          <Container classes={{ root: topContainer }} maxWidth={false} data-testid="topContainer">
-            {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
-            <div className={socialShare} ref={refSocialShare}>
-              <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="horizontal" />
-            </div>
-            <TopicSection fiscalYear={fiscalYear} width={width} />
-            {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
-            <DataSourcesMethodologies pageName="afg-overview">
-              Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mtsSummary}. The {mspdOutstanding} and the{' '}
-              {debtToThePenny} datasets are the data sources for federal debt.
-            </DataSourcesMethodologies>
-          </Container>
+          {/*<Container classes={{ root: topContainer }} maxWidth={false} data-testid="topContainer">*/}
+          {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
+          <div className={socialShare} ref={refSocialShare}>
+            <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="horizontal" />
+          </div>
+          <TopicSection fiscalYear={fiscalYear} width={width} />
+          {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
+          <DataSourcesMethodologies pageName="afg-overview">
+            Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mtsSummary}. The {mspdOutstanding}{' '}
+            and the {debtToThePenny} datasets are the data sources for federal debt.
+          </DataSourcesMethodologies>
+          {/*</Container>*/}
         </div>
         <div className={constitutionImg} data-testid="quoteContainer">
           <div className={quoteContainer}>
@@ -109,10 +109,10 @@ const AmericasFinanceGuidePage = ({ width }) => {
             <FontAwesomeIcon icon={faQuoteLeft} className={quoteIcon} />
           </div>
         </div>
-        <Container classes={{ root: bottomContainer }} data-testid="bottomContainer">
-          <p style={{ textAlign: 'center' }}>Your Guide to America's Finances is brought to you by the U.S. Department of the Treasury</p>
-          <img src="../images/500px-Seal_of_the_United_States_Department_of_the_Treasury.svg" alt="U.S. Treasury Logo" />
-        </Container>
+        {/*<Container classes={{ root: bottomContainer }} data-testid="bottomContainer">*/}
+        <p style={{ textAlign: 'center' }}>Your Guide to America's Finances is brought to you by the U.S. Department of the Treasury</p>
+        <img src="../images/500px-Seal_of_the_United_States_Department_of_the_Treasury.svg" alt="U.S. Treasury Logo" />
+        {/*</Container>*/}
       </SiteLayout>
     </GlossaryProvider>
   );

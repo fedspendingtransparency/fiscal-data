@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar } from '@fortawesome/free-solid-svg-icons';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { time_range_filter, time_range_filter_datePicker } from './datepickers.module.scss';
+// import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { isBefore, isValid } from 'date-fns';
-import { MuiThemeProvider } from '@material-ui/core';
-import { theme } from '../../../theme';
+// import { MuiThemeProvider } from '@material-ui/core';
 import { generateAnalyticsEvent, generateFormattedDate } from '../range-presets/helpers/helper';
 
 const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }) => {
@@ -80,80 +75,81 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
   }, []);
 
   return (
-    <MuiThemeProvider theme={theme}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <div className={time_range_filter} data-testid="time-range-filter">
-          <div className={time_range_filter_datePicker}>
-            <label htmlFor="date-picker-from">
-              From:
-              <KeyboardDatePicker
-                id="date-picker-from"
-                value={beginDate}
-                onChange={dateVal => handleSelectingDates(dateVal, setBeginDate)}
-                autoOk={true}
-                variant="inline"
-                inputVariant="outlined"
-                placeholder="MM / DD / YYYY"
-                onOpen={() => setSelecting(true)}
-                onClose={() => setSelecting(false)}
-                format="MM/dd/yyyy"
-                minDate={earliestDate}
-                maxDate={latestDate}
-                keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
-                KeyboardButtonProps={{
-                  'aria-label': 'Open calendar view to pick date',
-                }}
-                inputProps={{ 'aria-label': 'From Date' }}
-                PopoverProps={{
-                  anchorOrigin: {
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                  },
-                  transformOrigin: {
-                    vertical: 'top',
-                    horizontal: 'center',
-                  },
-                }}
-              />
-            </label>
-          </div>
-          <div className={time_range_filter_datePicker}>
-            <label htmlFor="date-picker-to">
-              To:
-              <KeyboardDatePicker
-                id="date-picker-to"
-                autoOk={true}
-                value={endDate}
-                onChange={dateVal => handleSelectingDates(dateVal, setEndDate)}
-                variant="inline"
-                inputVariant="outlined"
-                placeholder="MM / DD / YYYY"
-                onOpen={() => setSelecting(true)}
-                onClose={() => setSelecting(false)}
-                format="MM/dd/yyyy"
-                minDate={earliestDate}
-                maxDate={latestDate}
-                keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
-                KeyboardButtonProps={{
-                  'aria-label': 'Open calendar view to pick date',
-                }}
-                inputProps={{ 'aria-label': 'To Date' }}
-                PopoverProps={{
-                  anchorOrigin: {
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                  },
-                  transformOrigin: {
-                    vertical: 'top',
-                    horizontal: 'center',
-                  },
-                }}
-              />
-            </label>
-          </div>
-        </div>
-      </MuiPickersUtilsProvider>
-    </MuiThemeProvider>
+    <></>
+    // <MuiThemeProvider theme={theme}>
+    //   <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    //     <div className={time_range_filter} data-testid="time-range-filter">
+    //       <div className={time_range_filter_datePicker}>
+    //         <label htmlFor="date-picker-from">
+    //           From:
+    //           <KeyboardDatePicker
+    //             id="date-picker-from"
+    //             value={beginDate}
+    //             onChange={dateVal => handleSelectingDates(dateVal, setBeginDate)}
+    //             autoOk={true}
+    //             variant="inline"
+    //             inputVariant="outlined"
+    //             placeholder="MM / DD / YYYY"
+    //             onOpen={() => setSelecting(true)}
+    //             onClose={() => setSelecting(false)}
+    //             format="MM/dd/yyyy"
+    //             minDate={earliestDate}
+    //             maxDate={latestDate}
+    //             keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
+    //             KeyboardButtonProps={{
+    //               'aria-label': 'Open calendar view to pick date',
+    //             }}
+    //             inputProps={{ 'aria-label': 'From Date' }}
+    //             PopoverProps={{
+    //               anchorOrigin: {
+    //                 vertical: 'bottom',
+    //                 horizontal: 'center',
+    //               },
+    //               transformOrigin: {
+    //                 vertical: 'top',
+    //                 horizontal: 'center',
+    //               },
+    //             }}
+    //           />
+    //         </label>
+    //       </div>
+    //       <div className={time_range_filter_datePicker}>
+    //         <label htmlFor="date-picker-to">
+    //           To:
+    //           <KeyboardDatePicker
+    //             id="date-picker-to"
+    //             autoOk={true}
+    //             value={endDate}
+    //             onChange={dateVal => handleSelectingDates(dateVal, setEndDate)}
+    //             variant="inline"
+    //             inputVariant="outlined"
+    //             placeholder="MM / DD / YYYY"
+    //             onOpen={() => setSelecting(true)}
+    //             onClose={() => setSelecting(false)}
+    //             format="MM/dd/yyyy"
+    //             minDate={earliestDate}
+    //             maxDate={latestDate}
+    //             keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
+    //             KeyboardButtonProps={{
+    //               'aria-label': 'Open calendar view to pick date',
+    //             }}
+    //             inputProps={{ 'aria-label': 'To Date' }}
+    //             PopoverProps={{
+    //               anchorOrigin: {
+    //                 vertical: 'bottom',
+    //                 horizontal: 'center',
+    //               },
+    //               transformOrigin: {
+    //                 vertical: 'top',
+    //                 horizontal: 'center',
+    //               },
+    //             }}
+    //           />
+    //         </label>
+    //       </div>
+    //     </div>
+    //   </MuiPickersUtilsProvider>
+    // </MuiThemeProvider>
   );
 };
 export default DatePickers;

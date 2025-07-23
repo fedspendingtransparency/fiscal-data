@@ -1,24 +1,22 @@
 import React from 'react';
 import {
+  afgBookIcon,
+  breakpointSm,
+  comingSoon,
+  explainerImage,
+  explainerImageContainer,
+  iconTitle,
   mainContent,
   mainTitle,
-  secondaryTitle,
-  comingSoon,
-  breakpointSm,
-  explainerImageContainer,
-  explainerImage,
-  grid,
   rightTile,
-  leftTile,
-  afgBookIcon,
-  iconTitle,
+  secondaryTitle,
 } from './homepage-tile.module.scss';
 import { breakpointLg } from '../../../variables.module.scss';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 
-import Link from 'gatsby-link';
+import Link from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import { Grid } from '@material-ui/core';
+// import { Grid } from '@material-ui/core';
 import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
@@ -50,20 +48,21 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
 
   const card =
     layout === 'two-col' && isDesktop ? (
-      <Grid container spacing={0}>
-        <div className={mainContent} data-testid="tile" style={{ display: 'flex' }}>
-          <Grid item lg={4} className={isMobile ? null : grid}>
-            <div className={isMobile && explainerTile ? explainerImageContainer : null}>{desktop}</div>
-          </Grid>
-          <Grid item lg={8}>
-            <div className={`${content.path ? undefined : comingSoon} ${leftTile}`}>
-              <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>{content.title}</h5>
-              <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
-            </div>
-          </Grid>
-        </div>
-      </Grid>
+      <></>
     ) : (
+      // <Grid container spacing={0}>
+      //   <div className={mainContent} data-testid="tile" style={{ display: 'flex' }}>
+      //     <Grid item lg={4} className={isMobile ? null : grid}>
+      //       <div className={isMobile && explainerTile ? explainerImageContainer : null}>{desktop}</div>
+      //     </Grid>
+      //     <Grid item lg={8}>
+      //       <div className={`${content.path ? undefined : comingSoon} ${leftTile}`}>
+      //         <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>{content.title}</h5>
+      //         <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
+      //       </div>
+      //     </Grid>
+      //   </div>
+      // </Grid>
       <div className={mainContent} data-testid="tile">
         <div className={isMobile && explainerTile ? explainerImageContainer : null}>{isMobile ? mobile : desktop}</div>
         <div className={content.path ? undefined : comingSoon}>

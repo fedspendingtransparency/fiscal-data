@@ -1,19 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { isBefore, isValid } from 'date-fns';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { faCalendar } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DateFnsUtils from '@date-io/date-fns';
+// import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { siteContext } from '../../../persist/persist';
 import InfoTip, { infoTipAnalyticsObject } from '../../../info-tip/info-tip';
-import Checkbox from '../../../checkbox/checkbox';
-import {
-  time_range_filter,
-  time_range_filter_label,
-  time_range_filter_label_text,
-  time_range_filter_datePicker,
-  checkBoxDiv,
-} from './filterTimeRange.module.scss';
 import Analytics from '../../../../utils/analytics/analytics';
 
 export const timeRangeCompleteAnalyticsObject = {
@@ -150,77 +139,78 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
   ];
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <div className={time_range_filter} data-testid="time-range-filter">
-        <div className={time_range_filter_label} data-testid="time_range_filter_label">
-          <p className={time_range_filter_label_text}>From</p>
-          <div className={time_range_filter_datePicker}>
-            <KeyboardDatePicker
-              value={beginDate}
-              onChange={handleBeginDate}
-              variant="inline"
-              inputVariant="outlined"
-              placeholder="MM / DD / YYYY"
-              onOpen={() => setSelecting(true)}
-              onClose={() => setSelecting(false)}
-              format="MM/dd/yyyy"
-              minDate={minAllowedDate}
-              maxDate={maxAllowedDate}
-              keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
-              KeyboardButtonProps={{
-                'aria-label': 'Open calendar view to pick date',
-              }}
-              inputProps={{ 'aria-label': 'From Date' }}
-              PopoverProps={{
-                anchorOrigin: {
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                },
-                transformOrigin: {
-                  vertical: 'top',
-                  horizontal: 'center',
-                },
-              }}
-            />
-          </div>
-        </div>
-        <div className={time_range_filter_label}>
-          <p className={time_range_filter_label_text}>To</p>
-          <div className={time_range_filter_datePicker}>
-            <KeyboardDatePicker
-              value={endDate}
-              onChange={handleEndDate}
-              variant="inline"
-              inputVariant="outlined"
-              placeholder="MM / DD / YYYY"
-              format="MM/dd/yyyy"
-              minDate={minAllowedDate}
-              maxDate={maxAllowedDate}
-              onOpen={() => setSelecting(true)}
-              onClose={() => setSelecting(false)}
-              keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
-              KeyboardButtonProps={{
-                'aria-label': 'Open calendar view to pick date',
-              }}
-              inputProps={{ 'aria-label': 'To Date' }}
-              PopoverProps={{
-                anchorOrigin: {
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                },
-                transformOrigin: {
-                  vertical: 'top',
-                  horizontal: 'right',
-                },
-              }}
-            />
-          </div>
-        </div>
-        <div className={checkBoxDiv} data-testid={'checkbox'}>
-          <Checkbox checkboxData={checkboxData} changeHandler={handleCheckbox} />
-        </div>
-      </div>
-    </MuiPickersUtilsProvider>
+    <></>
+    // <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    //   <div className={time_range_filter} data-testid="time-range-filter">
+    //     <div className={time_range_filter_label} data-testid="time_range_filter_label">
+    //       <p className={time_range_filter_label_text}>From</p>
+    //       <div className={time_range_filter_datePicker}>
+    //         <KeyboardDatePicker
+    //           value={beginDate}
+    //           onChange={handleBeginDate}
+    //           variant="inline"
+    //           inputVariant="outlined"
+    //           placeholder="MM / DD / YYYY"
+    //           onOpen={() => setSelecting(true)}
+    //           onClose={() => setSelecting(false)}
+    //           format="MM/dd/yyyy"
+    //           minDate={minAllowedDate}
+    //           maxDate={maxAllowedDate}
+    //           keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
+    //           KeyboardButtonProps={{
+    //             'aria-label': 'Open calendar view to pick date',
+    //           }}
+    //           inputProps={{ 'aria-label': 'From Date' }}
+    //           PopoverProps={{
+    //             anchorOrigin: {
+    //               vertical: 'bottom',
+    //               horizontal: 'center',
+    //             },
+    //             transformOrigin: {
+    //               vertical: 'top',
+    //               horizontal: 'center',
+    //             },
+    //           }}
+    //         />
+    //       </div>
+    //     </div>
+    //     <div className={time_range_filter_label}>
+    //       <p className={time_range_filter_label_text}>To</p>
+    //       <div className={time_range_filter_datePicker}>
+    //         <KeyboardDatePicker
+    //           value={endDate}
+    //           onChange={handleEndDate}
+    //           variant="inline"
+    //           inputVariant="outlined"
+    //           placeholder="MM / DD / YYYY"
+    //           format="MM/dd/yyyy"
+    //           minDate={minAllowedDate}
+    //           maxDate={maxAllowedDate}
+    //           onOpen={() => setSelecting(true)}
+    //           onClose={() => setSelecting(false)}
+    //           keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
+    //           KeyboardButtonProps={{
+    //             'aria-label': 'Open calendar view to pick date',
+    //           }}
+    //           inputProps={{ 'aria-label': 'To Date' }}
+    //           PopoverProps={{
+    //             anchorOrigin: {
+    //               vertical: 'bottom',
+    //               horizontal: 'right',
+    //             },
+    //             transformOrigin: {
+    //               vertical: 'top',
+    //               horizontal: 'right',
+    //             },
+    //           }}
+    //         />
+    //       </div>
+    //     </div>
+    //     <div className={checkBoxDiv} data-testid={'checkbox'}>
+    //       <Checkbox checkboxData={checkboxData} changeHandler={handleCheckbox} />
+    //     </div>
+    //   </div>
+    // </MuiPickersUtilsProvider>
   );
 };
 

@@ -1,33 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouseChimney } from '@fortawesome/free-solid-svg-icons';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
-import { navigate } from 'gatsby';
+import React, { useEffect, useState } from 'react';
+// import { withStyles } from '@material-ui/core/styles';
+// import Menu from '@material-ui/core/Menu';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import ListItemText from '@material-ui/core/ListItemText';
 import Analytics from '../../../../utils/analytics/analytics';
-import {
-  MenuList,
-  buttonOverview,
-  spending,
-  revenue,
-  deficit,
-  debt,
-  carrot,
-  faHouse,
-  stylingStyledMenu,
-  overviewStyle,
-  mainContainer,
-  mainContainerSticky,
-  mainContainerHidden,
-  mainContainerShow,
-  activeMenu,
-  mainListSticky,
-  overview,
-} from './mobile-explainer-sub-nav.module.scss';
+import { mainContainer, mainContainerHidden, mainContainerShow, mainContainerSticky, overview } from './mobile-explainer-sub-nav.module.scss';
 
 const StyledMenu = withStyles({
   paper: {
@@ -135,107 +112,107 @@ const MobileExplainerSubNav = ({ hidePosition, pageName = '' }) => {
 
   return (
     <div className={`${isOverview ? [mainContainer, overview].join(' ') : mainContainer}`} data-testid="mobileSubNav">
-      <div className={navBlockStyle} data-testid="mobileSubNavBlock">
-        <button
-          aria-controls="customized-menu"
-          aria-haspopup="true"
-          color="#0a2f5a"
-          onClick={handleClick}
-          onKeyDown={handleClick}
-          className={`${isOverview ? [buttonOverview, activeMenu].join(' ') : buttonOverview}`}
-          data-testid="mobileSubNavBlockButton"
-        >
-          <span
-            onClick={() => {
-              analyticsEvent('Overview');
-              navigate('/americas-finance-guide/');
-            }}
-            onKeyDown={() => {
-              analyticsEvent('Overview');
-              navigate('/americas-finance-guide/');
-            }}
-            className={overviewStyle}
-            id="home"
-            role="button"
-            tabIndex={0}
-            data-testid="afgSpan"
-          >
-            <FontAwesomeIcon className={faHouse} icon={faHouseChimney} />
-            Overview
-          </span>
-          <FontAwesomeIcon className={carrot} icon={anchorEl ? faCaretDown : faCaretRight} />
-        </button>
-        <StyledMenu
-          anchorEl={anchorEl}
-          keepMounted
-          disableScrollLock={true}
-          open={defaultOpen || Boolean(anchorEl)}
-          onClose={handleClose}
-          className={[mainListSticky, stylingStyledMenu].join(' ')}
-          id="styled-menu"
-        >
-          <StyledMenuItem className={MenuList}>
-            <ListItemText
-              className={`${isRevenue ? [revenue, activeMenu].join(' ') : revenue}`}
-              onClick={() => {
-                analyticsEvent('Revenue');
-                navigate('/americas-finance-guide/government-revenue/');
-              }}
-              onKeyDown={() => {
-                analyticsEvent('Revenue');
-                navigate('/americas-finance-guide/government-revenue/');
-              }}
-              primary="Revenue"
-              data-testid="revenueButton"
-            />
-          </StyledMenuItem>
-          <StyledMenuItem className={MenuList}>
-            <ListItemText
-              className={`${isSpending ? [spending, activeMenu].join(' ') : spending}`}
-              onClick={() => {
-                analyticsEvent('Spending');
-                navigate('/americas-finance-guide/federal-spending/');
-              }}
-              onKeyDown={() => {
-                analyticsEvent('Spending');
-                navigate('/americas-finance-guide/federal-spending/');
-              }}
-              primary="Spending"
-              data-testid="spendingButton"
-            />
-          </StyledMenuItem>
-          <StyledMenuItem className={MenuList}>
-            <ListItemText
-              className={`${isDeficit ? [deficit, activeMenu].join(' ') : deficit}`}
-              onClick={() => {
-                analyticsEvent('Deficit');
-                navigate('/americas-finance-guide/national-deficit/');
-              }}
-              onKeyDown={() => {
-                analyticsEvent('Deficit');
-                navigate('/americas-finance-guide/national-deficit/');
-              }}
-              primary="Deficit"
-              data-testid="deficitButton"
-            />
-          </StyledMenuItem>
-          <StyledMenuItem className={MenuList}>
-            <ListItemText
-              className={`${isDebt ? [debt, activeMenu].join(' ') : debt}`}
-              onClick={() => {
-                analyticsEvent('Debt');
-                navigate('/americas-finance-guide/national-debt/');
-              }}
-              onKeyDown={() => {
-                analyticsEvent('Debt');
-                navigate('/americas-finance-guide/national-debt/');
-              }}
-              primary="Debt"
-              data-testid="debtButton"
-            />
-          </StyledMenuItem>
-        </StyledMenu>
-      </div>
+      {/*<div className={navBlockStyle} data-testid="mobileSubNavBlock">*/}
+      {/*  <button*/}
+      {/*    aria-controls="customized-menu"*/}
+      {/*    aria-haspopup="true"*/}
+      {/*    color="#0a2f5a"*/}
+      {/*    onClick={handleClick}*/}
+      {/*    onKeyDown={handleClick}*/}
+      {/*    className={`${isOverview ? [buttonOverview, activeMenu].join(' ') : buttonOverview}`}*/}
+      {/*    data-testid="mobileSubNavBlockButton"*/}
+      {/*  >*/}
+      {/*    <span*/}
+      {/*      onClick={() => {*/}
+      {/*        analyticsEvent('Overview');*/}
+      {/*        navigate('/americas-finance-guide/');*/}
+      {/*      }}*/}
+      {/*      onKeyDown={() => {*/}
+      {/*        analyticsEvent('Overview');*/}
+      {/*        navigate('/americas-finance-guide/');*/}
+      {/*      }}*/}
+      {/*      className={overviewStyle}*/}
+      {/*      id="home"*/}
+      {/*      role="button"*/}
+      {/*      tabIndex={0}*/}
+      {/*      data-testid="afgSpan"*/}
+      {/*    >*/}
+      {/*      <FontAwesomeIcon className={faHouse} icon={faHouseChimney} />*/}
+      {/*      Overview*/}
+      {/*    </span>*/}
+      {/*    <FontAwesomeIcon className={carrot} icon={anchorEl ? faCaretDown : faCaretRight} />*/}
+      {/*  </button>*/}
+      {/*  <StyledMenu*/}
+      {/*    anchorEl={anchorEl}*/}
+      {/*    keepMounted*/}
+      {/*    disableScrollLock={true}*/}
+      {/*    open={defaultOpen || Boolean(anchorEl)}*/}
+      {/*    onClose={handleClose}*/}
+      {/*    className={[mainListSticky, stylingStyledMenu].join(' ')}*/}
+      {/*    id="styled-menu"*/}
+      {/*  >*/}
+      {/*    <StyledMenuItem className={MenuList}>*/}
+      {/*      <ListItemText*/}
+      {/*        className={`${isRevenue ? [revenue, activeMenu].join(' ') : revenue}`}*/}
+      {/*        onClick={() => {*/}
+      {/*          analyticsEvent('Revenue');*/}
+      {/*          navigate('/americas-finance-guide/government-revenue/');*/}
+      {/*        }}*/}
+      {/*        onKeyDown={() => {*/}
+      {/*          analyticsEvent('Revenue');*/}
+      {/*          navigate('/americas-finance-guide/government-revenue/');*/}
+      {/*        }}*/}
+      {/*        primary="Revenue"*/}
+      {/*        data-testid="revenueButton"*/}
+      {/*      />*/}
+      {/*    </StyledMenuItem>*/}
+      {/*    <StyledMenuItem className={MenuList}>*/}
+      {/*      <ListItemText*/}
+      {/*        className={`${isSpending ? [spending, activeMenu].join(' ') : spending}`}*/}
+      {/*        onClick={() => {*/}
+      {/*          analyticsEvent('Spending');*/}
+      {/*          navigate('/americas-finance-guide/federal-spending/');*/}
+      {/*        }}*/}
+      {/*        onKeyDown={() => {*/}
+      {/*          analyticsEvent('Spending');*/}
+      {/*          navigate('/americas-finance-guide/federal-spending/');*/}
+      {/*        }}*/}
+      {/*        primary="Spending"*/}
+      {/*        data-testid="spendingButton"*/}
+      {/*      />*/}
+      {/*    </StyledMenuItem>*/}
+      {/*    <StyledMenuItem className={MenuList}>*/}
+      {/*      <ListItemText*/}
+      {/*        className={`${isDeficit ? [deficit, activeMenu].join(' ') : deficit}`}*/}
+      {/*        onClick={() => {*/}
+      {/*          analyticsEvent('Deficit');*/}
+      {/*          navigate('/americas-finance-guide/national-deficit/');*/}
+      {/*        }}*/}
+      {/*        onKeyDown={() => {*/}
+      {/*          analyticsEvent('Deficit');*/}
+      {/*          navigate('/americas-finance-guide/national-deficit/');*/}
+      {/*        }}*/}
+      {/*        primary="Deficit"*/}
+      {/*        data-testid="deficitButton"*/}
+      {/*      />*/}
+      {/*    </StyledMenuItem>*/}
+      {/*    <StyledMenuItem className={MenuList}>*/}
+      {/*      <ListItemText*/}
+      {/*        className={`${isDebt ? [debt, activeMenu].join(' ') : debt}`}*/}
+      {/*        onClick={() => {*/}
+      {/*          analyticsEvent('Debt');*/}
+      {/*          navigate('/americas-finance-guide/national-debt/');*/}
+      {/*        }}*/}
+      {/*        onKeyDown={() => {*/}
+      {/*          analyticsEvent('Debt');*/}
+      {/*          navigate('/americas-finance-guide/national-debt/');*/}
+      {/*        }}*/}
+      {/*        primary="Debt"*/}
+      {/*        data-testid="debtButton"*/}
+      {/*      />*/}
+      {/*    </StyledMenuItem>*/}
+      {/*  </StyledMenu>*/}
+      {/*</div>*/}
     </div>
   );
 };

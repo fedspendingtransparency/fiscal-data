@@ -1,40 +1,39 @@
 import React, { FunctionComponent } from 'react';
 import { IDataTableHeader } from '../../../../models/IDataTableHeader';
-import { withStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
+// import { withStyles } from '@material-ui/core/styles';
+// import Tooltip from '@material-ui/core/Tooltip';
 import {
-  headerContent,
   defaultSortArrow,
   defaultSortArrowPill,
+  filtersActive,
+  headerContent,
   isResizing,
   resizer,
   rightAlignText,
   sortArrow,
   sortArrowPill,
   stickyHeader,
-  filtersActive,
   tableHeader,
 } from './data-preview-data-table-header.module.scss';
 import { columnHeaderFilterActive, rightAlign } from '../../../data-table/data-table-helper';
-import { flexRender } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, allActiveFilters, setAllActiveFilters }) => {
-  const LightTooltip = withStyles(() => ({
-    tooltip: {
-      color: '#555555',
-      fontSize: 16,
-      fontWeight: 600,
-      fontFamily: 'Source Sans Pro',
-      marginLeft: '1.25rem',
-      marginTop: '0.25rem',
-      borderRadius: '0.25rem',
-      background: '#FFF',
-      boxShadow: '0.25rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.15), 0 0 0.125rem 0 rgba(0, 0, 0, 0.20)',
-    },
-  }))(Tooltip);
+  // const LightTooltip = withStyles(() => ({
+  //   tooltip: {
+  //     color: '#555555',
+  //     fontSize: 16,
+  //     fontWeight: 600,
+  //     fontFamily: 'Source Sans Pro',
+  //     marginLeft: '1.25rem',
+  //     marginTop: '0.25rem',
+  //     borderRadius: '0.25rem',
+  //     background: '#FFF',
+  //     boxShadow: '0.25rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.15), 0 0 0.125rem 0 rgba(0, 0, 0, 0.20)',
+  //   },
+  // }))(Tooltip);
 
   const iconClick = (state, header, e) => {
     if (e.key === undefined || e.key === 'Enter') {
@@ -89,9 +88,9 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
                   {!header.isPlaceholder && (
                     <>
                       <div className={`${headerContent} ${rightAlignStyle}`} data-testid={`header-sorter-${header.id}`}>
-                        <LightTooltip title={header.column.columnDef.header} placement="bottom-start">
-                          <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
-                        </LightTooltip>
+                        {/*<LightTooltip title={header.column.columnDef.header} placement="bottom-start">*/}
+                        {/*  <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>*/}
+                        {/*</LightTooltip>*/}
                         {{
                           asc: sortArrowButton(faArrowUpShortWide, 'asc', header),
                           desc: sortArrowButton(faArrowDownWideShort, 'desc', header),

@@ -2,29 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import DatasetStructuredData from './build-dataset-structured-data.helper';
 import globalConstants from '../../helpers/constants';
-import { ENV_ID } from 'gatsby-env-variables';
-import { graphql, useStaticQuery } from 'gatsby';
 
 const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keywords, image = '', canonical = '', datasetDetails = '' }) => {
-  let versionInfo = useStaticQuery(graphql`
-    {
-      gitCommit(latest: { eq: true }) {
-        hash
-        date
-        message
-      }
-      gitBranch(current: { eq: true }) {
-        name
-      }
-    }
-  `);
+  // let versionInfo = useStaticQuery(graphql`
+  //   {
+  //     gitCommit(latest: { eq: true }) {
+  //       hash
+  //       date
+  //       message
+  //     }
+  //     gitBranch(current: { eq: true }) {
+  //       name
+  //     }
+  //   }
+  // `);
 
   // protecting against null and undefined values mainly for unit tests
   // where version info is not supplied
-  versionInfo = versionInfo && versionInfo.gitCommit ? versionInfo : {};
-  const latestTag = versionInfo.gitTag ? versionInfo.gitTag.name : '';
-  const latestCommit = versionInfo.gitCommit || {};
-  const currentBranch = versionInfo.gitBranch ? versionInfo.gitBranch.name : '';
+  // versionInfo = versionInfo && versionInfo.gitCommit ? versionInfo : {};
+  // const latestTag = versionInfo.gitTag ? versionInfo.gitTag.name : '';
+  // const latestCommit = versionInfo.gitCommit || {};
+  // const currentBranch = versionInfo.gitBranch ? versionInfo.gitBranch.name : '';
 
   const [dapAnalytics, setDapAnalytics] = useState(null);
   const [finalDescription, setFinalDescription] = useState(description);
@@ -71,18 +69,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keyw
           and gatsby are unfriendly toward rendering <!-- html comments --> into built pages.
       */}
 
-      {latestCommit && latestCommit.hash && (
-        <script id="version-info">
-          {`/*
-            TAG: ${latestTag}
-            CURRENT BRANCH: ${currentBranch}
-            COMMIT HASH: ${latestCommit.hash}
-            COMMIT MESSAGE: ${latestCommit.message}
-            COMMIT DATE: ${latestCommit.date}
-            ENV ID: ${ENV_ID}
-          */`}
-        </script>
-      )}
+      {latestCommit && latestCommit.hash && <script id="version-info"></script>}
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width" />
       <title>{title}</title>

@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
-import { Grid } from '@material-ui/core';
+// import { Grid } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import HighlightedDatasets from './highlighted-datasets-config';
-import { cardsContainer, cardWrapper, container } from './home-highlight-cards.module.scss';
-import HomeHighlightCard from './home-highlight-card/home-highlight-card';
+import { container } from './home-highlight-cards.module.scss';
 import { loadingIcon } from '../../pages/home.module.scss';
 
 export const baseCollapsedStyle = {
@@ -76,14 +75,15 @@ const HomeHighlightCards = () => {
   return (
     <div data-testid="highlight-cards-parent" className={container} ref={containerRef}>
       {highlights.length ? (
-        <Grid container className={cardsContainer} data-testid="cards-container">
-          {highlights.map((dataset, i) => (
-            <Grid className={cardWrapper} item xs={12} sm={6} xl={3} key={i}>
-              <HomeHighlightCard cardId={`homepageCard-${i}`} className={cardWrapper} dataset={dataset} />
-            </Grid>
-          ))}
-        </Grid>
+        <></>
       ) : (
+        // <Grid container className={cardsContainer} data-testid="cards-container">
+        //   {highlights.map((dataset, i) => (
+        //     <Grid className={cardWrapper} item xs={12} sm={6} xl={3} key={i}>
+        //       <HomeHighlightCard cardId={`homepageCard-${i}`} className={cardWrapper} dataset={dataset} />
+        //     </Grid>
+        //   ))}
+        // </Grid>
         <div className={loadingIcon} data-testid="highlight-cards-spinner">
           <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>

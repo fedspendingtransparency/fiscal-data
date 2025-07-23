@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
+// import { makeStyles } from '@material-ui/core/styles';
+// import Popover from '@material-ui/core/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { header, infoIcon, mobileFA, popoverContents, popupContainerStyle, svgStyle } from './info-tip.module.scss';
+import { header, mobileFA } from './info-tip.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 
 const style = {
   button: {
@@ -50,17 +49,17 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
 
-  const useStyles = makeStyles(theme => ({
-    ...style,
-    popupContainer: {
-      padding: theme.spacing(2),
-    },
-    primarySvgColor: {
-      '& path': {
-        fill: iconStyle?.color ? iconStyle.color : '#aeb0b5',
-      },
-    },
-  }));
+  // const useStyles = makeStyles(theme => ({
+  //   ...style,
+  //   popupContainer: {
+  //     padding: theme.spacing(2),
+  //   },
+  //   primarySvgColor: {
+  //     '& path': {
+  //       fill: iconStyle?.color ? iconStyle.color : '#aeb0b5',
+  //     },
+  //   },
+  // }));
   const handleScroll = () => {
     const position = window.pageYOffset;
     setPreviousScrollPosition(scrollPosition);
@@ -79,7 +78,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
     };
   }, [scrollPosition]);
 
-  const { button, primarySvgColor, secondarySvgColor, popOver, popupContainer } = useStyles();
+  // const { button, primarySvgColor, secondarySvgColor, popOver, popupContainer } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   let timeout;
@@ -125,38 +124,38 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   };
   return (
     <span data-testid="infoTipContainer">
-      <Button
-        aria-describedby={id}
-        aria-label={title ? label : null}
-        data-testid="infoTipButton"
-        className={`${button} ${infoIcon} infoTipIcon`}
-        onClick={handleClick}
-        onMouseLeave={handleMouseLeave}
-        onMouseEnter={hover ? handleClick : null}
-      >
-        <FontAwesomeIcon icon={faInfoCircle} className={`${svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`} style={iconStyle} />
-      </Button>
-      <Popover
-        id={id}
-        className={popOver}
-        disableScrollLock={true}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <div className={`${popupContainer} ${popupContainerStyle}`} data-testid="popupContainer" onMouseLeave={handleClose} role={'presentation'}>
-          {getHeader()}
-          <div className={`${popoverContents} infoTipPopoverContents`}>{children}</div>
-        </div>
-      </Popover>
+      {/*<Button*/}
+      {/*  aria-describedby={id}*/}
+      {/*  aria-label={title ? label : null}*/}
+      {/*  data-testid="infoTipButton"*/}
+      {/*  className={`${button} ${infoIcon} infoTipIcon`}*/}
+      {/*  onClick={handleClick}*/}
+      {/*  onMouseLeave={handleMouseLeave}*/}
+      {/*  onMouseEnter={hover ? handleClick : null}*/}
+      {/*>*/}
+      {/*  <FontAwesomeIcon icon={faInfoCircle} className={`${svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`} style={iconStyle} />*/}
+      {/*</Button>*/}
+      {/*<Popover*/}
+      {/*  id={id}*/}
+      {/*  className={popOver}*/}
+      {/*  disableScrollLock={true}*/}
+      {/*  open={open}*/}
+      {/*  anchorEl={anchorEl}*/}
+      {/*  onClose={handleClose}*/}
+      {/*  anchorOrigin={{*/}
+      {/*    vertical: 'bottom',*/}
+      {/*    horizontal: 'center',*/}
+      {/*  }}*/}
+      {/*  transformOrigin={{*/}
+      {/*    vertical: 'top',*/}
+      {/*    horizontal: 'center',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <div className={`${popupContainer} ${popupContainerStyle}`} data-testid="popupContainer" onMouseLeave={handleClose} role={'presentation'}>*/}
+      {/*    {getHeader()}*/}
+      {/*    <div className={`${popoverContents} infoTipPopoverContents`}>{children}</div>*/}
+      {/*  </div>*/}
+      {/*</Popover>*/}
     </span>
   );
 };

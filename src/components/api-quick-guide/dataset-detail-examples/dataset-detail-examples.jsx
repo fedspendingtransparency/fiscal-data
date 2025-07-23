@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAPI } from '../../../utils/api-utils';
 import ApiQuickGuideSection from '../api-quick-guide-section';
-import { responseBlock, loadingIcon } from './dataset-detail-examples.module.scss';
-import { exampleTitle, codeBlock } from '../accordions/accordions.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { makeStyles } from '@material-ui/core/styles';
+import { loadingIcon, responseBlock } from './dataset-detail-examples.module.scss';
+import { codeBlock, exampleTitle } from '../accordions/accordions.module.scss';
+// import { makeStyles } from '@material-ui/core/styles';
 import GLOBALS from '../../../helpers/constants';
 
-const useStyles = makeStyles(() => ({
-  loadingIcon: {
-    '& path': {
-      fill: '#3d70b2',
-    },
-  },
-}));
+// const useStyles = makeStyles(() => ({
+//   loadingIcon: {
+//     '& path': {
+//       fill: '#3d70b2',
+//     },
+//   },
+// }));
 
 export const errorMessage = 'Our examples are temporarily unavailable. Please refresh the page to try again.';
 
 const DatasetDetailExamples = ({ isAccordionOpen, selectedTable }) => {
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const themeStyles = useStyles();
+  // const themeStyles = useStyles();
 
   const title = 'Example Request & Response';
   const baseURL = GLOBALS.PROD_API_BASE_URL;
@@ -102,7 +100,7 @@ const DatasetDetailExamples = ({ isAccordionOpen, selectedTable }) => {
           <pre data-testid="exampleResponse">{response}</pre>
         ) : (
           <div className={loadingIcon} data-testid={'loadingIcon'}>
-            <FontAwesomeIcon className={themeStyles.loadingIcon} icon={faSpinner} spin pulse />
+            {/*<FontAwesomeIcon className={themeStyles.loadingIcon} icon={faSpinner} spin pulse />*/}
             Loading...
           </div>
         )}

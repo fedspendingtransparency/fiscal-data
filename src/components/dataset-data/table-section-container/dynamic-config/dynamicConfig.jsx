@@ -3,22 +3,9 @@
  * This code is used internally, so the coverage isn't "AS" important with this file.
  */
 import React, { useEffect, useState } from 'react';
-import {
-  dropzone,
-  fieldOption,
-  edit,
-  pivotViewOnly,
-  editButton,
-  snapshotToggler,
-  filtersContainer,
-  configButton,
-  modal,
-  pivotDnd,
-  successfulMessage,
-  unsuccessfulMessage,
-} from './dynamicConfig.module.scss';
-import { Modal, Popover } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { dropzone, edit, editButton, fieldOption, filtersContainer, pivotViewOnly, snapshotToggler } from './dynamicConfig.module.scss';
+// import { Modal, Popover } from '@material-ui/core';
+// import { makeStyles } from '@material-ui/core/styles';
 import { createJSONOutput, placeTablePivots } from './helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
@@ -356,69 +343,69 @@ const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated,
 
   return (
     <>
-      <button data-testid="launchConfigModal" aria-label="Configure Chart" className={configButton} onClick={launchConfig}>
-        Configure Chart
-      </button>
-      <label>
-        <input type="checkbox" onClick={togglePivots} />
-        <span>Chart Without Pivots</span>
-      </label>
-      <Modal
-        open={configOpen}
-        onClose={closeConfig}
-        aria-labelledby="Charting Configuration Modal"
-        aria-describedby="Real-time config updates to current datatable's charts"
-      >
-        {
-          // TODO - Move the children of Modal into a new component along with any resulting logic
-          // and unit test this separately from the modal
-          <div data-testid="configModal" id={modal} style={modalStyle} className={classes.paper}>
-            <header>
-              <h1>Configure Chart</h1>
-            </header>
-            <hr />
-            <section>
-              <h2>Field Bank</h2>
-              {createDropzone(configFields, 'PIVOT_BANK')}
-            </section>
-            <article className={pivotDnd}>
-              <section>
-                <h2>Pivot Views</h2>
-                {createDropzone(pivotViews, 'VIEW')}
-              </section>
-              <section>
-                <h2>Pivot Values</h2>
-                {createDropzone(pivotValues, 'VALUE')}
-              </section>
-            </article>
-            <hr />
-            <footer>
-              <Popover
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center',
-                }}
-                transformOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                }}
-                open={showSuccessMessage}
-                anchorEl={successMessageAnchor}
-              >
-                <div className={isCopySuccessful ? successfulMessage : unsuccessfulMessage}>
-                  {isCopySuccessful ? 'Success' : 'Something went wrong, please try again.'}
-                </div>
-              </Popover>
-              <button className={configButton} onClick={copyToClipboard}>
-                Copy JSON to Clipboard
-              </button>
-              <button data-test-id="closeConfigModal" className={configButton} onClick={closeConfig}>
-                Close
-              </button>
-            </footer>
-          </div>
-        }
-      </Modal>
+      {/*<button data-testid="launchConfigModal" aria-label="Configure Chart" className={configButton} onClick={launchConfig}>*/}
+      {/*  Configure Chart*/}
+      {/*</button>*/}
+      {/*<label>*/}
+      {/*  <input type="checkbox" onClick={togglePivots} />*/}
+      {/*  <span>Chart Without Pivots</span>*/}
+      {/*</label>*/}
+      {/*<Modal*/}
+      {/*  open={configOpen}*/}
+      {/*  onClose={closeConfig}*/}
+      {/*  aria-labelledby="Charting Configuration Modal"*/}
+      {/*  aria-describedby="Real-time config updates to current datatable's charts"*/}
+      {/*>*/}
+      {/*  {*/}
+      {/*    // TODO - Move the children of Modal into a new component along with any resulting logic*/}
+      {/*    // and unit test this separately from the modal*/}
+      {/*    <div data-testid="configModal" id={modal} style={modalStyle} className={classes.paper}>*/}
+      {/*      <header>*/}
+      {/*        <h1>Configure Chart</h1>*/}
+      {/*      </header>*/}
+      {/*      <hr />*/}
+      {/*      <section>*/}
+      {/*        <h2>Field Bank</h2>*/}
+      {/*        {createDropzone(configFields, 'PIVOT_BANK')}*/}
+      {/*      </section>*/}
+      {/*      <article className={pivotDnd}>*/}
+      {/*        <section>*/}
+      {/*          <h2>Pivot Views</h2>*/}
+      {/*          {createDropzone(pivotViews, 'VIEW')}*/}
+      {/*        </section>*/}
+      {/*        <section>*/}
+      {/*          <h2>Pivot Values</h2>*/}
+      {/*          {createDropzone(pivotValues, 'VALUE')}*/}
+      {/*        </section>*/}
+      {/*      </article>*/}
+      {/*      <hr />*/}
+      {/*      <footer>*/}
+      {/*        <Popover*/}
+      {/*          anchorOrigin={{*/}
+      {/*            vertical: 'top',*/}
+      {/*            horizontal: 'center',*/}
+      {/*          }}*/}
+      {/*          transformOrigin={{*/}
+      {/*            vertical: 'bottom',*/}
+      {/*            horizontal: 'center',*/}
+      {/*          }}*/}
+      {/*          open={showSuccessMessage}*/}
+      {/*          anchorEl={successMessageAnchor}*/}
+      {/*        >*/}
+      {/*          <div className={isCopySuccessful ? successfulMessage : unsuccessfulMessage}>*/}
+      {/*            {isCopySuccessful ? 'Success' : 'Something went wrong, please try again.'}*/}
+      {/*          </div>*/}
+      {/*        </Popover>*/}
+      {/*        <button className={configButton} onClick={copyToClipboard}>*/}
+      {/*          Copy JSON to Clipboard*/}
+      {/*        </button>*/}
+      {/*        <button data-test-id="closeConfigModal" className={configButton} onClick={closeConfig}>*/}
+      {/*          Close*/}
+      {/*        </button>*/}
+      {/*      </footer>*/}
+      {/*    </div>*/}
+      {/*  }*/}
+      {/*</Modal>*/}
     </>
   );
 };
