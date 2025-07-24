@@ -10,7 +10,6 @@ import {
   dropdownContent,
   icon,
   selectedDateRange,
-  dateRangePickerPadded,
 } from './date-range-month-picker.module.scss';
 import MonthPicker from './month-picker/month-picker';
 import FilterButtons from '../data-preview/data-preview-dropdown-dialog/filter-buttons/filter-buttons';
@@ -18,7 +17,7 @@ import { convertDate } from '../dataset-data/dataset-data-helper/dataset-data-he
 import { monthFullNames } from '../../utils/api-utils';
 import { isAfter } from 'date-fns';
 
-const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, datasetDateRange, paddingBuffer }) => {
+const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, datasetDateRange }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<string>('');
   const [selectedEndDate, setSelectedEndDate] = useState<string>('');
   const [selectedRange, setSelectedRange] = useState<string>();
@@ -85,13 +84,15 @@ const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, data
   }, [datasetDateRange]);
 
   return (
-    <div className={paddingBuffer ? `${dateRangePickerPadded}` : `${dateRangePicker}`}>
+    <div className={dateRangePicker}>
       <DropdownContainer dropdownButton={button} setActive={setDropdownActive} containerWidth="230px">
         {dropdownActive && (
           <div className={dropdownContent}>
             <div className={datePickers}>
-              <MonthPicker text="From" setSelectedDate={setSelectedStartDate} selectedDate={selectedStartDate} allYears={allYears} />
-              <MonthPicker text="To" setSelectedDate={setSelectedEndDate} selectedDate={selectedEndDate} allYears={allYears} />
+              <MonthPicker text="From" setSelectedDate={setSelectedStartDate} selectedDate={selectedStartDate}
+                           allYears={allYears} />
+              <MonthPicker text="To" setSelectedDate={setSelectedEndDate} selectedDate={selectedEndDate}
+                           allYears={allYears} />
             </div>
             <FilterButtons handleApply={handleApply} handleCancel={handleCancel} />
           </div>
