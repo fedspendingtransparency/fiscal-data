@@ -8,6 +8,7 @@ import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
 import { chartTableBorder } from './state-and-local-government-series-chart.module.scss';
 import SLGSLineChart from './SLGS_line_chart/SLGS_line_chart';
+import DtgTable from '../../../../../components/dtg-table/dtg-table';
 
 const breakpoint = {
   desktop: 1015,
@@ -22,8 +23,17 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
   const [dateRange, setDateRange] = useState();
+  const [sorting, setSorting] = useState([]);
 
-  const { chartData, xAxisValues, xAxisMobileValues, datasetDateRange, totalMonths } = useGetStateAndLocalGovernmentSeriesData(dateRange);
+  const {
+    chartData,
+    xAxisValues,
+    xAxisMobileValues,
+    datasetDateRange,
+    totalMonths,
+    columnConfig,
+    mergedTableData,
+  } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
 
   const setDefaultHeaderValues = () => {
@@ -56,6 +66,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         datasetDateRange={datasetDateRange}
         isLoading={!chartData}
         height={height}
+        paddingBuffer={true}
         chart={
           <>
             <div className={chartTableBorder}>
@@ -99,7 +110,24 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
             </div>
           </>
         }
-        table={<>table</>}
+        table={
+          <DtgTable
+            tableProps={{
+              data: mergedTableData,
+              columnConfig,
+              tableName: 'State and Local Government Series Details',
+              caption: 'State and Local Government Series Table',
+              shouldPage: true,
+              width: '99%',
+              chartTable: false,
+              noBorder: true,
+            }}
+            reactTable={true}
+            sorting={sorting}
+            setSorting={setSorting}
+            width
+          />
+        }
       />
     </>
   );
