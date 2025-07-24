@@ -25,15 +25,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [dateRange, setDateRange] = useState();
   const [sorting, setSorting] = useState([]);
 
-  const {
-    chartData,
-    xAxisValues,
-    xAxisMobileValues,
-    datasetDateRange,
-    totalMonths,
-    columnConfig,
-    mergedTableData,
-  } = useGetStateAndLocalGovernmentSeriesData(dateRange);
+  const { chartData, xAxisValues, xAxisMobileValues, datasetDateRange, totalMonths } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
 
   const setDefaultHeaderValues = () => {
@@ -107,24 +99,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
             </div>
           </>
         }
-        table={
-          <DtgTable
-            tableProps={{
-              data: mergedTableData,
-              columnConfig,
-              tableName: 'State and Local Government Series Details',
-              caption: 'State and Local Government Series Table',
-              shouldPage: true,
-              width: '99%',
-              chartTable: false,
-              noBorder: true,
-            }}
-            reactTable={true}
-            sorting={sorting}
-            setSorting={setSorting}
-            width
-          />
-        }
+        table={<>table</>}
       />
     </>
   );
