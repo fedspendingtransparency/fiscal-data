@@ -46,6 +46,13 @@ export const formatDate = dateStr => {
     }
   }
 };
+export const formatXAxis = (val, totalMonths) => {
+  return totalMonths > 24
+    ? convertDate(val)
+        .getFullYear()
+        .toString()
+    : formatDate(val);
+};
 
 export const Legend: FunctionComponent = (): ReactElement => {
   return (
