@@ -1,6 +1,6 @@
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
-import { useEffect, useMemo, useState } from 'react';
-import { format, getMonth } from 'date-fns';
+import {useEffect, useMemo, useState} from 'react';
+import { getMonth } from 'date-fns';
 import { convertDate } from '../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { apiCalls, releaseCalendarUrl, slgsEndpoint } from './slgs-helper';
 
@@ -116,9 +116,8 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   const [datasetDateRange, setDatasetDateRange] = useState<{ from: string; to: string }>();
   const [xAxisValues, setXAxisValues] = useState<string[]>(null);
   const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
-  const [mergedTableData, setMergedTableData] = useState<any[]>([]);
-
   const totalMonths = getMonthDifference(dateRange?.from, dateRange?.to);
+  const [mergedTableData, setMergedTableData] = useState(null);
   useEffect(() => {
     getDatasetDateRange().then(async completeDateRange => setDatasetDateRange(completeDateRange));
   }, []);
