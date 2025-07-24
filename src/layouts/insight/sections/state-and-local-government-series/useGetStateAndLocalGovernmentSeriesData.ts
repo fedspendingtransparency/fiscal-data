@@ -1,6 +1,6 @@
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
-import { useEffect, useState } from 'react';
-import { getMonth } from 'date-fns';
+import { useEffect, useMemo, useState } from 'react';
+import { format, getMonth } from 'date-fns';
 import { convertDate } from '../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { apiCalls, releaseCalendarUrl, slgsEndpoint } from './slgs-helper';
 
@@ -129,6 +129,8 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   const [datasetDateRange, setDatasetDateRange] = useState<{ from: string; to: string }>();
   const [xAxisValues, setXAxisValues] = useState<string[]>(null);
   const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
+  const [mergedTableData, setMergedTableData] = useState<any[]>([]);
+
   const totalMonths = getMonthDifference(dateRange?.from, dateRange?.to);
   useEffect(() => {
     getDatasetDateRange().then(async completeDateRange => setDatasetDateRange(completeDateRange));
@@ -154,11 +156,32 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
     });
   }, [dateRange]);
 
+  useMemo(() => {
+    if (chartData) {
+      const newTableData = chartData.map(item => {
+        return {
+          date: format(new Date(item.date), 'MMMM yyyy'),
+          totalAmount: '$' + item.totalAmount.toLocaleString(),
+          totalCount: item.totalCount.toLocaleString(),
+        };
+      });
+      setMergedTableData(newTableData);
+    }
+  }, [chartData]);
+
+  const columnConfig = [
+    { property: 'date', name: 'Date', type: 'string' },
+    { property: 'totalAmount', name: 'Amount', type: 'string' },
+    { property: 'totalCount', name: 'Count', type: 'string' },
+  ];
+
   return {
     xAxisValues,
     xAxisMobileValues,
     chartData,
     datasetDateRange,
     totalMonths,
+    columnConfig,
+    mergedTableData,
   };
 };

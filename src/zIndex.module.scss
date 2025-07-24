@@ -78,3 +78,6 @@ $sticky-header: $above + $dataset-detail-nav;
 // glossary
 $glossary: $above + $mobile-menu;
 $glossary-overlay: $below + $backdrop;
+
+// report
+$account-dropdown: $dtg-table-loading-icon + $above;

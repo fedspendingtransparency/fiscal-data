@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { sectionHeader, mainHeader, headerExpanded, caret, linkContainer, resourceLink } from './mobile-menu-dropdown.module.scss';
+import { caret, headerExpanded, linkContainer, mainHeader, resourceLink, sectionHeader } from './mobile-menu-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'gatsby';
@@ -89,7 +89,13 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
                   }
                   if (page.external) {
                     return (
-                      <CustomLink url={page.to} external onClick={() => clickHandler(page.name, section.analyticsAction)} className={resourceLink}>
+                      <CustomLink
+                        url={page.to}
+                        external
+                        onClick={() => clickHandler(page.name, section.analyticsAction)}
+                        className={resourceLink}
+                        skipExternalModal={page.skipExternalModal}
+                      >
                         {page.name}
                       </CustomLink>
                     );
