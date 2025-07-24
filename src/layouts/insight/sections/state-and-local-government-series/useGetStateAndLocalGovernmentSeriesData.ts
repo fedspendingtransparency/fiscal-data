@@ -169,6 +169,8 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
     }
   }, [chartData]);
 
+  const columnConfigArray = ['Date', 'Amount', 'Count'];
+
   const columnConfig = [
     { property: 'date', name: 'Date', type: 'string' },
     { property: 'totalAmount', name: 'Amount', type: 'string' },
@@ -182,6 +184,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
     datasetDateRange,
     totalMonths,
     columnConfig,
+    columnConfigArray,
     mergedTableData,
   };
 };
