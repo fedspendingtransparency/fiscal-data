@@ -7,8 +7,8 @@ import { getShortForm } from '../../../../../utils/rounding-utils';
 import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
 import { chartTableBorder } from './state-and-local-government-series-chart.module.scss';
-import SLGSLineChart from './SLGS_line_chart/SLGS_line_chart';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
+import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
 
 const breakpoint = {
   desktop: 1015,
@@ -18,7 +18,6 @@ const breakpoint = {
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const { chartData, xAxisValues, xAxisMobileValues, columnConfig, mergedTableData, datasetDateRange, totalMonths } = useGetStateAndLocalGovernmentSeriesData();
   const [isMobile, setIsMobile] = useState<boolean>(null);
   const [curDate, setCurDate] = useState<number>(0);
   const [curAmount, setCurAmount] = useState<number>(0);
@@ -26,6 +25,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [dateRange, setDateRange] = useState();
   const [sorting, setSorting] = useState([]);
 
+  const { chartData, xAxisValues, xAxisMobileValues, datasetDateRange, totalMonths } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
 
   const setDefaultHeaderValues = () => {
@@ -58,6 +58,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         datasetDateRange={datasetDateRange}
         isLoading={!chartData}
         height={height}
+        paddingBuffer={true}
         chart={
           <>
             <div className={chartTableBorder}>
@@ -67,62 +68,39 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                 right={{ label: 'Amount', value: `$${getShortForm(curAmount.toString())}` }}
                 left={{ label: 'Count', value: customNumberFormatter.format(curCount, 0) }}
               />
-              <div>
-                {(!totalMonths || totalMonths <= 24) && (
-                  <>
-                    <Legend />
-                    <div
-                      data-testid="chartParent"
-                      role="presentation"
-                      onBlur={() => {
-                        setChartFocus(false);
-                        setDefaultHeaderValues();
-                      }}
-                      onFocus={() => setChartFocus(true)}
-                      onMouseOver={() => setChartHover(true)}
-                      onMouseLeave={() => setChartHover(false)}
-                    >
-                      <SLGSLineChart
-                        setCurAmount={setCurAmount}
-                        setCurCount={setCurCount}
-                        setCurDate={setCurDate}
-                        height={height}
-                        isMobile={isMobile}
-                        chartData={chartData}
-                        xAxisValues={xAxisValues}
-                        xAxisMobileValues={xAxisMobileValues}
-                        chartFocus={chartFocus}
-                        chartHover={chartHover}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
+              <>
+                <Legend />
+                <div
+                  data-testid="chartParent"
+                  role="presentation"
+                  onBlur={() => {
+                    setChartFocus(false);
+                    setDefaultHeaderValues();
+                  }}
+                  onFocus={() => setChartFocus(true)}
+                  onMouseOver={() => setChartHover(true)}
+                  onMouseLeave={() => setChartHover(false)}
+                >
+                  <SLGSBarChart
+                    setCurAmount={setCurAmount}
+                    setCurCount={setCurCount}
+                    setCurDate={setCurDate}
+                    height={height}
+                    isMobile={isMobile}
+                    chartData={chartData}
+                    xAxisValues={xAxisValues}
+                    xAxisMobileValues={xAxisMobileValues}
+                    chartFocus={chartFocus}
+                    chartHover={chartHover}
+                    totalMonths={totalMonths}
+                  />
+                </div>
+              </>
             </div>
           </>
         }
         table={<>table</>}
       />
-        )}
-        {selectedChartView === 'tableView' && (
-          <DtgTable
-            tableProps={{
-              data: mergedTableData,
-              columnConfig,
-              tableName: 'State and Local Government Series Details',
-              caption: 'State and Local Government Series Table',
-              shouldPage: true,
-              width: '99%',
-              chartTable: false,
-              noBorder: true,
-            }}
-            reactTable={true}
-            sorting={sorting}
-            setSorting={setSorting}
-            width
-          />
-        )}
-      </ChartTableContainer>
     </>
   );
 };

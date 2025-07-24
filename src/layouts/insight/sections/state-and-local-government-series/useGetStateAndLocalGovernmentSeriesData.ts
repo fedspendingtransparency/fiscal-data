@@ -1,5 +1,5 @@
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
-import {useEffect, useMemo, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { getMonth } from 'date-fns';
 import { convertDate } from '../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { apiCalls, releaseCalendarUrl, slgsEndpoint } from './slgs-helper';
@@ -81,25 +81,38 @@ const getChartData = async allDates => {
           date: entry.record_date,
           totalAmount: Math.round(
             Number(entry.outstanding_0_3_mos_amt) +
-              Number(entry.outstanding_3_6_mos_amt) +
-              Number(entry.outstanding_6_mos_to_2_yrs_amt) +
-              Number(entry.outstanding_2_5_yrs_amt) +
-              Number(entry.outstanding_5_10_yrs_amt) +
-              Number(entry.outstanding_over_10_yrs_amt)
+            Number(entry.outstanding_3_6_mos_amt) +
+            Number(entry.outstanding_6_mos_to_2_yrs_amt) +
+            Number(entry.outstanding_2_5_yrs_amt) +
+            Number(entry.outstanding_5_10_yrs_amt) +
+            Number(entry.outstanding_over_10_yrs_amt)
           ),
           totalCount: Math.round(
             Number(entry.outstanding_0_3_mos_cnt) +
-              Number(entry.outstanding_3_6_mos_cnt) +
-              Number(entry.outstanding_6_mos_to_2_yrs_cnt) +
-              Number(entry.outstanding_2_5_yrs_cnt) +
-              Number(entry.outstanding_5_10_yrs_cnt) +
-              Number(entry.outstanding_over_10_yrs_cnt)
+            Number(entry.outstanding_3_6_mos_cnt) +
+            Number(entry.outstanding_6_mos_to_2_yrs_cnt) +
+            Number(entry.outstanding_2_5_yrs_cnt) +
+            Number(entry.outstanding_5_10_yrs_cnt) +
+            Number(entry.outstanding_over_10_yrs_cnt)
           ),
         }));
       allRecords.reverse();
       return allRecords;
     }
   });
+};
+
+const getAxisValues = (totalMonths, chartDates) => {
+  let axisVals;
+
+  if (!totalMonths || totalMonths <= 12) {
+    axisVals = chartDates;
+  } else if (totalMonths <= 24) {
+    axisVals = chartDates.filter(index => index % 2 !== 0);
+  } else {
+    axisVals = chartDates.filter(val => val.includes('-01-'));
+  }
+  return axisVals;
 };
 
 export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
@@ -116,8 +129,8 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   const [datasetDateRange, setDatasetDateRange] = useState<{ from: string; to: string }>();
   const [xAxisValues, setXAxisValues] = useState<string[]>(null);
   const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
+
   const totalMonths = getMonthDifference(dateRange?.from, dateRange?.to);
-  const [mergedTableData, setMergedTableData] = useState(null);
   useEffect(() => {
     getDatasetDateRange().then(async completeDateRange => setDatasetDateRange(completeDateRange));
   }, []);
@@ -135,36 +148,19 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
 
       if (lastCompleteMonth)
         getChartDates(chartEndMonth, totalMonths, chartEndYear).then(async chartDates => {
-          setXAxisValues(chartDates);
-
+          setXAxisValues(getAxisValues(totalMonths, chartDates));
           setXAxisMobileValues(chartDates.filter(index => index % 2 !== 0));
           getChartData(chartDates).then(chartData => setChartData(chartData));
         });
     });
   }, [dateRange]);
 
-  useMemo(() => {
-    if (chartData) {
-      const newTableData = chartData.map(item => {
-        return {
-          date: format(new Date(item.date), 'MMMM yyyy'),
-          totalAmount: '$' + item.totalAmount.toLocaleString(),
-          totalCount: item.totalCount.toLocaleString(),
-        };
-      });
-      setMergedTableData(newTableData);
-    }
-  }, [chartData]);
 
-  const columnConfigArray = ['Date', 'Amount', 'Count'];
-
-  const columnConfig = useMemo(() => {
-    return [
-      { property: 'date', name: 'Date', type: 'string' },
-      { property: 'totalAmount', name: 'Amount', type: 'string' },
-      { property: 'totalCount', name: 'Count', type: 'string' },
-    ];
-  }, []);
+  const columnConfig = [
+    { property: 'date', name: 'Date', type: 'string' },
+    { property: 'totalAmount', name: 'Amount', type: 'string' },
+    { property: 'totalCount', name: 'Count', type: 'string' },
+  ];
 
   return {
     xAxisValues,
@@ -172,7 +168,6 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
     chartData,
     datasetDateRange,
     totalMonths,
-    columnConfig,
-    mergedTableData,
+
   };
 };
