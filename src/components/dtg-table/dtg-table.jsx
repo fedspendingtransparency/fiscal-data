@@ -79,7 +79,6 @@ export default function DtgTable({
     publishedReports,
     customFormatting,
     chartTable,
-    refreshTableData,
   } = tableProps;
   const [reactTableData, setReactTableData] = useState(null);
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
@@ -329,9 +328,7 @@ export default function DtgTable({
     if (!tableProps.data) {
       setCurrentPage(1);
     }
-    if (tableProps.refreshTableData) {
-      updateTable(tableProps.data);
-    }
+    updateTable(tableProps.data);
   }, [tableProps.data]);
 
   useEffect(() => {
