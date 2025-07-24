@@ -328,7 +328,6 @@ export default function DtgTable({
     if (!tableProps.data) {
       setCurrentPage(1);
     }
-    updateTable(tableProps.data);
   }, [tableProps.data]);
 
   useEffect(() => {

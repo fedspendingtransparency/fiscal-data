@@ -44,6 +44,8 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     }
   };
 
+  // useEffect(() => {}, [dateRange]);
+
   useEffect(() => {
     setDefaultHeaderValues();
   }, [chartData]);
