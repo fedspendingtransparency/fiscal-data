@@ -52,7 +52,6 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   height,
   chart,
   table,
-  paddingBuffer,
 }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [downloadClicked, setDownloadClick] = useState(false);
@@ -93,9 +92,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
         <div className={chartTitle}>{title}</div>
         <div className={headerContainer}>{toggle}</div>
       </div>
-      {datasetDateRange && (
-        <DateRangeMonthPicker dateRange={dateRange} setDateRange={setDateRange} datasetDateRange={datasetDateRange} paddingBuffer={paddingBuffer} />
-      )}
+      {datasetDateRange && <DateRangeMonthPicker dateRange={dateRange} setDateRange={setDateRange} datasetDateRange={datasetDateRange} />}
       {isLoading && (
         <Skeleton
           width="99%"
