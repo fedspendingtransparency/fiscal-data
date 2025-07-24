@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import MenuButton from '../menu-button/menu-button';
 import MobileMenuDropdown from './mobile-menu-dropdown/mobile-menu-dropdown';
-import { bottomMostLink, linkHeaderContainer, logo, menuContainer, open, overlay, pageLinks, tray } from './mobile-menu.module.scss';
+import { menuContainer, overlay, tray, logo, open, linkHeaderContainer, bottomMostLink, pageLinks } from './mobile-menu.module.scss';
 
 const MobileMenu = ({ setOpenGlossary }) => {
   const [activeState, setActiveState] = useState(false);
@@ -97,7 +97,6 @@ const MobileMenu = ({ setOpenGlossary }) => {
           to: 'https://onevoicecrm.my.site.com/FiscalDataCommunity/s/',
           name: 'Community Site',
           external: true,
-          skipExternalModal: true,
         },
       ],
     },

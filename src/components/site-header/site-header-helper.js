@@ -76,7 +76,6 @@ export const menuSections = [
         to: 'https://onevoicecrm.my.site.com/FiscalDataCommunity/s/',
         title: 'Community Site',
         external: true,
-        skipExternalModal: true,
       },
     ],
   },

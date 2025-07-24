@@ -28,7 +28,6 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
   const [allReports, setAllReports] = useState([]);
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const bannerCopy = reportsBannerCopy[reportGenKey];
   const heading = noMatchingData ? bannerCopy?.noDataMatchHeader : bannerCopy?.additionalFiltersHeader;
@@ -123,10 +122,8 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             const downloadDate = format(selectedDate, 'MMyyyy');
             let reportData;
             try {
-              setIsLoading(true);
               reportData = await getReportData(report, reportConfig);
             } catch (error) {
-              setIsLoading(false);
               setApiErrorMessage(true);
               break;
             }
@@ -160,9 +157,6 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
         reports.push(report);
       }
     });
-    if (reports.length === 0) {
-      setIsLoading(false);
-    }
     setActiveReports(reports);
   }, [allReports]);
 
@@ -193,17 +187,10 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
         {(activeReports?.length === 0 || apiErrorMessage) && (
-          <ReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} heading={heading} body={body} isLoading={isLoading} />
+          <ReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} heading={heading} body={body} />
         )}
         {activeReports?.length > 0 && !apiErrorMessage && (
-          <DownloadReportTable
-            isDailyReport={false}
-            generatedReports={activeReports}
-            width={width}
-            setApiErrorMessage={setApiErrorMessage}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-          />
+          <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
         )}
         <DataPreviewDatatableBanner bannerNotice={dataset?.publishedReportsTip} isReport={true} />
       </DatasetSectionContainer>

@@ -16,7 +16,6 @@ type CustomLinkProps = {
   id?: string;
   tabindex?: number;
   className?: string;
-  skipExternalModal?: boolean;
 };
 
 const analyticsEventMap: Record<string, string> = {
@@ -38,7 +37,6 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   id,
   tabindex,
   className,
-  skipExternalModal = false,
 }: CustomLinkProps) => {
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
@@ -92,14 +90,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   switch (true) {
     case treatAsExternal:
       return (
-        <ExternalLink
-          url={urlOrHref}
-          onClick={onClickEventHandler}
-          dataTestId={dataTestId}
-          id={id}
-          className={className}
-          skipExternalModal={skipExternalModal}
-        >
+        <ExternalLink url={urlOrHref} onClick={onClickEventHandler} dataTestId={dataTestId} id={id} className={className}>
           {children}
         </ExternalLink>
       );
