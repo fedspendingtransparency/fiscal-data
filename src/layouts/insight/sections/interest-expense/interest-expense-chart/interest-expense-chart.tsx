@@ -88,7 +88,6 @@ const InterestExpenseChart = () => {
 
   useEffect(() => {
     const downloaderData = mergedTableData.map(row => columnConfig.map(col => row[col.property]));
-    console.log(downloaderData);
     downloaderData.unshift(columnConfigArray);
     setDownloadData(downloaderData);
   }, [mergedTableData]);

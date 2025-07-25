@@ -59,12 +59,6 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     }
   }, [width]);
 
-  const testArray = [
-    { date: '08/01/24', totalAmount: '$106,177,737,074', totalCount: '14,921' },
-    { date: '09/01/24', totalAmount: '$110,927,958,296', totalCount: '14,939' },
-    { date: '10/01/24', totalAmount: '$114,336,302,944', totalCount: '15,132' },
-  ];
-
   useEffect(() => {
     if (mergedTableData.length) {
       setMonthRange({
