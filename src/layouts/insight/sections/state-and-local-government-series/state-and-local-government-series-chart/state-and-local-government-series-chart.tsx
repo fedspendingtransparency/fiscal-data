@@ -69,8 +69,8 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     const downloaderData = mergedTableData.map(row => {
       const cleanData = {
         date: `="${row.date}"`,
-        totalAmount: row.totalAmount.replace(/,/g, ''),
-        totalCount: row.totalCount.includes(',') ? `"${row.totalCount}"` : row.totalCount,
+        totalAmount: `"${row.totalAmount}"`,
+        totalCount: `"${row.totalCount}"`,
       };
       return columnConfig.map(col => cleanData[col.property]);
     });

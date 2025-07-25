@@ -30,7 +30,7 @@ jest.mock('../useGetStateAndLocalGovernmentSeriesData', () => ({
   useGetStateAndLocalGovernmentSeriesData: () => mockHookReturnValues,
 }));
 
-describe('Interest Expense Chart', () => {
+describe('State and Local Government Series Chart', () => {
   class ResizeObserver {
     observe() {}
     unobserve() {}
