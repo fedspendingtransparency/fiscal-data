@@ -22,7 +22,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [curDate, setCurDate] = useState<number>(0);
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
-  const [dateRange, setDateRange] = useState([]);
+  const [dateRange, setDateRange] = useState();
   const [sorting, setSorting] = useState([]);
   const [downloadData, setDownloadData] = useState([]);
   const [monthRange, setMonthRange] = useState([]);
