@@ -115,6 +115,7 @@ describe('State and Local Government Series Chart', () => {
     userEvent.tab();
     userEvent.tab();
     userEvent.tab();
+    userEvent.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date
     expect(getByText('Aug 2020')).toBeInTheDocument();
