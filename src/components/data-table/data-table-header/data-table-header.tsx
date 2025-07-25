@@ -84,7 +84,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                   className={chartTable ? textHeaderContainer : textChartHeaderContainer}
                   style={{
                     minWidth: chartTable ? header.getSize() : header.getSize() - 4,
-                    width: !chartTable ? '15rem' : '',
+                    width: !chartTable ? '20rem' : '',
                     paddingLeft: !chartTable ? '1rem' : '',
                   }}
                 >

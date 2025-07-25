@@ -24,6 +24,8 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [curCount, setCurCount] = useState<number>(0);
   const [dateRange, setDateRange] = useState();
   const [sorting, setSorting] = useState([]);
+  const [downloadData, setDownloadData] = useState([]);
+  const [monthRange, setMonthRange] = useState([]);
 
   const {
     chartData,
@@ -32,6 +34,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     datasetDateRange,
     totalMonths,
     columnConfig,
+    columnConfigArray,
     mergedTableData,
   } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
@@ -56,12 +59,33 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     }
   }, [width]);
 
+  useEffect(() => {
+    if (mergedTableData.length) {
+      setMonthRange({
+        from: mergedTableData[0].date,
+        to: mergedTableData[mergedTableData.length - 1].date,
+      });
+    }
+    const downloaderData = mergedTableData.map(row => {
+      const cleanData = {
+        date: `="${row.date}"`,
+        totalAmount: `"${row.totalAmount}"`,
+        totalCount: `"${row.totalCount}"`,
+      };
+      return columnConfig.map(col => cleanData[col.property]);
+    });
+    downloaderData.unshift(columnConfigArray);
+    setDownloadData(downloaderData);
+  }, [mergedTableData]);
+
   return (
     <>
       <ChartTableContainer
         title="Outstanding State and Local Government Series (SLGS) Securities"
+        downloadData={downloadData}
+        selectedTable={{ downloadName: 'state-and-local-government-series-securities' }}
         altText={altText}
-        dateRange={dateRange}
+        dateRange={monthRange}
         setDateRange={setDateRange}
         datasetDateRange={datasetDateRange}
         isLoading={!chartData}
