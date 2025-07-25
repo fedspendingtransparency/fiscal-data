@@ -16,14 +16,29 @@ jest.mock('recharts', () => {
   };
 });
 
+const mockColumnConfigArray = ['Date', 'Amount', 'Count'];
+const mockColumnConfig = [
+  { property: 'date', name: 'Date', type: 'string' },
+  { property: 'totalAmount', name: 'Amount', type: 'string' },
+  { property: 'totalCount', name: 'Count', type: 'string' },
+];
+
 const mockChartData = [
   { date: '2020-08-30', totalAmount: '650000000000', totalCount: 25000 },
   { date: '2020-09-30', totalAmount: '600000000000', totalCount: 20000 },
 ];
 
+const mockMergedTableData = [
+  { date: 'August 2020', totalAmount: '$650,000,000,000', totalCount: '25,000' },
+  { date: 'September 2020', totalAmount: '$600,000,000,00', totalCount: '25,000' },
+];
+
 const mockHookReturnValues = {
   chartData: mockChartData,
+  mergedTableData: mockMergedTableData,
   xAxisValues: ['2020-09-30', '2020-08-30'],
+  columnConfigArray: mockColumnConfigArray,
+  columnConfig: mockColumnConfig,
 };
 
 jest.mock('../useGetStateAndLocalGovernmentSeriesData', () => ({
