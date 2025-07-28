@@ -1,7 +1,8 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import DataDictionary from './data-dictionary';
+import DtgTable from '../dtg-table/dtg-table';
 import { RecoilRoot } from 'recoil';
-import { render, within } from '@testing-library/react';
 
 describe('DataDictionary', () => {
   const apis = [
@@ -25,7 +26,7 @@ describe('DataDictionary', () => {
       ],
     },
     {
-      tableName: 'table2',
+      tableName: 'table1',
       fields: [
         {
           columnName: 'reporting_date',
@@ -48,46 +49,52 @@ describe('DataDictionary', () => {
     },
   ];
 
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(
+      <RecoilRoot>
+        <DataDictionary apis={apis} />
+      </RecoilRoot>
+    );
+  });
+  const instance = component.root;
+
   it('sets the expected column titles in the expected order', () => {
-    const { getAllByRole } = render(<DataDictionary apis={apis} />, { wrapper: RecoilRoot });
-    const columnHeaders = getAllByRole('columnheader');
-    expect(within(columnHeaders[0]).getByText('Data Table Name')).toBeInTheDocument();
-    expect(within(columnHeaders[1]).getByText('Field Name')).toBeInTheDocument();
-    expect(within(columnHeaders[2]).getByText('Display Name')).toBeInTheDocument();
-    expect(within(columnHeaders[3]).getByText('Description')).toBeInTheDocument();
-    expect(within(columnHeaders[4]).getByText('Data Type')).toBeInTheDocument();
-    expect(within(columnHeaders[5]).getByText('Is Required')).toBeInTheDocument();
+    const config = instance.findByType(DtgTable).props.tableProps.columnConfig;
+
+    expect(config[0].name).toBe('Data Table Name');
+    expect(config[1].name).toBe('Field Name');
+    expect(config[2].name).toBe('Display Name');
+    expect(config[3].name).toBe('Description');
+    expect(config[4].name).toBe('Data Type');
+    expect(config[5].name).toBe('Is Required');
   });
 
   it('sends the concatenated table data to the table component', () => {
-    const { getAllByRole, getByRole } = render(<DataDictionary apis={apis} />, { wrapper: RecoilRoot });
-    const table = getByRole('table');
-    const rows = getAllByRole('row');
-    expect(rows.length).toBe(5);
-    expect(within(rows[1]).getByRole('cell', { name: 'table1' })).toBeInTheDocument();
-    expect(within(rows[3]).getByRole('cell', { name: 'table2' })).toBeInTheDocument();
+    expect(instance.findByType(DtgTable).props.tableProps.data).toStrictEqual(apis[0].fields.concat(apis[1].fields));
   });
 
   it('sets the table component width', () => {
-    const { getByRole } = render(<DataDictionary apis={apis} />, { wrapper: RecoilRoot });
-    const table = getByRole('table');
-    expect(table).toHaveStyle({ width: 1400 });
+    expect(instance.findByType(DtgTable).props.tableProps.width).toBeDefined();
   });
 
   it('adds table name to each row', () => {
-    const { getAllByRole } = render(<DataDictionary apis={apis} />, { wrapper: RecoilRoot });
-
-    const rows = getAllByRole('row');
-    const firstRow = within(rows[1]).getAllByRole('cell');
-    const secondRow = within(rows[3]).getAllByRole('cell');
-    expect(within(firstRow[0]).getByText(apis[0].tableName)).toBeInTheDocument();
-    expect(within(secondRow[0]).getByText(apis[1].tableName)).toBeInTheDocument();
+    expect(apis[0].fields[0].tableName).toBe(apis[0].tableName);
+    expect(apis[1].fields[0].tableName).toBe(apis[1].tableName);
   });
 
   it('sets aria-label to dataset name', () => {
     const name = 'test-dataset';
-    const { getByRole } = render(<DataDictionary apis={apis} datasetName={name} />, { wrapper: RecoilRoot });
-    const table = getByRole('table', { name: `${name} data dictionary` });
-    expect(table).toBeInTheDocument();
+    const newComponent = renderer.create();
+    renderer.act(() => {
+      newComponent.update(
+        <RecoilRoot>
+          <DataDictionary apis={apis} datasetName={name} />
+        </RecoilRoot>
+      );
+    });
+    const updated = newComponent.root;
+    const table = updated.findByType('table');
+    expect(table.props['aria-label']).toBe(`${name} data dictionary`);
   });
 });

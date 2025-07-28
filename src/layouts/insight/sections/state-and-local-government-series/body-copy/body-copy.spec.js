@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
-import { BodyCopy } from './body-copy';
+import BodyCopy from '../body-copy/body-copy';
 import { mockSLGSFetchResponses } from '../../../../explainer/explainer-test-helper';
 
 describe('State and Local Government Series Body Copy', () => {

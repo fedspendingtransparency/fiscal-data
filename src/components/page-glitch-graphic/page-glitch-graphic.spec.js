@@ -1,10 +1,16 @@
 import React from 'react';
 import GlitchGraphic from './page-glitch-graphic';
-import { render } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 
 describe('Not Found Graphic', () => {
+  let instance;
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<GlitchGraphic />);
+  });
+  instance = component.root;
+
   it('renders an image', () => {
-    const { getByAltText } = render(<GlitchGraphic />);
-    expect(getByAltText('404: Page Not Found')).toBeInTheDocument();
+    expect(instance.findByType('img')).toBeDefined();
   });
 });

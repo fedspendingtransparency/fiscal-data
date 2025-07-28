@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import Button from '@material-ui/core/Button';
 // import { Menu, MenuItem } from '@material-ui/core';
+// import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { pageOptions, perPageLabel } from './pagination-controls.module.scss';
 
 const PagingOptionsMenu = ({ menuProps }) => {
@@ -27,16 +29,16 @@ const PagingOptionsMenu = ({ menuProps }) => {
     }
   };
 
-  const renderMenuItems = () => {
-    return options.map(option => (
-      <MenuItem key={`${label} - ${option.toString()}`} onClick={() => handleCloseOrChange(option)}>
-        {option.toString()}
-      </MenuItem>
-    ));
-  };
+  // const renderMenuItems = () => {
+  //   return options.map(option => (
+  //     <MenuItem key={`${label} - ${option.toString()}`} onClick={() => handleCloseOrChange(option)}>
+  //       {option.toString()}
+  //     </MenuItem>
+  //   ));
+  // };
 
   return (
-    <div className={pageOptions} data-testid="paginationMenu">
+    <div className={pageOptions}>
       <span className={perPageLabel}>{label}</span>
       {/*<Button*/}
       {/*  aria-label="rows-per-page-menu"*/}

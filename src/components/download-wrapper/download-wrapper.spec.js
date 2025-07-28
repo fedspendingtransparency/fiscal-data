@@ -1,12 +1,14 @@
 import React from 'react';
-import { waitFor, render, within } from '@testing-library/react';
-import DownloadWrapper from './download-wrapper';
+import renderer from 'react-test-renderer';
+import { act, render } from '@testing-library/react';
+import DownloadWrapper, { cancelEventActionStr } from './download-wrapper';
+import DownloadItemButton from './download-item-button/download-item-button';
 import Analytics from '../../utils/analytics/analytics';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
+import DownloadModal from '../download-modal/download-modal';
 import { RecoilRoot } from 'recoil';
 import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
-import userEvent from '@testing-library/user-event';
 
 jest.mock('../truncate/truncate.jsx', function() {
   return {
@@ -53,15 +55,21 @@ describe('DownloadWrapper', () => {
   HTMLCanvasElement.prototype.getContext = jest.fn();
 
   const nonFilteredDate = 'ALL';
-
-  it('renders the component', () => {
-    const { getByTestId } = render(
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(
       <RecoilRoot>
         <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} setDisableDownloadBanner={jest.fn()} />
       </RecoilRoot>
     );
-    const theComponent = getByTestId('wrapper');
-    expect(theComponent).toBeInTheDocument();
+  });
+  const instance = component.root;
+
+  const downloadItemButtons = instance.findAllByType(DownloadItemButton);
+
+  it('renders the component', () => {
+    const theComponent = instance.findByProps({ 'data-test-id': 'wrapper' });
+    expect(theComponent).toBeDefined();
   });
 
   it('updates the table name when the table object is passed into the component', () => {
@@ -69,97 +77,96 @@ describe('DownloadWrapper', () => {
     const selectedTable = {
       tableName: curTableName,
     };
-    const { getByText } = render(
-      <RecoilRoot>
-        <DownloadWrapper selectedTable={selectedTable} dataset={{ name: 'Mock Dataset' }} setDisableDownloadBanner={jest.fn()} />
-      </RecoilRoot>
-    );
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper selectedTable={selectedTable} dataset={{ name: 'Mock Dataset' }} setDisableDownloadBanner={jest.fn()} />
+        </RecoilRoot>
+      );
+    });
 
-    const tableName = getByText(curTableName);
-    expect(tableName).toBeInTheDocument();
+    const tableName = instance.findByProps({ 'data-test-id': 'tableNameText' });
+    expect(tableName.props.children).toEqual(curTableName);
   });
 
   it('updates the date string when isFiltered is true (logic handled by DataTableSelect component)', () => {
     const dateRange = { from: new Date('01/01/2020'), to: new Date('11/01/2020') };
     const isFiltered = true;
-    const { getByText } = render(
-      <RecoilRoot>
-        <DownloadWrapper
-          selectedTable={{}}
-          dataset={{ name: 'Mock Dataset', techSpecs: {} }}
-          dateRange={dateRange}
-          isFiltered={isFiltered}
-          setDisableDownloadBanner={jest.fn()}
-        />
-      </RecoilRoot>
-    );
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper
+            selectedTable={{}}
+            dataset={{ name: 'Mock Dataset', techSpecs: {} }}
+            dateRange={dateRange}
+            isFiltered={isFiltered}
+            setDisableDownloadBanner={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+    });
 
     const expectedDateString = '01/01/2020 - 11/01/2020';
-    expect(getByText(expectedDateString)).toBeInTheDocument();
+    const tableName = instance.findByProps({ 'data-test-id': 'dateString' });
+    expect(tableName.children).toContain(expectedDateString);
   });
 
   it('does not update the date string when an invalid date range is given', () => {
-    const dateRange = { from: new Date('01/01/2020'), to: new Date('11/01/2020') };
-    const invalidDateRange = { from: new Date('00/00/2020'), to: new Date('99/99/2020') };
-    const { getByText, rerender } = render(
-      <RecoilRoot>
-        <DownloadWrapper
-          selectedTable={{}}
-          dataset={{ name: 'Mock Dataset', techSpecs: {} }}
-          dateRange={dateRange}
-          setDisableDownloadBanner={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-
-    rerender(
-      <RecoilRoot>
-        <DownloadWrapper
-          selectedTable={{}}
-          dataset={{ name: 'Mock Dataset', techSpecs: {} }}
-          dateRange={invalidDateRange}
-          setDisableDownloadBanner={jest.fn()}
-        />
-      </RecoilRoot>
-    );
+    const dateRange = { from: new Date('00/00/2020'), to: new Date('99/99/2020') };
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper
+            selectedTable={{}}
+            dataset={{ name: 'Mock Dataset', techSpecs: {} }}
+            dateRange={dateRange}
+            setDisableDownloadBanner={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+    });
 
     const expectedDateString = '01/01/2020 - 11/01/2020';
-    expect(getByText(expectedDateString)).toBeInTheDocument();
+    const tableName = instance.findByProps({ 'data-test-id': 'dateString' });
+    expect(tableName.children).toContain(expectedDateString);
   });
 
   it('provides both the "ALL" text and date string if full date range is selected', () => {
     const dateRange = { from: new Date('01/01/2020'), to: new Date('11/01/2020') };
     const isFiltered = false;
-    const { getByText } = render(
-      <RecoilRoot>
-        <DownloadWrapper
-          selectedTable={{}}
-          dataset={{ name: 'Mock Dataset', techSpecs: {} }}
-          dateRange={dateRange}
-          isFiltered={isFiltered}
-          setDisableDownloadBanner={jest.fn()}
-        />
-      </RecoilRoot>
-    );
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper
+            selectedTable={{}}
+            dataset={{ name: 'Mock Dataset', techSpecs: {} }}
+            dateRange={dateRange}
+            isFiltered={isFiltered}
+            setDisableDownloadBanner={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+    });
 
-    const allString = getByText(nonFilteredDate);
+    const allString = instance.findByProps({ 'data-test-id': 'allString' });
+    const tableName = instance.findByProps({ 'data-test-id': 'dateString' });
     const expectedDateString = '01/01/2020 - 11/01/2020';
-    const dateString = getByText(expectedDateString);
-    expect(allString).toBeInTheDocument();
-    expect(dateString).toBeInTheDocument();
+    expect(allString.children).toContain(nonFilteredDate);
+    expect(tableName.children).toContain(expectedDateString);
+  });
+
+  it('passes an asyncAction to the data dictionary button', () => {
+    expect(downloadItemButtons[1].props.asyncAction).toBeDefined();
   });
 
   it('calls the Analytics.event when the data dictionary button is clicked', () => {
     global.fetch = jest.fn();
-    const { getAllByRole } = render(
-      <RecoilRoot>
-        <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset' }} setDisableDownloadBanner={jest.fn()} />
-      </RecoilRoot>
-    );
-    const metadataButton = getAllByRole('button')[0];
+    const metadataButton = downloadItemButtons[1];
     const spy = jest.spyOn(Analytics, 'event');
 
-    userEvent.click(metadataButton);
+    renderer.act(() => {
+      metadataButton.props.asyncAction();
+    });
     expect(spy).toHaveBeenCalledWith({
       category: 'Dataset Dictionary Download',
       action: 'Data Dictionary Click',
@@ -173,24 +180,19 @@ describe('DownloadWrapper', () => {
       name: 'Mock Dataset',
       apis: [{ apiId: '1' }, { apiId: '2' }],
     };
-    const { getByText, getByTestId, rerender } = render(
-      <RecoilRoot>
-        <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} setDisableDownloadBanner={jest.fn()} />
-      </RecoilRoot>
-    );
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper selectedTable={{}} dataset={mockMultiTableDataset} allTablesSelected={true} setDisableDownloadBanner={jest.fn()} />
+        </RecoilRoot>
+      );
+    });
 
-    rerender(
-      <RecoilRoot>
-        <DownloadWrapper selectedTable={{}} dataset={mockMultiTableDataset} allTablesSelected={true} setDisableDownloadBanner={jest.fn()} />
-      </RecoilRoot>
-    );
-
-    const tableName = getByText('All Data Tables (2)');
-    const downloadDataButton = getByTestId('download-button');
-    expect(tableName).toBeInTheDocument();
-    expect(within(downloadDataButton).getByText('Download 2 CSV Files')).toBeInTheDocument();
+    const tableName = instance.findByProps({ 'data-test-id': 'tableNameText' });
+    const downloadDataButton = instance.findAllByType(DownloadItemButton)[0];
+    expect(tableName.children).toContain('All Data Tables (2)');
+    expect(downloadDataButton.props.label).toEqual('Download 2 CSV Files');
   });
-
   /* TODO: rearrange the following code that's confusingly situated between it() blocks */
   // without only one table selected
   const mockDownloadQueue = []; // so that it can accumulate
@@ -201,7 +203,7 @@ describe('DownloadWrapper', () => {
     setDownloadReadyLocation: () => {},
     setDownloadsPrepared: () => {},
     setDatasetsInProgress: () => {},
-    downloadsInProgress: [{ readyForDownload: false, status: 'incomplete' }],
+    downloadsInProgress: [],
     downloadQueue: mockDownloadQueue,
     setDownloadRequest: mockSetDownloadRequest,
   };
@@ -230,20 +232,23 @@ describe('DownloadWrapper', () => {
       selectedFileType: 'csv',
     };
 
-    const { getByTestId } = render(
-      <RecoilRoot>
-        <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DownloadWrapper
-            allTablesSelected={false}
-            selectedTable={mockTable}
-            dataset={mockDataset}
-            dateRange={mockDateRange}
-            setDisableDownloadBanner={jest.fn()}
-          />
-        </downloadsContext.Provider>
-      </RecoilRoot>
-    );
-    userEvent.click(getByTestId('download-button'));
+    let component = null;
+    act(() => {
+      component = render(
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadWrapper
+              allTablesSelected={false}
+              selectedTable={mockTable}
+              dataset={mockDataset}
+              dateRange={mockDateRange}
+              setDisableDownloadBanner={jest.fn()}
+            />
+          </downloadsContext.Provider>
+        </RecoilRoot>
+      );
+      component.getByTestId('download-button').click();
+    });
     expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
     mockSetDownloadRequest.mockClear();
   });
@@ -258,65 +263,64 @@ describe('DownloadWrapper', () => {
       selectedFileType: 'csv',
     };
 
-    const { getByTestId } = render(
-      <RecoilRoot>
-        <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DownloadWrapper
-            allTablesSelected
-            selectedTable={mockAnotherTable}
-            dataset={mockDataset}
-            dateRange={mockDateRange}
-            setDisableDownloadBanner={jest.fn()}
-          />
-        </downloadsContext.Provider>
-      </RecoilRoot>
-    );
-    userEvent.click(getByTestId('download-button'));
+    let component = null;
+    act(() => {
+      component = render(
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadWrapper
+              allTablesSelected
+              selectedTable={mockAnotherTable}
+              dataset={mockDataset}
+              dateRange={mockDateRange}
+              setDisableDownloadBanner={jest.fn()}
+            />
+          </downloadsContext.Provider>
+        </RecoilRoot>
+      );
+      component.getByTestId('download-button').click();
+    });
     expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
   });
-  // TODO *****************************
-  // it('triggers a GA event when the cancel event is triggered within the modal', async () => {
-  // const modal = instance.findByType(DownloadModal);
-  // const spy = jest.spyOn(Analytics, 'event');
-  // spy.mockClear();
-  // const { findByRole, getByTestId } = render(
-  //   <RecoilRoot>
-  //     <downloadsContext.Provider value={mockSiteProviderValue}>
-  //       <DownloadWrapper selectedTable={mockAnotherTable} dataset={mockDataset} dateRange={mockDateRange} setDisableDownloadBanner={jest.fn()} />
-  //     </downloadsContext.Provider>
-  //   </RecoilRoot>
-  // );
-  // userEvent.click(getByTestId('download-button'));
-  // const cancelButton = await findByRole('button', { name: 'Cancel Download' });
-  // const gaLabel =
-  //   'Table Name: undefined, Type: csv, Date Range: Wed Jan 01 2020 00:00:00 GMT-0600 (Central Standard Time)-Sun Nov 01 2020 00:00:00 GMT-0500 (Central Daylight Time)';
-  // expect(spy).toHaveBeenCalled();
-  // expect(spy).toHaveBeenCalledWith(expect.objectContaining({ action: cancelEventActionStr }));
-  // });
+
+  it('triggers a GA event when the cancel event is triggered within the modal', () => {
+    const modal = instance.findByType(DownloadModal);
+    const spy = jest.spyOn(Analytics, 'event');
+    spy.mockClear();
+    renderer.act(() => {
+      modal.props.setCancelDownloadRequest(true);
+    });
+    const gaLabel =
+      'Table Name: undefined, Type: csv, Date Range: Wed Jan 01 2020 00:00:00 GMT-0600 (Central Standard Time)-Sun Nov 01 2020 00:00:00 GMT-0500 (Central Daylight Time)';
+    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ action: cancelEventActionStr }));
+  });
 
   it('displays detailViewFilter selection when applied', () => {
     const curTableName = 'Table 1';
     const selectedTable = {
       tableName: curTableName,
     };
-    const { getByTestId } = render(
-      <RecoilRoot>
-        <DownloadWrapper
-          selectedTable={selectedTable}
-          dataset={{ name: 'Mock Dataset' }}
-          selectedDetailViewFilter={mockSelectedDetailViewFilter}
-          setDisableDownloadBanner={jest.fn()}
-        />
-      </RecoilRoot>
-    );
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper
+            selectedTable={selectedTable}
+            dataset={{ name: 'Mock Dataset' }}
+            selectedDetailViewFilter={mockSelectedDetailViewFilter}
+            setDisableDownloadBanner={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+    });
 
-    const filterName = getByTestId('detailViewFilterLabel');
-    expect(within(filterName).getByText('CUSIP:')).toBeInTheDocument();
-    const filterValue = getByTestId('detailViewFilterValue');
-    expect(within(filterValue).getByText('ABCD123')).toBeInTheDocument();
+    const filterName = instance.findByProps({ 'data-testid': 'detailViewFilterLabel' });
+    expect(filterName.props.children).toEqual(['CUSIP', ':']);
+    const filterValue = instance.findByProps({ 'data-testid': 'detailViewFilterValue' });
+    expect(filterValue.props.children).toEqual('ABCD123');
   });
 
-  it('creates the expected download configuration when a detailViewFilter is applied', async () => {
+  it('creates the expected download configuration when a detailViewFilter is applied', () => {
     const curTableName = 'Table 1';
     const selectedTable = {
       tableName: curTableName,
@@ -331,62 +335,67 @@ describe('DownloadWrapper', () => {
       selectedDetailViewFilter: mockSelectedDetailViewFilter,
     };
 
-    const { getByTestId } = render(
-      <RecoilRoot>
-        <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DownloadWrapper
-            allTablesSelected={false}
-            selectedTable={selectedTable}
-            dataset={mockDataset}
-            dateRange={mockDateRange}
-            selectedDetailViewFilter={mockSelectedDetailViewFilter}
-            setDisableDownloadBanner={jest.fn()}
-          />
-        </downloadsContext.Provider>
-      </RecoilRoot>
-    );
-    userEvent.click(getByTestId('download-button'));
-
-    await waitFor(() => expect(mockSetDownloadRequest).toHaveBeenCalledWith(expect.objectContaining(expectedArgs)));
+    let component = null;
+    act(() => {
+      component = render(
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadWrapper
+              allTablesSelected={false}
+              selectedTable={selectedTable}
+              dataset={mockDataset}
+              dateRange={mockDateRange}
+              selectedDetailViewFilter={mockSelectedDetailViewFilter}
+              setDisableDownloadBanner={jest.fn()}
+            />
+          </downloadsContext.Provider>
+        </RecoilRoot>
+      );
+      component.getByTestId('download-button').click();
+    });
+    expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
     mockSetDownloadRequest.mockClear();
   });
 
   it('displays userFilter selection when applied', () => {
-    const { getByTestId } = render(
-      <RecoilRoot>
-        <DownloadWrapper
-          selectedTable={mockSelectedTableWithUserFilter}
-          dataset={{ name: 'Mock Dataset' }}
-          selectedUserFilter={mockSelectedUserFilter}
-          setDisableDownloadBanner={jest.fn()}
-        />
-      </RecoilRoot>
-    );
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper
+            selectedTable={mockSelectedTableWithUserFilter}
+            dataset={{ name: 'Mock Dataset' }}
+            selectedUserFilter={mockSelectedUserFilter}
+            setDisableDownloadBanner={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+    });
 
-    const filterName = getByTestId('userFilterLabel');
-    expect(within(filterName).getByText('Country-Currency:')).toBeInTheDocument();
-    const filterValue = getByTestId('userFilterValue');
-    expect(within(filterValue).getByText('Atlantis-Aquabuck')).toBeInTheDocument();
+    const filterName = instance.findByProps({ 'data-testid': 'userFilterLabel' });
+    expect(filterName.props.children).toEqual(['Country-Currency', ':']);
+    const filterValue = instance.findByProps({ 'data-testid': 'userFilterValue' });
+    expect(filterValue.props.children).toEqual('Atlantis-Aquabuck');
   });
 
   it('displays (None Selected) when userFilter is available but not selected', () => {
     // with no selection at all
-    const { getByTestId } = render(
-      <RecoilRoot>
-        <DownloadWrapper
-          selectedTable={mockSelectedTableWithUserFilter}
-          dataset={{ name: 'Mock Dataset' }}
-          selectedUserFilter={null}
-          setDisableDownloadBanner={jest.fn()}
-        />
-      </RecoilRoot>
-    );
+    renderer.act(() => {
+      component.update(
+        <RecoilRoot>
+          <DownloadWrapper
+            selectedTable={mockSelectedTableWithUserFilter}
+            dataset={{ name: 'Mock Dataset' }}
+            selectedUserFilter={null}
+            setDisableDownloadBanner={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+    });
 
-    const filterName = getByTestId('userFilterLabel');
-    expect(within(filterName).getByText('Country-Currency:')).toBeInTheDocument();
-
-    const filterValue = getByTestId('userFilterValue');
-    expect(within(filterValue).getByText('(None selected)')).toBeInTheDocument();
+    const filterName = instance.findByProps({ 'data-testid': 'userFilterLabel' });
+    expect(filterName.props.children).toEqual(['Country-Currency', ':']);
+    const filterValue = instance.findByProps({ 'data-testid': 'userFilterValue' });
+    expect(filterValue.props.children).toEqual('(None selected)');
   });
 
   it('creates the expected download configuration when a userFilter is applied', () => {
@@ -400,22 +409,24 @@ describe('DownloadWrapper', () => {
       selectedUserFilter: mockSelectedUserFilter,
     };
 
-    const { getByTestId } = render(
-      <RecoilRoot>
-        <downloadsContext.Provider value={mockSiteProviderValue}>
-          <DownloadWrapper
-            allTablesSelected={false}
-            selectedTable={mockSelectedTableWithUserFilter}
-            dataset={mockDataset}
-            dateRange={mockDateRange}
-            selectedUserFilter={mockSelectedUserFilter}
-            setDisableDownloadBanner={jest.fn()}
-          />
-        </downloadsContext.Provider>
-      </RecoilRoot>
-    );
-    userEvent.click(getByTestId('download-button'));
-
+    let component = null;
+    act(() => {
+      component = render(
+        <RecoilRoot>
+          <downloadsContext.Provider value={mockSiteProviderValue}>
+            <DownloadWrapper
+              allTablesSelected={false}
+              selectedTable={mockSelectedTableWithUserFilter}
+              dataset={mockDataset}
+              dateRange={mockDateRange}
+              selectedUserFilter={mockSelectedUserFilter}
+              setDisableDownloadBanner={jest.fn()}
+            />
+          </downloadsContext.Provider>
+        </RecoilRoot>
+      );
+      component.getByTestId('download-button').click();
+    });
     expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
     mockSetDownloadRequest.mockClear();
   });

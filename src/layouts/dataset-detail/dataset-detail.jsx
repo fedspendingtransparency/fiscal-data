@@ -76,7 +76,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         keywords={pageContext?.seoConfig?.keywords || ''}
         canonical={canonical}
       />
-      <Masthead title={pageContext.config.name} />
+      <Masthead title={pageContext.config.name} bannerCallout={pageContext?.config.bannerCallout} />
       <DDNav hasPublishedReports={!!pageConfig.publishedReports} hideRawDataTable={hideRawDataTable} />
       <div className="ddpBodyBackground">
         {bannerCallout && (

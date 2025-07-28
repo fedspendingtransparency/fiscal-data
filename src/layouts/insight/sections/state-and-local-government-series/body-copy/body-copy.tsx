@@ -5,7 +5,7 @@ import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 
-export const BodyCopy = (): ReactElement => {
+const BodyCopy = (): ReactElement => {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [slgsTotal, setSlgsTotal] = useState(null);
   const [totalDebtOutstanding, setTotalDebtOutstanding] = useState(null);
@@ -94,3 +94,5 @@ export const BodyCopy = (): ReactElement => {
     </div>
   );
 };
+
+export default BodyCopy;

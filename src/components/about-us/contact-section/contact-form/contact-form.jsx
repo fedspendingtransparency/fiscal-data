@@ -1,37 +1,34 @@
-/* istanbul ignore file */
-// Feature is experimental and is not currently used on the site
 import React, { useState } from 'react';
 import { scroller } from 'react-scroll';
 import { API_BASE_URL } from 'gatsby-env-variables';
 import {
-  comment,
-  commentBoxSpacing,
   contactUsForm,
-  error,
-  errorIcon,
-  errorMsg,
-  formElement,
-  label,
-  loading,
-  recaptcha,
-  required,
-  responseBody,
-  responseIcon,
-  responseMessage,
-  responseTitle,
-  submit,
-  success,
+  comment,
   textInput,
+  loading,
+  label,
+  error,
+  errorMsg,
+  errorIcon,
+  required,
+  formElement,
+  submit,
+  responseIcon,
+  responseBody,
+  responseTitle,
+  responseMessage,
+  success,
+  recaptcha,
+  commentBoxSpacing,
 } from './contact-form.module.scss';
 import SelectControl from '../../../select-control/select-control';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { postAPI } from '../../../../utils/api-utils';
 // import CircularProgress from '@material-ui/core/CircularProgress';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import GLOBALS from '../../../../helpers/constants';
-
 const smoothScrollConfig = GLOBALS.config.smooth_scroll;
 
 const ContactForm = ({ onUnsupportedSubject = () => {} }) => {

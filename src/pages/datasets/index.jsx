@@ -171,23 +171,25 @@ const DatasetsPage = ({ pageContext }) => {
           exchange rates, U.S. Treasury, datasets`}
       />
       {/*<MuiThemeProvider theme={dsTheme}>*/}
-      <div className="searchBodyBackground">
-        <div className={searchContainer}>
-          <BreadCrumbs links={breadCrumbLinks} />
-          <h1 className={page_title}>Datasets</h1>
-          <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} />
-          <FilterSection
-            searchIsActive={searchQuery.length > 0}
-            searchResults={searchResults}
-            allDatasets={updatedDatasets}
-            availableFilters={filters}
-            topicIcons={topicIcons}
-            maxDate={maxDate}
-            searchQuery={searchQuery}
-            isHandheld={innerWidth < 992}
-          />
+        <div className="searchBodyBackground">
+          <div className={searchContainer}>
+            <BreadCrumbs links={breadCrumbLinks} />
+            <h1 data-testid="page-title" className={page_title}>
+              Datasets
+            </h1>
+            <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} />
+            <FilterSection
+              searchIsActive={searchQuery.length > 0}
+              searchResults={searchResults}
+              allDatasets={updatedDatasets}
+              availableFilters={filters}
+              topicIcons={topicIcons}
+              maxDate={maxDate}
+              searchQuery={searchQuery}
+              isHandheld={innerWidth < 992}
+            />
+          </div>
         </div>
-      </div>
       {/*</MuiThemeProvider>*/}
     </SiteLayout>
   );

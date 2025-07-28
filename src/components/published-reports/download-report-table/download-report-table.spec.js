@@ -64,8 +64,14 @@ describe('Download Report Table', () => {
 
   it('renders generated report table rows', async () => {
     const setApiError = jest.fn();
+    const setIsLoading = jest.fn();
     const { findAllByRole } = render(
-      <DownloadReportTable width={breakpointLg - 1} generatedReports={mockGeneratedReports} setApiErrorMessage={setApiError} />
+      <DownloadReportTable
+        width={breakpointLg - 1}
+        generatedReports={mockGeneratedReports}
+        setApiErrorMessage={setApiError}
+        setIsLoading={setIsLoading}
+      />
     );
     const downloadLinks = await findAllByRole('link');
     expect(within(downloadLinks[0]).getByText('4 KB')).toBeInTheDocument();

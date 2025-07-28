@@ -1,10 +1,12 @@
-import { act, renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import useShouldRefreshCachedData from './useShouldRefreshCachedData';
 import { debtToThePennyData, debtToThePennyLastCachedState } from '../debtToThePennyDataState';
 import { setGlobalFetchMatchingResponse } from '../../utils/mock-utils';
 import { RecoilRoot, useRecoilState } from 'recoil';
+import TestRenderer from 'react-test-renderer';
 
 describe('useShouldRefreshCachedData', () => {
+  const { act } = TestRenderer;
   beforeEach(() => {
     setGlobalFetchMatchingResponse(jest, [
       {

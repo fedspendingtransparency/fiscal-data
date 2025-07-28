@@ -1,6 +1,7 @@
-import { act, fireEvent, render, within } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import GlossaryHeader from './glossary-header';
 import React from 'react';
+import { act } from 'react-test-renderer';
 
 describe('glossary header', () => {
   const clickHandlerSpy = jest.fn();

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { button_container, button_contents, oval, topicActive, topicLabel } from './topic.module.scss';
 import classNames from 'classnames';
 import Analytics from '../../../../utils/analytics/analytics';
-import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { getImage, GatsbyImage } from 'gatsby-plugin-image';
 import { ga4DataLayerPush } from '../../../../helpers/google-analytics/google-analytics-helper';
 
 export const topicIconAnalyticsEvent = {
@@ -45,7 +45,7 @@ const Topic = ({ active, filterKey, label, onChange, image }) => {
   }, [active]);
 
   return (
-    <button className={button_container} name={label} value={filterKey} onClick={handleClick} id={`${label}Button`} data-testid={`${label}Button`}>
+    <button className={button_container} name={label} value={filterKey} onClick={handleClick} id={`${label}Button`}>
       <div className={button_contents}>
         <div className={classNames([oval, selected ? topicActive : ''])} data-testid="topic-selector-button">
           <GatsbyImage image={icon} alt={image?.name} />

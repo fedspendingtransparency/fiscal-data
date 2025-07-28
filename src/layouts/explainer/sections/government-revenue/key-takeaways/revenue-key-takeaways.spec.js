@@ -93,14 +93,14 @@ describe('Spending Key Takeaways evergreen values', () => {
 
   it('renders the data correctly', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<RevenueKeyTakeaways />);
+    const { getByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await findByText('In fiscal year 2021', { exact: false })).toBeInTheDocument();
-    expect(await findByText('0%', { exact: false })).toBeInTheDocument();
-    expect(await findByText('22.65 trillion', { exact: false })).toBeInTheDocument();
-    expect(await findByText('Individual Income Taxes', { exact: false })).toBeInTheDocument();
-    expect(await findByText('50.5%', { exact: false })).toBeInTheDocument(); // prior year's %
-    expect(await findByText('51.8%', { exact: false })).toBeInTheDocument(); // current year's %
+    expect(await getByText('In fiscal year 2021', { exact: false })).toBeInTheDocument();
+    expect(await getByText('0%', { exact: false })).toBeInTheDocument();
+    expect(await getByText('22.65 trillion', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Individual Income Taxes', { exact: false })).toBeInTheDocument();
+    expect(await getByText('50.5%', { exact: false })).toBeInTheDocument(); // prior year's %
+    expect(await getByText('51.8%', { exact: false })).toBeInTheDocument(); // current year's %
   });
 });
 
@@ -133,10 +133,10 @@ describe('Spending Key Takeaways no GDP Q3 scenario', () => {
 
   it('renders the data correctly in takeaway 3 with 3 total quarters when GDP Q3 is not in but mts 4 is', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText, findAllByText } = render(<RevenueKeyTakeaways />);
+    const { getByText, getAllByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await findAllByText('In fiscal year 2016', { exact: false })).toHaveLength(2);
-    expect(await findByText('11.46 trillion', { exact: false })).toBeInTheDocument();
+    expect(await getAllByText('In fiscal year 2016', { exact: false })).toHaveLength(2);
+    expect(await getByText('11.46 trillion', { exact: false })).toBeInTheDocument();
   });
 });
 
@@ -169,9 +169,9 @@ describe('Spending Key Takeaways containing GDP Q3 scenario', () => {
 
   it('renders the data correctly in takeaway 3 with 4 total quarters when GDP Q3 is present', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText, findAllByText } = render(<RevenueKeyTakeaways />);
+    const { getByText, getAllByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await findAllByText('In fiscal year 2015', { exact: false })).toHaveLength(2);
-    expect(await findByText('11.09 trillion', { exact: false })).toBeInTheDocument();
+    expect(await getAllByText('In fiscal year 2015', { exact: false })).toHaveLength(2);
+    expect(await getByText('11.09 trillion', { exact: false })).toBeInTheDocument();
   });
 });

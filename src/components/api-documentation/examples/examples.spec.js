@@ -1,67 +1,64 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import Examples from './examples';
-import { render } from '@testing-library/react';
+import SectionContent from '../section-content/section-content';
 
 describe('API Documentation Examples', () => {
-  it('has SectionContent as a part of its layout', async () => {
-    const { findAllByTestId } = render(<Examples />);
-    const sectionContent = await findAllByTestId('section-content');
-    expect(sectionContent.length).toBeGreaterThan(0);
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<Examples />);
+  });
+  const instance = component.root;
+
+  it('has SectionContent as a part of its layout', () => {
+    expect(instance.findAllByType(SectionContent).length).toBeGreaterThan(0);
   });
 
-  it('creates the Examples section with the desired id, heading tag and title', async () => {
+  it('creates the Examples section with the desired id, heading tag and title', () => {
     const title = 'Examples and Code Snippets';
-    const { findByRole } = render(<Examples />);
-    const heading = await findByRole('heading', { name: title, level: 2 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'examples-code-snippets' }).findByType('h2');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the Fields section with the desired id, heading tag and title', async () => {
+  it('creates the Fields section with the desired id, heading tag and title', () => {
     const title = 'Fields';
-    const { findByRole } = render(<Examples />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'examples-fields' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the Filters section with the desired id, heading tag and title', async () => {
+  it('creates the Filters section with the desired id, heading tag and title', () => {
     const title = 'Filters';
-    const { findByRole } = render(<Examples />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'examples-filters' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the Sorting section with the desired id, heading tag and title', async () => {
+  it('creates the Sorting section with the desired id, heading tag and title', () => {
     const title = 'Sorting';
-    const { findByRole } = render(<Examples />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'examples-sorting' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the Format section with the desired id, heading tag and title', async () => {
+  it('creates the Format section with the desired id, heading tag and title', () => {
     const title = 'Format';
-    const { findByRole } = render(<Examples />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'examples-format' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the Pagination section with the desired id, heading tag and title', async () => {
+  it('creates the Pagination section with the desired id, heading tag and title', () => {
     const title = 'Pagination';
-    const { findByRole } = render(<Examples />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'examples-pagination' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the Aggregation section with the desired id, heading tag and title', async () => {
+  it('creates the Aggregation section with the desired id, heading tag and title', () => {
     const title = 'Aggregation';
-    const { findByRole } = render(<Examples />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'examples-aggregation' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 
-  it('creates the Multi-dimension Datasets section with the desired id, heading tag and title', async () => {
+  it('creates the Multi-dimension Datasets section with the desired id, heading tag and title', () => {
     const title = 'Multi-dimension Datasets';
-    const { findByRole } = render(<Examples />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+    const heading = instance.findByProps({ id: 'examples-multi-dimension-datasets' }).findByType('h3');
+    expect(heading.children[0]).toBe(title);
   });
 });

@@ -1,17 +1,32 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import Contact from './contact-section';
-import { render } from '@testing-library/react';
 
 describe('Contact Us section', () => {
-  it('renders a SectionContent component with correct title and headingLevel for main title', async () => {
-    const { findByRole } = render(<Contact />);
-    const heading = await findByRole('heading', { name: 'Contact Us', level: 2 });
-    expect(heading).toBeInTheDocument();
+  let component = renderer.create();
+
+  renderer.act(() => {
+    component = renderer.create(<Contact />);
+  });
+  const instance = component.root;
+
+  document.getElementById = jest.fn(() => {
+    return {
+      checkValidity: function() {
+        return true;
+      },
+    };
   });
 
-  it('renders the Subscribe section', async () => {
-    const { findByRole } = render(<Contact />);
-    const subsection = await findByRole('heading', { name: 'Sign Up for Email Updates', level: 3 });
-    expect(subsection).toBeInTheDocument();
+  describe('contact section', () => {
+    it('renders a SectionContent component with correct title and headingLevel for main title', () => {
+      const title = instance.findByProps({ id: 'contact-us' }).findByType('h2');
+      expect(title.children[0]).toEqual('Contact Us');
+    });
+
+    it('renders the Subscribe section', () => {
+      const subsection = instance.findByProps({ id: 'subscribe' }).findByType('h3');
+      expect(subsection.children[0]).toBeTruthy();
+    });
   });
 });

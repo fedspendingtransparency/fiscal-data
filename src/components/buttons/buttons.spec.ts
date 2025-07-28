@@ -56,7 +56,6 @@ describe('Download Modal Buttons', () => {
     const textToCopy = 'Dummy Text';
     const gaSpy = jest.spyOn(gaHelper, 'generateAnalyticsEvent');
     const copyButton = buttons.copyToClipboardButton(textToCopy, 'Test');
-
     copyButton.props.onClick();
     expect(writeTextSpy).toHaveBeenCalledWith(textToCopy);
     expect(gaSpy).toHaveBeenCalledWith('Test', gaCopyLabelStr + ' Click');

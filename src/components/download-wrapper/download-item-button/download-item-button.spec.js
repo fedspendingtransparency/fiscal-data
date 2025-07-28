@@ -1,75 +1,58 @@
+import renderer from 'react-test-renderer';
 import DownloadItemButton, { downloadFileEventStr } from './download-item-button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
+import { optionIcon } from './download-item-button.module.scss';
 import Analytics from '../../../utils/analytics/analytics';
 import { RecoilRoot } from 'recoil';
-import { render, within } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
 describe('DownloadItemButton for static file', () => {
-  const csvIcon = <FontAwesomeIcon icon={faTable} size="1x" />;
+  const csvIcon = <FontAwesomeIcon icon={faTable} data-test-id="table-icon" size="1x" />;
   const hrefStr = 'dummyHref';
   const downloadStr = 'dummyDownload';
-
-  it('renders an anchor tag', () => {
-    const { getByRole } = render(
+  let component = {};
+  renderer.act(() => {
+    component = renderer.create(
       <RecoilRoot>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
       </RecoilRoot>
     );
-    const anchor = getByRole('link');
+  });
+  const instance = component.root;
+  const anchor = instance.findByType('a');
+
+  it('renders an anchor tag', () => {
     expect(anchor).toBeDefined();
   });
   it('sets the href as provided', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
-    );
-    const anchor = getByRole('link');
-    expect(anchor).toHaveAttribute('href', hrefStr);
+    expect(anchor.props.href).toBe(hrefStr);
   });
   it('sets the download prop as provided', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
-    );
-    const anchor = getByRole('link');
-    expect(anchor).toHaveAttribute('download', downloadStr);
+    expect(anchor.props.download).toBe(downloadStr);
   });
-
   it('sets the icon as provided', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
-    );
-    const anchor = getByRole('link');
-    const icon = within(anchor).getByRole('img', { hidden: true });
-    expect(icon).toBeInTheDocument();
-    expect(icon).toHaveClass('fa-table');
+    expect(anchor.findByProps({ className: optionIcon }).findByProps({ 'data-test-id': 'table-icon' })).toBeDefined();
   });
   it('sets the label as provided', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
-    );
-    const anchor = getByRole('link');
-    expect(within(anchor).getByText('CSV')).toBeInTheDocument();
+    expect(
+      anchor
+        .findByProps({ className: 'labelText' })
+        .props.children.join('')
+        .trim()
+    ).toEqual('CSV');
   });
   it('sets the fileSize as provided', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
-    );
-    const anchor = getByRole('link');
-    expect(within(anchor).getByText('(200B)')).toBeInTheDocument();
+    expect(
+      anchor
+        .findByProps({ className: 'fileSize' })
+        .props.children.join('')
+        .trim()
+    ).toEqual('(200B)');
   });
 });
 

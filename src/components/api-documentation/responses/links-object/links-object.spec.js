@@ -1,18 +1,22 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import LinksObject from './links-object';
-import { render } from '@testing-library/react';
+import SectionContent from '../../section-content/section-content';
 
 describe('Links Object', () => {
-  it('has SectionContent as a part of its layout', async () => {
-    const { findByTestId } = render(<LinksObject />);
-    const sectionContent = await findByTestId('section-content');
-    expect(sectionContent).toBeInTheDocument();
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<LinksObject />);
+  });
+  const instance = component.root;
+
+  it('has SectionContent as a part of its layout', () => {
+    expect(instance.findAllByType(SectionContent).length).toBeGreaterThan(0);
   });
 
-  it('creates the Link Object section with the desired id, heading tag and title', async () => {
-    const title = 'Links Object';
-    const { findByRole } = render(<LinksObject />);
-    const heading = await findByRole('heading', { name: title, level: 3 });
-    expect(heading).toBeInTheDocument();
+  it('has a defined title', () => {
+    const titleText = 'Links Object';
+    const title = instance.findByProps({ id: 'responses-links-object' }).findByType('h3');
+    expect(title.children[0]).toEqual(titleText);
   });
 });

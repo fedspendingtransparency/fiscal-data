@@ -16,7 +16,7 @@ module.exports = {
       alwaysSortWith: ['-eff_date', 'acct_statement'],
       apiFilter: {
         field: 'acct_desc',
-        downloadLabel: 'Account Balance',
+        downloadLabel: 'Account',
         label: 'Choose a Federal or State Account',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
@@ -38,7 +38,7 @@ module.exports = {
       alwaysSortWith: ['-eff_date', 'trans_statement', 'trans_desc_cd'],
       apiFilter: {
         field: 'acct_desc',
-        downloadLabel: 'Transaction Subtotals',
+        downloadLabel: 'Account',
         label: 'Choose a Federal or State Account',
         dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
         dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',

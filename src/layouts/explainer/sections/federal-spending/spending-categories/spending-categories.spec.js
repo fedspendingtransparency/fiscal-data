@@ -1,7 +1,7 @@
 import { SpendingCategories } from './spending-categories';
 import { render, waitFor } from '@testing-library/react';
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/dom';
 import fetchMock from 'fetch-mock';
 
 describe('Federal Spending Overview', () => {

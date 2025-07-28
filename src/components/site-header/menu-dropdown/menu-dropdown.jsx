@@ -1,17 +1,17 @@
 import {
+  activeDropdownLink,
+  caret,
   dropdown,
   dropdownButton,
   dropdownButtonExpanded,
-  dropdownContent,
-  caret,
-  dropdownHidden,
-  dropdownRow,
   dropdownColumnOne,
-  dropdownTitle,
+  dropdownContent,
+  dropdownHidden,
   dropdownListItem,
-  activeDropdownLink,
-  resourcesDropDown,
+  dropdownRow,
+  dropdownTitle,
   resourceLink,
+  resourcesDropDown,
 } from './menu-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
@@ -131,6 +131,7 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
                 <CustomLink
                   url={link.to}
                   external
+                  skipExternalModal={link.skipExternalModal}
                   onClick={() => handlePageClick(title, link.title)}
                   data-testid={`${link.title.toLowerCase().replace(/\s+/g, '-')}-link`}
                   className={resourceLink}

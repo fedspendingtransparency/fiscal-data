@@ -1,11 +1,16 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
 import { DatasetDataComponent } from './dataset-data';
+import FilterAndDownload from '../filter-download-container/filter-download-container';
+import DataTableSelect from '../datatable-select/datatable-select';
+import { format } from 'date-fns';
 import { pivotData } from '../../utils/api-utils';
+import TableSectionContainer from './table-section-container/table-section-container';
 import {
   bannerTableConfig,
   config,
-  fivePriorFormatted,
-  latestDateFormatted,
+  fivePrior,
+  latestDate,
   mockAccumulableData,
   mockApiData,
   mockLocation,
@@ -16,11 +21,14 @@ import * as DatasetDataHelpers from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
-import { render, waitFor } from '@testing-library/react';
+import PagingOptionsMenu from '../pagination/paging-options-menu';
+import DownloadWrapper from '../download-wrapper/download-wrapper';
+import RangePresets from '../filter-download-container/range-presets/range-presets';
+import { fireEvent, render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
-import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
+jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
 jest.mock('../../helpers/dataset-detail/report-helpers', function() {
   return {
     __esModule: true,
@@ -61,9 +69,23 @@ describe('DatasetData', () => {
   });
 
   const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+  let component;
+  let instance;
   const setSelectedTableMock = jest.fn();
   const urlRewriteSpy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
   const fetchSpy = jest.spyOn(global, 'fetch');
+
+  beforeEach(async () => {
+    await renderer.act(async () => {
+      component = await renderer.create(
+        <RecoilRoot>
+          <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+        </RecoilRoot>
+      );
+      instance = component.root;
+    });
+  });
 
   afterEach(() => {
     fetchSpy.mockClear();
@@ -71,6 +93,25 @@ describe('DatasetData', () => {
     analyticsSpy.mockClear();
     global.console.error.mockClear();
   });
+
+  const updateTable = async tableName => {
+    const fdSectionInst = instance.findByType(FilterAndDownload);
+    const toggleBtn = fdSectionInst.findByProps({
+      'data-testid': 'dropdownToggle',
+    });
+    await renderer.act(() => {
+      toggleBtn.props.onClick();
+    });
+    instance.findByProps({ 'data-testid': 'dropdown-list' }); // will throw error if not found
+    const dropdownOptions = instance.findAllByProps({
+      'data-testid': 'dropdown-list-option',
+    });
+    await renderer.act(async () => {
+      const opt = dropdownOptions.find(ddo => ddo.props.children[0].props.children === tableName);
+      await opt.props.onClick();
+    });
+    return dropdownOptions;
+  };
 
   it(`renders the DatasetData component which has the expected title text at desktop mode`, () => {
     const { getByTestId } = render(
@@ -83,50 +124,19 @@ describe('DatasetData', () => {
   });
 
   it(`contains a FilterAndDownload component`, () => {
-    const { getByTestId } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    const filterDownload = getByTestId('filterDownloadContainer');
-    expect(filterDownload).toBeInTheDocument();
+    expect(instance.findByType(FilterAndDownload)).toBeDefined();
   });
 
-  it(`contains a DataTableSelect component with api options`, () => {
-    const { getByRole, getAllByRole } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    const dataTableSelect = getByRole('button', { name: 'Table 1' });
-    userEvent.click(dataTableSelect);
-    const tableOneSelect = getAllByRole('button', { name: 'Table 1' });
-    const tableTwoSelect = getByRole('button', { name: 'Table 2' });
-    const tableFourSelect = getByRole('button', { name: 'Table 4' });
-    const tableTenSelect = getByRole('button', { name: 'Table 10' });
-    expect(tableOneSelect).toHaveLength(2); // select dropdown plus dropdown option
-    expect(tableTwoSelect).toBeInTheDocument();
-    expect(tableFourSelect).toBeInTheDocument();
-    expect(tableTenSelect).toBeInTheDocument();
+  it(`contains a DataTableSelect component with defaulted props`, () => {
+    // Detail view api is not displayed in dropdown
+    expect(instance.findByType(DataTableSelect).props.apis).toStrictEqual(config.apis);
   });
 
   it(`initializes the selected table to the first element in the apis array`, () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    //selected table name will display within dropdown button
-    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    expect(tableSelect).toBeInTheDocument();
+    expect(instance.findByType(FilterAndDownload).props.selectedTable.tableName).toBe(config.apis[0].tableName);
   });
 
   it('calls rewriteUrl to append the table name but does not send a lastUrl (in order to prevent triggering an analytics hit)', () => {
-    render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
     expect(urlRewriteSpy).toHaveBeenNthCalledWith(1, config.apis[0], '/mock-dataset/', {
       pathname: '/datasets/mock-dataset/',
     });
@@ -144,55 +154,33 @@ describe('DatasetData', () => {
   });
 
   it(`initializes the dateRange to the appropriate values`, () => {
-    const { getByTestId, getByText } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    const filterAndDownload = getByTestId('filterDownloadContainer');
-    expect(filterAndDownload).toBeInTheDocument();
-    const dateRange = `${fivePriorFormatted} - ${latestDateFormatted}`;
-    expect(getByText(dateRange)).toBeInTheDocument();
+    const dateRange = instance.findByType(FilterAndDownload).props.dateRange;
+    const from = format(dateRange.from, 'yyyy-MM-dd');
+    const to = format(dateRange.to, 'yyyy-MM-dd');
+    expect(to).toContain(latestDate);
+    // should be previous 5 years since the earliestDate is more than 5 years
+    expect(from).toContain(fivePrior);
   });
 
   it(`updates date range to appropriate values when new table is selected`, async () => {
-    const { getByText, getByRole } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    const dataTableSelect = getByRole('button', { name: 'Table 1' });
-    userEvent.click(dataTableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 3' }));
+    await updateTable('Table 3');
+    const dateRange = instance.findAllByType(FilterAndDownload).find(dr => dr.props && dr.props.dateRange !== undefined).props.dateRange;
+    const from = format(dateRange.from, 'yyyy-MM-dd');
+    const to = format(dateRange.to, 'yyyy-MM-dd');
+    expect(to).toContain(latestDate);
     // should be earliestDate since the earliestDate is less than 5 years
-    const dateRange = `04/14/2019 - ${latestDateFormatted}`;
-    expect(getByText(dateRange)).toBeInTheDocument();
+    expect(from).not.toContain(fivePrior);
   });
 
-  it(`sends the updated props to FilterAndDownload component when a new data table is selected`, async () => {
-    const { getByRole, getAllByTestId } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    const dropdownOptions = getAllByTestId('dropdown-list-option');
-    expect(dropdownOptions).toHaveLength(12);
-    userEvent.click(dropdownOptions[2]);
-    expect(getByRole('button', { name: config.apis[1].tableName })).toBeInTheDocument();
+  it(`sends the updated props to FilterAndDownload component when a new data table is
+  selected`, async () => {
+    const dropdownOptions = await updateTable('Table 2');
+    expect(dropdownOptions.length).toBe(12);
+    expect(instance.findByType(FilterAndDownload).props.selectedTable.tableName).toBe(config.apis[1].tableName);
   });
 
   it(`records an analytics event when a new table is selected`, async () => {
-    const { getByRole, getAllByTestId } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    const dropdownOptions = getAllByTestId('dropdown-list-option');
-    userEvent.click(dropdownOptions[2]);
+    await updateTable('Table 2');
     expect(analyticsSpy).toHaveBeenLastCalledWith({
       category: 'Data Table Selector',
       action: 'Pick Table Click',
@@ -225,7 +213,8 @@ describe('DatasetData', () => {
     expect(pivotedData.meta.labels['Treasury Notes']).toEqual('Treasury Notes');
   });
 
-  it(`correctly prepares pivoted data with aggregation and summing and handles non-numeric values`, () => {
+  it(`correctly prepares pivoted data with aggregation and summing and handles non-numeric
+  values`, () => {
     const mockPivotView = { dimensionField: 'class_desc', title: 'By Classification' };
 
     const mockAggregation = [
@@ -247,7 +236,8 @@ describe('DatasetData', () => {
     expect(pivotedData.data[1]['Medical Safe'].toFixed(4)).toEqual('3000000.7000');
   });
 
-  it(`correctly prepares pivoted data with aggregation when configured with lastRowSnapshot=true`, () => {
+  it(`correctly prepares pivoted data with aggregation when configured with
+  lastRowSnapshot=true`, () => {
     const mockPivotView = {
       dimensionField: 'class_desc',
       title: 'By Classification',
@@ -274,101 +264,65 @@ describe('DatasetData', () => {
     expect(pivotedData.data[1]['Medical Safe']).toStrictEqual(lastRowForAprilMedSafeVal);
   });
 
-  it(`does not pass the pagination endpoint to DTGTable when the rowCount is above 5000 and a pivot dimension IS active`, async () => {
-    const { getByRole, findByText } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    //Update selected table to table 5
-    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 5' }));
-    const pivotView = getByRole('button', { name: 'Change pivot view from Complete Table' });
-    userEvent.click(pivotView);
-    userEvent.click(getByRole('button', { name: 'By Facility' }));
-    const aggregationNotice = 'This data is aggregated by the given Time Period for the selected pivot option';
-    expect(await findByText(aggregationNotice)).toBeInTheDocument();
-    //TODO add assertions
-    // const tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
-    // expect(tableSectionContainer.props.serverSidePagination).toBe(null);
-    // expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn.length).toEqual(2);
-    // expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn[0].field).toEqual('record_calendar_year');
+  it(`does not pass the pagination endpoint to DTGTable when the rowCount is above 5000
+  and an a pivot dimension IS active`, async () => {
+    await updateTable('Table 5');
+    const tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
+    expect(tableSectionContainer.props.serverSidePagination).toBe(null);
+    expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn.length).toEqual(2);
+    expect(tableSectionContainer.props.selectedPivot.pivotView.aggregateOn[0].field).toEqual('record_calendar_year');
+  });
+
+  it(`passes the endpoint to DTGTable for serverside loading when the rowCount is above
+    the large table threshold and no pivot dimension or complete table chart is
+    is active`, async () => {
+    await updateTable('Table 2');
+    let tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
+    expect(tableSectionContainer.props.serverSidePagination).toBeNull();
+    await updateTable('Table 4');
+    tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
+    expect(tableSectionContainer.props.serverSidePagination).toBe('mockEndpoint4');
+  });
+
+  it(`does not send the endpoint to DTGTable for serverside loading when the rowCount is above
+    the large table threshold but the Complete Table view is chartable`, async () => {
+    await updateTable('Table 9');
+    const tableSectionContainer = instance.findAllByType(TableSectionContainer).find(tsc => tsc.props && tsc.props.config !== undefined);
+    expect(tableSectionContainer.props.serverSidePagination).toBeNull();
   });
 
   it(`raises state on setSelectedTable when the table is updated`, async () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    //Update selected table to table 5
-    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 5' }));
+    await updateTable('Table 5');
     expect(setSelectedTableMock).toHaveBeenCalledWith(config.apis[4]);
   });
 
-  it(`calls rewriteUrl with correct args including a lastUrl arg when the table is updated interactively`, async () => {
+  it(`calls rewriteUrl with correct args including a lastUrl arg when the table is updated
+  interactively`, async () => {
     const spy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    //Update selected table to table 5
-    const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 5' }));
+    await updateTable('Table 5');
     expect(spy).toHaveBeenCalledWith(config.apis[4], '/mock-dataset/', {
       pathname: '/datasets/mock-dataset/',
     });
   });
 
-  it(`does not duplicate API calls when a user switches between two tables with paginated data`, async () => {
+  it(`does not duplicate API calls when a user switches between two tables with
+  paginated data`, async () => {
     jest.useFakeTimers();
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    // select one paginated table
-    let tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 7' }));
-
-    // then change the selection to another paginated table
-    tableSelect = getByRole('button', { name: 'Table 7' });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 6' }));
-
+    await updateTable('Table 7'); // select one paginated table
+    await updateTable('Table 6'); // then change the selection to another paginated table
     // to await makePagedRequest() debounce timer in DtgTable
     await jest.advanceTimersByTime(800);
-
-    tableSelect = getByRole('button', { name: 'Table 6' });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 7' })); // confirm that the second table's api url was called only once
+    await updateTable('Table 7');
+    // confirm that the second table's api url was called only once
     const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint6?') !== -1);
     expect(callsToApiForUpdatedTable.length).toEqual(1);
   });
 
   it(`does not duplicate api calls when switching from a large table to a small one`, async () => {
     jest.useFakeTimers();
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
-    );
-    // select one paginated table
-    let tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 7' }));
-
-    // then change the selection to a non-paginated table
-    tableSelect = getByRole('button', { name: 'Table 7' });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 8' }));
-    await jest.advanceTimersByTime(800); // to await makePagedRequest() debounce timer in DtgTable
+    await updateTable('Table 7'); // select one paginated table
+    await updateTable('Table 8'); // then change the selection to a non-paginated table
+    // to await makePagedRequest() debounce timer in DtgTable
     const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint8?') !== -1);
     expect(callsToApiForUpdatedTable.length).toEqual(1);
   });
@@ -382,15 +336,17 @@ describe('DatasetData', () => {
 
     getPublishedDates.mockClear();
 
-    render(
-      <RecoilRoot>
-        <DatasetDataComponent
-          config={config}
-          setSelectedTableProp={setSelectedTableMock}
-          publishedReportsProp={mockPublishedReportsMTS[mockDatasetId]}
-        />
-      </RecoilRoot>
-    );
+    await renderer.act(async () => {
+      await renderer.create(
+        <RecoilRoot>
+          <DatasetDataComponent
+            config={config}
+            setSelectedTableProp={setSelectedTableMock}
+            publishedReportsProp={mockPublishedReportsMTS[mockDatasetId]}
+          />
+        </RecoilRoot>
+      );
+    });
     expect(getPublishedDates).toBeCalledTimes(1);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReportsMTS[mockDatasetId]);
 
@@ -439,7 +395,104 @@ describe('DatasetData', () => {
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
   });
 
-  //TODO: Data is not laoding into the table
+  it(`keeps the rows per page selection when a pivot is updated`, async () => {
+    await updateTable('Table 4');
+    jest.runAllTimers();
+    const tableSectionContainer = await instance.findByType(TableSectionContainer);
+    const pagingOptionsMenu = await instance.findByType(PagingOptionsMenu);
+    expect(pagingOptionsMenu.props.menuProps.selected).toBe(10);
+    expect(tableSectionContainer).toBeDefined();
+
+    pagingOptionsMenu.props.menuProps.updateSelected(2);
+    jest.runAllTimers();
+
+    expect(pagingOptionsMenu.props.menuProps.selected).toBe(2);
+
+    tableSectionContainer.props.setSelectedPivot({
+      pivotView: { chartType: null, dimensionField: 'birthplace', title: 'By Facility' },
+      pivotValue: 'age',
+    });
+
+    jest.runAllTimers();
+  });
+
+  it(`does not reload data from an api when switching from complete table view to a pivot
+  view and back when pivoting a non-large table`, async () => {
+    jest.useFakeTimers();
+    await updateTable('Table 3'); // select one paginated table
+    jest.runAllTimers();
+    await updateTable('Table 10'); // then change the selection to another paginated table
+    await jest.advanceTimersByTime(500); // to await makePagedRequest() debounce timer in DtgTable
+
+    // confirm that the second table's api url was called only once
+    const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint10?') !== -1);
+    expect(callsToApiForUpdatedTable.length).toEqual(1);
+
+    // update from complete table to a pivoted view
+    const tableSectionContainer = instance.findByType(TableSectionContainer);
+    tableSectionContainer.props.setSelectedPivot({
+      pivotView: {
+        chartType: null,
+        dimensionField: 'facility_desc',
+        title: 'By Facility',
+      },
+      pivotValue: {
+        columnName: 'published_count',
+      },
+    });
+    jest.runAllTimers();
+
+    // confirm that the second table's api url has still only been called once
+    const callsToApiForUpdatedPivot = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint10?') !== -1);
+    expect(callsToApiForUpdatedPivot.length).toEqual(1);
+
+    // update back to non-pivoted Complete Table view
+    tableSectionContainer.props.setSelectedPivot({
+      chartType: 'none',
+      dimensionField: null,
+      title: 'Complete Table',
+    });
+    jest.runAllTimers();
+
+    // confirm the endpoint has still not been called when returning to the complete table view
+    const callsToApiForRevertToCompleteTableView = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint10?') !== -1);
+    expect(callsToApiForRevertToCompleteTableView.length).toEqual(1);
+  });
+
+  it(`correctly notifies the download control when all tables are selected`, () => {
+    const datatableSelect = instance.findByType(DataTableSelect);
+    const downloadWrapper = instance.findByType(DownloadWrapper);
+    expect(downloadWrapper.props.allTablesSelected).toBeFalsy();
+    datatableSelect.props.setSelectedTable({ allDataTables: true });
+    const downloadWrapperAfter = instance.findByType(DownloadWrapper);
+    expect(downloadWrapperAfter.props.allTablesSelected).toBeTruthy();
+  });
+
+  it("supplies the dataset's full dateRange to RangePresets", () => {
+    const rangePresets = instance.findByType(RangePresets);
+    expect(rangePresets.props.datasetDateRange).toEqual({
+      earliestDate: '2002-01-01',
+      latestDate: '2020-04-13',
+    });
+  });
+
+  it(`reflects whether "All Tables" is selected to RangePresets`, async () => {
+    const datatableSelect = instance.findByType(DataTableSelect);
+
+    // passing down a falsy value to range Presets initially
+    let rangePresets = instance.findByType(RangePresets);
+    expect(rangePresets.props.allTablesSelected).toBeFalsy();
+
+    // select the All Tables option, and confirm the tables have been sent to Range Presets
+    datatableSelect.props.setSelectedTable({ allDataTables: true });
+    rangePresets = instance.findByType(RangePresets);
+    expect(rangePresets.props.allTablesSelected).toBeTruthy();
+
+    // confirm that switching back to a single selected table makes downloadTables falsy again
+    await updateTable('Table 2');
+    rangePresets = instance.findByType(RangePresets);
+    expect(rangePresets.props.allTablesSelected).toBeFalsy();
+  });
 
   it(`renders the datatable banner when datatableBanner exists`, () => {
     const bannerText = 'This is a test';
@@ -452,7 +505,38 @@ describe('DatasetData', () => {
   });
 });
 
-//TODO I don't believe this is doing anything
+it('renders download banner when a download option is disabled', async () => {
+  const { findByText, findByRole } = render(
+    <RecoilRoot>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={jest.fn()} location={mockLocation} />
+    </RecoilRoot>
+  );
+
+  const dateButton = await findByRole('radio', { name: '10 Years' });
+  fireEvent.click(dateButton);
+
+  expect(await findByText('XML download disabled due to large table size.', { exact: false })).toBeInTheDocument();
+});
+
+it('updates selected download type if current selection is disabled for new date range', async () => {
+  const { findByText, findByRole } = render(
+    <RecoilRoot>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={jest.fn()} location={mockLocation} />
+    </RecoilRoot>
+  );
+  const xmlButton = await findByRole('radio', { name: 'XML' });
+  fireEvent.click(xmlButton);
+  expect(xmlButton).toBeChecked();
+
+  const dateButton = await findByRole('radio', { name: '10 Years' });
+  fireEvent.click(dateButton);
+
+  const csvButton = await findByRole('radio', { name: 'CSV' });
+
+  expect(csvButton).toBeChecked();
+  expect(await findByText('XML download disabled due to large table size.', { exact: false })).toBeInTheDocument();
+});
+
 describe('Nested Data Table', () => {
   global.console.error = jest.fn();
   const analyticsSpy = jest.spyOn(Analytics, 'event');
@@ -482,63 +566,5 @@ describe('Nested Data Table', () => {
 
   it('Renders the summary table', () => {
     expect(instance).toBeDefined();
-  });
-});
-
-const renderComp = (config, location = { pathname: '/datasets/mock-dataset/' }) =>
-  render(
-    <RecoilRoot>
-      <DatasetDataComponent config={config} width={1200} location={location} setSelectedTableProp={() => {}} />
-    </RecoilRoot>
-  );
-
-describe('DatasetDataComponent more coverage ', () => {
-  jest.mock('../filter-download-container/filter-download-container', () =>
-    jest.fn(({ children, ...rest }) => (
-      <div data-testid="filter-download" data-props={JSON.stringify(rest)}>
-        {children}
-      </div>
-    ))
-  );
-
-  jest.mock('../datatable-select/datatable-select', () =>
-    jest.fn(({ setSelectedTable }) => (
-      <button data-testid="datatable-select" onClick={() => setSelectedTable({ allDataTables: true, tableName: 'All Tables' })}>
-        DataTableSelect
-      </button>
-    ))
-  );
-
-  jest.mock('../filter-download-container/range-presets/range-presets', () => jest.fn(() => <div data-testid="range-presets">RangePresets</div>));
-
-  jest.mock('./table-section-container/table-section-container', () => jest.fn(() => <div data-testid="table-section-container" />));
-
-  it('renders the date-range placeholder when no tables exist', () => {
-    const baseConfig = { ...config, apis: [] };
-    const { getByTestId } = renderComp(baseConfig);
-    expect(getByTestId('dateRangePlaceholder')).toBeInTheDocument();
-  });
-
-  it('skips RangePresets when the selected table disables date-range filtering', async () => {
-    const baseConfig = JSON.parse(JSON.stringify(config));
-    baseConfig.apis[0].apiFilter = { disableDateRangeFilter: true };
-
-    const { queryByTestId } = renderComp(baseConfig);
-    await waitFor(() => {
-      expect(queryByTestId('range-presets')).toBeNull();
-    });
-  });
-
-  it('shows the detail-view lock notice when a detail API is configured', () => {
-    const baseConfig = JSON.parse(JSON.stringify(config));
-    baseConfig.detailView = {
-      apiId: 300,
-      field: 'record_date',
-      label: 'Locked',
-      dateRangeLockCopy: 'Locked Range',
-    };
-
-    const { getByText } = renderComp(baseConfig);
-    expect(getByText('Locked Range')).toBeInTheDocument();
   });
 });

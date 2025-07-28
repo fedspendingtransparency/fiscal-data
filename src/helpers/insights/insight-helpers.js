@@ -24,9 +24,9 @@ export const insightLastUpdated = {
   'interest-expense': {
     endpoint: 'v2/accounting/od/interest_expense?sort=-record_date&page[size]=1',
   },
-  // 'state-and-local-government-series': {
-  //   endpoint: '',
-  // },
+  'state-and-local-government-series': {
+    endpoint: 'v1/accounting/od/slgs_securities?fields=record_date&sort=-record_date&page[size]=1',
+  },
 };
 
 export const insightSocialShareMap = {
@@ -134,13 +134,22 @@ const insightsCitations = page => {
         Average Interest Rates on U.S. Treasury Securities
       </CustomLink>
     ),
-    stateLocalGovernmentSeriesDataset: (
+    stateAndLocalGovernmentSeriesSecuritiesDataset: (
       <CustomLink
-        url="/datasets/interest-expense-debt-outstanding/interest-expense-on-the-public-debt-outstanding"
-        id="SLGS Test ID"
-        onClick={() => analyticsEventHandler(page, 'SLGS Test')}
+        url="/datasets/slgs-securities/state-and-local-government-series-securities-non-marketable"
+        id="State and Local Government Series Securities (Non-Marketable)"
+        onClick={() => analyticsEventHandler(page, 'State and Local Government Series Securities (Non-Marketable)')}
       >
-        SLGS Placeholder
+        State and Local Government Series Securities (Non-Marketable)
+      </CustomLink>
+    ),
+    debtToThePennyDataset: (
+      <CustomLink
+        url="/datasets/debt-to-the-penny/debt-to-the-penny"
+        id="Debt to the Penny"
+        onClick={() => analyticsEventHandler(page, 'Debt to the Penny')}
+      >
+        Debt to the Penny
       </CustomLink>
     ),
   };

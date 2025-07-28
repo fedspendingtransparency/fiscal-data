@@ -1,79 +1,61 @@
 import React from 'react';
+import renderer from 'react-test-renderer';
+import notFoundGraphic from '../page-glitch-graphic/page-glitch-graphic';
 import PageErrorText from './page-error-text';
-import { render, within } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
 
 describe('404 Not Found Text', () => {
+  let instance;
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<PageErrorText />);
+  });
+  instance = component.root;
+
   it('includes an h1 header', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <PageErrorText />
-      </RecoilRoot>
-    );
-    const header = getByRole('heading', { level: 1 });
-    expect(header).toHaveClass('notFoundHeader');
+    const header = instance.findByType('h1');
+    expect(header).toBeDefined();
+    expect(header.props.className).toBe('notFoundHeader');
   });
 
   it('includes 404 header', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <PageErrorText />
-      </RecoilRoot>
-    );
-    const header = getByRole('heading', { level: 2 });
-    expect(within(header).getByText('404: Page not found')).toBeInTheDocument();
+    const h2 = instance.findByType('h2');
+    expect(h2).toBeDefined();
+    expect(h2.props.children.props.children).toBe('404: Page not found');
   });
 
   it('includes a list with 3 links', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <PageErrorText />
-      </RecoilRoot>
-    );
-    const list = getByRole('list');
-    const listLinks = within(list).getAllByRole('link');
-    expect(listLinks).toHaveLength(3);
+    const ul = instance.findByType('ul');
+    expect(ul.children.length).toBe(3);
   });
 
   it('includes the not found graphic', () => {
-    const { getByAltText } = render(
-      <RecoilRoot>
-        <PageErrorText />
-      </RecoilRoot>
-    );
-    const image = getByAltText('404: Page Not Found');
-    expect(image).toBeInTheDocument();
+    const graphic = instance.findByType(notFoundGraphic);
+    expect(graphic).toBeDefined();
   });
 });
 
 describe('Fallback for Error Boundary', () => {
+  let instance;
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<PageErrorText fallback="true" />);
+  });
+  instance = component.root;
+
   it('includes an h1 header', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <PageErrorText fallback={true} />
-      </RecoilRoot>
-    );
-    const header = getByRole('heading', { level: 1 });
-    expect(header).toHaveClass('notFoundHeader');
+    const header = instance.findByType('h1');
+    expect(header).toBeDefined();
+    expect(header.props.className).toBe('notFoundHeader');
   });
 
   it('includes fallback header', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <PageErrorText fallback={true} />
-      </RecoilRoot>
-    );
-    const header = getByRole('heading', { level: 2 });
-    expect(within(header).getByText('This content is currently unavailable.')).toBeInTheDocument();
+    const h2 = instance.findByType('h2');
+    expect(h2).toBeDefined();
+    expect(h2.props.children.props.children).toBe('This content is currently unavailable.');
   });
 
   it('includes the not found graphic', () => {
-    const { getByAltText } = render(
-      <RecoilRoot>
-        <PageErrorText fallback={true} />
-      </RecoilRoot>
-    );
-    const image = getByAltText('404: Page Not Found');
-    expect(image).toBeInTheDocument();
+    const graphic = instance.findByType(notFoundGraphic);
+    expect(graphic).toBeDefined();
   });
 });

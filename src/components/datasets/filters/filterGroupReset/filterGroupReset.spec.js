@@ -1,41 +1,61 @@
+import { renderHelper } from '../../../../helpers/renderHelper';
 import React from 'react';
 import FilterGroupReset from './filterGroupReset';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReactDOM from 'react-dom';
+import { act } from 'react-test-renderer';
 import { mockFilters } from '../../mockData/mockFilters';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 describe('filter group reset', () => {
   const groupResetMock = jest.fn();
 
-  const filters = mockFilters;
+  let component, instance, renderer, filters;
+
+  beforeEach(() => {
+    filters = mockFilters;
+    ({ component, instance, renderer } = renderHelper(
+      <FilterGroupReset groupId="lastUpdated" onGroupReset={groupResetMock} activeFilters={['ninetyDays', 'sevenDays']} filters={filters} />
+    ));
+  });
 
   it('displays the count for this group', () => {
-    const { getByText } = render(
-      <FilterGroupReset groupId="lastUpdated" onGroupReset={groupResetMock} activeFilters={['ninetyDays', 'sevenDays']} filters={filters} />
-    );
-    expect(getByText('2')).toBeInTheDocument();
+    const count = instance.findByProps({ 'data-testid': 'count' });
+    expect(count.children).toContain('2');
   });
 
   it('includes the icon', () => {
-    const { getByRole } = render(
-      <FilterGroupReset groupId="lastUpdated" onGroupReset={groupResetMock} activeFilters={['ninetyDays', 'sevenDays']} filters={filters} />
-    );
-    const icon = getByRole('img', { hidden: true });
+    const icon = instance.findByType(FontAwesomeIcon);
     expect(icon).toBeDefined();
   });
 
   it('hides the button when there are no matches', () => {
-    const { queryByRole } = render(<FilterGroupReset groupId="lastUpdated" activeFilters={['foo', 'bar']} />);
+    renderer.act(() => {
+      component.update(<FilterGroupReset groupId="lastUpdated" activeFilters={['foo', 'bar']} />);
+    });
 
-    expect(queryByRole('button')).toBeNull();
+    expect(component.toJSON()).toBeNull();
   });
 
   it('calls the group reset callback when clicked', () => {
-    const { getByRole } = render(
-      <FilterGroupReset groupId="lastUpdated" onGroupReset={groupResetMock} activeFilters={['ninetyDays', 'sevenDays']} filters={filters} />
-    );
-    const button = getByRole('button');
-    userEvent.click(button);
+    let container = document.createElement('div');
+    document.body.appendChild(container);
+
+    act(() => {
+      ReactDOM.render(
+        <FilterGroupReset groupId="lastUpdated" onGroupReset={groupResetMock} activeFilters={['ninetyDays', 'sevenDays']} filters={filters} />,
+        container
+      );
+    });
+
+    const button = container.querySelector('button');
+
+    act(() => {
+      button.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+
     expect(groupResetMock).toHaveBeenCalledWith('lastUpdated');
+
+    document.body.removeChild(container);
+    container = null;
   });
 });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withWindowSize } from 'react-fns';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import FilterAndDownload from '../filter-download-container/filter-download-container';
@@ -15,12 +15,11 @@ import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { bannerContainer, detailViewNotice, lockIcon, placeholderButton, placeholderText } from './dataset-data.module.scss';
+import { detailViewNotice, lockIcon, placeholderText, placeholderButton, bannerContainer } from './dataset-data.module.scss';
 import { queryClient } from '../../../react-query-client';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 import BannerCallout from '../banner-callout/banner-callout';
-
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
   // config.apis should always be available; but, fallback in case
 
@@ -203,132 +202,125 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   }, [selectedTable]);
 
   return (
-    <div data-testid="datasetData">
-      <DatasetSectionContainer id="data-table" title={title}>
-        {tableColumnSortData && (
-          <FilterAndDownload
-            data-testid="filterAndDownload"
-            dateRange={dateRange}
-            isFiltered={isFiltered}
-            selectedTable={!!detailViewState ? detailApi : selectedTable}
-            dataset={config}
-            allTablesSelected={allTablesSelected}
-            isCustomDateRange={isCustomDateRange}
-            selectedUserFilter={userFilterSelection}
-            tableColumnSortData={tableColumnSortData}
-            filteredDateRange={filteredDateRange}
-            selectedDetailViewFilter={detailViewDownloadFilter}
-            setDisableDownloadBanner={setDisableDownloadBanner}
-            selectedPivot={selectedPivot}
-          >
-            <DataTableSelect
-              apis={filteredApis}
-              selectedTable={selectedTable}
-              setSelectedTable={handleSelectedTableChange}
-              allTablesSelected={allTablesSelected}
-              earliestDate={config.techSpecs.earliestDate}
-              latestDate={config.techSpecs.latestDate}
-              disableAllTables={config?.disableAllTables}
-            />
-            {selectedTable && (
-              <>
-                {!selectedTable?.apiFilter?.disableDateRangeFilter && (
-                  <RangePresets
-                    setDateRange={setDateRange}
-                    handleDateRangeChange={handleDateRangeChange}
-                    selectedTable={!!detailViewState ? detailApi : selectedTable}
-                    apiData={apiData}
-                    onUserFilter={setUserFilterSelection}
-                    setIsFiltered={setIsFiltered}
-                    currentDateButton={config.currentDateButton}
-                    datePreset={config.datePreset}
-                    customRangePreset={config.customRangePreset}
-                    setIsCustomDateRange={setIsCustomDateRange}
-                    allTablesSelected={allTablesSelected}
-                    datasetDateRange={{
-                      earliestDate: config.techSpecs.earliestDate,
-                      latestDate: config.techSpecs.latestDate,
-                    }}
-                    finalDatesNotFound={finalDatesNotFound}
-                    setResetFilters={setResetFilters}
-                    datatableBanner={config.datatableBanner}
-                    hideButtons={detailApi && !detailViewState}
-                  />
-                )}
-                {disableDownloadBanner && (
-                  <div className={bannerContainer}>
-                    <BannerCallout bannerCallout={{ banner: 'XMLLargeDownloadDisabled' }} bannerType="infoYellow" />
-                  </div>
-                )}
-                {selectedTable.userFilter && (
-                  <UserFilter
-                    selectedTable={selectedTable}
-                    onUserFilter={setUserFilterSelection}
-                    apiData={apiData}
-                    setResetFilters={setResetFilters}
-                  />
-                )}
-                {selectedTable.apiFilter && (
-                  <UserFilter
-                    selectedTable={selectedTable}
-                    onUserFilter={setUserFilterSelection}
-                    setResetFilters={setResetFilters}
-                    allTablesSelected={allTablesSelected}
-                    setDateRange={setDateRange}
-                  />
-                )}
-              </>
-            )}
-            {config.datatableBanner && <DatatableBanner bannerNotice={config.datatableBanner} />}
-            {!selectedTable && (
-              <div data-testid="dateRangePlaceholder">
-                <h3 className={placeholderText}>Date Range</h3>
-                <div className={placeholderButton} />
-              </div>
-            )}
-            {detailApi && !detailViewState && (
-              <div className={detailViewNotice}>
-                <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
-              </div>
-            )}
-          </FilterAndDownload>
-        )}
-        {dateRange && (
-          <TableSectionContainer
-            config={config}
-            dateRange={dateRange}
+    <DatasetSectionContainer id="data-table" title={title}>
+      {tableColumnSortData && (
+        <FilterAndDownload
+          data-testid="filterAndDownload"
+          dateRange={dateRange}
+          isFiltered={isFiltered}
+          selectedTable={!!detailViewState ? detailApi : selectedTable}
+          dataset={config}
+          allTablesSelected={allTablesSelected}
+          isCustomDateRange={isCustomDateRange}
+          selectedUserFilter={userFilterSelection}
+          tableColumnSortData={tableColumnSortData}
+          filteredDateRange={filteredDateRange}
+          selectedDetailViewFilter={detailViewDownloadFilter}
+          setDisableDownloadBanner={setDisableDownloadBanner}
+          selectedPivot={selectedPivot}
+        >
+          <DataTableSelect
+            apis={filteredApis}
             selectedTable={selectedTable}
-            userFilterSelection={userFilterSelection}
-            setUserFilterSelection={setUserFilterSelection}
-            apiData={apiData}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            apiError={apiError}
-            selectedPivot={selectedPivot}
-            setSelectedPivot={setSelectedPivot}
-            serverSidePagination={serverSidePagination}
-            selectedTab={selectedTab}
-            tabChangeHandler={setSelectedTab}
-            handleIgnorePivots={setIgnorePivots}
+            setSelectedTable={handleSelectedTableChange}
             allTablesSelected={allTablesSelected}
-            handleConfigUpdate={() => setConfigUpdated(true)}
-            tableColumnSortData={tableColumnSortData}
-            setTableColumnSortData={setTableColumnSortData}
-            hasPublishedReports={!!publishedReports}
-            publishedReports={publishedReports}
-            resetFilters={resetFilters}
-            setResetFilters={setResetFilters}
-            setDetailViewState={setDetailViewState}
-            detailViewState={detailViewState}
-            customFormatting={selectedTable?.customFormatting}
-            summaryValues={summaryValues}
-            setSummaryValues={setSummaryValues}
-            allActiveFilters={allActiveFilters}
-            setAllActiveFilters={setAllActiveFilters}
+            earliestDate={config.techSpecs.earliestDate}
+            latestDate={config.techSpecs.latestDate}
+            disableAllTables={config?.disableAllTables}
           />
-        )}
-      </DatasetSectionContainer>
-    </div>
+          {selectedTable && (
+            <>
+              {!selectedTable?.apiFilter?.disableDateRangeFilter && (
+                <RangePresets
+                  setDateRange={setDateRange}
+                  handleDateRangeChange={handleDateRangeChange}
+                  selectedTable={!!detailViewState ? detailApi : selectedTable}
+                  apiData={apiData}
+                  onUserFilter={setUserFilterSelection}
+                  setIsFiltered={setIsFiltered}
+                  currentDateButton={config.currentDateButton}
+                  datePreset={config.datePreset}
+                  customRangePreset={config.customRangePreset}
+                  setIsCustomDateRange={setIsCustomDateRange}
+                  allTablesSelected={allTablesSelected}
+                  datasetDateRange={{
+                    earliestDate: config.techSpecs.earliestDate,
+                    latestDate: config.techSpecs.latestDate,
+                  }}
+                  finalDatesNotFound={finalDatesNotFound}
+                  setResetFilters={setResetFilters}
+                  datatableBanner={config.datatableBanner}
+                  hideButtons={detailApi && !detailViewState}
+                />
+              )}
+              {disableDownloadBanner && (
+                <div className={bannerContainer}>
+                  <BannerCallout bannerCallout={{ banner: 'XMLLargeDownloadDisabled' }} bannerType="infoYellow" />
+                </div>
+              )}
+              {selectedTable.userFilter && (
+                <UserFilter selectedTable={selectedTable} onUserFilter={setUserFilterSelection} apiData={apiData} setResetFilters={setResetFilters} />
+              )}
+              {selectedTable.apiFilter && (
+                <UserFilter
+                  selectedTable={selectedTable}
+                  onUserFilter={setUserFilterSelection}
+                  setResetFilters={setResetFilters}
+                  allTablesSelected={allTablesSelected}
+                  setDateRange={setDateRange}
+                />
+              )}
+            </>
+          )}
+          {config.datatableBanner && <DatatableBanner bannerNotice={config.datatableBanner} />}
+          {!selectedTable && (
+            <div data-testid="dateRangePlaceholder">
+              <h3 className={placeholderText}>Date Range</h3>
+              <div className={placeholderButton} />
+            </div>
+          )}
+          {detailApi && !detailViewState && (
+            <div className={detailViewNotice}>
+              <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
+            </div>
+          )}
+        </FilterAndDownload>
+      )}
+      {dateRange && (
+        <TableSectionContainer
+          config={config}
+          dateRange={dateRange}
+          selectedTable={selectedTable}
+          userFilterSelection={userFilterSelection}
+          setUserFilterSelection={setUserFilterSelection}
+          apiData={apiData}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          apiError={apiError}
+          selectedPivot={selectedPivot}
+          setSelectedPivot={setSelectedPivot}
+          serverSidePagination={serverSidePagination}
+          selectedTab={selectedTab}
+          tabChangeHandler={setSelectedTab}
+          handleIgnorePivots={setIgnorePivots}
+          allTablesSelected={allTablesSelected}
+          handleConfigUpdate={() => setConfigUpdated(true)}
+          tableColumnSortData={tableColumnSortData}
+          setTableColumnSortData={setTableColumnSortData}
+          hasPublishedReports={!!publishedReports}
+          publishedReports={publishedReports}
+          resetFilters={resetFilters}
+          setResetFilters={setResetFilters}
+          setDetailViewState={setDetailViewState}
+          detailViewState={detailViewState}
+          customFormatting={selectedTable?.customFormatting}
+          summaryValues={summaryValues}
+          setSummaryValues={setSummaryValues}
+          allActiveFilters={allActiveFilters}
+          setAllActiveFilters={setAllActiveFilters}
+        />
+      )}
+    </DatasetSectionContainer>
   );
 };
 

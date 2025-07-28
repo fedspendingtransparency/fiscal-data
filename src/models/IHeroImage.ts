@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 export interface IHeroImage {
   heading: string;
   subHeading: string;
@@ -7,5 +5,4 @@ export interface IHeroImage {
   secondaryColor: string;
   width?: number;
   pageName?: string;
-  children: ReactNode;
 }

@@ -28,6 +28,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
   const [allReports, setAllReports] = useState([]);
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const bannerCopy = reportsBannerCopy[reportGenKey];
   const heading = noMatchingData ? bannerCopy?.noDataMatchHeader : bannerCopy?.additionalFiltersHeader;
@@ -117,29 +118,33 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
         const reports = [];
         for (const report of apisProp) {
           const reportConfig = reportsConfig[reportGenKey][report.apiId];
-          const formattedDate = format(selectedDate, 'MMMM yyyy');
-          const downloadDate = format(selectedDate, 'MMyyyy');
-          let reportData;
-          try {
-            reportData = await getReportData(report, reportConfig);
-          } catch (error) {
-            setApiErrorMessage(true);
-            break;
+          if (reportConfig) {
+            const formattedDate = format(selectedDate, 'MMMM yyyy');
+            const downloadDate = format(selectedDate, 'MMyyyy');
+            let reportData;
+            try {
+              setIsLoading(true);
+              reportData = await getReportData(report, reportConfig);
+            } catch (error) {
+              setIsLoading(false);
+              setApiErrorMessage(true);
+              break;
+            }
+            setApiErrorMessage(false);
+            const curReport = {
+              id: report.apiId,
+              name: `${report.tableName} - ${selectedAccount.label}.pdf`,
+              date: formattedDate,
+              size: '2KB',
+              downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
+              data: reportData.tableData,
+              summaryData: reportData.summaryTableData,
+              config: reportConfig,
+              colConfig: report,
+            };
+            reports.push(curReport);
+            setSummaryValues(reportConfig, formattedDate, reportData.tableData, reportData.summaryData);
           }
-          setApiErrorMessage(false);
-          const curReport = {
-            id: report.apiId,
-            name: `${report.tableName} - ${selectedAccount.label}.pdf`,
-            date: formattedDate,
-            size: '2KB',
-            downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
-            data: reportData.tableData,
-            summaryData: reportData.summaryTableData,
-            config: reportConfig,
-            colConfig: report,
-          };
-          reports.push(curReport);
-          setSummaryValues(reportConfig, formattedDate, reportData.tableData, reportData.summaryData);
         }
         setAllReports(reports);
       } else {
@@ -155,6 +160,9 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
         reports.push(report);
       }
     });
+    if (reports.length === 0) {
+      setIsLoading(false);
+    }
     setActiveReports(reports);
   }, [allReports]);
 
@@ -185,10 +193,17 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
         {(activeReports?.length === 0 || apiErrorMessage) && (
-          <ReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} heading={heading} body={body} />
+          <ReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} heading={heading} body={body} isLoading={isLoading} />
         )}
         {activeReports?.length > 0 && !apiErrorMessage && (
-          <DownloadReportTable isDailyReport={false} generatedReports={activeReports} width={width} setApiErrorMessage={setApiErrorMessage} />
+          <DownloadReportTable
+            isDailyReport={false}
+            generatedReports={activeReports}
+            width={width}
+            setApiErrorMessage={setApiErrorMessage}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+          />
         )}
         <DataPreviewDatatableBanner bannerNotice={dataset?.publishedReportsTip} isReport={true} />
       </DatasetSectionContainer>

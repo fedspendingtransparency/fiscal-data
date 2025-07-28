@@ -1,7 +1,8 @@
+import renderer from 'react-test-renderer';
 import { render } from '@testing-library/react';
 import React from 'react';
 import PivotOptions from './pivot-options';
-import userEvent from '@testing-library/user-event';
+import SelectControl from '../../../select-control/select-control';
 
 describe('PivotOptions component does not render children', () => {
   const selectedTable = {
@@ -16,24 +17,28 @@ describe('PivotOptions component does not render children', () => {
 
   const mockSetSelectedPivot = jest.fn();
 
+  const component = renderer.create(
+    <PivotOptions
+      table={selectedTable}
+      pivotSelection={{
+        pivotView: selectedTable.dataDisplays[0],
+        pivotValue: null,
+      }}
+      setSelectedPivot={mockSetSelectedPivot}
+    />
+  );
+  const instance = component.root;
+
   it('toolbar and select controls do not exist', () => {
-    const { queryAllByTestId } = render(
-      <PivotOptions
-        table={selectedTable}
-        pivotSelection={{
-          pivotView: selectedTable.dataDisplays[0],
-          pivotValue: null,
-        }}
-        setSelectedPivot={mockSetSelectedPivot}
-      />
-    );
-    expect(queryAllByTestId('pivotOptionsBar')).toStrictEqual([]);
-    expect(queryAllByTestId('pivotSelectLabel')).toStrictEqual([]);
+    expect(instance.findAllByProps({ 'data-testid': 'pivotOptionsBar' })).toStrictEqual([]);
+    expect(instance.findAllByProps({ 'data-testid': 'pivotSelectLabel' })).toStrictEqual([]);
   });
 });
 
 jest.useFakeTimers();
 describe('PivotOptions component does render children', () => {
+  let component = renderer.create();
+  let instance;
   const selectedTable = {
     dataDisplays: [
       {
@@ -73,161 +78,92 @@ describe('PivotOptions component does render children', () => {
     valueFieldOptions: ['book_value_amt', 'fine_troy_ounce_qty'],
   };
 
-  it('creates the options bar', () => {
-    const { getByTestId } = render(
+  const mockSetSelectedPivot = jest.fn(pivot => {
+    component.update(<PivotOptions table={selectedTable} pivotSelection={pivot} setSelectedPivot={mockSetSelectedPivot} />);
+  });
+  renderer.act(() => {
+    component = renderer.create(
       <PivotOptions
         table={selectedTable}
         pivotSelection={{
           pivotView: selectedTable.dataDisplays[1],
           pivotValue: selectedTable.fields[3],
         }}
-        setSelectedPivot={jest.fn()}
+        setSelectedPivot={mockSetSelectedPivot}
       />
     );
-    expect(getByTestId('pivotOptionsBar')).toBeInTheDocument();
+  });
+
+  instance = component.root;
+
+  it('creates the options bar', () => {
+    instance.findByProps({ 'data-testid': 'pivotOptionsBar' });
   });
 
   it('creates two select/dropdown controls and two text labels', () => {
-    const pivotViewOptions = ['Top Secret', 'Additional Columns', 'By Facility', 'By Form', 'Complete Table'];
-    const pivotValueOptions = ['Fine Troy Ounces', 'Book Value'];
-    const { queryAllByTestId, getByRole } = render(
-      <PivotOptions
-        table={selectedTable}
-        pivotSelection={{
-          pivotView: selectedTable.dataDisplays[1],
-          pivotValue: selectedTable.fields[3],
-        }}
-        setSelectedPivot={jest.fn()}
-      />
-    );
-    expect(queryAllByTestId('pivotSelectLabel').length).toBe(2);
-    const pivotViewSelector = getByRole('button', { name: 'Change pivot view from Additional Columns' });
-    const pivotValueSelector = getByRole('button', { name: 'Change pivot value from Book Value' });
-
-    userEvent.click(pivotViewSelector);
-    pivotViewOptions.forEach(option => {
-      expect(getByRole('button', { name: option })).toBeInTheDocument();
-    });
-
-    userEvent.click(pivotValueSelector);
-    pivotValueOptions.forEach(option => {
-      expect(getByRole('button', { name: option })).toBeInTheDocument();
-    });
+    expect(instance.findAllByProps({ 'data-testid': 'pivotSelectLabel' }).length).toBe(2);
+    const [pivotViewSelector, pivotValueSelector] = instance.findAllByType(SelectControl);
+    expect(pivotViewSelector.props.options.map(opt => opt.title)).toEqual([
+      'Top Secret',
+      'Additional Columns',
+      'By Facility',
+      'By Form',
+      'Complete Table',
+    ]);
+    expect(pivotValueSelector.props.options.map(opt => opt.prettyName)).toEqual(['Fine Troy Ounces', 'Book Value']);
   });
 
   it('changes the pivot options when the pivot view changes, but only if it should', () => {
-    const pivotValueOptions = [selectedTable.fields[2], selectedTable.fields[3]];
-    const { getByRole } = render(
-      <PivotOptions
-        table={selectedTable}
-        pivotSelection={{
-          pivotView: selectedTable.dataDisplays[1],
-          pivotValue: selectedTable.fields[3],
-        }}
-        setSelectedPivot={jest.fn()}
-      />
-    );
-    const pivotViewSelector = getByRole('button', { name: 'Change pivot view from Additional Columns' });
-    const pivotValueSelector = getByRole('button', { name: 'Change pivot value from Book Value' });
+    const dataDisplaysLen = selectedTable.dataDisplays.length;
+    const [viewSelectControl, valueSelectControl] = instance.findAllByType(SelectControl);
     // on render the options are this
-    userEvent.click(pivotValueSelector);
-    pivotValueOptions.forEach(option => {
-      expect(getByRole('button', { name: option.prettyName })).toBeInTheDocument();
-    });
+    expect(valueSelectControl.props.options).toStrictEqual([selectedTable.fields[2], selectedTable.fields[3]]);
     // run the changeHandler
-    userEvent.click(pivotViewSelector);
-    userEvent.click(getByRole('button', { name: 'Complete Table' }));
-
+    renderer.act(() => {
+      viewSelectControl.props.changeHandler(selectedTable.dataDisplays[dataDisplaysLen - 1]);
+    });
     // and now the options are that
-    expect(getByRole('button', { name: '— N / A —' })).toBeInTheDocument();
+    expect(valueSelectControl.props.options).toStrictEqual([{ prettyName: '— N / A —' }]);
   });
 
   it('allows pivot views to provide their own pivot options when selected', () => {
-    const setSelectedPivotSpy = jest.fn();
-    const { getByRole } = render(
-      <PivotOptions
-        table={selectedTable}
-        pivotSelection={{
-          pivotView: selectedTable.dataDisplays[1],
-          pivotValue: selectedTable.fields[3],
-        }}
-        setSelectedPivot={setSelectedPivotSpy}
-      />
-    );
-    const pivotViewSelector = getByRole('button', { name: 'Change pivot view from Additional Columns' });
-    const pivotValueSelector = getByRole('button', { name: 'Change pivot value from Book Value' }); // Change the selected pivot view
-    userEvent.click(pivotViewSelector);
-    userEvent.click(getByRole('button', { name: selectedTable.dataDisplays[0].title }));
-    userEvent.click(pivotValueSelector);
-
-    selectedTable.dataDisplays[0].uniquePivotValues.forEach(option => {
-      expect(getByRole('button', { name: option.prettyName })).toBeInTheDocument();
+    const [viewSelectControl, valueSelectControl] = instance.findAllByType(SelectControl);
+    // Change the selected pivot view
+    renderer.act(() => {
+      viewSelectControl.props.changeHandler(selectedTable.dataDisplays[0]);
     });
-    expect(setSelectedPivotSpy).toHaveBeenCalledWith({
-      pivotValue: { columnName: 'red_shirts', prettyName: 'Expendable Star Trek Crew' },
-      pivotView: {
-        chartType: null,
-        dimensionField: 'devs_only',
-        title: 'Top Secret',
-        uniquePivotValues: [
-          { columnName: 'red_shirts', prettyName: 'Expendable Star Trek Crew' },
-          { columnName: 'jedis_are_better', prettyName: 'Star Wars > Star Trek' },
-        ],
-      },
-    });
+    expect(valueSelectControl.props.options).toStrictEqual(selectedTable.dataDisplays[0].uniquePivotValues);
+    expect(valueSelectControl.props.selectedOption).toStrictEqual(selectedTable.dataDisplays[0].uniquePivotValues[0]);
   });
 
   it('persists the selected pivot value when switching between unique pivot value lists if the pivot value is available', () => {
-    const { getByRole } = render(
-      <PivotOptions
-        table={selectedTable}
-        pivotSelection={{
-          pivotView: selectedTable.dataDisplays[1],
-          pivotValue: selectedTable.fields[3],
-        }}
-        setSelectedPivot={jest.fn()}
-      />
-    );
-    const viewSelectControl = getByRole('button', { name: 'Change pivot view from Additional Columns' });
-    const valueSelectControl = getByRole('button', { name: 'Change pivot value from Book Value' });
+    const [viewSelectControl, valueSelectControl] = instance.findAllByType(SelectControl);
     // Change the selected pivot view
-    userEvent.click(viewSelectControl);
-    userEvent.click(getByRole('button', { name: selectedTable.dataDisplays[1].title }));
-
-    jest.runAllTimers();
-    userEvent.click(valueSelectControl);
-
-    selectedTable.dataDisplays[1].uniquePivotValues.forEach(pivotValue => {
-      expect(getByRole('button', { name: pivotValue.prettyName })).toBeInTheDocument();
+    renderer.act(() => {
+      viewSelectControl.props.changeHandler(selectedTable.dataDisplays[1]);
     });
+    jest.runAllTimers();
+    expect(valueSelectControl.props.options).toStrictEqual(selectedTable.dataDisplays[1].uniquePivotValues);
+    expect(valueSelectControl.props.selectedOption).toStrictEqual(selectedTable.dataDisplays[0].uniquePivotValues[0]);
   });
 
   it('uses defaulted data table pivot values when pivot view does not provide its own pivot options', () => {
-    const { getByRole } = render(
-      <PivotOptions
-        table={selectedTable}
-        pivotSelection={{
-          pivotView: selectedTable.dataDisplays[1],
-          pivotValue: selectedTable.fields[3],
-        }}
-        setSelectedPivot={jest.fn()}
-      />
+    const [viewSelectControl, valueSelectControl] = instance.findAllByType(SelectControl);
+    // Change the selected pivot view
+    renderer.act(() => {
+      viewSelectControl.props.changeHandler(selectedTable.dataDisplays[2]);
+    });
+    expect(valueSelectControl.props.options.sort((a, b) => a.columnName.localeCompare(b.columnName)).map(opt => opt.columnName)).toStrictEqual(
+      selectedTable.valueFieldOptions
     );
-    const viewSelectControl = getByRole('button', { name: 'Change pivot view from Additional Columns' });
-    const valueSelectControl = getByRole('button', { name: 'Change pivot value from Book Value' });
-    userEvent.click(viewSelectControl);
-    userEvent.click(getByRole('button', { name: selectedTable.dataDisplays[2].title }));
-
-    userEvent.click(valueSelectControl);
-    expect(getByRole('button', { name: 'Fine Troy Ounces' })).toBeInTheDocument();
-    expect(getByRole('button', { name: 'Book Value' })).toBeInTheDocument();
+    expect(selectedTable.valueFieldOptions.some(opt => opt === valueSelectControl.props.selectedOption.columnName)).toBeTruthy();
   });
 
-  it('updates pivot selection ', async () => {
+  it('does ', () => {
     const setSelectedPivotSpy = jest.fn();
     let selectedPivotValue = selectedTable.fields[8];
     const selectedPivotView = selectedTable.dataDisplays[3];
-    const { findByRole, getByRole } = render(
+    const { getByRole } = render(
       <PivotOptions
         table={selectedTable}
         pivotSelection={{
@@ -242,8 +178,7 @@ describe('PivotOptions component does render children', () => {
 
     selectedPivotValue = selectedTable.fields[3];
 
-    const button = await findByRole('button', { name: selectedPivotValue.prettyName });
-    button.click();
+    getByRole('button', { name: selectedPivotValue.prettyName }).click();
     //setSelectedPivot is called when the pivot view is changed
     expect(setSelectedPivotSpy).toHaveBeenCalledWith({
       pivotValue: selectedPivotValue,
@@ -251,7 +186,7 @@ describe('PivotOptions component does render children', () => {
     });
   });
 
-  it('does not update selected pivot for complete table', async () => {
+  it('does not', () => {
     const setSelectedPivotSpy = jest.fn();
     const selectedPivotView = selectedTable.dataDisplays[4];
     const selectedPivotValue = selectedTable.fields[9];
@@ -266,11 +201,11 @@ describe('PivotOptions component does render children', () => {
       />
     );
 
-    userEvent.click(getByRole('button', { name: 'Change pivot view from Complete Table' }));
-    userEvent.click(getByRole('button', { name: 'Complete Table' }));
+    getByRole('button', { name: 'Change pivot view from Complete Table' }).click();
+    getByRole('button', { name: 'Complete Table' }).click();
 
-    userEvent.click(getByRole('button', { name: 'Change pivot value from — N / A —' }));
-    userEvent.click(getByRole('button', { name: '— N / A —' }));
+    getByRole('button', { name: 'Change pivot value from — N / A —' }).click();
+    getByRole('button', { name: '— N / A —' }).click();
     expect(setSelectedPivotSpy).not.toHaveBeenCalledWith({
       pivotValue: { prettyName: '— N / A —' },
       pivotView: { chartType: 'none', dimensionField: null, title: 'Complete Table' },

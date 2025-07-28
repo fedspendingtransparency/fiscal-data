@@ -4,6 +4,7 @@ import DatasetSectionContainer from '../../dataset-section-container/dataset-sec
 import DatePicker from '../../../components/date-picker/date-picker';
 import ReportsEmptyTable from '../reports-empty-table/reports-empty-table';
 
+import { API_BASE_URL } from 'gatsby-env-variables';
 import { IRunTimeReportConfig } from '../../../models/IRunTimeReportConfig';
 import { IDatasetApi } from '../../../models/IDatasetApi';
 import { sectionTitle } from '../published-reports';
@@ -13,6 +14,9 @@ import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-butt
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { DownloadReportTable } from '../download-report-table/download-report-table';
+import { basicFetch } from '../../../utils/api-utils';
+import { format } from 'date-fns';
+import { convertDate } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
 
 type Props = {
   reportConfig: IRunTimeReportConfig;
@@ -46,36 +50,31 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
     setAllYears(yrs);
   }, [apis]);
 
-  // TODO: Re-add when filters are applied to the table
-  // useEffect(() => {
-  //   (async () => {
-  //     if (!selectedOption.value || !selectedDate) {
-  //       setReports([]);
-  //       return;
-  //     }
-  //     try {
-  //       const data = await Promise.all(
-  //         apis.map(async api => {
-  //           const url = `${apiPrefix}${buildEndpoint(selectedDate, api.dateField, selectedOption.value, reportConfig.filterField, api)}`;
-  //           const res = await basicFetch(url);
-  //           return {
-  //             id: api.apiId,
-  //             name: `${api.tableName}-${selectedOption.label}.pdf`,
-  //             date: format(selectedDate, 'MMMM yyyy'),
-  //             size: `${(res.data.length / 1024).toFixed(1)} KB`,
-  //             data: res.data,
-  //             colConfig: api,
-  //           };
-  //         })
-  //       );
-  //       setReports(data.filter(r => r.data.length));
-  //       setApiError(false);
-  //     } catch {
-  //       setApiError(true);
-  //       setReports([]);
-  //     }
-  //   })();
-  // }, [selectedAccount, selectedDate, apis, reportConfig.filterField]);
+  useEffect(() => {
+    (async () => {
+      if (!selectedOption.value || !selectedDate) {
+        setReports([]);
+        setApiError(false);
+        return;
+      }
+      try {
+        const formattedDate = format(selectedDate, 'yyyyMM');
+        const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=${selectedOption.value}${formattedDate}`;
+        const res = await basicFetch(url);
+        if (res.length) {
+          res.forEach(report => {
+            const date = report.report_date;
+            report.report_date = convertDate(date);
+          });
+        }
+        setReports(res);
+        setApiError(false);
+      } catch {
+        setApiError(true);
+        setReports([]);
+      }
+    })();
+  }, [selectedOption, selectedDate, apis, reportConfig.filterField]);
 
   useEffect(() => {
     const allOptions = [defaultSelection];
@@ -139,10 +138,9 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
           width={width}
           heading={apiError ? reportConfig.unmatchedHeader : reportConfig.defaultHeader}
           body={apiError ? reportConfig.unmatchedMessage : reportConfig.defaultMessage}
-          apiErrorMessage={apiError}
         />
       )}
-      {showTable && <DownloadReportTable isDailyReport={false} generatedReports={reports} setApiErrorMessage={setApiError} width={width} />}
+      {showTable && <DownloadReportTable isDailyReport={false} reports={reports} setApiErrorMessage={setApiError} width={width} />}
     </DatasetSectionContainer>
   );
 };
