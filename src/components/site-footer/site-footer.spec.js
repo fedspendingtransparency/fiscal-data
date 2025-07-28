@@ -1,11 +1,11 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import renderer from 'react-test-renderer';
+import { render, screen } from '@testing-library/react';
 import SiteFooter, { siteFooterColumns } from './site-footer';
-import DownloadSticky from '../download-sticky/download-sticky';
-import ResumeDownloadModal from '../download-modal/resume-download-modal/resume-download-modal';
 import Analytics from '../../utils/analytics/analytics';
 import { RecoilRoot } from 'recoil';
+
+jest.mock('../download-sticky/download-sticky', () => () => <div data-testid="download-sticky" />);
+jest.mock('../download-modal/resume-download-modal/resume-download-modal', () => () => <div data-testid="resume-download-modal" />);
 
 describe('SiteFooter', () => {
   /**
@@ -137,21 +137,21 @@ describe('SiteFooter', () => {
   });
 
   it('incorporates the download sticky footer component', () => {
-    const instance = renderer.create(
+    render(
       <RecoilRoot>
         <SiteFooter />
       </RecoilRoot>
-    ).root;
-    expect(instance.findByType(DownloadSticky)).toBeDefined();
+    );
+    expect(screen.getByTestId('download-sticky')).toBeInTheDocument();
   });
 
   it('incorporates the ResumeDownloadModal component', () => {
-    const instance = renderer.create(
+    render(
       <RecoilRoot>
         <SiteFooter />
       </RecoilRoot>
-    ).root;
-    expect(instance.findByType(ResumeDownloadModal)).toBeDefined();
+    );
+    expect(screen.getByTestId('resume-download-modal')).toBeInTheDocument();
   });
 
   it('calls the appropriate analytics event when links are clicked on', () => {
