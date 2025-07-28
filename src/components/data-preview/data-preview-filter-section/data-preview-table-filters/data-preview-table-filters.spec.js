@@ -1,6 +1,6 @@
 import React from 'react';
 import DataPreviewTableFilters from './data-preview-table-filters';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
 import { DataTableContext } from '../../data-preview-context';
 import { monthNames } from '../../../../utils/api-utils';
 import userEvent from '@testing-library/user-event';
@@ -82,7 +82,9 @@ describe('Table filters dropdown', () => {
     const applyButton = getByRole('button', { name: 'Apply' });
     expect(applyButton).toBeInTheDocument();
     fireEvent.click(applyButton);
-    jest.runAllTimers();
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(applyButton).not.toBeInTheDocument();
     //Todo: check that filters are applied
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
