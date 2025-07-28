@@ -1,11 +1,9 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import Analytics from '../../utils/analytics/analytics';
 import * as Gatsby from 'gatsby';
-
 import DatasetCard from './dataset-card';
-import { card } from './dataset-card.module.scss';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('DatasetCard', () => {
   // Jest gives an error about the following not being implemented even though the tests pass.
@@ -38,32 +36,26 @@ describe('DatasetCard', () => {
   const context = 'Related Dataset';
   const referrer = 'Referring Dataset';
 
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
-  });
-  const instance = component.root;
-
   it('entire card, when clicked, links to relevant dataset detail page', () => {
     const spy = jest.spyOn(Gatsby, 'navigate');
-    const thisCard = instance.findAllByProps({ className: card });
-
-    renderer.act(() => thisCard[0].props.onClick());
-
+    const { getByRole } = render(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
+    const thisCard = getByRole('button');
+    userEvent.click(thisCard);
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(`/datasets${mockConfig.slug}`);
   });
 
   it('contains the dataset name ', () => {
-    const instance = render(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
-    expect(instance.getByText('Debt to the Penny')).toBeDefined();
+    const { getByText } = render(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
+    expect(getByText('Debt to the Penny')).toBeDefined();
   });
 
   it('tracks when dataset card is click', () => {
     const spy = jest.spyOn(Analytics, 'event');
+    const { getByRole } = render(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
 
-    const thisCard = instance.findAllByProps({ className: card });
-    renderer.act(() => thisCard[0].props.onClick());
+    const thisCard = getByRole('button');
+    userEvent.click(thisCard);
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith({

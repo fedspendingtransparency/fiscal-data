@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // import Button from '@material-ui/core/Button';
 // import { Menu, MenuItem } from '@material-ui/core';
 // import ExpandLessIcon from '@material-ui/icons/ExpandLess';
@@ -38,7 +38,7 @@ const PagingOptionsMenu = ({ menuProps }) => {
   // };
 
   return (
-    <div className={pageOptions}>
+    <div className={pageOptions} data-testid="paginationMenu">
       <span className={perPageLabel}>{label}</span>
       {/*<Button*/}
       {/*  aria-label="rows-per-page-menu"*/}

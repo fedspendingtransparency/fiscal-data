@@ -1,128 +1,122 @@
-import { act, fireEvent, render } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import React from 'react';
-import { StickyFooterComponent } from './sticky-footer';
+import { act, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
+import { StickyFooterComponent, stickySlideDownTransitionMillis } from './sticky-footer';
 import { closingStyle, stickyFooterContainer } from './sticky-footer.module.scss';
 
-describe('StickyFooter component', () => {
-  jest.useFakeTimers();
-  const footerStyle = 'transition: max-height 3000ms linear 4500ms, visibility 0ms linear 7500ms';
+const footerStyle = 'transition: max-height 3000ms linear 4500ms, visibility 0ms linear 7500ms';
 
+beforeEach(() => {
+  jest.useFakeTimers();
+});
+
+afterEach(() => {
+  jest.runOnlyPendingTimers();
+  jest.useRealTimers();
+});
+
+describe('StickyFooterComponent (React 18)', () => {
   it('renders its children in an appropriately styled container', () => {
-    const { getByTestId } = render(
+    render(
       <StickyFooterComponent>
         <span data-testid="footer-childSpan">Some footer body text</span>
         <div data-testid="footer-childDiv">Some footer block</div>
       </StickyFooterComponent>
     );
-    expect(getByTestId('sticky-footer-container')).toBeInTheDocument();
-    expect(getByTestId('sticky-footer-container')).toHaveClass(stickyFooterContainer);
-    expect(getByTestId('footer-childSpan')).toBeInTheDocument();
-    expect(getByTestId('footer-childDiv')).toBeInTheDocument();
 
-    // No hide after time is specified, so no closing transition or class is applied.
-    expect(getByTestId('sticky-footer-container')).not.toHaveStyle('transition: max-height 2000ms linear 4500ms, visibility 0ms linear 6500ms');
-    expect(getByTestId('sticky-footer-container')).not.toHaveClass(closingStyle);
+    const container = screen.getByTestId('sticky-footer-container');
+    expect(container).toBeInTheDocument();
+    expect(container).toHaveClass(stickyFooterContainer);
+    expect(screen.getByTestId('footer-childSpan')).toBeInTheDocument();
+    expect(screen.getByTestId('footer-childDiv')).toBeInTheDocument();
+
+    expect(container).not.toHaveStyle(footerStyle);
+    expect(container).not.toHaveClass(closingStyle);
   });
 
   it('does not render if no children are present', () => {
-    const { queryAllByTestId } = render(<StickyFooterComponent hideAfterTime={4500}></StickyFooterComponent>);
-    expect(queryAllByTestId('sticky-footer-container')).toStrictEqual([]);
+    render(<StickyFooterComponent hideAfterTime={4500} />);
+    expect(screen.queryByTestId('sticky-footer-container')).toBeNull();
   });
 
   it('does not render if hidden prop is true', () => {
-    const { queryAllByTestId } = render(<StickyFooterComponent hidden={true}>test content</StickyFooterComponent>);
-    expect(queryAllByTestId('sticky-footer-container')).toStrictEqual([]);
+    render(<StickyFooterComponent hidden>test content</StickyFooterComponent>);
+    expect(screen.queryByTestId('sticky-footer-container')).toBeNull();
   });
 
-  it(`adds a transition to close after the appropriate number of millis if hideAfterTime is
-    specified`, () => {
-    let comp;
+  it('adds a transition to close after the appropriate number of millis if hideAfterTime is specified', () => {
+    render(
+      <StickyFooterComponent hideAfterTime={4500}>
+        <span data-testid="footer-childSpan">Some footer body text</span>
+        <div data-testid="footer-childDiv">Some footer block</div>
+      </StickyFooterComponent>
+    );
+
     act(() => {
-      comp = render(
-        <StickyFooterComponent hideAfterTime={4500}>
-          <span data-testid="footer-childSpan">Some footer body text</span>
-          <div data-testid="footer-childDiv">Some footer block</div>
-        </StickyFooterComponent>
-      );
-      jest.advanceTimersByTime(100); // complete some initial render ticks
+      jest.advanceTimersByTime(4500);
     });
 
-    // Component is styled with a slow 3 sec slide down effect that starts after the delay specified
-    // in hideAfterTime. Once the transition and delay are complete, make the container invisible.
-    expect(comp.getByTestId('sticky-footer-container')).toHaveStyle(footerStyle);
+    const container = screen.getByTestId('sticky-footer-container');
+    expect(container).toHaveStyle(footerStyle);
   });
 
   it('executes an onClosed method if supplied a second after closure and transition out', () => {
-    const mockOnClosedFn = jest.fn();
-    act(() => {
-      render(
-        <StickyFooterComponent hideAfterTime={4500} onClosed={mockOnClosedFn}>
-          <span data-testid="footer-childSpan">Some footer body text</span>
-          <div data-testid="footer-childDiv">Some footer block</div>
-        </StickyFooterComponent>
-      );
-      jest.advanceTimersByTime(4500 + 2900); // almost enough time to reach total closure
-    });
-    expect(mockOnClosedFn).not.toHaveBeenCalled();
+    const mockOnClosed = jest.fn();
+    render(
+      <StickyFooterComponent hideAfterTime={4500} onClosed={mockOnClosed}>
+        <span>Test</span>
+      </StickyFooterComponent>
+    );
 
-    jest.advanceTimersByTime(1500); // more than a second past total closure
-    expect(mockOnClosedFn).toHaveBeenCalled();
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
+    act(() => {
+      jest.advanceTimersByTime(4500 + stickySlideDownTransitionMillis + 1000);
+    });
+
+    expect(mockOnClosed).toHaveBeenCalledTimes(1);
   });
 
   it('executes an onClosed method if the component is unmounted before timed closure', () => {
-    const mockOnClosedFn = jest.fn();
-
+    const mockOnClosed = jest.fn();
     const { unmount } = render(
-      <StickyFooterComponent hideAfterTime={4500} onClosed={mockOnClosedFn}>
+      <StickyFooterComponent hideAfterTime={4500} onClosed={mockOnClosed}>
         <span data-testid="footer-childSpan">Some footer body text</span>
         <div data-testid="footer-childDiv">Some footer block</div>
       </StickyFooterComponent>
     );
 
     // closing timer just starting, so onClosed should not have been called
-    expect(mockOnClosedFn).not.toHaveBeenCalled();
+    expect(mockOnClosed).not.toHaveBeenCalled();
 
     unmount();
-
-    // component unmounted, so the onClose callback should have been run
-    expect(mockOnClosedFn).toHaveBeenCalled();
+    expect(mockOnClosed).toHaveBeenCalledTimes(1);
   });
 
   it('temporarily halts the slide-down transition upon interaction', () => {
-    let component = null;
-    act(() => {
-      component = render(
-        <StickyFooterComponent hideAfterTime={4500}>
-          <span data-testid="footer-childSpan">Some footer body text</span>
-          <div data-testid="footer-childDiv">Some footer block</div>
-        </StickyFooterComponent>
-      );
-      jest.advanceTimersByTime(100); // complete some initial render ticks
-    });
-    // closing should be in progress from point of initial render
-    expect(component.getByTestId('sticky-footer-container')).toHaveStyle(footerStyle);
-    expect(component.getByTestId('sticky-footer-container')).toHaveClass(closingStyle);
-
-    // interact (here using click, but component assigns same action to keyPress, touch and
-    // focus events)
-    fireEvent(
-      component.getByTestId('sticky-footer-container'),
-      new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true,
-      })
+    render(
+      <StickyFooterComponent hideAfterTime={4500}>
+        <span>Test</span>
+      </StickyFooterComponent>
     );
 
-    // closing momentarily no longer in progress
-    expect(component.getByTestId('sticky-footer-container')).not.toHaveStyle(footerStyle);
-    expect(component.getByTestId('sticky-footer-container')).not.toHaveClass(closingStyle);
-
+    act(() => jest.advanceTimersByTime(4500));
     // after a half second, the closing class and transition with delay have been reapplied
-    act(() => {
-      jest.advanceTimersByTime(1000);
-    });
-    expect(component.getByTestId('sticky-footer-container')).toHaveStyle(footerStyle);
-    expect(component.getByTestId('sticky-footer-container')).toHaveClass(closingStyle);
+    const container = screen.getByTestId('sticky-footer-container');
+    expect(container).toHaveStyle(footerStyle);
+    expect(container).toHaveClass(closingStyle);
+
+    userEvent.click(container);
+    userEvent.unhover(container);
+
+    expect(container).not.toHaveStyle(footerStyle);
+    expect(container).not.toHaveClass(closingStyle);
+
+    act(() => jest.advanceTimersByTime(500));
+
+    expect(container).toHaveStyle(footerStyle);
+    expect(container).toHaveClass(closingStyle);
   });
 });

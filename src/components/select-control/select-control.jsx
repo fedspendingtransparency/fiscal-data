@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import {
-  selector_optionSelected,
-  selector_label,
-  selector_container,
-  selector_button,
-  labels,
   icon,
+  labels,
+  selector_button,
+  selector_container,
+  selector_label,
   selector_list,
   selector_option,
   selector_optionButton,
+  selector_optionSelected,
 } from './select-control.module.scss';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -70,7 +70,6 @@ const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandle
             {options.map((option, index) => {
               const colName = option.columnName;
               const isSelectedOption = option === optionSelected || (colName && optionSelected.columnName && colName === optionSelected.columnName);
-
               return (
                 <React.Fragment key={`${colName}-${index}`}>
                   {(!option.hideable || showAll) && (

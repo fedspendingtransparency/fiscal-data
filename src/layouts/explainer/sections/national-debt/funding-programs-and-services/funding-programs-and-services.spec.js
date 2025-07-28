@@ -2,6 +2,7 @@ import Analytics from '../../../../../utils/analytics/analytics';
 import { render } from '@testing-library/react';
 import React from 'react';
 import FundingProgramsAndServices from './funding-programs-and-services';
+import userEvent from '@testing-library/user-event';
 
 describe('Funding Programs & Services', () => {
   it('calls the appropriate analytics event when links are clicked on', () => {
@@ -9,7 +10,7 @@ describe('Funding Programs & Services', () => {
     const { getByText, getAllByText } = render(<FundingProgramsAndServices />);
 
     const accordion = getByText('What are some of the major spending categories?');
-    accordion.click();
+    userEvent.click(accordion);
     const usaSpending = getAllByText('USAspending.gov');
     const objectClass = getByText('Object Class');
     const budgetFunction = getByText('Budget Function');

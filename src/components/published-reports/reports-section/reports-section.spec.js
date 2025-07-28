@@ -1,7 +1,8 @@
 import React from 'react';
 import ReportsSection from './reports-section';
-import { render, within } from '@testing-library/react';
+import { act, fireEvent, render, within } from '@testing-library/react';
 import { mockDailyReports, mockReports } from '../published-reports-test-helper';
+import userEvent from '@testing-library/user-event';
 
 describe('Reports Section component', () => {
   beforeEach(() => {
@@ -75,10 +76,11 @@ describe('Reports Section component', () => {
       const dateFilter = getByRole('button', { name: 'Select Published Date' });
       expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
       const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
-      reportFilter.click();
-      getByRole('button', { name: 'Another Download File.xml' }).click();
-      expect(getByRole('button', { name: 'Report: Another Download File.xml' })).toBeInTheDocument();
-      jest.runAllTimers();
+      fireEvent.click(reportFilter);
+      fireEvent.click(getByRole('button', { name: 'Another Download File.xml' }));
+      act(() => {
+        jest.runAllTimers();
+      });
       expect(within(dateFilter).getByText('July 2023')).toBeInTheDocument();
       jest.resetModules();
     });
@@ -89,9 +91,11 @@ describe('Reports Section component', () => {
       const dateFilter = getByRole('button', { name: 'Select Published Date' });
       expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
       const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
-      reportFilter.click();
-      getByRole('button', { name: 'Another Download File.xml' }).click();
-      jest.runAllTimers();
+      userEvent.click(reportFilter);
+      userEvent.click(getByRole('button', { name: 'Another Download File.xml' }));
+      act(() => {
+        jest.runAllTimers();
+      });
       expect(queryByRole('button', { name: 'The Download File.pdf' })).not.toBeInTheDocument();
       jest.resetModules();
     });

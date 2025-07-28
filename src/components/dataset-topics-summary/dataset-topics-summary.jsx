@@ -1,5 +1,5 @@
 import React from 'react';
-import { topicsHeading, topics, emptyDiv } from './dataset-topics-summary.module.scss';
+import { emptyDiv, topics, topicsHeading } from './dataset-topics-summary.module.scss';
 import Truncator from '../truncate/truncate';
 
 export default function datasetTopicsSummary(props) {
@@ -15,7 +15,7 @@ export default function datasetTopicsSummary(props) {
           </p>
         </>
       ) : (
-        <div className={emptyDiv} data-test-id={'topics-empty-div'} />
+        <div className={emptyDiv} data-testid={'topics-empty-div'} />
       )}
     </>
   );

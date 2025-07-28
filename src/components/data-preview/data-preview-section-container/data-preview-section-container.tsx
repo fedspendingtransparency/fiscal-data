@@ -2,7 +2,14 @@ import React, { FunctionComponent, useContext, useEffect, useMemo, useState } fr
 import GLOBALS from '../../../helpers/constants';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
-import { buildDateFilter, buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
+import {
+  buildDateFilter,
+  buildSortParams,
+  fetchAllTableData,
+  fetchTableMeta,
+  formatDateForApi,
+  MAX_PAGE_SIZE,
+} from '../../../utils/api-utils';
 import { queryClient } from '../../../../react-query-client';
 import { setTableConfig } from '../../dataset-data/table-section-container/set-table-config';
 import Analytics from '../../../utils/analytics/analytics';
@@ -247,7 +254,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     }
   }, [dateRange]);
 
-  useEffect(async () => {
+  useMemo(async () => {
     if (config?.sharedApiFilterOptions && userFilterSelection) {
       await refreshTable();
     }
