@@ -33,6 +33,7 @@ const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, data
   );
 
   const handleApply = () => {
+    // TODO: add the setIsChartLoading(true) once new dataRange is set.
     if (selectedStartDate && selectedEndDate) {
       let startDate = selectedStartDate;
       let endDate = selectedEndDate;
@@ -45,7 +46,7 @@ const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, data
       const dateRangeStr = `${startDate} — ${endDate}`;
       const dateRangeObject = { from: convertDate(startDate), to: convertDate(endDate) };
       setSelectedRange(dateRangeStr);
-      setDateRange(dateRangeObject);
+      setDateRange(dateRangeObject); // needs to fire after this
     } else {
       resetDateFields();
     }
