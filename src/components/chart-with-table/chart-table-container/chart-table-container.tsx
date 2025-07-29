@@ -34,6 +34,7 @@ interface IChartTableContainer {
   height?: number;
   chart: ReactElement;
   table: ReactElement;
+  monthRange?;
 }
 const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   title,
@@ -53,6 +54,8 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   chart,
   table,
   paddingBuffer,
+  setIsChartLoading,
+  monthRange,
 }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [downloadClicked, setDownloadClick] = useState(false);
@@ -94,7 +97,13 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
         <div className={headerContainer}>{toggle}</div>
       </div>
       {datasetDateRange && (
-        <DateRangeMonthPicker dateRange={dateRange} setDateRange={setDateRange} datasetDateRange={datasetDateRange} paddingBuffer={paddingBuffer} />
+        <DateRangeMonthPicker
+          dateRange={dateRange}
+          setDateRange={setDateRange}
+          datasetDateRange={datasetDateRange}
+          paddingBuffer={paddingBuffer}
+          setIsChartLoading={setIsChartLoading}
+        />
       )}
       {isLoading && (
         <Skeleton
@@ -126,7 +135,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
           <DownloadItemButton
             fileType={fileType}
             smallTableDownloadData={downloadData}
-            dateRange={dateRange}
+            dateRange={monthRange}
             selectedTable={selectedTable}
             downloadTimestamp={downloadTimestamp}
             label={csvDownloader}

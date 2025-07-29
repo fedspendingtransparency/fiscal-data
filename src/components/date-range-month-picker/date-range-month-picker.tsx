@@ -18,7 +18,7 @@ import { convertDate } from '../dataset-data/dataset-data-helper/dataset-data-he
 import { monthFullNames } from '../../utils/api-utils';
 import { isAfter } from 'date-fns';
 
-const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, datasetDateRange, paddingBuffer }) => {
+const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, datasetDateRange, paddingBuffer, setIsChartLoading }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<string>('');
   const [selectedEndDate, setSelectedEndDate] = useState<string>('');
   const [selectedRange, setSelectedRange] = useState<string>();
@@ -33,8 +33,8 @@ const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, data
   );
 
   const handleApply = () => {
-    // TODO: add the setIsChartLoading(true) once new dataRange is set.
     if (selectedStartDate && selectedEndDate) {
+      setIsChartLoading(true);
       let startDate = selectedStartDate;
       let endDate = selectedEndDate;
       if (isAfter(convertDate(startDate), convertDate(endDate))) {
@@ -46,7 +46,7 @@ const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, data
       const dateRangeStr = `${startDate} — ${endDate}`;
       const dateRangeObject = { from: convertDate(startDate), to: convertDate(endDate) };
       setSelectedRange(dateRangeStr);
-      setDateRange(dateRangeObject); // needs to fire after this
+      setDateRange(dateRangeObject);
     } else {
       resetDateFields();
     }

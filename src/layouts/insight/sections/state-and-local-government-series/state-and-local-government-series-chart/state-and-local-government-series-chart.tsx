@@ -53,6 +53,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
 
   useEffect(() => {
     setDefaultHeaderValues();
+    setIsChartLoading(false);
   }, [chartData]);
 
   useEffect(() => {
@@ -82,8 +83,6 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     setDownloadData(downloaderData);
   }, [mergedTableData]);
 
-  console.log('current Date: ', curDate);
-
   return (
     <>
       <ChartTableContainer
@@ -91,12 +90,14 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         downloadData={downloadData}
         selectedTable={{ downloadName: 'state-and-local-government-series-securities' }}
         altText={altText}
-        dateRange={monthRange}
+        dateRange={dateRange}
+        monthRange={monthRange}
         setDateRange={setDateRange}
         datasetDateRange={datasetDateRange}
         isLoading={!chartData}
         height={height}
         paddingBuffer={true}
+        setIsChartLoading={setIsChartLoading}
         chart={
           <>
             <div className={chartTableBorder}>
