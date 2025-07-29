@@ -73,13 +73,11 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
     if (event.target['id'] === 'accessible-marker' && chartRenderer && !inFocus) {
       chartRenderer.addAccessibilityLayer(hoverEffectHandler);
       setInFocus(true);
-      console.log('setting focus');
     }
   };
 
   const handleBlur = event => {
     if (event.target['id'] !== 'accessible-marker') {
-      console.log('removing focus', event);
       setTimeout(() => {
         setInFocus(false);
         chartRenderer.removeAccessibilityEffects();

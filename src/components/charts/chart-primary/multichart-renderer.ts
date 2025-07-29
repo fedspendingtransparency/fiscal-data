@@ -33,6 +33,7 @@ export class MultichartRenderer {
   fields: [];
   markers: unknown;
   hoverFunction: (unknown) => void;
+  focusFunction: (unknown) => void;
   hoverEffectsId: string;
   accessibilityEffectsId: string;
   elementRef: HTMLElement;
@@ -256,7 +257,6 @@ export class MultichartRenderer {
   };
 
   addHoverEffects = (hoverFunction: (dateString: string | null) => void): void => {
-    console.log('adding hover effects ');
     this.hoverFunction = hoverFunction;
 
     const parentSelection = d3.select(`#${this.chartId}`);
@@ -293,35 +293,13 @@ export class MultichartRenderer {
   removeAccessibilityEffects = (): void => {
     d3.select(`#${this.accessibilityEffectsId}`).remove();
   };
-  addAccessibilityLayer = (hoverFunction: (dateString: string | null) => void): void => {
-    console.log('adding accessibility effects ');
-    this.hoverFunction = hoverFunction;
-
-    // const parentSelection = d3.select(`#${this.chartId}`);
-    // const svgContainer = parentSelection.select('svg');
-
+  addAccessibilityLayer = (focusFunction: (dateString: string | null) => void): void => {
+    //todo create unique tab function
+    this.focusFunction = focusFunction;
     // On mobile, if you click on one line chart and then on a different one,
     // the hover effects <rect> can be duplicated. This removes potential
     // duplicates of that <rect> before creating a new one.
     this.removeAccessibilityEffects();
-
-    // const dataSegments = this.chartConfigs[0].data.length;
-    // const segmentWidth = Math.round(this.chartDimensions.width / dataSegments);
-    // const mouseMargin = Math.round(segmentWidth / 2);
-
-    // const mouseTracker = svgContainer
-    //   .append('rect')
-    //   .style('fill', 'none')
-    //   .style('pointer-events', 'all')
-    //   .attr('id', this.accessibilityEffectsId)
-    //   .attr('data-testid', this.accessibilityEffectsId)
-    //   .attr('cursor', 'pointer')
-    //   .attr('width', this.chartDimensions.width + segmentWidth)
-    //   .attr('height', '480')
-    //   .attr('transform', `translate(${this.chartDimensions.yAxisWidth - mouseMargin},0)`)
-    //   .on('mouseout', this.mouseout);
-
-    // mouseTracker.on('focus', this.focus).on('keydown', this.focus);
   };
 
   mouseout = (): void => {
@@ -332,15 +310,15 @@ export class MultichartRenderer {
       }, 500);
     });
     setTimeout(() => {
-      console.log('we are here');
       this.connectMarkers(0);
     }, 500);
   };
 
   initializeAccessibilityMarker = (): void => {
-    this.chartConfigs[0].data.forEach((dataRow, index) => {
-      this.createAccessibilityMarker(index);
-    });
+    const len = this.chartConfigs[0].data.length;
+    for (let i = len - 1; i >= 0; i--) {
+      this.createAccessibilityMarker(i);
+    }
   };
 
   animateChart = (callback: (recordDate: string) => void): void => {
@@ -397,7 +375,7 @@ export class MultichartRenderer {
     }
   };
 
-  focus = (dataIndex, event): void => {
+  focus = (dataIndex): void => {
     let selectedData;
     this.chartConfigs.forEach(config => {
       selectedData = config.data[dataIndex];
@@ -412,10 +390,9 @@ export class MultichartRenderer {
         this.mouseout();
       }
     });
-    console.log('else', dataIndex);
     this.connectMarkers(dataIndex);
-    if (selectedData && this.hoverFunction) {
-      this.hoverFunction(selectedData[this.chartConfigs[0].dateField]);
+    if (selectedData && this.focusFunction) {
+      this.focusFunction(selectedData[this.chartConfigs[0].dateField]);
     }
   };
 
@@ -488,7 +465,7 @@ export class MultichartRenderer {
         .attr('tabindex', 0)
         .style('stroke-width', 4)
         .style('stroke', '#00000000')
-        .on('focus', event => this.focus(dataIndex, event));
+        .on('focus', () => this.focus(dataIndex));
     }
   };
 
