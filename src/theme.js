@@ -1,4 +1,5 @@
-import { createTheme } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
+
 import * as variables from './variables.module.scss';
 
 const baseTheme = {
@@ -113,5 +114,5 @@ const datasetSearchTheme = {
   },
 };
 
-export const theme = createTheme(baseTheme);
+export const theme = createTheme();
 export const dsTheme = createTheme(datasetSearchTheme);

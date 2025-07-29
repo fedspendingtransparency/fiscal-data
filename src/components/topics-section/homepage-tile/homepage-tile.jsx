@@ -18,7 +18,7 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 
 import Link from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 

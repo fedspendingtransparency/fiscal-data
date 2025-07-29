@@ -5,7 +5,7 @@ import { responseBlock, loadingIcon } from './dataset-detail-examples.module.scs
 import { exampleTitle, codeBlock } from '../accordions/accordions.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import GLOBALS from '../../../helpers/constants';
 
 const useStyles = makeStyles(() => ({

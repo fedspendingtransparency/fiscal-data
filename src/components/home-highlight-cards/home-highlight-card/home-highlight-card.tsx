@@ -1,8 +1,9 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'gatsby';
-import Card from '@material-ui/core/Card';
-import { MuiThemeProvider } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import Card from '@mui/material/Card';
+
+import  { ThemeProvider} from '@mui/material';
+import { withStyles } from '@mui/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
@@ -290,7 +291,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
   const date: string = tempDate !== null ? formatDateString(tempDate) : stats.upperDate;
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <Card data-testid="highlight-card" className={card}>
         <div className={cardActionArea}>
           <div className={cardContent}>
@@ -410,7 +411,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
           </div>
         </Link>
       </Card>
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 };
 

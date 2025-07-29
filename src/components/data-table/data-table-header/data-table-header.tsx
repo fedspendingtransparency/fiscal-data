@@ -19,8 +19,8 @@ import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { getColumnFilter, rightAlign } from '../data-table-helper';
 import React, { FunctionComponent } from 'react';
-import Tooltip from '@material-ui/core/Tooltip';
-import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@mui/material/Tooltip';
+import { withStyles } from '@mui/styles';
 import { IDataTableHeader } from '../../../models/IDataTableHeader';
 
 const DataTableHeader: FunctionComponent<IDataTableHeader> = ({

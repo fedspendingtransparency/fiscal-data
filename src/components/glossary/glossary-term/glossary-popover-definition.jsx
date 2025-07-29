@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import {
   arrowIcon,
   glossaryButton,
@@ -11,7 +11,7 @@ import {
   bookIcon,
   glossaryHover,
 } from './glossary-popover-definition.module.scss';
-import Popover from '@material-ui/core/Popover';
+import Popover from '@mui/material/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightLong, faXmark, faBook } from '@fortawesome/free-solid-svg-icons';
 import { glossaryLookup } from '../../../helpers/glossary-helper/glossary-lookup';

@@ -12,7 +12,7 @@ import {
   infoIcon as infoIconStyle,
 } from './documentation-link-section.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { Link } from 'gatsby';
 
 const useStyles = makeStyles(theme => ({

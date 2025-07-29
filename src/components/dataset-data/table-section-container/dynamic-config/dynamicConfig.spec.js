@@ -3,7 +3,7 @@ import { within, fireEvent, render, screen } from '@testing-library/react';
 import DynamicConfig from './dynamicConfig';
 import { unitTestHelpers } from './helper';
 
-jest.mock('@material-ui/core', function() {
+jest.mock('@mui/material/', function() {
   return {
     __esModule: true,
     Modal: jest.fn().mockImplementation(props => <>{props.children}</>),

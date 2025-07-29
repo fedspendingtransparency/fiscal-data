@@ -1,9 +1,9 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { withStyles } from '@mui/styles';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import NotShownMessage from '../table-section-container/not-shown-message/not-shown-message';
