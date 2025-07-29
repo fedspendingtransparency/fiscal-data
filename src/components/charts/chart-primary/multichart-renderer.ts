@@ -367,7 +367,6 @@ export class MultichartRenderer {
     this.chartConfigs.forEach(config => {
       selectedData = config.data[dataIndex];
       if (selectedData && selectedData[config.fields[0]]) {
-        console.log(selectedData);
         this.placeMarker(config, dataIndex);
 
         // This brings the overlay element to the front so hovering over the markers doesn't prevent
@@ -380,7 +379,6 @@ export class MultichartRenderer {
     });
     this.connectMarkers(dataIndex);
     if (selectedData && this.focusFunction) {
-      console.log('?');
       this.focusFunction(selectedData[this.chartConfigs[0].dateField]);
     }
   };
