@@ -69,7 +69,7 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
     }
   };
 
-  const handleKeyDown = event => {
+  const handleFocus = event => {
     if (event.target['id'] === 'accessible-marker' && chartRenderer && !inFocus) {
       chartRenderer.addAccessibilityLayer(hoverEffectHandler);
       setInFocus(true);
@@ -87,12 +87,14 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
   const handleMouseLeave = () => {
     setTimeout(() => {
       chartRenderer.removeHoverEffects();
+      setInFocus(false);
     }, 500);
   };
 
   useEffect(() => {
     if (animateChart) {
       chartRenderer.animateChart(hoverEffectHandler);
+      setInFocus(false);
     }
   }, [animateChart]);
 
@@ -136,7 +138,7 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
           data-testid="multichart"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          onKeyDown={handleKeyDown}
+          onFocus={handleFocus}
           onBlur={handleBlur}
           role="presentation"
         />

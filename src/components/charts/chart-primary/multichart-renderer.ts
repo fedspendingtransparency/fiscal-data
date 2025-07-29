@@ -289,11 +289,7 @@ export class MultichartRenderer {
   };
 
   addAccessibilityLayer = (focusFunction: (dateString: string | null) => void): void => {
-    //todo create unique tab function
     this.focusFunction = focusFunction;
-    // On mobile, if you click on one line chart and then on a different one,
-    // the hover effects <rect> can be duplicated. This removes potential
-    // duplicates of that <rect> before creating a new one.
   };
 
   mouseout = (): void => {
@@ -374,6 +370,7 @@ export class MultichartRenderer {
     this.chartConfigs.forEach(config => {
       selectedData = config.data[dataIndex];
       if (selectedData && selectedData[config.fields[0]]) {
+        console.log(selectedData);
         this.placeMarker(config, dataIndex);
 
         // This brings the overlay element to the front so hovering over the markers doesn't prevent
@@ -386,6 +383,7 @@ export class MultichartRenderer {
     });
     this.connectMarkers(dataIndex);
     if (selectedData && this.focusFunction) {
+      console.log('?');
       this.focusFunction(selectedData[this.chartConfigs[0].dateField]);
     }
   };
