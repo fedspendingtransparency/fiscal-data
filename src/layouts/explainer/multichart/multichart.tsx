@@ -58,7 +58,6 @@ export type MultichartProperties = {
 const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, chartId, hoverEffectHandler }: MultichartProperties) => {
   const [chartRenderer, setChartRenderer] = useState(null);
   const [animateChart, setAnimateChart] = useState(false);
-  const [inFocus, setInFocus] = useState(false);
 
   const itemRef = useRef();
   // you can access the elements with itemsRef.current[n]
@@ -69,32 +68,15 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
     }
   };
 
-  const handleFocus = event => {
-    if (event.target['id'] === 'accessible-marker' && chartRenderer && !inFocus) {
-      chartRenderer.addAccessibilityLayer(hoverEffectHandler);
-      setInFocus(true);
-    }
-  };
-
-  const handleBlur = event => {
-    if (event.target['id'] !== 'accessible-marker') {
-      setTimeout(() => {
-        setInFocus(false);
-      }, 500);
-    }
-  };
-
   const handleMouseLeave = () => {
     setTimeout(() => {
       chartRenderer.removeHoverEffects();
-      setInFocus(false);
     }, 500);
   };
 
   useEffect(() => {
     if (animateChart) {
       chartRenderer.animateChart(hoverEffectHandler);
-      setInFocus(false);
     }
   }, [animateChart]);
 
@@ -106,7 +88,7 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
 
   useEffect(() => {
     if (chartRenderer) {
-      chartRenderer.initializeAccessibilityMarker();
+      chartRenderer.addAccessibilityLayer(hoverEffectHandler);
     }
   }, [chartRenderer]);
 
@@ -138,8 +120,6 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
           data-testid="multichart"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
           role="presentation"
         />
       </div>

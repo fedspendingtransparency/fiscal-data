@@ -290,6 +290,10 @@ export class MultichartRenderer {
 
   addAccessibilityLayer = (focusFunction: (dateString: string | null) => void): void => {
     this.focusFunction = focusFunction;
+    const len = this.chartConfigs[0].data.length;
+    for (let i = len - 1; i >= 0; i--) {
+      this.createAccessibilityMarker(i);
+    }
   };
 
   mouseout = (): void => {
@@ -302,13 +306,6 @@ export class MultichartRenderer {
     setTimeout(() => {
       this.connectMarkers(0);
     }, 500);
-  };
-
-  initializeAccessibilityMarker = (): void => {
-    const len = this.chartConfigs[0].data.length;
-    for (let i = len - 1; i >= 0; i--) {
-      this.createAccessibilityMarker(i);
-    }
   };
 
   animateChart = (callback: (recordDate: string) => void): void => {
