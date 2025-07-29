@@ -35,7 +35,6 @@ export class MultichartRenderer {
   hoverFunction: (unknown) => void;
   focusFunction: (unknown) => void;
   hoverEffectsId: string;
-  accessibilityEffectsId: string;
   elementRef: HTMLElement;
   rendered: boolean = false;
   chartDimensions = {
@@ -58,7 +57,6 @@ export class MultichartRenderer {
     });
 
     this.hoverEffectsId = `${this.chartId}-line-chart-hover-effects`;
-    this.accessibilityEffectsId = `${this.chartId}-line-chart-accessibility-effects`;
     this.generateChart();
   }
 
@@ -290,16 +288,12 @@ export class MultichartRenderer {
     d3.select(`#${this.hoverEffectsId}`).remove();
   };
 
-  removeAccessibilityEffects = (): void => {
-    d3.select(`#${this.accessibilityEffectsId}`).remove();
-  };
   addAccessibilityLayer = (focusFunction: (dateString: string | null) => void): void => {
     //todo create unique tab function
     this.focusFunction = focusFunction;
     // On mobile, if you click on one line chart and then on a different one,
     // the hover effects <rect> can be duplicated. This removes potential
     // duplicates of that <rect> before creating a new one.
-    this.removeAccessibilityEffects();
   };
 
   mouseout = (): void => {
@@ -458,6 +452,7 @@ export class MultichartRenderer {
         .append('svg:line')
         .classed('accessible-marker-connector', true)
         .attr('id', 'accessible-marker')
+        .attr('data-testid', 'accessible-marker')
         .attr('x1', xPos)
         .attr('y1', y1)
         .attr('x2', xPos)

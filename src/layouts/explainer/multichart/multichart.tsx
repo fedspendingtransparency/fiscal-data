@@ -80,7 +80,6 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
     if (event.target['id'] !== 'accessible-marker') {
       setTimeout(() => {
         setInFocus(false);
-        chartRenderer.removeAccessibilityEffects();
       }, 500);
     }
   };
