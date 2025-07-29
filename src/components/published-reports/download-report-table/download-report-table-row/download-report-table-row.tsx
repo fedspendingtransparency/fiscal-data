@@ -141,9 +141,11 @@ const DownloadReportTableRow: FunctionComponent<{
   };
 
   const onDownloadClick = () => {
-    if (!downloaded) {
-      setDownloaded(true);
-    }
+    setTimeout(() => {
+      if (!downloaded) {
+        setDownloaded(true);
+      }
+    });
   };
 
   useEffect(() => {
