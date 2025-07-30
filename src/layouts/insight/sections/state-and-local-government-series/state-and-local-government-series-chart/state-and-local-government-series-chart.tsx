@@ -85,7 +85,8 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         downloadData={downloadData}
         selectedTable={{ downloadName: 'state-and-local-government-series-securities' }}
         altText={altText}
-        dateRange={monthRange}
+        dateRange={dateRange}
+        monthRange={monthRange}
         setDateRange={setDateRange}
         datasetDateRange={datasetDateRange}
         isLoading={!chartData}

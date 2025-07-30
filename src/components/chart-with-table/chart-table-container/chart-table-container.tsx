@@ -53,6 +53,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   chart,
   table,
   paddingBuffer,
+  monthRange,
 }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [downloadClicked, setDownloadClick] = useState(false);
@@ -126,7 +127,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
           <DownloadItemButton
             fileType={fileType}
             smallTableDownloadData={downloadData}
-            dateRange={dateRange}
+            dateRange={monthRange}
             selectedTable={selectedTable}
             downloadTimestamp={downloadTimestamp}
             label={csvDownloader}
