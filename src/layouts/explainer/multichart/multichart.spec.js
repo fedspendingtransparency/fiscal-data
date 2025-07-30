@@ -4,6 +4,7 @@ import Multichart from './multichart';
 import { percentageFormatter, trillionsFormatter } from '../sections/national-debt/national-debt';
 import { mockInterestRatesData, mockTotalDebtData } from '../explainer-test-helper';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 
 export const mockChartConfigs = [
   {
@@ -122,8 +123,7 @@ describe('Multichart', () => {
     expect(getByTestId('interest-marker')).toBeInTheDocument();
   });
 
-  it(`renders a mouseTracking element on mouseEnter event and
-  removes it on mouseOut`, async () => {
+  it(`renders a mouseTracking element on mouseEnter event and removes it on mouseOut`, async () => {
     await act(async () => {
       const { queryAllByTestId, getByTestId } = await render(
         <Multichart chartId="testy" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />
@@ -137,6 +137,23 @@ describe('Multichart', () => {
       await fireEvent.mouseOut(chartContainer);
       jest.advanceTimersByTime(500);
       expect(queryAllByTestId('testy-line-chart-hover-effects').length).toStrictEqual(0);
+    });
+
+    jest.runAllTimers();
+  });
+
+  it(`renders keyboard events`, async () => {
+    await act(async () => {
+      const { queryAllByTestId, getAllByTestId } = await render(
+        <Multichart chartId="testy" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />
+      );
+      jest.runAllTimers();
+      const accessibilityMarkers = getAllByTestId('accessible-marker');
+      expect(queryAllByTestId('testy-line-chart-accessibility-effects').length).toStrictEqual(0);
+      userEvent.tab();
+      expect(accessibilityMarkers[0]).toHaveFocus();
+      userEvent.tab();
+      expect(accessibilityMarkers[1]).toHaveFocus();
     });
 
     jest.runAllTimers();
