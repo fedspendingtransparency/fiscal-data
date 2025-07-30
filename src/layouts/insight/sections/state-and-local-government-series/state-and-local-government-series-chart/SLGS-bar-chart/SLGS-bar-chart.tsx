@@ -116,7 +116,7 @@ const SLGSBarChart: FunctionComponent = ({
         <XAxis
           dataKey="date"
           tickFormatter={value => formatXAxis(value, totalMonths)}
-          tick={isMobile ? <MobileXAxisLabel /> : null}
+          tick={isMobile ? <MobileXAxisLabel /> : undefined}
           fontSize={12}
           ticks={isMobile && totalMonths <= 24 ? xAxisMobileValues : xAxisValues}
           height={48}
