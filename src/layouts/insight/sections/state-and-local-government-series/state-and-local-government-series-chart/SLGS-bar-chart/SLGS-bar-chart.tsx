@@ -1,7 +1,7 @@
 import { Area, Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { stateAndLocalGovernmentSeriesLight, stateAndLocalGovernmentSeriesPrimary } from '../../../../insight.module.scss';
-import { CustomTooltip, formatXAxis } from '../state-and-local-government-series-chart-helper';
+import { CustomTooltip, formatDate, formatXAxis } from '../state-and-local-government-series-chart-helper';
 import React, { FunctionComponent } from 'react';
 
 const SLGSBarChart: FunctionComponent = ({
@@ -17,6 +17,21 @@ const SLGSBarChart: FunctionComponent = ({
   chartHover,
   totalMonths,
 }) => {
+  const MobileXAxisLabel = ({ x, y, payload }) => {
+    const formattedDate = formatDate(payload.value);
+    const splitDate = formattedDate.split(' ');
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text x={0} y={0} dy={16} textAnchor="middle" fill="#666" fontSize="12px">
+          {splitDate[0]}
+        </text>
+        <text x={0} y={12} dy={16} textAnchor="middle" fill="#666" fontSize="12px">
+          {splitDate[1]}
+        </text>
+      </g>
+    );
+  };
+
   return (
     <ResponsiveContainer height={height} width="99%">
       <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -15 }} accessibilityLayer>
@@ -101,8 +116,10 @@ const SLGSBarChart: FunctionComponent = ({
         <XAxis
           dataKey="date"
           tickFormatter={value => formatXAxis(value, totalMonths)}
+          tick={isMobile ? <MobileXAxisLabel /> : null}
           fontSize={12}
-          ticks={isMobile ? xAxisMobileValues : xAxisValues}
+          ticks={isMobile && totalMonths <= 24 ? xAxisMobileValues : xAxisValues}
+          height={48}
         />
       </ComposedChart>
     </ResponsiveContainer>
