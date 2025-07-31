@@ -70,13 +70,13 @@ const SLGSBarChart: FunctionComponent = ({
             <Tooltip
               cursor={{
                 stroke: stateAndLocalGovernmentSeriesLight,
-                strokeWidth: 32,
+                strokeWidth: isMobile ? 16 : 32,
               }}
               content={<CustomTooltip setCount={setCurCount} setAmount={setCurAmount} setDate={setCurDate} />}
               isAnimationActive={false}
               active={chartFocus || chartHover}
             />
-            <Bar dataKey="totalAmount" barSize={isMobile ? 12 : 24} fill={stateAndLocalGovernmentSeriesPrimary} isAnimationActive={false}>
+            <Bar dataKey="totalAmount" barSize={isMobile ? 12 : 20} fill={stateAndLocalGovernmentSeriesPrimary} isAnimationActive={false}>
               {chartData?.map((entry, index) => {
                 return <Cell key={`cell-${index}`} fill={stateAndLocalGovernmentSeriesPrimary} />;
               })}
@@ -118,7 +118,7 @@ const SLGSBarChart: FunctionComponent = ({
           tickFormatter={value => formatXAxis(value, totalMonths)}
           tick={isMobile ? <MobileXAxisLabel /> : undefined}
           fontSize={12}
-          ticks={isMobile && totalMonths <= 24 ? xAxisMobileValues : xAxisValues}
+          ticks={xAxisValues}
           height={48}
         />
       </ComposedChart>
