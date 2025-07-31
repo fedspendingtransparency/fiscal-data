@@ -80,6 +80,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
 
   return (
     <>
+      Outstanding State and Local Government Series (SLGS) Securities
       <ChartTableContainer
         title="Outstanding State and Local Government Series (SLGS) Securities"
         downloadData={downloadData}
