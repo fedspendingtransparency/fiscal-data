@@ -36,6 +36,10 @@ const MobileMenu = ({ setOpenGlossary }) => {
           to: '/treasury-savings-bonds/',
           name: 'Savings Bonds',
         },
+        {
+          to: '/state-and-local-government-series/',
+          name: 'State and Local Government Series',
+        },
       ],
     },
     {
