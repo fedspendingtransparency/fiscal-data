@@ -6,9 +6,12 @@ import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalG
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
-import { chartTableBorder } from './state-and-local-government-series-chart.module.scss';
+import { chartTableBorder, loadingIcon, overlay, container } from './state-and-local-government-series-chart.module.scss';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const breakpoint = {
   desktop: 1015,
@@ -26,6 +29,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [sorting, setSorting] = useState([]);
   const [downloadData, setDownloadData] = useState([]);
   const [monthRange, setMonthRange] = useState([]);
+  const [isChartLoading, setIsChartLoading] = useState<boolean>(false);
 
   const {
     chartData,
@@ -49,6 +53,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
 
   useEffect(() => {
     setDefaultHeaderValues();
+    setIsChartLoading(false);
   }, [chartData]);
 
   useEffect(() => {
@@ -92,6 +97,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         isLoading={!chartData}
         height={height}
         paddingBuffer={true}
+        setIsChartLoading={setIsChartLoading}
         chart={
           <>
             <div className={chartTableBorder}>
@@ -114,41 +120,54 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                   onMouseOver={() => setChartHover(true)}
                   onMouseLeave={() => setChartHover(false)}
                 >
-                  <SLGSBarChart
-                    setCurAmount={setCurAmount}
-                    setCurCount={setCurCount}
-                    setCurDate={setCurDate}
-                    height={height}
-                    isMobile={isMobile}
-                    chartData={chartData}
-                    xAxisValues={xAxisValues}
-                    xAxisMobileValues={xAxisMobileValues}
-                    chartFocus={chartFocus}
-                    chartHover={chartHover}
-                    totalMonths={totalMonths}
-                  />
+                  <div className={container}>
+                    {isChartLoading && (
+                      <>
+                        <div data-test-id="loading-overlay" className={overlay} />
+                        <div data-testid="loadingSection" className={loadingIcon}>
+                          <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
+                          Loading...
+                        </div>
+                      </>
+                    )}
+                    <SLGSBarChart
+                      setCurAmount={setCurAmount}
+                      setCurCount={setCurCount}
+                      setCurDate={setCurDate}
+                      height={height}
+                      isMobile={isMobile}
+                      chartData={chartData}
+                      xAxisValues={xAxisValues}
+                      xAxisMobileValues={xAxisMobileValues}
+                      chartFocus={chartFocus}
+                      chartHover={chartHover}
+                      totalMonths={totalMonths}
+                    />
+                  </div>
                 </div>
               </>
             </div>
           </>
         }
         table={
-          <DtgTable
-            tableProps={{
-              data: mergedTableData,
-              columnConfig,
-              tableName: 'State and Local Government Series Details',
-              caption: 'State and Local Government Series Table',
-              shouldPage: true,
-              width: '99%',
-              chartTable: false,
-              noBorder: true,
-            }}
-            reactTable={true}
-            sorting={sorting}
-            setSorting={setSorting}
-            width
-          />
+          <>
+            <DtgTable
+              tableProps={{
+                data: mergedTableData,
+                columnConfig,
+                tableName: 'State and Local Government Series Details',
+                caption: 'State and Local Government Series Table',
+                shouldPage: true,
+                width: '99%',
+                chartTable: false,
+                noBorder: true,
+              }}
+              reactTable={true}
+              sorting={sorting}
+              setSorting={setSorting}
+              width
+            />
+          </>
         }
       />
     </>

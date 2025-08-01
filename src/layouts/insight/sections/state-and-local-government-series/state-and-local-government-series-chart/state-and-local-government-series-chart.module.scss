@@ -40,6 +40,39 @@ $state-and-local-government-series-primary: #a4bcfd;
   padding: 1rem 0.5rem;
 }
 
+.loadingIcon {
+  z-index: $dtg-table-loading-icon;
+  color: $font-title;
+  font-size: $font-size-18;
+  width: 100%;
+  top: 40%;
+  text-align: center;
+  position: absolute;
+
+  > * {
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    font-size: 64px;
+    color: $loading-icon-color;
+  }
+}
+
+.overlay {
+  z-index: $dtg-table-overlay;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.85);
+  transition: opacity 0.5s 0.5s, left 0.5s ease-in-out;
+  display: block;
+  animation: fadeIn 1s;
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .legendText {
     font-size: $font-size-14;

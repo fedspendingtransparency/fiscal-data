@@ -21,7 +21,10 @@ describe('date range month picker', () => {
   it('updates the selected date range on to and from date selection', () => {
     const datasetDateRange = { from: '2020-01-01', to: '2025-01-01' };
     const setDateRangeSpy = jest.fn();
-    const { getByRole } = render(<DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} />);
+    const setIsChartLoading = jest.fn();
+    const { getByRole } = render(
+      <DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} setIsChartLoading={setIsChartLoading} />
+    );
     const dropdown = getByRole('button', { name: 'Start Date — End Date' });
     userEvent.click(dropdown);
     const fromMonthPicker = getByRole('button', { name: 'From:' });
@@ -46,7 +49,10 @@ describe('date range month picker', () => {
   it('swaps the selected dates when from is after to', () => {
     const datasetDateRange = { from: '2020-01-01', to: '2025-01-01' };
     const setDateRangeSpy = jest.fn();
-    const { getByRole } = render(<DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} />);
+    const setIsChartLoading = jest.fn();
+    const { getByRole } = render(
+      <DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} setIsChartLoading={setIsChartLoading} />
+    );
     const dropdown = getByRole('button', { name: 'Start Date — End Date' });
     userEvent.click(dropdown);
     const fromMonthPicker = getByRole('button', { name: 'From:' });
@@ -108,8 +114,15 @@ describe('date range month picker', () => {
     const datasetDateRange = { from: '2020-01-01', to: '2025-01-01' };
     const currentDateRange = { from: convertDate('2023-01-01'), to: convertDate('2025-01-01') };
     const setDateRangeSpy = jest.fn();
+    const setIsChartLoading = jest.fn();
+
     const { getByRole } = render(
-      <DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} dateRange={currentDateRange} />
+      <DateRangeMonthPicker
+        datasetDateRange={datasetDateRange}
+        setDateRange={setDateRangeSpy}
+        dateRange={currentDateRange}
+        setIsChartLoading={setIsChartLoading}
+      />
     );
     const dropdown = getByRole('button', { name: 'Start Date — End Date' });
     userEvent.click(dropdown);
