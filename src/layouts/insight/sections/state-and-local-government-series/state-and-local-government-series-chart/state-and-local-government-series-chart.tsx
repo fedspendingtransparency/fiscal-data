@@ -6,22 +6,16 @@ import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalG
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
-import { chartTableBorder, loadingIcon, overlay, container } from './state-and-local-government-series-chart.module.scss';
+import { chartTableBorder, container, loadingIcon, overlay } from './state-and-local-government-series-chart.module.scss';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const breakpoint = {
-  desktop: 1015,
-  tablet: 600,
-};
-
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState<boolean>(null);
   const [curDate, setCurDate] = useState<number>(0);
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
@@ -31,17 +25,16 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [monthRange, setMonthRange] = useState([]);
   const [isChartLoading, setIsChartLoading] = useState<boolean>(false);
 
-  const {
-    chartData,
-    xAxisValues,
-    xAxisMobileValues,
-    datasetDateRange,
-    totalMonths,
-    columnConfig,
-    columnConfigArray,
-    mergedTableData,
-  } = useGetStateAndLocalGovernmentSeriesData(dateRange);
+  const { chartData, xAxisValues, datasetDateRange, totalMonths, mergedTableData } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
+
+  const columnConfigArray = ['Date', 'Amount', 'Count'];
+
+  const columnConfig = [
+    { property: 'date', name: 'Date', type: 'STRING' },
+    { property: 'totalAmount', name: 'Amount', type: 'NUMBER' },
+    { property: 'totalCount', name: 'Count', type: 'NUMBER' },
+  ];
 
   const setDefaultHeaderValues = () => {
     if (chartData) {
@@ -55,14 +48,6 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     setDefaultHeaderValues();
     setIsChartLoading(false);
   }, [chartData]);
-
-  useEffect(() => {
-    if (window.innerWidth < breakpoint.desktop) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  }, [width]);
 
   useEffect(() => {
     if (mergedTableData.length) {
@@ -135,10 +120,9 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                       setCurCount={setCurCount}
                       setCurDate={setCurDate}
                       height={height}
-                      isMobile={isMobile}
+                      width={width}
                       chartData={chartData}
                       xAxisValues={xAxisValues}
-                      xAxisMobileValues={xAxisMobileValues}
                       chartFocus={chartFocus}
                       chartHover={chartHover}
                       totalMonths={totalMonths}

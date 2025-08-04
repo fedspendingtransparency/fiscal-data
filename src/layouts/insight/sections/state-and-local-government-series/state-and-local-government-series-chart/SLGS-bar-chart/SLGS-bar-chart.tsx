@@ -2,13 +2,17 @@ import { Area, Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAx
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { stateAndLocalGovernmentSeriesLight, stateAndLocalGovernmentSeriesPrimary } from '../../../../insight.module.scss';
 import { CustomTooltip, formatDate, formatXAxis } from '../state-and-local-government-series-chart-helper';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+
+const breakpoint = {
+  desktop: 1015,
+  tablet: 600,
+};
 
 const SLGSBarChart: FunctionComponent = ({
   chartData,
   height,
-  isMobile,
-  xAxisMobileValues,
+  width,
   xAxisValues,
   setCurCount,
   setCurAmount,
@@ -17,6 +21,7 @@ const SLGSBarChart: FunctionComponent = ({
   chartHover,
   totalMonths,
 }) => {
+  const [isMobile, setIsMobile] = useState(false);
   const MobileXAxisLabel = ({ x, y, payload }) => {
     const formattedDate = formatDate(payload.value);
     const splitDate = formattedDate.split(' ');
@@ -30,6 +35,24 @@ const SLGSBarChart: FunctionComponent = ({
         </text>
       </g>
     );
+  };
+  useEffect(() => {
+    if (window.innerWidth < breakpoint.desktop) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }, [width]);
+
+  const getInterval = monthCount => {
+    let interval = 1;
+    //bar chart
+    if ((monthCount > 12 && monthCount <= 24) || (isMobile && monthCount > 204)) {
+      interval = 3;
+    } else if (monthCount > 24 && monthCount <= 72) {
+      interval = 0;
+    }
+    return interval;
   };
 
   return (
@@ -116,10 +139,12 @@ const SLGSBarChart: FunctionComponent = ({
         <XAxis
           dataKey="date"
           tickFormatter={value => formatXAxis(value, totalMonths)}
-          tick={isMobile ? <MobileXAxisLabel /> : undefined}
+          tick={isMobile && (!totalMonths || totalMonths <= 24) ? <MobileXAxisLabel /> : undefined}
+          tickCount={4}
           fontSize={12}
-          ticks={xAxisValues}
+          ticks={totalMonths > 24 ? xAxisValues : undefined}
           height={48}
+          interval={getInterval(totalMonths)}
         />
       </ComposedChart>
     </ResponsiveContainer>

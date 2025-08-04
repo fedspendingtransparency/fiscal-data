@@ -106,9 +106,9 @@ const getAxisValues = (totalMonths, chartDates) => {
   let axisVals;
 
   if (!totalMonths || totalMonths <= 12) {
-    axisVals = chartDates;
+    axisVals = chartDates.reverse();
   } else if (totalMonths <= 24) {
-    axisVals = chartDates.filter(index => index % 2 !== 0);
+    axisVals = chartDates.reverse();
   } else {
     axisVals = chartDates.filter(val => val.includes('-01-'));
   }
@@ -124,11 +124,11 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   totalMonths: number;
   datasetDateRange: { from: string; to: string };
   xAxisValues: string[];
+  mergedTableData: unknown;
 } => {
   const [chartData, setChartData] = useState(null);
   const [datasetDateRange, setDatasetDateRange] = useState<{ from: string; to: string }>();
   const [xAxisValues, setXAxisValues] = useState<string[]>(null);
-  const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
   const [mergedTableData, setMergedTableData] = useState<any[]>([]);
 
   const totalMonths = getMonthDifference(dateRange?.from, dateRange?.to);
@@ -150,7 +150,6 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
       if (lastCompleteMonth)
         getChartDates(chartEndMonth, totalMonths, chartEndYear).then(async chartDates => {
           setXAxisValues(getAxisValues(totalMonths, chartDates));
-          setXAxisMobileValues(chartDates.filter(index => index % 2 !== 0));
           getChartData(chartDates).then(chartData => setChartData(chartData));
         });
     });
@@ -169,22 +168,11 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
     }
   }, [chartData]);
 
-  const columnConfigArray = ['Date', 'Amount', 'Count'];
-
-  const columnConfig = [
-    { property: 'date', name: 'Date', type: 'STRING' },
-    { property: 'totalAmount', name: 'Amount', type: 'NUMBER' },
-    { property: 'totalCount', name: 'Count', type: 'NUMBER' },
-  ];
-
   return {
     xAxisValues,
-    xAxisMobileValues,
     chartData,
     datasetDateRange,
     totalMonths,
-    columnConfig,
-    columnConfigArray,
     mergedTableData,
   };
 };
