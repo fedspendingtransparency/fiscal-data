@@ -86,18 +86,25 @@ const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, data
   }, [datasetDateRange]);
 
   return (
-    <div className={paddingBuffer ? `${dateRangePickerPadded}` : `${dateRangePicker}`}>
-      <DropdownContainer dropdownButton={button} setActive={setDropdownActive} containerWidth="230px">
-        {dropdownActive && (
-          <div className={dropdownContent}>
-            <div className={datePickers}>
-              <MonthPicker text="From" setSelectedDate={setSelectedStartDate} selectedDate={selectedStartDate} allYears={allYears} />
-              <MonthPicker text="To" setSelectedDate={setSelectedEndDate} selectedDate={selectedEndDate} allYears={allYears} />
-            </div>
-            <FilterButtons handleApply={handleApply} handleCancel={handleCancel} />
-          </div>
-        )}
-      </DropdownContainer>
+    <div className={dropdownContent}>
+      <div className={datePickers}>
+        <MonthPicker
+          text="From"
+          setSelectedDate={setSelectedStartDate}
+          selectedDate={selectedStartDate}
+          allYears={allYears}
+          handleApply={handleApply}
+          handleCancel={handleCancel}
+        />
+        <MonthPicker
+          text="To"
+          setSelectedDate={setSelectedEndDate}
+          selectedDate={selectedEndDate}
+          allYears={allYears}
+          handleApply={handleApply}
+          handleCancel={handleCancel}
+        />
+      </div>
     </div>
   );
 };
