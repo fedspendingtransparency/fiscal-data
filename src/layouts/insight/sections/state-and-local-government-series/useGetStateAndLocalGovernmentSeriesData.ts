@@ -112,12 +112,12 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   from: Date;
   to: Date;
 }): {
-  chartData: unknown;
+  chartData: { date: string; totalAmount: number; totalCount: number }[];
+  mergedTableData: { date: string; totalAmount: string; totalCount: string }[];
   totalMonths: number;
-  datasetDateRange: { from: string; to: string };
   lineChartXAxisValues: string[];
-  mergedTableData: unknown;
-  columnConfig: string[];
+  columnConfig: { property: string; name: string; type: string }[];
+  datasetDateRange: { from: string; to: string };
   columnConfigArray: string[];
 } => {
   const [chartData, setChartData] = useState(null);
