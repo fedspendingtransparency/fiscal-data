@@ -25,7 +25,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [monthRange, setMonthRange] = useState([]);
   const [isChartLoading, setIsChartLoading] = useState<boolean>(false);
 
-  const { chartData, xAxisValues, datasetDateRange, totalMonths, mergedTableData } = useGetStateAndLocalGovernmentSeriesData(dateRange);
+  const { chartData, lineChartXAxisValues, datasetDateRange, totalMonths, mergedTableData } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
 
   const columnConfigArray = ['Date', 'Amount', 'Count'];
@@ -122,7 +122,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                       height={height}
                       width={width}
                       chartData={chartData}
-                      xAxisValues={xAxisValues}
+                      xAxisValues={lineChartXAxisValues}
                       chartFocus={chartFocus}
                       chartHover={chartHover}
                       totalMonths={totalMonths}

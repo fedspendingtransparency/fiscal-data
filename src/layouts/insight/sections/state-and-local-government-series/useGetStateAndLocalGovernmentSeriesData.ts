@@ -104,8 +104,8 @@ const getChartData = async allDates => {
   });
 };
 
-const getAxisValues = (totalMonths, chartDates) => {
-  return !totalMonths || totalMonths <= 24 ? chartDates.reverse() : chartDates.filter(val => val.includes('-01-'));
+const getLineChartAxisValues = (totalMonths, chartDates) => {
+  return chartDates.filter(val => val.includes('-01-'));
 };
 
 export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
@@ -115,7 +115,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   chartData: unknown;
   totalMonths: number;
   datasetDateRange: { from: string; to: string };
-  xAxisValues: string[];
+  lineChartXAxisValues: string[];
   mergedTableData: unknown;
 } => {
   const [chartData, setChartData] = useState(null);
@@ -142,7 +142,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
 
       if (lastCompleteMonth)
         getChartDates(chartEndMonth, totalMonths, chartEndYear).then(async chartDates => {
-          setXAxisValues(getAxisValues(totalMonths, chartDates));
+          setXAxisValues(getLineChartAxisValues(totalMonths, chartDates));
           getChartData(chartDates).then(chartData => setChartData(chartData));
         });
     });
@@ -162,7 +162,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   }, [chartData]);
 
   return {
-    xAxisValues,
+    lineChartXAxisValues,
     chartData,
     datasetDateRange,
     totalMonths,
