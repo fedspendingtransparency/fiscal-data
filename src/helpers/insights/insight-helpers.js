@@ -54,7 +54,7 @@ export const insightSocialShareMap = {
       'This tool visualizes the monthly count and amount of outstanding SLGS securities. Expand the timeline to see longer historical trends, ' +
       'and download the data to perform your own analysis. Dive into this essential data today to learn more about U.S. federal financial trends!',
     url: envBaseUrl + '/state-and-local-government-series/',
-    image: envBaseUrl + '/images/SGLS-Social-Share-1-1.png',
+    image: envBaseUrl + '/images/SLGS-Social-Share-1-1.png',
   },
 };
 
