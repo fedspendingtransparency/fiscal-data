@@ -98,7 +98,7 @@ const InterestExpenseChart = () => {
         title={chartTitle}
         downloadData={downloadData}
         selectedTable={{ downloadName: 'interest-expense-avg-interest-rates' }}
-        dateRange={{ from: startFY, to: currentFY }}
+        monthRange={{ from: startFY, to: currentFY }}
         enabledClickedColorChange={true}
         isLoading={chartLoading}
         height={360}
