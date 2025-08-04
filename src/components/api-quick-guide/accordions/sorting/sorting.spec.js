@@ -2,6 +2,7 @@ import React from 'react';
 import SortingAccordion from './sorting';
 import { selectedTable } from '../../test-helpers/test-helpers';
 import { fireEvent, render } from '@testing-library/react';
+import GLOBALS from '../../../../helpers/constants';
 
 describe('Sorting Accordion', () => {
   const titleText = 'Sorting';
@@ -22,8 +23,13 @@ describe('Sorting Accordion', () => {
   });
 
   it('writes a sorting example drafted from the provided selectedTable prop', () => {
-    const { getByTestId } = render(<SortingAccordion selectedTable={selectedTable} />);
+    const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
+    const fullUrl = `${baseApiUrl}/${selectedTable.endpoint}`;
+    const exampleSortingQuery = `?sort=-${selectedTable.dateField}`;
+
+    const { getByTestId, getByText } = render(<SortingAccordion selectedTable={selectedTable} />);
     fireEvent.click(getByTestId('button'));
-    expect(getByTestId('sortingAccordionQuery').innerHTML).toBe(`?sort=-${selectedTable.dateField}`);
+    expect(getByText(fullUrl, { exact: false })).toBeInTheDocument();
+    expect(getByText(exampleSortingQuery)).toBeInTheDocument();
   });
 });
