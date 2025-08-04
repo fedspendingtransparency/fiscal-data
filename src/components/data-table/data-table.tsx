@@ -114,7 +114,11 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   } else {
     const tempDataTypes = {};
     allColumns?.forEach(column => {
-      tempDataTypes[column.property] = 'STRING';
+      if (column.type) {
+        tempDataTypes[column.property] = column.type;
+      } else {
+        tempDataTypes[column.property] = 'STRING';
+      }
     });
     dataTypes = tempDataTypes;
   }
