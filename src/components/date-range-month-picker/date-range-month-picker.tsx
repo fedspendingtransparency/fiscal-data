@@ -84,6 +84,8 @@ const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, data
     setAllYear(getAllYears(datasetDateRange));
   }, [datasetDateRange]);
 
+  console.log('Selected date range: ', selectedRange);
+
   return (
     <div className={dropdownContent}>
       <div className={datePickers}>

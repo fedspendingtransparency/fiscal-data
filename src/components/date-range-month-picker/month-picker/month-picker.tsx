@@ -65,6 +65,9 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
     }
   }, [dropdownActive]);
 
+  console.log('Selected month: ', selectedMonth);
+  console.log('Selected year: ', selectedYear);
+
   return (
     <>
       <DropdownContainer dropdownButton={button} setActive={setDropdownActive} containerWidth="200px">
