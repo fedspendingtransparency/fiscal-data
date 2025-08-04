@@ -46,12 +46,14 @@ export const insightSocialShareMap = {
     image: envBaseUrl + '/images/Interest-Expense-Social-Share-Graph-and-Money_1200x630.png',
   },
   'state-and-local-government-series': {
-    title: '',
-    description: '',
-    body: '',
-    emailSubject: '',
-    emailBody: '',
-    url: envBaseUrl + '',
+    title: 'Fiscal Data Explores State and Local Government Series (SLGS) securities',
+    description: 'Check out @FiscalService Fiscal Data’s new topic page exploring State and Local Government Series Securities #SLGS',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page exploring State and Local Government Series securities #FiscalData #SLGS',
+    emailSubject: 'Fiscal Data Explores State and Local Government Series (SLGS) Securities',
+    emailBody: 'Check out Fiscal Data’s new interactive insight page, exploring State and Local Government Series securities (SLGS). ' +
+      'This tool visualizes the monthly count and amount of outstanding SLGS securities. Expand the timeline to see longer historical trends, ' +
+      'and download the data to perform your own analysis. Dive into this essential data today to learn more about U.S. federal financial trends!',
+    url: envBaseUrl + '/state-and-local-government-series/',
     image: envBaseUrl + '',
   },
 };
