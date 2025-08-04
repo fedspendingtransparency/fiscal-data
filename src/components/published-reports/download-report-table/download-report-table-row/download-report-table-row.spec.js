@@ -72,6 +72,7 @@ describe('Download report table row component', () => {
     const downloadButton = getByRole('link', { name: 'Download file.pdf' });
     act(() => {
       fireEvent.click(downloadButton);
+      jest.runAllTimers();
     });
     //Changes download icon style and text after click
     icon = getByTestId('download-icon');
