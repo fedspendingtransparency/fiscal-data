@@ -117,11 +117,13 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   datasetDateRange: { from: string; to: string };
   lineChartXAxisValues: string[];
   mergedTableData: unknown;
+  columnConfig: string[];
+  columnConfigArray: string[];
 } => {
   const [chartData, setChartData] = useState(null);
   const [datasetDateRange, setDatasetDateRange] = useState<{ from: string; to: string }>();
-  const [xAxisValues, setXAxisValues] = useState<string[]>(null);
-  const [mergedTableData, setMergedTableData] = useState<any[]>([]);
+  const [lineChartXAxisValues, setXAxisValues] = useState<string[]>(null);
+  const [mergedTableData, setMergedTableData] = useState([]);
 
   const totalMonths = getMonthDifference(dateRange?.from, dateRange?.to);
 
@@ -161,11 +163,21 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
     }
   }, [chartData]);
 
+  const columnConfigArray = ['Date', 'Amount', 'Count'];
+
+  const columnConfig = [
+    { property: 'date', name: 'Date', type: 'STRING' },
+    { property: 'totalAmount', name: 'Amount', type: 'NUMBER' },
+    { property: 'totalCount', name: 'Count', type: 'NUMBER' },
+  ];
+
   return {
-    lineChartXAxisValues,
     chartData,
-    datasetDateRange,
     totalMonths,
+    datasetDateRange,
+    lineChartXAxisValues,
+    columnConfig,
+    columnConfigArray,
     mergedTableData,
   };
 };
