@@ -13,11 +13,13 @@ import {
   headerContainer,
   icon,
   tableBoarder,
+  dateRangeContainer,
 } from './chart-table-container.module.scss';
 import DateRangeMonthPicker from '../../date-range-month-picker/date-range-month-picker';
 import { Skeleton } from '@mui/material';
 import ChartingTableToggle from '../chart-table-toggle/charting-table-toggle';
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
+import InfoTip from '../../info-tip/info-tip';
 
 interface IChartTableContainer {
   title: string;
@@ -97,13 +99,21 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
         <div className={headerContainer}>{toggle}</div>
       </div>
       {datasetDateRange && (
-        <DateRangeMonthPicker
-          dateRange={dateRange}
-          setDateRange={setDateRange}
-          datasetDateRange={datasetDateRange}
-          paddingBuffer={paddingBuffer}
-          setIsChartLoading={setIsChartLoading}
-        />
+
+        <div className={dateRangeContainer}>
+          <DateRangeMonthPicker
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+            datasetDateRange={datasetDateRange}
+            paddingBuffer={paddingBuffer}
+            setIsChartLoading={setIsChartLoading}
+          />
+          <InfoTip
+            title={'For a date range under two years, the data is presented in a bar chart. For a date range greater than two year, the visualization will display a line chart.'}
+            iconStyle={{ color: '#666666', width: '16px', height: '16px' }}>For a date range under two years, the data
+            is presented in a bar chart. For a date range greater than two year, the visualization will display a line
+            chart. </InfoTip>
+        </div>
       )}
       {isLoading && (
         <Skeleton
