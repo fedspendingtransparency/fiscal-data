@@ -120,10 +120,10 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   datasetDateRange: { from: string; to: string };
   columnConfigArray: string[];
 } => {
-  const [chartData, setChartData] = useState(null);
+  const [chartData, setChartData] = useState<{ date: string; totalAmount: number; totalCount: number }[]>(null);
   const [datasetDateRange, setDatasetDateRange] = useState<{ from: string; to: string }>();
   const [lineChartXAxisValues, setXAxisValues] = useState<string[]>(null);
-  const [mergedTableData, setMergedTableData] = useState([]);
+  const [mergedTableData, setMergedTableData] = useState<{ date: string; totalAmount: string; totalCount: string }[]>([]);
 
   const totalMonths = getMonthDifference(dateRange?.from, dateRange?.to);
 

@@ -16,13 +16,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const [curDate, setCurDate] = useState<number>(0);
+  const [curDate, setCurDate] = useState<string>('');
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
   const [dateRange, setDateRange] = useState();
   const [sorting, setSorting] = useState([]);
   const [downloadData, setDownloadData] = useState([]);
-  const [monthRange, setMonthRange] = useState([]);
+  const [monthRange, setMonthRange] = useState<{ from: string; to: string }>();
   const [isChartLoading, setIsChartLoading] = useState<boolean>(false);
 
   const {
@@ -134,24 +134,22 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
           </>
         }
         table={
-          <>
-            <DtgTable
-              tableProps={{
-                data: mergedTableData,
-                columnConfig,
-                tableName: 'State and Local Government Series Details',
-                caption: 'State and Local Government Series Table',
-                shouldPage: true,
-                width: '99%',
-                chartTable: false,
-                noBorder: true,
-              }}
-              reactTable={true}
-              sorting={sorting}
-              setSorting={setSorting}
-              width
-            />
-          </>
+          <DtgTable
+            tableProps={{
+              data: mergedTableData,
+              columnConfig,
+              tableName: 'State and Local Government Series Details',
+              caption: 'State and Local Government Series Table',
+              shouldPage: true,
+              width: '99%',
+              chartTable: false,
+              noBorder: true,
+            }}
+            reactTable={true}
+            sorting={sorting}
+            setSorting={setSorting}
+            width
+          />
         }
       />
     </>
