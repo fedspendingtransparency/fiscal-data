@@ -206,8 +206,8 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
   const columnConfig = useMemo(() => {
     return [
       { property: 'record_date', name: 'Record Date', type: 'DATE' },
-      { property: 'expense', name: 'FYTD Interest Expense', type: 'STRING' },
-      { property: 'rate', name: 'Avg Interest Rate', type: 'STRING' },
+      { property: 'expense', name: 'FYTD Interest Expense', type: 'NUMBER' },
+      { property: 'rate', name: 'Avg Interest Rate', type: 'NUMBER' },
       { property: 'year', name: 'Fiscal Year', type: 'STRING' },
     ];
   }, []);

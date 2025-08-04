@@ -172,7 +172,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   const columnConfigArray = ['Date', 'Amount', 'Count'];
 
   const columnConfig = [
-    { property: 'date', name: 'Date', type: 'DATE' },
+    { property: 'date', name: 'Date', type: 'STRING' },
     { property: 'totalAmount', name: 'Amount', type: 'NUMBER' },
     { property: 'totalCount', name: 'Count', type: 'NUMBER' },
   ];
