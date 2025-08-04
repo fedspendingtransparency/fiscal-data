@@ -186,7 +186,7 @@ export const pageTileMap = {
       'State and Local Government Series (SLGS) are non-marketable securities that help state and local '+
       'governments meet their financing needs. Learn more and explore monthly trends in outstanding SLGS securities. ',
     altText:
-      'If Main Feature Tile: Illustration with images including three buildings with the text, “Why do we invest in '+
+      'Illustration with images including three buildings with the text, “Why do we invest in '+
       'State and Local Government Series Securities? Fiscal Data Explains”, and the Fiscal Data logo in the bottom right corner. ',
     desktopImage: 'State-and-local-government-series-1200_630',
     mobileImage: 'State-and-local-government-series-1200_630',
