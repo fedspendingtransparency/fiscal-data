@@ -1,4 +1,4 @@
-import { BaseType, select, selectAll, Selection, pointer } from 'd3-selection';
+import { BaseType, pointer, select, selectAll, Selection } from 'd3-selection';
 import 'd3-selection-multi';
 import 'd3-transition';
 import { extent } from 'd3-array';
@@ -33,6 +33,7 @@ export class MultichartRenderer {
   fields: [];
   markers: unknown;
   hoverFunction: (unknown) => void;
+  focusFunction: (unknown) => void;
   hoverEffectsId: string;
   elementRef: HTMLElement;
   rendered: boolean = false;
@@ -287,6 +288,14 @@ export class MultichartRenderer {
     d3.select(`#${this.hoverEffectsId}`).remove();
   };
 
+  addAccessibilityLayer = (focusFunction: (dateString: string | null) => void): void => {
+    this.focusFunction = focusFunction;
+    const len = this.chartConfigs[0].data.length;
+    for (let i = len - 1; i >= 0; i--) {
+      this.createAccessibilityMarker(i);
+    }
+  };
+
   mouseout = (): void => {
     this.chartConfigs.forEach(config => {
       setTimeout(() => {
@@ -353,6 +362,27 @@ export class MultichartRenderer {
     }
   };
 
+  focus = (dataIndex): void => {
+    let selectedData;
+    this.chartConfigs.forEach(config => {
+      selectedData = config.data[dataIndex];
+      if (selectedData && selectedData[config.fields[0]]) {
+        this.placeMarker(config, dataIndex);
+
+        // This brings the overlay element to the front so hovering over the markers doesn't prevent
+        // hover effects from working. Instead of raising the hover effects <rect> in the DOM (which
+        // triggers `mouseout` on Firefox) we can lower the graph.
+        d3.selectAll(`.${this.chartId}-surface`).lower();
+      } else {
+        this.mouseout();
+      }
+    });
+    this.connectMarkers(dataIndex);
+    if (selectedData && this.focusFunction) {
+      this.focusFunction(selectedData[this.chartConfigs[0].dateField]);
+    }
+  };
+
   placeMarginLabels = (config: ChartConfig): void => {
     const elemClass = `.${this.chartId}-surface`;
     if (config.zeroMarginLabelLeft) {
@@ -398,6 +428,32 @@ export class MultichartRenderer {
           `translate(${config.scales.x(parseTime(config.data[0][config.dateField])) + 13},
       ${config.scales.y(Number(config.data[0][config.fields[0]])) - 9})`
         );
+    }
+  };
+
+  createAccessibilityMarker = (dataIndex: number): void => {
+    if (this.chartConfigs[0].data && this.chartConfigs[1].data) {
+      const elemClass = `.${this.chartId}-surface`;
+
+      // using 2 y values, but the same x value to ensure where rounding/etc. may occur,
+      // the connecting line is always truly vertical
+      const xPos = this.chartConfigs[0].scales.x(parseTime(this.chartConfigs[0].data[dataIndex][this.chartConfigs[0].dateField]));
+      const y1 = this.chartConfigs[0].scales.y(Number(this.chartConfigs[0].data[dataIndex][this.chartConfigs[0].fields[0]]));
+      const y2 = this.chartConfigs[1].scales.y(Number(this.chartConfigs[1].data[dataIndex][this.chartConfigs[1].fields[0]]));
+
+      d3.select(elemClass)
+        .append('svg:line')
+        .classed('accessible-marker-connector', true)
+        .attr('id', 'accessible-marker')
+        .attr('data-testid', 'accessible-marker')
+        .attr('x1', xPos)
+        .attr('y1', y1)
+        .attr('x2', xPos)
+        .attr('y2', y2)
+        .attr('tabindex', 0)
+        .style('stroke-width', 4)
+        .style('stroke', '#00000000')
+        .on('focus', () => this.focus(dataIndex));
     }
   };
 
