@@ -104,6 +104,7 @@ const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, data
           handleApply={handleApply}
           handleCancel={handleCancel}
         />
+
       </div>
     </div>
   );
