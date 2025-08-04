@@ -26,9 +26,9 @@ const getLastCompletedMonth = async datasetId => {
     const { released, date } = currentMonthData[0];
     const latestDate = convertDate(date);
     const month = latestDate.getMonth() + 1;
-    const year = month === 1 && !released ? latestDate.getFullYear() - 1 : latestDate.getFullYear();
+    const year = month === 1 && released === 'false' ? latestDate.getFullYear() - 1 : latestDate.getFullYear();
     const lastMonth = month === 1 ? 12 : month - 1;
-    const lastCompletedMonth = !released ? lastMonth : month;
+    const lastCompletedMonth = released === 'false' ? lastMonth : month;
     return { month: lastCompletedMonth, year: year };
   }
 };
