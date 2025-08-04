@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import PagingOptionsMenu from './paging-options-menu';
-import { MenuItem } from '@material-ui/core';
+import { MenuItem } from '@mui/material';
 
 describe('Go to Page PagingOptionsMenu component', () => {
   const menuProps = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createTheme, Grid, ThemeProvider } from '@material-ui/core';
+import { createTheme, Grid, ThemeProvider } from '@mui/material';
 import HomePageTile from './homepage-tile/homepage-tile';
 import { tileContainer, sectionHeader, topicsSectionContainer, line, insightsSectionContainer } from './topics-section.module.scss';
 import { breakpointLg } from '../../variables.module.scss';

@@ -1,5 +1,6 @@
 import { search, searchIcon, searchIconHover, searchLabel, glow, disabledBackground, clearButton } from './search-bar.module.scss';
-import { InputAdornment, ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import { InputAdornment } from '@mui/material';
 import { searchBarTheme, useStyles } from '../glossary/glossary-header/theme';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';

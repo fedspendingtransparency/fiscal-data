@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { IDataTableHeader } from '../../../../models/IDataTableHeader';
-import { withStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
+import { withStyles } from '@mui/styles';
+import Tooltip from '@mui/material/Tooltip';
 import {
   headerContent,
   defaultSortArrow,

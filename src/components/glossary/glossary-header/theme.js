@@ -1,5 +1,6 @@
 import * as variables from '../../../variables.module.scss';
-import { createTheme, makeStyles } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 
 const theme = {
   components: {

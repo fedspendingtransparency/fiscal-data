@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/styles';
 import { SwitchProps } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import { treasurySavingsBondsExplainerSecondary } from '../../../treasury-savings-bonds.module.scss';

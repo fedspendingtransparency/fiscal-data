@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
+import { makeStyles } from '@mui/styles';
+import Popover from '@mui/material/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +8,7 @@ import { header, infoIcon, mobileFA, popoverContents, popupContainerStyle, svgSt
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
 const style = {
   button: {
@@ -53,7 +53,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   const useStyles = makeStyles(theme => ({
     ...style,
     popupContainer: {
-      padding: theme.spacing(2),
+      padding: theme?.spacing(2),
     },
     primarySvgColor: {
       '& path': {

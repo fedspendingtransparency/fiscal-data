@@ -4,23 +4,20 @@
    dependencies, remove above istanbul ignore header above
  */
 
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { graphql } from 'gatsby';
+import React, { FunctionComponent, useState } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import About from './about-section/about-section';
 import FAQ from './faq-section/faq-section';
 import Contact from './contact-section/contact-section';
-import AboutMDX from '../../components/about-us/about-section/about-section';
-import FAQMDX from '../../components/about-us/faq-section/faq-section';
-import { tocBuilder } from '../../components/about-us/toc/toc'; // todo - toc cms
+// todo - toc cms
 import TOCData from './toc-data.json';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
 import Experimental from '../../components/experimental/experimental';
 
 import { tocHeader } from '../../components/table-of-contents/toc.module.scss';
-import { aboutPageWrapper, activeLink, content, hoverLink, linkClass } from './about-us.module.scss';
+import { aboutPageWrapper, activeLink, content, hoverLink } from './about-us.module.scss';
 
 const tocSections = ['about-section', 'faq', 'contact-section'];
 
@@ -36,7 +33,7 @@ const AboutUsPage: FunctionComponent = ({ data }) => {
   ];
 
   const [highlight, doHighlight] = useState(0);
-  const [mdxAST, setMdxAST] = useState([]); // todo - Uncomment for toc cms
+  // const [mdxAST, setMdxAST] = useState([]); // todo - Uncomment for toc cms
 
   const tocHeaderComponent = (
     <h2 data-test-id="about-page-header" className={tocHeader}>
@@ -44,25 +41,25 @@ const AboutUsPage: FunctionComponent = ({ data }) => {
     </h2>
   );
 
-  useEffect(() => {
-    if (data && data.allMdx && data.allMdx.edges) {
-      let curAST = [];
-      const edges = data.allMdx.edges;
-      for (let i = 0, il = tocSections.length; i < il; i++) {
-        const curId = tocSections[i];
-        for (let j = edges.length; j--; ) {
-          if (edges[j].node.frontmatter.id === curId) {
-            curAST = curAST.concat(tocBuilder(edges[j].node.mdxAST.children, [null, 'headingLevel2', 'headingLevel3']));
-          }
-        }
-      }
-      curAST.forEach((d, i) => {
-        d.index = i;
-      });
-
-      setMdxAST(curAST);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (data && data.allMdx && data.allMdx.edges) {
+  //     let curAST = [];
+  //     const edges = data.allMdx.edges;
+  //     for (let i = 0, il = tocSections.length; i < il; i++) {
+  //       const curId = tocSections[i];
+  //       for (let j = edges.length; j--; ) {
+  //         if (edges[j].node.frontmatter.id === curId) {
+  //           curAST = curAST.concat(tocBuilder(edges[j].node.mdxAST.children, [null, 'headingLevel2', 'headingLevel3']));
+  //         }
+  //       }
+  //     }
+  //     curAST.forEach((d, i) => {
+  //       d.index = i;
+  //     });
+  //
+  //     setMdxAST(curAST);
+  //   }
+  // }, []);
 
   return (
     <SiteLayout isPreProd={false}>
@@ -94,15 +91,15 @@ const AboutUsPage: FunctionComponent = ({ data }) => {
             </div>
           </SecondaryNav>
         </Experimental>
-        <Experimental featureId="aboutUsMDX" exclude={false}>
-          <SecondaryNav sections={mdxAST} activeClass={activeLink} hoverClass={hoverLink} linkClass={linkClass} headerComponent={tocHeaderComponent}>
-            <div id={content} className={content} data-test-id="about-content">
-              <AboutMDX />
-              <FAQMDX triggerHighlight={highlight} />
-              {/*<ContactMDX onUnsupportedSubject={() => doHighlight(prevState => prevState + 1)} />*/}
-            </div>
-          </SecondaryNav>
-        </Experimental>
+        {/*<Experimental featureId="aboutUsMDX" exclude={false}>*/}
+        {/*  <SecondaryNav sections={mdxAST} activeClass={activeLink} hoverClass={hoverLink} linkClass={linkClass} headerComponent={tocHeaderComponent}>*/}
+        {/*    <div id={content} className={content} data-test-id="about-content">*/}
+        {/*      <AboutMDX />*/}
+        {/*      <FAQMDX triggerHighlight={highlight} />*/}
+        {/*      /!*<ContactMDX onUnsupportedSubject={() => doHighlight(prevState => prevState + 1)} />*!/*/}
+        {/*    </div>*/}
+        {/*  </SecondaryNav>*/}
+        {/*</Experimental>*/}
       </div>
     </SiteLayout>
   );
@@ -110,17 +107,17 @@ const AboutUsPage: FunctionComponent = ({ data }) => {
 
 export default AboutUsPage;
 
-export const pageQuery = graphql`
-  query {
-    allMdx(filter: { frontmatter: { id: { in: ["about-section", "faq", "contact-section"] } } }) {
-      edges {
-        node {
-          frontmatter {
-            id
-          }
-          mdxAST
-        }
-      }
-    }
-  }
-`;
+// export const pageQuery = graphql`
+//   query {
+//     allMdx(filter: { frontmatter: { id: { in: ["about-section", "faq", "contact-section"] } } }) {
+//       edges {
+//         node {
+//           frontmatter {
+//             id
+//           }
+//           mdxAST
+//         }
+//       }
+//     }
+//   }
+// `;

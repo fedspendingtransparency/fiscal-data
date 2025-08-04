@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Tab } from '@material-ui/core';
+import { Tabs, Tab } from '@mui/material';
 import Analytics from '../../../../utils/analytics/analytics';
 
 export const a11yProps = index => ({

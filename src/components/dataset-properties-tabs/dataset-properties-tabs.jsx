@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { a11yProps } from '../datasets/filters/dateFilterTabs/dateFilterTabs';
-import { MuiThemeProvider, withStyles } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
+import {ThemeProvider} from '@mui/material';
 import { theme } from '../../theme';
-import Tabs from '@material-ui/core/Tabs';
+import Tabs from '@mui/material/Tabs';
 import DataDictionary from '../data-dictionary/data-dictionary';
 import NotesAndLimitations from './notes-and-limitations/notes-and-limitations';
 import MetadataTab from '../metadata-tab/metadata-tab';
 import DataTablesTab from '../datatables-tab/datatables-tab';
-import Box from '@material-ui/core/Box';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
 import { withWindowSize } from 'react-fns';
 import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -98,7 +99,7 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
 
   return (
     <div data-testid="tabsContainer">
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <div style={{ marginBottom: '0.875rem' }}>
           <Tabs
             value={value}
@@ -117,7 +118,7 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
             {c.content}
           </TabPanel>
         ))}
-      </MuiThemeProvider>
+      </ThemeProvider>
     </div>
   );
 };
