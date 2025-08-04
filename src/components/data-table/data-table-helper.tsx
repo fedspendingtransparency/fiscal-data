@@ -253,8 +253,8 @@ export const columnsConstructorData = (
 };
 
 export const columnsConstructorGeneric = (columns: Record<string, string>[]): ColumnDef<string, string>[] => {
-  return columns.map(({ property, name }) => {
-    return { accessorKey: property, header: name } as ColumnDef<string, string>;
+  return columns.map(({ property, name, type }) => {
+    return { accessorKey: property, header: name, property: property, type: type } as ColumnDef<string, string>;
   });
 };
 
