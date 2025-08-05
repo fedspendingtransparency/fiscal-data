@@ -27,6 +27,7 @@ describe('date range month picker', () => {
     fireEvent.click(fromMonthPicker);
     fireEvent.click(getByRole('button', { name: 'April' }));
     fireEvent.click(getByRole('button', { name: '2020' }));
+    fireEvent.click(fromMonthPicker);
 
     fireEvent.click(toMonthPicker);
     fireEvent.click(getByRole('button', { name: 'April' }));
@@ -48,6 +49,7 @@ describe('date range month picker', () => {
     fireEvent.click(fromMonthPicker);
     fireEvent.click(getByRole('button', { name: 'April' }));
     fireEvent.click(getByRole('button', { name: '2021' }));
+    fireEvent.click(fromMonthPicker);
 
     fireEvent.click(toMonthPicker);
     fireEvent.click(getByRole('button', { name: 'April' }));
