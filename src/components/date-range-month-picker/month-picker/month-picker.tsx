@@ -18,7 +18,7 @@ import {
 import ScrollContainer from '../../scroll-container/scroll-container';
 import { monthFullNames } from '../../../utils/api-utils';
 
-const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, allYears, handleApply, handleCancel }) => {
+const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, allYears }) => {
   const currentSelection = selectedDate?.split(' ');
   const defaultMonth = currentSelection?.length > 1 ? currentSelection[0] : 'Month';
   const defaultYear = currentSelection?.length > 1 ? currentSelection[1] : 'Year';
