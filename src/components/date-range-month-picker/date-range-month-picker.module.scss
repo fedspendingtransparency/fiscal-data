@@ -33,8 +33,9 @@
 }
 
 .dropdownContent {
-  z-index: $published-reports-date-picker + 5;
+  z-index: $above;
 }
+
 .datePickers {
   display: flex;
   padding: 0 1rem 1rem 1rem;

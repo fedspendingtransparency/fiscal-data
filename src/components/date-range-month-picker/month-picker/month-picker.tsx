@@ -50,7 +50,6 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
   const handleYearClick = option => {
     setSelectedYear(option);
     setDropdownActive(false);
-    handleApply();
   };
 
   useEffect(() => {
@@ -64,9 +63,6 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
       setActiveDropdown('month');
     }
   }, [dropdownActive]);
-
-  console.log('Selected month: ', selectedMonth);
-  console.log('Selected year: ', selectedYear);
 
   return (
     <>
