@@ -49,7 +49,6 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
   };
   const handleYearClick = option => {
     setSelectedYear(option);
-    setDropdownActive(false);
   };
 
   useEffect(() => {

@@ -10,6 +10,7 @@ const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRang
   const [allYears, setAllYear] = useState<string[]>();
 
   useEffect(() => {
+    if (!selectedStartDate && !selectedEndDate) return;
     setIsChartLoading(true);
     let startDate = selectedStartDate;
     let endDate = selectedEndDate;
