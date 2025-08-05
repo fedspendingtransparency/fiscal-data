@@ -48,7 +48,7 @@
   height: 1rem;
 }
 
-@media screen and (max-width: $breakpoint-lg - 1) {
+@media screen and (max-width: $breakpoint-sm - 1) {
   .datePickers {
     flex-direction: column;
   }

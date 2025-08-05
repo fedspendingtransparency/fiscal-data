@@ -73,7 +73,7 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
 
   return (
     <>
-      <DropdownContainer dropdownButton={button} setActive={setDropdownActive} containerWidth="200px">
+      <DropdownContainer dropdownButton={button} setActive={setDropdownActive} containerWidth="13.5rem">
         {dropdownActive && (
           <div className={`${dropdownContent}`}>
             <div className={header}>
