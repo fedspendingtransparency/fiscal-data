@@ -129,7 +129,7 @@ const DatasetsPage = ({ pageContext }) => {
   useEffect(() => {
     setFinalDatesNotFound(false);
     setTimeout(() => {
-      if (searchQuery) {
+      if (updatedDatasets && searchQuery) {
         setSearchResults(
           fuse.search(searchQuery).map(result => {
             return { ...result.item, score: result.score };
@@ -142,7 +142,7 @@ const DatasetsPage = ({ pageContext }) => {
   }, [updatedDatasets]);
 
   useEffect(() => {
-    if (searchQuery) {
+    if (updatedDatasets && searchQuery) {
       setSearchResults(
         fuse.search(searchQuery).map(result => {
           return { ...result.item, score: result.score };
