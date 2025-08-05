@@ -50,7 +50,7 @@
 
 .dropdownContent {
   background-color: white;
-  z-index: $above;
+  z-index: $dtg-table-loading-icon + 1;
   position: absolute;
   box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
   margin-top: 0.125rem;
