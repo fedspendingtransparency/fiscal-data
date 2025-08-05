@@ -26,36 +26,38 @@ const getLastCompletedMonth = async datasetId => {
     const { released, date } = currentMonthData[0];
     const latestDate = convertDate(date);
     const month = latestDate.getMonth() + 1;
-    const year = month === 1 && !released ? latestDate.getFullYear() - 1 : latestDate.getFullYear();
+    const year = month === 1 && released === 'false' ? latestDate.getFullYear() - 1 : latestDate.getFullYear();
     const lastMonth = month === 1 ? 12 : month - 1;
-    const lastCompletedMonth = !released ? lastMonth : month;
+    const lastCompletedMonth = released === 'false' ? lastMonth : month;
     return { month: lastCompletedMonth, year: year };
   }
 };
 
-const getChartDates = async (lastCompleteMonth, totalMonths = 12, lastYear = 2025) => {
-  const currentYear = lastYear ? lastYear : new Date().getFullYear();
+// creates array of chart dates, starting from the last available date and working back
+const getChartDates = async (lastCompleteMonth, totalMonths = 12, endYear) => {
   const allDates = [];
-  const size = totalMonths * 23 + 253;
+  const size = totalMonths * 23 + 253; // 23 is the max business days within a month
   let totalYears = 1;
   const { fields, sort } = apiCalls.chartDates;
-  await basicFetch(`${apiPrefix}${slgsEndpoint}?fields=${fields}&filter=record_calendar_year:lte:${lastYear}&sort=${sort}&page[size]=${size}`).then(
-    chartData => {
+  const filter = `record_calendar_year:lte:${endYear}`;
+  await basicFetch(`${apiPrefix}${slgsEndpoint}?fields=${fields}&filter=${filter}&sort=${sort}&page[size]=${size}`).then(chartData => {
+    if (chartData.data) {
       for (let i = 0; i < totalMonths; i++) {
-        if (chartData.data) {
-          if (i - lastCompleteMonth > 0 && (i - lastCompleteMonth) % 12 === 0) {
-            totalYears = totalYears + 1;
-          }
-          const yearCheck = lastCompleteMonth - i > 0 ? currentYear : currentYear - totalYears;
-          const nextMonth = lastCompleteMonth - i > 0 ? lastCompleteMonth - i : 12 * totalYears + lastCompleteMonth - i;
-          const curMonth = chartData.data.filter(
-            entry => Number(entry.record_calendar_month) === nextMonth && Number(entry.record_calendar_year) === yearCheck
-          );
-          allDates.push(curMonth[0].record_date);
+        const month = lastCompleteMonth - i;
+        if (i - lastCompleteMonth > 0 && (i - lastCompleteMonth) % 12 === 0) {
+          totalYears = totalYears + 1;
+        }
+        const year = month > 0 ? endYear : endYear - totalYears;
+        const curMonth = month > 0 ? month : 12 * totalYears + month;
+        const curMonthData = chartData.data.filter(
+          entry => Number(entry.record_calendar_month) === curMonth && Number(entry.record_calendar_year) === year
+        );
+        if (curMonthData.length) {
+          allDates.push(curMonthData[0].record_date);
         }
       }
     }
-  );
+  });
   return allDates;
 };
 
@@ -102,36 +104,29 @@ const getChartData = async allDates => {
   });
 };
 
-const getAxisValues = (totalMonths, chartDates) => {
-  let axisVals;
-
-  if (!totalMonths || totalMonths <= 12) {
-    axisVals = chartDates;
-  } else if (totalMonths <= 24) {
-    axisVals = chartDates.filter(index => index % 2 !== 0);
-  } else {
-    axisVals = chartDates.filter(val => val.includes('-01-'));
-  }
-  return axisVals;
+const getLineChartAxisValues = (totalMonths, chartDates) => {
+  return chartDates.filter(val => val.includes('-01-'));
 };
 
 export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   from: Date;
   to: Date;
 }): {
-  xAxisMobileValues: string[];
-  chartData: unknown;
+  chartData: { date: string; totalAmount: number; totalCount: number }[];
+  mergedTableData: { date: string; totalAmount: string; totalCount: string }[];
   totalMonths: number;
+  lineChartXAxisValues: string[];
+  columnConfig: { property: string; name: string; type: string }[];
   datasetDateRange: { from: string; to: string };
-  xAxisValues: string[];
+  columnConfigArray: string[];
 } => {
-  const [chartData, setChartData] = useState(null);
+  const [chartData, setChartData] = useState<{ date: string; totalAmount: number; totalCount: number }[]>(null);
   const [datasetDateRange, setDatasetDateRange] = useState<{ from: string; to: string }>();
-  const [xAxisValues, setXAxisValues] = useState<string[]>(null);
-  const [xAxisMobileValues, setXAxisMobileValues] = useState<string[]>(null);
-  const [mergedTableData, setMergedTableData] = useState<any[]>([]);
+  const [lineChartXAxisValues, setXAxisValues] = useState<string[]>(null);
+  const [mergedTableData, setMergedTableData] = useState<{ date: string; totalAmount: string; totalCount: string }[]>([]);
 
   const totalMonths = getMonthDifference(dateRange?.from, dateRange?.to);
+
   useEffect(() => {
     getDatasetDateRange().then(async completeDateRange => setDatasetDateRange(completeDateRange));
   }, []);
@@ -149,8 +144,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
 
       if (lastCompleteMonth)
         getChartDates(chartEndMonth, totalMonths, chartEndYear).then(async chartDates => {
-          setXAxisValues(getAxisValues(totalMonths, chartDates));
-          setXAxisMobileValues(chartDates.filter(index => index % 2 !== 0));
+          setXAxisValues(getLineChartAxisValues(totalMonths, chartDates));
           getChartData(chartDates).then(chartData => setChartData(chartData));
         });
     });
@@ -178,11 +172,10 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   ];
 
   return {
-    xAxisValues,
-    xAxisMobileValues,
     chartData,
-    datasetDateRange,
     totalMonths,
+    datasetDateRange,
+    lineChartXAxisValues,
     columnConfig,
     columnConfigArray,
     mergedTableData,
