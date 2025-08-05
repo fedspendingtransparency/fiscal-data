@@ -4,12 +4,13 @@ import MonthPicker from './month-picker/month-picker';
 import { convertDate } from '../dataset-data/dataset-data-helper/dataset-data-helper';
 import { isAfter } from 'date-fns';
 
-const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRange }) => {
+const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRange, setIsChartLoading }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<string>('');
   const [selectedEndDate, setSelectedEndDate] = useState<string>('');
   const [allYears, setAllYear] = useState<string[]>();
 
   useEffect(() => {
+    setIsChartLoading(true);
     let startDate = selectedStartDate;
     let endDate = selectedEndDate;
     if (selectedStartDate && !selectedEndDate) {

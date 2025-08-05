@@ -16,6 +16,12 @@ describe('date range month picker', () => {
   it('updates the selected date range on to and from date selection', () => {
     const datasetDateRange = { from: '2020-01-01', to: '2025-01-01' };
     const setDateRangeSpy = jest.fn();
+    const setIsChartLoading = jest.fn();
+    const { getByRole } = render(
+      <DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} setIsChartLoading={setIsChartLoading} />
+    );
+    const dropdown = getByRole('button', { name: 'Start Date — End Date' });
+    userEvent.click(dropdown);
     const { getByRole } = render(<DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} />);
     const fromMonthPicker = getByRole('button', { name: 'From:' });
     const toMonthPicker = getByRole('button', { name: 'To:' });
@@ -34,6 +40,14 @@ describe('date range month picker', () => {
   it('swaps the selected dates when from is after to', () => {
     const datasetDateRange = { from: '2020-01-01', to: '2025-01-01' };
     const setDateRangeSpy = jest.fn();
+    const setIsChartLoading = jest.fn();
+    const { getByRole } = render(
+      <DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} setIsChartLoading={setIsChartLoading} />
+    );
+    const dropdown = getByRole('button', { name: 'Start Date — End Date' });
+    userEvent.click(dropdown);
+    const fromMonthPicker = getByRole('button', { name: 'From:' });
+    const toMonthPicker = getByRole('button', { name: 'To:' });
     const { getByRole } = render(<DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} />);
     let fromMonthPicker = getByRole('button', { name: 'From:' });
     let toMonthPicker = getByRole('button', { name: 'To:' });
