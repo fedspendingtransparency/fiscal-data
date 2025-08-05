@@ -27,6 +27,9 @@ describe('useGetStateAndLocalGovernmentSeriesData hook', () => {
       jest.useFakeTimers().setSystemTime(convertDate('2024-11-01'));
     });
   });
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
   it('sets chart values for a date range less than two years', async () => {
     const dateRange = { from: convertDate('2024-08-01'), to: convertDate('2024-11-01') };
