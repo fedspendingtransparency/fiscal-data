@@ -64,6 +64,14 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
     }
   }, [dropdownActive]);
 
+  useEffect(() => {
+    const currentSelection = selectedDate?.split(' ');
+    const defaultMonth = currentSelection?.length > 1 ? currentSelection[0] : 'Month';
+    const defaultYear = currentSelection?.length > 1 ? currentSelection[1] : 'Year';
+    setSelectedMonth(defaultMonth);
+    setSelectedYear(defaultYear);
+  }, [selectedDate]);
+
   return (
     <>
       <DropdownContainer dropdownButton={button} setActive={setDropdownActive} containerWidth="200px">

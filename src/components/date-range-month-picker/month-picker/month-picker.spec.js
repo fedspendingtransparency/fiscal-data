@@ -35,7 +35,6 @@ describe('date range month picker', () => {
     expect(dropdown).toBeInTheDocument();
     userEvent.click(dropdown);
     fireEvent.click(getByRole('button', { name: 'April' }));
-    fireEvent.click(getByRole('button', { name: 'Year' }));
     fireEvent.click(getByRole('button', { name: '2020' }));
     expect(setDateSpy).toHaveBeenCalledWith('April 2020');
   });
