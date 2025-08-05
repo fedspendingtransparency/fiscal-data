@@ -13,23 +13,25 @@ import {
   headerContainer,
   icon,
   tableBoarder,
+  dateRangeContainer,
 } from './chart-table-container.module.scss';
 import DateRangeMonthPicker from '../../date-range-month-picker/date-range-month-picker';
 import { Skeleton } from '@mui/material';
 import ChartingTableToggle from '../chart-table-toggle/charting-table-toggle';
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
+import InfoTip from '../../info-tip/info-tip';
 
 interface IChartTableContainer {
   title: string;
   altText: string;
-  downloader;
-  customTestId: string;
+  downloader?;
+  customTestId?: string;
   downloadData;
-  fileType: 'csv' | 'xml' | 'json';
+  fileType?: 'csv' | 'xml' | 'json';
   dateRange;
   setDateRange;
-  downloadTimestamp;
-  enabledClickedColorChange;
+  downloadTimestamp?;
+  enabledClickedColorChange?;
   isLoading: boolean;
   height?: number;
   chart: ReactElement;
@@ -56,6 +58,8 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   paddingBuffer,
   setIsChartLoading,
   monthRange,
+  infoTip,
+  infoTipTitle,
 }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [downloadClicked, setDownloadClick] = useState(false);
@@ -97,13 +101,19 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
         <div className={headerContainer}>{toggle}</div>
       </div>
       {datasetDateRange && (
-        <DateRangeMonthPicker
-          dateRange={dateRange}
-          setDateRange={setDateRange}
-          datasetDateRange={datasetDateRange}
-          paddingBuffer={paddingBuffer}
-          setIsChartLoading={setIsChartLoading}
-        />
+
+        <div className={dateRangeContainer}>
+          <DateRangeMonthPicker
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+            datasetDateRange={datasetDateRange}
+            paddingBuffer={paddingBuffer}
+            setIsChartLoading={setIsChartLoading}
+          />
+          <InfoTip
+            title={infoTipTitle}
+            iconStyle={{ color: '#666666', width: '16px', height: '16px' }}>{infoTip}</InfoTip>
+        </div>
       )}
       {isLoading && (
         <Skeleton

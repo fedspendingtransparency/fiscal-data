@@ -1,14 +1,18 @@
 import { Area, Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { stateAndLocalGovernmentSeriesLight, stateAndLocalGovernmentSeriesPrimary } from '../../../../insight.module.scss';
-import { CustomTooltip, formatXAxis } from '../state-and-local-government-series-chart-helper';
-import React, { FunctionComponent } from 'react';
+import { CustomTooltip, formatDate, formatXAxis } from '../state-and-local-government-series-chart-helper';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+
+const breakpoint = {
+  desktop: 1015,
+  tablet: 600,
+};
 
 const SLGSBarChart: FunctionComponent = ({
   chartData,
   height,
-  isMobile,
-  xAxisMobileValues,
+  width,
   xAxisValues,
   setCurCount,
   setCurAmount,
@@ -17,6 +21,40 @@ const SLGSBarChart: FunctionComponent = ({
   chartHover,
   totalMonths,
 }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const MobileXAxisLabel = ({ x, y, payload }) => {
+    const formattedDate = formatDate(payload.value);
+    const splitDate = formattedDate.split(' ');
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text x={0} y={0} dy={16} textAnchor="middle" fill="#666" fontSize="12px">
+          {splitDate[0]}
+        </text>
+        <text x={0} y={12} dy={16} textAnchor="middle" fill="#666" fontSize="12px">
+          {splitDate[1]}
+        </text>
+      </g>
+    );
+  };
+  useEffect(() => {
+    if (window.innerWidth < breakpoint.desktop) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }, [width]);
+
+  const getInterval = monthCount => {
+    let interval = 1;
+    //bar chart
+    if ((monthCount > 12 && monthCount <= 24) || (isMobile && monthCount > 204)) {
+      interval = 3;
+    } else if (monthCount > 24 && monthCount <= 72) {
+      interval = 0;
+    }
+    return interval;
+  };
+
   return (
     <ResponsiveContainer height={height} width="99%">
       <ComposedChart data={chartData} margin={{ top: 12, bottom: -8, left: 3, right: -15 }} accessibilityLayer>
@@ -55,13 +93,13 @@ const SLGSBarChart: FunctionComponent = ({
             <Tooltip
               cursor={{
                 stroke: stateAndLocalGovernmentSeriesLight,
-                strokeWidth: 32,
+                strokeWidth: isMobile ? 16 : 32,
               }}
               content={<CustomTooltip setCount={setCurCount} setAmount={setCurAmount} setDate={setCurDate} />}
               isAnimationActive={false}
               active={chartFocus || chartHover}
             />
-            <Bar dataKey="totalAmount" barSize={isMobile ? 12 : 24} fill={stateAndLocalGovernmentSeriesPrimary} isAnimationActive={false}>
+            <Bar dataKey="totalAmount" barSize={isMobile ? 12 : 20} fill={stateAndLocalGovernmentSeriesPrimary} isAnimationActive={false}>
               {chartData?.map((entry, index) => {
                 return <Cell key={`cell-${index}`} fill={stateAndLocalGovernmentSeriesPrimary} />;
               })}
@@ -101,8 +139,12 @@ const SLGSBarChart: FunctionComponent = ({
         <XAxis
           dataKey="date"
           tickFormatter={value => formatXAxis(value, totalMonths)}
+          tick={isMobile && (!totalMonths || totalMonths <= 24) ? <MobileXAxisLabel /> : undefined}
+          tickCount={4}
           fontSize={12}
-          ticks={isMobile ? xAxisMobileValues : xAxisValues}
+          ticks={totalMonths > 24 ? xAxisValues : undefined}
+          height={48}
+          interval={getInterval(totalMonths)}
         />
       </ComposedChart>
     </ResponsiveContainer>
