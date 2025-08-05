@@ -1,56 +1,32 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarWeek, faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import { active, datePickers, dropdownButton, dropdownContent, icon, selectedDateRange } from './date-range-month-picker.module.scss';
+import { datePickers, dropdownContent } from './date-range-month-picker.module.scss';
 import MonthPicker from './month-picker/month-picker';
 import { convertDate } from '../dataset-data/dataset-data-helper/dataset-data-helper';
-import { monthFullNames } from '../../utils/api-utils';
 import { isAfter } from 'date-fns';
 
-const DateRangeMonthPicker: FunctionComponent = ({ dateRange, setDateRange, datasetDateRange, paddingBuffer, setIsChartLoading }) => {
+const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRange, setIsChartLoading }) => {
   const [selectedStartDate, setSelectedStartDate] = useState<string>('');
   const [selectedEndDate, setSelectedEndDate] = useState<string>('');
-  const [selectedRange, setSelectedRange] = useState<string>();
   const [allYears, setAllYear] = useState<string[]>();
-  const [dropdownActive, setDropdownActive] = useState(false);
-  const button = (
-    <button className={`${dropdownButton} ${dropdownActive && active}`} onClick={() => setDropdownActive(!dropdownActive)}>
-      <FontAwesomeIcon icon={faCalendarWeek} className={icon} size="1x" data-testid="calendar-week-icon" />
-      <span className={selectedDateRange}>{`${selectedRange ? selectedRange : 'Start Date — End Date'}`}</span>
-      <div className={icon}>{dropdownActive && <FontAwesomeIcon icon={faCaretUp} />}</div>
-    </button>
-  );
 
   useEffect(() => {
-    if (!selectedStartDate || !selectedEndDate) return;
     setIsChartLoading(true);
     let startDate = selectedStartDate;
     let endDate = selectedEndDate;
-    if (isAfter(convertDate(startDate), convertDate(endDate))) {
-      startDate = selectedEndDate;
+    if (selectedStartDate && !selectedEndDate) {
       endDate = selectedStartDate;
-      setSelectedStartDate(startDate);
-      setSelectedEndDate(endDate);
+    } else if (!selectedStartDate && selectedEndDate) {
+      startDate = selectedEndDate;
+    } else {
+      if (isAfter(convertDate(startDate), convertDate(endDate))) {
+        startDate = selectedEndDate;
+        endDate = selectedStartDate;
+        setSelectedStartDate(startDate);
+        setSelectedEndDate(endDate);
+      }
     }
-    setSelectedRange(`${startDate} - ${endDate}`);
     setDateRange({ from: convertDate(startDate), to: convertDate(endDate) });
   }, [selectedStartDate, selectedEndDate]);
-
-  const resetDateFields = () => {
-    const to = dateRange?.to;
-    const from = dateRange?.from;
-    if (to && from) {
-      setSelectedStartDate(monthFullNames[from.getMonth()] + ' ' + from.getFullYear());
-      setSelectedEndDate(monthFullNames[to.getMonth()] + ' ' + to.getFullYear());
-    } else {
-      setSelectedStartDate('');
-      setSelectedEndDate('');
-    }
-  };
-  const handleCancel = () => {
-    resetDateFields();
-    setDropdownActive(false);
-  };
 
   const getAllYears = range => {
     if (range?.from && range?.to) {

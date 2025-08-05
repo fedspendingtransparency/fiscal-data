@@ -33,7 +33,7 @@
 }
 
 .dropdownContent {
-  z-index: $above;
+  z-index: $dtg-table-loading-icon + 1;
 }
 
 .datePickers {
