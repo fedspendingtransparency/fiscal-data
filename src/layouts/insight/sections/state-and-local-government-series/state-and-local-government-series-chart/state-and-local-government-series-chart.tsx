@@ -6,31 +6,28 @@ import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalG
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
-import { chartTableBorder } from './state-and-local-government-series-chart.module.scss';
+import { chartTableBorder, container, loadingIcon, overlay } from './state-and-local-government-series-chart.module.scss';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
-
-const breakpoint = {
-  desktop: 1015,
-  tablet: 600,
-};
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState<boolean>(null);
-  const [curDate, setCurDate] = useState<number>(0);
+  const [curDate, setCurDate] = useState<string>('');
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
   const [dateRange, setDateRange] = useState();
   const [sorting, setSorting] = useState([]);
   const [downloadData, setDownloadData] = useState([]);
-  const [monthRange, setMonthRange] = useState([]);
+  const [monthRange, setMonthRange] = useState<{ from: string; to: string }>();
+  const [isChartLoading, setIsChartLoading] = useState<boolean>(false);
 
   const {
     chartData,
-    xAxisValues,
-    xAxisMobileValues,
+    lineChartXAxisValues,
     datasetDateRange,
     totalMonths,
     columnConfig,
@@ -49,15 +46,8 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
 
   useEffect(() => {
     setDefaultHeaderValues();
+    setIsChartLoading(false);
   }, [chartData]);
-
-  useEffect(() => {
-    if (window.innerWidth < breakpoint.desktop) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  }, [width]);
 
   useEffect(() => {
     if (mergedTableData.length) {
@@ -92,6 +82,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         isLoading={!chartData}
         height={height}
         paddingBuffer={true}
+        setIsChartLoading={setIsChartLoading}
         chart={
           <>
             <div className={chartTableBorder}>
@@ -114,19 +105,29 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                   onMouseOver={() => setChartHover(true)}
                   onMouseLeave={() => setChartHover(false)}
                 >
-                  <SLGSBarChart
-                    setCurAmount={setCurAmount}
-                    setCurCount={setCurCount}
-                    setCurDate={setCurDate}
-                    height={height}
-                    isMobile={isMobile}
-                    chartData={chartData}
-                    xAxisValues={xAxisValues}
-                    xAxisMobileValues={xAxisMobileValues}
-                    chartFocus={chartFocus}
-                    chartHover={chartHover}
-                    totalMonths={totalMonths}
-                  />
+                  <div className={container}>
+                    {isChartLoading && (
+                      <>
+                        <div data-test-id="loading-overlay" className={overlay} />
+                        <div data-testid="loadingSection" className={loadingIcon}>
+                          <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
+                          Loading...
+                        </div>
+                      </>
+                    )}
+                    <SLGSBarChart
+                      setCurAmount={setCurAmount}
+                      setCurCount={setCurCount}
+                      setCurDate={setCurDate}
+                      height={height}
+                      width={width}
+                      chartData={chartData}
+                      xAxisValues={lineChartXAxisValues}
+                      chartFocus={chartFocus}
+                      chartHover={chartHover}
+                      totalMonths={totalMonths}
+                    />
+                  </div>
                 </div>
               </>
             </div>

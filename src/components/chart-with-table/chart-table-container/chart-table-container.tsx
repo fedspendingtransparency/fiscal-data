@@ -22,18 +22,19 @@ import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
 interface IChartTableContainer {
   title: string;
   altText: string;
-  downloader;
-  customTestId: string;
+  downloader?;
+  customTestId?: string;
   downloadData;
-  fileType: 'csv' | 'xml' | 'json';
+  fileType?: 'csv' | 'xml' | 'json';
   dateRange;
   setDateRange;
-  downloadTimestamp;
-  enabledClickedColorChange;
+  downloadTimestamp?;
+  enabledClickedColorChange?;
   isLoading: boolean;
   height?: number;
   chart: ReactElement;
   table: ReactElement;
+  monthRange?;
 }
 const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   title,
@@ -53,6 +54,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   chart,
   table,
   paddingBuffer,
+  setIsChartLoading,
   monthRange,
 }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
@@ -95,7 +97,13 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
         <div className={headerContainer}>{toggle}</div>
       </div>
       {datasetDateRange && (
-        <DateRangeMonthPicker dateRange={dateRange} setDateRange={setDateRange} datasetDateRange={datasetDateRange} paddingBuffer={paddingBuffer} />
+        <DateRangeMonthPicker
+          dateRange={dateRange}
+          setDateRange={setDateRange}
+          datasetDateRange={datasetDateRange}
+          paddingBuffer={paddingBuffer}
+          setIsChartLoading={setIsChartLoading}
+        />
       )}
       {isLoading && (
         <Skeleton
