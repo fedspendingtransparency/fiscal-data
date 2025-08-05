@@ -36,6 +36,10 @@ export const CustomTooltip: Tooltip = ({ payload = [], setDate, setCount, setAmo
   return null;
 };
 
+export const infoTipWording = 'For a date range under two years, the data\n' +
+  '            is presented in a bar chart. For a date range greater than two year, the visualization will display a line\n' +
+  '            chart. ';
+
 export const formatDate = dateStr => {
   if (dateStr) {
     const date = convertDate(dateStr);
