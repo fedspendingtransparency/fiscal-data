@@ -59,6 +59,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   setIsChartLoading,
   monthRange,
   infoTip,
+  infoTipTitle,
 }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('chartView');
   const [downloadClicked, setDownloadClick] = useState(false);
@@ -110,7 +111,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
             setIsChartLoading={setIsChartLoading}
           />
           <InfoTip
-            title={'More information about the State and Local Government Series Chart'}
+            title={infoTipTitle}
             iconStyle={{ color: '#666666', width: '16px', height: '16px' }}>{infoTip}</InfoTip>
         </div>
       )}
