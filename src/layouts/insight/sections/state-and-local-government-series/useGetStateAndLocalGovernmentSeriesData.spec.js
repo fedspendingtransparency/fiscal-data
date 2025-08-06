@@ -1,8 +1,8 @@
-import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
-import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
+import { useGetStateAndLocalGovernmentSeriesData } from './useGetStateAndLocalGovernmentSeriesData';
+import { convertDate } from '../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
-import { releaseCalendarUrl } from '../slgs-helper';
+import { releaseCalendarUrl } from './slgs-helper';
 import {
   chartData,
   chartDataRes,
@@ -12,7 +12,7 @@ import {
   chartDatesRes,
   fromDateRange,
   toDateRange,
-} from '../slgs-test-helper';
+} from './slgs-test-helper';
 
 describe('useGetStateAndLocalGovernmentSeriesData hook', () => {
   beforeEach(() => {
@@ -35,7 +35,7 @@ describe('useGetStateAndLocalGovernmentSeriesData hook', () => {
     const { result } = renderHook(() => useGetStateAndLocalGovernmentSeriesData(dateRange));
     await waitFor(() => expect(result.current.datasetDateRange).toEqual({ from: '2022-08-01', to: '2024-11-01' }));
     await waitFor(() => expect(result.current.totalMonths).toEqual(4));
-    await waitFor(() => expect(result.current.lineChartXAxisValues).toEqual([]));
+    await waitFor(() => expect(result.current.lineChartXAxisValues).toEqual(['2024-11-01', '2024-09-01']));
   });
 
   it('sets chart values for a date range greater than two years', async () => {

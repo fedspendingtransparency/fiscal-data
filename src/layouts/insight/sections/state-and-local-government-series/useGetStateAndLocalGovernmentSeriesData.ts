@@ -105,7 +105,7 @@ const getChartData = async allDates => {
 };
 
 const getLineChartAxisValues = (totalMonths, chartDates) => {
-  return chartDates.filter(val => val.includes('-01-'));
+  return totalMonths > 24 ? chartDates.filter(val => val.includes('-01-')) : chartDates.filter((val, index) => index % 2 === 0);
 };
 
 export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {

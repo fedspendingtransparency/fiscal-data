@@ -46,10 +46,9 @@ const SLGSBarChart: FunctionComponent = ({
 
   const getInterval = monthCount => {
     let interval = 1;
-    //bar chart
-    if ((monthCount > 12 && monthCount <= 24) || (isMobile && monthCount > 204)) {
+    if (isMobile && monthCount > 204) {
       interval = 3;
-    } else if (monthCount > 24 && monthCount <= 72) {
+    } else if ((monthCount > 24 && monthCount <= 72) || !monthCount || monthCount <= 12) {
       interval = 0;
     }
     return interval;
@@ -140,9 +139,8 @@ const SLGSBarChart: FunctionComponent = ({
           dataKey="date"
           tickFormatter={value => formatXAxis(value, totalMonths)}
           tick={isMobile && (!totalMonths || totalMonths <= 24) ? <MobileXAxisLabel /> : undefined}
-          tickCount={4}
           fontSize={12}
-          ticks={totalMonths > 24 ? xAxisValues : undefined}
+          ticks={xAxisValues}
           height={48}
           interval={getInterval(totalMonths)}
         />
