@@ -87,7 +87,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
       }
       if (column.sorted !== false) {
         if (column.sorted === 'asc') {
-          tableColumnSort += `+${column.id}`;
+          tableColumnSort += `${column.id}`;
         } else {
           tableColumnSort += `-${column.id}`;
         }
