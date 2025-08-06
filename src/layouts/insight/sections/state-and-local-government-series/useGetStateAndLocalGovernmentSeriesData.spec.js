@@ -1,9 +1,9 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
-import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
+import { useGetStateAndLocalGovernmentSeriesData } from './useGetStateAndLocalGovernmentSeriesData';
+import { convertDate } from '../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { act, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
-import { releaseCalendarUrl } from '../slgs-helper';
+import { releaseCalendarUrl } from './slgs-helper';
 import {
   chartData,
   chartDataRes,
@@ -13,7 +13,7 @@ import {
   chartDatesRes,
   fromDateRange,
   toDateRange,
-} from '../slgs-test-helper';
+} from './slgs-test-helper';
 
 describe('useGetStateAndLocalGovernmentSeriesData hook', () => {
   beforeEach(() => {
