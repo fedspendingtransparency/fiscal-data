@@ -32,19 +32,12 @@
 }
 
 .dropdownContent {
-  background-color: white;
-  z-index: $published-reports-date-picker + 5;
-  position: absolute;
-  box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
-  margin-top: 0.125rem;
-  width: 230px;
-  border: 1px solid #f1f1f1;
-  border-radius: 0.25rem;
+  z-index: $dtg-table-loading-icon + 1;
 }
+
 .datePickers {
   display: flex;
-  flex-direction: column;
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
   gap: 1rem;
 }
 
@@ -52,4 +45,10 @@
   font-size: $font-size-16;
   width: 1.5rem;
   height: 1rem;
+}
+
+@media screen and (max-width: $breakpoint-sm - 1) {
+  .datePickers {
+    flex-direction: column;
+  }
 }
