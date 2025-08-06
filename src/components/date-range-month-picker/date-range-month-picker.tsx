@@ -3,42 +3,12 @@ import { datePickers, dropdownContent } from './date-range-month-picker.module.s
 import MonthPicker from './month-picker/month-picker';
 import { convertDate } from '../dataset-data/dataset-data-helper/dataset-data-helper';
 import { isAfter } from 'date-fns';
-import { monthFullNames } from '../../utils/api-utils';
 
 const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRange, setIsChartLoading }) => {
   console.log(datasetDateRange);
   const [selectedStartDate, setSelectedStartDate] = useState<string>('');
   const [selectedEndDate, setSelectedEndDate] = useState<string>('');
   const [allYears, setAllYear] = useState<string[]>();
-  const [availableDates, setAvailableDates] = useState<string[]>([]);
-
-  const buildAvailableDates = range => {
-    if (!range?.from || !range?.to) return [];
-    const start = convertDate(range.from);
-    const end = convertDate(range.to);
-    if (!start || !end) return [];
-
-    const now = new Date();
-    const nowYear = now.getFullYear();
-    const nowMonth = now.getMonth();
-
-
-    const dateList= [];
-    const cursor = new Date(start.getFullYear(), start.getMonth(), 1);
-    const last = new Date(end.getFullYear(), end.getMonth(), 1);
-
-    while (cursor <= last) {
-      const currentYear = cursor.getFullYear();
-      const currentMonth = cursor.getMonth();
-      const isCompletedMonth = (currentYear < nowYear) || (currentYear === nowYear && currentMonth < nowMonth);
-
-      if (isCompletedMonth) {
-        dateList.push(`${monthFullNames[currentMonth]} ${currentYear}`)
-      }
-      cursor.setMonth(cursor.getMonth() + 1);
-    }
-    return dateList;
-  };
 
   const getAllYears = range => {
     if (!range?.from || !range?.to) return [];
@@ -51,7 +21,6 @@ const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRang
 
   useEffect(() => {
     setAllYear(getAllYears(datasetDateRange));
-    setAvailableDates(buildAvailableDates(datasetDateRange));
   }, [datasetDateRange]);
 
   useEffect(() => {
