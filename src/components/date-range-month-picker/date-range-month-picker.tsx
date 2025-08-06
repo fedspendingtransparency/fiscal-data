@@ -30,14 +30,12 @@ const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRang
       const currentYear = cursor.getFullYear();
       const currentMonth = cursor.getMonth();
       const isCompletedMonth = (currentYear < nowYear) || (currentYear === nowYear && currentMonth < nowMonth);
-      console.log('isCompletedMonth       ',isCompletedMonth)
 
       if (isCompletedMonth) {
         dateList.push(`${monthFullNames[currentMonth]} ${currentYear}`)
       }
       cursor.setMonth(cursor.getMonth() + 1);
     }
-    console.log('dateList      :  ',dateList)
     return dateList;
   };
 
