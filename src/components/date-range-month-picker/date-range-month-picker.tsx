@@ -5,7 +5,6 @@ import { convertDate } from '../dataset-data/dataset-data-helper/dataset-data-he
 import { isAfter } from 'date-fns';
 
 const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRange, setIsChartLoading }) => {
-  console.log(datasetDateRange);
   const [selectedStartDate, setSelectedStartDate] = useState<string>('');
   const [selectedEndDate, setSelectedEndDate] = useState<string>('');
   const [allYears, setAllYear] = useState<string[]>();
