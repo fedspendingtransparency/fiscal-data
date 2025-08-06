@@ -8,8 +8,12 @@ import ApiQuickGuideSection from './api-quick-guide-section';
 import DatasetDetailExamples from './dataset-detail-examples/dataset-detail-examples';
 import SectionCollapseButton from '../section-collapse/section-collapse-button';
 
-import { sectionWrapper, collapsed, toggleButtonContainer, apiQuickGuideContent } from './api-quick-guide.module.scss';
-
+import { apiQuickGuideContent, collapsed, sectionWrapper, toggleButtonContainer } from './api-quick-guide.module.scss';
+// TODO: Move Method section to its own component or move title & desc inline
+export const methods = {
+  title: 'Methods',
+  desc: 'Our APIs accept the GET method, one of the most common HTTP methods.',
+};
 // TODO: Refactor ApiQuickGuideSection to allow table (combine with DatasetDetailFields).
 const ApiQuickGuide = ({ selectedTable, config }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -61,12 +65,6 @@ const ApiQuickGuide = ({ selectedTable, config }) => {
         }
       }
     }
-  };
-
-  // TODO: Move Method section to its own component or move title & desc inline
-  const methods = {
-    title: 'Methods',
-    desc: 'Our APIs accept the GET method, one of the most common HTTP methods.',
   };
 
   useEffect(() => {
