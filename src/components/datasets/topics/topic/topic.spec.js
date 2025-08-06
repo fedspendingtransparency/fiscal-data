@@ -1,72 +1,60 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render, within } from '@testing-library/react';
 import Topic, { topicIconAnalyticsEvent } from './topic';
 import Analytics from '../../../../utils/analytics/analytics';
+import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
 describe('Topics component', () => {
   const label = 'Debt';
   const slug = 'debt';
 
-  let component, instance;
-
   const clickFn = jest.fn();
-  let clickSpy;
-
-  beforeEach(() => {
-    component = renderer.create(<Topic active onChange={clickFn} label={label} filterKey={slug} slug={slug} />);
-    instance = component.root;
-    clickSpy = jest.spyOn(instance.props, 'onChange');
-  });
 
   it('creates a button', () => {
-    expect(instance.findByType('button')).toBeDefined();
+    const { getByRole } = render(<Topic active onChange={clickFn} label={label} filterKey={slug} slug={slug} />);
+    expect(getByRole('button')).toBeInTheDocument();
   });
 
   it('shows the label for the button', () => {
-    expect(instance.findByProps({ 'data-testid': 'topic-selector-label' }).children[0]).toStrictEqual(label);
+    const { getByTestId } = render(<Topic active onChange={clickFn} label={label} filterKey={slug} slug={slug} />);
+    expect(within(getByTestId('topic-selector-label')).getByText(label)).toBeInTheDocument();
   });
 
   it('adds the active class when button is selected', () => {
-    const imageDiv = instance.findByProps({ 'data-testid': 'topic-selector-button' });
-    expect(imageDiv.props.className).toContain('topicActive');
+    const { getByTestId } = render(<Topic active onChange={clickFn} label={label} filterKey={slug} slug={slug} />);
+    const imageDiv = getByTestId('topic-selector-button');
+    expect(imageDiv).toHaveClass('topicActive');
   });
 
   it('does not provide the active class when the button is not selected', () => {
-    renderer.act(() => {
-      component = renderer.create(<Topic active={false} clickHandler={clickFn} label={label} filterKey={slug} slug={slug} />);
-    });
+    const { getByTestId } = render(<Topic active={false} clickHandler={clickFn} label={label} filterKey={slug} slug={slug} />);
     jest.runAllTimers();
-    instance = component.root;
-
-    const imageDiv = instance.findByProps({ 'data-testid': 'topic-selector-button' });
-    expect(imageDiv.props.className).not.toContain('topicActive');
+    const imageDiv = getByTestId('topic-selector-button');
+    expect(imageDiv).not.toHaveClass('topicActive');
   });
 
   it('calls the onChange event with the expected parameters when the button is clicked', async () => {
-    const button = instance.findByType('button');
-    renderer.act(() => {
-      button.props.onClick();
-    });
+    const { getByRole } = render(<Topic active onChange={clickFn} label={label} filterKey={slug} slug={slug} />);
 
-    expect(clickSpy).toHaveBeenCalledWith({ key: slug, value: false });
+    const button = getByRole('button');
+    userEvent.click(button);
+
+    expect(clickFn).toHaveBeenCalledWith({ key: slug, value: false });
   });
 
   it(`calls triggers a tracking event with the expected parameters when the button is clicked
     to update state to active and testing GA4 datalayer push`, async () => {
     window.dataLayer = window.dataLayer || [];
     const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
-
-    renderer.act(() => {
-      component = renderer.create(<Topic active={false} onChange={clickFn} label={label} filterKey={slug} slug={slug} />);
-    });
-    jest.runAllTimers();
-    instance = component.root;
-    const button = instance.findByType('button');
     const trackingSpy = jest.spyOn(Analytics, 'event');
-    renderer.act(() => {
-      button.props.onClick();
-    });
+
+    const { getByRole } = render(<Topic active={false} onChange={clickFn} label={label} filterKey={slug} slug={slug} />);
+
+    jest.runAllTimers();
+    const button = getByRole('button');
+    userEvent.click(button);
+
     jest.runAllTimers();
 
     expect(trackingSpy).toHaveBeenCalledWith({

@@ -1,15 +1,15 @@
 import React from 'react';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import {
+  button,
+  container,
+  footer,
+  footerList,
+  footerTitle,
   header,
   headerLeft,
   headerText,
   infoIcon as infoIconStyle,
-  button,
-  footer,
-  footerTitle,
-  footerList,
-  container,
 } from './documentation-link-section.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,7 +37,7 @@ const DocumentationLinkSection = ({ type: typeProp }) => {
             {infoIcon}
             <div className={headerText}>Check out our more detailed API Documentation.</div>
           </div>
-          <Link to="/api-documentation/" className={button} data-testid={'button-link'}>
+          <Link to="/api-documentation/" className={button} data-testid="button-link">
             API Documentation
           </Link>
         </div>
@@ -59,7 +59,7 @@ const DocumentationLinkSection = ({ type: typeProp }) => {
                 <li>Meta object</li>
                 <li>...and more!</li>
               </ul>
-              <Link to="/api-documentation/" className={button} data-testid={'button-link'}>
+              <Link to="/api-documentation/" className={button} data-testid="button-link">
                 API Documentation
               </Link>
             </div>

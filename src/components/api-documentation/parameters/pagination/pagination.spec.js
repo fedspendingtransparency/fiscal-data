@@ -1,22 +1,18 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import Pagination from './pagination';
-import SectionContent from '../../section-content/section-content';
+import { render } from '@testing-library/react';
 
 describe('Parameters Pagination', () => {
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(<Pagination />);
-  });
-  const instance = component.root;
-
-  it('expects SectionContent to be a part of its layout', () => {
-    expect(instance.findByType(SectionContent)).toBeTruthy();
+  it('has SectionContent as a part of its layout', async () => {
+    const { findAllByTestId } = render(<Pagination />);
+    const sectionContent = await findAllByTestId('section-content');
+    expect(sectionContent.length).toBeGreaterThan(0);
   });
 
-  it('creates the Pagination section with the desired id, heading tag and title', () => {
+  it('creates the Pagination section with the desired id, heading tag and title', async () => {
     const title = 'Pagination';
-    const heading = instance.findByProps({ id: 'parameters-pagination' }).findByType('h3');
-    expect(heading.children[0]).toBe(title);
+    const { findByRole } = render(<Pagination />);
+    const heading = await findByRole('heading', { name: title, level: 3 });
+    expect(heading).toBeInTheDocument();
   });
 });
