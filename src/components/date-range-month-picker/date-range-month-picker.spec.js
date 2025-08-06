@@ -97,7 +97,7 @@ describe('date range month picker', () => {
     fireEvent.click(getByRole('button', { name: 'Year' }));
     const year2020 = getByRole('button', { name: '2020' });
     expect(year2020).toBeDisabled();
-    
+
     const year2021 = getByRole('button', { name: '2021' });
     expect(year2021).not.toBeDisabled();
   });
