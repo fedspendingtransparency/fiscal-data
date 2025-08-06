@@ -81,4 +81,91 @@ describe('date range month picker', () => {
     expect(toMonthPicker).toBeInTheDocument();
     expect(setDateRangeSpy).toHaveBeenCalled();
   });
+
+  it('disables years that do not have the selected month available', () => {
+    const datasetDateRange = { from: '2020-04-01', to: '2021-02-01' };
+    const setDateRangeSpy = jest.fn();
+    const setIsChartLoading = jest.fn();
+
+    const { getByRole } = render(
+      <DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} setIsChartLoading={setIsChartLoading} />
+    );
+
+    const fromButton = getByRole('button', { name: 'From:' });
+    fireEvent.click(fromButton);
+    fireEvent.click(getByRole('button', { name: 'January' }));
+    fireEvent.click(getByRole('button', { name: 'Year' }));
+    const year2020 = getByRole('button', { name: '2020' });
+    expect(year2020).toBeDisabled();
+    
+    const year2021 = getByRole('button', { name: '2021' });
+    expect(year2021).not.toBeDisabled();
+  });
+
+  it('does not apply selection when clicking a disabled option', () => {
+    const datasetDateRange = { from: '2020-04-01', to: '2021-02-01' };
+    const setDateRangeSpy = jest.fn();
+    const setIsChartLoading = jest.fn();
+
+    const { getByRole } = render(
+      <DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} setIsChartLoading={setIsChartLoading} />
+    );
+
+    const fromButton = getByRole('button', { name: 'From:' });
+    fireEvent.click(fromButton);
+    fireEvent.click(getByRole('button', { name: 'Year' }));
+    fireEvent.click(getByRole('button', { name: '2020' }));
+    fireEvent.click(getByRole('button', { name: 'Month' }));
+
+    const callsBefore = setDateRangeSpy.mock.calls.length;
+
+    const marchBtn = getByRole('button', { name: 'March' });
+    expect(marchBtn).toBeDisabled();
+    fireEvent.click(marchBtn);
+
+    const callsAfter = setDateRangeSpy.mock.calls.length;
+    expect(callsAfter).toBe(callsBefore);
+  });
+
+  it('first choice remains unrestricted (no greying until second choice)', () => {
+    const datasetDateRange = { from: '2020-04-01', to: '2021-02-01' };
+    const setDateRangeSpy = jest.fn();
+    const setIsChartLoading = jest.fn();
+
+    const { getByRole } = render(
+      <DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} setIsChartLoading={setIsChartLoading} />
+    );
+
+    const fromButton = getByRole('button', { name: 'From:' });
+    fireEvent.click(fromButton);
+
+    const janButton = getByRole('button', { name: 'January' });
+    const febButton = getByRole('button', { name: 'February' });
+    expect(janButton).not.toBeDisabled();
+    expect(febButton).not.toBeDisabled();
+
+    fireEvent.click(janButton);
+    fireEvent.click(getByRole('button', { name: 'Year' }));
+    const year2020 = getByRole('button', { name: '2020' });
+    expect(year2020).toBeDisabled();
+  });
+
+  it('calls setIsChartLoading when a date selection is made', () => {
+    const datasetDateRange = { from: '2020-01-01', to: '2020-12-01' };
+    const setDateRangeSpy = jest.fn();
+    const setIsChartLoading = jest.fn();
+
+    const { getByRole } = render(
+      <DateRangeMonthPicker datasetDateRange={datasetDateRange} setDateRange={setDateRangeSpy} setIsChartLoading={setIsChartLoading} />
+    );
+
+    const fromButton = getByRole('button', { name: 'From:' });
+    fireEvent.click(fromButton);
+    fireEvent.click(getByRole('button', { name: 'June' }));
+    fireEvent.click(getByRole('button', { name: '2020' }));
+
+    expect(setIsChartLoading).toHaveBeenCalled();
+  });
+
+
 });

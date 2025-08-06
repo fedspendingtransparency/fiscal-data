@@ -67,6 +67,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     downloaderData.unshift(columnConfigArray);
     setDownloadData(downloaderData);
   }, [mergedTableData]);
+  console.log('monthRANGEEEE', monthRange, 'DAAATTEEERAAANNNGE', dateRange, 'datasetDateRange    :::::::', datasetDateRange)
 
   return (
     <>

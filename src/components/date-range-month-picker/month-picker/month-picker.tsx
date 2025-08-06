@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
@@ -18,22 +18,29 @@ import {
 import ScrollContainer from '../../scroll-container/scroll-container';
 import { monthFullNames } from '../../../utils/api-utils';
 
-const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, allYears }) => {
+const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, allYears, availableDates = [] }) => {
   const currentSelection = selectedDate?.split(' ');
   const defaultMonth = currentSelection?.length > 1 ? currentSelection[0] : 'Month';
   const defaultYear = currentSelection?.length > 1 ? currentSelection[1] : 'Year';
+
   const [dropdownActive, setDropdownActive] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(defaultMonth);
   const [selectedYear, setSelectedYear] = useState(defaultYear);
   const [activeDropdown, setActiveDropdown] = useState('month');
 
   const monthDropdownOptions = monthFullNames;
+  const validSet = useRef(new Set());
+  useEffect(() => {
+    validSet.current = new Set(availableDates || []);
+  }, [availableDates]);
 
   const button = (
     <button onClick={() => setDropdownActive(!dropdownActive)} className={dropdownButton}>
-      <span className={label}>{text}:</span> {selectedDate ? selectedDate : ''} <FontAwesomeIcon icon={dropdownActive ? faCaretUp : faCaretDown} />
+      <span className={label}>{text}:</span> {selectedDate ? selectedDate : ''}{' '}
+      <FontAwesomeIcon icon={dropdownActive ? faCaretUp : faCaretDown} />
     </button>
   );
+
   const monthYearDropdown = (key, selectedOption) => (
     <button
       onClick={() => setActiveDropdown(key)}
@@ -43,19 +50,24 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
       <FontAwesomeIcon icon={activeDropdown === key ? faCaretUp : faCaretDown} className={icon} />
     </button>
   );
+
   const handleMonthClick = option => {
     setSelectedMonth(option);
     setActiveDropdown('year');
   };
+
   const handleYearClick = option => {
     setSelectedYear(option);
   };
 
   useEffect(() => {
     if (selectedMonth !== 'Month' && selectedYear !== 'Year') {
-      setSelectedDate(`${selectedMonth} ${selectedYear}`);
+      const key = `${selectedMonth} ${selectedYear}`;
+      if (validSet.current.has(key)) {
+        setSelectedDate(key);
+      }
     }
-  }, [selectedMonth, selectedYear]);
+  }, [selectedMonth, selectedYear, setSelectedDate]);
 
   useEffect(() => {
     if (!dropdownActive) {
@@ -64,12 +76,20 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
   }, [dropdownActive]);
 
   useEffect(() => {
-    const currentSelection = selectedDate?.split(' ');
-    const defaultMonth = currentSelection?.length > 1 ? currentSelection[0] : 'Month';
-    const defaultYear = currentSelection?.length > 1 ? currentSelection[1] : 'Year';
-    setSelectedMonth(defaultMonth);
-    setSelectedYear(defaultYear);
+    const parts = selectedDate?.split(' ');
+    setSelectedMonth(parts?.length > 1 ? parts[0] : 'Month');
+    setSelectedYear(parts?.length > 1 ? parts[1] : 'Year');
   }, [selectedDate]);
+
+  const isMonthDisabled = month => {
+    if (selectedYear === 'Year') return false;
+    return !validSet.current.has(`${month} ${selectedYear}`);
+  };
+
+  const isYearDisabled = year => {
+    if (selectedMonth === 'Month') return false;
+    return !validSet.current.has(`${selectedMonth} ${year}`);
+  };
 
   return (
     <>
@@ -81,28 +101,33 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
               {monthYearDropdown('year', selectedYear)}
             </div>
             <div className={`${dropdownList}`}>
-              <ScrollContainer deps={[selectedMonth, selectedYear]}>
+              <ScrollContainer deps={[selectedMonth, selectedYear, availableDates]}>
                 <ul>
                   {activeDropdown === 'month' &&
-                    monthDropdownOptions?.map((option, i) => {
-                      return (
-                        <li key={i}>
-                          <button className={option === selectedMonth ? selected : null} onClick={() => handleMonthClick(option)}>
-                            {option}
-                          </button>
-                        </li>
-                      );
-                    })}
+                    monthDropdownOptions?.map((option, i) => (
+                      <li key={i}>
+                        <button
+                          className={option === selectedMonth ? selected : null}
+                          disabled={isMonthDisabled(option)}
+                          onClick={() => handleMonthClick(option)}
+                        >
+                          {option}
+                        </button>
+                      </li>
+                    ))}
+
                   {activeDropdown === 'year' &&
-                    allYears?.map((option, i) => {
-                      return (
-                        <li key={i}>
-                          <button className={option === selectedYear ? selected : null} onClick={() => handleYearClick(option)}>
-                            {option}
-                          </button>
-                        </li>
-                      );
-                    })}
+                    allYears?.map((option, i) => (
+                      <li key={i}>
+                        <button
+                          className={option === selectedYear ? selected : null}
+                          disabled={isYearDisabled(option)}
+                          onClick={() => handleYearClick(option)}
+                        >
+                          {option}
+                        </button>
+                      </li>
+                    ))}
                 </ul>
               </ScrollContainer>
             </div>

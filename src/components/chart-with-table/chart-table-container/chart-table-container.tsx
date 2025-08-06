@@ -112,6 +112,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
             datasetDateRange={datasetDateRange}
             paddingBuffer={paddingBuffer}
             setIsChartLoading={setIsChartLoading}
+            validMonths={monthRange}
           />
           <div className={infoTipContainer}>
             <InfoTip title={infoTipTitle} iconStyle={{ color: '#666666', width: '1rem', height: '1rem' }}>
