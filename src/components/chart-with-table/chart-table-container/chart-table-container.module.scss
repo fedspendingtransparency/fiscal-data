@@ -7,7 +7,7 @@
   width: 100%;
 
   .infoTipContainer {
-    height: 38px;
+    height: 2.375rem;
     display: flex;
     align-items: center;
   }
@@ -18,7 +18,7 @@
     padding: 1rem;
   }
   .chartTitle {
-    font-weight: 600;
+    font-weight: $semi-bold-weight;
     color: $font-title;
     font-size: $font-size-16;
     align-content: center;
@@ -81,7 +81,7 @@
 }
 .icon {
   margin-left: 0.5rem;
-  width: 14px;
+  width: 0.875rem;
   height: 17px;
 }
 

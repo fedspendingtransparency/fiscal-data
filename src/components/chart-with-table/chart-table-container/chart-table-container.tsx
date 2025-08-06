@@ -7,14 +7,14 @@ import {
   chartTitle,
   chartTitleHeaderContainer,
   clickedLabel,
-  downloadLabelContainer,
+  dateRangeContainer,
   downloadCSV,
   downloaderContainer,
+  downloadLabelContainer,
   headerContainer,
   icon,
-  tableBoarder,
-  dateRangeContainer,
   infoTipContainer,
+  tableBoarder,
 } from './chart-table-container.module.scss';
 import DateRangeMonthPicker from '../../date-range-month-picker/date-range-month-picker';
 import { Skeleton } from '@mui/material';
@@ -114,7 +114,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
             setIsChartLoading={setIsChartLoading}
           />
           <div className={infoTipContainer}>
-            <InfoTip title={infoTipTitle} iconStyle={{ color: '#666666', width: '16px', height: '16px' }}>
+            <InfoTip title={infoTipTitle} iconStyle={{ color: '#666666', width: '1rem', height: '1rem' }}>
               {infoTip}
             </InfoTip>
           </div>
