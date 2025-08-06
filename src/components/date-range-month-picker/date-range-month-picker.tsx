@@ -6,12 +6,13 @@ import { isAfter } from 'date-fns';
 import { monthFullNames } from '../../utils/api-utils';
 
 const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRange, setIsChartLoading }) => {
+  console.log(datasetDateRange);
   const [selectedStartDate, setSelectedStartDate] = useState<string>('');
   const [selectedEndDate, setSelectedEndDate] = useState<string>('');
   const [allYears, setAllYear] = useState<string[]>();
   const [availableDates, setAvailableDates] = useState<string[]>([]);
 
-  const buildAvailableDates = (range) => {
+  const buildAvailableDates = range => {
     if (!range?.from || !range?.to) return [];
     const start = convertDate(range.from);
     const end = convertDate(range.to);
@@ -28,7 +29,7 @@ const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRang
     return dateList;
   };
 
-  const getAllYears = (range) => {
+  const getAllYears = range => {
     if (!range?.from || !range?.to) return [];
     const startYear = convertDate(range.from).getFullYear();
     const endYear = convertDate(range.to).getFullYear();
@@ -71,14 +72,14 @@ const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRang
           setSelectedDate={setSelectedStartDate}
           selectedDate={selectedStartDate}
           allYears={allYears}
-          availableDates={availableDates}
+          datasetDateRange={datasetDateRange}
         />
         <MonthPicker
           text="To"
           setSelectedDate={setSelectedEndDate}
           selectedDate={selectedEndDate}
           allYears={allYears}
-          availableDates={availableDates}
+          datasetDateRange={datasetDateRange}
         />
       </div>
     </div>

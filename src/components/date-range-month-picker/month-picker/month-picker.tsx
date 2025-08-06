@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
@@ -17,8 +17,10 @@ import {
 } from './month-picker.module.scss';
 import ScrollContainer from '../../scroll-container/scroll-container';
 import { monthFullNames } from '../../../utils/api-utils';
+import { isAfter, isBefore } from 'date-fns';
+import { getDateWithoutTimeZoneAdjust } from '../../../utils/date-utils';
 
-const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, allYears, availableDates = [] }) => {
+const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, allYears, datasetDateRange = [] }) => {
   const currentSelection = selectedDate?.split(' ');
   const defaultMonth = currentSelection?.length > 1 ? currentSelection[0] : 'Month';
   const defaultYear = currentSelection?.length > 1 ? currentSelection[1] : 'Year';
@@ -29,15 +31,10 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
   const [activeDropdown, setActiveDropdown] = useState('month');
 
   const monthDropdownOptions = monthFullNames;
-  const validSet = useRef(new Set());
-  useEffect(() => {
-    validSet.current = new Set(availableDates || []);
-  }, [availableDates]);
 
   const button = (
     <button onClick={() => setDropdownActive(!dropdownActive)} className={dropdownButton}>
-      <span className={label}>{text}:</span> {selectedDate ? selectedDate : ''}{' '}
-      <FontAwesomeIcon icon={dropdownActive ? faCaretUp : faCaretDown} />
+      <span className={label}>{text}:</span> {selectedDate ? selectedDate : ''} <FontAwesomeIcon icon={dropdownActive ? faCaretUp : faCaretDown} />
     </button>
   );
 
@@ -62,12 +59,9 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
 
   useEffect(() => {
     if (selectedMonth !== 'Month' && selectedYear !== 'Year') {
-      const key = `${selectedMonth} ${selectedYear}`;
-      if (validSet.current.has(key)) {
-        setSelectedDate(key);
-      }
+      setSelectedDate(`${selectedMonth} ${selectedYear}`);
     }
-  }, [selectedMonth, selectedYear, setSelectedDate]);
+  }, [selectedMonth, selectedYear]);
 
   useEffect(() => {
     if (!dropdownActive) {
@@ -81,14 +75,27 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
     setSelectedYear(parts?.length > 1 ? parts[1] : 'Year');
   }, [selectedDate]);
 
+  const isValidDate = (month, year) => {
+    const monthIndex = monthFullNames.indexOf(month);
+    if (monthIndex < 0) return;
+    const endOfMonth = new Date(year, monthFullNames.indexOf(month) + 1, -1);
+    const fromDate = getDateWithoutTimeZoneAdjust(new Date(datasetDateRange.from));
+    const dateIsBefore = isBefore(endOfMonth, fromDate);
+
+    const startOfMonth = new Date(year, monthFullNames.indexOf(month) + 1, 1);
+    const toDate = getDateWithoutTimeZoneAdjust(new Date(datasetDateRange.to));
+    const dateIsAfter = isAfter(startOfMonth, toDate);
+
+    return dateIsAfter || dateIsBefore;
+  };
   const isMonthDisabled = month => {
     if (selectedYear === 'Year') return false;
-    return !validSet.current.has(`${month} ${selectedYear}`);
+    return isValidDate(month, selectedYear);
   };
 
   const isYearDisabled = year => {
     if (selectedMonth === 'Month') return false;
-    return !validSet.current.has(`${selectedMonth} ${year}`);
+    return isValidDate(selectedMonth, year);
   };
 
   return (
@@ -101,7 +108,7 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
               {monthYearDropdown('year', selectedYear)}
             </div>
             <div className={`${dropdownList}`}>
-              <ScrollContainer deps={[selectedMonth, selectedYear, availableDates]}>
+              <ScrollContainer deps={[selectedMonth, selectedYear]}>
                 <ul>
                   {activeDropdown === 'month' &&
                     monthDropdownOptions?.map((option, i) => (
@@ -115,7 +122,6 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
                         </button>
                       </li>
                     ))}
-
                   {activeDropdown === 'year' &&
                     allYears?.map((option, i) => (
                       <li key={i}>
