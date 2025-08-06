@@ -30,6 +30,8 @@ describe('date range month picker', () => {
 
   it('updates selected date on month and year click', () => {
     const setDateSpy = jest.fn();
+    const allYears = ['2020', '2021']
+    const availableDates =['January 2020', 'April 2020', 'May 2020', 'January 2021', ]
     const { getByRole } = render(<MonthPicker text="From" allYears={['2020', '2021']} setSelectedDate={setDateSpy} />);
     const dropdown = getByRole('button', { name: 'From:' });
     expect(dropdown).toBeInTheDocument();

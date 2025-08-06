@@ -17,14 +17,27 @@ const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRang
     const end = convertDate(range.to);
     if (!start || !end) return [];
 
-    const dateList: string[] = [];
+    const now = new Date();
+    const nowYear = now.getFullYear();
+    const nowMonth = now.getMonth();
+
+
+    const dateList= [];
     const cursor = new Date(start.getFullYear(), start.getMonth(), 1);
     const last = new Date(end.getFullYear(), end.getMonth(), 1);
 
     while (cursor <= last) {
-      dateList.push(`${monthFullNames[cursor.getMonth()]} ${cursor.getFullYear()}`);
+      const currentYear = cursor.getFullYear();
+      const currentMonth = cursor.getMonth();
+      const isCompletedMonth = (currentYear < nowYear) || (currentYear === nowYear && currentMonth < nowMonth);
+      console.log('isCompletedMonth       ',isCompletedMonth)
+
+      if (isCompletedMonth) {
+        dateList.push(`${monthFullNames[currentMonth]} ${currentYear}`)
+      }
       cursor.setMonth(cursor.getMonth() + 1);
     }
+    console.log('dateList      :  ',dateList)
     return dateList;
   };
 
