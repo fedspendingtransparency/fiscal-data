@@ -39,6 +39,7 @@ import BarGraph from '../../charts/bar/bar';
 import Sparkler from './sparkler/sparkler';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
+import LoadingIndicator from '../../../components/loading-indicator/loading-indicator';
 
 const cardStyles = {
   root: {
@@ -308,10 +309,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 role={'presentation'}
               >
                 {isLoading ? (
-                  <div data-testid="loadingSection">
-                    <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-                    Loading...
-                  </div>
+                  <LoadingIndicator />
                 ) : (
                   <div style={{ position: 'relative' }}>
                     <img src={data.image.src} alt={data.image.alt} />
@@ -331,12 +329,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                   role={'presentation'}
                 >
                   {apiError && <p>API Error</p>}
-                  {isLoading && (
-                    <div data-testid="loadingSection">
-                      <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-                      Loading...
-                    </div>
-                  )}
+                  {isLoading && <LoadingIndicator />}
                 </div>
               </div>
             )}

@@ -6,12 +6,10 @@ import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalG
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
-import { chartTableBorder, container, loadingIcon, overlay } from './state-and-local-government-series-chart.module.scss';
+import { chartTableBorder, container } from './state-and-local-government-series-chart.module.scss';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
@@ -108,15 +106,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                   onMouseLeave={() => setChartHover(false)}
                 >
                   <div className={container}>
-                    {isChartLoading && (
-                      <>
-                        <div data-test-id="loading-overlay" className={overlay} />
-                        <div data-testid="loadingSection" className={loadingIcon}>
-                          <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-                          Loading...
-                        </div>
-                      </>
-                    )}
+                    {isChartLoading && <LoadingIndicator showOverlay={true} unstyled={false} />}
                     <SLGSBarChart
                       setCurAmount={setCurAmount}
                       setCurCount={setCurCount}
