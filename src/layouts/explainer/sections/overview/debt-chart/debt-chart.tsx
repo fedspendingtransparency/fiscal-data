@@ -2,15 +2,13 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { chartContainer, chartTitle, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
 import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import { trillionAxisFormatter } from '../chart-helper';
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
+import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 
 const AFGDebtChart = (): ReactElement => {
   const isMounted = useIsMounted();
@@ -185,11 +183,7 @@ const AFGDebtChart = (): ReactElement => {
   return (
     <div className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>National Debt: Last 5 Years in Trillions of USD</div>
-      {isLoading && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
-        </div>
-      )}
+      {isLoading && <LoadingIndicator />}
       {!isLoading && (
         <>
           <ChartLegend legendItems={legendItems} mobileDotSpacing={false} />
