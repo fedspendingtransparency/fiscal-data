@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { row, checkbox_wrapper, labelCheckmarkContainer, labelCheckmarkText } from './filterRow.module.scss';
+import React, { useEffect, useState } from 'react';
+import { checkbox_wrapper, labelCheckmarkContainer, labelCheckmarkText, row } from './filterRow.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import FilterCount from './filterCount/filterCount';
-import { useEffect } from 'react';
 import Analytics from '../../../../utils/analytics/analytics';
 
 const FilterRow = ({ onChange, filterKey, filterTally, children, currentState, title, analyticsObject }) => {
@@ -45,7 +44,7 @@ const FilterRow = ({ onChange, filterKey, filterTally, children, currentState, t
   }, []);
 
   return (
-    <div className={row}>
+    <div className={row} data-testid="filterRow">
       <label>
         <div className={checkbox_wrapper}>
           <input type="checkbox" title={title} checked={checked} onChange={handleClick} />

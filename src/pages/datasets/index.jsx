@@ -129,7 +129,7 @@ const DatasetsPage = ({ pageContext }) => {
   useEffect(() => {
     setFinalDatesNotFound(false);
     setTimeout(() => {
-      if (searchQuery) {
+      if (updatedDatasets && searchQuery) {
         setSearchResults(
           fuse.search(searchQuery).map(result => {
             return { ...result.item, score: result.score };
@@ -142,7 +142,7 @@ const DatasetsPage = ({ pageContext }) => {
   }, [updatedDatasets]);
 
   useEffect(() => {
-    if (searchQuery) {
+    if (updatedDatasets && searchQuery) {
       setSearchResults(
         fuse.search(searchQuery).map(result => {
           return { ...result.item, score: result.score };
@@ -175,9 +175,7 @@ const DatasetsPage = ({ pageContext }) => {
         <div className="searchBodyBackground">
           <div className={searchContainer}>
             <BreadCrumbs links={breadCrumbLinks} />
-            <h1 data-testid="page-title" className={page_title}>
-              Datasets
-            </h1>
+            <h1 className={page_title}>Datasets</h1>
             <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} />
             <FilterSection
               searchIsActive={searchQuery.length > 0}
