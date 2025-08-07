@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
 import DtgTableRow from './dtg-table-row/dtg-table-row';
 import { loadingTimeout, netLoadingDelay, setColumns } from './dtg-table-helper';
@@ -25,6 +23,7 @@ import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFiltere
 import moment from 'moment/moment';
 import { ErrorBoundary } from 'react-error-boundary';
 import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
+import LoadingIndicator from '../loading-indicator/loading-indicator';
 
 const defaultRowsPerPage = 10;
 export default function DtgTable({
@@ -473,12 +472,7 @@ export default function DtgTable({
     <div className={overlayContainer}>
       {/* Loading Indicator */}
       {!isLoading && reactTable && !reactTableData && !selectedTable?.apiFilter && (
-        <>
-          <div data-test-id="loading-overlay" className={overlay} />
-          <div className={loadingIcon}>
-            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
-          </div>
-        </>
+        <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />
       )}
       {/* Data Dictionary and Dataset Detail tables */}
       {reactTable && reactTableData?.data && (

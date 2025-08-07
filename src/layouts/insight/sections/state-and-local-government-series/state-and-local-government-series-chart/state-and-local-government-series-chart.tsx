@@ -6,7 +6,7 @@ import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalG
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
-import { chartTableBorder, container } from './state-and-local-government-series-chart.module.scss';
+import { chartTableBorder, container, loadingIcon, overlay } from './state-and-local-government-series-chart.module.scss';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
@@ -106,7 +106,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                   onMouseLeave={() => setChartHover(false)}
                 >
                   <div className={container}>
-                    {isChartLoading && <LoadingIndicator showOverlay={true} unstyled={false} />}
+                    {isChartLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}
                     <SLGSBarChart
                       setCurAmount={setCurAmount}
                       setCurCount={setCurCount}

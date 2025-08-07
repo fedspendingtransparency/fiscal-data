@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeftLong, faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeftLong, faTable } from '@fortawesome/free-solid-svg-icons';
 import DtgTable from '../../dtg-table/dtg-table';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
@@ -37,6 +37,7 @@ import { disableDownloadButtonState } from '../../../recoil/disableDownloadButto
 import { queryClient } from '../../../../react-query-client';
 import moment from 'moment/moment';
 import Analytics from '../../../utils/analytics/analytics';
+import LoadingIndicator from '../../loading-indicator/loading-indicator';
 
 const TableSectionContainer = ({
   config,
@@ -381,14 +382,7 @@ const TableSectionContainer = ({
           </div>
         </div>
         <div className={tableContainer}>
-          {isLoading && (
-            <div data-testid="loadingSection">
-              <div className={loadingSection} />
-              <div className={loadingIcon}>
-                <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...
-              </div>
-            </div>
-          )}
+          {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={loadingSection} />}
           {!!detailViewState && (
             <SummaryTable
               summaryTable={config?.detailView?.summaryTableFields}
