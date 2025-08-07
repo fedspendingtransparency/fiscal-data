@@ -22,7 +22,7 @@ const insightPagesSource = {
         'View charts with outstanding State and Local Government (SLGS) securities over time and learn how these securities support state and local government finances.',
       keywords: 'SLGS, State and Local Government Series, US Treasury SLGS',
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: 'Outstanding State and Local Government Series (SLGS) Securities',
       subHeading: '',
