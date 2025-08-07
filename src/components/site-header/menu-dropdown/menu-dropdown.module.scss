@@ -3,24 +3,29 @@
 
 @media screen and (min-width: $breakpoint-lg) {
   .dropdown .dropdownButton {
-    padding: 0;
-    transform: translateX(2rem);
-    display: flex;
+display: inline-flex;
     align-items: center;
-    overflow: hidden;
-    margin-right: 2rem;
-    margin-top: -0.125rem;
-    border-top-style: none;
-    border-right-style: none;
-    border-left-style: none;
-    outline: none;
-    background-color: inherit;
-    border-bottom: 0.125rem solid transparent;
-    font-size: $font-size-16;
+    gap: .5rem;
+padding: .5rem .75rem;
+    font: 500 1rem/1.2 'Inter', sans-serif;
     color: #666666;
-    height: 100%;
-  }
+    border: 0;
+    border-radius: .5rem;
+    transition: background .15s, color, .15s;
 
+    &:hover,
+    &:focus-visible {
+      color: #005ea2;
+      outline: none;
+    }
+    &[aria-expanded='true'] {
+      color: #005ea2;
+      svg { transform: rotate(180deg);}
+    }
+  }
+.caret {
+  transition: transform .15s;
+}
   .dropdown {
     transition: opacity 1s ease;
     padding-top: 0.125rem;
@@ -32,24 +37,25 @@
     border-bottom: 0.125rem solid $primary !important;
   }
 
-  .caret {
-    padding-left: 1rem;
-    min-width: 0.625rem;
-  }
 
   .dropdownContent {
     gap: 4rem;
+    top: calc(100% + .25rem);
     overflow: hidden;
     transition: opacity 500ms ease;
     justify-content: center;
     display: flex;
     position: absolute;
-    background-color: white;
-    width: 100%;
+    animation: fadeIn .18s ease-out;
+    background: #fff;
+ min-width: clamp(18rem, 40vw, 64rem);
     margin-top: 1px;
     left: 0;
-    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2);
+    border-radius: .75rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12);
     z-index: $menu-dropdown;
+
+
 
     link {
       color: #0071bc;
@@ -61,10 +67,21 @@
 
     &.dropdownHidden {
       opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes fadeSlide {
+      from {opacity: 0; transform: translateY(-.5rem);}
+      to {opacity: 1; transform:  translateY(0);}
+
     }
 
     a,
     button {
+      color: #222;
+      text-decoration: none;
+      font-size: 1rem;
+
       &:hover {
         color: $primary;
         font-weight: $semi-bold-weight;
@@ -82,6 +99,11 @@
       color: #666666;
       font-size: $font-size-16;
     }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0)}
+
   }
 
   .dropdownRow {
@@ -131,9 +153,13 @@
   }
 
   .dropdownListItem {
-    margin-bottom: 0.5rem;
-    font-size: $font-size-16;
-    display: flex;
-    align-items: center;
+display: flex;
+    gap: .75rem;
+    padding: .25rem 0;
+    a {
+      display: flex;
+      flex-direction: column;
+      &:hover {color: $primary}
+    }
   }
 }

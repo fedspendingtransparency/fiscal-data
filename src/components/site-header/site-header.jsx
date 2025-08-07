@@ -18,6 +18,7 @@ import { breakpointLg } from '../../variables.module.scss';
 import { useRecoilValueLoadable } from 'recoil';
 import { dynamicBannerState, dynamicBannerLastCachedState } from '../../recoil/dynamicBannerState';
 import useShouldRefreshCachedData from "../../recoil/hooks/useShouldRefreshCachedData";
+import { menuSections} from './site-header-helper';
 
 //Additional export for page width testability
 export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
@@ -139,6 +140,7 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
               activeDropdown={activeDropdown}
               setActiveDropdown={setActiveDropdown}
               buttonHeight={getButtonHeight(imageWidth) + 4}
+              menuSections={menuSections}
             />
           </div>
           <Glossary termList={glossaryData} activeState={openGlossary} setActiveState={setOpenGlossary} />

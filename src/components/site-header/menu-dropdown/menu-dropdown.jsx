@@ -128,6 +128,7 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
           if (link.external) {
             return (
               <div key={link.title} className={dropdownListItem} style={getMinWidth(link.title)}>
+
                 <CustomLink
                   url={link.to}
                   external
