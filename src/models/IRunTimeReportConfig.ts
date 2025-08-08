@@ -6,4 +6,5 @@ export interface IRunTimeReportConfig {
   defaultHeader: string;
   defaultMessage: string;
   searchText: string;
+  experimental?: boolean;
 }

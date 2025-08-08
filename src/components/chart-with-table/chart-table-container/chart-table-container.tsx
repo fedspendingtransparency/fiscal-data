@@ -7,13 +7,14 @@ import {
   chartTitle,
   chartTitleHeaderContainer,
   clickedLabel,
-  dowloadLableContainer,
+  dateRangeContainer,
   downloadCSV,
   downloaderContainer,
+  downloadLabelContainer,
   headerContainer,
   icon,
+  infoTipContainer,
   tableBoarder,
-  dateRangeContainer,
 } from './chart-table-container.module.scss';
 import DateRangeMonthPicker from '../../date-range-month-picker/date-range-month-picker';
 import { Skeleton } from '@mui/material';
@@ -38,6 +39,7 @@ interface IChartTableContainer {
   table: ReactElement;
   monthRange?;
 }
+
 const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   title,
   altText,
@@ -68,9 +70,11 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
       setDownloadClick(true);
     }
   };
+
   const csvDownloader = (
-    <div className={downloadClicked ? clickedLabel : dowloadLableContainer} onClick={handleDownloadClicked} role="presentation">
-      <div className={downloadCSV}>Download CSV</div> <DownloadIcon className={icon} />
+    <div className={downloadClicked ? clickedLabel : downloadLabelContainer} onClick={handleDownloadClicked} role="presentation">
+      <div className={downloadCSV}>Download CSV</div>
+      <DownloadIcon className={icon} />
     </div>
   );
 
@@ -101,7 +105,6 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
         <div className={headerContainer}>{toggle}</div>
       </div>
       {datasetDateRange && (
-
         <div className={dateRangeContainer}>
           <DateRangeMonthPicker
             dateRange={dateRange}
@@ -109,10 +112,13 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
             datasetDateRange={datasetDateRange}
             paddingBuffer={paddingBuffer}
             setIsChartLoading={setIsChartLoading}
+            validMonths={monthRange}
           />
-          <InfoTip
-            title={infoTipTitle}
-            iconStyle={{ color: '#666666', width: '16px', height: '16px' }}>{infoTip}</InfoTip>
+          <div className={infoTipContainer}>
+            <InfoTip title={infoTipTitle} iconStyle={{ color: '#666666', width: '1rem', height: '1rem' }}>
+              {infoTip}
+            </InfoTip>
+          </div>
         </div>
       )}
       {isLoading && (
