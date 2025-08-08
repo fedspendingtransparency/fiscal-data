@@ -9,47 +9,57 @@ const DateRangeMonthPicker: FunctionComponent = ({ setDateRange, datasetDateRang
   const [selectedEndDate, setSelectedEndDate] = useState<string>('');
   const [allYears, setAllYear] = useState<string[]>();
 
-  useEffect(() => {
-    if (!selectedStartDate && !selectedEndDate) return;
-    setIsChartLoading(true);
-    let startDate = selectedStartDate;
-    let endDate = selectedEndDate;
-    if (selectedStartDate && !selectedEndDate) {
-      endDate = selectedStartDate;
-    } else if (!selectedStartDate && selectedEndDate) {
-      startDate = selectedEndDate;
-    } else {
-      if (isAfter(convertDate(startDate), convertDate(endDate))) {
-        startDate = selectedEndDate;
-        endDate = selectedStartDate;
-        setSelectedStartDate(startDate);
-        setSelectedEndDate(endDate);
-      }
-    }
-    setDateRange({ from: convertDate(startDate), to: convertDate(endDate) });
-  }, [selectedStartDate, selectedEndDate]);
-
   const getAllYears = range => {
-    if (range?.from && range?.to) {
-      const startDate = convertDate(range.from).getFullYear();
-      const endDate = convertDate(range.to).getFullYear();
-      const years = [];
-      for (let i = endDate; i >= startDate; i--) {
-        years.push(i.toString());
-      }
-      return years;
-    }
+    if (!range?.from || !range?.to) return [];
+    const startYear = convertDate(range.from).getFullYear();
+    const endYear = convertDate(range.to).getFullYear();
+    const years: string[] = [];
+    for (let y = endYear; y >= startYear; y--) years.push(y.toString());
+    return years;
   };
 
   useEffect(() => {
     setAllYear(getAllYears(datasetDateRange));
   }, [datasetDateRange]);
 
+  useEffect(() => {
+    if (!selectedStartDate && !selectedEndDate) return;
+    setIsChartLoading(true);
+
+    let startDate = selectedStartDate;
+    let endDate = selectedEndDate;
+
+    if (selectedStartDate && !selectedEndDate) {
+      endDate = selectedStartDate;
+    } else if (!selectedStartDate && selectedEndDate) {
+      startDate = selectedEndDate;
+    } else if (isAfter(convertDate(startDate), convertDate(endDate))) {
+      startDate = selectedEndDate;
+      endDate = selectedStartDate;
+      setSelectedStartDate(startDate);
+      setSelectedEndDate(endDate);
+    }
+
+    setDateRange({ from: convertDate(startDate), to: convertDate(endDate) });
+  }, [selectedStartDate, selectedEndDate]);
+
   return (
     <div className={dropdownContent}>
       <div className={datePickers}>
-        <MonthPicker text="From" setSelectedDate={setSelectedStartDate} selectedDate={selectedStartDate} allYears={allYears} />
-        <MonthPicker text="To" setSelectedDate={setSelectedEndDate} selectedDate={selectedEndDate} allYears={allYears} />
+        <MonthPicker
+          text="From"
+          setSelectedDate={setSelectedStartDate}
+          selectedDate={selectedStartDate}
+          allYears={allYears}
+          datasetDateRange={datasetDateRange}
+        />
+        <MonthPicker
+          text="To"
+          setSelectedDate={setSelectedEndDate}
+          selectedDate={selectedEndDate}
+          allYears={allYears}
+          datasetDateRange={datasetDateRange}
+        />
       </div>
     </div>
   );

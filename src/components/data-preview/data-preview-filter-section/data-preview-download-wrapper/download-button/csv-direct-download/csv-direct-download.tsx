@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { CSVLink } from 'react-csv/lib';
-import { timestampDownloadButton, downloadItemBtn } from '../download-button.module.scss';
+import { downloadItemBtn, timestampDownloadButton } from '../download-button.module.scss';
 
 const CsvDirectDownload: FunctionComponent = ({ filename, downloadData, handleClick, downloadTimestamp, children }) => {
   const [csvDataWithTimestamp, setCSVDataWithTimestamp] = useState(null);
@@ -39,7 +39,7 @@ const CsvDirectDownload: FunctionComponent = ({ filename, downloadData, handleCl
         filename={filename + '.csv'}
         onClick={handleClick}
         ref={ref}
-        aria-hidden={true}
+        aria-hidden={downloadTimestamp}
         enclosingCharacter=""
         tabIndex={downloadTimestamp ? -1 : 0}
       >
