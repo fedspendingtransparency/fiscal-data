@@ -1,8 +1,7 @@
 
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { useGetStateAndLocalGovernmentSeriesData } from './useGetStateAndLocalGovernmentSeriesData';
 import { convertDate } from '../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
-import { act, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import { releaseCalendarUrl } from './slgs-helper';
 import {
