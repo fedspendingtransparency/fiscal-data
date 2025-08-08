@@ -13,6 +13,7 @@ module.exports = {
     '^csv-stringify/sync': '<rootDir>/node_modules/csv-stringify/dist/cjs/sync.cjs',
     'rehype-raw': '<rootDir>/__mocks__/react-markdown.js',
     'react-pdf': '<rootDir>/__mocks__/react-pdf.js',
+    '^d3-(.*)$': ['<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js', '<rootDir>/node_modules/d3-$1/build/d3-$1.min.js'],
   },
   modulePathIgnorePatterns: ['.cache'],
   testMatch: ['<rootDir>/**/**.spec.{js,jsx,ts,tsx}'],
