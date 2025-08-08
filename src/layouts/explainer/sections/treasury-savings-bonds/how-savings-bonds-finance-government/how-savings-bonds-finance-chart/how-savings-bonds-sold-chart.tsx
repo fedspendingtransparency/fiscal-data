@@ -45,7 +45,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const [chartHeight, setChartHeight] = useState<number>(400);
   const [chartWidth, setChartWidth] = useState<number>(400);
   const { explainers } = globalConstants;
-  const [active, setActive] = useState(false);
+  const [mouseInactive, setMouseInactive] = useState(true);
   const handleChartMouseEnter = () => {
     const eventLabel = 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public';
     const eventAction = 'Chart Hover';
@@ -57,7 +57,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
       });
     }, explainers.chartHoverDelay);
     setTimeout(() => {
-      setActive(false);
+      setMouseInactive(false);
     });
   };
 
@@ -65,7 +65,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     clearTimeout(gaTimer);
     setActiveIndex(null);
     setTimeout(() => {
-      setActive(true);
+      setMouseInactive(true);
     });
   };
 
@@ -211,18 +211,19 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     return activeIndex === `${dataset}-${index}` || activeIndex === null ? (isActiveType ? 0.4 : 1) : 0.4;
   };
 
+  const getActiveShape = props => {
+    const index = props['data-recharts-item-index'];
+    if (index === actualActiveIndex && mouseInactive && animationDone) {
+      return ChartTopNotch(props);
+    }
+  };
+
   return (
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={historyChartDate} footer={footer}>
         <div className={chartStyle} data-testid="chartParent">
           <div className={chartContainer}>
-            <PieChart
-              width={chartWidth}
-              height={chartHeight}
-              onMouseEnter={handleChartMouseEnter}
-              onMouseLeave={handleChartMouseLeave}
-              accessibilityLayer
-            >
+            <PieChart width={chartWidth} height={chartHeight} onMouseEnter={handleChartMouseEnter} onMouseLeave={handleChartMouseLeave}>
               <Pie
                 data={data1WidthPercentage}
                 dataKey="percent"
@@ -243,8 +244,21 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   />
                 ))}
               </Pie>
+              {/*This next Pie element is just to display the Savings Bonds top-notch */}
               <Pie
-                inactiveShape={animationDone ? props => ChartTopNotch(props, actualActiveIndex, active) : null}
+                inactiveShape={getActiveShape}
+                activeShape={getActiveShape}
+                data={savingsBondCallOut}
+                dataKey="percent"
+                cx="50%"
+                cy="50%"
+                innerRadius="75%"
+                outerRadius="90%"
+                startAngle={-270}
+                endAngle={90}
+                opacity={0}
+              />
+              <Pie
                 data={savingsBondCallOut}
                 dataKey="percent"
                 cx="50%"
@@ -264,7 +278,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   />
                 ))}
               </Pie>
-              <Tooltip content={<CustomTooltip anotherActive={active} />} defaultIndex={actualActiveIndex} active={true} />
+              <Tooltip content={<CustomTooltip mouseInactive={mouseInactive} />} defaultIndex={actualActiveIndex} active={true} />
             </PieChart>
           </div>
           <CustomLegend onLegendEnter={onLegendEnter} onChartLeave={onChartLeave} primaryColor={color} secondaryColor={color2} />
