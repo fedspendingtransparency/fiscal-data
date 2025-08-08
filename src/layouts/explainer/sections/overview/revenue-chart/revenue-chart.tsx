@@ -1,12 +1,11 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
+import { apiPrefix, basicFetch, monthNames } from '../../../../../utils/api-utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import CustomTooltip from '../chart-components/line-chart-custom-tooltip/custom-tooltip';
 import { chartContainer, chartTitle, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { monthNames } from '../../../../../utils/api-utils';
 import ChartLegend from '../chart-components/chart-legend';
 import { monthAxisFormatter, trillionAxisFormatter } from '../chart-helper';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
@@ -103,7 +102,7 @@ const AFGRevenueChart = (): ReactElement => {
           <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
         </div>
       )}
-      {!isLoading && (
+      {!isLoading && finalChartData && (
         <>
           <ChartLegend legendItems={legend} mobileDotSpacing />
           <div className={chartContainer} data-testid="chartContainer">

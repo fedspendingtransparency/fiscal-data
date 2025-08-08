@@ -1,17 +1,17 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
-import { topicSection, link, topicHeading, textContainer, imageContainer, arrow } from './afg-topic-card.module.scss';
+import { arrow, imageContainer, link, textContainer, topicHeading, topicSection } from './afg-topic-card.module.scss';
 import Analytics from '../../../../../utils/analytics/analytics';
 import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
 import AFGDefictChart from '../../../sections/overview/deficit-chart/deficit-chart';
 import AFGSpendingChart from '../../../sections/overview/spending-chart/spending-chart';
-import AFGRevenueChart from '../../../sections/overview/revenue-chart/revenue-chart';
 import HeaderChip from '../../../sections/overview/components/header-chip/header-chip';
 import { explainerAnalyticsLabelMap, explainerColorMap } from '../../../explainer-helpers/explainer-helpers';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import AFGDebtChart from '../../../sections/overview/debt-chart/debt-chart';
+import AFGRevenueChart from '../../../sections/overview/revenue-chart/revenue-chart';
 
 const AfgTopicCard = ({
   heading,
