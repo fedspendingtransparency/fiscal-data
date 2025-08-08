@@ -4,10 +4,11 @@ import CustomLink from '../../links/custom-link/custom-link';
 import {
   panel, panelHidden, sectionCol, sectionHeader, itemRow,
   itemTitle, itemDesc, iconWrap } from './menu-dropdown.module.scss';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBook, faCode, faCalendar, faUsers, faPiggyBank, faPercent,
   faBuildingColumns, faArrowsLeftRight, faMinus, faChartPie, faCompass, faLandmark } from '@fortawesome/free-solid-svg-icons';
+
 
 const iconMap = {
   book: faBook,
