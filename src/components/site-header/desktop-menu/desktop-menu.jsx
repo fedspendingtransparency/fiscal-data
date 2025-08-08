@@ -1,313 +1,122 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'gatsby';
-import Analytics from '../../../utils/analytics/analytics';
-import CustomLink from '../../links/custom-link/custom-link';
+
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'gatsby'; import Experimental from '../../experimental/experimental';
+import { menuSections } from '../site-header-helper';
+import {
+  pageLinks, pageLinkButtonContainer, pageLinkButton,
+  activeLink, pageLinkButtonActive
+} from './../menu-dropdown/menu-dropdown.module.scss';
+import NavDropdownPanel from '../menu-dropdown/menu-dropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import {
-  nav,
-  triggers,
-  triggerBtn,
-  triggerActive,
-  indicator,
-  viewport,
-  viewportInner,
-  panel,
-  grid,
-  item,
-  itemIcon,
-  itemTexts,
-  itemTitle,
-  itemDesc,
-  groups,
-  groupCol,
-  groupTitle,
-  groupList,
-} from './desktop-menu.module.scss';
 
-const CLAMP_PADDING = 16;
-const OPEN_DELAY = 60;   // hover intent
-const CLOSE_DELAY = 140; // forgiving close
+const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
-const DesktopMenu = ({
-                       location,
-                       glossaryClickHandler,
-                       clickHandler,            // existing handler you already have
-                       analyticsClickHandler,   // optional (falls back to clickHandler)
-                       buttonHeight,
-                       menuSections,            // pass from SiteHeader or import inside here
-                     }) => {
-  const navRef = useRef(null);
-  const viewportRef = useRef(null);
-  const contentRef = useRef(null);
-  const indicatorRef = useRef(null);
-  const triggerRefs = useRef([]);
+const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, buttonHeight }) => {
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [panelContent, setPanelContent] = useState(null);
+  const [panelStyle, setPanelStyle] = useState({ opacity: 0 });
+  const triggersRef = useRef([]);
 
-  const safeSections = Array.isArray(menuSections) ? menuSections : [];
-  const dropdownIndexes = useMemo(() => safeSections.map(s => !!s.children), [safeSections]);
+  const positionPanel = (idx) => {
+    const el = triggersRef.current[idx];
+    const container = el?.closest('[data-nav-root]');
+    if (!el || !container) return;
 
-  const [open, setOpen] = useState(false);
-  const [activeIdx, setActiveIdx] = useState(-1);
-  const [viewportStyle, setViewportStyle] = useState({ left: 0, width: 560, height: 280, opacity: 0 });
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+    const trig = el.getBoundingClientRect();
+    const cont = container.getBoundingClientRect();
+    const panelWidth = Math.min(920, cont.width - 24);
+    const desiredLeft = trig.left - cont.left + (trig.width / 2) - (panelWidth / 2);
 
-  const timers = useRef({ open: 0, close: 0 });
-  const clearTimers = () => {
-    if (timers.current.open) clearTimeout(timers.current.open);
-    if (timers.current.close) clearTimeout(timers.current.close);
+    const left = clamp(desiredLeft, 12, cont.width - panelWidth - 12);
+
+    setPanelStyle(s => ({
+      ...s,
+      width: `${600}px`,
+      transform: `translateX(${left}px)`,
+      opacity: 1,
+    }));
   };
 
-  const clamp = (val, min, max) => Math.max(min, Math.min(val, max));
-  const isDropdown = idx => dropdownIndexes[idx];
+  const openDropdown = (idx) => {
+    const section = menuSections[idx];
+    if (!section?.children) return;
+    setActiveIndex(idx);
+    setPanelContent(section);
 
-  const positionIndicator = idx => {
-    const el = triggerRefs.current[idx];
-    if (!el || !navRef.current) return;
-    const navRect = navRef.current.getBoundingClientRect();
-    const r = el.getBoundingClientRect();
-    setIndicatorStyle({ left: r.left - navRect.left, width: r.width });
+    requestAnimationFrame(() => positionPanel(idx));
   };
 
-  const measurePanel = () => {
-    const w = contentRef.current?.scrollWidth || 560;
-    const h = contentRef.current?.scrollHeight || 280;
-    const maxW = Math.min(760, window.innerWidth - CLAMP_PADDING * 2);
-    return { width: clamp(w, 360, maxW), height: clamp(h, 160, 520) };
-  };
-
-  const positionViewport = idx => {
-    const btn = triggerRefs.current[idx];
-    if (!btn) return;
-    const { width, height } = measurePanel();
-    const b = btn.getBoundingClientRect();
-    const centerX = b.left + b.width / 2 - width / 2;
-    const left = clamp(centerX, CLAMP_PADDING, window.innerWidth - width - CLAMP_PADDING);
-    setViewportStyle(s => ({ ...s, left, width, height, opacity: 1 }));
-  };
-
-  const openFor = idx => {
-    if (!isDropdown(idx)) return;
-    clearTimers();
-    timers.current.open = setTimeout(() => {
-      setActiveIdx(idx);
-      setOpen(true);
-      positionIndicator(idx);
-      requestAnimationFrame(() => positionViewport(idx));
-    }, OPEN_DELAY);
-  };
-
-  const closeSoon = () => {
-    clearTimers();
-    timers.current.close = setTimeout(() => {
-      setOpen(false);
-      setActiveIdx(-1);
-      setViewportStyle(s => ({ ...s, opacity: 0 }));
-    }, CLOSE_DELAY);
+  const closeDropdown = () => {
+    setPanelStyle(s => ({ ...s, opacity: 0 }));
+    setActiveIndex(null);
+    setPanelContent(null);
   };
 
   useEffect(() => {
-    const onResize = () => {
-      if (open && activeIdx > -1) {
-        positionIndicator(activeIdx);
-        positionViewport(activeIdx);
-      }
-    };
-    window.addEventListener('resize', onResize, { passive: true });
-    return () => window.removeEventListener('resize', onResize);
-  }, [open, activeIdx]);
-
-  const isGrouped = section =>
-    Array.isArray(section?.children) &&
-    section.children.length > 0 &&
-    Array.isArray(section.children[0]?.children);
-
-  // mirrors your old handlePageClick logic, including dataLayer events
-  const onNavItemClick = (sectionTitle, pageTitle) => {
-    const fire = analyticsClickHandler || clickHandler;
-    window.dataLayer = window.dataLayer || [];
-
-    if (sectionTitle === 'Topics') {
-      Analytics.event({ category: 'Sitewide Navigation', action: 'Topics Click', label: pageTitle });
-      window.dataLayer.push({ event: 'topics-click', eventLabel: pageTitle });
-      return;
-    }
-    if (pageTitle === 'Glossary') {
-      glossaryClickHandler?.(true);
-      window.dataLayer.push({ event: 'glossary-click' });
-      return;
-    }
-    if (pageTitle === 'API Documentation') {
-      fire?.(pageTitle);
-      window.dataLayer.push({ event: 'api-doc-click-resources', eventLabel: document.title });
-      return;
-    }
-    if (pageTitle === 'Release Calendar') {
-      window.dataLayer.push({ event: 'Release Calendar-click', eventLabel: document.title });
-      return;
-    }
-    if (sectionTitle === 'Tools') {
-      window.dataLayer.push({ event: 'tools-click', eventLabel: pageTitle });
-      return;
-    }
-
-    Analytics.event({ category: 'Sitewide Navigation', action: `${pageTitle} Click`, label: pageTitle });
-  };
-
-  const renderItem = (page, sectionTitle) => {
-    const inner = (
-      <>
-        {page.icon && <FontAwesomeIcon icon={page.icon} className={itemIcon} />}
-        <div className={itemTexts}>
-          <div className={itemTitle}>{page.title}</div>
-          {page.desc && <div className={itemDesc}>{page.desc}</div>}
-        </div>
-      </>
-    );
-
-    if (!page.to && page.title === 'Glossary') {
-      return (
-        <button key={page.title} className={item} onClick={() => onNavItemClick(sectionTitle, page.title)}>
-          {inner}
-        </button>
-      );
-    }
-
-    if (page.external) {
-      return (
-        <CustomLink
-          key={page.title}
-          url={page.to}
-          external
-          skipExternalModal={page.skipExternalModal}
-          className={item}
-          onClick={() => onNavItemClick(sectionTitle, page.title)}
-        >
-          {inner}
-        </CustomLink>
-      );
-    }
-
-    return (
-      <Link key={page.title} to={page.to} className={item} onClick={() => onNavItemClick(sectionTitle, page.title)}>
-        {inner}
-      </Link>
-    );
-  };
-
-  const SectionPanel = ({ section }) => {
-    if (!section?.children) return null;
-
-    if (isGrouped(section)) {
-      return (
-        <div className={panel} ref={contentRef} role="menu" aria-label={`${section.title} menu`}>
-          <div className={groups}>
-            {section.children.map(group => (
-              <div className={groupCol} key={group.header}>
-                <div className={groupTitle}>{group.header}</div>
-                <div className={groupList}>
-                  {group.children.map(page => renderItem(page, section.title))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className={panel} ref={contentRef} role="menu" aria-label={`${section.title} menu`}>
-        <div className={grid}>{section.children.map(page => renderItem(page, section.title))}</div>
-      </div>
-    );
-  };
-
-  const onTriggerEnter = i => {
-    positionIndicator(i);
-    if (isDropdown(i)) openFor(i);
-    else closeSoon();
-  };
-
-  const onTriggerClick = (i, title) => {
-    if (isDropdown(i)) {
-      if (open && activeIdx === i) closeSoon();
-      else openFor(i);
-    } else {
-      clickHandler?.(title);
-    }
-  };
+    const onEsc = (e) => { if (e.key === 'Escape') closeDropdown(); };
+    window.addEventListener('keydown', onEsc);
+    return () => window.removeEventListener('keydown', onEsc);
+  }, []);
 
   return (
-    <nav
-      className={nav}
-      ref={navRef}
-      onMouseLeave={closeSoon}
-      role='presentation'
-      aria-label="Primary"
-      style={{ height: buttonHeight + 'px' }}
-    >
-      <div className={triggers}>
-        {safeSections.map((s, i) => {
-          const isActive = i === activeIdx && open;
-          const isCurrentPage = s.to && s.to === location?.pathname;
+    <div className={pageLinks} data-testid="pageLinks" style={{ height: buttonHeight + 'px' }} data-nav-root onMouseLeave={closeDropdown} role='presentation'>
+      {menuSections.map((item, index) => {
+        const isActiveRoute = item.to  === location?.pathname;
+        const hasDropdown = !!item.children;
 
-          if (s.children) {
-            return (
-              <div
-                key={s.title}
-                className={`${triggerBtn} ${isActive ? triggerActive : ''}`}
-                ref={el => (triggerRefs.current[i] = el)}
-                onMouseEnter={() => onTriggerEnter(i)}
-                onFocus={() => onTriggerEnter(i)}
-                onClick={() => onTriggerClick(i, s.title)}
-                role="presentation"
-                aria-expanded={isActive}
-              >
-                {s.title}
-                <FontAwesomeIcon icon={faCaretDown} style={{ marginLeft: 8 }} />
+        const trigger = (
+          <div
+            className={pageLinkButtonContainer}
+            style={{ minWidth: `${item.title.length * 7.5 + 16}px` }}
+            key={item.title}
+            ref={(el) => (triggersRef.current[index] = el)}
+            onMouseEnter={() => hasDropdown ? openDropdown(index) : closeDropdown()}
+            onFocus={() => hasDropdown ? openDropdown(index) : closeDropdown()}
+            role={'presentation'}
+          >
+            {item.isExperimental ? (
+              <Experimental featureId={item.featureId}>
+                <button className={pageLinkButton}>
+                  <Link to={item.to} activeClassName={activeLink} data-testid={item.testId}>{item.title}</Link>
+                </button>
+              </Experimental>
+            ) : hasDropdown ? (
+              <button className={pageLinkButton} aria-haspopup="true" aria-expanded={activeIndex === index}>
+                <span>{item.title}</span>
+                <FontAwesomeIcon icon={faCaretDown} />
+              </button>
+            ) : isActiveRoute ? (
+              <div className={`${pageLinkButton} ${pageLinkButtonActive}`}><span>{item.title}</span></div>
+            ) : (
+              <div className={pageLinkButton}>
+                <Link
+                  to={item.to}
+                  activeClassName={activeLink}
+                  data-testid={item.testId}
+                  onClick={() => clickHandler(item.title)}
+                >
+                  {item.title}
+                </Link>
               </div>
-            );
-          }
+            )}
+          </div>
+        );
 
-          return (
-            <div
-              key={s.title}
-              className={triggerBtn}
-              ref={el => (triggerRefs.current[i] = el)}
-              onMouseEnter={() => onTriggerEnter(i)}
-              onFocus={() => onTriggerEnter(i)}
-              role='presentation'
-            >
-              <Link to={s.to} aria-current={isCurrentPage ? 'page' : undefined} onClick={() => clickHandler?.(s.title)}>
-                {s.title}
-              </Link>
-            </div>
-          );
-        })}
-        <div
-          className={indicator}
-          ref={indicatorRef}
-          style={{ transform: `translateX(${indicatorStyle.left}px)`, width: indicatorStyle.width }}
-        />
-      </div>
+        return trigger;
+      })}
 
-      {/* Shared viewport that morphs under the active trigger */}
-      <div
-        className={viewport}
-        ref={viewportRef}
-        style={{
-          // transform: `translateX(${viewportStyle.left}px)`,
-          width: viewportStyle.width,
-          height: viewportStyle.height,
-          opacity: viewportStyle.opacity,
-          pointerEvents: open ? 'auto' : 'none',
-        }}
-      >
-        <div className={viewportInner}>
-          {open && activeIdx > -1 && <SectionPanel section={safeSections[activeIdx]} />}
-        </div>
-      </div>
-    </nav>
+      <NavDropdownPanel
+        visible={!!panelContent}
+        content={panelContent}
+        style={panelStyle}
+        onRequestClose={closeDropdown}
+        glossaryClickHandler={glossaryClickHandler}
+        onAnalytics={clickHandler}
+      />
+    </div>
   );
 };
 
 export default DesktopMenu;
+

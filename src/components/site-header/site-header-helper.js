@@ -1,140 +1,49 @@
-import {
-  faChartPie,
-  faToolbox,
-  faDatabase,
-  faFileLines,
-  faInfoCircle,
-  faPiggyBank,
-  faSackDollar,
-} from '@fortawesome/free-solid-svg-icons';
-
 export const menuSections = [
   {
     title: 'Topics',
-    // grouped sections preserved
     children: [
       {
         header: 'FEATURED TOPICS',
-        analyticsAction: 'Topics Click',
         children: [
-          {
-            to: '/interest-expense-avg-interest-rates/',
-            title: 'Interest Expense',
-            desc: 'How much we pay on federal debt',
-            icon: faSackDollar,
-          },
-          {
-            to: '/treasury-savings-bonds/',
-            title: 'Savings Bonds',
-            desc: 'Series I & EE basics',
-            icon: faPiggyBank,
-          },
-          {
-            to: '/state-and-local-government-series/',
-            title: 'State and Local Government Series',
-            desc: 'Custom bonds for governments',
-            icon: faSackDollar,
-          },
+          { to: '/interest-expense-avg-interest-rates/', title: 'Interest Expense', icon: 'percent', desc: 'What we pay on debt', color: '#00796B' },
+          { to: '/treasury-savings-bonds/',              title: 'Savings Bonds',    icon: 'piggy',   desc: 'Rates, terms, & types', color: '#b04abd'},
+          { to: '/state-and-local-government-series/',   title: 'State and Local Government Series',  icon: 'building',desc: 'Debt tools for municipal bonds', color: '#0071bc' },
         ],
       },
       {
         header: "AMERICA'S FINANCE GUIDE",
-        analyticsAction: 'Topics Click',
         children: [
-          {
-            to: '/americas-finance-guide/',
-            title: 'Overview',
-            desc: 'The big picture',
-            icon: faChartPie,
-          },
-          {
-            to: '/americas-finance-guide/government-revenue/',
-            title: 'Revenue',
-            desc: 'Where funds come from',
-          },
-          {
-            to: '/americas-finance-guide/federal-spending/',
-            title: 'Spending',
-            desc: 'Where money goes',
-          },
-          {
-            to: '/americas-finance-guide/national-deficit/',
-            title: 'Deficit',
-            desc: 'Gap between in & out',
-          },
-          {
-            to: '/americas-finance-guide/national-debt/',
-            title: 'Debt',
-            desc: 'Total owed over time',
-          },
+          { to: '/americas-finance-guide/',  title: 'Overview', icon: 'compass',  desc: 'How the money moves', color: '#0071bc' },
+          { to: '/americas-finance-guide/government-revenue/',title: 'Revenue',  icon: 'coins', desc: 'Where funds come from', color: '#0a2f5a' },
+          { to: '/americas-finance-guide/federal-spending/', title: 'Spending', icon: 'chartPie', desc: 'Where funds go', color: '#00766c' },
+          { to: '/americas-finance-guide/national-deficit/', title: 'Deficit',  icon: 'minus',  desc: 'Gap between Revenue and Spending', color: '#b3532d' },
+          { to: '/americas-finance-guide/national-debt/', title: 'Debt', icon: 'bank',  desc: 'Total owed over time', color: '#4a0072' },
         ],
       },
     ],
   },
-
   {
     title: 'Tools',
+    header: "TOOLS",
     children: [
-      {
-        to: '/currency-exchange-rates-converter/',
-        title: 'Currency Exchange Rates Converter',
-        desc: 'Convert historical & current rates',
-        icon: faToolbox,
-      },
+      { to: '/currency-exchange-rates-converter/', title: 'FX Converter', icon: 'arrows', desc: 'Live exchange rates' },
     ],
   },
-
-  // You said you swapped Resources and Dataset Search so the three dropdowns sit together.
   {
     title: 'Resources',
     children: [
-      {
-        title: 'Glossary',
-        desc: 'Every term we use',
-        icon: faFileLines,
-      },
-      {
-        to: '/api-documentation/',
-        title: 'API Documentation',
-        desc: 'Build with our data',
-        icon: faFileLines,
-      },
-      {
-        to: '/release-calendar/',
-        title: 'Release Calendar',
-        desc: 'What’s coming & when',
-        icon: faFileLines,
-      },
+      { title: 'Glossary', icon: 'book', desc: 'Terms & plain-English defs' },
+      { to: '/api-documentation/', title: 'API Documentation', icon: 'code', desc: 'Endpoints, params, examples' },
+      { to: '/release-calendar/',  title: 'Release Calendar',  icon: 'calendar', desc: 'Upcoming data drops' },
       {
         to: 'https://onevoicecrm.my.site.com/FiscalDataCommunity/s/',
         title: 'Community Site',
-        desc: 'Ask & discuss',
         external: true,
+        icon: 'user',
         skipExternalModal: true,
-        icon: faFileLines,
-      },
-    ],
+      },,    ],
   },
+  { title: 'Dataset Search', to: '/datasets/', testId: 'search' },
 
-  {
-    title: 'Dataset Search',
-    to: '/datasets/',
-    testId: 'search',
-    icon: faDatabase,
-  },
-
-  {
-    title: 'About Us',
-    to: '/about-us/',
-    testId: 'about',
-    icon: faInfoCircle,
-  },
-
-  {
-    title: 'Experimental',
-    to: '/experimental/',
-    testId: 'experimental',
-    isExperimental: true,
-    featureId: 'experimental-page',
-  },
-];
+  { title: 'About Us', to: '/about-us/', testId: 'about' },
+  { title: 'Experimental', to: '/experimental/', testId: 'experimental', isExperimental: true, featureId: 'experimental-page' }, ];

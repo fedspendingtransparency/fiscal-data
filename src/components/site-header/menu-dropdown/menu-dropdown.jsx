@@ -1,197 +1,101 @@
-import {
-  activeDropdownLink,
-  caret,
-  dropdown,
-  dropdownButton,
-  dropdownButtonExpanded,
-  dropdownColumnOne,
-  dropdownContent,
-  dropdownHidden,
-  dropdownListItem,
-  dropdownRow,
-  dropdownTitle,
-  resourceLink,
-  resourcesDropDown,
-} from './menu-dropdown.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'gatsby';
-import Analytics from '../../../utils/analytics/analytics';
 import CustomLink from '../../links/custom-link/custom-link';
+import {
+  panel, panelHidden, sectionCol, sectionHeader, itemRow,
+  itemTitle, itemDesc, iconWrap } from './menu-dropdown.module.scss';
 
-const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClickHandler, analyticsClickHandler }) => {
-  const [toggleDropdown, setToggleDropdown] = useState(false);
-  const [isExpanded, setExpanded] = useState(false);
+import {
+  faBook, faCode, faCalendar, faUsers, faPiggyBank, faPercent,
+  faBuildingColumns, faArrowsLeftRight, faMinus, faChartPie, faCompass, faLandmark } from '@fortawesome/free-solid-svg-icons';
 
-  const title = content.title;
-  const getMinWidth = link => ({
-    minWidth: `${link.length * 7.5 + 28}px`,
-  });
+const iconMap = {
+  book: faBook,
+  code: faCode,
+  calendar: faCalendar,
+  users: faUsers,
+  piggy: faPiggyBank,
+  percent: faPercent,
+  building: faBuildingColumns,
+  arrows: faArrowsLeftRight,
+  minus: faMinus,
+  chartPie: faChartPie,
+  compass: faCompass,
+  bank: faLandmark,
+  coins: faPiggyBank,
+};
 
-  const handlePageClick = (title, pageName) => {
-    window.dataLayer = window.dataLayer || [];
-    if (title === 'Topics') {
-      Analytics.event({
-        category: 'Sitewide Navigation',
-        action: `Topics Click`,
-        label: pageName,
-      });
-      window.dataLayer.push({
-        event: 'topics-click',
-        eventLabel: pageName,
-      });
-    } else if (pageName === 'Glossary') {
-      glossaryClickHandler(true);
-      window.dataLayer.push({ event: 'glossary-click' });
-    } else if (pageName === 'API Documentation') {
-      analyticsClickHandler(pageName);
-      window.dataLayer.push({
-        event: 'api-doc-click-resources',
-        eventLabel: document.title,
-      });
-    } else if (pageName === 'Release Calendar') {
-      window.dataLayer.push({
-        event: 'Release Calendar-click',
-        eventLabel: document.title,
-      });
-    } else if (title === 'Tools') {
-      window.dataLayer.push({
-        event: 'tools-click',
-        eventLabel: pageName,
-      });
-    } else {
-      Analytics.event({
-        category: 'Sitewide Navigation',
-        action: `${pageName} Click`,
-        label: pageName,
-      });
-    }
+
+const NavDropdownPanel = ({ visible, content, style, onRequestClose, glossaryClickHandler, onAnalytics }) => {
+  if (!content) return null;
+
+  const handleClick = (sectionTitle, page) => {
+    if (page.title === 'Glossary') glossaryClickHandler(true);
+    if (onAnalytics) onAnalytics(sectionTitle);
+    onRequestClose();
   };
 
-  const handleMouseLeave = () => setActiveDropdown(null);
-
-  const handleMouseEnter = () => {
-    setTimeout(() => {
-      setExpanded(true);
-      setActiveDropdown(title);
-      setToggleDropdown(true);
-      setTimeout(() => setToggleDropdown(false), 10);
-    }, 20);
-  };
-
-  const handleBlur = event => {
-    const currentTarget = event.currentTarget;
-    requestAnimationFrame(() => {
-      if (!currentTarget.contains(document.activeElement)) {
-        handleMouseLeave();
-      }
-    });
-  };
-
-  useEffect(() => {
-    if (activeDropdown !== title) {
-      setExpanded(false);
-      setToggleDropdown(true);
-      setTimeout(() => setToggleDropdown(false), 10);
-    }
-  }, [activeDropdown, title]);
-
-  const childLayout = () => {
-    if (content.children[0].children) {
-      return content.children.map((section, index) => (
-        <div className={dropdownRow} key={index}>
-          <div className={dropdownColumnOne}>
-            <div className={dropdownTitle}>{section.header}</div>
-            <div>
-              {section.children.map(page => (
-                <div key={page.title} className={dropdownListItem}>
-                  <Link
-                    to={page.to}
-                    activeClassName={activeDropdownLink}
-                    onClick={() => handlePageClick(title, page.title)}
-                    style={getMinWidth(page.title)}
-                  >
-                    {page.title}
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
+  const renderItem = (sectionTitle, page) => {
+    const Icon = page?.icon && iconMap[page.icon] ? iconMap[page.icon] : null;
+    const label = (
+      <div className={itemRow} style={{ minWidth: `${page.title.length * 7.5 + 28}px` }}>
+        {Icon ? <span className={iconWrap}><FontAwesomeIcon icon={Icon} /></span> : null}
+        <div>
+          <div className={itemTitle} style={page?.color ? {color: page.color} : undefined}>{page?.title}</div>
+          {page?.desc ? <div className={itemDesc}>{page.desc}</div> : null}
         </div>
-      ));
+      </div>
+    );
+
+    if (page.external) {
+      return (
+        <CustomLink
+          key={page.title}
+          url={page.to}
+          external
+          skipExternalModal={page.skipExternalModal}
+          onClick={() => handleClick(content.title, page)}
+        >
+          {label}
+        </CustomLink>
+      );
+    }
+
+    if (page.to) {
+      return (
+        <Link key={page.title} to={page.to} onClick={() => handleClick(content.title, page)}>
+          {label}
+        </Link>
+      );
     }
 
     return (
-      <div className={resourcesDropDown}>
-        {content.children.map(link => {
-          if (link.external) {
-            return (
-              <div key={link.title} className={dropdownListItem} style={getMinWidth(link.title)}>
-
-                <CustomLink
-                  url={link.to}
-                  external
-                  skipExternalModal={link.skipExternalModal}
-                  onClick={() => handlePageClick(title, link.title)}
-                  data-testid={`${link.title.toLowerCase().replace(/\s+/g, '-')}-link`}
-                  className={resourceLink}
-                >
-                  {link.title}
-                </CustomLink>
-              </div>
-            );
-          }
-
-          if (link.to) {
-            return (
-              <div key={link.title} className={dropdownListItem} style={getMinWidth(link.title)}>
-                <Link to={link.to} activeClassName={activeDropdownLink} onClick={() => handlePageClick(title, link.title)}>
-                  {link.title}
-                </Link>
-              </div>
-            );
-          }
-
-          return (
-            <button key={link.title} onClick={() => handlePageClick(title, link.title)} style={{ minWidth: `${link.title.length * 7.5 + 28}px` }}>
-              {link.title}
-            </button>
-          );
-        })}
-      </div>
+      <button key={page.title} onClick={() => handleClick(content.title, page)}>
+        {label}
+      </button>
     );
   };
 
-  return (
-    <div className={dropdown}>
-      <div
-        className={`${isExpanded ? dropdownButtonExpanded : ''} ${dropdownButton}`}
-        style={{ minWidth: `${title.length * 7.5 + 29}px` }}
-        aria-label={`Page links for ${title}`}
-        aria-expanded={isExpanded}
-        onMouseEnter={handleMouseEnter}
-        onFocus={handleMouseEnter}
-        role="button"
-        tabIndex={0}
-      >
-        {title}
-        <FontAwesomeIcon icon={isExpanded ? faCaretDown : faCaretRight} className={caret} />
-      </div>
+  const groups = Array.isArray(content.children) ? (content.children[0]?.children ?  content.children : [{ header: null, children: content.children }]) :[];
 
-      {isExpanded && (
-        <div
-          className={`${dropdownContent} ${toggleDropdown ? dropdownHidden : ''}`}
-          data-testid="dropdownContent"
-          onMouseLeave={handleMouseLeave}
-          onBlur={handleBlur}
-          role="presentation"
-        >
-          {childLayout()}
+  return (
+    <div
+      className={`${panel} ${visible ? '' : panelHidden}`}
+      style={style}
+      onMouseLeave={onRequestClose}
+      role="presentation"
+      aria-label={`Page links for ${content.title}`}
+    >
+
+      {groups?.map((section, idx) => (
+        <div className={sectionCol} key={idx}>
+          {section.header ? <div className={sectionHeader}>{section.header}</div> : null}
+          {section.children?.map(page => renderItem(content.title, page))}
         </div>
-      )}
+      ))}
     </div>
   );
 };
 
-export default MenuDropdown;
+export default NavDropdownPanel;
+
