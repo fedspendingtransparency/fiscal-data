@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import ChartTableContainer from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
-import { chartConfig, formatDate, Legend, infoTipWording, infoTipTitle } from './state-and-local-government-series-chart-helper';
+import { chartConfig, formatDate, infoTipTitle, infoTipWording, Legend } from './state-and-local-government-series-chart-helper';
 import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { withWindowSize } from 'react-fns';
@@ -146,6 +146,13 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
               width: '99%',
               chartTable: false,
               noBorder: true,
+              customFormatting: [
+                {
+                  type: 'DATE',
+                  fields: ['date'],
+                  dateFormat: 'MMMM yyyy',
+                },
+              ],
             }}
             reactTable={true}
             sorting={sorting}

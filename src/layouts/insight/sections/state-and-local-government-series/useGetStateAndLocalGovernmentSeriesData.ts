@@ -154,7 +154,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
     if (chartData) {
       const newTableData = chartData.map(item => {
         return {
-          date: format(new Date(item.date), 'MMMM yyyy'),
+          date: format(new Date(item.date), 'yyyy-MM-dd'),
           totalAmount: '$' + item.totalAmount.toLocaleString(),
           totalCount: item.totalCount.toLocaleString(),
         };
@@ -166,7 +166,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   const columnConfigArray = ['Date', 'Amount', 'Count'];
 
   const columnConfig = [
-    { property: 'date', name: 'Date', type: 'STRING' },
+    { property: 'date', name: 'Date', type: 'DATE' },
     { property: 'totalAmount', name: 'Amount', type: 'NUMBER' },
     { property: 'totalCount', name: 'Count', type: 'NUMBER' },
   ];
