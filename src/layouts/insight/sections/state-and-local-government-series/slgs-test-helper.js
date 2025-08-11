@@ -1,6 +1,6 @@
 import { apiCalls } from './slgs-helper';
 
-export const toDateRange = '?sort=-record_date&page[size]=1';
+export const toDateRange = '?sort=-record_date&filter=record_calendar_year:eq:2024,record_calendar_month:eq:11&page[size]=1';
 export const fromDateRange = `?sort=record_date&page[size]=1`;
 
 const { fields: chartDatesFields } = apiCalls.chartDates;
