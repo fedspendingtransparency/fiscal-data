@@ -82,7 +82,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
     const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
 
     const baseColumns = nonRawDataColumns
-      ? columnsConstructorGeneric(nonRawDataColumns)
+      ? columnsConstructorGeneric(nonRawDataColumns, customFormatting)
       : columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
 
     return baseColumns;
