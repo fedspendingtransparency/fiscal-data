@@ -1,24 +1,22 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import {
-  chartStyle,
   chartContainer,
+  chartStyle,
 } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
-import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { Cell, Pie, PieChart, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip';
-import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
 import { fyEndpoint } from './how-savings-bonds-sold-chart-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
-import { calculatePercentage } from '../../../../../../utils/api-utils';
-import { basicFetch, apiPrefix } from '../../../../../../utils/api-utils';
+import { apiPrefix, basicFetch, calculatePercentage, monthFullNames } from '../../../../../../utils/api-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
-import { monthFullNames } from '../../../../../../utils/api-utils';
 import { analyticsEventHandler } from '../../../../explainer-helpers/explainer-helpers';
 import globalConstants from '../../../../../../helpers/constants';
 import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
 import { glossaryGAEvent } from '../../treasury-savings-bonds';
+import ChartTopNotch from './chart-top-notch/chart-top-notch';
 
 interface ChartDataItem {
   name: string;
@@ -47,7 +45,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const [chartHeight, setChartHeight] = useState<number>(400);
   const [chartWidth, setChartWidth] = useState<number>(400);
   const { explainers } = globalConstants;
-
+  const [mouseInactive, setMouseInactive] = useState(true);
   const handleChartMouseEnter = () => {
     const eventLabel = 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public';
     const eventAction = 'Chart Hover';
@@ -58,11 +56,17 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
         eventLabel: eventLabel,
       });
     }, explainers.chartHoverDelay);
+    setTimeout(() => {
+      setMouseInactive(false);
+    });
   };
 
   const handleChartMouseLeave = () => {
     clearTimeout(gaTimer);
     setActiveIndex(null);
+    setTimeout(() => {
+      setMouseInactive(true);
+    });
   };
 
   useEffect(() => {
@@ -207,6 +211,13 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     return activeIndex === `${dataset}-${index}` || activeIndex === null ? (isActiveType ? 0.4 : 1) : 0.4;
   };
 
+  const getActiveShape = props => {
+    const index = props['data-recharts-item-index'];
+    if (index === actualActiveIndex && mouseInactive && animationDone) {
+      return ChartTopNotch(props);
+    }
+  };
+
   return (
     <>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={historyChartDate} footer={footer}>
@@ -233,9 +244,21 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   />
                 ))}
               </Pie>
+              {/*This next Pie element is just to display the Savings Bonds top-notch */}
               <Pie
-                activeIndex={actualActiveIndex}
-                activeShape={animationDone ? ChartTopNotch : null}
+                inactiveShape={getActiveShape}
+                activeShape={getActiveShape}
+                data={savingsBondCallOut}
+                dataKey="percent"
+                cx="50%"
+                cy="50%"
+                innerRadius="75%"
+                outerRadius="90%"
+                startAngle={-270}
+                endAngle={90}
+                opacity={0}
+              />
+              <Pie
                 data={savingsBondCallOut}
                 dataKey="percent"
                 cx="50%"
@@ -255,7 +278,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   />
                 ))}
               </Pie>
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<CustomTooltip mouseInactive={mouseInactive} />} defaultIndex={actualActiveIndex} active={true} />
             </PieChart>
           </div>
           <CustomLegend onLegendEnter={onLegendEnter} onChartLeave={onChartLeave} primaryColor={color} secondaryColor={color2} />
