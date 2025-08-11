@@ -231,7 +231,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
   useEffect(() => {
     applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
-  }, [selectedChartView]);
+  }, [isLoading, selectedChartView]);
 
   useEffect(() => {
     if (!selectedChartView) return;
