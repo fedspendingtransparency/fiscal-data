@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import ChartTableContainer from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
-import { chartConfig, formatDate, infoTipTitle, infoTipWording, Legend } from './state-and-local-government-series-chart-helper';
+import { chartConfig, formatDate, infoTipTitle, Legend } from './state-and-local-government-series-chart-helper';
 import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { withWindowSize } from 'react-fns';
@@ -35,6 +35,11 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     mergedTableData,
   } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
+
+  const infoTipWording =
+    'For a date range under two years, the data is presented in a bar chart. For a date range greater than two years, ' +
+    'the visualization will display a line chart. ' +
+    `\nData for this visualization is available from ${datasetDateRange?.fromFormatted} to ${datasetDateRange?.toFormatted}.`;
 
   const setDefaultHeaderValues = () => {
     if (chartData) {
