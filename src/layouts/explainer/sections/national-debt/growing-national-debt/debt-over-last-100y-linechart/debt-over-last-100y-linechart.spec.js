@@ -90,73 +90,73 @@ describe('National Debt Over the Last 100 Years Chart', () => {
     ).toBeInTheDocument();
     expect(await getByText('Inflation Adjusted - 2022 Dollars', { exact: false })).toBeInTheDocument();
   });
-  //
-  // it('animates the chart updating header values when it is scrolled into view', async () => {
-  //   jest.useFakeTimers();
-  //
-  //   // make sure data is loaded (from mock) and chart layers are rendered
-  //   const fetchSpy = jest.spyOn(global, 'fetch');
-  //   const { findByTestId } = render(
-  //     <RecoilRoot>
-  //       <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
-  //     </RecoilRoot>
-  //   );
-  //   await waitFor(() => expect(fetchSpy).toBeCalled());
-  //   expect(await findByTestId('customSlices')).toBeInTheDocument();
-  //
-  //   // explicitly declare that the chart is not scrolled into view
-  //   mockAllIsIntersecting(false);
-  //
-  //   // find an element corresponding to the selected point
-  //   let points = await findByTestId('customPoints');
-  //   console.log('points: ', points);
-  //   let yearHeader = await findByTestId('dynamic-year-header');
-  //   let debtAmountHeader = await findByTestId('dynamic-value-header');
-  //   const circleElem = await points.querySelector('circle:first-child');
-  //   // console.log('circleElem: ', circleElem);
-  //   let updatedCircleElem;
-  //   let updatedPointPosition;
-  //   const initialPointPosition = { x: circleElem.getAttribute('cx'), y: circleElem.getAttribute('cy') };
-  //
-  //   // advance the time and confirm that the position of the point hasn't changed
-  //   act(() => {
-  //     jest.advanceTimersByTime(1000);
-  //   });
-  //   points = await findByTestId('customPoints');
-  //   updatedCircleElem = points.querySelector('circle:first-child');
-  //   updatedPointPosition = { x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy') };
-  //   expect(initialPointPosition).toStrictEqual(updatedPointPosition);
-  //   yearHeader = await findByTestId('dynamic-year-header');
-  //   debtAmountHeader = await findByTestId('dynamic-value-header');
-  //   expect(yearHeader.textContent).toContain('2022');
-  //   expect(debtAmountHeader.textContent).toContain('$30.93 T');
-  //
-  //   // explicitly declare that the chart IS NOW scrolled into view and confirm animation is underway
-  //   mockAllIsIntersecting(true);
-  //   act(() => {
-  //     jest.advanceTimersByTime(1000);
-  //   });
-  //   updatedCircleElem = points.querySelector('circle:first-child');
-  //   updatedPointPosition = { x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy') };
-  //   expect(initialPointPosition.x - updatedPointPosition.x).toBeGreaterThan(0);
-  //   yearHeader = await findByTestId('dynamic-year-header');
-  //   debtAmountHeader = await findByTestId('dynamic-value-header');
-  //   expect(yearHeader.textContent).toContain('1931');
-  //   expect(debtAmountHeader.textContent).toContain('$332 B');
-  //
-  //   // confirm that point eventually returns to home position
-  //   mockAllIsIntersecting(true);
-  //   act(() => {
-  //     jest.advanceTimersByTime(5000);
-  //   });
-  //   updatedCircleElem = points.querySelector('circle:first-child');
-  //   updatedPointPosition = { x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy') };
-  //   expect(initialPointPosition).toStrictEqual(updatedPointPosition);
-  //   yearHeader = await findByTestId('dynamic-year-header');
-  //   debtAmountHeader = await findByTestId('dynamic-value-header');
-  //   expect(yearHeader.textContent).toContain('2022');
-  //   expect(debtAmountHeader.textContent).toContain('$30.93 T');
-  // });
+
+  it('animates the chart updating header values when it is scrolled into view', async () => {
+    jest.useFakeTimers();
+
+    // make sure data is loaded (from mock) and chart layers are rendered
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { findByTestId } = render(
+      <RecoilRoot>
+        <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
+      </RecoilRoot>
+    );
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    expect(await findByTestId('customSlices')).toBeInTheDocument();
+
+    // explicitly declare that the chart is not scrolled into view
+    mockAllIsIntersecting(false);
+
+    // find an element corresponding to the selected point
+    let points = await findByTestId('customPoints');
+    console.log('points: ', points);
+    let yearHeader = await findByTestId('dynamic-year-header');
+    let debtAmountHeader = await findByTestId('dynamic-value-header');
+    const circleElem = await points.querySelector('circle:first-child');
+    // console.log('circleElem: ', circleElem);
+    let updatedCircleElem;
+    let updatedPointPosition;
+    const initialPointPosition = { x: circleElem.getAttribute('cx'), y: circleElem.getAttribute('cy') };
+
+    // advance the time and confirm that the position of the point hasn't changed
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+    points = await findByTestId('customPoints');
+    updatedCircleElem = points.querySelector('circle:first-child');
+    updatedPointPosition = { x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy') };
+    expect(initialPointPosition).toStrictEqual(updatedPointPosition);
+    yearHeader = await findByTestId('dynamic-year-header');
+    debtAmountHeader = await findByTestId('dynamic-value-header');
+    expect(yearHeader.textContent).toContain('2022');
+    expect(debtAmountHeader.textContent).toContain('$30.93 T');
+
+    // explicitly declare that the chart IS NOW scrolled into view and confirm animation is underway
+    mockAllIsIntersecting(true);
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+    updatedCircleElem = points.querySelector('circle:first-child');
+    updatedPointPosition = { x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy') };
+    expect(initialPointPosition.x - updatedPointPosition.x).toBeGreaterThan(0);
+    yearHeader = await findByTestId('dynamic-year-header');
+    debtAmountHeader = await findByTestId('dynamic-value-header');
+    expect(yearHeader.textContent).toContain('1931');
+    expect(debtAmountHeader.textContent).toContain('$332 B');
+
+    // confirm that point eventually returns to home position
+    mockAllIsIntersecting(true);
+    act(() => {
+      jest.advanceTimersByTime(5000);
+    });
+    updatedCircleElem = points.querySelector('circle:first-child');
+    updatedPointPosition = { x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy') };
+    expect(initialPointPosition).toStrictEqual(updatedPointPosition);
+    yearHeader = await findByTestId('dynamic-year-header');
+    debtAmountHeader = await findByTestId('dynamic-value-header');
+    expect(yearHeader.textContent).toContain('2022');
+    expect(debtAmountHeader.textContent).toContain('$30.93 T');
+  });
 
   it('calls the appropriate GA events', async () => {
     jest.useFakeTimers();

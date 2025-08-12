@@ -194,7 +194,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
   const CustomSlices = ({ enableSlices, setCurrentSlice, sliceTooltip, slices }) => {
     const { showTooltipFromEvent, hideTooltip } = useTooltip();
-    console.log(slices);
 
     return (
       <g
@@ -316,7 +315,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                   tickValues: 6,
                 }}
                 pointLabelYOffset={-12}
-                animate={false}
                 sliceTooltip={slice => CustomTooltip(slice, totalRevByYear)}
               />
               <div className={legendContainer}>
