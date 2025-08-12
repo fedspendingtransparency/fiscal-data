@@ -59,9 +59,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
   }, []);
 
   useEffect(() => {
-    if (refSocialShare.current) {
-      setContainerHeight(refSocialShare.current.offsetTop + 466);
-    }
+    setContainerHeight(refSocialShare.current.offsetTop + 466);
   }, [width, height, containerHeight]);
 
   return (
