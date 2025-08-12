@@ -69,7 +69,7 @@
     "@nivo/core": "0.80.0",
     "@nivo/line": "0.80.0",
     "@nivo/tooltip": "0.80.0",
-    "@parcel/watcher": "^2.4.1",
+    "@parcel/watcher": "^2.5.1",
     "@react-pdf/renderer": "^4.2.2",
     "@react-spring/web": "^9.7.3",
     "@tanstack/match-sorter-utils": "^8.8.4",
