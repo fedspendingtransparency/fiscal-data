@@ -9,8 +9,9 @@ interface DataItem {
   securityType: string;
 }
 
-const CustomTooltip: FunctionComponent<TooltipProps<number, string>> = ({ active, payload, mouseInactive }) => {
-  if (active && !mouseInactive && payload && payload.length) {
+const CustomTooltip: FunctionComponent<TooltipProps<number, string>> = ({ active, payload, anotherActive }) => {
+  console.log(anotherActive);
+  if (active && !anotherActive && payload && payload.length) {
     const data = payload[0].payload as DataItem;
     const color = data.securityType === 'Marketable' ? '#4A0072' : '#B04ABD';
 
