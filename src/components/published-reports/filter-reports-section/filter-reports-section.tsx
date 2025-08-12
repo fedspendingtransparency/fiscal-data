@@ -23,7 +23,7 @@ type Props = {
   apis: IDatasetApi[];
 };
 export const defaultSelection = { label: '(None selected)', value: '' };
-
+export const specialAnnouncement = { label: 'No CUSIP - Special Announcement', value: '' };
 const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) => {
   const [selectedOption, setSelectedOption] = useState(defaultSelection);
   const [earliestDate, setEarliest] = useState<Date>();
@@ -36,7 +36,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
   const [filterSearchBarActive, setFilterSearchBarActive] = useState(false);
   const [reports, setReports] = useState<any[]>([]);
   const [apiError, setApiError] = useState(false);
-
+  const { filterLabel, dateFilterLabel } = reportConfig;
   useEffect(() => {
     if (!apis?.length) return;
     const e = new Date(Math.min(...apis.map(a => +new Date(a.earliestDate))));
@@ -77,7 +77,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
   }, [selectedOption, selectedDate, apis, reportConfig.filterField]);
 
   useEffect(() => {
-    const allOptions = [defaultSelection];
+    const allOptions = [defaultSelection, specialAnnouncement];
     reportConfig.optionValues?.forEach(option => {
       allOptions.push({ label: option, value: option });
     });
@@ -89,7 +89,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
   const dropdownButton = (
     <DropdownLabelButton
       selectedOption={selectedOption?.label}
-      label="Account"
+      label={filterLabel}
       active={filterDropdownActive}
       setActive={setFilterDropdownActive}
       muiIcon={<AccountBox />}
@@ -117,6 +117,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
             ignoreDisabled
+            label={dateFilterLabel}
             ariaLabel="Select month/year"
           />
         )}
