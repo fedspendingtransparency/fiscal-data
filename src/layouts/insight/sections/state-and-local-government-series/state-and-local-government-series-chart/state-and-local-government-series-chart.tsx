@@ -12,6 +12,8 @@ import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { format } from 'date-fns';
+import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
@@ -57,8 +59,8 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   useEffect(() => {
     if (mergedTableData.length) {
       setMonthRange({
-        from: mergedTableData[0].date,
-        to: mergedTableData[mergedTableData.length - 1].date,
+        from: format(convertDate(mergedTableData[0].date), 'MMMM yyyy'),
+        to: format(convertDate(mergedTableData[mergedTableData.length - 1].date), 'MMMM yyyy'),
       });
     }
     const downloaderData = mergedTableData.map(row => {
