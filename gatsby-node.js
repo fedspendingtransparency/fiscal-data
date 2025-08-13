@@ -607,6 +607,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             defaultMessage
             optionValues
             experimental
+            customFilterOption
           }
           hideRawDataTable
           hideReportDatePicker

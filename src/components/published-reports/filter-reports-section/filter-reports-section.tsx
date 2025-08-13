@@ -23,7 +23,6 @@ type Props = {
   apis: IDatasetApi[];
 };
 export const defaultSelection = { label: '(None selected)', value: '' };
-export const specialAnnouncement = { label: 'No CUSIP - Special Announcement', value: '' };
 const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) => {
   const [selectedOption, setSelectedOption] = useState(defaultSelection);
   const [earliestDate, setEarliest] = useState<Date>();
@@ -36,7 +35,9 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
   const [filterSearchBarActive, setFilterSearchBarActive] = useState(false);
   const [reports, setReports] = useState<any[]>([]);
   const [apiError, setApiError] = useState(false);
-  const { filterLabel, dateFilterLabel } = reportConfig;
+  const { filterLabel, dateFilterLabel, searchText, customFilterOption } = reportConfig;
+  const customFilter = customFilterOption && { label: customFilterOption, value: '' };
+
   useEffect(() => {
     if (!apis?.length) return;
     const e = new Date(Math.min(...apis.map(a => +new Date(a.earliestDate))));
@@ -77,7 +78,10 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
   }, [selectedOption, selectedDate, apis, reportConfig.filterField]);
 
   useEffect(() => {
-    const allOptions = [defaultSelection, specialAnnouncement];
+    const allOptions = [defaultSelection];
+    if (customFilterOption) {
+      allOptions.push(customFilter);
+    }
     reportConfig.optionValues?.forEach(option => {
       allOptions.push({ label: option, value: option });
     });
@@ -127,7 +131,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
             setDropdownActive={setFilterDropdownActive}
             selectedOption={selectedOption}
             updateSelection={onFilterChange}
-            searchBarLabel={reportConfig.searchText || 'Search accounts'}
+            searchBarLabel={searchText || 'Search accounts'}
             options={filterOptions}
             searchBarActive={filterSearchBarActive}
             setSearchBarActive={setFilterSearchBarActive}

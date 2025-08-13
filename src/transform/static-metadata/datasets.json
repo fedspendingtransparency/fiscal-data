@@ -477,6 +477,7 @@
       "filterField": "cusip",
       "filterLabel": "CUSIP",
       "searchText": "Search CUSIP",
+      "customFilterOption": "No CUSIP - Special Announcement",
       "dateFilterLabel": "Auction Date",
       "dateFilterType": "byDay",
       "unmatchedHeader": "There is no data to display based on the current filters selected.",
