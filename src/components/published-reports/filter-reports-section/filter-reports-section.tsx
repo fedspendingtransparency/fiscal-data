@@ -35,8 +35,19 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
   const [filterSearchBarActive, setFilterSearchBarActive] = useState(false);
   const [reports, setReports] = useState<any[]>([]);
   const [apiError, setApiError] = useState(false);
-  const { filterLabel, dateFilterLabel, searchText, customFilterOption } = reportConfig;
-  const customFilter = customFilterOption && { label: customFilterOption, value: '' };
+  const {
+    filterLabel = 'Account',
+    dateFilterLabel,
+    searchText,
+    customFilterOption,
+    filterField,
+    optionValues,
+    unmatchedMessage,
+    unmatchedHeader,
+    defaultMessage,
+    defaultHeader,
+  } = reportConfig;
+  const customFilter = customFilterOption ? { label: customFilterOption, value: '' } : null;
 
   useEffect(() => {
     if (!apis?.length) return;
@@ -75,14 +86,14 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
         setReports([]);
       }
     })();
-  }, [selectedOption, selectedDate, apis, reportConfig.filterField]);
+  }, [selectedOption, selectedDate, apis, filterField]);
 
   useEffect(() => {
     const allOptions = [defaultSelection];
     if (customFilterOption) {
       allOptions.push(customFilter);
     }
-    reportConfig.optionValues?.forEach(option => {
+    optionValues?.forEach(option => {
       allOptions.push({ label: option, value: option });
     });
     setFilterOptions(allOptions);
@@ -139,11 +150,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
         </DropdownContainer>
       </div>
       {!showTable && (
-        <ReportsEmptyTable
-          width={width}
-          heading={apiError ? reportConfig.unmatchedHeader : reportConfig.defaultHeader}
-          body={apiError ? reportConfig.unmatchedMessage : reportConfig.defaultMessage}
-        />
+        <ReportsEmptyTable width={width} heading={apiError ? unmatchedHeader : defaultHeader} body={apiError ? unmatchedMessage : defaultMessage} />
       )}
       {showTable && <DownloadReportTable isDailyReport={false} reports={reports} setApiErrorMessage={setApiError} width={width} />}
     </DatasetSectionContainer>
