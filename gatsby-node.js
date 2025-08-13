@@ -598,6 +598,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           runTimeReportConfig {
             filterField
             filterLabel
+            searchText
+            dateFilterLabel
             dateFilterType
             unmatchedHeader
             unmatchedMessage
@@ -605,6 +607,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             defaultMessage
             optionValues
             experimental
+            customFilterOption
           }
           hideRawDataTable
           hideReportDatePicker

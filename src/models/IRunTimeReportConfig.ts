@@ -5,6 +5,8 @@ export interface IRunTimeReportConfig {
   unmatchedMessage: string;
   defaultHeader: string;
   defaultMessage: string;
-  searchText: string;
+  searchText?: string;
   experimental?: boolean;
+  customFilterOption?: string;
+  dateFilterLabel?: string;
 }
