@@ -102,7 +102,7 @@ const AFGRevenueChart = (): ReactElement => {
           <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
         </div>
       )}
-      {!isLoading && (
+      {!isLoading && finalChartData && (
         <>
           <ChartLegend legendItems={legend} mobileDotSpacing />
           <div className={chartContainer} data-testid="chartContainer">

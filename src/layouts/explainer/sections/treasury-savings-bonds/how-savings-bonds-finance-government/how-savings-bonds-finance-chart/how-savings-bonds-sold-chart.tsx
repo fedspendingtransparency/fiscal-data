@@ -7,7 +7,6 @@ import {
 } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
 import { Cell, Pie, PieChart, Tooltip } from 'recharts';
 import CustomTooltip from './chart-tooltip/custom-tooltip';
-import ChartTopNotch from './chart-top-notch/chart-top-notch';
 import CustomLegend from './chart-legend/custom-legend';
 import { fyEndpoint } from './how-savings-bonds-sold-chart-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
@@ -17,6 +16,7 @@ import { analyticsEventHandler } from '../../../../explainer-helpers/explainer-h
 import globalConstants from '../../../../../../helpers/constants';
 import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
 import { glossaryGAEvent } from '../../treasury-savings-bonds';
+import ChartTopNotch from './chart-top-notch/chart-top-notch';
 
 interface ChartDataItem {
   name: string;
@@ -45,7 +45,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const [chartHeight, setChartHeight] = useState<number>(400);
   const [chartWidth, setChartWidth] = useState<number>(400);
   const { explainers } = globalConstants;
-
+  const [active, setActive] = useState(false);
   const handleChartMouseEnter = () => {
     const eventLabel = 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public';
     const eventAction = 'Chart Hover';
@@ -56,11 +56,17 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
         eventLabel: eventLabel,
       });
     }, explainers.chartHoverDelay);
+    setTimeout(() => {
+      setActive(false);
+    });
   };
 
   const handleChartMouseLeave = () => {
     clearTimeout(gaTimer);
     setActiveIndex(null);
+    setTimeout(() => {
+      setActive(true);
+    });
   };
 
   useEffect(() => {
@@ -210,7 +216,13 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={historyChartDate} footer={footer}>
         <div className={chartStyle} data-testid="chartParent">
           <div className={chartContainer}>
-            <PieChart width={chartWidth} height={chartHeight} onMouseEnter={handleChartMouseEnter} onMouseLeave={handleChartMouseLeave}>
+            <PieChart
+              width={chartWidth}
+              height={chartHeight}
+              onMouseEnter={handleChartMouseEnter}
+              onMouseLeave={handleChartMouseLeave}
+              accessibilityLayer
+            >
               <Pie
                 data={data1WidthPercentage}
                 dataKey="percent"
@@ -232,8 +244,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                 ))}
               </Pie>
               <Pie
-                activeIndex={actualActiveIndex}
-                activeShape={animationDone ? ChartTopNotch : null}
+                inactiveShape={animationDone ? props => ChartTopNotch(props, actualActiveIndex, active) : null}
                 data={savingsBondCallOut}
                 dataKey="percent"
                 cx="50%"
@@ -253,7 +264,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
                   />
                 ))}
               </Pie>
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<CustomTooltip anotherActive={active} />} defaultIndex={actualActiveIndex} active={true} />
             </PieChart>
           </div>
           <CustomLegend onLegendEnter={onLegendEnter} onChartLeave={onChartLeave} primaryColor={color} secondaryColor={color2} />
