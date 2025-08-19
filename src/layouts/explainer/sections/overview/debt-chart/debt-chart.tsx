@@ -17,7 +17,6 @@ const AFGDebtChart = (): ReactElement => {
   const [focusedYear, setFocusedYear] = useState(null);
   const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
-  const [barData, setBarData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [chartFocus, setChartFocus] = useState(false);
   const [customTooltipData, setCustomTooltipData] = useState(null);
@@ -49,31 +48,33 @@ const AFGDebtChart = (): ReactElement => {
   };
 
   const CustomBarShape = props => {
-    const { height, width, x, y, fill, index, payload, background } = props;
-    const barDataSegments = Object.keys(barData[index]);
-    const curData = barData[index];
-    let xVal = background.x - 5;
-    console.log(props);
-    return (
-      <>
-        {barDataSegments.map((segment, index) => {
-          xVal = xVal + (index % 2 === 0 ? 6 : 1);
-          if (segment.includes('debt')) {
-            console.log(segment, xVal, background.width, curData[segment]);
-          }
-          return (
-            <rect
-              y={y}
-              height={height}
-              width={5}
-              x={xVal}
-              fill={segment.includes('none') ? null : fill}
-              fillOpacity={segment.includes('none') ? 0 : 1}
-            />
-          );
-        })}
-      </>
-    );
+    const { height, width, y, fill, payload, background, dataKey } = props;
+    const debtVal = payload[dataKey];
+    let countDown = debtVal;
+    const gap = 1.89;
+    if (width > 0) {
+      let xVal = background.x + gap;
+      const barWidth = 6.3;
+      // const barWidth = Number(((width - gap * 2) / debtVal - gap).toFixed(1));
+      let barCount = 0;
+      const allBars = [];
+      while (countDown >= 1) {
+        countDown = countDown - 1;
+        barCount = barCount + 1;
+        const axisGap = barCount !== 0 && barCount % 10 === 0 ? gap : 0;
+        allBars.push({ x: xVal, width: barWidth });
+        xVal = xVal + barWidth + gap + axisGap;
+      }
+      allBars.push({ x: xVal, width: barWidth * countDown });
+      console.log('xval', xVal);
+      return (
+        <>
+          {allBars.map(val => (
+            <rect {...props} y={y} height={height} width={val.width} x={val.x} strokeWidth={0} fill={fill} fillOpacity={1} />
+          ))}
+        </>
+      );
+    }
   };
 
   const generateBar = sortedData => {
@@ -136,32 +137,7 @@ const AFGDebtChart = (): ReactElement => {
     });
   };
 
-  const getChartData = async data => {
-    const chart_data = [];
-    const barSize = 0.75;
-    const barGap = 0.225;
-    data.map(yearData => {
-      const { year } = yearData;
-      let debtVal = yearData[`debt${year}`] * 1e12;
-      const deficitVal = yearData[`deficit${year}`] * 1e12;
-      const bars = [];
-      let index = 0;
-      while (debtVal > 1e12) {
-        bars[`none${year}${index}`] = index % 10 === 0 && index !== 0 ? barGap * 2 : barGap;
-        bars[`debt${year}${index}`] = barSize;
-        debtVal -= 1e12;
-        index++;
-      }
-      const remainingDebt = debtVal / 1e12;
-      bars[`none${year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
-      bars[`debt${year}${index}`] = remainingDebt * barSize;
-      chart_data.push(bars);
-    });
-    console.log(chart_data);
-    return chart_data;
-  };
-
-  const getBetterChartData = async () => {
+  const getChartData = async () => {
     const chart_data = [];
     let curFY;
     await basicFetch(`${apiPrefix}${deficitEndpointUrl}`).then(async deficitRes => {
@@ -208,12 +184,9 @@ const AFGDebtChart = (): ReactElement => {
 
   useEffect(() => {
     if (!finalChartData) {
-      getBetterChartData().then(res => {
-        getChartData(res).then(barDataRes => {
-          if (isMounted.current) setFinalChartData(res);
-          if (isMounted.current) setBarData(barDataRes);
-          if (isMounted.current) setLoading(false);
-        });
+      getChartData().then(res => {
+        if (isMounted.current) setFinalChartData(res);
+        if (isMounted.current) setLoading(false);
       });
     }
   }, []);
