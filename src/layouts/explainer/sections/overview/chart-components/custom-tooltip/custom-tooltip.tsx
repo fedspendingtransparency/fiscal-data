@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
-import { toolTip, tooltipLabel, tooltipRow, value, title } from '../../deficit-chart/deficit-chart.module.scss';
+import { title, toolTip, tooltipLabel, tooltipRow, value } from '../../deficit-chart/deficit-chart.module.scss';
 import { dot } from '../chart-legend.module.scss';
 
 interface ICustomTooltip {
@@ -9,10 +9,14 @@ interface ICustomTooltip {
   setFocused: (value: number) => void;
   labelByYear?: boolean;
   curFY?: string;
-  customData: { payload };
+  customData: { payload } | null;
 }
 
 const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, setFocused, labelByYear, curFY, customData }) => {
+  useEffect(() => {
+    console.log('rendering tooltip');
+  }, []);
+
   if (customData) {
     const year = customData[0].payload.year;
     const yearLabel = customData[0].payload.year === curFY ? `FYTD ${year}` : year;

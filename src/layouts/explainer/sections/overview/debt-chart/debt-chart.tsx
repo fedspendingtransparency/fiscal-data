@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { trillionAxisFormatter } from '../chart-helper';
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
@@ -17,6 +17,7 @@ const AFGDebtChart = (): ReactElement => {
   const [focusedYear, setFocusedYear] = useState(null);
   const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
+  const [barData, setBarData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [chartFocus, setChartFocus] = useState(false);
   const [customTooltipData, setCustomTooltipData] = useState(null);
@@ -45,6 +46,34 @@ const AFGDebtChart = (): ReactElement => {
     } else if (barType.includes('deficit')) {
       return deficitExplainerPrimary;
     }
+  };
+
+  const CustomBarShape = props => {
+    const { height, width, x, y, fill, index, payload, background } = props;
+    const barDataSegments = Object.keys(barData[index]);
+    const curData = barData[index];
+    let xVal = background.x - 5;
+    console.log(props);
+    return (
+      <>
+        {barDataSegments.map((segment, index) => {
+          xVal = xVal + (index % 2 === 0 ? 6 : 1);
+          if (segment.includes('debt')) {
+            console.log(segment, xVal, background.width, curData[segment]);
+          }
+          return (
+            <rect
+              y={y}
+              height={height}
+              width={5}
+              x={xVal}
+              fill={segment.includes('none') ? null : fill}
+              fillOpacity={segment.includes('none') ? 0 : 1}
+            />
+          );
+        })}
+      </>
+    );
   };
 
   const generateBar = sortedData => {
@@ -91,12 +120,15 @@ const AFGDebtChart = (): ReactElement => {
           }
           return (
             <Bar
+              key={`${barName}-${index}`}
               dataKey={valueName}
+              isAnimationActive={false}
               stackId="debtBar"
               fill={mapBarColors(valueName)}
               fillOpacity={opacity}
               strokeWidth={0}
               name={barName}
+              shape={<CustomBarShape />}
               barSize={16}
             />
           );
@@ -104,7 +136,32 @@ const AFGDebtChart = (): ReactElement => {
     });
   };
 
-  const getChartData = async () => {
+  const getChartData = async data => {
+    const chart_data = [];
+    const barSize = 0.75;
+    const barGap = 0.225;
+    data.map(yearData => {
+      const { year } = yearData;
+      let debtVal = yearData[`debt${year}`] * 1e12;
+      const deficitVal = yearData[`deficit${year}`] * 1e12;
+      const bars = [];
+      let index = 0;
+      while (debtVal > 1e12) {
+        bars[`none${year}${index}`] = index % 10 === 0 && index !== 0 ? barGap * 2 : barGap;
+        bars[`debt${year}${index}`] = barSize;
+        debtVal -= 1e12;
+        index++;
+      }
+      const remainingDebt = debtVal / 1e12;
+      bars[`none${year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
+      bars[`debt${year}${index}`] = remainingDebt * barSize;
+      chart_data.push(bars);
+    });
+    console.log(chart_data);
+    return chart_data;
+  };
+
+  const getBetterChartData = async () => {
     const chart_data = [];
     let curFY;
     await basicFetch(`${apiPrefix}${deficitEndpointUrl}`).then(async deficitRes => {
@@ -118,8 +175,6 @@ const AFGDebtChart = (): ReactElement => {
             const fytdDeficitData = deficitData.filter(x => x.record_fiscal_year === curFY)[0];
             const latestMonth = fytdDeficitData.record_calendar_month;
             const fytdDebtData = debtData.filter(x => x.record_fiscal_year === curFY && x.record_calendar_month === latestMonth)[0];
-            const barSize = 0.75;
-            const barGap = 0.225;
             const yearlyDebtData = [
               fytdDebtData,
               ...debtData.filter(x => x.record_calendar_month === '09' && x.record_fiscal_year >= curFY - 4 && x.record_fiscal_year < curFY),
@@ -129,40 +184,18 @@ const AFGDebtChart = (): ReactElement => {
               ...deficitData.filter(x => x.record_calendar_month === '09' && x.record_fiscal_year >= curFY - 4 && x.record_fiscal_year < curFY),
             ];
             yearlyDebtData.forEach(year => {
-              let deficitVal = Math.abs(
+              const deficitVal = Math.abs(
                 yearlyDeficitData.filter(x => x.record_fiscal_year === year.record_fiscal_year)[0].current_fytd_net_outly_amt
               );
-              let debtVal = year.total_mil_amt * 1000000 - deficitVal;
+              const debtVal = year.total_mil_amt * 1000000 - deficitVal;
               const bars = {};
               bars[`tooltip`] = [
                 { title: 'Debt', value: debtVal, color: debtExplainerPrimary },
                 { title: 'Deficit', value: deficitVal, color: deficitExplainerPrimary },
                 { title: 'Total Debt', value: year.total_mil_amt * 1000000 },
               ];
-              let index = 0;
-              while (debtVal > 1e12) {
-                bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 && index !== 0 ? barGap * 2 : barGap;
-                bars[`debt${year.record_fiscal_year}${index}`] = barSize;
-                debtVal -= 1e12;
-                index++;
-              }
-              const remainingDebt = debtVal / 1e12;
-              const startingDeficit = (1e12 - debtVal) / 1e12;
-              bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
-              bars[`debt${year.record_fiscal_year}${index}`] = remainingDebt * barSize;
-              index++;
-              bars[`deficit${year.record_fiscal_year}${index}`] = startingDeficit * barSize;
-              bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
-              deficitVal = deficitVal - startingDeficit * 1e12;
-              index++;
-              while (deficitVal > 1e12) {
-                bars[`deficit${year.record_fiscal_year}${index}`] = barSize;
-                bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
-                deficitVal -= 1e12;
-                index++;
-              }
-              bars[`deficit${year.record_fiscal_year}${index}`] = (deficitVal / 1e12) * barSize;
-
+              bars[`debt${year.record_fiscal_year}`] = debtVal / 1e12;
+              bars[`deficit${year.record_fiscal_year}`] = deficitVal / 1e12;
               bars['year'] = year.record_fiscal_year;
               chart_data.push(bars);
             });
@@ -175,9 +208,12 @@ const AFGDebtChart = (): ReactElement => {
 
   useEffect(() => {
     if (!finalChartData) {
-      getChartData().then(res => {
-        if (isMounted.current) setFinalChartData(res);
-        if (isMounted.current) setLoading(false);
+      getBetterChartData().then(res => {
+        getChartData(res).then(barDataRes => {
+          if (isMounted.current) setFinalChartData(res);
+          if (isMounted.current) setBarData(barDataRes);
+          if (isMounted.current) setLoading(false);
+        });
       });
     }
   }, []);
