@@ -35,6 +35,8 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   customRangePreset,
   setIsFiltered,
   datasetDateRange,
+  dropdownWidth
+
 }) => {
   const isDisabled = apiFilterDefault;
 
@@ -84,8 +86,9 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             setIsFiltered={setIsFiltered}
             datasetDateRange={datasetDateRange}
             pivotView={pivotView}
+            dropdownWidth={dropdownWidth}
           />
-          <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} pivotView={pivotView} />
+          <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} pivotView={pivotView} dropdownWidth={dropdownWidth} />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
         </div>
         {width >= pxToNumber(breakpointXl) && (
