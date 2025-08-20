@@ -81,6 +81,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     });
   };
 
+  console.log('cpidata: ', cpiDataByYear);
+
   const totalData = [
     {
       id: 'GDP',
@@ -117,25 +119,31 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
     basicFetch(chartDataEndPoint).then(res => {
       if (res.data) {
+        console.log('res: ', res.data);
         let finalSpendingChartData = [];
 
         res.data.forEach(spending => {
+          console.log('actual: ', spending.current_fytd_net_outly_amt);
           finalSpendingChartData.push({
             x: parseInt(spending.record_fiscal_year),
             actual: parseInt(spending.current_fytd_net_outly_amt),
             fiscalYear: spending.record_fiscal_year,
             record_date: spending.record_date,
           });
+          console.log('finalSpendingChartData: ', finalSpendingChartData);
         });
 
         finalSpendingChartData = finalSpendingChartData.filter(s => s.x <= gdpMaxYear);
+        console.log('v2: ', finalSpendingChartData); // still is showing up, actual data is present
 
         const lastUpdatedDateSpending = new Date(finalSpendingChartData[finalSpendingChartData.length - 1].record_date);
         setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateSpending));
 
         finalSpendingChartData = adjustDataForInflation(finalSpendingChartData, 'actual', 'fiscalYear', cpiDataByYear);
+        console.log('v3: ', finalSpendingChartData);
 
         finalSpendingChartData.forEach(spending => {
+          // console.log('spending actual: ', spending.actual);
           spending.y = parseFloat(simplifyNumber(spending.actual, false).slice(0, -2));
         });
 
@@ -156,9 +164,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         const finalGdpRatioChartData = [];
         finalSpendingChartData.forEach(spending => {
           const spendingYear = spending.fiscalYear;
+          console.log(spending.y);
           const spendingAmount = spending.y;
           const matchingGDP = filteredGDPData.filter(g => g.fiscalYear === spendingYear).map(g => g.y);
+          // console.log('spending amount: ', spendingAmount, '       --matchingGDP: ', matchingGDP);
           const gdpRatio = numeral(spendingAmount / matchingGDP).format('0%');
+          // console.log('Y', gdpRatio);
           finalGdpRatioChartData.push({
             x: spendingYear,
             y: gdpRatio,
@@ -199,6 +210,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           gdp: simplifyNumber(chartLastGDPValue, false),
           gdpRatio: chartLastRatio,
         });
+
+        console.log(res.data);
 
         const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) => (max.x > gdp.x ? max.y : gdp.y));
 
@@ -324,6 +337,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     xScale: xScale,
     yScale: yScale,
   };
+
+  console.log(chartData);
 
   return (
     <>
