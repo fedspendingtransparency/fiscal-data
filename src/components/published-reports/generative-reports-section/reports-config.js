@@ -51,7 +51,7 @@ export const reportsConfig = {
           endpoint: 'v1/accounting/od/utf_transaction_subtotals',
           sort: [],
           dataKey: 'trans_statement',
-          fields: 'trans_statement,shares_per_par',
+          fieldsParam: 'trans_statement,shares_per_par',
         },
         table: { endpoint: 'v1/accounting/od/utf_transaction_subtotals', sort: ['trans_desc_cd', 'eff_date'], dataKey: 'trans_statement' },
       },

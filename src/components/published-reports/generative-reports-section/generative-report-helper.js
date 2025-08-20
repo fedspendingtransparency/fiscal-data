@@ -21,6 +21,6 @@ export const buildSortParam = sortFields => {
 export const buildEndpoint = (date, dateField, accountValue, accountField, endpointConfig) => {
   const sortStr = buildSortParam(endpointConfig.sort);
   const filterStr = buildFilterParam(date, dateField, accountValue, accountField);
-  const fieldStr = endpointConfig.fields ? `&fields=${endpointConfig.fields}` : '';
+  const fieldStr = !!endpointConfig.fieldsParam ? `&fields=${endpointConfig.fieldsParam}` : '';
   return `${endpointConfig.endpoint}?filter=${filterStr}${sortStr}${fieldStr}`;
 };
