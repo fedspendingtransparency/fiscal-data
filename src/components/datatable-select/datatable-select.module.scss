@@ -1,5 +1,5 @@
-@import '../../variables.module.scss';
-@import 'src/zIndex.module';
+@use 'src/variables.module' as *;
+@use 'src/zIndex.module' as *;
 
 .dataTableSelectWrapper {
   width: 100%;
@@ -29,5 +29,5 @@
   height: 3rem;
   width: 100%;
   background-color: #d9d9d9;
-  border-radius: .125rem;
+  border-radius: 0.125rem;
 }
