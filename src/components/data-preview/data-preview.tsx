@@ -10,6 +10,7 @@ import {
   detailViewIcon,
   selectedTableName,
   summaryTableHeader,
+  breakpointXl
 } from './data-preview.module.scss';
 import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
@@ -29,6 +30,7 @@ import DataPreviewChart from './data-preview-chart/data-preview-chart';
 import DataTableProvider from './data-preview-context';
 import SummaryTable from './data-preview-summary-table/data-preview-summary-table';
 import moment from 'moment';
+import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 
 export const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
@@ -255,6 +257,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
   };
 
   const checkDataDisplays = config.apis.every(api => (api?.dataDisplays?.length || 0) <= 1);
+  const dropdownWidth = width >= pxToNumber(breakpointXl) ? '20rem' : '100%';
 
   return (
     <DatasetSectionContainer id="data-preview-table">
@@ -340,6 +343,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
                 earliestDate: config.techSpecs.earliestDate,
                 latestDate: config.techSpecs.latestDate,
               }}
+              dropdownWidth={dropdownWidth}
             >
               {dateRange &&
                 (viewMode === 'table' ? (
