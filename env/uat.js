@@ -43,7 +43,6 @@ module.exports = {
         '015-BFS-2014Q3-074',
         '015-BFS-2014Q3-056',
       ],
-      currentDateButton: 'byMonth',
     },
   },
   ADDITIONAL_ENDPOINTS: {
