@@ -1,7 +1,6 @@
-@import "src/variables.module";
+@use 'src/variables.module' as *;
 
 $surplus-primary: #e5a000;
-
 
 .deficitChart {
   font-size: $font-size-14;
@@ -13,7 +12,6 @@ $surplus-primary: #e5a000;
 
   .chartContainer {
     max-width: 396px;
-
 
     tspan {
       color: $font-body-copy;
@@ -29,10 +27,10 @@ $surplus-primary: #e5a000;
   color: $font-body-copy;
   border: none;
   padding: 0.75rem 1rem;
-  border-radius: .125rem;
+  border-radius: 0.125rem;
   opacity: 0.95;
-  background: #FFF;
-  box-shadow: .125rem .125rem .125rem .125rem rgba(0, 0, 0, 0.25);
+  background: #fff;
+  box-shadow: 0.125rem 0.125rem 0.125rem 0.125rem rgba(0, 0, 0, 0.25);
 
   .tooltipLabel {
     font-weight: $semi-bold-weight;
@@ -40,7 +38,7 @@ $surplus-primary: #e5a000;
   }
 
   .tooltipRow:not(:last-child) {
-    margin-bottom: .25rem;
+    margin-bottom: 0.25rem;
   }
 
   .tooltipRow {
@@ -53,7 +51,7 @@ $surplus-primary: #e5a000;
 
       .title {
         font-weight: $semi-bold-weight;
-        margin-right: .75rem;
+        margin-right: 0.75rem;
       }
     }
   }
@@ -70,7 +68,6 @@ $surplus-primary: #e5a000;
     margin: auto;
   }
 }
-
 
 :export {
   surplusPrimary: $surplus-primary;

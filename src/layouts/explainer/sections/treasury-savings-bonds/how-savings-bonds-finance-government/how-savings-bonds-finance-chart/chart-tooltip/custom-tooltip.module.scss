@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .tooltipContainer {
   background-color: $content-section-background;
@@ -14,7 +14,6 @@
   font-weight: 600;
   font-size: $font-size-14;
   margin-bottom: 4px;
-  
 }
 .tooltipSecondaryTitle {
   font-weight: 400;
