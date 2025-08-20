@@ -1,4 +1,5 @@
-@use 'src/variables.module' as *;
+@use '../../treasury-savings-bonds.module.scss' as *;
+
 .tableContainer {
   display: flex;
   flex-direction: column;

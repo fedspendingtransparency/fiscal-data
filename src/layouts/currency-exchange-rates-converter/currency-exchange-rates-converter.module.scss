@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 :global(.infoTipPopoverContents) {
   font-size: $font-size-14;
@@ -16,7 +16,7 @@
   @media screen and (max-width: $breakpoint-lg) {
     flex-direction: column;
   }
-  }
+}
 
 @media screen and (min-width: $breakpoint-lg) {
   .breadCrumbsContainer {

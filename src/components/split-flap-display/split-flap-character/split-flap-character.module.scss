@@ -1,5 +1,5 @@
 @use '../../../variables.module.scss' as *;
-@import '../../../zIndex.module.scss';
+@use '../../../zIndex.module.scss' as *;
 
 $flap-border-radius: 3px;
 $flap-padding: 0.5rem;
