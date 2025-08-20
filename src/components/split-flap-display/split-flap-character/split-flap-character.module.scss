@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use '../../../variables.module.scss' as *;
 @import '../../../zIndex.module.scss';
 
 $flap-border-radius: 3px;
