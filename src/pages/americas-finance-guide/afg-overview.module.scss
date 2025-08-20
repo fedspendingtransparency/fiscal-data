@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use '../../variables.module.scss' as *;
 @import '../../layouts/explainer/sections/national-debt/national-debt.module.scss';
 @import '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss';
 
