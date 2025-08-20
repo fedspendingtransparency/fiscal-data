@@ -1,5 +1,4 @@
-@import '../../../../../variables.module.scss';
-
+@use 'src/variables.module' as *;
 
 .holdingBondsContainer {
   background-color: $body-background;
@@ -21,7 +20,7 @@
   display: flex;
   align-items: center;
   align-content: center;
-  img{
+  img {
     padding-left: 2.125rem;
   }
 
@@ -74,5 +73,3 @@
   margin-top: 20px;
   margin-bottom: 0;
 }
-
-
