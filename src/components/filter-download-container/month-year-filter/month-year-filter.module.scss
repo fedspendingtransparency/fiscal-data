@@ -1,7 +1,6 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
-
-.monthYearContainer{
+.monthYearContainer {
   display: flex;
   flex-direction: column;
   margin-top: 1.5rem;
