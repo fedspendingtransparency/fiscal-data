@@ -203,7 +203,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           gdpRatio: chartLastRatio,
         });
 
-
         const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) => (max.x > gdp.x ? max.y : gdp.y));
 
         setMaxGDPValue(chartMaxGDPValue);
@@ -328,7 +327,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     xScale: xScale,
     yScale: yScale,
   };
-
 
   return (
     <>
