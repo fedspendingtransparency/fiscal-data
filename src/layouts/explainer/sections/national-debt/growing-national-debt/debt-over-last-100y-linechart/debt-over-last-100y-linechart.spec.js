@@ -109,11 +109,9 @@ describe('National Debt Over the Last 100 Years Chart', () => {
 
     // find an element corresponding to the selected point
     let points = await findByTestId('customPoints');
-    console.log('points: ', points);
     let yearHeader = await findByTestId('dynamic-year-header');
     let debtAmountHeader = await findByTestId('dynamic-value-header');
     const circleElem = await points.querySelector('circle:first-child');
-    // console.log('circleElem: ', circleElem);
     let updatedCircleElem;
     let updatedPointPosition;
     const initialPointPosition = { x: circleElem.getAttribute('cx'), y: circleElem.getAttribute('cy') };
