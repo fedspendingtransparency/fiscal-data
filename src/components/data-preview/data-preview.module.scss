@@ -55,7 +55,8 @@
 
 @media screen and (max-width: $breakpoint-lg) {
   .dataPreview {
-    display: grid;
+    display: block;
+    max-width: 30rem;
   }
   .dataPreviewTitle {
     padding-bottom: 1rem;

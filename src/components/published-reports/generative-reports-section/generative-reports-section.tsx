@@ -41,7 +41,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     const secondary = reportData[0][key];
     const endpointUrl = buildEndpoint(selectedDate, dateField, secondary, config.dataKey, config);
     try {
-      const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
+      const res = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
       return res.data;
     } catch {
       return [];
@@ -53,7 +53,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     const { sort } = reportConfig;
     const { field: accountField } = apiFilter;
     const endpointUrl = buildEndpoint(selectedDate, dateField, selectedAccount.value, accountField, { endpoint, sort });
-    const res = await basicFetch(`${apiPrefix}${endpointUrl}`);
+    const res = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
     const summaryData = await getSummaryReportData(dateField, res.data, reportConfig.summaryConfig.values, reportConfig.summaryConfig.reportDataKey);
     const summaryTableData = await getSummaryReportData(
       dateField,
