@@ -29,7 +29,6 @@ interface IChartTableContainer {
   customTestId?: string;
   downloadData;
   fileType?: 'csv' | 'xml' | 'json';
-  dateRange;
   setDateRange;
   downloadTimestamp?;
   enabledClickedColorChange?;
@@ -47,7 +46,6 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   customTestId = null,
   downloadData,
   fileType = 'csv',
-  dateRange,
   setDateRange,
   datasetDateRange,
   selectedTable,
@@ -57,7 +55,6 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   height,
   chart,
   table,
-  paddingBuffer,
   setIsChartLoading,
   monthRange,
   infoTip,
@@ -106,14 +103,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
       </div>
       {datasetDateRange && (
         <div className={dateRangeContainer}>
-          <DateRangeMonthPicker
-            dateRange={dateRange}
-            setDateRange={setDateRange}
-            datasetDateRange={datasetDateRange}
-            paddingBuffer={paddingBuffer}
-            setIsChartLoading={setIsChartLoading}
-            validMonths={monthRange}
-          />
+          <DateRangeMonthPicker setDateRange={setDateRange} datasetDateRange={datasetDateRange} setIsChartLoading={setIsChartLoading} />
           <div className={infoTipContainer}>
             <InfoTip title={infoTipTitle} iconStyle={{ color: '#666666', width: '1rem', height: '1rem' }}>
               {infoTip}

@@ -78,11 +78,11 @@ const MonthPicker: FunctionComponent = ({ text, setSelectedDate, selectedDate, a
   const isValidDate = (month, year) => {
     const monthIndex = monthFullNames.indexOf(month);
     if (monthIndex < 0) return;
-    const endOfMonth = new Date(year, monthFullNames.indexOf(month) + 1, -1);
+    const endOfMonth = getDateWithoutTimeZoneAdjust(new Date(year, monthFullNames.indexOf(month) + 1, 0));
     const fromDate = getDateWithoutTimeZoneAdjust(new Date(datasetDateRange.from));
     const dateIsBefore = isBefore(endOfMonth, fromDate);
 
-    const startOfMonth = new Date(year, monthFullNames.indexOf(month) + 1, 1);
+    const startOfMonth = getDateWithoutTimeZoneAdjust(new Date(year, monthFullNames.indexOf(month), 1));
     const toDate = getDateWithoutTimeZoneAdjust(new Date(datasetDateRange.to));
     const dateIsAfter = isAfter(startOfMonth, toDate);
 

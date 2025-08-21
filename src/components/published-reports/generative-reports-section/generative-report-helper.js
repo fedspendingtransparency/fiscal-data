@@ -15,11 +15,12 @@ export const buildSortParam = sortFields => {
       sortStr = sortStr + ',';
     }
   });
-  return sortStr;
+  return `&sort=${sortStr}`;
 };
 
 export const buildEndpoint = (date, dateField, accountValue, accountField, endpointConfig) => {
   const sortStr = buildSortParam(endpointConfig.sort);
   const filterStr = buildFilterParam(date, dateField, accountValue, accountField);
-  return `${endpointConfig.endpoint}?filter=${filterStr}&sort=${sortStr}`;
+  const fieldStr = !!endpointConfig.fieldsParam ? `&fields=${endpointConfig.fieldsParam}` : '';
+  return `${endpointConfig.endpoint}?filter=${filterStr}${sortStr}${fieldStr}`;
 };
