@@ -365,7 +365,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                         props =>
                           LineChartCustomPoints_GDP({
                             ...props,
-                            serieId: 'Total Spending',
+                            seriesId: 'Total Spending',
                           }),
                         props =>
                           CustomSlices({

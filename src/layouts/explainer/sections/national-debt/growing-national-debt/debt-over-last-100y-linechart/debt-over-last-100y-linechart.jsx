@@ -212,7 +212,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     props =>
                       LineChartCustomPoint({
                         ...props,
-                        serieId: 'Total Debt',
+                        seriesId: 'Total Debt',
                       }),
                     props =>
                       CustomSlices({
