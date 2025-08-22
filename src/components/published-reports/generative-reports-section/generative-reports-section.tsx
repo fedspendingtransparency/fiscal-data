@@ -34,13 +34,9 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
   const heading = noMatchingData ? bannerCopy?.noDataMatchHeader : bannerCopy?.additionalFiltersHeader;
   const body = noMatchingData ? bannerCopy?.noDataMatchBody : bannerCopy?.additionalFiltersBody;
 
-  const getSummaryReportData = async (dateField, filterField, filterValue, summaryConfig, usecase) => {
+  const getSummaryReportData = async (dateField, filterField, filterValue, summaryConfig) => {
     if (!summaryConfig) return [];
-
-    const config = summaryConfig.values || summaryConfig;
-    const filterFields = filterField || config.dataKey;
-    const endpointUrl = buildEndpoint(selectedDate, dateField, filterValue, filterFields, config);
-
+    const endpointUrl = buildEndpoint(selectedDate, dateField, filterValue, filterField, summaryConfig);
     try {
       const res = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
       return res.data;
@@ -64,8 +60,8 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     const filterField = tableData.data.length > 0 ? summaryValuesConfig.dataKey : reportDataKey;
 
     //fetch data for summary values and summary table
-    const summaryData = await getSummaryReportData(dateField, filterField, filterValue, summaryValuesConfig, 'value');
-    const summaryTableData = await getSummaryReportData(dateField, filterField, filterValue, summaryTableConfig, 'table');
+    const summaryData = await getSummaryReportData(dateField, filterField, filterValue, summaryValuesConfig);
+    const summaryTableData = await getSummaryReportData(dateField, filterField, filterValue, summaryTableConfig);
 
     return { tableData: tableData.data, summaryData, summaryTableData };
   };
