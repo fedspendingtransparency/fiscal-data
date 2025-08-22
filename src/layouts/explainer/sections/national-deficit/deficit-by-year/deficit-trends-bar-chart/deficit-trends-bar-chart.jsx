@@ -54,6 +54,13 @@ export const DeficitTrendsBarChart = ({ width }) => {
       fontSize: fontSize_16,
       fontFamily: 'Source Sans Pro',
       textColor: fontBodyCopy,
+      axis: {
+        ticks: {
+          text: {
+            fontSize: desktop ? fontSize_16 : fontSize_12,
+          },
+        },
+      },
     },
     axisBottom: {
       tickSize: 0,
