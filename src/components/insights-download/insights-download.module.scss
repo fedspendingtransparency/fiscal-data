@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 // When inside the chart proper, element may have to be absolutely positioned
 .downloadContainer {
   width: 80%;

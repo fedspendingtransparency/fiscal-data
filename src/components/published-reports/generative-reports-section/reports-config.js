@@ -101,7 +101,12 @@ export const reportsConfig = {
           dataKey: 'fed_act_statement',
           fieldsParam: 'fed_act_statement,shares_per_par',
         },
-        table: { endpoint: 'v1/accounting/od/utf_transaction_subtotals', sort: ['trans_desc_cd', 'eff_date'], dataKey: 'trans_statement' },
+        table: {
+          endpoint: 'v1/accounting/od/utf_federal_activity_statement',
+          sort: [],
+          dataKey: 'fed_act_statement',
+          fieldsParam: 'fed_act_statement,shares_per_par,trans_desc_cd',
+        },
         reportDataKey: 'fed_act_statement',
       },
       customFormatting: [

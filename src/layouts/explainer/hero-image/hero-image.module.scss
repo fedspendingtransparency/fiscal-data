@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .mainContainer {
   display: flex;
@@ -100,7 +100,7 @@
     margin-bottom: 2rem;
     justify-content: center;
   }
-  .doubleDashs{
+  .doubleDashs {
     display: flex;
     justify-content: center;
   }
@@ -112,7 +112,7 @@
     padding-right: 0.5rem;
     padding-left: 0.5rem;
   }
-  .dashes{
+  .dashes {
     position: relative;
     display: inline-flex;
     top: 2px;
@@ -201,5 +201,4 @@
   .flapWrapper {
     margin-bottom: 3.15rem;
   }
-
 }

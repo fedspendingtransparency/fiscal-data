@@ -1,4 +1,4 @@
-@import 'src/variables.module.scss';
+@use 'src/variables.module' as *;
 
 $table-header-height: 2.375rem;
 .container {

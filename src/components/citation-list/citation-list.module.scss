@@ -1,4 +1,4 @@
-@import '../../variables.module';
+@use 'src/variables.module' as *;
 
 .listHeader {
   color: $font-body-copy;
@@ -23,7 +23,7 @@
 .iconContainer {
   height: 1.5rem;
   width: 1.5rem;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
   color: $primary;
   display: flex;
   align-items: center;

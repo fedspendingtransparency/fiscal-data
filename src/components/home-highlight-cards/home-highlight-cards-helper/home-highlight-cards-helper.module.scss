@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 $negative-amount-color: #f2655b; // todo - move to variables.module.scss if used elsewhere?
 

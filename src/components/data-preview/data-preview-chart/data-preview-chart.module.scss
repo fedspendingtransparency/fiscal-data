@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 $legendWidth: 261px;
 $paddingOffset: 87px;

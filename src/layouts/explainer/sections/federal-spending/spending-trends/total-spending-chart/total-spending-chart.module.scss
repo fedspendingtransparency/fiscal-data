@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 :global(.chartContainerHeader) {
   font-size: $font-size-14 !important;

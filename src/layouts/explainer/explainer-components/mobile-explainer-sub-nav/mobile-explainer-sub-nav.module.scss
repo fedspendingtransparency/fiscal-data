@@ -1,5 +1,5 @@
-@import 'src/variables.module';
-@import '../../../../zIndex.module.scss';
+@use 'src/variables.module' as *;
+@use '../../../../zIndex.module.scss' as *;
 
 .MenuList {
   background-color: #0a2f5a;
@@ -70,9 +70,9 @@
   display: flex;
   justify-content: center;
 }
-.mainContainer, .mainContainerSticky {
+.mainContainer,
+.mainContainerSticky {
   margin-top: 2.5rem;
-
 }
 .mainContainerShow {
   display: flex;

@@ -1,8 +1,8 @@
-@import '../../../variables.module.scss';
-@import '../sections/national-deficit/national-deficit.module';
-@import '../sections/federal-spending/federal-spending.module';
-@import 'src/layouts/explainer/sections/government-revenue/revenue.module';
-@import '../sections/treasury-savings-bonds/treasury-savings-bonds.module.scss';
+@use 'src/variables.module' as *;
+@use '../sections/national-deficit/national-deficit.module' as *;
+@use '../sections/federal-spending/federal-spending.module' as *;
+@use 'src/layouts/explainer/sections/government-revenue/revenue.module' as *;
+@use '../sections/treasury-savings-bonds/treasury-savings-bonds.module.scss' as *;
 
 .nationalDebtActive {
   border-left-color: $debt-explainer-secondary !important;
