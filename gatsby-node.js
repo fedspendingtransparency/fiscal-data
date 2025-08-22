@@ -336,8 +336,8 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   let resultDataBEA;
 
   // This file can be used for any local testing, otherwise the fallback api response will include 10 years of data
-  // fs.readFile('./static/data/CPI/bls-data-fallback.json', 'utf8', async (err, data) => {
-  fs.readFile('./static/data/bls-data.json', 'utf8', async (err, data) => {
+  fs.readFile('./static/data/CPI/bls-data-fallback.json', 'utf8', async (err, data) => {
+    // fs.readFile('./static/data/bls-data.json', 'utf8', async (err, data) => {
     if (err) {
       resultDataBLS = await getBLSData()
         .then(res => res)

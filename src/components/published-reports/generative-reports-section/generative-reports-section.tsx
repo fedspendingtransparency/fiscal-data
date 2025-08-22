@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { filtersContainer } from '../reports-section/reports-section.module.scss';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
@@ -34,12 +34,13 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
   const heading = noMatchingData ? bannerCopy?.noDataMatchHeader : bannerCopy?.additionalFiltersHeader;
   const body = noMatchingData ? bannerCopy?.noDataMatchBody : bannerCopy?.additionalFiltersBody;
 
-  const getSummaryReportData = async (dateField, reportData, summary, reportDataKey?) => {
-    if (!summary || reportData.length === 0) return [];
-    const config = summary.values || summary;
-    const key = reportDataKey || config.dataKey;
-    const secondary = reportData[0][key];
-    const endpointUrl = buildEndpoint(selectedDate, dateField, secondary, config.dataKey, config);
+  const getSummaryReportData = async (dateField, filterField, filterValue, summaryConfig, usecase) => {
+    if (!summaryConfig) return [];
+
+    const config = summaryConfig.values || summaryConfig;
+    const filterFields = filterField || config.dataKey;
+    const endpointUrl = buildEndpoint(selectedDate, dateField, filterValue, filterFields, config);
+
     try {
       const res = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
       return res.data;
@@ -50,19 +51,23 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
 
   const getReportData = async (report, reportConfig) => {
     const { dateField, apiFilter, endpoint } = report;
-    const { sort } = reportConfig;
+    const { sort, summaryConfig } = reportConfig;
+    const { values: summaryValuesConfig, reportDataKey, table: summaryTableConfig } = summaryConfig;
     const { field: accountField } = apiFilter;
-    const endpointUrl = buildEndpoint(selectedDate, dateField, selectedAccount.value, accountField, { endpoint, sort });
-    const res = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
-    const summaryData = await getSummaryReportData(dateField, res.data, reportConfig.summaryConfig.values, reportConfig.summaryConfig.reportDataKey);
-    const summaryTableData = await getSummaryReportData(
-      dateField,
-      res.data,
-      reportConfig.summaryConfig.table,
-      reportConfig.summaryConfig.reportDataKey
-    );
 
-    return { tableData: res.data, summaryData, summaryTableData };
+    //fetch data for main table
+    const endpointUrl = buildEndpoint(selectedDate, dateField, selectedAccount.value, accountField, { endpoint, sort });
+    const tableData = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
+
+    //get statement number from table data if available, otherwise get selected account
+    const filterValue = tableData.data.length > 0 ? tableData.data[0][summaryValuesConfig.dataKey] : selectedAccount.value;
+    const filterField = tableData.data.length > 0 ? summaryValuesConfig.dataKey : reportDataKey;
+
+    //fetch data for summary values and summary table
+    const summaryData = await getSummaryReportData(dateField, filterField, filterValue, summaryValuesConfig, 'value');
+    const summaryTableData = await getSummaryReportData(dateField, filterField, filterValue, summaryTableConfig, 'table');
+
+    return { tableData: tableData.data, summaryData, summaryTableData };
   };
 
   const setSummaryValues = (reportConfig, formattedDate, reportData, summaryData) => {
@@ -112,7 +117,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     }
   }, [earliestReportDate, latestReportDate]);
 
-  useEffect(() => {
+  useMemo(() => {
     (async () => {
       if (selectedAccount.value) {
         const reports = [];
@@ -156,7 +161,8 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
   useEffect(() => {
     const reports = [];
     allReports.forEach(report => {
-      if (report.data.length > 0) {
+      const hasSummaryData = report.summaryData.length > 0 || (report.config.reportSummary?.length > 0 && !!report.config.reportSummary[0].value);
+      if (report.data.length > 0 || hasSummaryData) {
         reports.push(report);
       }
     });
@@ -187,7 +193,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             allDates={allReportDates}
             allYears={allReportYears}
             ignoreDisabled={true}
-            ariaLabel={'Enter report date'}
+            ariaLabel="Enter report date"
           />
 
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
