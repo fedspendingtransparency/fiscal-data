@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .sectionContainer {
   padding: 0 1rem 1rem;

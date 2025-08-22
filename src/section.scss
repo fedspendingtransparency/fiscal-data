@@ -1,4 +1,4 @@
-@import './variables.module.scss';
+@use './variables.module' as *;
 
 .sectionContainer {
   background-color: $content-section-background;

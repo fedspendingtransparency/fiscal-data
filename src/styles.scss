@@ -1,6 +1,6 @@
-@import './section.scss';
-@import './variables.module.scss';
-@import './chartStyles.scss';
+@use './section.scss' as *;
+@use './variables.module' as *;
+@use './chartStyles.scss' as *;
 @import '~typeface-roboto/index.css';
 @import '~typeface-roboto-mono/index.css';
 
@@ -43,7 +43,7 @@ body {
 }
 
 a.primary {
- @include primaryLink;
+  @include primaryLink;
 }
 
 code {

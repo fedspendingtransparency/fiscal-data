@@ -1,4 +1,5 @@
-@import 'src/variables.module';
+@use 'src/variables.module.scss' as *;
+
 $state-and-local-government-series-primary: #a4bcfd;
 
 .legendContainer {

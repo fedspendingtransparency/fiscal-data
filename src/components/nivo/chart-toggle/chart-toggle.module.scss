@@ -1,5 +1,4 @@
-@import "src/variables.module";
-
+@use 'src/variables.module' as *;
 
 .chartToggle {
   display: flex;
@@ -18,13 +17,13 @@
   height: 2rem;
 
   &.toggleButtonLeft {
-    border-bottom-right-radius: .25rem;
-    border-top-right-radius: .25rem;
+    border-bottom-right-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
   }
 
   &.toggleButtonRight {
-    border-bottom-left-radius: .25rem;
-    border-top-left-radius: .25rem;
+    border-bottom-left-radius: 0.25rem;
+    border-top-left-radius: 0.25rem;
     border-right: none;
   }
 
@@ -54,5 +53,3 @@
     font-size: $font-size-14;
   }
 }
-
-

@@ -14,7 +14,7 @@ module.exports = {
       presets: [require.resolve(`babel-preset-gatsby`)],
     },
   },
-  ignorePatterns: ['temp.js', 'node_modules/', '*.scss.d.ts'],
+  ignorePatterns: ['temp.js', 'node_modules/', '*.scss.d.ts', '**/*.scss'],
   env: {
     browser: true,
     es6: true,

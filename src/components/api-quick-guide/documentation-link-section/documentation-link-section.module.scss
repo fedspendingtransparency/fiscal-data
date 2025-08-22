@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 $remaining-container-width: calc(100% - 1rem - 20px);
 

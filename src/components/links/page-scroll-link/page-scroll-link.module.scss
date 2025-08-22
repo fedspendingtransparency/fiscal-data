@@ -1,5 +1,5 @@
-@import 'src/variables.module';
-@import 'src/styles';
+@use 'src/variables.module' as *;
+@use 'src/styles' as *;
 
 .scrollLink {
   display: inline;

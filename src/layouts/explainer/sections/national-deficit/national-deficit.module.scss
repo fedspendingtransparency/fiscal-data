@@ -1,4 +1,4 @@
-@import '../../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 $deficit-explainer-primary: #b3532d;
 $deficit-explainer-secondary: #9f4224;

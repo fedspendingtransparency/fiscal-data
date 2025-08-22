@@ -1,6 +1,6 @@
-@import '../../../../variables.module.scss';
-@import '../../../../styles';
-@import '../../../../zIndex.module.scss';
+@use 'src/variables.module' as *;
+@use '../../../../styles' as *;
+@use '../../../../zIndex.module.scss' as *;
 
 .resetButton {
   @include primaryButton;
