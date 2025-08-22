@@ -2896,6 +2896,14 @@ const endpointConfig = {
       maxYearRange: 5,
     },
   },
+  //I Bonds
+  '321': {
+    endpoint: 'v1/accounting/od/i_bonds_interest_rates',
+    dateField: 'earning_period_start',
+    downloadName: 'I_Bonds_Interest_Rates',
+    alwaysSortWith: ['-earning_period', '-issue_year_month'],
+    selectColumns: [],
+  },
   //MTD Empty endpoint
   322: {
     endpoint: '',
