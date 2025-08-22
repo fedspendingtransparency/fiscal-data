@@ -298,6 +298,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 enableGridX={true}
                 theme={chartConfigs.theme}
                 layers={['grid', 'axes', 'bars']}
+                valueScale={{ type: 'linear', clamp: true, min: minValue, max: maxValue }}
                 minValue={minValue}
                 maxValue={maxValue}
                 gridXValues={tickValuesX}
