@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ResponsiveBar } from '@nivo/bar';
+import { Bar } from '@nivo/bar';
 import { barDiv } from './bar.module.scss';
 import CustomBarComponent from './bar-component/bar-component';
 import helpers from './helpers/helpers';
@@ -104,7 +104,7 @@ const BarGraph = ({
         onMouseEnter={() => onMouseEnter(cardId)}
         role={'presentation'}
       >
-        <ResponsiveBar
+        <Bar
           ariaLabel={`${chartTitle} bar chart`}
           data={data}
           keys={keys}
@@ -115,6 +115,8 @@ const BarGraph = ({
           isInteractive={isInteractive}
           axisBottom={axisBottom}
           axisLeft={axisLeft}
+          height={100}
+          width={226}
           barComponent={useCustomBarComponent && BarComponent}
           {...props}
         />
