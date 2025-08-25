@@ -56,12 +56,15 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     const tableData = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
 
     //get statement number from table data if available, otherwise get selected account
-    const filterValue = tableData.data.length > 0 ? tableData.data[0][summaryValuesConfig.dataKey] : selectedAccount.value;
-    const filterField = tableData.data.length > 0 ? summaryValuesConfig.dataKey : reportDataKey;
+    const hasTableData = tableData.data.length > 0;
+    const filterValue = hasTableData ? tableData.data[0][summaryValuesConfig.dataKey] : selectedAccount.value;
+    const filterField = hasTableData ? summaryValuesConfig.dataKey : reportDataKey;
 
     //fetch data for summary values and summary table
     const summaryData = await getSummaryReportData(dateField, filterField, filterValue, summaryValuesConfig);
+    console.log('summaryData', summaryData);
     const summaryTableData = await getSummaryReportData(dateField, filterField, filterValue, summaryTableConfig);
+    console.log('summaryTableData', summaryTableData);
 
     return { tableData: tableData.data, summaryData, summaryTableData };
   };
@@ -140,6 +143,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
               downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
               data: reportData.tableData,
               summaryData: reportData.summaryTableData,
+              summaryValues: reportData.summaryData,
               config: reportConfig,
               colConfig: report,
             };
@@ -156,8 +160,10 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
 
   useEffect(() => {
     const reports = [];
+    // console.log(allReports);
     allReports.forEach(report => {
-      const hasSummaryData = report.summaryData.length > 0 || (report.config.reportSummary?.length > 0 && !!report.config.reportSummary[0].value);
+      const hasSummaryData = report.summaryData.length > 0 || report.summaryValues.length > 0;
+      console.log(report, hasSummaryData);
       if (report.data.length > 0 || hasSummaryData) {
         reports.push(report);
       }
@@ -165,6 +171,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     if (reports.length === 0) {
       setIsLoading(false);
     }
+    console.log(reports);
     setActiveReports(reports);
   }, [allReports]);
 
@@ -191,7 +198,6 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             ignoreDisabled={true}
             ariaLabel="Enter report date"
           />
-
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
         {(activeReports?.length === 0 || apiErrorMessage) && (
