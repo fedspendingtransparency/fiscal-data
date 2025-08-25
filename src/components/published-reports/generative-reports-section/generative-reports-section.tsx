@@ -62,9 +62,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
 
     //fetch data for summary values and summary table
     const summaryData = await getSummaryReportData(dateField, filterField, filterValue, summaryValuesConfig);
-    console.log('summaryData', summaryData);
     const summaryTableData = await getSummaryReportData(dateField, filterField, filterValue, summaryTableConfig);
-    console.log('summaryTableData', summaryTableData);
 
     return { tableData: tableData.data, summaryData, summaryTableData };
   };
@@ -148,7 +146,9 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
               colConfig: report,
             };
             reports.push(curReport);
-            setSummaryValues(reportConfig, formattedDate, reportData.tableData, reportData.summaryData);
+            //When no main table data is available, pull summary values from the summary data
+            const summary = reportData.tableData.length > 0 ? reportData.tableData : reportData.summaryData;
+            setSummaryValues(reportConfig, formattedDate, summary, reportData.summaryData);
           }
         }
         setAllReports(reports);
@@ -160,10 +160,8 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
 
   useEffect(() => {
     const reports = [];
-    // console.log(allReports);
     allReports.forEach(report => {
       const hasSummaryData = report.summaryData.length > 0 || report.summaryValues.length > 0;
-      console.log(report, hasSummaryData);
       if (report.data.length > 0 || hasSummaryData) {
         reports.push(report);
       }
@@ -171,7 +169,6 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     if (reports.length === 0) {
       setIsLoading(false);
     }
-    console.log(reports);
     setActiveReports(reports);
   }, [allReports]);
 
