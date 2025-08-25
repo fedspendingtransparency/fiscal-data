@@ -63,7 +63,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     //fetch data for summary values and summary table
     const summaryData = await getSummaryReportData(dateField, filterField, filterValue, summaryValuesConfig);
     const summaryTableData = await getSummaryReportData(dateField, filterField, filterValue, summaryTableConfig);
-
+    console.log('fetching report data: ', { tableData: tableData.data, summaryData, summaryTableData });
     return { tableData: tableData.data, summaryData, summaryTableData };
   };
 
@@ -151,6 +151,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             setSummaryValues(reportConfig, formattedDate, summary, reportData.summaryData);
           }
         }
+        console.log('setting all reports: ', reports);
         setAllReports(reports);
       } else {
         setAllReports([]);
