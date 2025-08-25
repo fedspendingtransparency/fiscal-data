@@ -41,11 +41,13 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport 
           const { width, fields, type } = table;
           const columnConfig = getTableColumnConfig(colConfig, fields);
           const tableData = type === 'summary' ? summaryData : data;
-          return (
-            <View style={{ width: width }} key={index}>
-              <ReportTable data={tableData} colConfig={columnConfig} customFormatting={customFormatting} />
-            </View>
-          );
+          if (tableData.length > 0) {
+            return (
+              <View style={{ width: width }} key={index}>
+                <ReportTable data={tableData} colConfig={columnConfig} customFormatting={customFormatting} />
+              </View>
+            );
+          }
         })}
       </Page>
     </Document>
