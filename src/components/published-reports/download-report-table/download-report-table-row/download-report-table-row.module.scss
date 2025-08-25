@@ -1,4 +1,4 @@
-@import '../../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 $file-type-img-width: 48px;
 $download-button-width: 5.625rem;

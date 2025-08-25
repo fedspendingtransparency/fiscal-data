@@ -59,7 +59,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       selectedOption={allTablesSelected ? allTablesOption.tableName : selectedTable?.tableName}
       active={active}
       setActive={setActive}
-      dropdownWidth={width < pxToNumber(breakpointLg) ? '20rem' : '30rem'}
+      dropdownWidth={width < pxToNumber(breakpointLg) ? '100%' : '30rem'}
     />
   );
 

@@ -1,6 +1,6 @@
-@import 'src/variables.module';
-@import '../../../../explainer.module';
-@import '../../treasury-savings-bonds.module';
+@use 'src/variables.module' as *;
+@use '../../../../explainer.module' as *;
+@use '../../treasury-savings-bonds.module' as *;
 
 .chartLegend {
   display: flex;

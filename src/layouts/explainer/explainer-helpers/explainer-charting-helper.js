@@ -78,6 +78,11 @@ export const getChartTheme = (width, markers) => {
           stroke: '#666666',
         },
       },
+      ticks: {
+        text: {
+          ...fontSize,
+        },
+      },
     },
     crosshair: {
       line: {

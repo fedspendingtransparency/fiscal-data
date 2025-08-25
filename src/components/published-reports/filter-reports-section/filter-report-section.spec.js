@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import FilterReportsSection from './filter-reports-section';
-import { runTimeFilterDatasetConfig } from '../published-reports-test-helper';
+import { runTimeFilterDatasetConfig, runTimeFilterDatasetConfigCustomFilter } from '../published-reports-test-helper';
 import * as ApiUtils from '../../../utils/api-utils';
 
 const apiMock = {
@@ -89,5 +89,18 @@ describe('Run Time Filter Report Section', () => {
     fireEvent.click(screen.getByRole('button', { name: /Account/i }));
     fireEvent.click(screen.getByText('1234'));
     expect(screen.getByText(/2024/i)).toBeInTheDocument();
+  });
+
+  it('renders custom filter within the dropdown', () => {
+    render(
+      <FilterReportsSection
+        reportConfig={{ ...runTimeFilterDatasetConfigCustomFilter.runTimeReportConfig, optionValues: ['1234', '5678'] }}
+        apis={[apiMock]}
+        width={1024}
+      />
+    );
+    expect(screen.getByRole('button', { name: /\(None selected\)/i })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /Account/i }));
+    expect(screen.getByText(/No CUSIP - Special Announcement/i)).toBeInTheDocument();
   });
 });

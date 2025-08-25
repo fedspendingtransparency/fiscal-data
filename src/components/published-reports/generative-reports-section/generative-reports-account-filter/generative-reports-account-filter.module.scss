@@ -1,4 +1,4 @@
-@import '../../../../zIndex.module';
+@use '../../../../zIndex.module' as *;
 
 .container {
   z-index: $account-dropdown;

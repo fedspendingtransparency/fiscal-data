@@ -27,33 +27,8 @@ module.exports = {
       relatedDatasets: ['015-BFS-2020Q4-xx', '015-BFS-2014Q1-03', '015-BFS-2014Q1-13', '015-BFS-2017Q2-003'],
       currentDateButton: 'byMonth',
     },
-    '015-BFS-2025Q2-001': {
-      slug: '/i-bonds-interest-rates/',
-      seoConfig: {
-        pageTitle: 'I Bonds Interest Rates',
-        description: 'The I Bonds Rates Table contains all fixed rates, inflation rates, and composite rates for all Series I savings bonds issued.',
-        keywords: 'Debt, Interest Exchange Rates, Savings Bonds',
-      },
-      topics: ['debt', 'interest-exchange-rates', 'savings-bonds'],
-      relatedDatasets: [
-        '015-BFS-2014Q3-096',
-        '015-BFS-2014Q3-080',
-        '015-BFS-2014Q3-094',
-        '015-BFS-2014Q3-xx',
-        '015-BFS-2014Q3-074',
-        '015-BFS-2014Q3-056',
-      ],
-      currentDateButton: 'byMonth',
-    },
   },
   ADDITIONAL_ENDPOINTS: {
-    '321': {
-      endpoint: 'v1/accounting/od/i_bonds_interest_rates',
-      dateField: 'earning_period_start',
-      downloadName: 'I_Bonds_Interest_Rates',
-      alwaysSortWith: ['-earning_period', '-issue_year_month'],
-      selectColumns: [],
-    },
     '299': {
       endpoint: 'v1/debt/treasury_offset_program',
       dateField: 'record_date',

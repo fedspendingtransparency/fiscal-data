@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 $cell-height: 2.125rem;
 
 .emptyTable {

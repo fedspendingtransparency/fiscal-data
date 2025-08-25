@@ -1,4 +1,4 @@
-@import '../../../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 @media screen and (min-width: $breakpoint-lg) {
   .debtBreakdownSectionGraphContainer {

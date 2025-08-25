@@ -40,3 +40,12 @@ export const runTimeFilterDatasetConfig = {
     defaultMessage: 'Default Message',
   },
 };
+export const runTimeFilterDatasetConfigCustomFilter = {
+  runTimeReportConfig: {
+    unmatchedHeader: 'Unmatched Header',
+    unmatchedMessage: 'Unmatched Message',
+    defaultHeader: 'Default Header',
+    defaultMessage: 'Default Message',
+    customFilterOption: 'No CUSIP - Special Announcement',
+  },
+};

@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 $main-feature-title: $font-size-32;
 $main-feature-body: $font-size-16;

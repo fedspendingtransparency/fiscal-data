@@ -1,11 +1,10 @@
-@import '../../../../../variables.module.scss';
-@import '../federal-spending.module';
-@import '../../../explainer.module';
-
+@use '../../../../../variables.module.scss' as *;
+@use '../federal-spending.module' as *;
+@use '../../../explainer.module' as *;
 
 .spendingDifferenceContent {
   h5 {
-    @include explainerSubsectionHeader
+    @include explainerSubsectionHeader;
   }
 
   h6 {

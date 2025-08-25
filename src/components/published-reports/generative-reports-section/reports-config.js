@@ -27,7 +27,6 @@ export const reportsConfig = {
         { name: 'Report Date', filter: 'date' },
         { name: 'Final Report', style: 'final' },
       ],
-
       tables: [
         {
           width: '100%',
@@ -48,8 +47,15 @@ export const reportsConfig = {
       downloadName: 'UTF_Transaction_Statement',
       sort: ['trans_desc_cd', '-eff_date', 'memo_nbr'],
       summaryConfig: {
+        values: {
+          endpoint: 'v1/accounting/od/utf_transaction_subtotals',
+          sort: [],
+          dataKey: 'trans_statement',
+          fieldsParam: 'trans_statement,shares_per_par',
+        },
         table: { endpoint: 'v1/accounting/od/utf_transaction_subtotals', sort: ['trans_desc_cd', 'eff_date'], dataKey: 'trans_statement' },
       },
+      reportSummary: [{ name: 'Ending Balance', field: 'shares_per_par', type: 'NUMBER' }],
       customFormatting: [
         {
           type: 'NUMBER',
@@ -90,12 +96,17 @@ export const reportsConfig = {
       sort: ['trans_desc_cd', '-eff_date', 'memo_nbr'],
       summaryConfig: {
         values: {
-          endpoint: 'v1/accounting/od/utf_account_balances',
-          sort: ['-eff_date'],
-          dataKey: 'acct_statement',
-          fields: [{ name: 'Ending Balance', field: 'shares_per_par', type: 'NUMBER' }],
+          endpoint: 'v1/accounting/od/utf_federal_activity_statement',
+          sort: [],
+          dataKey: 'fed_act_statement',
+          fieldsParam: 'fed_act_statement,shares_per_par',
         },
-        table: { endpoint: 'v1/accounting/od/utf_transaction_subtotals', sort: ['trans_desc_cd', 'eff_date'], dataKey: 'trans_statement' },
+        table: {
+          endpoint: 'v1/accounting/od/utf_federal_activity_statement',
+          sort: [],
+          dataKey: 'fed_act_statement',
+          fieldsParam: 'fed_act_statement,shares_per_par,trans_desc_cd',
+        },
         reportDataKey: 'fed_act_statement',
       },
       customFormatting: [

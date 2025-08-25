@@ -1,4 +1,4 @@
-@import '../../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 $treasury-fraud-spending-explainer-primary: #555555;
 $treasury-fraud-spending-explainer-secondary: #555555;

@@ -57,7 +57,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   }, [chartData]);
 
   useEffect(() => {
-    if (mergedTableData.length) {
+    if (mergedTableData.length && mergedTableData[0]?.date && mergedTableData[mergedTableData.length - 1]?.date) {
       setMonthRange({
         from: format(convertDate(mergedTableData[0].date), 'MMMM yyyy'),
         to: format(convertDate(mergedTableData[mergedTableData.length - 1].date), 'MMMM yyyy'),
@@ -65,7 +65,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     }
     const downloaderData = mergedTableData.map(row => {
       const cleanData = {
-        date: `="${row.date}"`,
+        date: `="${format(convertDate(row.date), 'MMMM yyyy')}"`,
         totalAmount: `"${row.totalAmount}"`,
         totalCount: `"${row.totalCount}"`,
       };
@@ -83,14 +83,12 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         selectedTable={{ downloadName: 'state-and-local-government-series-securities' }}
         altText={altText}
         monthRange={monthRange}
-        dateRange={dateRange}
         setDateRange={setDateRange}
         datasetDateRange={datasetDateRange}
         isLoading={!chartData}
         height={height}
         infoTip={infoTipWording}
         infoTipTitle={infoTipTitle}
-        paddingBuffer={true}
         setIsChartLoading={setIsChartLoading}
         chart={
           <>

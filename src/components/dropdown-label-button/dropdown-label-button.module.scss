@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .dropdownButton {
   font-size: $font-size-16;
@@ -46,8 +46,9 @@
   }
 
   @media screen and (max-width: $breakpoint-lg) {
-    max-width: 100%;
+    max-width: 480px;
   }
+
 }
 
 .glow {

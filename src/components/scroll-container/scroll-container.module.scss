@@ -1,4 +1,4 @@
-@import 'src/zIndex.module';
+@use 'src/variables.module' as *;
 
 .container {
   display: flex;

@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .container {
   padding: 0.5rem 0.75rem;
@@ -19,7 +19,6 @@
   }
 }
 
-
 .usaAccordionToggle {
   display: flex;
   align-items: center;
@@ -35,7 +34,6 @@
     width: 10.92px;
     margin-left: 0.25rem;
   }
-
 }
 
 .usaAccordion {
@@ -48,7 +46,6 @@
   display: flex;
   max-width: 1000px;
 }
-
 
 .usaBannerIconContainer {
   width: fit-content;
@@ -70,7 +67,6 @@
   margin: 0 0 0 0.5rem;
   max-width: 416px;
 
-
   .lockIcon {
     width: 9.5px;
   }
@@ -84,8 +80,6 @@
     margin-right: 0.5rem;
     margin-top: 3px;
   }
-
-
 }
 
 @media screen and (min-width: $breakpoint-lg) {

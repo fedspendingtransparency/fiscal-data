@@ -476,6 +476,9 @@
     "runTimeReportConfig" :  {
       "filterField": "cusip",
       "filterLabel": "CUSIP",
+      "searchText": "Search CUSIP",
+      "customFilterOption": "No CUSIP - Special Announcement",
+      "dateFilterLabel": "Auction Date",
       "dateFilterType": "byDay",
       "unmatchedHeader": "There is no data to display based on the current filters selected.",
       "unmatchedMessage": "Select a different CUSIP and/or date in order to preview the data.",
@@ -689,5 +692,22 @@
     "relatedDatasets": ["015-BFS-2014Q1-13", "015-BFS-2014Q1-03", "015-BFS-2014Q1-07"],
     "hideRawDataTable": true,
     "hideReportDatePicker": true
+  },
+  "015-BFS-2025Q2-001": {
+    "slug": "/i-bonds-interest-rates/",
+    "seoConfig": {
+      "pageTitle": "I Bonds Interest Rates",
+      "description": "The I Bonds Rates Table contains all fixed rates, inflation rates, and composite rates for all Series I savings bonds issued.",
+      "keywords": "Debt, Interest Exchange Rates, Savings Bonds"
+    },
+    "topics": ["debt", "interest-exchange-rates", "savings-bonds"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-096",
+      "015-BFS-2014Q3-080",
+      "015-BFS-2014Q3-094",
+      "015-BFS-2014Q3-xx",
+      "015-BFS-2014Q3-074",
+      "015-BFS-2014Q3-056"
+    ]
   }
 }
