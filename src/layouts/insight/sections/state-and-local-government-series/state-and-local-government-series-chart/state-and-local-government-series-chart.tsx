@@ -77,7 +77,6 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
 
     downloadRows.unshift(columnConfigArray);
     setDownloadData(downloadRows);
-    console.log(downloadData);
   }, [mergedTableData, sorting, columnConfig, columnConfigArray]);
 
   return (
