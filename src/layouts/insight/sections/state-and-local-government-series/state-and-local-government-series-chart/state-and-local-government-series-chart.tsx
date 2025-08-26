@@ -96,7 +96,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         setIsChartLoading={setIsChartLoading}
         chart={
           <>
-            <div className={chartTableBorder}>
+            <div className={chartTableBorder} data-testid="chartHeader">
               <ChartDataHeader
                 dateField="Date"
                 fiscalYear={formatDate(curDate)}

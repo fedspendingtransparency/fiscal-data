@@ -95,7 +95,7 @@ const InterestExpenseChart = () => {
   }, [mergedTableData, sorting, tableCSVData]);
 
   return (
-    <div data-testid={'test-header'}>
+    <>
       <ChartTableContainer
         title={chartTitle}
         downloadData={downloadData}
@@ -108,7 +108,7 @@ const InterestExpenseChart = () => {
           <div className={chartTableBoarder}>
             <div aria-label={altText}>
               {fiscalYear > 0 && (
-                <div>
+                <div data-testid={'test-header'}>
                   <ChartDataHeader
                     dateField={fiscalYear === latestChartData.year ? 'FYTD' : 'Fiscal Year'}
                     fiscalYear={fiscalYear}
@@ -218,7 +218,7 @@ const InterestExpenseChart = () => {
           />
         }
       />
-    </div>
+    </>
   );
 };
 

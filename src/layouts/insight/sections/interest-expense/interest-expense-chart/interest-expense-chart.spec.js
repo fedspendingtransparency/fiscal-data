@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import InterestExpenseChart from './interest-expense-chart';
 import { CustomTooltip } from './interest-expense-chart-helper';
 import userEvent from '@testing-library/user-event';
@@ -133,7 +133,7 @@ describe('Interest Expense Chart', () => {
   });
 
   it('chart is keyboard accessible', async () => {
-    const { getByRole, getByText } = render(<InterestExpenseChart />, { wrapper });
+    const { getByRole, getByText, getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chart = getByRole('application');
     userEvent.tab();
     userEvent.tab();
@@ -141,11 +141,11 @@ describe('Interest Expense Chart', () => {
     userEvent.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date
-
-    expect(getByText('2020')).toBeInTheDocument();
+    const header = getByTestId('test-header');
+    expect(within(header).getByText('2020')).toBeInTheDocument();
     userEvent.tab();
     expect(chart).not.toHaveFocus();
     //Chart header resets
-    expect(getByText('2021')).toBeInTheDocument();
+    expect(within(header).getByText('2021')).toBeInTheDocument();
   });
 });
