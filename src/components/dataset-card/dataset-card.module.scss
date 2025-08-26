@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .card,
 .card_withFocus {
@@ -15,7 +15,6 @@
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     transform: translateY(-1px);
   }
-
 }
 
 .cardHeroImage {

@@ -1,4 +1,4 @@
-@import '../../../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .diveDeeperLink {
   padding-bottom: 1.25rem;

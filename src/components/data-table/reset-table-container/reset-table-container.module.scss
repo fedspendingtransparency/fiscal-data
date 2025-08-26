@@ -1,8 +1,7 @@
-@import '../../../variables.module';
+@use 'src/variables.module' as *;
 $borderRadius: 5px;
 .sectionContainer {
   position: relative;
-
 }
 
 .buttonContainer {

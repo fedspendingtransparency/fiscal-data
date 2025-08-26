@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 $lead-text-max: 34.375rem;
 $max-img-width-desktop: 48.219rem;

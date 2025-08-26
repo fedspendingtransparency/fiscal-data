@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 $site-content-width: 1140px;
 $lead-text-max: 550px;

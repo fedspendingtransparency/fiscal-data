@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use '../../variables.module.scss' as *;
 
 .page_title {
   @include pageTitle;

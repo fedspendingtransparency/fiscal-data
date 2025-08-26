@@ -1,5 +1,5 @@
-@import '../../../../../variables.module.scss';
-@import '../federal-spending.module';
+@use '../../../../../variables.module.scss' as *;
+@use '../federal-spending.module' as *;
 
 .comingSoon {
   padding: 2px;

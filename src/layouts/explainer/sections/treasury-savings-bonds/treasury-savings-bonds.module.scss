@@ -1,4 +1,4 @@
-@import '../../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 $treasury-savings-bonds-explainer-primary: #3b005b;
 $treasury-savings-bonds-explainer-secondary: #b04abd;

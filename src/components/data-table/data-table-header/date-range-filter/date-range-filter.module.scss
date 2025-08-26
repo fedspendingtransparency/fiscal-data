@@ -1,4 +1,4 @@
-@import 'src/variables.module.scss';
+@use 'src/variables.module' as *;
 
 .glow {
   box-shadow: 0 0 0 0.25rem #e8f5ff;
@@ -27,7 +27,7 @@
   padding-left: 2.5px;
   padding-right: 2.5px;
 }
-.disableDisplay{
+.disableDisplay {
   background-color: #f1f1f1;
   pointer-events: none;
 }
@@ -46,7 +46,6 @@
   margin-top: 0.25rem;
   color: $font-body-copy;
 
-
   .calendarIcon {
     font-size: $font-size-16;
     margin-right: 0.5rem;
@@ -64,7 +63,6 @@
   background-color: $primary;
   color: white;
 }
-
 
 .datePickerSelected:hover {
   color: #666666;

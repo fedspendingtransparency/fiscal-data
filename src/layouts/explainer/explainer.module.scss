@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .breadCrumbsContainer {
   margin: 0 auto;
