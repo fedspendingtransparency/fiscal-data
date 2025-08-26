@@ -12,7 +12,9 @@ import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google
 import ChartTableContainer from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import { chartTableBoarder } from './interest-expense-chart.module.scss';
-import { SortingState, sortRowsForDownload } from '../../../insight-helper';
+import { SortingState } from '../../../insight-helper';
+import { useRecoilValue } from 'recoil';
+import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
 
 const breakpoint = {
   desktop: 1015,
@@ -47,6 +49,7 @@ const InterestExpenseChart = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [downloadData, setDownloadData] = useState([]);
   const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
+  const tableCSVData = useRecoilValue(smallTableDownloadDataCSV);
 
   const resetDataHeader = () => {
     if (latestChartData) {
@@ -88,11 +91,8 @@ const InterestExpenseChart = () => {
   }, [width]);
 
   useEffect(() => {
-    const sortedForDownload = sortRowsForDownload(mergedTableData, sorting, columnConfig);
-    const rows = sortedForDownload.map(row => columnConfig.map(col => row[col.property]));
-    rows.unshift(columnConfigArray);
-    setDownloadData(rows);
-  }, [mergedTableData, sorting, columnConfig]);
+    setDownloadData(tableCSVData);
+  }, [mergedTableData, sorting, tableCSVData]);
 
   return (
     <>
@@ -214,6 +214,7 @@ const InterestExpenseChart = () => {
             sorting={sorting}
             setSorting={setSorting}
             width
+            enableDownload
           />
         }
       />

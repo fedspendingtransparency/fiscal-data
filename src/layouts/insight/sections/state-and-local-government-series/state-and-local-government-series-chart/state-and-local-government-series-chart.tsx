@@ -14,7 +14,9 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
 import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
-import { SortingState, sortRowsForDownload } from '../../../insight-helper';
+import { SortingState } from '../../../insight-helper';
+import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
+import { useRecoilValue } from 'recoil';
 
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
@@ -27,6 +29,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [downloadData, setDownloadData] = useState([]);
   const [monthRange, setMonthRange] = useState<{ from: string; to: string }>();
   const [isChartLoading, setIsChartLoading] = useState<boolean>(false);
+  const tableCSVData = useRecoilValue(smallTableDownloadDataCSV);
 
   const {
     chartData,
@@ -65,19 +68,17 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
       });
     }
 
-    const sortedForDownload = sortRowsForDownload(mergedTableData, sorting, columnConfig);
-    const downloadRows = sortedForDownload.map(row => {
-      const cleanData = {
-        date: `="${format(convertDate(row.date), 'MMMM yyyy')}"`,
-        totalAmount: `"${row.totalAmount}"`,
-        totalCount: `"${row.totalCount}"`,
-      };
-      return columnConfig.map(col => cleanData[col.property]);
+    const dateIndex = columnConfigArray.indexOf('Date');
+    const downloadRows = tableCSVData.map((row, index) => {
+      if (dateIndex < 0 || dateIndex > row.length - 1) return null;
+      if (index === 0) return row;
+      const formattedRow = [...row];
+      formattedRow[dateIndex] = `="${format(convertDate(row[dateIndex]), 'MMMM yyyy')}"`;
+      return formattedRow;
     });
 
-    downloadRows.unshift(columnConfigArray);
     setDownloadData(downloadRows);
-  }, [mergedTableData, sorting, columnConfig, columnConfigArray]);
+  }, [mergedTableData, sorting, tableCSVData]);
 
   return (
     <>
@@ -167,6 +168,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
             sorting={sorting}
             setSorting={setSorting}
             width
+            enableDownload
           />
         }
       />

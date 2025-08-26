@@ -126,13 +126,13 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
           {chart}
         </div>
       )}
-      {!isLoading && selectedChartView === 'tableView' && (
-        <>
+      {!isLoading && (
+        <div hidden={selectedChartView !== 'tableView'}>
           <div className={tableBoarder} />
           <div data-testid={customTestId ? customTestId : 'table'} className={`${chartTable} chartContainerChart`}>
             {table}
           </div>
-        </>
+        </div>
       )}
       <div className={`${downloaderContainer} chartContainerFooter`}>
         {downloader ? (
