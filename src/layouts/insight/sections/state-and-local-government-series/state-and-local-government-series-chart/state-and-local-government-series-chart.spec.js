@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import StateAndLocalGovernmentSeriesChart from './state-and-local-government-series-chart';
 import { CustomTooltip } from './state-and-local-government-series-chart-helper';
+import { RecoilRoot } from 'recoil';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -30,7 +31,7 @@ const mockChartData = [
 
 const mockMergedTableData = [
   { date: 'August 2020', totalAmount: '$650,000,000,000', totalCount: '25,000' },
-  { date: 'September 2020', totalAmount: '$600,000,000,00', totalCount: '25,000' },
+  { date: 'September 2020', totalAmount: '$600,000,000,00', totalCount: '20,000' },
 ];
 
 const mockHookReturnValues = {
@@ -44,7 +45,7 @@ const mockHookReturnValues = {
 jest.mock('../useGetStateAndLocalGovernmentSeriesData', () => ({
   useGetStateAndLocalGovernmentSeriesData: () => mockHookReturnValues,
 }));
-
+const wrapper = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
 describe('State and Local Government Series Chart', () => {
   class ResizeObserver {
     observe() {}
@@ -58,14 +59,14 @@ describe('State and Local Government Series Chart', () => {
   });
 
   it('renders chart correctly', () => {
-    const { getAllByText } = render(<StateAndLocalGovernmentSeriesChart />);
+    const { getAllByText } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     expect(getAllByText('Amount').length).toEqual(2);
     expect(getAllByText('Count').length).toEqual(2);
   });
 
   it('renders chart correctly in mobile screen size', () => {
     window.innerWidth = 360;
-    const { getAllByText } = render(<StateAndLocalGovernmentSeriesChart />);
+    const { getAllByText } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     expect(getAllByText('Amount').length).toEqual(2);
     expect(getAllByText('Count').length).toEqual(2);
   });
@@ -91,7 +92,7 @@ describe('State and Local Government Series Chart', () => {
   });
 
   it('handles chart mouse events', async () => {
-    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />);
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
     const chart = chartParent.children[0].children[0];
     expect(chart).toBeInTheDocument();
@@ -100,13 +101,13 @@ describe('State and Local Government Series Chart', () => {
   });
 
   it('formats axis values', () => {
-    const { getByText } = render(<StateAndLocalGovernmentSeriesChart />);
+    const { getByText } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     expect(getByText('27K')).toBeInTheDocument();
     expect(getByText('$900 B')).toBeInTheDocument();
   });
 
   it('chart is keyboard accessible', async () => {
-    const { getByRole, getByText } = render(<StateAndLocalGovernmentSeriesChart />);
+    const { getByRole, getByText } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const chart = getByRole('application');
     userEvent.tab();
     userEvent.tab();

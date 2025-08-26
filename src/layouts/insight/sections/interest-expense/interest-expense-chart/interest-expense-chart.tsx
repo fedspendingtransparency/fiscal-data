@@ -95,7 +95,7 @@ const InterestExpenseChart = () => {
   }, [mergedTableData, sorting, tableCSVData]);
 
   return (
-    <>
+    <div data-testid={'test-header'}>
       <ChartTableContainer
         title={chartTitle}
         downloadData={downloadData}
@@ -218,7 +218,7 @@ const InterestExpenseChart = () => {
           />
         }
       />
-    </>
+    </div>
   );
 };
 

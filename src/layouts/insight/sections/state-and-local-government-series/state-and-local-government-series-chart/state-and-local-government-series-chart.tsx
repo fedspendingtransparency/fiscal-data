@@ -14,7 +14,6 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
 import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
-import { SortingState } from '../../../insight-helper';
 import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
 import { useRecoilValue } from 'recoil';
 
@@ -25,7 +24,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
   const [dateRange, setDateRange] = useState();
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState([]);
   const [downloadData, setDownloadData] = useState([]);
   const [monthRange, setMonthRange] = useState<{ from: string; to: string }>();
   const [isChartLoading, setIsChartLoading] = useState<boolean>(false);
