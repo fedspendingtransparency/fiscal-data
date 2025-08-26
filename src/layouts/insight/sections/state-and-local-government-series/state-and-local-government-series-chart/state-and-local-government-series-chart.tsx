@@ -14,6 +14,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
 import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
+import { SortingState, sortRowsForDownload } from '../../../insight-helper';
 
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
@@ -22,7 +23,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [curAmount, setCurAmount] = useState<number>(0);
   const [curCount, setCurCount] = useState<number>(0);
   const [dateRange, setDateRange] = useState();
-  const [sorting, setSorting] = useState([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [downloadData, setDownloadData] = useState([]);
   const [monthRange, setMonthRange] = useState<{ from: string; to: string }>();
   const [isChartLoading, setIsChartLoading] = useState<boolean>(false);
@@ -63,7 +64,9 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         to: format(convertDate(mergedTableData[mergedTableData.length - 1].date), 'MMMM yyyy'),
       });
     }
-    const downloaderData = mergedTableData.map(row => {
+
+    const sortedForDownload = sortRowsForDownload(mergedTableData, sorting, columnConfig);
+    const downloadRows = sortedForDownload.map(row => {
       const cleanData = {
         date: `="${format(convertDate(row.date), 'MMMM yyyy')}"`,
         totalAmount: `"${row.totalAmount}"`,
@@ -71,9 +74,11 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
       };
       return columnConfig.map(col => cleanData[col.property]);
     });
-    downloaderData.unshift(columnConfigArray);
-    setDownloadData(downloaderData);
-  }, [mergedTableData]);
+
+    downloadRows.unshift(columnConfigArray);
+    setDownloadData(downloadRows);
+    console.log(downloadData);
+  }, [mergedTableData, sorting, columnConfig, columnConfigArray]);
 
   return (
     <>

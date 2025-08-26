@@ -12,6 +12,7 @@ import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google
 import ChartTableContainer from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import { chartTableBoarder } from './interest-expense-chart.module.scss';
+import { SortingState, sortRowsForDownload } from '../../../insight-helper';
 
 const breakpoint = {
   desktop: 1015,
@@ -43,7 +44,7 @@ const InterestExpenseChart = () => {
   const [curRate, setCurRate] = useState<number>(0);
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const [sorting, setSorting] = useState([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [downloadData, setDownloadData] = useState([]);
   const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
 
@@ -87,10 +88,16 @@ const InterestExpenseChart = () => {
   }, [width]);
 
   useEffect(() => {
-    const downloaderData = mergedTableData.map(row => columnConfig.map(col => row[col.property]));
-    downloaderData.unshift(columnConfigArray);
-    setDownloadData(downloaderData);
-  }, [mergedTableData]);
+    if (!mergedTableData?.length) {
+      setDownloadData([]);
+      return;
+    }
+
+    const sortedForDownload = sortRowsForDownload(mergedTableData, sorting, columnConfig);
+    const rows = sortedForDownload.map(row => columnConfig.map(col => row[col.property]));
+    rows.unshift(columnConfigArray);
+    setDownloadData(rows);
+  }, [mergedTableData, sorting, columnConfig, columnConfigArray]);
 
   return (
     <>
