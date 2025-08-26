@@ -1,4 +1,4 @@
-@import '../../../variables.module';
+@use 'src/variables.module' as *;
 
 .chartTableToggleContainer {
   font-size: $font-size-16;

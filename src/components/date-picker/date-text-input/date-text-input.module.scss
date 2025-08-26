@@ -1,11 +1,11 @@
-@import 'src/variables.module';
-
+@use 'src/variables.module' as *;
 
 .inputLabel {
   margin-bottom: 0.5rem;
 }
 
-.helpLabel, .errorStateLabel {
+.helpLabel,
+.errorStateLabel {
   margin-top: 0.25rem;
 }
 
@@ -17,12 +17,17 @@
   color: #e21c3d;
 }
 
-.inputLabel, .selectedDateDisplay, .helpLabel, .errorStateLabel {
+.inputLabel,
+.selectedDateDisplay,
+.helpLabel,
+.errorStateLabel {
   margin-left: 1.25rem;
   margin-right: 1.25rem;
 }
 
-.inputLabel, .helpLabel, .errorStateLabel {
+.inputLabel,
+.helpLabel,
+.errorStateLabel {
   font-size: $font-size-14;
 }
 
@@ -37,7 +42,7 @@
 
   font-size: $font-size-16;
   color: $font-body-copy;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   outline: none;
 
   &:focus-visible {

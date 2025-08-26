@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .heroContainer {
   position: relative;
@@ -12,12 +12,12 @@
     background-size: cover;
   }
 }
-.heroInfoContainer{
+.heroInfoContainer {
   max-width: $site-content-width;
   margin: 0 auto;
   height: auto;
   position: relative;
-  .heroContextContainer{
+  .heroContextContainer {
     display: flex;
     justify-content: space-between;
     position: relative;
@@ -28,16 +28,16 @@
     height: auto;
   }
 
-  .textContainer{
+  .textContainer {
     margin-bottom: 2.5rem;
     margin-top: 2.5rem;
     max-width: 28.687rem;
     width: 100%;
     position: relative;
-    color:$content-section-background;
-    .heroMainText{
+    color: $content-section-background;
+    .heroMainText {
       font-size: $font-size-40;
-      color:$content-section-background;
+      color: $content-section-background;
       font-weight: 400;
       width: 100%;
       line-height: normal;
@@ -45,26 +45,25 @@
     }
     .heroSubText {
       font-style: italic;
-      font-size:  $font-size-20;
+      font-size: $font-size-20;
       font-weight: 400;
     }
-    .heroHeadText{
+    .heroHeadText {
       font-weight: $semi-bold-weight;
       font-size: $font-size-16;
     }
-    .heroAFG{
+    .heroAFG {
       display: flex;
       align-items: center;
     }
-    .heroIcon{
+    .heroIcon {
       fill: $content-section-background !important;
       height: 1rem;
       width: 1rem;
-      padding-right: .5rem;
+      padding-right: 0.5rem;
       position: relative;
-      top: .75px;
+      top: 0.75px;
     }
-
   }
   .heroLibertyImage {
     height: 20.75rem;
@@ -76,16 +75,16 @@
 }
 @media screen and (max-width: 1024px) {
   .heroLibertyImage {
-      display: none;
+    display: none;
   }
 }
 
 @media screen and (max-width: $breakpoint-lg) {
   .heroContainer {
-    .heroContextContainer{
-      padding-left: .625rem;
-      padding-right: .625rem;
-      }
+    .heroContextContainer {
+      padding-left: 0.625rem;
+      padding-right: 0.625rem;
+    }
   }
 }
 @media screen and (max-width: $breakpoint-md - 1) {
@@ -100,13 +99,13 @@
       width: 100%;
       height: auto;
     }
-    .heroInfoContainer{
+    .heroInfoContainer {
       height: auto;
     }
-    .heroContextContainer{
+    .heroContextContainer {
       height: auto;
     }
-    .textContainer{
+    .textContainer {
       width: 100%;
       height: auto;
       margin: 2.5rem 0;
@@ -114,15 +113,15 @@
       justify-content: center;
       align-items: flex-start;
       display: flex;
-      .heroMainText{
+      .heroMainText {
         font-size: $font-size-32;
       }
       .heroSubText {
         font-style: italic;
-        font-size:  $font-size-20;
+        font-size: $font-size-20;
         font-weight: 400;
       }
-      .heroHeadText{
+      .heroHeadText {
         font-weight: $semi-bold-weight;
         font-size: $font-size-14;
       }

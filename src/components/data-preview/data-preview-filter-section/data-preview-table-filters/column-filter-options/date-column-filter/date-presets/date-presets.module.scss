@@ -1,4 +1,4 @@
-@import 'src/variables.module.scss';
+@use 'src/variables.module' as *;
 
 #presetContainer {
   margin-top: 1rem;

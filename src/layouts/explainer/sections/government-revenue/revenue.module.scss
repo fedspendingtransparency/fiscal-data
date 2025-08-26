@@ -1,4 +1,4 @@
-@import '../../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 $revenue-explainer-primary: #0a2f5a;
 $revenue-explainer-secondary: #0a2f5a;

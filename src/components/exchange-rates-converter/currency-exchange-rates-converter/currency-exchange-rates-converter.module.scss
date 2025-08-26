@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .container {
   display: flex;
@@ -13,11 +13,10 @@
     color: #555555;
   }
   .arrowsIcon {
-    margin-right: .5rem;
-
+    margin-right: 0.5rem;
   }
-  .conversionContainer{
-    margin: 0 0 .5rem 0;
+  .conversionContainer {
+    margin: 0 0 0.5rem 0;
     display: flex;
   }
 
@@ -55,7 +54,7 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .container {
-  margin-right: 1.25rem;
+    margin-right: 1.25rem;
     .currencyBoxContainer {
       flex-direction: column;
     }

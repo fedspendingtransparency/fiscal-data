@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .topicSection {
   margin-top: 1rem;
@@ -35,7 +35,6 @@
 }
 @media screen and (min-width: $breakpoint-lg) {
   .topicSection {
-
     .textContainer {
       max-width: 28.5rem;
     }
@@ -48,7 +47,7 @@
     .imageContainer {
       order: 1;
       padding-bottom: 0.5rem;
-      padding-top: .5rem;
+      padding-top: 0.5rem;
     }
 
     .textContainer {

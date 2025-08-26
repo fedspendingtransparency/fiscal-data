@@ -338,7 +338,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                         props =>
                           LineChartCustomPoints_GDP({
                             ...props,
-                            serieId: 'Total Revenue',
+                            seriesId: 'Total Revenue',
                           }),
                         props =>
                           CustomSlices({
@@ -363,7 +363,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                         props =>
                           LineChartCustomPoints_GDP({
                             ...props,
-                            serieId: 'Total Revenue',
+                            seriesId: 'Total Revenue',
                           }),
                         props =>
                           CustomSlices({

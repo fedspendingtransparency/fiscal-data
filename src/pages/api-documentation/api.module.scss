@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use '../../variables.module.scss' as *;
 
 div.apiPageWrapper {
   margin-top: 2rem;
@@ -31,7 +31,6 @@ code.code {
   &.tocOpen {
     display: block;
   }
-
 }
 .apiPageSpacer {
   margin-bottom: 30rem;
@@ -91,7 +90,7 @@ code.code {
 }
 
 .sectionBreak section:first-child {
-    padding-top: 0;
+  padding-top: 0;
 }
 
 @media screen and (min-width: $breakpoint-lg) {

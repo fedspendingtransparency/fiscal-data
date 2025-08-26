@@ -203,7 +203,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                     props =>
                       LineChartCustomPoint({
                         ...props,
-                        serieId: 'us',
+                        seriesId: 'us',
                       }),
                     props =>
                       CustomSlices({

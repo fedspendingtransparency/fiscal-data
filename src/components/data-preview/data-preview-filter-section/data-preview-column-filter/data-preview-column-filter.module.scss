@@ -1,5 +1,5 @@
-@import 'src/variables.module';
-@import 'src/zIndex.module';
+@use 'src/variables.module' as *;
+@use 'src/zIndex.module' as *;
 
 $dropdown-width: 20rem;
 $search-width: 8.8rem;

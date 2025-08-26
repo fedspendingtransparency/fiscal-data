@@ -1,6 +1,6 @@
-@import '../../variables.module.scss';
-@import '../../layouts/explainer/sections/national-debt/national-debt.module.scss';
-@import '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss';
+@use '../../variables.module.scss' as *;
+@use '../../layouts/explainer/sections/national-debt/national-debt.module.scss' as *;
+@use '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss' as *;
 
 //Variables
 $revenueExplainerPrimary: #0a2f5a;
