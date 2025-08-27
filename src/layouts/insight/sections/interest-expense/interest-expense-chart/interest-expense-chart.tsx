@@ -12,6 +12,9 @@ import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google
 import ChartTableContainer from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import { chartTableBoarder } from './interest-expense-chart.module.scss';
+import { SortingState } from '../../../insight-helper';
+import { useRecoilValue } from 'recoil';
+import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
 
 const breakpoint = {
   desktop: 1015,
@@ -43,9 +46,10 @@ const InterestExpenseChart = () => {
   const [curRate, setCurRate] = useState<number>(0);
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
-  const [sorting, setSorting] = useState([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [downloadData, setDownloadData] = useState([]);
   const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
+  const tableCSVData = useRecoilValue(smallTableDownloadDataCSV);
 
   const resetDataHeader = () => {
     if (latestChartData) {
@@ -87,10 +91,8 @@ const InterestExpenseChart = () => {
   }, [width]);
 
   useEffect(() => {
-    const downloaderData = mergedTableData.map(row => columnConfig.map(col => row[col.property]));
-    downloaderData.unshift(columnConfigArray);
-    setDownloadData(downloaderData);
-  }, [mergedTableData]);
+    setDownloadData(tableCSVData);
+  }, [mergedTableData, sorting, tableCSVData]);
 
   return (
     <>
@@ -106,7 +108,7 @@ const InterestExpenseChart = () => {
           <div className={chartTableBoarder}>
             <div aria-label={altText}>
               {fiscalYear > 0 && (
-                <div>
+                <div data-testid={'test-header'}>
                   <ChartDataHeader
                     dateField={fiscalYear === latestChartData.year ? 'FYTD' : 'Fiscal Year'}
                     fiscalYear={fiscalYear}
@@ -212,6 +214,7 @@ const InterestExpenseChart = () => {
             sorting={sorting}
             setSorting={setSorting}
             width
+            enableDownload
           />
         }
       />
