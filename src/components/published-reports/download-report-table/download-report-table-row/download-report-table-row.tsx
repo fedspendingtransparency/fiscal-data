@@ -6,11 +6,8 @@ import {
   downloadedIcon,
   downloadFileContainer,
   downloadIcon,
-  downloadInfo,
-  downloadItem,
   downloadName,
   downloadSize,
-  endName,
   fileDate,
   fileDescription,
   startName,
@@ -19,11 +16,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay } from '../../util/util';
 import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
-import { getDateLabelForReport, getGeneratedFileSize } from '../../../../helpers/dataset-detail/report-helpers';
+import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
-import { PDFDownloadLink } from '@react-pdf/renderer/lib/react-pdf.browser';
-import ReportGenerator from '../../report-generator/report-generator';
-import { DocumentProps, pdf } from '@react-pdf/renderer';
+
+import GenReportDownloadButton from './gen-report-download-button/gen-report-download-button';
+import { DocumentProps } from '@react-pdf/renderer';
 
 interface IGeneratedReport {
   name: string;
@@ -39,10 +36,9 @@ const DownloadReportTableRow: FunctionComponent<{
   reportFile?: IPublishedReportDataJson;
   generatedReport?: IGeneratedReport;
   isDailyReport: boolean;
-  mobileView?: boolean;
   setApiErrorMessage?: (errorState: boolean) => void;
   setIsLoading?: (loadingState: boolean) => void;
-}> = ({ reportFile, isDailyReport, mobileView, generatedReport, setApiErrorMessage, setIsLoading }) => {
+}> = ({ reportFile, isDailyReport, generatedReport, setApiErrorMessage, setIsLoading }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);
   const [reportLocation, setReportLocation] = useState<string>(null);
@@ -67,7 +63,6 @@ const DownloadReportTableRow: FunctionComponent<{
           setFileSize(size);
         });
       }
-
       const fileDisplay = getFileDisplay(curReportFile);
       setDisplayName(fileDisplay.displayName);
       setFileType(fileDisplay.fileType);
@@ -102,29 +97,19 @@ const DownloadReportTableRow: FunctionComponent<{
     </>
   );
 
-  useEffect(() => {
-    if (generatedReport) {
-      (async () => {
-        const instance = <ReportGenerator generatedReport={generatedReport} />;
-        setGeneratedReportInstance(instance);
-        try {
-          const blob = await pdf(instance).toBlob();
-          getGeneratedFileSize(blob, setFileSize);
-          setApiErrorMessage(false);
-        } catch (error) {
-          setIsLoading(false);
-          setApiErrorMessage(true);
-          return;
-        }
-      })();
-    }
-  }, [generatedReport]);
-
   const LinkComponent = ({ children }) => {
     return generatedReport ? (
-      <PDFDownloadLink document={generatedReportInstance} fileName={generatedReport.downloadName} onClick={onDownloadClick}>
+      <GenReportDownloadButton
+        setFileSize={setFileSize}
+        setApiErrorMessage={setApiErrorMessage}
+        generatedReport={generatedReport}
+        setIsLoading={setIsLoading}
+        onDownloadClick={onDownloadClick}
+        generatedReportInstance={generatedReportInstance}
+        setGeneratedReportInstance={setGeneratedReportInstance}
+      >
         {children}
-      </PDFDownloadLink>
+      </GenReportDownloadButton>
     ) : (
       <a
         href={reportLocation}
@@ -166,11 +151,11 @@ const DownloadReportTableRow: FunctionComponent<{
 
   return (
     <>
-      {displayName && (!generatedReport || (generatedReportInstance && fileSize)) && (
+      {displayName && (
         <tr className={fileDescription} data-testid="file-download-row">
           <td>
             <LinkComponent>
-              {!mobileView && (!generatedReport || fileSize) && (
+              {(!generatedReport || fileSize) && (
                 <>
                   <div className={downloadFileContainer}>
                     <div className={downloadName}>
@@ -186,24 +171,24 @@ const DownloadReportTableRow: FunctionComponent<{
                   </div>
                 </>
               )}
-              {mobileView && (!generatedReport || fileSize) && (
-                <div className={downloadFileContainer}>
-                  <img src={fileTypeImage} alt={`${fileType} icon`} />
-                  <div className={downloadItem}>
-                    <div className={downloadName}>
-                      {displayName?.start && <div className={startName}>{displayName.start}</div>}
-                      <div className={endName}>{displayName.end}</div>
-                    </div>
-                    <div className={downloadInfo}>
-                      <div className={fileDate}>{publishedDate}</div>
-                      <div>{fileSize}</div>
-                    </div>
-                  </div>
-                  <div className={downloadIcon}>
-                    <DownloadButton />
-                  </div>
-                </div>
-              )}
+              {/*{mobileView && (!generatedReport || fileSize) && (*/}
+              {/*  <div className={downloadFileContainer}>*/}
+              {/*    <img src={fileTypeImage} alt={`${fileType} icon`} />*/}
+              {/*    <div className={downloadItem}>*/}
+              {/*      <div className={downloadName}>*/}
+              {/*        {displayName?.start && <div className={startName}>{displayName.start}</div>}*/}
+              {/*        <div className={endName}>{displayName.end}</div>*/}
+              {/*      </div>*/}
+              {/*      <div className={downloadInfo}>*/}
+              {/*        <div className={fileDate}>{publishedDate}</div>*/}
+              {/*        <div>{fileSize}</div>*/}
+              {/*      </div>*/}
+              {/*    </div>*/}
+              {/*    <div className={downloadIcon}>*/}
+              {/*      <DownloadButton />*/}
+              {/*    </div>*/}
+              {/*  </div>*/}
+              {/*)}*/}
             </LinkComponent>
           </td>
         </tr>
