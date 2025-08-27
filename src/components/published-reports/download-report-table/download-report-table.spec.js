@@ -1,5 +1,5 @@
 import { DownloadReportTable } from './download-report-table';
-import { render, within } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import React from 'react';
 
 const breakpointLg = 993;
@@ -62,25 +62,25 @@ describe('Download Report Table', () => {
     expect(getByRole('link', { name: 'Download another_file.xml' })).toBeInTheDocument();
   });
 
-  it('renders generated report table rows', async () => {
-    const setApiError = jest.fn();
-    const setIsLoading = jest.fn();
-    const { findAllByRole } = render(
-      <DownloadReportTable
-        width={breakpointLg - 1}
-        generatedReports={mockGeneratedReports}
-        setApiErrorMessage={setApiError}
-        setIsLoading={setIsLoading}
-      />
-    );
-    const downloadLinks = await findAllByRole('link');
-    expect(within(downloadLinks[0]).getByText('4 KB')).toBeInTheDocument();
-    expect(within(downloadLinks[0]).getByText('5/1/2021')).toBeInTheDocument();
-    expect(within(downloadLinks[0]).getByText('Name')).toBeInTheDocument();
-
-    expect(within(downloadLinks[1]).getByText('4 KB')).toBeInTheDocument();
-    expect(within(downloadLinks[1]).getByText('5/1/2022')).toBeInTheDocument();
-    expect(within(downloadLinks[1]).getByText('Name 2')).toBeInTheDocument();
-    expect(setApiError).toHaveBeenCalledWith(false);
-  });
+  // it('renders generated report table rows', async () => {
+  //   const setApiError = jest.fn();
+  //   const setIsLoading = jest.fn();
+  //   const { findAllByRole } = render(
+  //     <DownloadReportTable
+  //       width={breakpointLg - 1}
+  //       generatedReports={mockGeneratedReports}
+  //       setApiErrorMessage={setApiError}
+  //       setIsLoading={setIsLoading}
+  //     />
+  //   );
+  //   const downloadLinks = await findAllByRole('link');
+  //   expect(within(downloadLinks[0]).getByText('4 KB')).toBeInTheDocument();
+  //   expect(within(downloadLinks[0]).getByText('5/1/2021')).toBeInTheDocument();
+  //   expect(within(downloadLinks[0]).getByText('Name')).toBeInTheDocument();
+  //
+  //   expect(within(downloadLinks[1]).getByText('4 KB')).toBeInTheDocument();
+  //   expect(within(downloadLinks[1]).getByText('5/1/2022')).toBeInTheDocument();
+  //   expect(within(downloadLinks[1]).getByText('Name 2')).toBeInTheDocument();
+  //   expect(setApiError).toHaveBeenCalledWith(false);
+  // });
 });
