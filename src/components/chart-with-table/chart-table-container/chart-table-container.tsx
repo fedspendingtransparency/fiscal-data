@@ -46,6 +46,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   customTestId = null,
   downloadData,
   downloadEvent,
+  toggleEvent,
   fileType = 'csv',
   setDateRange,
   datasetDateRange,
@@ -93,6 +94,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
       rightIcon={faTable}
       leftLabel="toggle for chart view"
       rightLabel="toggle for table view"
+      toggleEvent={toggleEvent}
     />
   );
 

@@ -86,6 +86,16 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     });
   };
 
+  const handleToggleClick = () => {
+    const eventLabel = 'Outstanding SLGS Securities Chart Table Toggle';
+    const eventAction = 'Chart Table Toggle Click';
+    analyticsEventHandler('State and Local Government Series', eventLabel, eventAction);
+    ga4DataLayerPush({
+      event: eventAction,
+      eventLabel: eventLabel,
+    });
+  };
+
   useEffect(() => {
     setDefaultHeaderValues();
     setIsChartLoading(false);
@@ -117,6 +127,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         title="Outstanding State and Local Government Series (SLGS) Securities"
         downloadData={downloadData}
         downloadEvent={handleDownloadCSV}
+        toggleEvent={handleToggleClick}
         selectedTable={{ downloadName: 'state-and-local-government-series-securities' }}
         altText={altText}
         monthRange={monthRange}
