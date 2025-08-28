@@ -1,4 +1,4 @@
-import React, { FocusEventHandler, FunctionComponent, ReactElement, useRef } from 'react';
+import React, { FocusEventHandler, FunctionComponent, KeyboardEventHandler, ReactElement, useRef } from 'react';
 import useOnClickOutside from 'use-onclickoutside';
 
 interface IDropdownContainer {
@@ -16,34 +16,36 @@ const DropdownContainer: FunctionComponent<IDropdownContainer> = ({
 }: IDropdownContainer) => {
   const dropdownRef = useRef(null);
 
+  useOnClickOutside(dropdownRef, () => {
+    setActive(false);
+  });
   /* accessibility-enabling event handlers for interpreting focus state on control */
-  const handleMouseBlur = (event: MouseEvent) => {
-    if (event) {
-      const currentTarget = event.target as HTMLElement;
-      const relatedTarget = event.relatedTarget as HTMLElement;
-      const mouseEvent = event.type !== 'blur';
-      if (mouseEvent && !currentTarget?.parentElement?.contains(relatedTarget)) {
-        setTimeout(() => {
-          setActive();
-        });
-      }
+  const handleMouseBlur: FocusEventHandler<HTMLDivElement> = event => {
+    const next = event.relatedTarget as Node | null;
+
+    const container = event.currentTarget;
+
+    if (!next || !container.contains(next)) {
+      setActive(false);
     }
+    // if (event) {
+    //   const currentTarget = event.target as HTMLElement;
+    //   const relatedTarget = event.relatedTarget as HTMLElement;
+    //   const mouseEvent = event.type !== 'blur';
+    //   if (mouseEvent && !currentTarget?.parentElement?.contains(relatedTarget)) {
+    //     setTimeout(() => {
+    //       setActive();
+    //     });
+    //   }
+    // }
   };
 
-  useOnClickOutside(dropdownRef, handleMouseBlur);
-
-  const handleKeyboardBlur: FocusEventHandler = event => {
-    if (event) {
-      const parent = dropdownRef.current;
-      const related = event?.relatedTarget as HTMLElement;
-      if (!parent?.outerText?.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
-        setActive(false);
-      }
-    }
+  const handleKeyDown: KeyboardEventHandler = event => {
+    if (event.key === 'Escape') setActive(false);
   };
 
   return (
-    <div ref={dropdownRef} onBlur={handleKeyboardBlur} role="presentation" style={{ width: containerWidth }}>
+    <div ref={dropdownRef} onBlur={handleMouseBlur} onKeyDown={handleKeyDown} role="presentation" style={{ width: containerWidth }}>
       {dropdownButton}
       {children}
     </div>
