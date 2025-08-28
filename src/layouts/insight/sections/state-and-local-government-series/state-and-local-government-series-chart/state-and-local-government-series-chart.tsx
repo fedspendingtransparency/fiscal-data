@@ -16,8 +16,14 @@ import { format } from 'date-fns';
 import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
 import { useRecoilValue } from 'recoil';
+import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
+import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
+import globalConstants from '../../../../../helpers/constants';
+
+let gaTimer;
 
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
+  const { explainers } = globalConstants;
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
   const [curDate, setCurDate] = useState<string>('');
@@ -52,6 +58,22 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
       setCurAmount(chartData[chartData.length - 1].totalAmount);
       setCurCount(chartData[chartData.length - 1].totalCount);
     }
+  };
+
+  const handleChartMouseEnter = () => {
+    const eventLabel = 'Outstanding SLGS Securities  ';
+    const eventAction = 'Chart Hover';
+    gaTimer = setTimeout(() => {
+      analyticsEventHandler('State and Local Government Series', eventLabel, eventAction);
+      ga4DataLayerPush({
+        event: eventAction,
+        eventLabel: eventLabel,
+      });
+    }, explainers.chartHoverDelay);
+  };
+
+  const handleChartMouseLeave = () => {
+    clearTimeout(gaTimer);
   };
 
   useEffect(() => {
@@ -103,7 +125,14 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                 right={{ label: 'Amount', value: `$${getShortForm(curAmount.toString())}` }}
                 left={{ label: 'Count', value: customNumberFormatter.format(curCount, 0) }}
               />
-              <>
+
+              <div
+                data-testid="chartParent"
+                role="presentation"
+                onFocus={handleChartMouseEnter}
+                onMouseEnter={handleChartMouseEnter}
+                onMouseLeave={handleChartMouseLeave}
+              >
                 <Legend />
                 <div
                   data-testid="chartParent"
@@ -140,7 +169,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                     />
                   </div>
                 </div>
-              </>
+              </div>
             </div>
           </>
         }
