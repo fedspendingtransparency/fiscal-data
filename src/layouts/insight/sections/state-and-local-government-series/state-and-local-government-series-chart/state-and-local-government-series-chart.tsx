@@ -61,7 +61,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   };
 
   const handleChartMouseEnter = () => {
-    const eventLabel = 'Outstanding SLGS Securities  ';
+    const eventLabel = 'Outstanding SLGS Securities';
     const eventAction = 'Chart Hover';
     gaTimer = setTimeout(() => {
       analyticsEventHandler('State and Local Government Series', eventLabel, eventAction);
@@ -74,6 +74,16 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
 
   const handleChartMouseLeave = () => {
     clearTimeout(gaTimer);
+  };
+
+  const handleDownloadCSV = () => {
+    const eventLabel = 'Outstanding SLGS Securities Table Download';
+    const eventAction = 'Download CSV Click';
+    analyticsEventHandler('State and Local Government Series', eventLabel, eventAction);
+    ga4DataLayerPush({
+      event: eventAction,
+      eventLabel: eventLabel,
+    });
   };
 
   useEffect(() => {
@@ -106,6 +116,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
       <ChartTableContainer
         title="Outstanding State and Local Government Series (SLGS) Securities"
         downloadData={downloadData}
+        downloadEvent={handleDownloadCSV}
         selectedTable={{ downloadName: 'state-and-local-government-series-securities' }}
         altText={altText}
         monthRange={monthRange}
@@ -113,6 +124,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         datasetDateRange={datasetDateRange}
         isLoading={!chartData}
         height={height}
+        v
         infoTip={infoTipWording}
         infoTipTitle={infoTipTitle}
         setIsChartLoading={setIsChartLoading}

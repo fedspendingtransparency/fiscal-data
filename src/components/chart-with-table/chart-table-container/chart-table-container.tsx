@@ -45,6 +45,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   downloader,
   customTestId = null,
   downloadData,
+  downloadEvent,
   fileType = 'csv',
   setDateRange,
   datasetDateRange,
@@ -141,6 +142,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
           <DownloadItemButton
             fileType={fileType}
             smallTableDownloadData={downloadData}
+            downloadEvent={downloadEvent}
             dateRange={monthRange}
             selectedTable={selectedTable}
             downloadTimestamp={downloadTimestamp}
