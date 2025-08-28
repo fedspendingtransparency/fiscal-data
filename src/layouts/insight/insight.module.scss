@@ -51,10 +51,21 @@ $state-and-local-government-series-light: #a4bcfd66;
     min-width: $link-container-width;
   }
 }
-
+.socialShareDesktop {
+  display: none;
+}
+.socialShareMobile {
+  display: block;
+}
 @media screen and (min-width: $breakpoint-lg) {
   .sectionHeading {
     max-width: calc(100% - $link-container-width);
+  }
+  .socialShareDesktop {
+    display: block;
+  }
+  .socialShareMobile {
+    display: none;
   }
 }
 
