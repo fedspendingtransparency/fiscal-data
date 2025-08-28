@@ -1,4 +1,4 @@
-import React, { FocusEventHandler, FunctionComponent, KeyboardEventHandler, ReactElement, useRef } from 'react';
+import React, { FocusEventHandler, FunctionComponent, KeyboardEventHandler, PointerEventHandler, ReactElement, useRef } from 'react';
 import useOnClickOutside from 'use-onclickoutside';
 
 interface IDropdownContainer {
@@ -14,13 +14,26 @@ const DropdownContainer: FunctionComponent<IDropdownContainer> = ({
   setActive,
   containerWidth = '20rem',
 }: IDropdownContainer) => {
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const pointerDownInside = useRef(false);
 
   useOnClickOutside(dropdownRef, () => {
     setActive(false);
   });
   /* accessibility-enabling event handlers for interpreting focus state on control */
+
+  const markPointerDowninside: PointerEventHandler<HTMLDivElement> = event => {
+    if (!dropdownRef.current) return;
+    pointerDownInside.current = dropdownRef.current.contains(event.target as Node);
+  };
+  const clearPointerDownInside = () => {
+    setTimeout(() => {
+      pointerDownInside.current = false;
+    }, 0);
+  };
   const handleMouseBlur: FocusEventHandler<HTMLDivElement> = event => {
+    if (pointerDownInside.current) return;
+
     const next = event.relatedTarget as Node | null;
 
     const container = event.currentTarget;
@@ -28,16 +41,6 @@ const DropdownContainer: FunctionComponent<IDropdownContainer> = ({
     if (!next || !container.contains(next)) {
       setActive(false);
     }
-    // if (event) {
-    //   const currentTarget = event.target as HTMLElement;
-    //   const relatedTarget = event.relatedTarget as HTMLElement;
-    //   const mouseEvent = event.type !== 'blur';
-    //   if (mouseEvent && !currentTarget?.parentElement?.contains(relatedTarget)) {
-    //     setTimeout(() => {
-    //       setActive();
-    //     });
-    //   }
-    // }
   };
 
   const handleKeyDown: KeyboardEventHandler = event => {
@@ -45,7 +48,15 @@ const DropdownContainer: FunctionComponent<IDropdownContainer> = ({
   };
 
   return (
-    <div ref={dropdownRef} onBlur={handleMouseBlur} onKeyDown={handleKeyDown} role="presentation" style={{ width: containerWidth }}>
+    <div
+      ref={dropdownRef}
+      onBlur={handleMouseBlur}
+      onKeyDown={handleKeyDown}
+      role="presentation"
+      style={{ width: containerWidth }}
+      onPointerDownCapture={markPointerDowninside}
+      onPointerUpCapture={clearPointerDownInside}
+    >
       {dropdownButton}
       {children}
     </div>
