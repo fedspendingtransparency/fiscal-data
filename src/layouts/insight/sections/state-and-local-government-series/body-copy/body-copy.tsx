@@ -4,6 +4,8 @@ import { format } from 'date-fns';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../utils/date-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
+import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
+import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 
 const BodyCopy = (): ReactElement => {
   const [lastUpdated, setLastUpdated] = useState(null);
@@ -51,32 +53,60 @@ const BodyCopy = (): ReactElement => {
     return Math.round(num * 100) / 100;
   };
 
+  const glossaryGAEvent = term => {
+    analyticsEventHandler('State and Local Government Series', term, 'Glossary Term Click');
+    ga4DataLayerPush({
+      event: `Glossary Term Click`,
+      eventLabel: term,
+    });
+  };
+
   const totalPublicDebtOutstanding = (
-    <GlossaryPopoverDefinition term="Total Public Debt Outstanding" page="State and Local Government Series Insight">
+    <GlossaryPopoverDefinition
+      term="Total Public Debt Outstanding"
+      page="State and Local Government Series Insight"
+      handleClick={() => glossaryGAEvent('Total Public Debt Outstanding')}
+    >
       total public debt outstanding
     </GlossaryPopoverDefinition>
   );
 
   const stateAndLocalGovernmentSeries = (
-    <GlossaryPopoverDefinition term="State and Local Government Series" page="State and Local Government Series Insight">
+    <GlossaryPopoverDefinition
+      term="State and Local Government Series"
+      page="State and Local Government Series Insight"
+      handleClick={() => glossaryGAEvent('State and Local Government Series')}
+    >
       State and Local Government Series (SLGS)
     </GlossaryPopoverDefinition>
   );
 
   const nonMarketableSecurities = (
-    <GlossaryPopoverDefinition term="Non-Marketable Securities" page="State and Local Government Series Insight">
+    <GlossaryPopoverDefinition
+      term="Non-Marketable Securities"
+      page="State and Local Government Series Insight"
+      handleClick={() => glossaryGAEvent('Non-Marketable Securities')}
+    >
       non-marketable securities
     </GlossaryPopoverDefinition>
   );
 
   const federalDebt = (
-    <GlossaryPopoverDefinition term="Federal Debt" page="State and Local Government Series Insight">
+    <GlossaryPopoverDefinition
+      term="Federal Debt"
+      page="State and Local Government Series Insight"
+      handleClick={() => glossaryGAEvent('Federal Debt')}
+    >
       federal debt
     </GlossaryPopoverDefinition>
   );
 
   const treasurySecurity = (
-    <GlossaryPopoverDefinition term="Treasury Security" page="State and Local Government Series Insight">
+    <GlossaryPopoverDefinition
+      term="Treasury Security"
+      page="State and Local Government Series Insight"
+      handleClick={() => glossaryGAEvent('Treasury Securities')}
+    >
       treasury securities
     </GlossaryPopoverDefinition>
   );

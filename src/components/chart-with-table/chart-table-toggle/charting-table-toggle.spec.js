@@ -5,11 +5,13 @@ import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 
 describe('ChartTableToggle', () => {
   const dummyToggleClickHandler = jest.fn();
+  const dummyGAChartTableToggleEvent = jest.fn();
   const primaryColor = '#0071BC';
   const chartId = 'chart1';
 
   const defaultProps = {
     toggleClickHandler: dummyToggleClickHandler,
+    gaChartTableToggleEvent: dummyGAChartTableToggleEvent,
     primaryColor,
     chartId,
     leftButtonConfig: {
