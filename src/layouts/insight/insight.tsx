@@ -1,7 +1,15 @@
 import React, { ReactElement } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import { mainContent, contentContainer, relatedContent, insightsContainer, sectionContainer } from './insight.module.scss';
+import {
+  mainContent,
+  contentContainer,
+  relatedContent,
+  insightsContainer,
+  sectionContainer,
+  socialShareDesktop,
+  socialShareMobile,
+} from './insight.module.scss';
 import SocialShare from '../../components/social-share/social-share';
 import {
   discoverDatasetsCitationsMap,
@@ -14,8 +22,6 @@ import {
 import CitationList from '../../components/citation-list/citation-list';
 import { insightsDataSources, insightsDescriptionGenerators, insightsSections } from './sections/sections';
 import { withWindowSize } from 'react-fns';
-import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
-import { breakpointLg } from '../../variables.module.scss';
 import { InsightHeroImage } from './insight-hero-image/insight-hero-image';
 import { InsightLastUpdated } from './sections/interest-expense/last-updated/insight-last-updated';
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
@@ -39,9 +45,9 @@ const InsightPageLayout = ({ pageContext, width }) => {
         />
         <div className={insightsContainer}>
           <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
-          {width < pxToNumber(breakpointLg) && (
+          <div data-testid="social-share-mobile" className={socialShareMobile}>
             <SocialShare copy={insightSocialShareMap[pageName]} pageName={pageName} headerLevel="h2" displayStyle="responsive" />
-          )}
+          </div>
           <InsightLastUpdated endpoint={insightLastUpdated[pageName]?.endpoint} />
           <div className={contentContainer}>
             <div className={mainContent}>
@@ -55,9 +61,9 @@ const InsightPageLayout = ({ pageContext, width }) => {
               </div>
             </div>
             <div className={relatedContent}>
-              {width >= pxToNumber(breakpointLg) && (
+              <div data-testid="social-share-desktop" className={socialShareDesktop}>
                 <SocialShare copy={insightSocialShareMap[pageName]} pageName={pageName} headerLevel="h2" displayStyle="responsive" />
-              )}
+              </div>
               <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} pageName={insightsPageName[pageName]} />
               <CitationList header="Discover Datasets" citations={discoverDatasetsCitationsMap[pageName]} pageName={insightsPageName[pageName]} />
             </div>
