@@ -64,7 +64,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     const eventLabel = 'Outstanding SLGS Securities';
     const eventAction = 'Chart Hover';
     gaTimer = setTimeout(() => {
-      analyticsEventHandler('Fiscal Data - SLGS', eventLabel, eventAction);
+      analyticsEventHandler('Fiscal Data - State and Local Government Series', eventLabel, eventAction);
       ga4DataLayerPush({
         event: eventAction,
         eventLabel: eventLabel,
@@ -79,7 +79,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const handleDownloadCSV = () => {
     const eventLabel = 'Outstanding SLGS Securities Table Download';
     const eventAction = 'Download CSV Click';
-    analyticsEventHandler('Fiscal Data - SLGS', eventLabel, eventAction);
+    analyticsEventHandler('Fiscal Data - State and Local Government Series', eventLabel, eventAction);
     ga4DataLayerPush({
       event: eventAction,
       eventLabel: eventLabel,
@@ -89,7 +89,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const handleToggleClick = () => {
     const eventLabel = 'Outstanding SLGS Securities Chart Table Toggle';
     const eventAction = 'Chart Table Toggle Click';
-    analyticsEventHandler('Fiscal Data - SLGS', eventLabel, eventAction);
+    analyticsEventHandler('Fiscal Data - State and Local Government Series', eventLabel, eventAction);
     ga4DataLayerPush({
       event: eventAction,
       eventLabel: eventLabel,
