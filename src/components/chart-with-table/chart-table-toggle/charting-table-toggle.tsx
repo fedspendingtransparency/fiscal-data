@@ -24,7 +24,7 @@ interface InterestExpenseChartToggleProps {
 }
 
 const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = ({
-  toggleEvent,
+  gaChartTableToggleEvent,
   toggleClickHandler,
   primaryColor,
   chartId,
@@ -43,7 +43,7 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
         className={`${toggleButton} ${toggleButtonRight} ${leftSelected ? selected : ''}`}
         onClick={() => {
           toggleClickHandler(leftId);
-          toggleEvent();
+          gaChartTableToggleEvent();
         }}
         style={{
           background: leftSelected ? primaryColor : '#FFF',
@@ -58,7 +58,7 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
         className={`${toggleButton} ${toggleButtonLeft} ${rightSelected ? selected : ''}`}
         onClick={() => {
           toggleClickHandler(rightId);
-          toggleEvent();
+          gaChartTableToggleEvent();
         }}
         style={{
           background: rightSelected ? primaryColor : '#FFF',

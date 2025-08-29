@@ -45,8 +45,8 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   downloader,
   customTestId = null,
   downloadData,
-  downloadEvent,
-  toggleEvent,
+  gaDownloadCSVEvent,
+  gaChartTableToggleEvent,
   fileType = 'csv',
   setDateRange,
   datasetDateRange,
@@ -94,7 +94,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
       rightIcon={faTable}
       leftLabel="toggle for chart view"
       rightLabel="toggle for table view"
-      toggleEvent={toggleEvent}
+      gaChartTableToggleEvent={gaChartTableToggleEvent}
     />
   );
 
@@ -144,7 +144,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
           <DownloadItemButton
             fileType={fileType}
             smallTableDownloadData={downloadData}
-            downloadEvent={downloadEvent}
+            gaDownloadCSVEvent={gaDownloadCSVEvent}
             dateRange={monthRange}
             selectedTable={selectedTable}
             downloadTimestamp={downloadTimestamp}

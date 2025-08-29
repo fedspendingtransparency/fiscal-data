@@ -126,8 +126,8 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
       <ChartTableContainer
         title="Outstanding State and Local Government Series (SLGS) Securities"
         downloadData={downloadData}
-        downloadEvent={handleDownloadCSV}
-        toggleEvent={handleToggleClick}
+        gaDownloadCSVEvent={handleDownloadCSV}
+        gaChartTableToggleEvent={handleToggleClick}
         selectedTable={{ downloadName: 'state-and-local-government-series-securities' }}
         altText={altText}
         monthRange={monthRange}

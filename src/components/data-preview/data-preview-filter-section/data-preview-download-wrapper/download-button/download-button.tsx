@@ -20,7 +20,7 @@ const DownloadItemButton: FunctionComponent = ({
   fileType,
   dapGaEventLabel,
   downloadTimestamp,
-  downloadEvent,
+  gaDownloadCSVEvent,
   formatDownloadDate = true,
   smallTableDownloadData,
 }) => {
@@ -43,8 +43,8 @@ const DownloadItemButton: FunctionComponent = ({
         label: download,
       });
     }
-    if (downloadEvent) {
-      downloadEvent();
+    if (gaDownloadCSVEvent) {
+      gaDownloadCSVEvent();
     } else {
       // Downloading raw data.
       generateAnalyticsEvent(dapGaEventLabel, downloadFileEventStr);
