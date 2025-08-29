@@ -64,7 +64,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     const eventLabel = 'Outstanding SLGS Securities';
     const eventAction = 'Chart Hover';
     gaTimer = setTimeout(() => {
-      analyticsEventHandler('State and Local Government Series', eventLabel, eventAction);
+      analyticsEventHandler('Fiscal Data - SLGS', eventLabel, eventAction);
       ga4DataLayerPush({
         event: eventAction,
         eventLabel: eventLabel,
@@ -79,7 +79,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const handleDownloadCSV = () => {
     const eventLabel = 'Outstanding SLGS Securities Table Download';
     const eventAction = 'Download CSV Click';
-    analyticsEventHandler('State and Local Government Series', eventLabel, eventAction);
+    analyticsEventHandler('Fiscal Data - SLGS', eventLabel, eventAction);
     ga4DataLayerPush({
       event: eventAction,
       eventLabel: eventLabel,
@@ -89,7 +89,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const handleToggleClick = () => {
     const eventLabel = 'Outstanding SLGS Securities Chart Table Toggle';
     const eventAction = 'Chart Table Toggle Click';
-    analyticsEventHandler('State and Local Government Series', eventLabel, eventAction);
+    analyticsEventHandler('Fiscal Data - SLGS', eventLabel, eventAction);
     ga4DataLayerPush({
       event: eventAction,
       eventLabel: eventLabel,
@@ -150,7 +150,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
               />
 
               <div
-                data-testid="chartParent"
+                data-testid="chartGrandParent"
                 role="presentation"
                 onFocus={handleChartMouseEnter}
                 onMouseEnter={handleChartMouseEnter}

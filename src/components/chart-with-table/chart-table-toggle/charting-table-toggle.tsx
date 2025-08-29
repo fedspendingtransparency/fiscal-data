@@ -41,6 +41,7 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
     <div className={chartTableToggleContainer}>
       <button
         className={`${toggleButton} ${toggleButtonRight} ${leftSelected ? selected : ''}`}
+        data-testid="toggleButtonLeft"
         onClick={() => {
           toggleClickHandler(leftId);
           gaChartTableToggleEvent();
@@ -56,6 +57,7 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
       </button>
       <button
         className={`${toggleButton} ${toggleButtonLeft} ${rightSelected ? selected : ''}`}
+        data-testid="toggleButtonRight"
         onClick={() => {
           toggleClickHandler(rightId);
           gaChartTableToggleEvent();
