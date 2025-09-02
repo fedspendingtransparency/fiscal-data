@@ -141,7 +141,7 @@ describe('State and Local Government Series Chart', () => {
     jest.advanceTimersByTime(4000);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Chart Hover',
-      category: 'Fiscal Data - SLGS',
+      category: 'State and Local Government Series',
       label: 'Outstanding SLGS Securities',
     });
     jest.clearAllMocks();
@@ -166,7 +166,7 @@ describe('State and Local Government Series Chart', () => {
     userEvent.click(downloadButton);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Download CSV Click',
-      category: 'Fiscal Data - SLGS',
+      category: 'State and Local Government Series',
       label: 'Outstanding SLGS Securities Table Download',
     });
   });
@@ -178,7 +178,7 @@ describe('State and Local Government Series Chart', () => {
     userEvent.click(toggleButton);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Chart Table Toggle Click',
-      category: 'Fiscal Data - SLGS',
+      category: 'State and Local Government Series',
       label: 'Outstanding SLGS Securities Chart Table Toggle',
     });
   });
