@@ -1,7 +1,5 @@
 import React, { FunctionComponent, ReactElement, useState } from 'react';
-import { applyButton, buttonContainer, cancelButton, checkIcon, dropdownContainer, inputContainer } from './date-dropdown.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { dropdownContainer, inputContainer } from './date-dropdown.module.scss';
 import DateTextInput from '../date-text-input/date-text-input';
 
 interface IDateDropdown {
@@ -64,15 +62,15 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
           />
         </div>
         {children}
-        <div className={buttonContainer}>
-          <button className={cancelButton} onClick={handleClose}>
-            Cancel
-          </button>
-          <button className={applyButton} onClick={handleApply} aria-label="Apply Selected Date" disabled={inputFocus && !validInput}>
-            <FontAwesomeIcon icon={faCheck} className={checkIcon} />
-            Apply
-          </button>
-        </div>
+        {/*<div className={buttonContainer}>*/}
+        {/*  <button className={cancelButton} onClick={handleClose}>*/}
+        {/*    Cancel*/}
+        {/*  </button>*/}
+        {/*  <button className={applyButton} onClick={handleApply} aria-label="Apply Selected Date" disabled={inputFocus && !validInput}>*/}
+        {/*    <FontAwesomeIcon icon={faCheck} className={checkIcon} />*/}
+        {/*    Apply*/}
+        {/*  </button>*/}
+        {/*</div>*/}
       </div>
     </>
   );

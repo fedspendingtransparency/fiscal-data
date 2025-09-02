@@ -1,7 +1,18 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import React, { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
+import { faCaretDown, faCaretUp, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { arrowIcon, dropdownList, selected, yearButton } from './month-picker.module.scss';
+import {
+  arrowIcon,
+  dropdownList,
+  selected,
+  yearButton,
+  yearHeader,
+  yearChevron,
+  listMonth,
+  unorderList,
+  unorderYear,
+  listYear,
+} from './month-picker.module.scss';
 import DateDropdown from '../date-dropdown/date-dropdown';
 import { monthFullNames } from '../../../utils/api-utils';
 import ScrollContainer from '../../scroll-container/scroll-container';
@@ -38,21 +49,46 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   const allYears = [...new Set(allReportYears)];
   const monthDropdownOptions = monthFullNames;
 
+  const currentYearIndex = useMemo(() => allYears.findIndex(year => year === selectedYear), [allYears, selectedYear]);
+
+  const hasPrevYear = !showYears && currentYearIndex > 0;
+  const hasNextYear = !showYears && currentYearIndex > -1 && currentYearIndex < allYears.length - 1;
+
+  const applyAndClose = (monthString: string, yearString: string) => {
+    const newDate = new Date(`${monthString} 01, ${yearString}`);
+    setSelectedDate(newDate);
+    // if (handleClose) handleClose();
+  };
+
   const handleMonthClick = (month: string) => {
+    const disabled = !allReportDates.includes(`${month} ${selectedYear}`);
+    if (!ignoreDisabled && disabled) return;
     setSelectedMonth(month);
+    applyAndClose(month, selectedYear);
   };
 
   const handleYearClick = (year: string) => {
+    const disabled = !allReportDates.includes(`${selectedMonth} ${year}`);
+    if (!ignoreDisabled && disabled) {
+      setSelectedYear(year);
+      setShowYears(false);
+      return;
+    }
     setShowYears(false);
     setSelectedYear(year);
+    applyAndClose(selectedMonth, year);
   };
 
-  const handleApply = () => {
-    setSelectedDate(new Date(selectedMonth + ' 01, ' + selectedYear));
-    if (handleClose) {
-      handleClose();
-    }
+  const stepYear = (stepper: number) => {
+    const currentIndex = allYears.findIndex(years => years.toString() === selectedYear.toString());
+    if (currentIndex === -1) return;
+    const nextIndex = currentIndex + stepper;
+    if (nextIndex < 0 || nextIndex >= allYears.length) return;
+    const nextYear = allYears[nextIndex].toString();
+    setSelectedYear(nextYear);
   };
+
+  const yearDesc = useMemo(() => [...allYears].sort((a, b) => Number(b) - Number(a)), [allYears]);
 
   useEffect(() => {
     if (!active) {
@@ -73,26 +109,43 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
       {active && (
         <DateDropdown
           handleClose={handleClose}
-          handleApply={handleApply}
-          setSelectedMonth={setSelectedMonth}
-          setSelectedYear={setSelectedYear}
+          setSelectedMonth={month => {
+            setSelectedMonth(month);
+          }}
+          setSelectedYear={year => {
+            setSelectedYear(year);
+          }}
           allDates={allReportDates}
           selectedDate={selectedMonth + ' ' + selectedYear}
           fromDate={earliestDate}
           toDate={latestDate}
         >
           <>
-            <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">
-              {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretUp : faCaretDown} />
-            </button>
+            <div className={yearHeader}>
+              {hasPrevYear && (
+                <button className={yearChevron} onClick={() => stepYear(-1)}>
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                </button>
+              )}
+
+              <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">
+                {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretUp : faCaretDown} />
+              </button>
+              {hasNextYear && (
+                <button className={yearChevron} onClick={() => stepYear(+1)}>
+                  <FontAwesomeIcon icon={faChevronRight} />
+                </button>
+              )}
+            </div>
+
             <div className={dropdownList}>
               {showYears && (
                 <ScrollContainer deps={[allYears, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
-                  <ul>
-                    {allYears?.map((option, i) => {
+                  <ul className={unorderYear}>
+                    {yearDesc?.map((option, i) => {
                       const disabled = !allReportDates.includes(selectedMonth + ' ' + option);
                       return (
-                        <li key={i}>
+                        <li key={i} className={listYear}>
                           <button
                             className={option.toString() === selectedYear.toString() ? selected : null}
                             disabled={ignoreDisabled ? false : disabled}
@@ -108,11 +161,11 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
               )}
               {!showYears && (
                 <ScrollContainer deps={[allYears, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
-                  <ul>
+                  <ul className={unorderList}>
                     {monthDropdownOptions?.map((option, i) => {
                       const disabled = !allReportDates.includes(option + ' ' + selectedYear);
                       return (
-                        <li key={i}>
+                        <li key={i} className={listMonth}>
                           <button
                             className={option === selectedMonth ? selected : null}
                             disabled={ignoreDisabled ? false : disabled}

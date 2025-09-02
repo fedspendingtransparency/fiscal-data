@@ -24,7 +24,7 @@ const DropdownContainer: FunctionComponent<IDropdownContainer> = ({
       const mouseEvent = event.type !== 'blur';
       if (mouseEvent && !currentTarget?.parentElement?.contains(relatedTarget)) {
         setTimeout(() => {
-          setActive();
+          setActive(true);
         });
       }
     }
@@ -37,7 +37,7 @@ const DropdownContainer: FunctionComponent<IDropdownContainer> = ({
       const parent = dropdownRef.current;
       const related = event?.relatedTarget as HTMLElement;
       if (!parent?.outerText?.includes(related?.outerText) && related?.id !== 'gatsby-focus-wrapper') {
-        setActive(false);
+        setActive(true);
       }
     }
   };
