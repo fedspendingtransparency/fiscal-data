@@ -1,44 +1,41 @@
-import React, { useMemo } from 'react';
-import { PDFDownloadLink } from '@react-pdf/renderer/lib/react-pdf.browser';
+import React, { useEffect } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import ReportGenerator from '../../../report-generator/report-generator';
 import { getGeneratedFileSize } from '../../../../../helpers/dataset-detail/report-helpers';
+import { useRenderPDF } from './useRenderPDF';
+// import {proxy, wrap} from 'comlink';
 
 const GenReportDownloadButton = ({
   generatedReport,
   setApiErrorMessage,
   setIsLoading,
   setFileSize,
+  fileSize,
   onDownloadClick,
   generatedReportInstance,
   setGeneratedReportInstance,
   children,
 }) => {
-  useMemo(async () => {
-    if (generatedReport && !generatedReportInstance) {
-      const instance = <ReportGenerator generatedReport={generatedReport} />;
-      setGeneratedReportInstance(instance);
-      try {
-        const blob = await pdf(instance).toBlob();
-        console.log(blob);
-        getGeneratedFileSize(blob, setFileSize);
-        setApiErrorMessage(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-        setApiErrorMessage(true);
-        return;
-      }
-    }
-  }, [generatedReport]);
+  // const [instance] = usePDF({ document: <ReportGenerator generatedReport={generatedReport} /> });
+  const { url, loading, error } = useRenderPDF({});
 
-  return generatedReportInstance ? (
-    <PDFDownloadLink document={generatedReportInstance} fileName={generatedReport.downloadName} onClick={onDownloadClick}>
+  useEffect(() => {
+    console.log('here?????/**/', url);
+    getGeneratedFileSize(url, setFileSize);
+  }, [url]);
+
+  return generatedReportInstance && fileSize ? (
+    <a href={url} download={generatedReport.downloadName} onClick={onDownloadClick}>
       {children}
-    </PDFDownloadLink>
+    </a>
   ) : (
     <div>{children}</div>
   );
+};
+
+export const renderPDF = async report => {
+  const instance = <ReportGenerator generatedReport={report} />;
+  return pdf(instance).toBlob();
 };
 
 export default GenReportDownloadButton;

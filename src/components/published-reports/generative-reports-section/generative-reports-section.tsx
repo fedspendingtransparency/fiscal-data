@@ -169,6 +169,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     if (reports.length === 0) {
       setIsLoading(false);
     }
+    console.log(allReports, reports);
     setActiveReports(reports);
   }, [allReports]);
 

@@ -69,6 +69,7 @@ const DownloadReportTableRow: FunctionComponent<{
       setFileTypeImage(getFileTypeImage(fileDisplay.fileType));
     } else if (generatedReport) {
       const curReportFile: IGeneratedReport = generatedReport;
+      console.log(generatedReport);
       const fileDisplay = getGeneratedReportFileDisplay(curReportFile);
       setDisplayName(fileDisplay?.displayName);
       setFileName(curReportFile.downloadName);
@@ -101,6 +102,7 @@ const DownloadReportTableRow: FunctionComponent<{
     return generatedReport ? (
       <GenReportDownloadButton
         setFileSize={setFileSize}
+        fileSize={fileSize}
         setApiErrorMessage={setApiErrorMessage}
         generatedReport={generatedReport}
         setIsLoading={setIsLoading}
