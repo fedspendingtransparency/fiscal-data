@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import {
   socialShareContent,
   shareButton,
@@ -21,6 +21,8 @@ import { FunctionComponent } from 'react';
 import { ISocialShareComponent } from '../../models/ISocialShareComponent';
 import SocialMetaData from './social-metadata/social-metadata';
 import Heading from '../heading/heading';
+import { redirectModalState } from '../../components/modal/redirect-modal/redirect-modal-helper';
+import { useSetRecoilState } from 'recoil';
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -53,6 +55,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   explainer,
 }) => {
   const { title, description, body, emailSubject, emailBody, url, image } = copy;
+  const setModal = useSetRecoilState(redirectModalState);
 
   let contentStyle = socialShareContent;
   let containerStyle = shareButtonContainer;
@@ -75,8 +78,25 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
     }
   };
 
+  const openModal = (e: SyntheticEvent) => {
+    e.preventDefault();
+    // onClick?.();
+    setModal({
+      open: true,
+      url,
+      after: () => {
+        window.open(url, '_blank', 'noreferrer, noopener');
+      },
+    });
+  };
+
+  console.log('url: ', url);
+
   return (
     <>
+      {/*<a href={url} target="_blank" rel="noreferrer noopener" onClick={openModal}>*/}
+      {/*  The Modal Test*/}
+      {/*</a>*/}
       <SocialMetaData image={image} title={title} description={description} url={url} />
       <div className={`${contentStyle} socialShareContent`}>
         {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
@@ -103,6 +123,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
             source={baseUrl}
             windowHeight={650}
             beforeOnClick={() => handleClick('LinkedIn')}
+            onClick={openModal}
           >
             <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
           </LinkedinShareButton>

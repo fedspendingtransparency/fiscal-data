@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import ChartTableContainer from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import { chartConfig, formatDate, infoTipTitle, Legend } from './state-and-local-government-series-chart-helper';
@@ -16,6 +16,8 @@ import { format } from 'date-fns';
 import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
 import { useRecoilValue } from 'recoil';
+import { redirectModalState } from '../../../../../components/modal/redirect-modal/redirect-modal-helper';
+import { useSetRecoilState } from 'recoil';
 
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
@@ -40,6 +42,21 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     mergedTableData,
   } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
+  const setModal = useSetRecoilState(redirectModalState);
+
+  const url = 'https://www.linkedin.com/';
+
+  const openModal = (e: SyntheticEvent) => {
+    e.preventDefault();
+    // onClick?.();
+    setModal({
+      open: true,
+      url,
+      after: () => {
+        window.open(url, '_blank', 'noreferrer, noopener');
+      },
+    });
+  };
 
   const infoTipWording =
     'For a date range under two years, the data is presented in a bar chart. For a date range greater than two years, ' +
@@ -96,6 +113,18 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         setIsChartLoading={setIsChartLoading}
         chart={
           <>
+            <a
+              href={url}
+              // id={id}
+              target="_blank"
+              rel="noreferrer noopener"
+              // data-testId={dataTestId}
+              // className={className ? className : 'primary'}
+              // style={style}
+              onClick={openModal}
+            >
+              The Modal Test
+            </a>
             <div className={chartTableBorder} data-testid="chartHeader">
               <ChartDataHeader
                 dateField="Date"
