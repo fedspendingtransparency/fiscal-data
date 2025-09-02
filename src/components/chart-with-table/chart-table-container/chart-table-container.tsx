@@ -89,7 +89,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
         rightSelected: selectedChartView === 'tableView',
       }}
       toggleClickHandler={(chartView: string) => setSelectedChartView(chartView)}
-      chartId={null}
+      chartId="chartTableToggle"
       leftIcon={faChartColumn}
       rightIcon={faTable}
       leftLabel="toggle for chart view"
