@@ -135,7 +135,6 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         datasetDateRange={datasetDateRange}
         isLoading={!chartData}
         height={height}
-        v
         infoTip={infoTipWording}
         infoTipTitle={infoTipTitle}
         setIsChartLoading={setIsChartLoading}
