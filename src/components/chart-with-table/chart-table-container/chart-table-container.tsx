@@ -71,7 +71,12 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   };
 
   const csvDownloader = (
-    <div className={downloadClicked ? clickedLabel : downloadLabelContainer} onClick={handleDownloadClicked} role="presentation">
+    <div
+      className={downloadClicked ? clickedLabel : downloadLabelContainer}
+      onClick={handleDownloadClicked}
+      role="presentation"
+      data-testid="csvDownloaderContainer"
+    >
       <div className={downloadCSV}>Download CSV</div>
       <DownloadIcon className={icon} />
     </div>
