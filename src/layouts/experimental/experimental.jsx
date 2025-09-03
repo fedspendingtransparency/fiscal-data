@@ -16,10 +16,11 @@ const fallbackComponent = () => {
  */
 const ExperimentalPage = () => {
   const testfn = async () => {
-    return renderPDF.renderPDFInWorker();
+    return renderPDF?.renderPDFInWorker();
   };
-  console.log(renderPDF.renderPDFInWorker);
-  renderPDF.renderPDFInWorker();
+  testfn();
+  console.log(renderPDF?.renderPDFInWorker);
+  // renderPDF.renderPDFInWorker();
 
   // useEffect(() => {
   //   try {
