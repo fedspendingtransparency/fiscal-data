@@ -1171,6 +1171,7 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins, getConfig }) => {
           Buffer: ['buffer', 'Buffer'],
         }),
       ],
+      output: { globalObject: 'this' },
     });
   }
 };

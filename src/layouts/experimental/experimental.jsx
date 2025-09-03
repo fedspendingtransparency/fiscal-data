@@ -19,25 +19,7 @@ const ExperimentalPage = () => {
     return renderPDF?.renderPDFInWorker();
   };
   testfn();
-  console.log(renderPDF?.renderPDFInWorker);
-  // renderPDF.renderPDFInWorker();
 
-  // useEffect(() => {
-  //   try {
-  //     pdfWorker.createPDF().then(res => console.log(res));
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }, []);
-  // const worker = typeof window !== 'undefined' ? new PdfWorker() : {};
-  // worker.postMessage({
-  //   question: 'The Answer to the Ultimate Question of Life, The Universe, and Everything.',
-  // });
-  // worker.onmessage = ({ data: { answer } }) => {
-  //   console.log(answer);
-  // };
-
-  // console.log(worker);
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}>
       <SiteLayout>

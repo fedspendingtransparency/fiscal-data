@@ -1,10 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { Document, Page, Text, View } from '@react-pdf/renderer';
-import ReportTable from './report-table/report-table';
+import { Document, Page, Text } from '@react-pdf/renderer';
 import { styles } from './report-generator-styles';
-import { getTableColumnConfig } from '../../../helpers/report-generator/report-generator-helper';
 import { IReportGenerator } from '../../../models/report-generator/IReportGenerator';
-import { formatCellValue } from '../../dtg-table/dtg-table-row/dtg-table-row';
 
 const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport }) => {
   const { config, data, colConfig, summaryData } = generatedReport;
@@ -29,26 +26,26 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport 
         {reportSummary?.map((line, index) => {
           const { name, value, field, type } = line;
 
-          const formattedValue = formatCellValue(value, type, '', field, customFormatting);
+          // const formattedValue = formatCellValue(value, type, '', field, customFormatting);
           return (
             <Text style={styles.documentHeader} id={name} key={index}>
               <Text style={headerFieldName}>{`${name}${!!value ? ': ' : ''}`}</Text>
-              {formattedValue}
+              {value}
             </Text>
           );
         })}
-        {tables.map((table, index) => {
-          const { width, fields, type } = table;
-          const columnConfig = getTableColumnConfig(colConfig, fields);
-          const tableData = type === 'summary' ? summaryData : data;
-          if (tableData.length > 0) {
-            return (
-              <View style={{ width: width }} key={index}>
-                <ReportTable data={tableData} colConfig={columnConfig} customFormatting={customFormatting} />
-              </View>
-            );
-          }
-        })}
+        {/*{tables.map((table, index) => {*/}
+        {/*  const { width, fields, type } = table;*/}
+        {/*  const columnConfig = getTableColumnConfig(colConfig, fields);*/}
+        {/*  const tableData = type === 'summary' ? summaryData : data;*/}
+        {/*  if (tableData.length > 0) {*/}
+        {/*    return (*/}
+        {/*      <View style={{ width: width }} key={index}>*/}
+        {/*        <ReportTable data={tableData} colConfig={columnConfig} customFormatting={customFormatting} />*/}
+        {/*      </View>*/}
+        {/*    );*/}
+        {/*  }*/}
+        {/*})}*/}
       </Page>
     </Document>
   );

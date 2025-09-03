@@ -21,9 +21,8 @@ import { getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay } from 
 import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
 import { getDateLabelForReport, getGeneratedFileSize } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
-import { PDFDownloadLink } from '@react-pdf/renderer/lib/react-pdf.browser';
-import ReportGenerator from '../../report-generator/report-generator';
-import { DocumentProps, pdf } from '@react-pdf/renderer';
+import { DocumentProps } from '@react-pdf/renderer';
+import { renderPDF } from '../../../../workers/pdfWorker';
 
 interface IGeneratedReport {
   name: string;
@@ -102,16 +101,22 @@ const DownloadReportTableRow: FunctionComponent<{
     </>
   );
 
+  const fun = async report => {
+    console.log('here!');
+    return renderPDF?.renderPDFInWorker({ report });
+  };
+
   useEffect(() => {
     if (generatedReport) {
       (async () => {
-        const instance = <ReportGenerator generatedReport={generatedReport} />;
-        setGeneratedReportInstance(instance);
         try {
-          const blob = await pdf(instance).toBlob();
+          const blob = await fun(generatedReport);
+          console.log(blob);
+          setGeneratedReportInstance(blob);
           getGeneratedFileSize(blob, setFileSize);
           setApiErrorMessage(false);
         } catch (error) {
+          console.log(error);
           setIsLoading(false);
           setApiErrorMessage(true);
           return;
@@ -122,9 +127,7 @@ const DownloadReportTableRow: FunctionComponent<{
 
   const LinkComponent = ({ children }) => {
     return generatedReport ? (
-      <PDFDownloadLink document={generatedReportInstance} fileName={generatedReport.downloadName} onClick={onDownloadClick}>
-        {children}
-      </PDFDownloadLink>
+      generatedReportInstance
     ) : (
       <a
         href={reportLocation}
