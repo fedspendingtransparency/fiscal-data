@@ -119,6 +119,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
           selectedDate={selectedMonth + ' ' + selectedYear}
           fromDate={earliestDate}
           toDate={latestDate}
+          hideFooter={true}
         >
           <>
             <div className={yearHeader}>
