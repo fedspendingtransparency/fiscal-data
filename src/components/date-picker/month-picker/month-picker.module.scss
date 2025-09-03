@@ -120,6 +120,11 @@
   display: grid;
   place-items: center;
   color: $font-body-copy;
+
+  &[data-hidden='true'] {
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 .gridList {
   gap: 0.5rem 1rem;

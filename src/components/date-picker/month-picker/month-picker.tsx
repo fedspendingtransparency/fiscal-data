@@ -51,13 +51,13 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
 
   const currentYearIndex = useMemo(() => allYears.findIndex(year => year === selectedYear), [allYears, selectedYear]);
 
-  const hasPrevYear = !showYears && currentYearIndex > 0;
-  const hasNextYear = !showYears && currentYearIndex > -1 && currentYearIndex < allYears.length - 1;
+  const hidePreviousYear = showYears || currentYearIndex <= 0;
+
+  const hideNextYear = showYears || currentYearIndex === -1 || currentYearIndex >= allYears.length - 1;
 
   const applyAndClose = (monthString: string, yearString: string) => {
     const newDate = new Date(`${monthString} 01, ${yearString}`);
     setSelectedDate(newDate);
-    // if (handleClose) handleClose();
   };
 
   const handleMonthClick = (month: string) => {
@@ -123,20 +123,33 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
         >
           <>
             <div className={yearHeader}>
-              {hasPrevYear && (
-                <button className={yearChevron} onClick={() => stepYear(-1)}>
-                  <FontAwesomeIcon icon={faChevronLeft} />
-                </button>
-              )}
+              <button
+                className={yearChevron}
+                onClick={() => stepYear(-1)}
+                data-hidden={hidePreviousYear}
+                aria-hidden={hidePreviousYear}
+                disabled={hidePreviousYear}
+                aria-label="Previous Year"
+                tabIndex={hidePreviousYear ? -1 : 0}
+              >
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </button>
 
               <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">
                 {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretUp : faCaretDown} />
               </button>
-              {hasNextYear && (
-                <button className={yearChevron} onClick={() => stepYear(+1)}>
-                  <FontAwesomeIcon icon={faChevronRight} />
-                </button>
-              )}
+
+              <button
+                className={yearChevron}
+                onClick={() => stepYear(+1)}
+                data-hidden={hideNextYear}
+                aria-hidden={hideNextYear}
+                disabled={hideNextYear}
+                aria-label="Next Year"
+                tabIndex={hideNextYear ? -1 : 0}
+              >
+                <FontAwesomeIcon icon={faChevronRight} />
+              </button>
             </div>
 
             <div className={dropdownList}>
