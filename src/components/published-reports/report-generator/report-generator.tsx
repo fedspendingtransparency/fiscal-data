@@ -2,6 +2,9 @@ import React, { FunctionComponent } from 'react';
 import { Document, Page, Text } from '@react-pdf/renderer';
 import { styles } from './report-generator-styles';
 import { IReportGenerator } from '../../../models/report-generator/IReportGenerator';
+import { getTableColumnConfig } from '../../../helpers/report-generator/report-generator-helper';
+import ReportTable from './report-table/report-table';
+import { View } from '@react-pdf/renderer/lib/react-pdf.browser';
 
 const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport }) => {
   const { config, data, colConfig, summaryData } = generatedReport;
@@ -34,18 +37,18 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport 
             </Text>
           );
         })}
-        {/*{tables.map((table, index) => {*/}
-        {/*  const { width, fields, type } = table;*/}
-        {/*  const columnConfig = getTableColumnConfig(colConfig, fields);*/}
-        {/*  const tableData = type === 'summary' ? summaryData : data;*/}
-        {/*  if (tableData.length > 0) {*/}
-        {/*    return (*/}
-        {/*      <View style={{ width: width }} key={index}>*/}
-        {/*        <ReportTable data={tableData} colConfig={columnConfig} customFormatting={customFormatting} />*/}
-        {/*      </View>*/}
-        {/*    );*/}
-        {/*  }*/}
-        {/*})}*/}
+        {tables.map((table, index) => {
+          const { width, fields, type } = table;
+          const columnConfig = getTableColumnConfig(colConfig, fields);
+          const tableData = type === 'summary' ? summaryData : data;
+          if (tableData.length > 0) {
+            return (
+              <View style={{ width: width }} key={index}>
+                <ReportTable data={tableData} colConfig={columnConfig} customFormatting={customFormatting} />
+              </View>
+            );
+          }
+        })}
       </Page>
     </Document>
   );

@@ -1,7 +1,9 @@
 import ReportGenerator from '../../report-generator/report-generator';
 import React from 'react';
+import { pdf } from '@react-pdf/renderer';
 
-export const createPDFReport = reportData => {
+export const createPDFReport = async reportData => {
   console.log(reportData);
-  return <ReportGenerator generatedReport={reportData} />;
+  const report = <ReportGenerator generatedReport={reportData} />;
+  return pdf(report).toBlob();
 };

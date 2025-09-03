@@ -19,10 +19,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay } from '../../util/util';
 import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
-import { getDateLabelForReport, getGeneratedFileSize } from '../../../../helpers/dataset-detail/report-helpers';
+import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
 import { DocumentProps } from '@react-pdf/renderer';
 import { renderPDF } from '../../../../workers/pdfWorker';
+import GenReportDownloadButton from './gen-report-download-button';
 
 interface IGeneratedReport {
   name: string;
@@ -110,10 +111,10 @@ const DownloadReportTableRow: FunctionComponent<{
     if (generatedReport) {
       (async () => {
         try {
-          const blob = await fun(generatedReport);
-          console.log(blob);
-          setGeneratedReportInstance(blob);
-          getGeneratedFileSize(blob, setFileSize);
+          // const blob = await fun(generatedReport);
+          // console.log(blob);
+          // setGeneratedReportInstance(blob);
+          // getGeneratedFileSize(blob, setFileSize);
           setApiErrorMessage(false);
         } catch (error) {
           console.log(error);
@@ -127,7 +128,18 @@ const DownloadReportTableRow: FunctionComponent<{
 
   const LinkComponent = ({ children }) => {
     return generatedReport ? (
-      generatedReportInstance
+      <GenReportDownloadButton
+        setFileSize={setFileSize}
+        fileSize={fileSize}
+        setApiErrorMessage={setApiErrorMessage}
+        generatedReport={generatedReport}
+        setIsLoading={setIsLoading}
+        onDownloadClick={onDownloadClick}
+        generatedReportInstance={generatedReportInstance}
+        setGeneratedReportInstance={setGeneratedReportInstance}
+      >
+        {children}
+      </GenReportDownloadButton>
     ) : (
       <a
         href={reportLocation}
@@ -169,7 +181,7 @@ const DownloadReportTableRow: FunctionComponent<{
 
   return (
     <>
-      {displayName && (!generatedReport || (generatedReportInstance && fileSize)) && (
+      {displayName && (
         <tr className={fileDescription} data-testid="file-download-row">
           <td>
             <LinkComponent>
