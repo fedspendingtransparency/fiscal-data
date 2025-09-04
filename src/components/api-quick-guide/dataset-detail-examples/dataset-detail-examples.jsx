@@ -3,10 +3,9 @@ import { fetchAPI } from '../../../utils/api-utils';
 import ApiQuickGuideSection from '../api-quick-guide-section';
 import { responseBlock, loadingIcon } from './dataset-detail-examples.module.scss';
 import { exampleTitle, codeBlock } from '../accordions/accordions.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { makeStyles } from '@material-ui/core/styles';
 import GLOBALS from '../../../helpers/constants';
+import LoadingIndicator from '../../loading-indicator/loading-indicator';
 
 const useStyles = makeStyles(() => ({
   loadingIcon: {
@@ -98,14 +97,7 @@ const DatasetDetailExamples = ({ isAccordionOpen, selectedTable }) => {
       </code>
       <div className={exampleTitle}>EXPECTED RESPONSE</div>
       <code className={`${codeBlock} ${responseBlock} large`}>
-        {!!response ? (
-          <pre data-testid="exampleResponse">{response}</pre>
-        ) : (
-          <div className={loadingIcon} data-testid={'loadingIcon'}>
-            <FontAwesomeIcon className={themeStyles.loadingIcon} icon={faSpinner} spin pulse />
-            Loading...
-          </div>
-        )}
+        {!!response ? <pre data-testid="exampleResponse">{response}</pre> : <LoadingIndicator loadingClass={loadingIcon} />}
       </code>
     </>
   );

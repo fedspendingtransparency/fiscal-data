@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Bar } from '@nivo/bar';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import {
@@ -18,6 +16,7 @@ import { addInnerChartAriaLabel, applyChartScaling } from '../../../../explainer
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
   const [isChartRendered, setIsChartRendered] = useState(false);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
@@ -90,11 +89,7 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
   return (
     <>
       <div className={visWithCallout}>
-        {!data && (
-          <div>
-            <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-          </div>
-        )}
+        {!data && <LoadingIndicator />}
         {data && (
           <>
             <ChartContainer

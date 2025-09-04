@@ -4,8 +4,6 @@ import React, { useEffect, useState } from 'react';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { container, header, headerContainer, lineChartContainer, subHeader } from './debt-trends-over-time-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Line } from '@nivo/line';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import {
@@ -27,6 +25,7 @@ import { useInView } from 'react-intersection-observer';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { getChangeLabel } from '../../../../heros/hero-helper';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 let gaTimerDebtTrends;
 let ga4Timer;
@@ -163,11 +162,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
   return (
     <>
-      {isLoadingDebtTrends && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
+      {isLoadingDebtTrends && <LoadingIndicator />}
       {!isLoadingDebtTrends && debtTrendsData && (
         <div className={visWithCallout} ref={ref}>
           <div className={container}>

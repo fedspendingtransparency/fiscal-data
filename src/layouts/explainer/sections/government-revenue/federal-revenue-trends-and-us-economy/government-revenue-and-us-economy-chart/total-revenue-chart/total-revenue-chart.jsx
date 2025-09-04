@@ -23,12 +23,11 @@ import { apiPrefix, basicFetch } from '../../../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../../helpers/simplify-number/simplifyNumber';
 import numeral from 'numeral';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getShortForm } from '../../../../../../../utils/rounding-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../../utils/date-utils';
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import { useInView } from 'react-intersection-observer';
+import LoadingIndicator from '../../../../../../../components/loading-indicator/loading-indicator';
 
 let gaTimerTotalRevenue;
 let ga4Timer;
@@ -312,11 +311,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
   return (
     <>
-      {isLoading && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
+      {isLoading && <LoadingIndicator />}
       {!isLoading && chartToggleConfig && (
         <div className={visWithCallout}>
           <div className={container} role="presentation" onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>

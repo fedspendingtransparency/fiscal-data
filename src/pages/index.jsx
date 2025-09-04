@@ -11,8 +11,7 @@ import LocationAware from '../components/location-aware/location-aware';
 import TopicsSection from '../components/topics-section/topics-section';
 import { graphql, useStaticQuery } from 'gatsby';
 import { withWindowSize } from 'react-fns';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import LoadingIndicator from '../components/loading-indicator/loading-indicator';
 
 export const Index = ({ width }) => {
   const [loading, setLoading] = useState(true);
@@ -51,11 +50,7 @@ export const Index = ({ width }) => {
           financial data, debt, Treasury, US government"
           />
           <>
-            {loading && (
-              <div className={loadingIcon}>
-                <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-              </div>
-            )}
+            {loading && <LoadingIndicator loadingClass={loadingIcon} />}
             {!loading && <TopicsSection images={allFile} width={width} />}
             <HomeMainContent />
             <HomeFeatures />

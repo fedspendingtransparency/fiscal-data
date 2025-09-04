@@ -28,10 +28,7 @@
 }
 
 .loadingIcon {
-  max-width: $site-content-width;
-  margin: 2rem auto;
-  text-align: center;
-  font-size: $font-size-48;
+  @include grayLargeLoadingIcon;
 }
 .releaseCalendarLegend {
   display: flex;

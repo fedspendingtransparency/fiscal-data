@@ -11,16 +11,5 @@
 }
 
 .loadingIcon {
-  z-index: $dataset-details-example-loading-icon;
-  color: $font-title;
-  font-size: $font-size-18;
-  width: 100%;
-  top: 4rem;
-  text-align: center;
-  > * {
-    vertical-align: middle;
-    margin-right: 0.5rem;
-    font-size: $loading-icon-size;
-    color: $loading-icon-color;
-  }
+  @include blueMediumLoadingIcon;
 }
