@@ -230,7 +230,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
   useEffect(() => {
     applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
-  }, [selectedChartView]);
+  }, [isLoading, selectedChartView]);
 
   useEffect(() => {
     if (!selectedChartView) return;
@@ -360,7 +360,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                         props =>
                           LineChartCustomPoints_GDP({
                             ...props,
-                            serieId: 'Total Spending',
+                            seriesId: 'Total Spending',
                           }),
                         props =>
                           CustomSlices({

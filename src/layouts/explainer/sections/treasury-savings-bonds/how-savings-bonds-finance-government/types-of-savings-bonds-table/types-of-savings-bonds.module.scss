@@ -1,4 +1,4 @@
-@import '../../treasury-savings-bonds.module.scss';
+@use '../../treasury-savings-bonds.module.scss' as *;
 
 .tableContainer {
   display: flex;

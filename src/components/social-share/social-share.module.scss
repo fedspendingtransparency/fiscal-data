@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .horizontalSocialShareContent {
   display: flex;
@@ -51,11 +51,12 @@
   margin-bottom: 0;
 }
 
-.listShareButton, .listSocialShareContent {
+.listShareButton,
+.listSocialShareContent {
   min-height: 1rem;
-    .headerText {
-      min-height: 1rem;
-    }
+  .headerText {
+    min-height: 1rem;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {

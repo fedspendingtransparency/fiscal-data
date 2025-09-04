@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .relatedResource {
   margin-bottom: 0.5rem;
@@ -7,8 +7,8 @@
   }
   .externalIcon {
     color: $primary;
-    margin-right: .5rem;
-    margin-top: .25rem;
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
   }
 
   .linkText {
@@ -22,7 +22,6 @@
   margin: 0 1.25rem;
   max-width: 25.25rem;
 
-
   .title {
     margin: 1.5rem 0 0.5rem 0;
     font-size: $font-size-16;
@@ -30,7 +29,7 @@
     text-align: left;
     color: #555555;
   }
-  .headTitle{
+  .headTitle {
     margin: 0 0 0.5rem 0;
     font-size: $font-size-16;
     font-weight: $semi-bold-weight;
@@ -46,14 +45,14 @@
     }
     :global(.accordionHeading) {
       font-size: $font-size-16;
-      color: #0071BC;
+      color: #0071bc;
       border: none;
       padding: 0.75rem 1rem;
     }
 
     :global(.accordionToggle) {
       svg path {
-        color: #0071BC;
+        color: #0071bc;
       }
     }
 

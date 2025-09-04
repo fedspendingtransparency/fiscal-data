@@ -61,16 +61,18 @@ const getChartDates = async (lastCompleteMonth, totalMonths = 12, endYear) => {
   return allDates;
 };
 
-const getDatasetDateRange = async () => {
+const getDatasetDateRange = async lastCompletedDate => {
   const { sort: maxSort } = apiCalls.toDateRange;
   const { sort: minSort } = apiCalls.fromDateRange;
-  const max = await basicFetch(`${apiPrefix}${slgsEndpoint}?sort=${maxSort}&page[size]=1`).then(res => {
+  const filterMonth = lastCompletedDate.month < 10 ? '0' + lastCompletedDate.month : lastCompletedDate.month;
+  const maxFilter = `record_calendar_year:eq:${lastCompletedDate.year},record_calendar_month:eq:${filterMonth}`;
+  const max = await basicFetch(`${apiPrefix}${slgsEndpoint}?sort=${maxSort}&filter=${maxFilter}&page[size]=1`).then(res => {
     if (res.data?.length > 0) return res.data[0].record_date;
   });
   const min = await basicFetch(`${apiPrefix}${slgsEndpoint}?sort=${minSort}&page[size]=1`).then(res => {
     if (res.data?.length > 0) return res.data[0].record_date;
   });
-  return { from: min, to: max };
+  return { from: min, fromFormatted: format(convertDate(min), 'MMMM yyyy'), to: max, toFormatted: format(convertDate(max), 'MMMM yyyy') };
 };
 
 const getChartData = async allDates => {
@@ -117,7 +119,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   totalMonths: number;
   lineChartXAxisValues: string[];
   columnConfig: { property: string; name: string; type: string }[];
-  datasetDateRange: { from: string; to: string };
+  datasetDateRange: { from: string; to: string; fromFormatted: string; toFormatted: string };
   columnConfigArray: string[];
 } => {
   const [chartData, setChartData] = useState<{ date: string; totalAmount: number; totalCount: number }[]>(null);
@@ -128,12 +130,9 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   const totalMonths = getMonthDifference(dateRange?.from, dateRange?.to);
 
   useEffect(() => {
-    getDatasetDateRange().then(async completeDateRange => setDatasetDateRange(completeDateRange));
-  }, []);
-
-  useEffect(() => {
     getLastCompletedMonth('015-BFS-2014Q3-yy').then(async lastCompleted => {
       const { month: lastCompleteMonth, year } = lastCompleted;
+      getDatasetDateRange(lastCompleted).then(async completeDateRange => setDatasetDateRange(completeDateRange));
       let chartEndMonth = lastCompleteMonth;
       let chartEndYear = year;
       if (dateRange?.to) {
@@ -154,7 +153,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
     if (chartData) {
       const newTableData = chartData.map(item => {
         return {
-          date: format(new Date(item.date), 'MMMM yyyy'),
+          date: format(new Date(item.date), 'yyyy-MM-dd'),
           totalAmount: '$' + item.totalAmount.toLocaleString(),
           totalCount: item.totalCount.toLocaleString(),
         };
@@ -166,7 +165,7 @@ export const useGetStateAndLocalGovernmentSeriesData = (dateRange: {
   const columnConfigArray = ['Date', 'Amount', 'Count'];
 
   const columnConfig = [
-    { property: 'date', name: 'Date', type: 'STRING' },
+    { property: 'date', name: 'Date', type: 'DATE' },
     { property: 'totalAmount', name: 'Amount', type: 'NUMBER' },
     { property: 'totalCount', name: 'Count', type: 'NUMBER' },
   ];

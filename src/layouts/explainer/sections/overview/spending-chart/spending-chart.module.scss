@@ -1,22 +1,21 @@
-@import "src/variables.module";
+@use 'src/variables.module' as *;
 .spendingChart {
   font-size: $font-size-14;
-color: $font-body-copy;
+  color: $font-body-copy;
 
-.chartTitle {
-  font-weight: $semi-bold-weight;
-  margin-bottom: 1rem;
-}
-
-.chartContainer {
-  max-width: 430px;
-  top: 22px;
-  position: relative;
-  tspan {
-    color: $font-body-copy;
+  .chartTitle {
+    font-weight: $semi-bold-weight;
+    margin-bottom: 1rem;
   }
-}
 
+  .chartContainer {
+    max-width: 430px;
+    top: 22px;
+    position: relative;
+    tspan {
+      color: $font-body-copy;
+    }
+  }
 }
 .tooltip {
   display: flex;
@@ -28,7 +27,7 @@ color: $font-body-copy;
   padding: 12px 16px;
   border-radius: 2px;
   opacity: 0.95;
-  background: #FFF;
+  background: #fff;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.25);
 
   .tooltipLabel {
@@ -37,7 +36,7 @@ color: $font-body-copy;
   }
 
   .tooltipRow:not(:last-child) {
-    margin-bottom: .25rem;
+    margin-bottom: 0.25rem;
   }
 
   .tooltipRow {
@@ -48,7 +47,7 @@ color: $font-body-copy;
       display: flex;
       .title {
         font-weight: $semi-bold-weight;
-        margin-right: .75rem;
+        margin-right: 0.75rem;
       }
     }
   }
@@ -59,5 +58,5 @@ color: $font-body-copy;
   width: 1rem;
   border-radius: 50%;
   display: inline-block;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
-import { topicSection, link, topicHeading, textContainer, imageContainer, arrow } from './afg-topic-card.module.scss';
+import { arrow, imageContainer, link, textContainer, topicHeading, topicSection } from './afg-topic-card.module.scss';
 import Analytics from '../../../../../utils/analytics/analytics';
 import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
 import AFGDefictChart from '../../../sections/overview/deficit-chart/deficit-chart';

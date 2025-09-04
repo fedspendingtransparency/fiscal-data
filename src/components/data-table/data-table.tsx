@@ -29,6 +29,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   rawData,
   dateRange,
   nonRawDataColumns,
+  enableDownload,
   defaultSelectedColumns,
   setTableColumnSortData,
   shouldPage,
@@ -82,7 +83,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
     const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
 
     const baseColumns = nonRawDataColumns
-      ? columnsConstructorGeneric(nonRawDataColumns)
+      ? columnsConstructorGeneric(nonRawDataColumns, customFormatting)
       : columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
 
     return baseColumns;
@@ -225,7 +226,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
         });
         downloadData.push(visibleRow);
       });
-      if (!nonRawDataColumns) {
+      if (!nonRawDataColumns || enableDownload) {
         const xmlData = {
           'root-element': {
             data: downloadData.map(row => ({
@@ -251,7 +252,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
         setSmallTableCSVData(downloadData);
       }
     }
-  }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns()]);
+  }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns(), sorting]);
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);

@@ -53,6 +53,13 @@ export const DeficitTrendsBarChart = ({ width }) => {
       fontSize: fontSize_16,
       fontFamily: 'Source Sans Pro',
       textColor: fontBodyCopy,
+      axis: {
+        ticks: {
+          text: {
+            fontSize: desktop ? fontSize_16 : fontSize_12,
+          },
+        },
+      },
     },
     axisBottom: {
       tickSize: 0,
@@ -290,6 +297,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 enableGridX={true}
                 theme={chartConfigs.theme}
                 layers={['grid', 'axes', 'bars']}
+                valueScale={{ type: 'linear', clamp: true, min: minValue, max: maxValue }}
                 minValue={minValue}
                 maxValue={maxValue}
                 gridXValues={tickValuesX}

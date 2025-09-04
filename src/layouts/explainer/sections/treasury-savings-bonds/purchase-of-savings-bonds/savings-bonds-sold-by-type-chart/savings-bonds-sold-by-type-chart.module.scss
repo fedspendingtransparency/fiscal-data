@@ -1,6 +1,6 @@
-@import 'src/variables.module.scss';
-@import '../../treasury-savings-bonds.module.scss';
-@import '../../../../explainer.module';
+@use 'src/variables.module' as *;
+@use '../../treasury-savings-bonds.module.scss' as *;
+@use '../../../../explainer.module' as *;
 
 .dataHeader {
   display: flex;

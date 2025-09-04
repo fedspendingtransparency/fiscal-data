@@ -1,5 +1,5 @@
-@import '../../../../variables.module.scss';
-@import '../../../../zIndex.module.scss';
+@use 'src/variables.module' as *;
+@use '../../../../zIndex.module.scss' as *;
 
 $overviewPrimary: #0071bc;
 $revenuePrimary: #0a2f5a;
@@ -40,7 +40,8 @@ ul.navBlockHidden {
   display: none;
 }
 
-ul.navBlock, ul.navBlockSticky {
+ul.navBlock,
+ul.navBlockSticky {
   margin: 1.5rem 0;
   list-style: none;
   display: flex;
@@ -57,12 +58,10 @@ ul.navBlock {
   padding-inline-start: 0;
 }
 
-
 ul.navBlockSticky {
   position: fixed;
   top: 3.25rem;
   z-index: $desktop-menu-sticky;
-
 }
 
 li.navItem {

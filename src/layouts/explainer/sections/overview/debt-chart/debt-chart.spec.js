@@ -4,18 +4,6 @@ import React from 'react';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
 import { mockDebtChartResponseMap } from '../../../explainer-helpers/afg-overview-test-helper';
 
-jest.mock('recharts', () => {
-  const OriginalModule = jest.requireActual('recharts');
-  return {
-    ...OriginalModule,
-    ResponsiveContainer: ({ children }) => (
-      <OriginalModule.ResponsiveContainer width={800} height={800}>
-        {children}
-      </OriginalModule.ResponsiveContainer>
-    ),
-  };
-});
-
 describe('AFG Debt Chart', () => {
   class ResizeObserver {
     observe() {}

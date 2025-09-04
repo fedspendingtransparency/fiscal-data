@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import ChartTableContainer from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
-import { chartConfig, formatDate, Legend, infoTipWording, infoTipTitle } from './state-and-local-government-series-chart-helper';
+import { chartConfig, formatDate, infoTipTitle, Legend } from './state-and-local-government-series-chart-helper';
 import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { withWindowSize } from 'react-fns';
@@ -9,6 +9,13 @@ import { customNumberFormatter } from '../../../../../helpers/text-format/text-f
 import { chartTableBorder, container, loadingIcon, overlay } from './state-and-local-government-series-chart.module.scss';
 import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { format } from 'date-fns';
+import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
+import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
+import { useRecoilValue } from 'recoil';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
@@ -22,6 +29,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [downloadData, setDownloadData] = useState([]);
   const [monthRange, setMonthRange] = useState<{ from: string; to: string }>();
   const [isChartLoading, setIsChartLoading] = useState<boolean>(false);
+  const tableCSVData = useRecoilValue(smallTableDownloadDataCSV);
 
   const {
     chartData,
@@ -33,6 +41,11 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     mergedTableData,
   } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
+
+  const infoTipWording =
+    'For a date range under two years, the data is presented in a bar chart. For a date range greater than two years, ' +
+    'the visualization will display a line chart. ' +
+    `\nData for this visualization is available from ${datasetDateRange?.fromFormatted} to ${datasetDateRange?.toFormatted}.`;
 
   const setDefaultHeaderValues = () => {
     if (chartData) {
@@ -48,23 +61,24 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   }, [chartData]);
 
   useEffect(() => {
-    if (mergedTableData.length) {
+    if (mergedTableData.length && mergedTableData[0]?.date && mergedTableData[mergedTableData.length - 1]?.date) {
       setMonthRange({
-        from: mergedTableData[0].date,
-        to: mergedTableData[mergedTableData.length - 1].date,
+        from: format(convertDate(mergedTableData[0].date), 'MMMM yyyy'),
+        to: format(convertDate(mergedTableData[mergedTableData.length - 1].date), 'MMMM yyyy'),
       });
     }
-    const downloaderData = mergedTableData.map(row => {
-      const cleanData = {
-        date: `="${row.date}"`,
-        totalAmount: `"${row.totalAmount}"`,
-        totalCount: `"${row.totalCount}"`,
-      };
-      return columnConfig.map(col => cleanData[col.property]);
+
+    const dateIndex = columnConfigArray.indexOf('Date');
+    const downloadRows = tableCSVData.map((row, index) => {
+      if (dateIndex < 0 || dateIndex > row.length - 1) return null;
+      if (index === 0) return row;
+      const formattedRow = [...row];
+      formattedRow[dateIndex] = `="${format(convertDate(row[dateIndex]), 'MMMM yyyy')}"`;
+      return formattedRow;
     });
-    downloaderData.unshift(columnConfigArray);
-    setDownloadData(downloaderData);
-  }, [mergedTableData]);
+
+    setDownloadData(downloadRows);
+  }, [mergedTableData, sorting, tableCSVData]);
 
   return (
     <>
@@ -74,18 +88,16 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         selectedTable={{ downloadName: 'state-and-local-government-series-securities' }}
         altText={altText}
         monthRange={monthRange}
-        dateRange={dateRange}
         setDateRange={setDateRange}
         datasetDateRange={datasetDateRange}
         isLoading={!chartData}
         height={height}
         infoTip={infoTipWording}
         infoTipTitle={infoTipTitle}
-        paddingBuffer={true}
         setIsChartLoading={setIsChartLoading}
         chart={
           <>
-            <div className={chartTableBorder}>
+            <div className={chartTableBorder} data-testid="chartHeader">
               <ChartDataHeader
                 dateField="Date"
                 fiscalYear={formatDate(curDate)}
@@ -136,11 +148,19 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
               width: '99%',
               chartTable: false,
               noBorder: true,
+              customFormatting: [
+                {
+                  type: 'DATE',
+                  fields: ['date'],
+                  dateFormat: 'MMMM yyyy',
+                },
+              ],
             }}
             reactTable={true}
             sorting={sorting}
             setSorting={setSorting}
             width
+            enableDownload
           />
         }
       />

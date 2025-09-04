@@ -1,6 +1,6 @@
-@import '../../../../../../variables.module.scss';
-@import '../../../../../../zIndex.module.scss';
-@import '../../national-deficit.module';
+@use '../../../../../../variables.module.scss' as *;
+@use '../../../../../../zIndex.module.scss' as *;
+@use '../../national-deficit.module' as *;
 
 .tabEdgeLeft {
   position: absolute;

@@ -56,6 +56,7 @@ export default function DtgTable({
   disableDateRangeFilter,
   datasetName,
   hasDownloadTimestamp,
+  enableDownload,
 }) {
   const {
     dePaginated,
@@ -525,6 +526,7 @@ export default function DtgTable({
               datasetName={datasetName}
               hasDownloadTimestamp={hasDownloadTimestamp}
               chartTable={chartTable}
+              enableDownload={enableDownload}
             />
           </ErrorBoundary>
         </div>

@@ -1,5 +1,5 @@
-@import '../../variables.module.scss';
-@import '../../zIndex.module.scss';
+@use 'src/variables.module' as *;
+@use '../../zIndex.module.scss' as *;
 
 $menuWidth: 318px;
 

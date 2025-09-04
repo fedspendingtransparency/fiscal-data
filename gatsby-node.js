@@ -502,6 +502,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       defaultMessage: String,
       searchText: String,
       optionValues: [String!],
+      experimental: Boolean,
     }
     type Datasets implements Node {
       publishedReports: [PublishedReport!],
@@ -597,12 +598,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           runTimeReportConfig {
             filterField
             filterLabel
+            searchText
+            dateFilterLabel
             dateFilterType
             unmatchedHeader
             unmatchedMessage
             defaultHeader
             defaultMessage
             optionValues
+            experimental
+            customFilterOption
           }
           hideRawDataTable
           hideReportDatePicker
