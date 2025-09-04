@@ -112,17 +112,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         </div>
         <div className="div">
           <button onClick={e => openModal(e, 'https://www.linkedin.com/shareArticle')}>
-            {/*<LinkedinShareButton*/}
-            {/*  className={`${buttonStyle} linkedInShare`}*/}
-            {/*  url={url}*/}
-            {/*  title={title}*/}
-            {/*  summary={body}*/}
-            {/*  source={baseUrl}*/}
-            {/*  windowHeight={650}*/}
-            {/*  beforeOnClick={() => handleClick('LinkedIn')}*/}
-            {/*>*/}
             <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
-            {/*</LinkedinShareButton>*/}
           </button>
         </div>
         <div className={containerStyle}>
