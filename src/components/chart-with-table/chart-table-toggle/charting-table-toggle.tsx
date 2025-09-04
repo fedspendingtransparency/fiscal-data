@@ -1,14 +1,7 @@
-import React, {FunctionComponent} from 'react';
-import {
-  chartTableToggleContainer,
-  icon,
-  selected,
-  toggleButton,
-  toggleButtonLeft,
-  toggleButtonRight
-} from './charting-table-toggle.module.scss';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
+import React, { FunctionComponent } from 'react';
+import { chartTableToggleContainer, icon, selected, toggleButton, toggleButtonLeft, toggleButtonRight } from './charting-table-toggle.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 interface LeftButtonConfig {
   leftId: string;
@@ -31,6 +24,7 @@ interface InterestExpenseChartToggleProps {
 }
 
 const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = ({
+  gaChartTableToggleEvent,
   toggleClickHandler,
   primaryColor,
   chartId,
@@ -47,8 +41,10 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
     <div className={chartTableToggleContainer}>
       <button
         className={`${toggleButton} ${toggleButtonRight} ${leftSelected ? selected : ''}`}
+        data-testid="toggleButtonLeft"
         onClick={() => {
           toggleClickHandler(leftId);
+          gaChartTableToggleEvent();
         }}
         style={{
           background: leftSelected ? primaryColor : '#FFF',
@@ -61,8 +57,10 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
       </button>
       <button
         className={`${toggleButton} ${toggleButtonLeft} ${rightSelected ? selected : ''}`}
+        data-testid="toggleButtonRight"
         onClick={() => {
           toggleClickHandler(rightId);
+          gaChartTableToggleEvent();
         }}
         style={{
           background: rightSelected ? primaryColor : '#FFF',

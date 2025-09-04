@@ -133,7 +133,7 @@ describe('Interest Expense Chart', () => {
   });
 
   it('chart is keyboard accessible', async () => {
-    const { getByRole, getByText, getByTestId } = render(<InterestExpenseChart />, { wrapper });
+    const { getByRole, getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chart = getByRole('application');
     userEvent.tab();
     userEvent.tab();

@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import StateAndLocalGovernmentSeriesChart from './state-and-local-government-series-chart';
 import { CustomTooltip } from './state-and-local-government-series-chart-helper';
 import { RecoilRoot } from 'recoil';
+import Analytics from '../../../../../utils/analytics/analytics';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -128,5 +129,57 @@ describe('State and Local Government Series Chart', () => {
     expect(chart).not.toHaveFocus();
     //Chart header resets
     expect(within(getByTestId('chartHeader')).getByText('Sep 2020')).toBeInTheDocument();
+  });
+
+  it('fires GA event on chart hover', async () => {
+    jest.useFakeTimers();
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const chartParent = getByTestId('chartParent');
+    userEvent.hover(chartParent);
+    jest.advanceTimersByTime(4000);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Chart Hover',
+      category: 'State and Local Government Series',
+      label: 'Outstanding SLGS Securities',
+    });
+    jest.clearAllMocks();
+  });
+
+  it('cancels GA event on chart hover less than 3 seconds', async () => {
+    jest.useFakeTimers();
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const chartParent = getByTestId('chartGrandParent');
+    userEvent.hover(chartParent);
+    userEvent.unhover(chartParent);
+    jest.advanceTimersByTime(4000);
+    expect(analyticsSpy).not.toHaveBeenCalled();
+    jest.clearAllMocks();
+  });
+
+  it('fires GA event on csv download button click', async () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const downloadButton = getByTestId('csv-download-button');
+    userEvent.click(downloadButton);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Download CSV Click',
+      category: 'State and Local Government Series',
+      label: 'Outstanding SLGS Securities Table Download',
+    });
+  });
+
+  it('fires GA event on chart table toggle click', async () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const toggleButton = getByTestId('toggleButtonRight');
+    userEvent.click(toggleButton);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Chart Table Toggle Click',
+      category: 'State and Local Government Series',
+      label: 'Outstanding SLGS Securities Chart Table Toggle',
+    });
   });
 });
