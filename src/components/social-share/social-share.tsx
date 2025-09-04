@@ -23,6 +23,7 @@ import SocialMetaData from './social-metadata/social-metadata';
 import Heading from '../heading/heading';
 import { redirectModalState } from '../../components/modal/redirect-modal/redirect-modal-helper';
 import { useSetRecoilState } from 'recoil';
+import RedirectModal from '../modal/redirect-modal/redirect-modal';
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -78,14 +79,14 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
     }
   };
 
-  const openModal = (e: SyntheticEvent) => {
+  const openModal = (e: SyntheticEvent, url: string) => {
     e.preventDefault();
     // onClick?.();
     setModal({
       open: true,
       url,
       after: () => {
-        window.open(url, '_blank', 'noreferrer, noopener');
+        window.open(url, '_blank', 'noreferrer, noopener, width=650,height=600');
       },
     });
   };
@@ -109,6 +110,21 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
             <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
           </FacebookShareButton>
         </div>
+        <div className="div">
+          <button onClick={e => openModal(e, 'https://www.linkedin.com/shareArticle')}>
+            {/*<LinkedinShareButton*/}
+            {/*  className={`${buttonStyle} linkedInShare`}*/}
+            {/*  url={url}*/}
+            {/*  title={title}*/}
+            {/*  summary={body}*/}
+            {/*  source={baseUrl}*/}
+            {/*  windowHeight={650}*/}
+            {/*  beforeOnClick={() => handleClick('LinkedIn')}*/}
+            {/*>*/}
+            <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
+            {/*</LinkedinShareButton>*/}
+          </button>
+        </div>
         <div className={containerStyle}>
           <TwitterShareButton className={`${buttonStyle} twitterShare`} url={url} title={body} beforeOnClick={() => handleClick('Twitter')}>
             <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />
@@ -123,7 +139,6 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
             source={baseUrl}
             windowHeight={650}
             beforeOnClick={() => handleClick('LinkedIn')}
-            onClick={openModal}
           >
             <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
           </LinkedinShareButton>
