@@ -13,14 +13,9 @@ const GenReportDownloadButton = ({
   setGeneratedReportInstance,
   children,
 }) => {
-  // provides blob data
   const { url, loading, error } = useRenderPDF(generatedReport);
-  // const test = renderPDF({ generatedReport });
-  // const [instance, updateInstance] = usePDF({ document: test });
 
-  // console.log(test);
   useEffect(() => {
-    console.log(url);
     getGeneratedFileSize(url, setFileSize);
   }, [url]);
 

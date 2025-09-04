@@ -3,7 +3,6 @@ import React from 'react';
 import { pdf } from '@react-pdf/renderer';
 
 export const createPDFReport = async reportData => {
-  console.log(reportData);
   const report = <ReportGenerator generatedReport={reportData} />;
   return pdf(report).toBlob();
 };
