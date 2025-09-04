@@ -1149,7 +1149,19 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins, getConfig }) => {
     if (miniCssExtractPlugin) {
       miniCssExtractPlugin.options.ignoreOrder = true;
     }
-
+    // let options = {};
+    // const PREFIX = 'built';
+    // if (stage === 'build-javascript') {
+    //   options = {
+    //     name: `${PREFIX}-[1].[contenthash]`,
+    //     regExp: '(\\w+).worker.(js|ts)$',
+    //   };
+    // }
+    // config.module.rules.push({
+    //   test: /\.worker\.(js|ts)$/,
+    //   use: { loader: 'workerize-loader-wp5', options },
+    // });
+    // config.output.globalObject = 'this';
     actions.replaceWebpackConfig(config);
 
     actions.setWebpackConfig({
@@ -1159,6 +1171,7 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins, getConfig }) => {
           Buffer: ['buffer', 'Buffer'],
         }),
       ],
+      output: { globalObject: 'this' },
     });
   }
 };
