@@ -24,6 +24,7 @@ import Heading from '../heading/heading';
 import { redirectModalState } from '../../components/modal/redirect-modal/redirect-modal-helper';
 import { useSetRecoilState } from 'recoil';
 import RedirectModal from '../modal/redirect-modal/redirect-modal';
+import { getSocialParams } from './social-share-helper';
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -91,21 +92,9 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
       },
     });
   };
-  //
-  // const newOnClick = (e) => {
-  //   e.preventDefault();
-  //   const newUrl = e.currentTarget.getAttribute('url');
-  //   url = newUrl;
-  //
-  // }
-  //
-  // console.log('url: ', url);
 
   return (
     <>
-      {/*<a href={url} target="_blank" rel="noreferrer noopener" onClick={openModal}>*/}
-      {/*  The Modal Test*/}
-      {/*</a>*/}
       <SocialMetaData image={image} title={title} description={description} url={url} />
       <div className={`${contentStyle} socialShareContent`}>
         {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
@@ -115,37 +104,25 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         )}
         <div className={containerStyle}>
           <FacebookShareButton className={`${buttonStyle} facebookShare`} url={url} quote={body} beforeOnClick={() => handleClick('Facebook')}>
+            {/*{getSocialParams('facebook', url)}*/}
             <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
           </FacebookShareButton>
         </div>
-        <div className="div">
-          <button onClick={e => openModal(e, 'https://www.linkedin.com/shareArticle')}>
-            <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
-          </button>
-        </div>
-        {/*<div className={containerStyle}>*/}
-        {/*  <TwitterShareButton className={`${buttonStyle} twitterShare`} url={url} title={body} beforeOnClick={() => handleClick('Twitter')}>*/}
-        {/*    <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />*/}
-        {/*  </TwitterShareButton>*/}
+        {/*<div className="div">*/}
+        {/*  <button onClick={e => openModal(e, 'https://www.linkedin.com/shareArticle')}>*/}
+        {/*    <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />*/}
+        {/*  </button>*/}
         {/*</div>*/}
         <div className={containerStyle}>
-          {/*<div onClick={e => openModal(e, 'https://www.linkedin.com/shareArticle')}>*/}
-          <LinkedinShareButton
-            className={`${buttonStyle} linkedInShare`}
-            url={url}
-            title={title}
-            summary={body}
-            source={baseUrl}
-            windowHeight={650}
-            beforeOnClick={() => handleClick('LinkedIn')}
-            // disabled={true}
-            onClick={e => openModal(e, url)}
-          >
-            <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
-          </LinkedinShareButton>
+          <TwitterShareButton className={`${buttonStyle} twitterShare`} url={url} title={body} beforeOnClick={() => handleClick('Twitter')}>
+            <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />
+          </TwitterShareButton>
         </div>
       </div>
       <div className={containerStyle}>
+        <a href={getSocialParams('linkedin', url, title, body, baseUrl)} target="_blank" rel="noopener noreferrer">
+          test
+        </a>
         <LinkedinShareButton
           className={`${buttonStyle} linkedInShare`}
           url={url}
@@ -163,7 +140,6 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
           <ShareButtonContent name="reddit" width={width} displayStyle={displayStyle} />
         </RedditShareButton>
       </div>
-      // wrapper // linkedInSharebutton // wrapper
       <div className={containerStyle}>
         <EmailShareButton
           className={`${buttonStyle} emailShare`}
