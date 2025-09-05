@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import {
   socialShareContent,
   shareButton,
@@ -57,6 +57,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
 }) => {
   const { title, description, body, emailSubject, emailBody, url, image } = copy;
   const setModal = useSetRecoilState(redirectModalState);
+  // const [shareUrl, setShareUrl] = useState("");
 
   let contentStyle = socialShareContent;
   let containerStyle = shareButtonContainer;
@@ -90,8 +91,15 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
       },
     });
   };
-
-  console.log('url: ', url);
+  //
+  // const newOnClick = (e) => {
+  //   e.preventDefault();
+  //   const newUrl = e.currentTarget.getAttribute('url');
+  //   url = newUrl;
+  //
+  // }
+  //
+  // console.log('url: ', url);
 
   return (
     <>
@@ -115,12 +123,13 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
             <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
           </button>
         </div>
+        {/*<div className={containerStyle}>*/}
+        {/*  <TwitterShareButton className={`${buttonStyle} twitterShare`} url={url} title={body} beforeOnClick={() => handleClick('Twitter')}>*/}
+        {/*    <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />*/}
+        {/*  </TwitterShareButton>*/}
+        {/*</div>*/}
         <div className={containerStyle}>
-          <TwitterShareButton className={`${buttonStyle} twitterShare`} url={url} title={body} beforeOnClick={() => handleClick('Twitter')}>
-            <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />
-          </TwitterShareButton>
-        </div>
-        <div className={containerStyle}>
+          {/*<div onClick={e => openModal(e, 'https://www.linkedin.com/shareArticle')}>*/}
           <LinkedinShareButton
             className={`${buttonStyle} linkedInShare`}
             url={url}
@@ -129,27 +138,43 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
             source={baseUrl}
             windowHeight={650}
             beforeOnClick={() => handleClick('LinkedIn')}
+            // disabled={true}
+            onClick={e => openModal(e, url)}
           >
             <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
           </LinkedinShareButton>
         </div>
-        <div className={containerStyle}>
-          <RedditShareButton className={`${buttonStyle} redditShare`} url={url} title={title} beforeOnClick={() => handleClick('Reddit')}>
-            <ShareButtonContent name="reddit" width={width} displayStyle={displayStyle} />
-          </RedditShareButton>
-        </div>
-        <div className={containerStyle}>
-          <EmailShareButton
-            className={`${buttonStyle} emailShare`}
-            url={url}
-            subject={emailSubject}
-            body={emailBody}
-            separator={emailSeparator}
-            beforeOnClick={() => handleClick('Email')}
-          >
-            <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
-          </EmailShareButton>
-        </div>
+      </div>
+      <div className={containerStyle}>
+        <LinkedinShareButton
+          className={`${buttonStyle} linkedInShare`}
+          url={url}
+          title={title}
+          summary={body}
+          source={baseUrl}
+          windowHeight={650}
+          beforeOnClick={() => handleClick('LinkedIn')}
+        >
+          <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
+        </LinkedinShareButton>
+      </div>
+      <div className={containerStyle}>
+        <RedditShareButton className={`${buttonStyle} redditShare`} url={url} title={title} beforeOnClick={() => handleClick('Reddit')}>
+          <ShareButtonContent name="reddit" width={width} displayStyle={displayStyle} />
+        </RedditShareButton>
+      </div>
+      // wrapper // linkedInSharebutton // wrapper
+      <div className={containerStyle}>
+        <EmailShareButton
+          className={`${buttonStyle} emailShare`}
+          url={url}
+          subject={emailSubject}
+          body={emailBody}
+          separator={emailSeparator}
+          beforeOnClick={() => handleClick('Email')}
+        >
+          <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
+        </EmailShareButton>
       </div>
     </>
   );
