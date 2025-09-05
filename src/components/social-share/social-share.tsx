@@ -23,8 +23,7 @@ import SocialMetaData from './social-metadata/social-metadata';
 import Heading from '../heading/heading';
 import { redirectModalState } from '../../components/modal/redirect-modal/redirect-modal-helper';
 import { useSetRecoilState } from 'recoil';
-import RedirectModal from '../modal/redirect-modal/redirect-modal';
-import { getSocialParams } from './social-share-helper';
+import { getLinkedInParams, getFacebookParams, getTwitterParams, getRedditParams, getEmailParams } from './social-share-helper';
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -103,44 +102,46 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
           </Heading>
         )}
         <div className={containerStyle}>
-          <FacebookShareButton className={`${buttonStyle} facebookShare`} url={url} quote={body} beforeOnClick={() => handleClick('Facebook')}>
-            {/*{getSocialParams('facebook', url)}*/}
+          <button onClick={e => openModal(e, getFacebookParams('facebook', url, title))}>
             <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
-          </FacebookShareButton>
+          </button>
+          {/*<FacebookShareButton className={`${buttonStyle} facebookShare`} url={url} quote={body} beforeOnClick={() => handleClick('Facebook')}>*/}
+          {/*</FacebookShareButton>*/}
         </div>
-        {/*<div className="div">*/}
-        {/*  <button onClick={e => openModal(e, 'https://www.linkedin.com/shareArticle')}>*/}
-        {/*    <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />*/}
-        {/*  </button>*/}
-        {/*</div>*/}
         <div className={containerStyle}>
-          <TwitterShareButton className={`${buttonStyle} twitterShare`} url={url} title={body} beforeOnClick={() => handleClick('Twitter')}>
+          <button onClick={e => openModal(e, getTwitterParams('twitter', url, title))}>
             <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />
-          </TwitterShareButton>
+          </button>
+          {/*<TwitterShareButton className={`${buttonStyle} twitterShare`} url={url} title={body} beforeOnClick={() => handleClick('Twitter')}>*/}
+          {/*</TwitterShareButton>*/}
         </div>
       </div>
       <div className={containerStyle}>
-        <a href={getSocialParams('linkedin', url, title, body, baseUrl)} target="_blank" rel="noopener noreferrer">
-          test
-        </a>
-        <LinkedinShareButton
-          className={`${buttonStyle} linkedInShare`}
-          url={url}
-          title={title}
-          summary={body}
-          source={baseUrl}
-          windowHeight={650}
-          beforeOnClick={() => handleClick('LinkedIn')}
-        >
+        <button onClick={e => openModal(e, getLinkedInParams('linkedin', url, title))}>
           <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
-        </LinkedinShareButton>
+        </button>
+        {/*<LinkedinShareButton*/}
+        {/*  className={`${buttonStyle} linkedInShare`}*/}
+        {/*  url={url}*/}
+        {/*  title={title}*/}
+        {/*  summary={body}*/}
+        {/*  source={baseUrl}*/}
+        {/*  windowHeight={650}*/}
+        {/*  beforeOnClick={() => handleClick('LinkedIn')}*/}
+        {/*>*/}
+        {/*</LinkedinShareButton>*/}
       </div>
       <div className={containerStyle}>
-        <RedditShareButton className={`${buttonStyle} redditShare`} url={url} title={title} beforeOnClick={() => handleClick('Reddit')}>
+        <button onClick={e => openModal(e, getRedditParams('reddit', url, title))}>
           <ShareButtonContent name="reddit" width={width} displayStyle={displayStyle} />
-        </RedditShareButton>
+        </button>
+        {/*<RedditShareButton className={`${buttonStyle} redditShare`} url={url} title={title} beforeOnClick={() => handleClick('Reddit')}>*/}
+        {/*</RedditShareButton>*/}
       </div>
       <div className={containerStyle}>
+        <button onClick={e => openModal(e, getEmailParams('email', url, title))}>
+          <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
+        </button>
         <EmailShareButton
           className={`${buttonStyle} emailShare`}
           url={url}

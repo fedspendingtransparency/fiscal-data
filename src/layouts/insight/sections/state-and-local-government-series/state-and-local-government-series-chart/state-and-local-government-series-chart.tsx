@@ -19,8 +19,6 @@ import { useRecoilValue } from 'recoil';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 import globalConstants from '../../../../../helpers/constants';
-import { redirectModalState } from '../../../../../components/modal/redirect-modal/redirect-modal-helper';
-import { useSetRecoilState } from 'recoil';
 let gaTimer;
 
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
@@ -47,21 +45,6 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     mergedTableData,
   } = useGetStateAndLocalGovernmentSeriesData(dateRange);
   const { height, altText } = chartConfig;
-  const setModal = useSetRecoilState(redirectModalState);
-
-  const url = 'https://www.linkedin.com/';
-
-  const openModal = (e: SyntheticEvent) => {
-    e.preventDefault();
-    // onClick?.();
-    setModal({
-      open: true,
-      url,
-      after: () => {
-        window.open(url, '_blank', 'noreferrer, noopener');
-      },
-    });
-  };
 
   const infoTipWording =
     'For a date range under two years, the data is presented in a bar chart. For a date range greater than two years, ' +
