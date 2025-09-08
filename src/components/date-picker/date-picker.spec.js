@@ -80,6 +80,8 @@ describe('Month Picker', () => {
         allYears={yearDropdownList}
         selectedDate={mockSelectedDate}
         setSelectedDate={mockSetSelectedDate}
+        isDaily={false}
+        ignoreDisabled={true}
       />
     );
     const button = getByRole('button', { name: 'Select Published Date' });
@@ -88,11 +90,14 @@ describe('Month Picker', () => {
     });
     expect(getAllByRole('button').length).toBeGreaterThan(1);
     act(() => {
-      fireEvent.click(getByRole('button', { name: 'March' }));
       fireEvent.click(getByRole('button', { name: 'Toggle Year Dropdown' }));
     });
     act(() => {
       fireEvent.click(getByRole('button', { name: '2022' }));
+    });
+
+    act(() => {
+      fireEvent.click(getByRole('button', { name: 'March' }));
     });
 
     await waitFor(() => expect(mockSetSelectedDate).toHaveBeenCalled());

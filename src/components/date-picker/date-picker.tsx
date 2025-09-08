@@ -18,6 +18,7 @@ interface IDatePicker {
   ariaLabel?: string;
   minDateErrorMessage?: string;
   maxDateErrorMessage?: string;
+  ignoreDisabled?: boolean;
 }
 
 const DatePicker: FunctionComponent<IDatePicker> = ({
