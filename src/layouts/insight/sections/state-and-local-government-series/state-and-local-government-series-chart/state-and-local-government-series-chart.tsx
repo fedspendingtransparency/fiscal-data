@@ -1,4 +1,4 @@
-import React, { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import ChartTableContainer from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import { chartConfig, formatDate, infoTipTitle, Legend } from './state-and-local-government-series-chart-helper';
@@ -19,6 +19,7 @@ import { useRecoilValue } from 'recoil';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 import globalConstants from '../../../../../helpers/constants';
+
 let gaTimer;
 
 const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {

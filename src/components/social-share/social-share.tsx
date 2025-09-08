@@ -13,7 +13,6 @@ import {
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, RedditShareButton, EmailShareButton } from 'react-share';
 import globalConstants from '../../helpers/constants';
 import Analytics from '../../utils/analytics/analytics';
 import ShareButtonContent from './share-button-content/share-button-content';
@@ -57,7 +56,6 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
 }) => {
   const { title, description, body, emailSubject, emailBody, url, image } = copy;
   const setModal = useSetRecoilState(redirectModalState);
-  // const [shareUrl, setShareUrl] = useState("");
 
   let contentStyle = socialShareContent;
   let containerStyle = shareButtonContainer;
