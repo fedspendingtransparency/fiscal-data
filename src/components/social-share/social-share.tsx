@@ -93,7 +93,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   return (
     <>
       <SocialMetaData image={image} title={title} description={description} url={url} />
-      <div className={`${contentStyle} socialShareContent`}>
+      <div className={`${contentStyle} socialShareContent facebook`}>
         {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
           <Heading headingLevel={headerLevel} className={headerText}>
             Share this page
@@ -102,6 +102,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         <div className={containerStyle}>
           <button
             className={`${buttonStyle} facebookShare`}
+            data-testid={'facebookButton'}
             onClick={e => {
               handleClick('Facebook');
               openModal(e, getFacebookParams('facebook', url));
@@ -113,6 +114,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         <div className={containerStyle}>
           <button
             className={`${buttonStyle} twitterShare`}
+            data-testid={'twitterButton'}
             onClick={e => {
               handleClick('Twitter');
               openModal(e, getTwitterParams('twitter', url, title));
@@ -124,6 +126,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         <div className={containerStyle}>
           <button
             className={`${buttonStyle} linkedInShare`}
+            data-testid={'linkedinButton'}
             onClick={e => {
               handleClick('LinkedIn');
               openModal(e, getLinkedInParams('linkedin', url, title));
@@ -135,6 +138,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         <div className={containerStyle}>
           <button
             className={`${buttonStyle} redditShare`}
+            data-testid={'redditButton'}
             onClick={e => {
               handleClick('Reddit');
               openModal(e, getRedditParams('reddit', url, title));
@@ -146,9 +150,10 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         <div className={containerStyle}>
           <button
             className={`${buttonStyle} emailShare`}
+            data-testid={'emailButton'}
             onClick={e => {
               handleClick('Email');
-              openModal(e, getEmailParams('email', url, emailBody, emailSeparator, emailSubject));
+              openModal(e, getEmailParams('email', url, emailSubject, emailBody, emailSeparator));
             }}
           >
             <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />

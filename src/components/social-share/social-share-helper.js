@@ -22,12 +22,15 @@ export const getRedditParams = (site, url, title) => {
   return socialUrls[site] + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
 };
 
-export const getEmailParams = (site, url, body, separator, subject) => {
+export const getEmailParams = (site, url, subject, body, separator) => {
+  console.log('body: ', body);
+  console.log('separator: ', separator);
+  console.log('subject: ', subject);
   return (
     socialUrls[site] +
     encodeURIComponent(url) +
-    '&body=' +
-    encodeURIComponent(body) +
+    '&subject=' +
+    encodeURIComponent(subject) +
     '&separator=' +
     encodeURIComponent(separator) +
     '&subject=' +

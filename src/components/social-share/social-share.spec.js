@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { SocialShareComponent } from './social-share';
 import { breakpointLg, breakpointSm } from '../../../../variables.module.scss';
 import Analytics from '../../utils/analytics/analytics';
+import { RecoilRoot } from 'recoil';
 
 jest.mock('./variables.module.scss', content => ({
   ...content,
@@ -22,13 +23,13 @@ const testCopy = {
 
 describe('Social Share component', () => {
   it('renders all five social share buttons ', () => {
-    const { getByRole } = render(<SocialShareComponent copy={testCopy} />);
+    const { getByTestId } = render(<SocialShareComponent copy={testCopy} />);
 
-    const facebook = getByRole('button', { name: 'facebook' });
-    const twitter = getByRole('button', { name: 'twitter' });
-    const linkedIn = getByRole('button', { name: 'linkedin' });
-    const reddit = getByRole('button', { name: 'reddit' });
-    const email = getByRole('button', { name: 'email' });
+    const facebook = getByTestId('facebookButton');
+    const twitter = getByTestId('twitterButton');
+    const linkedIn = getByTestId('linkedinButton');
+    const reddit = getByTestId('redditButton');
+    const email = getByTestId('emailButton');
 
     expect(facebook).toBeInTheDocument();
     expect(twitter).toBeInTheDocument();
@@ -65,10 +66,10 @@ describe('Social Share component', () => {
   });
 
   it('renders only the icons in mobile view, and not the header or button text', () => {
-    const { getByRole, queryByRole, queryByText } = render(<SocialShareComponent copy={testCopy} width={breakpointSm} />);
+    const { getByTestId, queryByRole, queryByText } = render(<SocialShareComponent copy={testCopy} width={breakpointSm} />);
 
     const header = queryByRole('heading');
-    const facebook = getByRole('button', { name: 'facebook' });
+    const facebook = getByTestId('facebookButton');
     const facebookText = queryByText('Facebook');
 
     expect(header).toBeNull();
@@ -79,13 +80,17 @@ describe('Social Share component', () => {
   it('calls the appropriate analytics for Explainer pages event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
-    const { getByRole } = render(<SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} explainer />);
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} explainer />
+      </RecoilRoot>
+    );
 
-    const facebookButton = getByRole('button', { name: 'facebook' });
-    const twitterButton = getByRole('button', { name: 'twitter' });
-    const linkedInButton = getByRole('button', { name: 'linkedin' });
-    const redditButton = getByRole('button', { name: 'reddit' });
-    const emailButton = getByRole('button', { name: 'email' });
+    const facebookButton = getByTestId('facebookButton');
+    const twitterButton = getByTestId('twitterButton');
+    const linkedInButton = getByTestId('linkedinButton');
+    const redditButton = getByTestId('redditButton');
+    const emailButton = getByTestId('emailButton');
 
     facebookButton.click();
     expect(spy).toHaveBeenCalledWith({
@@ -131,13 +136,17 @@ describe('Social Share component', () => {
   it('calls the appropriate XR Converter analytics event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
-    const { getByRole } = render(<SocialShareComponent copy={testCopy} pageName={'Exchange Rates Converter'} width={breakpointSm} />);
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <SocialShareComponent copy={testCopy} pageName={'Exchange Rates Converter'} width={breakpointSm} />
+      </RecoilRoot>
+    );
 
-    const facebookButton = getByRole('button', { name: 'facebook' });
-    const twitterButton = getByRole('button', { name: 'twitter' });
-    const linkedInButton = getByRole('button', { name: 'linkedin' });
-    const redditButton = getByRole('button', { name: 'reddit' });
-    const emailButton = getByRole('button', { name: 'email' });
+    const facebookButton = getByTestId('facebookButton');
+    const twitterButton = getByTestId('twitterButton');
+    const linkedInButton = getByTestId('linkedinButton');
+    const redditButton = getByTestId('redditButton');
+    const emailButton = getByTestId('emailButton');
 
     facebookButton.click();
     expect(spy).toHaveBeenCalledWith({
