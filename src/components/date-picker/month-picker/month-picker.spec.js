@@ -7,7 +7,17 @@ describe('Month Picker', () => {
   const mockYearDropdownOptions = ['2020', '2019', 2018];
   const mockReportDates = ['March 2020', 'April 2019', 'March 2018', 'May 2018'];
   const scrollIntoViewMock = jest.fn();
-  window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
+  beforeAll(() => {
+    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
+  });
+
+  let setSelectedDateMock;
+  let handleCloseMock;
+  beforeEach(() => {
+    setSelectedDateMock = jest.fn();
+    handleCloseMock = jest.fn();
+    scrollIntoViewMock.mockClear();
+  });
 
   it('Renders provided month options as buttons', () => {
     const { getByRole } = render(
@@ -105,5 +115,55 @@ describe('Month Picker', () => {
     });
     const marchButton = getByRole('button', { name: mockMonthDropdownOptions[0] });
     expect(marchButton).not.toBeDisabled();
+  });
+
+  it('steps year using chevrons', () => {
+    const { getByLabelText, findByTestId, getByRole } = render(
+      <MonthPicker
+        allReportYears={mockYearDropdownOptions}
+        setSelectedDate={setSelectedDateMock}
+        handleClose={handleCloseMock}
+        selectedDate={new Date('3/8/2019')}
+        active={true}
+        allReportDates={mockReportDates}
+      />
+    );
+
+    const prevButton = getByLabelText('Previous Year');
+    const nextButton = getByLabelText('Next Year');
+
+    act(() => fireEvent.click(nextButton));
+    const yearButton = getByRole('button', { name: 'Toggle Year Dropdown' });
+    expect(yearButton).toHaveTextContent('2018');
+
+    act(() => fireEvent.click(prevButton));
+    expect(yearButton).toHaveTextContent('2018');
+  });
+
+  it('resets month/year when active becomes false', () => {
+    const { rerender, getByLabelText } = render(
+      <MonthPicker
+        allReportYears={mockYearDropdownOptions}
+        setSelectedDate={setSelectedDateMock}
+        handleClose={handleCloseMock}
+        selectedDate={new Date('3/8/2019')}
+        active={true}
+        allReportDates={mockReportDates}
+      />
+    );
+
+    rerender(
+      <MonthPicker
+        allReportYears={mockYearDropdownOptions}
+        setSelectedDate={setSelectedDateMock}
+        handleClose={handleCloseMock}
+        selectedDate={new Date('3/8/2019')}
+        active={false}
+        allReportDates={mockReportDates}
+      />
+    );
+
+    const yearButton = getByLabelText('Toggle Year Dropdown');
+    expect(yearButton).toHaveTextContent('2019');
   });
 });

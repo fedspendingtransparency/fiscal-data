@@ -80,6 +80,7 @@ describe('Month Picker', () => {
         allYears={yearDropdownList}
         selectedDate={mockSelectedDate}
         setSelectedDate={mockSetSelectedDate}
+        isDaily={true}
       />
     );
     const button = getByRole('button', { name: 'Select Published Date' });
@@ -119,12 +120,6 @@ describe('Month Picker', () => {
       fireEvent.click(button);
     });
     expect(getAllByRole('button').length).toBeGreaterThan(1);
-    act(() => {
-      fireEvent.click(getByRole('button', { name: 'March' }));
-    });
-    act(() => {
-      fireEvent.click(getByRole('button', { name: 'Cancel' }));
-    });
 
     expect(within(button).getByText('August 2024')).toBeInTheDocument();
   });
@@ -199,6 +194,10 @@ describe('Month Picker', () => {
     });
     act(() => {
       fireEvent.click(button);
+    });
+
+    act(() => {
+      fireEvent.click(dayButton);
     });
     // set selected date is called to reset the date
     expect(mockSetSelectedDate).toHaveBeenCalled();

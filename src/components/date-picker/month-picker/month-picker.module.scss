@@ -65,7 +65,6 @@
 
   .unorderYear {
     display: flex;
-    justify-content: center;
     flex-direction: column;
     padding: 0;
     margin: 0;
@@ -87,7 +86,6 @@
       width: 100%;
       border-radius: 3px;
       cursor: pointer;
-      text-align: left;
       &.selected {
         background-color: $primary-blue !important;
         color: $primary;
@@ -112,11 +110,11 @@
   padding: 1rem 1.5rem;
 }
 .yearChevron {
+  height: 1.5rem;
+  width: 1.5rem;
   background: none;
   border: none;
   cursor: pointer;
-  height: 1rem;
-  width: 1rem;
   display: grid;
   place-items: center;
   color: $font-body-copy;

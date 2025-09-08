@@ -47,6 +47,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   const scrollToSelectedMonth = useRef(null);
 
   const allYears = [...new Set(allReportYears)];
+  console.log('allyears', allYears);
   const monthDropdownOptions = monthFullNames;
 
   const currentYearIndex = useMemo(() => allYears.findIndex(year => year === selectedYear), [allYears, selectedYear]);
@@ -157,11 +158,11 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
                 <ScrollContainer deps={[allYears, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
                   <ul className={unorderYear}>
                     {yearDesc?.map((option, i) => {
-                      const disabled = !allReportDates.includes(selectedMonth + ' ' + option);
+                      const disabled = !allReportDates.includes(`${selectedMonth}  ${option}`);
                       return (
                         <li key={i} className={listYear}>
                           <button
-                            className={option.toString() === selectedYear.toString() ? selected : null}
+                            className={option.toString() === selectedYear.toString() ? selected : undefined}
                             disabled={ignoreDisabled ? false : disabled}
                             onClick={() => handleYearClick(option)}
                           >
