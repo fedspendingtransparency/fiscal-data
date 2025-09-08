@@ -199,4 +199,94 @@ describe('Month Picker', () => {
 
     expect(mockSetSelectedDate).toHaveBeenCalled();
   });
+
+  it('calls setSelectedDate on Mount when isDaily via useEffect active is false', () => {
+    const mockSetSelectedDates = jest.fn();
+    const DatePickerReal = require('./date-picker').default || require('./date-picker');
+    const { getByRole } = render(
+      <DatePickerReal
+        isDaily={true}
+        latestDate={new Date('8/8/2024')}
+        earliestDate={new Date('8/8/2016')}
+        allDates={[]}
+        allYears={yearDropdownList}
+        selectedDate={mockSelectedDate}
+        setSelectedDate={mockSetSelectedDates}
+      />
+    );
+    expect(getByRole('button')).toBeInTheDocument();
+
+    expect(mockSetSelectedDates).toHaveBeenCalledTimes(1);
+    expect(mockSetSelectedDates).toHaveBeenCalledWith(mockSelectedDate);
+  });
+
+  it('updates displayed text when selectedDate prop changes (monthly mode)', () => {
+    const DatePickerReal = require('./date-picker').default || require('./date-picker');
+
+    const { getByRole, rerender } = render(
+      <DatePickerReal
+        isDaily={false}
+        latestDate={new Date('8/8/2024')}
+        earliestDate={new Date('8/8/2016')}
+        allDates={[]}
+        allYears={yearDropdownList}
+        selectedDate={new Date('8/8/2024')}
+        setSelectedDate={() => {}}
+      />
+    );
+
+    const btn = getByRole('button');
+    expect(within(btn).getByText('August 2024')).toBeInTheDocument();
+
+    rerender(
+      <DatePickerReal
+        isDaily={false}
+        latestDate={new Date('8/8/2024')}
+        earliestDate={new Date('8/8/2016')}
+        allDates={[]}
+        allYears={yearDropdownList}
+        selectedDate={new Date('5/15/2023')}
+        setSelectedDate={() => {}}
+      />
+    );
+    expect(within(btn).getByText('May 2023')).toBeInTheDocument();
+  });
+  it('handleClose (daily) calls setSelectedDate when provided and closes the dropdown', () => {
+    jest.useFakeTimers();
+
+    const mockSelectedDate = new Date('8/8/2024');
+    const mockSetSelectedDate = jest.fn();
+
+    const { getByRole, getAllByRole } = render(
+      <DatePicker
+        isDaily={true}
+        latestDate={new Date('8/31/2024')}
+        earliestDate={new Date('8/1/2016')}
+        allDates={[]} // not needed for this path
+        selectedDate={mockSelectedDate}
+        setSelectedDate={mockSetSelectedDate} // <— ensures the IF branch is true
+      />
+    );
+
+    const button = getByRole('button', { name: 'Select Published Date' });
+    act(() => {
+      fireEvent.click(button);
+    });
+    expect(getAllByRole('button').length).toBeGreaterThan(1); // dropdown is open
+
+    act(() => {
+      fireEvent.click(getByRole('button', { name: 'Cancel' }));
+    });
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(mockSetSelectedDate).toHaveBeenCalled();
+    expect(mockSetSelectedDate).toHaveBeenCalledWith(mockSelectedDate);
+
+    expect(getAllByRole('button').length).toBe(1);
+
+    jest.useRealTimers();
+  });
 });
