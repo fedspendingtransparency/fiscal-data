@@ -358,7 +358,6 @@ export default function DtgTable({
         // large dataset tables <= 20000 rows
         setReactTableData(dePaginated);
         setManualPagination(false);
-        setMaxRows(dePaginated.data.length);
         setIsLoading(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
         if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
@@ -375,6 +374,7 @@ export default function DtgTable({
       // user filter tables <= 20000 rows
       setReactTableData(dePaginated);
       setManualPagination(false);
+      setMaxRows(dePaginated.data.length);
       setIsLoading(false);
     }
   }, [rawData, dePaginated]);
