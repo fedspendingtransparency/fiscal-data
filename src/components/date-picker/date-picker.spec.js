@@ -197,10 +197,6 @@ describe('Month Picker', () => {
       fireEvent.click(button);
     });
 
-    // act(() => {
-    //   fireEvent.click(dayButton);
-    // });
-    // set selected date is called to reset the date
     expect(mockSetSelectedDate).toHaveBeenCalled();
   });
 });
