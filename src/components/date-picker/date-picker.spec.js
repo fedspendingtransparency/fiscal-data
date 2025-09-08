@@ -80,7 +80,6 @@ describe('Month Picker', () => {
         allYears={yearDropdownList}
         selectedDate={mockSelectedDate}
         setSelectedDate={mockSetSelectedDate}
-        isDaily={false}
       />
     );
     const button = getByRole('button', { name: 'Select Published Date' });
