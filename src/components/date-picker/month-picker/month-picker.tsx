@@ -77,7 +77,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
     }
     setShowYears(false);
     setSelectedYear(year);
-    applyAndClose(selectedMonth, year);
+    applyAndClose(selectedMonth.toString(), year);
   };
 
   const stepYear = (stepper: number) => {
@@ -158,7 +158,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
                 <ScrollContainer deps={[allYears, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
                   <ul className={unorderYear}>
                     {yearDesc?.map((option, i) => {
-                      const disabled = !allReportDates.includes(`${selectedMonth}  ${option}`);
+                      const disabled = !allReportDates.includes(`${selectedMonth} ${option}`);
                       return (
                         <li key={i} className={listYear}>
                           <button

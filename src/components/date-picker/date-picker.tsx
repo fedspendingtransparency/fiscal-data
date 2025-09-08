@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import MonthPicker from './month-picker/month-picker';
 import DaySelector from './day-selector/day-selector';
 import { formatReportDate } from '../../helpers/dataset-detail/report-helpers';
@@ -36,6 +36,12 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
 }: IDatePicker) => {
   const [active, setActive] = useState(false);
 
+  useEffect(() => {
+    if (!active && isDaily && typeof setSelectedDate === 'function') {
+      setSelectedDate(selectedDate);
+    }
+  }, [active, isDaily, selectedDate, setSelectedDate]);
+
   const dropdownButton = (
     <DropdownLabelButton
       label="Published Date"
@@ -49,8 +55,11 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
 
   const handleClose = () => {
     setTimeout(() => {
+      if (typeof setSelectedDate === 'function') {
+        setSelectedDate(selectedDate);
+      }
       setActive(false);
-    });
+    }, 0);
   };
 
   return (

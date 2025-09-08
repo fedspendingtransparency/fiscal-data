@@ -59,6 +59,7 @@ const DaySelector: FunctionComponent<IDaySelector> = ({
   useEffect(() => {
     if (!active) {
       setCurrentDate(selectedDate);
+      setSelectedDate(selectedDate);
     }
   }, [active]);
 

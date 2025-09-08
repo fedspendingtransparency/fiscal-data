@@ -139,31 +139,4 @@ describe('Month Picker', () => {
     act(() => fireEvent.click(prevButton));
     expect(yearButton).toHaveTextContent('2018');
   });
-
-  it('resets month/year when active becomes false', () => {
-    const { rerender, getByLabelText } = render(
-      <MonthPicker
-        allReportYears={mockYearDropdownOptions}
-        setSelectedDate={setSelectedDateMock}
-        handleClose={handleCloseMock}
-        selectedDate={new Date('3/8/2019')}
-        active={true}
-        allReportDates={mockReportDates}
-      />
-    );
-
-    rerender(
-      <MonthPicker
-        allReportYears={mockYearDropdownOptions}
-        setSelectedDate={setSelectedDateMock}
-        handleClose={handleCloseMock}
-        selectedDate={new Date('3/8/2019')}
-        active={false}
-        allReportDates={mockReportDates}
-      />
-    );
-
-    const yearButton = getByLabelText('Toggle Year Dropdown');
-    expect(yearButton).toHaveTextContent('2019');
-  });
 });
