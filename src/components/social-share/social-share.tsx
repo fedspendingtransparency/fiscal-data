@@ -101,6 +101,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         )}
         <div className={containerStyle}>
           <button
+            className={`${buttonStyle} facebookShare`}
             onClick={e => {
               handleClick('Facebook');
               openModal(e, getFacebookParams('facebook', url));
@@ -111,6 +112,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         </div>
         <div className={containerStyle}>
           <button
+            className={`${buttonStyle} twitterShare`}
             onClick={e => {
               handleClick('Twitter');
               openModal(e, getTwitterParams('twitter', url, title));
@@ -122,6 +124,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
       </div>
       <div className={containerStyle}>
         <button
+          className={`${buttonStyle} linkedInShare`}
           onClick={e => {
             handleClick('LinkedIn');
             openModal(e, getLinkedInParams('linkedin', url, title));
@@ -132,6 +135,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
       </div>
       <div className={containerStyle}>
         <button
+          className={`${buttonStyle} redditShare`}
           onClick={e => {
             handleClick('Reddit');
             openModal(e, getRedditParams('reddit', url, title));
@@ -142,6 +146,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
       </div>
       <div className={containerStyle}>
         <button
+          className={`${buttonStyle} emailShare`}
           onClick={e => {
             handleClick('Email');
             openModal(e, getEmailParams('email', url, emailBody, emailSeparator, emailSubject));
