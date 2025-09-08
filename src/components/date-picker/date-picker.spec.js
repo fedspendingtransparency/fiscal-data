@@ -262,9 +262,9 @@ describe('Month Picker', () => {
         isDaily={true}
         latestDate={new Date('8/31/2024')}
         earliestDate={new Date('8/1/2016')}
-        allDates={[]} // not needed for this path
+        allDates={[]}
         selectedDate={mockSelectedDate}
-        setSelectedDate={mockSetSelectedDate} // <— ensures the IF branch is true
+        setSelectedDate={mockSetSelectedDate}
       />
     );
 
@@ -272,7 +272,7 @@ describe('Month Picker', () => {
     act(() => {
       fireEvent.click(button);
     });
-    expect(getAllByRole('button').length).toBeGreaterThan(1); // dropdown is open
+    expect(getAllByRole('button').length).toBeGreaterThan(1);
 
     act(() => {
       fireEvent.click(getByRole('button', { name: 'Cancel' }));
