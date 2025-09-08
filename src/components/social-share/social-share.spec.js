@@ -23,13 +23,13 @@ const testCopy = {
 
 describe('Social Share component', () => {
   it('renders all five social share buttons ', () => {
-    const { getByTestId } = render(<SocialShareComponent copy={testCopy} />);
+    const { getByTestId, getByRole } = render(<SocialShareComponent copy={testCopy} />);
 
     const facebook = getByTestId('facebookButton');
     const twitter = getByTestId('twitterButton');
     const linkedIn = getByTestId('linkedinButton');
     const reddit = getByTestId('redditButton');
-    const email = getByTestId('emailButton');
+    const email = getByRole('button', { name: 'email' });
 
     expect(facebook).toBeInTheDocument();
     expect(twitter).toBeInTheDocument();
@@ -80,7 +80,7 @@ describe('Social Share component', () => {
   it('calls the appropriate analytics for Explainer pages event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
-    const { getByTestId } = render(
+    const { getByTestId, getByRole } = render(
       <RecoilRoot>
         <SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} explainer />
       </RecoilRoot>
@@ -90,7 +90,7 @@ describe('Social Share component', () => {
     const twitterButton = getByTestId('twitterButton');
     const linkedInButton = getByTestId('linkedinButton');
     const redditButton = getByTestId('redditButton');
-    const emailButton = getByTestId('emailButton');
+    const emailButton = getByRole('button', { name: 'email' });
 
     facebookButton.click();
     expect(spy).toHaveBeenCalledWith({
@@ -136,7 +136,7 @@ describe('Social Share component', () => {
   it('calls the appropriate XR Converter analytics event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
-    const { getByTestId } = render(
+    const { getByTestId, getByRole } = render(
       <RecoilRoot>
         <SocialShareComponent copy={testCopy} pageName={'Exchange Rates Converter'} width={breakpointSm} />
       </RecoilRoot>
@@ -146,7 +146,7 @@ describe('Social Share component', () => {
     const twitterButton = getByTestId('twitterButton');
     const linkedInButton = getByTestId('linkedinButton');
     const redditButton = getByTestId('redditButton');
-    const emailButton = getByTestId('emailButton');
+    const emailButton = getByRole('button', { name: 'email' });
 
     facebookButton.click();
     expect(spy).toHaveBeenCalledWith({

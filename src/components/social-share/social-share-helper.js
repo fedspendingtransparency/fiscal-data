@@ -3,7 +3,6 @@ export const socialUrls = {
   twitter: `https://twitter.com/intent/tweet?url=`,
   reddit: `http://www.reddit.com/submit?url=`,
   linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=`,
-  email: `mailto:`,
 };
 
 export const getLinkedInParams = (site, url, title) => {
@@ -20,20 +19,4 @@ export const getTwitterParams = (site, url, title) => {
 
 export const getRedditParams = (site, url, title) => {
   return socialUrls[site] + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
-};
-
-export const getEmailParams = (site, url, subject, body, separator) => {
-  console.log('body: ', body);
-  console.log('separator: ', separator);
-  console.log('subject: ', subject);
-  return (
-    socialUrls[site] +
-    encodeURIComponent(url) +
-    '&subject=' +
-    encodeURIComponent(subject) +
-    '&separator=' +
-    encodeURIComponent(separator) +
-    '&subject=' +
-    encodeURIComponent(subject)
-  );
 };

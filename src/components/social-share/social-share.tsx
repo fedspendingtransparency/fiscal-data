@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent } from 'react';
 import {
   socialShareContent,
   shareButton,
@@ -13,7 +13,6 @@ import {
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import globalConstants from '../../helpers/constants';
 import Analytics from '../../utils/analytics/analytics';
 import ShareButtonContent from './share-button-content/share-button-content';
 import { FunctionComponent } from 'react';
@@ -22,9 +21,8 @@ import SocialMetaData from './social-metadata/social-metadata';
 import Heading from '../heading/heading';
 import { redirectModalState } from '../../components/modal/redirect-modal/redirect-modal-helper';
 import { useSetRecoilState } from 'recoil';
-import { getLinkedInParams, getFacebookParams, getTwitterParams, getRedditParams, getEmailParams } from './social-share-helper';
-
-const baseUrl = globalConstants.BASE_SITE_URL;
+import { getLinkedInParams, getFacebookParams, getTwitterParams, getRedditParams } from './social-share-helper';
+import { EmailShareButton } from 'react-share';
 
 const analyticsClickHandler = (page: string, social: string, explainer: boolean) => {
   let gaCategory: string;
@@ -148,16 +146,16 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
           </button>
         </div>
         <div className={containerStyle}>
-          <button
+          <EmailShareButton
             className={`${buttonStyle} emailShare`}
-            data-testid={'emailButton'}
-            onClick={e => {
-              handleClick('Email');
-              openModal(e, getEmailParams('email', url, emailSubject, emailBody, emailSeparator));
-            }}
+            url={url}
+            subject={emailSubject}
+            body={emailBody}
+            separator={emailSeparator}
+            beforeOnClick={() => handleClick('Email')}
           >
             <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
-          </button>
+          </EmailShareButton>
         </div>
       </div>
     </>

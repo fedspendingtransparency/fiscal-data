@@ -108,7 +108,7 @@ describe('Insights Template', () => {
       value: 400,
     });
 
-    const { findByRole, queryByRole, getByTestId } = render(<InsightPageLayout pageContext={mockPageContext} />, {
+    const { findByRole, queryByRole, findByTestId, getByTestId } = render(<InsightPageLayout pageContext={mockPageContext} />, {
       wrapper,
     });
 
@@ -121,7 +121,7 @@ describe('Insights Template', () => {
     const socialShare = queryByRole('heading', { name: 'Share this page' });
     expect(socialShare).not.toBeInTheDocument();
 
-    const facebookButton = await within(getByTestId('social-share-desktop')).findByRole('button', { name: 'facebook' });
+    const facebookButton = await within(getByTestId('social-share-desktop')).findByTestId('facebookButton');
     expect(facebookButton).toBeInTheDocument();
 
     const exploreMore = await findByRole('heading', { name: 'Explore More' });
