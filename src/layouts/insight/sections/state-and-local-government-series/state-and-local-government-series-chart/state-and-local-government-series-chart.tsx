@@ -139,18 +139,6 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
         setIsChartLoading={setIsChartLoading}
         chart={
           <>
-            <a
-              href={url}
-              // id={id}
-              target="_blank"
-              rel="noreferrer noopener"
-              // data-testId={dataTestId}
-              // className={className ? className : 'primary'}
-              // style={style}
-              onClick={openModal}
-            >
-              The Modal Test
-            </a>
             <div className={chartTableBorder} data-testid="chartHeader">
               <ChartDataHeader
                 dateField="Date"

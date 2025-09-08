@@ -10,36 +10,27 @@ export const getLinkedInParams = (site, url, title) => {
   return socialUrls[site] + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
 };
 
-export const getFacebookParams = (site, url, title, summary, source) => {
-  return (
-    socialUrls[site] + encodeURIComponent(url) + '&title=' + encodeURIComponent(title)
-    // '&summary=' +
-    // encodeURIComponent(summary) +
-    // '&source=' +
-    // encodeURIComponent(source)
-  );
+export const getFacebookParams = (site, url) => {
+  return socialUrls[site] + encodeURIComponent(url);
 };
 
-export const getTwitterParams = (site, url, title, summary, source) => {
-  return (
-    socialUrls[site] + encodeURIComponent(url) + '&title=' + encodeURIComponent(title)
-    // '&summary=' +
-    // encodeURIComponent(summary) +
-    // '&source=' +
-    // encodeURIComponent(source)
-  );
+export const getTwitterParams = (site, url, title) => {
+  return socialUrls[site] + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
 };
 
 export const getRedditParams = (site, url, title) => {
   return socialUrls[site] + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
 };
 
-export const getEmailParams = (site, url, title, summary, source) => {
+export const getEmailParams = (site, url, body, separator, subject) => {
   return (
-    socialUrls[site] + encodeURIComponent(url) + '&title=' + encodeURIComponent(title)
-    // '&summary=' +
-    // encodeURIComponent(summary) +
-    // '&source=' +
-    // encodeURIComponent(source)
+    socialUrls[site] +
+    encodeURIComponent(url) +
+    '&body=' +
+    encodeURIComponent(body) +
+    '&separator=' +
+    encodeURIComponent(separator) +
+    '&subject=' +
+    encodeURIComponent(subject)
   );
 };

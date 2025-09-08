@@ -101,57 +101,32 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
             Share this page
           </Heading>
         )}
+        {/*TODO: add beforeOnClick={() => handleClick('Facebook') to all onClicks*/}
         <div className={containerStyle}>
-          <button onClick={e => openModal(e, getFacebookParams('facebook', url, title))}>
+          <button onClick={e => openModal(e, getFacebookParams('facebook', url))}>
             <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
           </button>
-          {/*<FacebookShareButton className={`${buttonStyle} facebookShare`} url={url} quote={body} beforeOnClick={() => handleClick('Facebook')}>*/}
-          {/*</FacebookShareButton>*/}
         </div>
         <div className={containerStyle}>
           <button onClick={e => openModal(e, getTwitterParams('twitter', url, title))}>
             <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />
           </button>
-          {/*<TwitterShareButton className={`${buttonStyle} twitterShare`} url={url} title={body} beforeOnClick={() => handleClick('Twitter')}>*/}
-          {/*</TwitterShareButton>*/}
         </div>
       </div>
       <div className={containerStyle}>
         <button onClick={e => openModal(e, getLinkedInParams('linkedin', url, title))}>
           <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
         </button>
-        {/*<LinkedinShareButton*/}
-        {/*  className={`${buttonStyle} linkedInShare`}*/}
-        {/*  url={url}*/}
-        {/*  title={title}*/}
-        {/*  summary={body}*/}
-        {/*  source={baseUrl}*/}
-        {/*  windowHeight={650}*/}
-        {/*  beforeOnClick={() => handleClick('LinkedIn')}*/}
-        {/*>*/}
-        {/*</LinkedinShareButton>*/}
       </div>
       <div className={containerStyle}>
         <button onClick={e => openModal(e, getRedditParams('reddit', url, title))}>
           <ShareButtonContent name="reddit" width={width} displayStyle={displayStyle} />
         </button>
-        {/*<RedditShareButton className={`${buttonStyle} redditShare`} url={url} title={title} beforeOnClick={() => handleClick('Reddit')}>*/}
-        {/*</RedditShareButton>*/}
       </div>
       <div className={containerStyle}>
-        <button onClick={e => openModal(e, getEmailParams('email', url, title))}>
+        <button onClick={e => openModal(e, getEmailParams('email', url, emailBody, emailSeparator, emailSubject))}>
           <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
         </button>
-        <EmailShareButton
-          className={`${buttonStyle} emailShare`}
-          url={url}
-          subject={emailSubject}
-          body={emailBody}
-          separator={emailSeparator}
-          beforeOnClick={() => handleClick('Email')}
-        >
-          <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
-        </EmailShareButton>
       </div>
     </>
   );
