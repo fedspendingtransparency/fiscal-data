@@ -46,7 +46,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
         <div className={insightsContainer}>
           <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
           <div data-testid="social-share-mobile" className={socialShareMobile}>
-            <SocialShare copy={insightSocialShareMap[pageName]} pageName={pageName} headerLevel="h2" displayStyle="responsive" />
+            <SocialShare copy={insightSocialShareMap[pageName]} pageName={insightsPageName[pageName]} headerLevel="h2" displayStyle="responsive" />
           </div>
           <InsightLastUpdated endpoint={insightLastUpdated[pageName]?.endpoint} />
           <div className={contentContainer}>
@@ -62,7 +62,12 @@ const InsightPageLayout = ({ pageContext, width }) => {
             </div>
             <div className={relatedContent}>
               <div data-testid="social-share-desktop" className={socialShareDesktop}>
-                <SocialShare copy={insightSocialShareMap[pageName]} pageName={pageName} headerLevel="h2" displayStyle="responsive" />
+                <SocialShare
+                  copy={insightSocialShareMap[pageName]}
+                  pageName={insightsPageName[pageName]}
+                  headerLevel="h2"
+                  displayStyle="responsive"
+                />
               </div>
               <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} pageName={insightsPageName[pageName]} />
               <CitationList header="Discover Datasets" citations={discoverDatasetsCitationsMap[pageName]} pageName={insightsPageName[pageName]} />
