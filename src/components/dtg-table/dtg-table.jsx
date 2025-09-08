@@ -295,7 +295,7 @@ export default function DtgTable({
       setCurrentPage(1);
       updateTable(true);
     }
-  }, [tableSorting, dateRange, selectedTable]);
+  }, [tableSorting, dateRange, selectedTable, tableMeta]);
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
