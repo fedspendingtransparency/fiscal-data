@@ -58,7 +58,10 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
 
   // For serverside paginated data (unfiltered datasets > 20000 rows), use paging props
   const tablePagingProps = manualPagination
-    ? pagingProps
+    ? {
+        ...pagingProps,
+        handlePerPageChange: handlePerPageChange,
+      }
     : {
         itemsPerPage: pagingProps?.itemsPerPage,
         handlePerPageChange: x => {
