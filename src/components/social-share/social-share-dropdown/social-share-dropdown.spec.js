@@ -43,14 +43,14 @@ describe('exchange rates banner', () => {
   });
 
   it('closes the dropdown when a social button is clicked', () => {
-    const { getByRole, getByTestId } = render(
+    const { getByRole } = render(
       <RecoilRoot>
         <SocialShareDropdown copy={testCopy} pageName="" />
       </RecoilRoot>
     );
     const shareBtn = getByRole('button', { name: 'Share' });
     userEvent.click(shareBtn);
-    const facebookBtn = getByTestId('facebookButton');
+    const facebookBtn = getByRole('button', { name: 'facebook' });
     userEvent.click(facebookBtn);
 
     act(() => {
