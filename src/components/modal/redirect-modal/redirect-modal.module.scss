@@ -72,3 +72,12 @@
   width: 1.25rem;
   color: $content-section-background;
 }
+
+@media screen and (max-width: $breakpoint-sm - 1) {
+  .redirectBody {
+    padding: 1rem;
+  }
+  .titleText {
+    font-size: $font-size-24;
+  }
+}
