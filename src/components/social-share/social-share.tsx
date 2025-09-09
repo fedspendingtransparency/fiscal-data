@@ -9,6 +9,7 @@ import {
   listShareButton,
   listSocialShareContent,
   headerText,
+  customShareButton,
 } from './social-share.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -78,7 +79,6 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
 
   const openModal = (e: SyntheticEvent, url: string) => {
     e.preventDefault();
-    // onClick?.();
     setModal({
       open: true,
       url,
@@ -99,8 +99,8 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         )}
         <div className={containerStyle}>
           <button
-            className={`${buttonStyle} facebookShare`}
-            data-testid={'facebookButton'}
+            className={`${buttonStyle} ${customShareButton} facebookShare`}
+            aria-label={'facebook'}
             onClick={e => {
               handleClick('Facebook');
               openModal(e, getFacebookParams('facebook', url));
@@ -111,8 +111,8 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         </div>
         <div className={containerStyle}>
           <button
-            className={`${buttonStyle} twitterShare`}
-            data-testid={'twitterButton'}
+            className={`${buttonStyle} ${customShareButton} twitterShare`}
+            aria-label={'twitter'}
             onClick={e => {
               handleClick('Twitter');
               openModal(e, getTwitterParams('twitter', url, title));
@@ -123,8 +123,8 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         </div>
         <div className={containerStyle}>
           <button
-            className={`${buttonStyle} linkedInShare`}
-            data-testid={'linkedinButton'}
+            className={`${buttonStyle} ${customShareButton} linkedInShare`}
+            aria-label={'linkedin'}
             onClick={e => {
               handleClick('LinkedIn');
               openModal(e, getLinkedInParams('linkedin', url, title));
@@ -135,8 +135,8 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         </div>
         <div className={containerStyle}>
           <button
-            className={`${buttonStyle} redditShare`}
-            data-testid={'redditButton'}
+            className={`${buttonStyle} ${customShareButton} redditShare`}
+            aria-label={'reddit'}
             onClick={e => {
               handleClick('Reddit');
               openModal(e, getRedditParams('reddit', url, title));

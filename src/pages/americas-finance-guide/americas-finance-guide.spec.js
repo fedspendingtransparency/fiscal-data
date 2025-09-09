@@ -48,12 +48,12 @@ describe('Americas Finance Guide', () => {
   });
 
   it('renders the Social Share', () => {
-    const { getByRole, getByTestId } = render(<AmericasFinanceGuide width={100} />, { wrapper: RecoilRoot });
+    const { getByRole } = render(<AmericasFinanceGuide width={100} />, { wrapper: RecoilRoot });
 
-    const facebook = getByTestId('facebookButton');
-    const twitter = getByTestId('twitterButton');
-    const linkedIn = getByTestId('linkedinButton');
-    const reddit = getByTestId('redditButton');
+    const facebook = getByRole('button', { name: 'facebook' });
+    const twitter = getByRole('button', { name: 'twitter' });
+    const linkedIn = getByRole('button', { name: 'linkedin' });
+    const reddit = getByRole('button', { name: 'reddit' });
     const email = getByRole('button', { name: 'email' });
 
     expect(facebook).toBeInTheDocument();

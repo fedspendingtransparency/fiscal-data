@@ -23,12 +23,12 @@ const testCopy = {
 
 describe('Social Share component', () => {
   it('renders all five social share buttons ', () => {
-    const { getByTestId, getByRole } = render(<SocialShareComponent copy={testCopy} />);
+    const { getByRole } = render(<SocialShareComponent copy={testCopy} />);
 
-    const facebook = getByTestId('facebookButton');
-    const twitter = getByTestId('twitterButton');
-    const linkedIn = getByTestId('linkedinButton');
-    const reddit = getByTestId('redditButton');
+    const facebook = getByRole('button', { name: 'facebook' });
+    const twitter = getByRole('button', { name: 'twitter' });
+    const linkedIn = getByRole('button', { name: 'linkedin' });
+    const reddit = getByRole('button', { name: 'reddit' });
     const email = getByRole('button', { name: 'email' });
 
     expect(facebook).toBeInTheDocument();
@@ -66,10 +66,10 @@ describe('Social Share component', () => {
   });
 
   it('renders only the icons in mobile view, and not the header or button text', () => {
-    const { getByTestId, queryByRole, queryByText } = render(<SocialShareComponent copy={testCopy} width={breakpointSm} />);
+    const { getByRole, queryByRole, queryByText } = render(<SocialShareComponent copy={testCopy} width={breakpointSm} />);
 
     const header = queryByRole('heading');
-    const facebook = getByTestId('facebookButton');
+    const facebook = getByRole('button', { name: 'facebook' });
     const facebookText = queryByText('Facebook');
 
     expect(header).toBeNull();
@@ -80,16 +80,16 @@ describe('Social Share component', () => {
   it('calls the appropriate analytics for Explainer pages event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
-    const { getByTestId, getByRole } = render(
+    const { getByRole } = render(
       <RecoilRoot>
         <SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} explainer />
       </RecoilRoot>
     );
 
-    const facebookButton = getByTestId('facebookButton');
-    const twitterButton = getByTestId('twitterButton');
-    const linkedInButton = getByTestId('linkedinButton');
-    const redditButton = getByTestId('redditButton');
+    const facebookButton = getByRole('button', { name: 'facebook' });
+    const twitterButton = getByRole('button', { name: 'twitter' });
+    const linkedInButton = getByRole('button', { name: 'linkedin' });
+    const redditButton = getByRole('button', { name: 'reddit' });
     const emailButton = getByRole('button', { name: 'email' });
 
     facebookButton.click();
@@ -136,16 +136,16 @@ describe('Social Share component', () => {
   it('calls the appropriate XR Converter analytics event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
-    const { getByTestId, getByRole } = render(
+    const { getByRole } = render(
       <RecoilRoot>
         <SocialShareComponent copy={testCopy} pageName={'Exchange Rates Converter'} width={breakpointSm} />
       </RecoilRoot>
     );
 
-    const facebookButton = getByTestId('facebookButton');
-    const twitterButton = getByTestId('twitterButton');
-    const linkedInButton = getByTestId('linkedinButton');
-    const redditButton = getByTestId('redditButton');
+    const facebookButton = getByRole('button', { name: 'facebook' });
+    const twitterButton = getByRole('button', { name: 'twitter' });
+    const linkedInButton = getByRole('button', { name: 'linkedin' });
+    const redditButton = getByRole('button', { name: 'reddit' });
     const emailButton = getByRole('button', { name: 'email' });
 
     facebookButton.click();
