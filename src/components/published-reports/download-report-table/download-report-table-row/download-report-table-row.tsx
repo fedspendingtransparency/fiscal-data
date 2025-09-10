@@ -19,11 +19,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay } from '../../util/util';
 import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
-import { getDateLabelForReport, getGeneratedFileSize } from '../../../../helpers/dataset-detail/report-helpers';
+import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
-import { PDFDownloadLink } from '@react-pdf/renderer/lib/react-pdf.browser';
-import ReportGenerator from '../../report-generator/report-generator';
-import { DocumentProps, pdf } from '@react-pdf/renderer';
+import { DocumentProps } from '@react-pdf/renderer';
+import { renderPDF } from '../../../../workers/pdfWorker';
+import GenReportDownloadButton from './gen-report-download-button';
 
 interface IGeneratedReport {
   name: string;
@@ -102,16 +102,22 @@ const DownloadReportTableRow: FunctionComponent<{
     </>
   );
 
+  const fun = async report => {
+    console.log('here!');
+    return renderPDF?.renderPDFInWorker({ report });
+  };
+
   useEffect(() => {
     if (generatedReport) {
       (async () => {
-        const instance = <ReportGenerator generatedReport={generatedReport} />;
-        setGeneratedReportInstance(instance);
         try {
-          const blob = await pdf(instance).toBlob();
-          getGeneratedFileSize(blob, setFileSize);
+          // const blob = await fun(generatedReport);
+          // console.log(blob);
+          // setGeneratedReportInstance(blob);
+          // getGeneratedFileSize(blob, setFileSize);
           setApiErrorMessage(false);
         } catch (error) {
+          console.log(error);
           setIsLoading(false);
           setApiErrorMessage(true);
           return;
@@ -122,9 +128,18 @@ const DownloadReportTableRow: FunctionComponent<{
 
   const LinkComponent = ({ children }) => {
     return generatedReport ? (
-      <PDFDownloadLink document={generatedReportInstance} fileName={generatedReport.downloadName} onClick={onDownloadClick}>
+      <GenReportDownloadButton
+        setFileSize={setFileSize}
+        fileSize={fileSize}
+        setApiErrorMessage={setApiErrorMessage}
+        generatedReport={generatedReport}
+        setIsLoading={setIsLoading}
+        onDownloadClick={onDownloadClick}
+        generatedReportInstance={generatedReportInstance}
+        setGeneratedReportInstance={setGeneratedReportInstance}
+      >
         {children}
-      </PDFDownloadLink>
+      </GenReportDownloadButton>
     ) : (
       <a
         href={reportLocation}
@@ -166,7 +181,7 @@ const DownloadReportTableRow: FunctionComponent<{
 
   return (
     <>
-      {displayName && (!generatedReport || (generatedReportInstance && fileSize)) && (
+      {displayName && (
         <tr className={fileDescription} data-testid="file-download-row">
           <td>
             <LinkComponent>
