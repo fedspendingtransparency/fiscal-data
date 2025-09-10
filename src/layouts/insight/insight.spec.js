@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import InsightPageLayout from './insight';
 import { RecoilRoot } from 'recoil';
 import fetchMock from 'fetch-mock';
@@ -81,7 +81,7 @@ describe('Insights Template', () => {
   };
 
   it('renders the interest expense insights page', async () => {
-    const { findByRole } = render(<InsightPageLayout pageContext={mockPageContext} />, {
+    const { findByRole, getByTestId } = render(<InsightPageLayout pageContext={mockPageContext} />, {
       wrapper,
     });
 
@@ -91,7 +91,7 @@ describe('Insights Template', () => {
     const dataSourcesMethodologies = await findByRole('heading', { name: 'Data Sources and Methodologies:' });
     expect(dataSourcesMethodologies).toBeInTheDocument();
 
-    const socialShare = await findByRole('heading', { name: 'Share this page' });
+    const socialShare = await within(getByTestId('social-share-desktop')).findByRole('heading', { name: 'Share this page' });
     expect(socialShare).toBeInTheDocument();
 
     const exploreMore = await findByRole('heading', { name: 'Explore More' });
@@ -108,7 +108,7 @@ describe('Insights Template', () => {
       value: 400,
     });
 
-    const { findByRole, queryByRole } = render(<InsightPageLayout pageContext={mockPageContext} />, {
+    const { findByRole, queryByRole, findByTestId, getByTestId } = render(<InsightPageLayout pageContext={mockPageContext} />, {
       wrapper,
     });
 
@@ -121,7 +121,7 @@ describe('Insights Template', () => {
     const socialShare = queryByRole('heading', { name: 'Share this page' });
     expect(socialShare).not.toBeInTheDocument();
 
-    const facebookButton = await findByRole('button', { name: 'facebook' });
+    const facebookButton = await within(getByTestId('social-share-desktop')).findByRole('button', { name: 'facebook' });
     expect(facebookButton).toBeInTheDocument();
 
     const exploreMore = await findByRole('heading', { name: 'Explore More' });

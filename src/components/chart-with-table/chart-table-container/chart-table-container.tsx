@@ -45,6 +45,8 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   downloader,
   customTestId = null,
   downloadData,
+  gaDownloadCSVEvent,
+  gaChartTableToggleEvent,
   fileType = 'csv',
   setDateRange,
   datasetDateRange,
@@ -69,7 +71,12 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   };
 
   const csvDownloader = (
-    <div className={downloadClicked ? clickedLabel : downloadLabelContainer} onClick={handleDownloadClicked} role="presentation">
+    <div
+      className={downloadClicked ? clickedLabel : downloadLabelContainer}
+      onClick={handleDownloadClicked}
+      role="presentation"
+      data-testid="csvDownloaderContainer"
+    >
       <div className={downloadCSV}>Download CSV</div>
       <DownloadIcon className={icon} />
     </div>
@@ -87,11 +94,12 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
         rightSelected: selectedChartView === 'tableView',
       }}
       toggleClickHandler={(chartView: string) => setSelectedChartView(chartView)}
-      chartId={null}
+      chartId="chartTableToggle"
       leftIcon={faChartColumn}
       rightIcon={faTable}
       leftLabel="toggle for chart view"
       rightLabel="toggle for table view"
+      gaChartTableToggleEvent={gaChartTableToggleEvent}
     />
   );
 
@@ -126,13 +134,13 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
           {chart}
         </div>
       )}
-      {!isLoading && selectedChartView === 'tableView' && (
-        <>
+      {!isLoading && (
+        <div hidden={selectedChartView !== 'tableView'}>
           <div className={tableBoarder} />
           <div data-testid={customTestId ? customTestId : 'table'} className={`${chartTable} chartContainerChart`}>
             {table}
           </div>
-        </>
+        </div>
       )}
       <div className={`${downloaderContainer} chartContainerFooter`}>
         {downloader ? (
@@ -141,6 +149,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
           <DownloadItemButton
             fileType={fileType}
             smallTableDownloadData={downloadData}
+            gaDownloadCSVEvent={gaDownloadCSVEvent}
             dateRange={monthRange}
             selectedTable={selectedTable}
             downloadTimestamp={downloadTimestamp}

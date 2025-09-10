@@ -1,7 +1,18 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import React, { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
+import { faCaretDown, faCaretUp, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { arrowIcon, dropdownList, selected, yearButton } from './month-picker.module.scss';
+import {
+  arrowIcon,
+  dropdownList,
+  selected,
+  yearButton,
+  yearHeader,
+  yearChevron,
+  listMonth,
+  unorderList,
+  unorderYear,
+  listYear,
+} from './month-picker.module.scss';
 import DateDropdown from '../date-dropdown/date-dropdown';
 import { monthFullNames } from '../../../utils/api-utils';
 import ScrollContainer from '../../scroll-container/scroll-container';
@@ -38,21 +49,46 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   const allYears = [...new Set(allReportYears)];
   const monthDropdownOptions = monthFullNames;
 
+  const currentYearIndex = useMemo(() => allYears.findIndex(year => year === selectedYear), [allYears, selectedYear]);
+
+  const hidePreviousYear = showYears || currentYearIndex <= 0;
+
+  const hideNextYear = showYears || currentYearIndex === -1 || currentYearIndex >= allYears.length - 1;
+
+  const applyAndClose = (monthString: string, yearString: string) => {
+    const newDate = new Date(`${monthString} 01, ${yearString}`);
+    setSelectedDate(newDate);
+  };
+
   const handleMonthClick = (month: string) => {
+    const disabled = !allReportDates.includes(`${month} ${selectedYear}`);
+    if (!ignoreDisabled && disabled) return;
     setSelectedMonth(month);
+    applyAndClose(month, selectedYear);
   };
 
   const handleYearClick = (year: string) => {
+    const disabled = !allReportDates.includes(`${selectedMonth} ${year}`);
+    if (!ignoreDisabled && disabled) {
+      setSelectedYear(year);
+      setShowYears(false);
+      return;
+    }
     setShowYears(false);
     setSelectedYear(year);
+    applyAndClose(selectedMonth.toString(), year);
   };
 
-  const handleApply = () => {
-    setSelectedDate(new Date(selectedMonth + ' 01, ' + selectedYear));
-    if (handleClose) {
-      handleClose();
-    }
+  const stepYear = (stepper: number) => {
+    const currentIndex = allYears.findIndex(years => years.toString() === selectedYear.toString());
+    if (currentIndex === -1) return;
+    const nextIndex = currentIndex + stepper;
+    if (nextIndex < 0 || nextIndex >= allYears.length) return;
+    const nextYear = allYears[nextIndex].toString();
+    setSelectedYear(nextYear);
   };
+
+  const yearDesc = useMemo(() => [...allYears].sort((a, b) => Number(b) - Number(a)), [allYears]);
 
   useEffect(() => {
     if (!active) {
@@ -73,28 +109,59 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
       {active && (
         <DateDropdown
           handleClose={handleClose}
-          handleApply={handleApply}
-          setSelectedMonth={setSelectedMonth}
-          setSelectedYear={setSelectedYear}
+          setSelectedMonth={month => {
+            setSelectedMonth(month);
+          }}
+          setSelectedYear={year => {
+            setSelectedYear(year);
+          }}
           allDates={allReportDates}
           selectedDate={selectedMonth + ' ' + selectedYear}
           fromDate={earliestDate}
           toDate={latestDate}
+          hideFooter={true}
         >
           <>
-            <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">
-              {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretUp : faCaretDown} />
-            </button>
+            <div className={yearHeader}>
+              <button
+                className={yearChevron}
+                onClick={() => stepYear(-1)}
+                data-hidden={hidePreviousYear}
+                aria-hidden={hidePreviousYear}
+                disabled={hidePreviousYear}
+                aria-label="Previous Year"
+                tabIndex={hidePreviousYear ? -1 : 0}
+              >
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </button>
+
+              <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">
+                {selectedYear} <FontAwesomeIcon className={arrowIcon} icon={showYears ? faCaretUp : faCaretDown} />
+              </button>
+
+              <button
+                className={yearChevron}
+                onClick={() => stepYear(+1)}
+                data-hidden={hideNextYear}
+                aria-hidden={hideNextYear}
+                disabled={hideNextYear}
+                aria-label="Next Year"
+                tabIndex={hideNextYear ? -1 : 0}
+              >
+                <FontAwesomeIcon icon={faChevronRight} />
+              </button>
+            </div>
+
             <div className={dropdownList}>
               {showYears && (
                 <ScrollContainer deps={[allYears, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
-                  <ul>
-                    {allYears?.map((option, i) => {
-                      const disabled = !allReportDates.includes(selectedMonth + ' ' + option);
+                  <ul className={unorderYear}>
+                    {yearDesc?.map((option, i) => {
+                      const disabled = !allReportDates.includes(`${selectedMonth} ${option}`);
                       return (
-                        <li key={i}>
+                        <li key={i} className={listYear}>
                           <button
-                            className={option.toString() === selectedYear.toString() ? selected : null}
+                            className={option.toString() === selectedYear.toString() ? selected : undefined}
                             disabled={ignoreDisabled ? false : disabled}
                             onClick={() => handleYearClick(option)}
                           >
@@ -108,11 +175,11 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
               )}
               {!showYears && (
                 <ScrollContainer deps={[allYears, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
-                  <ul>
+                  <ul className={unorderList}>
                     {monthDropdownOptions?.map((option, i) => {
                       const disabled = !allReportDates.includes(option + ' ' + selectedYear);
                       return (
-                        <li key={i}>
+                        <li key={i} className={listMonth}>
                           <button
                             className={option === selectedMonth ? selected : null}
                             disabled={ignoreDisabled ? false : disabled}

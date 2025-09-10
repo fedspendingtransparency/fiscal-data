@@ -1,6 +1,8 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup, fireEvent} from '@testing-library/react';
 import MobileMenu from './mobile-menu';
+
+
 
 const triggerClickEvent = itemToClick => {
   fireEvent(
@@ -13,6 +15,8 @@ const triggerClickEvent = itemToClick => {
 };
 
 describe('MobileMenu actions', () => {
+  window.dataLayer = window.dataLayer || [];
+  const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
   afterEach(() => {
     cleanup();
   });
@@ -97,4 +101,29 @@ describe('MobileMenu actions', () => {
     expect(getByText('Tools')).not.toHaveClass('headerExpanded');
     expect(getByText('Resources')).not.toHaveClass('headerExpanded');
   });
+
+  it('calls google analytics event when about us link is clicked', () => {
+    const { getByRole } = render(<MobileMenu />);
+    const menuButton = getByRole('button', { name: 'Menu'});
+    triggerClickEvent(menuButton)
+
+    const aboutUsLink =  getByRole('link', { name: /about us/i})
+    expect(aboutUsLink).toHaveAttribute('href', '/about-us/')
+    triggerClickEvent(aboutUsLink)
+    expect(datalayerSpy).toBeCalledWith({"event": "About-click", "eventLabel": ""})
+
+  });
+
+  it('calls google analytics event when dataset search link is clicked', () => {
+    const { getByRole } = render(<MobileMenu />);
+    const menuButton = getByRole('button', { name: 'Menu'});
+    triggerClickEvent(menuButton)
+
+    const datasetSearchLink =  getByRole('link', { name: /dataset search/i})
+    expect(datasetSearchLink).toHaveAttribute('href', '/datasets/')
+    triggerClickEvent(datasetSearchLink)
+    expect(datalayerSpy).toBeCalledWith({"event": "Dataset Search-click", "eventLabel": ""})
+
+  });
+
 });

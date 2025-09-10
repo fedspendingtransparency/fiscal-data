@@ -13,7 +13,7 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport 
 
   return (
     <Document title={downloadName}>
-      <Page style={pageContainer}>
+      <Page style={pageContainer} wrap={false}>
         <Text style={styles.title}>{documentTitle}</Text>
         {reportInfo.map((line, index) => {
           const { name, value, style } = line;
@@ -41,11 +41,13 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport 
           const { width, fields, type } = table;
           const columnConfig = getTableColumnConfig(colConfig, fields);
           const tableData = type === 'summary' ? summaryData : data;
-          return (
-            <View style={{ width: width }} key={index}>
-              <ReportTable data={tableData} colConfig={columnConfig} customFormatting={customFormatting} />
-            </View>
-          );
+          if (tableData.length > 0) {
+            return (
+              <View style={{ width: width }} key={index}>
+                <ReportTable data={tableData} colConfig={columnConfig} customFormatting={customFormatting} />
+              </View>
+            );
+          }
         })}
       </Page>
     </Document>

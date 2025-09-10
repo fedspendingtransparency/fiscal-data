@@ -1,9 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import InterestExpenseChart from './interest-expense-chart';
 import { CustomTooltip } from './interest-expense-chart-helper';
 import userEvent from '@testing-library/user-event';
 import Analytics from '../../../../../utils/analytics/analytics';
+import { RecoilRoot } from 'recoil';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -48,6 +49,7 @@ jest.mock('../useGetInterestExpenseData', () => ({
   useGetInterestExpenseData: () => mockHookReturnValues,
 }));
 
+const wrapper = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
 describe('Interest Expense Chart', () => {
   class ResizeObserver {
     observe() {}
@@ -61,14 +63,14 @@ describe('Interest Expense Chart', () => {
   });
 
   it('renders chart correctly', () => {
-    const { getAllByText } = render(<InterestExpenseChart />);
+    const { getAllByText } = render(<InterestExpenseChart />, { wrapper });
     expect(getAllByText('Interest Expense').length).toEqual(2);
     expect(getAllByText('Avg. Interest Rate').length).toEqual(2);
   });
 
   it('renders chart correctly in mobile screen size', () => {
     window.innerWidth = 360;
-    const { getAllByText } = render(<InterestExpenseChart />);
+    const { getAllByText } = render(<InterestExpenseChart />, { wrapper });
     expect(getAllByText('Interest Expense').length).toEqual(2);
     expect(getAllByText('Avg. Interest Rate').length).toEqual(2);
   });
@@ -94,7 +96,7 @@ describe('Interest Expense Chart', () => {
   });
 
   it('handles chart mouse events', async () => {
-    const { getByTestId } = render(<InterestExpenseChart />);
+    const { getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
     const chart = chartParent.children[1].children[0];
     expect(chart).toBeInTheDocument();
@@ -106,7 +108,7 @@ describe('Interest Expense Chart', () => {
     jest.useFakeTimers();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
 
-    const { getByTestId } = render(<InterestExpenseChart />);
+    const { getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
     userEvent.hover(chartParent);
     jest.advanceTimersByTime(4000);
@@ -121,7 +123,7 @@ describe('Interest Expense Chart', () => {
   it('cancels GA event on chart hover less than 3 seconds', async () => {
     jest.useFakeTimers();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
-    const { getByTestId } = render(<InterestExpenseChart />);
+    const { getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
     userEvent.hover(chartParent);
     userEvent.unhover(chartParent);
@@ -131,7 +133,7 @@ describe('Interest Expense Chart', () => {
   });
 
   it('chart is keyboard accessible', async () => {
-    const { getByRole, getByText } = render(<InterestExpenseChart />);
+    const { getByRole, getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chart = getByRole('application');
     userEvent.tab();
     userEvent.tab();
@@ -139,10 +141,11 @@ describe('Interest Expense Chart', () => {
     userEvent.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date
-    expect(getByText('2020')).toBeInTheDocument();
+    const header = getByTestId('test-header');
+    expect(within(header).getByText('2020')).toBeInTheDocument();
     userEvent.tab();
     expect(chart).not.toHaveFocus();
     //Chart header resets
-    expect(getByText('2021')).toBeInTheDocument();
+    expect(within(header).getByText('2021')).toBeInTheDocument();
   });
 });

@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { SocialShareComponent } from './social-share';
 import { breakpointLg, breakpointSm } from '../../../../variables.module.scss';
 import Analytics from '../../utils/analytics/analytics';
+import { RecoilRoot } from 'recoil';
 
 jest.mock('./variables.module.scss', content => ({
   ...content,
@@ -79,7 +80,11 @@ describe('Social Share component', () => {
   it('calls the appropriate analytics for Explainer pages event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
-    const { getByRole } = render(<SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} explainer />);
+    const { getByRole } = render(
+      <RecoilRoot>
+        <SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} explainer />
+      </RecoilRoot>
+    );
 
     const facebookButton = getByRole('button', { name: 'facebook' });
     const twitterButton = getByRole('button', { name: 'twitter' });
@@ -131,7 +136,11 @@ describe('Social Share component', () => {
   it('calls the appropriate XR Converter analytics event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
-    const { getByRole } = render(<SocialShareComponent copy={testCopy} pageName={'Exchange Rates Converter'} width={breakpointSm} />);
+    const { getByRole } = render(
+      <RecoilRoot>
+        <SocialShareComponent copy={testCopy} pageName={'Exchange Rates Converter'} width={breakpointSm} />
+      </RecoilRoot>
+    );
 
     const facebookButton = getByRole('button', { name: 'facebook' });
     const twitterButton = getByRole('button', { name: 'twitter' });
