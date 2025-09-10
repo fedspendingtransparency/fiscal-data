@@ -2725,6 +2725,51 @@ const endpointConfig = {
     },
     selectColumns: ['record_date', 'country_currency_desc', 'exchange_rate', 'effective_date'],
   },
+  //UTF
+  '319': {
+    endpoint: 'v1/accounting/od/utf_account_balances',
+    dateField: 'eff_date',
+    downloadName: 'UTF_Account_Balances ',
+    alwaysSortWith: ['-eff_date', 'acct_statement'],
+    apiFilter: {
+      field: 'acct_desc',
+      downloadLabel: 'Account',
+      label: 'Choose a Federal or State Account',
+      dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+      dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+      dataDefaultHeader: 'This table requires additional filters.',
+      dataDefaultMessage: 'Select an account in the filter section above to display the data.',
+      dataSearchLabel: 'Search account descriptions',
+      notice: `Effective Dates on Fiscal Data may differ from the published effective dates for corresponding reports on TreasuryDirect.`,
+      fieldFilter: {
+        field: 'report_type',
+        value: ['Federal', 'State'],
+      },
+    },
+    selectColumns: [],
+  },
+  '320': {
+    endpoint: 'v1/accounting/od/utf_transaction_subtotals',
+    dateField: 'eff_date',
+    downloadName: 'UTF_Transaction_Subtotals ',
+    alwaysSortWith: ['-eff_date', 'trans_statement', 'trans_desc_cd'],
+    apiFilter: {
+      field: 'acct_desc',
+      downloadLabel: 'Account',
+      label: 'Choose a Federal or State Account',
+      dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+      dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+      dataDefaultHeader: 'This table requires additional filters.',
+      dataDefaultMessage: 'Select an account in the filter section above to display the data.',
+      dataSearchLabel: 'Search account descriptions',
+      notice: `Effective Dates on Fiscal Data may differ from the published effective dates for corresponding reports on TreasuryDirect.`,
+      fieldFilter: {
+        field: 'report_type',
+        value: ['Federal', 'State'],
+      },
+    },
+    selectColumns: [],
+  },
   //FBP
   '313': {
     endpoint: 'v1/accounting/od/fbp_balances',
