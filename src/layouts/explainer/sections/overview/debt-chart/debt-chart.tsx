@@ -54,8 +54,9 @@ const AFGDebtChart = (): ReactElement => {
     const gap = 1.89;
     if (width > 0) {
       let xVal = background.x + gap;
-      // const barWidth = 6.3;
-      const barWidth = Number(((width - gap * 2) / debtVal - gap).toFixed(1));
+      const barWidth = 6.3;
+      // const barWidth = Number(((width - gap * 2) / debtVal - gap).toFixed(1));
+      // console.log('barWidth', dataKey, barWidth, width, gap, debtVal);
       let barCount = 0;
       const allBars = [];
       while (countDown >= 1) {
@@ -77,40 +78,36 @@ const AFGDebtChart = (): ReactElement => {
   };
 
   const CustomDeficitBarShape = props => {
-    console.log(props);
     const { height, width, y, fill, payload, background, x, dataKey, year } = props;
     const debtVal = props[`debt${year}`];
     const debtRemainder = debtVal % 1;
     const deficitVal = payload[dataKey];
-    const debtIndexRemainder = debtVal % 10;
     let countDown = deficitVal;
     const gap = 1.89;
     if (width > 0) {
-      let xVal = x;
-      // const barWidth = 6.3;
-      //todo dynamic gap
-      // bar width should always be 6.3 - how to enforce
-      const barWidth = Number(((width - gap * 2) / debtVal - gap).toFixed(1));
-      console.log(dataKey, barWidth, debtVal);
-      let barCount = debtIndexRemainder;
+      let xVal = x - gap;
+      const barWidth = 6.3;
+      // const barWidth = Number(((width - gap * 2) / debtVal - gap).toFixed(1));
       const allBars = [];
       const firstBar = barWidth * (1 - debtRemainder);
-      // console.log(firstBar);
+      const debtIndexRemainder = (debtVal + (1 - debtRemainder)) % 10;
+      console.log('debtRemainder ' + year, debtIndexRemainder);
       allBars.push({ x: xVal, width: firstBar });
-      xVal = xVal + firstBar + gap;
+      let barCount = debtIndexRemainder;
+      const axisGap = barCount % 10 === 0 ? gap : 0;
+
+      xVal = xVal + firstBar + gap + axisGap;
 
       countDown = countDown - (1 - debtRemainder);
-      // console.log(barWidth * (1 - debtRemainder), debtRemainder, props);
       while (countDown >= 1) {
-        // console.log(year, countDown);
         countDown = countDown - 1;
+        const axisGap = barCount % 10 === 0 ? gap : 0;
         barCount = barCount + 1;
-        const axisGap = barCount !== 0 && barCount % 10 === 0 ? gap : 0;
         allBars.push({ x: xVal, width: barWidth });
         xVal = xVal + barWidth + gap + axisGap;
       }
+
       allBars.push({ x: xVal, width: barWidth * countDown });
-      // console.log(year, barWidth * countDown, countDown);
       return (
         <>
           {allBars.map(val => (
@@ -125,61 +122,38 @@ const AFGDebtChart = (): ReactElement => {
     return sortedData.map(yearlyData => {
       const dataYear = yearlyData.year;
       const opacity = focusedYear === dataYear || focusedYear === null ? 1 : 0.5;
-      const length =
-        Object.keys(yearlyData).filter(propName => {
-          return propName !== 'year' && propName !== 'tooltip';
-        }).length - 1;
-      // console.log(yearlyData);
-      return Object.keys(yearlyData)
-        .filter(propName => {
-          return propName !== 'year' && propName !== 'tooltip';
-        })
-        .map((valueName, index) => {
-          const barName = valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : '';
-          if (index === length) {
-            return (
-              <Bar
-                dataKey={valueName}
-                stackId="debtBar"
-                fill={mapBarColors(valueName)}
-                fillOpacity={opacity}
-                strokeWidth={0}
-                name={barName}
-                barSize={16}
-                tabIndex={0}
-                shape={<CustomDeficitBarShape />}
-                style={{
-                  outline: 'none',
-                }}
-                onFocus={() => {
-                  setFocusedYear(yearlyData.year);
-                  setCustomTooltipData([
-                    {
-                      dataKey: valueName,
-                      hide: false,
-                      name: valueName,
-                      payload: yearlyData,
-                    },
-                  ]);
-                }}
-              />
-            );
-          }
-          return (
-            <Bar
-              key={`${barName}-${index}`}
-              dataKey={valueName}
-              isAnimationActive={false}
-              stackId="debtBar"
-              fill={mapBarColors(valueName)}
-              fillOpacity={opacity}
-              strokeWidth={0}
-              name={barName}
-              shape={<CustomBarShape />}
-              barSize={16}
-            />
-          );
-        });
+      const chartData = Object.keys(yearlyData).filter(propName => {
+        return propName !== 'year' && propName !== 'tooltip';
+      });
+      const length = chartData.length - 1;
+      return chartData.map((valueName, index) => {
+        const barName = valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : '';
+        return (
+          <Bar
+            key={`${barName}-${index}`}
+            dataKey={valueName}
+            stackId="debtBar"
+            fill={mapBarColors(valueName)}
+            fillOpacity={opacity}
+            strokeWidth={0}
+            name={barName}
+            barSize={16}
+            shape={index === length ? <CustomDeficitBarShape /> : <CustomBarShape />}
+            tabIndex={0}
+            onFocus={() => {
+              setFocusedYear(yearlyData.year);
+              setCustomTooltipData([
+                {
+                  dataKey: valueName,
+                  hide: false,
+                  name: valueName,
+                  payload: yearlyData,
+                },
+              ]);
+            }}
+          />
+        );
+      });
     });
   };
 
