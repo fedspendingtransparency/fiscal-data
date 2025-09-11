@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
-import MonthPicker from './month-picker';
+import MonthPicker from './grid-month-picker';
 
 jest.mock('../../scroll-container/scroll-container', () => {
   return function MockScrollContainer({ children }) {
