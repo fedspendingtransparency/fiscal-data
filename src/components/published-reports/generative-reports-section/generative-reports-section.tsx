@@ -194,6 +194,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             allYears={allReportYears}
             ignoreDisabled={true}
             ariaLabel="Enter report date"
+            generatedReport={true}
           />
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
