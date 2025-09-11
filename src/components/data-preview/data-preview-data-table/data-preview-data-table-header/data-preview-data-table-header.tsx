@@ -14,7 +14,6 @@ import {
   stickyHeader,
   filtersActive,
   tableHeader,
-  highlightHeader,
 } from './data-preview-data-table-header.module.scss';
 import { columnHeaderFilterActive, columnHeaderFilterApplied, rightAlign } from '../../../data-table/data-table-helper';
 import { flexRender } from '@tanstack/react-table';
@@ -71,17 +70,12 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
     );
   };
 
-  console.log('applied filters: ', appliedFilters);
-  console.log('all active filters: ', allActiveFilters);
-
   return (
     <thead>
       {table.getHeaderGroups().map(headerGroup => {
         return (
           <tr key={headerGroup.id} data-testid="header-row" className={stickyHeader}>
             {headerGroup.headers.map((header, index) => {
-              const columnDataType = dataTypes[header.id];
-              console.log('headers?: ', header.id);
               const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
               const activeFilterStyle = columnHeaderFilterActive(allActiveFilters, header.id);
               const appliedFilterStyle = columnHeaderFilterApplied(appliedFilters, header.id);

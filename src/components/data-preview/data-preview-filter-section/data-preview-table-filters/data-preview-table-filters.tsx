@@ -296,8 +296,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   }, [active]);
 
-  console.log('test: ', appliedFilters.length);
-
   const filterDropdownButton = (
     <DropdownLabelButton
       label="Filters"
