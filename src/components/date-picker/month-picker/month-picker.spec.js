@@ -1,5 +1,6 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import MonthPicker from './month-picker';
+import React from 'react';
 
 describe('Month Picker', () => {
   const mockMonthDropdownOptions = ['March', 'April', 'May'];
