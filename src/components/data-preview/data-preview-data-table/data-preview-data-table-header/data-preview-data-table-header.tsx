@@ -76,6 +76,7 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
         return (
           <tr key={headerGroup.id} data-testid="header-row" className={stickyHeader}>
             {headerGroup.headers.map((header, index) => {
+              const columnDataType = dataTypes[header.id];
               const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
               const activeFilterStyle = columnHeaderFilterActive(allActiveFilters, header.id);
               const appliedFilterStyle = columnHeaderFilterApplied(appliedFilters, header.id);
