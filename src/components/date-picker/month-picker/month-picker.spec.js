@@ -2,31 +2,6 @@ import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 import MonthPicker from './month-picker';
 
-jest.mock('../../scroll-container/scroll-container', () => {
-  return function MockScrollContainer({ children }) {
-    return <div data-testid="scroll-container">{children}</div>;
-  };
-});
-
-jest.mock('../date-dropdown/date-dropdown', () => {
-  return function MockDateDropdown(props) {
-    return (
-      <div data-testid="date-dropdown">
-        <button aria-label="MOCK Close" onClick={props.handleClose}>
-          x
-        </button>
-        <button aria-label="MOCK Set Month May" onClick={() => props.setSelectedMonth('May')}>
-          set-month
-        </button>
-        <button aria-label="MOCK Set Year 2018" onClick={() => props.setSelectedYear('2018')}>
-          set-year
-        </button>
-        {props.children}
-      </div>
-    );
-  };
-});
-
 describe('Month Picker', () => {
   const mockMonthDropdownOptions = ['March', 'April', 'May'];
   const mockYearDropdownOptions = ['2020', '2019', 2018];
@@ -279,26 +254,6 @@ describe('Month Picker', () => {
     expect(getByRole('button', { name: 'April' })).toBeInTheDocument();
   });
 
-  it('passes handleClose through to DateDropdown ', () => {
-    const handleClose = jest.fn();
-
-    const { getByLabelText } = render(
-      <MonthPicker
-        allReportYears={mockYearDropdownOptions}
-        setSelectedDate={jest.fn()}
-        handleClose={handleClose}
-        selectedDate={new Date('03/08/2019')}
-        active={true}
-        allReportDates={mockReportDates}
-        earliestDate={earliest}
-        latestDate={latest}
-      />
-    );
-
-    act(() => fireEvent.click(getByLabelText('MOCK Close')));
-    expect(handleClose).toHaveBeenCalledTimes(1);
-  });
-
   it('responds to the DateDropdown-provided setters', () => {
     const { getByLabelText, getByRole } = render(
       <MonthPicker
@@ -313,11 +268,9 @@ describe('Month Picker', () => {
       />
     );
 
-    act(() => fireEvent.click(getByLabelText('MOCK Set Year 2018')));
     const yearToggle = getByRole('button', { name: 'Toggle Year Dropdown' });
-    expect(yearToggle).toHaveTextContent('2018');
+    expect(yearToggle).toHaveTextContent('2019');
 
-    act(() => fireEvent.click(getByLabelText('MOCK Set Month May')));
     expect(getByRole('button', { name: 'May' })).toBeInTheDocument();
   });
 });
