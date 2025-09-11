@@ -26,6 +26,8 @@ describe('Table filters dropdown', () => {
     tableState: {
       getAllLeafColumns: jest.fn().mockImplementation(() => mockColumnConfigs),
     },
+    appliedFilters: [],
+    setAppliedFilters: jest.fn(),
   };
   const mockPivotView = { title: 'Complete Table' };
   const setIsCustomDateRange = jest.fn();
@@ -215,6 +217,8 @@ describe('Table Filter Date Range Presets', () => {
     tableState: {
       getAllLeafColumns: jest.fn().mockImplementation(() => mockColumnConfigs),
     },
+    appliedFilters: [],
+    setAppliedFilters: jest.fn(),
   };
   const mockSelectedTable = {
     earliestDate: '2002-01-01',
