@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { IDataTableHeader } from '../../../../models/IDataTableHeader';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -14,12 +14,14 @@ import {
   stickyHeader,
   filtersActive,
   tableHeader,
+  highlightHeader,
 } from './data-preview-data-table-header.module.scss';
-import { columnHeaderFilterActive, rightAlign } from '../../../data-table/data-table-helper';
+import { columnHeaderFilterActive, columnHeaderFilterApplied, rightAlign } from '../../../data-table/data-table-helper';
 import { flexRender } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { DataTableContext } from '../../../data-preview/data-preview-context';
 
 const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, allActiveFilters, setAllActiveFilters }) => {
   const LightTooltip = withStyles(() => ({
@@ -35,6 +37,7 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
       boxShadow: '0.25rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.15), 0 0 0.125rem 0 rgba(0, 0, 0, 0.20)',
     },
   }))(Tooltip);
+  const { appliedFilters } = useContext(DataTableContext);
 
   const iconClick = (state, header, e) => {
     if (e.key === undefined || e.key === 'Enter') {
@@ -68,6 +71,9 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
     );
   };
 
+  console.log('applied filters: ', appliedFilters);
+  console.log('all active filters: ', allActiveFilters);
+
   return (
     <thead>
       {table.getHeaderGroups().map(headerGroup => {
@@ -75,8 +81,11 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
           <tr key={headerGroup.id} data-testid="header-row" className={stickyHeader}>
             {headerGroup.headers.map((header, index) => {
               const columnDataType = dataTypes[header.id];
+              console.log('headers?: ', header.id);
               const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
-              const appliedFilterStyle = columnHeaderFilterActive(allActiveFilters, header.id);
+              const activeFilterStyle = columnHeaderFilterActive(allActiveFilters, header.id);
+              const appliedFilterStyle = columnHeaderFilterApplied(appliedFilters, header.id);
+
               return (
                 <th
                   key={header.id}
@@ -84,7 +93,7 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
                   style={{
                     minWidth: header.getSize(),
                   }}
-                  className={`${tableHeader} ${appliedFilterStyle && filtersActive}`}
+                  className={`${tableHeader} ${(activeFilterStyle || appliedFilterStyle) && filtersActive}`}
                 >
                   {!header.isPlaceholder && (
                     <>

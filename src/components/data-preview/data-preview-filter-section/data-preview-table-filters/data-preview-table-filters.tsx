@@ -36,8 +36,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   pivotView,
   dropdownWidth,
 }) => {
-  const { tableState: table, allColumns } = useContext(DataTableContext);
-  const [appliedFilters, setAppliedFilters] = useState([]);
+  const { tableState: table, allColumns, appliedFilters, setAppliedFilters } = useContext(DataTableContext);
   const [active, setActive] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState('');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
