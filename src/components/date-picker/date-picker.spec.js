@@ -201,10 +201,8 @@ describe('Month Picker', () => {
   });
 
   it('updates displayed text when selectedDate prop changes (monthly mode)', () => {
-    const DatePickerReal = require('./date-picker').default || require('./date-picker');
-
     const { getByRole, rerender } = render(
-      <DatePickerReal
+      <DatePicker
         isDaily={false}
         latestDate={new Date('8/8/2024')}
         earliestDate={new Date('8/8/2016')}
@@ -219,7 +217,7 @@ describe('Month Picker', () => {
     expect(within(btn).getByText('August 2024')).toBeInTheDocument();
 
     rerender(
-      <DatePickerReal
+      <DatePicker
         isDaily={false}
         latestDate={new Date('8/8/2024')}
         earliestDate={new Date('8/8/2016')}
