@@ -255,7 +255,7 @@ describe('Month Picker', () => {
   });
 
   it('responds to the DateDropdown-provided setters', () => {
-    const { getByLabelText, getByRole } = render(
+    const { getByRole } = render(
       <MonthPicker
         allReportYears={mockYearDropdownOptions}
         setSelectedDate={jest.fn()}

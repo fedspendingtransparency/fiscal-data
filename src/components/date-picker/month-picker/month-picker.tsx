@@ -46,13 +46,9 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
 
   const scrollToSelectedMonth = useRef(null);
 
-  // const allYears = [...new Set(allReportYears)];
   const allYears = useMemo(() => [...new Set(allReportYears.map(String))].sort((a, b) => Number(a) - Number(b)), [allReportYears]);
   const monthDropdownOptions = monthFullNames;
-  console.log('monthDropdownOptions    ', monthDropdownOptions);
-  console.log('allReportYears', allReportYears);
   const currentYearIndex = useMemo(() => allYears.findIndex(year => year === selectedYear), [allYears, selectedYear]);
-  console.log('allYears    ', allYears);
   const hidePreviousYear = showYears || currentYearIndex <= 0;
 
   const hideNextYear = showYears || currentYearIndex === -1 || currentYearIndex >= allYears.length - 1;
