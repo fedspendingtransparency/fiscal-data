@@ -296,10 +296,22 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   }, [active]);
 
+  // TODO: find a way to access the "pretty name" instead of the raw name
+  //  ex: a filter for dts on the 'Type of Account' is coming in as 'account_type' instead
+  const selectedOptionDisplay = () => {
+    if (appliedFilters.length > 1) {
+      return `${appliedFilters.length} applied`;
+    } else if (appliedFilters.length === 1) {
+      return appliedFilters;
+    } else {
+      return `${appliedFilters.length} applied`;
+    }
+  };
+
   const filterDropdownButton = (
     <DropdownLabelButton
       label="Filters"
-      selectedOption={appliedFilters.length + ' applied'}
+      selectedOption={selectedOptionDisplay()}
       filtersAreSelected={appliedFilters.length > 0 ? true : null}
       icon={faFilter}
       active={active}

@@ -146,6 +146,8 @@ describe('Table filters dropdown', () => {
     expect(filterButton).toBeInTheDocument();
   });
 
+  // TODO: fix the below test - it broke because we moved appliedFilters into the useContext
+
   it('Applies text filters on apply button click', () => {
     const { getByRole } = render(
       <DataTableContext.Provider
