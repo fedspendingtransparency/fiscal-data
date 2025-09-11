@@ -34,7 +34,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   setIsFiltered,
   datasetDateRange,
   pivotView,
-  dropdownWidth
+  dropdownWidth,
 }) => {
   const { tableState: table, allColumns } = useContext(DataTableContext);
   const [appliedFilters, setAppliedFilters] = useState([]);
@@ -297,8 +297,18 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   }, [active]);
 
+  console.log('test: ', appliedFilters.length);
+
   const filterDropdownButton = (
-    <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} dropdownWidth={dropdownWidth}/>
+    <DropdownLabelButton
+      label="Filters"
+      selectedOption={appliedFilters.length + ' applied'}
+      filtersAreSelected={appliedFilters.length > 0 ? true : null}
+      icon={faFilter}
+      active={active}
+      setActive={setActive}
+      dropdownWidth={dropdownWidth}
+    />
   );
 
   const handleBack = () => {
