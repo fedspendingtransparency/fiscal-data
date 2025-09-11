@@ -143,7 +143,7 @@ describe('Month Picker', () => {
   });
 
   it('steps year using chevrons', () => {
-    const { getByLabelText, findByTestId, getByRole } = render(
+    const { getByLabelText, getByRole } = render(
       <MonthPicker
         allReportYears={mockYearDropdownOptions}
         setSelectedDate={setSelectedDateMock}
@@ -159,10 +159,10 @@ describe('Month Picker', () => {
 
     act(() => fireEvent.click(nextButton));
     const yearButton = getByRole('button', { name: 'Toggle Year Dropdown' });
-    expect(yearButton).toHaveTextContent('2018');
+    expect(yearButton).toHaveTextContent('2020');
 
     act(() => fireEvent.click(prevButton));
-    expect(yearButton).toHaveTextContent('2018');
+    expect(yearButton).toHaveTextContent('2019');
   });
 
   it('renders month buttons and scrolls to the selected month', () => {

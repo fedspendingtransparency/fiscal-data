@@ -46,11 +46,13 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
 
   const scrollToSelectedMonth = useRef(null);
 
-  const allYears = [...new Set(allReportYears)];
+  // const allYears = [...new Set(allReportYears)];
+  const allYears = useMemo(() => [...new Set(allReportYears.map(String))].sort((a, b) => Number(a) - Number(b)), [allReportYears]);
   const monthDropdownOptions = monthFullNames;
-
+  console.log('monthDropdownOptions    ', monthDropdownOptions);
+  console.log('allReportYears', allReportYears);
   const currentYearIndex = useMemo(() => allYears.findIndex(year => year === selectedYear), [allYears, selectedYear]);
-
+  console.log('allYears    ', allYears);
   const hidePreviousYear = showYears || currentYearIndex <= 0;
 
   const hideNextYear = showYears || currentYearIndex === -1 || currentYearIndex >= allYears.length - 1;
@@ -88,7 +90,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
     setSelectedYear(nextYear);
   };
 
-  const yearDesc = useMemo(() => [...allYears].sort((a, b) => Number(b) - Number(a)), [allYears]);
+  // const yearDesc = useMemo(() => [...allYears].sort((a, b) => Number(b) - Number(a)), [allYears]);
 
   useEffect(() => {
     if (!active) {
@@ -156,7 +158,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
               {showYears && (
                 <ScrollContainer deps={[allYears, monthDropdownOptions, showYears, selectedMonth, selectedYear]}>
                   <ul className={unorderYear}>
-                    {yearDesc?.map((option, i) => {
+                    {allYears?.map((option, i) => {
                       const disabled = !allReportDates.includes(`${selectedMonth} ${option}`);
                       return (
                         <li key={i} className={listYear}>
