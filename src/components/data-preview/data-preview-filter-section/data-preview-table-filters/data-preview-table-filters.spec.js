@@ -26,7 +26,7 @@ describe('Table filters dropdown', () => {
     tableState: {
       getAllLeafColumns: jest.fn().mockImplementation(() => mockColumnConfigs),
     },
-    appliedFilters: [],
+    appliedFilters: jest.fn(),
     setAppliedFilters: jest.fn(),
   };
   const mockPivotView = { title: 'Complete Table' };
@@ -175,7 +175,7 @@ describe('Table filters dropdown', () => {
     expect(filter).toHaveFocus();
     userEvent.keyboard('test');
     fireEvent.click(getByRole('button', { name: 'Apply' }));
-    expect(getByRole('button', { name: 'Filters: 1 applied' })).toBeInTheDocument();
+    expect(getByRole('button', { name: 'Filters: Test Field' })).toBeInTheDocument();
     expect(setFilterValueSpy).toHaveBeenCalled();
   });
 

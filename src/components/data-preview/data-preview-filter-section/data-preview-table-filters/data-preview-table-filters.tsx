@@ -401,9 +401,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     />
   );
 
-  // console.log('selected column in mobile: ', selectedColumn);
-  // console.log('selected column in mobile: ', selectedColumn.prettyName);
-
   const mobileFilterComponent = isFilterSelected ? (
     // Shows the selected filter and its options
     <DataPreviewMobileDialog
