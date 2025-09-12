@@ -8,8 +8,6 @@ import { setTableConfig } from '../../dataset-data/table-section-container/set-t
 import Analytics from '../../../utils/analytics/analytics';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
 import { SetNoChartMessage } from '../../dataset-data/table-section-container/set-no-chart-message';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import AggregationNotice from '../../dataset-data/table-section-container/aggregation-notice/aggregation-notice';
 import DataPreviewTable from '../data-preview-table/data-preview-table';
 import {
@@ -25,6 +23,7 @@ import ChartTableDisplay from '../data-preview-chart-table-display/data-preview-
 import { DataTableContext } from '../data-preview-context';
 import DynamicConfig from '../../dataset-data/table-section-container/dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
+import LoadingIndicator from '../../loading-indicator/loading-indicator';
 
 type DataPreviewSectionProps = {
   config;
@@ -364,14 +363,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           )}
         </div>
         <div className={tableContainer}>
-          {isLoading && (
-            <div data-testid="loadingSection">
-              <div className={loadingSection} />
-              <div className={loadingIcon}>
-                <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...
-              </div>
-            </div>
-          )}
+          {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={loadingSection} />}
           <ChartTableDisplay
             allTablesSelected={allTablesSelected}
             selectedTable={selectedTable}

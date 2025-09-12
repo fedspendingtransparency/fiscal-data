@@ -13,8 +13,6 @@ import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import numeral from 'numeral';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
@@ -30,6 +28,7 @@ import {
 } from '../../../../explainer-helpers/explainer-charting-helper';
 import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { useInView } from 'react-intersection-observer';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -327,11 +326,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
   return (
     <>
-      {isLoading && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
+      {isLoading && <LoadingIndicator />}
       {!isLoading && chartToggleConfig && (
         <div className={visWithCallout}>
           <div className={container}>

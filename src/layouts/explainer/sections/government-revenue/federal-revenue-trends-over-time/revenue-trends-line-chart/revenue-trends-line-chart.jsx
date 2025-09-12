@@ -3,8 +3,6 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg, fontSize_14 } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {
   container,
   corpRect,
@@ -37,6 +35,7 @@ import {
 } from '../../../../explainer-helpers/explainer-charting-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 let gaTimerRevenueTrends;
 let ga4Timer;
@@ -355,9 +354,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           </ChartContainer>
         </div>
       ) : (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
+        <LoadingIndicator />
       )}
     </>
   );

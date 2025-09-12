@@ -6,14 +6,13 @@ import { formatDateForApi, pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_
 import moment from 'moment';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import { defaultPerPageOptions } from '../../pagination/pagination-controls';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import DtgTableApiError from '../../dtg-table/dtg-table-api-error/dtg-table-api-error';
 import { ErrorBoundary } from 'react-error-boundary';
 import { loadingIcon, overlay, overlayContainer, overlayContainerNoFooter } from './data-preview-table.module.scss';
 import GLOBALS from '../../../helpers/constants';
 import DataPreviewDataTable from '../data-preview-data-table/data-preview-data-table';
 import { DataTableContext } from '../data-preview-context';
+import LoadingIndicator from '../../loading-indicator/loading-indicator';
 
 const DEFAULT_ROWS_PER_PAGE = GLOBALS.dataTable.DEFAULT_ROWS_PER_PAGE;
 
@@ -423,12 +422,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     <div className={overlayContainer}>
       {/* Loading Indicator */}
       {!isLoading && !reactTableData && !selectedTable?.apiFilter && !(apiError || tableProps.apiError) && (
-        <>
-          <div data-test-id="loading-overlay" className={overlay} />
-          <div className={loadingIcon}>
-            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
-          </div>
-        </>
+        <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />
       )}
       {/* Data Dictionary and Dataset Detail tables */}
       <div data-test-id="table-content" className={overlayContainerNoFooter}>

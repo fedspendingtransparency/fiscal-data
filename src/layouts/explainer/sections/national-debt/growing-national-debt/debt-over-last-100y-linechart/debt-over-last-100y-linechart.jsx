@@ -20,8 +20,6 @@ import {
 import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import { useInView } from 'react-intersection-observer';
@@ -29,6 +27,7 @@ import { useRecoilValueLoadable } from 'recoil';
 import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
 import { debtExplainerPrimary } from '../../national-debt.module.scss';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 let gaTimerDebt100Yrs;
 let ga4Timer;
@@ -173,11 +172,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
 
   return (
     <>
-      {isLoading && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
+      {isLoading && <LoadingIndicator />}
       {!isLoading && (
         <div className={visWithCallout}>
           <div className={container}>

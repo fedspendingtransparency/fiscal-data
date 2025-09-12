@@ -7,8 +7,6 @@ import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helpe
 import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_16, fontTitle } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { endpointUrl, generateTickValues, preAPIData } from './deficit-trends-bar-chart-helpers';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
@@ -17,6 +15,7 @@ import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from '../
 import CustomBar from './custom-bar/custom-bar';
 import { useInView } from 'react-intersection-observer';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 let gaTimerChart;
 let ga4Timer;
@@ -314,9 +313,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
           </ChartContainer>
         </div>
       ) : (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
+        <LoadingIndicator />
       )}
     </>
   );
