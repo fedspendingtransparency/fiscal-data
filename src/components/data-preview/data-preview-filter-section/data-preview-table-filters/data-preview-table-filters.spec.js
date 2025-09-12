@@ -26,6 +26,8 @@ describe('Table filters dropdown', () => {
     tableState: {
       getAllLeafColumns: jest.fn().mockImplementation(() => mockColumnConfigs),
     },
+    appliedFilters: [],
+    setAppliedFilters: jest.fn(),
   };
   const mockPivotView = { title: 'Complete Table' };
   const setIsCustomDateRange = jest.fn();
@@ -144,6 +146,8 @@ describe('Table filters dropdown', () => {
     expect(filterButton).toBeInTheDocument();
   });
 
+  // TODO: fix the below test - it broke because we moved appliedFilters into the useContext
+
   it('Applies text filters on apply button click', () => {
     const { getByRole } = render(
       <DataTableContext.Provider
@@ -215,6 +219,8 @@ describe('Table Filter Date Range Presets', () => {
     tableState: {
       getAllLeafColumns: jest.fn().mockImplementation(() => mockColumnConfigs),
     },
+    appliedFilters: [],
+    setAppliedFilters: jest.fn(),
   };
   const mockSelectedTable = {
     earliestDate: '2002-01-01',

@@ -13,6 +13,8 @@ const mockContextValue = {
     getVisibleFlatColumns: () => new Array(17).fill({ columnDef: { header: 'header' } }),
     getAllLeafColumns: () => new Array(17).fill({ columnDef: { header: 'header' }, id: 'id' }),
   },
+  appliedFilters: [],
+  setAppliedFilters: jest.fn(),
 };
 
 const setIsCustomDateRange = jest.fn();
