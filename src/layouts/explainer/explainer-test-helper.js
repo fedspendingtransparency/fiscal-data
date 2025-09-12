@@ -906,6 +906,24 @@ export const mockSlgsDebtToPennyAmount = {
   ],
 };
 
+export const mockSlgsDebtToPennyAmount2 = {
+  data: [
+    {
+      record_date: '2025-06-25',
+      debt_held_public_amt: '28888758862953.29',
+      intragov_hold_amt: '7325110705163.71',
+      tot_pub_debt_out_amt: '4397321574350',
+      src_line_nbr: '1',
+      record_fiscal_year: '2025',
+      record_fiscal_quarter: '3',
+      record_calendar_year: '2025',
+      record_calendar_quarter: '2',
+      record_calendar_month: '06',
+      record_calendar_day: '25',
+    },
+  ],
+};
+
 export const mockSlgsTotalAmount = {
   data: [
     {
@@ -929,6 +947,29 @@ export const mockSlgsTotalAmount = {
   ],
 };
 
+export const mockSlgsTotalAmount2 = {
+  data: [
+    {
+      record_date: '2025-06-25',
+      outstanding_0_3_mos_cnt: '874',
+      outstanding_0_3_mos_amt: '0',
+      outstanding_3_6_mos_cnt: '350',
+      outstanding_3_6_mos_amt: '0',
+      outstanding_6_mos_to_2_yrs_cnt: '2298',
+      outstanding_6_mos_to_2_yrs_amt: '0',
+      outstanding_2_5_yrs_cnt: '4926',
+      outstanding_2_5_yrs_amt: '0',
+      outstanding_5_10_yrs_cnt: '2667',
+      outstanding_5_10_yrs_amt: '0',
+      outstanding_over_10_yrs_cnt: '3319',
+      outstanding_over_10_yrs_amt: '0',
+      record_calendar_month: '06',
+      record_calendar_day: '25',
+      record_calendar_year: '2025',
+    },
+  ],
+};
+
 export const mockSLGSFetchResponses = () => {
   fetchMock.get(
     `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date`,
@@ -940,6 +981,38 @@ export const mockSLGSFetchResponses = () => {
   fetchMock.get(
     `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
     mockSlgsDebtToPennyAmount,
+    { overwriteRoutes: true },
+    { repeat: 1 }
+  );
+
+  fetchMock.get(
+    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
+    mockSlgsTotalAmount,
+    { overwriteRoutes: true },
+    { repeat: 1 }
+  );
+};
+
+export const mockSLGSFetchResponses2 = () => {
+  fetchMock.get(
+    `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
+    mockSlgsDebtToPennyAmount,
+    { overwriteRoutes: true },
+    { repeat: 1 }
+  );
+
+  fetchMock.get(
+    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
+    mockSlgsTotalAmount2,
+    { overwriteRoutes: true },
+    { repeat: 1 }
+  );
+};
+
+export const mockSLGSFetchResponses3 = () => {
+  fetchMock.get(
+    `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
+    mockSlgsDebtToPennyAmount2,
     { overwriteRoutes: true },
     { repeat: 1 }
   );
