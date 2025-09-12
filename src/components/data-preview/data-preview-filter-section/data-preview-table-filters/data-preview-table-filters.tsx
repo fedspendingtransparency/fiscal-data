@@ -296,39 +296,17 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   }, [active]);
 
-  // TODO: find a way to access the "pretty name" instead of the raw name
-  //  ex: a filter for dts on the 'Type of Account' is coming in as 'account_type' instead
   const selectedOptionDisplay = () => {
     if (appliedFilters.length !== 1) {
       return `${appliedFilters.length} applied`;
     } else {
       const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields, pivotView);
+      const match = initialCols.findIndex(filter => filter.columnName === appliedFilters[0]);
+      if (match !== -1) {
+        return initialCols[match].prettyName;
+      }
     }
   };
-
-  // const selectedOptionDisplay = () => {
-  //   if (appliedFilters.length > 1) {
-  //     return `${appliedFilters.length} applied`;
-  //   } else if (appliedFilters.length === 1) {
-  //     return appliedFilters;
-  //   } else {
-  //     return `${appliedFilters.length} applied`;
-  //   }
-  // };
-  //
-
-  // const selectedOptionDisplay = () => {
-  //   if (appliedFilters.length !== 1) {
-  //     return `${appliedFilters.length} applied`;
-  //   } else {
-  //     const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields, pivotView);
-  //     console.log('initialCols: ', initialCols);
-  //     console.log('appliedFilters: ', appliedFilters[0]);
-  //     const match = initialCols.find(filter => filter.columnName === 'account_type');
-  //     console.log('match: ', match);
-  //     return match;
-  //   }
-  // };
 
   const filterDropdownButton = (
     <DropdownLabelButton
