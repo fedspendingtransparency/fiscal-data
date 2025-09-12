@@ -11,6 +11,7 @@ import { trillionAxisFormatter } from '../chart-helper';
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
+import { barWidth, debtEndpointUrl, deficitEndpointUrl, gap, getOpacity, legendItems, mapBarColors, tickCountXAxis } from './debt-chart-helper';
 
 const AFGDebtChart = (): ReactElement => {
   const isMounted = useIsMounted();
@@ -21,42 +22,19 @@ const AFGDebtChart = (): ReactElement => {
   const [chartFocus, setChartFocus] = useState(false);
   const [customTooltipData, setCustomTooltipData] = useState(null);
 
-  const debtEndpointUrl = '/v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding&sort=-record_date';
-  const deficitEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date';
-  const tickCountXAxis = 5;
-
-  const legendItems = [
-    { title: 'Debt', color: debtExplainerPrimary },
-    { title: 'Deficit', color: deficitExplainerPrimary },
-    { title: '= $1T', color: '#666666', shape: 'rectangle' },
-  ];
-
   const ariaLabel =
     'A chart demonstrating the total debt as it accumulated to ' +
     currentFY +
     ' over the four prior years. The chart presents the total debt for each year in purple bars divided into $1T tabs, ' +
     'and the deficit for each year as an orange highlight against the yearly purple bars in order to represent the ' +
     'relationship between the two concepts.';
-  const mapBarColors = barType => {
-    if (barType.includes('debt')) {
-      return debtExplainerPrimary;
-    } else if (barType.includes('none')) {
-      return '#00000000';
-    } else if (barType.includes('deficit')) {
-      return deficitExplainerPrimary;
-    }
-  };
 
   const CustomBarShape = props => {
-    const { height, width, y, fill, payload, background, dataKey } = props;
-    const debtVal = payload[dataKey];
-    let countDown = debtVal;
-    const gap = 1.89;
+    const { height, width, y, x, fill, payload, dataKey, year } = props;
+    let countDown = payload[dataKey];
     if (width > 0) {
-      let xVal = background.x + gap;
-      const barWidth = 6.3;
+      let xVal = x + gap;
       // const barWidth = Number(((width - gap * 2) / debtVal - gap).toFixed(1));
-      // console.log('barWidth', dataKey, barWidth, width, gap, debtVal);
       let barCount = 0;
       const allBars = [];
       while (countDown >= 1) {
@@ -67,10 +45,21 @@ const AFGDebtChart = (): ReactElement => {
         xVal = xVal + barWidth + gap + axisGap;
       }
       allBars.push({ x: xVal, width: barWidth * countDown });
+
       return (
         <>
           {allBars.map(val => (
-            <rect {...props} y={y} height={height} width={val.width} x={val.x} strokeWidth={0} fill={fill} fillOpacity={1} />
+            <rect
+              {...props}
+              y={y}
+              height={height}
+              width={val.width}
+              x={val.x}
+              strokeWidth={0}
+              fill={fill}
+              fillOpacity={1}
+              opacity={getOpacity(focusedYear, year)}
+            />
           ))}
         </>
       );
@@ -78,20 +67,17 @@ const AFGDebtChart = (): ReactElement => {
   };
 
   const CustomDeficitBarShape = props => {
-    const { height, width, y, fill, payload, background, x, dataKey, year } = props;
+    const { height, width, y, fill, payload, x, dataKey, year } = props;
+    console.log(x, width);
     const debtVal = props[`debt${year}`];
     const debtRemainder = debtVal % 1;
-    const deficitVal = payload[dataKey];
-    let countDown = deficitVal;
-    const gap = 1.89;
+    let countDown = payload[dataKey];
     if (width > 0) {
-      let xVal = x - gap;
-      const barWidth = 6.3;
+      let xVal = x;
       // const barWidth = Number(((width - gap * 2) / debtVal - gap).toFixed(1));
       const allBars = [];
       const firstBar = barWidth * (1 - debtRemainder);
       const debtIndexRemainder = (debtVal + (1 - debtRemainder)) % 10;
-      console.log('debtRemainder ' + year, debtIndexRemainder);
       allBars.push({ x: xVal, width: firstBar });
       let barCount = debtIndexRemainder;
       const axisGap = barCount % 10 === 0 ? gap : 0;
@@ -111,7 +97,17 @@ const AFGDebtChart = (): ReactElement => {
       return (
         <>
           {allBars.map(val => (
-            <rect {...props} y={y} height={height} width={val.width} x={val.x} strokeWidth={0} fill={fill} fillOpacity={1} />
+            <rect
+              {...props}
+              y={y}
+              height={height}
+              width={val.width}
+              x={val.x}
+              strokeWidth={0}
+              fill={fill}
+              fillOpacity={1}
+              opacity={getOpacity(focusedYear, year)}
+            />
           ))}
         </>
       );
@@ -140,17 +136,17 @@ const AFGDebtChart = (): ReactElement => {
             barSize={16}
             shape={index === length ? <CustomDeficitBarShape /> : <CustomBarShape />}
             tabIndex={0}
-            onFocus={() => {
-              setFocusedYear(yearlyData.year);
-              setCustomTooltipData([
-                {
-                  dataKey: valueName,
-                  hide: false,
-                  name: valueName,
-                  payload: yearlyData,
-                },
-              ]);
-            }}
+            // onFocus={() => {
+            //   setFocusedYear(yearlyData.year);
+            //   setCustomTooltipData([
+            //     {
+            //       dataKey: valueName,
+            //       hide: false,
+            //       name: valueName,
+            //       payload: yearlyData,
+            //     },
+            //   ]);
+            // }}
           />
         );
       });
