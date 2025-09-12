@@ -1,15 +1,19 @@
 import React from 'react';
+import { getOpacity } from '../debt-chart-helper';
 
-const getBarSizes = (width, countDown) => {
-  const splitWidth = (width / countDown).toFixed(1);
-  const totalWidth = splitWidth * 10;
-  const barWidth = 6.3; //(1 / 13.3) * totalWidth;
-  const gapWidth = 1.89; //0.3 * bar;
-  return { barWidth, gapWidth };
+const getBarSizes = (width, totalBars) => {
+  if (!!width && !!totalBars) {
+    const splitWidth = (width / totalBars).toFixed(1);
+    const totalWidth = splitWidth * 10;
+    const barWidth = (1 / 13.3) * totalWidth;
+    const gapWidth = 0.3 * barWidth;
+    return { barWidth: barWidth, gapWidth: gapWidth };
+  }
+  return { barWidth: 0, gapWidth: 0 };
 };
 
 const CustomBarShape = props => {
-  const { height, width, y, x, fill, payload, dataKey, year } = props;
+  const { height, width, y, x, fill, payload, dataKey, year, focusedYear } = props;
 
   const debtBar = dataKey.includes('debt');
   const deficitBar = dataKey.includes('deficit');
@@ -19,18 +23,18 @@ const CustomBarShape = props => {
   const deficitInitialIndex = (debtVal + (1 - debtRemainder)) % 10;
 
   const { barWidth, gapWidth } = getBarSizes(width, payload[dataKey]);
-  if (width > 0) {
+  if (width > 0 && barWidth > 0) {
     let xVal = x;
-    const firstBar = barWidth * (1 - debtRemainder);
+    const firstBarValue = 1 - debtRemainder;
+    const firstBarWidth = barWidth * firstBarValue;
     const axisGap = deficitInitialIndex % 10 === 0 ? gapWidth : 0;
     const allBars = [];
     let remainingBars = payload[dataKey];
     if (deficitBar) {
       // first deficit bar will be split from the final debt bar
-      allBars.push({ x: xVal, width: firstBar });
-      xVal = xVal + firstBar + axisGap + gapWidth;
+      allBars.push({ x: xVal, width: firstBarWidth });
+      xVal = xVal + firstBarWidth + axisGap + gapWidth;
       remainingBars = remainingBars - (1 - debtRemainder);
-      console.log(payload[dataKey], remainingBars, debtRemainder);
     } else {
       //first debt bar will start with a gap
       xVal = xVal + gapWidth;
@@ -60,7 +64,7 @@ const CustomBarShape = props => {
             strokeWidth={0}
             fill={fill}
             fillOpacity={1}
-            // opacity={getOpacity(focusedYear, year)}
+            opacity={getOpacity(focusedYear, year)}
           />
         ))}
       </>

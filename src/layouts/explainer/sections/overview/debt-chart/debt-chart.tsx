@@ -49,7 +49,7 @@ const AFGDebtChart = (): ReactElement => {
             strokeWidth={0}
             name={barName}
             barSize={16}
-            shape={<CustomBarShape />}
+            shape={props => <CustomBarShape {...props} focusedYear={focusedYear} />}
             tabIndex={0}
             // onFocus={() => {
             //   setFocusedYear(yearlyData.year);
