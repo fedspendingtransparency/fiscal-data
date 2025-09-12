@@ -303,13 +303,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       return `${appliedFilters.length} applied`;
     } else {
       const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields, pivotView);
-      console.log('initialCols: ', initialCols);
-      console.log('appliedFilter: ', appliedFilters);
-      const filterToMatch = appliedFilters;
-      console.log('filter to match: ', filterToMatch);
-      const match = initialCols.find(filter => filter.columnName === filterToMatch);
-      console.log('match: ', match);
-      return match;
     }
   };
 
@@ -323,6 +316,20 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   //   }
   // };
   //
+
+  // const selectedOptionDisplay = () => {
+  //   if (appliedFilters.length !== 1) {
+  //     return `${appliedFilters.length} applied`;
+  //   } else {
+  //     const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields, pivotView);
+  //     console.log('initialCols: ', initialCols);
+  //     console.log('appliedFilters: ', appliedFilters[0]);
+  //     const match = initialCols.find(filter => filter.columnName === 'account_type');
+  //     console.log('match: ', match);
+  //     return match;
+  //   }
+  // };
+
   const filterDropdownButton = (
     <DropdownLabelButton
       label="Filters"
