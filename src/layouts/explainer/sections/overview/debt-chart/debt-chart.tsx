@@ -11,7 +11,7 @@ import { trillionAxisFormatter } from '../chart-helper';
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
-import { barWidth, debtEndpointUrl, deficitEndpointUrl, gap, getOpacity, legendItems, mapBarColors, tickCountXAxis } from './debt-chart-helper';
+import { debtEndpointUrl, deficitEndpointUrl, getOpacity, legendItems, mapBarColors, tickCountXAxis } from './debt-chart-helper';
 
 const AFGDebtChart = (): ReactElement => {
   const isMounted = useIsMounted();
@@ -31,69 +31,42 @@ const AFGDebtChart = (): ReactElement => {
 
   const CustomBarShape = props => {
     const { height, width, y, x, fill, payload, dataKey, year } = props;
-    let countDown = payload[dataKey];
-    if (width > 0) {
-      let xVal = x + gap;
-      // const barWidth = Number(((width - gap * 2) / debtVal - gap).toFixed(1));
-      let barCount = 0;
-      const allBars = [];
-      while (countDown >= 1) {
-        countDown = countDown - 1;
-        barCount = barCount + 1;
-        const axisGap = barCount !== 0 && barCount % 10 === 0 ? gap : 0;
-        allBars.push({ x: xVal, width: barWidth });
-        xVal = xVal + barWidth + gap + axisGap;
-      }
-      allBars.push({ x: xVal, width: barWidth * countDown });
-
-      return (
-        <>
-          {allBars.map(val => (
-            <rect
-              {...props}
-              y={y}
-              height={height}
-              width={val.width}
-              x={val.x}
-              strokeWidth={0}
-              fill={fill}
-              fillOpacity={1}
-              opacity={getOpacity(focusedYear, year)}
-            />
-          ))}
-        </>
-      );
-    }
-  };
-
-  const CustomDeficitBarShape = props => {
-    const { height, width, y, fill, payload, x, dataKey, year } = props;
-    console.log(x, width);
+    const barType = dataKey.includes('debt') ? 'debt' : 'deficit';
     const debtVal = props[`debt${year}`];
     const debtRemainder = debtVal % 1;
+    const debtIndexRemainder = (debtVal + (1 - debtRemainder)) % 10;
     let countDown = payload[dataKey];
+
+    const splitWidth = (width / countDown).toFixed(1);
+    const totalWidth = splitWidth * 10;
+    const bar = (1 / 13.3) * totalWidth;
+    const gapWidth = 0.3 * bar;
     if (width > 0) {
       let xVal = x;
-      // const barWidth = Number(((width - gap * 2) / debtVal - gap).toFixed(1));
+      if (barType === 'debt') xVal = xVal + gapWidth;
+      const firstBar = bar * (1 - debtRemainder);
+      const axisGap = debtIndexRemainder % 10 === 0 ? gapWidth : 0;
       const allBars = [];
-      const firstBar = barWidth * (1 - debtRemainder);
-      const debtIndexRemainder = (debtVal + (1 - debtRemainder)) % 10;
-      allBars.push({ x: xVal, width: firstBar });
-      let barCount = debtIndexRemainder;
-      const axisGap = barCount % 10 === 0 ? gap : 0;
 
-      xVal = xVal + firstBar + gap + axisGap;
-
-      countDown = countDown - (1 - debtRemainder);
+      if (barType === 'deficit') {
+        allBars.push({ x: xVal, width: firstBar });
+        xVal = xVal + firstBar + axisGap + gapWidth;
+      }
+      console.log(year, splitWidth, bar, gapWidth, barType);
+      let barCount = barType === 'debt' ? 0 : debtIndexRemainder;
+      if (barType !== 'debt') countDown = countDown - (1 - debtRemainder);
       while (countDown >= 1) {
         countDown = countDown - 1;
-        const axisGap = barCount % 10 === 0 ? gap : 0;
-        barCount = barCount + 1;
-        allBars.push({ x: xVal, width: barWidth });
-        xVal = xVal + barWidth + gap + axisGap;
+        if (barType === 'debt') barCount = barCount + 1;
+        const debtAxisGap = barCount !== 1 && barCount % 10 === 0 ? gapWidth : 0;
+        const deficitAxisGap = barCount % 10 === 0 ? gapWidth : 0;
+        const axisGap = barType === 'debt' ? debtAxisGap : deficitAxisGap;
+        if (barType === 'deficit') barCount = barCount + 1;
+        allBars.push({ x: xVal, width: bar });
+        xVal = xVal + bar + gapWidth + axisGap;
       }
+      allBars.push({ x: xVal, width: bar * countDown });
 
-      allBars.push({ x: xVal, width: barWidth * countDown });
       return (
         <>
           {allBars.map(val => (
@@ -113,6 +86,58 @@ const AFGDebtChart = (): ReactElement => {
       );
     }
   };
+
+  // const CustomDeficitBarShape = props => {
+  //   const { height, width, y, fill, payload, x, dataKey, year } = props;
+  //   const debtVal = props[`debt${year}`];
+  //   const debtRemainder = debtVal % 1;
+  //   let countDown = payload[dataKey];
+  //
+  //   const splitWidth = (width / countDown).toFixed(1);
+  //   const totalWidth = splitWidth * 10;
+  //   const bar = (1 / 13.3) * totalWidth;
+  //   const gapWidth = 0.3 * bar;
+  //   if (width > 0) {
+  //     let xVal = x;
+  //     // const barWidth = Number(((width - gap * 2) / debtVal - gap).toFixed(1));
+  //     const allBars = [];
+  //     const firstBar = bar * (1 - debtRemainder);
+  //     const debtIndexRemainder = (debtVal + (1 - debtRemainder)) % 10;
+  //     allBars.push({ x: xVal, width: firstBar });
+  //     let barCount = debtIndexRemainder;
+  //     const axisGap = barCount % 10 === 0 ? gapWidth : 0;
+  //
+  //     xVal = xVal + firstBar + gapWidth + axisGap;
+  //
+  //     countDown = countDown - (1 - debtRemainder);
+  //     while (countDown >= 1) {
+  //       countDown = countDown - 1;
+  //       const axisGap = barCount % 10 === 0 ? gapWidth : 0;
+  //       barCount = barCount + 1;
+  //       allBars.push({ x: xVal, width: bar });
+  //       xVal = xVal + bar + gapWidth + axisGap;
+  //     }
+  //
+  //     allBars.push({ x: xVal, width: bar * countDown });
+  //     return (
+  //       <>
+  //         {allBars.map(val => (
+  //           <rect
+  //             {...props}
+  //             y={y}
+  //             height={height}
+  //             width={val.width}
+  //             x={val.x}
+  //             strokeWidth={0}
+  //             fill={fill}
+  //             fillOpacity={1}
+  //             opacity={getOpacity(focusedYear, year)}
+  //           />
+  //         ))}
+  //       </>
+  //     );
+  //   }
+  // };
 
   const generateBar = sortedData => {
     return sortedData.map(yearlyData => {
@@ -134,7 +159,7 @@ const AFGDebtChart = (): ReactElement => {
             strokeWidth={0}
             name={barName}
             barSize={16}
-            shape={index === length ? <CustomDeficitBarShape /> : <CustomBarShape />}
+            shape={<CustomBarShape />}
             tabIndex={0}
             // onFocus={() => {
             //   setFocusedYear(yearlyData.year);
