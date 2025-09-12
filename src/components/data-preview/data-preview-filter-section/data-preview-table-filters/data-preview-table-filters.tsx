@@ -299,15 +299,30 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // TODO: find a way to access the "pretty name" instead of the raw name
   //  ex: a filter for dts on the 'Type of Account' is coming in as 'account_type' instead
   const selectedOptionDisplay = () => {
-    if (appliedFilters.length > 1) {
+    if (appliedFilters.length !== 1) {
       return `${appliedFilters.length} applied`;
-    } else if (appliedFilters.length === 1) {
-      return appliedFilters;
     } else {
-      return `${appliedFilters.length} applied`;
+      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields, pivotView);
+      console.log('initialCols: ', initialCols);
+      console.log('appliedFilter: ', appliedFilters);
+      const filterToMatch = appliedFilters;
+      console.log('filter to match: ', filterToMatch);
+      const match = initialCols.find(filter => filter.columnName === filterToMatch);
+      console.log('match: ', match);
+      return match;
     }
   };
 
+  // const selectedOptionDisplay = () => {
+  //   if (appliedFilters.length > 1) {
+  //     return `${appliedFilters.length} applied`;
+  //   } else if (appliedFilters.length === 1) {
+  //     return appliedFilters;
+  //   } else {
+  //     return `${appliedFilters.length} applied`;
+  //   }
+  // };
+  //
   const filterDropdownButton = (
     <DropdownLabelButton
       label="Filters"
@@ -400,6 +415,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       setFilterMap={setFiltersMap}
     />
   );
+
+  // console.log('selected column in mobile: ', selectedColumn);
+  // console.log('selected column in mobile: ', selectedColumn.prettyName);
 
   const mobileFilterComponent = isFilterSelected ? (
     // Shows the selected filter and its options
