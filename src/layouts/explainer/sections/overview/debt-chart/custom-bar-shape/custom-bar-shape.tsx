@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { getOpacity } from '../debt-chart-helper';
 import { debtExplainerPrimary } from '../../../../explainer.module.scss';
 import { deficitExplainerPrimary } from '../../../national-deficit/national-deficit.module.scss';
@@ -14,7 +14,7 @@ const getBarSizes = (width, totalBars) => {
   return { barWidth: 0, gapWidth: 0 };
 };
 
-const CustomBarShape = ({ height, width, y, x, payload, dataKey, focusedYear }) => {
+const CustomBarShape: FunctionComponent = ({ height, width, y, x, payload, dataKey, focusedYear }) => {
   const { year } = payload;
   const { barWidth, gapWidth } = getBarSizes(width, payload[dataKey]);
   /*
@@ -71,8 +71,9 @@ const CustomBarShape = ({ height, width, y, x, payload, dataKey, focusedYear }) 
 
     return (
       <>
-        {allBars.map(val => (
+        {allBars.map((val, index) => (
           <rect
+            key={index}
             y={y}
             height={height}
             width={val.width}
@@ -81,6 +82,7 @@ const CustomBarShape = ({ height, width, y, x, payload, dataKey, focusedYear }) 
             fillOpacity={1}
             opacity={getOpacity(focusedYear, year)}
             aria-hidden={true}
+            data-testid="barSegment"
           />
         ))}
       </>

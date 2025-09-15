@@ -44,9 +44,8 @@ const AFGDebtChart = (): ReactElement => {
       };
 
       return (
-        <g tabIndex={0} onFocus={handleFocus}>
+        <g tabIndex={0} onFocus={handleFocus} key={`debt-${dataYear}`} data-testid="debtBar">
           <Bar
-            key={`debt-${dataYear}`}
             dataKey={`debt${dataYear}`}
             stackId="debtBar"
             barSize={16}
