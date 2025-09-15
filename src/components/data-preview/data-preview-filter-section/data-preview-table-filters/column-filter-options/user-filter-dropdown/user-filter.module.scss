@@ -1,0 +1,19 @@
+@use 'src/variables.module' as *;
+
+.userFilterWrapper {
+  margin-top: 2rem;
+  position: relative;
+
+  .filterLabel {
+    font-size: $font-size-18;
+    font-weight: $semi-bold-weight;
+    margin-bottom: 1rem;
+    padding: 0;
+  }
+}
+
+@media (min-width: $breakpoint-sm) {
+  .infoContainer {
+    margin-right: 2.5rem;
+  }
+}
