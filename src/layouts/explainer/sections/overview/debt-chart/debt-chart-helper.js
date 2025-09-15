@@ -10,16 +10,5 @@ export const debtEndpointUrl = '/v1/debt/mspd/mspd_table_1?filter=security_type_
 export const deficitEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date';
 export const tickCountXAxis = 5;
 export const gap = 2.625;
-export const barWidth = 5.375;
-
-export const mapBarColors = barType => {
-  if (barType.includes('debt')) {
-    return debtExplainerPrimary;
-  } else if (barType.includes('none')) {
-    return '#00000000';
-  } else if (barType.includes('deficit')) {
-    return deficitExplainerPrimary;
-  }
-};
 
 export const getOpacity = (focusedYear, year) => (focusedYear === year || focusedYear === null ? 1 : 0.5);
