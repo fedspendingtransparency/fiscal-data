@@ -3,6 +3,16 @@ import { getOpacity } from '../debt-chart-helper';
 import { debtExplainerPrimary } from '../../../../explainer.module.scss';
 import { deficitExplainerPrimary } from '../../../national-deficit/national-deficit.module.scss';
 
+interface ICustomBarShape {
+  height: number;
+  width: number;
+  y: number;
+  x: number;
+  payload;
+  dataKey: string;
+  focusedYear: string | number | null;
+}
+
 const getBarSizes = (width, totalBars) => {
   if (width && totalBars) {
     const splitWidth = (width / totalBars).toFixed(1);
@@ -14,7 +24,7 @@ const getBarSizes = (width, totalBars) => {
   return { barWidth: 0, gapWidth: 0 };
 };
 
-const CustomBarShape: FunctionComponent = ({ height, width, y, x, payload, dataKey, focusedYear }) => {
+const CustomBarShape: FunctionComponent<ICustomBarShape> = ({ height, width, y, x, payload, dataKey, focusedYear }) => {
   const { year } = payload;
   const { barWidth, gapWidth } = getBarSizes(width, payload[dataKey]);
   /*
