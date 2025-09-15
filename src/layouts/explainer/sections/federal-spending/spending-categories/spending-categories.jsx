@@ -51,7 +51,7 @@ export const SpendingCategories = () => {
         >
           Each year, the Social Security and Medicare Boards of Trustees publish their {ssaAnnualReport}. The Boards’ projections indicate that
           spending will continue to increase. As the average age of Americans increases, more funding is needed to support entitlement programs like
-          Social Security, Medicare, and retirement and disability services for both military and civil servants{' '}
+          Social Security, Medicare, and retirement and disability services for both military and civil servants.{' '}
         </Accordion>
       </div>
     </div>
