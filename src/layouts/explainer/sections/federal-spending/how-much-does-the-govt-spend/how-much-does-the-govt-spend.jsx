@@ -18,8 +18,6 @@ import {
   subHeader,
   toggleButton,
 } from './how-much-does-the-govt-spend.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useWindowSize } from '../../../../../hooks/windowResize';
 import moment from 'moment';
 import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
@@ -29,6 +27,7 @@ import { ToggleSwitch } from './chart-toggle-switch';
 import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';
 import styled, { keyframes } from 'styled-components';
 import { useInView } from 'react-intersection-observer';
+import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 
 const breakpoint = {
   desktop: 1015,
@@ -226,9 +225,7 @@ const HowMuchDoesTheGovtSpend = () => {
       altText="Horizontal bar graph comparing government spending by category or agency from largest to smallest, by percentage or dollar value"
     >
       {loading ? (
-        <div className={loadingIcon}>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
+        <LoadingIndicator loadingClass={loadingIcon} />
       ) : (
         <Fragment>
           {' '}
