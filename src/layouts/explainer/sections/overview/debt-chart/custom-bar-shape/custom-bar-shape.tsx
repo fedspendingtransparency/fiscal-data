@@ -1,66 +1,74 @@
 import React from 'react';
 import { getOpacity } from '../debt-chart-helper';
+import { debtExplainerPrimary } from '../../../../explainer.module.scss';
+import { deficitExplainerPrimary } from '../../../national-deficit/national-deficit.module.scss';
 
 const getBarSizes = (width, totalBars) => {
-  if (!!width && !!totalBars) {
-    const sections = totalBars % 10;
-
+  if (width && totalBars) {
     const splitWidth = (width / totalBars).toFixed(1);
     const totalWidth = splitWidth * 10; // space for each section of 10 bars, shared between 10 bars and 11 gaps
-    const barWidth = (1 / 13.3) * totalWidth;
+    const barWidth = totalWidth / 13.3;
     const gapWidth = 0.3 * barWidth;
-    return { barWidth: barWidth, gapWidth: gapWidth };
+    return { barWidth: Number(barWidth.toFixed(2)), gapWidth: Number(gapWidth.toFixed(2)) };
   }
   return { barWidth: 0, gapWidth: 0 };
 };
 
 const CustomBarShape = props => {
-  const { height, width, y, x, fill, payload, dataKey, year, focusedYear, background } = props;
-
-  const debtBar = dataKey.includes('debt');
-  const deficitBar = dataKey.includes('deficit');
-
-  const debtVal = props[`debt${year}`];
-  const debtRemainder = debtVal % 1;
-  const deficitInitialIndex = (debtVal + (1 - debtRemainder)) % 10;
-
+  const { height, width, y, x, payload, dataKey, year, focusedYear } = props;
   const { barWidth, gapWidth } = getBarSizes(width, payload[dataKey]);
 
-  if (width > 0 && barWidth > 0) {
-    const allBars = [];
-    let xVal = x;
-    //initial deficit values
-    const firstBarValue = 1 - debtRemainder;
-    const firstBarWidth = barWidth * firstBarValue;
-    const axisGap = deficitInitialIndex % 10 === 0 ? gapWidth : 0;
-    let remainingBars = payload[dataKey];
+  /*
+  Debt Bars
+  */
+  const debtVal = props[`debt${year}`];
 
-    if (deficitBar) {
-      // first deficit bar will be split from the final debt bar
-      const debtCalcedWidth = (barWidth + gapWidth) * debtVal + gapWidth * 2;
-      xVal = background.x + debtCalcedWidth;
-      allBars.push({ x: xVal, width: firstBarWidth });
-      xVal = xVal + firstBarWidth + axisGap + gapWidth;
-      remainingBars = remainingBars - (1 - debtRemainder);
-      console.log(background.x + debtCalcedWidth, x);
-    } else {
-      //first debt bar will start with a gap
-      xVal = xVal + gapWidth;
-    }
-    let barCount = debtBar ? 0 : deficitInitialIndex;
+  if (width > 0) {
+    const allBars = [];
+    let xVal = x + gapWidth;
+    let debtBars = debtVal;
+    let barCount = 0;
+
     // add all full bars on allBars array
-    while (remainingBars >= 1) {
+    while (debtBars >= 1) {
       barCount = barCount + 1;
-      allBars.push({ x: xVal, width: barWidth });
+      allBars.push({ x: xVal, width: barWidth, color: debtExplainerPrimary });
       xVal = xVal + barWidth + gapWidth;
       if (barCount !== 0 && barCount % 10 === 0) {
         //Add twice the gap around the x-axis bars
         xVal = xVal + gapWidth;
       }
-      remainingBars = remainingBars - 1;
+      debtBars = debtBars - 1;
     }
-    //final partial bar
-    allBars.push({ x: xVal, width: barWidth * remainingBars });
+    //final partial debt bar
+    const finalDebtBarWidth = barWidth * debtBars;
+    allBars.push({ x: xVal, width: finalDebtBarWidth, color: debtExplainerPrimary });
+    xVal = xVal + finalDebtBarWidth;
+
+    /*
+     Deficit Bars
+    */
+    let deficitBars = props[`deficit${year}`];
+    const firstBarWidth = barWidth * (1 - debtBars);
+    allBars.push({ x: xVal, width: firstBarWidth, color: deficitExplainerPrimary });
+    barCount = barCount + 1;
+    deficitBars = deficitBars - (1 - debtBars);
+    xVal = xVal + firstBarWidth + gapWidth;
+    if (barCount % 10 === 0) {
+      //Add twice the gap around the x-axis bars
+      xVal = xVal + gapWidth;
+    }
+    while (deficitBars >= 1) {
+      barCount = barCount + 1;
+      allBars.push({ x: xVal, width: barWidth, color: deficitExplainerPrimary });
+      xVal = xVal + barWidth + gapWidth;
+      if (barCount % 10 === 0) {
+        //Add twice the gap around the x-axis bars
+        xVal = xVal + gapWidth;
+      }
+      deficitBars = deficitBars - 1;
+    }
+    allBars.push({ x: xVal, width: barWidth * deficitBars, color: deficitExplainerPrimary });
 
     return (
       <>
@@ -71,10 +79,10 @@ const CustomBarShape = props => {
             height={height}
             width={val.width}
             x={val.x}
-            strokeWidth={0}
-            fill={fill}
+            fill={val.color}
             fillOpacity={1}
             opacity={getOpacity(focusedYear, year)}
+            shapeRendering="crispEdges"
           />
         ))}
       </>

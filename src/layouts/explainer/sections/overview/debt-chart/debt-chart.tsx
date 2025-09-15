@@ -39,31 +39,33 @@ const AFGDebtChart = (): ReactElement => {
       });
       return chartData.map((valueName, index) => {
         const barName = valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : '';
-        return (
-          <Bar
-            key={`${barName}-${index}`}
-            dataKey={valueName}
-            stackId="debtBar"
-            fill={mapBarColors(valueName)}
-            fillOpacity={opacity}
-            strokeWidth={0}
-            name={barName}
-            barSize={16}
-            shape={props => <CustomBarShape {...props} focusedYear={focusedYear} />}
-            tabIndex={0}
-            // onFocus={() => {
-            //   setFocusedYear(yearlyData.year);
-            //   setCustomTooltipData([
-            //     {
-            //       dataKey: valueName,
-            //       hide: false,
-            //       name: valueName,
-            //       payload: yearlyData,
-            //     },
-            //   ]);
-            // }}
-          />
-        );
+        if (index === 0) {
+          return (
+            <Bar
+              key={`${barName}-${index}`}
+              dataKey={valueName}
+              stackId="debtBar"
+              fill={mapBarColors(valueName)}
+              fillOpacity={opacity}
+              strokeWidth={0}
+              name={barName}
+              barSize={16}
+              shape={props => <CustomBarShape {...props} focusedYear={focusedYear} />}
+              tabIndex={0}
+              onFocus={() => {
+                setFocusedYear(yearlyData.year);
+                setCustomTooltipData([
+                  {
+                    dataKey: valueName,
+                    hide: false,
+                    name: valueName,
+                    payload: yearlyData,
+                  },
+                ]);
+              }}
+            />
+          );
+        }
       });
     });
   };
