@@ -456,7 +456,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       {width < pxToNumber(breakpointLg) && (
         <>
           {filterDropdownButton}
-          {active && true}
+          {active && mobileFilterComponent}
         </>
       )}
     </>

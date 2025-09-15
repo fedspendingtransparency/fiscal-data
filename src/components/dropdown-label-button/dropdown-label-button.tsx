@@ -35,7 +35,7 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
   setActive,
   active,
   ariaLabel,
-  dropdownWidth = '30rem',
+  dropdownWidth = '20rem',
   disabled,
   name,
   filtersAreSelected,
