@@ -11,7 +11,7 @@ import { trillionAxisFormatter } from '../chart-helper';
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
-import { debtEndpointUrl, deficitEndpointUrl, legendItems, mapBarColors, tickCountXAxis } from './debt-chart-helper';
+import { debtEndpointUrl, deficitEndpointUrl, legendItems, tickCountXAxis } from './debt-chart-helper';
 import CustomBarShape from './custom-bar-shape/custom-bar-shape';
 
 const AFGDebtChart = (): ReactElement => {
@@ -33,42 +33,27 @@ const AFGDebtChart = (): ReactElement => {
   const generateBar = sortedData => {
     return sortedData.map(yearlyData => {
       const dataYear = yearlyData.year;
-      const opacity = focusedYear === dataYear || focusedYear === null ? 1 : 0.5;
-      const chartData = Object.keys(yearlyData).filter(propName => {
-        return propName !== 'year' && propName !== 'tooltip';
-      });
-      return chartData.map((valueName, index) => {
-        const barName = valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : '';
+      const handleFocus = () => {
+        setFocusedYear(yearlyData.year);
+        setCustomTooltipData([
+          {
+            hide: false,
+            payload: yearlyData,
+          },
+        ]);
+      };
 
-        const handleFocus = () => {
-          setFocusedYear(yearlyData.year);
-          setCustomTooltipData([
-            {
-              dataKey: valueName,
-              hide: false,
-              name: valueName,
-              payload: yearlyData,
-            },
-          ]);
-        };
-        if (index === 0) {
-          return (
-            <g tabIndex={0} onFocus={handleFocus}>
-              <Bar
-                key={`${barName}-${index}`}
-                dataKey={valueName}
-                stackId="debtBar"
-                fill={mapBarColors(valueName)}
-                fillOpacity={opacity}
-                strokeWidth={0}
-                name={barName}
-                barSize={16}
-                shape={props => <CustomBarShape {...props} focusedYear={focusedYear} handleFocus={handleFocus} />}
-              />
-            </g>
-          );
-        }
-      });
+      return (
+        <g tabIndex={0} onFocus={handleFocus}>
+          <Bar
+            key={`debt-${dataYear}`}
+            dataKey={`debt${dataYear}`}
+            stackId="debtBar"
+            barSize={16}
+            shape={props => <CustomBarShape {...props} focusedYear={focusedYear} handleFocus={handleFocus} />}
+          />
+        </g>
+      );
     });
   };
 

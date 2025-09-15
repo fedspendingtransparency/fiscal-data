@@ -14,14 +14,13 @@ const getBarSizes = (width, totalBars) => {
   return { barWidth: 0, gapWidth: 0 };
 };
 
-const CustomBarShape = props => {
-  const { height, width, y, x, payload, dataKey, year, focusedYear, handleFocus } = props;
+const CustomBarShape = ({ height, width, y, x, payload, dataKey, focusedYear }) => {
+  const { year } = payload;
   const { barWidth, gapWidth } = getBarSizes(width, payload[dataKey]);
-
   /*
   Debt Bars
   */
-  const debtVal = props[`debt${year}`];
+  const debtVal = payload[`debt${year}`];
 
   if (width > 0) {
     const allBars = [];
@@ -48,7 +47,7 @@ const CustomBarShape = props => {
     /*
      Deficit Bars
     */
-    let deficitBars = props[`deficit${year}`];
+    let deficitBars = payload[`deficit${year}`];
     const firstBarWidth = barWidth * (1 - debtBars);
     allBars.push({ x: xVal, width: firstBarWidth, color: deficitExplainerPrimary });
     barCount = barCount + 1;
@@ -74,7 +73,6 @@ const CustomBarShape = props => {
       <>
         {allBars.map(val => (
           <rect
-            {...props}
             y={y}
             height={height}
             width={val.width}
