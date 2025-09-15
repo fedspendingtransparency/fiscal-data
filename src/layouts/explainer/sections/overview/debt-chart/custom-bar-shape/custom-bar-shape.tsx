@@ -15,7 +15,7 @@ const getBarSizes = (width, totalBars) => {
 };
 
 const CustomBarShape = props => {
-  const { height, width, y, x, payload, dataKey, year, focusedYear } = props;
+  const { height, width, y, x, payload, dataKey, year, focusedYear, handleFocus } = props;
   const { barWidth, gapWidth } = getBarSizes(width, payload[dataKey]);
 
   /*
@@ -82,7 +82,7 @@ const CustomBarShape = props => {
             fill={val.color}
             fillOpacity={1}
             opacity={getOpacity(focusedYear, year)}
-            shapeRendering="crispEdges"
+            aria-hidden={true}
           />
         ))}
       </>
