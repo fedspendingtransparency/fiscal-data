@@ -135,8 +135,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
     }
   }, [selectedTable]);
 
-  console.log('width: ', width);
-
   const mobileFilterComponent = isDataTableSelected ? (
     // Shows raw/pivot data options
     <DataPreviewMobileDialog
