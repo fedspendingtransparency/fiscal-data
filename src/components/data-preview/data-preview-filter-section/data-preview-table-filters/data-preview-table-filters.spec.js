@@ -22,12 +22,21 @@ describe('Table filters dropdown', () => {
     { id: 'record_date', columnDef: { accessorKey: 'record_date' }, setFilterValue: jest.fn() },
     { id: 'test_field', columnDef: { accessorKey: 'test_field' }, setFilterValue: setFilterValueSpy },
   ];
+  let mockSetAppliedFilters = jest.fn();
   const mockContextValues = {
     tableState: {
       getAllLeafColumns: jest.fn().mockImplementation(() => mockColumnConfigs),
     },
-    appliedFilters: jest.fn(),
-    setAppliedFilters: jest.fn(),
+    appliedFilters: [],
+    setAppliedFilters: mockSetAppliedFilters,
+  };
+
+  const mockContextValues2 = {
+    tableState: {
+      getAllLeafColumns: jest.fn().mockImplementation(() => mockColumnConfigs),
+    },
+    appliedFilters: ['record_date', 'test_field'],
+    setAppliedFilters: mockSetAppliedFilters,
   };
   const mockPivotView = { title: 'Complete Table' };
   const setIsCustomDateRange = jest.fn();
@@ -146,8 +155,6 @@ describe('Table filters dropdown', () => {
     expect(filterButton).toBeInTheDocument();
   });
 
-  // TODO: fix the below test - it broke because we moved appliedFilters into the useContext
-
   it('Applies text filters on apply button click', () => {
     const { getByRole } = render(
       <DataTableContext.Provider
@@ -175,8 +182,29 @@ describe('Table filters dropdown', () => {
     expect(filter).toHaveFocus();
     userEvent.keyboard('test');
     fireEvent.click(getByRole('button', { name: 'Apply' }));
-    expect(getByRole('button', { name: 'Filters: Test Field' })).toBeInTheDocument();
-    expect(setFilterValueSpy).toHaveBeenCalled();
+    expect(mockSetAppliedFilters).toHaveBeenCalledWith(['test_field']);
+  });
+
+  it('Shows the correct dropdown text when there are multiple applied filters', () => {
+    const { getByRole } = render(
+      <DataTableContext.Provider
+        value={{
+          ...mockContextValues2,
+        }}
+      >
+        <DataPreviewTableFilters
+          width={1000}
+          selectedTable={mockSelectedTable}
+          setIsCustomDateRange={setIsCustomDateRange}
+          handleDateRangeChange={handleDateRangeChange}
+          setIsFiltered={setIsFiltered}
+          pivotView={mockPivotView}
+          filterFields={mockSelectedTable.fields}
+        />
+      </DataTableContext.Provider>
+    );
+
+    expect(getByRole('button', { name: 'Filters: 2 applied' })).toBeInTheDocument();
   });
 
   it('Clears pending filters on cancel button click', () => {
