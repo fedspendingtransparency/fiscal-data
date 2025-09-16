@@ -115,6 +115,11 @@ const GirdMonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
           setSelectedYear={year => {
             setSelectedYear(year);
           }}
+          setCurrentDate={(date: Date) => {
+            setSelectedMonth(monthFullNames[date.getMonth()]);
+            setSelectedYear(String(date.getFullYear()));
+            setSelectedDate(date);
+          }}
           allDates={allReportDates}
           selectedDate={selectedMonth + ' ' + selectedYear}
           fromDate={earliestDate}
