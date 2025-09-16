@@ -17,7 +17,6 @@ interface IMonthPickerDropdown {
   latestDate: Date;
   earliestDate: Date;
 }
-
 const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   setSelectedDate,
   selectedDate,
@@ -32,9 +31,7 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   const [showYears, setShowYears] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(monthFullNames[selectedDate.getMonth()]);
   const [selectedYear, setSelectedYear] = useState<string>(selectedDate.getFullYear().toString());
-
   const scrollToSelectedMonth = useRef(null);
-
   const allYears = [...new Set(allReportYears)];
   const monthDropdownOptions = monthFullNames;
 
@@ -61,13 +58,11 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
       setShowYears(false);
     }
   }, [active]);
-
   useEffect(() => {
     if (scrollToSelectedMonth.current) {
       scrollToSelectedMonth.current.scrollIntoView({ block: 'nearest' });
     }
   }, [active, selectedMonth]);
-
   return (
     <>
       {active && (
@@ -134,5 +129,4 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
     </>
   );
 };
-
 export default MonthPicker;

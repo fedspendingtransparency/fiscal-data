@@ -92,14 +92,12 @@ describe('Month Picker', () => {
     );
     const aprilButton = getByRole('button', { name: mockMonthDropdownOptions[1] });
     expect(aprilButton).not.toBeDisabled();
-
     const yearToggleButton = getByRole('button', { name: 'Toggle Year Dropdown' });
     act(() => {
       fireEvent.click(yearToggleButton);
     });
     const yearButton2019 = getByRole('button', { name: mockYearDropdownOptions[1] });
     expect(yearButton2019).not.toBeDisabled();
-
     act(() => {
       fireEvent.click(yearButton2019);
     });

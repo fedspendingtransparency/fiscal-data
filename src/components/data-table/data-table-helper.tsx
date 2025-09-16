@@ -99,9 +99,9 @@ const publishedReportsLinksProcessor = (tableName, property, value) => {
       case 'final_ann_xml':
         return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/announcement/`, value, 'XML');
       case 'preliminary_ann_xml':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/tentative/`, value, 'XML');
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/preliminary/`, value, 'XML');
       case 'preliminary_ann_pdf':
-        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/tentative/`, value, 'PDF');
+        return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/preliminary/`, value, 'PDF');
       case 'special_ann_pdf':
         return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/special-announcement/`, value, 'PDF');
       default:
@@ -316,10 +316,10 @@ export const rightAlign = (type: string): boolean => {
   return types.includes(type) || type?.includes('CURRENCY');
 };
 
-export const columnHeaderFilterActive = (filters, columnName) => {
-  if (!!filters) {
-    for (let i = 0; i < filters.length; i++) {
-      const name = filters[i].split('-')[0];
+export const columnHeaderFilterActive = (activeFilters, columnName) => {
+  if (!!activeFilters) {
+    for (let i = 0; i < activeFilters.length; i++) {
+      const name = activeFilters[i].split('-')[0];
       if (name === columnName) {
         return true;
       }
@@ -327,11 +327,31 @@ export const columnHeaderFilterActive = (filters, columnName) => {
   }
 };
 
-export const columnBodyFilterActive = (filters, columnName) => {
-  if (!!filters) {
-    for (let i = 0; i < filters.length; i++) {
-      const name = filters[i].split('-')[0];
+export const columnHeaderFilterApplied = (appliedFilters, columnName) => {
+  if (!!appliedFilters) {
+    for (let i = 0; i < appliedFilters.length; i++) {
+      if (appliedFilters[i] === columnName) {
+        return true;
+      }
+    }
+  }
+};
+
+export const columnBodyFilterActive = (activeFilters, columnName) => {
+  if (!!activeFilters) {
+    for (let i = 0; i < activeFilters.length; i++) {
+      const name = activeFilters[i].split('-')[0];
       if (columnName.includes(name)) {
+        return true;
+      }
+    }
+  }
+};
+
+export const columnBodyFilterApplied = (appliedFilters, columnName) => {
+  if (!!appliedFilters) {
+    for (let i = 0; i < appliedFilters.length; i++) {
+      if (columnName.includes(appliedFilters[i])) {
         return true;
       }
     }

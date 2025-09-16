@@ -6,14 +6,12 @@ import { revenueExplainerPrimary } from '../../government-revenue/revenue.module
 import { chartContainer, chartTitle, surplusPrimary, deficitChart, breakpointLg } from './deficit-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import CustomDotNoAnimation from './custom-dot/custom-dot';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
 import { trillionAxisFormatter } from '../chart-helper';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
+import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 
 const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   const isMounted = useIsMounted();
@@ -113,11 +111,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   return (
     <div className={deficitChart} data-testid="AFGDeficitChart" role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>{`Deficit: FYTD ${currentFY} and Last 4 Years in Trillions of USD`}</div>
-      {isLoading && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
-        </div>
-      )}
+      {isLoading && <LoadingIndicator />}
       {!isLoading && (
         <>
           <ChartLegend legendItems={legendItems} mobileDotSpacing={false} />

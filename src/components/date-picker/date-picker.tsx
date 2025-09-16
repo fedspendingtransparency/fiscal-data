@@ -5,6 +5,7 @@ import { formatReportDate } from '../../helpers/dataset-detail/report-helpers';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import DropdownLabelButton from '../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../dropdown-container/dropdown-container';
+import GridMonthPicker from './grid-month-picker/grid-month-picker';
 
 interface IDatePicker {
   isDaily: boolean;
@@ -18,6 +19,7 @@ interface IDatePicker {
   ariaLabel?: string;
   minDateErrorMessage?: string;
   maxDateErrorMessage?: string;
+  ignoreDisabled?: boolean;
 }
 
 const DatePicker: FunctionComponent<IDatePicker> = ({
@@ -33,6 +35,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
   ariaLabel,
   minDateErrorMessage,
   maxDateErrorMessage,
+  generatedReport,
 }: IDatePicker) => {
   const [active, setActive] = useState(false);
 
@@ -56,7 +59,20 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
   return (
     <DropdownContainer setActive={setActive} active={active} dropdownButton={dropdownButton}>
       <>
-        {active && !isDaily && (
+        {active && !isDaily && generatedReport && (
+          <GridMonthPicker
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            handleClose={handleClose}
+            allReportDates={allDates}
+            active={active}
+            allReportYears={allYears}
+            ignoreDisabled={ignoreDisabled}
+            latestDate={latestDate}
+            earliestDate={earliestDate}
+          />
+        )}
+        {active && !isDaily && !generatedReport && (
           <MonthPicker
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}

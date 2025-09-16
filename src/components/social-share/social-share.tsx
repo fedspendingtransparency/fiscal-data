@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import {
   socialShareContent,
   shareButton,
@@ -9,20 +9,21 @@ import {
   listShareButton,
   listSocialShareContent,
   headerText,
+  customShareButton,
 } from './social-share.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, RedditShareButton, EmailShareButton } from 'react-share';
-import globalConstants from '../../helpers/constants';
 import Analytics from '../../utils/analytics/analytics';
 import ShareButtonContent from './share-button-content/share-button-content';
 import { FunctionComponent } from 'react';
 import { ISocialShareComponent } from '../../models/ISocialShareComponent';
 import SocialMetaData from './social-metadata/social-metadata';
 import Heading from '../heading/heading';
-
-const baseUrl = globalConstants.BASE_SITE_URL;
+import { redirectModalState } from '../../components/modal/redirect-modal/redirect-modal-helper';
+import { useSetRecoilState } from 'recoil';
+import { getLinkedInParams, getFacebookParams, getTwitterParams, getRedditParams } from './social-share-helper';
+import { EmailShareButton } from 'react-share';
 
 const analyticsClickHandler = (page: string, social: string, explainer: boolean) => {
   let gaCategory: string;
@@ -53,6 +54,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   explainer,
 }) => {
   const { title, description, body, emailSubject, emailBody, url, image } = copy;
+  const setModal = useSetRecoilState(redirectModalState);
 
   let contentStyle = socialShareContent;
   let containerStyle = shareButtonContainer;
@@ -75,42 +77,73 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
     }
   };
 
+  const openModal = (e: SyntheticEvent, url: string) => {
+    e.preventDefault();
+    setModal({
+      open: true,
+      url,
+      after: () => {
+        window.open(url, '_blank', 'noreferrer, noopener, width=650,height=600');
+      },
+    });
+  };
+
   return (
     <>
       <SocialMetaData image={image} title={title} description={description} url={url} />
-      <div className={`${contentStyle} socialShareContent`}>
+      <div className={`${contentStyle} socialShareContent facebook`}>
         {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
           <Heading headingLevel={headerLevel} className={headerText}>
             Share this page
           </Heading>
         )}
         <div className={containerStyle}>
-          <FacebookShareButton className={`${buttonStyle} facebookShare`} url={url} quote={body} beforeOnClick={() => handleClick('Facebook')}>
+          <button
+            className={`${buttonStyle} ${customShareButton} facebookShare`}
+            aria-label={'facebook'}
+            onClick={e => {
+              handleClick('Facebook');
+              openModal(e, getFacebookParams('facebook', url));
+            }}
+          >
             <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
-          </FacebookShareButton>
+          </button>
         </div>
         <div className={containerStyle}>
-          <TwitterShareButton className={`${buttonStyle} twitterShare`} url={url} title={body} beforeOnClick={() => handleClick('Twitter')}>
+          <button
+            className={`${buttonStyle} ${customShareButton} twitterShare`}
+            aria-label={'twitter'}
+            onClick={e => {
+              handleClick('Twitter');
+              openModal(e, getTwitterParams('twitter', url, title));
+            }}
+          >
             <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />
-          </TwitterShareButton>
+          </button>
         </div>
         <div className={containerStyle}>
-          <LinkedinShareButton
-            className={`${buttonStyle} linkedInShare`}
-            url={url}
-            title={title}
-            summary={body}
-            source={baseUrl}
-            windowHeight={650}
-            beforeOnClick={() => handleClick('LinkedIn')}
+          <button
+            className={`${buttonStyle} ${customShareButton} linkedInShare`}
+            aria-label={'linkedin'}
+            onClick={e => {
+              handleClick('LinkedIn');
+              openModal(e, getLinkedInParams('linkedin', url, title));
+            }}
           >
             <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
-          </LinkedinShareButton>
+          </button>
         </div>
         <div className={containerStyle}>
-          <RedditShareButton className={`${buttonStyle} redditShare`} url={url} title={title} beforeOnClick={() => handleClick('Reddit')}>
+          <button
+            className={`${buttonStyle} ${customShareButton} redditShare`}
+            aria-label={'reddit'}
+            onClick={e => {
+              handleClick('Reddit');
+              openModal(e, getRedditParams('reddit', url, title));
+            }}
+          >
             <ShareButtonContent name="reddit" width={width} displayStyle={displayStyle} />
-          </RedditShareButton>
+          </button>
         </div>
         <div className={containerStyle}>
           <EmailShareButton

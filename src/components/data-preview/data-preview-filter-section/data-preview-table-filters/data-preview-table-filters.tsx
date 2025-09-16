@@ -34,10 +34,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   setIsFiltered,
   datasetDateRange,
   pivotView,
-  dropdownWidth
+  dropdownWidth,
 }) => {
-  const { tableState: table, allColumns } = useContext(DataTableContext);
-  const [appliedFilters, setAppliedFilters] = useState([]);
+  const { tableState: table, allColumns, appliedFilters, setAppliedFilters } = useContext(DataTableContext);
   const [active, setActive] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState('');
   const [isFilterSelected, setIsFilterSelected] = useState(false);
@@ -297,8 +296,28 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   }, [active]);
 
+  const selectedOptionDisplay = () => {
+    if (appliedFilters.length !== 1) {
+      return `${appliedFilters.length} applied`;
+    } else {
+      const initialCols = initializeVisibleColumns(table?.getAllLeafColumns(), selectedTable.fields, pivotView);
+      const match = initialCols.findIndex(filter => filter.columnName === appliedFilters[0]);
+      if (match !== -1) {
+        return initialCols[match].prettyName;
+      }
+    }
+  };
+
   const filterDropdownButton = (
-    <DropdownLabelButton label="Filters" selectedOption={appliedFilters.length + ' applied'} icon={faFilter} active={active} setActive={setActive} dropdownWidth={dropdownWidth}/>
+    <DropdownLabelButton
+      label="Filters"
+      selectedOption={selectedOptionDisplay()}
+      filtersAreSelected={appliedFilters.length > 0 ? true : null}
+      icon={faFilter}
+      active={active}
+      setActive={setActive}
+      dropdownWidth={dropdownWidth}
+    />
   );
 
   const handleBack = () => {

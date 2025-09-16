@@ -1,5 +1,4 @@
 @use 'src/variables.module' as *;
-
 .yearButton {
   font-size: $font-size-16;
   background: none;
@@ -15,7 +14,6 @@
     padding-left: 0.5rem;
   }
 }
-
 .dropdownList {
   overflow-y: auto;
   margin-top: -1.5rem;
@@ -34,7 +32,6 @@
     display: flex;
     justify-content: center;
     width: 100%;
-
     button {
       font-size: $font-size-16;
       background: none;
@@ -49,12 +46,10 @@
         background-color: $primary-blue !important;
         color: $primary;
       }
-
       &:disabled {
         cursor: default;
         opacity: 0.5;
       }
-
       &:hover:not([disabled]) {
         background-color: $body-background;
         transition: background-color 0.2s ease;
