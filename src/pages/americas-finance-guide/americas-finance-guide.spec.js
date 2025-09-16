@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import AmericasFinanceGuide from './index';
 import { useStaticQuery } from 'gatsby';
-import { RecoilRoot } from "recoil";
+import { RecoilRoot } from 'recoil';
 
 Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 1200 });
 
@@ -40,7 +40,7 @@ describe('Americas Finance Guide', () => {
   });
 
   it('renders the top container', async () => {
-    const { getByTestId } = render(<AmericasFinanceGuide width={100} />, {wrapper: RecoilRoot});
+    const { getByTestId } = render(<AmericasFinanceGuide width={100} />, { wrapper: RecoilRoot });
 
     expect(getByTestId('topContainer')).toBeInTheDocument();
     expect(getByTestId('quoteContainer')).toBeInTheDocument();
@@ -48,7 +48,7 @@ describe('Americas Finance Guide', () => {
   });
 
   it('renders the Social Share', () => {
-    const { getByRole } = render(<AmericasFinanceGuide width={100} />, {wrapper: RecoilRoot});
+    const { getByRole } = render(<AmericasFinanceGuide width={100} />, { wrapper: RecoilRoot });
 
     const facebook = getByRole('button', { name: 'facebook' });
     const twitter = getByRole('button', { name: 'twitter' });

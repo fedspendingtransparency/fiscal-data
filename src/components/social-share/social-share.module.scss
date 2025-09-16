@@ -59,6 +59,14 @@
   }
 }
 
+.customShareButton {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: 0.75rem;
+  cursor: pointer;
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .horizontalShareButtonContainer {
     margin-right: 1.5rem;

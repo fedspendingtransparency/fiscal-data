@@ -108,7 +108,7 @@ describe('Insights Template', () => {
       value: 400,
     });
 
-    const { findByRole, queryByRole, getByTestId } = render(<InsightPageLayout pageContext={mockPageContext} />, {
+    const { findByRole, queryByRole, findByTestId, getByTestId } = render(<InsightPageLayout pageContext={mockPageContext} />, {
       wrapper,
     });
 

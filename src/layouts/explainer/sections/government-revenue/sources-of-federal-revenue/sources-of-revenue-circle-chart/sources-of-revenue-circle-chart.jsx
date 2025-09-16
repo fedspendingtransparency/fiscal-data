@@ -10,14 +10,12 @@ import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { revenueExplainerPrimary } from '../../revenue.module.scss';
 import { title, subTitle, footer, dataHeader } from './sources-of-revenue-circle-chart-helper';
-
 import LabelComponent from './circle-chart-label';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { addInnerChartAriaLabel } from '../../../../explainer-helpers/explainer-charting-helper';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 let gaTimerRevenueCircle;
 let ga4Timer;
@@ -350,9 +348,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               <div className={totalRevenueDataPill}>Total Revenue: ${getShortForm(totalRevenue.toString())}</div>
             </div>
           ) : (
-            <div>
-              <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-            </div>
+            <LoadingIndicator />
           )}
         </ChartContainer>
         <VisualizationCallout color={revenueExplainerPrimary}>
