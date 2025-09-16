@@ -22,7 +22,6 @@ import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDat
 import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
 import { DocumentProps } from '@react-pdf/renderer';
-import { renderPDF } from '../../../../workers/pdfWorker';
 import GenReportDownloadButton from './gen-report-download-button';
 
 interface IGeneratedReport {
@@ -101,11 +100,6 @@ const DownloadReportTableRow: FunctionComponent<{
       )}
     </>
   );
-
-  const fun = async report => {
-    console.log('here!');
-    return renderPDF?.renderPDFInWorker({ report });
-  };
 
   useEffect(() => {
     if (generatedReport) {

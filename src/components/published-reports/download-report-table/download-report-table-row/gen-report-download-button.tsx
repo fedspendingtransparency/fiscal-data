@@ -13,14 +13,16 @@ const GenReportDownloadButton = ({
   setGeneratedReportInstance,
   children,
 }) => {
-  const { url, loading, error } = useRenderPDF(generatedReport);
+  const { value, loading } = useRenderPDF(generatedReport);
 
   useEffect(() => {
-    getGeneratedFileSize(url, setFileSize);
-  }, [url]);
+    if (value?.url) {
+      getGeneratedFileSize(value, setFileSize);
+    }
+  }, [value]);
 
-  return url ? (
-    <a href={url} download={generatedReport.downloadName} onClick={onDownloadClick}>
+  return value?.url ? (
+    <a href={value.url} download={generatedReport.downloadName} onClick={onDownloadClick}>
       {children}
     </a>
   ) : (
