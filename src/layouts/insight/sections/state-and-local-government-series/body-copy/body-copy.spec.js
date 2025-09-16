@@ -29,7 +29,7 @@ describe('State and Local Government Series Body Copy', () => {
     mockSLGSFetchResponses2();
   });
 
-  it('fetches evergreen values 2 with an expected value of 0', async () => {
+  it('fetches slgs total amount mock data values with an expected value of 0', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByText } = render(<BodyCopy />);
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
@@ -41,7 +41,7 @@ describe('State and Local Government Series Body Copy', () => {
   beforeAll(() => {
     mockSLGSFetchResponses3();
   });
-  it('fetches evergreen values 3 with an expected value of 2', async () => {
+  it('fetches slgs debt to penny amount mock data values  with an expected value of 2', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByText } = render(<BodyCopy />);
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
