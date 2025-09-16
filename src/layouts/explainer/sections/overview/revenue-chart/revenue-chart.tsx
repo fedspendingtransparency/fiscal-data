@@ -99,7 +99,7 @@ const AFGRevenueChart = (): ReactElement => {
     <div className={deficitChart} data-testid="AFGRevenueChart" role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>Cumulative Revenue by Month in Trillions of USD</div>
       {isLoading && <LoadingIndicator />}
-      {!isLoading && (
+      {!isLoading && finalChartData && (
         <>
           <ChartLegend legendItems={legend} mobileDotSpacing />
           <div className={chartContainer} data-testid="chartContainer">
