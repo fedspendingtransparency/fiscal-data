@@ -196,6 +196,7 @@ const TableSectionContainer = ({
       });
       setChartData({ ...apiData, data: displayData });
     }
+    console.log('selectedTable: ', selectedTable);
 
     setTableProps({
       dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
@@ -276,6 +277,9 @@ const TableSectionContainer = ({
       setManualPagination(false);
     }
   }, [userFilterSelection]);
+
+  console.log('FIRE', selectedTable.apiFilter);
+  console.log('FIRE2', selectedTable.apiFilter?.displayDefaultData);
 
   const legendToggler = e => {
     if (e.key === undefined || e.key === 'Enter') {

@@ -26,6 +26,9 @@ const DownloadItemButton: FunctionComponent = ({
 }) => {
   const [downloadName, setDownloadName] = useState(null);
 
+  console.log('sizeProp?: ', fileSize);
+  console.log('smallTable: ', smallTableDownloadData);
+
   useEffect(() => {
     setDownloadName(constructDownloadFileName(dateRange, selectedTable, formatDownloadDate));
   }, [dateRange, selectedTable]);

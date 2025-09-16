@@ -62,6 +62,7 @@ export const calcDictionaryDownloadSize = csvData => {
 };
 
 const rowsToCsv = rows => rows.map(row => row.join(',')).join('\n');
+
 export const prettySize = data => {
   let bytes;
   if (typeof data === 'string') {
@@ -71,6 +72,7 @@ export const prettySize = data => {
   } else if (Array.isArray(data)) {
     bytes = new Blob([rowsToCsv(data)]).size;
   }
+  // console.log('bytes: ', bytes);
   return fileSizeTranslator2(bytes);
 };
 

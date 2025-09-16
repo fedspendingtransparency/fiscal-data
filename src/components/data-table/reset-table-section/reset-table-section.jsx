@@ -7,6 +7,8 @@ import BannerCallout from '../../banner-callout/banner-callout';
 
 const ResetTableSection = ({ resetColumns, active, textFilteringDisabled }) => {
   const filteringBanner = { banner: 'TextFilterDisabled' };
+
+  console.log('textFilter: ', textFilteringDisabled);
   const reset = () => {
     if (active) {
       resetColumns();
