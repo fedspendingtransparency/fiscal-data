@@ -9,6 +9,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
 import { monthAxisFormatter, trillionAxisFormatter } from '../chart-helper';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
+import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 
 const AFGRevenueChart = (): ReactElement => {
   const isMounted = useIsMounted();
@@ -97,11 +98,7 @@ const AFGRevenueChart = (): ReactElement => {
   return (
     <div className={deficitChart} data-testid="AFGRevenueChart" role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>Cumulative Revenue by Month in Trillions of USD</div>
-      {isLoading && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
-        </div>
-      )}
+      {isLoading && <LoadingIndicator />}
       {!isLoading && finalChartData && (
         <>
           <ChartLegend legendItems={legend} mobileDotSpacing />

@@ -5,9 +5,7 @@ import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import LoadingIndicator from '../../loading-indicator/loading-indicator';
 
 // Exporting here for unit testing purposes
 export const DownloadReportTable: FunctionComponent<{
@@ -70,15 +68,7 @@ export const DownloadReportTable: FunctionComponent<{
           })}
         </tbody>
       </table>
-      {isLoading && (
-        <>
-          <div data-test-id="loading-overlay" className={overlay} />
-          <div data-testid="loadingSection" className={loadingIcon}>
-            <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-            Loading...
-          </div>
-        </>
-      )}
+      {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}
     </div>
   );
 };

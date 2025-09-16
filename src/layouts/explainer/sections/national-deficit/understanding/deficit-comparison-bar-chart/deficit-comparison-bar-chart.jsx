@@ -1,6 +1,4 @@
 import { visWithCallout } from '../../../../explainer.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Bar } from '@nivo/bar';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import React, { useEffect, useState } from 'react';
@@ -18,6 +16,7 @@ import { addInnerChartAriaLabel, chartInViewProps } from '../../../../explainer-
 import CustomBar from './custom-bar/customBar';
 import { useInView } from 'react-intersection-observer';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 const DeficitComparisonBarChart = ({ sectionId, width }) => {
   const [date, setDate] = useState(new Date());
@@ -159,11 +158,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
 
   return (
     <div className={visWithCallout}>
-      {!data && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
+      {!data && <LoadingIndicator />}
       {data && (
         <>
           <div data-testid="deficitComparisonChart" className={container}>
