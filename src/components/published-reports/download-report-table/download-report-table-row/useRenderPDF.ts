@@ -1,12 +1,13 @@
 import { renderPDF } from '../../../../workers/pdfWorker';
 import { useAsync } from 'react-use';
-import { useEffect } from 'react';
+import { useMemo } from 'react';
 
 export const useRenderPDF = report => {
   const { value, loading, error } = useAsync(async () => {
+    console.log('generating pdf*******************');
     return renderPDF({ report });
   }, [report]);
 
-  useEffect(() => (value ? () => URL.revokeObjectURL(value) : undefined), [value]);
+  useMemo(() => (value ? () => URL.revokeObjectURL(value) : undefined), [value]);
   return { value, loading, error };
 };

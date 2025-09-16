@@ -100,25 +100,25 @@ const DownloadReportTableRow: FunctionComponent<{
       )}
     </>
   );
-
-  useEffect(() => {
-    if (generatedReport) {
-      (async () => {
-        try {
-          // const blob = await fun(generatedReport);
-          // console.log(blob);
-          // setGeneratedReportInstance(blob);
-          // getGeneratedFileSize(blob, setFileSize);
-          setApiErrorMessage(false);
-        } catch (error) {
-          console.log(error);
-          setIsLoading(false);
-          setApiErrorMessage(true);
-          return;
-        }
-      })();
-    }
-  }, [generatedReport]);
+  //
+  // useEffect(() => {
+  //   if (generatedReport) {
+  //     (async () => {
+  //       try {
+  //         // const blob = await fun(generatedReport);
+  //         // console.log(blob);
+  //         // setGeneratedReportInstance(blob);
+  //         // getGeneratedFileSize(blob, setFileSize);
+  //         setApiErrorMessage(false);
+  //       } catch (error) {
+  //         console.log(error);
+  //         setIsLoading(false);
+  //         setApiErrorMessage(true);
+  //         return;
+  //       }
+  //     })();
+  //   }
+  // }, [generatedReport]);
 
   const LinkComponent = ({ children }) => {
     return generatedReport ? (

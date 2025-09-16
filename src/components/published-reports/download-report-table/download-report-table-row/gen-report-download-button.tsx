@@ -16,8 +16,21 @@ const GenReportDownloadButton = ({
   const { value, loading } = useRenderPDF(generatedReport);
 
   useEffect(() => {
+    console.log('rerendering');
+  }, []);
+
+  useEffect(() => {
+    console.log(loading);
+    // setIsLoading(loading);
+  }, [loading]);
+
+  useEffect(() => {
     if (value?.url) {
+      console.log('setting url');
       getGeneratedFileSize(value, setFileSize);
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
     }
   }, [value]);
 
