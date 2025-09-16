@@ -107,13 +107,13 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     const months: string[] = [];
     const yearsSet = new Set<string>();
 
-    const cur = new Date(earliestReportDate.getFullYear(), earliestReportDate.getMonth(), 1);
+    const current = new Date(earliestReportDate.getFullYear(), earliestReportDate.getMonth(), 1);
     const last = new Date(latestReportDate.getFullYear(), latestReportDate.getMonth(), 1);
 
-    while (cur.getTime() <= last.getTime()) {
-      months.push(format(cur, 'MMMM yyyy'));
-      yearsSet.add(String(cur.getFullYear()));
-      cur.setMonth(cur.getMonth() + 1);
+    while (current.getTime() <= last.getTime()) {
+      months.push(format(current, 'MMMM yyyy'));
+      yearsSet.add(String(current.getFullYear()));
+      current.setMonth(current.getMonth() + 1);
     }
 
     setAllReportDates(months);
