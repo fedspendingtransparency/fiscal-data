@@ -54,16 +54,24 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
   columnConfig,
 }) => {
   const [active, setActive] = useState(false);
-  const defaultSelection = { label: '(None selected)', value: null };
-
+  const emptySelection = { label: '(None selected)', value: null };
+  const getDefaultSelected = () => {
+    const defaultFilterMap = JSON.parse(JSON.stringify(filterMap));
+    const currentFilter = defaultFilterMap[columnConfig.columnName].filterValue;
+    return !!currentFilter ? { label: currentFilter, value: currentFilter } : emptySelection;
+  };
   const [userFilterOptions, setUserFilterOptions] = useState(null);
-  const [selectedFilterOption, setSelectedFilterOption] = useState(defaultSelection);
+  const [selectedFilterOption, setSelectedFilterOption] = useState(getDefaultSelected());
 
   const updateUserFilter = selection => {
     if (selection !== null) {
       setSelectedFilterOption(selection);
       const map = JSON.parse(JSON.stringify(filterMap));
-      map[columnConfig.columnName].pendingValue = selection.label;
+      if (selection.label === emptySelection.label) {
+        map[columnConfig.columnName].pendingValue = '';
+      } else {
+        map[columnConfig.columnName].pendingValue = selection.label;
+      }
       setFilterMap(map);
       setActive(false);
     }
@@ -76,12 +84,12 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
       options = selectedTable.userFilter.optionValues.map(val => {
         return { label: val, value: val };
       });
-      options.unshift(defaultSelection);
+      options.unshift(emptySelection);
       setUserFilterOptions(options);
     } else if (selectedTable?.apiFilter?.optionValues) {
       if (selectedTable.apiFilter.fieldFilter?.value) {
         const filterOptions = selectedTable.apiFilter.fieldFilter.value;
-        nestedOptions = [{ default: true, children: [defaultSelection] }];
+        nestedOptions = [{ default: true, children: [emptySelection] }];
         for (let i = 0; i < filterOptions.length; i++) {
           const filter = filterOptions[i];
           const nestedChildren = selectedTable.apiFilter.optionValues[filter].map(val => ({ label: val, value: val }));
@@ -100,7 +108,7 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
       if (nestedOptions) {
         setUserFilterOptions(nestedOptions);
       } else {
-        options.unshift(defaultSelection);
+        options.unshift(emptySelection);
         setUserFilterOptions(options);
       }
     }
@@ -110,12 +118,13 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
     establishOptions();
   }, [apiData]);
 
-  useEffect(() => {
-    establishOptions();
-    if (!sharedApiFilterOptions) {
-      setSelectedFilterOption(defaultSelection);
-    }
-  }, [selectedTable, allTablesSelected]);
+  // TODO determine if this can be removed in FDG-10504
+  // useEffect(() => {
+  //   establishOptions();
+  //   if (!sharedApiFilterOptions) {
+  //     setSelectedFilterOption(emptySelection);
+  //   }
+  // }, [selectedTable, allTablesSelected]);
 
   const filterDropdownButton = (
     <DropdownLabelButton selectedOption={selectedFilterOption.label} active={active} setActive={setActive} dropdownWidth="320px" />
