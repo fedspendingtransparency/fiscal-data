@@ -401,7 +401,9 @@ const TableSectionContainer = ({
                 userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
                 apiFilterDefault={apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData}
                 onToggleLegend={legendToggler}
-                emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
+                emptyData={
+                  !isLoading && !serverSidePagination && !userFilterSelection && (!apiData || !apiData.data || !apiData.data.length) && !apiError
+                }
                 unchartable={noChartMessage !== undefined}
                 currentTab={selectedTab}
                 datasetName={config?.name}

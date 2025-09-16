@@ -92,26 +92,32 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     if (apisProp && apisProp.length > 0) {
       const earliestReport = new Date(Math.min(...apisProp.map(api => new Date(api.earliestDate).getTime())));
       const latestReport = new Date(Math.max(...apisProp.map(api => new Date(api.latestDate).getTime())));
-      setEarliestReportDate(earliestReport);
-      setLatestReportDate(latestReport);
-      setSelectedDate(latestReport);
+      const earliest = new Date(earliestReport.getFullYear(), earliestReport.getMonth(), 1);
+      const latest = new Date(latestReport.getFullYear(), latestReport.getMonth(), 1);
+
+      setEarliestReportDate(earliest);
+      setLatestReportDate(latest);
+      setSelectedDate(latest);
     }
   }, [apisProp]);
 
   useEffect(() => {
-    if (earliestReportDate && latestReportDate) {
-      const earliestFormat = earliestReportDate.toISOString().slice(0, 7);
-      const latestFormat = latestReportDate.toISOString().slice(0, 7);
-      setAllReportDates([earliestFormat, latestFormat]);
+    if (!earliestReportDate || !latestReportDate) return;
 
-      const earliestYear = earliestReportDate.getFullYear();
-      const latestYear = latestReportDate.getFullYear();
-      const years = [];
-      for (let year = earliestYear; year <= latestYear; year++) {
-        years.push(String(year));
-      }
-      setAllReportYears(years);
+    const months: string[] = [];
+    const yearsSet = new Set<string>();
+
+    const current = new Date(earliestReportDate.getFullYear(), earliestReportDate.getMonth(), 1);
+    const last = new Date(latestReportDate.getFullYear(), latestReportDate.getMonth(), 1);
+
+    while (current.getTime() <= last.getTime()) {
+      months.push(format(current, 'MMMM yyyy'));
+      yearsSet.add(String(current.getFullYear()));
+      current.setMonth(current.getMonth() + 1);
     }
+
+    setAllReportDates(months);
+    setAllReportYears(Array.from(yearsSet));
   }, [earliestReportDate, latestReportDate]);
 
   useMemo(() => {
@@ -194,6 +200,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             allYears={allReportYears}
             ignoreDisabled={true}
             ariaLabel="Enter report date"
+            generatedReport={true}
           />
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>

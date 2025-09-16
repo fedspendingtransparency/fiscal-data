@@ -1,6 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { TooltipProps } from 'recharts';
-import { tooltipColorBox, tooltipContainer, tooltipPercent, tooltipSecondaryTitle, tooltipTitle } from './custom-tooltip.module.scss';
+import {
+  tooltipColorBox,
+  tooltipContainer,
+  tooltipPercent,
+  tooltipSecondaryTitle,
+  tooltipTitle,
+} from './custom-tooltip.module.scss';
 
 interface DataItem {
   name: string;
@@ -9,8 +15,8 @@ interface DataItem {
   securityType: string;
 }
 
-const CustomTooltip: FunctionComponent<TooltipProps<number, string>> = ({ active, payload }) => {
-  if (active && payload && payload.length) {
+const CustomTooltip: FunctionComponent<TooltipProps<number, string>> = ({ active, payload, mouseInactive }) => {
+  if (active && !mouseInactive && payload && payload.length) {
     const data = payload[0].payload as DataItem;
     const color = data.securityType === 'Marketable' ? '#4A0072' : '#B04ABD';
 

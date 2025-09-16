@@ -12,6 +12,7 @@ const DataTableProvider = ({ children, config, detailViewState }) => {
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [allColumns, setAllColumns] = useState();
   const [defaultSelectedColumns, setDefaultSelectedColumns] = useState();
+  const [appliedFilters, setAppliedFilters] = useState([]);
 
   React.useMemo(() => {
     const { hideColumns, tableName, customFormatting } = tableProps ?? {};
@@ -47,6 +48,8 @@ const DataTableProvider = ({ children, config, detailViewState }) => {
         tableState,
         setTableState,
         defaultSelectedColumns,
+        appliedFilters,
+        setAppliedFilters,
       }}
     >
       {children}
