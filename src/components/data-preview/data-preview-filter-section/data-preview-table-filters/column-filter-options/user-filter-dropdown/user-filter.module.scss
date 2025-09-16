@@ -1,5 +1,10 @@
 @use 'src/variables.module' as *;
 
+.sectionContainer {
+  padding: 1rem;
+  font-size: $font-size-16;
+}
+
 .userFilterWrapper {
   margin-top: 2rem;
   position: relative;

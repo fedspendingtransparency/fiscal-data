@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { filterLabel, userFilterWrapper } from './user-filter.module.scss';
-import ComboCurrencySelect from '../../../../../combo-select/combo-currency-select/combo-currency-select';
-import DatatableBanner from '../../../../../filter-download-container/datatable-banner/datatable-banner';
-import MonthYearFilter from '../month-year-filter/month-year-filter';
+import DropdownContainer from '../../../../../dropdown-container/dropdown-container';
+import DropdownLabelButton from '../../../../../dropdown-label-button/dropdown-label-button';
+import ComboSelectDropdown from '../../../../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
+import { sectionContainer } from './user-filter.module.scss';
 
 type UserFilterProps = {
   selectedTable?: {
@@ -36,26 +36,24 @@ type UserFilterProps = {
     earliestDate: Date;
     latestDate: Date;
   };
-  onUserFilter: (selection: { label: string | number; value?: string | number | null }) => void;
   apiData?: {
     data?: [{ [key: string]: string }];
     meta?: { [key: string]: string | Record<string, unknown> };
   };
-  setResetFilters?: (x: boolean) => void;
   allTablesSelected?: boolean;
-  setDateRange: (range: { from: Date; to: Date }) => void;
   sharedApiFilterOptions?: boolean;
 };
 
 const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
   selectedTable,
-  onUserFilter,
   apiData,
-  setResetFilters,
   allTablesSelected,
-  setDateRange,
   sharedApiFilterOptions,
+  filterMap,
+  setFilterMap,
+  columnConfig,
 }) => {
+  const [active, setActive] = useState(false);
   const defaultSelection = { label: '(None selected)', value: null };
 
   const [userFilterOptions, setUserFilterOptions] = useState(null);
@@ -64,10 +62,10 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
   const updateUserFilter = selection => {
     if (selection !== null) {
       setSelectedFilterOption(selection);
-      onUserFilter(selection);
-      if (setResetFilters) {
-        setResetFilters(true);
-      }
+      const map = JSON.parse(JSON.stringify(filterMap));
+      map[columnConfig.columnName].pendingValue = selection.label;
+      setFilterMap(map);
+      setActive(false);
     }
   };
 
@@ -119,85 +117,27 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
     }
   }, [selectedTable, allTablesSelected]);
 
+  const filterDropdownButton = (
+    <DropdownLabelButton selectedOption={selectedFilterOption.label} active={active} setActive={setActive} dropdownWidth="320px" />
+  );
+
   return (
-    <>
-      {(selectedTable.userFilter || selectedTable.apiFilter) && userFilterOptions && !allTablesSelected && (
-        <div className={userFilterWrapper}>
-          <ComboCurrencySelect
-            label={`${selectedTable.userFilter ? selectedTable.userFilter.label : selectedTable.apiFilter.label}:`}
-            labelClass={filterLabel}
-            options={userFilterOptions}
-            changeHandler={updateUserFilter}
+    <div className={sectionContainer}>
+      <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
+        {active && (
+          <ComboSelectDropdown
             selectedOption={selectedFilterOption}
-            containerBorder={true}
-            searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : undefined}
-            hasChildren={userFilterOptions[0]?.children}
+            setDropdownActive={setActive}
+            active={active}
+            searchBarLabel={selectedTable?.apiFilter ? selectedTable.apiFilter.dataSearchLabel : 'Search currencies'}
+            options={userFilterOptions}
+            optionLabelKey="label"
+            updateSelection={updateUserFilter}
           />
-          {selectedTable?.apiFilter?.disableDateRangeFilter && (
-            <MonthYearFilter selectedTable={selectedTable} setDateRange={setDateRange} sharedApiFilterOptions={sharedApiFilterOptions} />
-          )}
-        </div>
-      )}
-      {selectedTable?.userFilter?.notice && <DatatableBanner bannerNotice={selectedTable.userFilter.notice} />}
-      {selectedTable?.apiFilter?.notice && <DatatableBanner bannerNotice={selectedTable.apiFilter.notice} />}
-    </>
+        )}
+      </DropdownContainer>
+    </div>
   );
 };
 
 export default UserFilterDropdown;
-
-// export const determineUserFilterUnmatchedForDateRange = (
-//   selectedTable: {
-//     userFilter?: { [key: string]: unknown };
-//     apiFilter?: { [key: string]: unknown };
-//   },
-//   userFilterSelection?: {
-//     label: string;
-//     value: string;
-//   },
-//   userFilteredData?: {
-//     data?: [{ [key: string]: string }] | [];
-//   }
-// ): boolean => {
-//   if (selectedTable?.userFilter) {
-//     return selectedTable?.userFilter?.label && userFilterSelection?.value && userFilteredData?.data && userFilteredData?.data.length === 0;
-//   } else if (selectedTable?.apiFilter) {
-//     return selectedTable?.apiFilter?.label && userFilterSelection?.value && userFilteredData?.data && userFilteredData?.data.length === 0;
-//   }
-// };
-
-// export const getMessageForUnmatchedUserFilter = (selectedTable: {
-//   userFilter?: { [key: string]: unknown };
-//   apiFilter?: { [key: string]: unknown };
-// }): JSX.Element => (
-//   <>
-//     {selectedTable.userFilter && selectedTable.userFilter.label && selectedTable.userFilter.dataUnmatchedMessage && (
-//       <NotShownMessage
-//         heading={
-//           selectedTable.userFilter?.dataUnmatchedHeader
-//             ? selectedTable.userFilter?.dataUnmatchedHeader
-//             : `The ${selectedTable.userFilter.label} specified does not have available data within the date range selected.`
-//         }
-//         bodyText={selectedTable.userFilter.dataUnmatchedMessage}
-//       />
-//     )}
-//     {selectedTable.apiFilter && selectedTable.apiFilter.label && selectedTable.apiFilter.dataUnmatchedMessage && (
-//       <NotShownMessage
-//         heading={
-//           selectedTable.apiFilter?.dataUnmatchedHeader
-//             ? selectedTable.apiFilter?.dataUnmatchedHeader
-//             : `The ${selectedTable.apiFilter.label} specified does not have available data within the date range selected.`
-//         }
-//         bodyText={selectedTable.apiFilter.dataUnmatchedMessage}
-//       />
-//     )}
-//   </>
-// );
-//
-// export const getMessageForDefaultApiFilter = (selectedTable: { apiFilter?: { [key: string]: unknown } }): JSX.Element => (
-//   <>
-//     {selectedTable?.apiFilter && selectedTable.apiFilter?.dataDefaultHeader && selectedTable.apiFilter?.dataDefaultMessage && (
-//       <NotShownMessage heading={selectedTable.apiFilter.dataDefaultHeader} bodyText={selectedTable.apiFilter.dataDefaultMessage} />
-//     )}
-//   </>
-// );

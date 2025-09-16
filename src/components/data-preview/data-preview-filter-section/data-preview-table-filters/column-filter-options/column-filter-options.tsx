@@ -53,9 +53,10 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
       {selectedColumn.dataType !== 'DATE' && userFilterDropdown && (
         <UserFilterDropdown
           selectedTable={selectedTable}
-          onUserFilter={() => console.log('!')}
           apiData={apiData}
-          setResetFilters={() => console.log('!')}
+          columnConfig={selectedColumn}
+          filterMap={filterMap}
+          setFilterMap={setFilterMap}
         />
       )}
     </>
