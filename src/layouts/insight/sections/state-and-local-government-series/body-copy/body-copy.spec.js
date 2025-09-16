@@ -24,7 +24,7 @@ describe('State and Local Government Series Body Copy', () => {
   });
 });
 
-describe('State and Local Government Series Body Copy component data fetching and rendering', () => {
+describe('State and Local Government Series Body Copy - Calculation Variant #1', () => {
   beforeAll(() => {
     mockSLGSFetchResponses2();
   });
@@ -37,7 +37,7 @@ describe('State and Local Government Series Body Copy component data fetching an
   });
 });
 
-describe('State and Local Government Series Body Copy - fetches and displays data', () => {
+describe('State and Local Government Series Body Copy - Calculation Variant #2', () => {
   beforeAll(() => {
     mockSLGSFetchResponses3();
   });
