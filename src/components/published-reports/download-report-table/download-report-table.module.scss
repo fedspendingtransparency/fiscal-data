@@ -45,7 +45,7 @@
 
 .loadingIcon {
   @include blueMediumLoadingIcon;
-  z-index: 1; // index overwrite
+  z-index: $above;
 }
 
 .overlay {
