@@ -79,39 +79,41 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
 
   const establishOptions = () => {
     let options = null;
-    let nestedOptions = null;
+    const nestedOptions = null;
     if (selectedTable?.userFilter?.optionValues) {
       options = selectedTable.userFilter.optionValues.map(val => {
         return { label: val, value: val };
       });
       options.unshift(emptySelection);
       setUserFilterOptions(options);
-    } else if (selectedTable?.apiFilter?.optionValues) {
-      if (selectedTable.apiFilter.fieldFilter?.value) {
-        const filterOptions = selectedTable.apiFilter.fieldFilter.value;
-        nestedOptions = [{ default: true, children: [emptySelection] }];
-        for (let i = 0; i < filterOptions.length; i++) {
-          const filter = filterOptions[i];
-          const nestedChildren = selectedTable.apiFilter.optionValues[filter].map(val => ({ label: val, value: val }));
-          nestedOptions.push({ label: filter, children: nestedChildren });
-        }
-      } else if (selectedTable.apiFilter?.optionLabels) {
-        const allLabels = selectedTable.apiFilter.optionLabels;
-        options = selectedTable.apiFilter.optionValues['all'].map(val => {
-          const label = allLabels[val];
-          if (label) return { label: label, value: val };
-        });
-        options.sort((a, b) => a.label.localeCompare(b.label));
-      } else {
-        options = selectedTable.apiFilter.optionValues['all'].map(val => ({ label: val, value: val }));
-      }
-      if (nestedOptions) {
-        setUserFilterOptions(nestedOptions);
-      } else {
-        options.unshift(emptySelection);
-        setUserFilterOptions(options);
-      }
     }
+    // TODO determine if this can be removed in FDG-10504
+    // else if (selectedTable?.apiFilter?.optionValues) {
+    // if (selectedTable.apiFilter.fieldFilter?.value) {
+    //   const filterOptions = selectedTable.apiFilter.fieldFilter.value;
+    //   nestedOptions = [{ default: true, children: [emptySelection] }];
+    //   for (let i = 0; i < filterOptions.length; i++) {
+    //     const filter = filterOptions[i];
+    //     const nestedChildren = selectedTable.apiFilter.optionValues[filter].map(val => ({ label: val, value: val }));
+    //     nestedOptions.push({ label: filter, children: nestedChildren });
+    //   }
+    // } else if (selectedTable.apiFilter?.optionLabels) {
+    //   const allLabels = selectedTable.apiFilter.optionLabels;
+    //   options = selectedTable.apiFilter.optionValues['all'].map(val => {
+    //     const label = allLabels[val];
+    //     if (label) return { label: label, value: val };
+    //   });
+    //   options.sort((a, b) => a.label.localeCompare(b.label));
+    // } else {
+    //   options = selectedTable.apiFilter.optionValues['all'].map(val => ({ label: val, value: val }));
+    // }
+    // if (nestedOptions) {
+    //   setUserFilterOptions(nestedOptions);
+    // } else {
+    //   options.unshift(emptySelection);
+    //   setUserFilterOptions(options);
+    // }
+    // }
   };
 
   useEffect(() => {
