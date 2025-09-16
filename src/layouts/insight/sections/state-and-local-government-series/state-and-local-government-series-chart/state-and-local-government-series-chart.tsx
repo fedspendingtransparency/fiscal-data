@@ -19,6 +19,7 @@ import { useRecoilValue } from 'recoil';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 import globalConstants from '../../../../../helpers/constants';
+import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 
 let gaTimer;
 
@@ -168,15 +169,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                   onMouseLeave={() => setChartHover(false)}
                 >
                   <div className={container}>
-                    {isChartLoading && (
-                      <>
-                        <div data-test-id="loading-overlay" className={overlay} />
-                        <div data-testid="loadingSection" className={loadingIcon}>
-                          <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-                          Loading...
-                        </div>
-                      </>
-                    )}
+                    {isChartLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}
                     <SLGSBarChart
                       setCurAmount={setCurAmount}
                       setCurCount={setCurCount}
