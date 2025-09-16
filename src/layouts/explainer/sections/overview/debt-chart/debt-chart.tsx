@@ -16,8 +16,8 @@ import CustomBarShape from './custom-bar-shape/custom-bar-shape';
 
 const AFGDebtChart = (): ReactElement => {
   const isMounted = useIsMounted();
-  const [focusedYear, setFocusedYear] = useState(null);
-  const [currentFY, setCurrentFY] = useState();
+  const [focusedYear, setFocusedYear] = useState<string | number>(null);
+  const [currentFY, setCurrentFY] = useState(null);
   const [finalChartData, setFinalChartData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [chartFocus, setChartFocus] = useState(false);
@@ -49,6 +49,7 @@ const AFGDebtChart = (): ReactElement => {
             dataKey={`debt${dataYear}`}
             stackId="debtBar"
             barSize={16}
+            isAnimationActive={false}
             shape={props => <CustomBarShape {...props} focusedYear={focusedYear} handleFocus={handleFocus} />}
           />
         </g>
