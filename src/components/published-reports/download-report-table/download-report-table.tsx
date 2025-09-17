@@ -6,6 +6,7 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 import LoadingIndicator from '../../loading-indicator/loading-indicator';
+import GenReportDownloadButton from './download-report-table-row/gen-report-download-button';
 
 // Exporting here for unit testing purposes
 export const DownloadReportTable: FunctionComponent<{
@@ -58,7 +59,7 @@ export const DownloadReportTable: FunctionComponent<{
           })}
           {generatedReports?.map((report, i: number) => {
             return (
-              <DownloadReportTableRow
+              <GenReportDownloadButton
                 generatedReport={report}
                 isDailyReport={isDailyReport}
                 mobileView={mobileView}
