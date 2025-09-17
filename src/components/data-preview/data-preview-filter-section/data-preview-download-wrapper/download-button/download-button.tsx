@@ -54,14 +54,30 @@ const DownloadItemButton: FunctionComponent = ({
     }
   };
 
+  const smallTableDownload = type => fileType === type && smallTableDownloadData?.length > 0;
+
   const buttonContents = (
     <>
       <span className="labelText">{label} </span>
-      {fileSize && <span className="fileSize"> {fileSize}</span>}
+      {fileSize && <span className="fileSize">{fileSize}</span>}
     </>
   );
 
-  const smallTableDownload = type => fileType === type && smallTableDownloadData?.length > 0;
+  const buttonContents2 =
+    smallTableDownload('csv') || smallTableDownload('json') || smallTableDownload('xml') || fileType === 'data-dictionary' ? (
+      <>
+        <span className="labelText">{label} </span>
+        {fileSize && <span className="fileSize">{fileSize}</span>}
+      </>
+    ) : (
+      <>
+        <span className="labelText">{label} </span>
+        {fileSize && <span className="fileSize"></span>}
+      </>
+    );
+
+  console.log('buttonContents', buttonContents);
+  console.log('buttonContents2', buttonContents2);
 
   const buttonComponent = children => {
     switch (true) {
@@ -72,6 +88,7 @@ const DownloadItemButton: FunctionComponent = ({
           </button>
         );
       case smallTableDownload('csv'):
+        console.log('MILK');
         return (
           <CsvDirectDownload
             downloadTimestamp={downloadTimestamp}
@@ -117,6 +134,6 @@ const DownloadItemButton: FunctionComponent = ({
     }
   };
 
-  return <>{buttonComponent(buttonContents)}</>;
+  return <>{buttonComponent(buttonContents2)}</>;
 };
 export default DownloadItemButton;
