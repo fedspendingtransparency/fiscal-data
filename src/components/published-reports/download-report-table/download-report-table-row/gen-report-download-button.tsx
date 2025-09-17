@@ -3,12 +3,14 @@ import { renderPDF } from '../../../../workers/pdfWorker';
 
 const GenReportDownloadButton = ({ generatedReport, setApiErrorMessage, setIsLoading, onDownloadClick, getContents, loadingRef }) => {
   const workerRef = useRef(null);
-  const [res, setRes] = useState({});
+  const [res, setRes] = useState(null);
   const [refSet, setRefSet] = useState(false);
 
   useEffect(() => {
     console.log(workerRef);
     if (!workerRef.current) {
+      loadingRef.current = true;
+      // setIsLoading(true);
       workerRef.current = renderPDF;
       setRefSet(true);
     }
@@ -20,6 +22,13 @@ const GenReportDownloadButton = ({ generatedReport, setApiErrorMessage, setIsLoa
       // }
     };
   }, []);
+  //
+  // useEffect(() => {
+  //   console.log('set loading', !!res, loadingRef);
+  //   if (loadingRef.current !== !!res) {
+  //     // setIsLoading(!res);
+  //   }
+  // }, [res]);
 
   useEffect(() => {
     (async () => {
@@ -28,7 +37,8 @@ const GenReportDownloadButton = ({ generatedReport, setApiErrorMessage, setIsLoa
           const test = await workerRef.current.renderPDFInWorker({ report: generatedReport });
           console.log('??', test);
           setRes(test);
-          loadingRef.current = false;
+          // loadingRef.current = false;
+          // setIsLoading(false);
         } catch (e) {
           console.log(e);
         }
@@ -47,13 +57,14 @@ const GenReportDownloadButton = ({ generatedReport, setApiErrorMessage, setIsLoa
   }, [res]);
 
   return (
-    <>
+    <div style={{ minHeight: '44px' }}>
       {res?.url && res?.size && (
         <a href={res.url} download={generatedReport.downloadName} onClick={onDownloadClick}>
           {getContents(res.size)}
+          {setIsLoading(false)}
         </a>
       )}
-    </>
+    </div>
   );
 };
 

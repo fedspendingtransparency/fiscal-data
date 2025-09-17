@@ -49,15 +49,15 @@ const DownloadReportTableRow: FunctionComponent<{
   const [displayName, setDisplayName] = useState(null);
   const [publishedDate, setPublishedDate] = useState(null);
   const [fileTypeImage, setFileTypeImage] = useState(null);
-  // const [generatedReportInstance, setGeneratedReportInstance] = useState<React.ReactElement<DocumentProps>>(null);
 
   useEffect(() => {
     console.log('reset state');
+    // loadingRef.current = true;
+    setIsLoading(true);
     setDisplayName(null);
     setFileSize(null);
     setFileName(null);
     setFileType(null);
-    // setGeneratedReportInstance(null);
   }, [selectedAccount]);
 
   const updateData = () => {
@@ -91,21 +91,11 @@ const DownloadReportTableRow: FunctionComponent<{
     }
   };
 
-  const DownloadButton = () => (
-    <>
-      {downloaded && (
-        <div className={` ${downloadedIcon} ${center}`} data-testid="download-icon" aria-describedby="Download Icon">
-          <FontAwesomeIcon icon={faCircleCheck} />
-          <div className={downloadButtonName}>Downloaded</div>
-        </div>
-      )}
-      {!downloaded && (
-        <div className={center} data-testid="download-icon" aria-describedby="Download Icon">
-          <FontAwesomeIcon icon={faCloudArrowDown} />
-          <div className={downloadButtonName}>Download</div>
-        </div>
-      )}
-    </>
+  const DownloadIcon = () => (
+    <div className={` ${downloaded && downloadedIcon} ${center}`} data-testid="download-icon" aria-describedby="Download Icon">
+      <FontAwesomeIcon icon={downloaded ? faCircleCheck : faCloudArrowDown} />
+      <div className={downloadButtonName}>{downloaded ? 'Downloaded' : 'Download'}</div>
+    </div>
   );
 
   const LinkComponent = ({ children }) => {
@@ -113,7 +103,7 @@ const DownloadReportTableRow: FunctionComponent<{
       <GenReportDownloadButton
         // setApiErrorMessage={setApiErrorMessage}
         generatedReport={generatedReport}
-        // setIsLoading={setIsLoading}
+        setIsLoading={setIsLoading}
         onDownloadClick={onDownloadClick}
         getContents={getLinkContents}
         loadingRef={loadingRef}
@@ -147,10 +137,6 @@ const DownloadReportTableRow: FunctionComponent<{
     updateData();
   }, [reportFile, generatedReport]);
 
-  // useEffect(() => {
-  //   updateData();
-  // }, []);
-
   useEffect(() => {
     setTimeout(() => {
       if (downloaded) {
@@ -160,7 +146,7 @@ const DownloadReportTableRow: FunctionComponent<{
   }, [downloaded]);
 
   const getLinkContents = size => {
-    setIsLoading(false);
+    // setIsLoading(false);
     return (
       <div className={downloadFileContainer}>
         <div className={downloadName}>
@@ -171,7 +157,7 @@ const DownloadReportTableRow: FunctionComponent<{
         <div className={fileDate}>{publishedDate}</div>
         <div className={downloadSize}>{size}</div>
         <div className={downloadIcon}>
-          <DownloadButton />
+          <DownloadIcon />
         </div>
       </div>
     );
@@ -194,7 +180,7 @@ const DownloadReportTableRow: FunctionComponent<{
                     <div className={fileDate}>{publishedDate}</div>
                     <div className={downloadSize}>{fileSize}</div>
                     <div className={downloadIcon}>
-                      <DownloadButton />
+                      <DownloadIcon />
                     </div>
                   </div>
                 </>
@@ -213,7 +199,7 @@ const DownloadReportTableRow: FunctionComponent<{
                     </div>
                   </div>
                   <div className={downloadIcon}>
-                    <DownloadButton />
+                    <DownloadIcon />
                   </div>
                 </div>
               )}
