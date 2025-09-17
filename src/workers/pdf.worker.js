@@ -1,12 +1,14 @@
 import { expose } from 'comlink';
+import { getGeneratedFileSize } from '../helpers/dataset-detail/report-helpers';
 
 const renderPDFInWorker = async props => {
-  let url;
   try {
     const { createPDFReport } = await import('../components/published-reports/download-report-table/download-report-table-row/getTheReport');
-    const reportBlob = await createPDFReport(props.report);
-    url = URL.createObjectURL(await reportBlob);
-    return { url, size: reportBlob.size };
+    return await createPDFReport(props.report).then(blob => {
+      const url = URL.createObjectURL(blob);
+      const size = getGeneratedFileSize(blob.size);
+      return { url, size };
+    });
   } catch (e) {
     console.warn(e);
   }

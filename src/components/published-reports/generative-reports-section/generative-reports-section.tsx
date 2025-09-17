@@ -209,7 +209,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
         {(activeReports?.length === 0 || apiErrorMessage) && (
-          <ReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} heading={heading} body={body} isLoading={isLoading} />
+          <ReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} heading={heading} body={body} isLoading={loadingRef?.current} />
         )}
         {activeReports?.length > 0 && !apiErrorMessage && (
           <DownloadReportTable

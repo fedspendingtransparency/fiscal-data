@@ -1,10 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { container, date, headerRow, name, table } from './download-report-table.module.scss';
+import { container, date, headerRow, loadingIcon, name, overlay, table } from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
+import LoadingIndicator from '../../loading-indicator/loading-indicator';
 
 // Exporting here for unit testing purposes
 export const DownloadReportTable: FunctionComponent<{
@@ -16,11 +17,12 @@ export const DownloadReportTable: FunctionComponent<{
   isLoading?: boolean;
   setIsLoading?: (loadingState: boolean) => void;
   selectedAccount;
-}> = ({ reports, isDailyReport, width, generatedReports, setApiErrorMessage, isLoading, setIsLoading, selectedAccount, loadingRef }) => {
+}> = ({ reports, isDailyReport, width, generatedReports, setApiErrorMessage, selectedAccount, loadingRef }) => {
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
   useEffect(() => {
     setMobileView(pxToNumber(breakpointLg) > width);
   }, [width]);
+  const [isLoading, setIsLoading] = useState<boolean>(loadingRef?.current);
 
   return (
     <div className={container}>
@@ -70,7 +72,7 @@ export const DownloadReportTable: FunctionComponent<{
           })}
         </tbody>
       </table>
-      {/*{loadingRef?.current && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}*/}
+      {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}
     </div>
   );
 };

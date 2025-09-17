@@ -19,9 +19,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay } from '../../util/util';
 import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
-import { getDateLabelForReport, getGeneratedFileSize } from '../../../../helpers/dataset-detail/report-helpers';
+import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
-import { DocumentProps } from '@react-pdf/renderer';
 import GenReportDownloadButton from './gen-report-download-button';
 
 interface IGeneratedReport {
@@ -50,7 +49,7 @@ const DownloadReportTableRow: FunctionComponent<{
   const [displayName, setDisplayName] = useState(null);
   const [publishedDate, setPublishedDate] = useState(null);
   const [fileTypeImage, setFileTypeImage] = useState(null);
-  const [generatedReportInstance, setGeneratedReportInstance] = useState<React.ReactElement<DocumentProps>>(null);
+  // const [generatedReportInstance, setGeneratedReportInstance] = useState<React.ReactElement<DocumentProps>>(null);
 
   useEffect(() => {
     console.log('reset state');
@@ -58,7 +57,7 @@ const DownloadReportTableRow: FunctionComponent<{
     setFileSize(null);
     setFileName(null);
     setFileType(null);
-    setGeneratedReportInstance(null);
+    // setGeneratedReportInstance(null);
   }, [selectedAccount]);
 
   const updateData = () => {
@@ -112,14 +111,11 @@ const DownloadReportTableRow: FunctionComponent<{
   const LinkComponent = ({ children }) => {
     return generatedReport ? (
       <GenReportDownloadButton
-        setApiErrorMessage={setApiErrorMessage}
+        // setApiErrorMessage={setApiErrorMessage}
         generatedReport={generatedReport}
-        setIsLoading={setIsLoading}
+        // setIsLoading={setIsLoading}
         onDownloadClick={onDownloadClick}
-        generatedReportInstance={generatedReportInstance}
-        setGeneratedReportInstance={setGeneratedReportInstance}
         getContents={getLinkContents}
-        selectedAccount={selectedAccount}
         loadingRef={loadingRef}
       >
         {children}
@@ -164,7 +160,7 @@ const DownloadReportTableRow: FunctionComponent<{
   }, [downloaded]);
 
   const getLinkContents = size => {
-    const displaySize = getGeneratedFileSize(size);
+    setIsLoading(false);
     return (
       <div className={downloadFileContainer}>
         <div className={downloadName}>
@@ -173,7 +169,7 @@ const DownloadReportTableRow: FunctionComponent<{
           <span>{displayName.end}</span>
         </div>
         <div className={fileDate}>{publishedDate}</div>
-        <div className={downloadSize}>{displaySize}</div>
+        <div className={downloadSize}>{size}</div>
         <div className={downloadIcon}>
           <DownloadButton />
         </div>

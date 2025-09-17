@@ -11,9 +11,6 @@ const GenReportDownloadButton = ({ generatedReport, setApiErrorMessage, setIsLoa
     if (!workerRef.current) {
       workerRef.current = renderPDF;
       setRefSet(true);
-      // const test = await workerRef.current.renderPDFInWorker({ generatedReport });
-      // console.log('??', test);
-      // setRes(test);
     }
     return () => {
       console.log('unmounting ********************');
@@ -32,7 +29,6 @@ const GenReportDownloadButton = ({ generatedReport, setApiErrorMessage, setIsLoa
           console.log('??', test);
           setRes(test);
           loadingRef.current = false;
-          // setIsLoading(false);
         } catch (e) {
           console.log(e);
         }
@@ -50,12 +46,14 @@ const GenReportDownloadButton = ({ generatedReport, setApiErrorMessage, setIsLoa
     }
   }, [res]);
 
-  return res?.url ? (
-    <a href={res?.url} download={generatedReport.downloadName} onClick={onDownloadClick}>
-      {getContents(res?.size)}
-    </a>
-  ) : (
-    <div>{getContents('')}</div>
+  return (
+    <>
+      {res?.url && res?.size && (
+        <a href={res.url} download={generatedReport.downloadName} onClick={onDownloadClick}>
+          {getContents(res.size)}
+        </a>
+      )}
+    </>
   );
 };
 
