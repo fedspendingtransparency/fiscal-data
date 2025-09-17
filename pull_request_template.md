@@ -5,6 +5,7 @@
 ***The following are ALL required for the PR to be merged:***
 
 - [ ] Provided testing instructions in JIRA ticket `if applicable`
+- [ ] Provided mocks or additional information in JIRA ticket `if applicable`
 - [ ] Verified cross-browser compatibility: Chrome, Safari, Firefox, Edge
 - [ ] Verified mobile/tablet/desktop/monitor responsiveness
 - [ ] Verified that this PR does not create any *new* accessibility issues (via Axe Chrome)
