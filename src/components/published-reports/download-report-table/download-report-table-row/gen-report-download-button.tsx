@@ -1,20 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { renderPDF } from '../../../../workers/pdfWorker';
 
-const GenReportDownloadButton = ({
-  generatedReport,
-  setApiErrorMessage,
-  setIsLoading,
-  // setFileSize,
-  // fileSize,
-  onDownloadClick,
-  generatedReportInstance,
-  setGeneratedReportInstance,
-  children,
-  getContents,
-  selectedAccount,
-  loadingRef,
-}) => {
+const GenReportDownloadButton = ({ generatedReport, setApiErrorMessage, setIsLoading, onDownloadClick, getContents, loadingRef }) => {
   const workerRef = useRef(null);
   const [res, setRes] = useState({});
   const [refSet, setRefSet] = useState(false);
@@ -53,37 +40,19 @@ const GenReportDownloadButton = ({
     })();
     return () => {
       console.log('unmounting xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-      // if (workerRef.current) {
-      //   workerRef.current.terminate();
-      //   workerRef.current = null; // Clear the ref
-      // }
     };
   }, [refSet]);
 
   useMemo(() => {
     if (res) {
       const { value } = res;
-
       return value ? () => URL.revokeObjectURL(value) : undefined;
     }
   }, [res]);
-  // const res = useRenderPDF(generatedReport);
-  // const { url } = res;
-  // const value = { url: null };
-  // useEffect(() => {
-  //   console.log('rerendering', res);
-  // }, [res]);
-
-  // useEffect(() => {
-  //   if (fileSize) {
-  //     setIsLoading(false);
-  //     console.log('end loading');
-  //   }
-  // }, [fileSize]);
 
   return res?.url ? (
     <a href={res?.url} download={generatedReport.downloadName} onClick={onDownloadClick}>
-      {getContents('')}
+      {getContents(res?.size)}
     </a>
   ) : (
     <div>{getContents('')}</div>

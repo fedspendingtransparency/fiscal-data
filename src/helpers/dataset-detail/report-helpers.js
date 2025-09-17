@@ -42,9 +42,9 @@ export const formatFileSize = size => {
   return `${Math.ceil(size / 1000)} KB`;
 };
 
-export const getGeneratedFileSize = (blob, setFileSize) => {
-  if (blob) {
-    setFileSize(formatFileSize(blob?.size));
+export const getGeneratedFileSize = size => {
+  if (size) {
+    return formatFileSize(size);
   }
   return null;
 };

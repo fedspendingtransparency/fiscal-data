@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { getFileDisplay, getFileTypeImage, getGeneratedReportFileDisplay } from '../../util/util';
 import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDataJson';
-import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
+import { getDateLabelForReport, getGeneratedFileSize } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
 import { DocumentProps } from '@react-pdf/renderer';
 import GenReportDownloadButton from './gen-report-download-button';
@@ -60,6 +60,7 @@ const DownloadReportTableRow: FunctionComponent<{
     setFileType(null);
     setGeneratedReportInstance(null);
   }, [selectedAccount]);
+
   const updateData = () => {
     if (reportFile && !generatedReport) {
       const curReportFile: IPublishedReportDataJson = reportFile;
@@ -88,7 +89,6 @@ const DownloadReportTableRow: FunctionComponent<{
       setFileType('.pdf');
       setFileTypeImage(getFileTypeImage('.pdf'));
       setReportLocation('');
-      // setIsLoading(false);
     }
   };
 
@@ -108,31 +108,10 @@ const DownloadReportTableRow: FunctionComponent<{
       )}
     </>
   );
-  //
-  // useEffect(() => {
-  //   if (generatedReport) {
-  //     (async () => {
-  //       try {
-  //         // const blob = await fun(generatedReport);
-  //         // console.log(blob);
-  //         // setGeneratedReportInstance(blob);
-  //         // getGeneratedFileSize(blob, setFileSize);
-  //         setApiErrorMessage(false);
-  //       } catch (error) {
-  //         console.log(error);
-  //         setIsLoading(false);
-  //         setApiErrorMessage(true);
-  //         return;
-  //       }
-  //     })();
-  //   }
-  // }, [generatedReport]);
 
   const LinkComponent = ({ children }) => {
     return generatedReport ? (
       <GenReportDownloadButton
-        // setFileSize={setFileSize}
-        // fileSize={fileSize}
         setApiErrorMessage={setApiErrorMessage}
         generatedReport={generatedReport}
         setIsLoading={setIsLoading}
@@ -172,9 +151,9 @@ const DownloadReportTableRow: FunctionComponent<{
     updateData();
   }, [reportFile, generatedReport]);
 
-  useEffect(() => {
-    updateData();
-  }, []);
+  // useEffect(() => {
+  //   updateData();
+  // }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -185,6 +164,7 @@ const DownloadReportTableRow: FunctionComponent<{
   }, [downloaded]);
 
   const getLinkContents = size => {
+    const displaySize = getGeneratedFileSize(size);
     return (
       <div className={downloadFileContainer}>
         <div className={downloadName}>
@@ -193,7 +173,7 @@ const DownloadReportTableRow: FunctionComponent<{
           <span>{displayName.end}</span>
         </div>
         <div className={fileDate}>{publishedDate}</div>
-        <div className={downloadSize}>{size}</div>
+        <div className={downloadSize}>{displaySize}</div>
         <div className={downloadIcon}>
           <DownloadButton />
         </div>
