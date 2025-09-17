@@ -80,7 +80,7 @@ const DownloadReportTableRow: FunctionComponent<{
       setFileType('.pdf');
       setFileTypeImage(getFileTypeImage('.pdf'));
       setReportLocation('');
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -123,14 +123,15 @@ const DownloadReportTableRow: FunctionComponent<{
   const LinkComponent = ({ children }) => {
     return generatedReport ? (
       <GenReportDownloadButton
-        setFileSize={setFileSize}
-        fileSize={fileSize}
+        // setFileSize={setFileSize}
+        // fileSize={fileSize}
         setApiErrorMessage={setApiErrorMessage}
         generatedReport={generatedReport}
         setIsLoading={setIsLoading}
         onDownloadClick={onDownloadClick}
         generatedReportInstance={generatedReportInstance}
         setGeneratedReportInstance={setGeneratedReportInstance}
+        getContents={getLinkContents}
       >
         {children}
       </GenReportDownloadButton>
@@ -172,6 +173,23 @@ const DownloadReportTableRow: FunctionComponent<{
       }
     }, 3000);
   }, [downloaded]);
+
+  const getLinkContents = size => {
+    return (
+      <div className={downloadFileContainer}>
+        <div className={downloadName}>
+          <img src={fileTypeImage} alt={`${fileType} icon`} />
+          {displayName?.start && <span className={startName}>{displayName.start}</span>}
+          <span>{displayName.end}</span>
+        </div>
+        <div className={fileDate}>{publishedDate}</div>
+        <div className={downloadSize}>{size}</div>
+        <div className={downloadIcon}>
+          <DownloadButton />
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>

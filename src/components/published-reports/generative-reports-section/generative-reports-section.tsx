@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { filtersContainer } from '../reports-section/reports-section.module.scss';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
@@ -29,6 +29,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const loadingRef = useRef(null);
 
   const bannerCopy = reportsBannerCopy[reportGenKey];
   const heading = noMatchingData ? bannerCopy?.noDataMatchHeader : bannerCopy?.additionalFiltersHeader;
@@ -134,7 +135,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
               setIsLoading(true);
               reportData = await getReportData(report, reportConfig);
             } catch (error) {
-              setIsLoading(false);
+              // setIsLoading(false);
               setApiErrorMessage(true);
               break;
             }
@@ -173,6 +174,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
       }
     });
     if (reports.length === 0) {
+      console.log('no reports...................');
       setIsLoading(false);
     }
     setActiveReports(reports);

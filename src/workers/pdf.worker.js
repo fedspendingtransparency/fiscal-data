@@ -5,7 +5,6 @@ const renderPDFInWorker = async props => {
   try {
     const { createPDFReport } = await import('../components/published-reports/download-report-table/download-report-table-row/getTheReport');
     const reportBlob = await createPDFReport(props.report);
-    console.log(reportBlob);
     url = URL.createObjectURL(await reportBlob);
     return { url, size: reportBlob.size };
   } catch (e) {
