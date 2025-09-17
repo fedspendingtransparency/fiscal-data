@@ -62,13 +62,13 @@ describe('Download dialog', () => {
   });
 
   it('does not show the file sizes for large datasets', () => {
-    // const label = 'CSV';
-    // const handleClick = jest.fn();
-    // const { getByTestId } = render(
-    //   <DownloadButton label={label} fileType="csv" fileSize="5 KB" smallTableDownloadData={null} handleClick={handleClick} />
-    // );
-    // const downloadButton = getByTestId('download-button');
-    // const fileSizeText = within(downloadButton).getByText('5 KB');
-    // expect('5 KB').not.toBeInTheDocument();
+    const label = 'CSV';
+    const handleClick = jest.fn();
+    const { getByTestId } = render(
+      <DownloadButton label={label} fileType="csv" fileSize="5 KB" smallTableDownloadData={null} handleClick={handleClick} />
+    );
+    const downloadButton = getByTestId('download-button');
+    const buttonContents = within(downloadButton);
+    expect(buttonContents.queryByText('5 KB')).not.toBeInTheDocument();
   });
 });
