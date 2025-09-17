@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { renderPDF } from '../../../../workers/pdfWorker';
-import { getGeneratedFileSize } from '../../../../helpers/dataset-detail/report-helpers';
 
 const GenReportDownloadButton = ({
   generatedReport,
@@ -13,11 +12,12 @@ const GenReportDownloadButton = ({
   setGeneratedReportInstance,
   children,
   getContents,
+  selectedAccount,
+  loadingRef,
 }) => {
   const workerRef = useRef(null);
   const [res, setRes] = useState({});
   const [refSet, setRefSet] = useState(false);
-  const [fileSize, setFileSize] = useState(null);
 
   useEffect(() => {
     console.log(workerRef);
@@ -44,11 +44,20 @@ const GenReportDownloadButton = ({
           const test = await workerRef.current.renderPDFInWorker({ report: generatedReport });
           console.log('??', test);
           setRes(test);
+          loadingRef.current = false;
+          // setIsLoading(false);
         } catch (e) {
           console.log(e);
         }
       }
     })();
+    return () => {
+      console.log('unmounting xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+      // if (workerRef.current) {
+      //   workerRef.current.terminate();
+      //   workerRef.current = null; // Clear the ref
+      // }
+    };
   }, [refSet]);
 
   useMemo(() => {
@@ -66,32 +75,18 @@ const GenReportDownloadButton = ({
   // }, [res]);
 
   // useEffect(() => {
-  // console.log(loading);
-  // setIsLoading(loading);
-  // }, [loading]);
-
-  useEffect(() => {
-    if (res?.url) {
-      console.log('setting url', res?.url);
-      getGeneratedFileSize(res, setFileSize);
-    } else {
-      // setIsLoading(true);
-    }
-  }, [res]);
-
-  useEffect(() => {
-    if (fileSize) {
-      setIsLoading(false);
-      console.log('end loading');
-    }
-  }, [fileSize]);
+  //   if (fileSize) {
+  //     setIsLoading(false);
+  //     console.log('end loading');
+  //   }
+  // }, [fileSize]);
 
   return res?.url ? (
     <a href={res?.url} download={generatedReport.downloadName} onClick={onDownloadClick}>
-      {getContents(fileSize)}
+      {getContents('')}
     </a>
   ) : (
-    <div>{children}</div>
+    <div>{getContents('')}</div>
   );
 };
 

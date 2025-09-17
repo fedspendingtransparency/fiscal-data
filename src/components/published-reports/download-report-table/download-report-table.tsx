@@ -1,11 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { date, headerRow, name, table, loadingIcon, overlay, container } from './download-report-table.module.scss';
+import { container, date, headerRow, name, table } from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
-import LoadingIndicator from '../../loading-indicator/loading-indicator';
 
 // Exporting here for unit testing purposes
 export const DownloadReportTable: FunctionComponent<{
@@ -16,7 +15,8 @@ export const DownloadReportTable: FunctionComponent<{
   setApiErrorMessage?: (errorState: boolean) => void;
   isLoading?: boolean;
   setIsLoading?: (loadingState: boolean) => void;
-}> = ({ reports, isDailyReport, width, generatedReports, setApiErrorMessage, isLoading, setIsLoading }) => {
+  selectedAccount;
+}> = ({ reports, isDailyReport, width, generatedReports, setApiErrorMessage, isLoading, setIsLoading, selectedAccount, loadingRef }) => {
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
   useEffect(() => {
     setMobileView(pxToNumber(breakpointLg) > width);
@@ -63,12 +63,14 @@ export const DownloadReportTable: FunctionComponent<{
                 key={i}
                 setApiErrorMessage={setApiErrorMessage}
                 setIsLoading={setIsLoading}
+                selectedAccount={selectedAccount}
+                loadingRef={loadingRef}
               />
             );
           })}
         </tbody>
       </table>
-      {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}
+      {/*{loadingRef?.current && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}*/}
     </div>
   );
 };

@@ -132,7 +132,8 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             const downloadDate = format(selectedDate, 'MMyyyy');
             let reportData;
             try {
-              setIsLoading(true);
+              loadingRef.current = true;
+              // setIsLoading(true);
               reportData = await getReportData(report, reportConfig);
             } catch (error) {
               // setIsLoading(false);
@@ -175,7 +176,8 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     });
     if (reports.length === 0) {
       console.log('no reports...................');
-      setIsLoading(false);
+      loadingRef.current = false;
+      // setIsLoading(false);
     }
     setActiveReports(reports);
   }, [allReports]);
@@ -217,6 +219,8 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             setApiErrorMessage={setApiErrorMessage}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
+            selectedAccount={selectedAccount}
+            loadingRef={loadingRef}
           />
         )}
         <DataPreviewDatatableBanner bannerNotice={dataset?.publishedReportsTip} isReport={true} />

@@ -41,7 +41,7 @@ const DownloadReportTableRow: FunctionComponent<{
   mobileView?: boolean;
   setApiErrorMessage?: (errorState: boolean) => void;
   setIsLoading?: (loadingState: boolean) => void;
-}> = ({ reportFile, isDailyReport, mobileView, generatedReport, setApiErrorMessage, setIsLoading }) => {
+}> = ({ reportFile, isDailyReport, mobileView, generatedReport, setApiErrorMessage, setIsLoading, selectedAccount, loadingRef }) => {
   const [downloaded, setDownloaded] = useState(false);
   const [fileSize, setFileSize] = useState(null);
   const [reportLocation, setReportLocation] = useState<string>(null);
@@ -52,6 +52,14 @@ const DownloadReportTableRow: FunctionComponent<{
   const [fileTypeImage, setFileTypeImage] = useState(null);
   const [generatedReportInstance, setGeneratedReportInstance] = useState<React.ReactElement<DocumentProps>>(null);
 
+  useEffect(() => {
+    console.log('reset state');
+    setDisplayName(null);
+    setFileSize(null);
+    setFileName(null);
+    setFileType(null);
+    setGeneratedReportInstance(null);
+  }, [selectedAccount]);
   const updateData = () => {
     if (reportFile && !generatedReport) {
       const curReportFile: IPublishedReportDataJson = reportFile;
@@ -132,6 +140,8 @@ const DownloadReportTableRow: FunctionComponent<{
         generatedReportInstance={generatedReportInstance}
         setGeneratedReportInstance={setGeneratedReportInstance}
         getContents={getLinkContents}
+        selectedAccount={selectedAccount}
+        loadingRef={loadingRef}
       >
         {children}
       </GenReportDownloadButton>
