@@ -10,7 +10,7 @@ const renderPDFInWorker = async props => {
       return { url, size };
     });
   } catch (e) {
-    console.warn(e);
+    return null;
   }
 };
 
