@@ -3,10 +3,10 @@ import { renderPDF } from '../../../../workers/pdfWorker';
 import { useAsync } from 'react-use';
 
 export const useRenderPDF = report => {
-  const { value: url, loading, error } = useAsync(async () => {
+  const { value, loading, error } = useAsync(async () => {
     return renderPDF({ report });
   }, [report]);
 
-  useEffect(() => (url ? () => URL.revokeObjectURL(url) : undefined), [url]);
-  return { url, loading, error };
+  useEffect(() => (value ? () => URL.revokeObjectURL(value?.url) : undefined), [value]);
+  return { value, loading, error };
 };

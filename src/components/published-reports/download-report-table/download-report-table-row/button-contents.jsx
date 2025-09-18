@@ -41,22 +41,20 @@ const DownloadContents = ({ size, publishedDate, displayName, url, download }) =
   );
 
   return (
-    <>
-      <a href={url} download={download} onClick={onDownloadClick}>
-        <div className={downloadFileContainer}>
-          <div className={downloadName}>
-            <img src={fileTypeImage} alt={`.pdf icon`} />
-            {displayName?.start && <span className={startName}>{displayName?.start}</span>}
-            <span>{displayName?.end}</span>
-          </div>
-          <div className={fileDate}>{publishedDate}</div>
-          <div className={downloadSize}>{size}</div>
-          <div className={downloadIcon}>
-            <DownloadIcon />
-          </div>
+    <a href={url} download={download} onClick={onDownloadClick}>
+      <div className={downloadFileContainer}>
+        <div className={downloadName}>
+          <img src={fileTypeImage} alt={`.pdf icon`} />
+          {displayName?.start && <span className={startName}>{displayName?.start}</span>}
+          <span>{displayName?.end}</span>
         </div>
-      </a>
-    </>
+        <div className={fileDate}>{publishedDate}</div>
+        <div className={downloadSize}>{size}</div>
+        <div className={downloadIcon}>
+          <DownloadIcon />
+        </div>
+      </div>
+    </a>
   );
 };
 
