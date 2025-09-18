@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { fileDescription } from '../download-report-table-row/download-report-table-row.module.scss';
 import { getGeneratedReportFileDisplay } from '../../util/util';
 import { useRenderPDF } from './useRenderPDF';
@@ -15,7 +15,12 @@ interface IGeneratedReport {
   colConfig;
 }
 
-const GenReportDownloadTableRow = ({ generatedReport, setIsLoading, setApiErrorMessage, mobileView }) => {
+const GenReportDownloadTableRow: FunctionComponent<{
+  generatedReport: IGeneratedReport;
+  mobileView: boolean;
+  setApiErrorMessage: (errorState: boolean) => void;
+  setIsLoading: (loadingState: boolean) => void;
+}> = ({ generatedReport, setIsLoading, setApiErrorMessage, mobileView }) => {
   const [displayName, setDisplayName] = useState(null);
   const [publishedDate, setPublishedDate] = useState(null);
   const { value, loading, error } = useRenderPDF(generatedReport);
@@ -36,7 +41,7 @@ const GenReportDownloadTableRow = ({ generatedReport, setIsLoading, setApiErrorM
   }, [loading]);
 
   useEffect(() => {
-    setApiErrorMessage(error);
+    setApiErrorMessage(!!error);
   }, [error]);
 
   return (
