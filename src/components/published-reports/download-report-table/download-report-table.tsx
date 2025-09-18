@@ -6,7 +6,7 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 import LoadingIndicator from '../../loading-indicator/loading-indicator';
-import GenReportDownloadButton from './gen-report-download-button/gen-report-download-button';
+import GenReportDownloadTableRow from './gen-report-download-table-row/gen-report-download-table-row';
 
 // Exporting here for unit testing purposes
 export const DownloadReportTable: FunctionComponent<{
@@ -58,7 +58,7 @@ export const DownloadReportTable: FunctionComponent<{
           })}
           {generatedReports?.map((report, i: number) => {
             return (
-              <GenReportDownloadButton
+              <GenReportDownloadTableRow
                 generatedReport={report}
                 mobileView={mobileView}
                 key={i}

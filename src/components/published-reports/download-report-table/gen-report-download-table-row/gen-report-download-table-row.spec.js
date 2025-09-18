@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import GenReportDownloadButton from './gen-report-download-button';
+import GenReportDownloadTableRow from './gen-report-download-table-row';
 
 describe('Generated report table row', () => {
   const mockGeneratedReport = {
@@ -17,7 +17,7 @@ describe('Generated report table row', () => {
     const setApiError = jest.fn();
     const setIsLoading = jest.fn();
     const { findByTestId } = render(
-      <GenReportDownloadButton generatedReport={mockGeneratedReport} setApiErrorMessage={setApiError} setIsLoading={setIsLoading} />
+      <GenReportDownloadTableRow generatedReport={mockGeneratedReport} setApiErrorMessage={setApiError} setIsLoading={setIsLoading} />
     );
     expect(await findByTestId('file-download-row')).toBeInTheDocument();
   });
@@ -26,7 +26,7 @@ describe('Generated report table row', () => {
     const setApiError = jest.fn();
     const setIsLoading = jest.fn();
     const { findByRole } = render(
-      <GenReportDownloadButton generatedReport={mockGeneratedReport} setApiErrorMessage={setApiError} setIsLoading={setIsLoading} />
+      <GenReportDownloadTableRow generatedReport={mockGeneratedReport} setApiErrorMessage={setApiError} setIsLoading={setIsLoading} />
     );
     const downloadLink = await findByRole('link');
     expect(downloadLink).toBeInTheDocument();

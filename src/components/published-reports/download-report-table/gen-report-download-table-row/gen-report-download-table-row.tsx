@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { fileDescription } from '../download-report-table-row/download-report-table-row.module.scss';
 import { getGeneratedReportFileDisplay } from '../../util/util';
 import { useRenderPDF } from './useRenderPDF';
-import DownloadContents from '../download-report-table-row/button-contents';
-import { downloadItem } from './gen-report-download-button.module.scss';
+import DownloadContents from '../download-button/download-button';
+import { downloadItem } from './gen-report-download-table-row.module.scss';
 
 interface IGeneratedReport {
   name: string;
@@ -15,7 +15,7 @@ interface IGeneratedReport {
   colConfig;
 }
 
-const GenReportDownloadButton = ({ generatedReport, fileDisplay, setIsLoading, setApiErrorMessage, mobileView }) => {
+const GenReportDownloadTableRow = ({ generatedReport, setIsLoading, setApiErrorMessage, mobileView }) => {
   const [displayName, setDisplayName] = useState(null);
   const [publishedDate, setPublishedDate] = useState(null);
   const { value, loading, error } = useRenderPDF(generatedReport);
@@ -49,12 +49,11 @@ const GenReportDownloadButton = ({ generatedReport, fileDisplay, setIsLoading, s
                 <DownloadContents
                   size={value.size}
                   publishedDate={publishedDate}
-                  fileDisplay={fileDisplay}
                   displayName={displayName}
                   url={value.url}
-                  download={generatedReport.downloadName}
+                  fileName={generatedReport.downloadName}
+                  mobileView={mobileView}
                 />
-                {setIsLoading(false)}
               </>
             )}
           </div>
@@ -64,4 +63,4 @@ const GenReportDownloadButton = ({ generatedReport, fileDisplay, setIsLoading, s
   );
 };
 
-export default GenReportDownloadButton;
+export default GenReportDownloadTableRow;
