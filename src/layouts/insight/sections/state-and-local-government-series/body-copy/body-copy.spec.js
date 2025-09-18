@@ -1,7 +1,8 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import BodyCopy from '../body-copy/body-copy';
-import { mockSLGSFetchResponses } from '../../../../explainer/explainer-test-helper';
+import { mockSLGSFetchResponses, mockSLGSFetchResponses2, mockSLGSFetchResponses3 } from '../../../../explainer/explainer-test-helper';
+
 
 describe('State and Local Government Series Body Copy', () => {
   beforeAll(() => {
@@ -19,6 +20,31 @@ describe('State and Local Government Series Body Copy', () => {
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
     expect(await findByText('June 25, 2025', { exact: false })).toBeInTheDocument();
     expect(await findByText('$88 B outstanding SLGS securities', { exact: false })).toBeInTheDocument();
-    expect(await findByText('0.24 percent', { exact: false })).toBeInTheDocument();
+    expect(await findByText('<1%', { exact: false })).toBeInTheDocument();
+  });
+});
+
+describe('State and Local Government Series Body Copy - Calculation Variant #1', () => {
+  beforeAll(() => {
+    mockSLGSFetchResponses2();
+  });
+
+  it('fetches slgs total amount mock data values with an expected value of 0', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { findByText } = render(<BodyCopy />);
+    await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
+    expect(await findByText('0%', { exact: false })).toBeInTheDocument();
+  });
+});
+
+describe('State and Local Government Series Body Copy - Calculation Variant #2', () => {
+  beforeAll(() => {
+    mockSLGSFetchResponses3();
+  });
+  it('fetches slgs debt to penny amount mock data values  with an expected value of 2', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { findByText } = render(<BodyCopy />);
+    await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
+    expect(await findByText('2%', { exact: false })).toBeInTheDocument();
   });
 });
