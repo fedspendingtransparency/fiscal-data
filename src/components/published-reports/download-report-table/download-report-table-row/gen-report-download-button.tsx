@@ -5,41 +5,28 @@ import { IGeneratedReport } from './download-report-table-row';
 import { useRenderPDF } from './useRenderPDF';
 import DownloadContents from './button-contents';
 
-const GenReportDownloadButton = ({ generatedReport, fileDisplay, setIsLoading, loadingRef, selectedAccount }) => {
+const GenReportDownloadButton = ({ generatedReport, fileDisplay, setIsLoading }) => {
   const [displayName, setDisplayName] = useState(null);
   const [publishedDate, setPublishedDate] = useState(null);
   const { url, loading, error } = useRenderPDF(generatedReport);
-  // const workerRef = useRef(null);
-  // const [res, setRes] = useState(null);
-  // const [refSet, setRefSet] = useState(false);
-
-  //TODO: test removing the ref from the worker
 
   const updateData = () => {
     const curReportFile: IGeneratedReport = generatedReport;
     const fileDisplay = getGeneratedReportFileDisplay(curReportFile);
     setDisplayName(fileDisplay?.displayName);
-    console.log(fileDisplay?.displayName);
     setPublishedDate(curReportFile?.date);
   };
 
   useEffect(() => {
-    setIsLoading(true);
     updateData();
   }, [generatedReport]);
 
   useEffect(() => {
-    console.log('reset state');
-    // loadingRef.current = true;
-    // setDisplayName(null);
-    // // setFileSize(null);
-    // setFileName(null);
-    // setFileType(null);
-  }, [selectedAccount]);
+    setIsLoading(loading);
+  }, [loading]);
 
   return (
     <>
-      {/*{displayName && (*/}
       <tr className={fileDescription} data-testid="file-download-row">
         <td>
           <div style={{ minHeight: '44px' }}>
@@ -59,7 +46,6 @@ const GenReportDownloadButton = ({ generatedReport, fileDisplay, setIsLoading, l
           </div>
         </td>
       </tr>
-      {/*)}*/}
     </>
   );
 };
