@@ -2,8 +2,7 @@ import React from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import { fallback } from './experimental.module.scss';
 import { ErrorBoundary } from 'react-error-boundary';
-import { renderPDF } from '../../workers/pdfWorker';
-// import pdfWorker from '../../workers/pdf.worker'
+
 const fallbackComponent = () => {
   return <div className={fallback}>Something went wrong. Please refresh the page to try again.</div>;
 };
@@ -15,11 +14,6 @@ const fallbackComponent = () => {
  * @constructor
  */
 const ExperimentalPage = () => {
-  const testfn = async () => {
-    return renderPDF?.renderPDFInWorker();
-  };
-  testfn();
-
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}>
       <SiteLayout>
