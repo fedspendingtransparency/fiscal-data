@@ -189,7 +189,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     return (
       <div className={parent}>
         <DropdownContainer containerWidth="fit-content" dropdownButton={downloadButtonElement} setActive={setActive}>
-          {true && (
+          {active && (
             <div className={container}>
               {getDownloadOptions().map((option, index) => {
                 const { displayName, type, size, onClick, topBorder } = option;
@@ -220,7 +220,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     return (
       <div className={parent}>
         {downloadButtonElement}
-        {true && (
+        {active && (
           <DataPreviewMobileDialog
             onCancel={() => setActive(false)}
             onBack={() => setActive(false)}

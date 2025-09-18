@@ -250,10 +250,6 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
           downloadData.unshift(dateHeader);
         }
         setSmallTableCSVData(downloadData);
-        console.log('manualPagination: ', manualPagination);
-        if (manualPagination) {
-          setSmallTableCSVData('');
-        }
       }
     }
   }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns(), sorting]);
