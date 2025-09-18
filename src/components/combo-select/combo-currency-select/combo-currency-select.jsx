@@ -107,6 +107,12 @@ const ComboCurrencySelect = ({
     return containerClasses;
   };
 
+  // console.log(options, inputRef, hasChildren);
+  console.log('options:', options);
+  // console.log('inputRef:', inputRef);
+  // console.log('hasChildren:', hasChildren);
+  console.log('option table key:', optionLabelKey);
+
   return (
     <>
       <div ref={ref} role="presentation" className={dropdownContainer}>

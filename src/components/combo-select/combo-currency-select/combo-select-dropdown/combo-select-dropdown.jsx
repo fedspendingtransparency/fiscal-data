@@ -210,6 +210,8 @@ const ComboSelectDropdown = ({
     );
   };
 
+  console.log('hasChildren', hasChildren);
+
   return (
     <>
       {active && (

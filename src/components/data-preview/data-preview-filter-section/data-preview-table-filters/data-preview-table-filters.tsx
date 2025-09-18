@@ -266,7 +266,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
           }
         }
       });
+      console.log('fire1');
     }
+    console.log('fire2');
     setTimeout(() => {
       setActive(false);
     });

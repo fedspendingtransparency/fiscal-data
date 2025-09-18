@@ -23,11 +23,15 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   apiData,
 }) => {
   const { userFilter } = selectedTable;
+  const { apiFilter } = selectedTable;
   const userFilterDropdown = selectedColumn.columnName === userFilter?.field;
+  const userFilterDropdown2 = selectedColumn.columnName === apiFilter?.field;
   const monthYearCustomFilter = selectedTable?.dateField === selectedColumn?.columnName && selectedTable?.apiFilter?.disableDateRangeFilter;
   const applyDateRange = () => {
     // Apply date range to table
   };
+  console.log(selectedTable);
+
   return (
     <>
       {selectedColumn.dataType === 'DATE' && monthYearCustomFilter && <MonthYearFilter selectedTable={selectedTable} setDateRange={applyDateRange} />}
@@ -40,7 +44,7 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
           presetCustomDateRange={presetCustomDateRange}
         />
       )}
-      {selectedColumn.dataType !== 'DATE' && !userFilterDropdown && (
+      {selectedColumn.dataType !== 'DATE' && !userFilterDropdown && !userFilterDropdown2 && (
         <SearchFilter
           searchLabel="Enter filter term"
           hideIcons={true}
@@ -50,6 +54,15 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
         />
       )}
       {selectedColumn.dataType !== 'DATE' && userFilterDropdown && (
+        <UserFilterDropdown
+          selectedTable={selectedTable}
+          apiData={apiData}
+          columnConfig={selectedColumn}
+          filterMap={filterMap}
+          setFilterMap={setFilterMap}
+        />
+      )}
+      {selectedColumn.dataType !== 'DATE' && userFilterDropdown2 && (
         <UserFilterDropdown
           selectedTable={selectedTable}
           apiData={apiData}
