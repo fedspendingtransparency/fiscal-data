@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { fileDescription } from './download-report-table-row.module.scss';
+import { fileDescription } from '../download-report-table-row/download-report-table-row.module.scss';
 import { getGeneratedReportFileDisplay } from '../../util/util';
-import { IGeneratedReport } from './download-report-table-row';
 import { useRenderPDF } from './useRenderPDF';
-import DownloadContents from './button-contents';
+import DownloadContents from '../download-report-table-row/button-contents';
+import { downloadItem } from './gen-report-download-button.module.scss';
 
-const GenReportDownloadButton = ({ generatedReport, fileDisplay, setIsLoading }) => {
+interface IGeneratedReport {
+  name: string;
+  downloadName: string;
+  date: string;
+  size: string;
+  config;
+  data;
+  colConfig;
+}
+
+const GenReportDownloadButton = ({ generatedReport, fileDisplay, setIsLoading, setApiErrorMessage, mobileView }) => {
   const [displayName, setDisplayName] = useState(null);
   const [publishedDate, setPublishedDate] = useState(null);
-  const { url, loading, error } = useRenderPDF(generatedReport);
+  const { value, loading, error } = useRenderPDF(generatedReport);
 
   const updateData = () => {
     const curReportFile: IGeneratedReport = generatedReport;
@@ -25,19 +35,23 @@ const GenReportDownloadButton = ({ generatedReport, fileDisplay, setIsLoading })
     setIsLoading(loading);
   }, [loading]);
 
+  useEffect(() => {
+    setApiErrorMessage(error);
+  }, [error]);
+
   return (
     <>
       <tr className={fileDescription} data-testid="file-download-row">
         <td>
-          <div style={{ minHeight: '44px' }}>
-            {url?.url && url?.size && (
+          <div className={downloadItem}>
+            {value?.url && value?.size && (
               <>
                 <DownloadContents
-                  size={url.size}
+                  size={value.size}
                   publishedDate={publishedDate}
                   fileDisplay={fileDisplay}
                   displayName={displayName}
-                  url={url.url}
+                  url={value.url}
                   download={generatedReport.downloadName}
                 />
                 {setIsLoading(false)}
