@@ -32,7 +32,7 @@ describe('Download Table Button', () => {
   it('changes download icon color on click', () => {
     jest.useFakeTimers();
     const { getByRole, getByTestId, getByText } = render(
-      <DownloadButton fileType=".pdf" fileName="file.pdf" displayName={{ end: 'Download file.pdf' }} />
+      <DownloadButton fileType=".pdf" fileName="file.pdf" displayName={{ end: 'Download file.pdf' }} url="/test/file/path/file.pdf" />
     );
     let icon = getByTestId('download-icon');
     expect(icon).not.toHaveClass('downloadedIcon');
