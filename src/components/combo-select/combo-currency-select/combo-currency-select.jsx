@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { selector_label } from '../../select-control/select-control.module.scss';
 import useOnClickOutside from 'use-onclickoutside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -42,8 +42,6 @@ const ComboCurrencySelect = ({
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
   const [searchBarActive, setSearchBarActive] = useState(false);
-  const { tableState: table } = useContext(DataTableContext);
-  // console.log('THE TABLE: ', table);
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
       analyticsHandler('Foreign Country-Currency Selected', selection[optionLabelKey]);
@@ -108,12 +106,6 @@ const ComboCurrencySelect = ({
     }
     return containerClasses;
   };
-
-  // console.log(options, inputRef, hasChildren);
-  // console.log('options:', options);
-  // console.log('inputRef:', inputRef);
-  // console.log('hasChildren:', hasChildren);
-  // console.log('option table key:', optionLabelKey);
 
   return (
     <>

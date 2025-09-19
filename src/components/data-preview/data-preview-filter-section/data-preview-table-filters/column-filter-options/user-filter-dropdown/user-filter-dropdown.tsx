@@ -63,8 +63,6 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
   const [userFilterOptions, setUserFilterOptions] = useState(null);
   const [selectedFilterOption, setSelectedFilterOption] = useState(getDefaultSelected());
 
-  // console.log('MILK');
-
   const updateUserFilter = selection => {
     if (selection !== null) {
       setSelectedFilterOption(selection);
@@ -78,9 +76,6 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
       setActive(false);
     }
   };
-
-  // console.log('TRRE: ', selectedTable.userFilter.optionValues);
-  // console.log('UTF: ', selectedTable.apiFilter.optionValues);
 
   const establishOptions = () => {
     let options = null;
@@ -137,8 +132,6 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
     <DropdownLabelButton selectedOption={selectedFilterOption.label} active={active} setActive={setActive} dropdownWidth="320px" />
   );
 
-  // console.log('userfilteroptions:', userFilterOptions);
-
   return (
     <div className={sectionContainer}>
       <DropdownContainer dropdownButton={filterDropdownButton} setActive={setActive}>
@@ -153,7 +146,6 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
             updateSelection={updateUserFilter}
             hasChildren={userFilterOptions[0]?.children}
           />
-          // <h1>Yo what up</h1>
         )}
       </DropdownContainer>
     </div>
