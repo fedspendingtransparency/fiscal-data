@@ -131,7 +131,6 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             const downloadDate = format(selectedDate, 'MMyyyy');
             let reportData;
             try {
-              setIsLoading(true);
               reportData = await getReportData(report, reportConfig);
             } catch (error) {
               setIsLoading(false);
