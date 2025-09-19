@@ -115,6 +115,11 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
 
+  console.log('TABL3: ', table);
+  console.log('milk');
+
+  // console.log('table on new file: ', table);
+
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
     for (const column of allColumns) {

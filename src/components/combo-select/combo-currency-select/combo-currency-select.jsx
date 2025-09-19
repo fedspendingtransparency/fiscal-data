@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { selector_label } from '../../select-control/select-control.module.scss';
 import useOnClickOutside from 'use-onclickoutside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,6 +20,7 @@ import {
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 import classNames from 'classnames';
+import { DataTableContext } from '../../data-preview/data-preview-context';
 
 let timeOutId;
 
@@ -41,7 +42,8 @@ const ComboCurrencySelect = ({
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
   const [searchBarActive, setSearchBarActive] = useState(false);
-
+  const { tableState: table } = useContext(DataTableContext);
+  // console.log('THE TABLE: ', table);
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
       analyticsHandler('Foreign Country-Currency Selected', selection[optionLabelKey]);
@@ -108,10 +110,10 @@ const ComboCurrencySelect = ({
   };
 
   // console.log(options, inputRef, hasChildren);
-  console.log('options:', options);
+  // console.log('options:', options);
   // console.log('inputRef:', inputRef);
   // console.log('hasChildren:', hasChildren);
-  console.log('option table key:', optionLabelKey);
+  // console.log('option table key:', optionLabelKey);
 
   return (
     <>

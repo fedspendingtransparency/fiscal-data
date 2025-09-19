@@ -210,7 +210,7 @@ const ComboSelectDropdown = ({
     );
   };
 
-  console.log('hasChildren', hasChildren);
+  // console.log('hasChildren', hasChildren);
 
   return (
     <>

@@ -63,7 +63,7 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
   const [userFilterOptions, setUserFilterOptions] = useState(null);
   const [selectedFilterOption, setSelectedFilterOption] = useState(getDefaultSelected());
 
-  console.log('MILK');
+  // console.log('MILK');
 
   const updateUserFilter = selection => {
     if (selection !== null) {
@@ -137,7 +137,7 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
     <DropdownLabelButton selectedOption={selectedFilterOption.label} active={active} setActive={setActive} dropdownWidth="320px" />
   );
 
-  console.log('userfilteroptions:', userFilterOptions);
+  // console.log('userfilteroptions:', userFilterOptions);
 
   return (
     <div className={sectionContainer}>

@@ -55,6 +55,8 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // Not all datasets will have 5 years of information; but, this is the ideal default preset.
   let idealDefaultPreset = { key: '5yr', years: 5 };
 
+  // console.log('tableState: ', table);
+
   const possiblePresets = [
     { label: '1 Year', key: '1yr', years: 1 },
     { label: '5 Years', key: '5yr', years: 5 },
@@ -232,10 +234,13 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   };
 
   const handleApply = () => {
+    console.log('fire3');
     const allAppliedFilters = [];
     const map = JSON.parse(JSON.stringify(filterMap));
     const allLeafCols = table?.getAllLeafColumns();
+    console.log('all leaf cols: ', allLeafCols);
     if (allLeafCols) {
+      console.log('fire4');
       allLeafCols.forEach(col => {
         const matchedIndex = selectedTable.fields.findIndex(field => field.columnName === col.columnDef?.accessorKey);
         if (matchedIndex > -1) {
