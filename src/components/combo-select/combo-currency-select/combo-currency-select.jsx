@@ -20,7 +20,6 @@ import {
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 import classNames from 'classnames';
-import { DataTableContext } from '../../data-preview/data-preview-context';
 
 let timeOutId;
 
@@ -42,6 +41,7 @@ const ComboCurrencySelect = ({
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
   const [searchBarActive, setSearchBarActive] = useState(false);
+
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
       analyticsHandler('Foreign Country-Currency Selected', selection[optionLabelKey]);

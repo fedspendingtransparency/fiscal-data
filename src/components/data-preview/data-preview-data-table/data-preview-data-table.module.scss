@@ -4,8 +4,7 @@ $borderRadius: 5px;
 
 .overlayContainerNoFooter {
   position: relative;
-  //border: $table-border-style;
-  border: 7px solid red;
+  border: $table-border-style;
   border-radius: $borderRadius;
 }
 
