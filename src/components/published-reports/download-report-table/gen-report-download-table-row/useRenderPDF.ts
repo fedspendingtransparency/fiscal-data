@@ -7,6 +7,14 @@ export const useRenderPDF = report => {
     return renderPDF({ report });
   }, [report]);
 
-  useEffect(() => (value ? () => URL.revokeObjectURL(value?.url) : undefined), [value]);
+  useEffect(() => {
+    return () => {
+      const urls = value?.url;
+      const revoke = typeof window !== 'undefined' ? window.URL?.revokeObjectURL : undefined;
+      if (typeof revoke === 'function' && typeof urls === 'string' && urls.startsWith('blob')) {
+        revoke(urls);
+      }
+    };
+  }, [value]);
   return { value, loading, error };
 };

@@ -4,6 +4,16 @@ import FilterReportsSection from './filter-reports-section';
 import { runTimeFilterDatasetConfig, runTimeFilterDatasetConfigCustomFilter } from '../published-reports-test-helper';
 import * as ApiUtils from '../../../utils/api-utils';
 
+// mocks the web worker
+URL.createObjectURL = URL.createObjectURL || (() => 'blob:http://localhost/mock');
+URL.createObjectURL = URL.createObjectURL || (() => {});
+jest.mock('../../../workers/pdfWorker', () => ({
+  renderPDF: jest.fn().mockResolvedValue({
+    url: 'blob:http://localhost/mock-pdf',
+    size: '2kb',
+  }),
+}));
+
 const apiMock = {
   apiId: 302,
   dateFiled: 'recordDate',

@@ -2,6 +2,15 @@ import React from 'react';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter';
 import { act, fireEvent, render } from '@testing-library/react';
 
+// mocks the web worker
+URL.createObjectURL = URL.createObjectURL || (() => 'blob:http://localhost/mock');
+URL.createObjectURL = URL.createObjectURL || (() => {});
+jest.mock('../../../../workers/pdfWorker', () => ({
+  renderPDF: jest.fn().mockResolvedValue({
+    url: 'blob:http://localhost/mock-pdf',
+    size: '2kb',
+  }),
+}));
 describe('Generative Report Account Filter', () => {
   const mockApiData = [
     {

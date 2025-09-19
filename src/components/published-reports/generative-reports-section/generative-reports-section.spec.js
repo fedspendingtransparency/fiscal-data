@@ -4,6 +4,16 @@ import GenerativeReportsSection from './generative-reports-section';
 import { mockDataset } from './generative-report-section-test-helper';
 import fetchMock from 'fetch-mock';
 
+// mocks the web worker
+URL.createObjectURL = URL.createObjectURL || (() => 'blob:http://localhost/mock');
+URL.createObjectURL = URL.createObjectURL || (() => {});
+jest.mock('../../../workers/pdfWorker', () => ({
+  renderPDF: jest.fn().mockResolvedValue({
+    url: 'blob:http://localhost/mock-pdf',
+    size: '2kb',
+  }),
+}));
+
 describe('Generative Report Footer', () => {
   window.HTMLElement.prototype.scrollIntoView = jest.fn();
 

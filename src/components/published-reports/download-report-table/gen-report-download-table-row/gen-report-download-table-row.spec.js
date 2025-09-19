@@ -2,6 +2,14 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import GenReportDownloadTableRow from './gen-report-download-table-row';
 
+URL.createObjectURL = URL.createObjectURL || (() => 'blob:http://localhost/mock');
+URL.createObjectURL = URL.createObjectURL || (() => {});
+jest.mock('../../../../workers/pdfWorker', () => ({
+  renderPDF: jest.fn().mockResolvedValue({
+    url: 'blob:http://localhost/mock-pdf',
+    size: '2kb',
+  }),
+}));
 describe('Generated report table row', () => {
   const mockGeneratedReport = {
     name: 'Name',
@@ -17,7 +25,11 @@ describe('Generated report table row', () => {
     const setApiError = jest.fn();
     const setIsLoading = jest.fn();
     const { findByTestId } = render(
-      <GenReportDownloadTableRow generatedReport={mockGeneratedReport} setApiErrorMessage={setApiError} setIsLoading={setIsLoading} />
+      <table>
+        <tbody>
+          <GenReportDownloadTableRow generatedReport={mockGeneratedReport} setApiErrorMessage={setApiError} setIsLoading={setIsLoading} />
+        </tbody>
+      </table>
     );
     expect(await findByTestId('file-download-row')).toBeInTheDocument();
   });
@@ -26,10 +38,20 @@ describe('Generated report table row', () => {
     const setApiError = jest.fn();
     const setIsLoading = jest.fn();
     const { findByRole } = render(
-      <GenReportDownloadTableRow generatedReport={mockGeneratedReport} setApiErrorMessage={setApiError} setIsLoading={setIsLoading} />
+      <table>
+        <tbody>
+          <GenReportDownloadTableRow
+            generatedReport={mockGeneratedReport}
+            setApiErrorMessage={setApiError}
+            setIsLoading={setIsLoading}
+            mobileView={false}
+          />
+        </tbody>
+      </table>
     );
     const downloadLink = await findByRole('link');
     expect(downloadLink).toBeInTheDocument();
     expect(downloadLink).toHaveAttribute('download', 'Download Name');
+    expect(downloadLink).toHaveAttribute('href', 'blob:http://localhost/mock-pdf');
   });
 });
