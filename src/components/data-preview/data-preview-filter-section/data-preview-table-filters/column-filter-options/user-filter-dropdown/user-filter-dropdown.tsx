@@ -1,8 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import DropdownContainer from '../../../../../dropdown-container/dropdown-container';
 import DropdownLabelButton from '../../../../../dropdown-label-button/dropdown-label-button';
 import ComboSelectDropdown from '../../../../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { sectionContainer } from './user-filter.module.scss';
+import { DataTableContext } from '../../../../data-preview-context';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 
 type UserFilterProps = {
   selectedTable?: {
@@ -53,6 +55,9 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
   setFilterMap,
   columnConfig,
 }) => {
+  const { defaultSelectedColumns, setDefaultColumns, setAdditionalColumns, allColumns, setTableState, reactTableData: rawData } = useContext(
+    DataTableContext
+  );
   const [active, setActive] = useState(false);
   const emptySelection = { label: '(None selected)', value: null };
   const getDefaultSelected = () => {
@@ -76,6 +81,33 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
       setActive(false);
     }
   };
+
+  // const table = useReactTable({
+  //   columns: allColumns,
+  //   // data: rawData.data,
+  //   columnResizeMode: 'onChange',
+  //   initialState: {
+  //     pagination: {
+  //       pageIndex: 0,
+  //       // pageSize: pagingProps.itemsPerPage,
+  //     },
+  //   },
+  //   state: {
+  //     // columnVisibility,
+  //     // sorting,
+  //   },
+  //   // onSortingChange: setSorting,
+  //   // onColumnVisibilityChange: setColumnVisibility,
+  //   getCoreRowModel: getCoreRowModel(),
+  //   getPaginationRowModel: getPaginationRowModel(),
+  //   getSortedRowModel: getSortedRowModel(),
+  //   getFilteredRowModel: getFilteredRowModel(),
+  //   // manualPagination: manualPagination,
+  // }) as Table<Record<string, unknown>>;
+
+  // useEffect(() => {
+  //   setTableState(table);
+  // }, [table]);
 
   const establishOptions = () => {
     let options = null;

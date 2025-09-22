@@ -232,9 +232,11 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   };
 
   const handleApply = () => {
+    // console.log('fire apply (new one)');
     const allAppliedFilters = [];
     const map = JSON.parse(JSON.stringify(filterMap));
     const allLeafCols = table?.getAllLeafColumns();
+    console.log('table data: ', allLeafCols);
     if (allLeafCols) {
       allLeafCols.forEach(col => {
         const matchedIndex = selectedTable.fields.findIndex(field => field.columnName === col.columnDef?.accessorKey);
