@@ -17,9 +17,10 @@ interface MobileDownloadOptionsProps {
   options: MobileDownloadOption[];
   selectedOption: string | null;
   onSelect: (type: string) => void;
+  tableSize: number | null;
 }
 
-const DataPreviewMobileDownloadOptions: FunctionComponent<MobileDownloadOptionsProps> = ({ options, selectedOption, onSelect }) => {
+const DataPreviewMobileDownloadOptions: FunctionComponent<MobileDownloadOptionsProps> = ({ options, selectedOption, onSelect, tableSize }) => {
   return (
     <div className={mobileDownloadOptionsContainer}>
       {options.map((option, index) => (
@@ -38,7 +39,7 @@ const DataPreviewMobileDownloadOptions: FunctionComponent<MobileDownloadOptionsP
               {option.displayName}
             </label>
           </div>
-          <div>{option.size}</div>
+          <div>{tableSize || option.type === 'data-dictionary' ? option.size : ''}</div>
         </div>
       ))}
     </div>
