@@ -28,7 +28,6 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   const applyDateRange = () => {
     // Apply date range to table
   };
-
   return (
     <>
       {selectedColumn.dataType === 'DATE' && monthYearCustomFilter && <MonthYearFilter selectedTable={selectedTable} setDateRange={applyDateRange} />}

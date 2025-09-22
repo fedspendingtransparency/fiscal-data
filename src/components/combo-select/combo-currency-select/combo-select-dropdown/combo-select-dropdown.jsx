@@ -183,8 +183,6 @@ const ComboSelectDropdown = ({
     }
   };
 
-  // console.log('selectedOption: ', selectedOption);
-
   const filteredOptionButton = (option, child) => {
     const optionSelected = selectedOption && option[optionLabelKey] === selectedOption[optionLabelKey];
     const activeFilter = secondaryLabelKey && option[secondaryLabelKey];
