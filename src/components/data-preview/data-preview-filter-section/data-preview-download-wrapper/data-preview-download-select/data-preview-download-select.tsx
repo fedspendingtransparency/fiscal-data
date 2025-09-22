@@ -230,7 +230,12 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
             bottomButtonIcon={faCloudDownload}
             hasSearch={false}
             filterComponent={
-              <DataPreviewMobileDownloadOptions options={mobileOptions} selectedOption={selectedOption} onSelect={setSelectedOption} />
+              <DataPreviewMobileDownloadOptions
+                options={mobileOptions}
+                selectedOption={selectedOption}
+                onSelect={setSelectedOption}
+                tableSize={tableSize}
+              />
             }
             onApply={handleMobileDownload}
           />
