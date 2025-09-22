@@ -80,9 +80,10 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
   const establishOptions = () => {
     let options = null;
     const nestedOptions = null;
+    const availableValues = new Set(apiData?.data?.map(d => d[selectedTable.userFilter.field]) ?? []);
     if (selectedTable?.userFilter?.optionValues) {
       options = selectedTable.userFilter.optionValues.map(val => {
-        return { label: val, value: val };
+        return { label: val, value: val, disabled: !availableValues.has(val) };
       });
       options.unshift(emptySelection);
       setUserFilterOptions(options);
