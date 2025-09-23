@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
 import { fileDescription } from '../download-report-table-row/download-report-table-row.module.scss';
 import { getGeneratedReportFileDisplay } from '../../util/util';
 import { useRenderPDF } from './useRenderPDF';
@@ -25,24 +25,24 @@ const GenReportDownloadTableRow: FunctionComponent<{
   const [publishedDate, setPublishedDate] = useState(null);
   const { value, loading, error } = useRenderPDF(generatedReport);
 
-  const updateData = () => {
-    const curReportFile: IGeneratedReport = generatedReport;
-    const fileDisplay = getGeneratedReportFileDisplay(curReportFile);
-    setDisplayName(fileDisplay?.displayName);
-    setPublishedDate(curReportFile?.date);
-  };
-
+  const prevLoadingRef = useRef<boolean>(false);
   useEffect(() => {
-    updateData();
-  }, [generatedReport]);
-
-  useEffect(() => {
-    setIsLoading(loading);
-  }, [loading]);
+    const prev = prevLoadingRef.current;
+    if (loading !== prev) {
+      setIsLoading(loading);
+      prevLoadingRef.current = loading;
+    }
+  }, [loading, setIsLoading]);
 
   useEffect(() => {
     setApiErrorMessage(!!error);
-  }, [error]);
+  }, [error, setApiErrorMessage]);
+
+  useEffect(() => {
+    const fileDisplay = getGeneratedReportFileDisplay(generatedReport);
+    setDisplayName(fileDisplay?.displayName);
+    setPublishedDate(generatedReport?.date);
+  }, [generatedReport]);
 
   return (
     <>
