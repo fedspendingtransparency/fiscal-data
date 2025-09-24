@@ -1,9 +1,17 @@
 import React from 'react';
 import ReportsSection from './reports-section';
-import { act, fireEvent,render, within } from '@testing-library/react';
+import { act, fireEvent, render, within } from '@testing-library/react';
 import { mockDailyReports, mockReports } from '../published-reports-test-helper';
 import userEvent from '@testing-library/user-event';
 
+URL.createObjectURL = URL.createObjectURL || (() => 'blob:http://localhost/mock');
+URL.createObjectURL = URL.createObjectURL || (() => {});
+jest.mock('../../../workers/pdfWorker', () => ({
+  renderPDF: jest.fn().mockResolvedValue({
+    url: 'blob:http://localhost/mock-pdf',
+    size: '4 kb',
+  }),
+}));
 describe('Reports Section component', () => {
   beforeEach(() => {
     global.fetch = jest.fn(() => Promise.resolve({ ok: true }));

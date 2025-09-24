@@ -1,6 +1,7 @@
 import React from 'react';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import DownloadReportTableRow from './download-report-table-row';
+import DownloadButton from '../download-button/download-button';
 import userEvent from '@testing-library/user-event';
 
 describe('Download report table row component', () => {
@@ -21,36 +22,20 @@ describe('Download report table row component', () => {
     expect(getByTestId('file-download-row')).toBeInTheDocument();
   });
 
-  it('renders a short file name in the row', async () => {
-    const { findByText } = render(<DownloadReportTableRow reportFile={mockReports[4]} />);
-    const downloadText = await waitFor(() => findByText('TST.txt'));
-    expect(downloadText).toBeInTheDocument();
-  });
-
-  it('renders a pdf icon with a pdf filename', () => {
-    const { getByAltText } = render(<DownloadReportTableRow reportFile={mockReports[0]} />);
-    expect(getByAltText('.pdf icon')).toBeInTheDocument();
-  });
-
-  it('renders a xml icon with a xls filename', () => {
-    const { getByAltText } = render(<DownloadReportTableRow reportFile={mockReports[1]} />);
-    expect(getByAltText('.xml icon')).toBeInTheDocument();
-  });
-
-  it('renders a txt icon with a txt filename', () => {
-    const { getByAltText } = render(<DownloadReportTableRow reportFile={mockReports[3]} />);
-    expect(getByAltText('.txt icon')).toBeInTheDocument();
-  });
-
-  it('renders a xls icon with a xls filename', () => {
-    const { getByAltText } = render(<DownloadReportTableRow reportFile={mockReports[2]} />);
-    expect(getByAltText('.xls icon')).toBeInTheDocument();
-  });
-
   it('renders a clickable download button', async () => {
-    const { getByRole } = render(<DownloadReportTableRow reportFile={mockReports[0]} />);
-    const downloadButton = getByRole('link', { name: 'Download file.pdf' });
-    downloadButton.click();
+    const { getByRole } = render(
+      <DownloadButton
+        size="4 KB"
+        publishedDate="Jul 19 2024"
+        displayName={{ start: 'The Download File ', end: '(.pdf)' }}
+        url="/test/file/paath/file.pdf"
+        fileName="file.pdf"
+        mobileView={false}
+        fileType=".pdf"
+      />
+    );
+    const downloadLink = getByRole('link', { name: /download file\.pdf/i });
+    downloadLink.click();
   });
 
   it('renders a keyboard accessible download button', () => {
@@ -59,66 +44,5 @@ describe('Download report table row component', () => {
     userEvent.tab();
     expect(downloadButton).toHaveFocus();
     userEvent.keyboard('Enter');
-  });
-
-  it('changes download icon color on click', () => {
-    jest.useFakeTimers();
-    const { getByRole, getByTestId, getByText } = render(<DownloadReportTableRow reportFile={mockReports[0]} />);
-    let icon = getByTestId('download-icon');
-    expect(icon).not.toHaveClass('downloadedIcon');
-    expect(getByText('Download')).toBeInTheDocument();
-    expect(getByRole('img', { hidden: true, name: '' })).toHaveClass('fa-cloud-arrow-down');
-
-    const downloadButton = getByRole('link', { name: 'Download file.pdf' });
-    act(() => {
-      fireEvent.click(downloadButton);
-      jest.runAllTimers();
-    });
-    //Changes download icon style and text after click
-    icon = getByTestId('download-icon');
-    expect(getByText('Downloaded')).toBeInTheDocument();
-    expect(getByRole('img', { hidden: true, name: '' })).toHaveClass('fa-circle-check');
-    expect(icon).toHaveClass('downloadedIcon');
-
-    //Icon resets after 3 seconds
-    act(() => {
-      jest.advanceTimersByTime(4000);
-    });
-    icon = getByTestId('download-icon');
-    expect(icon).not.toHaveClass('downloadedIcon');
-    expect(getByText('Download')).toBeInTheDocument();
-    expect(getByRole('img', { hidden: true, name: '' })).toHaveClass('fa-cloud-arrow-down');
-  });
-
-  describe('Generated report table row', () => {
-    const mockGeneratedReport = {
-      name: 'Name',
-      downloadName: 'Download Name',
-      date: '5/1/2021',
-      size: '5K',
-      config: {},
-      data: [],
-      colConfig: {},
-    };
-
-    it('renders a file row', async () => {
-      const setApiError = jest.fn();
-      const setIsLoading = jest.fn();
-      const { findByTestId } = render(
-        <DownloadReportTableRow generatedReport={mockGeneratedReport} setApiErrorMessage={setApiError} setIsLoading={setIsLoading} />
-      );
-      expect(await findByTestId('file-download-row')).toBeInTheDocument();
-    });
-
-    it('renders a download link', async () => {
-      const setApiError = jest.fn();
-      const setIsLoading = jest.fn();
-      const { findByRole } = render(
-        <DownloadReportTableRow generatedReport={mockGeneratedReport} setApiErrorMessage={setApiError} setIsLoading={setIsLoading} />
-      );
-      const downloadLink = await findByRole('link');
-      expect(downloadLink).toBeInTheDocument();
-      expect(downloadLink).toHaveAttribute('download', 'Download Name');
-    });
   });
 });

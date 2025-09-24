@@ -197,8 +197,8 @@ const ComboSelectDropdown = ({
       >
         <button
           className={dropdownListItem_Button}
-          onClick={() => updateSelection(option, true)}
-          disabled={required && !option.value}
+          onClick={() => !option.disabled && updateSelection(option, true)}
+          disabled={(required && !option.value) || option.disabled}
           title={required && !option.value && disabledMessage ? disabledMessage : null}
           aria-label={option[optionLabelKey]}
           data-testid="dropdown-list-option"

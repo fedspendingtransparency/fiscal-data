@@ -51,14 +51,17 @@ const DownloadItemButton: FunctionComponent = ({
     }
   };
 
+  const smallTableDownload = type => fileType === type && smallTableDownloadData?.length > 0;
+
+  const fileSizeValue =
+    smallTableDownload('csv') || smallTableDownload('json') || smallTableDownload('xml') || fileType === 'data-dictionary' ? fileSize : null;
+
   const buttonContents = (
     <>
       <span className="labelText">{label} </span>
-      {fileSize && <span className="fileSize"> {fileSize}</span>}
+      {fileSizeValue && <span className="fileSize">{fileSizeValue}</span>}
     </>
   );
-
-  const smallTableDownload = type => fileType === type && smallTableDownloadData?.length > 0;
 
   const buttonComponent = children => {
     switch (true) {

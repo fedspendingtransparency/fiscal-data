@@ -398,6 +398,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       presetCustomDateRange={presetCustomDateRange}
       filterMap={filterMap}
       setFilterMap={setFiltersMap}
+      apiData={apiData}
     />
   );
 
