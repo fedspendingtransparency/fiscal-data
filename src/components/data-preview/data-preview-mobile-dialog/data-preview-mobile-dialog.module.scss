@@ -6,12 +6,20 @@
   flex-direction: column;
   position: fixed;
   top: 0;
-  left: 0;
+  right: -100%;
   z-index: $panel;
   background: $content-section-background;
   height: 100%;
   width: 100%;
+  transition: right 0.5s ease-in-out;
+
+  // aria hidden - something to hide from screen readers? figure out later
 }
+
+.mainContainer.open {
+  right: 0;
+}
+
 .dataPreviewHeaderContainer {
   border-bottom: 1px solid $light-grey-border;
 }
