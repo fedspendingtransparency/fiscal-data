@@ -25,6 +25,7 @@ interface IColumnSelectionList {
   pendingColumnSelection;
   setPendingColumnSelection;
   table;
+  disabledFields: string[];
 }
 
 const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
@@ -36,6 +37,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   pendingColumnSelection,
   setPendingColumnSelection,
   table,
+  disabledFields,
 }) => {
   const [allColumnsSelected, setAllColumnsSelected] = useState(table?.getAllLeafColumns().length === table?.getVisibleFlatColumns().length);
   const [checkboxesSelected, setCheckboxesSelected] = useState([...table?.getVisibleFlatColumns()]);
@@ -84,6 +86,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
                 onChange={() => handleChange(col)}
                 onKeyDown={e => handleKeyDown(e, col)}
                 className={optionCheckbox}
+                disabled={disabledFields.includes(id)}
               />
               <span className={label_checkmark_container}>
                 <span className={label_checkmark_text}>

@@ -1,12 +1,17 @@
 import React from 'react';
-import { sectionContainer, sectionHeader, sectionBody } from './dataset-section-container.module.scss';
+import { sectionBody, sectionContainer, sectionHeader } from './dataset-section-container.module.scss';
 
-const DatasetSectionContainer = ({ id, children, title }) => {
+const DatasetSectionContainer = ({ id, children, title, sibling }) => {
   return (
     <section id={id} className={sectionContainer} data-testid="sectionContainer">
-      <h2 className={sectionHeader} data-testid="sectionHeader">
-        {title}
-      </h2>
+      <div>
+        {title && (
+          <h2 className={sectionHeader} data-testid="sectionHeader">
+            {title}
+          </h2>
+        )}
+        <div>{sibling}</div>
+      </div>
       <div className={sectionBody} data-testid="sectionBody">
         {children}
       </div>

@@ -2,15 +2,14 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import DataPreviewSectionContainer from './data-preview-section-container/data-preview-section-container';
 import {
+  breakpointXl,
   dataPreview,
   dataPreviewHeader,
-  dataPreviewTitle,
   detailViewBack,
   detailViewButton,
   detailViewIcon,
   selectedTableName,
   summaryTableHeader,
-  breakpointXl
 } from './data-preview.module.scss';
 import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
@@ -172,7 +171,13 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
         tableCaches[detailApi.apiId] = new TableCache();
       }
       setDetailViewDownloadFilter(
-        !!detailViewState ? { field: config.detailView.field, label: config.detailView.label, value: detailViewState.value } : null
+        !!detailViewState
+          ? {
+              field: config.detailView.field,
+              label: config.detailView.label,
+              value: detailViewState.value,
+            }
+          : null
       );
     }
   }, [detailViewState]);
@@ -260,12 +265,10 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
   const dropdownWidth = width >= pxToNumber(breakpointXl) ? '20rem' : '100%';
 
   return (
-    <DatasetSectionContainer id="data-preview-table">
-      <DataTableProvider config={config} detailViewState={detailViewState}>
+    <DataTableProvider config={config} detailViewState={detailViewState}>
+      <DatasetSectionContainer id="data-preview-table">
         <div className={dataPreview}>
-          <div className={dataPreviewHeader}>
-            <span className={dataPreviewTitle}>Data Preview</span>
-          </div>
+          <h2 className={dataPreviewHeader}>Data Preview</h2>
           {selectedTable && (
             <DataPreviewTableSelectDropdown
               apis={filteredApis}
@@ -299,6 +302,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
         ) : (
           <h3 className={selectedTableName} data-testid="tableName" id="main-data-table-title">
             {selectedTable?.tableName}
+            {selectedPivot?.pivotValue?.prettyName ? `: ${selectedPivot?.pivotValue?.prettyName} (${selectedPivot?.pivotView?.title})` : ''}
           </h3>
         )}
         {!!detailViewState && (
@@ -397,8 +401,8 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
             </DataPreviewFilterSection>
           )}
         </div>
-      </DataTableProvider>
-    </DatasetSectionContainer>
+      </DatasetSectionContainer>
+    </DataTableProvider>
   );
 };
 

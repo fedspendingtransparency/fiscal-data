@@ -13,11 +13,21 @@ import ColumnSelectionList from './column-selection-list/column-selection-list';
 
 interface iColumnFilter {
   allTablesSelected: boolean;
+  selectedTable;
   isDisabled: boolean;
   width?: number;
+  pivotView;
+  dropdownWidth;
 }
 
-const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width, pivotView, dropdownWidth }) => {
+const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({
+  allTablesSelected,
+  selectedTable,
+  isDisabled,
+  width,
+  pivotView,
+  dropdownWidth,
+}) => {
   const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
   const [dropdownActive, setDropdownActive] = useState(false);
   const pivotDisplay = pivotView?.title !== 'Complete Table' && pivotView?.dimensionField;
@@ -26,7 +36,13 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [noResults, setNoResults] = useState(false);
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const [filteredColumns, setFilteredColumns] = useState();
+  const [disabledFields, setDisabledFields] = useState([]);
   const searchLabel = 'Search columns';
+  const { dateField } = selectedTable;
+
+  useEffect(() => {
+    console.log(pivotView);
+  }, [pivotView]);
 
   const handleApply = () => {
     pendingColumnSelection.forEach(col => {
@@ -69,6 +85,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
           setPendingColumnSelection={setPendingColumnSelection}
           pendingColumnSelection={pendingColumnSelection}
           table={table}
+          disabledFields={disabledFields}
         />
       </div>
     </>
@@ -77,6 +94,8 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   useEffect(() => {
     //initialize filteredColumns after table is initialized
     setFilteredColumns(table?.getAllLeafColumns());
+    if (pivotDisplay) setDisabledFields([dateField]);
+    console.log(table?.getAllLeafColumns());
   }, [fields]);
 
   useEffect(() => {
