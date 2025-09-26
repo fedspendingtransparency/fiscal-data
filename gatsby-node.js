@@ -881,6 +881,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   result.data.allBlsPublicApiData.blsPublicApiData.forEach(blsRow => {
     cpi12MonthPercentChangeMap[blsRow.period + blsRow.year] = blsRow['_12mo_percentage_change'];
   });
+  const allDatasetsConfig = {};
   for (const config of result.data.allDatasets.datasets) {
     // datasets must have an api with an endpoint, unless hideRawDataTable is true
     if ((config.apis && config.apis[0].endpoint !== '') || config.hideRawDataTable) {
@@ -964,6 +965,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           api.apiFilter.optionLabels = allResultsLabels;
         }
       }
+      allDatasetsConfig[config.datasetId] = config;
       createPage({
         path: `/datasets${config.slug}`,
         matchPath: '/datasets' + config.slug + '*',
@@ -1048,6 +1050,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       path: `/experimental/`,
       matchPath: '/experimental/',
       component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
+      context: {
+        config: allDatasetsConfig,
+      },
     });
 
     const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
