@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement, useContext } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +13,6 @@ import {
   selectedOptionText,
   backgroundHighlight,
 } from './dropdown-label-button.module.scss';
-import { DataTableContext } from '../data-preview/data-preview-context';
 
 interface IDropdownLabelButton {
   label?: string;
@@ -43,15 +42,11 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
   filtersAreSelected,
   openDialog,
 }: IDropdownLabelButton) => {
-  // const { setMobileOpen } = useContext(DataTableContext);
-
   const handleClick = () => {
     setActive(!active);
     if (openDialog) {
       openDialog(true);
     }
-    console.log('click fired');
-    // console.log('mobileOpen gets set to: ', mobileOpen);
   };
 
   return (

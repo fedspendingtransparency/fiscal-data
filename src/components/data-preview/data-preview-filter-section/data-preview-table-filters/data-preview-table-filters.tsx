@@ -418,7 +418,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       searchText="Search filters"
       filterComponent={columnFilter}
       dialogState={openMobileFilters}
-      // active={active}
     />
   ) : (
     // Shows the different filters to select
@@ -433,7 +432,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       setNoSearchResults={setNoResults}
       filterComponent={filterSelectList}
       dialogState={openMobileFilters}
-      // active={active}
     />
   );
 
@@ -462,8 +460,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
           )}
         </DropdownContainer>
       )}
-      {/*{width < pxToNumber(breakpointLg) && <>{filterDropdownButton}</>}*/}
-      {/*{active && mobileFilterComponent}*/}
       {width < pxToNumber(breakpointLg) && (
         <>
           {filterDropdownButton}

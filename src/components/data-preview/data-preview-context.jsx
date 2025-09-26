@@ -13,9 +13,6 @@ const DataTableProvider = ({ children, config, detailViewState }) => {
   const [allColumns, setAllColumns] = useState();
   const [defaultSelectedColumns, setDefaultSelectedColumns] = useState();
   const [appliedFilters, setAppliedFilters] = useState([]);
-  // const [openMobileDataTable, setOpenMobileDataTable] = useState(false);
-  // const [openMobileFilters, setOpenMobileFilters] = useState(false);
-  // const [openMobileColumns, setOpenMobileColumns] = useState(false);
 
   React.useMemo(() => {
     const { hideColumns, tableName, customFormatting } = tableProps ?? {};
@@ -53,12 +50,6 @@ const DataTableProvider = ({ children, config, detailViewState }) => {
         defaultSelectedColumns,
         appliedFilters,
         setAppliedFilters,
-        // openMobileDataTable,
-        // setOpenMobileDataTable,
-        // openMobileFilters,
-        // setOpenMobileFilters,
-        // openMobileColumns,
-        // setOpenMobileColumns,
       }}
     >
       {children}

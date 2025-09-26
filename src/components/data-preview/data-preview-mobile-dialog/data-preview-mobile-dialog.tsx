@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -19,7 +19,6 @@ import {
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import SearchBar from '../../search-bar/search-bar';
-import { DataTableContext } from '../data-preview-context';
 
 interface IDataPreviewMobileDialog {
   onCancel: () => void;
@@ -35,7 +34,6 @@ interface IDataPreviewMobileDialog {
   bottomButtonIcon?: IconProp;
   filter?: string;
   setFilter?: React.Dispatch<React.SetStateAction<string>>;
-  active?: boolean;
   dialogState?: boolean;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
@@ -52,17 +50,13 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   hasSearch = true,
   bottomButton = 'Apply',
   bottomButtonIcon = faCheck,
-  active,
   dialogState,
 }) => {
-  const { mobileOpen } = useContext(DataTableContext);
   const [shouldMove, setShouldMove] = useState(false);
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilter(val);
   };
-
-  console.log('dialog state: ', dialogState);
 
   const onClear = () => {
     setFilter('');
@@ -70,8 +64,6 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
       setNoSearchResults(false);
     }
   };
-
-  // console.log('mobileOpen? ', mobileOpen);
 
   useEffect(() => {
     setShouldMove(dialogState);
