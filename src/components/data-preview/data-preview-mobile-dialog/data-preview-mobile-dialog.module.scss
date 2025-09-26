@@ -6,12 +6,18 @@
   flex-direction: column;
   position: fixed;
   top: 0;
-  left: 0;
+  right: -100%;
   z-index: $panel;
   background: $content-section-background;
   height: 100%;
   width: 100%;
+  transition: right 0.8s ease-in-out;
 }
+
+.mainContainer.open {
+  right: 0;
+}
+
 .dataPreviewHeaderContainer {
   border-bottom: 1px solid $light-grey-border;
 }

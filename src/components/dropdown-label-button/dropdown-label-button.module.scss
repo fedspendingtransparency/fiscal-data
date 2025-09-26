@@ -51,11 +51,10 @@
 }
 
 .glow {
-  box-shadow: 0 0 0 0.25rem $primary-blue;
   border-radius: 0.125rem;
-  width: fit-content;
   .dropdownButton {
     border: 1px solid $primary;
+    box-shadow: 0 0 0 0.25rem $primary-blue;
   }
 }
 

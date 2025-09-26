@@ -51,6 +51,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   const [active, setActive] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>('csv');
   const [sizes, setSizes] = useState<{ csv?: string; json?: string; xml?: string }>({});
+  const [openMobileDownload, setOpenMobileDownload] = useState(false);
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
@@ -170,8 +171,18 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     }
   };
 
+  const clickHandlerDownloadButton = () => {
+    setActive(!active);
+    setOpenMobileDownload(true);
+  };
+
+  const handleCancelBack = () => {
+    setActive(!active);
+    setOpenMobileDownload(false);
+  };
+
   const downloadButtonElement = (
-    <button className={`${downloadButton} ${active ? buttonActive : ''}`} disabled={isDisabled} onClick={() => setActive(!active)}>
+    <button className={`${downloadButton} ${active ? buttonActive : ''}`} disabled={isDisabled} onClick={clickHandlerDownloadButton}>
       <div className={buttonText}>Download</div>
       <div className={icon}>
         <FontAwesomeIcon icon={getDownloadIcon(width, active)} />
@@ -207,6 +218,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
                       downloadTimestamp={dataset.downloadTimestamp}
                       selectedPivot={selectedPivot}
                       smallTableDownloadData={downloadData}
+                      openDialog={setOpenMobileDownload}
                     />
                   </React.Fragment>
                 );
@@ -220,26 +232,25 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     return (
       <div className={parent}>
         {downloadButtonElement}
-        {active && (
-          <DataPreviewMobileDialog
-            onCancel={() => setActive(false)}
-            onBack={() => setActive(false)}
-            backButtonTitle="Data Preview"
-            filterName="Download"
-            bottomButton="Download"
-            bottomButtonIcon={faCloudDownload}
-            hasSearch={false}
-            filterComponent={
-              <DataPreviewMobileDownloadOptions
-                options={mobileOptions}
-                selectedOption={selectedOption}
-                onSelect={setSelectedOption}
-                tableSize={tableSize}
-              />
-            }
-            onApply={handleMobileDownload}
-          />
-        )}
+        <DataPreviewMobileDialog
+          onCancel={handleCancelBack}
+          onBack={handleCancelBack}
+          backButtonTitle="Data Preview"
+          filterName="Download"
+          bottomButton="Download"
+          bottomButtonIcon={faCloudDownload}
+          hasSearch={false}
+          dialogState={openMobileDownload}
+          filterComponent={
+            <DataPreviewMobileDownloadOptions
+              options={mobileOptions}
+              selectedOption={selectedOption}
+              onSelect={setSelectedOption}
+              tableSize={tableSize}
+            />
+          }
+          onApply={handleMobileDownload}
+        />
       </div>
     );
   }

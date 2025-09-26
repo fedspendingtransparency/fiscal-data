@@ -37,6 +37,10 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   setPendingColumnSelection,
   table,
 }) => {
+  if (!table) {
+    return null;
+  }
+
   const [allColumnsSelected, setAllColumnsSelected] = useState(table?.getAllLeafColumns().length === table?.getVisibleFlatColumns().length);
   const [checkboxesSelected, setCheckboxesSelected] = useState([...table?.getVisibleFlatColumns()]);
 
