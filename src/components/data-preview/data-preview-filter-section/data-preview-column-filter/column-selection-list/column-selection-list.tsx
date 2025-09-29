@@ -5,6 +5,7 @@ import {
   checkbox_wrapper,
   columnButtonContainer,
   columnSelectContainer,
+  disabledField,
   label_checkmark_container,
   label_checkmark_text,
   optionCheckbox,
@@ -76,8 +77,9 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     <>
       {columnList?.map(col => {
         const { id, columnDef } = col;
+        const disabled = disabledFields.includes(id);
         return (
-          <label className={checkbox_label} key={id}>
+          <label className={`${checkbox_label} ${disabled && disabledField}`} key={id}>
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
@@ -86,7 +88,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
                 onChange={() => handleChange(col)}
                 onKeyDown={e => handleKeyDown(e, col)}
                 className={optionCheckbox}
-                disabled={disabledFields.includes(id)}
+                disabled={disabled}
               />
               <span className={label_checkmark_container}>
                 <span className={label_checkmark_text}>

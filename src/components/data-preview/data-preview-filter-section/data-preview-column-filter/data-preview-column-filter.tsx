@@ -13,22 +13,16 @@ import ColumnSelectionList from './column-selection-list/column-selection-list';
 
 interface iColumnFilter {
   allTablesSelected: boolean;
-  selectedTable;
+  dateField: string;
   isDisabled: boolean;
   width?: number;
   pivotView;
   dropdownWidth;
 }
 
-const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({
-  allTablesSelected,
-  selectedTable,
-  isDisabled,
-  width,
-  pivotView,
-  dropdownWidth,
-}) => {
+const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, dateField, isDisabled, width, pivotView, dropdownWidth }) => {
   const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
+
   const [dropdownActive, setDropdownActive] = useState(false);
   const pivotDisplay = pivotView?.title !== 'Complete Table' && pivotView?.dimensionField;
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotDisplay;
@@ -36,14 +30,11 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({
   const [noResults, setNoResults] = useState(false);
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const [filteredColumns, setFilteredColumns] = useState();
-  const [disabledFields, setDisabledFields] = useState([]);
   const searchLabel = 'Search columns';
-  const { dateField } = selectedTable;
 
   useEffect(() => {
-    console.log(pivotView);
-  }, [pivotView]);
-
+    console.log('rerending.....');
+  });
   const handleApply = () => {
     pendingColumnSelection.forEach(col => {
       const { toggleVisibility } = col;
@@ -57,6 +48,14 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({
     setDropdownActive(false);
     setPendingColumnSelection([]);
   };
+
+  useEffect(() => {
+    console.log('pendingColumnSelection', pendingColumnSelection);
+  }, [pendingColumnSelection]);
+
+  useEffect(() => {
+    console.log('filteredColumns', filteredColumns);
+  }, [filteredColumns]);
 
   const filterDropdownButton = (
     <DropdownLabelButton
@@ -85,7 +84,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({
           setPendingColumnSelection={setPendingColumnSelection}
           pendingColumnSelection={pendingColumnSelection}
           table={table}
-          disabledFields={disabledFields}
+          disabledFields={pivotDisplay ? [dateField] : []}
         />
       </div>
     </>
@@ -94,8 +93,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({
   useEffect(() => {
     //initialize filteredColumns after table is initialized
     setFilteredColumns(table?.getAllLeafColumns());
-    if (pivotDisplay) setDisabledFields([dateField]);
-    console.log(table?.getAllLeafColumns());
   }, [fields]);
 
   useEffect(() => {

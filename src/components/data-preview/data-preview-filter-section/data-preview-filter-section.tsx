@@ -38,9 +38,9 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   dropdownWidth,
 }) => {
   const isDisabled = apiFilterDefault;
-  console.log(selectedTable);
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
+
   const getChartingInfo = () => {
     const pivotCharting = selectedPivot && pivotView && pivotView.chartType === 'none';
     const dataDisplaysCharting = dataDisplays && dataDisplays.every(dd => dd.chartType === 'none');
@@ -93,7 +93,7 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             width={width}
             pivotView={pivotView}
             dropdownWidth={dropdownWidth}
-            selectedTable={selectedTable}
+            dateField={selectedTable.dateField}
           />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
         </div>
