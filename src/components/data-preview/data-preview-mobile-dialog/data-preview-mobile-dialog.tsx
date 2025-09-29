@@ -70,7 +70,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   }, [dialogState]);
 
   return (
-    <div className={`${mainContainer} ${shouldMove ? open : ''}`} aria-hidden={!dialogState}>
+    <div className={`${mainContainer} ${shouldMove ? open : ''}`}>
       <>
         <div>
           <div className={dataPreviewHeader}>
