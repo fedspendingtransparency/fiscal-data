@@ -73,6 +73,10 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     }
   };
 
+  const isChecked = (col, disabled) => {
+    return disabled || checkboxesSelected.findIndex(x => x.id === col.id) >= 0;
+  };
+
   const CheckBoxList = columnList => (
     <>
       {columnList?.map(col => {
@@ -83,7 +87,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
-                checked={checkboxesSelected.findIndex(x => x.id === col.id) >= 0}
+                checked={isChecked(col, disabled)}
                 onClick={() => checkboxClick(col)}
                 onChange={() => handleChange(col)}
                 onKeyDown={e => handleKeyDown(e, col)}
@@ -114,6 +118,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
           setCheckboxesSelected={setCheckboxesSelected}
           pendingColumnSelection={pendingColumnSelection}
           setPendingColumnSelection={setPendingColumnSelection}
+          disabledFields={disabledFields}
         />
       )}
       <div className={columnButtonContainer}>
