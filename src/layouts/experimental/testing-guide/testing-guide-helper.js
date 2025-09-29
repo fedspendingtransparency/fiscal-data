@@ -10,7 +10,7 @@ export const datasetSpecs = {
   table: [
     { value: 'disableAllTables', label: 'Hide "All Tables" option', description: '"All Tables" is not an option on the data table select dropdown.' },
     { value: 'customRangePreset', label: 'Custom Range Preset', description: 'Default range preset is the "custom" option.' },
-    { value: 'detailView', label: 'Nested Data Table', description: 'Two tables are nested and linked through a key value.' },
+    { value: 'detailView', label: 'Nested Tables', description: 'Two tables are nested and linked through a key value.' },
   ],
   apis: [
     {
@@ -26,13 +26,13 @@ export const datasetSpecs = {
       description: 'Filters are required to view data in the table. Filter selections will be used in the api calls.',
     },
     { value: 'valueFieldOptions', label: 'Pivot Tables' },
-    { value: 'isLargeDataset', label: 'Large Dataset', description: '....' },
-    { value: '', label: '' },
+    { value: 'isLargeDataset', label: 'Large Dataset', description: '....Data maybe aggregated on pivot table..... ' },
   ],
 };
 
 /*
-custom date preset
+report date picker
+
  */
 
 export const defaultSelection = { label: '(None selected)', value: null };
