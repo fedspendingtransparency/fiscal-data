@@ -13,7 +13,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { withWindowSize } from 'react-fns';
 import LoadingIndicator from '../components/loading-indicator/loading-indicator';
 
-export const Index = ({ width }) => {
+const Index = ({ width }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

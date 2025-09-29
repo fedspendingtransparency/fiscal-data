@@ -1,12 +1,12 @@
 import React from 'react';
 import { createTheme, Grid, ThemeProvider } from '@material-ui/core';
-import HomePageTile from './homepage-tile/homepage-tile';
+import { HomePageTile } from './homepage-tile/homepage-tile';
 import { tileContainer, sectionHeader, topicsSectionContainer, line, insightsSectionContainer } from './topics-section.module.scss';
 import { breakpointLg } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { pageTileMap } from './homepage-tile/homepage-tile-helper';
 
-export const TopicsSection = ({ images, width }) => {
+const TopicsSection = ({ images, width }) => {
   const mainWidth = 8;
   const secondaryWidth = 4;
 
