@@ -10,6 +10,7 @@ import { breakpointLg } from '../../data-preview.module.scss';
 import DataPreviewMobileDialog from '../../data-preview-mobile-dialog/data-preview-mobile-dialog';
 import SearchContainer from '../../../search-container/search-container';
 import ColumnSelectionList from './column-selection-list/column-selection-list';
+import { useScrollLock } from 'usehooks-ts';
 
 interface iColumnFilter {
   allTablesSelected: boolean;
@@ -28,6 +29,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [filteredColumns, setFilteredColumns] = useState();
   const [openMobileColumns, setOpenMobileColumns] = useState(false);
   const searchLabel = 'Search columns';
+  const { lock, unlock } = useScrollLock({ autoLock: false });
 
   const handleApply = () => {
     pendingColumnSelection.forEach(col => {
@@ -44,6 +46,17 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     setPendingColumnSelection([]);
     setOpenMobileColumns(false);
   };
+
+  useEffect(() => {
+    if (openMobileColumns) {
+      lock();
+    } else {
+      unlock();
+    }
+    return () => {
+      unlock();
+    };
+  }, [openMobileColumns]);
 
   const filterDropdownButton = (
     <DropdownLabelButton

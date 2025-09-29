@@ -17,6 +17,7 @@ import { fitDateRangeToTable } from '../../../filter-download-container/range-pr
 import { monthNames } from '../../../../utils/api-utils';
 import { DataTableContext } from '../../data-preview-context';
 import { basePreset, customPreset, fallbackPresets, initializeFilterConfigMap } from './data-preview-filter-helper';
+import { useScrollLock } from 'usehooks-ts';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -56,6 +57,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // Not all datasets will have 5 years of information; but, this is the ideal default preset.
   let idealDefaultPreset = { key: '5yr', years: 5 };
 
+  const { lock, unlock } = useScrollLock({ autoLock: false });
   const possiblePresets = [
     { label: '1 Year', key: '1yr', years: 1 },
     { label: '5 Years', key: '5yr', years: 5 },
@@ -330,14 +332,16 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   };
 
-  // Need to find a way to prevent background scrolling for mobile users
-  // useEffect(() => {
-  //   if (active) {
-  //     document.body.style.overflow = 'hidden';
-  //   } else {
-  //     document.body.style.overflow = '';
-  //   }
-  // }, [active]);
+  useEffect(() => {
+    if (openMobileFilters) {
+      lock();
+    } else {
+      unlock();
+    }
+    return () => {
+      unlock();
+    };
+  }, [openMobileFilters]);
 
   useEffect(() => {
     setFiltersMap(initializeFilterConfigMap(selectedTable, null));

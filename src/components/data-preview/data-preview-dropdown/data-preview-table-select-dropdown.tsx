@@ -10,6 +10,7 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../data-preview.module.scss';
 import DataPreviewMobileDialog from '../data-preview-mobile-dialog/data-preview-mobile-dialog';
 import DataPreviewMobileFilterList from '../data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list';
+import { useScrollLock } from 'usehooks-ts';
 
 const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = ({
   apis,
@@ -44,6 +45,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
 
   // 54px comes from subtracting the padding and margins on both sides of the container
   const containerWdith = 'calc(100vw - 54px)';
+  const { lock, unlock } = useScrollLock({ autoLock: false });
   const options = disableAllTables
     ? apis
     : [
@@ -127,6 +129,17 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       }
     }
   }, [active]);
+
+  useEffect(() => {
+    if (openMobileTableSelect) {
+      lock();
+    } else {
+      unlock();
+    }
+    return () => {
+      unlock();
+    };
+  }, [openMobileTableSelect]);
 
   useEffect(() => {
     //initialize pivot options
