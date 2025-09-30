@@ -82,7 +82,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   useEffect(() => {
     //initialize filteredColumns after table is initialized
     setFilteredColumns(table?.getAllLeafColumns());
-    setSelectedColumns(table?.getAllLeafColumns());
   }, [fields]);
 
   useEffect(() => {
