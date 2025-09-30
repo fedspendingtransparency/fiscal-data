@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { withWindowSize } from 'react-fns';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import DatePicker from '../../../components/date-picker/date-picker';
@@ -22,8 +22,10 @@ type Props = {
   reportConfig: IRunTimeReportConfig;
   apis: IDatasetApi[];
 };
+
 export const defaultSelection = { label: '(None selected)', value: '' };
-const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) => {
+
+const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, datasetId, width }) => {
   const [selectedOption, setSelectedOption] = useState(defaultSelection);
   const [earliestDate, setEarliest] = useState<Date>();
   const [latestDate, setLatest] = useState<Date>();
@@ -46,8 +48,9 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
     unmatchedHeader,
     defaultMessage,
     defaultHeader,
+    dateFilterType,
   } = reportConfig;
-  const customFilter = customFilterOption ? { label: customFilterOption, value: '' } : null;
+  const customFilter = customFilterOption ? { label: customFilterOption, value: 'spec-ann' } : null;
 
   useEffect(() => {
     if (!apis?.length) return;
@@ -71,7 +74,8 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
       }
       try {
         const formattedDate = format(selectedDate, 'yyyyMM');
-        const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=${selectedOption.value}${formattedDate}`;
+        const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${selectedOption.value}`;
+        console.log('here');
         const res = await basicFetch(url);
         if (res.length) {
           res.forEach(report => {
@@ -110,6 +114,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
       muiIcon={<AccountBox />}
     />
   );
+
   const onFilterChange = option => {
     if (option !== null) {
       setSelectedOption(option);
@@ -124,7 +129,7 @@ const FilterReportsSection: React.FC<Props> = ({ reportConfig, apis, width }) =>
       <div className={filterContainer}>
         {latestDate && (
           <DatePicker
-            isDaily={false}
+            isDaily={dateFilterType === 'byDay'}
             latestDate={latestDate}
             earliestDate={earliestDate}
             allDates={allDates}
