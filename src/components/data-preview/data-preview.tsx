@@ -352,7 +352,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
             >
               {dateRange && (
                 <>
-                  <div className={viewMode === 'chart' ? chartTableVisibility : undefined}>
+                  <div className={viewMode === 'chart' ? chartTableVisibility : undefined} aria-hidden={viewMode === 'chart'}>
                     <DataPreviewSectionContainer
                       config={config}
                       dateRange={dateRange}
@@ -392,7 +392,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
                     />
                   </div>
 
-                  <div className={viewMode === 'table' ? chartTableVisibility : undefined}>
+                  <div className={viewMode === 'table' ? chartTableVisibility : undefined} aria-hidden={viewMode === 'table'}>
                     <DataPreviewChart
                       dateRange={dateRange}
                       data={apiData}
