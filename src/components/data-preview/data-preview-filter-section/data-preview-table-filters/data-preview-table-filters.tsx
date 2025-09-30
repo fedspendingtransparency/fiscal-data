@@ -223,7 +223,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     if (activeFields && allFields) {
       if (pivotView?.title !== 'Complete Table' && pivotView?.dimensionField) {
         visibleCols = [];
-        console.log(activeFields);
         activeFields.forEach(field =>
           visibleCols.push({ id: field.id, prettyName: field.columnDef.header, dataType: 'string', columnName: field.id })
         );
@@ -233,10 +232,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       return visibleCols;
     }
   };
-
-  useEffect(() => {
-    console.log(filterMap);
-  }, [filterMap]);
 
   const handleApply = () => {
     const allAppliedFilters = [];
@@ -346,7 +341,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // }, [active]);
 
   useEffect(() => {
-    console.log(visibleOptions);
     setFiltersMap(initializeFilterConfigMap(selectedTable, null, visibleOptions, pivotView));
     setAppliedFilters([]);
   }, [selectedTable, pivotView, visibleOptions]);
