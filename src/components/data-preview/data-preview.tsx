@@ -3,6 +3,7 @@ import DatasetSectionContainer from '../dataset-section-container/dataset-sectio
 import DataPreviewSectionContainer from './data-preview-section-container/data-preview-section-container';
 import {
   breakpointXl,
+  chartTableVisibility,
   dataPreview,
   dataPreviewHeader,
   detailViewBack,
@@ -349,55 +350,60 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
               }}
               dropdownWidth={dropdownWidth}
             >
-              {dateRange &&
-                (viewMode === 'table' ? (
-                  <DataPreviewSectionContainer
-                    config={config}
-                    dateRange={dateRange}
-                    selectedTable={selectedTable}
-                    userFilterSelection={userFilterSelection}
-                    setUserFilterSelection={setUserFilterSelection}
-                    apiData={apiData}
-                    isLoading={isLoading}
-                    setIsLoading={setIsLoading}
-                    apiError={apiError}
-                    selectedPivot={selectedPivot}
-                    setSelectedPivot={setSelectedPivot}
-                    serverSidePagination={serverSidePagination}
-                    selectedTab={selectedTab}
-                    tabChangeHandler={setSelectedTab}
-                    handleIgnorePivots={setIgnorePivots}
-                    allTablesSelected={allTablesSelected}
-                    handleConfigUpdate={() => setConfigUpdated(true)}
-                    tableColumnSortData={tableColumnSortData}
-                    setTableColumnSortData={setTableColumnSortData}
-                    hasPublishedReports={!!publishedReports}
-                    publishedReports={publishedReports}
-                    resetFilters={resetFilters}
-                    setResetFilters={setResetFilters}
-                    setDetailViewState={setDetailViewState}
-                    detailViewState={detailViewState}
-                    customFormatting={selectedTable?.customFormatting}
-                    summaryValues={summaryValues}
-                    setSummaryValues={setSummaryValues}
-                    allActiveFilters={allActiveFilters}
-                    setAllActiveFilters={setAllActiveFilters}
-                    width={width}
-                    apiFilterDefault={apiFilterDefault}
-                    setApiFilterDefault={setApiFilterDefault}
-                    pivotsUpdated={pivotsUpdated}
-                    setPivotsUpdated={setPivotsUpdated}
-                  />
-                ) : (
-                  <DataPreviewChart
-                    dateRange={dateRange}
-                    data={apiData}
-                    slug={config.slug}
-                    currentTable={selectedTable}
-                    selectedPivot={selectedPivot}
-                    dateField={dateFieldForChart}
-                  />
-                ))}
+              {dateRange && (
+                <>
+                  <div className={viewMode === 'chart' ? chartTableVisibility : undefined}>
+                    <DataPreviewSectionContainer
+                      config={config}
+                      dateRange={dateRange}
+                      selectedTable={selectedTable}
+                      userFilterSelection={userFilterSelection}
+                      setUserFilterSelection={setUserFilterSelection}
+                      apiData={apiData}
+                      isLoading={isLoading}
+                      setIsLoading={setIsLoading}
+                      apiError={apiError}
+                      selectedPivot={selectedPivot}
+                      setSelectedPivot={setSelectedPivot}
+                      serverSidePagination={serverSidePagination}
+                      selectedTab={selectedTab}
+                      tabChangeHandler={setSelectedTab}
+                      handleIgnorePivots={setIgnorePivots}
+                      allTablesSelected={allTablesSelected}
+                      handleConfigUpdate={() => setConfigUpdated(true)}
+                      tableColumnSortData={tableColumnSortData}
+                      setTableColumnSortData={setTableColumnSortData}
+                      hasPublishedReports={!!publishedReports}
+                      publishedReports={publishedReports}
+                      resetFilters={resetFilters}
+                      setResetFilters={setResetFilters}
+                      setDetailViewState={setDetailViewState}
+                      detailViewState={detailViewState}
+                      customFormatting={selectedTable?.customFormatting}
+                      summaryValues={summaryValues}
+                      setSummaryValues={setSummaryValues}
+                      allActiveFilters={allActiveFilters}
+                      setAllActiveFilters={setAllActiveFilters}
+                      width={width}
+                      apiFilterDefault={apiFilterDefault}
+                      setApiFilterDefault={setApiFilterDefault}
+                      pivotsUpdated={pivotsUpdated}
+                      setPivotsUpdated={setPivotsUpdated}
+                    />
+                  </div>
+
+                  <div className={viewMode === 'table' ? chartTableVisibility : undefined}>
+                    <DataPreviewChart
+                      dateRange={dateRange}
+                      data={apiData}
+                      slug={config.slug}
+                      currentTable={selectedTable}
+                      selectedPivot={selectedPivot}
+                      dateField={dateFieldForChart}
+                    />
+                  </div>
+                </>
+              )}
             </DataPreviewFilterSection>
           )}
         </div>

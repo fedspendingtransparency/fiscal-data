@@ -31,6 +31,11 @@
   gap: 0.5rem;
 }
 
+.chartTableVisibility {
+  visibility: hidden;
+  height: 0;
+}
+
 .detailViewButton {
   background-color: $primary;
   border: none;

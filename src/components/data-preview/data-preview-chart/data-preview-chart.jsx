@@ -69,7 +69,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
 
   useEffect(() => {
     chartHooks = undefined;
-  }, [data]);
+  }, [data, table?.getVisibleFlatColumns()]);
 
   useEffect(() => {
     // There might be more chart notes in the future;
@@ -139,7 +139,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
         );
       }
     }
-  }, [data]);
+  }, [data, table?.getVisibleFlatColumns()]);
 
   useEffect(() => {
     if (selectedPivot && selectedPivot.pivotView?.roundingDenomination) {
