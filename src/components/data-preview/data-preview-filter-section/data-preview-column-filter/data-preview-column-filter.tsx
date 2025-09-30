@@ -32,9 +32,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [filteredColumns, setFilteredColumns] = useState();
   const searchLabel = 'Search columns';
 
-  useEffect(() => {
-    console.log('rerending.....');
-  });
   const handleApply = () => {
     pendingColumnSelection.forEach(col => {
       const { toggleVisibility } = col;
@@ -48,14 +45,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     setDropdownActive(false);
     setPendingColumnSelection([]);
   };
-
-  useEffect(() => {
-    console.log('pendingColumnSelection', pendingColumnSelection);
-  }, [pendingColumnSelection]);
-
-  useEffect(() => {
-    console.log('filteredColumns', filteredColumns);
-  }, [filteredColumns]);
 
   const filterDropdownButton = (
     <DropdownLabelButton
@@ -93,6 +82,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   useEffect(() => {
     //initialize filteredColumns after table is initialized
     setFilteredColumns(table?.getAllLeafColumns());
+    setSelectedColumns(table?.getAllLeafColumns());
   }, [fields]);
 
   useEffect(() => {
