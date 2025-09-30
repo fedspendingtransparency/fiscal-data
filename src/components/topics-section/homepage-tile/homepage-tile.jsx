@@ -16,7 +16,7 @@ import {
 import { breakpointLg } from '../../../variables.module.scss';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 
-import Link from 'gatsby-link';
+import { Link } from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { Grid } from '@material-ui/core';
 import Analytics from '../../../utils/analytics/analytics';

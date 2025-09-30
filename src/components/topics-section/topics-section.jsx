@@ -1,6 +1,6 @@
 import React from 'react';
 import { createTheme, Grid, ThemeProvider } from '@material-ui/core';
-import { HomePageTile } from './homepage-tile/homepage-tile';
+import HomePageTile from './homepage-tile/homepage-tile';
 import { tileContainer, sectionHeader, topicsSectionContainer, line, insightsSectionContainer } from './topics-section.module.scss';
 import { breakpointLg } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
