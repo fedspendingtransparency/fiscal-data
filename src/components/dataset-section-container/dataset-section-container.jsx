@@ -1,7 +1,7 @@
 import React from 'react';
 import { sectionBody, sectionContainer, sectionHeader } from './dataset-section-container.module.scss';
 
-const DatasetSectionContainer = ({ id, children, title, sibling }) => {
+const DatasetSectionContainer = ({ id, children, title }) => {
   return (
     <section id={id} className={sectionContainer} data-testid="sectionContainer">
       <div>
@@ -10,7 +10,6 @@ const DatasetSectionContainer = ({ id, children, title, sibling }) => {
             {title}
           </h2>
         )}
-        <div>{sibling}</div>
       </div>
       <div className={sectionBody} data-testid="sectionBody">
         {children}
