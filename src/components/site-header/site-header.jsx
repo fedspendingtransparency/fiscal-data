@@ -16,8 +16,8 @@ import { container, content, logo, stickyHeader } from './site-header.module.scs
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 import { useRecoilValueLoadable } from 'recoil';
-import { dynamicBannerState, dynamicBannerLastCachedState } from '../../recoil/dynamicBannerState';
-import useShouldRefreshCachedData from "../../recoil/hooks/useShouldRefreshCachedData";
+import { dynamicBannerLastCachedState, dynamicBannerState } from '../../recoil/dynamicBannerState';
+import useShouldRefreshCachedData from '../../recoil/hooks/useShouldRefreshCachedData';
 
 //Additional export for page width testability
 export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
