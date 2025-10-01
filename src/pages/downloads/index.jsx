@@ -8,7 +8,7 @@ import globalConstants from '../../helpers/constants';
 import { DATA_DOWNLOAD_BASE_URL } from 'gatsby-env-variables';
 import { downloadPageTextContent } from '../../helpers/downloads/download-content-helper';
 
-const DownloadsPage = ({ location }) => {
+export const DownloadsPage = ({ location }) => {
   const [downloadToken, setDownloadToken] = useState(undefined);
   // eslint-disable-next-line no-unused-vars
   const [downloadReadyUrl, setDownloadReadyUrl] = useState(null);

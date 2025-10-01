@@ -6,7 +6,7 @@ import { breakpointLg } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { pageTileMap } from './homepage-tile/homepage-tile-helper';
 
-const TopicsSection = ({ images, width }) => {
+export const TopicsSection = ({ images, width }) => {
   const mainWidth = 8;
   const secondaryWidth = 4;
 
