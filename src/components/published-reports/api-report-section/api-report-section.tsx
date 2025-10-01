@@ -29,6 +29,10 @@ type Props = {
 export const defaultSelection = { label: '(None selected)', value: '' };
 
 const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
+  /*
+  todo: date formatting needs to be daily instead of monthly - this should be conditional
+  eval if this component can be combined with other api report component
+   */
   const { runTimeReportConfig: reportConfig, apis, datasetId } = dataset;
   const [selectedOption, setSelectedOption] = useState(defaultSelection);
   const [earliestDate, setEarliest] = useState<Date>();
@@ -71,26 +75,54 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
   }, [apis]);
 
   const getReportsFromDataTable = async (cusip, date) => {
+    /*
+    TODO: pull date field from config,
+     format should be conditional on month vs year,
+     generalize cusip name
+     */
     const { endpoint } = apis[0];
     const dateField = 'auction_date';
     const formattedDate = format(date, 'yyyy-MM-dd');
     const filters = `${dateField}:eq:${formattedDate},${filterField}:eq:${cusip}`;
     const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${filters}&fields=${dataTableRequest.fields}`;
-    const res = await basicFetch(url);
-    return res?.data;
+    return await basicFetch(url).then(res => {
+      const matchingReports = res.data;
+      const allReports = [];
+      reportFields.map(file => {
+        const reportName = matchingReports[0][file];
+        if (reportName && reportName !== 'null') {
+          const curReport = getCurrentReport(reportName);
+          allReports.push(curReport);
+        }
+      });
+      return allReports;
+    });
   };
 
   const getCurrentReport = async fileName => {
     const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${fileName}`;
     return await basicFetch(url).then(res => {
-      const report = res[0];
+      const report = res[0]; //TODO more specific path R and NCR have overlapping hits
       const date = report.report_date;
       report.report_date = convertDate(date);
       return report;
     });
   };
-  // if (selectedOption.label === specialAnnouncement.label) {
-  // } else {
+
+  const getSpecialAnnouncement = async date => {
+    const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${specialAnnouncement.value}`;
+    return await basicFetch(url).then(specialAnnouncements => {
+      if (date) {
+        const formattedDate = format(date, 'yyyy-MM-dd');
+        const matchingReports = specialAnnouncements.filter(report => report.report_date === formattedDate);
+        matchingReports.forEach(report => {
+          const date = report.report_date;
+          report.report_date = convertDate(date);
+        });
+        return matchingReports;
+      }
+    });
+  };
 
   useEffect(() => {
     (async () => {
@@ -100,29 +132,13 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
         return;
       }
       try {
-        await getReportsFromDataTable(selectedOption.value, selectedDate).then(matchingReports => {
-          console.log('Matching reports: ', matchingReports);
-          if (matchingReports.length === 0) {
-            setReports([]);
-            return;
-          }
-          const allReports = [];
-          reportFields.map(file => {
-            const reportName = matchingReports[0][file];
-            if (reportName && reportName !== 'null') {
-              // (async () => {
-              const curReport = getCurrentReport(reportName);
-              allReports.push(curReport);
-              console.log('2', allReports, curReport.report_group_desc);
-              // })();
-              // if (reportFields.length === allReports.length) {
-              //   setReports(allReports);
-              // }'
-              const here = Promise.all(allReports).then(reports => setReports(reports));
-              console.log(here);
-            }
-          });
-        });
+        let allReports;
+        if (selectedOption.label === specialAnnouncement.label) {
+          allReports = await getSpecialAnnouncement(selectedDate);
+        } else {
+          allReports = await getReportsFromDataTable(selectedOption.value, selectedDate);
+        }
+        Promise.all(allReports).then(reports => setReports(reports));
         setApiError(false);
       } catch {
         setApiError(true);
