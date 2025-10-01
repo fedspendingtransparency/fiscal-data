@@ -55,6 +55,7 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
     specialAnnouncement,
     dataTableRequest,
   } = reportConfig;
+  const reportFields = dataTableRequest.fields.split(',');
 
   useEffect(() => {
     if (!apis?.length) return;
@@ -69,31 +70,29 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
     setAllYears(yrs);
   }, [apis]);
 
-  //https://api.uat.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/auctions_query?filter=record_date:eq:2025-11-28,cusip:eq:91282CNS6&fields=xml_filenm_comp_results,pdf_filenm_announcemt
   const getReportsFromDataTable = async (cusip, date) => {
     const { endpoint } = apis[0];
     const dateField = 'auction_date';
     const formattedDate = format(date, 'yyyy-MM-dd');
-    const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${dateField}:eq:${formattedDate},${filterField}:eq:${cusip}&fields=${dataTableRequest.fields}`;
+    const filters = `${dateField}:eq:${formattedDate},${filterField}:eq:${cusip}`;
+    const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${filters}&fields=${dataTableRequest.fields}`;
     const res = await basicFetch(url);
     return res?.data;
   };
 
-  // const getCurrentReports = () => {
-  //   /*
-  //       Vars
-  //        - date format
-  //        - apply date filter to api call
-  //    */
-  //
-  //   const formattedDate = format(selectedDate, 'yyyyMM');
-  //
-  //   const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${selectedOption.value}`;
-  //   const res = []; //await basicFetch(url);
-  // };
+  const getCurrentReport = async fileName => {
+    const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${fileName}`;
+    return await basicFetch(url).then(res => {
+      const report = res[0];
+      const date = report.report_date;
+      report.report_date = convertDate(date);
+      return report;
+    });
+  };
+  // if (selectedOption.label === specialAnnouncement.label) {
+  // } else {
 
   useEffect(() => {
-    console.log('selectedOption ', selectedOption, selectedDate);
     (async () => {
       if (!selectedOption.value || !selectedDate) {
         setReports([]);
@@ -101,36 +100,29 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
         return;
       }
       try {
-        const formattedDate = format(selectedDate, 'yyyyMM');
-        const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${selectedOption.value}`;
-        let res = []; //await basicFetch(url);
-        const currentReports = [];
-        let reportFromTable = [];
-        if (selectedOption.label === specialAnnouncement.label) {
-        } else {
-          reportFromTable = await getReportsFromDataTable(selectedOption.value, selectedDate);
-          console.log(reportFromTable, dataTableRequest.fields.split(','));
-          if (reportFromTable.length > 0) {
-            dataTableRequest.fields.split(',').forEach(async file => {
-              if (reportFromTable[0][file] && reportFromTable[0][file] !== 'null') {
-                const fileUrl = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${reportFromTable[0][file]}`;
-                basicFetch(fileUrl).then(res => {
-                  currentReports.push(res[0]);
-                });
-              }
-            });
+        await getReportsFromDataTable(selectedOption.value, selectedDate).then(matchingReports => {
+          console.log('Matching reports: ', matchingReports);
+          if (matchingReports.length === 0) {
+            setReports([]);
+            return;
           }
-          console.log(currentReports);
-        }
-        //if special announcement
-        res = currentReports;
-        if (res.length) {
-          res.forEach(report => {
-            const date = report.report_date;
-            report.report_date = convertDate(date);
+          const allReports = [];
+          reportFields.map(file => {
+            const reportName = matchingReports[0][file];
+            if (reportName && reportName !== 'null') {
+              // (async () => {
+              const curReport = getCurrentReport(reportName);
+              allReports.push(curReport);
+              console.log('2', allReports, curReport.report_group_desc);
+              // })();
+              // if (reportFields.length === allReports.length) {
+              //   setReports(allReports);
+              // }'
+              const here = Promise.all(allReports).then(reports => setReports(reports));
+              console.log(here);
+            }
           });
-        }
-        setReports(res);
+        });
         setApiError(false);
       } catch {
         setApiError(true);
@@ -150,7 +142,7 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
     setFilterOptions(allOptions);
   }, []);
 
-  const showTable = reports.length > 0 && !apiError;
+  const showTable = () => reports?.length > 0 && !apiError;
 
   const dropdownButton = (
     <DropdownLabelButton
@@ -201,10 +193,10 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
           />
         </DropdownContainer>
       </div>
-      {!showTable && (
+      {!showTable() && (
         <ReportsEmptyTable width={width} heading={apiError ? unmatchedHeader : defaultHeader} body={apiError ? unmatchedMessage : defaultMessage} />
       )}
-      {showTable && <DownloadReportTable isDailyReport={false} reports={reports} setApiErrorMessage={setApiError} width={width} />}
+      {showTable() && <DownloadReportTable isDailyReport={false} reports={reports} setApiErrorMessage={setApiError} width={width} />}
     </DatasetSectionContainer>
   );
 };
