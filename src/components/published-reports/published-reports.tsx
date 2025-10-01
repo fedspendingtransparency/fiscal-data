@@ -5,6 +5,7 @@ import GenerativeReportsSection from './generative-reports-section/generative-re
 import FilterReportsSection from './filter-reports-section/filter-reports-section';
 import { IDatasetConfig } from '../../models/IDatasetConfig';
 import LowerEnvironmentFeature from '../lower-environment-feature/lower-environment-feature';
+import ApiReportSection from './api-report-section/api-report-section';
 
 export const sectionTitle = 'Reports and Files';
 
@@ -19,7 +20,7 @@ const PublishedReports: FunctionComponent<{ pageConfig: IDatasetConfig }> = ({ p
       <ReportsSection dataset={pageConfig} />
       {pageConfig.runTimeReportConfig && pageConfig.runTimeReportConfig?.experimental && (
         <Experimental featureId="fipReportsSection">
-          <FilterReportsSection reportConfig={pageConfig.runTimeReportConfig} apis={pageConfig.apis} datasetId={pageConfig.datasetId} />
+          <ApiReportSection dataset={pageConfig} />
         </Experimental>
       )}
       {pageConfig.runTimeReportConfig && !pageConfig.runTimeReportConfig?.experimental && (

@@ -8,24 +8,28 @@ import { API_BASE_URL } from 'gatsby-env-variables';
 import { IRunTimeReportConfig } from '../../../models/IRunTimeReportConfig';
 import { IDatasetApi } from '../../../models/IDatasetApi';
 import { sectionTitle } from '../published-reports';
-import { filterContainer } from './filter-report-section.module.scss';
+import { filterContainer } from '../filter-reports-section/filter-report-section.module.scss';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import AccountBox from '@material-ui/icons/AccountBox';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { DownloadReportTable } from '../download-report-table/download-report-table';
-import { basicFetch } from '../../../utils/api-utils';
 import { format } from 'date-fns';
 import { convertDate } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
+import { basicFetch } from '../../../utils/api-utils';
 
 type Props = {
-  reportConfig: IRunTimeReportConfig;
-  apis: IDatasetApi[];
+  dataset: {
+    runTimeReportConfig: IRunTimeReportConfig;
+    apis: IDatasetApi[];
+    datasetId: string;
+  };
 };
 
 export const defaultSelection = { label: '(None selected)', value: '' };
 
-const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, datasetId, width }) => {
+const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
+  const { runTimeReportConfig: reportConfig, apis, datasetId } = dataset;
   const [selectedOption, setSelectedOption] = useState(defaultSelection);
   const [earliestDate, setEarliest] = useState<Date>();
   const [latestDate, setLatest] = useState<Date>();
@@ -42,15 +46,15 @@ const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, da
     dateFilterLabel = 'Published Date',
     dateFilterType,
     searchText,
-    customFilterOption,
     filterField,
     optionValues,
     unmatchedMessage,
     unmatchedHeader,
     defaultMessage,
     defaultHeader,
+    specialAnnouncement,
+    dataTableRequest,
   } = reportConfig;
-  const customFilter = customFilterOption ? { label: customFilterOption, value: 'spec-ann' } : null;
 
   useEffect(() => {
     if (!apis?.length) return;
@@ -65,7 +69,31 @@ const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, da
     setAllYears(yrs);
   }, [apis]);
 
+  //https://api.uat.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/auctions_query?filter=record_date:eq:2025-11-28,cusip:eq:91282CNS6&fields=xml_filenm_comp_results,pdf_filenm_announcemt
+  const getReportsFromDataTable = async (cusip, date) => {
+    const { endpoint } = apis[0];
+    const dateField = 'auction_date';
+    const formattedDate = format(date, 'yyyy-MM-dd');
+    const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${dateField}:eq:${formattedDate},${filterField}:eq:${cusip}&fields=${dataTableRequest.fields}`;
+    const res = await basicFetch(url);
+    return res?.data;
+  };
+
+  // const getCurrentReports = () => {
+  //   /*
+  //       Vars
+  //        - date format
+  //        - apply date filter to api call
+  //    */
+  //
+  //   const formattedDate = format(selectedDate, 'yyyyMM');
+  //
+  //   const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${selectedOption.value}`;
+  //   const res = []; //await basicFetch(url);
+  // };
+
   useEffect(() => {
+    console.log('selectedOption ', selectedOption, selectedDate);
     (async () => {
       if (!selectedOption.value || !selectedDate) {
         setReports([]);
@@ -75,8 +103,27 @@ const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, da
       try {
         const formattedDate = format(selectedDate, 'yyyyMM');
         const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${selectedOption.value}`;
-        console.log('here');
-        const res = await basicFetch(url);
+        let res = []; //await basicFetch(url);
+        const currentReports = [];
+        let reportFromTable = [];
+        if (selectedOption.label === specialAnnouncement.label) {
+        } else {
+          reportFromTable = await getReportsFromDataTable(selectedOption.value, selectedDate);
+          console.log(reportFromTable, dataTableRequest.fields.split(','));
+          if (reportFromTable.length > 0) {
+            dataTableRequest.fields.split(',').forEach(async file => {
+              if (reportFromTable[0][file] && reportFromTable[0][file] !== 'null') {
+                const fileUrl = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${reportFromTable[0][file]}`;
+                basicFetch(fileUrl).then(res => {
+                  currentReports.push(res[0]);
+                });
+              }
+            });
+          }
+          console.log(currentReports);
+        }
+        //if special announcement
+        res = currentReports;
         if (res.length) {
           res.forEach(report => {
             const date = report.report_date;
@@ -94,8 +141,8 @@ const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, da
 
   useEffect(() => {
     const allOptions = [defaultSelection];
-    if (customFilterOption) {
-      allOptions.push(customFilter);
+    if (specialAnnouncement) {
+      allOptions.push(specialAnnouncement);
     }
     optionValues?.forEach(option => {
       allOptions.push({ label: option, value: option });
@@ -162,4 +209,4 @@ const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, da
   );
 };
 
-export default withWindowSize(FilterReportsSection);
+export default withWindowSize(ApiReportSection);

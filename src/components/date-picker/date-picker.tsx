@@ -41,7 +41,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
 
   const dropdownButton = (
     <DropdownLabelButton
-      label="Published Date"
+      label={label}
       selectedOption={formatReportDate(selectedDate, true, isDaily)}
       icon={faCalendar}
       setActive={setActive}
@@ -83,6 +83,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             ignoreDisabled={ignoreDisabled}
             latestDate={latestDate}
             earliestDate={earliestDate}
+            label={`${label} (Example: May 1998 or 05/1998)`}
           />
         )}
         {active && isDaily && (
@@ -92,7 +93,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             setSelectedDate={setSelectedDate}
             latestDate={latestDate}
             earliestDate={earliestDate}
-            allDates={allDates}
+            // allDates={allDates}
             active={active}
             label={label}
             ariaLabel={ariaLabel}
