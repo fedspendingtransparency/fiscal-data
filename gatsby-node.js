@@ -1050,43 +1050,43 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
     });
 
-    const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
-    const features = await graphql(`
-      {
-        allMdx(sort: { order: DESC, fields: [frontmatter___datePublished] }, limit: 1000) {
-          edges {
-            node {
-              frontmatter {
-                path
-                relatedDatasets
-              }
-            }
-          }
-        }
-      }
-    `);
-    if (features.errors) {
-      reporter.panicOnBuild(`Error while running GraphQL query.`);
-      return;
-    }
-
-    features.data.allMdx.edges.forEach(({ node }) => {
-      if (node.frontmatter.path) {
-        const insightRelatedDatasets = [];
-        if (node.frontmatter.relatedDatasets) {
-          node.frontmatter.relatedDatasets.forEach(dataset => {
-            insightRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
-          });
-        }
-        createPage({
-          path: node.frontmatter.path,
-          component: featurePageTemplate,
-          context: {
-            relatedDatasets: insightRelatedDatasets,
-          },
-        });
-      }
-    });
+    // const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
+    // const features = await graphql(`
+    //   {
+    //     allMdx(sort: { order: DESC, fields: [frontmatter___datePublished] }, limit: 1000) {
+    //       edges {
+    //         node {
+    //           frontmatter {
+    //             path
+    //             relatedDatasets
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // `);
+    // if (features.errors) {
+    //   reporter.panicOnBuild(`Error while running GraphQL query.`);
+    //   return;
+    // }
+    //
+    // features.data.allMdx.edges.forEach(({ node }) => {
+    //   if (node.frontmatter.path) {
+    //     const insightRelatedDatasets = [];
+    //     if (node.frontmatter.relatedDatasets) {
+    //       node.frontmatter.relatedDatasets.forEach(dataset => {
+    //         insightRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
+    //       });
+    //     }
+    //     createPage({
+    //       path: node.frontmatter.path,
+    //       component: featurePageTemplate,
+    //       context: {
+    //         relatedDatasets: insightRelatedDatasets,
+    //       },
+    //     });
+    //   }
+    // });
   }
   createRedirect({
     fromPath: '/government-revenue/',

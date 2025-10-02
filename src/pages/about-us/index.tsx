@@ -52,7 +52,7 @@ const AboutUsPage: FunctionComponent = ({ data }) => {
         const curId = tocSections[i];
         for (let j = edges.length; j--; ) {
           if (edges[j].node.frontmatter.id === curId) {
-            curAST = curAST.concat(tocBuilder(edges[j].node.mdxAST.children, [null, 'headingLevel2', 'headingLevel3']));
+            curAST = curAST.concat(tocBuilder(edges[j].node.mdxAST?.children, [null, 'headingLevel2', 'headingLevel3']));
           }
         }
       }
@@ -118,7 +118,7 @@ export const pageQuery = graphql`
           frontmatter {
             id
           }
-          mdxAST
+          body
         }
       }
     }
