@@ -177,7 +177,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
             isDaily={dateFilterType === 'byDay'}
             latestDate={latestDate}
             earliestDate={earliestDate}
-            allDates={allDates}
+            allDates={dataTableRequest ? null : allDates}
             allYears={allYears}
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
