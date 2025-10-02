@@ -81,10 +81,10 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
      generalize cusip name
      */
     const { endpoint } = apis[0];
-    const dateField = 'auction_date';
+    const { dateField, fields } = dataTableRequest;
     const formattedDate = format(date, 'yyyy-MM-dd');
     const filters = `${dateField}:eq:${formattedDate},${filterField}:eq:${cusip}`;
-    const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${filters}&fields=${dataTableRequest.fields}`;
+    const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${filters}&fields=${fields}`;
     return await basicFetch(url).then(res => {
       const matchingReports = res.data;
       const allReports = [];
