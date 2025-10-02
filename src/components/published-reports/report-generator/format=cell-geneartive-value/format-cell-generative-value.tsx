@@ -6,7 +6,7 @@ interface ICustomFormatting {
   currency?: boolean;
 }
 
-export const formateCellGenerativeValue = (value: any, config: { columnName: string }, customFormatting: ICustomFormatting[]) => {
+export const formatCellGenerativeValue = (value: any, config: { columnName: string }, customFormatting: ICustomFormatting[]) => {
   if (value === null || value === 'null') return '';
 
   if (config.columnName === 'eff_date') {
