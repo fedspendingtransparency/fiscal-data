@@ -80,19 +80,21 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     return await basicFetch(url).then(res => {
       const matchingReports = res.data;
       const allReports = [];
-      //Get all matching reports from published report api
-      reportFields.forEach(file => {
-        const reportName = matchingReports[0][file];
-        if (reportName && reportName !== 'null') {
-          const curReport = fetchMatchingReports(reportName)[0];
-          allReports.push(curReport);
-        }
-      });
+      if (matchingReports?.length > 0) {
+        //Then get all matching reports from published report api
+        reportFields.map(async file => {
+          const reportName = matchingReports[0][file];
+          if (reportName && reportName !== 'null') {
+            const curReport = fetchPublishedReports('/' + reportName, null, true);
+            allReports.push(curReport);
+          }
+        });
+      }
       return allReports;
     });
   };
 
-  const fetchMatchingReports = async (fileName, date = null) => {
+  const fetchPublishedReports = async (fileName, date = null, firstMatch = false) => {
     const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${fileName}`;
     return await basicFetch(url).then(res => {
       let matchingReports = res;
@@ -104,28 +106,27 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         const date = report.report_date;
         report.report_date = convertDate(date);
       });
-      return matchingReports;
+      return firstMatch ? matchingReports[0] : matchingReports;
     });
   };
 
   useEffect(() => {
     (async () => {
-      console.log(selectedOption, selectedDate);
       if (!selectedOption.value || !selectedDate) {
         setReports([]);
         setApiError(false);
         return;
       }
       try {
-        let allReports;
+        let allReports = [];
         if (specialAnnouncement && selectedOption.label === specialAnnouncement.label) {
-          allReports = await fetchMatchingReports(specialAnnouncement.value, selectedDate);
+          allReports = await fetchPublishedReports(specialAnnouncement.value, selectedDate);
         } else if (dataTableRequest) {
           allReports = await fetchReportsFromDataTable(selectedOption.value, selectedDate);
         } else {
           // get all reports from published report api (fip)
           const formattedDate = format(selectedDate, 'yyyyMM');
-          allReports = await fetchMatchingReports(`${selectedOption.value}${formattedDate}`);
+          allReports = await fetchPublishedReports(`${selectedOption.value}${formattedDate}`);
         }
         Promise.all(allReports).then(reports => setReports(reports));
         setApiError(false);
