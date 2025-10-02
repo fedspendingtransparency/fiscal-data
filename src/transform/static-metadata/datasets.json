@@ -478,8 +478,7 @@
       "filterLabel": "CUSIP",
       "searchText": "Search CUSIP",
       "specialAnnouncement": {
-        "label": "No CUSIP - Special Announcement", "value": "spec-ann", "pathContainsFilter": true,
-        "dateFilterApiResults": true
+        "label": "No CUSIP - Special Announcement", "value": "spec-ann"
       },
       "dataTableRequest" : {
         "fields": "pdf_filenm_announcemt,pdf_filenm_comp_results,pdf_filenm_noncomp_results,xml_filenm_announcemt,xml_filenm_comp_results",

@@ -20,7 +20,7 @@ import { convertDate } from '../../dataset-data/dataset-data-helper/dataset-data
 
 type Props = {
   dataset: {
-    reportConfig: IRunTimeReportConfig;
+    runTimeReportConfig: IRunTimeReportConfig;
     apis: IDatasetApi[];
     datasetId: string;
   };
@@ -42,7 +42,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const [reports, setReports] = useState<any[]>([]);
   const [apiError, setApiError] = useState(false);
   const {
-    filterLabel,
+    filterLabel = 'Account',
     dateFilterLabel = 'Published Date',
     dateFilterType,
     searchText,
