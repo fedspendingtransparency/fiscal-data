@@ -500,6 +500,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
     type DataTableRequest {
       fields: String,
+      dateField: String,
     }
     type RunTimeReportConfig {
       filterField: String,
@@ -627,6 +628,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
             dataTableRequest {
               fields
+              dateField
             }
             pathContainsFilter
           }

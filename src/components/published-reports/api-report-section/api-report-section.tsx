@@ -29,10 +29,6 @@ type Props = {
 export const defaultSelection = { label: '(None selected)', value: '' };
 
 const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
-  /*
-  todo: date formatting needs to be daily instead of monthly - this should be conditional
-  eval if this component can be combined with other api report component
-   */
   const { runTimeReportConfig: reportConfig, apis, datasetId } = dataset;
   const [selectedOption, setSelectedOption] = useState(defaultSelection);
   const [earliestDate, setEarliest] = useState<Date>();
@@ -46,7 +42,7 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const [reports, setReports] = useState<any[]>([]);
   const [apiError, setApiError] = useState(false);
   const {
-    filterLabel = 'Account',
+    filterLabel,
     dateFilterLabel = 'Published Date',
     dateFilterType,
     searchText,
@@ -74,16 +70,11 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
     setAllYears(yrs);
   }, [apis]);
 
-  const getReportsFromDataTable = async (cusip, date) => {
-    /*
-    TODO: pull date field from config,
-     format should be conditional on month vs year,
-     generalize cusip name
-     */
+  const getReportsFromDataTable = async (filterValue, date) => {
     const { endpoint } = apis[0];
     const { dateField, fields } = dataTableRequest;
     const formattedDate = format(date, 'yyyy-MM-dd');
-    const filters = `${dateField}:eq:${formattedDate},${filterField}:eq:${cusip}`;
+    const filters = `${dateField}:eq:${formattedDate},${filterField}:eq:${filterValue}`;
     const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${filters}&fields=${fields}`;
     return await basicFetch(url).then(res => {
       const matchingReports = res.data;
@@ -100,9 +91,9 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
   };
 
   const getCurrentReport = async fileName => {
-    const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${fileName}`;
+    const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${'/' + fileName}`;
     return await basicFetch(url).then(res => {
-      const report = res[0]; //TODO more specific path R and NCR have overlapping hits
+      const report = res[0];
       const date = report.report_date;
       report.report_date = convertDate(date);
       return report;
@@ -212,7 +203,9 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
       {!showTable() && (
         <ReportsEmptyTable width={width} heading={apiError ? unmatchedHeader : defaultHeader} body={apiError ? unmatchedMessage : defaultMessage} />
       )}
-      {showTable() && <DownloadReportTable isDailyReport={false} reports={reports} setApiErrorMessage={setApiError} width={width} />}
+      {showTable() && (
+        <DownloadReportTable isDailyReport={dateFilterType === 'byDay'} reports={reports} setApiErrorMessage={setApiError} width={width} />
+      )}
     </DatasetSectionContainer>
   );
 };
