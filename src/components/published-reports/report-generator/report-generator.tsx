@@ -5,7 +5,7 @@ import { IReportGenerator } from '../../../models/report-generator/IReportGenera
 import { getTableColumnConfig } from '../../../helpers/report-generator/report-generator-helper';
 import ReportTable from './report-table/report-table';
 import { View } from '@react-pdf/renderer/lib/react-pdf.browser';
-import { formateCellGenerativeValue } from './format=cell-geneartive-value/format-cell-geneartive-value';
+import { formateCellGenerativeValue } from './format=cell-geneartive-value/format-cell-generative-value';
 
 const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport }) => {
   const { config, data, colConfig, summaryData } = generatedReport;
