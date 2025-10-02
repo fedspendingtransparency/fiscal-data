@@ -19,13 +19,17 @@ import { format } from 'date-fns';
 import { convertDate } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
 
 type Props = {
-  reportConfig: IRunTimeReportConfig;
-  apis: IDatasetApi[];
+  dataset: {
+    reportConfig: IRunTimeReportConfig;
+    apis: IDatasetApi[];
+    datasetId: string;
+  };
 };
 
 export const defaultSelection = { label: '(None selected)', value: '' };
 
-const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, datasetId, width }) => {
+const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
+  const { runTimeReportConfig: reportConfig, apis, datasetId } = dataset;
   const [selectedOption, setSelectedOption] = useState(defaultSelection);
   const [earliestDate, setEarliest] = useState<Date>();
   const [latestDate, setLatest] = useState<Date>();
@@ -38,19 +42,20 @@ const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, da
   const [reports, setReports] = useState<any[]>([]);
   const [apiError, setApiError] = useState(false);
   const {
-    filterLabel = 'Account',
+    filterLabel,
     dateFilterLabel = 'Published Date',
     dateFilterType,
     searchText,
-    customFilterOption,
     filterField,
     optionValues,
     unmatchedMessage,
     unmatchedHeader,
     defaultMessage,
     defaultHeader,
+    specialAnnouncement,
+    dataTableRequest,
   } = reportConfig;
-  const customFilter = customFilterOption ? { label: customFilterOption, value: 'spec-ann' } : null;
+  const reportFields = dataTableRequest?.fields && dataTableRequest.fields.split(',');
 
   useEffect(() => {
     if (!apis?.length) return;
@@ -65,25 +70,64 @@ const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, da
     setAllYears(yrs);
   }, [apis]);
 
+  const fetchReportsFromDataTable = async (filterValue, date) => {
+    const { endpoint } = apis[0];
+    const { dateField, fields } = dataTableRequest;
+    const formattedDate = format(date, 'yyyy-MM-dd');
+    const filters = `${dateField}:eq:${formattedDate},${filterField}:eq:${filterValue}`;
+    const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${filters}&fields=${fields}`;
+    //Get report names from raw data table
+    return await basicFetch(url).then(res => {
+      const matchingReports = res.data;
+      const allReports = [];
+      //Get all matching reports from published report api
+      reportFields.forEach(file => {
+        const reportName = matchingReports[0][file];
+        if (reportName && reportName !== 'null') {
+          const curReport = fetchMatchingReports(reportName)[0];
+          allReports.push(curReport);
+        }
+      });
+      return allReports;
+    });
+  };
+
+  const fetchMatchingReports = async (fileName, date = null) => {
+    const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${fileName}`;
+    return await basicFetch(url).then(res => {
+      let matchingReports = res;
+      if (date) {
+        const formattedDate = format(date, 'yyyy-MM-dd');
+        matchingReports = res.filter(report => report.report_date === formattedDate);
+      }
+      matchingReports.forEach(report => {
+        const date = report.report_date;
+        report.report_date = convertDate(date);
+      });
+      return matchingReports;
+    });
+  };
+
   useEffect(() => {
     (async () => {
+      console.log(selectedOption, selectedDate);
       if (!selectedOption.value || !selectedDate) {
         setReports([]);
         setApiError(false);
         return;
       }
       try {
-        const formattedDate = format(selectedDate, 'yyyyMM');
-        const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${selectedOption.value}`;
-        console.log('here');
-        const res = await basicFetch(url);
-        if (res.length) {
-          res.forEach(report => {
-            const date = report.report_date;
-            report.report_date = convertDate(date);
-          });
+        let allReports;
+        if (specialAnnouncement && selectedOption.label === specialAnnouncement.label) {
+          allReports = await fetchMatchingReports(specialAnnouncement.value, selectedDate);
+        } else if (dataTableRequest) {
+          allReports = await fetchReportsFromDataTable(selectedOption.value, selectedDate);
+        } else {
+          // get all reports from published report api (fip)
+          const formattedDate = format(selectedDate, 'yyyyMM');
+          allReports = await fetchMatchingReports(`${selectedOption.value}${formattedDate}`);
         }
-        setReports(res);
+        Promise.all(allReports).then(reports => setReports(reports));
         setApiError(false);
       } catch {
         setApiError(true);
@@ -94,8 +138,8 @@ const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, da
 
   useEffect(() => {
     const allOptions = [defaultSelection];
-    if (customFilterOption) {
-      allOptions.push(customFilter);
+    if (specialAnnouncement) {
+      allOptions.push(specialAnnouncement);
     }
     optionValues?.forEach(option => {
       allOptions.push({ label: option, value: option });
@@ -137,8 +181,8 @@ const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, da
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
             ignoreDisabled
-            label={dateFilterLabel}
-            ariaLabel="Select month/year"
+            label={dateFilterLabel || 'Published Date'}
+            ariaLabel={dateFilterType === 'byDay' ? 'Select a date' : 'Select month/year'}
           />
         )}
         <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={dropdownButton}>
@@ -157,7 +201,9 @@ const FilterReportsSection: FunctionComponent<Props> = ({ reportConfig, apis, da
       {!showTable && (
         <ReportsEmptyTable width={width} heading={apiError ? unmatchedHeader : defaultHeader} body={apiError ? unmatchedMessage : defaultMessage} />
       )}
-      {showTable && <DownloadReportTable isDailyReport={false} reports={reports} setApiErrorMessage={setApiError} width={width} />}
+      {showTable && (
+        <DownloadReportTable isDailyReport={dateFilterType === 'byDay'} reports={reports} setApiErrorMessage={setApiError} width={width} />
+      )}
     </DatasetSectionContainer>
   );
 };

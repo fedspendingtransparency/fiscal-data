@@ -184,7 +184,7 @@ const ApiReportSection: FunctionComponent<Props> = ({ dataset, width }) => {
             setSelectedDate={setSelectedDate}
             ignoreDisabled
             label={dateFilterLabel}
-            ariaLabel="Select month/year"
+            ariaLabel={dateFilterType === 'byDay' ? 'Select a date' : 'Select month/year'}
           />
         )}
         <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={dropdownButton}>
