@@ -6,7 +6,6 @@ import { formatCellGenerativeValue } from '../format-cell-geneartive-value/forma
 
 const ReportTable: FunctionComponent<IReportTable> = ({ data, colConfig, customFormatting }) => {
   const columns = Object.keys(colConfig);
-  console.log(colConfig);
   return (
     <View style={styles.tableContainer}>
       <View style={styles.headerRow}>
