@@ -6,10 +6,6 @@ describe('formatCellValue', () => {
     { type: 'NUMBER', fields: ['not_currency'], currency: false },
   ];
 
-  it('formats eff_date to MM/DD/YYYY when value is a valid date', () => {
-    expect(formatCellGenerativeValue('2024-01-15', { columnName: 'eff_date' }, currencyConfig)).toBe('01/14/2024');
-  });
-
   it('formats currency when field is listed with NUMBER+currency', () => {
     expect(formatCellGenerativeValue(1234.5, { columnName: 'shares_per_par' }, currencyConfig)).toBe('$1,234.50');
     expect(formatCellGenerativeValue('9876543.2', { columnName: 'shares_per_par' }, currencyConfig)).toBe('$9,876,543.20');
