@@ -3,6 +3,15 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import { mockReports } from './published-reports-test-helper';
 
+// mocks the web worker
+URL.createObjectURL = URL.createObjectURL || (() => 'blob:http://localhost/mock');
+URL.createObjectURL = URL.createObjectURL || (() => {});
+jest.mock('../../workers/pdfWorker', () => ({
+  renderPDF: jest.fn().mockResolvedValue({
+    url: 'blob:http://localhost/mock-pdf',
+    size: '2kb',
+  }),
+}));
 describe('Published Reports', () => {
   beforeEach(() => {
     global.fetch = jest.fn(() => Promise.resolve({ ok: true }));

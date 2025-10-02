@@ -46,9 +46,8 @@
   }
 
   @media screen and (max-width: $breakpoint-lg) {
-    max-width: 480px;
+    max-width: 30rem;
   }
-
 }
 
 .glow {
@@ -62,4 +61,8 @@
 
 .labelIcon {
   padding-right: 14px;
+}
+
+.backgroundHighlight {
+  background: $table-notice-color;
 }

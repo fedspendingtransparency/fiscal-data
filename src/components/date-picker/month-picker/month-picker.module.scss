@@ -1,11 +1,12 @@
 @use 'src/variables.module' as *;
-
 .yearButton {
   font-size: $font-size-16;
   background: none;
   border: none;
   color: $font-body-copy;
   font-weight: $semi-bold-weight;
+  padding: 0.625rem 1rem 0.625rem 0;
+  margin-top: 1rem;
   width: 100%;
   cursor: pointer;
 
@@ -13,16 +14,12 @@
     padding-left: 0.5rem;
   }
 }
-
 .dropdownList {
   overflow-y: auto;
   margin-top: -1.5rem;
-  padding: 0 0.5rem;
 
-  .unorderList {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+  ul {
+    display: flex;
     align-items: center;
     flex-direction: column;
     padding: 0;
@@ -30,72 +27,29 @@
     height: 12.375rem;
   }
 
-  .listMonth {
+  li {
     list-style: none;
     display: flex;
     justify-content: center;
     width: 100%;
-
     button {
       font-size: $font-size-16;
       background: none;
       border: none;
       color: $font-body-copy;
-      padding: 0.5rem;
+      padding: 0.5rem 0.75rem;
       width: 100%;
       border-radius: 3px;
       cursor: pointer;
 
-      &.selected {
-        background-color: $primary !important;
-        color: $content-section-background;
-      }
-
-      &:disabled {
-        cursor: default;
-        opacity: 0.5;
-      }
-
-      &:hover:not([disabled]) {
-        background-color: $body-background;
-        transition: background-color 0.2s ease;
-      }
-    }
-  }
-
-  .unorderYear {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    margin: 0;
-    height: 12.375rem;
-  }
-
-  .listYear {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-
-    button {
-      font-size: $font-size-16;
-      background: none;
-      border: none;
-      color: $font-body-copy;
-      padding: 0.5rem;
-      width: 100%;
-      border-radius: 3px;
-      cursor: pointer;
       &.selected {
         background-color: $primary-blue !important;
         color: $primary;
       }
-
       &:disabled {
         cursor: default;
         opacity: 0.5;
       }
-
       &:hover:not([disabled]) {
         background-color: $body-background;
         transition: background-color 0.2s ease;
@@ -103,30 +57,7 @@
     }
   }
 }
-.yearHeader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem 1.5rem;
-}
-.yearChevron {
-  height: 1.5rem;
-  width: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  color: $font-body-copy;
 
-  &[data-hidden='true'] {
-    visibility: hidden;
-    pointer-events: none;
-  }
-}
-.gridList {
-  gap: 0.5rem 1rem;
-}
 @media screen and (max-width: $breakpoint-sm) {
   .yearButton {
     padding-right: 0;

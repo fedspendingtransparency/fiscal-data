@@ -7,6 +7,16 @@ import { RecoilRoot } from 'recoil';
 import { act, render } from '@testing-library/react';
 import { datasetPageSampleConfig } from './test-helper';
 
+// mocks the web worker
+URL.createObjectURL = URL.createObjectURL || (() => 'blob:http://localhost/mock');
+URL.createObjectURL = URL.createObjectURL || (() => {});
+jest.mock('../../workers/pdfWorker', () => ({
+  renderPDF: jest.fn().mockResolvedValue({
+    url: 'blob:http://localhost/mock-pdf',
+    size: '2kb',
+  }),
+}));
+
 const mockQueryReturn = {
   allDatasets: {
     datasets: [

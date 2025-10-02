@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import {
   loadingIcon,
   mainContainer,
@@ -19,6 +19,7 @@ import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
 import { sortOptions } from './calendar-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { basicFetch } from '../../utils/api-utils';
+import LoadingIndicator from '../loading-indicator/loading-indicator';
 
 export const maxEntriesPerPage = 25;
 export const releaseCalendarSortEvent = {
@@ -155,9 +156,7 @@ const CalendarEntriesList = () => {
   };
 
   return loading ? (
-    <div className={loadingIcon}>
-      <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-    </div>
+    <LoadingIndicator loadingClass={loadingIcon} />
   ) : (
     <div className={mainContainer}>
       <div className={dropdownContainer}>

@@ -2791,7 +2791,7 @@ const endpointConfig = {
       'capitalized_int_receivable_amt',
     ],
     apiFilter: {
-      field: 'account_nbr',
+      field: 'account_desc',
       labelField: 'account_desc',
       filterEndpoint: 'v1/accounting/od/fbp_dpai_account_summary',
       downloadLabel: 'Account',
@@ -2828,7 +2828,7 @@ const endpointConfig = {
       'capitalized_int_receivable_amt',
     ],
     apiFilter: {
-      field: 'account_nbr',
+      field: 'account_desc',
       labelField: 'account_desc',
       filterEndpoint: 'v1/accounting/od/fbp_dpai_account_summary',
       downloadLabel: 'Account',

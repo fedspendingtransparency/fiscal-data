@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useEffect, useMemo, useState, useRef } from 'react';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { filtersContainer } from '../reports-section/reports-section.module.scss';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
@@ -28,7 +28,20 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
   const [allReports, setAllReports] = useState([]);
   const [apiErrorMessage, setApiErrorMessage] = useState(false);
   const [noMatchingData, setNoMatchingData] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const [renderLoadCount, setRenderLoadCount] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const lastShowTsRef = useRef<number>(0);
+  const incrementRender = () => setRenderLoadCount(count => count + 1);
+  const decrementRender = () => setRenderLoadCount(count => Math.max(0, count - 1));
+
+  const handleRowLoading = (loading: boolean) => {
+    if (loading) incrementRender();
+    else decrementRender();
+  };
+
+  const showLoading = isFetching || renderLoadCount > 0;
 
   const bannerCopy = reportsBannerCopy[reportGenKey];
   const heading = noMatchingData ? bannerCopy?.noDataMatchHeader : bannerCopy?.additionalFiltersHeader;
@@ -92,68 +105,88 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
     if (apisProp && apisProp.length > 0) {
       const earliestReport = new Date(Math.min(...apisProp.map(api => new Date(api.earliestDate).getTime())));
       const latestReport = new Date(Math.max(...apisProp.map(api => new Date(api.latestDate).getTime())));
-      setEarliestReportDate(earliestReport);
-      setLatestReportDate(latestReport);
-      setSelectedDate(latestReport);
+      const earliest = new Date(earliestReport.getFullYear(), earliestReport.getMonth(), 1);
+      const latest = new Date(latestReport.getFullYear(), latestReport.getMonth(), 1);
+
+      setEarliestReportDate(earliest);
+      setLatestReportDate(latest);
+      setSelectedDate(latest);
     }
   }, [apisProp]);
 
   useEffect(() => {
-    if (earliestReportDate && latestReportDate) {
-      const earliestFormat = earliestReportDate.toISOString().slice(0, 7);
-      const latestFormat = latestReportDate.toISOString().slice(0, 7);
-      setAllReportDates([earliestFormat, latestFormat]);
+    if (!earliestReportDate || !latestReportDate) return;
 
-      const earliestYear = earliestReportDate.getFullYear();
-      const latestYear = latestReportDate.getFullYear();
-      const years = [];
-      for (let year = earliestYear; year <= latestYear; year++) {
-        years.push(String(year));
-      }
-      setAllReportYears(years);
+    const months: string[] = [];
+    const yearsSet = new Set<string>();
+
+    const current = new Date(earliestReportDate.getFullYear(), earliestReportDate.getMonth(), 1);
+    const last = new Date(latestReportDate.getFullYear(), latestReportDate.getMonth(), 1);
+
+    while (current.getTime() <= last.getTime()) {
+      months.push(format(current, 'MMMM yyyy'));
+      yearsSet.add(String(current.getFullYear()));
+      current.setMonth(current.getMonth() + 1);
     }
+
+    setAllReportDates(months);
+    setAllReportYears(Array.from(yearsSet));
   }, [earliestReportDate, latestReportDate]);
+
+  useEffect(() => {
+    if (showLoading) {
+      lastShowTsRef.current = Date.now();
+      setIsLoading(true);
+    } else {
+      const t = setTimeout(() => setIsLoading(false), 0);
+      return () => clearTimeout(t);
+    }
+  }, [showLoading]);
 
   useMemo(() => {
     (async () => {
-      if (selectedAccount.value) {
+      if (!selectedAccount.value) {
+        setAllReports([]);
+        setIsFetching(false);
+        return;
+      }
+
+      setIsFetching(true);
+      try {
         const reports = [];
         for (const report of apisProp) {
           const reportConfig = reportsConfig[reportGenKey][report.apiId];
-          if (reportConfig) {
-            const formattedDate = format(selectedDate, 'MMMM yyyy');
-            const downloadDate = format(selectedDate, 'MMyyyy');
-            let reportData;
-            try {
-              setIsLoading(true);
-              reportData = await getReportData(report, reportConfig);
-            } catch (error) {
-              setIsLoading(false);
-              setApiErrorMessage(true);
-              break;
-            }
-            setApiErrorMessage(false);
-            const curReport = {
-              id: report.apiId,
-              name: `${report.tableName} - ${selectedAccount.label}.pdf`,
-              date: formattedDate,
-              size: '2KB',
-              downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
-              data: reportData.tableData,
-              summaryData: reportData.summaryTableData,
-              summaryValues: reportData.summaryData,
-              config: reportConfig,
-              colConfig: report,
-            };
-            reports.push(curReport);
-            //When no main table data is available, pull summary values from the summary data
-            const summary = reportData.tableData.length > 0 ? reportData.tableData : reportData.summaryData;
-            setSummaryValues(reportConfig, formattedDate, summary, reportData.summaryData);
-          }
+          if (!reportConfig) continue;
+
+          const formattedDate = format(selectedDate, 'MMMM yyyy');
+          const downloadDate = format(selectedDate, 'MMyyyy');
+
+          const reportData = await getReportData(report, reportConfig);
+          setApiErrorMessage(false);
+
+          const curReport = {
+            id: report.apiId,
+            name: `${report.tableName} - ${selectedAccount.label}.pdf`,
+            date: formattedDate,
+            size: '2KB',
+            downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
+            data: reportData.tableData,
+            summaryData: reportData.summaryTableData,
+            summaryValues: reportData.summaryData,
+            config: reportConfig,
+            colConfig: report,
+          };
+          reports.push(curReport);
+
+          const summarySource = reportData.tableData.length > 0 ? reportData.tableData : reportData.summaryData;
+          setSummaryValues(reportConfig, formattedDate, summarySource, reportData.summaryData);
         }
         setAllReports(reports);
-      } else {
+      } catch (error) {
+        setApiErrorMessage(true);
         setAllReports([]);
+      } finally {
+        setIsFetching(false);
       }
     })();
   }, [selectedAccount, selectedDate]);
@@ -194,6 +227,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             allYears={allReportYears}
             ignoreDisabled={true}
             ariaLabel="Enter report date"
+            generatedReport={true}
           />
           <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
         </div>
@@ -207,7 +241,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
             width={width}
             setApiErrorMessage={setApiErrorMessage}
             isLoading={isLoading}
-            setIsLoading={setIsLoading}
+            setIsLoading={handleRowLoading}
           />
         )}
         <DataPreviewDatatableBanner bannerNotice={dataset?.publishedReportsTip} isReport={true} />
