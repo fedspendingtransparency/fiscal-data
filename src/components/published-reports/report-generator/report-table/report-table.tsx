@@ -2,13 +2,10 @@ import { Text, View } from '@react-pdf/renderer/lib/react-pdf.browser';
 import React, { FunctionComponent } from 'react';
 import { styles } from '../report-generator-styles';
 import { IReportTable } from '../../../../models/report-generator/IReportTable';
+import { formatCellGenerativeValue } from '../format-cell-geneartive-value/format-cell-generative-value';
 
 const ReportTable: FunctionComponent<IReportTable> = ({ data, colConfig, customFormatting }) => {
   const columns = Object.keys(colConfig);
-  // const formatValue = (value, config) => {
-  //   return formatCellValue(value, config.dataType, '', config.columnName, customFormatting);
-  // };
-
   return (
     <View style={styles.tableContainer}>
       <View style={styles.headerRow}>
@@ -23,13 +20,14 @@ const ReportTable: FunctionComponent<IReportTable> = ({ data, colConfig, customF
       {data.map((row, rowIndex) => (
         <View style={styles.row} key={rowIndex}>
           {columns.map((col, colIndex) => {
-            // const displayText = row[col] !== 'null' ? formatValue(row[col], colConfig[col]) : '';
+            const displayValue = formatCellGenerativeValue(row[col], colConfig[col], customFormatting);
+
             return (
               <Text
                 key={colIndex}
                 style={[styles.cell, { minWidth: colConfig[col].width }, colConfig[col]?.style, colIndex === columns.length - 1 && styles.lastCell]}
               >
-                {row[col]}
+                {displayValue}
               </Text>
             );
           })}
