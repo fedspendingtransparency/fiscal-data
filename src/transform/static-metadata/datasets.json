@@ -485,7 +485,6 @@
         "fields": "pdf_filenm_announcemt,pdf_filenm_comp_results,pdf_filenm_noncomp_results,xml_filenm_announcemt,xml_filenm_comp_results",
         "dateField": "auction_date"
       },
-      "pathContainsFilter": false,
       "dateFilterLabel": "Auction Date",
       "dateFilterType": "byDay",
       "unmatchedHeader": "There is no data to display based on the current filters selected.",

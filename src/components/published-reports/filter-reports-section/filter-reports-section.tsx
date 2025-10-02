@@ -129,7 +129,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
           allReports = await fetchPublishedReports(`${selectedOption.value}${formattedDate}`);
         }
         Promise.all(allReports).then(reports => setReports(reports));
-        setApiError(false);
+        setApiError(allReports.length === 0);
       } catch {
         setApiError(true);
         setReports([]);

@@ -495,8 +495,6 @@ exports.createSchemaCustomization = ({ actions }) => {
     type SpecialAnnouncement {
       label: String,
       value: String,
-      pathContainsFilter: Boolean,
-      dateFilterApiResults: Boolean,
     }
     type DataTableRequest {
       fields: String,
@@ -515,7 +513,6 @@ exports.createSchemaCustomization = ({ actions }) => {
       experimental: Boolean,
       specialAnnouncement: SpecialAnnouncement,
       dataTableRequest: DataTableRequest,
-      pathContainsFilter: Boolean,
     }
     type Datasets implements Node {
       publishedReports: [PublishedReport!],
@@ -623,14 +620,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             specialAnnouncement {
               label
               value
-              pathContainsFilter
-              dateFilterApiResults
             }
             dataTableRequest {
               fields
               dateField
             }
-            pathContainsFilter
           }
           hideRawDataTable
           hideReportDatePicker
