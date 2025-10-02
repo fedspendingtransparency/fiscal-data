@@ -42,6 +42,9 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
 }) => {
   // config.apis should always be available; but, fallback in case
   const apis = config ? config.apis : [null];
+  useEffect(() => {
+    console.log(config);
+  }, []);
   const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
   const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);

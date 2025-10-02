@@ -73,7 +73,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
           setPendingColumnSelection={setPendingColumnSelection}
           pendingColumnSelection={pendingColumnSelection}
           table={table}
-          disabledFields={pivotDisplay ? [dateField] : []}
+          disabledFields={pivotDisplay ? [dateField, 'Time Period'] : []}
         />
       </div>
     </>

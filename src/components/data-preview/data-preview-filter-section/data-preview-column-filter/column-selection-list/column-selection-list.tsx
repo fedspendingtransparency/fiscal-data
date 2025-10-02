@@ -81,7 +81,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     <>
       {columnList?.map(col => {
         const { id, columnDef } = col;
-        const disabled = disabledFields.includes(id);
+        const disabled = disabledFields.includes(id) || disabledFields.includes(columnDef?.header);
         return (
           <label className={`${checkbox_label} ${disabled && disabledField}`} key={id}>
             <div className={checkbox_wrapper}>
